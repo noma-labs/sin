@@ -1,0 +1,14 @@
+.form-group {
+    margin: 4px;
+}
+
+
+.thead-inverse th {
+  color: #000000;
+  background-color: #f0ad4e!important;
+}
+
+table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
