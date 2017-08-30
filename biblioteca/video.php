@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- CSS personalizzato -->
-  <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+  <link rel="stylesheet" type="text/css" href="/archivio-nomadelfia/css/mystyle.css">
   <!-- Bootstrap -->
-  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/archivio-nomadelfia/css/bootstrap.css" rel="stylesheet">
 
   <!-- Jquery -->
-  <script src="/js/jquery.js"></script>
-  <script src="/js/bootstrap.js"></script>
+  <script src="/archivio-nomadelfia/js/jquery.js"></script>
+  <script src="/archivio-nomadelfia/js/bootstrap.js"></script>
  </head>
  <body>
 
