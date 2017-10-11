@@ -43,3 +43,7 @@ Aggiungere il seguente Virtual Host
 
 ## Add  laravel snappy
 https://github.com/barryvdh/laravel-snappy
+
+
+install onwindows 
+https://github.com/barryvdh/laravel-snappy/issues/60
