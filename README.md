@@ -1,5 +1,5 @@
 # Archivio Nomadelfia
-## Configurazioni 
+## Configurazioni
 1. Clone the repository into the  `C:/xampp/htdocs` folder
 ```
 cd  C:/xampp/htdocs
@@ -41,9 +41,28 @@ Aggiungere il seguente Virtual Host
 - Video
 3. Anagrafe (archivio_anagrafe)
 
-## Add  laravel snappy
-https://github.com/barryvdh/laravel-snappy
+## Create an Admin user
+
+#### Create Admin user and permissions
+- Click on Register and create a user (if there "Permission.php not found" error you must delete all the users in the users table)
+- then go to http://localhost/permissions. Add permissions "Administer roles & permissions"
+
+- Click on Roles and create these roles
+    - Admin: A user assigned to this role would have all permissions
+    - Biblioteca: A user assigned to this role would have selected permissions assigned to it by Admin
+
+- Finally assign the Role of 'Admin' to the currently logged in User.
+
+### Commands useful
 
 
-install onwindows 
-https://github.com/barryvdh/laravel-snappy/issues/60
+
+
+
+ php artisan db:seed
+
+## install on windows server
+
+ composer install
+
+ php artisan  migrate --path="database/migrations/auth"
