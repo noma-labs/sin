@@ -41,28 +41,44 @@ Aggiungere il seguente Virtual Host
 - Video
 3. Anagrafe (archivio_anagrafe)
 
-## Create an Admin user
 
-#### Create Admin user and permissions
-- Click on Register and create a user (if there "Permission.php not found" error you must delete all the users in the users table)
-- then go to http://localhost/permissions. Add permissions "Administer roles & permissions"
+## Set-up
 
-- Click on Roles and create these roles
-    - Admin: A user assigned to this role would have all permissions
-    - Biblioteca: A user assigned to this role would have selected permissions assigned to it by Admin
+- composer install
 
-- Finally assign the Role of 'Admin' to the currently logged in User.
+- php artisan  migrate --path="database/migrations/auth"
 
-### Commands useful
+- php artisan db:seed
 
+ Username: Admin
 
+ password: nomadelfia
 
+## Front-end
 
+- Install node.js (from the site)
 
- php artisan db:seed
+- npm install --no-bin-links    (for windows installation)
 
-## install on windows server
+<!-- - npm install --global gulp-cli
 
- composer install
+Elixir defined gulp tasks
 
- php artisan  migrate --path="database/migrations/auth"
+- npm link gulp (if problem with windows) -->
+Webpack instead of gulp (from  laravel 5.4)
+
+[mix](https://laravel.com/docs/5.5/mix)
+
+// Run all Mix tasks...
+- npm run dev
+
+// Run all Mix tasks and minify output...
+- npm run production
+
+// run all mix Task and look for changes
+- npm run watch
+
+## Query doe urse to role
+
+CREATE VIEW `archivio_biblioteca`.`users_to_roles` AS SELECT
+users.id AS id_user , users.name, users.username, users.email , roles.name AS role FROM archivio_auth.users, archivio_auth.user_has_roles, archivio_auth.roles WHERE archivio_auth.users.id = archivio_auth.user_has_roles.user_id and archivio_auth.roles.id = archivio_auth.user_has_roles.role_id
