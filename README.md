@@ -1,16 +1,35 @@
 # Archivio Nomadelfia
-## Configurazioni
-1. Clone the repository into the  `C:/xampp/htdocs` folder
+
+### Dipendenze
+   - *Laravel 5.5*
+   - *Vue.js 2.x*
+
+## Installazione
+**ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`.
+1. Scarica ed installa [`xampp 7.1.10`](https://www.apachefriends.org/it/index.html) (include Apache 2.4.28, MariaDB 10.1.28, PHP 7.1.10, phpMyAdmin 4.7.4).
+
+2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
+
+3. Scarica e instalal [`node.js 8.9.x`](https://nodejs.org/it/download/) (include `npm 5.5.1`)
+
+4. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
 ```
 cd  C:/xampp/htdocs
 git clone https://github.com/dido18/archivio-nomadelfia.git
 ```
-2. Download and install  [Composer](https://getcomposer.org/download/) (Composer is a tool for dependency management in PHP, install the php libraries)
-3. Go into the folder` C:/xampp/htdocs/archivio-nomadelfia/archivio` and install the dependencies   (it installs the libraries dependencies looking at the composer.lock/composer.json file):
+
+5. Entra nella cartella ` C:/xampp/htdocs/archivio-nomadelfia/archivio` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer.json_):
 ```
 cd C:/xampp/htdocs/archivio-nomadelfia/archivio
 composer install
 ```
+
+6. Installa le dipendenze con `npm` (installa le dipendenze latao front end leggendo il file _packages.json_)
+```
+npm install
+```
+
+
 4. Start the **development** Server
 ```
 php artisan serve
