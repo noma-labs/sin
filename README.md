@@ -1,5 +1,14 @@
 # Archivio Nomadelfia
 
+L'archvio di Nomadelfia gestisce i seguenti archivi:
+   1. Rtn (archivio_tv)
+      - Archivio Professionale
+      - Archivio Dvd
+   2. Biblioteca (archivio_biblioteca)
+      - Libri
+      - Video
+   3. Anagrafe (archivio_anagrafe)
+
 ### Dipendenze
    - *Laravel 5.5*
    - *Vue.js 2.x*
@@ -26,19 +35,38 @@ composer install
 
 6. Installa le dipendenze con `npm` (installa le dipendenze latao front end leggendo il file _packages.json_)
 ```
-npm install
+npm install --no-bin-links    (for windows installation)
 ```
 
+7. Copia il file `.env` presente nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio`  del server (192.168.11.7) nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio` nel computer dove procendeno con l'installazione.
+
+8. Genera una chiave di sicurezza (N.B: senza la chiave il programma da un errore) che laravel utilizza per crittografare la comunicazione.
+```
+cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+
+php artisan key:generate
+```
+
+Se nel database `db_anagrafe` le tabelle `permissions`,  `roles`, `users` sono vuote eseguire il seguent comando per aggiungere nel database i *ruoli*: `biblioteca`, `rtn` `Admin`;  l'*utente*: `Admin` e i *permessi*.
+
+```
+cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+php artisan db:seed
+```
+La password di default dell'utente `Admin` per entrare nel pannello di controllo:
+ - `Username: Admin`
+ - `Password: nomadelfia`
+
+### Test 
+Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.
 
 4. Start the **development** Server
 ```
+cd C:/xampp/htdocs/archivio-nomadelfia/archivio
 php artisan serve
 ```
-Copy `.env` file from the nas to the /archivio-noamdelfia/archivio folder
-```
-php artisan key:generate
-```
-### Apache
+
+### Configurazione di Apache
 Configurazione del web server Apache.
 Aprire il file  `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
 Aggiungere il seguente Virtual Host
@@ -51,51 +79,27 @@ Aggiungere il seguente Virtual Host
    CustomLog "logs/archivio-access.log" common
 </VirtualHost>
 ```
-### Gestione archivi
-1. Rtn (archivio_tv)
-- Archivio Professionale
-- Archivio Dvd
-2. Biblioteca (archivio_biblioteca)
-- Libri
-- Video
-3. Anagrafe (archivio_anagrafe)
 
+Fai ripartire il server  apache da xampp.
 
-## Set-up
+## Comandi utili
 
-- composer install
+- `composer install`
 
-- php artisan  migrate --path="database/migrations/auth"
-
-- php artisan db:seed
-
- Username: Admin
-
- password: nomadelfia
+- `php artisan  migrate --path="database/migrations/auth"`
 
 ## Front-end
 
-- Install node.js (from the site)
+- `npm install --no-bin-links`    (for windows installation)
 
-- npm install --no-bin-links    (for windows installation)
+Run all Mix tasks...
+- `npm run dev`
 
-<!-- - npm install --global gulp-cli
+ Run all Mix tasks and minify output...
+- `npm run production`
 
-Elixir defined gulp tasks
-
-- npm link gulp (if problem with windows) -->
-Webpack instead of gulp (from  laravel 5.4)
-
-[mix](https://laravel.com/docs/5.5/mix)
-
-// Run all Mix tasks...
-- npm run dev
-
-// Run all Mix tasks and minify output...
-- npm run production
-
-// run all mix Task and look for changes
-- npm run watch
+Run all mix Task and look for changes
+- `npm run watch`
 
 ## Query doe urse to role
 
