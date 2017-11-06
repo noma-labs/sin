@@ -1,6 +1,6 @@
 # Archivio Nomadelfia
 
-L'archvio di Nomadelfia gestisce i seguenti archivi:
+L'archivio di Nomadelfia gestisce i seguenti archivi:
    1. Rtn (archivio_tv)
       - Archivio Professionale
       - Archivio Dvd
