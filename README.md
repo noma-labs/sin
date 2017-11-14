@@ -82,6 +82,10 @@ Aggiungere il seguente Virtual Host
 
 Fai ripartire il server  apache da xampp.
 
+## Struttura ER database
+
+- [Dia software](http://dia-installer.de/index.html.en): utilizzato per disegnare il digaramma ER del database,
+
 ## Comandi utili
 
 - `composer install`
