@@ -57,7 +57,7 @@ La password di default dell'utente `Admin` per entrare nel pannello di controllo
  - `Username: Admin`
  - `Password: nomadelfia`
 
-### Test 
+### Test
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.
 
 4. Start the **development** Server
@@ -84,7 +84,11 @@ Fai ripartire il server  apache da xampp.
 
 ## Struttura ER database
 
-- [Dia software](http://dia-installer.de/index.html.en): utilizzato per disegnare il digaramma ER del database,
+- [Dia software](http://dia-installer.de/index.html.en): tool utilizzato per disegnare il digaramma ER.
+
+<p align="center">
+<img src="./docs/diagram/Archivio_diagrammaER.png" width="600">
+</p>
 
 ## Comandi utili
 
