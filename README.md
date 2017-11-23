@@ -96,6 +96,8 @@ Fai ripartire il server  apache da xampp.
 
 - `php artisan  migrate --path="database/migrations/auth"`
 
+- `composer dump-autoload` 
+
 Error: duplicate entry when auto incremtn a colum. X = max number od the id
 - `ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT`
 
