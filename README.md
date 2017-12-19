@@ -1,20 +1,22 @@
 # Archivio Nomadelfia
-
-L'archivio di Nomadelfia gestisce i seguenti archivi:
-   1. Rtn (archivio_tv)
-      - Archivio Professionale
-      - Archivio Dvd
-   2. Biblioteca (archivio_biblioteca)
-      - Libri
-      - Video
-   3. Anagrafe (archivio_anagrafe)
+Archivio Nomadelfia è il sistema informativo informatico di Nomadelfia.
 
 ### Dipendenze
+
+Linguaggi:
+   - *php 7.x*
+   - *mysql (MariaDB 10.1.x) *
+
+Framework:
+  - backend
    - *Laravel 5.5*
+  - frontend
    - *Vue.js 2.x*
+   - *Bootstrap  3.3.x*
 
 ## Installazione
-**ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`.
+**ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
+
 1. Scarica ed installa [`xampp 7.1.10`](https://www.apachefriends.org/it/index.html) (include Apache 2.4.28, MariaDB 10.1.28, PHP 7.1.10, phpMyAdmin 4.7.4).
 
 2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
@@ -41,6 +43,7 @@ npm install --no-bin-links    (for windows installation)
 7. Copia il file `.env` presente nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio`  del server (192.168.11.7) nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio` nel computer dove procendeno con l'installazione.
 
 8. Genera una chiave di sicurezza (N.B: senza la chiave il programma da un errore) che laravel utilizza per crittografare la comunicazione.
+
 ```
 cd C:/xampp/htdocs/archivio-nomadelfia/archivio
 
@@ -87,9 +90,15 @@ Fai ripartire il server  apache da xampp.
 - [cartella drive](https://drive.google.com/open?id=190iYionZjETbbRi_J6G6534Bkx3apkpx)
 - [Dia software](http://dia-installer.de/index.html.en): tool utilizzato per disegnare il digaramma ER.
 
-<p align="center">
+<!-- <p align="center">
 <img src="./docs/diagram/Archivio_diagrammaER.png" width="600">
-</p>
+</p> -->
+
+## Seed dati authentiazione
+Per popolare le tabelle dell'authenticazione (ruoli, permessi, utenti) eseguire il comando:
+```
+php artisan db:seed
+```
 
 ## Comandi utili
 
@@ -97,10 +106,10 @@ Fai ripartire il server  apache da xampp.
 
 - `php artisan  migrate --path="database/migrations/auth"`
 
-- `composer dump-autoload` 
+- `composer dump-autoload`
 
 Error: duplicate entry when auto incremtn a colum. X = max number od the id
-- `ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT`
+- ```ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT```
 
 ## Front-end
 
@@ -115,7 +124,5 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-## Query doe urse to role
-
-CREATE VIEW `archivio_biblioteca`.`users_to_roles` AS SELECT
-users.id AS id_user , users.name, users.username, users.email , roles.name AS role FROM archivio_auth.users, archivio_auth.user_has_roles, archivio_auth.roles WHERE archivio_auth.users.id = archivio_auth.user_has_roles.user_id and archivio_auth.roles.id = archivio_auth.user_has_roles.role_id
+##
+- https://foundation.zurb.com/ 
