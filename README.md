@@ -6,13 +6,14 @@ Archivio Nomadelfia è il sistema informativo informatico di Nomadelfia.
 Linguaggi:
    - *php 7.x*
    - *mysql (MariaDB 10.1.x) *
-
+   - *javascript*
+   
 Framework:
   - backend
-   - *Laravel 5.5*
+      - *Laravel 5.5*
   - frontend
-   - *Vue.js 2.x*
-   - *Bootstrap  3.3.x*
+      - *Vue.js 2.x*
+      - *Bootstrap  4.x*
 
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
