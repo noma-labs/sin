@@ -1,0 +1,40 @@
+<?php
+namespace App\Nomadelfia\Controllers;
+
+use App\Core\Controllers\BaseController as CoreBaseController;
+use Illuminate\Http\Request;
+use App\Nomadelfia\Models\GruppoFamiliare;
+
+class GruppifamiliariController extends CoreBaseController
+{
+  public function view(){
+    // $gruppifamiliari = GruppoFamiliare::withCount("persone")->orderBy("nome")->get();$
+    // $gruppi_with_nucleifamiliari = collect(GruppoFamiliare::getCountNucleiFamiliari())->groupby("gruppo_famigliare_id");
+
+    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome")->get();
+    // dd($gruppifamiliari);
+    return view('nomadelfia.gruppifamiliari.index',compact('gruppifamiliari','gruppi_with_nucleifamiliari'));
+  }
+
+  public function show($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.gruppifamiliari.show",compact('persona'));
+  }
+
+  public function edit($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+
+  }
+
+  public function  editConfirm(Request $request, $idPersona){
+ }
+
+  public function insert(){
+  }
+
+  public function insertConfirm(Request $request){ //InsertClientiRequest $request
+
+  }
+  
+
+}

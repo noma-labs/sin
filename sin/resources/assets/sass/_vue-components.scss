@@ -1,0 +1,8 @@
+ // for applying the scss class to the vue input component
+.v-select.searchable .dropdown-toggle {
+  @extend .form-control;
+}
+
+.v-select input {
+  height: 26px;
+}
