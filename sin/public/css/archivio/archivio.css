@@ -1,0 +1,15 @@
+.dropdown-toggle.clearfix input {
+    height: 24px;
+}
+
+.media-object.media-object-small {
+    width: 130px;
+}
+
+.media-object {
+    max-width: 150px;
+}
+
+.media-object {
+    display: block;
+}
