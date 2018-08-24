@@ -30,9 +30,9 @@ cd  C:/xampp/htdocs
 git clone https://github.com/dido18/archivio-nomadelfia.git
 ```
 
-5. Entra nella cartella ` C:/xampp/htdocs/archivio-nomadelfia/archivio` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer.json_):
+5. Entra nella cartella ` C:/xampp/htdocs/sistema-informativo-nomadelfia/sin` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer.json_):
 ```
-cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 composer install
 ```
 
@@ -41,12 +41,12 @@ composer install
 npm install --no-bin-links    (for windows installation)
 ```
 
-7. Copia il file `.env` presente nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio`  del server (192.168.11.7) nella cartella `C:/xampp/htdocs/archivio-nomadelfia/archivio` nel computer dove procendeno con l'installazione.
+7. Copia il file `.env` presente nella cartella `C:/xampp/htdocs/sistema-informativo-nomadelfia/sin`  del server (192.168.11.7) nella cartella `C:/xampp/htdocs/sistema-informativo-nomadelfia/sin` nel computer dove procendeno con l'installazione.
 
 8. Genera una chiave di sicurezza (N.B: senza la chiave il programma da un errore) che laravel utilizza per crittografare la comunicazione.
 
 ```
-cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 
 php artisan key:generate
 ```
@@ -54,7 +54,7 @@ php artisan key:generate
 Se nel database `db_anagrafe` le tabelle `permissions`,  `roles`, `users` sono vuote eseguire il seguent comando per aggiungere nel database i *ruoli*: `biblioteca`, `rtn` `Admin`;  l'*utente*: `Admin` e i *permessi*.
 
 ```
-cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 php artisan db:seed
 ```
 La password di default dell'utente `Admin` per entrare nel pannello di controllo:
@@ -66,7 +66,7 @@ Prima di configurare il server apache, prova ad eseguire il seguente comando per
 
 4. Start the **development** Server
 ```
-cd C:/xampp/htdocs/archivio-nomadelfia/archivio
+cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 php artisan serve
 ```
 
@@ -76,7 +76,7 @@ Aprire il file  `C:\xampp\apache\conf\extra\httpd-vhosts.conf`
 Aggiungere il seguente Virtual Host
 ```
 <VirtualHost *:80>
-   DocumentRoot "C:/xampp/htdocs/archivio-nomadelfia/archivio/public"
+   DocumentRoot "C:/xampp/htdocs/sistema-informativo-nomadelfia/sin/public"
    ServerName 127.0.0.1
    ServerAlias 127.0.0.1
    ErrorLog "logs/archivio-error.log"
