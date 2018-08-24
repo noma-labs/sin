@@ -202,10 +202,10 @@
 		},
 		computed:{
 			nonAttivoChecked: function(){
-				return this.stato == 'NON ATTIVO'; 
+				return this.stato == 'Non Attivo'; 
 			},
 			validateData: function(){
-				return this.data_fine_lavoro == '' && this.stato == 'NON ATTIVO';
+				return this.data_fine_lavoro == '' && this.stato == 'Non Attivo';
 			},
 			disableDate: function(){
 				if(this.data_inizio_lavoro != ''){
@@ -271,8 +271,8 @@
 		    badgeMansione: function(mansione){
 				return {
 					badge: true,
-					'badge-success': mansione == 'CAPO AZIENDA',
-					'badge-warning': mansione != 'CAPO AZIENDA',
+					'badge-success': mansione == 'RESPONSABILE AZIENDA',
+					'badge-warning': mansione != 'RESPONSABILE AZIENDA',
 					'badge-pill': true,
 					'ml-3': true
 				}
@@ -280,8 +280,8 @@
 			badgeStato: function(stato){
 				return {
 					badge: true,
-					'badge-success': stato == 'ATTIVO',
-					'badge-warning': stato != 'ATTIVO',
+					'badge-success': stato == 'Attivo',
+					'badge-warning': stato != 'Attivo',
 					'badge-pill': true,
 					'ml-3': true
 				}
