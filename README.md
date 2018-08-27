@@ -27,7 +27,7 @@ Framework:
 4. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
 ```
 cd  C:/xampp/htdocs
-git clone https://github.com/dido18/archivio-nomadelfia.git
+git clone https://github.com/dido18/sistema-informativo-nomadelfia.git
 ```
 
 5. Entra nella cartella ` C:/xampp/htdocs/sistema-informativo-nomadelfia/sin` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer.json_):
