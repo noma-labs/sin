@@ -20,7 +20,7 @@ class Azienda extends Model
   }
 
   public function lavoratoriAttuali(){
-  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione', 'stato');
+  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione', 'stato')->orderBy('mansione', 'asc');
   }
 
   public function lavoratoriStorici(){

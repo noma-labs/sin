@@ -8,6 +8,9 @@ use App\Traits\Enums;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\NucleoFamigliare;
 use App\Nomadelfia\Models\Azienda;
+use App\Nomadelfia\Models\Persona;
+
+use Carbon;
 
 class ApiController extends BaseController 
 {
@@ -89,6 +92,7 @@ class ApiController extends BaseController
 	* se filtro=storico le aziende nello storico con lavoratore id
 	* se filtro=possibili le aziende dove può lavorare il lavoratore id
 	* @param id del lavoratore
+	* @return array con i risultati
 	* @author Matteo Neri
 	**/
 	public function aziendeLavoratore(Request $request, $id){
@@ -99,20 +103,18 @@ class ApiController extends BaseController
 				$aziende = Azienda::whereHas('lavoratoriStorici', function($query) use ($id){
 					$query->where('id', '=', $id);
 					})->orderBy('nome_azienda')->get();
-				// foreach ($aziende as $azienda) {
-				// 	$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
-				// }
-				$results = $aziende->keyBy('id');
+				foreach ($aziende as $azienda) {
+					$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+				}
 			}
 			// Aziende possibili per il lavoratore
 			elseif ($request->query('filtro')=='possibili') {
 				$aziende = Azienda::whereDoesntHave('lavoratoriAttuali', function($query) use ($id){
 						$query->where('id', '=', $id);
 						})->orderBy('nome_azienda')->get();
-				// foreach ($aziende as $azienda) {
-				// 	$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
-				// }
-				$results = $aziende->keyBy('id');
+				foreach ($aziende as $azienda) {
+					$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+				}
 			}
 		}
 		// Aziende attuali del lavoratore
@@ -120,26 +122,49 @@ class ApiController extends BaseController
 			$aziende = Azienda::whereHas('lavoratoriAttuali', function($query) use ($id){
 					$query->where('id', '=', $id);
 					})->orderBy('nome_azienda')->get();
-			// foreach ($aziende as $azienda) {
-			// 	$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
-			// }
-			$results = $aziende->keyBy('id');
+			foreach ($aziende as $azienda) {
+				$results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+			}
 		}
-		return $results->toJson();
+		return response()->json($results);
 	}
 
 	/**
-	*
-	*
+	* sposta un lavoratore da un'azienda ad unaltra
+	* @return se l'operazione è andata a buon fine
 	* @author Matteo Neri
 	**/
 	public function spostaLavoratore(Request $request){
 		$azienda = Azienda::findOrFail($request->input('id_azienda'));
 		$nuova_azienda = Azienda::findOrFail($request->input('nuova_azienda_id'));
 
-		$result1 = $azienda->lavoratoriAttuali()->updateExistingPivot($request->input('id_lavoratore'), ['stato' => 'NON ATTIVO', 'data_fine_azienda' => $request->input('data')]);
+		$result1 = $azienda->lavoratoriAttuali()->updateExistingPivot($request->input('id_lavoratore'), ['stato' => 'Non Attivo', 'data_fine_azienda' => $request->input('data')]);
 		$result2 = $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'), ['data_inizio_azienda' => $request->input('data')]);
 
 		return [$result1 && $result2];
 	}
+
+	/**
+	* Aggiunge una persona ad un'azienda
+	* 
+	**/
+	public function aggiungiNuovoLavoratore(Request $request){
+		$azienda = Azienda::findOrFail($request->input('azienda_id'));
+		$azienda->lavoratori()->attach($request->input('lavoratore_id'), ['data_inizio_azienda' => $request->input('data'), 'mansione' => 'LAVORATORE']);
+	} 
+
+	/**
+	* ricerca i possibili nomi che hanno il valore inviato all'interno del nominativo 
+	* @author Matteo Neri
+	**/
+	public function autocompleteLavoratore(Request $request){
+		$azienda_id = $request->input('azienda_id');
+		$persone = Persona::daEta(14)->where('nominativo', 'like', '%'.$request->input('term').'%')->get();
+		$lavoratori_attivi = Persona::whereHas('aziendeAttuali', function($query) use ($azienda_id) {
+			$query->where('azienda_id',  '=', $azienda_id);
+		})->get();
+		return $persone->filter(function($value, $key){
+			return $value->id != 0;
+		})->diff($lavoratori_attivi)->take(30)->toArray();
+	} 
 }

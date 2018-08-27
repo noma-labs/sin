@@ -23,7 +23,7 @@
 				</table>
 				<div class="row">
 					<div class="col-sm-2 offset-sm-10">
-						<button class="btn btn-success btn-block" role="button">Aggiungi</button>
+						<button class="btn btn-success btn-block" role="button" @click="aggiungiLavoratore">Aggiungi</button>
 					</div>
 				</div>
 			</div>
@@ -125,7 +125,7 @@
 				                		<div class="col-sm-8">
 					                		<select id="nuova_azienda" class="form-control-sm" :value="nuova_azienda_id" v-model="nuova_azienda_id" @change="changeAziendaSposta">
 					                			<option value="" hidden>Seleziona un'azienda</option>
-					                			<option v-for="azienda in aziendePossibili" :value="azienda.id">{{ azienda.nome_azienda }}</option>
+					                			<option v-for="azienda in aziendePossibili" :value="azienda.id">{{ azienda.nome }}</option>
 					                		</select>
 				                		</div>
 			                		</div>
@@ -136,7 +136,7 @@
 			                			<div class="card-body">
 			                			<p v-if="aziendeStorico.length == 0" class="text-danger">Nussuna azienda nello storico</p>
 										<ul v-else>
-											<li v-for="azienda in aziendeStorico">{{azienda.nome_azienda}}</li>
+											<li v-for="azienda in aziendeStorico">{{azienda.nome}}</li>
 										</ul>
 										</div>
 									</div>
@@ -160,12 +160,59 @@
 		        </div>
 		    </transition>
 		  </div>
+		  <div>
+		  	<!-- Modal Aggiungi Lavoratore -->
+		    <transition name="modal">
+		        <div class="modal-mask"  @click="closeAggiungi" v-show="showModalAggiungi">
+		            <div class="modal-container"  @click.stop>
+		                <div class="modal-header">
+		                    <h3>Aggiungi un lavoratore in: {{nome}}</h3>
+		                </div>
+		                <div class="modal-body">
+		                	<div class="row">
+		                		<label for="nuovo_lavoratore" class="col-sm-4">Lavoratore:</label>
+		                		<div class="col-sm-8">
+		                			<v-select
+									        :options="persone"
+									        @search="searchLavoratore"
+									        :placeholder="placeholder"
+									        label="nominativo"
+									        v-model="nuovo_lavoratore"
+								          >
+								          <span class="text-danger" slot="no-options">{{noPersone}}</span>
+								    </v-select>
+		                		</div>
+		                	</div>
+		                	<hr>
+		                	<div class="row">
+	                			<label for="inizio_lavoratore" class="col-sm-4">Data inizio lavoro:</label>
+	                			<div class="col-sm-4"> 
+	                				<date-picker placeholder="Selezionare una data" :language="language" :format="customFormatter" @selected="dateAggiungiSelected"></date-picker>
+	                			</div>
+		                	</div>
+		                </div>
+		                <p class="text-info"></p>
+		                <div class="modal-footer text-right">
+		                	<button class="btn btn-success" :disabled="validateAggiungi" @click="salvaNuovoLavoratore">
+		                    	salva
+			                </button>
+			                <button class="btn btn-danger" @click="closeAggiungi">
+			                	Esci
+			                </button>
+		                </div>
+		            </div>
+		        </div>
+		    </transition>
+		  </div>
 	</div>
 </template>
 
 <script>
 	import {it} from 'vuejs-datepicker/dist/locale'
+	import vSelect from "vue-select"
+
 	export default {
+		components: {vSelect},
 		props: ['url_azienda_edit', 'url_mansioni', 'url_stati', 'url_modifica_lavoratore', 'id_azienda'],
 		data: function() {
 			return {
@@ -192,15 +239,29 @@
 		        data_fine_sposta: '',
 		        dateDisabledSposta: {},
 		        nome_nuova_azienda: '',
-		        url_sposta: "/api/nomadelfia/azienda/sposta/lavoratore"
+		        url_sposta: "/api/nomadelfia/azienda/sposta/lavoratore",
+		        // data for modal aggiungiLavoratore
+		        showModalAggiungi: false,
+		        nuovo_lavoratore: '',
+		        url_search: '/api/nomadelfia/azienda/aggiungi/search',
+		        url_aggiungi: '/api/nomadelfia/azienda/aggiungi/lavoratore',
+		        persone: [],
+		        placeholder: 'Ricerca la persona...',
+		        nuovo_data_inizio: '',
 			};
 		},
-		mounted: function(){
-			axios.get(this.url_azienda_edit).then(response => (this.nome = response.data[0].nome, this.lavoratori = response.data[0].lavoratori, this.tipo = response.data[0].tipo, this.lavoratori_storici = response.data[0].lavoratoriStorici));
-			axios.get(this.url_mansioni).then(response => (this.mansioni = response.data));
-			axios.get(this.url_stati).then(response => (this.stati = response.data));
+		created:async function(){
+			await axios.get(this.url_azienda_edit).then(response => (this.nome = response.data[0].nome, this.lavoratori = response.data[0].lavoratori, this.tipo = response.data[0].tipo, this.lavoratori_storici = response.data[0].lavoratoriStorici));
+			await axios.get(this.url_mansioni).then(response => (this.mansioni = response.data));
+			await axios.get(this.url_stati).then(response => (this.stati = response.data));
 		},
 		computed:{
+			noPersone: function(){
+				return this.persone.length == 0 ? "nessuna persona trovata" : "";
+			},
+			validateAggiungi: function(){
+				return this.nuovo_data_inizio == '' || this.nuovo_lavoratore == '';
+			},
 			nonAttivoChecked: function(){
 				return this.stato == 'Non Attivo'; 
 			},
@@ -209,8 +270,10 @@
 			},
 			disableDate: function(){
 				if(this.data_inizio_lavoro != ''){
+					var fine = new Date(this.data_inizio_lavoro);
+					fine.setDate(fine.getDate() + 1)
 			    	return { 
-			    		to: new Date(this.data_inizio_lavoro)
+			    		to: fine
 			    	}
 			    }
 			    else{
@@ -223,7 +286,10 @@
 		},
 		methods:{
 			changeAziendaSposta: function(){
-				this.nome_nuova_azienda = this.aziendePossibili[this.nuova_azienda_id].nome_azienda;
+				this.nome_nuova_azienda = this.aziendePossibili[this.nuova_azienda_id].nome;
+			},
+			aggiungiLavoratore: function(){
+				this.showModalAggiungi = true;
 			},
 			modificaLavoratore: function(id){
 				this.showModal = true;
@@ -237,7 +303,6 @@
 				const response = await axios.get("/api/nomadelfia/aziende/lavoratore/"+this.lavoratori[id].id+'?filtro=storico');
 				this.aziendeStorico = response.data;
 				await axios.get("/api/nomadelfia/aziende/lavoratore/"+this.lavoratori[id].id+'?filtro=possibili').then(response => (this.aziendePossibili = response.data));
-				console.log(this.aziendePossibili);
 				this.titoloModal = 'Sposta lavoratore: '+this.lavoratori[id].nominativo;
 				this.disableDateSposta(this.lavoratori[id].pivot.data_inizio_azienda);
 				this.spostaModalShow = true;
@@ -267,6 +332,12 @@
 		        this.dateDisabledSposta = {},
 		        this.nome_nuova_azienda = '',
 		        this.lavoratore_id = ''
+		    },
+		    closeAggiungi: function() {
+		    	this.showModalAggiungi = false;
+		    	this.persone = [];
+		    	this.nuovo_lavoratore = '';
+		    	this.nuovo_data_inizio = '';
 		    },
 		    badgeMansione: function(mansione){
 				return {
@@ -328,10 +399,32 @@
 		    dateSpostaSelected: function(date){
 		    	this.data_fine_sposta = moment(date).format('YYYY-MM-DD');
 		    },
+		    dateAggiungiSelected: function(date){
+		    	this.nuovo_data_inizio = moment(date).format('YYYY-MM-DD');
+		    },
 		    disableDateSposta: function(date){
+		    	var fine = new Date(date);
+				fine.setDate(fine.getDate() + 1)
 		    	this.dateDisabledSposta = {
-		    		to: new Date(date)
+		    		to: fine
 		    	}
+		    },
+		    searchLavoratore: function(search, loading) {
+		    	loading(true);
+		    	axios.get(this.url_search+'?term='+search+'&azienda_id='+Number(this.id_azienda))
+		    	.then(
+		    		response => (this.persone = response.data),
+		    		loading(false)
+		    	);
+		    },
+		    salvaNuovoLavoratore: function() {
+		    	axios.post(this.url_aggiungi, {
+		    		azienda_id: this.id_azienda,
+		    		lavoratore_id: this.nuovo_lavoratore.id,
+		    		data: this.nuovo_data_inizio
+		    	}).then(function(){
+		    		location.reload();
+		    	});
 		    }
 		}
 	}

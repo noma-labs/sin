@@ -10,6 +10,8 @@ use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
 use App\Admin\Models\Ruolo;
 
+use Carbon\Carbon;
+
 class Persona extends Model
 {
   protected $connection = 'db_nomadelfia';
@@ -56,6 +58,10 @@ class Persona extends Model
     return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id');
   }
 
+  public function aziendeAttuali(){
+    return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione', 'stato')->orderBy('nominativo');
+  }
+
   public function incarichi(){
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id');
   }
@@ -70,7 +76,10 @@ class Persona extends Model
       return $query->where('incarico_id', ">",0);
   }
 
-  
+  public function scopeDaEta($query, $eta){
+    $data = Carbon::now()->subYears($eta)->toDateString();
+    return $query->where('data_nascita_persona', '<=', $data);
+  }
 
 
 }
