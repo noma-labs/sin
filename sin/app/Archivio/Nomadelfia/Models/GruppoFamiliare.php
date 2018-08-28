@@ -13,25 +13,25 @@ class GruppoFamiliare extends Model
   protected $table = 'gruppi_familiari';
   protected $primaryKey = "id";
 
-  public function persone(){
+  public function persone()
+  {
     return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id');
   }
 
-  public function famiglie(){
+  public function famiglie()
+  {
     return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id');
   }
 
-  public function capogruppi(){
+  public function capogruppi()
+  {
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
   }
 
-  public function capogruppiAttuali(){
+  public function capogruppiAttuali()
+  {
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id')
                 ->wherePivot('stato',1);
-  }
-
-  public function scopeSingoli(){
-    return $this->persone()->famiglie();
   }
 
   public static function getCountNucleiFamiliari(){
