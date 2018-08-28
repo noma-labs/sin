@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="card mb-3">
-      <!-- <div class="card-header">Popolazione</div> -->
+      {{-- <div class="card-header">Popolazione</div> --}}
       <div class="card-body">
         <h3 class="card-title">Gestione Persone</h3>
         <p class="card-text">
