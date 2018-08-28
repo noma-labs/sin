@@ -8,11 +8,23 @@ use App\Nomadelfia\Models\GruppoFamiliare;
 class GruppifamiliariController extends CoreBaseController
 {
   public function view(){
-    // $gruppifamiliari = GruppoFamiliare::withCount("persone")->orderBy("nome")->get();$
-    // $gruppi_with_nucleifamiliari = collect(GruppoFamiliare::getCountNucleiFamiliari())->groupby("gruppo_famigliare_id");
+  
+    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->get();
 
-    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome")->get();
+    // GruppoFamiliare::with('famiglie.componenti')
+    //    ->join('exam', 'students.id', '=', 'exam.student_id')
+    //    ->orderBy('exam.result', 'DESC')
+    //    ->get();
+    // $gruppifamiliari = GruppoFamiliare::with(["famiglie", function($famiglia)
+    // {
+    //   $famiglia->with(['componenti',function($componente){
+    //     $componente->orderby('data_nascita_persona');
+    //   }]);
+    // }]);
     // dd($gruppifamiliari);
+
+    // $g = GruppoFamiliare::select('nome')
+    //                     ->join('gruppi_famiglie',"gruppi_familiari.id","=", '')
     return view('nomadelfia.gruppifamiliari.index',compact('gruppifamiliari','gruppi_with_nucleifamiliari'));
   }
 

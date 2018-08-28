@@ -14,8 +14,34 @@ class Famiglia extends Model
   protected $guarded = [];
 
   public function componenti(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id');
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->withPivot("posizione_famiglia");
+                // ->orderBy('posizione_famiglia');
+
   }
+
+  public function capofamiglia(){
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->wherePivot('posizione_famiglia','CAPO FAMIGLIA');
+  }
+
+  public function moglie(){
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->wherePivot('posizione_famiglia','MOGLIE');
+  }
+
+  public function figli(){
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
+                ->orderBy('data_nascita_persona');
+  }
+
+  public function single(){
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->wherePivot('posizione_famiglia','SINGLE');
+  }
+
+
 
   public  function scopeByNucleoFamigliare($quey){
     // return $this->whereHas('componenti',function($query) use($nucleo){
