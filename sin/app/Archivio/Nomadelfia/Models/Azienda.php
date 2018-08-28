@@ -20,11 +20,11 @@ class Azienda extends Model
   }
 
   public function lavoratoriAttuali(){
-  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivotIn('stato', ['ATTIVO', 'SOSPESO'])->withPivot('data_inizio_azienda', 'mansione', 'stato');
+  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione', 'stato')->orderBy('mansione', 'asc');
   }
 
   public function lavoratoriStorici(){
-  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivot('stato', '=', 'NON ATTIVO')->withPivot('data_fine_azienda', 'stato');
+  	return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->wherePivot('stato', '=', 'Non Attivo')->withPivot('data_fine_azienda', 'stato');
   }
 
   public static function perNome($nome){

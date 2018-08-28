@@ -58,5 +58,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   Route::get('/aziende/lavoratore/{id}', 'ApiController@aziendeLavoratore')->name("api.nomadeflia.aziende.lavoratori");
   Route::post('/azienda/modifica/lavoratore', 'ApiController@modificaLavoratore')->name("api.nomadeflia.azienda.modifica.lavoratore");
   Route::post('/azienda/sposta/lavoratore', 'ApiController@spostaLavoratore')->name("api.nomadeflia.azienda.sposta.lavoratore");
+  Route::get('/azienda/aggiungi/search', 'ApiController@autocompleteLavoratore')->name("api.nomadelfia.azienda.persone");
+  Route::post('/azienda/aggiungi/lavoratore', 'ApiController@aggiungiNuovoLavoratore')->name("api.nomadelfia.azienda.aggiungi.lavoratore");
 });
 
