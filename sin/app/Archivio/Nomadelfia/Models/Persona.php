@@ -2,6 +2,7 @@
 namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
+Use Carbon;
 
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
@@ -9,8 +10,8 @@ use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
 use App\Admin\Models\Ruolo;
+use App\Anagrafe\Models\DatiPersonali;
 
-use Carbon\Carbon;
 
 class Persona extends Model
 {
@@ -21,35 +22,44 @@ class Persona extends Model
   public $timestamps = false;
   protected $guarded = [];
 
+  
+  /**
+   * Returns only the people that are currently living in Nomadelfia.
+   *
+   * @param \Illuminate\Database\Eloquent\Builder $query
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  public function scopePresente($query)
+  {
+      return $query->where('categoria_id', "<",4);
+  }
+
+  public function scopeMaggiorenni($query)
+  {
+     $date = Carbon::now()->subYears(18)->toDatestring();
+     return $query->where('data_nascita_persona', "<=", $date);
+  }
+
+  public function scopeMinorenni($query)
+  {
+     $date = Carbon::now()->subYears(18)->toDatestring();
+     return $query->where('data_nascita_persona', ">", $date);
+  }
+
+  public function scopeDonne($query)
+  {
+     return $query->where('sesso','F');
+  }
+
+  public function scopeUomini($query)
+  {
+     return $query->where('sesso','M');
+  }
+
   public function gruppi(){
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id');
   }
-
-  public function famiglie(){
-    return $this->belongsToMany(Famiglia::class,'famiglie_persone','persona_id','famiglia_id')
-                    ->withPivot('nucleo_famigliare_id');
-  }
-
-  public function scopeCapifamiglia()
-  {
-      // return $this->belongsToMany(Famiglia::class,'famiglie_persone','persona_id','famiglia_id')
-      //               ->wherePivot('cf','AG')->toSql();
-      return $this->whereHas('famiglie', function($q){
-        $q->where("cf","CF");
-      });
-
-  }
-
-  public function nucleiFamiliari(){
-    return $this->belongsToMany(NucleoFamigliare::class,'famiglie_persone','persona_id','nucleo_famigliare_id');
-  }
-
-  public function scopeSingoli(){
-    return $this->whereHas('famiglie', function($q){
-      $q->where("nucleo_famigliare_id",7);
-    });
-  }
-
+ 
   public function posizioni(){
     return $this->belongsToMany(Posizione::class, 'persone_posizioni', 'persona_id', 'posizione_id');
   }
@@ -65,21 +75,16 @@ class Persona extends Model
   public function incarichi(){
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id');
   }
-  /**
-   * Returns only the people that are currently living in Nomadelfia.
-   *
-   * @param \Illuminate\Database\Eloquent\Builder $query
-   * @return \Illuminate\Database\Eloquent\Builder
-   */
-  public function scopePresente($query)
-  {
-      return $query->where('incarico_id', ">",0);
-  }
 
   public function scopeDaEta($query, $eta){
     $data = Carbon::now()->subYears($eta)->toDateString();
     return $query->where('data_nascita_persona', '<=', $data);
   }
 
+  public function scopeFraEta($query, $frometa, $toeta){
+    $fromdata = Carbon::now()->subYears($toeta)->toDateString();
+    $todata = Carbon::now()->subYears($frometa)->toDateString();
+    return $query->whereBetween('data_nascita_persona',[$fromdata, $todata]);
+  }
 
 }

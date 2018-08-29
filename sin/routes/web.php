@@ -62,7 +62,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persona/search', 'AutocompleteController@autocompletePersona')->name("nomadelfia.autocomplete.persona");
   // PERSONA
   Route::get('persone', 'PersoneController@view')->name("nomadelfia.persone"); //->middleware('permission:cliente-visualizza')
-  Route::get('persone/inserimento', 'PersoneController@insertView')->name("persone.inserimento_form");
+  Route::get('persone/inserimento', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
   Route::post('persone/inserimento', 'PersoneController@insert')->name("persone.inserimento");
   // Route::post('persone/inserimento', 'PersoneController@insertConfirm')->middleware('permission:cliente-crea')->name("persone.inserimento.confirm");
   Route::get('persone/{idPersona}', 'PersoneController@show')->name("persone.dettaglio"); //middleware('permission:cliente-visualizza')
@@ -73,6 +73,11 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
+  Route::get('gruppifamiliari/{$id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
+
+  //stampa elecnchi
+  Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
+  Route::get('popolazione/stampa/preview', 'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
 
 });
 
@@ -149,7 +154,6 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
 
 
 Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'], function(){
-
   // PRENOTAZIONI add, delete, update, search
   Route::get("/", 'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
   Route::post("/", 'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
