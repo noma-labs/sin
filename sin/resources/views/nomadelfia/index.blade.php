@@ -15,7 +15,7 @@
   <div class="col-md-4">
     <div class="card mb-3">
       <div class="card-header">
-      Gestione Persone
+        Gestione Persone
       </div>
       <div class="card-body">
         <p class="card-text"> 
