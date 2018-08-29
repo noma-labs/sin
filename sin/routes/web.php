@@ -86,9 +86,9 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
 #################################################################
 Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controllers'], function(){
   // Route: /biblioteca/
-  Route::view('/', 'biblioteca.index')->middleware('ability:libro.visualizza')->name('biblioteca'); 
+  Route::view('/', 'biblioteca.index')->name('biblioteca'); 
   // LIBRI: ricerca
-  Route::get('libri', 'LibriController@showSearchLibriForm')->middleware('ability:libro.visualizza')->name("libri.ricerca");
+  Route::get('libri', 'LibriController@showSearchLibriForm')->name("libri.ricerca");
   Route::get('libri/ricerca', 'LibriController@searchConfirm')->name("libri.ricerca.submit");
   // LIBRI: media
   Route::get('libri/{idLibro}/media', 'LibriMediaController@view')->name('libri.media');
@@ -151,10 +151,9 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
 //##################################################################
 //######################## OFFICINA ################################
 //##################################################################
-
-
 Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'], function(){
   // PRENOTAZIONI add, delete, update, search
+  // officina/
   Route::get("/", 'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
   Route::post("/", 'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
   Route::get("delete/{id}/", 'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
@@ -180,3 +179,4 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
 // Route::get('/rtn', function () {
 //   return view('rtn.index');
 // });
+

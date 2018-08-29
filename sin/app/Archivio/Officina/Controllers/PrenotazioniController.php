@@ -86,8 +86,8 @@ class PrenotazioniController extends CoreBaseController
   }
 
   public function prenotazioni(){
-    $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
-    $usi = Uso::all();
+    $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
+    $usi = Uso::all(); // select * from vieclienti
     $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
     $prenotazioni = Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
