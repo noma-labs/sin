@@ -26,12 +26,12 @@ class Posizione extends Model
   public static function perNome($nome){
     
     $mapNamesToDB = [
-        "effettivo"=> "EFFETTIVO",
-        "postulante"=>"POSTULANTE",
-        "ospite"=>"OSPITE",
-        "figlio"=>"FIGLIO",
+        "effettivo"=> "EFFE",
+        "postulante"=>"POST",
+        "ospite"=>"OSPP",
+        "figlio"=>"FIGL",
     ];
-    return static::where('nome',$mapNamesToDB[$nome])->first();
+    return static::where('abbreviato',$mapNamesToDB[$nome])->first();
   }
 
 }

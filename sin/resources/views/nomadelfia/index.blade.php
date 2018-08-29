@@ -73,5 +73,9 @@
     </div>
   </div>
 </div>
+
+<a href="{{ route('nomadelfia.popolazione.stampa') }}" class=" text-center  btn btn-danger">Stampa popolazione nomadelfia</a> 
+<a href="{{ route('nomadelfia.popolazione.anteprima') }}" class=" text-center  btn btn-danger">anteprima stampa</a> 
+
 </div>
 @endsection

@@ -5,7 +5,7 @@ namespace App\Biblioteca\Controllers;
 use Illuminate\Http\Request;
 use App;
 use App\Policies\LibroPolicy;
-use PDF;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Core\Controllers\BaseController as CoreBaseController;

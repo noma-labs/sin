@@ -34,7 +34,6 @@ class Persona extends Model
       return $query->where('categoria_id', "<",4);
   }
 
-   // Persona::pereta()->donne()
   public function scopeMaggiorenni($query)
   {
      $date = Carbon::now()->subYears(18)->toDatestring();
@@ -77,13 +76,15 @@ class Persona extends Model
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id');
   }
 
-  
-
-
   public function scopeDaEta($query, $eta){
     $data = Carbon::now()->subYears($eta)->toDateString();
     return $query->where('data_nascita_persona', '<=', $data);
   }
 
+  public function scopeFraEta($query, $frometa, $toeta){
+    $fromdata = Carbon::now()->subYears($toeta)->toDateString();
+    $todata = Carbon::now()->subYears($frometa)->toDateString();
+    return $query->whereBetween('data_nascita_persona',[$fromdata, $todata]);
+  }
 
 }

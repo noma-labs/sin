@@ -17,89 +17,115 @@
 
 @section('archivio')
 <div class="container">
-<div class="row">
- <div class="col-md-5">
-  <div id="accordion">
-      <div class="card">
+ <div class="row">
+  <div class="col-md-4">
+    <div id="accordion">
+        <div class="card">
         <div class="card-header" id="headingOne">
           <h5 class="mb-0">
             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Collapsible Group Item #1
+              Nomadelfi effettivi {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->presente()->count()}}
             </button>
           </h5>
         </div>
-
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
           <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+           <div class="row">
+            <div class="col-md-6"> 
+              <h5>Uomini {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->presente()->uomini()->count()}}</h5>
+                @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->uomini()->get() as $uomo)
+                  <div>
+                  {{$uomo->nominativo}}
+                  </div>
+               @endforeach
+            </div>
+            <div class="col-md-6"> 
+              <h5>Donne {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->presente()->donne()->count()}}</h5>
+                @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->donne()->get() as $donna)
+                  <div>
+                  {{$donna->nominativo}}
+                  </div>
+               @endforeach
+            </div>
+           </div>
           </div>
         </div>
+      </div> <!-- end nomadelfi effettivi card -->
+    </div> <!-- end accordion -->
+  </div> <!-- end first col-md-4 -->
+ <div class="col-md-4">
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePostulanti" aria-expanded="true" aria-controls="collapseOne">
+            Postulanti {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->presente()->count()}}
+          </button>
+        </h5>
       </div>
+      <div id="collapsePostulanti" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <div class="row">
+           <div class="col-md-6">
+              <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->uomini()->count()}}</h4>
+              @foreach(App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->uomini()->presente()->get() as $uomo)
+                <div>
+                {{$uomo->nominativo}}
+                </div>
+              @endforeach
+           </div> <!-- end col uomini postulanti-->
+           <div class="col-md-6">
+              <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->donne()->count()}}</h4>
+              @foreach(App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->donne()->get() as $donna)
+                <div>
+                {{$donna->nominativo}}
+                </div>
+                @endforeach
+           </div><!-- end col donne postulanti-->
+          </div>  <!-- end row inside postulante card -->
+        </div>
+      </div><!-- end card postulanto -->
+    </div> 
+  </div> <!-- end accordion second colum-->
+ </div> <!-- end second col-md-4 -->
+ 
+  <div class="col-md-4">
+    <div id="accordion">
       <div class="card">
-        <div class="card-header" id="headingTwo">
+        <div class="card-header" id="headingOne">
           <h5 class="mb-0">
-            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Collapsible Group Item #2
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFigli" aria-expanded="true" aria-controls="collapseOne">
+              Figli  {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->presente()->count()}}
             </button>
           </h5>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div id="collapseFigli" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
           <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          <div class="row">
+              <div class="col-md-6">
+               <h5> Minorenni {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->minorenni()->presente()->count()}}</h5>
+                @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->minorenni()->presente()->get() as $figlio)
+                <div>{{$figlio->nominativo}}
+                </div>
+                @endforeach
+              </div> <!-- end col figli minorenni-->
+              <div class="col-md-6">
+               <h5> Maggiorenni {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->maggiorenni()->presente()->count() }} </h5>
+                @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->maggiorenni()->presente()->get() as $figlio)
+                <div>{{$figlio->nominativo}}
+                </div>
+                @endforeach
+              </div> <!-- end col figli maggiorenni-->
+            </div>  <!-- end row inside card-->
           </div>
         </div>
-      </div>
-    </div>
-    </div>
+      </div> <!-- end card figli -->
+    </div>  <!-- end accordion third row -->
+  </div>  <!-- end third  col-md-4 -->
+ 
+ <div> <!-- end row -->
+</div> <!-- end container -->
 
- <div class="col-md-5">
- <div id="accordion">
-  <div class="card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Collapsible Group Item #1
-        </button>
-      </h5>
-    </div>
 
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsefour" aria-expanded="false" aria-controls="collapseTwo">
-          Collapsible Group Item #2
-        </button>
-      </h5>
-    </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseThree">
-          Collapsible Group Item #3
-        </button>
-      </h5>
-    </div>
-    <div id="collapsefive" class="collapse" aria-labelledby="headingsix" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-</div>
-  </div> 
- </div>
- </div>
 @endsection
 

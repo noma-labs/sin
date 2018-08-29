@@ -16,13 +16,15 @@ class Famiglia extends Model
   public function componenti(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->withPivot("posizione_famiglia");
-                // ->orderBy('posizione_famiglia');
-
   }
 
   public function capofamiglia(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivot('posizione_famiglia','CAPO FAMIGLIA');
+  }
+
+  public function capifamiglia() {
+      return $this->capofamiglia()->wherePivot('posizione_famiglia', "CAPO FAMIGLIA");
   }
 
   public function moglie(){
@@ -40,8 +42,6 @@ class Famiglia extends Model
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivot('posizione_famiglia','SINGLE');
   }
-
-
 
   public  function scopeByNucleoFamigliare($quey){
     // return $this->whereHas('componenti',function($query) use($nucleo){
