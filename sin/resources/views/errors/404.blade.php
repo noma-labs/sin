@@ -2,4 +2,4 @@
 
 @section('title', 'Error')
 
-@section('message', 'La risorsa non esiste')
+@section('message', 'Not found (codice errore HTTP 404)')

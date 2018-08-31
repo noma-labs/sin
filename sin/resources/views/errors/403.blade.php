@@ -2,4 +2,4 @@
 
 @section('title', 'Error')
 
-@section('message', 'Operazione non consentita')
+@section('message', 'Accesso negato (codice errore HTTP 403)')

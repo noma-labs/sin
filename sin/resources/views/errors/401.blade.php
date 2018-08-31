@@ -2,4 +2,4 @@
 
 @section('title', 'Error')
 
-@section('message', 'Operazione non consentita')
+@section('message', 'Autorizzazione negata (codice errore HTTP 401)')
