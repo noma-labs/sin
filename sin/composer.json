@@ -6,7 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "barryvdh/laravel-dompdf": "^0.8.1",
+        "barryvdh/laravel-dompdf": "^0.8.2",
+        "barryvdh/laravel-snappy": "^0.4.1",
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/utilities": "^3.0",
@@ -18,7 +19,8 @@
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-backup": "^5.1",
         "spatie/laravel-medialibrary": "6.0.0",
-        "swiftmailer/swiftmailer": "^6.0"
+        "swiftmailer/swiftmailer": "^6.0",
+        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
     "require-dev": {
         "filp/whoops":"~2.0",

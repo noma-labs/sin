@@ -1,6 +1,6 @@
 <?php
 namespace App\Nomadelfia\Controllers;
-use PDF;
+use SnappyPdf;
 use Carbon;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -21,73 +21,70 @@ use Validator;
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
   public function print(){
-    // set_time_limit(300);
-    // $aziende =  Azienda::orderBy("nome_azienda")->with('lavoratoriAttuali')->get();
-    // $pdf = PDF::loadView('nomadelfia.aziende.index', ["aziende"=>$aziende]);
-    // return $pdf->setPaper('a4')->download("popolazione.pdf"); //stream
-
     $persone = Persona::all();
     $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
-    $minorenni = Persona::presente()->minorenni()->get();
-    $minorenniCount = $minorenni->count();
-    $minorenni->map(function($item,$key){
-      return $item['anno'] = Carbon::parse($item['data_nascita_persona'])->year;
-    });
-    $groupMinorenni= $minorenni->sortBy(function ($persona, $key) {
-        return $persona['anno'];
-    });
-    $minorenni = $groupMinorenni->groupby(['anno', 
-                      function($item){
-                        return $item['sesso'];
-                      }]);
-
+    $minorenni = $this->getMinorenni();
+    $minorenniCount = Persona::presente()->minorenni()->count();
     $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
-    $pdf = PDF::loadView("nomadelfia.print",compact('totale',
-                                                      "maggiorenniUomini",
-                                                      "maggiorenniDonne",
-                                                      "minorenni",
-                                                      "minorenniCount",
-                                                      "gruppifamiliari",
-                                                      "aziende"));
-    $data = Carbon::now();
-    return $pdf->setPaper('a4')->download("etichette-$data.pdf"); //stream
+    // $pdf = SnappyPdf::loadView("nomadelfia.prova", compact('totale',
+    //                                                   "maggiorenniUomini",
+    //                                                   "maggiorenniDonne",
+    //                                                   "minorenni",
+    //                                                   "minorenniCount",
+    //                                                   "gruppifamiliari",
+    //                                                   "aziende"));
+    // $data = Carbon::now();
+    // return $pdf->download("popolazione-$data.pdf"); //stream
+
+    $pdf = SnappyPdf::loadView("nomadelfia.elenchi.popolazionenomadelfia", compact("maggiorenniUomini","maggiorenniDonne","minorenni",'minorenniCount'));
+      $data = Carbon::now();
+      return $pdf->download("popolazione-$data.pdf"); //stream
   }
 
   public function preview(){
-
-    return view("nomadelfia.print");
-
     $persone = Persona::all();
     $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
-    $minorenni = Persona::presente()->minorenni()->get();
-    $minorenniCount = $minorenni->count();
-    $minorenni->map(function($item,$key){
-      return $item['anno'] = Carbon::parse($item['data_nascita_persona'])->year;
-    });
-    $groupMinorenni= $minorenni->sortBy(function ($persona, $key) {
-        return $persona['anno'];
-    });
-    $minorenni = $groupMinorenni->groupby(['anno', 
-                      function($item){
-                        return $item['sesso'];
-                      }]);
-
+    $minorenni = $this->getMinorenni();
+    $minorenniCount = Persona::presente()->minorenni()->count();
     $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
-    return view("nomadelfia.print",compact('totale',
+    // return view("nomadelfia.print",compact('totale',
+    //                                         "maggiorenniUomini",
+    //                                         "maggiorenniDonne",
+    //                                         "minorenni",
+    //                                         "minorenniCount",
+    //                                         "gruppifamiliari",
+    //                                         "aziende"));
+    return view("nomadelfia.elenchi.popolazionenomadelfia", compact('totale',
                                             "maggiorenniUomini",
                                             "maggiorenniDonne",
                                             "minorenni",
                                             "minorenniCount",
                                             "gruppifamiliari",
                                             "aziende"));
+  }
+
+
+  public function getMinorenni(){
+    $minorenni = Persona::presente()->minorenni()->get();
+    $minorenni->map(function($item,$key){
+      return $item['anno'] = Carbon::parse($item['data_nascita_persona'])->year;
+    });
+    $groupMinorenni= $minorenni->sortBy(function ($persona, $key) {
+        return $persona['anno'];
+    });
+    return $groupMinorenni->groupby(['anno', 
+                      function($item){
+                        return $item['sesso'];
+                      }]);
+    // return $minorenni;
   }
 
 }
