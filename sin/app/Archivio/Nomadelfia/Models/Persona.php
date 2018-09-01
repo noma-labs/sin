@@ -8,6 +8,7 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
+use App\Patente\Models\Patente;
 use App\Admin\Models\Ruolo;
 
 class Persona extends Model
@@ -58,6 +59,10 @@ class Persona extends Model
 
   public function incarichi(){
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id');
+  }
+
+  public function patenti(){
+    return $this->hasMany(Patente::class, 'persona_id', 'id');
   }
   /**
    * Returns only the people that are currently living in Nomadelfia.

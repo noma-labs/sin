@@ -42,7 +42,8 @@
             "App\\Core\\" : "app/Archivio/Core",
             "App\\Officina\\" : "app/Archivio/Officina",
             "App\\Nomadelfia\\" : "app/Archivio/Nomadelfia",
-            "App\\Anagrafe\\" : "app/Archivio/Anagrafe"
+            "App\\Anagrafe\\" : "app/Archivio/Anagrafe",
+            "App\\Patente\\" : "app/Archivio/Patente"
         }
     },
     "autoload-dev": {

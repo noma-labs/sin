@@ -176,3 +176,12 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
 // Route::get('/rtn', function () {
 //   return view('rtn.index');
 // });
+
+//#################################################################
+//######################   PATENTE  ###################################
+//#################################################################
+
+Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], function(){
+  // PRENOTAZIONI add, delete, update, search
+  Route::get("/", 'PatenteController@patente')->name('patente.index');
+});
