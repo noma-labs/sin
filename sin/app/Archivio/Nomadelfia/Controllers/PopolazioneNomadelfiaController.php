@@ -21,8 +21,6 @@ use Validator;
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
   public function print(){
-    $persone = Persona::all();
-    $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
     $minorenni = $this->getMinorenni();
@@ -40,14 +38,19 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     // $data = Carbon::now();
     // return $pdf->download("popolazione-$data.pdf"); //stream
 
-    $pdf = SnappyPdf::loadView("nomadelfia.elenchi.popolazionenomadelfia", compact("maggiorenniUomini","maggiorenniDonne","minorenni",'minorenniCount'));
-      $data = Carbon::now();
-      return $pdf->download("popolazione-$data.pdf"); //stream
+    $pdf = SnappyPdf::loadView("nomadelfia.elenchi.popolazionenomadelfia", compact('totale',
+                                                      "maggiorenniUomini",
+                                                      "maggiorenniDonne",
+                                                      "minorenni",
+                                                      "minorenniCount",
+                                                      "gruppifamiliari",
+                                                      "aziende"));
+    $pdf->setOption('viewport-size','1280x1024');
+    $data = Carbon::now();
+    return $pdf->download("popolazione-$data.pdf"); //stream
   }
 
   public function preview(){
-    $persone = Persona::all();
-    $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
     $minorenni = $this->getMinorenni();
@@ -62,7 +65,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     //                                         "minorenniCount",
     //                                         "gruppifamiliari",
     //                                         "aziende"));
-    return view("nomadelfia.elenchi.popolazionenomadelfia", compact('totale',
+    return view("nomadelfia.elenchi.popolazionenomadelfia", compact(
                                             "maggiorenniUomini",
                                             "maggiorenniDonne",
                                             "minorenni",
