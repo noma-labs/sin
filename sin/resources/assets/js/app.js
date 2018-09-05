@@ -19,6 +19,7 @@ Vue.use(Vuelidate)
 // Application components
 Vue.component('autocomplete', require('./components/autocomplete.vue'));
 Vue.component('modal', require('./components/my-modal.vue'));
+Vue.component('sin-header', require('./components/partials/sin-header.vue'));
 // Vue.component('my-modal', require('./components/modal2.vue'));
 // Biblioteca components
 Vue.component('search-collocazione', require('./components/libro-collocazione-autocomplete.vue'));

@@ -182,6 +182,7 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
 //#################################################################
 
 Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], function(){
-  // PRENOTAZIONI add, delete, update, search
   Route::get("/", 'PatenteController@patente')->name('patente.index');
+  Route::get('modifica/{id}','PatenteController@modifica')->name('patente.modifica');
+  Route::post('modifica/{id}', 'PatenteController@confermaModifica')->name('patente.modifica.conferma');
 });

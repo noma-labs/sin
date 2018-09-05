@@ -1,12 +1,9 @@
 @extends('layouts.app')
 
 @section('archivio')
-
-  <div class=row>
-    <div class="col-md-2 offset-md-5">
-       Gestione Patenti
-    </div>
-  </div>
+   
+  <sin-header title="GESTIONE PATENTI">
+  </sin-header>
   <div class="table-responsive">
    <table class="table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
@@ -28,12 +25,16 @@
                @endforeach
                </td>
                <td> {{$record->data_scadenza_patente}}</td>
+               <td>
+          <div class='btn-group' role='group' aria-label="Basic example">
+            <a class="btn btn-warning" href="{{ route('patente.modifica', $record->numero_patente) }}">Modifica</a>
+          </div>
+        </td>
           </tr>
          @endforeach
    </tbody>
 </table>
 </div>
-<div class=row>
    <div class="col-md-2 offset-md-5">
       {{ $viewdata->links("pagination::bootstrap-4") }}
    </div>
