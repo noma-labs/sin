@@ -185,4 +185,6 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get("/", 'PatenteController@patente')->name('patente.index');
   Route::get('modifica/{id}','PatenteController@modifica')->name('patente.modifica');
   Route::post('modifica/{id}', 'PatenteController@confermaModifica')->name('patente.modifica.conferma');
+  Route::get('inserimento','PatenteController@inserimento')->name('patente.inserimento');
+  Route::post('inserimento', 'PatenteController@confermaInserimento')->name('patente.inserimento.conferma');
 });

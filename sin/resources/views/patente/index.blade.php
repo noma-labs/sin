@@ -23,20 +23,23 @@
                @foreach($record->categorie as $categoria)
                {{$categoria->patente_categoria}}&nbsp;&nbsp;
                @endforeach
-               </td>
-               <td> {{$record->data_scadenza_patente}}</td>
-               <td>
-          <div class='btn-group' role='group' aria-label="Basic example">
-            <a class="btn btn-warning" href="{{ route('patente.modifica', $record->numero_patente) }}">Modifica</a>
-          </div>
-        </td>
+              </td>
+              <td> {{$record->data_scadenza_patente}}</td>
+              <td>
+                <div class='btn-group' role='group' aria-label="Basic example">
+                <a class="btn btn-warning" href="{{ route('patente.modifica', $record->numero_patente) }}">Modifica</a>
+                </div>
+              </td>
           </tr>
          @endforeach
-   </tbody>
-</table>
-</div>
+    </tbody>
+   </table>
+   <div class='btn-group' role='group' aria-label="Basic example">
+            <a class="btn btn-warning" href="{{ route('patente.inserimento') }}">Inserisci nuova patente</a>
+   </div>
    <div class="col-md-2 offset-md-5">
       {{ $viewdata->links("pagination::bootstrap-4") }}
    </div>
-</div>
+  </div>
+
 @endsection
