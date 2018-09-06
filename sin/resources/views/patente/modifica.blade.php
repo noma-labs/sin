@@ -36,7 +36,7 @@
         <option value="-1">niente di nuovo</option>
         @foreach ($categorie as $categoria)
            @if(!$record->first()->categorie->contains('id',$categoria->id))
-          <option value="{{ $categoria->id }}">{{ $categoria->patente_categoria }}</option>
+          <option value="{{ $categoria->id }}">{{ $categoria->patente_categoria }} {{$categoria->descrizione_categoria}}</option>
            @endif
         @endforeach
       </select>

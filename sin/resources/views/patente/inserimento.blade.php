@@ -43,7 +43,7 @@
       <select class="form-control" id="categoria_patente" name="categoria_patente">
         <option value="-1">nessuna categoria</option>
         @foreach ($categorie as $categoria)
-          <option value="{{ $categoria->id }}">{{ $categoria->patente_categoria }}</option>
+          <option value="{{ $categoria->id }}">{{ $categoria->patente_categoria }} {{$categoria->descrizione_categoria}}</option>
         @endforeach
       </select>
     </div>
