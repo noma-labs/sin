@@ -21,7 +21,11 @@ use Validator;
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
   public function print(){
-    set_time_limit(0);
+    // set_time_limit(300);
+    // $aziende =  Azienda::orderBy("nome_azienda")->with('lavoratoriAttuali')->get();
+    // $pdf = PDF::loadView('nomadelfia.aziende.index', ["aziende"=>$aziende]);
+    // return $pdf->setPaper('a4')->download("popolazione.pdf"); //stream
+
     $persone = Persona::all();
     $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
@@ -54,6 +58,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   }
 
   public function preview(){
+
+    return view("nomadelfia.print");
+
     $persone = Persona::all();
     $totale = Persona::Presente()->count();
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");

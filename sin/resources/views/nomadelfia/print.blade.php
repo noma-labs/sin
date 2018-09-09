@@ -25,7 +25,8 @@
 
   <h5>Totale:{{$totale}}</h5>
   <div class="page-break"></div>
-  <div class="container">
+   @yield('maggiorenni')
+  <!-- <div class="container">
     <div class="row">
       <div class="col-md-6">
       <p class="font-weight-bold">Uomini maggiorenni {{$maggiorenniUomini->count()}}</p>
@@ -53,7 +54,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   <div class="page-break"></div>
     <div class="container">

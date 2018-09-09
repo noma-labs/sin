@@ -1,5 +1,6 @@
-# Archivio Nomadelfia
-Archivio Nomadelfia è il sistema informativo informatico di Nomadelfia.
+# SIN Nomadelfia
+SIN (sistema informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomadelefi in un unino sistema.
+
 
 ### Dipendenze
 

@@ -2,4 +2,4 @@
 
 @section('title', 'Error')
 
-@section('message', 'Il server non è al momento disponibile. ')
+@section('message', 'Il server non è al momento disponibile (codice errore Http 503)')

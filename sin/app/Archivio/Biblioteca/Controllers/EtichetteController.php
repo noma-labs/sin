@@ -5,6 +5,7 @@ namespace App\Biblioteca\Controllers;
 use Illuminate\Http\Request;
 use App;
 use App\Policies\LibroPolicy;
+use PDF;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class EtichetteController extends CoreBaseController
     $pdf = PDF::loadView('biblioteca.libri.etichette.print', ["etichette"=>$etichette]);
     $data = Carbon::now();
     return $pdf->setPaper('a4')->download("etichette-$data.pdf"); //stream
+    // return  $pdf->setPaper([0, 0, 170.079,170.079], 'landscape')->download("etichette-$data.pdf");
     // return $pdf->download('invoice.pdf');
   }
 
