@@ -88,7 +88,7 @@
           </div>
         </div>
       @endhasrole
-      @hasrole('admin|master')
+      
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
@@ -100,6 +100,7 @@
             </div>
           </div>
         </div>
+      @hasrole('admin|master')
       @endhasrole
     </div>
 
