@@ -9,13 +9,25 @@
     <title>Page Title</title>
     <style>
       .etichetta {
-        padding: 4cm;
-    } 
+        padding: 1em;
+        /* border-style: solid; */
+        font-family: verdana;
+        text-align: center;
+        page-break-after: always;
+        page-break-inside: avoid;
+        }
     </style>
 </head>
 <body>
     @foreach ($etichette as $etichetta)
-        <div class="etichetta">{{$etichetta->collocazione}}</div>
+      <div class="etichetta">
+      <!-- <img src="{{ asset('/images/logo-noma.png') }}" height="50px"> -->
+        <div style="font-size: 100%;">Biblioteca di Nomadelfia</div>
+        <span style="display:inline-block; width:5;"></span>
+        <div style="font-size: 200%;"><b>{{$etichetta->collocazione}}</b></div>
+        <span style="display:inline-block; width:5;"></span>
+        <div style="font-size: 200%;">{{$etichetta->titolo}}</div>
+      </div>
     @endforeach
 </body>
 </html>

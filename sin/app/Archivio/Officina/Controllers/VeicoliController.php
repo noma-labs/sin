@@ -27,25 +27,24 @@ class VeicoliController extends CoreBaseController
     	return view('officina.veicoli.show', compact('veicolo'));
   	}
 
-		public function edit($id){
-    	$veicolo = Veicolo::findOrFail($id);
-			$marche = Marca::all();
-			$impieghi = Impiego::all();
-			$tipologie = Tipologia::all();
-			$alimentazioni = Alimentazioni::all();
-    	return view('officina.veicoli.edit', compact('veicolo','marche', 'impieghi', 'tipologie', 'alimentazioni'));
+	public function edit($id){
+		$veicolo = Veicolo::findOrFail($id);
+		$marche = Marca::all();
+		$impieghi = Impiego::all();
+		$tipologie = Tipologia::all();
+		$alimentazioni = Alimentazioni::all();
+		return view('officina.veicoli.edit', compact('veicolo','marche', 'impieghi', 'tipologie', 'alimentazioni'));
   	}
 
-		public function editConfirm(Request $request,$id){
-    	// return $id;
-			$input = $request->except(['_token','marca_id']);
-			$veicolo = Veicolo::find($id);
-			$veicolo->update($input);
-			if($request->filled('marca_id')){
-				$veicolo->modello->marca_id = $request->input('marca_id');
-				$veicolo->push();
-			}
-			return redirect()->route('veicoli.dettaglio', ['id' => $id]);
+	public function editConfirm(Request $request,$id){
+		$input = $request->except(['_token','marca_id']);
+		$veicolo = Veicolo::find($id);
+		$veicolo->update($input);
+		if($request->filled('marca_id')){
+			$veicolo->modello->marca_id = $request->input('marca_id');
+			$veicolo->push();
+		}
+		return redirect()->route('veicoli.dettaglio', ['id' => $id]);
   	}
 
 
@@ -69,10 +68,10 @@ class VeicoliController extends CoreBaseController
 				'posti' => 'required'
 	    ]);
 
-			// Retrieve Modello by name, or create it with the name and marca_id attributes...
-			$modello = Modello::firstOrCreate(
-			    ['nome' => $request->input('modello')], ['marca_id' =>  $request->input('marca')]
-			);
+		// Retrieve Modello by name, or create it with the name and marca_id attributes...
+		$modello = Modello::firstOrCreate(
+			['nome' => $request->input('modello')], ['marca_id' =>  $request->input('marca')]
+		);
 
       $veicolo = Veicolo::create([
         'nome' => $request->input('nome'),
@@ -84,9 +83,9 @@ class VeicoliController extends CoreBaseController
         'num_posti' => $request->input('posti'),
       ]);
 
-			if ($request->input('_addanother')) // salva e aggiungi un'altro
-				return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
-			else
-				return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+	if ($request->input('_addanother')) // salva e aggiungi un'altro
+		return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+	else
+		return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
     }
 }
