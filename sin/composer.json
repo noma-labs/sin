@@ -16,6 +16,7 @@
         "laravelcollective/html": "^5.4",
         "laravelnews/laravel-twbs4": "^1.1",
         "maatwebsite/excel": "~2.1.0",
+        "milon/barcode": "^5.3",
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-backup": "^5.1",
         "spatie/laravel-medialibrary": "6.0.0",

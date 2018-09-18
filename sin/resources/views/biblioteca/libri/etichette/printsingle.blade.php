@@ -15,6 +15,8 @@
         text-align: center;
         page-break-after: always;
         page-break-inside: avoid;
+        width:"6cm";
+        height:"3cm";
         }
     </style>
 </head>
@@ -23,10 +25,12 @@
       <div class="etichetta">
       <!-- <img src="{{ asset('/images/logo-noma.png') }}" height="50px"> -->
         <div style="font-size: 100%;">Biblioteca di Nomadelfia</div>
-        <span style="display:inline-block; width:5;"></span>
-        <div style="font-size: 200%;"><b>{{$etichetta->collocazione}}</b></div>
-        <span style="display:inline-block; width:5;"></span>
+        <span style="display:inline-block; width:3;"></span>
+        <div style="font-size: 15pt;"><b>{{$etichetta->collocazione}}</b></div>
+        <span style="display:inline-block; width:3;"></span>
         <div style="font-size: 200%;">{{$etichetta->titolo}}</div>
+        <span style="display:inline-block; width:20;"></span>
+        <img src="data:image/png;base64,{{DNS1D::getBarcodePNG($etichetta->id, 'C39')}}" alt="barcode" />
       </div>
     @endforeach
 </body>
