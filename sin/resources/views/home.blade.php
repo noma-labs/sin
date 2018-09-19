@@ -41,7 +41,7 @@
                 <div class="card-body">
                   <!-- <h3 class="card-title">RTN</h3> -->
                   <p class="card-text">Gestione archivio Rtn</p>
-                  <a href="{{ url('/rtn')}} " class="btn btn-primary">Accedi a RTN</a>
+                  <a href="{{ route('rtn.index')}} " class="btn btn-primary">Accedi a RTN</a>
                 </div>
               </div>
             </div>

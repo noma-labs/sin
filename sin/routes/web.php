@@ -175,8 +175,8 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
 //######################   RTN  ###################################
 //#################################################################
 
-//// MENU
-// Route::get('/rtn', function () {
-//   return view('rtn.index');
-// });
+Route::group(['prefix' => 'rtn','namespace' => 'App\Rtn\Controllers'], function(){
+    Route::get('index', 'RtnController@index')->name('rtn.index');
+    Route::get('film/search', 'FilmController@search')->name('film.search');
+});
 
