@@ -312,11 +312,12 @@ class LibriController extends CoreBaseController{
       return redirect()->back()->withError("Impossibile prenotare il libro, il  Libro è già in prestito");
     }
     else{
-      $prestito = Prestito::create(['bibliotecario_id'=>$idBibliotecario, 'libro_id'=>$idLibro,'data_inizio_prestito'=>$datainizio, 'data_fine_prestito'=>$datafine, 'in_prestito'=>1, 'note'=>$note]);
-      $persona = ViewClientiBiblioteca::findOrFail($idUtente);
-      $prestito->cliente()->associate($persona)->save();
+      $prestito = Prestito::create(['bibliotecario_id'=>$idBibliotecario, 'libro_id'=>$idLibro,'cliente_id'=> $idUtente,'data_inizio_prestito'=>$datainizio, 'data_fine_prestito'=>$datafine, 'in_prestito'=>1, 'note'=>$note]);
+      $persona = ViewClientiBiblioteca::findOrFail($idUtente); //ViewClientiBiblioteca
+      //dd($persona);
+      ///$prestito->cliente()->associate($persona)->save();
       if($prestito)
-      return redirect()->route('libri.prestiti')->withSuccess( "Prestitio andato a buon fine Libro: ". $prestito->libro->titolo.", Cliente:". $prestito->cliente->nominativo.", Bibliotecario:". $prestito->bibliotecario->username);
+      return redirect()->route('libri.prestiti')->withSuccess( "Prestitio andato a buon fine Libro: ". $prestito->libro->titolo.", Cliente:". $prestito->cliente->nominativo.", Bibliotecario:". $prestito->bibliotecario->nominativo);
       else redirect()->route('libri.prestiti')->withWarning('Errore nel prestito' );
     }
 
