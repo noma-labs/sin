@@ -181,7 +181,8 @@ return [
         // Barryvdh\DomPDF\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class
+        Barryvdh\Snappy\ServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class
 
     ],
 
@@ -241,6 +242,8 @@ return [
 
         'SnappyPdf' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];
