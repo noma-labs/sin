@@ -9,6 +9,7 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
+use App\Patente\Models\Patente;
 use App\Admin\Models\Ruolo;
 use App\Anagrafe\Models\DatiPersonali;
 
@@ -75,6 +76,20 @@ class Persona extends Model
   public function incarichi(){
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id');
   }
+
+  public function patenti(){
+    return $this->hasMany(Patente::class, 'persona_id', 'id');
+  }
+  /**
+   * Returns only the people that are currently living in Nomadelfia.
+   *
+   * @param \Illuminate\Database\Eloquent\Builder $query
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  // public function scopePresente($query)
+  // {
+  //     return $query->where('incarico_id', ">",0);
+  // }
 
   public function scopeDaEta($query, $eta){
     $data = Carbon::now()->subYears($eta)->toDateString();

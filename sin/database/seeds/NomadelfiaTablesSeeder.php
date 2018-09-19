@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class AuthTablesSeeder extends Seeder
+class NomadelfiaTablesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

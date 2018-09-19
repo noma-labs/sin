@@ -3,9 +3,8 @@
 namespace App\Biblioteca\Controllers;
 
 use Illuminate\Http\Request;
-use App;
 use App\Policies\LibroPolicy;
-use PDF;
+use SnappyPdf;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -44,19 +43,20 @@ class EtichetteController extends CoreBaseController
 
   public function preview(){
     $etichette  =  $libriTobePrinted = Libro::TobePrinted()->get();
-    return view("biblioteca.libri.etichette.print",["etichette"=>$etichette]);
+    return view("biblioteca.libri.etichette.printsingle",["etichette"=>$etichette]);
   }
 
   public function printToPdf(){
     $etichette  =  Libro::TobePrinted()->get();
-    // $pdf = App::make('dompdf.wrapper');
-    // $pdf->loadHTML('<h1>Test</h1>');
-    // return $pdf->stream();
-    $pdf = PDF::loadView('biblioteca.libri.etichette.print', ["etichette"=>$etichette]);
+    $pdf = SnappyPdf::loadView('biblioteca.libri.etichette.printsingle', ["etichette"=>$etichette])
+          ->setOption('page-width', '62')
+          ->setOption('page-height', '50')
+          ->setOption('margin-bottom', '0mm')
+          ->setOption('margin-top', '0mm')
+          ->setOption('margin-right', '0mm')
+          ->setOption('margin-left', '0mm');
     $data = Carbon::now();
-    return $pdf->setPaper('a4')->download("etichette-$data.pdf"); //stream
-    // return  $pdf->setPaper([0, 0, 170.079,170.079], 'landscape')->download("etichette-$data.pdf");
-    // return $pdf->download('invoice.pdf');
+    return $pdf->setPaper('a4')->setOrientation('portrait')->stream("etichette-$data.pdf"); 
   }
 
 

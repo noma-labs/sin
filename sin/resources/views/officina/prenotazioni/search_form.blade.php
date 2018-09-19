@@ -3,7 +3,7 @@
   <div class="row">
       <div class="col-md-3">
          <label class="control-label">Cliente </label>
-          <autocomplete placeholder="Inserisci nominativo..." name="cliente_id" url={{route('api.officina.clienti')}}></autocomplete>
+          <autocomplete placeholder="Inserisci nominativo..." name="cliente_id" url="{{route('api.officina.clienti')}}"></autocomplete>
       </div>
 
     <div class="col-md-3">
@@ -59,7 +59,7 @@
         <select class="form-control"  name="criterio_data_arrivo" type="text" >
            
             <option value="<">Minore</option>
-            <option value="<=" selected>Minore Uguale</opttion>
+            <option value="<=" selected>Minore Uguale</option>
             <option value="=">Uguale</option>
             <option value=">">Maggiore</option>
             <option value=">=">Maggiore Uguale</option>

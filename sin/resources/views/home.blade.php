@@ -88,6 +88,20 @@
           </div>
         </div>
       @endhasrole
+      
+        <div class="col-md-4">
+          <div class="card text-center border-warning mb-3">
+            <div class="card-header">
+              Patenti
+            </div>
+            <div class="card-body">
+              <p class="card-text">Pannello di controllo per la gestione delle patenti</p>
+              <a href="{{ route('patente.index') }}" class="btn btn-primary">Accedi a Patenti</a>
+            </div>
+          </div>
+        </div>
+      @hasrole('admin|master')
+      @endhasrole
     </div>
 
 	</div>
