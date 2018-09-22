@@ -30,6 +30,8 @@ Vue.component('veicolo-prenotazione', require('./components/veicolo-prenotazione
 Vue.component('famiglia-select', require('./components/famiglia-select.vue'));
 Vue.component('azienda-edit', require('./components/azienda-edit.vue'));
 
+// patente components
+Vue.component('patente-categorie', require('./components/patente/categorie.vue'))
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from 'vuejs-datepicker';
 

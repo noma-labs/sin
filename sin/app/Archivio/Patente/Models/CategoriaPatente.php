@@ -14,6 +14,7 @@ class CategoriaPatente extends Model
   protected $guarded = [];
 
   public function patenti(){
-      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente');
+      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                  ->withPivot('data_rilascio','data_scadenza','restrizione_codice');
   }
 }
