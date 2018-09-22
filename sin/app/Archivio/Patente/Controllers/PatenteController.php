@@ -14,19 +14,24 @@ class PatenteController extends CoreBaseController
     {
         // $patenti = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
         $categorie = CategoriaPatente::orderby("categoria")->get();
-        return view("patente.index",compact('categorie'));
+        return view("patente.search",compact('categorie'));
     }
 
     
     public function ricerca(Request $request)
     {
         // $persona = Persona::findorfail($request->input("persona_id"));
+
+        if(!$request->except(['_token']))
+        return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
+
         $msgSearch = " ";
         $queryPatenti = Patente::where(function($q) use ($request, &$msgSearch){
             if($request->filled('persona_id')){
               $persona = $request->persona_id;
               $q->where('persona_id',$persona);
-              $msgSearch= $msgSearch."Persona=".$persona;
+              $nome = Persona::findorfail($persona)->nominativo;
+              $msgSearch= $msgSearch."Persona=".$nome;
             //   $orderBy = "titolo";
             }
             if($request->filled('numero_patente')){
@@ -42,18 +47,24 @@ class PatenteController extends CoreBaseController
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
                 $msgSearch = $msgSearch." Data scadenza".$request->input('criterio_data_scadenza').$request->input('data_scadenza');
             }
-            $q->wherePivot('categorie.id', 0);
+            if($request->filled('categoria_patente')){
+                $categoria = $request->categoria_patente;
+                $q->whereHas('categorie', function ($q) use($categoria) {
+                    $q->where('id', $categoria);
+                });
+                $nome = CategoriaPatente::findorfail($categoria)->categoria;
+                $msgSearch = $msgSearch." categoria=".$nome;
+            }
           });
         $patenti = $queryPatenti->paginate(10);
         $categorie = CategoriaPatente::orderby("categoria")->get();
-        dd($request->categoria_patente);
-        return view("patente.index", compact('patenti','categorie','msgSearch'));
+        return view("patente.search", compact('patenti','categorie','msgSearch'));
     }
 
     public function modifica($id)
     {
         $categorie = CategoriaPatente::all();
-        $record = Patente::with(['persone', 'categorie'])->where('numero_patente', '=', $id)->get();
+        $record = Patente::find($id);//->where('numero_patente', '=', $id); //->get();
         return view("patente.modifica",compact('categorie', 'record'));
     }
 

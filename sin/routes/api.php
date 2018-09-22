@@ -62,3 +62,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   Route::post('/azienda/aggiungi/lavoratore', 'ApiController@aggiungiNuovoLavoratore')->name("api.nomadelfia.azienda.aggiungi.lavoratore");
 });
 
+
+//Api route /api/patente
+Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], function(){
+  Route::get('/{numero}', 'ApiController@patente')->name("api.patente");
+  Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie");
+});
