@@ -73,11 +73,21 @@
   </div>
   <div class="col-md-2">
     <div class="form-group">
-      <label >&nbsp;</label>
-      <div>
-        <button  class="btn btn-success"  id="biblio" name="biblioteca"  type="submit">Cerca Libri</button>
-      </div>
+      <label for="categoria">Categoria</label>
+      <select class="form-control" name="xCategoria" id="categoria">
+        <option value="" hidden>Seleziona...</option>
+        <option value="piccoli">PICCOLI</option>
+        <option value="elementari">ELEMENTARI</option>
+        <option value="medie">MEDIE</option>
+        <option value="superiori">SUPERIORI</option>
+        <option value="adulti">ADULTI</option>
+      </select>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 offset-md-10">
+    <button  class="btn btn-block btn-success"  id="biblio" name="biblioteca"  type="submit">Cerca Libri</button>
   </div>
 </div>
 <!-- end second row: classificazioe, note -->
