@@ -97,7 +97,6 @@ class LibriController extends CoreBaseController{
         'xIdEditore'=>"exists:db_biblioteca.editore,id",
         'xIdAutore'=>"exists:db_biblioteca.autore,id",
         'xClassificazione'=>"exists:db_biblioteca.classificazione,id",
-
         ],[
           'xIdEditore.exists' => 'Editore inserito non esiste.',
           'xIdAutore.exists' => 'Autore inserito non esiste.',
@@ -164,6 +163,11 @@ class LibriController extends CoreBaseController{
               $note = $request->xNote;
               $q->where('note', 'like', "%$note%");
               $msgSearch= $msgSearch." Note=".$note;
+            }
+            if($request->xCategoria){
+              $categoria = $request->xCategoria;
+              $q->where('categoria', $categoria);
+              $msgSearch= $msgSearch." Categoria=".$categoria;
             }
           });
 
