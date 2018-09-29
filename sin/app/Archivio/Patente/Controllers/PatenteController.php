@@ -149,6 +149,7 @@ class PatenteController extends CoreBaseController
 
     public function confermaInserimento(Request $request)
     {    
+        dd($request->input());
         $validRequest = $this->validazioneRichiestaInserimento($request);
         if ($validRequest->fails()){
             return redirect(route('patente.index'))->withErrors($validRequest)->withInput();

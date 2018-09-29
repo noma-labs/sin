@@ -49,8 +49,8 @@ class EtichetteController extends CoreBaseController
   public function printToPdf(){
     $etichette  =  Libro::TobePrinted()->get();
     $pdf = SnappyPdf::loadView('biblioteca.libri.etichette.printsingle', ["etichette"=>$etichette])
-          ->setOption('page-width', '62')
-          ->setOption('page-height', '50')
+          ->setOption('page-width', '29mm')
+          ->setOption('page-height','62mm' )
           ->setOption('margin-bottom', '0mm')
           ->setOption('margin-top', '0mm')
           ->setOption('margin-right', '0mm')

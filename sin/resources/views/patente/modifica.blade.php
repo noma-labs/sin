@@ -63,7 +63,8 @@
 
    </form>
    <div class="col-md-6">
-    <patente-categorie numero_patente="{{$record->numero_patente}}"></patente-categorie>
+    <patente-categorie-edit numero_patente="{{$record->numero_patente}}">
+    </patente-categorie-edit>
    </div>  <!-- end  rigth column -->
   </div> <!-- end first row -->
 
