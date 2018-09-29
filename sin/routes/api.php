@@ -65,6 +65,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
 //Api route /api/patente
 Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], function(){
+  Route::post('/', 'ApiController@create')->name("api.patente.create");
+  Route::get('/categorie', 'ApiController@categorie')->name("api.patente.categorie"); 
   Route::get('/{numero}', 'ApiController@patente')->name("api.patente");
-  Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie");
+  Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie.assegnate");
+  // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
 });

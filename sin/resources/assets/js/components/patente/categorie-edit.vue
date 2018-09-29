@@ -6,7 +6,7 @@
 				<div class="col-md-3">Data scadenza</div>
 				<div class="col-md-3">Restrizioni</div>
 		</div>
-		<div class="row" v-for="categoria in categorie">
+		<div class="row" v-for="categoria in categorieAssegnate">
 			<div class="col-md-3">{{categoria.categoria}}	</div>
 			<div class="col-md-3">
 				<date-picker :value="categoria.pivot.data_rilascio" placeholder="Selezionare una data" :language="language" :format="customFormatter"></date-picker>
@@ -17,7 +17,7 @@
 			<div class="col-md-3">{{categoria.pivot.restrizione_codice}}	</div>
 		</div>
 		<div class="row">
-			<a class="btn btn-primary col-md-4 offset-md-8" @click="aggiungiCategoria">Aggiungi categoria</a>
+			<a class="btn btn-primary col-md-4 offset-md-8" @click="open">Aggiungi categoria</a>
 		</div>
 			<!-- Modal Aggiungi Lavoratore -->
 		    <transition name="modal">
@@ -26,47 +26,45 @@
 		                <div class="modal-header">
 		                    <h3>Aggiungi Categoria</h3>
 		                </div>
-		                <div class="modal-body ">
-							<div class="form-group row">
-								<div class="col-md-6">
+		                <div class="modal-body">
+							<div class="form-group ">
 									<label>Categoria</label>
-								</div>
-								<div class="col-md-6">
-									<select class="form-control" v-model="selected">
+									<select class="form-control" v-model="nuovaCategoria.id">
+										<option value="-1">---Selezione categoria---</option>
 										<option v-for="categoria in categoriePossibili" v-bind:value="categoria.id">
 											{{ categoria.categoria }} - {{categoria.descrizione}}
 										</option>
 									</select>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<label>Categoria rilasciata il:</label>
-								</div>
-								<div class="col-md-6">
-									<date-picker  placeholder="Selezionare una data" :language="language" :format="customFormatter"></date-picker>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<label>Categoria valida fino al:</label>
-								</div>
-								<div class="col-md-6">
-								
-									<date-picker placeholder="Selezionare una data" :language="language" :format="customFormatter"></date-picker>
-								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<label>Restrizione</label>
+									<label>Categoria rilasciata il:</label>
+									<date-picker  :bootstrap-styling="true" 
+												placeholder="Selezionare una data" 
+												@selected="selectRilascio"
+												:language="language" 
+												:format="customFormatter"> 
+									</date-picker>
 								</div>
-								<div class="col-md-6"> 
-									<input type="text" class="form-control" >
+								<div class="col-md-6">
+									<label>Categoria valida fino al:</label>
+									<date-picker :bootstrap-styling="true" 
+												placeholder="Selezionare una data" 
+												@selected="selectValidita" 
+												:language="language" 
+												:format="customFormatter"> 
+									</date-picker>
 								</div>
 							</div>
-								
+
+							<div class="form-group">
+								<label lass="form-control">Restrizione</label>
+								<input type="input" class="form-control" v-model="nuovaCategoria.restrizioni" >
+							</div>
 						</div>
 		                <div class="modal-footer text-right">
+							<input class="btn btn-success" type="button" :disabled="disabledSalva" @click="aggiungiCategoria" value="Salva">
+							<a class="btn btn-danger" href="#" role="button" @click="close">Chiudi</a>
 		                </div>
 		            </div>
 		        </div>
@@ -82,37 +80,66 @@
 		data: function() {
 			return {
 				language: it,
-				categorie:[],
-				selected: '0',
+				categorieAssegnate: [],
 				categoriePossibili: [],
 				showModalAggiungiCategoria: false,
+				nuovaCategoria: {
+					id: -1, 
+					data_rilascio: null, 
+					data_validita:null,
+					restrizioni : null
+				}, 
 			};
 		},
 		created: function(){
-			if(this.numero_patente){
-				axios.get("/api/patente/"+this.numero_patente+"/categorie").then(response => {
-					this.categorie = response.data.categorie;
-					console.log(this.categorie);
-				});
-			}
-			axios.get("/api/patente/GR2110358W/categorie?filtro=possibili").then(response => {
-				this.categoriePossibili = response.data;
-				console.log(this.categoriePossibili);
+			// if(!this.numero_patente == null){
+			axios.get("/api/patente/"+this.numero_patente+"/categorie").then(response => {
+				this.categorieAssegnate = response.data.categorie;
+				console.log(this.categorie);
 			});
+			// }
+		},
+		computed:{
+			disabledSalva: function(){
+				return  this.nuovaCategoria.id == null 
+						|| this.nuovaCategoria.data_rilascio == null 
+						|| this.nuovaCategoria.data_validita == null 			
+			},
 		},
 		methods:{
 			customFormatter(date) {
 		      return moment(date).format('YYYY-MM-DD');
 			},
-			formatData: function(date){
-		    	return moment(date).format('YYYY-MM-DD');
+			getCategoriePossibili(){
+				var api = "/api/patente/categorie";
+				if(this.numero_patente != null)
+				   api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
+				   
+				axios.get(api).then(response => {
+					this.categoriePossibili = response.data;
+					console.log(this.categoriePossibili);
+				});
 			},
-			aggiungiCategoria: function(){
+			selectValidita: function(data){
+				this.nuovaCategoria.data_validita = this.customFormatter(data);
+			},
+			selectRilascio: function(data){
+				this.nuovaCategoria.data_rilascio = this.customFormatter(data);
+			},
+			aggiungiCategoria : function(){
+				console.log(this.nuovaCategoria);
+			    axios.post("/api/patente/"+this.numero_patente+"/categorie", { categoria :this.nuovaCategoria} ).then(response => {
+					console.log(response.data);
+				});
+			},
+			open: function(){
 				this.showModalAggiungiCategoria = true;
+				this.getCategoriePossibili();
 			},
 			close: function () {
 		        this.showModalAggiungiCategoria=false;
-		    },
+			},
+			
 		}
 	}
 </script>
