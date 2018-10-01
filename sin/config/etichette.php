@@ -8,6 +8,11 @@ return [
     |
     | 
     */
+    // dimesioni (in mm) della etichetta in pdf
+    'dimensioni' =>[
+        'larghezza'=> '30mm',
+        'altezza'=>'62mm'
+    ],
 
 
      /*
