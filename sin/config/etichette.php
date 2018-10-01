@@ -20,6 +20,7 @@ return [
         'font-size' => "22px"
     ],
     'titolo'=> [
-        'font-size' => "30px"
+        'font-size' => "6px",
+        'height' => "290" // altezza del div contentne il titolo
     ]
 ];
