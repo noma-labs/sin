@@ -71,7 +71,7 @@
           </td>
         </tr>
         <tr>
-          <td class="my-table-titolo" height=290 >
+          <td class="my-table-titolo" height={{config('etichette.titolo.height')}} >
            {{$etichetta->titolo}}
           </td>
         </tr>
