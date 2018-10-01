@@ -21,7 +21,8 @@
            name="xTitolo"
            type="text"
            value="{{ old('xTitolo')}}"
-           placeholder="Inserisci titolo libro..." >
+           placeholder="Inserisci titolo libro..."
+           autocomplete="off" >
         </div>
       </div>
       <div class="row">
@@ -32,8 +33,7 @@
                  <autocomplete :multiple="true"
                                 placeholder="Inserisci autore/i ..."
                                 name="xIdAutori"
-                                url={{route('api.biblioteca.autori')}}
-                                >
+                                url="{{route('api.biblioteca.autori')}}">
                   </autocomplete>
               </div>
              <div class="col-md-4">
@@ -45,11 +45,12 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-8">
+            <!-- {{old('xIdEditori')}}  -->
                 <label for="xEditore" class="control-label">Editore/i (*)</label>
                 <autocomplete :multiple="true"
                               placeholder="Inserisci editore/i ..."
                               name="xIdEditori"
-                              url={{route('api.biblioteca.editori')}}>
+                              url="{{route('api.biblioteca.editori')}}">
                 </autocomplete>
             </div>
 
@@ -100,7 +101,7 @@
       <div class="row">
         <div class="col-md-4">
             <label for="isbn">ISBN</label>
-            <input class="form-control" type="text"   value="{{ old('isbn')}}" name="isbn">
+            <input class="form-control" type="text"  autocomplete="off" value="{{ old('isbn')}}" name="isbn">
         </div>
         <div class="col-md-4">
             <label for="data_pubblicazione">Data pubblicazione</label>
@@ -128,12 +129,24 @@
       </div>
       <div class="row">
         <div class="col-md-8">
-          <div class="form-check">
-           <label class="form-check-label">
-             <input class="form-check-input" type="checkbox"  name="xTobePrinted"   value="true"   checked>
-             Aggiungi il nuovo libro inserito nella lista delle etichette da stampare.
-           </label>
-         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stampaEtichetta" id="addToEtichette" value="aggiungiEtichetta" checked>
+          <label class="form-check-label" for="addToEtichette">
+            Aggiungi il nuovo libro nella lista delle etichette da stampare.
+          </label>
+        </div>
+        <!-- <div class="form-check">
+          <input class="form-check-input" type="radio" name="stampaEtichetta" id="printEtichetta" value="stampaEtichetta">
+          <label class="form-check-label" for="printEtichetta">
+            Aggiungi e stampa l'etichetta del libro.
+          </label>
+        </div> -->
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stampaEtichetta" id="notPrint" value="noEtichetta">
+          <label class="form-check-label" for="notPrint">
+            Non aggiungere il libro nella stampa delle etichette.
+          </label>
+        </div>
        </div>
        <div class="col-md-4">
          <p class="text-right text-danger ">Le informazioni segnate con (*) sono obbligatorie.</p>

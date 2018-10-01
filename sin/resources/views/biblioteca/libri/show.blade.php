@@ -92,7 +92,7 @@
     </form>
 
     <div class="row my-2">
-     <div class="col-md-12">
+     <div class="col-md-6">
            @if(!$libro->trashed())
             <a class="btn btn-success"  href="{{route('libro.modifica', ['idLibro' => $libro->id])}}" >Modifica</a>
             @if($libro->tobe_printed == 0)
@@ -100,6 +100,11 @@
             @else
             <button class="btn btn-warning" form="removeLibroPrint" type="submit">Rimuovi stampa etichetta</button>
             @endif
+       </div>
+       <div class="col-md-6">
+            <form action="{{route('libri.stampaetichetta', ['idLibro' => $libro->id])}}" id="printEtichetta">
+            </form>
+            <button class="btn btn-warning" form="printEtichetta" type="submit">Genera etichetta</button>
           @endif
           <a class="btn btn-info" href="#" onclick="window.history.back(); return false;">Torna indietro</a>
       </div>

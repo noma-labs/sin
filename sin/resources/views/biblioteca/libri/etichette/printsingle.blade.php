@@ -36,6 +36,11 @@
     word-break:break-word;
     border-color:black;
     }
+    .my-table .my-table-logo{
+   padding:3
+   border-color:black;
+   max-width: 100%
+}
 .my-table .my-table-header{
   font-family:Arial, 
   sans-serif;
@@ -79,7 +84,9 @@
       <div class="etichetta">
       <table class="my-table">
         <tr>
-          <th class="my-table-header">Biblioteca di Nomadelfia</th>
+          <!-- <th class="my-table-header">Biblioteca di Nomadelfia</th> -->
+          <th  class="my-table-header"> <img class="my-table-logo" src="{{ asset('/images/logo-bilblioteca.png') }}"> </th>
+          
         </tr>
         <tr>
           <td class="my-table-collocazione">{{$etichetta->collocazione}}</td>
