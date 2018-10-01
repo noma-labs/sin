@@ -16,6 +16,9 @@ use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\Classificazione as Classificazione;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 
+use App\Biblioteca\Controllers\EtichetteController;
+
+
 use App\Admin\Models\Ruolo;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -333,6 +336,12 @@ class LibriController extends CoreBaseController{
       return view('biblioteca.libri.insert',compact('classificazioni'));//,$editori,$autori);
   }
 
+  public function stampaEtichetta(Request $request, $idLibro){
+    $libro = Libro::findorFail($idLibro);
+    // return EtichetteController::generateEtichette(collect([$libro]));
+    return EtichetteController::stampaSingle($libro);
+  }
+
   public function insertConfirm(Request $request){
     $validatedData = $request->validate([
       'xTitolo' => 'required',
@@ -353,7 +362,7 @@ class LibriController extends CoreBaseController{
     $_addanother= $request->input('_addanother');  // save and add another libro
     $_addonly   = $request->input('_addonly');     // save only
 
-    $tobe_printed= $request->input('xTobePrinted'); //checkbox add to print checked when  was inserted
+    
 
     if($request->xCollocazione == "null") $collocazione= null;
     else $collocazione= $request->xCollocazione;
@@ -367,8 +376,24 @@ class LibriController extends CoreBaseController{
     $libro->ID_EDITORE = $request->input('xIdEditore',0); // if not set put to SENZA EDITORE
 
     $libro->fill($request->only('isbn','data_pubblicazione','categoria','dimensione','critica'));
-    if($tobe_printed)
-      $libro->tobe_printed = 1;
+
+    $etichetta_criterio= $request->input('stampaEtichetta'); //radio buttons for printing or no the etichetta
+    $msg_etichetta = "";
+    // $genera_etichetta = 0;
+    switch ($etichetta_criterio) {
+      case "aggiungiEtichetta":
+          $libro->tobe_printed = 1;
+          $msg_etichetta = " L'etichetta del libro aggiunta alla lista di etichette da stampare.";
+          break;
+      // case "stampaEtichetta":
+      //     $msg_etichetta = " L'etichetta viene generata.";
+      //     $genera_etichetta = 1;
+      //     break;
+      case "noEtichetta":
+          $libro->tobe_printed = 0;
+          $msg_etichetta ="L'etichetta non viene stampata";
+          break;
+    }
     $res  = $libro->save();
 
     $idsAutori = json_decode('[' . $request->xIdAutori . ']', true); // receive a list of idAutori (e.g., 26,275,292)
@@ -376,15 +401,17 @@ class LibriController extends CoreBaseController{
 
     $idsEditori = json_decode('[' . $request->xIdEditori . ']', true); // receive a list of idEditori (e.g., 26,275,292)
     $libro->editori()->sync($idsEditori);
-    if ($res)
-    {if($_addanother)
-        return  redirect()->route('libri.inserisci')->withSuccess("Libro inserito correttamente.");//"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-      if($_addonly)
-        return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess("Libro inserito correttamente.");//" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-    }else{
-      return redirect()->route('libri.inserisci')->withError("Errore nella creazione del libro.");
-    }
-   }
 
+    if ($res)
+    {
+      // if($genera_etichetta)
+      //    return EtichetteController::stampaSingle($libro);
+      if($_addanother)
+        return  redirect()->route('libri.inserisci')->withSuccess("Libro inserito correttamente.".$msg_etichetta);//"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+      if($_addonly)
+        return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess("Libro inserito correttamente.".$msg_etichetta);//" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+    }else
+      return redirect()->route('libri.inserisci')->withError("Errore nella creazione del libro.");
+   }
 
 }

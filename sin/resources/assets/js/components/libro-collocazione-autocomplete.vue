@@ -18,7 +18,7 @@
 
        <div class="col-md-4">
          <div class="form-group">
-            <label class="form-label"> Numeri</label>
+            <label class="form-label">Numeri(*)</label>
             <select class="form-control" v-model="selectedNumeri" >
               <option v-if="hasNumeri" value="" disabled selected hidden>Sel. numeri</option>
               <optgroup v-if="numeri.numeriAssegnati != null" label="Numeri assegnati" >

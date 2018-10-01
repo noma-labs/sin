@@ -119,7 +119,9 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
   Route::get('libri/{idLibro}/prenota',  'LibriController@book')->middleware('ability:libro.prenota')->name('libri.prenota');
   Route::post('libri/{idLibro}/prenota',  'LibriController@bookConfirm')->middleware('ability:libro.prenota');
   Route::post('libri/{idLibro}/ripristina',  'LibriController@restore')->middleware('ability:libro.elimina')->name('libri.ripristina');
-  // ETICHETTE, aggiungi, rimuovi, previe, stampa
+  Route::get('libri/{idLibro}/etichetta',  'LibriController@stampaEtichetta')->middleware('ability:libro.esporta')->name('libri.stampaetichetta');
+
+  // ETICHETTE, aggiungi, rimuovi, preview, stampa
   Route::get('etichette', 'EtichetteController@view')->middleware('ability:etichetta.visualizza')->name("libri.etichette");
   Route::post('etichette', 'EtichetteController@etichetteFromToCollocazione')->middleware('ability:etichetta.visualizza')->name("libri.etichette.aggiungi");
   Route::post('etichette/add/{idLibro}','EtichetteController@addLibro')->middleware('ability:etichetta.inserisci')->name('libri.etichette.aggiungi.libro');

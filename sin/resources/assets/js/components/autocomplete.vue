@@ -100,7 +100,9 @@
         */
         // console.log(el);
          var label_to_value = [];
+          console.log(el);
           _.forOwn(el, function(value, key) {
+           
               label_to_value.push({"label":value, "value":key})
         });
         if(this.multiple) return label_to_value
