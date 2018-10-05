@@ -19,10 +19,8 @@ use Illuminate\Http\Request;
 
 // API route: /api/officina/
 Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],function(){
-
   Route::get('/veicoli/search', 'ApiController@searchVeicoli')->name("api.officina.veicoli.search");
   Route::get('/veicoli/prenotazioni', 'ApiController@veicoliPrenotazioni')->name("api.officina.veicoli.prenotazioni");
-
   Route::get('tipologia', 'ApiController@tipologia')->name('api.officina.tipologia');
   Route::get('alimentazione', 'ApiController@alimentazione')->name('api.officina.alimentazione');
   Route::get('impiego', 'ApiController@impiego')->name('api.officina.impiego');
@@ -31,9 +29,7 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   Route::get('veicoli', 'ApiController@veicoli')->name('api.officina.veicoli');
   Route::get('meccanici', 'ApiController@meccanici')->name('api.officina.meccanici');
   // ->middleware('ability:veicolo.visualizza')
-
 });
-
 
 // API route (/api/biblioteca)
 Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controllers'],function(){
@@ -65,9 +61,11 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
 //Api route /api/patente
 Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], function(){
-  Route::post('/', 'ApiController@create')->name("api.patente.create");
+  Route::post('/', 'ApiController@create')->name("api.patente.create"); // crea una nuova patente
+  Route::get('/persone', 'ApiController@persone')->name("api.patente.persone");
   Route::get('/categorie', 'ApiController@categorie')->name("api.patente.categorie"); 
   Route::get('/{numero}', 'ApiController@patente')->name("api.patente");
   Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie.assegnate");
+
   // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
 });

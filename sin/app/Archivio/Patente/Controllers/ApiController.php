@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Validator;
 
-
 class ApiController extends CoreBaseController
 {
     /**
@@ -79,6 +78,23 @@ class ApiController extends CoreBaseController
 
         return response()->json($p);
     }
+   
+    /**
+	* Ritorna le persone che hanno l'età per prendere una patente.
+	* @param String $term: Nome, cognome o nominativo della persona
+	* @author Davide Neri
+	**/
+	public function persone(Request $request){
+        
+        $term = $request->term;
+		// $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
+		// $pesrone = DatiPersonali::where('nome',"LIKE","$term%")->orWhere('cognome',"LIKE","$term%")->get();
+		$persone = Persona::with("datipersonali")
+                    ->where("nominativo","LIKE","$term%");
+                    // ->daEta(16);
+
+		return $persone->get();
+	}
 
     public function create(Request $request)
     {
@@ -87,8 +103,8 @@ class ApiController extends CoreBaseController
         $patente = new Patente();
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
-        $patente->data_nascita = $body['data_nascita'];
-        $patente->luogo_nascita = $body['luogo_nascita'];
+        // $patente->data_nascita = $body['data_nascita'];
+        // $patente->luogo_nascita = $body['luogo_nascita'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = $body['rilasciata_dal'];
@@ -105,10 +121,13 @@ class ApiController extends CoreBaseController
                                                     ]
                                                 ]);
             }
-            return response()->json("ok"); // array                                    
+            return response()->json(["err"=>0, "msg"=> "patente inserita correttamente"]); // array
+            // return redirect()->route('patente.inserimento')->withSucces("Patente inserita cotrrettamene");   
+        //    return route(');                                
+
         }
 
-        return response()->json("error"); // array   
+        return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); // array   
 
       
         // "persona_id": null,

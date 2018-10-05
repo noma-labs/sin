@@ -10,7 +10,7 @@
       <div class="col-md-12">
         <label for="numero_patente">Persona:</label>
         <autocomplete
-            :selected="{{$record->persone()->pluck('nominativo','id')}}"
+            :selected="{{$record->persona()->pluck('nominativo','id')}}"
             placeholder="Inserisci nominativo..."
             name="persona_id"
             url={{route('api.officina.clienti')}}>
@@ -41,7 +41,7 @@
      </div><!-- end secoond row in left colum-->
      <div class="row">
       <div class="col-md-6">
-          <label for="data_scadenza_patente">Validità fino al:</label>
+          <label for="data_scadenza_patente">Validità Patente fino al:</label>
           <input type="text" class="form-control" id="data_scadenza_patente" name="data_scadenza_patente" value="{{ $record->data_scadenza_patente }}">
         </div>
       <div class="col-md-6">

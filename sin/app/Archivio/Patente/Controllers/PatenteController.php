@@ -10,6 +10,17 @@ use Validator;
 
 class PatenteController extends CoreBaseController
 {
+
+    public function scadenze(){
+        $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(45)->orderBy('data_scadenza_patente')->get(); // 45 giorni
+        $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get();        
+        $patentiCQC = CategoriaPatente::find(6)->inScadenza(90)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCScadute = CategoriaPatente::find(6)->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(90)->orderBy('data_scadenza_patente')->get();
+        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get(); 
+        return view("patente.scadenze",compact('patenti','patentiScadute','patentiCQC','patentiCQCScadute','patentiCommissione','patentiCommisioneScadute'));
+    }
+
     public function patente()
     {
         // $patenti = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
