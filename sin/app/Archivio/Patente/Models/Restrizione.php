@@ -24,6 +24,6 @@ class Restrizione extends Model
 
   public function categorie(){ 
       return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
-                                ->withPivot('data_rilascio','data_scadenza','restrizione_codice') ;
+                                ->withPivot('data_rilascio','data_scadenza') ;
   }
 }

@@ -26,9 +26,6 @@ class Persona extends Model
   
   /**
    * Returns only the people that are currently living in Nomadelfia.
-   *
-   * @param \Illuminate\Database\Eloquent\Builder $query
-   * @return \Illuminate\Database\Eloquent\Builder
    */
   public function scopePresente($query)
   {
@@ -80,16 +77,14 @@ class Persona extends Model
   public function patenti(){
     return $this->hasMany(Patente::class, 'persona_id', 'id');
   }
+
   /**
-   * Returns only the people that are currently living in Nomadelfia.
-   *
-   * @param \Illuminate\Database\Eloquent\Builder $query
-   * @return \Illuminate\Database\Eloquent\Builder
-   */
-  // public function scopePresente($query)
-  // {
-  //     return $query->where('incarico_id', ">",0);
-  // }
+   * Ritorna i dati personali  della ersona 
+   * @author Davide Neri
+   **/
+  public function datiPersonali(){
+    return $this->hasOne(DatiPersonali::class,  'persona_id', 'id');
+  }
 
   public function scopeDaEta($query, $eta){
     $data = Carbon::now()->subYears($eta)->toDateString();
@@ -101,5 +96,4 @@ class Persona extends Model
     $todata = Carbon::now()->subYears($frometa)->toDateString();
     return $query->whereBetween('data_nascita_persona',[$fromdata, $todata]);
   }
-
 }

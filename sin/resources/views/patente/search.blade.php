@@ -3,24 +3,24 @@
 @section('archivio') 
 <sin-header title="Gestione Patenti"> Numero patenti: {{App\Patente\Models\Patente::count()}}</sin-header>
 
-<form method="GET" action="{{route('patente.ricerca')}}">
+<form method="GET" action="{{route('patente.ricerca.conferma')}}">
    {{ csrf_field() }}
   <div class="form-row">
     <div class="form-group col-md-3 offset-md-1">
         <label>Persona</label>
-        <autocomplete placeholder="Inserisci nominativo..." 
+        <autocomplete placeholder="---Inserisci nominativo---" 
                       name="persona_id" 
                       url="{{route('api.officina.clienti')}}">
          </autocomplete>
     </div>
     <div class="form-group col-md-3">
       <label for="numero_patente">Numero Patente</label>
-      <input  class="form-control" id="numero_patente" name="numero_patente" placeholder="Inserisci numero patente">
+      <input  class="form-control" id="numero_patente" name="numero_patente" placeholder="---Inserisci numero patente---">
     </div>
     <div class="form-group col-md-3">
       <label for="categoria_patente">Categoria patente</label>
       <select class="form-control" id="categoria_patente" name="categoria_patente">
-        <option selected value="">...scegli categoria...</option>
+        <option selected value="">---Scegli categoria---</option>
         @foreach ($categorie as $categoria)
           <option value="{{ $categoria->id }}">{{ $categoria->categoria }} </option> 
           <!-- {{$categoria->descrizione}}</option> -->
@@ -32,7 +32,7 @@
       <div class="form-group col-md-2  offset-md-1">
         <label class="control-label">Data Rilascio</label>
         <select class="form-control" name="criterio_data_rilascio" type="text" >
-        <option selected value="">...scegli criterio...</option>
+        <option selected value="">---Scegli criterio---</option>
             <option value="<">Minore</option>
             <option value="<=">Minore Uguale</option>
             <option value="=" >Uguale</option>
@@ -49,7 +49,7 @@
       <div class="form-group col-md-2">
         <label class="control-label">Data Scadenza</label>
         <select class="form-control" name="criterio_data_scadenza" type="text" >
-        <option selected value="">...scegli categoria...</option>
+        <option selected value="">---Scegli criterio---</option>
             <option value="<">Minore</option>
             <option value="<=">Minore Uguale</option>
             <option value="=">Uguale</option>
@@ -68,7 +68,6 @@
         <button type="submit" class="btn btn-block btn-primary">Ricerca</button>
       </div>
   </div>
-
   <div class="form-row">
     
   </div>
@@ -97,7 +96,7 @@
     <tbody>
           @foreach($patenti as $patente)
           <tr hoverable>
-              <td> {{$patente->persone->nominativo}}</td>
+              <td> {{$patente->persona->nominativo}}</td>
               <td> {{$patente->numero_patente}}</td>
               <td>
                 @foreach($patente->categorie as $categoria)

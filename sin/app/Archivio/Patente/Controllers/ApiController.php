@@ -8,13 +8,12 @@ use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Validator;
 
-
 class ApiController extends CoreBaseController
 {
     /**
-     * Ritorna il dettaglio di una patente
+     * Ritorna una patente con le categorie
      *
-     * @param string  $numero nuero della patente
+     * @param string  $numero  della patente
      * @param Request $request
      *
      * @return json $Patente 
@@ -23,7 +22,7 @@ class ApiController extends CoreBaseController
      */
     public function patente(Request $request,$numero)
     {
-        $p = Patente::where("numero_patente",$numero)->with("categorie")->first();
+        $p = Patente::where("numero_patente",$numero)->with(["categorie","persona.datipersonali"])->first();
         return response()->json($p);
     }
 
@@ -79,6 +78,23 @@ class ApiController extends CoreBaseController
 
         return response()->json($p);
     }
+   
+    /**
+	* Ritorna le persone che hanno l'età per prendere una patente.
+	* @param String $term: Nome, cognome o nominativo della persona
+	* @author Davide Neri
+	**/
+	public function persone(Request $request){
+        
+        $term = $request->term;
+		// $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
+		// $pesrone = DatiPersonali::where('nome',"LIKE","$term%")->orWhere('cognome',"LIKE","$term%")->get();
+		$persone = Persona::with("datipersonali")
+                    ->where("nominativo","LIKE","$term%");
+                    // ->daEta(16);
+
+		return $persone->get();
+	}
 
     public function create(Request $request)
     {
@@ -87,8 +103,8 @@ class ApiController extends CoreBaseController
         $patente = new Patente();
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
-        $patente->data_nascita = $body['data_nascita'];
-        $patente->luogo_nascita = $body['luogo_nascita'];
+        // $patente->data_nascita = $body['data_nascita'];
+        // $patente->luogo_nascita = $body['luogo_nascita'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = $body['rilasciata_dal'];
@@ -100,16 +116,12 @@ class ApiController extends CoreBaseController
                  $patente->categorie()->attach([$categoria['categoria']['id'] => 
                                                     ['numero_patente' =>$body['numero_patente'],
                                                     'data_rilascio' => $categoria['data_rilascio'],
-                                                    'data_scadenza'=>$categoria['data_scadenza']
-                                                    
-                                                    ]
+                                                    'data_scadenza'=>$categoria['data_scadenza']]
                                                 ]);
             }
-            return response()->json("ok"); // array                                    
+            return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente inserita correttamente"]); 
         }
-
-        return response()->json("error"); // array   
-
+        return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); 
       
         // "persona_id": null,
         // "data_nascita": "2018-09-05",

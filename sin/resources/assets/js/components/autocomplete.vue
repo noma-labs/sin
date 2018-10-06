@@ -27,7 +27,7 @@
         type:Object,
         default: () => ({}),
       },
-      multiple: { //if "true" allow to select multple choiches
+      multiple: { //if "true" allow to select multiple choiches
         type: Boolean,
         default:false
       },

@@ -14,12 +14,12 @@
 			<div class="col-md-3">
 				<date-picker :value="categoria.pivot.data_scadenza" placeholder="Selezionare una data" :language="language" :format="customFormatter"></date-picker>
 			</div>
-			<div class="col-md-3">{{categoria.pivot.restrizione_codice}}	</div>
+			<!-- <div class="col-md-3">{{categoria.pivot.restrizione_codice}}	</div> -->
 		</div>
 		<div class="row">
 			<a class="btn btn-primary col-md-4 offset-md-8" @click="open">Aggiungi categoria</a>
 		</div>
-			<!-- Modal Aggiungi Lavoratore -->
+			<!-- Modal Aggiungi categoria -->
 		    <transition name="modal">
 		        <div class="modal-mask"  @click="close" v-show="showModalAggiungiCategoria">
 		            <div class="modal-container"  @click.stop>
@@ -63,7 +63,7 @@
 							</div>
 						</div>
 		                <div class="modal-footer text-right">
-							<input class="btn btn-success" type="button" :disabled="disabledSalva" @click="aggiungiCategoria" value="Salva">
+							<input class="btn btn-success" type="button" :disabled="disabledSalva" @click="salvaAggiungiCategoria" value="Salva">
 							<a class="btn btn-danger" href="#" role="button" @click="close">Chiudi</a>
 		                </div>
 		            </div>
@@ -126,7 +126,7 @@
 			selectRilascio: function(data){
 				this.nuovaCategoria.data_rilascio = this.customFormatter(data);
 			},
-			aggiungiCategoria : function(){
+			salvaAggiungiCategoria : function(){
 				console.log(this.nuovaCategoria);
 			    axios.post("/api/patente/"+this.numero_patente+"/categorie", { categoria :this.nuovaCategoria} ).then(response => {
 					console.log(response.data);

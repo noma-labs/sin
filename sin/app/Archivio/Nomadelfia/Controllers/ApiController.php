@@ -9,12 +9,16 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\NucleoFamigliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Persona;
+use App\Anagrafe\Models\DatiPersonali;
+
 
 use Carbon;
 
 class ApiController extends BaseController 
 {
-	public function famiglieAll(Request $request)
+	
+	
+	function famiglieAll(Request $request)
 	{
 		$famiglie = Famiglia::all();
 		$results = array();

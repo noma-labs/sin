@@ -96,7 +96,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">Pannello di controllo per la gestione delle patenti</p>
-              <a href="{{ route('patente.index') }}" class="btn btn-primary">Accedi a Patenti</a>
+              <a href="{{ route('patente.scadenze') }}" class="btn btn-primary">Accedi a Patenti</a>
             </div>
           </div>
         </div>
