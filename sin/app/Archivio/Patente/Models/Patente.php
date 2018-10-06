@@ -25,7 +25,13 @@ class Patente extends Model
 
   public function categorie(){ 
       return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
-                                ->withPivot('data_rilascio','data_scadenza','restrizione_codice') ;
+                                ->withPivot('data_rilascio','data_scadenza') ;
+  }
+
+  public function CQCPersone(){
+    return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
+                                ->withPivot('data_rilascio','data_scadenza')
+                                ->wherePivot('categoria_patente_id',16);
   }
   
   /**
@@ -62,7 +68,8 @@ class Patente extends Model
    * @author Davide Neri
    */
   public function scopeSenzaCommisione($query){
-    return $query->whereNull('stato');
+    return $query->whereNull('stato')
+                ->orWhere("stato","!=",'commissione');
     }
 
 

@@ -14,11 +14,16 @@ class PatenteController extends CoreBaseController
     public function scadenze(){
         $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(45)->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get();        
-        $patentiCQC = CategoriaPatente::find(6)->inScadenza(90)->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCScadute = CategoriaPatente::find(6)->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersone = CategoriaPatente::CQCPersone()->inScadenza(90)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersoneScadute = CategoriaPatente::CQCPersone(6)->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
         $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(90)->orderBy('data_scadenza_patente')->get();
         $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get(); 
-        return view("patente.scadenze",compact('patenti','patentiScadute','patentiCQC','patentiCQCScadute','patentiCommissione','patentiCommisioneScadute'));
+        return view("patente.scadenze",compact('patenti',
+                                                'patentiScadute',
+                                                'patentiCQCPersone',
+                                                'patentiCQCPersoneScadute',
+                                                'patentiCommissione',
+                                                'patentiCommisioneScadute'));
     }
 
     public function patente()
@@ -75,8 +80,8 @@ class PatenteController extends CoreBaseController
     public function modifica($id)
     {
         $categorie = CategoriaPatente::all();
-        $record = Patente::find($id);//->where('numero_patente', '=', $id); //->get();
-        return view("patente.modifica",compact('categorie', 'record'));
+        $patente = Patente::find($id);//->where('numero_patente', '=', $id); //->get();
+        return view("patente.modifica",compact('categorie', 'patente'));
     }
 
     private function validazioneRichiestaUpdate(Request $request)
@@ -114,13 +119,33 @@ class PatenteController extends CoreBaseController
 
     public function confermaModifica(Request $request,$id)
     {
-        $validRequest = $this->validazioneRichiestaUpdate($request);
-        if ($validRequest->fails()){
-            return redirect(route('patente.index'))->withErrors($validRequest)->withInput();
-        }
-        $this->updatePatente($request,$id);
-        $this->addCategoriaUpdate($request,$id);
-        return redirect(route('patente.index'))->withSuccess('Modifica eseguita alla patente numero: '.$id);
+        $validatedData = $request->validate([
+            'persona_id' => 'required',
+            'numero_patente'=> 'required', 
+            'rilasciata_dal' => 'required',
+            'data_rilascio_patente' => 'required|date',
+            'data_scadenza_patente' => 'required|date|after_or_equal:data_rilascio_patente'
+            ],[
+              'persona_id.required' => 'La persona è obbligatoria.',
+              'numero_patente.required' => "Il numero patente è obbligatorio.",
+              'rilasciata_dal.required' => "L'ente he ha rilasciato è obbligatorio.",
+              'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria..',
+              'data_scadenza_patente.required' => 'La data di scadenza è obbligatoria.'
+          ]);
+
+        $patente = Patente::find($id);
+        $res = $patente->update(['rilasciata_dal' => request('rilasciata_dal'),
+                        'numero_patente' => request('numero_patente'),
+                        'data_rilascio_patente' => request('data_rilascio_patente'),
+                        'data_scadenza_patente' => request('data_scadenza_patente'),
+                        'note' => request('note')
+        ]);
+        // $this->addCategoriaUpdate($request,$id);
+        if($res==1)
+            return redirect(route('patente.ricerca'))->withSuccess("Patente $patente->numero_patente modificata con successo");
+        else
+            return redirect(route('patente.ricerca'))->withErroe("Errore nell'aggiornament della patente $patente->numero_patente");
+         
     }
 
     public function inserimento()

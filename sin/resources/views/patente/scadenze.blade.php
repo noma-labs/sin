@@ -4,8 +4,9 @@
 <sin-header title="Scadenza patenti"> </sin-header>
 
 <div class="row">
-  <div class="col-md-4">
-    <div class="card" style="width: 18rem;">
+   <div class="col align-self-center"> 
+    <div class="card-deck">
+    <div class="card">
       <div class="card-header">
         Patenti
       </div>
@@ -30,36 +31,36 @@
             </ul>
       </div>
     </div>
-  </div>  <!--  end first col  -->
-  <div class="col-md-4">
-    <div class="card" style="width: 18rem;">
+  <!-- </div>   end first col  -->
+  <!-- <div class="col-md-4"> -->
+    <div class="card">
       <div class="card-header">
           C.Q.C in scadenza 
         </div>
         <div class="card-body">
-          <h5 class="card-title">In scadenza ({{$patentiCQC->count()}})</h5>
+          <h5 class="card-title">In scadenza ({{$patentiCQCPersone->count()}})</h5>
           <ul>
-            @foreach($patentiCQC as $patente)
+            @foreach($patentiCQCPersone as $patente)
               <li>
                <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-               <span class="badge badge-warning"> {{ $patente->data_scadenza_patente}}</span>
+               <span class="badge badge-warning"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}</span>
                 </li>
             @endforeach
             </ul>
-            <h5 class="card-title">Scadute ({{$patentiCQCScadute->count()}})</h5>
+            <h5 class="card-title">Scadute ({{$patentiCQCPersoneScadute->count()}})</h5>
             <ul>
-              @foreach($patentiCQCScadute as $patente)
+              @foreach($patentiCQCPersoneScadute as $patente)
                 <li>
                   <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-                  <span class="badge badge-danger"> {{ $patente->data_scadenza_patente}}</span>
+                  <span class="badge badge-danger"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}</span>
                 </li>
               @endforeach
             </ul>
         </div>
       </div>
-  </div> <!--  end second col  -->
-  <div class="col-md-4">
-    <div class="card" style="width: 18rem;">
+  <!-- </div>  end second col  -->
+  <!-- <div class="col-md-4"> -->
+    <div class="card">
          <div class="card-header">
         Patenti con commissione 
         </div>
@@ -82,8 +83,10 @@
               @endforeach
             </ul>
         </div>
-    </div>
-  </div> <!--  end third col  -->
+     </div>
+    </div><!--  end card deck  -->
+  </div>  <!--end col -->
+
 </div>
 
 @endsection

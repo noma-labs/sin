@@ -11,9 +11,9 @@ use Validator;
 class ApiController extends CoreBaseController
 {
     /**
-     * Ritorna il dettaglio di una patente
+     * Ritorna una patente con le categorie
      *
-     * @param string  $numero nuero della patente
+     * @param string  $numero  della patente
      * @param Request $request
      *
      * @return json $Patente 
@@ -22,7 +22,7 @@ class ApiController extends CoreBaseController
      */
     public function patente(Request $request,$numero)
     {
-        $p = Patente::where("numero_patente",$numero)->with("categorie")->first();
+        $p = Patente::where("numero_patente",$numero)->with(["categorie","persona.datipersonali"])->first();
         return response()->json($p);
     }
 
@@ -116,19 +116,12 @@ class ApiController extends CoreBaseController
                  $patente->categorie()->attach([$categoria['categoria']['id'] => 
                                                     ['numero_patente' =>$body['numero_patente'],
                                                     'data_rilascio' => $categoria['data_rilascio'],
-                                                    'data_scadenza'=>$categoria['data_scadenza']
-                                                    
-                                                    ]
+                                                    'data_scadenza'=>$categoria['data_scadenza']]
                                                 ]);
             }
-            return response()->json(["err"=>0, "msg"=> "patente inserita correttamente"]); // array
-            // return redirect()->route('patente.inserimento')->withSucces("Patente inserita cotrrettamene");   
-        //    return route(');                                
-
+            return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente inserita correttamente"]); 
         }
-
-        return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); // array   
-
+        return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); 
       
         // "persona_id": null,
         // "data_nascita": "2018-09-05",

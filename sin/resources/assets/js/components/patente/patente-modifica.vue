@@ -7,37 +7,9 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-6">
-						<label for="numero_patente">Persona:</label>
-						<v-select
-							:options="optionsPersone"
-							:debounce="500"
-							:on-search="getPersonePatenti"
-							:on-change="changedPersonaSelected"
-							:placeholder="personaPlaceholder"
-							:clearable=true
-							:disabled="disabledAll"
-							label="nominativo">
-							<span slot="no-options">Nessuna persona</span>
-						</v-select>
-					</div>
 
-					<div class="col-md-6">
-						<label for="nome_cognome">Nome Cognome:</label>
-						<input type="text" class="form-control" v-bind:value="personaSelected.nomecognome" disabled>
-					</div>
-				</div> <!-- end zero row in left colum-->
-				<div class="row">
-					<div class="col-md-6">
-						<label for="data_nascita">Data di nascita:</label>
-						<input type="text" class="form-control" v-bind:value="personaSelected.data_nascita_persona" disabled>
-					</div>
-					<div class="col-md-6">
-						<label for="luogo_nascita">Luogo di nascita:</label>
-						<input type="text" class="form-control" v-bind:value="personaSelected.provincia_nascita" disabled>
-					</div>
-				</div><!-- end first row in left colum-->
+				<slot name="persona-info"></slot>
+
 				<div class="row">
 					<div class="col-md-6">
 						<label for="data_rilascio_patente">Patente rilasciata il:</label>
@@ -46,6 +18,7 @@
 									:bootstrap-styling="true" 
 									:language="language" 
 									:format="customFormatter"
+									v-model="nuovaPatente.data_rilascio_patente"
 									:disabled="disabledAll">
 						</date-picker>
 					</div>
@@ -62,12 +35,13 @@
 				<div class="row">
 					<div class="col-md-6">
 							<label for="data_scadenza_patente">Patente valida fino al:</label>
-							<date-picker  name="data_scadenza_patente" 
+							<date-picker name="data_scadenza_patente" 
 										@selected="selectData_scadenza_patente"
 										:bootstrap-styling="true" 
 										:language="language" 
 										:disabledDates="disabledData_scadenza_patente"
 										:format="customFormatter"
+										v-model="nuovaPatente.data_scadenza_patente"
 										:disabled="disabledAll">
 							</date-picker>
 						</div>
@@ -95,19 +69,20 @@
 			</div>  <!-- end left column-->
 
 			<div class="col-md-6">
-				<div class="row" v-if="nuovaPatente.categorie_patente.length">
+				<div class="row" v-if="nuovaPatente.categorie.length">
 						<div class="col-md-4">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
 						<!-- <div class="col-md-3">Restrizioni</div> -->
 				</div>
-				<div class="row" v-for="categoria in nuovaPatente.categorie_patente">
+				<div class="row" v-for="categoria in nuovaPatente.categorie">
 					<div class="col-md-4">
-						{{categoria.categoria.categoria}}	
+						{{categoria.categoria}}	
+						<!-- {{categoria.categoria.categoria}}	 -->
 					</div>
 					<div class="col-md-4">
 						<date-picker 
-							:value="categoria.data_rilascio" 
+							v-model="categoria.pivot.data_rilascio" 
 							placeholder="---Seleziona una data---" 
 							:language="language" 
 							:format="customFormatter"
@@ -115,7 +90,7 @@
 						</date-picker>
 					</div>
 					<div class="col-md-4">
-						<date-picker :value="categoria.data_scadenza" 
+						<date-picker v-model="categoria.pivot.data_scadenza" 
 									placeholder="---Seleziona una data---" 
 									:language="language" 
 									:format="customFormatter"
@@ -198,6 +173,7 @@
 		components: {vSelect},
 		props: [
 			'numero_patente',
+			'apiPatente',   
 			'apiPatentePersone',
 			'apiPatenteCategorie',
 			'apiPatenteCreate'
@@ -220,15 +196,22 @@
 				showModalAggiungiCategoria: false,  // if true modal is shown
 				categoriePossibili: [],             // categorie disponibili da assegnare alla patente
 				nuovaPatente : {
-					persona_id : null,
-					data_nascita : null,
-					luogo_nascita :null,
 					data_rilascio_patente : null,
 					data_scadenza_patente : null,
 					rilasciata_dal :null,
 					numero_patente: null,
 					note : null,
-					categorie_patente: [],          	// array delle nuove categorie assegnate alla patente
+					categorie: [
+						// categoria:"D E"
+						// descrizione:"CONSEGUIBILE A 24 ANNI ( CON L'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA D)"
+						// id:14
+						// note:""
+						// pivot:Object
+							// categoria_patente_id:14
+							// data_rilascio:"2016-01-07"
+							// data_scadenza:"2021-01-05"
+							// numero_patente:"U
+					],          	// array delle nuove categorie assegnate alla patente
 				},
 				nuovaCategoria: {
 					categoria : {
@@ -243,20 +226,51 @@
 			};
 		},
 		created: function(){
-			axios.get(this.apiPatenteCategorie).then(response => {
-			 	this.categoriePossibili = response.data;
+			axios.get(this.apiPatente).then(response => {
+				console.log(response.data);
+				this.nuovaPatente = response.data;
+				// {persona:
+				//  categoria_id: 1
+				//  data_nascita_persona: "1949-02-01"
+				//  datipersonali:
+				//		  cognome: "GRAZIOLI"
+				//		  data_nascita: "1949-02-01"
+				//		  nome: "ADELELMO"
+				//		  persona_id: 2
+				//		  provincia_nascita: "GHEDI"
+				//		  sesso: "M"
+				// 	data_rilascio_patente: "2018-10-01"
+				// 	data_scadenza_patente: "2018-10-15"
+				// 	note: null
+				// 	numero_patente: "GR-adelelemo"
+				// 	persona_id: 2
+				// 	rilasciata_dal: "frosseto"
+				// 	stato: "commissione"
+				// 	categorie: [
+				// 	 {id: 0, 
+				// 		categoria: "BS", 
+				// 		descrizione: "SPECIALE", 
+				// 		note: "", 
+				// 		pivot: {
+				// 			categoria_patente_id: 0
+				// 			data_rilascio: "2018-10-03"
+				// 			data_scadenza: "2018-10-18"
+				// 			numero_patente: "GR-adelelemo"
+				// 			restrizione_codice: null
+				// 	}]
+				// }
 			});
 		},
 		computed:{
 			disabledSalvaNuovaCategoria: function(){
 				return  this.nuovaCategoria.categoria == null 
-				    ||  this.nuovaCategoria.categoria.id == -1
-						|| this.nuovaCategoria.data_rilascio == null 
-						|| this.nuovaCategoria.data_scadenza == null 			
+				      ||  this.nuovaCategoria.categoria.id == -1
+					  || this.nuovaCategoria.data_rilascio == null 
+					  || this.nuovaCategoria.data_scadenza == null 			
 			},
 			disabledSalvaNuovaPatente: function(){
-				// return  this.nuovaPatente.categorie_patente === null 
-				// 		|| this.nuovaPatente.categorie_patente === [] 
+				// return  this.nuovaPatente.categorie === null 
+				// 		|| this.nuovaPatente.categorie === [] 
 				return    this.nuovaPatente.persona_id === null
 				 		|| this.nuovaPatente.numero_patente === null
 						|| this.nuovaPatente.data_rilascio_patente === null
@@ -274,44 +288,21 @@
 			}
 		},
 		methods:{
-			changedPersonaSelected: function(persona){
-				if(persona){
-					this.nuovaPatente.persona_id  = persona.id;
-					if(persona.datipersonali != null){
-					this.personaSelected.nomecognome = persona.datipersonali.nome + " "+ persona.datipersonali.cognome;
-					this.personaSelected.data_nascita_persona = persona.data_nascita_persona;
-					this.personaSelected.provincia_nascita = persona.datipersonali.provincia_nascita;
-					}else{
-						this.personaSelected.nomecognome = "--dato non disponibile--";
-						this.personaSelected.data_nascita_persona = "--dato non disponibile--";
-						this.personaSelected.provincia_nascita = "--dato non disponibile--";
-					}
-				 }
-				else{
-					this.personaSelected.nomecognome = "";
-					this.personaSelected.data_nascita_persona = "";
-					this.personaSelected.provincia_nascita = "";
-					this.nuovaPatente.persona_id = null;
-				}
-				
-			},
-			getPersonePatenti: function(search, loading){
-				axios.get(this.apiPatentePersone, { params: { term: search }}).then(response => {
-				 this.optionsPersone = response.data;
-				});
-			},
 			customFormatter(date) {
 		      return moment(date).format('YYYY-MM-DD');
 			},
 			getCategoriePossibili(){
-				var api = "/api/patente/categorie";
-				if(this.numero_patente != null)
-				   api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
-				   
-				axios.get(api).then(response => {
+				axios.get(this.apiPatenteCategorie).then(response => {
 					this.categoriePossibili = response.data;
-					console.log(this.categoriePossibili);
 				});
+				// var api = "/api/patente/categorie";
+				// if(this.numero_patente != null)
+				//    api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
+				   
+				// axios.get(api).then(response => {
+				// 	this.categoriePossibili = response.data;
+				// 	console.log(this.categoriePossibili);
+				// });
 			},
 			salvaNuovaPatente(){
 				axios.post(this.apiPatenteCreate, this.nuovaPatente)
@@ -367,7 +358,14 @@
 			},
 			salvaAggiungiCategoria : function(){
 				// aggiunge la nuova categoria nella liste delle categorie assegnate alla patente
-				this.nuovaPatente.categorie_patente.push(Object.assign({},this.nuovaCategoria));
+				// this.nuovaPatente.categorie.push(Object.assign({},this.nuovaCategoria));
+				this.nuovaPatente.categorie.push({categoria: this.nuovaCategoria.categoria.categoria, 
+												id: this.nuovaCategoria.categoria.id,
+												pivot:{ 
+													data_rilascio:  this.nuovaCategoria.data_rilascio,
+													data_scadenza:  this.nuovaCategoria.data_scadenza
+													}
+												});
 				this.close();
 			},
 			open: function(){
