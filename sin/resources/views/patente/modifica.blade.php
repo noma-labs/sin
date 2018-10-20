@@ -4,9 +4,9 @@
 <sin-header title="Modifica Patente"> </sin-header>
 <patente-modfica
       api-patente="{{route('api.patente',['id'=>$patente->numero_patente]) }}"
+      api-patente-modifica="{{route('api.patente.modifica',['numero'=>$patente->numero_patente])}}"
       api-patente-persone="{{route('api.patente.persone')}}"
-      api-patente-categorie="{{route('api.patente.categorie')}}"
-      api-patente-create="{{route('api.patente.create')}}" >
+      api-patente-categorie="{{route('api.patente.categorie')}}" >
       <template slot="persona-info">
          <div class="row">
 					<div class="col-md-6">
@@ -30,7 +30,6 @@
 						<input type="text" class="form-control" value="{{$patente->persona->datipersonali->provincia_nascita}}" disabled>
 					</div>
         </div>
-        
       </template>
 </patente-modfica>
   

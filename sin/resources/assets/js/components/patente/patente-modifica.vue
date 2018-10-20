@@ -73,9 +73,10 @@
 						<div class="col-md-4">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
-						<!-- <div class="col-md-3">Restrizioni</div> -->
+						<div class="col-md-3">Operazioni</div>
 				</div>
-				<div class="row" v-for="categoria in nuovaPatente.categorie">
+				<div class="row" v-for="(categoria, index) in nuovaPatente.categorie">
+				
 					<div class="col-md-4">
 						{{categoria.categoria}}	
 						<!-- {{categoria.categoria.categoria}}	 -->
@@ -97,9 +98,13 @@
 									:disabled=disabledAll>
 						</date-picker>
 					</div>
-					<!-- <div class="col-md-3">
-						{{categoria.restrizione}}	
-					</div> -->
+					<div class="col-md-3">
+						<button class="btn btn-danger col-md-4" 
+								@click="_removeCategoria(index)" 
+								:disabled=disabledAll> Elimina
+						</button>
+
+					</div>
 				</div>
 				<div class="row">
 					<button class="btn btn-warning col-md-4 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
@@ -176,7 +181,7 @@
 			'apiPatente',   
 			'apiPatentePersone',
 			'apiPatenteCategorie',
-			'apiPatenteCreate'
+			'apiPatenteModifica'
 			],
 		data: function() {
 			return {
@@ -196,22 +201,24 @@
 				showModalAggiungiCategoria: false,  // if true modal is shown
 				categoriePossibili: [],             // categorie disponibili da assegnare alla patente
 				nuovaPatente : {
+					persona_id: null,
+					numero_patente: null,
+					rilasciata_dal :null,
 					data_rilascio_patente : null,
 					data_scadenza_patente : null,
-					rilasciata_dal :null,
-					numero_patente: null,
 					note : null,
-					categorie: [
-						// categoria:"D E"
-						// descrizione:"CONSEGUIBILE A 24 ANNI ( CON L'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA D)"
-						// id:14
-						// note:""
-						// pivot:Object
-							// categoria_patente_id:14
-							// data_rilascio:"2016-01-07"
-							// data_scadenza:"2021-01-05"
-							// numero_patente:"U
-					],          	// array delle nuove categorie assegnate alla patente
+					categorie: [  // array delle nuove categorie assegnate alla patente
+						// id: null
+						// categoria: null,
+						// descrizione: null,
+						// note: null,
+						// pivot:{ 
+						// 	categoria_patente_id: null,
+						// 	data_rilascio: null,
+						// 	data_scadenza:null,
+						// 	numero_patente: null
+						// }
+					],          	
 				},
 				nuovaCategoria: {
 					categoria : {
@@ -229,36 +236,6 @@
 			axios.get(this.apiPatente).then(response => {
 				console.log(response.data);
 				this.nuovaPatente = response.data;
-				// {persona:
-				//  categoria_id: 1
-				//  data_nascita_persona: "1949-02-01"
-				//  datipersonali:
-				//		  cognome: "GRAZIOLI"
-				//		  data_nascita: "1949-02-01"
-				//		  nome: "ADELELMO"
-				//		  persona_id: 2
-				//		  provincia_nascita: "GHEDI"
-				//		  sesso: "M"
-				// 	data_rilascio_patente: "2018-10-01"
-				// 	data_scadenza_patente: "2018-10-15"
-				// 	note: null
-				// 	numero_patente: "GR-adelelemo"
-				// 	persona_id: 2
-				// 	rilasciata_dal: "frosseto"
-				// 	stato: "commissione"
-				// 	categorie: [
-				// 	 {id: 0, 
-				// 		categoria: "BS", 
-				// 		descrizione: "SPECIALE", 
-				// 		note: "", 
-				// 		pivot: {
-				// 			categoria_patente_id: 0
-				// 			data_rilascio: "2018-10-03"
-				// 			data_scadenza: "2018-10-18"
-				// 			numero_patente: "GR-adelelemo"
-				// 			restrizione_codice: null
-				// 	}]
-				// }
 			});
 		},
 		computed:{
@@ -269,8 +246,6 @@
 					  || this.nuovaCategoria.data_scadenza == null 			
 			},
 			disabledSalvaNuovaPatente: function(){
-				// return  this.nuovaPatente.categorie === null 
-				// 		|| this.nuovaPatente.categorie === [] 
 				return    this.nuovaPatente.persona_id === null
 				 		|| this.nuovaPatente.numero_patente === null
 						|| this.nuovaPatente.data_rilascio_patente === null
@@ -295,29 +270,18 @@
 				axios.get(this.apiPatenteCategorie).then(response => {
 					this.categoriePossibili = response.data;
 				});
-				// var api = "/api/patente/categorie";
-				// if(this.numero_patente != null)
-				//    api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
-				   
-				// axios.get(api).then(response => {
-				// 	this.categoriePossibili = response.data;
-				// 	console.log(this.categoriePossibili);
-				// });
 			},
 			salvaNuovaPatente(){
-				axios.post(this.apiPatenteCreate, this.nuovaPatente)
+				axios.put(this.apiPatenteModifica, this.nuovaPatente)
 					.then(response=>{
 						this.showAlert= true;
 						this.alertMessage = response.data.msg;
-						if (response.data.err === 0){
+						if (response.data.err === 0){ // {"err":0,"msg":"patente inserita correttamente"}
 							this.hasError=false;
 							this.disabledAll = true;
 						}
-						else
+						else // {"err":1,"msg":"patente inserita correttamente"}
 							this.hasError= true;
-	
-						// {"err":0,"msg":"patente inserita correttamente"}
-						// {"err":1,"msg":"patente inserita correttamente"}
 					})
 					.catch(error => {
 						this.hasError= true;
@@ -326,13 +290,10 @@
 						if (error.response) {
 							this.alertMessage = "Error "+ error.response.status + " " + error.response.data.message;
 							// The request was made and the server responded with a status code  that falls out of the range of 2xx
-							// console.log(error.response.data);
-							// console.log(error.response.status);
-							// console.log(error.response.headers);
 						} else if (error.request) {
 							// The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 							console.log(error.request);
-							this.alertMessage = "Error. Risposta non ricevuta dal server"
+							this.alertMessage = "Error. Server irrangiungibile."
 						} else {
 							// Something happened in setting up the request that triggered an Error
 							console.log('Error', error.message);
@@ -358,7 +319,6 @@
 			},
 			salvaAggiungiCategoria : function(){
 				// aggiunge la nuova categoria nella liste delle categorie assegnate alla patente
-				// this.nuovaPatente.categorie.push(Object.assign({},this.nuovaCategoria));
 				this.nuovaPatente.categorie.push({categoria: this.nuovaCategoria.categoria.categoria, 
 												id: this.nuovaCategoria.categoria.id,
 												pivot:{ 
@@ -366,7 +326,25 @@
 													data_scadenza:  this.nuovaCategoria.data_scadenza
 													}
 												});
+				this.sortCategorie()
 				this.close();
+			},
+			sortCategorie:function(){
+				this.nuovaPatente.categorie.sort(this._compare);
+			},
+			_compare: function(a,b){
+				// funzione usata per compare e ordinare le categoria
+				if (a.categoria < b.categoria) {
+					return -1;
+				}
+				if (a.categoria > b.categoria) {
+					return 1;
+				}
+				// a deve essere uguale a b
+				return 0;
+			},
+			_removeCategoria: function(index){
+				this.nuovaPatente.categorie.splice(index, 1);
 			},
 			open: function(){
 				this.showModalAggiungiCategoria = true;

@@ -51,9 +51,10 @@
 					</div>
 					
 					<div class="col-md-6">
-						<label for="rilasciata_dal">Rilascia da:</label>
+						<label for="rilasciata_dal">Rilasciata dal:</label>
 						<input type="text" class="form-control"  
-											v-model="nuovaPatente.rilasciata_dal" id="rilasciata_dal" 
+											v-model="nuovaPatente.rilasciata_dal" 
+											id="rilasciata_dal" 
 											name="rilasciata_dal" 
 											:disabled=disabledAll>
 					</div>
@@ -95,13 +96,13 @@
 			</div>  <!-- end left column-->
 
 			<div class="col-md-6">
-				<div class="row" v-if="nuovaPatente.categorie_patente.length">
+				<div class="row" v-if="nuovaPatente.categorie.length">
 						<div class="col-md-4">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
-						<!-- <div class="col-md-3">Restrizioni</div> -->
+						<div class="col-md-3">Opera.</div>
 				</div>
-				<div class="row" v-for="categoria in nuovaPatente.categorie_patente">
+				<div class="row" v-for="categoria in nuovaPatente.categorie">
 					<div class="col-md-4">
 						{{categoria.categoria.categoria}}	
 					</div>
@@ -122,9 +123,12 @@
 									:disabled=disabledAll>
 						</date-picker>
 					</div>
-					<!-- <div class="col-md-3">
-						{{categoria.restrizione}}	
-					</div> -->
+					 <div class="col-md-3"> 
+						<button class="btn btn-danger col-md-4" 
+								@click="_removeCategoria(index)" 
+								:disabled=disabledAll> Elimina
+						</button>
+					</div> 
 				</div>
 				<div class="row">
 					<button class="btn btn-warning col-md-4 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
@@ -142,7 +146,6 @@
 		                <div class="modal-body">
 							<div class="form-group ">
 									<label>Categoria</label>
-									<!-- v-model="nuovaCategoria"  -->
 									<select class="form-control"  v-model="nuovaCategoria.categoria">
 										<option :selected="true" >---Selezione categoria---</option>
 										<option v-for="categoria in categoriePossibili" v-bind:value="categoria">
@@ -228,7 +231,7 @@
 					rilasciata_dal :null,
 					numero_patente: null,
 					note : null,
-					categorie_patente: [],          	// array delle nuove categorie assegnate alla patente
+					categorie: [],          	// array delle nuove categorie assegnate alla patente
 				},
 				nuovaCategoria: {
 					categoria : {
@@ -255,16 +258,22 @@
 						|| this.nuovaCategoria.data_scadenza == null 			
 			},
 			disabledSalvaNuovaPatente: function(){
-				// return  this.nuovaPatente.categorie_patente === null 
-				// 		|| this.nuovaPatente.categorie_patente === [] 
+				// return  this.nuovaPatente.categorie === null 
+				// 		|| this.nuovaPatente.categorie === [] 
 				return    this.nuovaPatente.persona_id === null
 				 		|| this.nuovaPatente.numero_patente === null
 						|| this.nuovaPatente.data_rilascio_patente === null
 						|| this.nuovaPatente.data_scadenza_patente=== null 			
 			},
 			disabledData_scadenza_patente: function(){
+				var data = moment(this.nuovaPatente.data_rilascio_patente,"DD-MM-YYYY");
+				console.log(data.year() );
+				console.log(data.month() );
+
+				console.log(data.date() );
+
 				return {
-					to: new Date(this.nuovaPatente.data_rilascio_patente)
+					to: new Date(2018, 10,10)
 				}
 			},
 			disabled_data_scadenza_categoria: function(){
@@ -301,14 +310,10 @@
 				});
 			},
 			customFormatter(date) {
-		      return moment(date).format('YYYY-MM-DD');
+		      return moment(date,"YYYY-MM-DD").format('DD-MM-YYYY');
 			},
 			getCategoriePossibili(){
-				var api = "/api/patente/categorie";
-				if(this.numero_patente != null)
-				   api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
-				   
-				axios.get(api).then(response => {
+				axios.get(this.apiPatenteCategorie).then(response => {
 					this.categoriePossibili = response.data;
 					console.log(this.categoriePossibili);
 				});
@@ -367,8 +372,32 @@
 			},
 			salvaAggiungiCategoria : function(){
 				// aggiunge la nuova categoria nella liste delle categorie assegnate alla patente
-				this.nuovaPatente.categorie_patente.push(Object.assign({},this.nuovaCategoria));
+				this.nuovaPatente.categorie.push({ categoria: this.nuovaCategoria.categoria,
+															data_rilascio: moment(this.nuovaCategoria.data_rilascio,"YYYY-MM-DD-")
+																		.format('YYYY-MM-DD'),
+															data_scadenza: moment(this.nuovaCategoria.data_scadenza,"YYYY-MM-DD")
+																		.format('YYYY-MM-DD'),
+															});
+				this.sortCategorie();
 				this.close();
+
+			},
+			sortCategorie:function(){
+				this.nuovaPatente.categorie.sort(this._compare);
+			},
+			_compare: function(a,b){
+				// funzione usata per compare e ordinare le categoria
+				if (a.categoria.categoria < b.categoria.categoria) {
+					return -1;
+				}
+				if (a.categoria.categoria > b.categoria.categoria) {
+					return 1;
+				}
+				// a deve essere uguale a b
+				return 0;
+			},
+			_removeCategoria: function(index){
+				this.nuovaPatente.categorie.splice(index, 1);
 			},
 			open: function(){
 				this.showModalAggiungiCategoria = true;
@@ -379,10 +408,10 @@
 				this.reset();
 			},
 			reset: function(){
-				this.nuovaCategoria.categoria = {
-						id: -1, 
-						categoria: null,
-					},
+				// this.nuovaCategoria.categoria = {
+				// 		id: -1, 
+				// 		categoria: null,
+				// 	},
 				this.nuovaCategoria.restrizioni = null;
 			}
 		}

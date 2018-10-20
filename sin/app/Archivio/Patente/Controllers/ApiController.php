@@ -17,12 +17,32 @@ class ApiController extends CoreBaseController
      * @param Request $request
      *
      * @return json $Patente 
-     * 
+     * {
+     * "persona_id": number,
+     * "numero_patente": string,
+     * "rilasciata_dal": string,
+     * "data_rilascio_patente": date  "GG-MM-YYYY",
+     * "data_scadenza_patente":date "GG-MM-YYYY",
+     * "stato": enume (0,1),
+     * "note": string,
+     * "categorie":[
+     *      {"id": number,
+     *       "categoria": string,
+     *       "descrizione": string,
+     *       "note":"string,
+     *       "pivot":{
+     *              "numero_patente": string,
+     *              "categoria_patente_id":string,
+     *              "data_rilascio":date ("2016-01-07")
+     *              "data_scadenza": date ("2021-01-05)
+     *        }
+     *       }
+     * ]}
      * @author Davide Neri
      */
     public function patente(Request $request,$numero)
     {
-        $p = Patente::where("numero_patente",$numero)->with(["categorie","persona.datipersonali"])->first();
+        $p = Patente::where("numero_patente",$numero)->with(["categorie"])->first();
         return response()->json($p);
     }
 
@@ -92,19 +112,68 @@ class ApiController extends CoreBaseController
 		$persone = Persona::with("datipersonali")
                     ->where("nominativo","LIKE","$term%");
                     // ->daEta(16);
-
 		return $persone->get();
-	}
+    }
+    
+    /**
+    * Aggiorna i dati di una patente
+    *
+    * @param String $numero: numero della patente
+    * @param Json  $patente: patente con i dati aggiornati
+    * {
+    *  persona_id: null,
+    *  numero_patente: null,
+    *  rilasciata_dal :null,
+    *  data_rilascio_patente : null,
+    *  data_scadenza_patente : null,
+    *  note : null,
+    *  categorie: [  // array delle nuove categorie assegnate alla patente
+    *      { 
+    *         categoria:"A"
+    *         id:4
+    *         pivot:{
+    *               data_rilascio:"2018-10-03"
+    *               data_scadenza:"2018-10-10"
+    *           }
+    *        },
+    *     ....
+    *  ],          	
+    *               },
+    * @author Davide Neri
+	**/
+    public function update(Request $request, $numero){
+        $body = json_decode($request->getContent(), true);
+        // dd($body);
+        $patente = Patente::find($numero);
+        $patente->persona_id = $body['persona_id'];
+        $patente->numero_patente = $body['numero_patente'];
+        $patente->rilasciata_dal = $body['rilasciata_dal'];
+        $patente->data_rilascio_patente = $body['data_rilascio_patente'];
+        $patente->data_scadenza_patente = $body['data_scadenza_patente'];
+        $patente->note = $body['note'];
+        $patente->save();
+        $categorie = $body['categorie'];
+        // from  {  categoria:"A", id:4, pivot:{ data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }
+        // to    [id 1=>['data_rilascio =>date, 'data_scadenza'=>date], id2=>[] 
+        $categoria_formatted = collect();
+        foreach ($categorie as $key => $value){
+            $categoria_formatted->put($value['id'], array('data_rilascio'=> $value['pivot']['data_rilascio'],
+                                            'data_scadenza'=> $value['pivot']['data_scadenza']));
+        }
+        $res = $patente->categorie()->sync($categoria_formatted);
+        if($res)
+         return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente aggiornata correttamente"]); 
+        else
+            return response()->json(["err"=>1, "msg"=> "Errore. Patente $patente->numero_patente non aggiornata"]); 
+
+
+    }
 
     public function create(Request $request)
     {
        $body = json_decode($request->getContent(), true);
-        // dd($newpatente);
-        $patente = new Patente();
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
-        // $patente->data_nascita = $body['data_nascita'];
-        // $patente->luogo_nascita = $body['luogo_nascita'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = $body['rilasciata_dal'];
