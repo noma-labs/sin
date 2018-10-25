@@ -17,7 +17,9 @@
               @foreach($patenti as $patente)
                 <li>
                   <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-                  <span class="badge badge-warning"> {{ $patente->data_scadenza_patente}}</span>
+                  <span class="badge badge-warning"> {{ $patente->data_scadenza_patente}}
+                    ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->data_scadenza_patente))}})
+                  </span>
                 </li>
               @endforeach
               </ul>
@@ -26,7 +28,9 @@
               @foreach($patentiScadute as $patente)
                 <li>
                   <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-                  <span class="badge badge-danger"> {{ $patente->data_scadenza_patente}}</span>
+                  <span class="badge badge-danger"> {{ $patente->data_scadenza_patente}}
+                  ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->data_scadenza_patente))}})
+                  </span>
                 </li>
               @endforeach
             </ul>
@@ -43,7 +47,9 @@
             @foreach($patentiCommissione as $patente)
               <li>
                <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-               <span class="badge badge-warning"> {{ $patente->data_scadenza_patente}}</span>
+               <span class="badge badge-warning"> {{ $patente->data_scadenza_patente}}
+               ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->data_scadenza_patente))}})
+               </span>
             @endforeach
             </ul>
           <h5 class="card-title">Scadute ({{$patentiCommisioneScadute->count()}})</h5>
@@ -51,7 +57,9 @@
               @foreach($patentiCommisioneScadute as $patente)
                 <li>
                   <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-                  <span class="badge badge-danger"> {{ $patente->data_scadenza_patente}}</span>
+                  <span class="badge badge-danger"> {{ $patente->data_scadenza_patente}}
+                  ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->data_scadenza_patente))}})
+                  </span>
                 </li>
               @endforeach
             </ul>
@@ -60,27 +68,65 @@
 
      <div class="card">
       <div class="card-header">
-          C.Q.C in scadenza 
+          C.Q.C
         </div>
+
         <div class="card-body">
-          <h5 class="card-title">In scadenza ({{$patentiCQCPersone->count()}})</h5>
-          <ul>
-            @foreach($patentiCQCPersone as $patente)
-              <li>
-               <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-               <span class="badge badge-warning"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}</span>
-                </li>
-            @endforeach
-            </ul>
-            <h5 class="card-title">Scadute ({{$patentiCQCPersoneScadute->count()}})</h5>
-            <ul>
-              @foreach($patentiCQCPersoneScadute as $patente)
-                <li>
-                  <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
-                  <span class="badge badge-danger"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}</span>
-                </li>
-              @endforeach
-            </ul>
+        
+          <div class="row">
+            <div class="col-md-6">
+                 <h5 class="card-title">C.Q.C P ({{$patentiCQCPersone->count()}})</h5>
+                 In scadenza
+                 <ul>
+                   @foreach($patentiCQCPersone as $patente)
+                    <li>
+                      <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
+                      <span class="badge badge-warning"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}
+                      ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->CQCPersone->first()->pivot->data_scadenza))}})
+                      </span>
+                    </li>
+                   @endforeach
+                </ul>
+                Scadute:
+                <ul>
+                  @foreach($patentiCQCPersoneScadute as $patente)
+                    <li>
+                      <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
+                      <span class="badge badge-danger"> {{ $patente->CQCPersone->first()->pivot->data_scadenza}}
+                      ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->CQCPersone->first()->pivot->data_scadenza))}})
+                      </span>
+                    </li>
+                  @endforeach
+                </ul>
+            </div>
+            <div class="col-md-6">
+            <h5 class="card-title">C.Q.C M ({{$patentiCQCMerci->count()}})</h5>
+              In scadenza
+                 <ul>
+                   @foreach($patentiCQCMerci as $patente)
+                    <li>
+                      <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
+                      <span class="badge badge-warning"> {{ $patente->CQCMerci->first()->pivot->data_scadenza}}
+                        ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse($patente->CQCMerci->first()->pivot->data_scadenza))}})
+                      </span>
+                    </li>
+                   @endforeach
+                </ul>
+              Scadute:
+                <ul>
+                  @foreach($patentiCQCMerciScadute as $patente)
+                    <li>
+                      <a href="{{route('patente.modifica',['id'=>$patente->numero_patente])}}">{{ $patente->persona->nominativo }} </a>
+                      <span class="badge badge-danger"> {{ $patente->CQCMerci->first()->pivot->data_scadenza}}
+                      ({{Carbon::now('America/Vancouver')->diffInDays(Carbon::parse( $patente->CQCMerci->first()->pivot->data_scadenza))}})
+                      </span>
+                    </li>
+                  @endforeach
+                </ul>
+
+
+            </div>
+          </div>
         </div>
       </div> <!--  end card C.Q.C  -->
     </div><!--  end card deck  -->

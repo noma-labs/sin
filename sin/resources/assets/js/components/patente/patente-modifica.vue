@@ -51,10 +51,32 @@
 					</div>
 				</div><!-- end third row in left colum-->
 				<div class="row">
-					<div class="form-group col-md-9">
+					<div class="form-group col-md-12">
 						<label for="note">Note:</label>
 						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
 					</div>
+				</div> <!-- end fouth row in left colum-->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ycommissione" value="commissione">
+							<label class="form-check-label" for="ycommissione">
+								Assegnare la commissione alla patente.
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ncommissione" value="null">
+							<label class="form-check-label" for="ncommissione">
+								Non assegnare la commissione alla patente.
+							</label>
+						</div>
+					</div>
+				</div> <!-- end fifth row in left colum-->
+				<div class="row">
+					<!-- <div class="form-group col-md-9">
+						<label for="note">Note:</label>
+						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
+					</div> -->
 					<div class="form-group col-md-3 m-*-auto">
 					 <div>&nbsp;</div>
 						<button type="submit" 
@@ -70,19 +92,19 @@
 
 			<div class="col-md-6">
 				<div class="row" v-if="nuovaPatente.categorie.length">
-						<div class="col-md-4">Categoria</div>
+						<div class="col-md-2">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
-						<div class="col-md-3">Operazioni</div>
+						<div class="col-md-2 ">Operazioni</div>
 				</div>
-				<div class="row" v-for="(categoria, index) in nuovaPatente.categorie">
-				
-					<div class="col-md-4">
+				<div class="row mt-2" v-for="(categoria, index) in nuovaPatente.categorie">
+					<div class="col-md-2">
 						{{categoria.categoria}}	
 						<!-- {{categoria.categoria.categoria}}	 -->
 					</div>
 					<div class="col-md-4">
 						<date-picker 
+							:bootstrap-styling="true" 
 							v-model="categoria.pivot.data_rilascio" 
 							placeholder="---Seleziona una data---" 
 							:language="language" 
@@ -91,23 +113,25 @@
 						</date-picker>
 					</div>
 					<div class="col-md-4">
-						<date-picker v-model="categoria.pivot.data_scadenza" 
-									placeholder="---Seleziona una data---" 
-									:language="language" 
-									:format="customFormatter"
-									:disabled=disabledAll>
+						<date-picker 
+							:bootstrap-styling="true" 
+							@selected="modify_data_scadenza_patente"
+							v-model="categoria.pivot.data_scadenza" 
+							placeholder="---Seleziona una data---" 
+							:language="language" 
+							:format="customFormatter"
+							:disabled=disabledAll>
 						</date-picker>
 					</div>
-					<div class="col-md-3">
-						<button class="btn btn-danger col-md-4" 
+					<div class="col-md-2">
+						<button class="btn btn-danger" 
 								@click="_removeCategoria(index)" 
-								:disabled=disabledAll> Elimina
+								:disabled=disabledAll> X
 						</button>
-
 					</div>
 				</div>
-				<div class="row">
-					<button class="btn btn-warning col-md-4 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
+				<div class="row  pt-md-2">
+					<button class="btn btn-warning col-md-3 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
 				</div>
 			 </div>  <!-- end  rigth column -->
 		</div> <!-- end first row -->
@@ -133,7 +157,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Categoria rilasciata il:</label>
-									<date-picker  :bootstrap-styling="true" 
+									<date-picker :bootstrap-styling="true" 
 												placeholder="Selezionare una data" 
 												:value="nuovaCategoria.data_rilascio"
 												@selected="selectCategoriaRilascio"
@@ -207,6 +231,7 @@
 					data_rilascio_patente : null,
 					data_scadenza_patente : null,
 					note : null,
+					stato: null, //enum: 'commissione', NULL
 					categorie: [  // array delle nuove categorie assegnate alla patente
 						// id: null
 						// categoria: null,
@@ -307,6 +332,12 @@
 			},
 			selectCategoriaRilascio: function(data){
 				this.nuovaCategoria.data_rilascio = this.customFormatter(data);
+			},
+			modify_data_scadenza_patente: function(date){
+				//modify a single date of a categoria
+				console.log(index);
+				// this.nuovaPatente.categorie[index].data_scadenza = 
+				return this.customFormatter(date);
 			},
 			selectData_rilascio_patente: function(data){
 				this.nuovaPatente.data_rilascio_patente = this.customFormatter(data);

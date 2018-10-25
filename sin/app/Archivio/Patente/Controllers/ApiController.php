@@ -11,7 +11,7 @@ use Validator;
 class ApiController extends CoreBaseController
 {
     /**
-     * Ritorna una patente con le categorie
+     * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
      * @param string  $numero  della patente
      * @param Request $request
@@ -23,7 +23,7 @@ class ApiController extends CoreBaseController
      * "rilasciata_dal": string,
      * "data_rilascio_patente": date  "GG-MM-YYYY",
      * "data_scadenza_patente":date "GG-MM-YYYY",
-     * "stato": enume (0,1),
+     * "stato": enum ('commissione',NULL),
      * "note": string,
      * "categorie":[
      *      {"id": number,
@@ -127,6 +127,7 @@ class ApiController extends CoreBaseController
     *  data_rilascio_patente : null,
     *  data_scadenza_patente : null,
     *  note : null,
+    *  stato: enum ('commisione', null)
     *  categorie: [  // array delle nuove categorie assegnate alla patente
     *      { 
     *         categoria:"A"
@@ -143,7 +144,7 @@ class ApiController extends CoreBaseController
 	**/
     public function update(Request $request, $numero){
         $body = json_decode($request->getContent(), true);
-        // dd($body);
+
         $patente = Patente::find($numero);
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
@@ -151,6 +152,7 @@ class ApiController extends CoreBaseController
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->note = $body['note'];
+        $patente->stato =  $body['stato'] == "null" ?  Null: $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];
         // from  {  categoria:"A", id:4, pivot:{ data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }
@@ -169,58 +171,62 @@ class ApiController extends CoreBaseController
 
     }
 
+
+     /**
+    * Crea una nuova patente
+    *
+    * @param Json  $patente: patente con i dati aggiornati
+    * { 
+    *  "persona_id":int ,
+    *  "data_rilascio_patente":YYYY-MM-GG 
+    *  "data_scadenza_patente": YYYY-MM-GG ,
+    *  "rilasciata_dal": string,
+    *  "numero_patente": string,
+    *  "note": string,
+    *  "stato": enu ('commissione', 'null')
+    *  "categorie":[  
+    *    {  
+    *       "categoria":{  
+    *          "id":int,
+    *          "categoria":string
+    *       },
+    *       "data_rilascio":YYYY-MM-GG 
+    *       "data_scadenza":YYYY-MM-GG 
+    *    },
+    *  ...
+    *  ]
+    * }
+    * @author Davide Neri
+	**/
     public function create(Request $request)
     {
-       $body = json_decode($request->getContent(), true);
+        $body = json_decode($request->getContent(), true);
+        $patente = new Patente();
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = $body['rilasciata_dal'];
         $patente->note = $body['note'];
+        $patente->stato = $body['stato'] == "null" ?  Null: $body['stato'];
 
         if($patente->save()){
-            $nuovecategoria = $body['categorie_patente'];
-            foreach ($nuovecategoria as $categoria){
-                 $patente->categorie()->attach([$categoria['categoria']['id'] => 
-                                                    ['numero_patente' =>$body['numero_patente'],
+            $nuovecategorie = $body['categorie'];
+            foreach ($nuovecategorie as $categoria){
+                 $cat = $categoria['categoria'];
+                 $patente->categorie()->attach([$cat['id'] => [
+                                                     'numero_patente' =>$body['numero_patente'],
                                                     'data_rilascio' => $categoria['data_rilascio'],
-                                                    'data_scadenza'=>$categoria['data_scadenza']]
+                                                    'data_scadenza'=>$categoria['data_scadenza']
+                                                    ]
                                                 ]);
             }
-            return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente inserita correttamente"]); 
+            return response()->json(
+                    ["err"=>0, 
+                    "msg"=> "Patente $patente->numero_patente inserita correttamente"]
+                    ,201); 
         }
         return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); 
-      
-        // "persona_id": null,
-        // "data_nascita": "2018-09-05",
-        // "luogo_nascita": null,
-        // "data_rilascio_patente": "2018-09-07",
-        // "data_scadenza_patente": "2018-09-07",
-        // "rilasciata_dal": null,
-        // "numero_patente": "ddd",
-        // "note": null,
-        // "categorie_patente":[
-        //    {"categoria":
-        //      {"id":4
-        //      ,"categoria":"A"
-        //      ,"descrizione":"CLASSIFICATA ANCHE COME PATENTE A3, È CONSEGUIBILE A DIVERSE ETÀ E CON DIFFERENTI MODALITÀ"
-        //      ,"note":""
-    //          }
-        //     ,"data_rilascio":"2018-09-05"
-        //     ,"data_scadenza":"2018-09-05"
-        //     ,"restrizioni":null
-    //         },
-        //    {"categoria":
-        //        {"id":6
-        //       ,"categoria":"B"
-        //       ,"descrizione":"ETÀ MINIMA RICHIESTA: 18 ANNI."
-        //       ,"note":""}
-        //  ,"data_rilascio":"2018-09-05"
-        //  ,"data_scadenza":"2018-09-05"
-        //  ,"restrizioni":null}]
-        //     }
-        // }
     }
 
    
