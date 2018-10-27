@@ -32,6 +32,12 @@ class PatenteController extends CoreBaseController
                                                 'patentiCommisioneScadute'));
     }
 
+
+    public function elenchi()
+    {
+        return view("patente.elenchi");
+    }
+
     public function patente()
     {
         // $patenti = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);

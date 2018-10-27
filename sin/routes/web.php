@@ -189,6 +189,7 @@ Route::group(['prefix' => 'rtn','namespace' => 'App\Rtn\Controllers'], function(
 Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], function(){
   Route::get("/", 'PatenteController@scadenze')->name('patente.scadenze');
   Route::get("/ricerca", 'PatenteController@patente')->name('patente.ricerca');
+  Route::get("/elenchi", 'PatenteController@elenchi')->name('patente.elenchi');
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->name('patente.modifica');
   Route::post('modifica/{id}', 'PatenteController@confermaModifica')->name('patente.modifica.conferma');
