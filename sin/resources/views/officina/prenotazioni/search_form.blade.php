@@ -49,7 +49,7 @@
     <div class="col-md-3">
       <div class="form-group">
         <label >&nbsp;</label>
-        <input type="date" class="form-control" name="data_partenza" value="{{ Carbon::now()->toDateString() }}" >
+        <input type="date" class="form-control" name="data_partenza"  >
       </div>
     </div>
 
@@ -68,7 +68,7 @@
       </div>
       <div class="col-md-3">
        <label >&nbsp;</label>
-        <input type="date" class="form-control" id="data_arr" name="data_arrivo" value="{{ Carbon::now()->toDateString() }}" >
+        <input type="date" class="form-control" id="data_arr" name="data_arrivo" >
       </div>
     <!-- <div class="col-md-3">
       <div class="form-group">

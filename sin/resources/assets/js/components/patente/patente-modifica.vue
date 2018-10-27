@@ -51,10 +51,32 @@
 					</div>
 				</div><!-- end third row in left colum-->
 				<div class="row">
-					<div class="form-group col-md-9">
+					<div class="form-group col-md-12">
 						<label for="note">Note:</label>
 						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
 					</div>
+				</div> <!-- end fouth row in left colum-->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ycommissione" value="commissione">
+							<label class="form-check-label" for="ycommissione">
+								Assegnare la commissione alla patente.
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ncommissione" value="null">
+							<label class="form-check-label" for="ncommissione">
+								Non assegnare la commissione alla patente.
+							</label>
+						</div>
+					</div>
+				</div> <!-- end fifth row in left colum-->
+				<div class="row">
+					<!-- <div class="form-group col-md-9">
+						<label for="note">Note:</label>
+						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
+					</div> -->
 					<div class="form-group col-md-3 m-*-auto">
 					 <div>&nbsp;</div>
 						<button type="submit" 
@@ -70,18 +92,19 @@
 
 			<div class="col-md-6">
 				<div class="row" v-if="nuovaPatente.categorie.length">
-						<div class="col-md-4">Categoria</div>
+						<div class="col-md-2">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
-						<!-- <div class="col-md-3">Restrizioni</div> -->
+						<div class="col-md-2 ">Operazioni</div>
 				</div>
-				<div class="row" v-for="categoria in nuovaPatente.categorie">
-					<div class="col-md-4">
+				<div class="row mt-2" v-for="(categoria, index) in nuovaPatente.categorie">
+					<div class="col-md-2">
 						{{categoria.categoria}}	
 						<!-- {{categoria.categoria.categoria}}	 -->
 					</div>
 					<div class="col-md-4">
 						<date-picker 
+							:bootstrap-styling="true" 
 							v-model="categoria.pivot.data_rilascio" 
 							placeholder="---Seleziona una data---" 
 							:language="language" 
@@ -90,19 +113,25 @@
 						</date-picker>
 					</div>
 					<div class="col-md-4">
-						<date-picker v-model="categoria.pivot.data_scadenza" 
-									placeholder="---Seleziona una data---" 
-									:language="language" 
-									:format="customFormatter"
-									:disabled=disabledAll>
+						<date-picker 
+							:bootstrap-styling="true" 
+							@selected="modify_data_scadenza_patente"
+							v-model="categoria.pivot.data_scadenza" 
+							placeholder="---Seleziona una data---" 
+							:language="language" 
+							:format="customFormatter"
+							:disabled=disabledAll>
 						</date-picker>
 					</div>
-					<!-- <div class="col-md-3">
-						{{categoria.restrizione}}	
-					</div> -->
+					<div class="col-md-2">
+						<button class="btn btn-danger" 
+								@click="_removeCategoria(index)" 
+								:disabled=disabledAll> X
+						</button>
+					</div>
 				</div>
-				<div class="row">
-					<button class="btn btn-warning col-md-4 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
+				<div class="row  pt-md-2">
+					<button class="btn btn-warning col-md-3 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
 				</div>
 			 </div>  <!-- end  rigth column -->
 		</div> <!-- end first row -->
@@ -128,7 +157,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Categoria rilasciata il:</label>
-									<date-picker  :bootstrap-styling="true" 
+									<date-picker :bootstrap-styling="true" 
 												placeholder="Selezionare una data" 
 												:value="nuovaCategoria.data_rilascio"
 												@selected="selectCategoriaRilascio"
@@ -176,7 +205,7 @@
 			'apiPatente',   
 			'apiPatentePersone',
 			'apiPatenteCategorie',
-			'apiPatenteCreate'
+			'apiPatenteModifica'
 			],
 		data: function() {
 			return {
@@ -196,22 +225,25 @@
 				showModalAggiungiCategoria: false,  // if true modal is shown
 				categoriePossibili: [],             // categorie disponibili da assegnare alla patente
 				nuovaPatente : {
+					persona_id: null,
+					numero_patente: null,
+					rilasciata_dal :null,
 					data_rilascio_patente : null,
 					data_scadenza_patente : null,
-					rilasciata_dal :null,
-					numero_patente: null,
 					note : null,
-					categorie: [
-						// categoria:"D E"
-						// descrizione:"CONSEGUIBILE A 24 ANNI ( CON L'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA D)"
-						// id:14
-						// note:""
-						// pivot:Object
-							// categoria_patente_id:14
-							// data_rilascio:"2016-01-07"
-							// data_scadenza:"2021-01-05"
-							// numero_patente:"U
-					],          	// array delle nuove categorie assegnate alla patente
+					stato: null, //enum: 'commissione', NULL
+					categorie: [  // array delle nuove categorie assegnate alla patente
+						// id: null
+						// categoria: null,
+						// descrizione: null,
+						// note: null,
+						// pivot:{ 
+						// 	categoria_patente_id: null,
+						// 	data_rilascio: null,
+						// 	data_scadenza:null,
+						// 	numero_patente: null
+						// }
+					],          	
 				},
 				nuovaCategoria: {
 					categoria : {
@@ -229,36 +261,6 @@
 			axios.get(this.apiPatente).then(response => {
 				console.log(response.data);
 				this.nuovaPatente = response.data;
-				// {persona:
-				//  categoria_id: 1
-				//  data_nascita_persona: "1949-02-01"
-				//  datipersonali:
-				//		  cognome: "GRAZIOLI"
-				//		  data_nascita: "1949-02-01"
-				//		  nome: "ADELELMO"
-				//		  persona_id: 2
-				//		  provincia_nascita: "GHEDI"
-				//		  sesso: "M"
-				// 	data_rilascio_patente: "2018-10-01"
-				// 	data_scadenza_patente: "2018-10-15"
-				// 	note: null
-				// 	numero_patente: "GR-adelelemo"
-				// 	persona_id: 2
-				// 	rilasciata_dal: "frosseto"
-				// 	stato: "commissione"
-				// 	categorie: [
-				// 	 {id: 0, 
-				// 		categoria: "BS", 
-				// 		descrizione: "SPECIALE", 
-				// 		note: "", 
-				// 		pivot: {
-				// 			categoria_patente_id: 0
-				// 			data_rilascio: "2018-10-03"
-				// 			data_scadenza: "2018-10-18"
-				// 			numero_patente: "GR-adelelemo"
-				// 			restrizione_codice: null
-				// 	}]
-				// }
 			});
 		},
 		computed:{
@@ -269,8 +271,6 @@
 					  || this.nuovaCategoria.data_scadenza == null 			
 			},
 			disabledSalvaNuovaPatente: function(){
-				// return  this.nuovaPatente.categorie === null 
-				// 		|| this.nuovaPatente.categorie === [] 
 				return    this.nuovaPatente.persona_id === null
 				 		|| this.nuovaPatente.numero_patente === null
 						|| this.nuovaPatente.data_rilascio_patente === null
@@ -295,29 +295,18 @@
 				axios.get(this.apiPatenteCategorie).then(response => {
 					this.categoriePossibili = response.data;
 				});
-				// var api = "/api/patente/categorie";
-				// if(this.numero_patente != null)
-				//    api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
-				   
-				// axios.get(api).then(response => {
-				// 	this.categoriePossibili = response.data;
-				// 	console.log(this.categoriePossibili);
-				// });
 			},
 			salvaNuovaPatente(){
-				axios.post(this.apiPatenteCreate, this.nuovaPatente)
+				axios.put(this.apiPatenteModifica, this.nuovaPatente)
 					.then(response=>{
 						this.showAlert= true;
 						this.alertMessage = response.data.msg;
-						if (response.data.err === 0){
+						if (response.data.err === 0){ // {"err":0,"msg":"patente inserita correttamente"}
 							this.hasError=false;
 							this.disabledAll = true;
 						}
-						else
+						else // {"err":1,"msg":"patente inserita correttamente"}
 							this.hasError= true;
-	
-						// {"err":0,"msg":"patente inserita correttamente"}
-						// {"err":1,"msg":"patente inserita correttamente"}
 					})
 					.catch(error => {
 						this.hasError= true;
@@ -326,13 +315,10 @@
 						if (error.response) {
 							this.alertMessage = "Error "+ error.response.status + " " + error.response.data.message;
 							// The request was made and the server responded with a status code  that falls out of the range of 2xx
-							// console.log(error.response.data);
-							// console.log(error.response.status);
-							// console.log(error.response.headers);
 						} else if (error.request) {
 							// The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 							console.log(error.request);
-							this.alertMessage = "Error. Risposta non ricevuta dal server"
+							this.alertMessage = "Error. Server irrangiungibile."
 						} else {
 							// Something happened in setting up the request that triggered an Error
 							console.log('Error', error.message);
@@ -347,6 +333,12 @@
 			selectCategoriaRilascio: function(data){
 				this.nuovaCategoria.data_rilascio = this.customFormatter(data);
 			},
+			modify_data_scadenza_patente: function(date){
+				//modify a single date of a categoria
+				console.log(index);
+				// this.nuovaPatente.categorie[index].data_scadenza = 
+				return this.customFormatter(date);
+			},
 			selectData_rilascio_patente: function(data){
 				this.nuovaPatente.data_rilascio_patente = this.customFormatter(data);
 				this.selectCategoriaRilascio(data);
@@ -358,7 +350,6 @@
 			},
 			salvaAggiungiCategoria : function(){
 				// aggiunge la nuova categoria nella liste delle categorie assegnate alla patente
-				// this.nuovaPatente.categorie.push(Object.assign({},this.nuovaCategoria));
 				this.nuovaPatente.categorie.push({categoria: this.nuovaCategoria.categoria.categoria, 
 												id: this.nuovaCategoria.categoria.id,
 												pivot:{ 
@@ -366,7 +357,25 @@
 													data_scadenza:  this.nuovaCategoria.data_scadenza
 													}
 												});
+				this.sortCategorie()
 				this.close();
+			},
+			sortCategorie:function(){
+				this.nuovaPatente.categorie.sort(this._compare);
+			},
+			_compare: function(a,b){
+				// funzione usata per compare e ordinare le categoria
+				if (a.categoria < b.categoria) {
+					return -1;
+				}
+				if (a.categoria > b.categoria) {
+					return 1;
+				}
+				// a deve essere uguale a b
+				return 0;
+			},
+			_removeCategoria: function(index){
+				this.nuovaPatente.categorie.splice(index, 1);
 			},
 			open: function(){
 				this.showModalAggiungiCategoria = true;

@@ -10,8 +10,9 @@
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       <a class="dropdown-item" href="{{ route('patente.scadenze') }}">Scadenze patenti</a>
-      <a class="dropdown-item" href="{{ route('patente.ricerca') }}">Ricerca patente</a>
       <a class="dropdown-item" href="{{ route('patente.inserimento') }}">Aggiungi patente</a>
+      <a class="dropdown-item" href="{{ route('patente.ricerca') }}">Ricerca patente</a>
+      <a class="dropdown-item" href="{{ route('patente.elenchi') }}">Stampa elenchi patenti</a>
     </div>
   </li>
 @append

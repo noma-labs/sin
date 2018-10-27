@@ -38,7 +38,7 @@ class ApiController extends CoreBaseController
   }
 
   // /api/veicoli/prenotazioni?datapartenza=AAAA-MM-YY&ora_in=HH:MM,HH:MM
-  // ritorna tutti i veicoli con la liste delle prenotazioni tra  ora_in
+  // ritorna tutti i veicoli con la liste delle prenotazioni tra ora_in
   public function veicoliPrenotazioni(Request $request){
     // lista delle prenotazioni attive tra l'ora di partenza e l'ora di arrivo
     $IDPrenotazioniAttive = collect(); //create empty colllection
@@ -46,14 +46,48 @@ class ApiController extends CoreBaseController
         $pieces = explode(",", $request->input('ora_in'));
         $orap = $pieces[0];
         $oraa = $pieces[1];
-        //get all the prenotazioni attive between orapartenza and  ora arrivo.
-        $IDPrenotazioniAttive = Prenotazioni::with(["cliente"])
-                    ->where('data_partenza', '=', $request->input('datapartenza'))
-                    ->where(function ($query) use ($orap,$oraa) {
-                          $query->where([['ora_partenza', '<=', $orap],['ora_arrivo',">",$orap]])
-                                ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]]);
-                })->pluck("id");
+        $datap = $request->input('datapartenza');
+        $dataa = $request->input('dataarrivo');
+        //prenotazioni attive guradando solo le date: datapartenza e dataarrivo
+        $IDPrenotazioniAttiveData = Prenotazioni::with(["cliente"])
+            ->where('data_partenza', '<', $dataa)
+            ->where('data_arrivo','>',$datap)
+            ->pluck("id");
+        // dd($IDPrenotazioniAttiveData);
 
+
+        //prenotazioni attive guradando le date e ore
+        $IDPrenotazioniAttiveDataOra = Prenotazioni::with(["cliente"])
+          ->where('data_arrivo',"=",$datap)
+          ->where('ora_arrivo',">",$orap)
+          // ->toSql();
+          ->pluck("id");
+        // dd($IDPrenotazioniAttiveDataOra);
+        //prenotazioni attive guradando le date e ore        
+        $IDPrenotazioniAttiveDataOra2 = Prenotazioni::with(["cliente"])
+          ->where('data_partenza',"=",$dataa)
+          ->where('ora_partenza',"<",$oraa)
+          ->pluck("id");
+        // dd($IDPrenotazioniAttiveDataOra2);
+
+
+        // prenotazioni attive nello stesso giorno guardando l'ora
+        $IDPrenotazioniAttiveOra = collect(); 
+        // if($datap == $dataa){
+          $IDPrenotazioniAttiveOra = Prenotazioni::with(["cliente"])
+            ->where('data_partenza', '=', $datap)
+            ->where('data_arrivo','=', $dataa)
+            ->where(function ($query) use ($orap,$oraa) {
+                  $query->where([['ora_partenza', '<=', $orap],['ora_arrivo',">",$orap]])
+                        ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]]);})
+            ->pluck("id");
+        // }
+          $IDPrenotazioniAttive = collect(); //Create empty collection which we know has the merge() method
+          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveData);
+          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveOra);
+          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra2);
+          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra);
+          
       // esclude l'id della prenotazione (except) tra le prenotazioni attive.
       // Viene usato quando si sta modificando una prenotazione.
       if($request->filled('except'))
@@ -217,7 +251,7 @@ class ApiController extends CoreBaseController
     
     $results = array();
     foreach ($meccanici as $meccanico)
-        $results[] = ['value'=>$meccanico->id, 'label'=>$meccanico->nominativo];
+        $results[] = ['value'=>$meccanico->persona_id, 'label'=>$meccanico->nominativo];
     return response()->json($results);
   }
 

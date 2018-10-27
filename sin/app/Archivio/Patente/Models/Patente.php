@@ -28,10 +28,48 @@ class Patente extends Model
                                 ->withPivot('data_rilascio','data_scadenza') ;
   }
 
+//   /**
+//      * Ritorna la data di scadenza della patente nel formato DD-MM-YYYY
+//      *
+//      * @param  string  $value
+//      * @author Davide Neri
+//      */
+//     public function getDataScadenzaPatenteAttribute($value)
+//     {
+//         return Carbon::parse($value)->format('m-d-Y');
+//     }
+
+//     public function setDataScadenzaPatenteAttribute($value)
+//     {
+//         $this->attributes['data_scadenza_patente'] = Carbon::parse($value)->toDateString();
+//     }
+
+//     /**
+//      * Ritorna la data di rilascio della patente nel formato DD-MM-YYYY
+//      *
+//      * @param  string  $value
+//      * @author Davide Neri
+//      */
+//     public function getDataRilascioPatenteAttribute($value)
+//     {
+//         return Carbon::parse($value)->format('m-d-Y');
+//     }
+
+//     public function setDataRilascioPatenteAttribute($value)
+//     {
+//         $this->attributes['data_rilascio_patente'] = Carbon::parse($value)->toDateString();
+//     }
+
   public function CQCPersone(){
     return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
                                 ->withPivot('data_rilascio','data_scadenza')
                                 ->wherePivot('categoria_patente_id',16);
+  }
+
+  public function CQCMerci(){
+    return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
+                                ->withPivot('data_rilascio','data_scadenza')
+                                ->wherePivot('categoria_patente_id',17);
   }
   
   /**

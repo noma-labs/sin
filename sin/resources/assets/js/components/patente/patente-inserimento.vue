@@ -1,6 +1,6 @@
 <template id="categorie">
 	<div>
-		<div class="alert "  v-show="showAlert" v-bind:class="[hasError ? 'alert-danger' : '', 'alert-success']" role="alert"> 
+		<div class="alert"  v-show="showAlert" v-bind:class="[hasError ? 'alert-danger' : '', 'alert-success']" role="alert"> 
 			{{alertMessage}} </strong>
 			<!-- <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> -->
 		</div>
@@ -51,17 +51,18 @@
 					</div>
 					
 					<div class="col-md-6">
-						<label for="rilasciata_dal">Rilascia da:</label>
+						<label for="rilasciata_dal">Rilasciata dal:</label>
 						<input type="text" class="form-control"  
-											v-model="nuovaPatente.rilasciata_dal" id="rilasciata_dal" 
-											name="rilasciata_dal" 
-											:disabled=disabledAll>
+								v-model="nuovaPatente.rilasciata_dal" 
+								id="rilasciata_dal" 
+								name="rilasciata_dal" 
+								:disabled=disabledAll>
 					</div>
-					
-				</div><!-- end secoond row in left colum-->
+				</div><!-- end second row in left colum-->
 				<div class="row">
 					<div class="col-md-6">
 							<label for="data_scadenza_patente">Patente valida fino al:</label>
+
 							<date-picker  name="data_scadenza_patente" 
 										@selected="selectData_scadenza_patente"
 										:bootstrap-styling="true" 
@@ -77,12 +78,32 @@
 					</div>
 				</div><!-- end third row in left colum-->
 				<div class="row">
-					<div class="form-group col-md-9">
+					<div class="form-group col-md-12">
 						<label for="note">Note:</label>
 						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
 					</div>
-					<div class="form-group col-md-3 m-*-auto">
-					 <div>&nbsp;</div>
+				</div> <!-- end fouth row in left colum-->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ycommissione" value="commissione">
+							<label class="form-check-label" for="ycommissione">
+								Assegnare la commissione alla patente.
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="assegnaCommissione" v-model="nuovaPatente.stato" id="ncommissione" value="null">
+							<label class="form-check-label" for="ncommissione">
+								Non assegnare la commissione alla patente.
+							</label>
+						</div>
+					</div>
+				</div> <!-- end fifth row in left colum-->
+
+				<!-- <div class="row">
+					<div class="col-md-6">
+						<div class="form-group col-md-3 m-*-auto">
+						<div>&nbsp;</div>
 						<button type="submit" 
 								@click="salvaNuovaPatente"
 								:disabled="disabledSalvaNuovaPatente || disabledAll" 
@@ -90,48 +111,71 @@
 								class="btn btn-primary">
 								Salva
 						</button>
+						</div>
 					</div>
-				</div> <!-- end fouth row in left colum-->
+				</div>  -->
+				<!--end sixth row in left column-->					
 			</div>  <!-- end left column-->
 
 			<div class="col-md-6">
-				<div class="row" v-if="nuovaPatente.categorie_patente.length">
-						<div class="col-md-4">Categoria</div>
+				<div class="row" v-if="nuovaPatente.categorie.length">
+						<div class="col-md-2">Categoria</div>
 						<div class="col-md-4">Data rilascio</div>
 						<div class="col-md-4">Data scadenza</div>
-						<!-- <div class="col-md-3">Restrizioni</div> -->
+						<div class="col-md-2">Opera.</div>
 				</div>
-				<div class="row" v-for="categoria in nuovaPatente.categorie_patente">
-					<div class="col-md-4">
+				<div class="row  mt-2" v-for="categoria in nuovaPatente.categorie">
+					<div class="col-md-2" align="center">
 						{{categoria.categoria.categoria}}	
 					</div>
 					<div class="col-md-4">
 						<date-picker 
-							:value="categoria.data_rilascio" 
-							placeholder="---Seleziona una data---" 
-							:language="language" 
-							:format="customFormatter"
-							:disabled=disabledAll>
+								:bootstrap-styling="true" 
+								:value="categoria.data_rilascio" 
+								placeholder="---Seleziona una data---" 
+								:language="language" 
+								:format="customFormatter"
+								:disabled=disabledAll>
 						</date-picker>
 					</div>
 					<div class="col-md-4">
-						<date-picker :value="categoria.data_scadenza" 
+						<date-picker 
+									:bootstrap-styling="true" 
+									:value="categoria.data_scadenza" 
 									placeholder="---Seleziona una data---" 
 									:language="language" 
 									:format="customFormatter"
 									:disabled=disabledAll>
 						</date-picker>
 					</div>
-					<!-- <div class="col-md-3">
-						{{categoria.restrizione}}	
-					</div> -->
+					 <div class="col-md-2"> 
+						<button class="btn btn-danger" 
+								@click="_removeCategoria(index)" 
+								:disabled=disabledAll> 
+								X
+								<i class="far fa-trash-alt"></i>
+					</button>
+					</div> 
 				</div>
-				<div class="row">
-					<button class="btn btn-warning col-md-4 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
+				<div class="row pt-md-2">
+					<button class="btn btn-warning col-md-3 offset-md-8" @click="open" :disabled=disabledAll>Aggiungi categoria</button>
 				</div>
-			 </div>  <!-- end  rigth column -->
+			</div>  <!-- end  rigth column -->
 		</div> <!-- end first row -->
 		
+		<div class="row">
+			<div class="col-md-3 offset-md-9">
+				<div>&nbsp;</div>
+				<button type="submit" 
+						@click="salvaNuovaPatente"
+						:disabled="disabledSalvaNuovaPatente || disabledAll" 
+						form="edit-patente" 
+						class="btn btn-primary">
+						Salva
+				</button>
+			</div>
+		</div> <!--end sixth row in left column-->	
+
 		<!-- Modal Aggiungi Lavoratore -->
 		    <transition name="modal">
 		        <div class="modal-mask"  @click="close" v-show="showModalAggiungiCategoria">
@@ -142,7 +186,6 @@
 		                <div class="modal-body">
 							<div class="form-group ">
 									<label>Categoria</label>
-									<!-- v-model="nuovaCategoria"  -->
 									<select class="form-control"  v-model="nuovaCategoria.categoria">
 										<option :selected="true" >---Selezione categoria---</option>
 										<option v-for="categoria in categoriePossibili" v-bind:value="categoria">
@@ -153,11 +196,12 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Categoria rilasciata il:</label>
-									<date-picker  :bootstrap-styling="true" 
+										<!-- :value="nuovaCategoria.data_rilascio" -->
+									<date-picker :bootstrap-styling="true" 
 												placeholder="Selezionare una data" 
-												:value="nuovaCategoria.data_rilascio"
 												@selected="selectCategoriaRilascio"
 												:language="language" 
+												:disabledDates="disabled_data_rilascio_categoria"
 												:format="customFormatter"> 
 									</date-picker>
 								</div>
@@ -169,8 +213,8 @@
 												@selected="selectCategoriaValidita" 
 												:disabledDates="disabled_data_scadenza_categoria"
 												:language="language" 
-												:format="customFormatter"> 
-											
+												:format="customFormatter"
+												> 
 									</date-picker>
 								</div>
 							</div>
@@ -227,8 +271,9 @@
 					data_scadenza_patente : null,
 					rilasciata_dal :null,
 					numero_patente: null,
+					stato: null,                // 'commissione': la patente è stata associata alla commissione, NULL otherwise
 					note : null,
-					categorie_patente: [],          	// array delle nuove categorie assegnate alla patente
+					categorie: [],          	// array delle nuove categorie assegnate alla patente
 				},
 				nuovaCategoria: {
 					categoria : {
@@ -255,21 +300,29 @@
 						|| this.nuovaCategoria.data_scadenza == null 			
 			},
 			disabledSalvaNuovaPatente: function(){
-				// return  this.nuovaPatente.categorie_patente === null 
-				// 		|| this.nuovaPatente.categorie_patente === [] 
+				// return  this.nuovaPatente.categorie === null 
+				// 		|| this.nuovaPatente.categorie === [] 
 				return    this.nuovaPatente.persona_id === null
 				 		|| this.nuovaPatente.numero_patente === null
 						|| this.nuovaPatente.data_rilascio_patente === null
 						|| this.nuovaPatente.data_scadenza_patente=== null 			
 			},
 			disabledData_scadenza_patente: function(){
+				//var data = moment(this.nuovaPatente.data_rilascio_patente,"DD-MM-YYYY"); //"DD-MM-YYYY"
+				var data = this.transformIntoDate(this.nuovaPatente.data_rilascio_patente,"YYYY-MM-DD");
 				return {
-					to: new Date(this.nuovaPatente.data_rilascio_patente)
+					to: data
 				}
 			},
 			disabled_data_scadenza_categoria: function(){
 				return {
 					to: new Date(this.nuovaCategoria.data_rilascio)
+				}
+			},
+			disabled_data_rilascio_categoria: function(){
+				var data = this.transformIntoDate(this.nuovaCategoria.data_scadenza,"YYYY-MM-DD");
+				return {
+					from: data
 				}
 			}
 		},
@@ -300,15 +353,9 @@
 				 this.optionsPersone = response.data;
 				});
 			},
-			customFormatter(date) {
-		      return moment(date).format('YYYY-MM-DD');
-			},
+			
 			getCategoriePossibili(){
-				var api = "/api/patente/categorie";
-				if(this.numero_patente != null)
-				   api = "/api/patente/"+this.numero_patente+"/categorie?filtro=possibili";
-				   
-				axios.get(api).then(response => {
+				axios.get(this.apiPatenteCategorie).then(response => {
 					this.categoriePossibili = response.data;
 					console.log(this.categoriePossibili);
 				});
@@ -349,7 +396,15 @@
 						}
 					});
 			},
-			
+			customFormatter(date) {
+			  //return moment(date).format('DD-MM-YYYY'); //,"YYYY-MM-DD"
+		      return moment(date).format('YYYY-MM-DD'); //,"YYYY-MM-DD"
+			  
+			},
+			transformIntoDate: function(data, format){
+				var date = moment(data,format);
+				return new Date(date.year(), date.month(),date.date()) // month is from [0-11]
+			},
 			selectCategoriaValidita: function(data){
 				this.nuovaCategoria.data_scadenza = this.customFormatter(data);
 			},
@@ -358,17 +413,40 @@
 			},
 			selectData_rilascio_patente: function(data){
 				this.nuovaPatente.data_rilascio_patente = this.customFormatter(data);
-				this.selectCategoriaRilascio(data);
-
 			},
 			selectData_scadenza_patente: function(data){
 				this.nuovaPatente.data_scadenza_patente = this.customFormatter(data);
-				this.selectCategoriaValidita(data); // data validità categoria uguale alla patente
+				this.selectCategoriaValidita(data);
+				//this.nuovaCategoria.data_scadenza = this.transformIntoDate(this.nuovaPatente.data_scadenza_patente,'DD-MM-YYYY') //this.loadFormattedDate(this.nuovaPatente.data_scadenza_patente);
 			},
 			salvaAggiungiCategoria : function(){
 				// aggiunge la nuova categoria nella liste delle categorie assegnate alla patente
-				this.nuovaPatente.categorie_patente.push(Object.assign({},this.nuovaCategoria));
+				this.nuovaPatente.categorie.push({ categoria: this.nuovaCategoria.categoria,
+															data_rilascio: moment(this.nuovaCategoria.data_rilascio,"YYYY-MM-DD-")
+																		.format('YYYY-MM-DD'),
+															data_scadenza: moment(this.nuovaCategoria.data_scadenza,"YYYY-MM-DD")
+																		.format('YYYY-MM-DD'),
+															});
+				this.sortCategorie();
 				this.close();
+
+			},
+			sortCategorie:function(){
+				this.nuovaPatente.categorie.sort(this._compare);
+			},
+			_compare: function(a,b){
+				// funzione usata per compare e ordinare le categoria
+				if (a.categoria.categoria < b.categoria.categoria) {
+					return -1;
+				}
+				if (a.categoria.categoria > b.categoria.categoria) {
+					return 1;
+				}
+				// a deve essere uguale a b
+				return 0;
+			},
+			_removeCategoria: function(index){
+				this.nuovaPatente.categorie.splice(index, 1);
 			},
 			open: function(){
 				this.showModalAggiungiCategoria = true;
@@ -383,6 +461,7 @@
 						id: -1, 
 						categoria: null,
 					},
+				this.nuovaCategoria.data_rilascio == null;
 				this.nuovaCategoria.restrizioni = null;
 			}
 		}

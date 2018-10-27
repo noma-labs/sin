@@ -35,7 +35,9 @@
                  {{ veicolo.nome}}
                   <span v-if="hasPrenotazioni(veicolo)">
                     - {{veicolo.prenotazioni[0].cliente.nominativo}}
-                    ({{veicolo.prenotazioni[0].ora_partenza}},{{veicolo.prenotazioni[0].ora_arrivo}})
+                    (  {{veicolo.prenotazioni[0].data_partenza}}:{{veicolo.prenotazioni[0].ora_partenza}},
+                     {{veicolo.prenotazioni[0].data_arrivo}}:{{veicolo.prenotazioni[0].ora_arrivo}}
+                    )
                   </span>
                </option>
              </optgroup>
@@ -49,7 +51,7 @@
 <script>
  export default  {
    props: {
-    urlVeicoliPrenotazioni: {  // url to get the dveicoli with theri prenotazioni 
+    urlVeicoliPrenotazioni: {  // url to get the veicoli with their prenotazioni 
        type: String,
        required: true
      },
@@ -72,7 +74,7 @@
     veicoloSelected:{
       type: String,
     },
-    idPrenotazioneToExclude:{ // If passed the the prenotazione is exclude from the
+    idPrenotazioneToExclude:{ // If passed, the prenotazione is exclude from the 
       type: String
     }
    },
@@ -96,7 +98,7 @@
         // ]
       }
     },
-  watch: {// whenever ora_partenza, ora_arrivo, data_partenza changes, the updateBusyVehicles function will run
+  watch: {// whenever ora_partenza, ora_arrivo, data_partenza changes, the updateBusyVehicles() is called
     ora_partenza: function (newQuestion, oldQuestion) {
       this.updateBusyVehicles()
     },
@@ -105,21 +107,32 @@
     },
     data_partenza: function (newQuestion, oldQuestion) {
       this.updateBusyVehicles()
+    },
+    data_arrivo: function (newQuestion, oldQuestion) {
+      this.updateBusyVehicles()
     }
-
   },
   mounted: function() {
-      axios.get(this.urlVeicoliPrenotazioni,{ params: { "datapartenza": this.data_partenza, "ora_in":this.ora_partenza+","+this.ora_arrivo, "except":this.idPrenotazioneToExclude} })
-      .then(response => {
-        this.veicoli_per_impiegotipologia = response.data
-      })
-      .catch(e => {
-        this.errors.push(e);
-      })
+     console.log("calling for prenotazioni");
+      axios.get(this.urlVeicoliPrenotazioni,{ params: { "datapartenza": this.data_partenza, 
+                                                        "dataarrivo": this.data_arrivo,
+                                                        "ora_in":this.ora_partenza+","+this.ora_arrivo, 
+                                                        "except":this.idPrenotazioneToExclude
+                                                        } 
+              }).then(response => {
+               
+                this.veicoli_per_impiegotipologia = response.data
+              })
+              .catch(e => {
+                this.errors.push(e);
+              })
     },
   methods:  {
     updateBusyVehicles() {
-      axios.get(this.urlVeicoliPrenotazioni, { params: { "datapartenza": this.data_partenza, "ora_in":this.ora_partenza+","+this.ora_arrivo, "except":this.idPrenotazioneToExclude} }) //this.data_partenza
+      axios.get(this.urlVeicoliPrenotazioni, { params: { "datapartenza": this.data_partenza, 
+                                                        "dataarrivo": this.data_arrivo,
+                                                        "ora_in":this.ora_partenza+","+this.ora_arrivo, 
+                                                        "except":this.idPrenotazioneToExclude} }) //this.data_partenza
             .then(response => {
               this.veicoli_per_impiegotipologia = response.data;
               console.log("Veicoli con prenotazioni aggiornati");

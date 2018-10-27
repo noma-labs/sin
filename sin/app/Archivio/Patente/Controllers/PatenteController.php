@@ -14,16 +14,28 @@ class PatenteController extends CoreBaseController
     public function scadenze(){
         $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(45)->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get();        
+        
         $patentiCQCPersone = CategoriaPatente::CQCPersone()->inScadenza(90)->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCPersoneScadute = CategoriaPatente::CQCPersone(6)->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersoneScadute = CategoriaPatente::CQCPersone()->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCMerci = CategoriaPatente::CQCMerci()->inScadenza(90)->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCMerciScadute = CategoriaPatente::CQCMerci()->scadute(30)->with("persona")->orderBy('data_scadenza_patente')->get();
+        
         $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(90)->orderBy('data_scadenza_patente')->get();
         $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(30)->orderBy('data_scadenza_patente')->get(); 
         return view("patente.scadenze",compact('patenti',
                                                 'patentiScadute',
                                                 'patentiCQCPersone',
                                                 'patentiCQCPersoneScadute',
+                                                'patentiCQCMerci',
+                                                'patentiCQCMerciScadute',
                                                 'patentiCommissione',
                                                 'patentiCommisioneScadute'));
+    }
+
+
+    public function elenchi()
+    {
+        return view("patente.elenchi");
     }
 
     public function patente()
