@@ -217,7 +217,7 @@ class ApiController extends CoreBaseController
     
     $results = array();
     foreach ($meccanici as $meccanico)
-        $results[] = ['value'=>$meccanico->id, 'label'=>$meccanico->nominativo];
+        $results[] = ['value'=>$meccanico->persona_id, 'label'=>$meccanico->nominativo];
     return response()->json($results);
   }
 
