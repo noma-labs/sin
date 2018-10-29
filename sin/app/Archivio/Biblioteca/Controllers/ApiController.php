@@ -105,7 +105,11 @@ class ApiController extends CoreBaseController
          $results[] = ['value'=>$libro->titolo,'label'=>$libro->titolo];
      return response()->json($results);
    }
-
+   /**
+    * Insert a new autore,
+    * @return: 
+    * @author: Davide Neri
+    */
   public function postAutore(Request $request){
       if ($request->filled('nome')) {
         $nome = $request->input('nome');
@@ -113,15 +117,34 @@ class ApiController extends CoreBaseController
         if (!$autore) {
           $autore = Autore::create(['autore' => $nome]);
           $msg = "Autore $autore->autore inserito correttamente";
+          return response()->json(['err'=>0, 'msg' => $msg]);
         }else
           $msg = "Autore $autore->autore esiste già.";
-         return response()->json(['msg' => $msg]);
+          return response()->json(['err'=>1, 'msg' => $msg]);
       }else {
         return response()->json([
+                      'err'=>1,
                       'error' => "l'autore non è stato passato correttamente"
                     ], 400);
       };
   }
+  /**
+   * Inserisce un nuovo editore.
+   * 
+   * @param String nome: nome dell'editore.
+   * @return json 
+   * {
+   * "err": 0,// 1
+   * "data": {
+   *     "id": 3880,
+   *     "editore": "DIDO-EDITORE-2",
+   *     "created_at": "2018-10-29 11:36:28",
+   *     "updated_at": "2018-10-29 11:36:28",
+   *     "tipedi": "S"
+   *  },
+   *  "msg": "Editore DIDO-EDITORE-2 esiste già."
+   * }
+   */
 
   public function postEditore(Request $request){
       if ($request->filled('nome')) {
@@ -130,12 +153,14 @@ class ApiController extends CoreBaseController
         if (!$editore) {
           $editore = Editore::create(['editore' => $nome]);
           $msg = "Editore $editore->editore inserito correttamente";
+          return response()->json(['err'=>0, 'data'=> $editore, 'msg' => $msg]);
         }else
           $msg = "Editore $editore->editore esiste già.";
-         return response()->json(['msg' => $msg]);
+         return response()->json(['err'=>1, 'data'=> $editore, 'msg' => $msg]);
       }else {
         return response()->json([
-                      'error' => "l'editore non è stato passato correttamente"
+                      'err'=>1,
+                      'msg'=> "l'editore non è stato passato correttamente"
                     ], 400); // Status code here
       };
   }

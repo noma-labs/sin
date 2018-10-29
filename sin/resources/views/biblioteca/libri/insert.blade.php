@@ -43,9 +43,14 @@
            </div>
         </div>
         <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-8">
-            <!-- {{old('xIdEditori')}}  -->
+            <!-- <aggiungi-editore :multiple="true"
+                              placeholder="Inserisci editore/i ..."
+                              name="xIdEditori"
+                              api-biblioteca-editori="{{route('api.biblioteca.editori')}}"
+                              api-biblioteca-editori-create="{{route('api.biblioteca.editori.create')}}">
+            </aggiungi-editore> -->
+          <div class="row"> 
+          <div class="col-md-8">
                 <label for="xEditore" class="control-label">Editore/i (*)</label>
                 <autocomplete :multiple="true"
                               placeholder="Inserisci editore/i ..."
@@ -58,9 +63,9 @@
               <label>&nbsp;</label>
               <modal title="Nuovo Editore" url-post="{{route('api.biblioteca.editori.create')}}" placeholder="Es. Arnoldo Mondadori"/>
             </div>
-          </div>
+          </div> 
          </div>
-      </div>
+         </div>
       <div class="row">
           <div class="col-md-4">
             <label for="xClassificazione"  class="control-label" >Classificazione (*)</label>

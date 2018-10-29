@@ -24,7 +24,7 @@
 					</div>
 					
 					<div class="col-md-6">
-						<label for="rilasciata_dal">Rilascia da:</label>
+						<label for="rilasciata_dal">Rilasciata da:</label>
 						<input type="text" class="form-control"  
 											v-model="nuovaPatente.rilasciata_dal" id="rilasciata_dal" 
 											name="rilasciata_dal" 
