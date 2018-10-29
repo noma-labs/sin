@@ -42,7 +42,7 @@ class ApiController extends CoreBaseController
   public function veicoliPrenotazioni(Request $request){
     // lista delle prenotazioni attive tra l'ora di partenza e l'ora di arrivo
     $IDPrenotazioniAttive = collect(); //create empty colllection
-    if ($request->filled(['datapartenza','ora_in'])) {
+    if ($request->filled(['datapartenza','dataarrivo','ora_in'])) {
         $pieces = explode(",", $request->input('ora_in'));
         $orap = $pieces[0];
         $oraa = $pieces[1];
@@ -55,14 +55,13 @@ class ApiController extends CoreBaseController
             ->pluck("id");
         // dd($IDPrenotazioniAttiveData);
 
-
         //prenotazioni attive guradando le date e ore
         $IDPrenotazioniAttiveDataOra = Prenotazioni::with(["cliente"])
           ->where('data_arrivo',"=",$datap)
           ->where('ora_arrivo',">",$orap)
-          // ->toSql();
           ->pluck("id");
         // dd($IDPrenotazioniAttiveDataOra);
+
         //prenotazioni attive guradando le date e ore        
         $IDPrenotazioniAttiveDataOra2 = Prenotazioni::with(["cliente"])
           ->where('data_partenza',"=",$dataa)
@@ -70,10 +69,7 @@ class ApiController extends CoreBaseController
           ->pluck("id");
         // dd($IDPrenotazioniAttiveDataOra2);
 
-
         // prenotazioni attive nello stesso giorno guardando l'ora
-        $IDPrenotazioniAttiveOra = collect(); 
-        // if($datap == $dataa){
           $IDPrenotazioniAttiveOra = Prenotazioni::with(["cliente"])
             ->where('data_partenza', '=', $datap)
             ->where('data_arrivo','=', $dataa)
@@ -81,14 +77,14 @@ class ApiController extends CoreBaseController
                   $query->where([['ora_partenza', '<=', $orap],['ora_arrivo',">",$orap]])
                         ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]]);})
             ->pluck("id");
-        // }
+
           $IDPrenotazioniAttive = collect(); //Create empty collection which we know has the merge() method
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveData);
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveOra);
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra2);
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra);
           
-      // esclude l'id della prenotazione (except) tra le prenotazioni attive.
+      // esclude l'id della prenotazione (parametro except) tra le prenotazioni attive.
       // Viene usato quando si sta modificando una prenotazione.
       if($request->filled('except'))
         $IDPrenotazioniAttive = $IDPrenotazioniAttive->filter(function ($value, $key) use ($request) {
