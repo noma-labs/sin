@@ -53,34 +53,36 @@ class ApiController extends CoreBaseController
             ->where('data_partenza', '<', $dataa)
             ->where('data_arrivo','>',$datap)
             ->pluck("id");
-        // dd($IDPrenotazioniAttiveData);
+        // // dd($IDPrenotazioniAttiveData);
 
-        //prenotazioni attive guradando le date e ore
+        // //prenotazioni attive guradando le date e ore
         $IDPrenotazioniAttiveDataOra = Prenotazioni::with(["cliente"])
           ->where('data_arrivo',"=",$datap)
+          ->where('data_partenza',"!=",$datap) // elimina partenza nello stesso giorno
           ->where('ora_arrivo',">",$orap)
           ->pluck("id");
-        // dd($IDPrenotazioniAttiveDataOra);
+        // // dd($IDPrenotazioniAttiveDataOra);
 
-        //prenotazioni attive guradando le date e ore        
+        // //prenotazioni attive guardando le date e ore        
         $IDPrenotazioniAttiveDataOra2 = Prenotazioni::with(["cliente"])
           ->where('data_partenza',"=",$dataa)
+          ->where('data_arrivo',"!=",$dataa) // elimina partenza nello stesso giorno
           ->where('ora_partenza',"<",$oraa)
           ->pluck("id");
         // dd($IDPrenotazioniAttiveDataOra2);
 
         // prenotazioni attive nello stesso giorno guardando l'ora
-          $IDPrenotazioniAttiveOra = Prenotazioni::with(["cliente"])
+          $IDPrenotazioniAttiveOggi = Prenotazioni::with(["cliente"])
             ->where('data_partenza', '=', $datap)
             ->where('data_arrivo','=', $dataa)
-            ->where(function ($query) use ($orap,$oraa) {
+            ->where(function ($query) use ($orap, $oraa) {
                   $query->where([['ora_partenza', '<=', $orap],['ora_arrivo',">",$orap]])
                         ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]]);})
             ->pluck("id");
 
           $IDPrenotazioniAttive = collect(); //Create empty collection which we know has the merge() method
-          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveData);
-          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveOra);
+           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveData);
+          $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveOggi);
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra2);
           $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveDataOra);
           
