@@ -23,6 +23,8 @@ Vue.component('sin-header', require('./components/partials/sin-header.vue'));
 // Vue.component('my-modal', require('./components/modal2.vue'));
 // Biblioteca components
 Vue.component('search-collocazione', require('./components/libro-collocazione-autocomplete.vue'));
+Vue.component('aggiungi-editore', require('./components/biblioteca/aggiungi-editore.vue'));
+
 // Officina components
 Vue.component('veicolo-create-form', require('./components/veicolo-create-form.vue'));
 Vue.component('veicolo-prenotazione', require('./components/veicolo-prenotazione.vue'));
