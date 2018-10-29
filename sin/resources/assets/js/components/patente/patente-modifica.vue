@@ -18,7 +18,7 @@
 									:bootstrap-styling="true" 
 									:language="language" 
 									:format="customFormatter"
-									v-model="nuovaPatente.data_rilascio_patente"
+									:value="nuovaPatente.data_rilascio_patente"
 									:disabled="disabledAll">
 						</date-picker>
 					</div>
@@ -41,7 +41,7 @@
 										:language="language" 
 										:disabledDates="disabledData_scadenza_patente"
 										:format="customFormatter"
-										v-model="nuovaPatente.data_scadenza_patente"
+										:value="nuovaPatente.data_scadenza_patente"
 										:disabled="disabledAll">
 							</date-picker>
 						</div>
@@ -109,18 +109,19 @@
 							placeholder="---Seleziona una data---" 
 							:language="language" 
 							:format="customFormatter"
-							:disabled=disabledAll>
+							:disabled="true">
 						</date-picker>
 					</div>
 					<div class="col-md-4">
 						<date-picker 
+							:disabled="true"
 							:bootstrap-styling="true" 
 							@selected="modify_data_scadenza_patente"
 							v-model="categoria.pivot.data_scadenza" 
 							placeholder="---Seleziona una data---" 
 							:language="language" 
 							:format="customFormatter"
-							:disabled=disabledAll>
+							>
 						</date-picker>
 					</div>
 					<div class="col-md-2">

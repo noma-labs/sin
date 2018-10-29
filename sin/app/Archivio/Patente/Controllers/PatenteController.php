@@ -6,6 +6,8 @@ use App\Nomadelfia\Models\Persona;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Validator;
+use SnappyPdf;
+use Carbon;
 
 
 class PatenteController extends CoreBaseController
@@ -32,24 +34,28 @@ class PatenteController extends CoreBaseController
                                                 'patentiCommisioneScadute'));
     }
 
-
     public function elenchi()
     {
         return view("patente.elenchi");
     }
 
+    public function stampaAutorizzati(){
+        $etichette = Patente::all();
+        $pdf = SnappyPdf::loadView('patente.elenchi.autorizzati', 
+                    ["patentiAutorizzati"=>$etichette]);
+        $data = Carbon::now();
+        return $pdf->setPaper('a4')->setOrientation('portrait')->download("etichette-$data.pdf"); 
+    }
+
     public function patente()
     {
-        // $patenti = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
         $categorie = CategoriaPatente::orderby("categoria")->get();
         return view("patente.search",compact('categorie'));
     }
-
     
     public function ricerca(Request $request)
     {
         // $persona = Persona::findorfail($request->input("persona_id"));
-
         if(!$request->except(['_token']))
         return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
 
