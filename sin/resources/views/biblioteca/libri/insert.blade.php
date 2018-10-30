@@ -27,8 +27,20 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-           <div class="row">
-             <div class="col-md-8">
+           <libro-editore-autore 
+                              input-label="Autore/i"
+                              input-placeholder="Inserisci uno o più autori..."
+                              input-noptions="Nessun autore trovato."
+                              modal-title="Inserisci Nuovo Autore"
+                              modal-button="Nuovo autore"
+                              modal-placeholder="Esempio: Italo Calvino"
+                              name="xIdAutori"
+                              api-biblioteca-autori-editori="{{route('api.biblioteca.autori')}}"
+                              api-biblioteca-autori-editori-create="{{route('api.biblioteca.autori.create')}}"
+            > 
+             <!-- 
+              <div class="row">
+               <div class="col-md-8">
                  <label for="xAutore" class="control-label">Autore/i (*)</label>
                  <autocomplete :multiple="true"
                                 placeholder="Inserisci autore/i ..."
@@ -39,16 +51,22 @@
              <div class="col-md-4">
                  <label>&nbsp;</label>
                  <modal title="Nuovo Autore" url-post="{{route('api.biblioteca.autori.create')}}" placeholder="Es. Italo Calvino">
-             </div>
-           </div>
+             </div> 
+          </div>-->
         </div>
         <div class="col-md-6">
-            <!-- <aggiungi-editore :multiple="true"
-                              placeholder="Inserisci editore/i ..."
+            <libro-editore-autore 
+                              input-label="Editore/i"
+                              input-placeholder="Inserisci uno o più editori..."
+                              input-noptions="Nessun editore trovato."
+                              modal-title="Inserisci Nuovo Editore"
+                              modal-button="Nuovo editore"
+                              modal-placeholder="Esempio: Mondadori"
                               name="xIdEditori"
-                              api-biblioteca-editori="{{route('api.biblioteca.editori')}}"
-                              api-biblioteca-editori-create="{{route('api.biblioteca.editori.create')}}">
-            </aggiungi-editore> -->
+                              api-biblioteca-autori-editori="{{route('api.biblioteca.editori')}}"
+                              api-biblioteca-autori-editori-create="{{route('api.biblioteca.editori.create')}}"
+              >
+<!--        
           <div class="row"> 
           <div class="col-md-8">
                 <label for="xEditore" class="control-label">Editore/i (*)</label>
@@ -62,10 +80,10 @@
             <div class="col-md-4">
               <label>&nbsp;</label>
               <modal title="Nuovo Editore" url-post="{{route('api.biblioteca.editori.create')}}" placeholder="Es. Arnoldo Mondadori"/>
-            </div>
-          </div> 
+            </div> -->
+          <!-- </div>  -->
          </div>
-         </div>
+        </div>
       <div class="row">
           <div class="col-md-4">
             <label for="xClassificazione"  class="control-label" >Classificazione (*)</label>

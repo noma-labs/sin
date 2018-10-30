@@ -32,7 +32,19 @@
       </div>
      <div class="row">
        <div class="col-md-6">
-         <div class="row">
+       <libro-editore-autore   :selected="{{$libro->autori()->pluck('autore','id')}}"
+                              input-label="Autore/i"
+                              input-placeholder="Inserisci uno o più autori..."
+                              input-noptions="Nessun autore trovato."
+                              modal-title="Inserisci Nuovo Autore"
+                              modal-button="Nuovo autore"
+                              modal-placeholder="Esempio: Italo Calvino"
+                              name="xIdAutori"
+                              api-biblioteca-autori-editori="{{route('api.biblioteca.autori')}}"
+                              api-biblioteca-autori-editori-create="{{route('api.biblioteca.autori.create')}}"
+            > 
+         <!-- <div class="row">
+    
            <div class="col-md-8">
              <div class="form-group">
              <label for="xAutore">Autore </label>
@@ -43,7 +55,7 @@
                            url={{route('api.biblioteca.autori')}}>
               </autocomplete>
             </div>
-         </div>
+         </div> 
 
            <div class="col-md-4">
              <div class="form-group">
@@ -55,11 +67,22 @@
                </div>
              </div>
            </div>
-           </div>
+           </div>-->
          </div>
 
         <div class="col-md-6">
-          <div class="row">
+          <libro-editore-autore  :selected="{{$libro->editori()->pluck('editore','id')}}"
+                              input-label="Editore/i"
+                              input-placeholder="Inserisci uno o più editori..."
+                              input-noptions="Nessun editore trovato."
+                              modal-title="Inserisci Nuovo Editore"
+                              modal-button="Nuovo editore"
+                              modal-placeholder="Esempio: Mondadori"
+                              name="xIdEditori"
+                              api-biblioteca-autori-editori="{{route('api.biblioteca.editori')}}"
+                              api-biblioteca-autori-editori-create="{{route('api.biblioteca.editori.create')}}"
+              >
+          <!-- <div class="row">
             <div class="col-md-8">
               <div class="form-group">
               <label for="xEditore">Editori</label>
@@ -69,7 +92,7 @@
                             name="xIdEditori"
                            url={{route('api.biblioteca.editori')}}>
                </autocomplete>
-            </div>
+              </div>
           </div>
             <div class="col-md-2">
               <div class="form-group">
@@ -79,8 +102,8 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div>-->
+        </div> 
      </div>
        <!-- end second row: autore, editore -->
        <div class="row">

@@ -1,32 +1,33 @@
 <template>
     <div class="row">
     <div class="col-md-8">
-        <label for="xEditore" class="control-label">Editore/i (*)</label>
+        <label for="xEditore" class="control-label">{{inputLabel}}</label>
         <v-select
           :options="options"
           :debounce="500"
           :on-change="changed"
           :on-search="getOptions"
-          :placeholder="placeholder"
+          :placeholder="inputPlaceholder"
           label="label"
-          :multiple="multiple"
+          :multiple="true"
           v-model="item"
-          :disabled="disabled"
+          :disabled="false"
           >
-          <span slot="no-options">{{msgNoOptions}}</span>
+          <span slot="no-options">{{inputNoptions}}</span>
         </v-select>
         <input type="hidden" :name="name" :value="sentvalue" >
     </div>
 
     <div class="col-md-4">
         <label>&nbsp;</label>
-        <a class="btn btn-success" @click="openModal">{{title}}</a>
+        <a class="btn btn-success" @click="openModal">{{modalButton}}</a>
      </div> 
+
      <transition name="modal">
         <div class="modal-mask"  @click="closeModal" v-show="showModal">
             <div class="modal-container"  @click.stop>
                 <div class="modal-header">
-                    <h3>{{title}}</h3>
+                    <h3>{{modalTitle}}</h3>
                 </div>
                 <div class="modal-body">
                     <label class="form-label">
@@ -55,74 +56,65 @@
   export default {
     components: {vSelect},
     props: {
-        title: { // string into button and modal title
-            type: String,
-            default: "Nuovo Editore"
+        //object containing the selected itemsin the input.({id:name}) (e.g. {"275":"A. A. TARKOVSKIJ","374":"A. J. CRONIN","399":"A. MANZINO"}
+        selected:{ 
+            type:Object,
+            default: () => ({}),
         },
-        modalPlaceholder: { // placeholder in the input field
-            type: String,
-            default:"Esempio: MOndadori"
+        apiBibliotecaAutoriEditori:{ //api.biblioteca.editori
+            type:String
         },
-      selected:{ //object containing the selected items of the form ({id:name}) (e.g. {"275":"A. A. TARKOVSKIJ","374":"A. J. CRONIN","399":"A. MANZINO"}
-        type:Object,
-        default: () => ({}),
-      },
-      apiBibliotecaEditori:{ //api.biblioteca.editori
-          type:String
-      },
-      apiBibliotecaEditoriCreate: { //api.biblioteca.editori.create:  create a new editore
-          type:String
-      },
-      multiple: { //if "true" allow to select multiple choiches
-        type: Boolean,
-        default:false
-      },
-     placeholder: { // placeholder in the input field
-       type: String,
-       default:"Inserisci ..."
-     },
-     msgNoOptions : { //message to show whith no data
-       type: String,
-       default:"Nessun risultato ottenuto..."
-     },
-     name:{ // name of the input sent to the server
-       type: String,
-       required: false
-     },
-     url: {  // url to get the data
-        type: String,
-        required: false
-       },
-     /**
-      * Disable the entire component.
-      * @type {Boolean}
-      */
-     disabled: {
-       type: Boolean,
-       default: false
-     },
+        apiBibliotecaAutoriEditoriCreate: { //api.biblioteca.editori.create:  create a new editore
+            type:String
+        },
+        inputLabel:{
+            type: String,
+            default:"Editore/i"
+        },
+        inputPlaceholder: { // placeholder in the input field
+            type: String,
+            default:"Inserisci ..."
+        },
+        inputNoptions : { //message to show whith no data
+            type: String,
+            default:"Nessun risultato ottenuto..."
+        },
+        modalTitle: { // string into button and modal modalTitle
+            type: String,
+            default: "Inserimento"
+        },
+        modalButton: { // string into button and modal modalTitle
+            type: String,
+            default: "Nuovo"
+        },
+        modalPlaceholder: { // placeholder in the input field of the modal
+            type: String,
+            default:"Inserisci nome e cognome"
+        },
+        name:{ // name of the input sent to the server
+            type: String,
+            required: false
+        },
    },
     data() {
       return {
-
         options: [],
-        // item shown in the input field
+        // transfomt the selected items into the "item" shown in the input field
         item: (!_.isEmpty(this.selected)) ? this.fromObjectsToValueLabels(this.selected) : [],
-        // values to be sent
-        sentvalue: null,
-        //for modal
+        // array of IDs to be sent to the server.
+        sentvalue: [],
 		showModal: false,  // if true modal is shown
-        msg: null, // message receives form the server wjen a new editpre is inserted
-        nome: null,
+        msg: null,         // message receives form the server when a new resource is added
+        nome: null,        // nome of the new resource inserted into the modal 
         }
       },
     methods: {
         getOptions(search, loading) {
             loading(true);
-            axios.get(this.apiBibliotecaEditori, { params: { term: search } })
+            axios.get(this.apiBibliotecaAutoriEditori, { params: { term: search } })
                 .then(response => {
                     this.options = response.data;
-                    loading(false)
+                    loading(false);
                 })
                 .catch(error => {});
         },
@@ -131,41 +123,36 @@
             *  e.g. input: {"275":"A. A. TARKOVSKIJ",399":"A. MANZINO"}
             *      output: [{"value":275,"label":"A. A. TARKOVSKIJ"},{"value":399},"label":"A. MAnzino"]
             */
-            // console.log(el);
             var label_to_value = [];
             console.log(el);
             _.forOwn(el, function(value, key) {
                 label_to_value.push({"label":value, "value":key})
             });
-            if(this.multiple) return label_to_value
-            else return label_to_value[0]
+            return label_to_value
         },
+        // called whenever the values in the input are changed
         changed: function(selectedValues){
-            // selectedValues: [ [label: "A.C. GRAFICHE" value: 19], []]
-            if(this.multiple) // if multiple=true, selectedValues is an array
-            this.sentvalue = _.map(selectedValues,"value"); // from ["value":1, "value":2] to [1,2,3,4]
-            else // multiple=false than selectedValues is an object
-            this.sentvalue = selectedValues.value;
+            // from [label: "A.C. GRAFICHE" value: 19] to [1,2,3,4]
+            this.sentvalue = _.map(selectedValues,"value"); 
          },
         isDisabled(){
             return  !this.nome;
         },
         aggiungi: function () {
-            axios.post(this.apiBibliotecaEditoriCreate,{
+            axios.post(this.apiBibliotecaAutoriEditoriCreate,{
             nome: this.nome,
             })
             .then(response => {
                 console.log(response.data);
                 this.msg = response.data.msg;
                 if(response.data.err == 0){
-                    this.item.push({"label": response.data.data.editore,"value":response.data.data.id});
+                    this.item.push({"label": response.data.data.label,"value":response.data.data.value});
                     this.closeModal();
-                    this.sentvalue
                 }
             })
             .catch(e => {
-            this.errors.push(e);
-            console.log("error");
+                this.errors.push(e);
+                console.log("error");
             })
         },
         openModal: function(){
@@ -173,6 +160,11 @@
         },
         closeModal: function(){
             this.showModal = false;
+            this.resetModal()
+        },
+        resetModal: function(){
+            this. msg = null;  
+            this.nome = null; 
         }
     
     }
