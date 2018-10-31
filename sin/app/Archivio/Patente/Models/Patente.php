@@ -23,9 +23,23 @@ class Patente extends Model
       return $this->belongsTo(Persona::class, 'persona_id','id');
   }
 
+  /**
+     * Ritorna solo le patenti con la commissione.
+     *
+    */
+    public function scopeConCommissione($query)
+    {
+        return $query->where('stato', 'commissione');
+    }
+
   public function categorie(){ 
       return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
                                 ->withPivot('data_rilascio','data_scadenza') ;
+  }
+
+  public function categorieAsString(){
+    return $this->categorie()->get()->implode('categoria',',');
+
   }
 
 //   /**

@@ -3,6 +3,7 @@ namespace App\Patente\Controllers;
 use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
 use App\Nomadelfia\Models\Persona;
+use App\Patente\Models\ViewClientiPatente;
 use Illuminate\Http\Request;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -10,6 +11,7 @@ use Validator;
 
 class ApiController extends CoreBaseController
 {
+   
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
@@ -100,7 +102,8 @@ class ApiController extends CoreBaseController
     }
    
     /**
-	* Ritorna le persone che hanno l'età per prendere una patente.
+    * Ritorna le persone che hanno l'età per prendere una patente.
+    *
 	* @param String $term: Nome, cognome o nominativo della persona
 	* @author Davide Neri
 	**/
@@ -109,9 +112,11 @@ class ApiController extends CoreBaseController
         $term = $request->term;
 		// $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
 		// $pesrone = DatiPersonali::where('nome',"LIKE","$term%")->orWhere('cognome',"LIKE","$term%")->get();
-		$persone = Persona::with("datipersonali")
-                    ->where("nominativo","LIKE","$term%");
-                    // ->daEta(16);
+		$persone = ViewClientiPatente::where("nominativo","LIKE","%$term%")
+                    ->orwhere("nome","LIKE","%$term%")
+                    ->orwhere("cognome","LIKE","%$term%")
+                    ->take(50);
+
 		return $persone->get();
     }
     
@@ -183,7 +188,7 @@ class ApiController extends CoreBaseController
     *  "rilasciata_dal": string,
     *  "numero_patente": string,
     *  "note": string,
-    *  "stato": enu ('commissione', 'null')
+    *  "stato": enum ('commissione', 'null')
     *  "categorie":[  
     *    {  
     *       "categoria":{  
@@ -196,6 +201,13 @@ class ApiController extends CoreBaseController
     *  ...
     *  ]
     * }
+    * @return json 
+    *      {
+    *        'err': 0 | 1, 
+    *        "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server
+    *        "data": Object   // ot er data 
+    *        }
+    *
     * @author Davide Neri
 	**/
     public function create(Request $request)
@@ -221,9 +233,15 @@ class ApiController extends CoreBaseController
                                                     ]
                                                 ]);
             }
+            $p = Patente::find($body['numero_patente']);
             return response()->json(
                     ["err"=>0, 
-                    "msg"=> "Patente $patente->numero_patente inserita correttamente"]
+                    "msg"=> "Patente ".$p->numero_patente." inserita correttamente",
+                    "data" =>[
+                        'urlPatente' => route('patente.modifica',['id'=>$p->numero_patente]),
+                        'urlInserimento' => route('patente.inserimento')
+                     ]
+                    ]
                     ,201); 
         }
         return response()->json(["err"=>1, "msg"=>"Errore nella creazione della patente"]); 
