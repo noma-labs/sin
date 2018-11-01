@@ -96,7 +96,9 @@
     <tbody>
           @foreach($patenti as $patente)
           <tr hoverable>
-              <td> {{$patente->persona->nominativo}}</td>
+              <td> {{$patente->persona->nominativo}}
+              <span class="badge badge-warning">{{$patente->stato}}</span>
+              </td>
               <td> {{$patente->numero_patente}}</td>
               <td>
                 @foreach($patente->categorie as $categoria)

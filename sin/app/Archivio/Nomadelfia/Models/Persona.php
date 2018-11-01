@@ -79,7 +79,7 @@ class Persona extends Model
   }
 
   /**
-   * Ritorna i dati personali  della ersona 
+   * Ritorna i dati personali  della persona 
    * @author Davide Neri
    **/
   public function datiPersonali(){

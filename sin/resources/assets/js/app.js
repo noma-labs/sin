@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 Vue.config.devtools = true;
 
+// moment for date formatting
 window.moment = require('moment');
 
 // Add vuevaludate plugin for form validation
@@ -16,26 +17,24 @@ const { validationMixin, default: Vuelidate } = require('vuelidate')
 Vue.use(Vuelidate)
 
 // global registration of components
-// Application components
 Vue.component('autocomplete', require('./components/autocomplete.vue'));
 Vue.component('modal', require('./components/my-modal.vue'));
 Vue.component('sin-header', require('./components/partials/sin-header.vue'));
-// Vue.component('my-modal', require('./components/modal2.vue'));
+
 // Biblioteca components
 Vue.component('search-collocazione', require('./components/libro-collocazione-autocomplete.vue'));
-Vue.component('aggiungi-editore', require('./components/biblioteca/aggiungi-editore.vue'));
+Vue.component('libro-editore-autore', require('./components/biblioteca/libro-editore-autore.vue'));
 
 // Officina components
 Vue.component('veicolo-create-form', require('./components/veicolo-create-form.vue'));
 Vue.component('veicolo-prenotazione', require('./components/veicolo-prenotazione.vue'));
-// nomadelfia components
+
+// DB nomadelfia components
 Vue.component('famiglia-select', require('./components/famiglia-select.vue'));
 Vue.component('azienda-edit', require('./components/azienda-edit.vue'));
 
-// patente components
-// Vue.component('patente-categorie-edit', require('./components/patente/patente-modifica.vue'))
+// Patente components
 Vue.component('patente-modfica', require('./components/patente/patente-modifica.vue'))
-
 Vue.component('patente-inserimento', require('./components/patente/patente-inserimento.vue'))
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker

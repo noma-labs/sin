@@ -363,8 +363,6 @@ class LibriController extends CoreBaseController{
     $_addanother= $request->input('_addanother');  // save and add another libro
     $_addonly   = $request->input('_addonly');     // save only
 
-    
-
     if($request->xCollocazione == "null") $collocazione= null;
     else $collocazione= $request->xCollocazione;
 
@@ -386,10 +384,6 @@ class LibriController extends CoreBaseController{
           $libro->tobe_printed = 1;
           $msg_etichetta = " L'etichetta del libro aggiunta alla lista di etichette da stampare.";
           break;
-      // case "stampaEtichetta":
-      //     $msg_etichetta = " L'etichetta viene generata.";
-      //     $genera_etichetta = 1;
-      //     break;
       case "noEtichetta":
           $libro->tobe_printed = 0;
           $msg_etichetta ="L'etichetta non viene stampata";
@@ -397,16 +391,14 @@ class LibriController extends CoreBaseController{
     }
     $res  = $libro->save();
 
-    $idsAutori = json_decode('[' . $request->xIdAutori . ']', true); // receive a list of idAutori (e.g., 26,275,292)
+    $idsAutori = json_decode('[' . $request->xIdAutori . ']', true); // receive a list of idAutori (e.g., [26,275,292[])
     $libro->autori()->sync($idsAutori);
 
-    $idsEditori = json_decode('[' . $request->xIdEditori . ']', true); // receive a list of idEditori (e.g., 26,275,292)
+    $idsEditori = json_decode('[' . $request->xIdEditori . ']', true); // receive a list of idEditori (e.g., [26,275,292[])
     $libro->editori()->sync($idsEditori);
 
     if ($res)
     {
-      // if($genera_etichetta)
-      //    return EtichetteController::stampaSingle($libro);
       if($_addanother)
         return  redirect()->route('libri.inserisci')->withSuccess("Libro inserito correttamente.".$msg_etichetta);//"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
       if($_addonly)
