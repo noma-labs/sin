@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
 use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
+use App\Patente\Models\CQC;
+
 use Carbon;
 
 class Patente extends Model
@@ -15,6 +17,8 @@ class Patente extends Model
   protected $primaryKey = "numero_patente";
   public $increment = false;
   public $keyType = 'string';
+
+  // protected $hidden = ['pivot'];
 
   public $timestamps = false;
   protected $guarded = [];
@@ -26,53 +30,30 @@ class Patente extends Model
   /**
      * Ritorna solo le patenti con la commissione.
      *
+     * @author: Davide Neri
     */
-    public function scopeConCommissione($query)
-    {
-        return $query->where('stato', 'commissione');
-    }
+  public function scopeConCommissione($query)
+  {
+      return $query->where('stato', 'commissione');
+  }
+
+  /**
+     * Ritorna tutte le occorrenze distinte del campo "rilasciata_dal" .
+     * 
+     * @author: Davide Neri
+    */
+  public function scopeRilasciataDal($query){
+     return $query->select('rilasciata_dal')->distinct();
+  }
 
   public function categorie(){ 
-      return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
-                                ->withPivot('data_rilascio','data_scadenza') ;
+      return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id');
   }
 
-  public function categorieAsString(){
-    return $this->categorie()->get()->implode('categoria',',');
-
+  public function cqc(){
+    return $this->belongsToMany(CQC::class, 'patenti_categorie','numero_patente','categoria_patente_id')
+                                ->withPivot('data_rilascio','data_scadenza');
   }
-
-//   /**
-//      * Ritorna la data di scadenza della patente nel formato DD-MM-YYYY
-//      *
-//      * @param  string  $value
-//      * @author Davide Neri
-//      */
-//     public function getDataScadenzaPatenteAttribute($value)
-//     {
-//         return Carbon::parse($value)->format('m-d-Y');
-//     }
-
-//     public function setDataScadenzaPatenteAttribute($value)
-//     {
-//         $this->attributes['data_scadenza_patente'] = Carbon::parse($value)->toDateString();
-//     }
-
-//     /**
-//      * Ritorna la data di rilascio della patente nel formato DD-MM-YYYY
-//      *
-//      * @param  string  $value
-//      * @author Davide Neri
-//      */
-//     public function getDataRilascioPatenteAttribute($value)
-//     {
-//         return Carbon::parse($value)->format('m-d-Y');
-//     }
-
-//     public function setDataRilascioPatenteAttribute($value)
-//     {
-//         $this->attributes['data_rilascio_patente'] = Carbon::parse($value)->toDateString();
-//     }
 
   public function CQCPersone(){
     return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
@@ -86,6 +67,15 @@ class Patente extends Model
                                 ->wherePivot('categoria_patente_id',17);
   }
   
+  public function categorieAsString(){
+    return $this->categorie()->get()->implode('categoria',',');
+  }
+  
+  public function cqcAsString(){
+    return $this->cqc()->get()->implode('categoria',',');
+
+  }
+
   /**
    * Ritorna le patenti che scadono entro $days giorni
    * @param int $giorni :numero di giorni entro il quale le patenti scadono.
@@ -123,6 +113,5 @@ class Patente extends Model
     return $query->whereNull('stato')
                 ->orWhere("stato","!=",'commissione');
     }
-
 
 }

@@ -1,37 +1,38 @@
 <?php
 namespace App\Patente\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-
 use Illuminate\Database\Eloquent\Model;
 use App\Patente\Models\Patente;
+use Illuminate\Database\Eloquent\Builder;
 Use Carbon;
 
-class CategoriaPatente extends Model
+class CQC extends Model
 {
   protected $connection = 'db_patente';
   protected $table = 'categorie';
 
-  protected $hidden = ['pivot']; // do not return the pivot with the "data_rilascio" e "data_scadenza" (se decommentato controllare component vue)
-
-
   public $timestamps = false;
   protected $guarded = [];
 
+
+  /**
+   * Define a global scope for obtaining only the CQC among all the actegorie.
+   */
   protected static function boot(){
-    parent::boot();
-    static::addGlobalScope('id', function (Builder $builder) {
-        $builder->where('id', "!=",16)->Where('id',"!=",17);
-    });
-}
+        parent::boot();
+        static::addGlobalScope('id', function (Builder $builder) {
+            $builder->where('id', 16)->orWhere('id',17);
+        });
+  }
 
   public function patenti(){
-      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente');
+      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                  ->withPivot('data_rilascio','data_scadenza');
   }
 
   
   /**
-   * Ritorna la categorie del C.Q:C persone
+   * Ritorna il C.Q:C persone
    *
    * @author Davide Neri
    */
@@ -57,6 +58,7 @@ class CategoriaPatente extends Model
   public function inScadenza($days){
     $data = Carbon::now()->addDays($days)->toDateString();
     return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                ->withPivot('data_rilascio','data_scadenza')
                 ->wherePivot('data_scadenza','<=', $data)
                 ->wherePivot('data_scadenza',">=",Carbon::now()->toDateString());
   }
@@ -64,6 +66,7 @@ class CategoriaPatente extends Model
   public function scadute($days){
     $data = Carbon::now()->subDays($days)->toDateString();
     return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                ->withPivot('data_rilascio','data_scadenza')
                 ->wherePivot('data_scadenza', '>=', $data)
                 ->wherePivot('data_scadenza',"<=",Carbon::now()->toDateString());
   }

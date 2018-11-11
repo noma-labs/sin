@@ -8,22 +8,32 @@
   <div class="form-row">
     <div class="form-group col-md-3 offset-md-1">
         <label>Persona</label>
-        <autocomplete placeholder="---Inserisci nominativo---" 
+        <autocomplete placeholder="---Inserisci nome o cognome ---" 
                       name="persona_id" 
-                      url="{{route('api.officina.clienti')}}">
+                      label="value"
+                      index="persona_id"
+                      url="{{route('api.patente.persone.conpatente')}}">
          </autocomplete>
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label for="numero_patente">Numero Patente</label>
       <input  class="form-control" id="numero_patente" name="numero_patente" placeholder="---Inserisci numero patente---">
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label for="categoria_patente">Categoria patente</label>
       <select class="form-control" id="categoria_patente" name="categoria_patente">
         <option selected value="">---Scegli categoria---</option>
         @foreach ($categorie as $categoria)
           <option value="{{ $categoria->id }}">{{ $categoria->categoria }} </option> 
-          <!-- {{$categoria->descrizione}}</option> -->
+        @endforeach
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="categoria_patente">Categoria patente</label>
+      <select class="form-control" id="cqc_patente" name="cqc_patente">
+        <option selected value="">---Scegli C.Q.C---</option>
+        @foreach ($cqc as $c)
+          <option value="{{ $c->id }}">{{ $c->categoria }} </option> 
         @endforeach
       </select>
     </div>
@@ -101,9 +111,8 @@
               </td>
               <td> {{$patente->numero_patente}}</td>
               <td>
-                @foreach($patente->categorie as $categoria)
-                {{$categoria->categoria}}&nbsp;&nbsp;
-                @endforeach
+                {{$patente->categorieAsString()}}
+                {{$patente->cqcAsString()}}
               </td>
               <td> {{$patente->data_scadenza_patente}}</td>
               <td>

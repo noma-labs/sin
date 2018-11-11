@@ -7,6 +7,7 @@
 <patente-inserimento
             api-patente-persone="{{route('api.patente.persone')}}"
             api-patente-categorie="{{route('api.patente.categorie')}}"
+            api-patente-cqc="{{route('api.patente.cqc')}}"
             api-patente-create="{{route('api.patente.create')}}" >
 </patente-inserimento>
 

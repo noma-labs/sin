@@ -3,7 +3,7 @@ namespace App\Patente\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ViewClientiPatente extends Model
+class ViewClientiSenzaPatente extends Model
 {
     protected $table = 'v_cliente_patente';
     protected $connection = 'db_patente';
