@@ -6,7 +6,8 @@
           :on-change="changed"
           :on-search="getOptions"
           :placeholder="placeholder"
-          label="label"
+          :label="label"
+          :index="index"
           :multiple="multiple"
           v-model="item"
           :disabled="disabled"
@@ -23,6 +24,14 @@
   export default {
     components: {vSelect},
     props: {
+      label: {
+        type: String,
+        default:"label"
+      },
+      index: { 
+        type: String,
+        default: "value" // persona_id
+      },
       selected:{ //object containing the selected items of the form ({id:name}) (e.g. {"275":"A. A. TARKOVSKIJ","374":"A. J. CRONIN","399":"A. MANZINO"}
         type:Object,
         default: () => ({}),
@@ -88,10 +97,13 @@
               .catch(error => {});
             },
       changed: function(selectedValues){
+        console.log(selectedValues);
         if(this.multiple) // if mulitple=true, selectedValues is an array
           this.sentvalue = _.map(selectedValues,"value"); // from ["value":1, "value":2] to [1,2,3,4]
         else // multiple=false than selectedValues is an object
-          this.sentvalue = selectedValues.value;
+          // this.sentvalue = selectedValues.value;
+          this.sentvalue = selectedValues;
+
       },
       fromObjectsToValueLabels: function(el){
         /* Transform an object into an array of object of the type {"value":x, "label":y}
@@ -102,8 +114,7 @@
          var label_to_value = [];
           console.log(el);
           _.forOwn(el, function(value, key) {
-           
-              label_to_value.push({"label":value, "value":key})
+              label_to_value.push({"label":value, "value": key})
         });
         if(this.multiple) return label_to_value
         else return label_to_value[0]

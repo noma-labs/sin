@@ -2,12 +2,15 @@
 namespace App\Patente\Controllers;
 use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
+use App\Patente\Models\CQC;
 use App\Nomadelfia\Models\Persona;
-use App\Patente\Models\ViewClientiPatente;
+use App\Patente\Models\ViewClientiConSenzaPatente;
+
 use Illuminate\Http\Request;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Validator;
+use DB;
 
 class ApiController extends CoreBaseController
 {
@@ -44,12 +47,13 @@ class ApiController extends CoreBaseController
      */
     public function patente(Request $request,$numero)
     {
-        $p = Patente::where("numero_patente",$numero)->with(["categorie"])->first();
+        $p = Patente::where("numero_patente",$numero)->with(["categorie","cqc"])->first();
+
         return response()->json($p);
     }
 
     /**
-     * Ritorna tutte le categorie
+     * Ritorna tutte le categorie (eccetto i CQC)
      *
      * @param Request $request
      *
@@ -61,6 +65,27 @@ class ApiController extends CoreBaseController
     {
         $categorie = CategoriaPatente::orderby("categoria")->get();
         return response()->json($categorie);
+    }
+
+     /**
+     * Ritorna cqc merci e c.q.c persone
+     *
+     * @param Request $request
+     *
+     * @return json 
+     * {[
+     *  id: 16,
+    *   categoria: "C.Q.C. PERSONE",
+     *  descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
+     *  note: ""]
+     * }
+     * 
+     * @author Davide Neri
+     */
+    public function cqc(Request $request)
+    {
+        $cqc = CQC::orderby("categoria")->get();
+        return response()->json($cqc);
     }
 
      /**
@@ -96,28 +121,70 @@ class ApiController extends CoreBaseController
                 })->get();
         else
             $p = Patente::where("numero_patente",$numero)->with("categorie")->first();
-    
-
         return response()->json($p);
     }
    
     /**
-    * Ritorna le persone che hanno l'età per prendere una patente.
+    * Ritorna tutte le persone siano che hanno la patente sia che non la hanno.
+    *
+	* @param String $term: Nome, cognome  della persona
+	* @author Davide Neri
+	**/
+	public function persone(Request $request){
+        $term = $request->term;
+		$persone = ViewClientiConSenzaPatente::where("nome","LIKE","$term%")
+                    ->orwhere("cognome","LIKE","$term%")
+                    // ->orderBy("cliente_con_patente")
+                    ->take(50)
+                    ->get();
+  
+        $persone->map(function ($persona) {
+            if($persona->cliente_con_patente != null)
+                $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.")" ;
+            else
+                $persona['value'] = "$persona->nome  $persona->cognome" ;
+            return $persona;
+        });
+		return $persone;
+    }
+
+    /**
+    * Ritorna le persone che non hanno la patente.
     *
 	* @param String $term: Nome, cognome o nominativo della persona
 	* @author Davide Neri
 	**/
-	public function persone(Request $request){
-        
+	public function personeSenzaPatente(Request $request){
         $term = $request->term;
-		// $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
-		// $pesrone = DatiPersonali::where('nome',"LIKE","$term%")->orWhere('cognome',"LIKE","$term%")->get();
-		$persone = ViewClientiPatente::where("nominativo","LIKE","%$term%")
-                    ->orwhere("nome","LIKE","%$term%")
-                    ->orwhere("cognome","LIKE","%$term%")
-                    ->take(50);
+        $persone = ViewClientiConSenzaPatente::SenzaPatente()
+                    ->where("nome","LIKE","$term%")
+                    ->orwhere("cognome","LIKE","$term%")
+                    ->take(50)
+                    ->get();
+		return $persone;
+    }
 
-		return $persone->get();
+    /**
+    * Ritorna le persone che hanno almeno una patente 
+    *
+	* @param String $term: Nome, cognome
+	* @author Davide Neri
+	**/
+    public function personeConPatente(Request $request){
+        $term = $request->term;
+        $persone = ViewClientiConSenzaPatente::ConPatente()
+                    ->where("nome","LIKE","$term%")
+                    ->orwhere("cognome","LIKE","$term%")
+                    ->take(50)
+                    ->get();
+        $persone->map(function ($persona) {
+            if($persona->cliente_con_patente != null)
+                $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.")" ;
+            else
+                $persona['value'] = "$persona->nome  $persona->cognome" ;
+            return $persona;
+        });
+		return $persone;
     }
     
     /**
@@ -143,7 +210,14 @@ class ApiController extends CoreBaseController
     *           }
     *        },
     *     ....
-    *  ],          	
+    *  ],     
+    * 'cqc' :[
+    *        { 'id': int,
+    *          pivot : {'data_rilascio': date
+    *                  'data_scadenza': date
+    *          }
+    *      }
+    *   ]     	
     *               },
     * @author Davide Neri
 	**/
@@ -160,14 +234,24 @@ class ApiController extends CoreBaseController
         $patente->stato =  $body['stato'] == "null" ?  Null: $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];
-        // from  {  categoria:"A", id:4, pivot:{ data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }
-        // to    [id 1=>['data_rilascio =>date, 'data_scadenza'=>date], id2=>[] 
-        $categoria_formatted = collect();
+        // from  [ {categoria:"A", id: 4, pivot: { data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }}, ...]
+        // to    [ id => ['data_rilascio =>date, 'data_scadenza'=>date], id2=>[] ]
+        $categorie_cqc = collect();
         foreach ($categorie as $key => $value){
-            $categoria_formatted->put($value['id'], array('data_rilascio'=> $value['pivot']['data_rilascio'],
-                                            'data_scadenza'=> $value['pivot']['data_scadenza']));
+            $categorie_cqc->put($value['id'], []);
+            // , array('data_rilascio'=> $value['pivot']['data_rilascio'],
+            // 'data_scadenza'=> $value['pivot']['data_scadenza']));
         }
-        $res = $patente->categorie()->sync($categoria_formatted);
+
+        $cqc = $body['cqc'];
+        $cqc_formatted = collect();
+        foreach ($cqc as $key => $value){
+            $categorie_cqc->put($value['id'], array('data_rilascio'=> $value['pivot']['data_rilascio'],
+                                                    'data_scadenza'=> $value['pivot']['data_scadenza']));
+        }
+        $res = $patente->categorie()->sync($categorie_cqc);
+
+
         if($res)
          return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente aggiornata correttamente"]); 
         else
@@ -191,13 +275,16 @@ class ApiController extends CoreBaseController
     *  "stato": enum ('commissione', 'null')
     *  "categorie":[  
     *    {  
-    *       "categoria":{  
-    *          "id":int,
-    *          "categoria":string
-    *       },
-    *       "data_rilascio":YYYY-MM-GG 
-    *       "data_scadenza":YYYY-MM-GG 
+    *       "id":int,
+    *       "categoria": string
     *    },
+    *   'cqc' :[
+    *        { 'id': int,
+    *          'data_rilascio': date
+    *          'data_scadenza': date
+    *   
+    *      }
+    *   ]
     *  ...
     *  ]
     * }
@@ -222,18 +309,22 @@ class ApiController extends CoreBaseController
         $patente->note = $body['note'];
         $patente->stato = $body['stato'] == "null" ?  Null: $body['stato'];
 
+    
         if($patente->save()){
+            $p = Patente::find($body['numero_patente']);
             $nuovecategorie = $body['categorie'];
             foreach ($nuovecategorie as $categoria){
-                 $cat = $categoria['categoria'];
-                 $patente->categorie()->attach([$cat['id'] => [
-                                                     'numero_patente' =>$body['numero_patente'],
-                                                    'data_rilascio' => $categoria['data_rilascio'],
-                                                    'data_scadenza'=>$categoria['data_scadenza']
-                                                    ]
-                                                ]);
+                 $p->categorie()->attach($categoria['id']);
             }
-            $p = Patente::find($body['numero_patente']);
+            $nuoveCQC = $body['cqc'];
+            foreach ($nuoveCQC as $cqc){
+                $p->categorie()->attach([$cqc['id'] => ['numero_patente' =>$body['numero_patente'],
+                                                   'data_rilascio' => $cqc['data_rilascio'],
+                                                   'data_scadenza'=>$cqc['data_scadenza']
+                                                   ]
+                                               ]);
+           }
+            
             return response()->json(
                     ["err"=>0, 
                     "msg"=> "Patente ".$p->numero_patente." inserita correttamente",

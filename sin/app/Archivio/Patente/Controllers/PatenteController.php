@@ -2,6 +2,8 @@
 namespace App\Patente\Controllers;
 use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
+use App\Patente\Models\CQC;
+
 use App\Nomadelfia\Models\Persona;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -17,10 +19,10 @@ class PatenteController extends CoreBaseController
         $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente')->get();        
         
-        $patentiCQCPersone = CategoriaPatente::CQCPersone()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCPersoneScadute = CategoriaPatente::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCMerci = CategoriaPatente::CQCMerci()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCMerciScadute = CategoriaPatente::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
         
         $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente')->get();
         $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente')->get(); 
@@ -50,7 +52,8 @@ class PatenteController extends CoreBaseController
     public function patente()
     {
         $categorie = CategoriaPatente::orderby("categoria")->get();
-        return view("patente.search",compact('categorie'));
+        $cqc = CQC::orderby("categoria")->get();
+        return view("patente.search",compact('categorie','cqc'));
     }
     
     public function ricerca(Request $request)
@@ -81,6 +84,14 @@ class PatenteController extends CoreBaseController
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
                 $msgSearch = $msgSearch." Data scadenza".$request->input('criterio_data_scadenza').$request->input('data_scadenza');
             }
+            if($request->filled('cqc_patente')){
+                $cqc = $request->cqc_patente;
+                $q->whereHas('cqc', function ($q) use($cqc) {
+                    $q->where('id', $cqc);
+                });
+                $nome = CQC::findorfail($cqc)->categoria;
+                $msgSearch = $msgSearch." categoria=".$nome;
+            }
             if($request->filled('categoria_patente')){
                 $categoria = $request->categoria_patente;
                 $q->whereHas('categorie', function ($q) use($categoria) {
@@ -92,7 +103,8 @@ class PatenteController extends CoreBaseController
           });
         $patenti = $queryPatenti->paginate(10);
         $categorie = CategoriaPatente::orderby("categoria")->get();
-        return view("patente.search", compact('patenti','categorie','msgSearch'));
+        $cqc = CQC::orderby("categoria")->get();
+        return view("patente.search", compact('patenti','categorie','cqc','msgSearch'));
     }
 
     public function modifica($id)
