@@ -157,8 +157,10 @@ class ApiController extends CoreBaseController
 	public function personeSenzaPatente(Request $request){
         $term = $request->term;
         $persone = ViewClientiConSenzaPatente::SenzaPatente()
-                    ->where("nome","LIKE","$term%")
-                    ->orwhere("cognome","LIKE","$term%")
+                    ->where(function ($query) use ($term){
+                        $query->where("nome","LIKE","$term%")
+                              ->orWhere("cognome","LIKE","$term%");
+                    })
                     ->take(50)
                     ->get();
 		return $persone;
@@ -173,8 +175,10 @@ class ApiController extends CoreBaseController
     public function personeConPatente(Request $request){
         $term = $request->term;
         $persone = ViewClientiConSenzaPatente::ConPatente()
-                    ->where("nome","LIKE","$term%")
-                    ->orwhere("cognome","LIKE","$term%")
+                    ->where(function ($query) use ($term){
+                        $query->where("nome","LIKE","$term%")
+                              ->orWhere("cognome","LIKE","$term%");
+                    })  
                     ->take(50)
                     ->get();
         $persone->map(function ($persona) {
