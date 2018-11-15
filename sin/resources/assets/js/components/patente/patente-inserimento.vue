@@ -95,7 +95,7 @@
 						<!-- <div>&nbsp;</div> -->
 						<button type="submit" 
 								@click="salvaNuovaPatente"
-								:disabled="areNullDateCQC" 
+								:disabled="disabledSalvaNuovaPatente || disabledAll" 
 								class="btn btn-primary">
 								Salva
 						</button>
@@ -302,12 +302,13 @@
 		computed:{
 			areNullDateCQC : function(){
 				// true if there are some C.Q.C date equal to null
-				var res = _.some(this.nuovaPatente.cqc, { 'data_rilascio': null})  || _.some(this.nuovaPatente.cqc,  {'data_scadenza': null });
-				console.log("data rilascio: ")
-				console.log(_.some(this.nuovaPatente.cqc, { 'data_rilascio': null}))
-				console.log("data scadenza null: ")
-				console.log(_.some(this.nuovaPatente.cqc,  {'data_scadenza': null }))
-				return res;
+				// var res = _.some(this.nuovaPatente.cqc, { 'data_rilascio': null})  || _.some(this.nuovaPatente.cqc,  {'data_scadenza': null });
+				// console.log("data rilascio: ")
+				// console.log(_.some(this.nuovaPatente.cqc, { 'data_rilascio': null}))
+				// console.log("data scadenza null: ")
+				// console.log(_.some(this.nuovaPatente.cqc,  {'data_scadenza': null }))
+				// return res;
+				return false;
 			},
 			disabledSalvaNuovaPatente: function(){
 				// return this.areNullDateCQC

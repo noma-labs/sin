@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio') 
-<sin-header title="Gestione Patenti"> Numero patenti: {{App\Patente\Models\Patente::count()}}</sin-header>
+<sin-header title="Ricerca Patenti"> Numero patenti: {{App\Patente\Models\Patente::count()}}</sin-header>
 
 <form method="GET" action="{{route('patente.ricerca.conferma')}}">
    {{ csrf_field() }}
