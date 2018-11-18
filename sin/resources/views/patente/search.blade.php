@@ -118,6 +118,9 @@
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
                 <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
+                <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
+                <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}">Elimina</a>
+
                 </div>
               </td>
           </tr>
@@ -129,4 +132,26 @@
   </div>
   </div>
   @endif
+
+
+<!-- Modal -->
+<div class="modal fade" id="eliminaModal" tabindex="-1" role="dialog" aria-labelledby="modalEliminaPatente" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEliminaPatente">Elimina Patente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Vuo davvero eliminare la patente ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

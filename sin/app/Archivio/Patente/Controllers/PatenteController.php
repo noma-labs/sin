@@ -107,6 +107,13 @@ class PatenteController extends CoreBaseController
         return view("patente.search", compact('patenti','categorie','cqc','msgSearch'));
     }
 
+    public function elimina($id){
+        Patente::destroy($id);
+        // return redirect(route('patente.ricerca'))->withSuccess("Patente $id eliminata con successo.");
+        return back()->withSuccess("Patente $id eliminata con successo.");
+
+    }
+
     public function modifica($id)
     {
         $categorie = CategoriaPatente::all();
