@@ -193,6 +193,7 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->name('patente.elenchi.stampa.autorizzati');
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->name('patente.modifica');
+  Route::get('elimina/{id}','PatenteController@elimina')->name('patente.elimina');
   Route::post('modifica/{id}', 'PatenteController@confermaModifica')->name('patente.modifica.conferma');
   Route::get('inserimento','PatenteController@inserimento')->name('patente.inserimento');
   Route::post('inserimento', 'PatenteController@confermaInserimento')->name('patente.inserimento.conferma');
