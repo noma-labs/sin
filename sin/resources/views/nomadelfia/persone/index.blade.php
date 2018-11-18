@@ -1,19 +1,22 @@
 @extends('nomadelfia.index')
 
 @section('navbar-link')
-   @parent
+  @parent
   <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Persone
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{route('persone.inserimento')}}">Inserisci Persona</a>
-          <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
-        </div>
+    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
+    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Persone
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarPesone">
+      <a class="dropdown-item" href="{{route('persone.inserimento')}}">Inserisci Persona</a>
+      <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
+    </div>
   </li>
+  
 @endsection
 
 @section('archivio')
+@include('partials.header', ['title' => 'Gestione Persone'])
 <div class="container">
  <div class="row">
   <div class="col-md-4">

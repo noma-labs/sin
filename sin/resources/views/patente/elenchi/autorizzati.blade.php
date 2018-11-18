@@ -1,23 +1,35 @@
 @extends('patente.index')
 
+<style type="text/css" media="print">
+    div.page
+    {
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+</style>
+
 @section('archivio')
-
-@foreach ($gruppifamiliari->get()->chunk(4) as $chunk)
-    @foreach ( $patentiAutorizzati as $patente)
-      <div>
-        @isset($patente->persona->datipersonali->cognome)
-         {{$patente->persona->datipersonali->cognome}}
-        @endisset
-
-        @isset($patente->persona->datipersonali->nome)
-        {{$patente->persona->datipersonali->nome}} 
-        @endisset
-
-        {{$patente->categorieAsString()}}
-        
-        @isset($patente->persona->datipersonali->data_nascita )
-        {{$patente->persona->datipersonali->data_nascita}} 
-        @endisset
+<div class="container">
+<div class="row">
+  @foreach ($patentiAutorizzati->chunk(65) as $chunk)
+  <div class="col-md-6">
+      @foreach ($chunk as $patente)
+      <div class="row">
+          <div class="col-md-4">
+             {{$patente->persona->nominativo}}
+          </div>
+          <div class="col-md-4">
+             {{$patente->categorieAsString()}}
+          </div>
+          <div class="col-md-4 text-right">
+            @isset($patente->persona->datiPersonali->data_nascita)
+              {{$patente->persona->datiPersonali->data_nascita}}
+            @endisset
+          </div>
       </div>
-    @endforeach
+      @endforeach
+      </div>
+  @endforeach
+  </div>
+</div>
 @endsection
