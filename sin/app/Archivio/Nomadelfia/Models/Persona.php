@@ -23,7 +23,13 @@ class Persona extends Model
   public $timestamps = false;
   protected $guarded = [];
 
-  
+  /**
+   * Set the nominativo in uppercase when a new persona is insereted.
+   */
+  public function setNominativoAttribute($value) {
+      $this->attributes['nominativo'] = strtoupper($value);
+  }
+
   /**
    * Returns only the people that are currently living in Nomadelfia.
    */

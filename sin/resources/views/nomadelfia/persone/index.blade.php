@@ -1,9 +1,7 @@
 @extends('nomadelfia.index')
 
 @section('navbar-link')
-  <li class="nav-item">
-      <a class="nav-link" href="{{ route('nomadelfia') }}">Nomadelfia</a>
-  </li>
+   @parent
   <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Persone

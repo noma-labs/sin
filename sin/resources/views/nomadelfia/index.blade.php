@@ -3,11 +3,10 @@
 @section('title', 'Gestione Nomadelfia')
 
 @section('navbar-link')
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('nomadelfia') }}">Popolazione Nomadelfia</a>
-</li>
-@endsection
-
+  <li class="nav-item">
+      <a class="nav-link" href="{{ route('nomadelfia') }}">Nomadelfia</a>
+  </li>
+@append 
 
 @section('archivio')
 <div class="container">
