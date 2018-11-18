@@ -3,8 +3,6 @@
 @section('archivio')
 
 @include('partials.header', ['title' => 'Aggiungi Persona'])
-
-
 <form class="form" method="POST">
 
 {{ csrf_field() }}

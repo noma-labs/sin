@@ -163,7 +163,11 @@ class ApiController extends CoreBaseController
                     })
                     ->take(50)
                     ->get();
-		return $persone;
+      
+        $persone->map(function ($persona) {
+            $persona['value'] = "$persona->nome  $persona->cognome";
+        });
+        return $persone;
     }
 
     /**
@@ -182,10 +186,10 @@ class ApiController extends CoreBaseController
                     ->take(50)
                     ->get();
         $persone->map(function ($persona) {
-            if($persona->cliente_con_patente != null)
+            // if($persona->cliente_con_patente != null)
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.")" ;
-            else
-                $persona['value'] = "$persona->nome  $persona->cognome" ;
+            // else
+                // $persona['value'] = "$persona->nome  $persona->cognome" ;
             return $persona;
         });
 		return $persone;

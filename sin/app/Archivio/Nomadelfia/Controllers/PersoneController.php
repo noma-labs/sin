@@ -3,6 +3,8 @@ namespace App\Nomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
+use Illuminate\Database\QueryException;
+
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Persona;
@@ -49,69 +51,76 @@ class PersoneController extends CoreBaseController
   }
 
 
+  /**
+   * Inserisci una persona nel sistema con i suoi dati personali.
+   * L'inserimento assegna l'ID ad una persona che la identifica in maniera univoca.
+   * 
+   * @author Davide Neri
+   */
+
   public function insert(Request $request){
-    $rules = [
-      "nome" => "required",
-      "cognome" => "required",
-      "sesso" => "required",
-      "nascita" => "required|date",
-      "citta" => "required",
-      "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", //'unique:connection.users,email_address'
-      "posizione" => "required",
-      "inizio" => "required|date",
-      "famiglia" => "required",
-      "nucleo" => "required",
-      "gruppo" => "required",
-      "data_gruppo" => "required|date"
-    ];
 
-    $validator = Validator::make($request->all(), $rules);
+    $validatedData = $request->validate([
+        "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", 
+        "nome" => "required",
+        "cognome" => "required",
+        "data_nascita" => "required|date",
+        "luogo_nascita" => "required",
+        "sesso" => "required",
+      ],[
+        "nominativo.required" => "Il nominativo è obbligatorio", 
+        'nominativo.unique'=>"IL nominativo inserito esiste già.",
+        "nome.required" => "Il nome è obbligatorie",
+        "cognome.required" => "Il cognome è obbligatorio",
+        "data_nascita.required" => "La data di nascita è obbligatoria",
+        "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
+        "sesso.required" => "Il sesso della persona è obbligatorio",
+    ]);
+    // // validazione condizionale di "azienda" e "incarico"
+    // $validator->sometimes('data_lavoro', 'required', function($input){
+    //   return $input->azienda != '';
+    // });
+    // $validator->sometimes('data_incarico', 'required', function($input){
+    //   return $input->incarico != '';
+    // });
 
-    // validazione condizionale di "azienda" e "incarico"
-    $validator->sometimes('data_lavoro', 'required', function($input){
-      return $input->azienda != '';
-    });
-    $validator->sometimes('data_incarico', 'required', function($input){
-      return $input->incarico != '';
-    });
+    try{
+     // Salvo la persona nel DB_nomadelfia.persone
+      $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
+                                'data_nascita_persona'=>$request->input('data_nascita'),
+                                'sesso'=>$request->input('sesso'),
+                                'id_arch_pietro'=>0,
+                                'id_arch_enrico'=>0,]
+                              );
 
-    if($validator->fails()){
-      return back()
-                ->withInput()
-                ->withErrors($validator);
+      // salvataggio dati personali nel DB_Anagrafe.dati_personali
+      $persona->datiPersonali()->save( 
+            new DatiPersonali(['nome'=>$request->input('nome'),
+                              "cognome"=>$request->input('cognome'),
+                              'data_nascita'=>$request->input('data_nascita'),
+                              "provincia_nascita"=>$request->input('luogo_nascita'),
+                              "sesso"=>$request->input('sesso')
+                              ]));
+      return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
     }
-    // SALVATAGGIO INFO NEL DB
-
-    // salvataggio persona
-    $persona = new Persona;
-    $persona->nominativo = $request->input('nominativo');
-    $persona->data_nascita_persona = $request->input('nascita');
-    $persona->id_arch_pietro = 0;
-    $persona->id_arch_enrico = 0;
-    $persona->save();
-
-    $persona->posizioni()->attach($request->input('posizione'), ['data_inizio' => $request->input('inizio')]);
-    $persona->famiglie()->attach($request->input('famiglia'), ['nucleo_famigliare_id' => $request->input('nucleo')]);
-    $persona->gruppi()->attach($request->input('gruppo'), ['data_entrata_gruppo' => $request->input('data_gruppo')]);
-    if ($request->input('azienda') != ''){
-      $persona->aziende()->attach($request->input('azienda'), ['data_inizio_azienda' => $request->input('data_lavoro')]);
+    catch (Illuminate\Database\QueryException $e){
+        $error_code = $e->errorInfo[1];
+        if($error_code == 1062){
+            return redirect(route('nomadelfia.persone.inserimento'))->withError('Persona già esistente con il nominativo.');
+        }
+        return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore generale nell'esecusion della query");
     }
+    // $persona->posizioni()->attach($request->input('posizione'), ['data_inizio' => $request->input('inizio')]);
+    // $persona->famiglie()->attach($request->input('famiglia'), ['nucleo_famigliare_id' => $request->input('nucleo')]);
+    // $persona->gruppi()->attach($request->input('gruppo'), ['data_entrata_gruppo' => $request->input('data_gruppo')]);
+    // if ($request->input('azienda') != ''){
+    //   $persona->aziende()->attach($request->input('azienda'), ['data_inizio_azienda' => $request->input('data_lavoro')]);
+    // }
 
-    if ($request->input('incarico') != ''){
-      $persona->incarichi()->attach($request->input('incarico'), ['data_inizio' => $request->input('data_incarico')]);
-    }
-
-    // salvataggio dati personali
-    $dati_personali = new DatiPersonali;
-    $dati_personali->persona_id = $persona->id;
-    $dati_personali->nome = $request->input('nome');
-    $dati_personali->cognome = $request->input('cognome');
-    $dati_personali->sesso = $request->input('sesso');
-    $dati_personali->data_nascita = $request->input('nascita');
-    $dati_personali->provincia_nascita = $request->input('citta');
-    $dati_personali->save();
-
-    return redirect(route('persone.inserimento_form'))->withSuccess('Iserimento completato');
+    // if ($request->input('incarico') != ''){
+    //   $persona->incarichi()->attach($request->input('incarico'), ['data_inizio' => $request->input('data_incarico')]);
+    // }
+    // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
   }
 
   public function insertConfirm(Request $request){ //InsertClientiRequest $request

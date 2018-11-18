@@ -42,11 +42,11 @@ class PatenteController extends CoreBaseController
     }
 
     public function stampaAutorizzati(){
-        $etichette = Patente::all();
-        $pdf = SnappyPdf::loadView('patente.elenchi.autorizzati', 
-                    ["patentiAutorizzati"=>$etichette]);
-        $data = Carbon::now();
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("etichette-$data.pdf"); 
+        $patentiAutorizzati = Patente::all();
+        // $pdf = SnappyPdf::loadView('patente.elenchi.autorizzati',  ["patentiAutorizzati"=>$patentiAutorizzati]);
+        // $data = Carbon::now();
+        // return $pdf->setPaper('a4')->setOrientation('portrait')->stream("autorizzati-$data.pdf"); 
+        return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
     }
 
     public function patente()

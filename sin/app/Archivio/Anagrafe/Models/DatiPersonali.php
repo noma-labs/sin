@@ -11,6 +11,8 @@ class DatiPersonali extends Model
   public $timestamps = false;
   protected $primaryKey = "persona_id";
 
+  protected $guarded = [];
+
 
   public function scopeDonne($query)
   {

@@ -3,8 +3,8 @@
 @section('title', 'biblioteca')
 
 @section('navbar-link')
-<li class="nav-item">
-       <a class="nav-link" href="{{ route('biblioteca') }}">Biblioteca</a>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('biblioteca') }}">Biblioteca</a>
   </li>
 @endsection
 
