@@ -2,6 +2,8 @@
 
 namespace App\Anagrafe\Models;
 use Carbon;
+use App\Nomadelfia\Models\Persona;
+
 use Illuminate\Database\Eloquent\Model;
 
 class DatiPersonali extends Model
@@ -12,6 +14,14 @@ class DatiPersonali extends Model
   protected $primaryKey = "persona_id";
 
   protected $guarded = [];
+
+  /**
+   * Ritorna la persona 
+   * @author Davide Neri
+   **/
+  public function persona(){
+    return $this->hasOne(Persona::class,   'id', 'persona_id');
+  }
 
 
   public function scopeDonne($query)
