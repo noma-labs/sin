@@ -97,9 +97,10 @@
     <thead class="thead-inverse">
         <tr>
             <th> Nominativo</th>
-            <th> Numero Patente</th>
-            <th> Categoria  </th>
-            <th> Data Scadenza </th>
+            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
+            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
+            <th> Categorie  </th>
+            <th> C.Q.C  </th>
             <th> Operazioni </th>
         </tr>
     </thead>
@@ -110,11 +111,9 @@
               <span class="badge badge-warning">{{$patente->stato}}</span>
               </td>
               <td> {{$patente->numero_patente}}</td>
-              <td>
-                {{$patente->categorieAsString()}}
-                {{$patente->cqcAsString()}}
-              </td>
               <td> {{$patente->data_scadenza_patente}}</td>
+              <td>{{$patente->categorieAsString()}}</td>
+              <td>{{$patente->cqcAsString()}}</td>
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
                 <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>

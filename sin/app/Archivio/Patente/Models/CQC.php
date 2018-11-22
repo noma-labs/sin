@@ -4,10 +4,13 @@ namespace App\Patente\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Patente\Models\Patente;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\SortableTrait;
 Use Carbon;
 
 class CQC extends Model
 {
+  use SortableTrait;
+  
   protected $connection = 'db_patente';
   protected $table = 'categorie';
 
@@ -55,7 +58,7 @@ class CQC extends Model
    * @param int $days :numero di giorni entro il quale le patenti scadono.
    * @author Davide Neri
    */
-  public function inScadenza($days){
+  public function scopeinScadenza($query,$days){
     $data = Carbon::now()->addDays($days)->toDateString();
     return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
                 ->withPivot('data_rilascio','data_scadenza')
@@ -63,6 +66,19 @@ class CQC extends Model
                 ->wherePivot('data_scadenza',">=",Carbon::now()->toDateString());
   }
 
+  /**
+   * Ritorna le patenti con C.Q.C che non sono in scadenza da $days giorni in poi.
+   * @param int $giorni: numero di giorni entro il quale le patenti scadono.
+   * @author Davide Neri
+   */
+  public function scopeNonInScadenza($query, int $days){
+    $data = Carbon::now()->addDays($days)->toDateString();
+    return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                ->withPivot('data_rilascio','data_scadenza')
+                ->wherePivot('data_scadenza','>', $data);
+
+  }
+  
   public function scadute($days){
     $data = Carbon::now()->subDays($days)->toDateString();
     return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')

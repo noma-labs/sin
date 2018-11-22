@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Input;
 use Route;
 
 trait SortableTrait {
-    public function scopeSortable($query) {
+    public function scopeSortable($query, $column=null, $order=null) {
         if(Input::has('s') && Input::has('o'))
             return $query->orderBy(Input::get('s'), Input::get('o'));
+        if($column != null && $order != null)
+            return $query->orderBy($column, $order);
         else
             return $query;
     }
