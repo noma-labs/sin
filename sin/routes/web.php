@@ -62,11 +62,13 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persona/search', 'AutocompleteController@autocompletePersona')->name("nomadelfia.autocomplete.persona");
   // PERSONA
   Route::get('persone', 'PersoneController@view')->name("nomadelfia.persone"); //->middleware('permission:cliente-visualizza')
-  Route::get('persone/inserimento', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
-  Route::post('persone/inserimento', 'PersoneController@insert')->name("persone.inserimento");
+  Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
+  Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.completo");
+  Route::post('persone/inserimento/initial', 'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
+  Route::post('persone/inserimento', 'PersoneController@insert')->name("nomadelfia.persone.inserimento.confirm");
   // Route::post('persone/inserimento', 'PersoneController@insertConfirm')->middleware('permission:cliente-crea')->name("persone.inserimento.confirm");
-  Route::get('persone/{idPersona}', 'PersoneController@show')->name("persone.dettaglio"); //middleware('permission:cliente-visualizza')
-  Route::get('persone/{idPersona}/modifica', 'PersoneController@edit')->name("persone.modifica");
+  Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelifa.persone.dettaglio"); //middleware('permission:cliente-visualizza')
+  Route::get('persone/{idPersona}/modifica', 'PersoneController@edit')->name("nomadelfia.persone.modifica");
   // Route::post('persone/{idPersona}/modifica', 'PersoneController@editConfirm')->middleware('permission:cliente-modifica');
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')

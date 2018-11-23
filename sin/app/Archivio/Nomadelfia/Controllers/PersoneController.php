@@ -40,16 +40,48 @@ class PersoneController extends CoreBaseController
 
   public function insertView(){
 
-    $posizioni = Posizione::orderBy('nome', 'asc')->get();
-    $famiglie = Famiglia::orderBy('nome_famiglia', 'asc')->get();
-    $provincie = Provincia::orderBy('sigla', 'asc')->get();
-    $gruppi = GruppoFamiliare::orderBy('nome', 'asc')->get();
-    $aziende = Azienda::orderBy('nome_azienda', 'asc')->get();
-    $incarichi = Incarico::orderBy('nome', 'asc')->get();
-    $nuclei_famigliari = [];
-    return view("nomadelfia.persone.insert", compact('posizioni', 'famiglie', 'provincie', 'gruppi', 'aziende', 'incarichi', 'nuclei_famigliari'));
+    // $posizioni = Posizione::orderBy('nome', 'asc')->get();
+    // $famiglie = Famiglia::orderBy('nome_famiglia', 'asc')->get();
+    // $provincie = Provincia::orderBy('sigla', 'asc')->get();
+    // $gruppi = GruppoFamiliare::orderBy('nome', 'asc')->get();
+    // $aziende = Azienda::orderBy('nome_azienda', 'asc')->get();
+    // $incarichi = Incarico::orderBy('nome', 'asc')->get();
+    // $nuclei_famigliari = [];
+    return view("nomadelfia.persone.insert_initial");
+    // , compact('posizioni', 'famiglie', 'provincie', 'gruppi', 'aziende', 'incarichi', 'nuclei_famigliari'));
   }
 
+  public function insertCompletoView(){
+    return view("nomadelfia.persone.insert");
+  }
+
+  /**
+   * Contolla che non ci sia una persona con il nome e cognome.
+   * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
+   * Se non esistono persone ritorna il form per aggiungere la persona.
+   * 
+   * @author Davide Neri
+   */
+  
+  public function insertInitial(Request $request){
+    $validatedData = $request->validate([
+      "nome" => "required",
+      "cognome" => "required",
+    ],[
+      "nome.required" => "Il nome è obbligatorie",
+      "cognome.required" => "Il cognome è obbligatorio",
+    ]);
+
+    $personeEsistenti = DatiPersonali::with('persona')
+                  ->where("nome", "like", "%".$request->input('nome'))
+                  ->Where("cognome", "like","%".$request->input('cognome'))->get();
+    if($personeEsistenti->count() > 0)
+       return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
+    else
+      return redirect(route('nomadelfia.persone.inserimento.completo'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
+
+
+  }
 
   /**
    * Inserisci una persona nel sistema con i suoi dati personali.
@@ -57,7 +89,6 @@ class PersoneController extends CoreBaseController
    * 
    * @author Davide Neri
    */
-
   public function insert(Request $request){
 
     $validatedData = $request->validate([
@@ -84,6 +115,10 @@ class PersoneController extends CoreBaseController
     //   return $input->incarico != '';
     // });
 
+    $_addanother= $request->input('_addanother');  // save and add another libro
+    $_addonly   = $request->input('_addonly');     // save only
+
+
     try{
      // Salvo la persona nel DB_nomadelfia.persone
       $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
@@ -94,14 +129,16 @@ class PersoneController extends CoreBaseController
                               );
 
       // salvataggio dati personali nel DB_Anagrafe.dati_personali
-      $persona->datiPersonali()->save( 
-            new DatiPersonali(['nome'=>$request->input('nome'),
-                              "cognome"=>$request->input('cognome'),
-                              'data_nascita'=>$request->input('data_nascita'),
-                              "provincia_nascita"=>$request->input('luogo_nascita'),
-                              "sesso"=>$request->input('sesso')
-                              ]));
-      return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
+      $persona->datiPersonali()->save(new DatiPersonali(['nome'=>$request->input('nome'),
+                                                        "cognome"=>$request->input('cognome'),
+                                                        'data_nascita'=>$request->input('data_nascita'),
+                                                        "provincia_nascita"=>$request->input('luogo_nascita'),
+                                                        "sesso"=>$request->input('sesso')]));
+      if($_addanother)
+        return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
+      if($_addonly)
+        return redirect()->route('nomadelifa.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+      
     }
     catch (Illuminate\Database\QueryException $e){
         $error_code = $e->errorInfo[1];

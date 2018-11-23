@@ -19,13 +19,19 @@ class PatenteController extends CoreBaseController
         $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente')->get();        
         
-        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza_patente')->get();
         $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza_patente')->get();
         $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
         
         $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente')->get();
-        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente')->get(); 
+        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente','desc')->get(); 
+        
+        $patentiAll = Patente::sortable()->with("persona")->NonInScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
+        $cqcPersoneAll = CQC::CQCPersone()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
+        $cqcMerciAll = CQC::CQCMerci()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
+        $cqcAll= $cqcPersoneAll->merge($cqcMerciAll);
+        // dd($cqcAll);
         return view("patente.scadenze",compact('patenti',
                                                 'patentiScadute',
                                                 'patentiCQCPersone',
@@ -33,7 +39,10 @@ class PatenteController extends CoreBaseController
                                                 'patentiCQCMerci',
                                                 'patentiCQCMerciScadute',
                                                 'patentiCommissione',
-                                                'patentiCommisioneScadute'));
+                                                'patentiCommisioneScadute',
+                                                'patentiAll',
+                                                'cqcAll'
+                                            ));
     }
 
     public function elenchi()
@@ -63,16 +72,18 @@ class PatenteController extends CoreBaseController
         return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
 
         $msgSearch = " ";
+        $orderBy = "numero_patente";
         $queryPatenti = Patente::where(function($q) use ($request, &$msgSearch){
             if($request->filled('persona_id')){
               $persona = $request->persona_id;
               $q->where('persona_id',$persona);
               $nome = Persona::findorfail($persona)->nominativo;
               $msgSearch= $msgSearch."Persona=".$nome;
-            //   $orderBy = "titolo";
+            
             }
             if($request->filled('numero_patente')){
               $numero_patente = $request->numero_patente;
+              $orderBy = "numero_patente";
               $q->where('numero_patente','LIKE', "$numero_patente%");
               $msgSearch= $msgSearch." numero_patente=".$numero_patente;
             }
@@ -82,6 +93,7 @@ class PatenteController extends CoreBaseController
             }
             if ($request->filled('criterio_data_scadenza') and $request->filled('data_scadenza') ) {
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
+                $orderBy = "persona_id";
                 $msgSearch = $msgSearch." Data scadenza".$request->input('criterio_data_scadenza').$request->input('data_scadenza');
             }
             if($request->filled('cqc_patente')){
@@ -101,7 +113,7 @@ class PatenteController extends CoreBaseController
                 $msgSearch = $msgSearch." categoria=".$nome;
             }
           });
-        $patenti = $queryPatenti->paginate(10);
+        $patenti = $queryPatenti->sortable($orderBy,'asc')->paginate(25);
         $categorie = CategoriaPatente::orderby("categoria")->get();
         $cqc = CQC::orderby("categoria")->get();
         return view("patente.search", compact('patenti','categorie','cqc','msgSearch'));

@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio')
-<sin-header title="Scadenza patenti"> </sin-header>
+<sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header>
 
 <div class="row">
    <div class="col align-self-center"> 
@@ -136,8 +136,59 @@
         </div>
       </div> <!--  end card C.Q.C  -->
     </div><!--  end card deck  -->
-  </div>  <!--end col -->
+   </div>  <!--end col -->
+  </div>
 
-</div>
+  <table class="mt-2 table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
+    <thead class="thead-inverse">
+        <tr>
+            <th  style="width: 10%"> Nominativo </th>
+            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
+            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
+            <th style="width: 20%"> Categorie </th>
+            <th style="width: 20%"> C.Q.C </th>
+            <th style="width: 10%"> Operazioni </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($patentiAll as $patente)
+          <tr hoverable>
+              <td> {{$patente->persona->nominativo}}
+              <span class="badge badge-warning">{{$patente->stato}}</span>
+              </td>
+              <td> {{$patente->numero_patente}}</td>
+              <td> {{$patente->data_scadenza_patente}}</td>
+              <td >{{$patente->categorieAsString()}} </td>
+              <td> {{$patente->cqcAsString()}}</td>
+              <td>
+                <div class='btn-group' role='group' aria-label="Basic example">
+                  <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
+                  <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
+                </div>
+              </td>
+          </tr>
+          @endforeach
+      </tbody>
+
+      <tbody>   
+          @foreach($cqcAll as $patente)
+          <tr hoverable>
+              <td> {{$patente->persona->nominativo}}
+              <span class="badge badge-warning">{{$patente->stato}}</span>
+              </td>
+              <td> {{$patente->numero_patente}}</td>
+              <td> {{$patente->data_scadenza_patente}}</td>
+              <td >{{$patente->categorieAsString()}} </td>
+              <td> {{$patente->cqcAsString()}}</td>
+              <td>
+                <div class='btn-group' role='group' aria-label="Basic example">
+                  <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
+                  <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
+                </div>
+              </td>
+          </tr>
+          @endforeach
+    </tbody>
+  </table>
 
 @endsection

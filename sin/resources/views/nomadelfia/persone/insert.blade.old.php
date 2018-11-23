@@ -173,6 +173,8 @@
 <div class="form-row">
   <div class="col-md-2 offset-md-10">
     <button type="submit" class="btn btn-block btn-primary">Salva</button>
+    <button class="btn btn-success" name="_addanother" value="true" type="submit">Salva e aggiungi un'altro </button>
+   <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva</button>
   </div>
 </div>
 </form>
@@ -195,6 +197,7 @@
             <input class="form-control" type="text" name="nuova_famiglia" id="nome_famiglia">
             <div class="input-group-append">
               <button class="btn btn-outline-primary" type="submit" id="button-addon2">Salva</button>
+        
             </div>
           </div>
         </form>

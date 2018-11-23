@@ -8,10 +8,14 @@ use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 
+use App\Traits\SortableTrait;
+
 use Carbon;
 
 class Patente extends Model
 {
+  use SortableTrait;
+  
   protected $connection = 'db_patente';
   protected $table = 'persone_patenti';
   protected $primaryKey = "numero_patente";
@@ -78,7 +82,7 @@ class Patente extends Model
 
   /**
    * Ritorna le patenti che scadono entro $days giorni
-   * @param int $giorni :numero di giorni entro il quale le patenti scadono.
+   * @param int $giorni: numero di giorni entro il quale le patenti scadono.
    * @author Davide Neri
    */
   public function scopeInScadenza($query, int $days){
@@ -89,8 +93,20 @@ class Patente extends Model
   }
 
    /**
+   * Ritorna le patenti che non sono in scadenza entro $days giorni
+   * @param int $giorni: numero di giorni entro il quale le patenti scadono.
+   * @author Davide Neri
+   */
+  public function scopeNonInScadenza($query, int $days){
+    $data = Carbon::now()->addDays($days)->toDateString();
+    return $query->where('data_scadenza_patente', '>', $data);
+                // ->where('data_scadenza_patente',">=",Carbon::now()->toDateString());
+
+  }
+
+   /**
    * Ritorna le patenti che sono già scadute da $giorni.
-   * @param int $giorni :numero di giorni di scadenza
+   * @param int $giorni: numero di giorni di scadenza
    * @author Davide Neri
    */
   public function scopeScadute($query, int $days){
