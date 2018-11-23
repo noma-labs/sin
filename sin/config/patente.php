@@ -17,15 +17,15 @@ return [
     */
     'scadenze' =>[
         'patenti'=> [
-            'inscadenza'=> 29,
-            'scadute'=> 29
+            'inscadenza'=> 30,
+            'scadute'=> 30
         ],
         'commissione'=> [
             'inscadenza'=> 90,
             'scadute'=> 30
         ],
         'cqc'=> [
-            'inscadenza'=>12,
+            'inscadenza'=>90,
             'scadute'=>30
         ],
     ],

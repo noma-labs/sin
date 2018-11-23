@@ -98,7 +98,7 @@
         <tr>
             <th> Nominativo</th>
             <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
-            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
+            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('data_scadenza_patente',"Data Scadenza") }} </th>
             <th> Categorie  </th>
             <th> C.Q.C  </th>
             <th> Operazioni </th>

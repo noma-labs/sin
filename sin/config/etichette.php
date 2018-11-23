@@ -19,13 +19,13 @@ return [
         |--------------------------------------------------------------------------
         |  Collocazione
         |--------------------------------------------------------------------------
-        |  imposat il font-size della collocaionze dell'etichetta
+        |  imposta il font-size della collocaionze dell'etichetta
         */
     'collocazione' => [
         'font-size' => "22px"
     ],
     'titolo'=> [
-        'font-size' => "6px",
-        'height' => "290" // altezza del div contentne il titolo
+        'font-size' => "18px",
+        'height' => "193" // altezza del div contenente il titolo
     ]
 ];
