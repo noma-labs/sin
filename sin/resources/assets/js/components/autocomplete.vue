@@ -102,6 +102,7 @@
           this.sentvalue = _.map(selectedValues,"value"); // from ["value":1, "value":2] to [1,2,3,4]
         else // multiple=false than selectedValues is an object
           // this.sentvalue = selectedValues.value;
+          console.log(  selectedValues);
           this.sentvalue = selectedValues;
 
       },

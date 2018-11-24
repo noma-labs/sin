@@ -75,4 +75,21 @@ class Handler extends ExceptionHandler
         return redirect()->guest(route('login'))->withError("Operazione non permessa da utente ospite.");
         // return redirect()->guest(route('auth.guest'));
     }
+    
+    public function render($request, Exception $e)
+    {
+
+        if ($e instanceof \Illuminate\Session\TokenMismatchException)
+        {
+            return redirect()
+                    ->back()
+                    ->withInput($request->except('password'))
+                    ->with([
+                        'status' => 'Oops! Your Validation Token has expired. Please try again',
+                        'alert' => 'danger']);
+        }
+
+        return parent::render($request, $e);
+    }
+
 }

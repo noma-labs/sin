@@ -73,7 +73,7 @@ class PatenteController extends CoreBaseController
 
         $msgSearch = " ";
         $orderBy = "numero_patente";
-        $queryPatenti = Patente::where(function($q) use ($request, &$msgSearch){
+        $queryPatenti = Patente::where(function($q) use ($request, &$msgSearch,  &$orderBy){
             if($request->filled('persona_id')){
               $persona = $request->persona_id;
               $q->where('persona_id',$persona);
@@ -93,7 +93,7 @@ class PatenteController extends CoreBaseController
             }
             if ($request->filled('criterio_data_scadenza') and $request->filled('data_scadenza') ) {
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
-                $orderBy = "persona_id";
+                $orderBy = "data_scadenza_patente";
                 $msgSearch = $msgSearch." Data scadenza".$request->input('criterio_data_scadenza').$request->input('data_scadenza');
             }
             if($request->filled('cqc_patente')){
@@ -113,6 +113,7 @@ class PatenteController extends CoreBaseController
                 $msgSearch = $msgSearch." categoria=".$nome;
             }
           });
+        //$msgSearch=$msgSearch."order by: $orderBy";
         $patenti = $queryPatenti->sortable($orderBy,'asc')->paginate(25);
         $categorie = CategoriaPatente::orderby("categoria")->get();
         $cqc = CQC::orderby("categoria")->get();
