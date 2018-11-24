@@ -127,10 +127,20 @@
               <td>{{$patente->cqcAsString()}}</td>
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
-                <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
-                <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
-                <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}">Elimina</a>
+                @can('patente.modifica')
+                <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>                  
+                @endcan
+                @can('patente.elimina')
+                <my-modal modal-title="Elimina patente" button-title="Elimina">
+                    <template slot="modal-body-slot">
+                      <p> Vuoi davvero eliminare la patente {{$patente->numero_patente}} ?</p>
+                    </template>
 
+                    <template slot="modal-button">
+                      <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a>
+                    </template>
+                  </my-modal>
+                @endcan
                 </div>
               </td>
           </tr>

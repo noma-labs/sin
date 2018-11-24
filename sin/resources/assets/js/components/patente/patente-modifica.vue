@@ -6,7 +6,9 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<slot name="persona-info"></slot>
+				<slot name="persona-info">
+					
+				</slot>
 				<div class="row">
 					<div class="col-md-6">
 						<label for="data_rilascio_patente">Patente rilasciata il:</label>

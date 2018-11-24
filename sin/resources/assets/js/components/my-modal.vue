@@ -5,31 +5,46 @@
         <div class="modal-mask"  @click="close" v-show="showModal">
             <div class="modal-container"  @click.stop>
                 <div class="modal-header">
-                    <h3>{{title}}</h3>
+                    <h3>{{modalTitle}}</h3>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">
-                        Nome e Cognome
-                      <input class="form-control" v-model="nome" :placeholder="placeholder">
-                    </label>
+                  <slot name="modal-body-slot">
+					
+				  </slot>
                 </div>
-                <p class="text-success" v-show="msg">{{msg}}</p>
                 <div class="modal-footer text-right">
                   <a class="btn btn-primary" role="button" @click="close()">
-                      Esci
+                      Annulla
                   </a>
-                  <input class="btn btn-success" type="button"  @click="aggiungi()" :disabled="isDisabled()" value="Aggiungi">
-                    <!-- <a class="btn btn-primary" role="button" @click="aggiungi()" :disabled="true">
-                        Aggiungi
-                    </a> -->
+                  <slot name="modal-button"> </slot>
                 </div>
             </div>
         </div>
     </transition>
-    <a class="btn btn-success" @click="showModal = true">{{title}}</a>
+    <a class="btn btn-danger" @click="showModal = true">{{buttonTitle}}</a>
   </div>
 </template>
-</div>
+
+
+<script>
+  export default {
+    props: {
+        modalTitle: {type:String}, 
+        buttonTitle: {type:String}, 
+    },
+    data() {
+      return{
+        showModal:false
+     }
+    },
+    methods: {
+      close: function () {
+        this.showModal=false;
+        }
+    }
+  }
+</script>
+
 
 <style scoped>
 * {
@@ -65,6 +80,7 @@
 
 .modal-body {
     margin: 20px 0;
+    color: black;
 }
 
 .text-right {
@@ -111,42 +127,3 @@
   transform: scale(1.1);
 }
 </style>
-
-<script>
-  export default {
-    props: ["title","urlPost","placeholder"],
-    data() {
-      return{
-        msg: null,
-        nome: null,
-        showModal:false
-    }
-    },
-    methods: {
-      isDisabled(){
-        return  !this.nome;
-      },
-      aggiungi: function () {
-        axios.post(this.urlPost,{
-          nome: this.nome,
-        })
-        .then(response => {
-         // console.log(response);
-         this.msg = response.data.msg;
-         // this.$parent.$emit('my-event');
-         // console.log("emit event");
-         // this.close()
-        })
-        .catch(e => {
-          this.errors.push(e);
-          console.log("error");
-        })
-      },
-      close: function () {
-        this.msg = null,
-        this.nome = null,
-        this.showModal=false;
-        }
-    }
-  }
-</script>

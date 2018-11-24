@@ -38,21 +38,6 @@
                               api-biblioteca-autori-editori="{{route('api.biblioteca.autori')}}"
                               api-biblioteca-autori-editori-create="{{route('api.biblioteca.autori.create')}}"
             > 
-             <!-- 
-              <div class="row">
-               <div class="col-md-8">
-                 <label for="xAutore" class="control-label">Autore/i (*)</label>
-                 <autocomplete :multiple="true"
-                                placeholder="Inserisci autore/i ..."
-                                name="xIdAutori"
-                                url="{{route('api.biblioteca.autori')}}">
-                  </autocomplete>
-              </div>
-             <div class="col-md-4">
-                 <label>&nbsp;</label>
-                 <modal title="Nuovo Autore" url-post="{{route('api.biblioteca.autori.create')}}" placeholder="Es. Italo Calvino">
-             </div> 
-          </div>-->
         </div>
         <div class="col-md-6">
             <libro-editore-autore 
@@ -66,22 +51,6 @@
                               api-biblioteca-autori-editori="{{route('api.biblioteca.editori')}}"
                               api-biblioteca-autori-editori-create="{{route('api.biblioteca.editori.create')}}"
               >
-<!--        
-          <div class="row"> 
-          <div class="col-md-8">
-                <label for="xEditore" class="control-label">Editore/i (*)</label>
-                <autocomplete :multiple="true"
-                              placeholder="Inserisci editore/i ..."
-                              name="xIdEditori"
-                              url="{{route('api.biblioteca.editori')}}">
-                </autocomplete>
-            </div>
-
-            <div class="col-md-4">
-              <label>&nbsp;</label>
-              <modal title="Nuovo Editore" url-post="{{route('api.biblioteca.editori.create')}}" placeholder="Es. Arnoldo Mondadori"/>
-            </div> -->
-          <!-- </div>  -->
          </div>
         </div>
       <div class="row">

@@ -174,10 +174,18 @@
                 @can('patente.modifica')
                   <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
                 @endcan
+              
                 @can('patente.elimina')
-                  <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a> 
+                <my-modal modal-title="Elimina patente" button-title="Elimina">
+                    <template slot="modal-body-slot">
+                      <p> Vuoi davvero eliminare la patente {{$patente->numero_patente}} ?</p>
+                    </template>
+
+                    <template slot="modal-button">
+                      <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a>
+                    </template>
+                  </my-modal>
                 @endcan
-                  <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
                 </div>
               </td>
           </tr>
@@ -185,6 +193,8 @@
       </tbody>
     </tbody>
   </table>
+
+
   <div class="row">
        <div class="col-md-6 offset-md-4">
          {{ $patentiAll->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }}
