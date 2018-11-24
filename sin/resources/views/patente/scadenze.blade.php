@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio')
-<!-- <sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> -->
+<sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> 
 
 <div class="row">
    <div class="col align-self-center"> 
@@ -171,8 +171,12 @@
               <td> {{$patente->cqcAsString()}}</td>
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
+                @can('patente.modifica')
                   <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
+                @endcan
+                @can('patente.elimina')
                   <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a> 
+                @endcan
                   <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
                 </div>
               </td>

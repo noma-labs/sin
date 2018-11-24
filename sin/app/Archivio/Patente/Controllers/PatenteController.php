@@ -17,17 +17,17 @@ class PatenteController extends CoreBaseController
 
     public function scadenze(){
         $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
-        $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente')->get();        
+        $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente','asc')->get();        
         
-        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza_patente')->get();
-        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
+        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza','asc')->get();
+        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza','asc')->get();
+        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza','asc')->get();
+        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza','asc')->get();
         
         $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.inscadenza'))->orderBy('data_scadenza_patente')->get();
-        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente','desc')->get(); 
+        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente','asc')->get(); 
         
-        $patentiAll = Patente::sortable()->with("persona")->orderBy('data_scadenza_patente', 'asc')->paginate(50);
+        $patentiAll = Patente::sortable()->NonScadute()->with("persona")->orderBy('data_scadenza_patente', 'asc')->paginate(50);
         
         // $cqcPersoneAll = CQC::CQCPersone()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
         // $cqcMerciAll = CQC::CQCMerci()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();

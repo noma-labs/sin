@@ -93,23 +93,22 @@ class Patente extends Model
   }
 
    /**
-   * Ritorna le patenti che non sono in scadenza entro $days giorni
-   * @param int $giorni: numero di giorni entro il quale le patenti scadono.
+   * Ritorna le patenti la cui data di scadenza è maggiore di oggi.
    * @author Davide Neri
    */
-  public function scopeNonInScadenza($query, int $days){
-    $data = Carbon::now()->addDays($days)->toDateString();
+  public function scopeNonScadute($query){
+    $data = Carbon::now()->toDateString();
     return $query->where('data_scadenza_patente', '>', $data);
-                // ->where('data_scadenza_patente',">=",Carbon::now()->toDateString());
-
   }
 
    /**
-   * Ritorna le patenti che sono  scadute da $giorni (if not null) altrimento ritorna tutte le patenti scadute
+   * Ritorna le patenti che sono scadute da un numero di $giorni da oggi.
+   * Se $day ==null ritorna tutte le patenti scadute da oggi.
    * @param int $giorni: numero di giorni di scadenza
    * @author Davide Neri
    */
   public function scopeScadute($query, int $days=null){
+
     if($days!=null){
       $data = Carbon::now()->subDays($days)->toDateString();
      return $query->where('data_scadenza_patente', '>=', $data)

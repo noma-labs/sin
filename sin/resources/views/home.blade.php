@@ -17,7 +17,8 @@
           </div>
         </div>
         @endif
-        @hasanyrole("biblioteca-amm|master|presidenza-amm")
+        
+        @hasanyrole("biblioteca-amm|presidenza-amm|master")
         <div class="col-md-4">
           <div class="card text-center border-info mb-3">
             <div class="card-header">
@@ -32,7 +33,7 @@
         </div>
         @endhasrole
         
-        @hasanyrole('rtn|master|presidenza-amm')
+        @hasanyrole('rtn|presidenza-amm|master')
             <div class="col-md-4">
               <div class="card text-center border-success mb-3">
                 <div class="card-header">
@@ -45,9 +46,9 @@
                 </div>
               </div>
             </div>
-      @endhasrole
+       @endhasrole
 
-      @hasanyrole('meccanica-ope|meccanica-amm|master|presidenza-amm')
+      @hasanyrole('meccanica-ope|meccanica-amm|presidenza-amm|master')
         <div class="col-md-4">
           <div class="card text-center border-warning  mb-3">
             <div class="card-header">
@@ -62,7 +63,7 @@
         </div>
         @endhasrole
 
-     @hasrole('presidenza-amm|master|presidenza-ope')
+     @hasrole('presidenza-amm|presidenza-ope|master')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
@@ -75,6 +76,7 @@
           </div>
         </div>
       @endhasrole
+
       @hasrole('admin|master')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
@@ -88,7 +90,8 @@
           </div>
         </div>
       @endhasrole
-      
+
+      @hasrole('patente-amm|presidenza-amm|master')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
@@ -100,7 +103,6 @@
             </div>
           </div>
         </div>
-      @hasrole('admin|master')
       @endhasrole
     </div>
 
