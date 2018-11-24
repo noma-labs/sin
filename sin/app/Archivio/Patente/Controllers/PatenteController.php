@@ -24,13 +24,14 @@ class PatenteController extends CoreBaseController
         $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza_patente')->get();
         $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza_patente')->get();
         
-        $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente')->get();
+        $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.inscadenza'))->orderBy('data_scadenza_patente')->get();
         $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente','desc')->get(); 
         
-        $patentiAll = Patente::sortable()->with("persona")->NonInScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
-        $cqcPersoneAll = CQC::CQCPersone()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
-        $cqcMerciAll = CQC::CQCMerci()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
-        $cqcAll= $cqcPersoneAll->merge($cqcMerciAll);
+        $patentiAll = Patente::sortable()->with("persona")->orderBy('data_scadenza_patente', 'asc')->paginate(50);
+        
+        // $cqcPersoneAll = CQC::CQCPersone()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
+        // $cqcMerciAll = CQC::CQCMerci()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
+        // $cqcAll= $cqcPersoneAll->merge($cqcMerciAll);
         // dd($cqcAll);
         return view("patente.scadenze",compact('patenti',
                                                 'patentiScadute',
@@ -40,8 +41,7 @@ class PatenteController extends CoreBaseController
                                                 'patentiCQCMerciScadute',
                                                 'patentiCommissione',
                                                 'patentiCommisioneScadute',
-                                                'patentiAll',
-                                                'cqcAll'
+                                                'patentiAll'
                                             ));
     }
 

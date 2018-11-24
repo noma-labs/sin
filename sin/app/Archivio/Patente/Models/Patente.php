@@ -105,14 +105,19 @@ class Patente extends Model
   }
 
    /**
-   * Ritorna le patenti che sono già scadute da $giorni.
+   * Ritorna le patenti che sono  scadute da $giorni (if not null) altrimento ritorna tutte le patenti scadute
    * @param int $giorni: numero di giorni di scadenza
    * @author Davide Neri
    */
-  public function scopeScadute($query, int $days){
-    $data = Carbon::now()->subDays($days)->toDateString();
-    return $query->where('data_scadenza_patente', '>=', $data)
+  public function scopeScadute($query, int $days=null){
+    if($days!=null){
+      $data = Carbon::now()->subDays($days)->toDateString();
+     return $query->where('data_scadenza_patente', '>=', $data)
                 ->where('data_scadenza_patente',"<=",Carbon::now()->toDateString());
+    }
+    else{
+      return $query->where('data_scadenza_patente',"<=",Carbon::now()->toDateString());
+    }
   }
 
   /** Ritorna le patenti a cui è stata assegnata la commissione

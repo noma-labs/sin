@@ -96,19 +96,30 @@
   <table class="table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
         <tr>
-            <th> Nominativo</th>
-            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
-            <th style="width: 13%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
-            <th> Categorie  </th>
-            <th> C.Q.C  </th>
-            <th> Operazioni </th>
+            <th  style="width: 20%"> Nome Cognome</th>
+            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"N. Patente") }}</th>
+            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
+            <th style="width: 20%"> Categorie  </th>
+            <th style="width: 20%"> C.Q.C  </th>
+            <th style="width: 10%"> Operazioni </th>
         </tr>
     </thead>
     <tbody>
           @foreach($patenti as $patente)
           <tr hoverable>
-              <td> {{$patente->persona->nominativo}}
-              <span class="badge badge-warning">{{$patente->stato}}</span>
+          <td> 
+              @isset($patente->persona->datipersonali->nome)
+                 {{ $patente->persona->datipersonali->nome}}
+              @endisset
+              @isset($patente->persona->datipersonali->cognome)
+                {{$patente->persona->datipersonali->cognome}}
+              @endisset
+                @if($patente->stato == 'commissione')
+                  <span class="badge badge-warning">C.</span>
+                @endif
+                @isset($patente->note)
+                <span class="badge badge-success">N.</span>
+                @endisset
               </td>
               <td> {{$patente->numero_patente}}</td>
               <td> {{$patente->data_scadenza_patente}}</td>

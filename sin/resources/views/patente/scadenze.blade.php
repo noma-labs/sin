@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio')
-<sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header>
+<!-- <sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> -->
 
 <div class="row">
    <div class="col align-self-center"> 
@@ -23,7 +23,7 @@
                 </li>
               @endforeach
               </ul>
-        <h5 class="card-title">Scadute da {{config('patente.scadenze.patenti.scadute')}} gg ({{$patentiScadute->count()}})</h5>
+        <h5 class="card-title">Scadute ({{$patentiScadute->count()}})</h5>
            <ul>
               @foreach($patentiScadute as $patente)
                 <li>
@@ -52,7 +52,7 @@
                </span>
             @endforeach
             </ul>
-          <h5 class="card-title">Scadute da {{config('patente.scadenze.patenti.scadute')}} gg ({{$patentiCommisioneScadute->count()}})</h5>
+          <h5 class="card-title">Scadute ({{$patentiCommisioneScadute->count()}})</h5>
            <ul>
               @foreach($patentiCommisioneScadute as $patente)
                 <li>
@@ -87,7 +87,7 @@
                 </ul>
                 
                 <h6 class="card-subtitle">
-                   Scadute da  {{config('patente.scadenze.cqc.scadute')}} gg ({{$patentiCQCPersoneScadute->count()}})
+                   Scadute  ({{$patentiCQCPersoneScadute->count()}})
                 </h6>
                 <ul>
                   @foreach($patentiCQCPersoneScadute as $patente)
@@ -117,7 +117,7 @@
                 </ul>
              
               <h6 class="card-title">
-                  Scadute da  {{config('patente.scadenze.cqc.scadute')}} gg ({{$patentiCQCMerciScadute->count()}})
+                  Scadute ({{$patentiCQCMerciScadute->count()}})
                 </h6>
                 <ul>
                   @foreach($patentiCQCMerciScadute as $patente)
@@ -129,8 +129,6 @@
                     </li>
                   @endforeach
                 </ul>
-
-
             </div>
           </div>
         </div>
@@ -142,7 +140,7 @@
   <table class="mt-2 table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
         <tr>
-            <th  style="width: 10%"> Nominativo </th>
+            <th  style="width: 20%"> Nome Cognome </th>
             <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
             <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
             <th style="width: 20%"> Categorie </th>
@@ -153,8 +151,19 @@
     <tbody>
         @foreach($patentiAll as $patente)
           <tr hoverable>
-              <td> {{$patente->persona->nominativo}}
-              <span class="badge badge-warning">{{$patente->stato}}</span>
+              <td> 
+              @isset($patente->persona->datipersonali->nome)
+                 {{ $patente->persona->datipersonali->nome}}
+              @endisset
+              @isset($patente->persona->datipersonali->cognome)
+                {{$patente->persona->datipersonali->cognome}}
+              @endisset
+                @if($patente->stato == 'commissione')
+                  <span class="badge badge-warning">C.</span>
+                @endif
+                @isset($patente->note)
+                <span class="badge badge-success">N.</span>
+                @endisset
               </td>
               <td> {{$patente->numero_patente}}</td>
               <td> {{$patente->data_scadenza_patente}}</td>
@@ -163,32 +172,41 @@
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
                   <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
+                  <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a> 
                   <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
                 </div>
               </td>
           </tr>
           @endforeach
       </tbody>
-
-      <tbody>   
-          @foreach($cqcAll as $patente)
-          <tr hoverable>
-              <td> {{$patente->persona->nominativo}}
-              <span class="badge badge-warning">{{$patente->stato}}</span>
-              </td>
-              <td> {{$patente->numero_patente}}</td>
-              <td> {{$patente->data_scadenza_patente}}</td>
-              <td >{{$patente->categorieAsString()}} </td>
-              <td> {{$patente->cqcAsString()}}</td>
-              <td>
-                <div class='btn-group' role='group' aria-label="Basic example">
-                  <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
-                  <!-- <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" data-toggle="modal" data-target="#eliminaModal">Elimina</a> -->
-                </div>
-              </td>
-          </tr>
-          @endforeach
     </tbody>
   </table>
+  <div class="row">
+       <div class="col-md-6 offset-md-4">
+         {{ $patentiAll->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }}
+      </div>
+    </div>
+
+  
+<!-- Modal -->
+<div class="modal fade" id="eliminaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminazione patente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Vuoi davvero elimare la patente ?</p>
+     </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+        <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a>  
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection

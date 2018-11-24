@@ -78,12 +78,24 @@ class CQC extends Model
                 ->wherePivot('data_scadenza','>', $data);
 
   }
-  
-  public function scadute($days){
-    $data = Carbon::now()->subDays($days)->toDateString();
-    return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
-                ->withPivot('data_rilascio','data_scadenza')
-                ->wherePivot('data_scadenza', '>=', $data)
-                ->wherePivot('data_scadenza',"<=",Carbon::now()->toDateString());
+    /**
+   * Ritorna le patenti con C.Q.C scadeute.
+   * Se $days è null ritorna tutte le patenti scadute, altimenti solo quelle scadute d $days giorni.
+   * @param int $days: numero di giorni | null
+   * @author Davide Neri
+   */
+  public function scadute($days=null){
+    if($days != null){
+      $data = Carbon::now()->subDays($days)->toDateString();
+      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                  ->withPivot('data_rilascio','data_scadenza')
+                  ->wherePivot('data_scadenza', '>=', $data)
+                  ->wherePivot('data_scadenza',"<=",Carbon::now()->toDateString());
+    }else{
+      return $this->belongsToMany(Patente::class, 'patenti_categorie','categoria_patente_id','numero_patente')
+                  ->withPivot('data_rilascio','data_scadenza')
+                  ->wherePivot('data_scadenza',"<=",Carbon::now()->toDateString());
+
+    }
   }
 }
