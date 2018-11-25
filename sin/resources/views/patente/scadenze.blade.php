@@ -116,7 +116,7 @@
                    @endforeach
                 </ul>
              
-              <h6 class="card-title">
+                <h6 class="card-subtitle">
                   Scadute ({{$patentiCQCMerciScadute->count()}})
                 </h6>
                 <ul>
@@ -176,9 +176,16 @@
                 @endcan
               
                 @can('patente.elimina')
-                <my-modal modal-title="Elimina patente" button-title="Elimina">
+                <my-modal modal-title="Eliminazione patente" button-title="Elimina">
                     <template slot="modal-body-slot">
-                      <p> Vuoi davvero eliminare la patente {{$patente->numero_patente}} ?</p>
+                      Vuoi davvero eliminare la patente di
+                      @isset($patente->persona->datipersonali->nome)
+                        {{ $patente->persona->datipersonali->nome}}
+                      @endisset
+                      @isset($patente->persona->datipersonali->cognome)
+                        {{$patente->persona->datipersonali->cognome}}
+                      @endisset 
+                      ?
                     </template>
 
                     <template slot="modal-button">
@@ -200,27 +207,4 @@
          {{ $patentiAll->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }}
       </div>
     </div>
-
-  
-<!-- Modal -->
-<div class="modal fade" id="eliminaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Eliminazione patente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <p>Vuoi davvero elimare la patente ?</p>
-     </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-        <a class="btn btn-danger" href="{{ route('patente.elimina', $patente->numero_patente) }}" >Elimina</a>  
-      </div>
-    </div>
-  </div>
-</div>
-
 @endsection

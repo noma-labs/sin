@@ -6,9 +6,16 @@
 
 <div class="row">
     <div class="col-md-3">
-        <form action="{{route('patente.elenchi.stampa.autorizzati')}}">
-            <button type="submit" class="btn btn-block btn-primary">Stampa elenco Conducenti autorizzati</button>
-        </form>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Conducenti autorizzati
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{route('patente.elenchi.stampa.autorizzati')}}">Esporta in .pdf</a>
+
+                <a class="dropdown-item" href="#">Esporta in .excel</a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

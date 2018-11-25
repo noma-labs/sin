@@ -131,9 +131,16 @@
                 <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>                  
                 @endcan
                 @can('patente.elimina')
-                <my-modal modal-title="Elimina patente" button-title="Elimina">
+                <my-modal modal-title="Eliminazione patente" button-title="Elimina">
                     <template slot="modal-body-slot">
-                      <p> Vuoi davvero eliminare la patente {{$patente->numero_patente}} ?</p>
+                      Vuoi davvero eliminare la patente di
+                      @isset($patente->persona->datipersonali->nome)
+                        {{ $patente->persona->datipersonali->nome}}
+                      @endisset
+                      @isset($patente->persona->datipersonali->cognome)
+                        {{$patente->persona->datipersonali->cognome}}
+                      @endisset 
+                      ?
                     </template>
 
                     <template slot="modal-button">

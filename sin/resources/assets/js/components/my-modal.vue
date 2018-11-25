@@ -13,7 +13,7 @@
 				  </slot>
                 </div>
                 <div class="modal-footer text-right">
-                  <a class="btn btn-primary" role="button" @click="close()">
+                  <a class="btn btn-success" role="button" @click="close()">
                       Annulla
                   </a>
                   <slot name="modal-button"> </slot>
@@ -24,7 +24,6 @@
     <a class="btn btn-danger" @click="showModal = true">{{buttonTitle}}</a>
   </div>
 </template>
-
 
 <script>
   export default {
@@ -45,85 +44,92 @@
   }
 </script>
 
-
 <style scoped>
-* {
-    box-sizing: border-box;
-}
+	* {
+	    box-sizing: border-box;
+	}
 
-.modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    transition: opacity .3s ease;
-}
+	.modal-mask {
+	    position: fixed;
+	    z-index: 9998;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, .5);
+	    transition: opacity .3s ease;
+	}
 
-.modal-container {
-    width: 300px;
-    margin: 40px auto 0;
-    padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-    transition: all .3s ease;
-    font-family: Helvetica, Arial, sans-serif;
-}
+	.modal-container {
+	    width: 700px;
+	    margin: 40px auto 0;
+	    background-color: #fff;
+        color: #1D70B8;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+	    transition: all .3s ease;
+	    font-family: Helvetica, Arial, sans-serif;
+	}
 
-.modal-header h3 {
-    margin-top: 0;
-    color: #007bff;
-}
+	.modal-header {
+		background: #1D70B8;
+	}
 
-.modal-body {
-    margin: 20px 0;
-    color: black;
-}
+	.modal-footer {
+		background: #1D70B8;
+	}
 
-.text-right {
-    text-align: right;
-}
+	.modal-header h3 {
+	    margin-top: 0;
+	    color: #fff;
+	}
 
-.form-label {
-    display: block;
-    margin-bottom: 1em;
-}
+	.modal-body {
+	    margin: 20px 0;
+	}
 
-.form-label > .form-control {
-    margin-top: 0.5em;
-}
+	.text-right {
+	    text-align: right;
+	}
 
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 0.5em 1em;
-    line-height: 1.5;
-    border: 1px solid #ddd;
-}
+	.form-label {
+	    display: block;
+	    margin-bottom: 1em;
+	}
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
+	.form-label > .form-control {
+	    margin-top: 0.5em;
+	}
 
-.modal-enter {
-  opacity: 0;
-}
+	.form-control {
+	    display: block;
+	    width: 100%;
+	    padding: 0.5em 1em;
+	    line-height: 1.5;
+	    border: 1px solid #ddd;
+	}
 
-.modal-leave-active {
-  opacity: 0;
-}
+	/*
+	 * The following styles are auto-applied to elements with
+	 * transition="modal" when their visibility is toggled
+	 * by Vue.js.
+	 *
+	 * You can easily play with the modal transition by editing
+	 * these styles.
+	 */
 
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
+	.modal-enter {
+	  opacity: 0;
+	}
+
+	.modal-leave-active {
+	  opacity: 0;
+	}
+
+	.modal-enter .modal-container,
+	.modal-leave-active .modal-container {
+	  -webkit-transform: scale(1.1);
+	  transform: scale(1.1);
+	}
 </style>
+
+
