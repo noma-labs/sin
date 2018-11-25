@@ -29,10 +29,6 @@ class PatenteController extends CoreBaseController
         
         $patentiAll = Patente::sortable()->NonScadute()->with("persona")->orderBy('data_scadenza_patente', 'asc')->paginate(50);
         
-        // $cqcPersoneAll = CQC::CQCPersone()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
-        // $cqcMerciAll = CQC::CQCMerci()->NonInScadenza(config('patente.scadenze.cqc.inscadenza'))->orderBy('data_scadenza_patente','asc')->get();
-        // $cqcAll= $cqcPersoneAll->merge($cqcMerciAll);
-        // dd($cqcAll);
         return view("patente.scadenze",compact('patenti',
                                                 'patentiScadute',
                                                 'patentiCQCPersone',
@@ -52,10 +48,13 @@ class PatenteController extends CoreBaseController
 
     public function stampaAutorizzati(){
         $patentiAutorizzati = Patente::all();
-        // $pdf = SnappyPdf::loadView('patente.elenchi.autorizzati',  ["patentiAutorizzati"=>$patentiAutorizzati]);
-        // $data = Carbon::now();
-        // return $pdf->setPaper('a4')->setOrientation('portrait')->stream("autorizzati-$data.pdf"); 
-        return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
+        $pdf = SnappyPdf::loadView('patente.elenchi.index',  ["patentiAutorizzati"=>$patentiAutorizzati]);
+        $data = Carbon::now();
+        // viewport-size must be set otherwise the pdf will be bad formatted
+        $pdf->setOption('viewport-size','1280x1024');
+        return $pdf->setPaper('a4')->setOrientation('portrait')->stream("autorizzati-$data.pdf"); 
+
+        // return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
     }
 
     public function patente()

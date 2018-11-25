@@ -45,6 +45,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                                                       "minorenniCount",
                                                       "gruppifamiliari",
                                                       "aziende"));
+    // viewport-size must be set otherwise the pdf will be bad formatted
     $pdf->setOption('viewport-size','1280x1024');
     $data = Carbon::now();
     return $pdf->download("popolazione-$data.pdf"); //stream
