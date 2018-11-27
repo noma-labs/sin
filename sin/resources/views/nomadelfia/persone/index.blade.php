@@ -8,6 +8,7 @@
       Persone
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
+      <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}" >Gestione persone</a> 
       <a class="dropdown-item" href="{{route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
       <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
     </div>
@@ -17,6 +18,11 @@
 
 @section('archivio')
 @include('partials.header', ['title' => 'Gestione Persone'])
+<!-- <autocomplete  placeholder="Inserisci Nome cognome o nominativo"
+                url="{{route('nomadelfia.autocomplete.persona')}}"
+                >
+
+ </autocomplete> -->
 <div class="container">
  <div class="row">
   <div class="col-md-4">
@@ -36,7 +42,7 @@
               <h5>Uomini {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->presente()->uomini()->count()}}</h5>
                 @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->uomini()->get() as $uomo)
                   <div>
-                  {{$uomo->nominativo}}
+                  <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
                   </div>
                @endforeach
             </div>
@@ -44,7 +50,7 @@
               <h5>Donne {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->presente()->donne()->count()}}</h5>
                 @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->donne()->get() as $donna)
                   <div>
-                  {{$donna->nominativo}}
+                   <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
                   </div>
                @endforeach
             </div>
@@ -71,16 +77,16 @@
               <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->uomini()->count()}}</h4>
               @foreach(App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->uomini()->presente()->get() as $uomo)
                 <div>
-                {{$uomo->nominativo}}
-                </div>
+                   <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$uomo->id])}}">   {{$uomo->nominativo}}</a>                 
+                  </div>
               @endforeach
            </div> <!-- end col uomini postulanti-->
            <div class="col-md-6">
               <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->donne()->count()}}</h4>
               @foreach(App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->donne()->get() as $donna)
-                <div>
-                {{$donna->nominativo}}
-                </div>
+                  <div>
+                   <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
+                  </div>
                 @endforeach
            </div><!-- end col donne postulanti-->
           </div>  <!-- end row inside postulante card -->
@@ -106,15 +112,17 @@
               <div class="col-md-6">
                <h5> Minorenni {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->minorenni()->presente()->count()}}</h5>
                 @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->minorenni()->presente()->get() as $figlio)
-                <div>{{$figlio->nominativo}}
-                </div>
+                 <div>
+                   <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}">   {{$figlio->nominativo}}</a>                 
+                  </div>
                 @endforeach
               </div> <!-- end col figli minorenni-->
               <div class="col-md-6">
                <h5> Maggiorenni {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->maggiorenni()->presente()->count() }} </h5>
                 @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->maggiorenni()->presente()->get() as $figlio)
-                <div>{{$figlio->nominativo}}
-                </div>
+                  <div>
+                   <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}">   {{$figlio->nominativo}}</a>                 
+                  </div>
                 @endforeach
               </div> <!-- end col figli maggiorenni-->
             </div>  <!-- end row inside card-->
