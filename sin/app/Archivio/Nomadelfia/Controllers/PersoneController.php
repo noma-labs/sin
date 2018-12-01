@@ -73,8 +73,8 @@ class PersoneController extends CoreBaseController
     ]);
 
     $personeEsistenti = DatiPersonali::with('persona')
-                  ->where("nome", "like", "%".$request->input('nome'))
-                  ->Where("cognome", "like","%".$request->input('cognome'))->get();
+                  ->where("nome", "like", $request->input('nome')."%")
+                  ->Where("cognome", "like", $request->input('cognome')."%")->get();
     if($personeEsistenti->count() > 0)
        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
     else
