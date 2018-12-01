@@ -23,6 +23,21 @@ class DatiPersonali extends Model
     return $this->hasOne(Persona::class,   'id', 'persona_id');
   }
 
+  /**
+   * Set the Nome in uppercase when a new persona is insereted.
+   */
+  public function setNomeAttribute($value) {
+    $this->attributes['nome'] = strtoupper($value);
+  }
+
+  /**
+     * Set the Cognome in uppercase when a new persona is insereted.
+     */
+    public function setCognomeAttribute($value) {
+      $this->attributes['cognome'] = strtoupper($value);
+  }
+
+
 
   public function scopeDonne($query)
   {

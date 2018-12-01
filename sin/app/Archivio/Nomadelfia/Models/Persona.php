@@ -53,11 +53,17 @@ class Persona extends Model
   public function scopeDonne($query)
   {
      return $query->where('sesso','F');
+    //  $users = Persona::with(['datipersonali' => function ($query) {
+    //     $query->where('sesso', 'F');
+    //  }])->get();
   }
 
   public function scopeUomini($query)
   {
      return $query->where('sesso','M');
+    //  $users = Persona::with(['datipersonali' => function ($query) {
+    //     $query->where('sesso', 'M');
+    //   }])->get();
   }
 
   public function gruppi(){
