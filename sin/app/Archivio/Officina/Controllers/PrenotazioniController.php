@@ -63,14 +63,37 @@ class PrenotazioniController extends CoreBaseController
          $msgSearch= $msgSearch." Uso=".$uso->ofus_nome;
          // $orderBy = "titolo";
       }
-      if ($request->filled('criterio_data_partenza') and $request->filled('data_partenza') ) {
-        $q->where('data_partenza', $request->input('criterio_data_partenza'), $request->input('data_partenza'));
-        $msgSearch= $msgSearch." Data Partenza".$request->input('criterio_data_partenza').$request->input('data_partenza');
+      $cdp = $request->input('criterio_data_partenza',null);
+      $cda = $request->input('criterio_data_arrivo',null);
+      $dp  = $request->input('data_partenza',null);
+      $da  = $request->input('data_arrivo',null);
+      if($cdp and $dp and $cda and $da){ // ricerca con entrambi data di partenza e data di arrivo inserite
+      //   $q->where('data_partenza', $cdp, $dp);
+      //   $q->Where('data_arrivo', $cda, $da);
+       $q->whereBetween('data_partenza', array($dp, $da));
+       $q->orwhereBetween('data_arrivo', array($dp, $da));
+
+      //   $msgSearch= $msgSearch." Data Partenza $cdp $dp oppure Data arrivo $cda $da";
       }
-      if ($request->filled('criterio_data_arrivo') and $request->filled('data_arrivo') ) {
-        $q->where('data_arrivo', $request->input('criterio_data_arrivo'), $request->input('data_arrivo'));
-        $msgSearch= $msgSearch." Data Partenza".$request->input('criterio_data_arrivo').$request->input('data_arrivo');
+      else{
+        if ($cdp and $dp) {
+          $q->where('data_partenza', $cdp, $dp);
+          $msgSearch= $msgSearch." Data Partenza".$cdp.$dp;
+        }
+        if ($cda and $da) {
+          $q->where('data_arrivo', $cda, $da);
+          $msgSearch= $msgSearch." Data Partenza".$cda.$da;
+        }
       }
+     
+      // if ($request->filled('criterio_data_partenza') and $request->filled('data_partenza') ) {
+      //   $q->where('data_partenza', $request->input('criterio_data_partenza'), $request->input('data_partenza'));
+      //   $msgSearch= $msgSearch." Data Partenza".$request->input('criterio_data_partenza').$request->input('data_partenza');
+      // }
+      // if ($request->filled('criterio_data_arrivo') and $request->filled('data_arrivo') ) {
+      //   $q->where('data_arrivo', $request->input('criterio_data_arrivo'), $request->input('data_arrivo'));
+      //   $msgSearch= $msgSearch." Data Partenza".$request->input('criterio_data_arrivo').$request->input('data_arrivo');
+      // }
       if ($request->filled('note') ) {
         $q->where('note','LIKE',"%".$request->note."%");
         $msgSearch= $msgSearch." Note=".$request->note;
