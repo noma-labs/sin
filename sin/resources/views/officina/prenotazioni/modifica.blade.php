@@ -32,8 +32,8 @@
       <select class="form-control" id="meccanico" name="meccanico">
         <option value='{{ $pren->meccanico_id }}' selected>{{ $pren->meccanico->nominativo }}</option>
         @foreach ($meccanici as $mecc)
-          @if ($pren->meccanico_id != $mecc->id)
-          <option value="{{ $mecc->id }}">{{ $mecc->nominativo }}</option>
+          @if ($pren->meccanico_id != $mecc->persona_id)
+          <option value="{{ $mecc->persona_id }}">{{ $mecc->nominativo }}</option>
           @endif
         @endforeach
       </select>

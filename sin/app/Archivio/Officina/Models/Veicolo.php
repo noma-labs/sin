@@ -19,7 +19,7 @@ class Veicolo extends Model
   public $timestamps = false;
 
   public function impieghi() {
-        return $this->belongsTo('App\Officina\Models\Impiego');
+    return $this->belongsTo('App\Officina\Models\Impiego');
   }
 
   public function modello(){
@@ -90,5 +90,4 @@ class Veicolo extends Model
   public function scopeMotocicli($query){
     return $query->where('tipologia_id', 10);
   }
-
 }

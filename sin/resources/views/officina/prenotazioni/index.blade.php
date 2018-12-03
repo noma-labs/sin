@@ -32,7 +32,7 @@
             <option selected disabled>--Seleziona--</option>
             @foreach ($meccanici as $mecc)
               @unless($mecc->nominativo == 'GENNARO')
-              <option value="{{ $mecc->persona_id }}" @if (old('meccanico') === (string)$mecc->id) selected @endif>{{ $mecc->nominativo }}</option>
+              <option value="{{ $mecc->persona_id }}" @if (old('meccanico') === (string)$mecc->persona_id) selected @endif>{{ $mecc->nominativo }}</option>
               @endunless
             @endforeach
           </select>
@@ -112,7 +112,9 @@
         <td>{{ $pren->note }}</td>
         <td>
           <div class='btn-group' role='group' aria-label="Basic example">
+            @can('veicolo.modifica')
             <a class="btn btn-warning" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
+            @endcan
             @can('veicolo.elimina')
               <a class="btn btn-danger" href="{{ route('officina.prenota.delete', $pren->id) }}">Eli.</a>
             @endcan

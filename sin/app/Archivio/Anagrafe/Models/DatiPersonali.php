@@ -37,8 +37,6 @@ class DatiPersonali extends Model
       $this->attributes['cognome'] = strtoupper($value);
   }
 
-
-
   public function scopeDonne($query)
   {
      return $this->where('sesso','F');
