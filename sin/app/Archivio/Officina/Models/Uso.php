@@ -4,6 +4,7 @@ namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Officina\Models\Prenotazioni;
+use Illuminate\Database\Eloquent\Builder;
 
 class Uso extends Model
 {
@@ -13,5 +14,14 @@ class Uso extends Model
 
     public function prenotazioniUso(){
       return $this->hasMany(Prenotazioni::class, 'uso_id', 'ofus_iden');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('ordinamento', function (Builder $builder) {
+            $builder->orderBy('ordinamento');
+        });
     }
 }
