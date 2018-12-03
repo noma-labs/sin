@@ -33,11 +33,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="form-group">
        <label class="control-label">Data partenza</label>
        <select class="form-control"  name="criterio_data_partenza" type="text" >
-         
            <option value="<">Minore</option>
            <option value="<=">Minore Uguale</option>
            <option value="=" >Uguale</option>
@@ -46,18 +45,17 @@
        </select>
       </div>
       </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="form-group">
         <label >&nbsp;</label>
         <input type="date" class="form-control" name="data_partenza"  >
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="form-group">
         <label class="control-label">Data arrivo</label>
         <select class="form-control"  name="criterio_data_arrivo" type="text" >
-           
             <option value="<">Minore</option>
             <option value="<=" selected>Minore Uguale</option>
             <option value="=">Uguale</option>
@@ -65,17 +63,18 @@
             <option value=">=">Maggiore Uguale</option>
         </select>
       </div>
-      </div>
-      <div class="col-md-3">
-       <label >&nbsp;</label>
-        <input type="date" class="form-control" id="data_arr" name="data_arrivo" >
-      </div>
-    <!-- <div class="col-md-3">
-      <div class="form-group">
-        <label for="ora_arr">Ora Arrivo</label>
-        <input type="time" class="form-control" id="ora_arr" name="ora_arr" required>
-      </div>
-    </div> -->
+    </div>
+    <div class="col-md-2">
+      <label >&nbsp;</label>
+      <input type="date" class="form-control" id="data_arr" name="data_arrivo" >
+    </div>
+
+    <div class="col-md-4">
+      <label> Tutte le prenotazioni nel giorno: </label>
+      <input type="date" class="form-control" id="data_arr" name="data_singola" >
+    </div>
+
+
   </div>
   <div class="row">
     <div class="col-md-5">

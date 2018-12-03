@@ -67,13 +67,12 @@ class PrenotazioniController extends CoreBaseController
       $cda = $request->input('criterio_data_arrivo',null);
       $dp  = $request->input('data_partenza',null);
       $da  = $request->input('data_arrivo',null);
-      if($cdp and $dp and $cda and $da){ // ricerca con entrambi data di partenza e data di arrivo inserite
-      //   $q->where('data_partenza', $cdp, $dp);
-      //   $q->Where('data_arrivo', $cda, $da);
-       $q->whereBetween('data_partenza', array($dp, $da));
-       $q->orwhereBetween('data_arrivo', array($dp, $da));
+      $ds  = $request->input('data_singola',null);
 
-      //   $msgSearch= $msgSearch." Data Partenza $cdp $dp oppure Data arrivo $cda $da";
+      if($ds){ // ricerca tutte le prenotazione che contengono in singolo giorno
+        $q->where('data_arrivo', '>=', $ds);
+        $q->where('data_partenza', '<=', $ds);
+        $msgSearch= $msgSearch." Data Partenza  <= $ds  <=  Data arrivo";
       }
       else{
         if ($cdp and $dp) {
