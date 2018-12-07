@@ -51,6 +51,17 @@
 					
 					<div class="col-md-6">
 						<label for="rilasciata_dal">Rilasciata dal:</label>
+						<!-- <v-select
+							:options="optionsPersone"
+							:debounce="500"
+							:on-search="getPersonePatenti"
+							:on-change="changedPersonaSelected"
+							:placeholder="personaPlaceholder"
+							:clearable=true
+							:disabled="disabledAll"
+							:label="label">
+							<span slot="no-options">Nessuna persona trovata</span>
+						</v-select> -->
 						<input type="text" class="form-control"  
 								v-model="nuovaPatente.rilasciata_dal" 
 								id="rilasciata_dal" 
