@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ViewClientiConSenzaPatente extends Model
 {
-    protected $table = 'clienti_con_senza_patenti';
+    protected $table = 'v_clienti_patente';
     protected $connection = 'db_patente';
     protected $primaryKey = "persona_id";
   
