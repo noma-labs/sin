@@ -246,4 +246,6 @@ class PatenteController extends CoreBaseController
        //$viewData = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
         return redirect(route('patente.index'))->withSuccess('La patente numero:'.request('numero_patente').' è stata creata con successo');
     }
+
+   
 }

@@ -171,6 +171,9 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   Route::get('veicoli/{id}','VeicoliController@show')->middleware('ability:veicolo.visualizza')->name('veicoli.dettaglio');
   Route::get('veicoli/modifica/{id}','VeicoliController@edit')->middleware('ability:veicolo.modifica')->name('veicoli.modifica');
   Route::post('veicoli/modifica/{id}','VeicoliController@editConfirm')->middleware('ability:veicolo.modifica')->name('veicoli.modifica.confirm');
+
+  //Patenti
+  Route::get("/patenti", 'PatentiController@patenti')->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 });
 
 //#################################################################
