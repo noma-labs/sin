@@ -60,8 +60,9 @@
       </div> <!-- end nomadelfi effettivi card -->
     </div> <!-- end accordion -->
   </div> <!-- end first col-md-4 -->
- <div class="col-md-4">
-  <div id="accordion">
+ 
+  <div class="col-md-4">
+   <div id="accordion">
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -93,11 +94,11 @@
         </div>
       </div><!-- end card postulanto -->
     </div> 
-  </div> <!-- end accordion second colum-->
- </div> <!-- end second col-md-4 -->
+   </div> <!-- end accordion second colum-->
+  </div> <!-- end second col-md-4 -->
  
   <div class="col-md-4">
-    <div id="accordion">
+   <div id="accordion">
       <div class="card">
         <div class="card-header" id="headingOne">
           <h5 class="mb-0">
@@ -130,9 +131,8 @@
         </div>
       </div> <!-- end card figli -->
     </div>  <!-- end accordion third row -->
-  </div>  <!-- end third  col-md-4 -->
- 
- <div> <!-- end row -->
+   </div>  <!-- end third  col-md-4 -->
+  <div> <!-- end row -->
 </div> <!-- end container -->
 
 
