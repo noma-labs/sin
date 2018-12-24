@@ -44,7 +44,7 @@ class ArchivioDocumentiController extends CoreBaseController
           ->setOption('margin-right', '0mm')
           ->setOption('margin-left', '0mm');
     $data = Carbon::now();
-    return $pdf->setPaper('a4')->setOrientation('portrait')->download("etichette-$data.pdf"); 
+    return $pdf->setPaper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf"); 
     
   }
   
