@@ -7,7 +7,7 @@
     <div class="mr-auto p-2"><span class="h1 text-center">Visualizazioni Patente </span></div>
     <div class="p-2 text-right">
       <h5 class="m-1">
-        ## patenti
+        {{App\Patente\Models\Patente::count()}} patenti
       </h5 >
     </div>
   </div>
