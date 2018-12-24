@@ -201,3 +201,20 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get('inserimento','PatenteController@inserimento')->middleware('ability:patente.inserisci')->name('patente.inserimento');
   Route::post('inserimento', 'PatenteController@confermaInserimento')->middleware('ability:patente.inserisci')->name('patente.inserimento.conferma');
 });
+
+
+//#################################################################
+//######################   ARCHIVIO DOCUMENTI ######################
+//#################################################################
+
+Route::group(['prefix' => 'archiviodocumenti','namespace' => 'App\ArchivioDocumenti\Controllers'], function(){
+  Route::get("/", 'ArchivioDocumentiController@index')->name('archiviodocumenti');
+  Route::get("/etichette", 'ArchivioDocumentiController@etichette')->name('archiviodocumenti.etichette');
+  Route::get("/etichette/export", 'ArchivioDocumentiController@esporta')->name('libri.etichette.esporta');
+ 
+  Route::delete("/etichette/delete", 'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.rimuovi');
+   
+  Route::delete("/etichette/delete/{id}", 'ArchivioDocumentiController@eliminaSingolo')->name('archiviodocumenti.etichette.rimuovi.singolo');
+
+});
+

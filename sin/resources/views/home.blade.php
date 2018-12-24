@@ -104,6 +104,21 @@
           </div>
         </div>
       @endhasrole
+
+      @hasrole('patente-amm|presidenza-amm|master')
+      @endhasrole
+        <div class="col-md-4">
+          <div class="card text-center border-warning mb-3">
+            <div class="card-header">
+              Archivio Documenti
+            </div>
+            <div class="card-body">
+              <p class="card-text">Gestione archivio documenti di Nomadelfia</p>
+              <a href="{{ route('archiviodocumenti.etichette') }}" class="btn btn-primary">Accedi Archivio documenti</a>
+            </div>
+          </div>
+        </div>
+
     </div>
 
 	</div>

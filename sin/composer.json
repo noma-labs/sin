@@ -47,7 +47,8 @@
             "App\\Nomadelfia\\" : "app/Archivio/Nomadelfia",
             "App\\Anagrafe\\" : "app/Archivio/Anagrafe",
             "App\\Rtn\\" : "app/Archivio/Rtn",
-            "App\\Patente\\" : "app/Archivio/Patente"
+            "App\\Patente\\" : "app/Archivio/Patente",
+            "App\\ArchivioDocumenti\\" : "app/Archivio/ArchivioDocumenti"
         }
     },
     "autoload-dev": {
