@@ -6,16 +6,18 @@
 
 @include('patente.elenchi.percategoria')
 
-<div class="row">
-    <div class="col-md-3">
-        <div class="btn-group">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Conducenti autorizzati
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{route('patente.elenchi.stampa.autorizzati')}}">Esporta in .pdf</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="btn-group my-3">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Esporta conducenti autorizzati
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{route('patente.elenchi.stampa.autorizzati')}}">.pdf</a>
 
-                <a class="dropdown-item" href="#">Esporta in .excel</a>
+                    <a class="dropdown-item" href="#">.excel</a>
+                </div>
             </div>
         </div>
     </div>
