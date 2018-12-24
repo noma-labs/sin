@@ -19,7 +19,7 @@ class ApiController extends CoreBaseController
 
   public function clientiMeccanica(Request $request){
     $term = $request->input('term');
-    $clienti = ViewClienti::where("nominativo", "LIKE", '%'.$term.'%')->orderBy("nominativo")->take(50)->get();
+    $clienti = ViewClienti::where("nominativo", "LIKE", $term."%")->orderBy("nominativo")->take(50)->get();
     $results = array();
     foreach ($clienti as $persona)
         $results[] = ['value'=>$persona->id, 'label'=>$persona->nominativo ]; # "".$persona->cliente_con_patente];
