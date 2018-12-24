@@ -213,6 +213,7 @@ Route::group(['prefix' => 'archiviodocumenti','namespace' => 'App\ArchivioDocume
   Route::get("/etichette/export", 'ArchivioDocumentiController@esporta')->name('libri.etichette.esporta');
  
   Route::delete("/etichette/delete", 'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.rimuovi');
+  Route::post("/etichette/aggiungi", 'ArchivioDocumentiController@aggiungi')->name('archiviodocumenti.etichette.aggiungi');
    
   Route::delete("/etichette/delete/{id}", 'ArchivioDocumentiController@eliminaSingolo')->name('archiviodocumenti.etichette.rimuovi.singolo');
 

@@ -72,27 +72,32 @@
           <h5 class="card-title">Ricerca per collocazione</h5>
           <h6 class="card-subtitle mb-2 text-muted">
             Inserisci l'intervallo delle collocazioni dei libri che vuoi aggiungere o rimuovere dalla stampa delle etichette.</h6>
-          <form method="POST" class="form" action="{{route('libri.etichette.aggiungi') }}">
+          <form method="POST" class="form" action="{{route('archiviodocumenti.etichette.aggiungi') }}">
             {{ csrf_field() }}
              <h5>Dalla collocazione:</h5>
-               <search-collocazione title="Collocazione ({{App\Biblioteca\Models\ViewCollocazione::total()}}) - Lettere (*)"
+             <label> Collocazione</label>
+             <input type="text" name="fromCollocazione">
+
+               <!-- <search-collocazione title="Collocazione ({{App\Biblioteca\Models\ViewCollocazione::total()}}) - Lettere (*)"
                                     name="fromCollocazione"
                                     url-lettere="{{route('api.biblioteca.collocazione')}}"
                                     numeri-required="true"
                                     numero-nuovo="false"
                                     numeri-mancanti="false"
                                     numeri-assegnati="true">
-               </search-collocazione>
+               </search-collocazione> -->
 
-            <h5>Fino collocazione:</h5>
-            <search-collocazione title="Collocazione ({{App\Biblioteca\Models\ViewCollocazione::total()}}) - Lettere (*)"
+            <h5>Fino alla collocazione:</h5>
+            <label> Collocazione</label>
+             <input type="text" name="toCollocazione">
+            <!-- <search-collocazione title="Collocazione ({{App\Biblioteca\Models\ViewCollocazione::total()}}) - Lettere (*)"
                                  name="toCollocazione"
                                  url-lettere="{{route('api.biblioteca.collocazione')}}"
                                  numeri-required="true"
                                  numero-nuovo="false"
                                  numeri-mancanti="false"
                                  numeri-assegnati="true">
-            </search-collocazione>
+            </search-collocazione> -->
             <button  class="btn btn-success my-2"  name="action" value="add" type="submit">Aggiungi</button>
             <button  class="btn btn-danger float-right my-2"  name="action" value="remove" type="submit">Rimuovi</button>
          </form>

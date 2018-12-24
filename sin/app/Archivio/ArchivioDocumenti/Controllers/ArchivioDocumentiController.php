@@ -3,6 +3,8 @@ namespace App\ArchivioDocumenti\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use SnappyPdf;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 
 
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
@@ -46,6 +48,19 @@ class ArchivioDocumentiController extends CoreBaseController
     $data = Carbon::now();
     return $pdf->setPaper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf"); 
     
+  }
+
+  public function aggiungi(Request $request){
+    $from = $request->input("fromCollocazione");
+    $to = $request->input("toCollocazione", $request->input("fromCollocazione"));
+    if($request->input('action') == "add"){
+      $count =  ArchivioDocumento::whereBetween("collocazione",[$from,$to])->update(["tobe_printed"=>1]);
+      return redirect()->route("archiviodocumenti.etichette")->withSuccess("$count etichette aggiunte alla stampa");
+    }
+    else{
+      $count =  ArchivioDocumento::whereBetween("collocazione",[$from,$to])->update(["tobe_printed"=>0]);
+      return redirect()->route("archiviodocumenti.etichette")->withSuccess("$count etichette rimosse dalla stampa");
+    }
   }
   
   
