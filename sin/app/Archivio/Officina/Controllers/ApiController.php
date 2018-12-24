@@ -22,7 +22,7 @@ class ApiController extends CoreBaseController
     $clienti = ViewClienti::where("nominativo", "LIKE", '%'.$term.'%')->orderBy("nominativo")->take(50)->get();
     $results = array();
     foreach ($clienti as $persona)
-        $results[] = ['value'=>$persona->id, 'label'=>$persona->nominativo];
+        $results[] = ['value'=>$persona->id, 'label'=>$persona->nominativo ]; # "".$persona->cliente_con_patente];
     return response()->json($results);
   }
 

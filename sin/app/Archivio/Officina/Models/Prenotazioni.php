@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
+use App\Nomadelfia\Models\Persona;
 
 use App\Traits\SortableTrait;
 
@@ -26,7 +27,7 @@ class Prenotazioni extends Model{
   }
 
   public function meccanico(){
-    return $this->hasOne(ViewClienti::class, 'id', 'meccanico_id');
+    return $this->hasOne(Persona::class, 'id', 'meccanico_id');
   }
 
   public function cliente(){
