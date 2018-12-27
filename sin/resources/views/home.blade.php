@@ -114,7 +114,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">Gestione archivio documenti di Nomadelfia</p>
-              <a href="{{ route('archiviodocumenti.etichette') }}" class="btn btn-primary">Accedi Archivio documenti</a>
+              <a href="{{ route('archiviodocumenti') }}" class="btn btn-primary">Accedi Archivio documenti</a>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ class ArchivioDocumentiController extends CoreBaseController
 {
 
   public function index(){
-    $libri = ArchivioDocumento::orderby("foglio")->paginate(50);
+    $libri = ArchivioDocumento::orderby("foglio")->paginate(100);
     return view('archiviodocumenti.libri.search', compact("libri"));
   }
 
