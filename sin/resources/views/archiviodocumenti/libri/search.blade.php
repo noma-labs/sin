@@ -1,7 +1,7 @@
 @extends('archiviodocumenti.index')
 
 @section('archivio') 
-<sin-header title="Ricerca Archivio Documenti"> Numero libri: {{App\ArchivioDocumenti\Models\ArchivioDocumento::count()}}</sin-header>
+<sin-header title="Ricerca Archivio Libri"> Numero totale di libri: {{App\ArchivioDocumenti\Models\ArchivioDocumento::count()}}</sin-header>
 
 
 <form  method="GET" action="{{ route('archiviodocumenti.libri.ricerca') }}">
