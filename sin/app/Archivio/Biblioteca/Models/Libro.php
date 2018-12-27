@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SortableTrait;
 use App\Traits\Enums;
 
-// use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
-// use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
+// Extrnal library to associate media files a model
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
 use Spatie\Activitylog\Traits\LogsActivity;
 
 use App\Biblioteca\Models\Autore as Autore;
@@ -18,7 +17,7 @@ use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\Classificazione as Classificazione;
 
-class Libro extends Model  implements HasMedia //HasMediaConversions //
+class Libro extends Model implements HasMedia 
 {
   use HasMediaTrait;
   use SortableTrait;
@@ -65,13 +64,13 @@ class Libro extends Model  implements HasMedia //HasMediaConversions //
        $this->attributes['note'] = strtoupper($value);
   }
 
-  public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->sharpen(10);
-    }
+  // public function registerMediaConversions(Media $media = null)
+  //   {
+  //       $this->addMediaConversion('thumb')
+  //             ->width(368)
+  //             ->height(232)
+  //             ->sharpen(10);
+  //   }
 
   public function classificazione(){
     return $this->belongsTo(Classificazione::class, "classificazione_id");

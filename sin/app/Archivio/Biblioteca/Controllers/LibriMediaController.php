@@ -6,20 +6,32 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
+use Illuminate\Support\Facades\Storage;
 
 class LibriMediaController extends CoreBaseController
 {
 
   public function view($idLibro){
     $libro = Libro::findOrFail($idLibro);
-    return view("biblioteca.libri.media", ["libro"=>$libro]);
+   
+
+    return view("biblioteca.libri.media", compact("libro"));
   }
 
   public function store(Request $request, $idLibro){
     $libro = Libro::findOrFail($idLibro);
-    $libro->addMedia($request->file)
-          ->toMediaCollection();
+    // $libro->addMedia($request->file)
+    //       ->toMediaCollection('default','ftp'); //,"ftp"); 
+    
+    $libro->addMedia($request->file)->toMediaCollection('default', 'ftp');
 
+    // $url = 'http://images.famigliacristiana.it/2018/5/nomadelfia-caimi_piccinni_2406463.jpg';
+    // $libro
+    // ->addMediaFromUrl($url)
+    // ->toMediaCollection("default","ftp");
+
+    // Storage::disk('ftp')->put("didoprova.jpg",  $request->file);
+    
     // fir multiple file
     // foreach ($request->file('files', []) as $key => $file) {
     //     $libro->addMedia($file)->toMediaCollection();
@@ -29,7 +41,8 @@ class LibriMediaController extends CoreBaseController
     //   ->addMultipleMediaFromRequest($request->file('files', [])) //['file-one', 'file-two'])
     //   ->each(function ($fileAdder) {
     //       $fileAdder->toMediaLibrary();
-    return redirect()->back()->withSucces("File digitale aggiunto a libro $libro->TITOLO");
+    // return view("biblioteca.libri.media", compact("libro"));
+    return redirect()->back()->withSucces("File digitale aggiunto correttament al libro".$f );
   }
 
   public function destroy($idLibro, $mediaId){

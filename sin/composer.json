@@ -19,7 +19,7 @@
         "milon/barcode": "^5.3",
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-backup": "^5.1",
-        "spatie/laravel-medialibrary": "6.0.0",
+        "spatie/laravel-medialibrary": "^7.5",
         "swiftmailer/swiftmailer": "^6.0",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },

@@ -52,6 +52,19 @@ return [
              'driver' => 'local',
              'root'   => public_path('uploads'),
          ],
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => '192.168.11.2',
+            'username' => 'ftpsin',
+            'password' => 'Nomadelfia',
+        
+            // Optional FTP Settings...
+             'port'     => 21,
+            //  'root'     => '',
+            // 'passive'  => true,
+            // 'ssl'      => true,
+            // 'timeout'  => 30,
+        ],
 
         'public' => [
             'driver' => 'local',

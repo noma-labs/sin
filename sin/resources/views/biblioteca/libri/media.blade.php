@@ -23,16 +23,14 @@
                               <!-- <i class="fa fa-file-pdf-o" style="font-size:48px"></i> -->
                             </a>
                             @else
-                            <a href="{{ $file->getUrl() }}" target="_blank">
+                            <!-- <a href="{{ $file->getUrl() }}" target="_blank">
                                 <span class="glyphicon glyphicon-play-circle" style="font-size:48px"></span>
-                              <!-- <i class="fa fa-file-pdf-o" style="font-size:48px"></i> -->
-                            </a>
-                            <!-- <i class="fa fa-file" aria-hidden="true" style="font-size:48px"></i> -->
+                            </a> -->
                             @endif
                     </div>
                     <div class="media-body">
                         <div class="btn-group pull-right">
-                            <a href="{{ route("libri.media.destroy",[$libro->id, $file->id]) }}"
+                            <a href="{{ route('libri.media.destroy',[$libro->id, $file->id]) }}"
                                data-method="delete"
                                data-token="{{ csrf_token() }}"
                                class="close">
@@ -43,7 +41,7 @@
                         <h4 class="media-heading">{{ $file->name }}</h4>
                         <p>
                             <code>
-                                {{ $file->getPath() }}<br/>
+                                <!-- {{ $file->getPath() }}<br/> -->
                             </code>
                             <small>
                                 {{ $file->human_readable_size }} |
@@ -106,6 +104,6 @@
 
 <div class="btn-toolbar pull-right">
   <!-- <a class="btn btn-info"   href="{{route('libri.ricerca')}}"  type="submit">Torna Alla ricerca</a> -->
-  <a class="btn btn-info" href="{{ route('libro.dettaglio',$libro->id)}} " >Torna indietro</a>
+  <a class="btn btn-info" href="{{ route('libro.dettaglio', $libro->id)}} " >Torna indietro</a>
 </div>
 @endsection
