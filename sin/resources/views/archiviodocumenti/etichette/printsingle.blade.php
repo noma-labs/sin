@@ -67,7 +67,7 @@
         </tr>
         <tr>
           <td class="my-table-collocazione">
-          {{$etichetta->collocazione}}
+          {{$etichetta->foglio}}
           </td>
         </tr>
         <tr>

@@ -209,6 +209,7 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
 
 Route::group(['prefix' => 'archiviodocumenti','namespace' => 'App\ArchivioDocumenti\Controllers'], function(){
   Route::get("/", 'ArchivioDocumentiController@index')->name('archiviodocumenti');
+  Route::get("/libri/ricerca", 'ArchivioDocumentiController@ricerca')->name('archiviodocumenti.libri.ricerca');
   Route::get("/etichette", 'ArchivioDocumentiController@etichette')->name('archiviodocumenti.etichette');
   Route::get("/etichette/export", 'ArchivioDocumentiController@esporta')->name('libri.etichette.esporta');
  

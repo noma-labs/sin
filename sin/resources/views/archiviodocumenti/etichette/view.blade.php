@@ -40,7 +40,7 @@
             <tbody>
             @forelse ($libriTobePrinted as $libro)
                 <tr>
-                  <td  onclick="gotoLibroDetails({{$libro->id}})"> {{$libro->collocazione}}   </td>
+                  <td  onclick="gotoLibroDetails({{$libro->id}})"> {{$libro->foglio}}   </td>
                   <td  onclick="gotoLibroDetails({{$libro->id}})" >{{$libro->titolo }}</td>
                   <td >
                     <form action="{{route('archiviodocumenti.etichette.rimuovi.singolo',['id' => $libro->id])}}" method="post">

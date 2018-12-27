@@ -8,10 +8,11 @@
           Archivio Documenti
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{ route('archiviodocumenti.etichette') }}">Gestione etichette</a>
+           <a class="dropdown-item"  href="{{ route('archiviodocumenti') }}">Ricerca libri</a>
+          <a class="dropdown-item" href="{{ route('archiviodocumenti.etichette') }}">Gestione stampa etichette</a>
           <div class="dropdown-divider"></div>
         </div>
-      </li>
+  </li>
 @endsection
 
 @section('archivio')

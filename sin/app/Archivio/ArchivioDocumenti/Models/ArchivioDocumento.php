@@ -2,14 +2,17 @@
 namespace App\ArchivioDocumenti\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 /**
  *
  */
 class ArchivioDocumento extends Model
 {
+  use SortableTrait;
+  
   protected $connection = 'archivio_documenti';
-  protected $table = 'prova_tabella';
+  protected $table = 'libri';
   protected $primaryKey = 'id';
 
   public $timestamps = false;
@@ -18,7 +21,7 @@ class ArchivioDocumento extends Model
 
   public function scopeTobePrinted($query)
   {
-    return $query->where('tobe_printed', 1)->orderBy("collocazione");
+    return $query->where('stato', 1)->orderBy("foglio");
   }
 
 }
