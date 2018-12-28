@@ -129,4 +129,11 @@
       @endforeach
     </tbody>
   </table>
+</div>
+<div class="row justify-content-center mb-2">
+  <div class="btn-group btn-group-lg" role="group">
+    <a role="button" href="{{route("officina.index", "ieri")}}" class="btn btn-danger @if($giorno == 'ieri') active @endif" >Ieri</a>
+    <a role="button" href="{{route("officina.index")}}" class="btn btn-success @if($giorno == 'oggi') active @endif" >Oggi</a>
+  </div>
+</div>
 @endsection

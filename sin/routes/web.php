@@ -156,7 +156,7 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
 Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'], function(){
   // PRENOTAZIONI add, delete, update, search
   // officina/
-  Route::get("/", 'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
+  Route::get("/{giorno?}", 'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
   Route::post("/", 'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
   Route::get("delete/{id}/", 'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
   Route::get("modifica/{id}/", 'PrenotazioniController@modifica')->middleware('ability:veicolo.modifica')->name('officina.prenota.modifica');;

@@ -107,22 +107,33 @@ class PrenotazioniController extends CoreBaseController
       return view("officina.prenotazioni.search_results",compact('usi','prenotazioni','msgSearch'));
   }
 
-  public function prenotazioni(){
+  public function prenotazioni($giorno = "oggi"){
     $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
     $usi = Uso::all(); 
     $meccanici = ViewMeccanici::orderBy('nominativo')->get();
-
-    $prenotazioni = Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
-    ->orderBy('data_partenza', 'asc')
-    ->orderBy('data_arrivo', 'desc')
-    ->orderBy('ora_partenza', 'desc')
-    ->orderBy('ora_arrivo', 'asc')
-    ->get();
+    if($giorno == "oggi"){
+      $prenotazioni = Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
+      ->orderBy('data_partenza', 'asc')
+      ->orderBy('data_arrivo', 'desc')
+      ->orderBy('ora_partenza', 'desc')
+      ->orderBy('ora_arrivo', 'asc')
+      ->get();
+    }
+    else if($giorno == "ieri")
+    {
+      $prenotazioni = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString())
+      ->orderBy('data_partenza', 'asc')
+      ->orderBy('data_arrivo', 'desc')
+      ->orderBy('ora_partenza', 'desc')
+      ->orderBy('ora_arrivo', 'asc')
+      ->get();
+    }
 
     return view("officina.prenotazioni.index", compact('clienti',
                                                        'usi',
                                                        'meccanici',
-                                                       'prenotazioni'));
+                                                       'prenotazioni',
+                                                       'giorno'));
   }
 
   public function prenotazioniSucc(Request $request){
