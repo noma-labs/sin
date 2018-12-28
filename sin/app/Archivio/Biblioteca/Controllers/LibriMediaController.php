@@ -23,8 +23,8 @@ class LibriMediaController extends CoreBaseController
     // $libro->addMedia($request->file)
     //       ->toMediaCollection('default','ftp'); //,"ftp"); 
     
-    // $libro->addMedia($request->file)
-    //       ->toMediaCollection('default',"ftp");
+    $libro->addMedia($request->file)
+          ->toMediaCollection('default',"ftp");
 
     $url = 'http://images.famigliacristiana.it/2018/5/nomadelfia-caimi_piccinni_2406463.jpg';
     $libro

@@ -16,6 +16,10 @@ class Stato extends Model
     return $this->belongsToMany(Persona::class,'persone_stati', 'stato_id', 'persona_id');
   }
 
+  public function scopeAttivo($query)
+  {
+      return $query->where('stato', 1);
+  }
   /**
    * Ritorna lo stato dal suo nome
    * 

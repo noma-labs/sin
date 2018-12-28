@@ -18,7 +18,12 @@ class MyPathGenerator implements PathGenerator
     public function getPath(Spatie\MediaLibrary\Models\Media $media)
     {
         return "/FTP/sin";
-        //return md5($media->id).'/';
+        // return md5($media->id).'/';
+        // switch ($media)
+        
+        // case isitance(Libro):
+        //         return "FTP/sin/biblioteca/libro"
+        // }
     }
 
     /**

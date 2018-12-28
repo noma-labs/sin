@@ -10,6 +10,7 @@ use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
 use App\Patente\Models\Patente;
+use App\Nomadelfia\Models\Stato;
 use App\Admin\Models\Ruolo;
 use App\Anagrafe\Models\DatiPersonali;
 
@@ -35,7 +36,7 @@ class Persona extends Model
    */
   public function scopePresente($query)
   {
-      return $query->where('categoria_id', "<",4);
+      return $query->where('categoria_id', "<", 4);
   }
 
   public function scopeMaggiorenni($query)
@@ -81,7 +82,10 @@ class Persona extends Model
   }
 
   public function aziendeAttuali(){
-    return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione', 'stato')->orderBy('nominativo');
+    return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
+              ->wherePivotIn('stato', ['Attivo', 'Sospeso'])
+              ->withPivot('data_inizio_azienda', 'mansione', 'stato')
+              ->orderBy('nominativo');
   }
 
   public function incarichi(){
@@ -98,6 +102,21 @@ class Persona extends Model
    **/
   public function datiPersonali(){
     return $this->hasOne(DatiPersonali::class,  'persona_id', 'id');
+  }
+
+  public function statoAttuale(){
+    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
+                ->wherePivot('stato', 1);
+  }
+
+  public function statoStorico(){
+    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
+                ->wherePivot('stato', 0);
+  }
+
+  public function famigliaAttuale(){
+    return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
+                ->wherePivot('stato', '1');
   }
 
   public function scopeDaEta($query, $eta){
