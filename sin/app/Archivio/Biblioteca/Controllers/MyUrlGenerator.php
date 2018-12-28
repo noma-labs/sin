@@ -13,7 +13,8 @@ class MyUrlGenerator extends BaseUrlGenerator
      */
     public function getPath(): string
     {
-         return '/FTP/sin';
+         return "/FTP/sin/";
+        //  return $this->getFTPPath();
     }
 
    /**
@@ -45,4 +46,14 @@ class MyUrlGenerator extends BaseUrlGenerator
     public function getResponsiveImagesDirectoryUrl(): string{
         return "";
     }
+
+     /*
+     * Get the path where the whole medialibrary is stored.
+     */
+    // protected function getFTPPath() : string
+    // {
+    //     $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
+
+    //     return realpath($diskRootPath);
+    // }
 }

@@ -12,7 +12,7 @@
             <div class="card-body">
               <!-- <h3 class="card-title">Biblioteca</h3> -->
               <p class="card-text">Ricerca libri e video della biblioteca di Nomadelfia.</p>
-              <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi come ospite a Biblioteca</a>
+              <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="card-body">
               <!-- <h3 class="card-title">Biblioteca</h3> -->
               <p class="card-text">Gestione libri e video della biblioteca di Nomadelfia.</p>
-              <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi a Biblioteca</a>
+              <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
                 <div class="card-body">
                   <!-- <h3 class="card-title">RTN</h3> -->
                   <p class="card-text">Gestione archivio Rtn</p>
-                  <a href="{{ route('rtn.index')}} " class="btn btn-primary">Accedi a RTN</a>
+                  <a href="{{ route('rtn.index')}} " class="btn btn-primary">Accedi</a>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="card-body">
               <!-- <h3 class="card-title">Officina Meccanica</h3> -->
               <p class="card-text">Gestione mezzi di Nomadelfia</p>
-              <a href="{{ route('officina.index') }}" class="btn btn-primary">Accedi  all'officina Meccanica</a>
+              <a href="{{ route('officina.index') }}" class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">Popolazione Nomadelfia, Aziende, Gruppi familiari, Famiglie </p>
-              <a href="{{ route('nomadelfia') }}" class="btn btn-primary">Accedi a Nomadelfia</a>
+              <a href="{{ route('nomadelfia') }}" class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">Pannello di controllo per la gestione degli utenti, permessi, backup e logs di tutti i sitemi.</p>
-              <a href="{{ route('admin') }}" class="btn btn-primary">Accedi a Amministratore</a>
+              <a href="{{ route('admin') }}" class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">Pannello di controllo per la gestione delle patenti</p>
-              <a href="{{ route('patente.scadenze') }}" class="btn btn-primary">Accedi a Patenti</a>
+              <a href="{{ route('patente.scadenze') }}" class="btn btn-primary">Accedi</a>
             </div>
           </div>
         </div>

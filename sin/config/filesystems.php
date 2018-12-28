@@ -57,10 +57,11 @@ return [
             'host'     => '192.168.11.2',
             'username' => 'ftpsin',
             'password' => 'Nomadelfia',
+            // 'url'    => '/my-url',
         
             // Optional FTP Settings...
              'port'     => 21,
-            //  'root'     => '',
+            //   'root'     => '/FTP/sin',
             // 'passive'  => true,
             // 'ssl'      => true,
             // 'timeout'  => 30,

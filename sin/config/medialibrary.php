@@ -25,8 +25,9 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    // 'media_model' => Spatie\MediaLibrary\Models\Media::class,
-    'media_model' => App\Biblioteca\Models\MyMedia::class,
+    //  'media_model' => Spatie\MediaLibrary\Models\Media::class,
+     'media_model' => App\Biblioteca\Models\MyMedia::class,
+    //  'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
     's3' => [
         /*
@@ -82,7 +83,7 @@ return [
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'path_generator' => null,
+    'path_generator' => null, //App\Biblioteca\Controllers\MyPathGenerator::class,
 
     /*
      * Medialibrary will try to optimize all converted images by removing
