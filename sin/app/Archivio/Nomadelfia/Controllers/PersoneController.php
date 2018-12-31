@@ -30,13 +30,37 @@ class PersoneController extends CoreBaseController
     return view("nomadelfia.persone.show",compact('persona'));
   }
 
-  public function edit($idPersona){
+  public function modificaDatiAnagrafici($idPersona){
     $persona = Persona::findOrFail($idPersona);
+    return view('nomadelfia.persone.edit_anagrafica',compact('persona'));
+  }
+  
+  public function modificaDatiAnagraficiConfirm(Request $request, $idPersona){
+    $validatedData = $request->validate([
+      "nome" => "required",
+      "cognome" => "required",
+      "datanascita" => "required",
+      "luogonascita" => "required",
+      "sesso" => "required",
+    ],[
+      "nome.required" => "Il nome è obbligatorie",
+      "cognome.required" => "Il cognome è obbligatorio",
+      "datanascita.required" => "La data di nascita è obbligatoria",
+      "luogonascita.required" => "Il luogo di nascita è obbligatorio",
+      "sesso.required" => "Il sesso è obbligatorio",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->datipersonali->update(
+      ['nome' => $request->nome,
+      'cognome' => $request->cognome,
+      'data_nascita' => $request->datanascita,
+      'provincia_nascita' => $request->luogonascita,
+      'sesso' => $request->sesso,
+      ]);
+    // $persona->save();  
+    return view('nomadelfia.persone.show',compact('persona'));
 
   }
-
-  public function  editConfirm(Request $request, $idPersona){
- }
 
   public function insertView(){
 
@@ -62,7 +86,6 @@ class PersoneController extends CoreBaseController
    * 
    * @author Davide Neri
    */
-  
   public function insertInitial(Request $request){
     $validatedData = $request->validate([
       "nome" => "required",
