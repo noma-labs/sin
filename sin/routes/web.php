@@ -69,6 +69,9 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelifa.persone.dettaglio"); //middleware('permission:cliente-visualizza')
   Route::get('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
   Route::post('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
+  Route::get('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica");
+  Route::post('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
+
 
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')

@@ -29,7 +29,7 @@
           </div>
          
           <div class="row">
-            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">modifica</a>
+            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">modifica</a>
           </div>
         </div>
       </div>

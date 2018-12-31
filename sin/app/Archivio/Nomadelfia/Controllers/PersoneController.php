@@ -8,6 +8,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Famiglia;
 use App\Anagrafe\Models\Provincia;
@@ -60,6 +61,25 @@ class PersoneController extends CoreBaseController
     // $persona->save();  
     return view('nomadelfia.persone.show',compact('persona'));
 
+  }
+
+  public function modificaNominativo($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    $categorie = Categoria::orderBy("nome")->get();
+    return view('nomadelfia.persone.edit_nominativo',compact('persona','categorie'));
+  }
+
+  public function modificaNominativoConfirm(Request $request,$idPersona){
+    $validatedData = $request->validate([
+      "nominativo" => "required",
+      "categoria" => "required",
+    ],[
+      "nominativo.required" => "Il nominativo è obbligatorio",
+      "categoria.required" => "la categoria  è obbligatorio",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $categorie = Categoria::orderBy("nome")->get();
+    return view('nomadelfia.persone.edit_nominativo',compact('persona','categorie'));
   }
 
   public function insertView(){
