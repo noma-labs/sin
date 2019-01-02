@@ -3,6 +3,29 @@
 @section('archivio')
 
 @include('partials.header', ['title' => 'Gestione Persona'])
+<div class="row">     
+  <label for="inputPassword" class="col-sm-2 col-form-label">Stato persona</label>
+  <div class="col-sm-8">
+    <div class="form-group">
+        <select class="form-control"  name="categoria" type="text">
+        <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
+        @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+              @if($persona->categoria_id != $cat->id)
+                @if(old('categoria') == $cat->id)
+              <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
+              @else
+              <option value="{{$cat->id}}" > {{ $cat->nome}}</option>
+              @endif
+
+              @endif
+        @endforeach
+      </select>
+    </div>
+  </div>  
+</div>
+
+
+
 <div class="row my-3">
   <div class="col-md-4"> <!--  start col dati generali -->
     <div class="card">

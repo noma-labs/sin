@@ -99,6 +99,11 @@ class Persona extends Model
     return $this->hasOne(Categoria::class,  'id', 'categoria_id');
   }
 
+  public function nominativiStorici(){
+    return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
+  }
+
+
   /**
    * Ritorna i dati personali  della persona 
    * @author Davide Neri

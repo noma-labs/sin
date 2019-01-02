@@ -4,35 +4,52 @@
 
 @include('partials.header', ['title' => 'Modifica Dati anagrafici'])
 
-<div class="row justify-content-center">
-    <div class="col-4">
-      <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idCliente' =>$persona->id]) }}" >
-      {{ csrf_field() }}
-        <div class="form-group">
-          <label >Nominativo</label>
+<div class="row">
+    <div class="col-md-8">
+    <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >      
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-4 col-form-label">Nominativo Attuale:</label>
+          <div class="col-sm-4">
           <input type="text" class="form-control" name="nominativo" value="{{old('nominativo') ? old('nominativo'): $persona->nominativo}}">
+          </div>
         </div>
-        <div class="form-group">
-              <select class="form-control"  name="categoria" type="text">
-              <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
-               @foreach ($categorie as $cat)
-                    @if($persona->categoria_id != $cat->id)
-                      @if(old('categoria') == $cat->id)
-                     <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
-                     @else
-                     <option value="{{$cat->id}}" > {{ $cat->nome}}</option>
-                     @endif
-
-                    @endif
-              @endforeach
-             </select>
+        <div class="form-group row">
+          <label for="inputPassword" class="col-sm-4 col-form-label">Nuovo Nominativo:</label>
+          <div class="col-sm-4">
+          <input type="text" class="form-control" name="nuovonominativo" value="{{old('nuovonominativo')}}">
+          </div>
         </div>
-
-          <button class="btn btn-danger">Torna indietro</button>
-          <button class="btn btn-success" type="submit">Salva Modifiche</button>
-        </div>
+        <!-- <div class="form-group row">
+          <label for="inputPassword" class="col-sm-4 col-form-label">Data inserimento nuovo nominativo:</label>
+          <div class="col-sm-4">
+          <date-picker name="data_inserimento" 
+									:bootstrap-styling="true" 
+									:language="language" 
+									:format="customFormatter"
+									:disabled="disabledAll">
+						</date-picker>
+          </div> -->
+        <!-- </div> -->
+        <button type="submit" class="btn btn-primary">Salva</button>
       </form>
     </div>
+    
+    <div class="col-md-4">
+    <div class="card">
+          <h5 class="card-header">Storico nominativi</h5>
+        <div class="card-body">
+          <p>Data inserimento, Nominativo</p>
+
+          @forelse  ($persona->nominativiStorici()->get() as $nominativo)
+             <li>{{$nominativo->data_inserimento}}, {{$nominativo->nominativo}}</li>
+          @empty
+          </ol>       
+          <p class="text-danger">non ci sono nominativi storici</p>
+          @endforelse
+        </div>
+      </div>
+    </div>
   </div>
+
 
 @endsection
