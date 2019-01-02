@@ -65,21 +65,30 @@ class PersoneController extends CoreBaseController
 
   public function modificaNominativo($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    $categorie = Categoria::orderBy("nome")->get();
-    return view('nomadelfia.persone.edit_nominativo',compact('persona','categorie'));
+    return view('nomadelfia.persone.edit_nominativo',compact('persona'));
   }
 
   public function modificaNominativoConfirm(Request $request,$idPersona){
     $validatedData = $request->validate([
       "nominativo" => "required",
-      "categoria" => "required",
+      // "nuovonominativo" => "required",
     ],[
       "nominativo.required" => "Il nominativo è obbligatorio",
-      "categoria.required" => "la categoria  è obbligatorio",
+      "nuovonominativo.required" => "Il nuovo nominativo  è obbligatorio",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $categorie = Categoria::orderBy("nome")->get();
-    return view('nomadelfia.persone.edit_nominativo',compact('persona','categorie'));
+
+    if($request->operazione == "modifica"){
+      $persona->nominativo = $request->nominativo;
+      $persona->save();
+      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nominativo aggiornato con suceesso");
+    }else{
+      $persona->nominativiStorici()->create(['nominativo'=> $persona->nominativo]);
+      $persona->nominativo = $request->nuovonominativo;
+      $persona->save();
+      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
+    }
+
   }
 
   public function insertView(){

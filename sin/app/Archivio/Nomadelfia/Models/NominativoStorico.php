@@ -11,4 +11,7 @@ class NominativoStorico extends Model
   protected $table = 'nominativi_storici';
   protected $primaryKey = "persona_id";
 
+  protected $guarded = [];
+
+
 }
