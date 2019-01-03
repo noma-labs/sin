@@ -91,6 +91,21 @@ class PersoneController extends CoreBaseController
 
   }
 
+  public function modificaCategoriaConfirm(Request $request, $idPersona){
+    $validatedData = $request->validate([
+      "categoria" => "required",
+    ],[
+      "categoria.required" => "La categoria è obbligatoria",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->categoria_id = $request->categoria;
+    if($persona->save())
+      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Stato attuale modificato con successo.");
+    else
+      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore: Stato attuale non aggiornato correttamente.");
+
+  }
+
   public function insertView(){
 
     // $posizioni = Posizione::orderBy('nome', 'asc')->get();

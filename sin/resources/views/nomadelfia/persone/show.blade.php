@@ -2,19 +2,23 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => 'Gestione Persona'])
-<div class="row">     
-  <label for="inputPassword" class="col-sm-2 col-form-label">Stato persona</label>
-  <div class="col-sm-8">
+@include('partials.header', ['title' => $persona->datipersonali->nome." ". $persona->datipersonali->cognome])
+
+ 
+ <form class="form" method="POST" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
+    {{ csrf_field() }}
+<div class="row justify-content-md-center">
+  <label class="col-md-2 col-form-label offset-md-2">Stato persona</label>
+  <div class="col-md-4">
     <div class="form-group">
-        <select class="form-control"  name="categoria" type="text">
+        <select class="form-control"  name="categoria">
         <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
         @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
               @if($persona->categoria_id != $cat->id)
                 @if(old('categoria') == $cat->id)
               <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
               @else
-              <option value="{{$cat->id}}" > {{ $cat->nome}}</option>
+              <option value="{{$cat->id}}" > {{ $cat->nome}} {{ $cat->descrizione}}</option>
               @endif
 
               @endif
@@ -22,37 +26,74 @@
       </select>
     </div>
   </div>  
+  <div class="col-md-4">
+    <button class="btn btn-success" type="submit">Salva</button>
+  </div>
 </div>
-
+</form>
 
 
 <div class="row my-3">
-  <div class="col-md-4"> <!--  start col dati generali -->
+  <div class="col-md-5"> <!--  start col dati nomadelfia -->
     <div class="card">
       <div class="card-header" id="headingZero">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
-            Dati Generali
+            Dati Nomadelfia
           </button>
         </h5>
       </div>
       <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
         <div class="card-body">
-          <div class="row">
-            <label for="staticEmail" class="col-sm-5 col-form-label">Nominativo:</label>
-            <div class="col-sm-7">
+          <div class="row ">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</label>
+            <div class="col-sm-6">
               <p>{{$persona->nominativo}}</p>
             </div>
           </div>
           <div class="row">
-            <label for="inputPassword" class="col-sm-5 col-form-label">Stato attuale:</label>
-            <div class="col-sm-7">
-                  <p>{{$persona->categoria->nome}}</p>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Stato attuale:</label>
+            <div class="col-sm-6">
+              @if($persona->categoria->nome != null)
+              <option>  {{$persona->categoria->nome}}</option>
+              @else
+                <p class="text-danger">Nessuna stato attuale</p>
+              @endif
             </div>
           </div>
+          <div class="row">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Posizione in Nomadelfia:</label>
+            <div class="col-sm-6">
+              @if($persona->posizioneAttuale() != null)
+              <option>  {{$persona->posizioneAttuale()->nome}}</option>
+              @else
+                <p class="text-danger">Nessuna posizione</p>
+              @endif
+            </div>
+          </div>
+          <div class="row">
+            <label for="inputPassword" class="col-sm-6 col-form-label">Gruppo familiare:</label>
+            <div class="col-sm-6">
+              @if($persona->gruppofamiliareAttuale()  != null)
+              <option>  {{$persona->gruppofamiliareAttuale()->nome}}</option>
+              @else
+                <p class="text-danger">Nessun gruppo</p>
+              @endif
+            </div>
+          </div>
+          <div class="row">
+              <label for="inputPassword" class="col-sm-6 col-form-label">Azienda/e:</label>
+              <div class="col-sm-6">
+                @forelse ($persona->aziendeAttuali()->get() as $azienda)
+                    <li>{{ $azienda->nome_azienda }}  ({{ $azienda->pivot->mansione }})</li>
+                @empty
+                    <p class="text-danger">Nessuna azienda</p>
+                @endforelse
+              </div>
+           </div>
          
           <div class="row">
-            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">modifica</a>
+            <button class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">modifica</button>
           </div>
         </div>
       </div>
@@ -77,19 +118,19 @@
             </div>
           </div>
           <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Cognome</label>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Cognome:</label>
             <div class="col-sm-6">
                   <p>{{$persona->datipersonali->cognome}}</p>
             </div>
           </div>
           <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Data Nascita</label>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Data Nascita:</label>
             <div class="col-sm-6">
                   <p>{{$persona->datipersonali->data_nascita}}</p>
             </div>
           </div>
           <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Luogo Nascita</label>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Luogo Nascita;</label>
             <div class="col-sm-6">
                   <p>{{$persona->datipersonali->provincia_nascita}}</p>
             </div>
@@ -109,7 +150,7 @@
     </div>
   </div> <!--  end col dati anagrafici -->
 
-   <div class="col-md-4"> <!--  start col dati famiglia -->
+   <div class="col-md-3"> <!--  start col dati famiglia -->
     <div class="card">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
@@ -142,49 +183,5 @@
   </div> <!--  end col dati famiglia-->
  
 </div> <!--  end first row-->
-
-<div class="row">
-  <div class="col-md-8"> <!--  start col dati nmadelfia -->
-    <div class="card">
-      <div class="card-header" id="headingThree">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-            Dati Nomadelfia
-          </button>
-        </h5>
-      </div>
-      <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
-        <div class="card-body">
-          <div class="row">
-            <label for="staticEmail" class="col-sm-6 col-form-label">Posizione:</label>
-            <div class="col-sm-6">
-              @if($persona->posizioneAttuale() != null)
-              <option>  {{$persona->posizioneAttuale()->nome}}</option>
-              @endif
-            </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Gruppo familiare</label>
-            <div class="col-sm-6">
-              @if($persona->gruppofamiliareAttuale()  != null)
-              <option>  {{$persona->gruppofamiliareAttuale()->nome}}</option>
-              @endif
-            </div>
-          </div>
-          <div class="row">
-              <label for="inputPassword" class="col-sm-6 col-form-label">Azienda:</label>
-              <div class="col-sm-6">
-                @forelse ($persona->aziendeAttuali()->get() as $azienda)
-                    <li>{{ $azienda->nome_azienda }}  ({{ $azienda->pivot->mansione }})</li>
-                @empty
-                    <p>Nessuna azienda</p>
-                @endforelse
-              </div>
-           </div>
-        </div>
-      </div>
-    </div>
-  </div> <!--  end col dati nomadelifia-->
-</div>   <!--  end second row-->
 
 @endsection

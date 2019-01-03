@@ -3,27 +3,40 @@
 @section('archivio')
 
 @include('partials.header', ['title' => 'Modifica Dati anagrafici'])
-<div class="row">
+<div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      1 of 3
+    </div>
+    <div class="col-md-auto">
+      Variable width content
+    </div>
+    <div class="col col-lg-2">
+      3 of 3
+    </div>
+  </div>
+  
+<div class="row justify-content-md-center">
     <div class="col-md-8">
     <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >      
     {{ csrf_field() }}
         <div class="form-group row">
-          <label for="inputPassword" class="col-md-2 col-form-label">Nominativo:</label>
+          <label for="inputPassword" class="col-md-3 col-form-label">Nominativo Attuale:</label>
           <div class="col-md-4">
           <input type="text" class="form-control" name="nominativo" value="{{old('nominativo') ? old('nominativo'): $persona->nominativo}}">
           </div>
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-primary " name="operazione" value="modifica">Modifica nominativo attuale</button>
-          </div>
+          <!-- <div class="col-md-5"> -->
+            <button type="submit" class="btn btn-success col-md-2 " name="operazione" value="modifica">Salva</button>
+          <!-- </div> -->
         </div>
-        <h3> Assegna un nuovo Nominativo</h3>
         <div class="form-group row">
-          <label for="inputPassword" class="col-md-4 col-form-label">Nuovo Nominativo:</label>
+          <label for="inputPassword" class="col-md-3 col-form-label">Nuovo Nominativo:</label>
           <div class="col-md-4">
           <input type="text" class="form-control" name="nuovonominativo" value="{{old('nuovonominativo')}}">
           </div>
+          <!-- <div class="col-md-5"> -->
+             <button type="submit" class="btn btn-success col-md-2 " name="operazione" value="nuovo">Cambia</button>
+          <!-- </div> -->
         </div>       
-         <button type="submit" class="btn btn-primary col-md-2" name="operazione" value="nuovo">Assegna nuovo</button>
       </form>
     </div>
     
