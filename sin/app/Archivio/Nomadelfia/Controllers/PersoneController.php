@@ -191,7 +191,7 @@ class PersoneController extends CoreBaseController
     try{
      // Salvo la persona nel DB_nomadelfia.persone
       $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
-                                'data_nascita_persona'=>$request->input('data_nascita'),
+                                'data_nascita'=>$request->input('data_nascita'),
                                 'sesso'=>$request->input('sesso'),
                                 'id_arch_pietro'=>0,
                                 'id_arch_enrico'=>0,]

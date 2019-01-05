@@ -79,7 +79,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   public function getMinorenni(){
     $minorenni = Persona::presente()->minorenni()->get();
     $minorenni->map(function($item,$key){
-      return $item['anno'] = Carbon::parse($item['data_nascita_persona'])->year;
+      return $item['anno'] = Carbon::parse($item['data_nascita'])->year;
     });
     $groupMinorenni= $minorenni->sortBy(function ($persona, $key) {
         return $persona['anno'];

@@ -35,7 +35,7 @@ class Famiglia extends Model
   public function figli(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
-                ->orderBy('data_nascita_persona');
+                ->orderBy('data_nascita');
   }
 
   public function single(){

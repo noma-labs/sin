@@ -211,7 +211,7 @@
 				personaSelected: {							// persona selezionata dal dropdown menu
 					persona_id : null,
 					nomecognome:"",
-					data_nascita_persona: "",
+					data_nascita: "",
 					provincia_nascita :""
 				},						
 				personaPlaceholder: "---inserisci nominativo---",
