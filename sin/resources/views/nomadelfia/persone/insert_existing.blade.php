@@ -39,11 +39,11 @@
         @foreach ($personeNominativi as $persona)
         <tr hoverable>
           <td>{{ $persona->nominativo }}</td>
-          <td>{{ $persona->datipersonali->nome }}</td>
-          <td>{{ $persona->datipersonali->cognome }}</td>
-          <td>{{ $persona->datipersonali->data_nascita }}</td>
-          <td>{{ $persona->datipersonali->provincia_nascita }}</td>
-          <td>{{ $persona->datipersonali->sesso }}</td>
+          <td>{{ $persona->nome }}</td>
+          <td>{{ $persona->cognome }}</td>
+          <td>{{ $persona->data_nascita }}</td>
+          <td>{{ $persona->provincia_nascita }}</td>
+          <td>{{ $persona->sesso }}</td>
           <td>
             <div class='btn-group' role='group' aria-label="Basic example">
               <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio', $persona->persona_id) }}">Modifica</a>

@@ -109,8 +109,8 @@
           <tr hoverable>
           <td> 
               @if($patente->persona->datipersonali)
-                  @isset($patente->persona->datipersonali->nome)
-                        {{ $patente->persona->datipersonali->nome}}
+                  @isset($patente->persona->nome)
+                        {{ $patente->persona->nome}}
                       @endisset
                       @isset($patente->persona->datipersonali->cognome)
                         {{$patente->persona->datipersonali->cognome}}
@@ -138,8 +138,8 @@
                 <my-modal modal-title="Eliminazione patente" button-title="Elimina">
                     <template slot="modal-body-slot">
                       Vuoi davvero eliminare la patente di
-                      @isset($patente->persona->datipersonali->nome)
-                        {{ $patente->persona->datipersonali->nome}}
+                      @isset($patente->persona->nome)
+                        {{ $patente->persona->nome}}
                       @endisset
                       @isset($patente->persona->datipersonali->cognome)
                         {{$patente->persona->datipersonali->cognome}}

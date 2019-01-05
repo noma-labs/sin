@@ -25,8 +25,8 @@
       @foreach ($chunk as $patente)
       <div class="row">
           <div class="col-md-6 small ">
-          @isset($patente->persona->datipersonali->nome) 
-           {{ $patente->persona->datipersonali->nome}}
+          @isset($patente->persona->nome) 
+           {{ $patente->persona->nome}}
           @endisset
           @isset($patente->persona->datipersonali->cognome)
             {{ $patente->persona->datipersonali->cognome}}

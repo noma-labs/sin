@@ -2,7 +2,7 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => $persona->datipersonali->nome." ". $persona->datipersonali->cognome])
+@include('partials.header', ['title' => $persona->nome." ". $persona->cognome])
 
  
  <form class="form" method="POST" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
@@ -114,32 +114,32 @@
           <div class="row">
             <label for="staticEmail" class="col-sm-6 col-form-label">Nome:</label>
             <div class="col-sm-6">
-              <p>{{$persona->datipersonali->nome}} </p>
+              <p>{{$persona->nome}} </p>
             </div>
           </div>
           <div class="row">
             <label for="inputPassword" class="col-sm-6 col-form-label">Cognome:</label>
             <div class="col-sm-6">
-                  <p>{{$persona->datipersonali->cognome}}</p>
+                  <p>{{$persona->cognome}}</p>
             </div>
           </div>
           <div class="row">
             <label for="inputPassword" class="col-sm-6 col-form-label">Data Nascita:</label>
             <div class="col-sm-6">
-                  <p>{{$persona->datipersonali->data_nascita}}</p>
+                  <p>{{$persona->data_nascita}}</p>
             </div>
           </div>
           <div class="row">
             <label for="inputPassword" class="col-sm-6 col-form-label">Luogo Nascita;</label>
             <div class="col-sm-6">
-                  <p>{{$persona->datipersonali->provincia_nascita}}</p>
+                  <p>{{$persona->provincia_nascita}}</p>
             </div>
           </div>
           <div class="row">
             <label for="inputPassword" class="col-sm-6 col-form-label">Sesso:</label>
             <div class="col-sm-6">
             
-                  <p>{{$persona->datipersonali->sesso}}</p>
+                  <p>{{$persona->sesso}}</p>
             </div>
           </div>
           <div class="row">
