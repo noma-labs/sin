@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio')
-<sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> 
+<sin-header title="Scadenza patenti"> Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> 
 
 <div class="row">
    <div class="col align-self-center"> 
