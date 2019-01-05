@@ -44,6 +44,21 @@ class Persona extends Model
   {
      $date = Carbon::now()->subYears(18)->toDatestring();
      return $query->where('data_nascita_persona', "<=", $date);
+  
+    //  return $this->hasOne(DatiPersonali::class, 'persona_id', 'id')->Maggiorenni();
+    // return $query->whereHas('datipersonali', function($q){
+    //     $q->Maggiorenni();
+    // });
+    return $query::where('id', function($query){
+          $date = Carbon::now()->subYears(18)->toDatestring();
+            $query->select('paper_type_id')
+            ->from(with(new datiPersonali)->getTable())
+            ->whereIn('data_nascita', $date);
+        });
+    // return $query->whereHas('datipersonali', function($q){
+    //   $date = Carbon::now()->subYears(18)->toDatestring();
+    //   $q->where('data_nascita', "<=", $date);
+    // });
   }
 
   public function scopeMinorenni($query)

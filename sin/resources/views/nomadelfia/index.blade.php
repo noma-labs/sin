@@ -6,6 +6,42 @@
   <li class="nav-item">
       <a class="nav-link" href="{{ route('nomadelfia') }}">Nomadelfia</a>
   </li>
+  
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
+    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Persone
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarPesone">
+      <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}" >Gestione persone</a> 
+      <a class="dropdown-item" href="{{route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
+      <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
+    </div>
+  </li>
+  <li class="nav-item">
+     <a class="nav-link"href="{{ route('nomadelfia.gruppifamiliari') }}">Gruppi familiari</a>
+  </li>
+  <!-- <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
+    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Gruppi Familiari
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarPesone">
+      <a class="dropdown-item" href="{{ route('nomadelfia.gruppifamiliari') }}" >Gestione Gruppi familiari</a> 
+    </div>
+  </li> -->
+  <li class="nav-item">
+     <a class="nav-link"  href="{{ route('nomadelfia.aziende') }}">Aziende</a>
+  </li>
+  <!-- <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
+    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Aziende
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarPesone">
+      <a class="dropdown-item" href="{{ route('nomadelfia.aziende') }}" >Gestione Aziende</a> 
+    </div>
+  </li> -->
 @append 
 
 @section('archivio')

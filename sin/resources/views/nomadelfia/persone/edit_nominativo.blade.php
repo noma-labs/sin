@@ -2,19 +2,7 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => 'Modifica Dati anagrafici'])
-<div class="row justify-content-md-center">
-    <div class="col col-lg-2">
-      1 of 3
-    </div>
-    <div class="col-md-auto">
-      Variable width content
-    </div>
-    <div class="col col-lg-2">
-      3 of 3
-    </div>
-  </div>
-  
+@include('partials.header', ['title' => 'Modifica Nominativo'])
 <div class="row justify-content-md-center">
     <div class="col-md-8">
     <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >      

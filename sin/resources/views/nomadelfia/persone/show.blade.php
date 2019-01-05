@@ -1,4 +1,4 @@
-@extends('nomadelfia.index')
+@extends('nomadelfia.persone.index')
 
 @section('archivio')
 
@@ -9,24 +9,24 @@
     {{ csrf_field() }}
 <div class="row justify-content-md-center">
   <label class="col-md-2 col-form-label offset-md-2">Stato persona</label>
-  <div class="col-md-4">
-    <div class="form-group">
-        <select class="form-control"  name="categoria">
-        <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
-        @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
-              @if($persona->categoria_id != $cat->id)
-                @if(old('categoria') == $cat->id)
-              <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
-              @else
-              <option value="{{$cat->id}}" > {{ $cat->nome}} {{ $cat->descrizione}}</option>
-              @endif
+    <div class="col-md-4">
+      <div class="form-group">
+          <select class="form-control"  name="categoria">
+          <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
+          @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+                @if($persona->categoria_id != $cat->id)
+                  @if(old('categoria') == $cat->id)
+                <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
+                @else
+                <option value="{{$cat->id}}" > {{ $cat->nome}} {{ $cat->descrizione}}</option>
+                @endif
 
-              @endif
-        @endforeach
-      </select>
-    </div>
-  </div>  
-  <div class="col-md-4">
+                @endif
+          @endforeach
+        </select>
+      </div>
+    </div>  
+    <div class="col-md-4">
     <button class="btn btn-success" type="submit">Salva</button>
   </div>
 </div>
@@ -47,7 +47,7 @@
         <div class="card-body">
           <div class="row ">
             <label for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</label>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <p>{{$persona->nominativo}}</p>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <label for="inputPassword" class="col-sm-6 col-form-label">Gruppo familiare:</label>
             <div class="col-sm-6">
               @if($persona->gruppofamiliareAttuale()  != null)
-              <option>  {{$persona->gruppofamiliareAttuale()->nome}}</option>
+                <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> </option>
               @else
                 <p class="text-danger">Nessun gruppo</p>
               @endif
@@ -85,7 +85,7 @@
               <label for="inputPassword" class="col-sm-6 col-form-label">Azienda/e:</label>
               <div class="col-sm-6">
                 @forelse ($persona->aziendeAttuali()->get() as $azienda)
-                    <li>{{ $azienda->nome_azienda }}  ({{ $azienda->pivot->mansione }})</li>
+                    <li> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</li>
                 @empty
                     <p class="text-danger">Nessuna azienda</p>
                 @endforelse
@@ -93,7 +93,7 @@
            </div>
          
           <div class="row">
-            <button class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">modifica</button>
+            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
           </div>
         </div>
       </div>

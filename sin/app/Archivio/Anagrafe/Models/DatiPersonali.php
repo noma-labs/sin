@@ -52,6 +52,7 @@ class DatiPersonali extends Model
      $date = Carbon::now()->subYears(18)->toDatestring();
      return $query->where('data_nascita', "<=", $date);
   }
+
 }
 
 
