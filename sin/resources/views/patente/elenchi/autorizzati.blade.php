@@ -28,8 +28,8 @@
           @isset($patente->persona->nome) 
            {{ $patente->persona->nome}}
           @endisset
-          @isset($patente->persona->datipersonali->cognome)
-            {{ $patente->persona->datipersonali->cognome}}
+          @isset($patente->persona->cognome)
+            {{ $patente->persona->cognome}}
            @endisset
           </div>
           <div class="col-md-3">

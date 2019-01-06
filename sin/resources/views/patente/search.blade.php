@@ -112,8 +112,8 @@
                   @isset($patente->persona->nome)
                         {{ $patente->persona->nome}}
                       @endisset
-                      @isset($patente->persona->datipersonali->cognome)
-                        {{$patente->persona->datipersonali->cognome}}
+                      @isset($patente->persona->cognome)
+                        {{$patente->persona->cognome}}
                       @endisset
               @else
                 {{ $patente->persona->nominativo}}
@@ -141,8 +141,8 @@
                       @isset($patente->persona->nome)
                         {{ $patente->persona->nome}}
                       @endisset
-                      @isset($patente->persona->datipersonali->cognome)
-                        {{$patente->persona->datipersonali->cognome}}
+                      @isset($patente->persona->cognome)
+                        {{$patente->persona->cognome}}
                       @endisset 
                       ?
                     </template>

@@ -134,6 +134,7 @@ class ApiController extends CoreBaseController
         $term = $request->term;
 		$persone = ViewClientiConSenzaPatente::where("nome","LIKE","$term%")
                     ->orwhere("cognome","LIKE","$term%")
+                    ->orWhere("nominativo","LIKE","$term%")
                     // ->orderBy("cliente_con_patente")
                     ->take(50)
                     ->get();
@@ -159,7 +160,9 @@ class ApiController extends CoreBaseController
         $persone = ViewClientiConSenzaPatente::SenzaPatente()
                     ->where(function ($query) use ($term){
                         $query->where("nome","LIKE","$term%")
-                              ->orWhere("cognome","LIKE","$term%");
+                              ->orWhere("cognome","LIKE","$term%")
+                              ->orWhere("nominativo","LIKE","$term%");
+
                     })
                     ->take(50)
                     ->get();
@@ -181,16 +184,15 @@ class ApiController extends CoreBaseController
         $persone = ViewClientiConSenzaPatente::ConPatente()
                     ->where(function ($query) use ($term){
                         $query->where("nome","LIKE","$term%")
-                              ->orWhere("cognome","LIKE","$term%");
+                              ->orWhere("cognome","LIKE","$term%")
+                              ->orWhere("nominativo","LIKE","$term%");
+
                     })  
                     ->take(50)
                     ->get();
         $persone->map(function ($persona) {
-            // if($persona->cliente_con_patente != null)
-                $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.")" ;
-            // else
-                // $persona['value'] = "$persona->nome  $persona->cognome" ;
-            return $persona;
+                $persona['value'] = $persona->nome." ".$persona->cognome ;
+                 return $persona;
         });
 		return $persone;
     }
