@@ -266,8 +266,9 @@ class ApiController extends CoreBaseController
             return response()->json(["err"=>1, "msg"=> "Errore. Patente $patente->numero_patente non aggiornata"]); 
     }
 
-    public function delete (Request $request, $numero){
-        dd("kdksj");
+    public function rilasciata (Request $request){
+        $rilasciata = Patente::select('rilasciata_dal')->distinct()->get();
+        return response()->json($rilasciata);
     }
 
      /**

@@ -5,8 +5,9 @@
 <patente-modfica
       api-patente="{{route('api.patente',['id'=>$patente->numero_patente]) }}"
       api-patente-modifica="{{route('api.patente.modifica',['numero'=>$patente->numero_patente])}}"
-	  api-patente-elimina="{{ route('patente.elimina', $patente->numero_patente) }}"
-      api-patente-persone="{{route('api.patente.persone.senzapatente')}}"
+	  web-patente-elimina="{{ route('patente.elimina', $patente->numero_patente) }}"
+	  api-patente-persone="{{route('api.patente.persone.senzapatente')}}"
+	  api-patente-rilascio ="{{route('api.patente.rilascio')}}"
 	  api-patente-categorie="{{route('api.patente.categorie')}}" 
 	  api-patente-cqc="{{route('api.patente.cqc')}}">
       <template slot="persona-info">

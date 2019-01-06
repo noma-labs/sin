@@ -24,10 +24,30 @@
 					
 					<div class="col-md-6">
 						<label for="rilasciata_dal">Rilasciata da:</label>
-						<input type="text" class="form-control"  
+						<!-- <input type="text" class="form-control"  
 											v-model="nuovaPatente.rilasciata_dal" id="rilasciata_dal" 
 											name="rilasciata_dal" 
-											:disabled=disabledAll>
+											:disabled=disabledAll> -->
+						<!-- <autocomplete placeholder="---Inserisci rilascio ---" 
+									name="rilasciata_dal" 
+									v-model="nuovaPatente.rilasciata_dal"
+									label="rilasciata_dal"
+									index="rilasciata_dal"
+									:url="apiPatenteRilascio">
+						</autocomplete> -->
+						<v-select
+				            :options="rilascioOptions"
+							:debounce="500"
+							:on-search="getRilascio"
+							name="rilasciata_dal" 
+							v-model="nuovaPatente.rilasciata_dal"
+							label="rilasciata_dal"
+							index="rilasciata_dal"
+							:disabled="disabledAll"
+							taggable
+							>
+							<span slot="no-options">Non torvato</span>
+						</v-select>
 					</div>
 					
 				</div><!-- end secoond row in left colum-->
@@ -65,21 +85,7 @@
 						</div>
 					</div>
 				</div> <!-- end fifth row in left colum-->
-				<div class="row">
-					<!-- <div class="form-group col-md-9">
-						<label for="note">Note:</label>
-						<textarea class="form-control" v-model="nuovaPatente.note" name="note" :disabled=disabledAll></textarea>
-					</div> -->
-					<div class="form-group col-md-3 m-*-auto">
-					 <div>&nbsp;</div>
-						<button type="submit" 
-								@click="salvaNuovaPatente"
-								:disabled="disabledSalvaNuovaPatente || disabledAll" 
-								form="edit-patente" 
-								class="btn btn-primary">
-								Salva
-						</button>
-					</div>
+				<div class="row my-2">
 					<div class="col-md-3">
 						<my-modal modal-title="Eliminazione patente" button-title="Elimina">
 							<template slot="modal-body-slot">
@@ -88,9 +94,18 @@
 							</template>
 
 							<template slot="modal-button">
-							<a class="btn btn-danger" :href="apiPatenteElimina" >Elimina</a>
+							<a class="btn btn-danger" :href="webPatenteElimina" >Elimina</a>
 							</template>
 						</my-modal>
+					</div>
+					<div class="col-md-3">
+						<button type="submit" 
+								@click="salvaNuovaPatente"
+								:disabled="disabledSalvaNuovaPatente || disabledAll" 
+								form="edit-patente" 
+								class="btn btn-primary">
+								Salva
+						</button>
 					</div>
 				</div> <!-- end fouth row in left colum-->
 			</div>  <!-- end left column-->
@@ -212,7 +227,8 @@
 			'apiPatenteCategorie',
 			'apiPatenteCqc',
 			'apiPatenteModifica',
-			'apiPatenteElimina'
+			'webPatenteElimina',
+			'apiPatenteRilascio'
 			],
 		data: function() {
 			return {
@@ -250,6 +266,7 @@
 					],
 					cqc:[]          	
 				},
+				rilascioOptions:[] // array con rilascita_dal
 			};
 		},
 		created: function(){
@@ -293,6 +310,15 @@
 			}
 		},
 		methods:{
+			getRilascio(search, loading) {
+				loading(true)
+				axios.get(this.apiPatenteRilascio, { params: { term: search } })
+					.then(response => {
+						this.rilascioOptions = response.data;
+						loading(false)
+					})
+					.catch(error => {});
+            },
 			loadPatente: function(){
 				axios.get(this.apiPatente).then(response => {
 					this.nuovaPatente = response.data;
