@@ -238,7 +238,7 @@ class ApiController extends CoreBaseController
         $patente->rilasciata_dal = $body['rilasciata_dal'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->note = $body['note'];
+        $patente->note =  $body['note'] == "" ?  Null: $body['note'];
         $patente->stato =  $body['stato'] == "null" ?  Null: $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];

@@ -51,22 +51,24 @@
 					
 					<div class="col-md-6">
 						<label for="rilasciata_dal">Rilasciata dal:</label>
-						<!-- <v-select
-							:options="optionsPersone"
+						<v-select
+				            :options="rilascioOptions"
 							:debounce="500"
-							:on-search="getPersonePatenti"
-							:on-change="changedPersonaSelected"
-							:placeholder="personaPlaceholder"
-							:clearable=true
+							:on-search="getRilascio"
+							name="rilasciata_dal" 
+							v-model="nuovaPatente.rilasciata_dal"
+							label="rilasciata_dal"
+							index="rilasciata_dal"
 							:disabled="disabledAll"
-							:label="label">
-							<span slot="no-options">Nessuna persona trovata</span>
-						</v-select> -->
-						<input type="text" class="form-control"  
+							taggable
+							>
+							<span slot="no-options">Non torvato</span>
+						</v-select>
+						<!-- <input type="text" class="form-control"  
 								v-model="nuovaPatente.rilasciata_dal" 
 								id="rilasciata_dal" 
 								name="rilasciata_dal" 
-								:disabled=disabledAll>
+								:disabled=disabledAll> -->
 					</div>
 				</div><!-- end second row in left colum-->
 				<div class="row">
@@ -254,7 +256,9 @@
 			'apiPatentePersone',
 			'apiPatenteCategorie',
 			'apiPatenteCqc',
-			'apiPatenteCreate'
+			'apiPatenteCreate',
+			'apiPatenteRilascio'
+
 			],
 		data: function() {
 			return {
@@ -295,6 +299,8 @@
 					categorie:[],				 // array delle nuove categorie assegnate alla patente
 					cqc: []                     // array dei c.q.c assegnati alla patente
 				},
+				rilascioOptions:[] // array con rilascita_dal
+
 			};
 		},
 		created: function(){
@@ -336,6 +342,15 @@
 			},
 		},
 		methods:{
+			getRilascio(search, loading) {
+				loading(true)
+				axios.get(this.apiPatenteRilascio, { params: { term: search } })
+					.then(response => {
+						this.rilascioOptions = response.data;
+						loading(false)
+					})
+					.catch(error => {});
+            },
 			formatCQCDate(){
 				this.cqcPossibili.forEach(cqc => { // aggiunge la data_rilascio e data_scadenza agli oggetti cqc.
 					cqc.data_rilascio = this.customFormatter(cqc.data_rilascio);

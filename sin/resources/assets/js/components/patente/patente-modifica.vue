@@ -28,13 +28,6 @@
 											v-model="nuovaPatente.rilasciata_dal" id="rilasciata_dal" 
 											name="rilasciata_dal" 
 											:disabled=disabledAll> -->
-						<!-- <autocomplete placeholder="---Inserisci rilascio ---" 
-									name="rilasciata_dal" 
-									v-model="nuovaPatente.rilasciata_dal"
-									label="rilasciata_dal"
-									index="rilasciata_dal"
-									:url="apiPatenteRilascio">
-						</autocomplete> -->
 						<v-select
 				            :options="rilascioOptions"
 							:debounce="500"
