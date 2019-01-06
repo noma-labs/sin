@@ -120,13 +120,13 @@ class PatenteController extends CoreBaseController
     }
 
     public function elimina($id){
-        Patente::destroy($id);
-        // return redirect(route('patente.ricerca'))->withSuccess("Patente $id eliminata con successo.");
-        return back()->withSuccess("Patente $id eliminata con successo.");
-
+        if(Patente::destroy($id))
+           return redirect()->route('patente.scadenze')->withSuccess("Patente eliminata con successo.");
+        else
+          return redirect()->route('patente.scadenze')->withError("Errore: Patente non eliminata.");
     }
 
-    public function modifica($id)
+    public function modifica($id)  
     {
         $categorie = CategoriaPatente::all();
         $patente = Patente::find($id);//->where('numero_patente', '=', $id); //->get();

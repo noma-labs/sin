@@ -80,6 +80,18 @@
 								Salva
 						</button>
 					</div>
+					<div class="col-md-3">
+						<my-modal modal-title="Eliminazione patente" button-title="Elimina">
+							<template slot="modal-body-slot">
+							Vuoi davvero eliminare la patente di
+							{{nuovaPatente.numero_patente}}
+							</template>
+
+							<template slot="modal-button">
+							<a class="btn btn-danger" :href="apiPatenteElimina" >Elimina</a>
+							</template>
+						</my-modal>
+					</div>
 				</div> <!-- end fouth row in left colum-->
 			</div>  <!-- end left column-->
 
@@ -199,7 +211,8 @@
 			'apiPatentePersone',
 			'apiPatenteCategorie',
 			'apiPatenteCqc',
-			'apiPatenteModifica'
+			'apiPatenteModifica',
+			'apiPatenteElimina'
 			],
 		data: function() {
 			return {

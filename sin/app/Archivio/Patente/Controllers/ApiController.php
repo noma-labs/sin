@@ -264,10 +264,11 @@ class ApiController extends CoreBaseController
          return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente aggiornata correttamente"]); 
         else
             return response()->json(["err"=>1, "msg"=> "Errore. Patente $patente->numero_patente non aggiornata"]); 
-
-
     }
 
+    public function delete (Request $request, $numero){
+        dd("kdksj");
+    }
 
      /**
     * Crea una nuova patente
