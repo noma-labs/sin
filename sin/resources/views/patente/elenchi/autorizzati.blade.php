@@ -36,8 +36,8 @@
              {{$patente->categorieAsString()}}
           </div>
           <div class="col-md-4 text-right small">
-            @isset($patente->persona->datiPersonali->data_nascita)
-              {{$patente->persona->datiPersonali->data_nascita}}
+            @isset($patente->persona->data_nascita)
+              {{$patente->persona->data_nascita}}
             @endisset
           </div>
       </div>
