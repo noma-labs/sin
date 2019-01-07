@@ -29,7 +29,21 @@
           <td>{{ $persona->data_nascita }}</td>
           <td>{{ $persona->prvincia_nascita }}</td>
           <td>{{ $persona->sesso }}</td>
-
+          <td>
+            <div class='btn-group' role='group' aria-label="Basic example">
+              <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio', $persona->persona_id) }}">Modifica</a>
+            </div>
+          </td>
+        </tr>
+        @endforeach
+        @foreach ($personeNominativi as $persona)
+        <tr hoverable>
+          <td>{{ $persona->nominativo }}</td>
+          <td>{{ $persona->nome }}</td>
+          <td>{{ $persona->cognome }}</td>
+          <td>{{ $persona->data_nascita }}</td>
+          <td>{{ $persona->provincia_nascita }}</td>
+          <td>{{ $persona->sesso }}</td>
           <td>
             <div class='btn-group' role='group' aria-label="Basic example">
               <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio', $persona->persona_id) }}">Modifica</a>

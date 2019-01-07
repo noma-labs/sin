@@ -1,7 +1,7 @@
 @extends('patente.index')
 
 @section('archivio')
-<sin-header title="Scadenza patenti">  Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> 
+<sin-header title="Scadenza patenti"> Numero totale patenti: {{App\Patente\Models\Patente::count()}} </sin-header> 
 
 <div class="row">
    <div class="col align-self-center"> 
@@ -152,11 +152,11 @@
         @foreach($patentiAll as $patente)
           <tr hoverable>
               <td> 
-              @isset($patente->persona->datipersonali->nome)
-                 {{ $patente->persona->datipersonali->nome}}
+              @isset($patente->persona->nome)
+                 {{ $patente->persona->nome}}
               @endisset
-              @isset($patente->persona->datipersonali->cognome)
-                {{$patente->persona->datipersonali->cognome}}
+              @isset($patente->persona->cognome)
+                {{$patente->persona->cognome}}
               @endisset
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
@@ -179,11 +179,11 @@
                 <my-modal modal-title="Eliminazione patente" button-title="Elimina">
                     <template slot="modal-body-slot">
                       Vuoi davvero eliminare la patente di
-                      @isset($patente->persona->datipersonali->nome)
-                        {{ $patente->persona->datipersonali->nome}}
+                      @isset($patente->persona->nome)
+                        {{ $patente->persona->nome}}
                       @endisset
-                      @isset($patente->persona->datipersonali->cognome)
-                        {{$patente->persona->datipersonali->cognome}}
+                      @isset($patente->persona->cognome)
+                        {{$patente->persona->cognome}}
                       @endisset 
                       ?
                     </template>

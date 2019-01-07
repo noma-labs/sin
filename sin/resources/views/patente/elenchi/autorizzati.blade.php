@@ -25,19 +25,19 @@
       @foreach ($chunk as $patente)
       <div class="row">
           <div class="col-md-6 small ">
-          @isset($patente->persona->datipersonali->nome) 
-           {{ $patente->persona->datipersonali->nome}}
+          @isset($patente->persona->nome) 
+           {{ $patente->persona->nome}}
           @endisset
-          @isset($patente->persona->datipersonali->cognome)
-            {{ $patente->persona->datipersonali->cognome}}
+          @isset($patente->persona->cognome)
+            {{ $patente->persona->cognome}}
            @endisset
           </div>
           <div class="col-md-3">
              {{$patente->categorieAsString()}}
           </div>
           <div class="col-md-4 text-right small">
-            @isset($patente->persona->datiPersonali->data_nascita)
-              {{$patente->persona->datiPersonali->data_nascita}}
+            @isset($patente->persona->data_nascita)
+              {{$patente->persona->data_nascita}}
             @endisset
           </div>
       </div>

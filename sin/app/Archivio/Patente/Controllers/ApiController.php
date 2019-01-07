@@ -134,6 +134,7 @@ class ApiController extends CoreBaseController
         $term = $request->term;
 		$persone = ViewClientiConSenzaPatente::where("nome","LIKE","$term%")
                     ->orwhere("cognome","LIKE","$term%")
+                    ->orWhere("nominativo","LIKE","$term%")
                     // ->orderBy("cliente_con_patente")
                     ->take(50)
                     ->get();
@@ -159,7 +160,9 @@ class ApiController extends CoreBaseController
         $persone = ViewClientiConSenzaPatente::SenzaPatente()
                     ->where(function ($query) use ($term){
                         $query->where("nome","LIKE","$term%")
-                              ->orWhere("cognome","LIKE","$term%");
+                              ->orWhere("cognome","LIKE","$term%")
+                              ->orWhere("nominativo","LIKE","$term%");
+
                     })
                     ->take(50)
                     ->get();
@@ -181,16 +184,15 @@ class ApiController extends CoreBaseController
         $persone = ViewClientiConSenzaPatente::ConPatente()
                     ->where(function ($query) use ($term){
                         $query->where("nome","LIKE","$term%")
-                              ->orWhere("cognome","LIKE","$term%");
+                              ->orWhere("cognome","LIKE","$term%")
+                              ->orWhere("nominativo","LIKE","$term%");
+
                     })  
                     ->take(50)
                     ->get();
         $persone->map(function ($persona) {
-            // if($persona->cliente_con_patente != null)
-                $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.")" ;
-            // else
-                // $persona['value'] = "$persona->nome  $persona->cognome" ;
-            return $persona;
+                $persona['value'] = $persona->nome." ".$persona->cognome ;
+                 return $persona;
         });
 		return $persone;
     }
@@ -238,7 +240,7 @@ class ApiController extends CoreBaseController
         $patente->rilasciata_dal = $body['rilasciata_dal'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->note = $body['note'];
+        $patente->note =  $body['note'] == "" ?  Null: $body['note'];
         $patente->stato =  $body['stato'] == "null" ?  Null: $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];
@@ -264,10 +266,12 @@ class ApiController extends CoreBaseController
          return response()->json(["err"=>0, "msg"=> "Patente $patente->numero_patente aggiornata correttamente"]); 
         else
             return response()->json(["err"=>1, "msg"=> "Errore. Patente $patente->numero_patente non aggiornata"]); 
-
-
     }
 
+    public function rilasciata (Request $request){
+        $rilasciata = Patente::select('rilasciata_dal')->distinct()->get();
+        return response()->json($rilasciata);
+    }
 
      /**
     * Crea una nuova patente

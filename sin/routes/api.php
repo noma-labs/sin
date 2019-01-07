@@ -62,6 +62,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], function(){
   Route::post('/', 'ApiController@create')->name("api.patente.create"); // crea una nuova patente
   Route::get('/persone', 'ApiController@persone')->name("api.patente.persone");
+  Route::get('/rilasciata', 'ApiController@rilasciata')->name("api.patente.rilascio");
   Route::get('/persone/senzapatente', 'ApiController@personeSenzaPatente')->name("api.patente.persone.senzapatente");
   Route::get('/persone/conpatente', 'ApiController@personeConPatente')->name("api.patente.persone.conpatente");
   Route::get('/categorie', 'ApiController@categorie')->name("api.patente.categorie"); 
@@ -69,6 +70,7 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
   Route::get('/{numero}', 'ApiController@patente')->name("api.patente");
   Route::put('/{numero}', 'ApiController@update')->name("api.patente.modifica"); // modifica una nuova patente
   Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie.assegnate");
+
 
   // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
 });

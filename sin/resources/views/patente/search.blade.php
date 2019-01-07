@@ -108,12 +108,16 @@
           @foreach($patenti as $patente)
           <tr hoverable>
           <td> 
-              @isset($patente->persona->datipersonali->nome)
-                 {{ $patente->persona->datipersonali->nome}}
-              @endisset
-              @isset($patente->persona->datipersonali->cognome)
-                {{$patente->persona->datipersonali->cognome}}
-              @endisset
+              @if($patente->persona->datipersonali)
+                  @isset($patente->persona->nome)
+                        {{ $patente->persona->nome}}
+                      @endisset
+                      @isset($patente->persona->cognome)
+                        {{$patente->persona->cognome}}
+                      @endisset
+              @else
+                {{ $patente->persona->nominativo}}
+              @endif
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
                 @endif
@@ -134,11 +138,11 @@
                 <my-modal modal-title="Eliminazione patente" button-title="Elimina">
                     <template slot="modal-body-slot">
                       Vuoi davvero eliminare la patente di
-                      @isset($patente->persona->datipersonali->nome)
-                        {{ $patente->persona->datipersonali->nome}}
+                      @isset($patente->persona->nome)
+                        {{ $patente->persona->nome}}
                       @endisset
-                      @isset($patente->persona->datipersonali->cognome)
-                        {{$patente->persona->datipersonali->cognome}}
+                      @isset($patente->persona->cognome)
+                        {{$patente->persona->cognome}}
                       @endisset 
                       ?
                     </template>

@@ -9,22 +9,7 @@ class GruppifamiliariController extends CoreBaseController
 {
   public function view(){
   
-    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->get();
-
-    // GruppoFamiliare::with('famiglie.componenti')
-    //    ->join('exam', 'students.id', '=', 'exam.student_id')
-    //    ->orderBy('exam.result', 'DESC')
-    //    ->get();
-    // $gruppifamiliari = GruppoFamiliare::with(["famiglie", function($famiglia)
-    // {
-    //   $famiglia->with(['componenti',function($componente){
-    //     $componente->orderby('data_nascita_persona');
-    //   }]);
-    // }]);
-    // dd($gruppifamiliari);
-
-    // $g = GruppoFamiliare::select('nome')
-    //                     ->join('gruppi_famiglie',"gruppi_familiari.id","=", '')
+    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderby('nome')->get();
     return view('nomadelfia.gruppifamiliari.index',compact('gruppifamiliari','gruppi_with_nucleifamiliari'));
   }
 

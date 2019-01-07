@@ -67,7 +67,12 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/inserimento/initial', 'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
   Route::post('persone/inserimento', 'PersoneController@insert')->name("nomadelfia.persone.inserimento.confirm");
   Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelifa.persone.dettaglio"); //middleware('permission:cliente-visualizza')
-  Route::get('persone/{idPersona}/modifica', 'PersoneController@edit')->name("nomadelfia.persone.modifica");
+  Route::get('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
+  Route::post('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
+  Route::get('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica");
+  Route::post('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
+  Route::post('persone/{idPersona}/categoria/modifica', 'PersoneController@modificaCategoriaConfirm')->name("nomadelfia.persone.categoria.modifica");
+
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
   Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
@@ -157,6 +162,7 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   // PRENOTAZIONI add, delete, update, search
   // officina/
   Route::post("/", 'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
+ 
   Route::get("delete/{id}/", 'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
   Route::get("modifica/{id}/", 'PrenotazioniController@modifica')->middleware('ability:veicolo.modifica')->name('officina.prenota.modifica');;
   Route::post("modifica/{id}/", 'PrenotazioniController@update')->middleware('ability:veicolo.modifica')->name('officina.prenota.update');
