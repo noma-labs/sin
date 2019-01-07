@@ -20,15 +20,6 @@
           <label class="control-label">Cliente </label>
             <autocomplete placeholder="Inserisci nominativo..." name="nome" url="{{route('api.officina.clienti')}}"></autocomplete>
         </div>
-      <!-- <div class="col-md-3">
-        <label for="cliente">Nome</label>
-        <select class="form-control" id="cliente" name="nome"> 
-        <option disabled selected hidden value=''>--Seleziona--</option>
-            @foreach ($clienti as $cliente)
-            <option value="{{ $cliente->id }}" @if (old('nome') === (string)$cliente->id) selected @endif>{{ $cliente->nominativo }}</option>
-            @endforeach
-        </select>
-      </div> -->
       <div class="col-md-3">
         <div class="form-group">
           <label for="meccanico">Meccanico</label>
