@@ -51,15 +51,16 @@ class PersoneController extends CoreBaseController
       "sesso.required" => "Il sesso è obbligatorio",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->datipersonali->update(
-      ['nome' => $request->nome,
-      'cognome' => $request->cognome,
-      'data_nascita' => $request->datanascita,
-      'provincia_nascita' => $request->luogonascita,
-      'sesso' => $request->sesso,
-      ]);
-    // $persona->save();  
-    return view('nomadelfia.persone.show',compact('persona'));
+    $persona->nome = $request->nome;
+    $persona->cognome = $request->cognome;
+    $persona->data_nascita = $request->datanascita;
+    $persona->provincia_nascita = $request->luogonascita;
+    $persona->sesso = $request->sesso;
+    if($persona->save())
+      return redirect()->route('nomadelifa.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+    else    
+    return redirect()->route('nomadelifa.persone.dettaglio',['idPersona' =>$idPersona])->withSError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+
 
   }
 
@@ -120,36 +121,25 @@ class PersoneController extends CoreBaseController
    * @author Davide Neri
    */
   public function insertInitial(Request $request){
-    // $validatedData = $request->validate([
-    //   "nominativo" => "required",
-    //   "nome" => "required",
-    //   "cognome" => "required",
-    // ],[
-    //   "nominativo.required" => "Il nome è obbligatorie",
-    //   "nome.required" => "Il nome è obbligatorie",
-    //   "cognome.required" => "Il cognome è obbligatorio",
-    // ]);
-    $personeNominativi =[];
-    $personeEsistenti =[];
-    // dd($request->nominativo);
-    if ($request->filled('nominativo')) {
-      $personeNominativi = Persona::where("nominativo","like","%".$request->nominativo."%");
-      // dd($personeNominativi->get());
-      return view("nomadelfia.persone.insert_existing", compact('personeEsistenti','personeNominativi'));
+    $validatedData = $request->validate([
+      "persona" => "required",
+      // "nome" => "required",
+      // "cognome" => "required",
+    ],[
+      // "nominativo.required" => "Il nome è obbligatorie",
+      // "nome.required" => "Il nome è obbligatorie",
+      "persona.required" => "Il cognome è obbligatorio",
+    ]);
+   
+    if ($request->filled('persona')) {
+      $personeEsistenti = Persona::where("nominativo","like","%".$request->persona."%")
+                                  ->orWhere("nome", "like", "%".$request->persona."%")
+                                  ->orWhere("cognome", "like", "%".$request->persona);
+      if($personeEsistenti->exists() )
+        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti','personeNominativi'));
+      else
+         return redirect(route('nomadelfia.persone.inserimento.completo'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
     }
-    if ($request->filled(['nome','cognome'])) {
-      $personeEsistenti = DatiPersonali::with('persona')
-                  ->where("nome", "like", "%".$request->input('nome')."%")
-                  ->Where("cognome", "like", "%".$request->input('cognome')."%")->get();
-       return view("nomadelfia.persone.insert_existing", compact('personeEsistenti','personeNominativi'));
-      
-    }
-    // if($personeEsistenti->exists() or $personeNominativi->exists())
-    //    return view("nomadelfia.persone.insert_existing", compact('personeEsistenti','personeNominativi'));
-    // else
-    return redirect(route('nomadelfia.persone.inserimento.completo'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
-
-
   }
 
   /**

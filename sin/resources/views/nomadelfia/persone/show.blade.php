@@ -4,103 +4,40 @@
 
 @include('partials.header', ['title' => $persona->nome." ". $persona->cognome])
 
- 
- <form class="form" method="POST" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
-    {{ csrf_field() }}
-<div class="row justify-content-md-center">
-  <label class="col-md-2 col-form-label offset-md-2">Stato persona</label>
-    <div class="col-md-4">
-      <div class="form-group">
-          <select class="form-control"  name="categoria">
-          <option value='{{ $persona->categoria_id }}' selected>{{ $persona->categoria->nome }}</option>
-          @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
-                @if($persona->categoria_id != $cat->id)
-                  @if(old('categoria') == $cat->id)
-                <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
-                @else
-                <option value="{{$cat->id}}" > {{ $cat->nome}} {{ $cat->descrizione}}</option>
-                @endif
+<div class="container">
 
-                @endif
-          @endforeach
-        </select>
-      </div>
-    </div>  
-    <div class="col-md-4">
-    <button class="btn btn-success" type="submit">Salva</button>
-  </div>
-</div>
-</form>
-
-
-<div class="row my-3">
-  <div class="col-md-5"> <!--  start col dati nomadelfia -->
+<div class="row justify-content-end">
+  <div class="col-md-8">
     <div class="card">
-      <div class="card-header" id="headingZero">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
-            Dati Nomadelfia
-          </button>
-        </h5>
-      </div>
-      <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
-        <div class="card-body">
-          <div class="row ">
-            <label for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</label>
-            <div class="col-sm-4">
-              <p>{{$persona->nominativo}}</p>
-            </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Stato attuale:</label>
-            <div class="col-sm-6">
-              @if($persona->categoria->nome != null)
-              <option>  {{$persona->categoria->nome}}</option>
-              @else
-                <p class="text-danger">Nessuna stato attuale</p>
-              @endif
-            </div>
-          </div>
-          <div class="row">
-            <label for="staticEmail" class="col-sm-6 col-form-label">Posizione in Nomadelfia:</label>
-            <div class="col-sm-6">
-              @if($persona->posizioneAttuale() != null)
-              <option>  {{$persona->posizioneAttuale()->nome}}</option>
-              @else
-                <p class="text-danger">Nessuna posizione</p>
-              @endif
-            </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Gruppo familiare:</label>
-            <div class="col-sm-6">
-              @if($persona->gruppofamiliareAttuale()  != null)
-                <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> </option>
-              @else
-                <p class="text-danger">Nessun gruppo</p>
-              @endif
-            </div>
-          </div>
-          <div class="row">
-              <label for="inputPassword" class="col-sm-6 col-form-label">Azienda/e:</label>
-              <div class="col-sm-6">
-                @forelse ($persona->aziendeAttuali()->get() as $azienda)
-                    <li> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</li>
-                @empty
-                    <p class="text-danger">Nessuna azienda</p>
-                @endforelse
-              </div>
-           </div>
-         
-          <div class="row">
-            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
-          </div>
-        </div>
+      <div class="card-body">
+        <span class="text-uppercase">Stato Attuale:</span> <span class="font-weight-bold">{{$persona->categoria->nome}}</span>
+        <my-modal modal-title="Modifica stato persona" button-title="Modifica">
+          <template slot="modal-body-slot">
+          <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
+              {{ csrf_field() }}
+              @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{ $persona->categoria_id == $cat->id ? 'checked' : '' }}>
+                  <label class="form-check-label" for="categoria{{$cat->id}}">
+                  <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
+                  </label>
+                </div>
+              @endforeach
+            </form>
+          </template> 
+          <template slot="modal-button">
+                <button class="btn btn-danger" form="formStato">Salva</button>
+          </template>
+        </my-modal>
       </div>
     </div>
-  </div> <!--  end col dati generali -->
+  </div>
+</div>
 
-  <div class="col-md-4"> <!--  start col dati anagrafici -->
+</div>
+
+<div class="row my-3">
+<div class="col-md-4"> <!--  start col dati anagrafici -->
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -111,45 +48,125 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          <div class="row">
-            <label for="staticEmail" class="col-sm-6 col-form-label">Nome:</label>
-            <div class="col-sm-6">
-              <p>{{$persona->nome}} </p>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Nome:</label>
+              <div class="col-sm-8">
+                <span>{{$persona->nome}} </span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Cognome:</label>
-            <div class="col-sm-6">
-                  <p>{{$persona->cognome}}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Cognome:</label>
+              <div class="col-sm-8">
+                    <span>{{$persona->cognome}}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Data Nascita:</label>
-            <div class="col-sm-6">
-                  <p>{{$persona->data_nascita}}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Data Nascita:</label>
+              <div class="col-sm-8">
+                    <span>{{$persona->data_nascita}}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Luogo Nascita;</label>
-            <div class="col-sm-6">
-                  <p>{{$persona->provincia_nascita}}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Luogo Nascita:</label>
+              <div class="col-sm-8">
+                  <span>{{$persona->provincia_nascita}}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Sesso:</label>
-            <div class="col-sm-6">
-            
-                  <p>{{$persona->sesso}}</p>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Sesso:</label>
+              <div class="col-sm-8">
+                <span>{{$persona->sesso}}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <a class="btn btn-primary"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">modifica</a>
-          </div>
+          </li>
+        </ul>
+          <!-- <div class="row"> -->
+            <a class="btn btn-primary my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
+          <!-- </div> -->
         </div>
       </div>
     </div>
   </div> <!--  end col dati anagrafici -->
 
+
+  <div class="col-md-5"> <!--  start col dati nomadelfia -->
+    <div class="card my-2">
+      <div class="card-header" id="headingZero">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
+            Dati Nomadelfia
+          </button>
+        </h5>
+      </div>
+      <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
+                <label class="col-sm-4">Nominativo: </label>
+                <div class="col-sm-4">
+                  {{$persona->nominativo}}
+                </div>
+                <div class="col-sm-2">
+                <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <label class="col-sm-4">Posizione: </label>
+                <div class="col-sm-8">
+                @if($persona->posizioneAttuale() != null)
+                      {{$persona->posizioneAttuale()->nome}}
+                    @else
+                    <span class="text-danger">Nessuna posizione</span>
+                    @endif
+                </div>
+            </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <label class="col-sm-4">Gruppo familiare: </label>
+                <div class="col-sm-8">
+                  @if($persona->gruppofamiliareAttuale()  != null)
+                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> </option>
+                  @else
+                    <span class="text-danger">Nessun gruppo</span>
+                  @endif
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <label class="col-sm-4">Azienda/e:</label>
+                <div class="col-sm-8">
+                  @forelse ($persona->aziendeAttuali()->get() as $azienda)
+                      <span> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</span>
+                  @empty
+                      <span class="text-danger">Nessuna azienda</span>
+                  @endforelse
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div> 
+    </div>  <!--  end card -->
+  </div> <!--  end col dati nomadelfia -->
+
+ 
    <div class="col-md-3"> <!--  start col dati famiglia -->
     <div class="card">
       <div class="card-header" id="headingTwo">
@@ -161,22 +178,33 @@
       </div>
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
-          <div class="row">
-            <label for="staticEmail" class="col-sm-6 col-form-label">Stato:</label>
-            <div class="col-sm-6">
-              @if($persona->statoAttuale() != null)
-              <option>  {{$persona->statoAttuale()->nome}}</option>
-              @endif
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+                <label class="col-sm-4">Stato:</label>
+                <div class="col-sm-8">
+                  @if ($persona->statoAttuale() != null)
+                      <span>{{$persona->statoAttuale()->nome}}</span>
+                  @else
+                      <span class="text-danger">Nessuno stato</span>
+                  @endif
+                </div>
+
             </div>
-          </div>
-          <div class="row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Famiglia</label>
-            <div class="col-sm-6">
-              @if($persona->famigliaAttuale() != null)
-              <option>  {{$persona->famigliaAttuale()->nome_famiglia}}</option>
-              @endif
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Famiglia:</label>
+              <div class="col-sm-8">
+                @if($persona->famigliaAttuale() != null)
+                  <span> {{$persona->famigliaAttuale()->nome_famiglia}}</span>
+                @else
+                  <span class="text-danger">Nessuno famiglia</span>
+                @endif
+              </div>
             </div>
-          </div>
+          </li>
+        </ul>
         </div>
       </div>
     </div>

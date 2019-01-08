@@ -21,22 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($personeEsistenti as $persona)
-        <tr hoverable>
-          <td>{{ $persona->persona->nominativo }}</td>
-          <td>{{ $persona->nome }}</td>
-          <td>{{ $persona->cognome }}</td>
-          <td>{{ $persona->data_nascita }}</td>
-          <td>{{ $persona->prvincia_nascita }}</td>
-          <td>{{ $persona->sesso }}</td>
-          <td>
-            <div class='btn-group' role='group' aria-label="Basic example">
-              <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio', $persona->persona_id) }}">Modifica</a>
-            </div>
-          </td>
-        </tr>
-        @endforeach
-        @foreach ($personeNominativi as $persona)
+        @foreach ($personeEsistenti->get() as $persona)
         <tr hoverable>
           <td>{{ $persona->nominativo }}</td>
           <td>{{ $persona->nome }}</td>
@@ -46,7 +31,7 @@
           <td>{{ $persona->sesso }}</td>
           <td>
             <div class='btn-group' role='group' aria-label="Basic example">
-              <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio', $persona->persona_id) }}">Modifica</a>
+              <a class="btn btn-success" href="{{ route('nomadelifa.persone.dettaglio',['idPersona'=> $persona->id]) }}">Scegli</a>
             </div>
           </td>
         </tr>

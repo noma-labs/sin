@@ -154,12 +154,12 @@ class Persona extends Model
   // STATO 
   public function statoAttuale(){
     return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', 1)->first();
+                ->wherePivot('stato', '1')->first();
   }
 
   public function statoStorico(){
     return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', 0);
+                ->wherePivot('stato', '0');
   }
 
   // FAMIGLIA
