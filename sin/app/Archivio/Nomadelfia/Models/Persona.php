@@ -44,21 +44,6 @@ class Persona extends Model
   {
      $date = Carbon::now()->subYears(18)->toDatestring();
      return $query->where('data_nascita', "<=", $date);
-  
-    //  return $this->hasOne(DatiPersonali::class, 'persona_id', 'id')->Maggiorenni();
-    // return $query->whereHas('datipersonali', function($q){
-    //     $q->Maggiorenni();
-    // });
-    return $query::where('id', function($query){
-          $date = Carbon::now()->subYears(18)->toDatestring();
-            $query->select('paper_type_id')
-            ->from(with(new datiPersonali)->getTable())
-            ->whereIn('data_nascita', $date);
-        });
-    // return $query->whereHas('datipersonali', function($q){
-    //   $date = Carbon::now()->subYears(18)->toDatestring();
-    //   $q->where('data_nascita', "<=", $date);
-    // });
   }
 
   public function scopeMinorenni($query)
@@ -70,20 +55,12 @@ class Persona extends Model
   public function scopeDonne($query)
   {
     return $query->where('sesso','F');
-    // return $this::datiPersonali->where('sesso', 'M');
-    // return $query->where(->donne();
-    
-  // });
-    // return $this->datiPersonali()->where('sesso','M');
   }
 
 
   public function scopeUomini($query)
   {
      return $query->where('sesso','M');
-    //  $users = Persona::with(['datipersonali' => function ($query) {
-    //     $query->where('sesso', 'M');
-    //   }])->get();
   }
 
   
@@ -117,7 +94,6 @@ class Persona extends Model
   public function nominativiStorici(){
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
   }
-
 
   /**
    * Ritorna i dati personali  della persona 

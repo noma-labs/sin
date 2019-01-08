@@ -152,12 +152,13 @@
         @foreach($patentiAll as $patente)
           <tr hoverable>
               <td> 
-              @isset($patente->persona->nome)
-                 {{ $patente->persona->nome}}
-              @endisset
-              @isset($patente->persona->cognome)
-                {{$patente->persona->cognome}}
-              @endisset
+              @empty($patente->persona->nome && $patente->persona->cognome)
+                {{ $patente->persona->nominativo}}
+              @else
+                {{ $patente->persona->nome}}
+              @endempty
+
+              
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
                 @endif

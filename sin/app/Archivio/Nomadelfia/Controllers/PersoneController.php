@@ -136,7 +136,7 @@ class PersoneController extends CoreBaseController
                                   ->orWhere("nome", "like", "%".$request->persona."%")
                                   ->orWhere("cognome", "like", "%".$request->persona);
       if($personeEsistenti->exists() )
-        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti','personeNominativi'));
+        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
       else
          return redirect(route('nomadelfia.persone.inserimento.completo'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
     }
@@ -166,33 +166,19 @@ class PersoneController extends CoreBaseController
         "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
         "sesso.required" => "Il sesso della persona è obbligatorio",
     ]);
-    // // validazione condizionale di "azienda" e "incarico"
-    // $validator->sometimes('data_lavoro', 'required', function($input){
-    //   return $input->azienda != '';
-    // });
-    // $validator->sometimes('data_incarico', 'required', function($input){
-    //   return $input->incarico != '';
-    // });
-
     $_addanother= $request->input('_addanother');  // save and add another libro
     $_addonly   = $request->input('_addonly');     // save only
-
-
     try{
-     // Salvo la persona nel DB_nomadelfia.persone
       $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
-                                'data_nascita'=>$request->input('data_nascita'),
                                 'sesso'=>$request->input('sesso'),
+                                'nome'=>$request->input('nome'),
+                                "cognome"=>$request->input('cognome'),
+                                "provincia_nascita"=>$request->input('luogo_nascita'),
+                                'data_nascita'=>$request->input('data_nascita'),
                                 'id_arch_pietro'=>0,
                                 'id_arch_enrico'=>0,]
                               );
-
-      // salvataggio dati personali nel DB_Anagrafe.dati_personali
-      $persona->datiPersonali()->save(new DatiPersonali(['nome'=>$request->input('nome'),
-                                                        "cognome"=>$request->input('cognome'),
-                                                        'data_nascita'=>$request->input('data_nascita'),
-                                                        "provincia_nascita"=>$request->input('luogo_nascita'),
-                                                        "sesso"=>$request->input('sesso')]));
+      $persona->save();
       if($_addanother)
         return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
       if($_addonly)

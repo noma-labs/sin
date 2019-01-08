@@ -6,29 +6,40 @@
 
 <div class="container">
 
-<div class="row justify-content-end">
-  <div class="col-md-8">
+<div class="row justify-content-center">
+  <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-        <span class="text-uppercase">Stato Attuale:</span> <span class="font-weight-bold">{{$persona->categoria->nome}}</span>
-        <my-modal modal-title="Modifica stato persona" button-title="Modifica">
-          <template slot="modal-body-slot">
-          <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
-              {{ csrf_field() }}
-              @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{ $persona->categoria_id == $cat->id ? 'checked' : '' }}>
-                  <label class="form-check-label" for="categoria{{$cat->id}}">
-                  <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
-                  </label>
-                </div>
-              @endforeach
-            </form>
-          </template> 
-          <template slot="modal-button">
-                <button class="btn btn-danger" form="formStato">Salva</button>
-          </template>
-        </my-modal>
+        <div class="row">
+          <label class="col-md-2">Stato:</label> 
+          <div class="col-md-6">
+            @if($persona->categoria != null)
+                <span class="text-bold"> {{$persona->categoria->nome}} </span>
+              @else
+              <span class="text-danger">Nessuno stato</span>
+              @endif
+          </div>
+          <div class="col-md-4">
+            <my-modal modal-title="Modifica stato persona" button-title="Modifica">
+              <template slot="modal-body-slot">
+              <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
+                  {{ csrf_field() }}
+                  @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{ $persona->categoria_id == $cat->id ? 'checked' : '' }}>
+                      <label class="form-check-label" for="categoria{{$cat->id}}">
+                      <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
+                      </label>
+                    </div>
+                  @endforeach
+                </form>
+              </template> 
+              <template slot="modal-button">
+                    <button class="btn btn-danger" form="formStato">Salva</button>
+              </template>
+            </my-modal>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,7 +48,7 @@
 </div>
 
 <div class="row my-3">
-<div class="col-md-4"> <!--  start col dati anagrafici -->
+<div class="col-md-4 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -101,7 +112,7 @@
 
 
   <div class="col-md-5"> <!--  start col dati nomadelfia -->
-    <div class="card my-2">
+    <div class="card mb-2">
       <div class="card-header" id="headingZero">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
@@ -199,7 +210,7 @@
                 @if($persona->famigliaAttuale() != null)
                   <span> {{$persona->famigliaAttuale()->nome_famiglia}}</span>
                 @else
-                  <span class="text-danger">Nessuno famiglia</span>
+                  <span class="text-danger">Nessuna famiglia</span>
                 @endif
               </div>
             </div>
