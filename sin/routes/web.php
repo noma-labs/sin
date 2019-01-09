@@ -78,7 +78,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
-  Route::get('gruppifamiliari/{$id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
+  Route::get('gruppifamiliari/{id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
 
   //stampa elecnchi
   Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");

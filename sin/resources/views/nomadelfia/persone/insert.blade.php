@@ -9,6 +9,22 @@
   <div class="col-md-6 offset-md-3">
   <form method="POST" action="{{route('nomadelfia.persone.inserimento.confirm')}}">
     {{ csrf_field() }}
+    <!-- <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Stato persona:</label>
+      <div class="col-sm-8">
+        <div class="form-group">
+            <select class="form-control"  name="categoria">
+              @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+                @if(old('categoria') == $cat->id)
+                <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
+                @else
+                <option value="{{$cat->id}}"> <p class="font-weight-bold"> {{ $cat->nome}}</span> ({{ $cat->descrizione}})</option>
+                @endif
+              @endforeach
+          </select>
+        </div>
+      </div>
+    </div>   -->
     <div class="form-group row">
       <label for="fornominativo" class="col-sm-6 col-form-label">Nominativo:</label>
       <div class="col-sm-6">

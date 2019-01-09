@@ -29,12 +29,14 @@ class Famiglia extends Model
 
   public function moglie(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->wherePivot('posizione_famiglia','MOGLIE');
+                ->wherePivot('posizione_famiglia','MOGLIE')
+                ->first();
   }
 
-  public function figli(){
+  public function figliAttuali(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
+                ->wherePivot('stato',"=",'1')
                 ->orderBy('data_nascita');
   }
 

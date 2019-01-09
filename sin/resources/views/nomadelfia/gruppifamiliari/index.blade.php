@@ -19,35 +19,36 @@
               </div>
               <div id="{{$gruppo->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
-                    @if ($gruppo->capogruppiAttuali->isNotEmpty())
+                    @if ($gruppo->capogruppoAttuale())
                     <p class="font-weight-bold"> Capogruppo: 
-                        <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$gruppo->capogruppiAttuali->first()->id])}}">  
-                      {{$gruppo->capogruppiAttuali->first()->nominativo}}</a>
+                        <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$gruppo->capogruppoAttuale()->id])}}">  
+                      {{$gruppo->capogruppoAttuale()->nominativo}}</a>
                     </p> 
                     @else
-                    <p class="text-danger">Senza capogruppo</p> 
-                  @endif
-                  @foreach($gruppo->famiglie as $famiglia)
-                      @if ($famiglia->single->isNotEmpty())
-                      <!-- <div class=""> </div> -->
-                       <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$famiglia->single->first()->id])}}">{{$famiglia->single->first()->nominativo}}</a>
-                      @else
-                      <div class="font-weight-bold mt-3">
-                          @if ($famiglia->capofamiglia->isNotEmpty()) 
-                          <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$famiglia->capofamiglia()->first()->id])}}">     {{$famiglia->capofamiglia()->first()->nominativo}}</a>
-                           @endif</div>
-                      <div class="font-weight-bold">
-                          @if ($famiglia->moglie->isNotEmpty())  
-                          <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$famiglia->moglie->first()->id])}}"> {{$famiglia->moglie->first()->nominativo}}</a>
+                      <p class="text-danger">Senza capogruppo</p> 
+                    @endif
+                    <!-- componenti gruppi per persone -->
+                    @foreach($gruppo->persone as $persona)
+                      @if($persona->single())
+                        <p><a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a></p>
+                       @elseif($persona->capofamiglia())
+                        <div class="font-weight-bold mt-3">
+                          <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}"> {{$persona->nominativo}}</a>
+                        </div>
+                        @if($persona->famigliaAttuale())
+                          <div class="font-weight-bold">
+                            @if ($persona->famigliaAttuale()->moglie())  
+                              <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->famigliaAttuale()->moglie()->id])}}"> {{$persona->famigliaAttuale()->moglie()->nominativo}}</a>
+                            @endif
+                          </div>
+                          <ul>
+                            @foreach($persona->famigliaAttuale()->figliAttuali as $figlio)
+                            <li>{{Carbon::parse($figlio->data_nascita)->year}}  
+                              <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
+                            </li>
+                            @endforeach
+                          </ul>
                          @endif
-                      </div>
-                      <ul>
-                        @foreach($famiglia->figli as $figlio)
-                        <li>{{Carbon::parse($figlio->data_nascita)->year}}  
-                          <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}">  {{$figlio->nominativo}}</a>
-                       </li>
-                        @endforeach
-                      </ul>
                       @endif
                     @endforeach
                       <div class="row">

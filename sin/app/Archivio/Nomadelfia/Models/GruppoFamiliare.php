@@ -28,10 +28,11 @@ class GruppoFamiliare extends Model
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
   }
 
-  public function capogruppiAttuali()
+  public function capogruppoAttuale()
   {
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id')
-                ->wherePivot('stato',1);
+                ->wherePivot('stato', 1)
+                ->first();
   }
 
   public static function getCountNucleiFamiliari(){

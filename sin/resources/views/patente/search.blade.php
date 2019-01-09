@@ -113,8 +113,6 @@
               @else
                 {{ $patente->persona->nome}}
               @endempty
-
-              
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
                 @endif

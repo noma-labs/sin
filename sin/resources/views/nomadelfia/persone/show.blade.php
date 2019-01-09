@@ -208,7 +208,7 @@
               <label class="col-sm-4">Famiglia:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->nome_famiglia}}</span>
+                  <span> {{$persona->famigliaAttuale()->nome_famiglia}} ({{$persona->famigliaAttuale()->pivot->posizione_famiglia}})</span>
                 @else
                   <span class="text-danger">Nessuna famiglia</span>
                 @endif

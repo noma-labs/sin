@@ -12,7 +12,6 @@ use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Famiglia;
 use App\Anagrafe\Models\Provincia;
-use App\Anagrafe\Models\DatiPersonali;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;

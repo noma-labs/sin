@@ -13,7 +13,6 @@ use App\Patente\Models\Patente;
 use App\Nomadelfia\Models\Stato;
 use App\Nomadelfia\Models\Categoria;
 use App\Admin\Models\Ruolo;
-use App\Anagrafe\Models\DatiPersonali;
 
 
 class Persona extends Model
@@ -95,14 +94,6 @@ class Persona extends Model
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
   }
 
-  /**
-   * Ritorna i dati personali  della persona 
-   * @author Davide Neri
-   **/
-  public function datiPersonali(){
-    return $this->hasOne(DatiPersonali::class,  'persona_id', 'id');
-  }
-
    // GRUPPO FAMILIARE
    public function gruppofamiliareAttuale(){
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
@@ -126,7 +117,6 @@ class Persona extends Model
     return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id');
   }
 
-
   // STATO 
   public function statoAttuale(){
     return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
@@ -141,12 +131,70 @@ class Persona extends Model
   // FAMIGLIA
   public function famigliaAttuale(){
     return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
-                ->wherePivot('stato', '1')->first();
+                ->wherePivot('stato', '1')
+                ->withPivot('posizione_famiglia')
+                ->first();
   }
   
   public function famigliaStorico(){
     return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
                 ->wherePivot('stato', '0');
+  }
+
+  /**
+   * Ritorna la posizione di una persona in una famiglia
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function famigliaPosizione(string $posizione){
+    if($this->famigliaAttuale())
+        return  $this->famigliaAttuale()->pivot->posizione_famiglia == $posizione;
+    else
+      return false;
+  }
+
+  /**
+   * Ritorna vero se la persona è single altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function single(){
+    return  $this->famigliaPosizione("SINGLE");
+  }
+
+  /**
+   * Ritorna vero se una persona è  il capo famiglia altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function capoFamiglia(){
+    return  $this->famigliaPosizione("CAPO FAMIGLIA");
+  }
+
+  /**
+   * Ritorna vero se una persona è la moglie altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function moglie(){
+    return  $this->famigliaPosizione("MOGLIE");
+  }
+
+  /**
+   * Ritorna vero se una persona è un figlio nato altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function figlioNato(){
+    return  $this->famigliaPosizione("FIGLIO NATO");
+  }
+  /**
+   * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function figlioAccolto(){
+    return  $this->famigliaPosizione("FIGLIO ACCOLTO");
   }
 
   // POSIZIONE
