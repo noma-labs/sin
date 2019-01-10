@@ -152,7 +152,33 @@
                 <label class="col-sm-4">Gruppo familiare: </label>
                 <div class="col-sm-8">
                   @if($persona->gruppofamiliareAttuale()  != null)
-                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> </option>
+                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+
+                    <my-modal modal-title="Modifica gruppo familiare" button-title="Sposta">
+                      <template slot="modal-body-slot">
+                      <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id]) }}" >      
+                          {{ csrf_field() }}
+                          <label for="">Nuovo gruppo:</label>
+                          <select required="required" class="form-control" name="gruppo">
+                              @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
+                                <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
+                              @endforeach
+                          </select>
+                          <label for="">Deseleziona</label>
+                           @foreach ($persona->famigliaAttuale()->figliAttuali as $figlio)
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="categoria" id="categoria{{$figlio->id}}" value="{{$figlio->id}}">
+                              <label class="form-check-label" for="categoria{{$figlio->id}}">
+                              <span class="font-weight-bold">{{ $figlio->nome}}</span> (<span class="font-weight-light">{{ $figlio->nominativo}}<span>)
+                              </label>
+                            </div>
+                          @endforeach
+                        </form>
+                      </template> 
+                      <template slot="modal-button">
+                            <button class="btn btn-danger" form="formStato">Salva</button>
+                      </template>
+                    </my-modal>
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif

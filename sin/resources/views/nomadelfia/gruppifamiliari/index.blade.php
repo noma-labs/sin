@@ -28,10 +28,10 @@
                       <p class="text-danger">Senza capogruppo</p> 
                     @endif
                     <!-- componenti gruppi per persone -->
-                    @foreach($gruppo->persone as $persona)
-                      @if($persona->single())
+                    @foreach($gruppo->personeAttuale as $persona)
+                      @if($persona->isSingle())
                         <p><a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a></p>
-                       @elseif($persona->capofamiglia())
+                       @elseif($persona->isCapofamiglia())
                         <div class="font-weight-bold mt-3">
                           <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}"> {{$persona->nominativo}}</a>
                         </div>

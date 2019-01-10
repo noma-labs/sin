@@ -204,25 +204,10 @@ class PersoneController extends CoreBaseController
     // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
   }
 
-  public function insertConfirm(Request $request){ //InsertClientiRequest $request
+  public function modificaGruppoFamiliare(Request $request, $idPersona){ 
+    $persona = Persona::findOrFail($idPersona);
+    $persona->assengnaGruppoFamiliare($request->gruppo);
 
   }
-
-  // public function searchPersona(Request $request){
-  //   $term = $request->term;
-  //   if($term)
-  //      $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
-  //
-  //   if($persone->count() > 0){
-  //     foreach ($persone as $persona)
-  //     {
-  //         $results[] = ['value'=>$persona->id, 'label'=>$persona->nominativo];
-  //     }
-  //     return response()->json($results);
-  //   }else {
-  //     return response()->json(['value'=>"", 'label'=> "persona non esiste"]);
-  //   }
-  //
-  // }
 
 }

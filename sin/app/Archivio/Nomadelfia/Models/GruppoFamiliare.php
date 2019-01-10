@@ -13,9 +13,15 @@ class GruppoFamiliare extends Model
   protected $table = 'gruppi_familiari';
   protected $primaryKey = "id";
 
+  protected $guarded = [''];
+
   public function persone()
   {
-    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id');
+    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')->wherePivot("stato","1");
+  }
+
+  public function personeAttuale(){
+    return $this->persone()->wherePivot("stato","1");
   }
 
   public function famiglie()
