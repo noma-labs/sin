@@ -152,33 +152,48 @@
                 <label class="col-sm-4">Gruppo familiare: </label>
                 <div class="col-sm-8">
                   @if($persona->gruppofamiliareAttuale()  != null)
-                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
-
-                    <my-modal modal-title="Modifica gruppo familiare" button-title="Sposta">
+                    <a href="{{route('nomadelfia.persone.gruppo.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+                    @if($persona->isCapoFamiglia() or $persona->isSingle())
+                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-title="Sposta Famiglia">
                       <template slot="modal-body-slot">
-                      <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id]) }}" >      
+                      <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id]) }}" >      
                           {{ csrf_field() }}
-                          <label for="">Nuovo gruppo:</label>
-                          <select required="required" class="form-control" name="gruppo">
-                              @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
-                                <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
-                              @endforeach
-                          </select>
-                          <label for="">Deseleziona</label>
-                           @foreach ($persona->famigliaAttuale()->figliAttuali as $figlio)
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="categoria" id="categoria{{$figlio->id}}" value="{{$figlio->id}}">
-                              <label class="form-check-label" for="categoria{{$figlio->id}}">
-                              <span class="font-weight-bold">{{ $figlio->nome}}</span> (<span class="font-weight-light">{{ $figlio->nominativo}}<span>)
-                              </label>
-                            </div>
-                          @endforeach
+                          <div class="form-group row">
+                            <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
+                              <div class="col-8">
+                                <select class="form-control" name="nuovogruppo">
+                                <option value="" selected>---scegli gruppo---</option>
+                                  @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
+                                      @if($gruppo->id != $persona->gruppofamiliareAttuale()->id)
+                                      <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
+                                      @endif
+                                   @endforeach
+                              </select>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
+                              <div class="col-8">
+                                <input type="date" class="form-control" name="datacambiogruppo" placeholder="Data cambio gruppo" >
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="example-text-input" class="col-4 col-form-label">Verranno spostati anche i seguenti componenti della famiglia</label>
+                              <div class="col-8">
+                              <ul>
+                                @foreach($persona->famigliaAttuale()->componentiAttuali as $componente)
+                                  <li>{{$componente->nominativo}}</li>
+                                  @endforeach
+                              </ul>
+                              </div>
+                          </div>
                         </form>
                       </template> 
                       <template slot="modal-button">
-                            <button class="btn btn-danger" form="formStato">Salva</button>
+                            <button class="btn btn-danger" form="formGruppo">Salva</button>
                       </template>
                     </my-modal>
+                    @endif
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif
@@ -234,9 +249,21 @@
               <label class="col-sm-4">Famiglia:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->nome_famiglia}} ({{$persona->famigliaAttuale()->pivot->posizione_famiglia}})</span>
+                  <span> {{$persona->famigliaAttuale()->nome_famiglia}} 
                 @else
                   <span class="text-danger">Nessuna famiglia</span>
+                @endif
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Posizione  famiglia:</label>
+              <div class="col-sm-8">
+                @if($persona->famigliaAttuale() != null)
+                  <span> {{$persona->famigliaAttuale()->pivot->posizione_famiglia}}</span>
+                @else
+                  <span class="text-danger">Nessuna posizione famiglia</span>
                 @endif
               </div>
             </div>

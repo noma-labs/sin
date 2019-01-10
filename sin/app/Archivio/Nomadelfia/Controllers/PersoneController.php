@@ -205,8 +205,19 @@ class PersoneController extends CoreBaseController
   }
 
   public function modificaGruppoFamiliare(Request $request, $idPersona){ 
-    $persona = Persona::findOrFail($idPersona);
-    $persona->assengnaGruppoFamiliare($request->gruppo);
+    $validatedData = $request->validate([
+      "nuovogruppo" => "required", 
+      "datacambiogruppo" => "required|date",
+    ],[
+      "nuovogruppo.required" => "Il nuovo gruppo è obbligatorio", 
+      'datacambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
+  ]);
+     $persona = Persona::findOrFail($idPersona);
+     $data = $request->datacambiogruppo;
+     $idnuovogruppo =  $request->nuovogruppo;
+     $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
+
+     return redirect(route('nomadelifa.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
 
   }
 
