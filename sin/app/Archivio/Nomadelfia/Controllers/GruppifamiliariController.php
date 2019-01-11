@@ -18,8 +18,10 @@ class GruppifamiliariController extends CoreBaseController
     return view("nomadelfia.gruppifamiliari.show",compact('persona'));
   }
 
-  public function edit($idPersona){
-    $persona = Persona::findOrFail($idPersona);
+  public function edit(Request $request,$id){
+    $gruppo = GruppoFamiliare::findOrFail($id);
+    return view("nomadelfia.gruppifamiliari.edit",compact('gruppo'));
+
 
   }
 

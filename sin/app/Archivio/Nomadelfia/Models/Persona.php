@@ -9,11 +9,15 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
+
+use App\Nomadelfia\Exceptions\GruppoFamiliareDoesNOtExists;
+
 use App\Patente\Models\Patente;
 use App\Nomadelfia\Models\Stato;
 use App\Nomadelfia\Models\Categoria;
 use App\Admin\Models\Ruolo;
-use App\Anagrafe\Models\DatiPersonali;
+
+
 
 
 class Persona extends Model
@@ -44,21 +48,6 @@ class Persona extends Model
   {
      $date = Carbon::now()->subYears(18)->toDatestring();
      return $query->where('data_nascita', "<=", $date);
-  
-    //  return $this->hasOne(DatiPersonali::class, 'persona_id', 'id')->Maggiorenni();
-    // return $query->whereHas('datipersonali', function($q){
-    //     $q->Maggiorenni();
-    // });
-    return $query::where('id', function($query){
-          $date = Carbon::now()->subYears(18)->toDatestring();
-            $query->select('paper_type_id')
-            ->from(with(new datiPersonali)->getTable())
-            ->whereIn('data_nascita', $date);
-        });
-    // return $query->whereHas('datipersonali', function($q){
-    //   $date = Carbon::now()->subYears(18)->toDatestring();
-    //   $q->where('data_nascita', "<=", $date);
-    // });
   }
 
   public function scopeMinorenni($query)
@@ -70,20 +59,12 @@ class Persona extends Model
   public function scopeDonne($query)
   {
     return $query->where('sesso','F');
-    // return $this::datiPersonali->where('sesso', 'M');
-    // return $query->where(->donne();
-    
-  // });
-    // return $this->datiPersonali()->where('sesso','M');
   }
 
 
   public function scopeUomini($query)
   {
      return $query->where('sesso','M');
-    //  $users = Persona::with(['datipersonali' => function ($query) {
-    //     $query->where('sesso', 'M');
-    //   }])->get();
   }
 
   
@@ -118,19 +99,15 @@ class Persona extends Model
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
   }
 
-
-  /**
-   * Ritorna i dati personali  della persona 
-   * @author Davide Neri
-   **/
-  public function datiPersonali(){
-    return $this->hasOne(DatiPersonali::class,  'persona_id', 'id');
+   // GRUPPO FAMILIARE
+  public function gruppifamiliari(){
+    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id');
   }
 
-   // GRUPPO FAMILIARE
-   public function gruppofamiliareAttuale(){
+  public function gruppofamiliareAttuale(){
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
-                 ->wherePivot('stato', '1')->first();
+                 ->wherePivot('stato', '1')
+                 ->first();
   }
 
   public function gruppofamiliariStorico(){
@@ -150,27 +127,99 @@ class Persona extends Model
     return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id');
   }
 
-
   // STATO 
   public function statoAttuale(){
     return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', 1)->first();
+                ->wherePivot('stato', '1')->first();
   }
 
   public function statoStorico(){
     return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', 0);
+                ->wherePivot('stato', '0');
   }
 
   // FAMIGLIA
+  public function famiglie(){
+     return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id');
+  }
   public function famigliaAttuale(){
-    return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
-                ->wherePivot('stato', '1')->first();
+    return $this->famiglie()
+                ->wherePivot('stato', '1')
+                ->withPivot('posizione_famiglia')
+                ->first();
   }
   
-  public function famigliaStorico(){
-    return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
-                ->wherePivot('stato', '0');
+  public function famiglieStorico(){
+    return $this->famiglie()
+                ->wherePivot('stato', '0')
+                ->withPivot('posizione_famiglia');
+  }
+
+  /**
+   * Ritorna la posizione di una persona in una famiglia
+   * @param String $posizione 
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function famigliaPosizione(string $posizione){
+    if($this->famigliaAttuale())
+        return $this->famigliaAttuale()->pivot->posizione_famiglia == $posizione;
+    else
+      return false;
+  }
+
+  /**
+   * Ritorna vero se la persona è single altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isSingle(){
+    return  $this->famigliaPosizione("SINGLE");
+  }
+
+  /**
+   * Ritorna vero se una persona è  il capo famiglia altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isCapoFamiglia(){
+    return  $this->famigliaPosizione("CAPO FAMIGLIA");
+  }
+
+  /**
+   * Ritorna vero se una persona è la moglie altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isMoglie(){
+    return  $this->famigliaPosizione("MOGLIE");
+  }
+
+   /**
+   * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isFiglio(){
+    return  $this->isFiglioNato() or $this->isFiglioAccolto();
+  }
+
+  /**
+   * Ritorna vero se una persona è un figlio nato altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isFiglioNato(){
+    return  $this->famigliaPosizione("FIGLIO NATO");
+  }
+
+  /**
+   * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isFiglioAccolto(){
+    return  $this->famigliaPosizione("FIGLIO ACCOLTO");
   }
 
   // POSIZIONE
@@ -193,5 +242,25 @@ class Persona extends Model
   public function incarichiStorici(){
     return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id', 'organo_constituzionale_id')
                 ->wherePivot('stato', '0');
+  }
+
+  /**
+     * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
+     *
+     * @param int|null $gruppoFamiliareAttuale
+     * @param date   $dataUscitaGruppoFamiliareAttuale
+     * @param int $gruppoFamiliareNuovo
+     * @param date $dataEntrataGruppo
+     *
+     */
+  public function cambiaGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo){
+    if($this->isCapoFamiglia() or $this->isSingle()){
+        $this->famigliaAttuale()->assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
+    }
+  }
+
+  public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, $gruppoFamiliareNuovo, $dataEntrataGruppo=null){
+      $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_uscita_gruppo'=>$dataUscitaGruppoFamiliareAttuale]);
+      $this->gruppifamiliari()->attach($gruppoFamiliareNuovo, ['stato' => '1','data_entrata_gruppo'=>$dataEntrataGruppo]);
   }
 }

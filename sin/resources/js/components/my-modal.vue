@@ -29,7 +29,7 @@
   export default {
     props: {
         modalTitle: {type:String}, 
-        buttonTitle: {type:String}, 
+        buttonTitle: {type:String}
     },
     data() {
       return{
