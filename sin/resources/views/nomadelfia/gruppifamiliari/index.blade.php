@@ -13,7 +13,8 @@
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-link" data-toggle="collapse" data-target="#{{$gruppo->id}}" aria-expanded="false" aria-controls="collapseOne">
-                  <span class="font-weight-bold"> {{$gruppo->nome}} </span>  <span class="font-weight-bold m-3">  {{$gruppo->persone->count()}}</span>
+                  <span class="font-weight-bold"> {{$gruppo->nome}} </span> 
+                  <span class="badge badge-primary badge-pill">{{$gruppo->persone->count()}}</span> 
                   </button>
                 </h5>
               </div>

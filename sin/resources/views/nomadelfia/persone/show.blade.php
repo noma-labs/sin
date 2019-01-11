@@ -136,6 +136,19 @@
             </li>
             <li class="list-group-item">
               <div class="row">
+                  <label class="col-sm-4">Stato familiare:</label>
+                  <div class="col-sm-8">
+                    @if ($persona->statoAttuale() != null)
+                        <span>{{$persona->statoAttuale()->nome}}</span>
+                    @else
+                        <span class="text-danger">Nessuno stato</span>
+                    @endif
+                  </div>
+
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
                 <label class="col-sm-4">Posizione: </label>
                 <div class="col-sm-8">
                 @if($persona->posizioneAttuale() != null)
@@ -154,47 +167,6 @@
                     <a href="{{route('nomadelfia.persone.gruppo.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
                 </div>
                 <div class="col-sm-4"> 
-                    @if($persona->isCapoFamiglia() or $persona->isSingle())
-                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-title="Sposta" >
-                      <template slot="modal-body-slot">
-                      <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id]) }}" >      
-                          {{ csrf_field() }}
-                          <div class="form-group row">
-                            <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
-                              <div class="col-8">
-                                <select class="form-control" name="nuovogruppo">
-                                <option value="" selected>---scegli gruppo---</option>
-                                  @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
-                                      @if($gruppo->id != $persona->gruppofamiliareAttuale()->id)
-                                      <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
-                                      @endif
-                                   @endforeach
-                              </select>
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
-                              <div class="col-8">
-                                <input type="date" class="form-control" name="datacambiogruppo" placeholder="Data cambio gruppo" >
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="example-text-input" class="col-4 col-form-label">Verranno spostati anche i seguenti componenti della famiglia</label>
-                              <div class="col-8">
-                              <ul>
-                                @foreach($persona->famigliaAttuale()->componentiAttuali as $componente)
-                                  <li>{{$componente->nominativo}}</li>
-                                  @endforeach
-                              </ul>
-                              </div>
-                          </div>
-                        </form>
-                      </template> 
-                      <template slot="modal-button">
-                            <button class="btn btn-success" form="formGruppo">Salva</button>
-                      </template>
-                    </my-modal>
-                    @endif
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif
@@ -232,19 +204,7 @@
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="row">
-                <label class="col-sm-4">Stato:</label>
-                <div class="col-sm-8">
-                  @if ($persona->statoAttuale() != null)
-                      <span>{{$persona->statoAttuale()->nome}}</span>
-                  @else
-                      <span class="text-danger">Nessuno stato</span>
-                  @endif
-                </div>
-
-            </div>
-          </li>
+          
           <li class="list-group-item">
             <div class="row">
               <label class="col-sm-4">Famiglia:</label>
