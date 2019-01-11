@@ -108,11 +108,11 @@
           @foreach($patenti as $patente)
           <tr hoverable>
           <td> 
-             @empty($patente->persona->nome && $patente->persona->cognome)
+          @if($patente->persona->nome == null or  $patente->persona->cognome == null)
                 {{ $patente->persona->nominativo}}
               @else
-                {{ $patente->persona->nome}}
-              @endempty
+                {{ $patente->persona->nome}} {{ $patente->persona->cognome}}
+               @endif
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
                 @endif
