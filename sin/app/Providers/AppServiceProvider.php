@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
           $libro->tobe_printed = 0; // remove from the list of the libri to be printed
           $libro->save();
         });
+
     }
 
     /**
@@ -65,5 +66,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('endhasanyrole', function () {
             return '<?php endif; ?>';
         });
+
     }
 }

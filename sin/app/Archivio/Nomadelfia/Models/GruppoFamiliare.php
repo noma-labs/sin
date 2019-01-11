@@ -29,6 +29,11 @@ class GruppoFamiliare extends Model
     return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id');
   }
 
+  public function famiglieAttuale()
+  {
+    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
+                ->wherePivot("stato","1");
+  }
   public function capogruppi()
   {
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
