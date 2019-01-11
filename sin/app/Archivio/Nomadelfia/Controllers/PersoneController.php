@@ -213,9 +213,10 @@ class PersoneController extends CoreBaseController
       'datacambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
   ]);
      $persona = Persona::findOrFail($idPersona);
-     $data = $request->datacambiogruppo;
-     $idnuovogruppo =  $request->nuovogruppo;
-     $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
+     
+          $data = $request->datacambiogruppo;
+          $idnuovogruppo =  $request->nuovogruppo;
+         $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
 
      return redirect(route('nomadelifa.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
 

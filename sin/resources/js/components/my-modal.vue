@@ -13,15 +13,15 @@
 				  </slot>
                 </div>
                 <div class="modal-footer text-right">
-                  <a class="btn btn-success" role="button" @click="close()">
-                      Annulla
-                  </a>
+                  <button class="btn btn-info" role="button" @click="close()">
+                      Chiudi
+                  </button>
                   <slot name="modal-button"> </slot>
                 </div>
             </div>
         </div>
     </transition>
-    <a class="btn btn-danger" @click="showModal = true">{{buttonTitle}}</a>
+    <button v-bind:class="['btn', buttonStyle]" @click="showModal=true">{{buttonTitle}}</button>
   </div>
 </template>
 
@@ -29,11 +29,17 @@
   export default {
     props: {
         modalTitle: {type:String}, 
-        buttonTitle: {type:String}
+		buttonTitle: {type:String},
+		buttonStyle: {
+			type:String, 
+			default:"btn-primary"
+		}
+
     },
     data() {
       return{
-        showModal:false
+		showModal:false,
+		// buttonStyle: 'btn-primary',
      }
     },
     methods: {
