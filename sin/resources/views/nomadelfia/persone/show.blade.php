@@ -13,10 +13,10 @@
         <div class="row">
           <label class="col-md-2">Stato:</label> 
           <div class="col-md-6">
-            @if($persona->categoria != null)
+              @if($persona->categoria != null)
                 <span class="text-bold"> {{$persona->categoria->nome}} </span>
               @else
-              <span class="text-danger">Nessuno stato</span>
+                <span class="text-danger">Nessuno stato</span>
               @endif
           </div>
           <div class="col-md-4">
@@ -26,7 +26,7 @@
                   {{ csrf_field() }}
                   @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{ $persona->categoria_id == $cat->id ? 'checked' : '' }}>
+                      <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{$persona->categoria_id == $cat->id ? 'checked' : '' }}>
                       <label class="form-check-label" for="categoria{{$cat->id}}">
                       <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
                       </label>
@@ -35,7 +35,7 @@
                 </form>
               </template> 
               <template slot="modal-button">
-                    <button class="btn btn-danger" form="formStato">Salva</button>
+                <button class="btn btn-success" form="formStato">Salva</button>
               </template>
             </my-modal>
           </div>
@@ -44,7 +44,6 @@
     </div>
   </div>
 </div>
-
 </div>
 
 <div class="row my-3">
@@ -150,11 +149,13 @@
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4">Gruppo familiare: </label>
-                <div class="col-sm-8">
-                  @if($persona->gruppofamiliareAttuale()  != null)
+                <div class="col-sm-4">
+                  @if($persona->gruppofamiliareAttuale() != null)
                     <a href="{{route('nomadelfia.persone.gruppo.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+                </div>
+                <div class="col-sm-4"> 
                     @if($persona->isCapoFamiglia() or $persona->isSingle())
-                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-title="Sposta Famiglia">
+                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-title="Sposta" >
                       <template slot="modal-body-slot">
                       <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id]) }}" >      
                           {{ csrf_field() }}
@@ -190,7 +191,7 @@
                         </form>
                       </template> 
                       <template slot="modal-button">
-                            <button class="btn btn-danger" form="formGruppo">Salva</button>
+                            <button class="btn btn-success" form="formGruppo">Salva</button>
                       </template>
                     </my-modal>
                     @endif

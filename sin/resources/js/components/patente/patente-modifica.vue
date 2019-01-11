@@ -80,14 +80,14 @@
 				</div> <!-- end fifth row in left colum-->
 				<div class="row my-2">
 					<div class="col-md-3">
-						<my-modal modal-title="Eliminazione patente" button-title="Elimina">
+						<my-modal modal-title="Eliminazione patente" button-title="Elimina" button-style="btn-danger">
 							<template slot="modal-body-slot">
 							Vuoi davvero eliminare la patente di
 							{{nuovaPatente.numero_patente}}
 							</template>
 
 							<template slot="modal-button">
-							<a class="btn btn-danger" :href="webPatenteElimina" >Elimina</a>
+								<a class="btn btn-danger" :href="webPatenteElimina" >Elimina</a>
 							</template>
 						</my-modal>
 					</div>

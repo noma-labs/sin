@@ -177,7 +177,7 @@
                 @endcan
               
                 @can('patente.elimina')
-                <my-modal modal-title="Eliminazione patente" button-title="Elimina">
+                <my-modal modal-title="Eliminazione patente" button-title="Elimina" button-style="btn-danger">
                     <template slot="modal-body-slot">
                       Vuoi davvero eliminare la patente di
                       @isset($patente->persona->nome)

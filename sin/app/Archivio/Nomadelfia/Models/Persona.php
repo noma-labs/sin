@@ -3,6 +3,8 @@ namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
 Use Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
@@ -260,7 +262,16 @@ class Persona extends Model
   }
 
   public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, $gruppoFamiliareNuovo, $dataEntrataGruppo=null){
+    DB::beginTransaction();
+    try
+    {
       $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_uscita_gruppo'=>$dataUscitaGruppoFamiliareAttuale]);
       $this->gruppifamiliari()->attach($gruppoFamiliareNuovo, ['stato' => '1','data_entrata_gruppo'=>$dataEntrataGruppo]);
+      $this->commit();
+    }catch (\Exception $e)
+    {
+     DB::rollBack();
+     throw $e;
+    }
   }
 }

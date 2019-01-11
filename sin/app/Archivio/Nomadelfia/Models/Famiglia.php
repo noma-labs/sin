@@ -5,6 +5,8 @@ namespace App\Nomadelfia\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 
 class Famiglia extends Model
@@ -75,10 +77,20 @@ class Famiglia extends Model
 
   public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, $gruppoFamiliareNuovo, $dataEntrataGruppo=null)
   {
-    $this->gruppiFamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_fine'=>$dataUscitaGruppoFamiliareAttuale]);
-    $this->gruppiFamiliari()->attach($gruppoFamiliareNuovo,['stato' => '1','data_inizio'=>$dataUscitaGruppoFamiliareAttuale, 'data_fine'=>$dataEntrataGruppo]);
-    foreach($this->componentiAttuali as $persona)
-       $persona->assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
+    try
+    {
+      $this->gruppiFamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_fine'=>$dataUscitaGruppoFamiliareAttuale]);
+      $this->gruppiFamiliari()->attach($gruppoFamiliareNuovo,['stato' => '1','data_inizio'=>$dataUscitaGruppoFamiliareAttuale, 'data_fine'=>$dataEntrataGruppo]);
+      foreach($this->componentiAttuali as $persona)
+        $persona->assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
+      
+       $this->commit();
+    }catch (Exception $e)
+      {
+       DB::rollBack();
+       throw $e;
+      }
+      
   }
 
 
