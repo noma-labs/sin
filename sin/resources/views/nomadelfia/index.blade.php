@@ -103,7 +103,7 @@
       <div class="card-body">
         <p class="card-text">
         </p>
-        <a href="{{ route('nomadelfia.gruppifamiliari') }}"class="btn btn-primary">Entra</a>
+        <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
       </div>
     </div>
   </div>

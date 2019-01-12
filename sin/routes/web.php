@@ -74,13 +74,17 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/{idPersona}/categoria/modifica', 'PersoneController@modificaCategoriaConfirm')->name("nomadelfia.persone.categoria.modifica");
   Route::post('persone/{idPersona}/gruppo/modifica', 'PersoneController@modificaGruppoFamiliare')->name("nomadelfia.persone.gruppo.modifica");
 
-
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
-  Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
+  Route::get('aziende/edit/{id}', 'AziendeController@show')->name("nomadelfia.aziende.edit");
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
   Route::get('gruppifamiliari/{id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
+
+  // FAMIGLIE
+  Route::get('famiglie', 'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
+  Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelifa.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
+
 
   //stampa elecnchi
   Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");

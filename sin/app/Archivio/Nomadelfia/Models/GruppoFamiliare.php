@@ -15,9 +15,10 @@ class GruppoFamiliare extends Model
 
   protected $guarded = [''];
 
+
   public function persone()
   {
-    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')->wherePivot("stato","1");
+    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id');
   }
 
   public function personeAttuale(){
@@ -34,6 +35,7 @@ class GruppoFamiliare extends Model
     return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
                 ->wherePivot("stato","1");
   }
+
   public function capogruppi()
   {
     return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
@@ -47,7 +49,7 @@ class GruppoFamiliare extends Model
   }
 
   public static function getCountNucleiFamiliari(){
-    //ritorna la statistica di quanti SINGLE, FIGLI naturali, Fagli affidati , padri e madri ci sono nel gruppo.
+    //ritorna la statistica di quanti SINGLE, FIGLI naturali, Fagli affidati, padri e madri ci sono nel gruppo.
     $r = DB::connection('db_nomadelfia')
         ->select(DB::raw(
             'SELECT gruppi_famiglie.gruppo_famigliare_id, nuclei_famigliari.nucleo_famigliare, count(2) as count 

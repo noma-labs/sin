@@ -164,7 +164,7 @@
                 <label class="col-sm-4">Gruppo familiare: </label>
                 <div class="col-sm-4">
                   @if($persona->gruppofamiliareAttuale() != null)
-                    <a href="{{route('nomadelfia.persone.gruppo.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
                 </div>
                 <div class="col-sm-4"> 
                   @else
