@@ -18,10 +18,27 @@ class Famiglia extends Model
   protected $guarded = [];
 
   public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
-     return   $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
-            ->select('famiglie.*', 'famiglie_persone.posizione_famiglia','famiglie_persone.stato')
-            ->where("posizione_famiglia", $posizione)
-            ->where("stato",$stato);
+     return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+              ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
+              ->where("posizione_famiglia", $posizione)
+              ->where("stato", $stato);
+  }
+
+  /**
+  * Ritorna le famiglie che hanno come capo famiglia un maschio
+  * @author Davide Neri
+  **/
+  public function scopeMaschio($query){
+    return $query->where("sesso","M");
+  }
+
+  /**
+  * Ritorna le famiglie che hanno come capo famiglia una femmina
+  * @author Davide Neri
+  **/
+  public function scopeFemmina($query){
+    return $query->where("sesso","F");
   }
 
   /**

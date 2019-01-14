@@ -15,9 +15,13 @@ class FamiglieController extends CoreBaseController
   * @author Davide Neri
   **/
   public function view(){
-    $capifamiglie = Famiglia::onlyCapoFamiglia();
-    $single = Famiglia::onlySingle();
-    return view('nomadelfia.famiglie.index',compact('capifamiglie','single'));
+    $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
+    $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
+
+    $singleMaschio = Famiglia::onlySingle()->maschio();
+    $singleFemmine = Famiglia::onlySingle()->femmina();
+
+    return view('nomadelfia.famiglie.index',compact('capifamiglieMaschio','capifamiglieFemmina','singleMaschio','singleFemmine'));
   }
 
   /**

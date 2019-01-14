@@ -21,6 +21,9 @@
   <li class="nav-item">
      <a class="nav-link"href="{{ route('nomadelfia.gruppifamiliari') }}">Gruppi familiari</a>
   </li>
+  <li class="nav-item">
+     <a class="nav-link"href="{{ route('nomadelfia.famiglie') }}">Famiglie</a>
+  </li>
   <!-- <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

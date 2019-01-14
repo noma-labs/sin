@@ -11,17 +11,38 @@
         <div class="card-header" id="headSingle">
           <h5 class="mb-0">
             <button class="btn btn-link" data-toggle="collapse" data-target="#Single" aria-expanded="true" aria-controls="Single">
-            Famiglie con capo Famiglia  <span class="badge badge-primary badge-pill">{{$capifamiglie->count()}}</span> 
+            Famiglie Capo Famiglia  <span class="badge badge-primary badge-pill"></span> 
             </button>
           </h5>
         </div>
-        <div id="Single" class="collapse" aria-labelledby="headSingle" data-parent="#accordion">
+        <div id="Single" class="show" aria-labelledby="headSingle" data-parent="#accordion">
           <div class="card-body">
-              @foreach($capifamiglie->get() as $famiglia)
+            <div class="row">
+                <div class="col-md-6"> 
+                  <h5>Uomini {{$capifamiglieMaschio->count()}}</h5>
+                    
+                    @foreach($capifamiglieMaschio->get() as $uomo)
+                      <div>
+                          <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
+                      </div>
+                    @endforeach
+                </div>
+                <div class="col-md-6"> 
+                  <h5>Donne {{$capifamiglieFemmina->count()}}</h5>
+                    @foreach($capifamiglieFemmina->get() as $donna)
+                      <div>
+                        <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
+                      </div>
+                  @endforeach
+                </div>
+              </div>
+
+
+              <!-- @foreach($capifamiglieMaschio->get() as $famiglia)
               <div>
                  <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a>
               </div>
-              @endforeach              
+              @endforeach               -->
           </div>
         </div>
       </div> <!-- end famiglie capo famiglia card -->
@@ -34,15 +55,31 @@
       <div class="card-header" id="headCapoFamiglia">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#CapoFamiglia" aria-expanded="true" aria-controls="CapoFamiglia">
-          Famiglie con Single   <span class="badge badge-primary badge-pill">{{$single->count()}}</span> 
+          Famiglie Single
           </button>
         </h5>
       </div>
-      <div id="CapoFamiglia" class="collapse" aria-labelledby="headCapoFamiglia" data-parent="#accordion">
+      <div id="CapoFamiglia" class="show" aria-labelledby="headCapoFamiglia" data-parent="#accordion">
         <div class="card-body">
-            @foreach($single->get() as $famiglia)
-            <div>{{$famiglia->nome_famiglia}}</div>
-            @endforeach              
+        <div class="row">
+                <div class="col-md-6"> 
+                  <h5>Uomini {{$singleMaschio->count()}}</h5>
+                    
+                    @foreach($singleMaschio->get() as $uomo)
+                      <div>
+                          <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
+                      </div>
+                    @endforeach
+                </div>
+                <div class="col-md-6"> 
+                  <h5>Donne {{$singleFemmine->count()}}</h5>
+                    @foreach($singleFemmine->get() as $donna)
+                      <div>
+                        <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
+                      </div>
+                  @endforeach
+                </div>
+              </div>         
         </div>
       </div>
     </div> <!-- end single famiglia card -->

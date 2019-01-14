@@ -35,7 +35,7 @@
                 </div>
                 <ul>
                 @foreach($persona->famigliaAttuale()->figliAttuali as $figlio)
-                <li>{{Carbon::parse($figlio->data_nascita)->year}}  
+                <li> @year($figlio->data_nascita)  
                     <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
                 </li>
                 @endforeach

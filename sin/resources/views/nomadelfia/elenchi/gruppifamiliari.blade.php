@@ -17,7 +17,7 @@
             <div class="font-weight-bold">@if ($famiglia->moglie->isNotEmpty())  {{$famiglia->moglie->first()->nominativo}} @endif</div>
             <ul>
                 @foreach($famiglia->figli as $figlio)
-                <li>{{Carbon::parse($figlio->data_nascita)->year}} {{$figlio->nominativo}}</li>
+                <li> @year($figlio->data_nascita){{$figlio->nominativo}}</li>
                 @endforeach
             </ul>
             @endif

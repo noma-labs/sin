@@ -57,16 +57,16 @@
             @endif
             @if($famiglia->moglie())
             <div>
-              <label for="">Moglie:</label>
+              <label for="" >Moglie:</label>
               {{$famiglia->moglie()->nominativo}}
             </div>
             @endif
-            <ul class="list-group list-group-flush">
+            <ul>
             @foreach($famiglia->figli as $figlio)
-              <li class="list-group-item">
+              <li >
                 <div class="row">
                   <div class="col-sm-8">
-                    <span> {{$figlio->data_nascita}} {{$figlio->nome}} {{$figlio->cognome}}  </span>
+                    <span> @year($figlio->data_nascita) {{$figlio->nome}} {{$figlio->cognome}}  </span>
                   </div>
                   <div class="col-sm-4">
                   @if($figlio->pivot->stato == '1')
@@ -98,11 +98,11 @@
       </div>
       <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
         <div class="card-body">
-        <label for="">  Gruppo Attuale: {{$famiglia->gruppoFamiliareAttuale()->nome}}</label>
-        <label for="">  Gruppo Storici</label>
-        <ul class="list-group list-group-flush">
+        <label for="">  Gruppo Familiare Attuale: {{$famiglia->gruppoFamiliareAttuale()->nome}}</label>
+        <h5>  Storico Gruppi Familiari:</h5>
+        <ul>
             @foreach($famiglia->gruppiFamiliariStorico as $gruppo)
-              <li class="list-group-item">
+              <li>
                 <div class="row">
                   <div class="col-sm-8">
                     <span>{{ $gruppo->nome}}</span>
