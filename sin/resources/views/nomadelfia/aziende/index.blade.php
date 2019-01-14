@@ -13,7 +13,8 @@
                   <div class="card-header" id="heading{{$azienda->id}}">
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$azienda->id}}" aria-expanded="true" aria-controls="collapse{{$azienda->id}}">
-                        {{ $azienda->nome_azienda }} (lavoratori: {{ $azienda->lavoratoriAttuali->count() }} )
+                        {{ $azienda->nome_azienda }} 
+                        <span class="badge badge-primary badge-pill">{{ $azienda->lavoratoriAttuali->count() }}</span> 
                       </button>
                     </h5>
                   </div>

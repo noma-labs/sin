@@ -13,7 +13,7 @@
               <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button class="btn btn-link" data-toggle="collapse" data-target="#{{$gruppo->id}}" aria-expanded="false" aria-controls="collapseOne">
-                  <span class="font-weight-bold"> {{$gruppo->nome}} </span> 
+                      {{$gruppo->nome}} 
                   <span class="badge badge-primary badge-pill">{{$gruppo->persone->count()}}</span> 
                   </button>
                 </h5>
@@ -44,7 +44,7 @@
                           </div>
                           <ul>
                             @foreach($persona->famigliaAttuale()->figliAttuali as $figlio)
-                            <li>{{Carbon::parse($figlio->data_nascita)->year}}  
+                            <li> @year($figlio->data_nascita)  
                               <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
                             </li>
                             @endforeach

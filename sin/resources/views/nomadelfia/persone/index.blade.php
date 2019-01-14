@@ -13,7 +13,8 @@
                   <div class="card-header" id="head{{$posizione->id}}">
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#{{$posizione->id}}" aria-expanded="true" aria-controls="{{$posizione->id}}">
-                      {{ $posizione->nome }} {{$posizione->persone()->presente()->count()}}
+                      {{ $posizione->nome }} 
+                      <span class="badge badge-primary badge-pill">{{$posizione->persone()->presente()->count()}}</span> 
                       </button>
                     </h5>
                   </div>
@@ -21,17 +22,20 @@
                     <div class="card-body">
                     <div class="row">
                       <div class="col-md-6"> 
-                        <h5>Uomini {{$posizione->persone()->presente()->uomini()->count()}}</h5>
-                          
-                          @foreach($posizione->persone()->uomini()->get() as $uomo)
+                        <h5>Uomini 
+                        <span class="badge badge-primary badge-pill">{{$posizione->persone()->presente()->uomini()->count()}}</span> 
+                        </h5>
+                          @foreach($posizione->persone()->presente()->uomini()->get() as $uomo)
                             <div>
                               <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
                             </div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
-                        <h5>Donne {{$posizione->persone()->presente()->donne()->count()}}</h5>
-                          @foreach($posizione->persone()->donne()->get() as $donna)
+                        <h5>Donne
+                        <span class="badge badge-primary badge-pill"> {{$posizione->persone()->presente()->donne()->count()}}</span> 
+                        </h5>
+                          @foreach($posizione->persone()->presente()->donne()->get() as $donna)
                             <div>
                             <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
                             </div>

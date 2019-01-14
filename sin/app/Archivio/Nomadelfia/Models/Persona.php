@@ -19,9 +19,6 @@ use App\Nomadelfia\Models\Stato;
 use App\Nomadelfia\Models\Categoria;
 use App\Admin\Models\Ruolo;
 
-
-
-
 class Persona extends Model
 {
   protected $connection = 'db_nomadelfia';
@@ -68,10 +65,11 @@ class Persona extends Model
   {
      return $query->where('sesso','M');
   }
-
   
    /**
    * Ritorna le persone che hanno gli anni maggiori o uguali di $eta. 
+   * 
+   * @param int $eta 
    * @author Davide Neri
    **/
   public function scopeDaEta($query, int $eta){
@@ -80,7 +78,9 @@ class Persona extends Model
   }
 
    /**
-   * Ritorna le persone che hanno gli anno da $frometa fino a $toeta. 
+   * Ritorna le persone che hanno un eta compresa tra da $frometa e  $toeta.
+   * @param int $frometa
+   * @param int $toeta 
    * @author Davide Neri
    **/
   public function scopeFraEta($query, int $frometa, int $toeta){
@@ -144,6 +144,7 @@ class Persona extends Model
   public function famiglie(){
      return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id');
   }
+
   public function famigliaAttuale(){
     return $this->famiglie()
                 ->wherePivot('stato', '1')

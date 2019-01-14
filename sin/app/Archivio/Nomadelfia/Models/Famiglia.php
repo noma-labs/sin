@@ -17,65 +17,146 @@ class Famiglia extends Model
 
   protected $guarded = [];
 
+  public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
+     return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+              ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
+              ->where("posizione_famiglia", $posizione)
+              ->where("stato", $stato);
+  }
+
+  /**
+  * Ritorna le famiglie che hanno come capo famiglia un maschio
+  * @author Davide Neri
+  **/
+  public function scopeMaschio($query){
+    return $query->where("sesso","M");
+  }
+
+  /**
+  * Ritorna le famiglie che hanno come capo famiglia una femmina
+  * @author Davide Neri
+  **/
+  public function scopeFemmina($query){
+    return $query->where("sesso","F");
+  }
+
+  /**
+  * Ritorna tutti capi famiglie delle famiglie
+  * @author Davide Neri
+  **/
+  public static function OnlyCapofamiglia(){
+    return self::FamigliePerPosizioni("CAPO FAMIGLIA", '1');
+  }
+
+  /**
+  * Ritorna tutti i signle  delle famiglie
+  * @author Davide Neri
+  **/
+  public static function OnlySingle(){
+    return self::FamigliePerPosizioni("SINGLE", '1');
+  }
+  
+ /**
+  * Ritorna tutti i gruppi familiari i cui ha vissuto la famiglia.
+  * @author Davide Neri
+  **/
+  public function gruppiFamiliari()
+  {
+    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id');
+  }
+
+ /**
+  * Ritorna il gruppi familiari attuale in cui vide la famiglia
+  * @author Davide Neri
+  **/
+  public function gruppoFamiliareAttuale()
+  {
+    return $this->gruppiFamiliari()->wherePivot('stato','1')->first();
+  }
+
+  /**
+  * Ritorna i gruppi familiari storici in cui ha vissuto la famiglia
+  * @author Davide Neri
+  **/
+  public function gruppiFamiliariStorico()
+  {
+    return $this->gruppiFamiliari()->wherePivot('stato','0');
+  }
+
+
+  /**
+  * Ritorna i componenti che hanno fatto parte della famiglia (padre, madre, e figli)
+  * @author Davide Neri
+  **/
   public function componenti(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->withPivot("posizione_famiglia");
   }
 
+  /**
+  * Ritorna i componenti attuali della famiglia (padre, madre, e figli)
+  * @author Davide Neri
+  **/
   public function componentiAttuali()
   {
     return $this->componenti()->where("stato",'1');
   }
 
+  /**
+  * Ritorna il capofamiglia della famiglia.
+  * @author Davide Neri
+  **/
   public function capofamiglia(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->wherePivot('posizione_famiglia','CAPO FAMIGLIA');
+                ->wherePivot('posizione_famiglia','CAPO FAMIGLIA')
+                ->first();
   }
 
-  public function capifamiglia() {
-      return $this->capofamiglia()->wherePivot('posizione_famiglia', "CAPO FAMIGLIA");
+  /**
+  * Ritorna la persona single della famiglia.
+  * @author Davide Neri
+  **/
+  public function single(){
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->wherePivot('posizione_famiglia','SINGLE');
   }
 
+  /**
+  * Ritorna la persona moglie della famiglia.
+  * @author Davide Neri
+  **/
   public function moglie(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivot('posizione_famiglia','MOGLIE')
                 ->first();
   }
 
-  public function figliAttuali(){
+   /**
+  * Ritorna i figli attuali (sia nati che accolti) della famiglia.
+  * @author Davide Neri
+  **/
+  public function figli(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
-                ->wherePivot('stato',"=",'1')
+                ->withPivot("stato")
                 ->orderBy('data_nascita');
   }
 
-  public function single(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->wherePivot('posizione_famiglia','SINGLE');
+  /**
+  * Ritorna i figli attuali (sia nati che accolti) della famiglia.
+  * @author Davide Neri
+  **/
+  public function figliAttuali(){
+    return $this->figli()->wherePivot('stato',"=",'1');
   }
 
-  public  function scopeByNucleoFamigliare($quey){
-    // return $this->whereHas('componenti',function($query) use($nucleo){
-    //   $query->where('nucleo_famigliare_id',$nucleo->id);
-    // });
-  }
-
-  public function gruppiFamiliari()
-  {
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id');
-  }
-
-  public function gruppoFamiliareAttuale()
-  {
-    return $this->gruppiFamiliari()->wherePivot('stato','1')->first();
-  }
-
-  public function gruppiFamiliariStorico()
-  {
-    return $this->gruppiFamiliari()->wherePivot('stato','0');
-  }
-
-  public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, $gruppoFamiliareNuovo, $dataEntrataGruppo=null)
+  /**
+  * Assegna un nuovo gruppo familiare alla famiglia.
+  * @author Davide Neri
+  **/
+  public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, 
+                                                      $gruppoFamiliareNuovo, $dataEntrataGruppo=null)
   {
     try
     {
