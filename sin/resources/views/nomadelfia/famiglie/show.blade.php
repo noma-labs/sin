@@ -9,16 +9,23 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
+       <div class="row">
+          <label class="col-md-4">Nome famiglia:</label> 
+          <div class="col-md-4">
+              <span>{{$famiglia->nome_famiglia}}</span>
+          </div>
+        </div>
+        
         <div class="row">
           <label class="col-md-4">Stato famiglia:</label> 
           <div class="col-md-4">
-              @if($famiglia->stato = '1')
-                <div class="p-1 bg-success text-white">Attivo</div>
+              @if($famiglia->stato == '1')
+                <a href="#" class="badge badge-success">Attivo</a>
               @else
-                <div class="p-1 bg-danger text-white">Disattivo</div>
+              <a href="#" class="badge badge-danger">Disattivo</a>
               @endif
           </div>
-          <div class="col-md-2">
+          <div class="col-md-4">
             <my-modal modal-title="Modifica stato persona" button-title="Modifica">
               <template slot="modal-body-slot">
               <form class="form" method="POST"  id="formStato" >      
@@ -124,7 +131,7 @@
 
           <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente">
             <template slot="modal-body-slot">
-              <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.componente.assegna', ['id' =>$famiglia->id]) }}" >      
+              <form class="form" method="POST" id="formComponente" action="{{ route('nomadelfia.famiglie.componente.assegna', ['id' =>$famiglia->id]) }}" >      
                 {{ csrf_field() }}
                 <div class="form-group row">
                   <label for="example-text-input" class="col-4 col-form-label">Persona</label>
@@ -178,7 +185,7 @@
               </form>
             </template> 
             <template slot="modal-button">
-                  <button class="btn btn-danger" form="formGruppo">Salva</button>
+                  <button class="btn btn-danger" form="formComponente">Salva</button>
             </template>
           </my-modal>
         </div>

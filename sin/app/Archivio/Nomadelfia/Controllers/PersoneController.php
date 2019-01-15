@@ -204,6 +204,20 @@ class PersoneController extends CoreBaseController
     // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
   }
 
+  public function assegnaStato(Request $request, $idPersona){ 
+    $validatedData = $request->validate([
+      "stato_id" => "required", 
+      "data_inizio" => "required|date",
+    ],[
+      "stato_id.required" => "Il nuovo gruppo è obbligatorio", 
+      'data_inizio.required'=>"La data del cambio di gruppo è obbligatoria.",
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->stati()->attach($request->stato_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+    return redirect(route('nomadelifa.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
+
+  }
+
   public function modificaGruppoFamiliare(Request $request, $idPersona){ 
     $validatedData = $request->validate([
       "nuovogruppo" => "required", 

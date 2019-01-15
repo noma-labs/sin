@@ -121,7 +121,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function capofamiglia(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+    return $this->componenti()
                 ->wherePivot('posizione_famiglia','CAPO FAMIGLIA')
                 ->first();
   }
@@ -131,7 +131,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function single(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+    return $this->componenti()
                 ->wherePivot('posizione_famiglia','SINGLE')
                 ->first();
   }
@@ -141,7 +141,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function moglie(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+    return $this->componenti()
                 ->wherePivot('posizione_famiglia','MOGLIE')
                 ->first();
   }
@@ -154,10 +154,6 @@ class Famiglia extends Model
     return $this->componenti()
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
                 ->orderBy('data_nascita');
-    // return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-    //             ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
-    //             ->withPivot("stato",'posizione_famiglia')
-    //             ->orderBy('data_nascita');
   }
 
   /**

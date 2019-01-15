@@ -130,14 +130,15 @@ class Persona extends Model
   }
 
   // STATO 
+  public function stati(){
+    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id');
+  }
   public function statoAttuale(){
-    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', '1')->first();
+    return $this->stati()->wherePivot('stato', '1')->first();
   }
 
   public function statoStorico(){
-    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
-                ->wherePivot('stato', '0');
+    return $this->stati()->wherePivot('stato', '0');
   }
 
   // FAMIGLIA
@@ -247,6 +248,8 @@ class Persona extends Model
                 ->wherePivot('stato', '0');
   }
 
+
+
   /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
@@ -263,15 +266,12 @@ class Persona extends Model
   }
 
   public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, $gruppoFamiliareNuovo, $dataEntrataGruppo=null){
-    DB::beginTransaction();
     try
     {
       $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_uscita_gruppo'=>$dataUscitaGruppoFamiliareAttuale]);
       $this->gruppifamiliari()->attach($gruppoFamiliareNuovo, ['stato' => '1','data_entrata_gruppo'=>$dataEntrataGruppo]);
-      $this->commit();
     }catch (\Exception $e)
     {
-     DB::rollBack();
      throw $e;
     }
   }

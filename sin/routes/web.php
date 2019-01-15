@@ -72,10 +72,11 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
   Route::post('persone/{idPersona}/categoria/modifica', 'PersoneController@modificaCategoriaConfirm')->name("nomadelfia.persone.categoria.modifica");
   Route::post('persone/{idPersona}/gruppo/modifica', 'PersoneController@modificaGruppoFamiliare')->name("nomadelfia.persone.gruppo.modifica");
+  Route::post('persone/{idPersona}/stato/assegna', 'PersoneController@assegnaStato')->name("nomadelfia.persone.stato.assegna");
 
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
-  Route::get('aziende/edit/{id}', 'AziendeController@show')->name("nomadelfia.aziende.edit");
+  Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
   
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
