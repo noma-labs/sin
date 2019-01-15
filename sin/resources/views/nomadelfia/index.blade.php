@@ -15,7 +15,6 @@
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
       <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}" >Gestione persone</a> 
       <a class="dropdown-item" href="{{route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
-      <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
     </div>
   </li>
   <li class="nav-item">

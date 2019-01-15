@@ -59,7 +59,6 @@ Route::view('/home', 'home')->name('home');
 
 Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controllers'],function(){
   Route::view('/', 'nomadelfia.index')->name('nomadelfia');
-  Route::get('persona/search', 'AutocompleteController@autocompletePersona')->name("nomadelfia.autocomplete.persona");
   // PERSONA
   Route::get('persone', 'PersoneController@view')->name("nomadelfia.persone"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
@@ -77,6 +76,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
   Route::get('aziende/edit/{id}', 'AziendeController@show')->name("nomadelfia.aziende.edit");
+  
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
   Route::get('gruppifamiliari/{id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
@@ -84,9 +84,11 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   // FAMIGLIE
   Route::get('famiglie', 'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
   Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelifa.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
+  Route::post('famiglie/{id}/gruppo/assegna', 'FamiglieController@assegnaGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.assegna");
+  Route::post('famiglie/{id}/componente/assegna', 'FamiglieController@assegnaComponente')->name("nomadelfia.famiglie.componente.assegna");
 
 
-  //stampa elecnchi
+  //stampa elenchi
   Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
   Route::get('popolazione/stampa/preview', 'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
 

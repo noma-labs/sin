@@ -204,10 +204,9 @@
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
         <ul class="list-group list-group-flush">
-          
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Famiglia:</label>
+              <label class="col-sm-4">Nome:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
                   <span> {{$persona->famigliaAttuale()->nome_famiglia}} 
@@ -219,7 +218,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Posizione  famiglia:</label>
+              <label class="col-sm-4">Posizione:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
                   <span> {{$persona->famigliaAttuale()->pivot->posizione_famiglia}}</span>
@@ -230,6 +229,9 @@
             </div>
           </li>
         </ul>
+          @if($persona->famigliaAttuale() != null)
+            <a  class="btn btn-primary my-2" href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> Modifica </a>
+          @endif
         </div>
       </div>
     </div>

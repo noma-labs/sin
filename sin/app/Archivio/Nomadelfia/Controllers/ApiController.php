@@ -14,7 +14,14 @@ use Carbon;
 
 class ApiController extends BaseController 
 {
-	
+	function persone(Request $request){
+		$term = $request->term;
+		$persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
+		$results = array();
+		foreach ($persone as $persona)
+			$results[] = ['value'=>$persona->id,'label'=>$persona->nominativo];
+		return response()->json($results);
+	}
 	
 	function famiglieAll(Request $request)
 	{

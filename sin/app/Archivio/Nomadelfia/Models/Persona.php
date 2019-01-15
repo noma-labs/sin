@@ -25,7 +25,7 @@ class Persona extends Model
   protected $table = 'persone';
   protected $primaryKey = "id";
 
-  public $timestamps = false;
+  public $timestamps = true;
   protected $guarded = [];
 
   /**

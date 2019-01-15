@@ -45,6 +45,7 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
 
 //API route: /api/nomadelfia
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function(){
+  Route::get('/persone', 'ApiController@persone')->name("api.nomadeflia.persone.search");
   Route::get('/famiglie', 'ApiController@famiglieAll')->name("api.nomadeflia.famiglie");
   Route::post('/famiglie/create', 'ApiController@famigliaCreate')->name("api.nomadeflia.famiglie.create");
   Route::get('/posizioni', 'ApiController@posizioniAll')->name("api.nomadeflia.posizioni");
@@ -70,7 +71,5 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
   Route::get('/{numero}', 'ApiController@patente')->name("api.patente");
   Route::put('/{numero}', 'ApiController@update')->name("api.patente.modifica"); // modifica una nuova patente
   Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie.assegnate");
-
-
   // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
 });

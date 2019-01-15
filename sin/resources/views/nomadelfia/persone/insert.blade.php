@@ -5,8 +5,10 @@
 @include('partials.header', ['title' => 'Aggiungi Persona'])
 
 <!-- Dati anagrafici -->
+
 <div class="row">
   <div class="col-md-6 offset-md-3">
+  <h4>Dati Anagrafici</h4>
   <form method="POST" action="{{route('nomadelfia.persone.inserimento.confirm')}}">
     {{ csrf_field() }}
     <!-- <div class="form-group row">
