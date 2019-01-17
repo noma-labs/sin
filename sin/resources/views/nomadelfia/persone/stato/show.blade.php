@@ -42,7 +42,7 @@
         </form>
       </template> 
       <template slot="modal-button">
-        <button class="btn btn-success" form="formPersonaPosizione">Salva</button>
+        <button class="btn btn-success" form="formPersonaStato">Salva</button>
       </template>
     </my-modal> <!--end modal-->
 

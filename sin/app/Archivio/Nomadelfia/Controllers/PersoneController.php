@@ -145,7 +145,8 @@ class PersoneController extends CoreBaseController
 
   /**
    * Inserisci una persona nel sistema con i suoi dati personali.
-   * L'inserimento assegna l'ID ad una persona che la identifica in maniera univoca.
+   * L'id della persona è l'identificativo univoco usato in tutti i sistemi per
+   * identificare una persona.
    * 
    * @author Davide Neri
    */
@@ -158,6 +159,7 @@ class PersoneController extends CoreBaseController
         "data_nascita" => "required|date",
         "luogo_nascita" => "required",
         "sesso" => "required",
+        "categoria_id" => "required"
       ],[
         "nominativo.required" => "Il nominativo è obbligatorio", 
         'nominativo.unique'=>"IL nominativo inserito esiste già.",
@@ -166,6 +168,8 @@ class PersoneController extends CoreBaseController
         "data_nascita.required" => "La data di nascita è obbligatoria",
         "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
         "sesso.required" => "Il sesso della persona è obbligatorio",
+        "categoria_id.required" => "La categoria della persona è obbligatoria",
+
     ]);
     $_addanother= $request->input('_addanother');  // save and add another libro
     $_addonly   = $request->input('_addonly');     // save only
@@ -176,11 +180,12 @@ class PersoneController extends CoreBaseController
                                 "cognome"=>$request->input('cognome'),
                                 "provincia_nascita"=>$request->input('luogo_nascita'),
                                 'data_nascita'=>$request->input('data_nascita'),
+                                'categoria_id' =>$request->input('categoria_id'),
                                 'id_arch_pietro'=>0,
                                 'id_arch_enrico'=>0,]
                               );
-      $persona->save();
-      if($_addanother)
+      // $persona->save();
+      if($_addanother  && $persona->save())
         return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
       if($_addonly)
         return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
@@ -191,7 +196,7 @@ class PersoneController extends CoreBaseController
         if($error_code == 1062){
             return redirect(route('nomadelfia.persone.inserimento'))->withError('Persona già esistente con il nominativo.');
         }
-        return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore generale nell'esecusion della query");
+        return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore sconosciuto.");
     }
     // $persona->posizioni()->attach($request->input('posizione'), ['data_inizio' => $request->input('inizio')]);
     // $persona->famiglie()->attach($request->input('famiglia'), ['nucleo_famigliare_id' => $request->input('nucleo')]);

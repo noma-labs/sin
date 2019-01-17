@@ -168,10 +168,11 @@
               <div class="row">
                 <label class="col-sm-4">Gruppo familiare: </label>
                 <div class="col-sm-4">
+                <!-- TODO 
+                 ADD into the model PERSONA e method for checking if the gruppo familiare is not equal to the gruppo familiare of the family
+                -->
                   @if($persona->gruppofamiliareAttuale() != null)
-                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
-                </div>
-                <div class="col-sm-4"> 
+                      <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif

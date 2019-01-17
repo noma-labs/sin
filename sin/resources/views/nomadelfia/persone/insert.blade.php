@@ -11,22 +11,6 @@
   <h4>Dati Anagrafici</h4>
   <form method="POST" action="{{route('nomadelfia.persone.inserimento.confirm')}}">
     {{ csrf_field() }}
-    <!-- <div class="form-group row">
-      <label class="col-sm-4 col-form-label">Stato persona:</label>
-      <div class="col-sm-8">
-        <div class="form-group">
-            <select class="form-control"  name="categoria">
-              @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
-                @if(old('categoria') == $cat->id)
-                <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
-                @else
-                <option value="{{$cat->id}}"> <p class="font-weight-bold"> {{ $cat->nome}}</span> ({{ $cat->descrizione}})</option>
-                @endif
-              @endforeach
-          </select>
-        </div>
-      </div>
-    </div>   -->
     <div class="form-group row">
       <label for="fornominativo" class="col-sm-6 col-form-label">Nominativo:</label>
       <div class="col-sm-6">
@@ -78,12 +62,31 @@
       </div>
     </fieldset>
 
+     <h4> Categoria persona</h4>
+     <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Categoria:</label>
+      <div class="col-sm-8">
+        <div class="form-group">
+            <select class="form-control"  name="categoria_id">
+              @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
+                @if(old('categoria') == $cat->id)
+                <option value="{{$cat->id}}" selected> {{ $cat->nome}}</option>
+                @else
+                <option value="{{$cat->id}}"> <p class="font-weight-bold"> {{ $cat->nome}}</span> ({{ $cat->descrizione}})</option>
+                @endif
+              @endforeach
+          </select>
+        </div>
+      </div>
+    </div> 
+
     <div class="row">
       <div class="col-auto">
         <button class="btn btn-warning" name="_addanother" value="true" type="submit">Salva e aggiungi un'altro </button>
         <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva e visualizza</button> 
       </div>
     </div>
+    
   </form>
   </div>
 </div>
