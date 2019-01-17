@@ -56,13 +56,6 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-            <div class="row">
-              <h4 class="col-sm-6">Nome famiglia:</h4>
-              <div class="col-sm-6">
-                <span>{{$famiglia->nome_famiglia}}</span>
-              </div>
-            </div>
-          <h5>  Componenti:</h5>
             @if($famiglia->single())
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -129,7 +122,7 @@
             </ul>
           @endif      
 
-          <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente">
+          <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente" button-style="btn-primary my-2">
             <template slot="modal-body-slot">
               <form class="form" method="POST" id="formComponente" action="{{ route('nomadelfia.famiglie.componente.assegna', ['id' =>$famiglia->id]) }}" >      
                 {{ csrf_field() }}
