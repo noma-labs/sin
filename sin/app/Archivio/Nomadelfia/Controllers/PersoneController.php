@@ -20,6 +20,8 @@ use Validator;
 
 class PersoneController extends CoreBaseController
 {
+
+  
   public function view(){
     $persone =  Persona::orderBy("nominativo","ASC")->get();
     return view('nomadelfia.persone.index',compact('persone'));
@@ -56,9 +58,9 @@ class PersoneController extends CoreBaseController
     $persona->provincia_nascita = $request->luogonascita;
     $persona->sesso = $request->sesso;
     if($persona->save())
-      return redirect()->route('nomadelifa.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+      return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
     else    
-    return redirect()->route('nomadelifa.persone.dettaglio',['idPersona' =>$idPersona])->withSError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+    return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
 
 
   }
@@ -81,12 +83,12 @@ class PersoneController extends CoreBaseController
     if($request->operazione == "modifica"){
       $persona->nominativo = $request->nominativo;
       $persona->save();
-      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nominativo aggiornato con suceesso");
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nominativo aggiornato con suceesso");
     }else{
       $persona->nominativiStorici()->create(['nominativo'=> $persona->nominativo]);
       $persona->nominativo = $request->nuovonominativo;
       $persona->save();
-      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
     }
 
   }
@@ -98,9 +100,9 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $persona->categoria_id = $request->categoria;
     if($persona->save())
-      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Stato attuale modificato con successo.");
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Stato attuale modificato con successo.");
     else
-      return redirect()->route('nomadelifa.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore: Stato attuale non aggiornato correttamente.");
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore: Stato attuale non aggiornato correttamente.");
 
   }
 
@@ -181,7 +183,7 @@ class PersoneController extends CoreBaseController
       if($_addanother)
         return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
       if($_addonly)
-        return redirect()->route('nomadelifa.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+        return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
       
     }
     catch (Illuminate\Database\QueryException $e){
@@ -204,18 +206,66 @@ class PersoneController extends CoreBaseController
     // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
   }
 
+  /**
+   * Ritorna la view per la modifica della posizione assegnata ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function posizione($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.posizione.show",compact('persona'));
+  }
+
+  /**
+   * Assegna una nuova posizione ad una persona.
+   * 
+   * @author Davide Neri
+   */
+  public function assegnaPosizione(Request $request, $idPersona){ 
+    $validatedData = $request->validate([
+      "posizione_id" => "required", 
+      "data_inizio" => "required|date",
+    ],[
+      "posizione_id.required" => "La posizione è obbligatorio", 
+      'data_inizio.required'=>"La data iniziale della posizione è obbligatoria.",
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    if($persona->posizioneAttuale()) // se 
+      $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
+    $persona->posizioni()->attach($request->posizione_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
+
+  }
+
+
+  /**
+   * Ritorna la view per la modifica dello stato assegnato ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function stato($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.stato.show",compact('persona'));
+  }
+
+   /**
+   * Assegna un nuovo stato ad una persona.
+   * 
+   * @author Davide Neri
+   */
   public function assegnaStato(Request $request, $idPersona){ 
     $validatedData = $request->validate([
       "stato_id" => "required", 
       "data_inizio" => "required|date",
     ],[
-      "stato_id.required" => "Il nuovo gruppo è obbligatorio", 
-      'data_inizio.required'=>"La data del cambio di gruppo è obbligatoria.",
+      "stato_id.required" => "Lo stato è obbligatorio", 
+      'data_inizio.required'=>"La data iniziale dello stato è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
+    if($persona->statoAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
+      $persona->stati()->updateExistingPivot($persona->statoAttuale()->id, ['stato'=>'0','data_fine'=>$request->data_inizio]);
     $persona->stati()->attach($request->stato_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-    return redirect(route('nomadelifa.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
-
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
   }
 
   public function modificaGruppoFamiliare(Request $request, $idPersona){ 
@@ -232,7 +282,7 @@ class PersoneController extends CoreBaseController
           $idnuovogruppo =  $request->nuovogruppo;
          $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
 
-     return redirect(route('nomadelifa.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
+     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
 
   }
 

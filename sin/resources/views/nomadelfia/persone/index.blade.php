@@ -27,7 +27,7 @@
                         </h5>
                           @foreach($posizione->persone()->presente()->uomini()->get() as $uomo)
                             <div>
-                              <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
+                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
                             </div>
                           @endforeach
                       </div>
@@ -37,7 +37,7 @@
                         </h5>
                           @foreach($posizione->persone()->presente()->donne()->get() as $donna)
                             <div>
-                            <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
+                            <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
                             </div>
                         @endforeach
                       </div>

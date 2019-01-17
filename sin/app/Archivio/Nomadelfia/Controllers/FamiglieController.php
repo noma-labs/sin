@@ -46,7 +46,7 @@ class FamiglieController extends CoreBaseController
     $famiglia = Famiglia::findorfail($id);
     $famiglia->assegnaFamigliaANuovoGruppoFamiliare($famiglia->gruppoFamiliareAttuale(), $request->datacambiogruppo,
                                                     $request->nuovogruppo, $request->datacambiogruppo);
-    return redirect(route('nomadelifa.famiglia.dettaglio',['id'=>$id]))->withSuccess("Famiglia spostata nel ngruppo familiare con successo");
+    return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Famiglia spostata nel ngruppo familiare con successo");
   }
 
   public function assegnaComponente(Request $request, $id){ 
@@ -67,9 +67,9 @@ class FamiglieController extends CoreBaseController
     try{
        $famiglia->componenti()->attach($request->persona_id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
                                                           'data_entrata'=>$request->data_entrata,'note'=>$request->note]);
-      return  redirect(route('nomadelifa.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiunto alla famiglia con successo");
+      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiunto alla famiglia con successo");
     }catch (Exception $e){
-      return redirect(route('nomadelifa.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }
   }
 

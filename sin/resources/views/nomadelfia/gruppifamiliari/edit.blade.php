@@ -9,7 +9,7 @@
 <div>
     <label class="font-weight-bold"> Capogruppo: </label>
     @if ($gruppo->capogruppoAttuale())
-    <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
+    <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
     @else
     <span class="text-danger">Capogruppo non assegnato</span> 
     @endif
@@ -26,17 +26,17 @@
         <div class="card my-2">
             <div class="card-body">
                 <div class="font-weight-bold">
-                    <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a>
+                    <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a>
                     @if ($persona->famigliaAttuale()->moglie())  
                     <p>
-                        <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->famigliaAttuale()->moglie()->id])}}"> {{$persona->famigliaAttuale()->moglie()->nominativo}}</a>
+                        <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->famigliaAttuale()->moglie()->id])}}"> {{$persona->famigliaAttuale()->moglie()->nominativo}}</a>
                     </p>
                     @endif
                 </div>
                 <ul>
                 @foreach($persona->famigliaAttuale()->figliAttuali as $figlio)
                 <li> @year($figlio->data_nascita)  
-                    <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
+                    <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
                 </li>
                 @endforeach
                 </ul>
@@ -85,7 +85,7 @@
 
         @else
         <!-- <p class="font-weight-bold">
-          <a href="{{route('nomadelifa.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a>
+          <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a>
         </p> -->
         @endif
      @endforeach

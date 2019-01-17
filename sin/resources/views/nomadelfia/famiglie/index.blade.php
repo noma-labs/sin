@@ -23,7 +23,7 @@
                     
                     @foreach($capifamiglieMaschio->get() as $uomo)
                       <div>
-                          <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
+                          <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
                       </div>
                     @endforeach
                 </div>
@@ -31,7 +31,7 @@
                   <h5>Donne {{$capifamiglieFemmina->count()}}</h5>
                     @foreach($capifamiglieFemmina->get() as $donna)
                       <div>
-                        <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
+                        <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
                       </div>
                   @endforeach
                 </div>
@@ -40,7 +40,7 @@
 
               <!-- @foreach($capifamiglieMaschio->get() as $famiglia)
               <div>
-                 <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a>
+                 <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a>
               </div>
               @endforeach               -->
           </div>
@@ -67,7 +67,7 @@
                     
                     @foreach($singleMaschio->get() as $uomo)
                       <div>
-                          <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
+                          <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$uomo->id])}}"> {{$uomo->nome_famiglia}}</a>
                       </div>
                     @endforeach
                 </div>
@@ -75,7 +75,7 @@
                   <h5>Donne {{$singleFemmine->count()}}</h5>
                     @foreach($singleFemmine->get() as $donna)
                       <div>
-                        <a href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
+                        <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$donna->id])}}"> {{$donna->nome_famiglia}}</a>                                      
                       </div>
                   @endforeach
                 </div>

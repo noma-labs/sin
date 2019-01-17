@@ -131,13 +131,14 @@ class Persona extends Model
 
   // STATO 
   public function stati(){
-    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id');
+    return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
+                ->withPivot('stato','data_inizio','data_fine');
   }
   public function statoAttuale(){
     return $this->stati()->wherePivot('stato', '1')->first();
   }
 
-  public function statoStorico(){
+  public function statiStorico(){
     return $this->stati()->wherePivot('stato', '0');
   }
 
@@ -227,13 +228,17 @@ class Persona extends Model
   }
 
   // POSIZIONE
-  public function posizioneAttuale(){
+  public function posizioni(){
     return $this->belongsToMany(Posizione::class, 'persone_posizioni', 'persona_id', 'posizione_id')
+                 ->withPivot('stato','data_inizio','data_fine');
+  }
+  public function posizioneAttuale(){
+    return $this->posizioni()
                 ->wherePivot('stato', '1')->first();
   }
 
-  public function posizioneStorica(){
-    return $this->belongsToMany(Posizione::class, 'persone_posizioni', 'persona_id', 'posizione_id')
+  public function posizioniStorico(){
+    return $this->posizioni()
                 ->wherePivot('stato', '0');
   }
    

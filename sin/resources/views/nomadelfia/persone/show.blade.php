@@ -145,38 +145,8 @@
                     @endif
                   </div>
                   <div class="col-sm-2">
-                    <my-modal modal-title="Modifica stato persona" button-title="Modifica">
-                      <template slot="modal-body-slot">
-                      <form class="form" method="POST"  id="formStatoPersona" action="{{ route('nomadelfia.persone.stato.assegna', ['idPersona' =>$persona->id]) }}" >      
-                          {{ csrf_field() }}
-
-                           <div class="form-group row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Stato</label>
-                            <div class="col-sm-10">
-                              <select name="stato_id" class="form-control">
-                                  <option selecte>---seleziona stato---</option>
-
-                                  @foreach (App\Nomadelfia\Models\Stato::all() as $stato)
-                                    <option value="{{$stato->id}}">{{$stato->nome}}</option>
-                                @endforeach
-                              </select>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-2 col-form-label">Data</label>
-                            <div class="col-sm-10">
-                              <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password">
-                            </div>
-                          </div>
-                        
-                        </form>
-                      </template> 
-                      <template slot="modal-button">
-                        <button class="btn btn-success" form="formStatoPersona">Salva</button>
-                      </template>
-                    </my-modal>
+                    <a class="btn btn-primary" href="{{route('nomadelfia.persone.stato', ['idPersona'=>$persona->id])}}">Modifica</a> 
                   </div>
-
               </div>
             </li>
             <li class="list-group-item">
@@ -189,7 +159,9 @@
                     <span class="text-danger">Nessuna posizione</span>
                     @endif
                 </div>
-               
+                <div class="col-sm-2">
+                  <a class="btn btn-primary" href="{{route('nomadelfia.persone.posizione', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                </div>
             </div>
             </li>
             <li class="list-group-item">
@@ -236,13 +208,15 @@
       </div>
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
+        <h5 class="my-3">Famiglia Attuale</h5>
+  
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
               <label class="col-sm-4">Nome:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->nome_famiglia}} 
+                 <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
                 @else
                   <span class="text-danger">Nessuna famiglia</span>
                 @endif
@@ -254,7 +228,9 @@
               <label class="col-sm-4">Posizione:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->pivot->posizione_famiglia}}</span>
+                  <span>{{$persona->famigliaAttuale()->pivot->posizione_famiglia}}
+                     </span>
+              </span>
                 @else
                   <span class="text-danger">Nessuna posizione famiglia</span>
                 @endif
@@ -262,9 +238,37 @@
             </div>
           </li>
         </ul>
-          @if($persona->famigliaAttuale() != null)
-            <a  class="btn btn-primary my-2" href="{{route('nomadelifa.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> Modifica </a>
-          @endif
+        <!-- @if($persona->famigliaAttuale() == null)
+          <a  class="btn btn-primary my-2" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>2])}}"> Crea Famiglia </a>
+          @endif -->
+
+        <h5 class="my-3">Famiglia Storico</h5>
+        @forelse($persona->famiglieStorico as $famiglia)
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Nome:</label>
+              <div class="col-sm-8">
+                <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> 
+                {{ $famiglia->nome_famiglia}} 
+                  </a>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Posizione:</label>
+              <div class="col-sm-8">
+                  <span> {{$famiglia->pivot->posizione_famiglia}}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        @empty
+          <span class="text-danger my-2">Nessuna famiglia storico</span>
+        @endforelse
+         
+      
         </div>
       </div>
     </div>
