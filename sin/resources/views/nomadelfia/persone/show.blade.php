@@ -172,7 +172,7 @@
                  ADD into the model PERSONA e method for checking if the gruppo familiare is not equal to the gruppo familiare of the family
                 -->
                   @if($persona->gruppofamiliareAttuale() != null)
-                      <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif

@@ -28,8 +28,14 @@
                     @else
                       <p class="text-danger">Senza capogruppo</p> 
                     @endif
+                  <ul>
+                    @foreach(App\Nomadelfia\Models\GruppoFamiliare::CountPosizioniFamiglia($gruppo->id)->get() as $posizione)
+                      <li> {{$posizione->posizione_famiglia}}  <span class="badge badge-info"> {{$posizione->total}}</span></li>
+                    @endforeach
+                  </ul>
                     <!-- componenti gruppi per persone -->
-                    @foreach($gruppo->personeAttuale as $persona)
+                    <!-- @foreach($gruppo->personeAttuale as $persona)
+                    
                       @if($persona->isSingle())
                         <p><a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a></p>
                        @elseif($persona->isCapofamiglia())
@@ -51,10 +57,9 @@
                           </ul>
                          @endif
                       @endif
-                    @endforeach
-                      <div class="row">
-                          <a class="btn btn-dangercol-md-4 offset-md-6" type="button" href="{{ route('nomadelfia.gruppifamiliari.modifica', $gruppo->id)}}">Modifica</a>
-                      </div>
+                    @endforeach -->
+
+                    <a class="btn btn-primary" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">Modifica</a>
                 </div>    
               </div>
             </div>

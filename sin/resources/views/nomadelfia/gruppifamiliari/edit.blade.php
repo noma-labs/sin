@@ -45,7 +45,7 @@
         <h5>Famiglie  <span class="badge badge-info ">{{$gruppo->famiglieAttuale->count()}}</span></h5>
         <div class="accordion" id="accordionExample">
             @foreach($gruppo->famiglieAttuale as $famiglia)
-            <div class="card">
+            <div class="card my-1">
                 <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{$famiglia->id}}" aria-expanded="true" aria-controls="collapse{{$famiglia->id}}">
@@ -58,6 +58,48 @@
                     <div class="card-body">
                          @include("nomadelfia.famiglie.template", ['famiglia' => $famiglia])
                     </div>
+                    <div class="card-footer text-muted">
+                        <my-modal modal-title="Sposta Famiglia in un nuovo gruppo familiare" button-title="Sposta Famiglia">
+                            <template slot="modal-body-slot">
+                                <form class="form" method="POST" id="formFamigliaGruppo{{$famiglia->id}}" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
+                                {{ csrf_field() }}
+                                    <div class="form-group row">
+                                    <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
+                                        <div class="col-8">
+                                        <select class="form-control" name="gruppo_id">
+                                        <option value="" selected>---scegli gruppo---</option>
+                                            @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofamiliare)
+                                                @if($gruppofamiliare->id != $famiglia->gruppofamiliareAttuale()->id)
+                                                <option value="{{ $gruppofamiliare->id }}">{{ $gruppofamiliare->nome }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
+                                        <div class="col-8">
+                                        <input type="date" class="form-control" name="data_cambiogruppo" placeholder="Data cambio gruppo" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-4 col-form-label">Verranno spostati anche i seguenti componenti della famiglia</label>
+                                        <div class="col-8">
+                                            <ul>
+                                                @foreach($famiglia->componentiAttuali as $componente)
+                                                <li>{{$componente->nominativo}}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                            </template> 
+                            <template slot="modal-button">
+                                <button class="btn btn-danger" form="formFamigliaGruppo{{$famiglia->id}}" type="submit">Salva</button>
+                            </template>
+                        
+                        </my-modal>
+                     </div>  <!-- end card footer  -->
                 </div>
             </div> <!-- end card  -->
             @endforeach

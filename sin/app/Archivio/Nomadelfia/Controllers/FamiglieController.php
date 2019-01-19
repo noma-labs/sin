@@ -42,7 +42,6 @@ class FamiglieController extends CoreBaseController
   * @author Davide Neri
   **/
   public function assegnaGruppoFamiliare(Request $request, $id){ 
-    dd($request->all());
     $validatedData = $request->validate([
       "gruppo_id" => "required", 
       "data_cambiogruppo" => "required|date",

@@ -84,7 +84,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   
   //GRUPPI FAMILIARI
   Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
-  Route::get('gruppifamiliari/{id}/modifica', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.modifica"); //->middleware('permission:cliente-visualizza')
+  Route::get('gruppifamiliari/{id}', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.dettaglio"); //->middleware('permission:cliente-visualizza')
 
   // FAMIGLIE
   Route::get('famiglie', 'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
