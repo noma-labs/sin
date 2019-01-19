@@ -18,7 +18,8 @@ class GruppoFamiliare extends Model
 
   public function persone()
   {
-    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id');
+    return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')
+                 ->orderby("nominativo");
   }
 
   public function personeAttuale(){
@@ -27,7 +28,8 @@ class GruppoFamiliare extends Model
 
   public function famiglie()
   {
-    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id');
+    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
+                ->orderby("nome_famiglia");
   }
 
   public function famiglieAttuale()
@@ -48,16 +50,16 @@ class GruppoFamiliare extends Model
                 ->first();
   }
 
-  public static function getCountNucleiFamiliari(){
-    //ritorna la statistica di quanti SINGLE, FIGLI naturali, Fagli affidati, padri e madri ci sono nel gruppo.
-    $r = DB::connection('db_nomadelfia')
-        ->select(DB::raw(
-            'SELECT gruppi_famiglie.gruppo_famigliare_id, nuclei_famigliari.nucleo_famigliare, count(2) as count 
-            FROM nuclei_famigliari,famiglie_persone,gruppi_famiglie 
-            WHERE famiglie_persone.nucleo_famigliare_id=nuclei_famigliari.id  
-            AND famiglie_persone.famiglia_id =gruppi_famiglie.famiglia_id 
-            GROUP BY gruppi_famiglie.gruppo_famigliare_id,nuclei_famigliari.nucleo_famigliare'));
-       
-   return $r;
+  /**
+   * Ritorna il numero di posizioni_famiglia (capofamiglia, moglie, figlio nato, accolto,...) in un gruppo familiare.                                                       \\2
+   */
+  public function scopeCountPosizioniFamiglia($query, $gruppoId){
+    return  $query->join('gruppi_famiglie', 'gruppi_famiglie.gruppo_famigliare_id', '=', 'gruppi_familiari.id')
+                  ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'gruppi_famiglie.famiglia_id')
+                  ->select('gruppi_famiglie.gruppo_famigliare_id', 'famiglie_persone.posizione_famiglia',  DB::raw('count(2) as total'))
+                  ->where("gruppi_famiglie.stato",'1')
+                  ->where("gruppi_familiari.id", $gruppoId)
+                  ->where("famiglie_persone.stato",'1')
+                  ->groupBy("gruppi_famiglie.gruppo_famigliare_id","famiglie_persone.posizione_famiglia");
   }
 }

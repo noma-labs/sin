@@ -270,7 +270,7 @@ class PersoneController extends CoreBaseController
     if($persona->statoAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
       $persona->stati()->updateExistingPivot($persona->statoAttuale()->id, ['stato'=>'0','data_fine'=>$request->data_inizio]);
     $persona->stati()->attach($request->stato_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
   }
 
   public function modificaGruppoFamiliare(Request $request, $idPersona){ 

@@ -148,7 +148,7 @@
                 <div class="form-group row">
                   <label for="example-text-input" class="col-4 col-form-label">Data entrata nella famiglia:</label>
                     <div class="col-8">
-                      <input type="date" class="form-control" name="data_entrata" placeholder="Data entrata nella famiglia" >
+                      <input type="date" class="form-control" name="data_entrata"  placeholder="Data entrata nella famiglia" >
                     </div>
                 </div>
                 <div class="form-group row">

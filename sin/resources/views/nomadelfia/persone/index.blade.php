@@ -17,7 +17,7 @@
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#{{$categoria->nome}}" aria-expanded="true" aria-controls="{{$categoria->id}}">
                       {{ $categoria->nome }} 
-                      <span class="badge badge-primary badge-pill">{{$categoria->persone()->presente()->count()}}</span> 
+                      <span class="badge badge-primary badge-pill">{{$categoria->persone()->count()}}</span> 
                       </button>
                     </h5>
                   </div>
@@ -26,9 +26,9 @@
                     <div class="row">
                       <div class="col-md-6"> 
                         <h5>Uomini 
-                        <span class="badge badge-primary badge-pill">{{$categoria->persone()->presente()->uomini()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill">{{$categoria->persone()->uomini()->count()}}</span> 
                         </h5>
-                          @foreach($categoria->persone()->presente()->uomini()->get() as $uomo)
+                          @foreach($categoria->persone()->uomini()->get() as $uomo)
                             <div>
                               <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
                             </div>
@@ -36,9 +36,9 @@
                       </div>
                       <div class="col-md-6"> 
                         <h5>Donne
-                        <span class="badge badge-primary badge-pill"> {{$categoria->persone()->presente()->donne()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill"> {{$categoria->persone()->donne()->count()}}</span> 
                         </h5>
-                          @foreach($categoria->persone()->presente()->donne()->get() as $donna)
+                          @foreach($categoria->persone()->donne()->get() as $donna)
                             <div>
                             <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
                             </div>

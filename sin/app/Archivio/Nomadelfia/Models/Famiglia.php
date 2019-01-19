@@ -166,6 +166,7 @@ class Famiglia extends Model
 
   /**
   * Assegna un nuovo gruppo familiare alla famiglia.
+  * Se il gruppoFamiliare attuale non è nullo aggiorna lo stato =0.
   * @author Davide Neri
   **/
   public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, 
