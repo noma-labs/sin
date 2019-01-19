@@ -76,6 +76,11 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persone/{idPersona}/stato', 'PersoneController@stato')->name("nomadelfia.persone.stato");
   Route::post('persone/{idPersona}/posizione/assegna', 'PersoneController@assegnaPosizione')->name("nomadelfia.persone.posizione.assegna");
   Route::get('persone/{idPersona}/posizione', 'PersoneController@posizione')->name("nomadelfia.persone.posizione");
+  Route::get('persone/{idPersona}/gruppofamiliare', 'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
+  Route::post('persone/{idPersona}/gruppofamiliare/assegna', 'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");
+
+  
+
 
 
   //AZIENDE
@@ -91,7 +96,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
   Route::post('famiglie/{id}/gruppo/assegna', 'FamiglieController@assegnaGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.assegna");
   Route::post('famiglie/{id}/componente/assegna', 'FamiglieController@assegnaComponente')->name("nomadelfia.famiglie.componente.assegna");
-
+  Route::post('famiglie/{id}/componente/aggiorna', 'FamiglieController@aggiornaComponente')->name("nomadelfia.famiglie.componente.aggiorna");
 
   //stampa elenchi
   Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");

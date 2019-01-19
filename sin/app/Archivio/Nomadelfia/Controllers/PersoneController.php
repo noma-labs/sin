@@ -273,6 +273,42 @@ class PersoneController extends CoreBaseController
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
   }
 
+  /**
+   * Ritorna la view per la modifica del gruppo familiare
+   * 
+   * @author Davide Neri
+   */
+  public function gruppoFamiliare($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.gruppofamiliare.show",compact('persona'));
+  }
+
+   /**
+   * Assegna un nuovo gruppo familiare ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function assegnaGruppofamiliare(Request $request, $idPersona){ 
+    $validatedData = $request->validate([
+      "gruppo_id" => "required", 
+      "data_uscita" => "required|date",
+      "data_entrata" => "required|date",
+
+    ],[
+      "gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
+      'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
+      'data_uscita.required'=>"La data di uscita nel gruppo familiare è obbligatoria.",
+
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    if($persona->gruppofamiliareAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
+      $persona->gruppifamiliari()->updateExistingPivot($persona->gruppofamiliareAttuale()->id, ['stato'=>'0','data_uscita_gruppo'=>$request->data_uscita]);
+    $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
+  }
+
+  
+
   public function modificaGruppoFamiliare(Request $request, $idPersona){ 
     $validatedData = $request->validate([
       "nuovogruppo" => "required", 

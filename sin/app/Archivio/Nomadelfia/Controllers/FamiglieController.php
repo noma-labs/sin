@@ -79,4 +79,29 @@ class FamiglieController extends CoreBaseController
     }
   }
 
+  public function aggiornaComponente(Request $request, $id){ 
+    $validatedData = $request->validate([
+      "persona_id" => "required", 
+      "posizione" => "required",
+      "stato" => "required",
+      "data_entrata" => "date",
+      "data_uscita" => "date"
+    ],[
+      "persona_id.required" => "La persona è obbligatoria.", 
+      "stato.required" => "Lo stato della persona è obbligatoria.", 
+      'posizione.required'=>"La posizione nella famiglia è obbligatoria.",
+      'data_entrata.date'=>"La data di entrana nella famiglia non è una data corretta.",
+      'data_uscita.date'=>"La data di uscita dalla famiglia non è una data corretta.",
+
+  ]);
+    $famiglia = Famiglia::findorfail($id);
+    try{
+       $famiglia->componenti()->updateExistingPivot($request->persona_id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
+                                                          'data_entrata'=>$request->data_entrata,'data_uscita'=>$request->data_uscita,'note'=>$request->note]);
+      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiornato con successo");
+    }catch (Exception $e){
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiornato alla famiglia.");
+    }
+  }
+
 }

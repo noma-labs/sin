@@ -29,9 +29,7 @@
                         <span class="badge badge-primary badge-pill">{{$categoria->persone()->uomini()->count()}}</span> 
                         </h5>
                           @foreach($categoria->persone()->uomini()->get() as $uomo)
-                            <div>
-                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
-                            </div>
+                            <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
@@ -39,10 +37,8 @@
                         <span class="badge badge-primary badge-pill"> {{$categoria->persone()->donne()->count()}}</span> 
                         </h5>
                           @foreach($categoria->persone()->donne()->get() as $donna)
-                            <div>
-                            <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
-                            </div>
-                        @endforeach
+                            <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
+                          @endforeach
                       </div>
                     </div>
                     </div>
@@ -79,9 +75,7 @@
                         <span class="badge badge-primary badge-pill">{{$posizione->persone()->presente()->uomini()->count()}}</span> 
                         </h5>
                           @foreach($posizione->persone()->presente()->uomini()->get() as $uomo)
-                            <div>
-                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
-                            </div>
+                          <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
@@ -89,10 +83,8 @@
                         <span class="badge badge-primary badge-pill"> {{$posizione->persone()->presente()->donne()->count()}}</span> 
                         </h5>
                           @foreach($posizione->persone()->presente()->donne()->get() as $donna)
-                            <div>
-                            <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
-                            </div>
-                        @endforeach
+                           <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
+                          @endforeach
                       </div>
                     </div>
                     </div>
@@ -129,9 +121,7 @@
                         <span class="badge badge-primary badge-pill">{{$stato->persone()->presente()->uomini()->count()}}</span> 
                         </h5>
                           @foreach($stato->persone()->presente()->uomini()->get() as $uomo)
-                            <div>
-                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$uomo->id])}}">  {{$uomo->nominativo}}</a>
-                            </div>
+                            <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
@@ -139,10 +129,8 @@
                         <span class="badge badge-primary badge-pill"> {{$stato->persone()->presente()->donne()->count()}}</span> 
                         </h5>
                           @foreach($stato->persone()->presente()->donne()->get() as $donna)
-                            <div>
-                            <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$donna->id])}}">  {{$donna->nominativo}}</a>                 
-                            </div>
-                        @endforeach
+                            <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
+                          @endforeach
                       </div>
                     </div>
                     </div>

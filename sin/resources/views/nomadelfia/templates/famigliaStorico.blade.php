@@ -34,19 +34,19 @@
             </div>
         </li>
         @endif
-        @if(! $famiglia->figliAttuali->isEmpty())
+        @if(! $famiglia->figli->isEmpty())
         <li class="list-group-item">
             <div class="row">
             <label class="col-sm-2">Figli:</label>
             <div class="col-sm-10">
                 <ul>
-                @foreach  ($famiglia->figliAttuali as $figlio)
+                @foreach  ($famiglia->figli as $figlio)
                     <li>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
                                 <span> @year($figlio->data_nascita) {{$figlio->nominativo}}   ({{$figlio->pivot->posizione_famiglia}}) </span>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 @if($figlio->pivot->stato == '1')
                                 <span class="badge badge-pill badge-success">Nel nucleo</span>
                                 @else

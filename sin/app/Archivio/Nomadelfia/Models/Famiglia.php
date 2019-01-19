@@ -104,7 +104,8 @@ class Famiglia extends Model
   **/
   public function componenti(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-            ->withPivot("stato",'posizione_famiglia');
+            ->withPivot("stato",'posizione_famiglia')
+            ->orderby("nominativo");
   }
 
   /**
@@ -151,7 +152,8 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function figli(){
-    return $this->componenti()
+    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->withPivot("stato",'posizione_famiglia')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
                 ->orderBy('data_nascita');
   }

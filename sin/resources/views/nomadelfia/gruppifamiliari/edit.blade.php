@@ -56,7 +56,7 @@
                 </div>
                 <div id="collapse{{$famiglia->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
-                         @include("nomadelfia.famiglie.template", ['famiglia' => $famiglia])
+                         @include("nomadelfia.templates.famigliaAttuale", ['famiglia' => $famiglia])
                     </div>
                     <div class="card-footer text-muted">
                         <my-modal modal-title="Sposta Famiglia in un nuovo gruppo familiare" button-title="Sposta Famiglia">
@@ -109,10 +109,10 @@
     <div class="col-md-4">
         <h5>Persone <span class="badge badge-info ">{{$gruppo->personeAttuale->count()}}</span> </h5>
         <div class="card">
-            <ul class="list-group list-group-flush">
+            <ul>
             @foreach($gruppo->personeAttuale as $persona)
-                        <li class="list-group-item">{{$persona->nominativo}}</li>
-                    @endforeach
+                 <li> @include("nomadelfia.templates.persona", ['persona' => $persona])</li>
+            @endforeach
             </ul>
         </div>
     </div>

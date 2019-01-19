@@ -103,18 +103,19 @@ class Persona extends Model
 
    // GRUPPO FAMILIARE
   public function gruppifamiliari(){
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id');
+    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
+                ->withPivot("data_entrata_gruppo","data_uscita_gruppo");
   }
 
   public function gruppofamiliareAttuale(){
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
+    return $this->gruppifamiliari()
                  ->wherePivot('stato', '1')
                  ->first();
   }
 
   public function gruppofamiliariStorico(){
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
-                  ->wherePivot('stato', '0');
+    return $this->gruppifamiliari()
+                ->wherePivot('stato', '0');
   }
  
   // AZIENDE

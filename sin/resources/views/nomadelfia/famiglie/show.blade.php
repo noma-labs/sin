@@ -4,8 +4,8 @@
 
 @include('partials.header', ['title' => 'Gestione Famiglia'])
 
-<div class="container">
-<div class="row justify-content-center">
+<!-- <div class="container"> -->
+<!-- <div class="row justify-content-center">
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
@@ -42,7 +42,7 @@
     </div>
   </div>
 </div>
-</div>
+</div> -->
 
 <div class="row my-3">
 <div class="col-md-6 mb-2"> <!--  start col dati anagrafici -->
@@ -50,77 +50,13 @@
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Famiglia 
+           Nome Famiglia: {{$famiglia->nome_famiglia}}
           </button>
         </h5>
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-            @if($famiglia->single())
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <div class="row">
-                    <label class="col-sm-4">Single:</label>
-                    <div class="col-sm-8">
-                      <span>{{$famiglia->single()->nominativo}}</span>
-                    </div>
-                  </div>
-                </li>
-            </ul>
-             
-            @elseif($famiglia->capofamiglia())
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <div class="row">
-                    <label class="col-sm-4">Capo Famiglia:</label>
-                    <div class="col-sm-8">
-                      @if($famiglia->capofamiglia())
-                          {{$famiglia->capofamiglia()->nominativo}}
-                      @else
-                        <p class="text-danger">Nessun capofamiglia</p>
-                      @endif
-                    </div>
-                  </div>
-                </li>
-                @if($famiglia->moglie())
-                <li class="list-group-item">
-                  <div class="row">
-                    <label class="col-sm-4">Moglie:</label>
-                    <div class="col-sm-8">
-                      {{$famiglia->moglie()->nominativo}}
-                    </div>
-                  </div>
-                </li>
-                @endif
-                <li class="list-group-item">
-                  <div class="row">
-                    <label class="col-sm-2">Figli:</label>
-                    <div class="col-sm-10">
-                      <ul>
-                        @forelse ($famiglia->figli as $figlio)
-                          <li >
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <span> @year($figlio->data_nascita) {{$figlio->nominativo}}   ({{$figlio->pivot->posizione_famiglia}}) </span>
-                              </div>
-                              <div class="col-sm-6">
-                              @if($figlio->pivot->stato == '1')
-                                  <span class="badge badge-pill badge-success">Nel nucleo</span>
-                                @else
-                                <span class="badge badge-pill badge-danger">Fuori da nucleo</span>
-                                @endif
-                              </div>
-                            </div>
-                          </li>
-                          @empty
-                          <p class="text-danger">Nessun figlio</p>
-                          @endforelse    
-                        </ul>
-                    </div>
-                  </div>
-                </li>
-            </ul>
-          @endif      
+           @include("nomadelfia.templates.famigliaStorico", ['famiglia' => $famiglia])
 
           <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente" button-style="btn-primary my-2">
             <template slot="modal-body-slot">
@@ -179,6 +115,77 @@
             </template> 
             <template slot="modal-button">
                   <button class="btn btn-danger" form="formComponente">Salva</button>
+            </template>
+          </my-modal>
+
+          <my-modal modal-title="Aggiorna componente" button-title="Aggiorna Componente" button-style="btn-primary my-2">
+            <template slot="modal-body-slot">
+              <form class="form" method="POST" id="formComponenteAggiorna" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
+                {{ csrf_field() }}
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Persona</label>
+                    <div class="col-8">
+                    <select class="form-control" name="persona_id">
+                      <option value="" selected>---scegli persona---</option>
+                          @foreach($famiglia->componenti as $comp)
+                            <option value="{{ $comp->id }}">{{ $comp->nominativo }}</option>
+                          @endforeach
+                       </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Posizione Famiglia</label>
+                    <div class="col-8">
+                      <select class="form-control" name="posizione">
+                      <option value="" selected>---scegli posizione---</option>
+                        @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+                            @if($posizione != "SINGLE" and $posizione != "CAPO FAMIGLIA")
+                            <option value="{{ $posizione }}">{{ $posizione }}</option>
+                            @endif
+                          @endforeach
+                       </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Data entrata nella famiglia:</label>
+                    <div class="col-8">
+                      <input type="date" class="form-control" name="data_entrata"  placeholder="Data entrata nella famiglia" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Data uscita dalla famiglia:</label>
+                    <div class="col-8">
+                      <input type="date" class="form-control" name="data_uscita"  placeholder="Data entrata nella famiglia" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Stato:</label>
+                    <div class="col-8">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="stato" id="stato1" value="1" checked>
+                      <label class="form-check-label" for="stato1">
+                        Includi nel nucleo familiare
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="stato" id="stato2" value="0">
+                      <label class="form-check-label" for="stato2">
+                        Non includere nel nucleo familiare
+                      </label>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="example-text-input" class="col-4 col-form-label">Note:</label>
+                    <div class="col-8">
+                      <!-- <input type="date" class="form-control" name="note" placeholder="Data entrata nella famiglia" > -->
+                      <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+              </form>
+            </template> 
+            <template slot="modal-button">
+                  <button class="btn btn-danger" form="formComponenteAggiorna">Salva</button>
             </template>
           </my-modal>
         </div>

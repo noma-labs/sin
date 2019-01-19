@@ -19,7 +19,7 @@ class GruppoFamiliare extends Model
   public function persone()
   {
     return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')
-                 ->orderby("nominativo");
+                ->orderBy("data_nascita", 'ASC');
   }
 
   public function personeAttuale(){
