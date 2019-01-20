@@ -33,7 +33,7 @@
     <div class="form-group row">
       <label for="fornascita" class="col-sm-6 col-form-label">Data di Nascita:</label>
       <div class="col-sm-6">
-        <input class="form-control" id="fornascita" name="data_nascita" placeholder="Data di nascita"  value="{{ old('data_nascita') }}">
+        <date-picker :bootstrap-styling="true" value="{{ old('data_nascita') }}" format="yyyy-MM-dd" name="data_nascita"></date-picker>
       </div>
     </div>
     <div class="form-group row">

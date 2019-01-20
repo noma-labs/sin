@@ -14,9 +14,10 @@
           @if($persona->posizioneAttuale())
           <h5 class="my-2">Completa dati del gruppo attuale:  {{$persona->gruppofamiliareAttuale()->nome}}</h5>
           <div class="form-group row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita gruppo</label>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita gruppo familiare</label>
             <div class="col-sm-6">
-              <input type="date" name="data_uscita" class="form-control" id="inputPassword" placeholder="Password">
+              <date-picker :bootstrap-styling="true" value="{{ old('data_uscita') }}" format="yyyy-MM-dd"name="data_uscita"></date-picker>
+              <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di entrata nel nuovo gruppo familiare.</small>
             </div>
           </div>
           <hr>
@@ -28,15 +29,15 @@
               <select name="gruppo_id" class="form-control">
                   <option selecte>---seleziona gruppo ---</option>
                   @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofam)
-                    <option value="{{$gruppofam->id}}">{{$gruppofam->nome}}</option>
+                    <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
                 @endforeach
               </select>
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputPassword" class="col-sm-4 col-form-label">Data inizio gruppo</label>
+            <label for="inputPassword" class="col-sm-4 col-form-label">Data entrata gruppo familiare</label>
             <div class="col-sm-8">
-              <input type="date" name="data_entrata" class="form-control" id="inputPassword" placeholder="Password">
+              <date-picker :bootstrap-styling="true" value="{{ old('data_entrata') }}" format="yyyy-MM-dd"name="data_entrata"></date-picker>
             </div>
           </div>
         </form>

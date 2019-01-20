@@ -70,6 +70,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
   Route::get('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica");
   Route::post('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
+  Route::post('persone/{idPersona}/nominativo/assegna', 'PersoneController@assegnaNominativoConfirm')->name("nomadelfia.persone.nominativo.assegna");
   Route::post('persone/{idPersona}/categoria/modifica', 'PersoneController@modificaCategoriaConfirm')->name("nomadelfia.persone.categoria.modifica");
   Route::post('persone/{idPersona}/gruppo/modifica', 'PersoneController@modificaGruppoFamiliare')->name("nomadelfia.persone.gruppo.modifica");
   Route::post('persone/{idPersona}/stato/assegna', 'PersoneController@assegnaStato')->name("nomadelfia.persone.stato.assegna");

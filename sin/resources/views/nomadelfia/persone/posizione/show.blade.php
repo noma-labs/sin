@@ -12,11 +12,12 @@
           {{ csrf_field() }}
 
           @if($persona->posizioneAttuale())
-          <h5 class="my-2">Completa dati della posizione attuale</h5>
+          <h5 class="my-2">Completa dati della posizione attuale: {{$persona->posizioneAttuale()->nome}}</h5>
           <div class="form-group row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Data fine  {{$persona->posizioneAttuale()->nome}}</label>
+            <label for="inputPassword" class="col-sm-6 col-form-label">Data fine posizione</label>
             <div class="col-sm-6">
-              <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password">
+              <date-picker :bootstrap-styling="true" value="{{ old('data_fine') }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
+              <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di inizio della nuova posizione .</small>
             </div>
           </div>
           <hr>
@@ -34,9 +35,10 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputPassword" class="col-sm-4 col-form-label">Data inizio</label>
+            <label class="col-sm-4 col-form-label">Data inizio</label>
             <div class="col-sm-8">
-              <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password">
+              <!-- <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password"> -->
+              <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
             </div>
           </div>
         </form>
@@ -78,7 +80,7 @@
           <p class="col-md-3 font-weight-bold"> Posizione</p>
           <p class="col-md-3 font-weight-bold"> Data inizio</p>
           <p class="col-md-3 font-weight-bold"> Data fine </p>
-          <p class="col-md-3 font-weight-bold"> Tempo  </p>
+          <p class="col-md-3 font-weight-bold"> Durata  </p>
         </div>
 
         @forelse($persona->posizioniStorico as $posizionestor)

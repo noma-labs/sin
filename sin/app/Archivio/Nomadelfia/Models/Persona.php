@@ -140,7 +140,8 @@ class Persona extends Model
   }
 
   public function statiStorico(){
-    return $this->stati()->wherePivot('stato', '0');
+    return $this->stati()->wherePivot('stato', '0')
+                ->orderby('data_fine','desc');
   }
 
   // FAMIGLIA

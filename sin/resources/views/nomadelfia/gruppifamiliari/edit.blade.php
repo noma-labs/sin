@@ -85,10 +85,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-4 col-form-label">Verranno spostati anche i seguenti componenti della famiglia</label>
-                                        <div class="col-8">
-                                            <ul>
-                                                @foreach($famiglia->componentiAttuali as $componente)
+                                        <div class="col">
+                                        <div class="text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
+                                            <ul >
+                                            @foreach($famiglia->componentiAttuali as $componente)
                                                 <li>{{$componente->nominativo}}</li>
                                                 @endforeach
                                             </ul>

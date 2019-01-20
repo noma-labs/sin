@@ -85,7 +85,8 @@
                 <div class="form-group row">
                   <label for="example-text-input" class="col-4 col-form-label">Data entrata nella famiglia:</label>
                     <div class="col-8">
-                      <input type="date" class="form-control" name="data_entrata"  placeholder="Data entrata nella famiglia" >
+                      <date-picker :bootstrap-styling="true" value="{{ old('data_entrata') }}" format="yyyy-MM-dd" name="data_entrata"></date-picker>
+                      <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di nascita del nuovo componente.</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -206,22 +207,22 @@
           </div>
           <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
             <div class="card-body">
-              <ul class="list-group list-group-flush">
                 @if($famiglia->gruppoFamiliareAttuale())
-                 <li class="list-group-item">
                     <div class="row">
-                      <div class="col-sm-4">
+                      <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
+                      <div class="col-sm-6 font-weight-bold"> Data entrata    </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
                          {{$famiglia->gruppoFamiliareAttuale()->nome}}
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-sm-6">
                         <span> {{$famiglia->gruppoFamiliareAttuale()->pivot->data_inizio}}</span>
                       </div>
                     </div>
-                  </li>
                   @else
                   <p class="text-danger">Nessun gruppo familiare associato</p>
-                  @endif  
-                </ul>
+                  @endif 
                 <!-- <div class="col-md-4"> -->
                     <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-primary my-2" button-title="Nuovo gruppo">
                       <template slot="modal-body-slot">
@@ -230,7 +231,7 @@
                           <div class="form-group row">
                             <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
                               <div class="col-8">
-                                <select class="form-control" name="nuovogruppo">
+                                <select class="form-control" name="gruppo_id">
                                 <option value="" selected>---scegli gruppo---</option>
                                   @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
                                       <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
@@ -241,18 +242,21 @@
                           <div class="form-group row">
                             <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
                               <div class="col-8">
-                                <input type="date" class="form-control" name="datacambiogruppo" placeholder="Data cambio gruppo" >
+                                <date-picker :bootstrap-styling="true" value="{{ old('datacambiogruppo') }}" format="yyyy-MM-dd" name="data_cambiogruppo"></date-picker>
                               </div>
                           </div>
+
                           <div class="form-group row">
-                            <p class="col-4 text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
-                              <div class="col-8">
-                              <ul>
-                                @foreach($famiglia->componentiAttuali as $componente)
-                                  <li>{{$componente->nominativo}}</li>
-                                  @endforeach
-                              </ul>
-                              </div>
+                            <div class="col">
+                            <div class="text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
+                                <ul >
+                                  @foreach($famiglia->componentiAttuali as $componente)
+                                    <li>{{$componente->nominativo}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                          </div>
+                           
                           </div>
                         </form>
                       </template> 
@@ -282,15 +286,19 @@
           </div>
           <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
             <div class="card-body">
+              <div class="row">
+                   <div class="col-md-6 font-weight-bold">Gruppo familiare </div>
+                  <div class="col-md-6 font-weight-bold"> Data entrata - data uscita   </div>
+              </div>
               <ul class="list-group list-group-flush">
                 @forelse($famiglia->gruppiFamiliariStorico as $gruppo)
                 <li class="list-group-item">
                     <div class="row">
-                      <div class="col-sm-8">
+                      <div class="col-md-6">
                        {{$gruppo->nome}}
                       </div>
-                      <div class="col-sm-4">
-                        <span> @year($gruppo->pivot->data_inizio) - @year($gruppo->pivot->data_fine)</span>
+                      <div class="col-md-6">
+                        <span> {{$gruppo->pivot->data_inizio}} - {{$gruppo->pivot->data_fine}}</span>
                       </div>
                     </div>
                   </li>

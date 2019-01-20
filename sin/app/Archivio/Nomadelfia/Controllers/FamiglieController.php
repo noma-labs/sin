@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\Persona;
+
 
 class FamiglieController extends CoreBaseController
 {
@@ -62,7 +64,7 @@ class FamiglieController extends CoreBaseController
   }
 
   /**
-  * Sposta tutti i componenti attivi (stato = 1) di una famiglia in un nuovo gruppo.
+  * Sposta la famiglia e tutti i componenti attivi (stato = 1) in un nuovo gruppo familiare.
   *
   * @author Davide Neri
   **/
@@ -85,20 +87,21 @@ class FamiglieController extends CoreBaseController
       "persona_id" => "required", 
       "posizione" => "required",
       "stato" => "required",
-      "data_entrata" => "required|date"
+      // "data_entrata" => "required|date"
     ],[
       "persona_id.required" => "La persona è obbligatoria.", 
       "stato.required" => "Lo stato della persona è obbligatoria.", 
       'posizione.required'=>"La posizione nella famiglia è obbligatoria.",
-      'data_entrata.required'=>"La data di entrata nella famiglia è obbligatoria.",
+      // 'data_entrata.required'=>"La data di entrata nella famiglia è obbligatoria.",
       'data_entrata.date'=>"La data del cambio di gruppo non è una data corretta.",
-
   ]);
     $famiglia = Famiglia::findorfail($id);
+    $persona = Persona::findorfail($request->persona_id);
     try{
-       $famiglia->componenti()->attach($request->persona_id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
-                                                          'data_entrata'=>$request->data_entrata,'note'=>$request->note]);
-      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiunto alla famiglia con successo");
+       $famiglia->componenti()->attach($persona->id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
+                                                          'data_entrata'=>($request->data_entrata ? $request->data_entrata: $persona->data_nascita),
+                                                          'note'=>$request->note]);
+      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
     }catch (Exception $e){
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }

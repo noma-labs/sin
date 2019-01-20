@@ -70,28 +70,46 @@ class PersoneController extends CoreBaseController
     return view('nomadelfia.persone.edit_nominativo',compact('persona'));
   }
 
+  /**
+   * Modifica il nominativo esistente di una persona.
+   * 
+   * @author Davide Neri
+   */
   public function modificaNominativoConfirm(Request $request,$idPersona){
     $validatedData = $request->validate([
-      "nominativo" => "required",
-      // "nuovonominativo" => "required",
+      "nominativo" => "required|unique:db_nomadelfia.persone,nominativo",
     ],[
       "nominativo.required" => "Il nominativo è obbligatorio",
-      "nuovonominativo.required" => "Il nuovo nominativo  è obbligatorio",
+      "nominativo.unique" => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
     ]);
     $persona = Persona::findOrFail($idPersona);
-
-    if($request->operazione == "modifica"){
-      $persona->nominativo = $request->nominativo;
-      $persona->save();
-      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nominativo aggiornato con suceesso");
-    }else{
-      $persona->nominativiStorici()->create(['nominativo'=> $persona->nominativo]);
-      $persona->nominativo = $request->nuovonominativo;
-      $persona->save();
-      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
+    $persona->nominativo = $request->nominativo;
+    if($persona->save())
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nominativo  aggiornato con suceesso");
+    else
+      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore. Il nominativo non è stato aggiornato.");
     }
 
-  }
+   /**
+   * Assegna un nuovo nominativo e salva il nominativo attuale nello storico dei nominativi.
+   * 
+   * @author Davide Neri
+   */
+    public function assegnaNominativoConfirm(Request $request,$idPersona){
+      $validatedData = $request->validate([
+        "nuovonominativo" => "required|unique:db_nomadelfia.persone,nominativo",
+      ],[
+        "nuovonominativorequired" => "Il nominativo è obbligatorio",
+        "nuovonominativounique" => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
+      ]);
+       $persona = Persona::findOrFail($idPersona);
+      $persona->nominativiStorici()->create(['nominativo'=> $persona->nominativo]);
+      $persona->nominativo = $request->nuovonominativo;
+      if($persona->save())
+        return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
+      else
+        return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore. Il nominativo non è stato assegnato.");
+    }
 
   public function modificaCategoriaConfirm(Request $request, $idPersona){
     $validatedData = $request->validate(["categoria" => "required",],
@@ -231,9 +249,11 @@ class PersoneController extends CoreBaseController
     $validatedData = $request->validate([
       "posizione_id" => "required", 
       "data_inizio" => "required|date",
+      // "data_fine" => "required|date",
     ],[
       "posizione_id.required" => "La posizione è obbligatorio", 
-      'data_inizio.required'=>"La data iniziale della posizione è obbligatoria.",
+      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
+      // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
     if($persona->posizioneAttuale()) // se 
@@ -261,15 +281,17 @@ class PersoneController extends CoreBaseController
    */
   public function assegnaStato(Request $request, $idPersona){ 
     $validatedData = $request->validate([
+      // "data_fine" => "required|date", 
       "stato_id" => "required", 
       "data_inizio" => "required|date",
     ],[
       "stato_id.required" => "Lo stato è obbligatorio", 
       'data_inizio.required'=>"La data iniziale dello stato è obbligatoria.",
+      // 'data_fine.required'=>"La data dell fine dello è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
-    if($persona->statoAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
-      $persona->stati()->updateExistingPivot($persona->statoAttuale()->id, ['stato'=>'0','data_fine'=>$request->data_inizio]);
+    if($persona->statoAttuale()) 
+      $persona->stati()->updateExistingPivot($persona->statoAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->stati()->attach($request->stato_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
   }
@@ -292,20 +314,19 @@ class PersoneController extends CoreBaseController
   public function assegnaGruppofamiliare(Request $request, $idPersona){ 
     $validatedData = $request->validate([
       "gruppo_id" => "required", 
-      "data_uscita" => "required|date",
+      // "data_uscita" => "required|date",
       "data_entrata" => "required|date",
-
     ],[
       "gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
       'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
-      'data_uscita.required'=>"La data di uscita nel gruppo familiare è obbligatoria.",
-
+      // 'data_uscita.required'=>"La data di uscita nel gruppo familiare è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
     if($persona->gruppofamiliareAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
-      $persona->gruppifamiliari()->updateExistingPivot($persona->gruppofamiliareAttuale()->id, ['stato'=>'0','data_uscita_gruppo'=>$request->data_uscita]);
+      $persona->gruppifamiliari()->updateExistingPivot($persona->gruppofamiliareAttuale()->id, ['stato'=>'0',
+                                                                    'data_uscita_gruppo'=>($request->data_uscita ? $request->data_uscita: $request->data_entrata)]);
     $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
   }
 
   

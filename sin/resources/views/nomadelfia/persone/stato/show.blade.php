@@ -12,11 +12,12 @@
           {{ csrf_field() }}
 
           @if($persona->statoAttuale())
-          <h5 class="my-2">Completa dati dello stato attuale</h5>
+          <h5 class="my-2">Completa dati dello stato attuale: {{$persona->statoAttuale()->nome}</h5>
           <div class="form-group row">
-            <label for="dataInizio" class="col-sm-6 col-form-label">Data fine  {{$persona->statoAttuale()->nome}}</label>
+            <label for="dataInizio" class="col-sm-6 col-form-label">Data fine stato</label>
             <div class="col-sm-6">
-              <input type="date" name="data_inizio" class="form-control" id="dataInizio">
+              <date-picker :bootstrap-styling="true" value="{{ old('data_fine') }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
+              <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di inizio del nuovo stato.</small>
             </div>
           </div>
           <hr>
@@ -36,7 +37,7 @@
           <div class="form-group row">
             <label for="inputPassword" class="col-sm-4 col-form-label">Data inizio</label>
             <div class="col-sm-8">
-              <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password">
+              <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
             </div>
           </div>
         </form>
@@ -78,7 +79,7 @@
           <p class="col-md-3 font-weight-bold"> Stato</p>
           <p class="col-md-3 font-weight-bold"> Data inizio</p>
           <p class="col-md-3 font-weight-bold"> Data fine </p>
-          <p class="col-md-3 font-weight-bold"> Tempo  </p>
+          <p class="col-md-3 font-weight-bold"> Durata  </p>
         </div>
 
         @forelse($persona->statiStorico as $statostorico)
