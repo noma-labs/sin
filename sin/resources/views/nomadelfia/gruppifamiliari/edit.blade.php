@@ -79,7 +79,9 @@
                                     <div class="form-group row">
                                     <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
                                         <div class="col-8">
-                                        <input type="date" class="form-control" name="data_cambiogruppo" placeholder="Data cambio gruppo" >
+                                        <date-picker :bootstrap-styling="true"  format="yyyy-MM-dd" name="data_cambiogruppo"></date-picker>
+
+                                        <!-- <input type="date" class="form-control" name="data_cambiogruppo" placeholder="Data cambio gruppo" > -->
                                         </div>
                                     </div>
                                     <div class="form-group row">

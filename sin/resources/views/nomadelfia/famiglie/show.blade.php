@@ -45,7 +45,7 @@
 </div> -->
 
 <div class="row my-3">
-<div class="col-md-6 mb-2"> <!--  start col dati anagrafici -->
+<div class="col-md-8 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -56,6 +56,7 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
+
            @include("nomadelfia.templates.famigliaStorico", ['famiglia' => $famiglia])
 
           <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente" button-style="btn-primary my-2">
@@ -74,9 +75,9 @@
                       <select class="form-control" name="posizione">
                       <option value="" selected>---scegli posizione---</option>
                         @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
-                            @if($posizione != "SINGLE" and $posizione != "CAPO FAMIGLIA")
+                            @if($famiglia->capofamiglia() != null) -->
                             <option value="{{ $posizione }}">{{ $posizione }}</option>
-                            @endif
+                             @endif
                           @endforeach
                        </select>
                     </div>
@@ -118,7 +119,7 @@
             </template>
           </my-modal>
 
-          <my-modal modal-title="Aggiorna componente" button-title="Aggiorna Componente" button-style="btn-primary my-2">
+           <!-- <my-modal modal-title="Aggiorna componente" button-title="Aggiorna Componente" button-style="btn-success my-2">
             <template slot="modal-body-slot">
               <form class="form" method="POST" id="formComponenteAggiorna" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
                 {{ csrf_field() }}
@@ -178,7 +179,6 @@
                 <div class="form-group row">
                   <label for="example-text-input" class="col-4 col-form-label">Note:</label>
                     <div class="col-8">
-                      <!-- <input type="date" class="form-control" name="note" placeholder="Data entrata nella famiglia" > -->
                       <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
                 </div>
@@ -187,94 +187,125 @@
             <template slot="modal-button">
                   <button class="btn btn-danger" form="formComponenteAggiorna">Salva</button>
             </template>
-          </my-modal>
+          </my-modal>  -->
         </div>
       </div>
     </div>
   </div> <!--  end col dati anagrafici -->
 
-  <div class="col-md-6"> <!--  start col dati gruppo -->
-    <div class="card mb-2">
-      <div class="card-header" id="headingZero">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
-            Altri dati
-          </button>
-        </h5>
-      </div>
-      <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
-        <div class="card-body">
-        <div class="row">
-              <h5 class="col-md-4">Gruppo Familiare Attuale:</h5>
-              <div class="col-md-5">
-                  @if($famiglia->gruppoFamiliareAttuale())
-                   <span class="font-weight-bold"> {{$famiglia->gruppoFamiliareAttuale()->nome}}</span>   
-                 @else
+  <div class="col-md-4"> <!--  start col dati gruppo -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-2" >
+          <div class="card-header" id="headingZero">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
+                Gruppo familiare attuale
+              </button>
+            </h5>
+          </div>
+          <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @if($famiglia->gruppoFamiliareAttuale())
+                 <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-4">
+                         {{$famiglia->gruppoFamiliareAttuale()->nome}}
+                      </div>
+                      <div class="col-sm-4">
+                        <span> {{$famiglia->gruppoFamiliareAttuale()->pivot->data_inizio}}</span>
+                      </div>
+                    </div>
+                  </li>
+                  @else
                   <p class="text-danger">Nessun gruppo familiare associato</p>
-                 @endif
-              </div>
-              <div class="col-md-3">
-                <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-title="Nuovo gruppo">
-                  <template slot="modal-body-slot">
-                    <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
-                      {{ csrf_field() }}
-                      <div class="form-group row">
-                        <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
-                          <div class="col-8">
-                            <select class="form-control" name="nuovogruppo">
-                            <option value="" selected>---scegli gruppo---</option>
-                              @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
-                                  <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
-                                @endforeach
-                          </select>
+                  @endif  
+                </ul>
+                <!-- <div class="col-md-4"> -->
+                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-primary my-2" button-title="Nuovo gruppo">
+                      <template slot="modal-body-slot">
+                        <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
+                          {{ csrf_field() }}
+                          <div class="form-group row">
+                            <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
+                              <div class="col-8">
+                                <select class="form-control" name="nuovogruppo">
+                                <option value="" selected>---scegli gruppo---</option>
+                                  @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
+                                      <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
+                                    @endforeach
+                              </select>
+                              </div>
                           </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
-                          <div class="col-8">
-                            <input type="date" class="form-control" name="datacambiogruppo" placeholder="Data cambio gruppo" >
+                          <div class="form-group row">
+                            <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
+                              <div class="col-8">
+                                <input type="date" class="form-control" name="datacambiogruppo" placeholder="Data cambio gruppo" >
+                              </div>
                           </div>
-                      </div>
-                      <div class="form-group row">
-                        <p class="col-4 text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
-                          <div class="col-8">
-                          <ul>
-                            @foreach($famiglia->componentiAttuali as $componente)
-                              <li>{{$componente->nominativo}}</li>
-                              @endforeach
-                          </ul>
+                          <div class="form-group row">
+                            <p class="col-4 text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
+                              <div class="col-8">
+                              <ul>
+                                @foreach($famiglia->componentiAttuali as $componente)
+                                  <li>{{$componente->nominativo}}</li>
+                                  @endforeach
+                              </ul>
+                              </div>
                           </div>
+                        </form>
+                      </template> 
+                      <template slot="modal-button">
+                            <button class="btn btn-danger" form="formGruppo">Salva</button>
+                      </template>
+                    </my-modal>
+                 <!-- </div>   end col-md-3 formodal-->
+                  
+                <!-- </div>  -->
+              </div> <!--  end card body -->
+            </div>  <!--  end collapse -->
+          </div>  <!--  end card -->
+        </div> <!--  end colum -->
+    </div>  <!--  end first row -->
+
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-2">
+          <div class="card-header" id="headingZero">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapsezero" aria-expanded="true" aria-controls="collapsezero">
+                Gruppo familiare Storico
+              </button>
+            </h5>
+          </div>
+          <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @forelse($famiglia->gruppiFamiliariStorico as $gruppo)
+                <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-sm-8">
+                       {{$gruppo->nome}}
                       </div>
-                    </form>
-                  </template> 
-                  <template slot="modal-button">
-                        <button class="btn btn-danger" form="formGruppo">Salva</button>
-                  </template>
-                </my-modal>
-              </div>
-            </div>
-        <h5> Storico Gruppi Familiari:</h5>
-        <ul class="list-group list-group-flush">
-            @forelse($famiglia->gruppiFamiliariStorico as $gruppo)
-            <li class="list-group-item">
-                <div class="row">
-                  <div class="col-sm-8">
-                    <span> @year($gruppo->pivot->data_inizio) - @year($gruppo->pivot->data_fine)</span>
-                  </div>
-                  <div class="col-sm-4">
-                     {{$gruppo->nome}}
-                  </div>
-                </div>
-              </li>
-              @empty
-              <p class="text-danger">Nessun gruppo familiare storico.</p>
-              @endforelse   
-            </ul>
-         
-        </div>
-      </div> 
-    </div>  <!--  end card -->
-  </div> <!--  end col dati nomadelfia -->
+                      <div class="col-sm-4">
+                        <span> @year($gruppo->pivot->data_inizio) - @year($gruppo->pivot->data_fine)</span>
+                      </div>
+                    </div>
+                  </li>
+                  @empty
+                  <p class="text-danger">Nessun gruppo familiare storico.</p>
+                  @endforelse   
+                </ul>
+            
+            </div> <!--  end card body-->
+          </div>  <!--  end collapszero-->
+        </div>  <!--  end card -->
+      </div> <!--  end 12 colum -->
+    </div>  <!--  end second row -->
+ 
+  </div> <!--  end col dati gruppo familiare -->
 
 </div> <!--  end first row-->
 

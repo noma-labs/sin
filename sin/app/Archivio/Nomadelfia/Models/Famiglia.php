@@ -29,6 +29,13 @@ class Famiglia extends Model
     'SINGLE'
    ];
 
+    /**
+   * Set the nome in uppercase when a new famiglia is insereted.
+   */
+  public function setNomeFamigliaAttribute($value) {
+    $this->attributes['nome_famiglia'] = strtoupper($value);
+}
+
   public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
      return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
              ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')

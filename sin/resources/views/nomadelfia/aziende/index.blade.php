@@ -4,6 +4,7 @@
 
 @include('partials.header', ['title' => 'Gestione Aziende'])
 
+
 @foreach ($aziende->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $azienda)

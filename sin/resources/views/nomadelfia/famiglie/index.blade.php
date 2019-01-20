@@ -4,6 +4,8 @@
 
 @include('partials.header', ['title' => 'Gestione Famiglie'])
 
+<a href="{{ route('nomadelfia.famiglie.create') }}" class="btn btn-info my-2">Crea nuova</a> 
+
 <div class="row">
   <div class="col-md-6">
     <div id="accordion">

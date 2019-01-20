@@ -35,9 +35,34 @@ class FamiglieController extends CoreBaseController
     return view('nomadelfia.famiglie.show',compact('famiglia'));
   }
 
+
   /**
-  * Sposta yutti i componenti attivi (stato = 1) di una fmaiglia in un nuovo gruppo.
-  *
+  * Ritorna la view per creare una nuova famiglia
+  * @author Davide Neri
+  **/
+  public function create(Request $request){ 
+    return view('nomadelfia.famiglie.create');
+  }
+
+  /**
+  * Crea una nuova famiglia
+  * @author Davide Neri
+  **/
+  public function createConfirm(Request $request){ 
+    $validatedData = $request->validate([
+      "nome" => "required|unique:db_nomadelfia.famiglie,nome_famiglia", 
+      "data_inizio" => "required|date",
+      ],[
+        "nome.required" => "Il nome della famiglia  è obbligatorio", 
+        "nome.unique" => "Il nome della famiglia esiste già", 
+        'data_inizio.required'=>"La data di creazione della famiglia è obbligatoria.",
+    ]);
+    $fam = Famiglia::create(['nome_famiglia'=>$request->nome, 'data_creazione'=>$request->data_inizio]);
+    return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
+  }
+
+  /**
+  * Sposta tutti i componenti attivi (stato = 1) di una famiglia in un nuovo gruppo.
   *
   * @author Davide Neri
   **/

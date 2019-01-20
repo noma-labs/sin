@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeDbNomadelfiaTables extends Migration
+class AddTimestampsToFamiglie extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class ChangeDbNomadelfiaTables extends Migration
      * @return void
      */
     public function up()
-    { 
-        // Schema::table('gruppi_famiglie', function (Blueprint $table) {
-        //     #$table->string('note')->nullable()->change();
-        // });
+    {
+        Schema::table('famiglie', function (Blueprint $table) {
+            $table->timestamps();
+        });
     }
 
     /**
@@ -25,6 +25,8 @@ class ChangeDbNomadelfiaTables extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('famiglie', function (Blueprint $table) {
+            //
+        });
     }
 }

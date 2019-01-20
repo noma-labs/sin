@@ -19,6 +19,12 @@ use Validator;
 
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
+
+  public function printPersone(){
+
+
+  }
+  
   public function print(){
     $maggiorenniUomini = Persona::presente()->uomini()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
@@ -87,7 +93,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                       function($item){
                         return $item['sesso'];
                       }]);
-    // return $minorenni;
   }
 
 }

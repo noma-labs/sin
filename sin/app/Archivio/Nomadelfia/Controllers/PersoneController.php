@@ -144,9 +144,10 @@ class PersoneController extends CoreBaseController
   }
 
   /**
-   * Inserisci una persona nel sistema con i suoi dati personali.
-   * L'id della persona è l'identificativo univoco usato in tutti i sistemi per
-   * identificare una persona.
+   * Inserisci una persona nel sistema con i dati personali.
+   * L'inserimento associa un ID alla persona che è
+   * è l'identificativo univoco usato in tutti i sistemi per
+   * identificare la persona.
    * 
    * @author Davide Neri
    */
