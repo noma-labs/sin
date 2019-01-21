@@ -20,7 +20,7 @@
                   </button>
                 </h5>
                 @if( $gruppo->personeAttuale->count() !=  $gruppo->personeAttualeViaFamiglie()->count())
-                  <span class="bg-danger text-white">Controllare persone</span>
+                  <span class="bg-danger text-white">Il numero di persone non coincidono</span>
                  @endif
               </div>
               <div id="{{$gruppo->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
