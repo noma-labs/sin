@@ -6,48 +6,7 @@
 
 <div class="row justify-content-center">
    <div class="col-md-6">
-    <my-modal modal-title="Aggiungi Stato persona" button-title="Aggiungi Posizione" button-style="btn-primary my-2">
-      <template slot="modal-body-slot">
-      <form class="form" method="POST"  id="formPersonaPosizione" action="{{ route('nomadelfia.persone.posizione.assegna', ['idPersona' =>$persona->id]) }}" >      
-          {{ csrf_field() }}
-
-          @if($persona->posizioneAttuale())
-          <h5 class="my-2">Completa dati della posizione attuale: {{$persona->posizioneAttuale()->nome}}</h5>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-6 col-form-label">Data fine posizione</label>
-            <div class="col-sm-6">
-              <date-picker :bootstrap-styling="true" value="{{ old('data_fine') }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
-              <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di inizio della nuova posizione .</small>
-            </div>
-          </div>
-          <hr>
-          @endif
-          <h5 class="my-2">Inserimento nuova posizione</h5>
-          <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Posizione</label>
-            <div class="col-sm-8">
-              <select name="posizione_id" class="form-control">
-                  <option selecte>---seleziona posizione---</option>
-                  @foreach (App\Nomadelfia\Models\Posizione::all() as $posizione)
-                    <option value="{{$posizione->id}}">{{$posizione->nome}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-4 col-form-label">Data inizio</label>
-            <div class="col-sm-8">
-              <!-- <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password"> -->
-              <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
-            </div>
-          </div>
-        </form>
-      </template> 
-      <template slot="modal-button">
-        <button class="btn btn-success" form="formPersonaPosizione">Salva</button>
-      </template>
-    </my-modal> <!--end modal-->
-
+  
     <div class="card">
       <div class="card-header">
         Posizione attuale
@@ -68,6 +27,47 @@
             </div>
           @else
            <p class="text-danger">Nessuna posizione</p>
+           <my-modal modal-title="Aggiungi Posizioine persona" button-title="Aggiungi Posizione" button-style="btn-primary my-2">
+              <template slot="modal-body-slot">
+              <form class="form" method="POST"  id="formPersonaPosizione" action="{{ route('nomadelfia.persone.posizione.assegna', ['idPersona' =>$persona->id]) }}" >      
+                  {{ csrf_field() }}
+
+                  @if($persona->posizioneAttuale())
+                  <h5 class="my-2">Completa dati della posizione attuale: {{$persona->posizioneAttuale()->nome}}</h5>
+                  <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-6 col-form-label">Data fine posizione</label>
+                    <div class="col-sm-6">
+                      <date-picker :bootstrap-styling="true" value="{{ old('data_fine') }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
+                      <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di inizio della nuova posizione .</small>
+                    </div>
+                  </div>
+                  <hr>
+                  @endif
+                  <h5 class="my-2">Inserimento nuova posizione</h5>
+                  <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label">Posizione</label>
+                    <div class="col-sm-8">
+                      <select name="posizione_id" class="form-control">
+                          <option selecte>---seleziona posizione---</option>
+                          @foreach (App\Nomadelfia\Models\Posizione::all() as $posizione)
+                            <option value="{{$posizione->id}}">{{$posizione->nome}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Data inizio</label>
+                    <div class="col-sm-8">
+                      <!-- <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password"> -->
+                      <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
+                    </div>
+                  </div>
+                </form>
+              </template> 
+              <template slot="modal-button">
+                <button class="btn btn-success" form="formPersonaPosizione">Salva</button>
+              </template>
+            </my-modal> <!--end modal-->
           @endif
       </div>  <!--end card body-->
     </div> <!--end card -->
