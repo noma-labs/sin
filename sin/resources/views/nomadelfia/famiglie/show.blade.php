@@ -120,7 +120,7 @@
             </template>
           </my-modal>
 
-           <!-- <my-modal modal-title="Aggiorna componente" button-title="Aggiorna Componente" button-style="btn-success my-2">
+          <my-modal modal-title="Aggiorna componente" button-title="Modifica  Componente" button-style="btn-success my-2">
             <template slot="modal-body-slot">
               <form class="form" method="POST" id="formComponenteAggiorna" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
                 {{ csrf_field() }}
@@ -188,7 +188,7 @@
             <template slot="modal-button">
                   <button class="btn btn-danger" form="formComponenteAggiorna">Salva</button>
             </template>
-          </my-modal>  -->
+          </my-modal>  
         </div>
       </div>
     </div>
