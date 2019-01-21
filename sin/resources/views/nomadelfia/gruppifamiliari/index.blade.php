@@ -14,9 +14,14 @@
                 <h5 class="mb-0">
                   <button class="btn btn-link" data-toggle="collapse" data-target="#{{$gruppo->id}}" aria-expanded="false" aria-controls="collapseOne">
                       {{$gruppo->nome}} 
-                  <span class="badge badge-primary badge-pill">{{$gruppo->persone->count()}}</span> 
+                  <span class="badge badge-primary badge-pill">
+                  {{$gruppo->personeAttuale->count()}}
+                  </span> 
                   </button>
                 </h5>
+                @if( $gruppo->personeAttuale->count() !=  $gruppo->personeAttualeViaFamiglie()->count())
+                  <span class="bg-danger text-white">Controllare persone</span>
+                 @endif
               </div>
               <div id="{{$gruppo->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body">
