@@ -75,9 +75,9 @@
                       <select class="form-control" name="posizione">
                       <option value="" selected>---scegli posizione---</option>
                         @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
-                            @if($famiglia->capofamiglia() != null) -->
+                            <!-- @if($famiglia->capofamiglia() != null)  -->
                             <option value="{{ $posizione }}">{{ $posizione }}</option>
-                             @endif
+                             <!-- @endif -->
                           @endforeach
                        </select>
                     </div>
