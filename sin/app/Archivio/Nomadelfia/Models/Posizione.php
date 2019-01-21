@@ -3,6 +3,8 @@
 namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
 use App\Nomadelfia\Models\Persona;
 
 class Posizione extends Model
@@ -11,6 +13,19 @@ class Posizione extends Model
   protected $table = 'posizioni';
   protected $primaryKey = "id";
 
+  /**
+   * Ordina (di default) le posizioni secondo la colonna ordinamento
+   * 
+   * @author: Davide Neri
+   */
+  protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('ordinamento', function (Builder $builder) {
+          $builder->orderBy('ordinamento');
+      });
+    }
 
   public function persone(){
     return $this->belongsToMany(Persona::class,'persone_posizioni', 'posizione_id', 'persona_id');

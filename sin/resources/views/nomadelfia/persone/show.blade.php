@@ -126,7 +126,7 @@
               <div class="row">
                 <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
                 <label class="col-sm-4">Nominativo: </label>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                   {{$persona->nominativo}}
                 </div>
                 <div class="col-sm-2">
@@ -137,39 +137,49 @@
             <li class="list-group-item">
               <div class="row">
                   <label class="col-sm-4">Stato familiare:</label>
-                  <div class="col-sm-8">
+                  <div class="col-sm-6">
                     @if ($persona->statoAttuale() != null)
                         <span>{{$persona->statoAttuale()->nome}}</span>
                     @else
                         <span class="text-danger">Nessuno stato</span>
                     @endif
                   </div>
-
+                  <div class="col-sm-2">
+                    <a class="btn btn-primary" href="{{route('nomadelfia.persone.stato', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                  </div>
               </div>
             </li>
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4">Posizione: </label>
-                <div class="col-sm-8">
-                @if($persona->posizioneAttuale() != null)
+                <div class="col-sm-6">
+                  @if($persona->posizioneAttuale() != null)
                       {{$persona->posizioneAttuale()->nome}}
                     @else
                     <span class="text-danger">Nessuna posizione</span>
                     @endif
+                </div>
+                <div class="col-sm-2">
+                  <a class="btn btn-primary" href="{{route('nomadelfia.persone.posizione', ['idPersona'=>$persona->id])}}">Modifica</a> 
                 </div>
             </div>
             </li>
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4">Gruppo familiare: </label>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
+                <!-- TODO 
+                 ADD into the model PERSONA e method for checking if the gruppo familiare is not equal to the gruppo familiare of the family
+                -->
                   @if($persona->gruppofamiliareAttuale() != null)
-                    <a href="{{route('nomadelfia.gruppifamiliari.modifica', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
-                </div>
-                <div class="col-sm-4"> 
+                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif
+
+                </div>
+                <div class="col-sm-2">
+                  <a class="btn btn-primary" href="{{route('nomadelfia.persone.gruppofamiliare', ['idPersona'=>$persona->id])}}">Modifica</a> 
                 </div>
               </div>
             </li>
@@ -203,14 +213,15 @@
       </div>
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
+        <h5 class="my-3">Famiglia Attuale</h5>
+  
         <ul class="list-group list-group-flush">
-          
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Famiglia:</label>
+              <label class="col-sm-4">Nome:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->nome_famiglia}} 
+                 <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
                 @else
                   <span class="text-danger">Nessuna famiglia</span>
                 @endif
@@ -219,10 +230,12 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Posizione  famiglia:</label>
+              <label class="col-sm-4">Posizione:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
-                  <span> {{$persona->famigliaAttuale()->pivot->posizione_famiglia}}</span>
+                  <span>{{$persona->famigliaAttuale()->pivot->posizione_famiglia}}
+                     </span>
+              </span>
                 @else
                   <span class="text-danger">Nessuna posizione famiglia</span>
                 @endif
@@ -230,6 +243,37 @@
             </div>
           </li>
         </ul>
+        <!-- @if($persona->famigliaAttuale() == null)
+          <a  class="btn btn-primary my-2" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>2])}}"> Crea Famiglia </a>
+          @endif -->
+
+        <h5 class="my-3">Famiglia Storico</h5>
+        @forelse($persona->famiglieStorico as $famiglia)
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Nome:</label>
+              <div class="col-sm-8">
+                <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> 
+                {{ $famiglia->nome_famiglia}} 
+                  </a>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4">Posizione:</label>
+              <div class="col-sm-8">
+                  <span> {{$famiglia->pivot->posizione_famiglia}}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        @empty
+          <span class="text-danger my-2">Nessuna famiglia storico</span>
+        @endforelse
+         
+      
         </div>
       </div>
     </div>

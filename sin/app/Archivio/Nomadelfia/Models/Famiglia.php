@@ -3,19 +3,38 @@
 namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\GruppoFamiliare;
 use Exception;
 use Illuminate\Support\Facades\DB;
+
+use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Traits\Enums;
 
 
 class Famiglia extends Model
 {
+  use Enums;
+
   protected $connection = 'db_nomadelfia';
   protected $table = 'famiglie';
   protected $primaryKey = "id";
 
   protected $guarded = [];
+
+  protected $enumPosizione = [  
+    'CAPO FAMIGLIA',
+    'MOGLIE',
+    'FIGLIO NATO',
+    'FIGLIO ACCOLTO',
+    'SINGLE'
+   ];
+
+    /**
+   * Set the nome in uppercase when a new famiglia is insereted.
+   */
+  public function setNomeFamigliaAttribute($value) {
+    $this->attributes['nome_famiglia'] = strtoupper($value);
+}
 
   public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
      return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
@@ -63,7 +82,8 @@ class Famiglia extends Model
   **/
   public function gruppiFamiliari()
   {
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id');
+    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id')
+                ->withPivot('data_inizio','data_fine','stato');
   }
 
  /**
@@ -91,7 +111,8 @@ class Famiglia extends Model
   **/
   public function componenti(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->withPivot("posizione_famiglia");
+            ->withPivot("stato",'posizione_famiglia')
+            ->orderby("nominativo");
   }
 
   /**
@@ -108,7 +129,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function capofamiglia(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+    return $this->componenti()
                 ->wherePivot('posizione_famiglia','CAPO FAMIGLIA')
                 ->first();
   }
@@ -118,8 +139,9 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function single(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->wherePivot('posizione_famiglia','SINGLE');
+    return $this->componenti()
+                ->wherePivot('posizione_famiglia','SINGLE')
+                ->first();
   }
 
   /**
@@ -127,7 +149,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public function moglie(){
-    return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+    return $this->componenti()
                 ->wherePivot('posizione_famiglia','MOGLIE')
                 ->first();
   }
@@ -138,8 +160,8 @@ class Famiglia extends Model
   **/
   public function figli(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
+                ->withPivot("stato",'posizione_famiglia')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
-                ->withPivot("stato")
                 ->orderBy('data_nascita');
   }
 
@@ -153,19 +175,21 @@ class Famiglia extends Model
 
   /**
   * Assegna un nuovo gruppo familiare alla famiglia.
+  * Se il gruppoFamiliare attuale non è nullo aggiorna lo stato =0.
   * @author Davide Neri
   **/
   public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, 
                                                       $gruppoFamiliareNuovo, $dataEntrataGruppo=null)
   {
     try
-    {
-      $this->gruppiFamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_fine'=>$dataUscitaGruppoFamiliareAttuale]);
+    { if($gruppoFamiliareAttuale)
+         $this->gruppiFamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_fine'=>$dataUscitaGruppoFamiliareAttuale]);
+      
       $this->gruppiFamiliari()->attach($gruppoFamiliareNuovo,['stato' => '1','data_inizio'=>$dataUscitaGruppoFamiliareAttuale, 'data_fine'=>$dataEntrataGruppo]);
       foreach($this->componentiAttuali as $persona)
         $persona->assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
       
-       $this->commit();
+      //  $this->commit();
     }catch (Exception $e)
       {
        DB::rollBack();

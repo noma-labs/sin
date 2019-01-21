@@ -39,6 +39,12 @@ Vue.component('patente-inserimento', require('./components/patente/patente-inser
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from 'vuejs-datepicker';
+// set the language fo all the date-picker component
+import {it} from 'vuejs-datepicker/dist/locale';
+
+Datepicker.computed.translation = function (){
+  return it;
+}
 
 Vue.component('date-picker', Datepicker);
 

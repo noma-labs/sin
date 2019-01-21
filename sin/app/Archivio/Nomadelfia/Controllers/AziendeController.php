@@ -18,11 +18,6 @@ class AziendeController extends CoreBaseController
     return view('nomadelfia.aziende.index',compact('aziende'));
   }
 
-  public function show($idPersona){
-    $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.show",compact('persona'));
-  }
-
   /**
   * ritorna la view per editare una azienda
   * @param id dell'azienda da editare

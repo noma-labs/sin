@@ -15,7 +15,6 @@
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
       <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}" >Gestione persone</a> 
       <a class="dropdown-item" href="{{route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
-      <a class="dropdown-item" href="{{route('nomadelfia.autocomplete.persona')}}">Ricerca Persona</a>
     </div>
   </li>
   <li class="nav-item">
@@ -24,28 +23,12 @@
   <li class="nav-item">
      <a class="nav-link"href="{{ route('nomadelfia.famiglie') }}">Famiglie</a>
   </li>
-  <!-- <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
-    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Gruppi Familiari
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarPesone">
-      <a class="dropdown-item" href="{{ route('nomadelfia.gruppifamiliari') }}" >Gestione Gruppi familiari</a> 
-    </div>
-  </li> -->
+
   <li class="nav-item">
      <a class="nav-link"  href="{{ route('nomadelfia.aziende') }}">Aziende</a>
   </li>
-  <!-- <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 
-    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Aziende
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarPesone">
-      <a class="dropdown-item" href="{{ route('nomadelfia.aziende') }}" >Gestione Aziende</a> 
-    </div>
-  </li> -->
 @append 
+
 
 @section('archivio')
 <div class="container">
@@ -71,6 +54,7 @@
           Ospiti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->count()}}</strong> 
           </p>
         <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
+        <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa persone</a> 
       </div>
     </div>
   </div>
@@ -83,6 +67,7 @@
         <p class="card-text">
         </p>
         <a href="{{ route('nomadelfia.aziende') }}"class="btn btn-primary">Entra</a>
+        <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa aziende</a> 
       </div>
     </div>
   </div>
@@ -95,6 +80,8 @@
         <p class="card-text">
         </p>
         <a href="{{ route('nomadelfia.gruppifamiliari') }}"class="btn btn-primary">Entra </a>
+        <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa gruppi</a> 
+
       </div>
     </div>
   </div>
@@ -107,13 +94,27 @@
         <p class="card-text">
         </p>
         <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
+        <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa famiglie</a> 
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card" >
+    <div class="card-header">
+        Scuola Familiare
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+        </p>
+        <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
+        <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa scuola</a> 
       </div>
     </div>
   </div>
 </div>
 
-<a href="{{ route('nomadelfia.popolazione.stampa') }}" class=" text-center  btn btn-danger">Stampa popolazione nomadelfia</a> 
-<a href="{{ route('nomadelfia.popolazione.anteprima') }}" class=" text-center  btn btn-danger">anteprima stampa</a> 
+<a href="{{ route('nomadelfia.popolazione.stampa') }}" class="btn btn-info my-2">Stampa Popolazione</a> 
+<a href="{{ route('nomadelfia.popolazione.anteprima') }}" class="btn btn-info my-2">Anteprima stampa</a> 
 
 </div>
 @endsection

@@ -20,20 +20,11 @@ class GruppifamiliariController extends CoreBaseController
 
   public function edit(Request $request,$id){
     $gruppo = GruppoFamiliare::findOrFail($id);
-    return view("nomadelfia.gruppifamiliari.edit",compact('gruppo'));
+    $countPosizioniFamiglia = GruppoFamiliare::CountPosizioniFamiglia($id)->get();
+    return view("nomadelfia.gruppifamiliari.edit",compact('gruppo','countPosizioniFamiglia'));
 
 
   }
 
-  public function  editConfirm(Request $request, $idPersona){
- }
-
-  public function insert(){
-  }
-
-  public function insertConfirm(Request $request){ //InsertClientiRequest $request
-
-  }
-  
 
 }

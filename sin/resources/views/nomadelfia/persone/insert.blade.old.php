@@ -7,8 +7,9 @@
 
 {{ csrf_field() }}
 <!-- Dati anagrafici -->
+
 <h4>Dati Anagrafici</h4>
-<hr>
+
 <div class="form-row">
   <div class="col-md-3">
     <div class="form-group">
