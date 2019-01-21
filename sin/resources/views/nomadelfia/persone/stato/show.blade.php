@@ -12,7 +12,7 @@
           {{ csrf_field() }}
 
           @if($persona->statoAttuale())
-          <h5 class="my-2">Completa dati dello stato attuale: {{$persona->statoAttuale()->nome}</h5>
+          <h5 class="my-2">Completa dati dello stato attuale: {{$persona->statoAttuale()->nome}}</h5>
           <div class="form-group row">
             <label for="dataInizio" class="col-sm-6 col-form-label">Data fine stato</label>
             <div class="col-sm-6">
