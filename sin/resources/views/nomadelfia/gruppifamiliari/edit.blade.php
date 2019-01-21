@@ -42,7 +42,8 @@
 
 <div class="row justify-content-around my-2">
     <div class="col-md-4">
-        <h5>Famiglie  <span class="badge badge-info ">{{$gruppo->famiglieAttuale->count()}}</span></h5>
+        <h5>Famiglie  <span class="badge badge-info ">{{$gruppo->famiglieAttuale->count()}}</span> </h5>
+        <h5>Numero di Persone tramite le famiglie <span class="badge badge-info ">{{$gruppo->personeAttualeViaFamiglie()->count()}}</span><h5>
         <div class="accordion" id="accordionExample">
             @foreach($gruppo->famiglieAttuale as $famiglia)
             <div class="card my-1">
@@ -109,7 +110,7 @@
     </div>
 
     <div class="col-md-4">
-        <h5>Persone <span class="badge badge-info ">{{$gruppo->personeAttuale->count()}}</span> </h5>
+        <h5>Numero di persone <span class="badge badge-info ">{{$gruppo->personeAttuale->count()}}</span> </h5>
         <div class="card">
             <ul>
             @foreach($gruppo->personeAttuale as $persona)

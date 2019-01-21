@@ -51,8 +51,35 @@ class GruppoFamiliare extends Model
   }
 
   /**
-   * Ritorna il numero di posizioni_famiglia (capofamiglia, moglie, figlio nato, accolto,...) 
-   * in un gruppo familiare.                                                       \\2
+   * Ritorna le persone in un gruppo familiare 
+   * tramite i componenti attuali delle famiglie.          
+   * @author Davide Neri                                           
+   */
+  public function personeAttualeViaFamiglie(){
+    $famiglie = self::famiglieAttuale()->get();
+    $persone = collect();
+    $famiglie->each(function ($famiglia) use ($persone){
+       $famiglia->componentiAttuali->each(function($persona) use($persone) {
+        $persone->push($persona);
+       });
+    });
+    return $persone;
+  }
+  
+ // riroan l'id delle persone che sono nelle famiglie ma non nelle persone
+  public function compare(){
+    $collection = self::personeAttualeViaFamiglie() ;# collect([1, 2, 3, 4, 5]);
+    $persone = self::personeAttuale()->get();                 # collect [2, 4, 6, 8]);
+    $diff = $collection->diffKeys($persone);             # [1, 3, 5]
+    return $diff;
+  }
+
+  /**
+   * Ritorna il numero di persone con una certa 
+   * posizione familiare  (capofamiglia, moglie, figlio nato, accolto,...) 
+   * che vivono in un gruppo familiare.         
+   * 
+   *  @author Davide Neri                                               
    */
   public function scopeCountPosizioniFamiglia($query, $gruppoId){
     return  $query->join('gruppi_famiglie', 'gruppi_famiglie.gruppo_famigliare_id', '=', 'gruppi_familiari.id')
@@ -63,18 +90,5 @@ class GruppoFamiliare extends Model
                   ->where("famiglie_persone.stato",'1')
                   ->groupBy("gruppi_famiglie.gruppo_famigliare_id","famiglie_persone.posizione_famiglia");
   }
-
-  // /**
-  //  * Ritorna il numero di persone maschi e femmina in un gruppo familiare.                                                       \\2
-  //  */
-  // public function scopeCountPosizioniFamiglia($query, $gruppoId){
-  //   return  $query->join('gruppi_famiglie', 'gruppi_famiglie.gruppo_famigliare_id', '=', 'gruppi_familiari.id')
-  //                 ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'gruppi_famiglie.famiglia_id')
-  //                 ->select('gruppi_famiglie.gruppo_famigliare_id', 'famiglie_persone.posizione_famiglia',  DB::raw('count(2) as total'))
-  //                 ->where("gruppi_famiglie.stato",'1')
-  //                 ->where("gruppi_familiari.id", $gruppoId)
-  //                 ->where("famiglie_persone.stato",'1')
-  //                 ->groupBy("gruppi_famiglie.gruppo_famigliare_id","famiglie_persone.posizione_famiglia");
-  // }
 
 }
