@@ -244,6 +244,11 @@ class Persona extends Model
                 ->wherePivot('stato', '0');
   }
  
+   /**
+   * Ritorna le posizioni assegnabili ad una persona.
+   * @return Collection Posizione 
+   * @author Davide Neri
+   **/
   public function posizioniPossibili(){
     $pos = self::posizioneAttuale();
     $posizioni = Posizione::all();

@@ -111,7 +111,7 @@ class Famiglia extends Model
   **/
   public function componenti(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-            ->withPivot("stato",'posizione_famiglia')
+            ->withPivot("stato",'posizione_famiglia', 'data_entrata','data_uscita')
             ->orderby("nominativo");
   }
 
@@ -160,7 +160,7 @@ class Famiglia extends Model
   **/
   public function figli(){
     return $this->belongsToMany(Persona::class,'famiglie_persone','famiglia_id','persona_id')
-                ->withPivot("stato",'posizione_famiglia')
+                ->withPivot("stato",'posizione_famiglia','data_entrata','data_uscita')
                 ->wherePivotIn('posizione_famiglia',['FIGLIO NATO','FIGLIO ACCOLTO'])
                 ->orderBy('data_nascita');
   }
