@@ -4,10 +4,10 @@
 
 @include('partials.header', ['title' => 'Gestione Famiglie'])
 
-<a href="{{ route('nomadelfia.famiglie.create') }}" class="btn btn-info my-2">Crea nuova</a> 
+<!-- <a href="{{ route('nomadelfia.famiglie.create') }}" class="btn btn-success my-2">Nuova famiglia</a>  -->
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div id="accordion">
       <div class="card">
         <div class="card-header" id="headSingle">
@@ -51,7 +51,7 @@
     </div> <!-- end accordion -->
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div id="accordion">
       <div class="card">
       <div class="card-header" id="headCapoFamiglia">
@@ -85,7 +85,38 @@
               </div>         
         </div>
       </div>
-    </div> <!-- end single famiglia card -->
+      </div> <!-- end single famiglia card -->
+    </div> <!-- end accordion -->
+  </div>
+
+  <div class="col-md-4">
+    <div id="accordion">
+      <div class="card">
+      <div class="card-header" id="headCapoFamiglia">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#SenzaComponenti" aria-expanded="true" aria-controls="SenzaComponenti">
+          Famiglie senza componenti
+        
+          </button>
+        </h5>
+      </div>
+      <div id="SenzaComponenti" class="show" aria-labelledby="headSenzaComponenti" data-parent="#accordion">
+        <div class="card-body">
+        <div class="row">
+                <div class="col-md-12"> 
+                  <h5> Famiglie  <span class="badge badge-primary badge-pill">{{$famiglieNoComponenti->count()}}  </span> </h5>
+                    
+                    @foreach($famiglieNoComponenti->get() as $famiglia)
+                      <div>
+                          <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a>
+                      </div>
+                    @endforeach
+                </div>
+                
+              </div>         
+        </div>
+      </div>
+      </div> <!-- end single famiglia card -->
     </div> <!-- end accordion -->
   </div>
 </div>

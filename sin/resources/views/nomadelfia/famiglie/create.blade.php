@@ -10,22 +10,37 @@
   <form method="POST" action="{{route('nomadelfia.famiglie.create.confirm')}}">
     {{ csrf_field() }}
     <div class="form-group row">
-      <label for="fornome" class="col-sm-6 col-form-label">Nome famiglia:</label>
-      <div class="col-sm-6">
+      <label for="fornome" class="col-md-6 col-form-label">Nome famiglia:</label>
+      <div class="col-md-6">
         <input class="form-control" id="fornome" name="nome"  value="{{ old('nome') }}" placeholder="Nome famiglia">
       </div>
     </div>
     <div class="form-group row">
-      <label for="fordatainizio" class="col-sm-6 col-form-label">Data creazione famiglia:</label>
-      <div class="col-sm-6">
+      <label for="fordatainizio" class="col-md-6 col-form-label">Data creazione famiglia:</label>
+      <div class="col-md-6">
          <date-picker :bootstrap-styling="true"  value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
       </div>
     </div>
+  <!-- <h4>Componenti della famiglia</h4>
+  <div class="form-group row">
+      <label for="fornome" class="col-md-4 col-form-label">Persona:</label>
+      <div class="col-md-4">
+        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url="{{route('api.nomadeflia.persone.search')}}"></autocomplete>
+      </div>
+      <div class="col-md-4">
+        <select class="form-control" name="posizione">
+         <option value="" selected>---scegli posizione---</option>
+          @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+              <option value="{{ $posizione }}">{{ $posizione }}</option>
+            @endforeach
+        </select>
+      </div>
+    </div> -->
 
     <div class="row">
       <div class="col-auto">
-        <button class="btn btn-warning" name="_addanother" value="true" type="submit">Salva e aggiungi un'altra </button>
-        <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva e visualizza</button> 
+        <!-- <button class="btn btn-warning" name="_addanother" value="true" type="submit">Salva e aggiungi un'altra </button> -->
+        <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva</button> 
       </div>
     </div>
     

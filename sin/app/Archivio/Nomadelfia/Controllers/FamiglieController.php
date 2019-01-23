@@ -25,7 +25,9 @@ class FamiglieController extends CoreBaseController
     $singleMaschio = Famiglia::onlySingle()->maschio();
     $singleFemmine = Famiglia::onlySingle()->femmina();
 
-    return view('nomadelfia.famiglie.index',compact('capifamiglieMaschio','capifamiglieFemmina','singleMaschio','singleFemmine'));
+    $famiglieNoComponenti = Famiglia::doesntHave("componenti");
+
+    return view('nomadelfia.famiglie.index',compact('capifamiglieMaschio','capifamiglieFemmina','singleMaschio','singleFemmine','famiglieNoComponenti'));
   }
 
   /**
@@ -112,6 +114,7 @@ class FamiglieController extends CoreBaseController
   }
 
   public function aggiornaComponente(Request $request, $id){ 
+    // dd($request->all());
     $validatedData = $request->validate([
       "persona_id" => "required", 
       "posizione" => "required",
@@ -130,7 +133,7 @@ class FamiglieController extends CoreBaseController
     try{
        $famiglia->componenti()->updateExistingPivot($request->persona_id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
                                                           'data_entrata'=>$request->data_entrata,'data_uscita'=>$request->data_uscita,'note'=>$request->note]);
-      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiornato con successo");
+       return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Componente aggiornato con successo");
     }catch (Exception $e){
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiornato alla famiglia.");
     }

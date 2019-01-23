@@ -56,7 +56,7 @@
                         <div class="col-sm-3">
                             <my-modal modal-title="Aggiorna componente" button-title="Modifica" button-style="btn-warning my-2">
                                 <template slot="modal-body-slot">
-                                <form class="form" method="POST" id="formComponenteAggiorna" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
+                                <form class="form" method="POST" id="formComponenteAggiorna{{$figlio->id}}" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
                                     {{ csrf_field() }}
                                     <div class="form-group row">
                                     <label for="example-text-input" class="col-4 col-form-label">Persona</label>
@@ -119,7 +119,7 @@
                                 </form>
                                 </template> 
                                 <template slot="modal-button">
-                                    <button class="btn btn-danger" form="formComponenteAggiorna">Salva</button>
+                                    <button class="btn btn-danger" form="formComponenteAggiorna{{$figlio->id}}">Salva</button>
                                 </template>
                             </my-modal>  
                         </div>
