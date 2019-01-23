@@ -28,7 +28,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{$persona->categoria_id == $cat->id ? 'checked' : '' }}>
                       <label class="form-check-label" for="categoria{{$cat->id}}">
-                      <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
+                        <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
                       </label>
                     </div>
                   @endforeach

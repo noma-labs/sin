@@ -222,7 +222,7 @@
                   <p class="text-danger">Nessun gruppo familiare associato</p>
                   @endif 
                 <!-- <div class="col-md-4"> -->
-                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-primary my-2" button-title="Nuovo gruppo">
+                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-success my-2" button-title="Assegna nuovo gruppo">
                       <template slot="modal-body-slot">
                         <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
                           {{ csrf_field() }}
@@ -243,7 +243,6 @@
                                 <date-picker :bootstrap-styling="true" value="{{ old('datacambiogruppo') }}" format="yyyy-MM-dd" name="data_cambiogruppo"></date-picker>
                               </div>
                           </div>
-
                           <div class="form-group row">
                             <div class="col">
                             <div class="text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
@@ -254,12 +253,11 @@
                                 </ul>
                             </div>
                           </div>
-                           
                           </div>
                         </form>
                       </template> 
                       <template slot="modal-button">
-                            <button class="btn btn-danger" form="formGruppo">Salva</button>
+                            <button class="btn btn-success" form="formGruppo">Salva</button>
                       </template>
                     </my-modal>
                  <!-- </div>   end col-md-3 formodal-->

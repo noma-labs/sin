@@ -114,7 +114,7 @@
         <div class="card">
             <ul>
             @foreach($gruppo->personeAttuale as $persona)
-                 <li> @include("nomadelfia.templates.persona", ['persona' => $persona])</li>
+                 <li> @year($persona->data_nascita)@include("nomadelfia.templates.persona", ['persona' => $persona]) (@diffYears($persona->data_nascita))</li>
             @endforeach
             </ul>
         </div>

@@ -243,6 +243,25 @@ class Persona extends Model
     return $this->posizioni()
                 ->wherePivot('stato', '0');
   }
+ 
+  public function posizioniPossibili(){
+    $pos = self::posizioneAttuale();
+    $posizioni = Posizione::all();
+    if($pos != null){
+      $posizioni = $posizioni->except([$pos->id]);
+      if($pos->is(Posizione::findByName("EFFETTIVO")))
+        return $posizioni->except([Posizione::findByName("FIGLIO")->id]);
+      if($pos->is(Posizione::findByName("POSTULANTE")))
+        return $posizioni->except([Posizione::findByName("FIGLIO")->id]);
+      if($pos->is(Posizione::findByName("OSPITE")))
+        return $posizioni->except([Posizione::findByName("EFFETTIVO")->id]);
+      if($pos->is(Posizione::findByName("FIGLIO")))
+        return $posizioni->except([Posizione::findByName("EFFETTIVO")->id]);
+      return $posizioni;
+    }else
+    return $posizioni;
+  }
+
    
   //INCARICHI
   public function incarichiAttuali(){

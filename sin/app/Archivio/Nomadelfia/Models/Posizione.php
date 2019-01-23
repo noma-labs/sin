@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Excpetions\PosizioneDoesNotExist;
 
 class Posizione extends Model
 {
@@ -31,13 +32,30 @@ class Posizione extends Model
     return $this->belongsToMany(Persona::class,'persone_posizioni', 'posizione_id', 'persona_id');
   }
 
+  /**
+     * Find a Posizione by its name
+     *
+     * @param string $name
+     * @param string|null $guardName
+     *
+     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
+     *
+     * @return  \App\Nomadelfia\Models\Posizione
+     */
+    public static function findByName(string $name): Posizione
+    {
+        $posizione = Posizione::where("nome", $name)->first();
+        if (! $posizione) {
+            throw PosizioneDoesNotExist::create($name);
+        }
+        return $posizione;
+    }
 
   /**
    * Ritorna la posizione dal nome
    * 
    * @author: Davide Neri
    */
-
   public static function perNome($nome){
     
     $mapNamesToDB = [
