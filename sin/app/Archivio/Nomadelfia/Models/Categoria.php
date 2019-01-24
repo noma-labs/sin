@@ -11,13 +11,17 @@ class Categoria extends Model
   protected $table = 'categorie';
   protected $primaryKey = "id";
 
-  public function persone(){
-    return $this->hasMany(Persona::class, 'categoria_id', 'id');
-  }
-
   // public function persone(){
-  //   return $this->belongsToMany(Persona::class,'persone_categorie', 'categoria_id', 'persona_id');
+  //   return $this->hasMany(Persona::class, 'categoria_id', 'id');
   // }
 
+  public function persone(){
+    return $this->belongsToMany(Persona::class,'persone_categorie', 'categoria_id', 'persona_id')
+                ->withPivot("stato");
+  }
+
+  public function personeAttuale(){
+    return $this->persone()->where("persone_categorie.stato","1");
+  }
 
 }

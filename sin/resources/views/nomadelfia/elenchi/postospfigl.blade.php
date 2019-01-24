@@ -13,40 +13,40 @@
       @endforeach
   </div>
   <div class="col-md-3">
-    <h2>Ospiti {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->presente()->count()}}</h2>
-    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->presente()->uomini()->count()}}</h4>
-      @foreach(App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->presente()->uomini()->get() as $uomo)
+    <h2>Ospiti {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->attivo()->count()}}</h2>
+    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->attivo()->uomini()->count()}}</h4>
+      @foreach(App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->attivo()->uomini()->get() as $uomo)
       <div>{{$uomo->nominativo}}
       </div>
       @endforeach
-      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->presente()->donne()->count()}}</h4>
-      @foreach(App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->presente()->donne()->get() as $donna)
+      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->attivo()->donne()->count()}}</h4>
+      @foreach(App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->attivo()->donne()->get() as $donna)
       <div>{{$donna->nominativo}}
       </div>
       @endforeach
   </div>
   <div class="col-md-3">
-    <h2>Figli 18...21 {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->presente()->count()}}</h2>
-    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->presente()->uomini()->count()}}</h4>
-    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->presente()->uomini()->get() as $uomo)
+    <h2>Figli 18...21 {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->attivo()->count()}}</h2>
+    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->attivo()->uomini()->count()}}</h4>
+    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->attivo()->uomini()->get() as $uomo)
       <div>{{$uomo->nominativo}}
       </div>
       @endforeach
-      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->presente()->donne()->count()}}</h4>
-    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->presente()->donne()->get() as $donna)
+      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->attivo()->donne()->count()}}</h4>
+    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->fraeta(18,21)->attivo()->donne()->get() as $donna)
       <div>{{$donna->nominativo}}
       </div>
       @endforeach
   </div>
   <div class="col-md-3">
-    <h2>Figli>21    {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->presente()->count()}}</h2>
-    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->presente()->uomini()->count()}}</h4>
-    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->presente()->uomini()->get() as $uomo)
+    <h2>Figli>21    {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->attivo()->count()}}</h2>
+    <h4>Uomini {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->attivo()->uomini()->count()}}</h4>
+    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->attivo()->uomini()->get() as $uomo)
       <div>{{$uomo->nominativo}}
       </div>
       @endforeach
-      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->presente()->donne()->count()}}</h4>
-    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->presente()->donne()->get() as $donna)
+      <h4>Donne {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->attivo()->donne()->count()}}</h4>
+    @foreach(App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->DaEta(21)->attivo()->donne()->get() as $donna)
       <div>
         {{$donna->nominativo}}
       </div>

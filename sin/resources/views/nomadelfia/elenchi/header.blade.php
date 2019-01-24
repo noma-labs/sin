@@ -5,6 +5,6 @@
 <h1> Popolazione di Nomadelfia</h1>
 <h4>{{Carbon::now(new DateTimeZone("Europe/Rome"))->toDateString() }} </h4>
 
-<h5>Totale:{{App\Nomadelfia\Models\Persona::Presente()->count()}}</h5>
+<h5>Totale:{{App\Nomadelfia\Models\Persona::attivo()->count()}}</h5>
 
 </div>

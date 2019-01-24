@@ -29,7 +29,12 @@ class Posizione extends Model
     }
 
   public function persone(){
-    return $this->belongsToMany(Persona::class,'persone_posizioni', 'posizione_id', 'persona_id');
+    return $this->belongsToMany(Persona::class,'persone_posizioni', 'posizione_id', 'persona_id')
+                ->withPivot("stato");
+  }
+
+  public function personeAttuale(){
+    return $this->persone()->where("persone_posizioni.stato","1");
   }
 
   /**

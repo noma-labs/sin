@@ -43,6 +43,11 @@ class Persona extends Model
       return $query->where('categoria_id', "<", 4);
   }
 
+  public function scopeAttivo($query)
+  {
+      return $query->where('persone.stato', '1');
+  }
+
   public function scopeMaggiorenni($query)
   {
      $date = Carbon::now()->subYears(18)->toDatestring();
@@ -59,7 +64,6 @@ class Persona extends Model
   {
     return $query->where('sesso','F');
   }
-
 
   public function scopeUomini($query)
   {
@@ -93,9 +97,7 @@ class Persona extends Model
     return $this->hasMany(Patente::class, 'persona_id', 'id');
   }
 
-  public function categoria(){
-    return $this->hasOne(Categoria::class,  'id', 'categoria_id');
-  }
+ 
 
   public function nominativiStorici(){
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
@@ -128,6 +130,50 @@ class Persona extends Model
 
   public function aziende(){
     return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id');
+  }
+
+  // CATEGORIA
+  // TODO: da eliminare, la persona ha più categoria.
+  // public function categoria(){
+  //   return $this->hasOne(Categoria::class,  'id', 'categoria_id');
+  // }
+
+  public function categorie(){
+    return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
+                ->withPivot('stato','data_inizio','data_fine');
+  }
+
+  public function categoriaAttuale(){
+    return $this->categorie()->wherePivot('stato', '1')->first();
+
+  }
+
+  public function categorieStorico(){
+    return $this->categorie()->wherePivot('stato', '0')
+                ->orderby('data_fine','desc');
+  }
+
+    /**
+   * Ritorna le posizioni assegnabili ad una persona.
+   * @return Collection Posizione 
+   * @author Davide Neri
+   **/
+  public function categoriePossibili(){
+    $categoria = self::categoriaAttuale();
+    $categorie = Categoria::all();
+    if($categoria != null){
+      $categorie = $categorie->except([$categoria->id]);
+      // if($categoria->is(Posizione::findByName("EFFETTIVO")))
+      //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
+      // if($categoria->is(Posizione::findByName("POSTULANTE")))
+      //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
+      // if($categoria->is(Posizione::findByName("OSPITE")))
+      //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
+      // if($categoria->is(Posizione::findByName("FIGLIO")))
+      //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
+      return $categorie;
+    }else
+    return $categorie;
   }
 
   // STATO 

@@ -37,6 +37,21 @@ class PersoneController extends CoreBaseController
     return view('nomadelfia.persone.edit_anagrafica',compact('persona'));
   }
   
+  public function modficaStatus($idPersona){
+    dd($request->all());
+    $validatedData = $request->validate([
+      "stato" => "required",
+    ],[
+      "stato.required" => "Il nome è obbligatorie",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->stato = $reuqest->srtato;
+    if($persona->save())
+      return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Stato  di $persona->nominativo aggiornato correttamente. ");
+    else    
+    return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSError("Errore dureante l'aggiornamente dello stato dii $persona->nominativo.");
+  }
+
   public function modificaDatiAnagraficiConfirm(Request $request, $idPersona){
     $validatedData = $request->validate([
       "nome" => "required",
@@ -111,18 +126,7 @@ class PersoneController extends CoreBaseController
         return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore. Il nominativo non è stato assegnato.");
     }
 
-  public function modificaCategoriaConfirm(Request $request, $idPersona){
-    $validatedData = $request->validate(["categoria" => "required",],
-                                        ["categoria.required" => "La categoria è obbligatoria",
-    ]);
-    $persona = Persona::findOrFail($idPersona);
-    $persona->categoria_id = $request->categoria;
-    if($persona->save())
-      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withSucces("Stato attuale modificato con successo.");
-    else
-      return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' => $idPersona])->withError("Errore: Stato attuale non aggiornato correttamente.");
-
-  }
+    
 
   public function insertView(){
     return view("nomadelfia.persone.insert_initial");
@@ -286,7 +290,56 @@ class PersoneController extends CoreBaseController
   }
 
   
+   /**
+   * Ritorna la view per la modifica della categoria di una persona
+   * 
+   * @author Davide Neri
+   */
+  public function categoria($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.categoria.show",compact('persona'));
+  }
+  
+  // assegnaCategoria
+  public function assegnaCategoria(Request $request, $idPersona){
+    $validatedData = $request->validate([
+      "categoria_id" => "required", 
+      "data_inizio" => "required|date",
+      // "data_fine" => "required|date",
+    ],[
+      "categoria_id.required" => "La posizione è obbligatorio", 
+      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
+      // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
+  ]);
+    // dd($request->all());
+    $persona = Persona::findOrFail($idPersona);
+    // $persona->categoria_id = $request->categoria_id;
+    if($persona->categoriaAttuale()) // se 
+      $persona->categorie()->updateExistingPivot($persona->categoriaAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
+    $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova categoria assegnata a $persona->nominativo  con successo.");
+  }
 
+  /**
+   * Modifica la posizione  di una persona.
+   * 
+   * @author Davide Neri
+   */
+  public function modificaCategoria(Request $request, $idPersona, $id){ 
+    $validatedData = $request->validate([
+      "data_fine" => "date", 
+      "data_inizio" => "required|date",
+      "stato" =>"required"
+    ],[
+      "data_fine.date" => "La data fine posizione dee essere una data valida", 
+      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
+      'stati.required'=>"Lo stato attuale è obbligatorio.",
+
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->categorie()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
+  }
 
   /**
    * Ritorna la view per la modifica dello stato assegnato ad una persona

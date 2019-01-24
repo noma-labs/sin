@@ -41,7 +41,7 @@ class Famiglia extends Model
              ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
               ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
               ->where("posizione_famiglia", $posizione)
-              ->where("stato", $stato);
+              ->where("famiglie_persone.stato", $stato);
   }
 
   /**
@@ -121,7 +121,7 @@ class Famiglia extends Model
   **/
   public function componentiAttuali()
   {
-    return $this->componenti()->where("stato",'1');
+    return $this->componenti()->where("famiglie_persone.stato",'1');
   }
 
   /**

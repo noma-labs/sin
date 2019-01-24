@@ -13,13 +13,20 @@ class Stato extends Model
 
 
   public function persone(){
-    return $this->belongsToMany(Persona::class,'persone_stati', 'stato_id', 'persona_id');
+    return $this->belongsToMany(Persona::class,'persone_stati', 'stato_id', 'persona_id')
+                 ->withPivot("stato");
   }
 
+  public function personeAttuale(){
+    return $this->persone()->where("persone_stati.stato","1");
+  }
+
+  //usat ???
   public function scopeAttivo($query)
   {
-      return $query->where('stato', 1);
+      return $query->where('persone_stati.stato', 1);
   }
+
   /**
    * Ritorna lo stato dal suo nome
    * 

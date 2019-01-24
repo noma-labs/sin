@@ -19,6 +19,7 @@ class GruppoFamiliare extends Model
   public function persone()
   {
     return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')
+                ->withPivot("stato")
                 ->orderBy("data_nascita", 'ASC');
   }
 
@@ -29,12 +30,13 @@ class GruppoFamiliare extends Model
   public function famiglie()
   {
     return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
+                ->withPivot("stato")
                 ->orderby("nome_famiglia");
   }
 
   public function famiglieAttuale()
   {
-    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
+    return $this->famiglie()
                 ->wherePivot("stato","1");
   }
 

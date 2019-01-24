@@ -15,14 +15,14 @@
         @endforeach
     </div>
     <div class="col-md-3">
-      <h2>Sacerdoti {{App\Nomadelfia\Models\Stato::perNome("sacerdote")->persone()->presente()->count()}}</h2>
+      <h2>Sacerdoti {{App\Nomadelfia\Models\Stato::perNome("sacerdote")->persone()->attivo()->count()}}</h2>
         @foreach(App\Nomadelfia\Models\Stato::perNome("sacerdote")->persone()->get() as $sac)
         <div>{{$sac->nominativo}}
         </div>
         @endforeach
     </div>
     <div class="col-md-3">
-      <h2>Mamme vocazione {{App\Nomadelfia\Models\Stato::perNome("mammavocazione")->persone()->presente()->count()}}</h2>
+      <h2>Mamme vocazione {{App\Nomadelfia\Models\Stato::perNome("mammavocazione")->persone()->attivo()->count()}}</h2>
         @foreach(App\Nomadelfia\Models\Stato::perNome("mammavocazione")->persone()->get() as $mamma)
         <div>{{$mamma->nominativo}}
         </div>
