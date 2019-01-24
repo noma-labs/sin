@@ -100,7 +100,7 @@ class FamiglieController extends CoreBaseController
     $famiglia = Famiglia::findorfail($id);
     $persona = Persona::findorfail($request->persona_id);
     $famiglia_attuale = $persona->famigliaAttuale();
-    if($famiglia_attuale != null)
+    if($famiglia_attuale != null and $request->stato == "1")
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withWarning("Attenzione. $persona->nominativo è già assegnato alla famiglia $famiglia_attuale->nome_famiglia come ". $famiglia_attuale->pivot->posizione_famiglia);
 
     try{
