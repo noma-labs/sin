@@ -29,9 +29,17 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('diffdays', function ($date) {
             return "<?php echo Carbon::now()->diffInDays(Carbon::parse($date)) ?>";
             // return "<?php echo Carbon::parse($date)->diffForHumans() ? >";
-
         });
 
+         // Directoves that return the number of days from the $date.
+         Blade::directive('diffYears', function ($date) {
+            return "<?php echo Carbon::now()->diffInYears(Carbon::parse($date)) ?>";
+            // return "<?php echo Carbon::parse($date)->diffForHumans() ? >";
+        });
+
+        Blade::directive('diffHumans', function ($date) {
+                return "<?php echo Carbon::parse($date)->diffForHumans() ?>";
+        });
         // Resolve error: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
          Schema::defaultStringLength(191);
 

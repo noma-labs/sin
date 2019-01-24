@@ -76,6 +76,8 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/{idPersona}/stato/assegna', 'PersoneController@assegnaStato')->name("nomadelfia.persone.stato.assegna");
   Route::get('persone/{idPersona}/stato', 'PersoneController@stato')->name("nomadelfia.persone.stato");
   Route::post('persone/{idPersona}/posizione/assegna', 'PersoneController@assegnaPosizione')->name("nomadelfia.persone.posizione.assegna");
+  Route::post('persone/{idPersona}/posizione/{id}/modifica', 'PersoneController@modificaPosizione')->name("nomadelfia.persone.posizione.modifica");
+ 
   Route::get('persone/{idPersona}/posizione', 'PersoneController@posizione')->name("nomadelfia.persone.posizione");
   Route::get('persone/{idPersona}/gruppofamiliare', 'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
   Route::post('persone/{idPersona}/gruppofamiliare/assegna', 'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");
@@ -98,7 +100,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('famiglie/{id}/componente/aggiorna', 'FamiglieController@aggiornaComponente')->name("nomadelfia.famiglie.componente.aggiorna");
 
   //stampa elenchi
-  Route::get('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
+  Route::post('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
   Route::get('popolazione/stampa/preview', 'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
 
 });

@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-6">
-    <p class="font-weight-bold">Uomini maggiorenni {{$maggiorenniUomini->count()}}</p>
+    <p class="font-weight-bold">Uomini maggiorenni {{$maggiorenni->uomini()->count()}}</p>
     <div class="row">
-      @foreach ($maggiorenniUomini->get()->chunk(60) as $chunk)
+      @foreach ($maggiorenni->uomini()->get()->chunk(60) as $chunk)
         <div class="col-md-6">
             @foreach ($chunk as $uomo)
                 <div>{{ $uomo->nominativo }}</div>

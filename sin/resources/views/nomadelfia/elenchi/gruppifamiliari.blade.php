@@ -4,20 +4,22 @@
         @foreach ($chunk as $gruppo)
             <div class="col-md-3"> 
             <p class="font-weight-bold">{{$gruppo->nome}} {{$gruppo->persone()->count()}}</p>
-            @if ($gruppo->capogruppiAttuali->isNotEmpty())
-            <p class="font-weight-bold"> Capogruppo: {{$gruppo->capogruppiAttuali->first()->nominativo}}</p> 
+            @if ($gruppo->capogruppoAttuale())
+            <p class="font-weight-bold"> Capogruppo: {{$gruppo->capogruppoAttuale()->nominativo}}</p> 
             @else
             <p class="text-danger">Senza capogruppo</p> 
         @endif
         @foreach($gruppo->famiglie as $famiglia)
-            @if ($famiglia->single->isNotEmpty())
-            <div class="font-weight-bold"> {{$famiglia->single->first()->nominativo}}</div>
+            @if ($famiglia->single())
+            <div class="font-weight-bold"> {{$famiglia->single()->nominativo}}</div>
             @else
-            <div class="font-weight-bold">@if ($famiglia->capofamiglia->isNotEmpty())  {{$famiglia->capofamiglia()->first()->nominativo}} @endif</div>
-            <div class="font-weight-bold">@if ($famiglia->moglie->isNotEmpty())  {{$famiglia->moglie->first()->nominativo}} @endif</div>
+            <div class="font-weight-bold">@if ($famiglia->capofamiglia())  {{$famiglia->capofamiglia()->nominativo}} @endif</div>
+            <div class="font-weight-bold">@if ($famiglia->moglie())  {{$famiglia->moglie()->nominativo}} @endif</div>
             <ul>
-                @foreach($famiglia->figli as $figlio)
-                <li> @year($figlio->data_nascita){{$figlio->nominativo}}</li>
+                @foreach($famiglia->figliAttuali as $fig)
+                @if($fig)
+                <li> @year($fig->data_nascita) {{$fig->nominativo}}</li>
+                @endif
                 @endforeach
             </ul>
             @endif

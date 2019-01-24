@@ -15,5 +15,9 @@ class Categoria extends Model
     return $this->hasMany(Persona::class, 'categoria_id', 'id');
   }
 
+  // public function persone(){
+  //   return $this->belongsToMany(Persona::class,'persone_categorie', 'categoria_id', 'persona_id');
+  // }
+
 
 }

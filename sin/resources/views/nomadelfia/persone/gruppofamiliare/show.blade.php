@@ -6,7 +6,7 @@
 
 <div class="row justify-content-center">
    <div class="col-md-6">
-    <my-modal modal-title="Aggiungi Gruppo Familiare" button-title="Nuovo Gruppo" button-style="btn-primary my-2">
+    <my-modal modal-title="Aggiungi Gruppo Familiare" button-title="Nuovo Gruppo" button-style="btn-success my-2">
       <template slot="modal-body-slot">
       <form class="form" method="POST"  id="formPersonaGruppo" action="{{ route('nomadelfia.persone.gruppo.assegna', ['idPersona' =>$persona->id]) }}" >      
           {{ csrf_field() }}
@@ -24,19 +24,21 @@
           @endif
           <h5 class="my-2">Nuovo gruppo familiare</h5>
           <div class="form-group row">
-            <label for="staticEmail" class="col-sm-4 col-form-label">Gruppo familiare</label>
-            <div class="col-sm-8">
+            <label for="staticEmail" class="col-sm-6 col-form-label">Gruppo familiare</label>
+            <div class="col-sm-6">
               <select name="gruppo_id" class="form-control">
-                  <option selecte>---seleziona gruppo ---</option>
+                  <option selected>---seleziona gruppo ---</option>
                   @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofam)
-                    <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
-                @endforeach
+                  @if(!$gruppofam->is($persona->gruppofamiliareAttuale()))
+                     <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
+                    @endif
+                  @endforeach
               </select>
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputPassword" class="col-sm-4 col-form-label">Data entrata gruppo familiare</label>
-            <div class="col-sm-8">
+            <label for="inputPassword" class="col-sm-6 col-form-label">Data entrata gruppo familiare</label>
+            <div class="col-sm-6">
               <date-picker :bootstrap-styling="true" value="{{ old('data_entrata') }}" format="yyyy-MM-dd"name="data_entrata"></date-picker>
             </div>
           </div>

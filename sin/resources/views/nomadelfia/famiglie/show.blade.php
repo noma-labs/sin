@@ -118,75 +118,7 @@
             </template>
           </my-modal>
 
-          <my-modal modal-title="Aggiorna componente" button-title="Modifica  Componente" button-style="btn-success my-2">
-            <template slot="modal-body-slot">
-              <form class="form" method="POST" id="formComponenteAggiorna" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
-                {{ csrf_field() }}
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Persona</label>
-                    <div class="col-8">
-                    <select class="form-control" name="persona_id">
-                      <option value="" selected>---scegli persona---</option>
-                          @foreach($famiglia->componenti as $comp)
-                            <option value="{{ $comp->id }}">{{ $comp->nominativo }}</option>
-                          @endforeach
-                       </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Posizione Famiglia</label>
-                    <div class="col-8">
-                      <select class="form-control" name="posizione">
-                      <option value="" selected>---scegli posizione---</option>
-                        @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
-                            @if($posizione != "SINGLE" and $posizione != "CAPO FAMIGLIA")
-                            <option value="{{ $posizione }}">{{ $posizione }}</option>
-                            @endif
-                          @endforeach
-                       </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Data entrata nella famiglia:</label>
-                    <div class="col-8">
-                      <input type="date" class="form-control" name="data_entrata"  placeholder="Data entrata nella famiglia" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Data uscita dalla famiglia:</label>
-                    <div class="col-8">
-                      <input type="date" class="form-control" name="data_uscita"  placeholder="Data entrata nella famiglia" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Stato:</label>
-                    <div class="col-8">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="stato" id="stato1" value="1" checked>
-                      <label class="form-check-label" for="stato1">
-                        Includi nel nucleo familiare
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="stato" id="stato2" value="0">
-                      <label class="form-check-label" for="stato2">
-                        Non includere nel nucleo familiare
-                      </label>
-                    </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                  <label for="example-text-input" class="col-4 col-form-label">Note:</label>
-                    <div class="col-8">
-                      <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                </div>
-              </form>
-            </template> 
-            <template slot="modal-button">
-                  <button class="btn btn-danger" form="formComponenteAggiorna">Salva</button>
-            </template>
-          </my-modal>  
+          
         </div>
       </div>
     </div>
@@ -222,7 +154,7 @@
                   <p class="text-danger">Nessun gruppo familiare associato</p>
                   @endif 
                 <!-- <div class="col-md-4"> -->
-                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-primary my-2" button-title="Nuovo gruppo">
+                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-success my-2" button-title="Assegna nuovo gruppo">
                       <template slot="modal-body-slot">
                         <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
                           {{ csrf_field() }}
@@ -243,7 +175,6 @@
                                 <date-picker :bootstrap-styling="true" value="{{ old('datacambiogruppo') }}" format="yyyy-MM-dd" name="data_cambiogruppo"></date-picker>
                               </div>
                           </div>
-
                           <div class="form-group row">
                             <div class="col">
                             <div class="text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
@@ -254,12 +185,11 @@
                                 </ul>
                             </div>
                           </div>
-                           
                           </div>
                         </form>
                       </template> 
                       <template slot="modal-button">
-                            <button class="btn btn-danger" form="formGruppo">Salva</button>
+                            <button class="btn btn-success" form="formGruppo">Salva</button>
                       </template>
                     </my-modal>
                  <!-- </div>   end col-md-3 formodal-->

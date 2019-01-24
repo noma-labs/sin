@@ -260,8 +260,32 @@ class PersoneController extends CoreBaseController
       $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->posizioni()->attach($request->posizione_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
-
   }
+
+
+  /**
+   * Modifica la posizione  di una persona.
+   * 
+   * @author Davide Neri
+   */
+  public function modificaPosizione(Request $request, $idPersona, $id){ 
+    // dd($request->all());
+    $validatedData = $request->validate([
+      "data_fine" => "date", 
+      "data_inizio" => "required|date",
+      "stato" =>"required"
+    ],[
+      "data_fine.date" => "La data fine posizione dee essere una data valida", 
+      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
+      'stati.required'=>"Lo stato attuale è obbligatorio.",
+
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->posizioni()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo.");
+  }
+
+  
 
 
   /**
