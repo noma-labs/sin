@@ -11,33 +11,31 @@
     <div class="card">
       <div class="card-body">
         <div class="row">
-          <label class="col-md-2">Stato:</label> 
-          <div class="col-md-6">
-              @if($persona->categoria != null)
-                <span class="text-bold"> {{$persona->categoria->nome}} </span>
-              @else
-                <span class="text-danger">Nessuno stato</span>
-              @endif
-          </div>
+          <h4 class="col-md-4"> Stato:</h4> 
           <div class="col-md-4">
-            <my-modal modal-title="Modifica stato persona" button-title="Modifica">
-              <template slot="modal-body-slot">
-              <form class="form" method="POST"  id="formStato" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id]) }}" >      
-                  {{ csrf_field() }}
-                  @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="categoria" id="categoria{{$cat->id}}" value="{{$cat->id}}" {{$persona->categoria_id == $cat->id ? 'checked' : '' }}>
-                      <label class="form-check-label" for="categoria{{$cat->id}}">
-                        <span class="font-weight-bold">{{ $cat->nome}}</span> (<span class="font-weight-light">{{ $cat->descrizione}}<span>)
-                      </label>
-                    </div>
-                  @endforeach
-                </form>
-              </template> 
-              <template slot="modal-button">
-                <button class="btn btn-success" form="formStato">Salva</button>
-              </template>
-            </my-modal>
+          <h4>
+              @if($persona->attivo())
+                <span class="badge badge-success">Attivo</span>
+              @else
+               <span class="badge badge-danger">Disattivo</span>
+              @endif
+              </h4>
+          </div>
+          <div class="col-md-3">
+          <form action="">
+          
+          @if($persona->attivo())
+          <form class="form" method="GET"  id="formPersonaStatus" action="{{ route('nomadelfia.persone.status.modifica', ['idPersona' =>$persona->id]) }}" >      
+              {{ csrf_field() }}
+          <button class="btn btn-danger"   form="formPersonaStatus">Disattiva</button>
+          <!-- <button name="subject" type="submit" value="HTML" form="formPersonaStatus">HTML</button> -->
+          
+
+          @else
+            <a class="btn btn-success my-2" name="subject" type="submit" value="HTML">Attiva</a>
+          @endif
+
+          </form>
           </div>
         </div>
       </div>
@@ -102,7 +100,7 @@
           </li>
         </ul>
           <!-- <div class="row"> -->
-            <a class="btn btn-primary my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
+            <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
           <!-- </div> -->
         </div>
       </div>
@@ -130,7 +128,24 @@
                   {{$persona->nominativo}}
                 </div>
                 <div class="col-sm-2">
-                <a class="btn btn-primary"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
+                <a class="btn btn-warning"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
+                <label class="col-sm-4">Categoria: </label>
+                <div class="col-sm-6">
+                    @if ($persona->categoriaAttuale() != null)
+                        {{$persona->categoriaAttuale()->nome}}
+                    @else
+                        <span class="text-danger">Nessuna categoria</span>
+                    @endif
+                </div>
+                <div class="col-sm-2">
+                  <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.categoria', $persona->id)}}"  role="button">Modifica</a>
+                <!-- <a class="btn btn-warning"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a> -->
                 </div>
               </div>
             </li>
@@ -145,7 +160,7 @@
                     @endif
                   </div>
                   <div class="col-sm-2">
-                    <a class="btn btn-primary" href="{{route('nomadelfia.persone.stato', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                    <a class="btn btn-warning" href="{{route('nomadelfia.persone.stato', ['idPersona'=>$persona->id])}}">Modifica</a> 
                   </div>
               </div>
             </li>
@@ -160,7 +175,7 @@
                     @endif
                 </div>
                 <div class="col-sm-2">
-                  <a class="btn btn-primary" href="{{route('nomadelfia.persone.posizione', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                  <a class="btn btn-warning" href="{{route('nomadelfia.persone.posizione', ['idPersona'=>$persona->id])}}">Modifica</a> 
                 </div>
             </div>
             </li>
@@ -179,7 +194,7 @@
 
                 </div>
                 <div class="col-sm-2">
-                  <a class="btn btn-primary" href="{{route('nomadelfia.persone.gruppofamiliare', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                  <a class="btn btn-warning" href="{{route('nomadelfia.persone.gruppofamiliare', ['idPersona'=>$persona->id])}}">Modifica</a> 
                 </div>
               </div>
             </li>
@@ -244,7 +259,7 @@
           </li>
         </ul>
         <!-- @if($persona->famigliaAttuale() == null)
-          <a  class="btn btn-primary my-2" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>2])}}"> Crea Famiglia </a>
+          <a  class="btn btn-warning my-2" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>2])}}"> Crea Famiglia </a>
           @endif -->
 
         <h5 class="my-3">Famiglia Storico</h5>

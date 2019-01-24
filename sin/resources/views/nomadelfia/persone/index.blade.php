@@ -17,7 +17,7 @@
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#{{$categoria->nome}}" aria-expanded="true" aria-controls="{{$categoria->id}}">
                       {{ $categoria->nome }} 
-                      <span class="badge badge-primary badge-pill">{{$categoria->persone()->count()}}</span> 
+                      <span class="badge badge-primary badge-pill">{{$categoria->personeAttuale()->attivo()->count()}}</span> 
                       </button>
                     </h5>
                   </div>
@@ -26,17 +26,17 @@
                     <div class="row">
                       <div class="col-md-6"> 
                         <h5>Uomini 
-                        <span class="badge badge-primary badge-pill">{{$categoria->persone()->uomini()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill">{{$categoria->personeAttuale()->attivo()->uomini()->count()}}</span> 
                         </h5>
-                          @foreach($categoria->persone()->uomini()->get() as $uomo)
+                          @foreach($categoria->personeAttuale()->attivo()->uomini()->get() as $uomo)
                             <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
                         <h5>Donne
-                        <span class="badge badge-primary badge-pill"> {{$categoria->persone()->donne()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill"> {{$categoria->personeAttuale()->attivo()->donne()->count()}}</span> 
                         </h5>
-                          @foreach($categoria->persone()->donne()->get() as $donna)
+                          @foreach($categoria->personeAttuale()->attivo()->donne()->get() as $donna)
                             <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
                           @endforeach
                       </div>
@@ -63,7 +63,7 @@
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#{{$posizione->id}}" aria-expanded="true" aria-controls="{{$posizione->id}}">
                       <span class="text-lowercase">{{ $posizione->nome }}</span>
-                      <span class="badge badge-primary badge-pill">{{$posizione->persone()->presente()->count()}}</span> 
+                      <span class="badge badge-primary badge-pill">{{$posizione->personeAttuale()->attivo()->count()}}</span> 
                       </button>
                     </h5>
                   </div>
@@ -72,17 +72,17 @@
                     <div class="row">
                       <div class="col-md-6"> 
                         <h5>Uomini 
-                        <span class="badge badge-primary badge-pill">{{$posizione->persone()->presente()->uomini()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill">{{$posizione->personeAttuale()->attivo()->uomini()->count()}}</span> 
                         </h5>
-                          @foreach($posizione->persone()->presente()->uomini()->get() as $uomo)
+                          @foreach($posizione->personeAttuale()->attivo()->uomini()->get() as $uomo)
                           <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
                         <h5>Donne
-                        <span class="badge badge-primary badge-pill"> {{$posizione->persone()->presente()->donne()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill"> {{$posizione->personeAttuale()->attivo()->donne()->count()}}</span> 
                         </h5>
-                          @foreach($posizione->persone()->presente()->donne()->get() as $donna)
+                          @foreach($posizione->personeAttuale()->attivo()->donne()->get() as $donna)
                            <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
                           @endforeach
                       </div>
@@ -109,7 +109,7 @@
                     <h5 class="mb-0">
                       <button class="btn btn-link" data-toggle="collapse" data-target="#{{$stato->nome}}" aria-expanded="true" aria-controls="{{$stato->nome}}">
                       <span class="text-lowercase">{{ $stato->nome }}</span>
-                      <span class="badge badge-primary badge-pill">{{$stato->persone()->presente()->count()}}</span> 
+                      <span class="badge badge-primary badge-pill">{{$stato->personeAttuale()->attivo()->count()}}</span> 
                       </button>
                     </h5>
                   </div>
@@ -118,17 +118,17 @@
                     <div class="row">
                       <div class="col-md-6"> 
                         <h5>Uomini 
-                        <span class="badge badge-primary badge-pill">{{$stato->persone()->presente()->uomini()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill">{{$stato->personeAttuale()->attivo()->uomini()->count()}}</span> 
                         </h5>
-                          @foreach($stato->persone()->presente()->uomini()->get() as $uomo)
+                          @foreach($stato->personeAttuale()->attivo()->uomini()->get() as $uomo)
                             <div>@include("nomadelfia.templates.persona", ['persona' => $uomo])</div>
                           @endforeach
                       </div>
                       <div class="col-md-6"> 
                         <h5>Donne
-                        <span class="badge badge-primary badge-pill"> {{$stato->persone()->presente()->donne()->count()}}</span> 
+                        <span class="badge badge-primary badge-pill"> {{$stato->personeAttuale()->attivo()->donne()->count()}}</span> 
                         </h5>
-                          @foreach($stato->persone()->presente()->donne()->get() as $donna)
+                          @foreach($stato->personeAttuale()->attivo()->donne()->get() as $donna)
                             <div>@include("nomadelfia.templates.persona", ['persona' => $donna])</div>
                           @endforeach
                       </div>

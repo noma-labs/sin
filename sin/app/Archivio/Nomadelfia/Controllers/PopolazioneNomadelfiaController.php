@@ -28,10 +28,10 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   public function print(Request $request){
     $elenchi = collect($request->elenchi);
     if($elenchi->contains("personeeta")){
-      $maggiorenni= Persona::presente()->maggiorenni()->orderBy("nominativo");
-      $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
+      $maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
+      $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
       $minorenni = $this->getMinorenni();
-      $minorenniCount = Persona::presente()->minorenni()->count();
+      $minorenniCount = Persona::attivo()->minorenni()->count();
     }
     
     if($elenchi->contains("personestati"))
@@ -64,10 +64,10 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   }
 
   public function preview(){
-    $maggiorenni= Persona::presente()->maggiorenni()->orderBy("nominativo");
-    $maggiorenniDonne = Persona::presente()->donne()->maggiorenni()->orderBy("nominativo");
+    $maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
+    $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
     $minorenni = $this->getMinorenni();
-    $minorenniCount = Persona::presente()->minorenni()->count();
+    $minorenniCount = Persona::attivo()->minorenni()->count();
     $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
@@ -82,7 +82,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
 
   public function getMinorenni(){
-    $minorenni = Persona::presente()->minorenni()->get();
+    $minorenni = Persona::attivo()->minorenni()->get();
     $minorenni->map(function($item,$key){
       return $item['anno'] = Carbon::parse($item['data_nascita'])->year;
     });

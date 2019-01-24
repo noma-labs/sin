@@ -47,11 +47,11 @@
       </div>
       <div class="card-body">
         <p class="card-text"> 
-          Totale: <strong>{{App\Nomadelfia\Models\Persona::presente()->count()}}</strong> </p>
+          Totale: <strong>{{App\Nomadelfia\Models\Persona::attivo()->count()}}</strong> </p>
           <ul>
-          <li>Donne maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::presente()->donne()->maggiorenni()->count()}}</strong> </li>
-          <li>Uomini maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::presente()->uomini()->maggiorenni()->count()}}</strong> </li>
-          <li>Figli Minorenni: <strong> {{App\Nomadelfia\Models\Persona::presente()->minorenni()->count()}}</strong> </li>
+          <li>Donne maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->donne()->maggiorenni()->count()}}</strong> </li>
+          <li>Uomini maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->uomini()->maggiorenni()->count()}}</strong> </li>
+          <li>Figli Minorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->minorenni()->count()}}</strong> </li>
           </ul>
 
          <p class="card-text">

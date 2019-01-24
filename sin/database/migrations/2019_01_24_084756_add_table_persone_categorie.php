@@ -17,7 +17,7 @@ class AddTablePersoneCategorie extends Migration
             $table->integer('persona_id');
             $table->integer('categoria_id');
             $table->date('data_inizio');
-            $table->date('data_fine');
+            $table->date('data_fine')->nullable();
             $table->enum('stato', ['1', '0']);
             $table->timestamps();
         });
