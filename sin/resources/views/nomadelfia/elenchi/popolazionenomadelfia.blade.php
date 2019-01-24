@@ -22,33 +22,60 @@
 
 <body>
     <div class="container">
+        
         <div class="page">
             @include('nomadelfia.elenchi.header')
         </div>
+
+        @isset($maggiorenni)
         <div class="page">
             @include('nomadelfia.elenchi.maggiorenni')
         </div>
+        @endisset
+        
+        @isset($minorenni)
         <div class="page">
             @include('nomadelfia.elenchi.minorenni')
         </div>
+        @endisset
+
+        @isset($personestati)
         <div class="page">
             @include('nomadelfia.elenchi.effsacmav')
         </div>
+        @endisset
+
+        @isset($personeposizioni)
         <div class="page">
             @include('nomadelfia.elenchi.postospfigl')
-        </div>')
+        </div>
+        @endisset
+
+        @isset($famiglie)
         <div class="page">
          @include('nomadelfia.elenchi.famiglie')
-        </div>        
+        </div>    
+        @endif    
+
+        @isset($gruppifamiliari)
         <div class="page">
             @include('nomadelfia.elenchi.gruppifamiliari')
         </div>
+        @endif
+
+        @isset($scuola)
         <div class="page">
          @include('nomadelfia.elenchi.scuola')
-        </div>     
+        </div>    
+        @endif
+
+
+        @isset($aziende)
         <div class="page">
             @include('nomadelfia.elenchi.aziende')
         </div>
+        @endif
+
         <div class="page">
             @include('nomadelfia.elenchi.riassunto')
         </div>
