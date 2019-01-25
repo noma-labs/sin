@@ -11,30 +11,24 @@
     <div class="card">
       <div class="card-body">
         <div class="row">
-          <h4 class="col-md-4"> Stato:</h4> 
+          <h5 class="col-md-4"> Stato:</h5> 
           <div class="col-md-4">
-          <h4>
-              @if($persona->attivo())
+          <h5>
+              @if($persona->stato =="1")
                 <span class="badge badge-success">Attivo</span>
               @else
                <span class="badge badge-danger">Disattivo</span>
               @endif
-              </h4>
+              </h5>
           </div>
           <div class="col-md-3">
-          <form action="">
-          
-          @if($persona->attivo())
-          <form class="form" method="GET"  id="formPersonaStatus" action="{{ route('nomadelfia.persone.status.modifica', ['idPersona' =>$persona->id]) }}" >      
-              {{ csrf_field() }}
-          <button class="btn btn-danger"   form="formPersonaStatus">Disattiva</button>
-          <!-- <button name="subject" type="submit" value="HTML" form="formPersonaStatus">HTML</button> -->
-          
-
-          @else
-            <a class="btn btn-success my-2" name="subject" type="submit" value="HTML">Attiva</a>
-          @endif
-
+          <form class="form" method="POST"  id="formPersonaStatus" action="{{ route('nomadelfia.persone.status.modifica', ['idPersona' =>$persona->id]) }}" >      
+            {{ csrf_field() }}
+            @if($persona->stato =="1")
+              <button class="btn btn-danger" name="stato" type="submit" value="0"  form="formPersonaStatus">Disattiva</button>
+            @else
+              <button class="btn btn-success my-2" name="stato" type="submit" value="1" form="formPersonaStatus">Attiva</button>
+            @endif
           </form>
           </div>
         </div>
@@ -60,7 +54,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Nome:</label>
+              <label class="col-sm-4 font-weight-bold">Nome:</label>
               <div class="col-sm-8">
                 <span>{{$persona->nome}} </span>
               </div>
@@ -68,7 +62,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Cognome:</label>
+              <label class="col-sm-4 font-weight-bold">Cognome:</label>
               <div class="col-sm-8">
                     <span>{{$persona->cognome}}</span>
               </div>
@@ -76,7 +70,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Data Nascita:</label>
+              <label class="col-sm-4 font-weight-bold">Data Nascita:</label>
               <div class="col-sm-8">
                     <span>{{$persona->data_nascita}}</span>
               </div>
@@ -84,7 +78,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Luogo Nascita:</label>
+              <label class="col-sm-4 font-weight-bold">Luogo Nascita:</label>
               <div class="col-sm-8">
                   <span>{{$persona->provincia_nascita}}</span>
               </div>
@@ -92,7 +86,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Sesso:</label>
+              <label class="col-sm-4 font-weight-bold">Sesso:</label>
               <div class="col-sm-8">
                 <span>{{$persona->sesso}}</span>
               </div>
@@ -123,7 +117,7 @@
             <li class="list-group-item">
               <div class="row">
                 <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
-                <label class="col-sm-4">Nominativo: </label>
+                <label class="col-sm-4 font-weight-bold">Nominativo: </label>
                 <div class="col-sm-6">
                   {{$persona->nominativo}}
                 </div>
@@ -135,7 +129,7 @@
             <li class="list-group-item">
               <div class="row">
                 <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
-                <label class="col-sm-4">Categoria: </label>
+                <label class="col-sm-4 font-weight-bold">Categoria: </label>
                 <div class="col-sm-6">
                     @if ($persona->categoriaAttuale() != null)
                         {{$persona->categoriaAttuale()->nome}}
@@ -151,7 +145,7 @@
             </li>
             <li class="list-group-item">
               <div class="row">
-                  <label class="col-sm-4">Stato familiare:</label>
+                  <label class="col-sm-4 font-weight-bold">Stato familiare:</label>
                   <div class="col-sm-6">
                     @if ($persona->statoAttuale() != null)
                         <span>{{$persona->statoAttuale()->nome}}</span>
@@ -166,7 +160,7 @@
             </li>
             <li class="list-group-item">
               <div class="row">
-                <label class="col-sm-4">Posizione: </label>
+                <label class="col-sm-4 font-weight-bold">Posizione: </label>
                 <div class="col-sm-6">
                   @if($persona->posizioneAttuale() != null)
                       {{$persona->posizioneAttuale()->nome}}
@@ -181,7 +175,7 @@
             </li>
             <li class="list-group-item">
               <div class="row">
-                <label class="col-sm-4">Gruppo familiare: </label>
+                <label class="col-sm-4 font-weight-bold">Gruppo familiare: </label>
                 <div class="col-sm-6">
                 <!-- TODO 
                  ADD into the model PERSONA e method for checking if the gruppo familiare is not equal to the gruppo familiare of the family
@@ -200,7 +194,7 @@
             </li>
             <li class="list-group-item">
               <div class="row">
-                <label class="col-sm-4">Azienda/e:</label>
+                <label class="col-sm-4 font-weight-bold">Azienda/e:</label>
                 <div class="col-sm-8">
                   @forelse ($persona->aziendeAttuali()->get() as $azienda)
                       <span> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</span>
@@ -233,7 +227,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Nome:</label>
+              <label class="col-sm-4 font-weight-bold">Nome:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
                  <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
@@ -245,7 +239,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Posizione:</label>
+              <label class="col-sm-4 font-weight-bold">Posizione:</label>
               <div class="col-sm-8">
                 @if($persona->famigliaAttuale() != null)
                   <span>{{$persona->famigliaAttuale()->pivot->posizione_famiglia}}
@@ -267,7 +261,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Nome:</label>
+              <label class="col-sm-4 font-weight-bold">Nome:</label>
               <div class="col-sm-8">
                 <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> 
                 {{ $famiglia->nome_famiglia}} 
@@ -277,7 +271,7 @@
           </li>
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4">Posizione:</label>
+              <label class="col-sm-4 font-weight-bold">Posizione:</label>
               <div class="col-sm-8">
                   <span> {{$famiglia->pivot->posizione_famiglia}}</span>
               </div>

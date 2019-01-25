@@ -37,17 +37,20 @@ class PersoneController extends CoreBaseController
     return view('nomadelfia.persone.edit_anagrafica',compact('persona'));
   }
   
-  public function modficaStatus($idPersona){
-    dd($request->all());
+  /**
+   * Aggiorna lo stato di una persona.
+   * 
+   */
+  public function modficaStatus(Request $request, $idPersona){
     $validatedData = $request->validate([
       "stato" => "required",
     ],[
-      "stato.required" => "Il nome è obbligatorie",
+      "stato.required" => "lo stato  è obbligatorie",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->stato = $reuqest->srtato;
+    $persona->stato = $request->stato;
     if($persona->save())
-      return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Stato  di $persona->nominativo aggiornato correttamente. ");
+      return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("Stato di $persona->nominativo aggiornato correttamente. ");
     else    
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSError("Errore dureante l'aggiornamente dello stato dii $persona->nominativo.");
   }
