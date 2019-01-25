@@ -73,7 +73,6 @@
       </div>
       <div class="card-body">
           <p class="card-text"> Famiglie Capo Famiglia: <strong>   {{App\Nomadelfia\Models\Famiglia::onlyCapoFamiglia()->count()}}</strong> </p>
-          <p class="card-text"> Famiglie Capo Famiglia: <strong>   {{App\Nomadelfia\Models\Famiglia::onlyCapoFamiglia()->count()}}</strong> </p>
           <p class="card-text"> Famiglie Single: <strong>         {{App\Nomadelfia\Models\Famiglia::onlySingle()->count()}}</strong> </p>
       </div>
       <div class="card-footer">
