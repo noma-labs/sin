@@ -142,5 +142,33 @@
     </div>
 @endforeach
 
+
+<div class="col-md-3">
+    <div id="accordion">
+      <div class="card">
+      <div class="card-header" id="statoSenzafmiaglia">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#8888" aria-expanded="true" aria-controls="8888">
+          <span class="text-lowercase">Persone senza famiglia </span>
+          </button>
+        </h5>
+      </div>
+      <div id="8888" class="collapse" aria-labelledby="statoSenzafmiaglia" data-parent="#accordion">
+        <div class="card-body">
+        <div class="row">
+          <div class="col-md-6"> 
+            Prsone senza famiglia
+            @foreach (App\Nomadelfia\Models\Persona::doesnthave("famiglie")->get() as $persona)
+            <div>
+              @include('nomadelfia.templates.persona',['persona'=> $persona])
+            </div>
+            @endforeach
+          </div>
+        </div>
+        </div>
+      </div>
+    </div> <!-- end nomadelfi effettivi card -->
+  </div> <!-- end accordion -->
+</div>
 @endsection
 

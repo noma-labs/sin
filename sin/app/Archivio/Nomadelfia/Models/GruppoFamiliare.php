@@ -68,11 +68,11 @@ class GruppoFamiliare extends Model
     return $persone;
   }
   
- // riroan l'id delle persone che sono nelle famiglie ma non nelle persone
+ // ritorna l'id delle persone che sono nelle famiglie ma non nelle persone
   public function compare(){
-    $collection = self::personeAttualeViaFamiglie() ;# collect([1, 2, 3, 4, 5]);
-    $persone = self::personeAttuale()->get();                 # collect [2, 4, 6, 8]);
-    $diff = $collection->diffKeys($persone);             # [1, 3, 5]
+    $collection = self::personeAttualeViaFamiglie();    # collect([1, 2, 3, 4, 5]);
+    $persone = self::personeAttuale()->get();           # collect [2, 4, 6, 8]);
+    $diff = $collection->diffKeys($persone);            # [1, 3, 5]
     return $diff;
   }
 
@@ -91,6 +91,10 @@ class GruppoFamiliare extends Model
                   ->where("gruppi_familiari.id", $gruppoId)
                   ->where("famiglie_persone.stato",'1')
                   ->groupBy("gruppi_famiglie.gruppo_famigliare_id","famiglie_persone.posizione_famiglia");
+  }
+
+  public function scopePersoneConFamiglia($query, $gruppoid){
+      return self::find($gruppoid)->personeAttuale()->with(["famiglie"=>function($query){$query->where("stato","1"); }]);
   }
 
 }

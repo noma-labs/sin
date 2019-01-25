@@ -117,8 +117,6 @@
                   <button class="btn btn-danger" form="formComponente">Salva</button>
             </template>
           </my-modal>
-
-          
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Blade;
 
 use App\Biblioteca\Models\Libro;
+use Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Blade::if('maggiorenne', function ($persona) {
+           // return false; $date = Carbon::now()->subYears(18)->toDatestring();
+            return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;    
+            // return $persona->data_nascita > "0000-00-00";
+        });
 
         // directive which formats a given  DateTime $expression,
         // which should be an instance of DateTime

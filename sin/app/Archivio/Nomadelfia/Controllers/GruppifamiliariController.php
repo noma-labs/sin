@@ -20,6 +20,7 @@ class GruppifamiliariController extends CoreBaseController
 
   public function edit(Request $request,$id){
     $gruppo = GruppoFamiliare::findOrFail($id);
+    // $gruppo = GruppoFamiliare::PersoneConFamiglia($id);
     $countPosizioniFamiglia = GruppoFamiliare::CountPosizioniFamiglia($id)->get();
     return view("nomadelfia.gruppifamiliari.edit",compact('gruppo','countPosizioniFamiglia'));
 

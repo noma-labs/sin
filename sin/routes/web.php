@@ -103,6 +103,8 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('famiglie/create', 'FamiglieController@createConfirm')->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
   Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
   Route::post('famiglie/{id}/gruppo/assegna', 'FamiglieController@assegnaGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.assegna");
+  Route::delete('famiglie/{id}/gruppo/{idGruppo}', 'FamiglieController@eliminaGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.elimina");
+
   Route::post('famiglie/{id}/componente/assegna', 'FamiglieController@assegnaComponente')->name("nomadelfia.famiglie.componente.assegna");
   Route::post('famiglie/{id}/componente/aggiorna', 'FamiglieController@aggiornaComponente')->name("nomadelfia.famiglie.componente.aggiorna");
 

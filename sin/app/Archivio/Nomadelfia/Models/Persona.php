@@ -97,8 +97,6 @@ class Persona extends Model
     return $this->hasMany(Patente::class, 'persona_id', 'id');
   }
 
- 
-
   public function nominativiStorici(){
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
   }
@@ -145,7 +143,6 @@ class Persona extends Model
 
   public function categoriaAttuale(){
     return $this->categorie()->wherePivot('stato', '1')->first();
-
   }
 
   public function categorieStorico(){
@@ -192,14 +189,15 @@ class Persona extends Model
 
   // FAMIGLIA
   public function famiglie(){
-     return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id');
+     return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
+                  ->withPivot("stato");
   }
 
   public function famigliaAttuale(){
     return $this->famiglie()
                 ->wherePivot('stato', '1')
                 ->withPivot('posizione_famiglia')
-                ->first();
+                 ->first();
   }
   
   public function famiglieStorico(){
@@ -208,6 +206,8 @@ class Persona extends Model
                 ->withPivot('posizione_famiglia');
   }
 
+
+  
   /**
    * Ritorna la posizione di una persona in una famiglia
    * @param String $posizione 

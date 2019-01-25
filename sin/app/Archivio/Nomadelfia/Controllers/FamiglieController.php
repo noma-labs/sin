@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
 
 
@@ -63,6 +64,14 @@ class FamiglieController extends CoreBaseController
     ]);
     $fam = Famiglia::create(['nome_famiglia'=>$request->nome, 'data_creazione'=>$request->data_inizio]);
     return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
+  }
+
+
+  public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo){ 
+    $famiglia = Famiglia::findorfail($id);
+    $gruppo = GruppoFamiliare::find($idGruppo);
+    $famiglia->rimuoviDaGruppoFamiliare($idGruppo);
+    return redirect(route('nomadelfia.gruppifamiliari',['id'=>$idGruppo]))->withSuccess("Famiglia $famiglia->nome_famiglia eliminatada $gruppo->nome con successo");
   }
 
   /**
