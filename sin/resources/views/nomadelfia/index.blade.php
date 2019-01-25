@@ -38,10 +38,11 @@
 
 
 @section('archivio')
-<div class="container">
-<div class="row">
-  <div class="col-md-4">
-    <div class="card mb-3">
+
+<!-- <div class="row"> -->
+ <div class="card-deck">
+
+    <div class="card ">
       <div class="card-header">
         Gestione Persone
       </div>
@@ -60,65 +61,63 @@
           Figli:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->count()}}</strong> 
           Ospiti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->count()}}</strong> 
           </p>
-        <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
-        <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa persone</a>  -->
+      </div>
+      <div class="card-footer">
+       <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-header">
-        Gestione Aziende
+
+    <div class="card" >
+     <div class="card-header">
+        Gestione Famiglie
       </div>
       <div class="card-body">
-        <p class="card-text">
-        </p>
-        <a href="{{ route('nomadelfia.aziende') }}"class="btn btn-primary">Entra</a>
-        <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa aziende</a>  -->
+          <p class="card-text"> Famiglie Capo Famiglia: <strong>   {{App\Nomadelfia\Models\Famiglia::onlyCapoFamiglia()->count()}}</strong> </p>
+          <p class="card-text"> Famiglie Capo Famiglia: <strong>   {{App\Nomadelfia\Models\Famiglia::onlyCapoFamiglia()->count()}}</strong> </p>
+          <p class="card-text"> Famiglie Single: <strong>         {{App\Nomadelfia\Models\Famiglia::onlySingle()->count()}}</strong> </p>
+      </div>
+      <div class="card-footer">
+      <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card" >
+
+    <div class="card " >
       <div class="card-header">
         Gestione Gruppi Familiari
       </div>
       <div class="card-body">
-        <p class="card-text">
-        </p>
+      </div>
+      <div class="card-footer">
         <a href="{{ route('nomadelfia.gruppifamiliari') }}"class="btn btn-primary">Entra </a>
-        <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa gruppi</a>  -->
-
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card" >
-    <div class="card-header">
-        Gestione Famiglie
+  </div> <!-- end card deck-->
+  <div class="card-deck my-2">
+    
+   <div class="card ">
+      <div class="card-header">
+        Gestione Aziende
       </div>
       <div class="card-body">
-        <p class="card-text">
-        </p>
-        <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
-        <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa famiglie</a>  -->
+      </div>
+      <div class="card-footer">
+        <a href="{{ route('nomadelfia.aziende') }}"class="btn btn-primary">Entra</a>
       </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card" >
-    <div class="card-header">
+    
+    <div class="card " >
+      <div class="card-header">
         Scuola Familiare
       </div>
       <div class="card-body">
         <p class="card-text">
         </p>
-        <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
-        <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="text-center btn btn-info">Stampa scuola</a>  -->
+      </div>
+      <div class="card-footer">
+      <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
       </div>
     </div>
-  </div>
-</div>
+  </div> <!-- end card deck-->
 
 <!-- <a href="{{ route('nomadelfia.popolazione.stampa') }}" class="btn btn-info my-2">Stampa Popolazione</a>  -->
 <!-- <a href="{{ route('nomadelfia.popolazione.anteprima') }}" class="btn btn-info my-2">Anteprima stampa</a>  -->
