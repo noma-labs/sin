@@ -1,6 +1,6 @@
 <!-- template for the modal component -->
 <template id="modal-template">
-  <div>
+  <span>
     <transition name="modal">
         <div class="modal-mask"  @click="close" v-show="showModal">
             <div class="modal-container"  @click.stop>
@@ -22,7 +22,7 @@
         </div>
     </transition>
     <button v-bind:class="['btn', buttonStyle]" @click="showModal=true">{{buttonTitle}}</button>
-  </div>
+  </span>
 </template>
 
 <script>

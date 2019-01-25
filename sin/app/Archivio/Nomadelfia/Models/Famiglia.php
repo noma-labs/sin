@@ -173,6 +173,15 @@ class Famiglia extends Model
     return $this->figli()->wherePivot('stato',"=",'1');
   }
 
+
+  // rimuove la famigla da un gruppo familiare
+
+  public function rimuoviDaGruppoFamiliare($idGruppo){
+    $this->gruppiFamiliari()->detach($idGruppo);
+    foreach($this->componentiAttuali as $persona)
+      $persona->gruppifamiliari()->detach($idGruppo);
+  }
+
   /**
   * Assegna un nuovo gruppo familiare alla famiglia.
   * Se il gruppoFamiliare attuale non è nullo aggiorna lo stato =0.
