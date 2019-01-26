@@ -30,7 +30,8 @@ class Posizione extends Model
 
   public function persone(){
     return $this->belongsToMany(Persona::class,'persone_posizioni', 'posizione_id', 'persona_id')
-                ->withPivot("stato");
+                ->withPivot("stato")
+                ->orderby("nominativo");
   }
 
   public function personeAttuale(){
@@ -40,16 +41,16 @@ class Posizione extends Model
   /**
      * Find a Posizione by its name
      *
-     * @param string $name
+     * @param string $name abbreviato
      * @param string|null $guardName
      *
      * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
      *
      * @return  \App\Nomadelfia\Models\Posizione
      */
-    public static function findByName(string $name): Posizione
+    public static function find(string $name): Posizione
     {
-        $posizione = Posizione::where("nome", $name)->first();
+        $posizione = Posizione::where("abbreviato", $name)->first();
         if (! $posizione) {
             throw PosizioneDoesNotExist::create($name);
         }

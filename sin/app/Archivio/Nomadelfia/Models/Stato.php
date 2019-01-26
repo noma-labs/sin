@@ -4,6 +4,8 @@ namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Excpetions\StatoDoesNotExists;
+
 
 class Stato extends Model
 {
@@ -14,7 +16,8 @@ class Stato extends Model
 
   public function persone(){
     return $this->belongsToMany(Persona::class,'persone_stati', 'stato_id', 'persona_id')
-                 ->withPivot("stato");
+                 ->withPivot("stato")
+                 ->orderby("nominativo");
   }
 
   public function personeAttuale(){
@@ -26,6 +29,26 @@ class Stato extends Model
   {
       return $query->where('persone_stati.stato', 1);
   }
+
+
+   /**
+     * Find a STATO by its abbreviato
+     *
+     * @param string $name
+     * @param string|null $guardName
+     *
+     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
+     *
+     * @return  \App\Nomadelfia\Models\Posizione
+     */
+    public static function find(string $name): Posizione
+    {
+        $stato = Stato::where("stato", $name)->first();
+        if (! $stato) {
+            throw StatoDoesNotExists::create($name);
+        }
+        return $stato;
+    }
 
   /**
    * Ritorna lo stato dal suo nome

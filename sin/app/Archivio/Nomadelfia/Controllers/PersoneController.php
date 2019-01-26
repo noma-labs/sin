@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Posizione;
+use App\Nomadelfia\Models\Stato;
 use App\Nomadelfia\Models\Famiglia;
 use App\Anagrafe\Models\Provincia;
 use App\Nomadelfia\Models\GruppoFamiliare;
@@ -210,8 +211,11 @@ class PersoneController extends CoreBaseController
                                 'id_arch_pietro'=>0,
                                 'id_arch_enrico'=>0,]
                               );
-      // $persona->save();
-      if($_addanother  && $persona->save())
+      $res = $persona->save();
+      $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+      $persona->posizioni()->attach(Posizione::find("DADE"), ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+
+      if($_addanother )
         return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
       if($_addonly)
         return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");

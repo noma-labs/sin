@@ -128,3 +128,11 @@ Run all mix Task and look for changes
 
 ##
 - https://foundation.zurb.com/ 
+
+
+# Linea guida di sviluppo
+
+classi per i bottoni:
+ - `warning`: per operazion che modificano una stato (modifica)
+ - `success`: per operazioni di conferma (Salva,)
+ - `danger`: per operazioni  delicate (Elimina,)
