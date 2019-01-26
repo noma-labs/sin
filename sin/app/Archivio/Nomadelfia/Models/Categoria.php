@@ -17,7 +17,8 @@ class Categoria extends Model
 
   public function persone(){
     return $this->belongsToMany(Persona::class,'persone_categorie', 'categoria_id', 'persona_id')
-                ->withPivot("stato");
+                ->withPivot("stato")
+                ->orderby("nominativo");
   }
 
   public function personeAttuale(){

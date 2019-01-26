@@ -64,8 +64,8 @@
 
      <h4> Categoria persona</h4>
      <div class="form-group row">
-      <label class="col-sm-4 col-form-label">Categoria:</label>
-      <div class="col-sm-8">
+      <label class="col-sm-6 col-form-label">Categoria:</label>
+      <div class="col-sm-6">
         <div class="form-group">
             <select class="form-control"  name="categoria_id">
               @foreach (App\Nomadelfia\Models\Categoria::all() as $cat)
@@ -80,9 +80,16 @@
       </div>
     </div> 
 
-    <div class="row">
+     <div class="form-group row">
+      <label class="col-sm-6 col-form-label">Data inizio:</label>
+      <div class="col-sm-6">
+        <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') ? old('data_inizio'): Carbon::now()->toDateString() }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
+      </div>
+    </div> 
+
+    <div class="row my-2">
       <div class="col-auto">
-        <button class="btn btn-warning" name="_addanother" value="true" type="submit">Salva e aggiungi un'altro </button>
+        <button class="btn btn-warning " name="_addanother" value="true" type="submit">Salva e aggiungi un'altro </button>
         <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva e visualizza</button> 
       </div>
     </div>
