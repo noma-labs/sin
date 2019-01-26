@@ -42,18 +42,23 @@
                 <label class="col-sm-4">Figli:</label>
                 <div class="col-sm-8">
                     @foreach  ($famiglia->figli as $figlio)
-                    <div class="row">
-                        <div class="col-sm-5">
+                    <div class="row justify-content-between">
+                        <div class="col-md-6">
                             <span> @year($figlio->data_nascita) {{$figlio->nominativo}}   ({{$figlio->pivot->posizione_famiglia}}) </span>
-                        </div>
-                        <div class="col-sm-4">
                             @if($figlio->pivot->stato == '1')
                             <span class="badge badge-pill badge-success">Nel nucleo</span>
                             @else
                             <span class="badge badge-pill badge-danger">Fuori da nucleo</span>
                             @endif
                         </div>
-                        <div class="col-sm-3">
+                        <!-- <div class="col-sm-4">
+                            @if($figlio->pivot->stato == '1')
+                            <span class="badge badge-pill badge-success">Nel nucleo</span>
+                            @else
+                            <span class="badge badge-pill badge-danger">Fuori da nucleo</span>
+                            @endif
+                        </div> -->
+                        <div class="col-md-4s">
                             <my-modal modal-title="Aggiorna componente" button-title="Modifica" button-style="btn-warning my-2">
                                 <template slot="modal-body-slot">
                                 <form class="form" method="POST" id="formComponenteAggiorna{{$figlio->id}}" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
@@ -122,8 +127,8 @@
                                     <button class="btn btn-danger" form="formComponenteAggiorna{{$figlio->id}}">Salva</button>
                                 </template>
                             </my-modal>  
-                            @maggiorenne($figlio)
-                             <my-modal modal-title="Aggiorna componente" button-title="Sposta e crea fmaiglia" button-style="btn-danger my-2">
+                            <!-- @maggiorenne($figlio)
+                             <my-modal modal-title="Aggiorna componente" button-title="Sposta e crea famiglia" button-style="btn-danger my-2">
                                 <template slot="modal-body-slot">
                                 <form class="form" method="POST" id="formComponenteAggiorna{{$figlio->id}}" action="{{ route('nomadelfia.famiglie.componente.aggiorna', ['id' =>$famiglia->id]) }}" >      
                                     {{ csrf_field() }}
@@ -191,7 +196,7 @@
                                     <button class="btn btn-danger" form="formComponenteAggiorna{{$figlio->id}}">Salva</button>
                                 </template>
                             </my-modal> 
-                            @endmaggiorenne
+                            @endmaggiorenne -->
                         </div>
                     </div>
                     @endforeach    

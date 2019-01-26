@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('maggiorenne', function ($persona) {
            // return false; $date = Carbon::now()->subYears(18)->toDatestring();
-            return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;    
+            return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;  
             // return $persona->data_nascita > "0000-00-00";
         });
 
