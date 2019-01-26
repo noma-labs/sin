@@ -30,18 +30,10 @@
                   <template slot="modal-body-slot">
                     <form class="form" method="POST"  id="formPersonaPosizioneModifica" action="{{ route('nomadelfia.persone.posizione.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->posizioneAttuale()->id]) }}" >      
                         {{ csrf_field() }}
-                        <!-- <h5 class="my-2"> Posizione attuale: {{$persona->posizioneAttuale()->nome}}</h5> -->
                         <div class="form-group row">
                           <label for="staticEmail" class="col-sm-6 col-form-label">Posizione attuale</label>
                           <div class="col-sm-6">
                               <div>{{$persona->posizioneAttuale()->nome}}</div>
-                             
-                            <!-- <select name="posizione_id" class="form-control">
-                                <option selecte>---seleziona posizione---</option>
-                                @foreach (App\Nomadelfia\Models\Posizione::all() as $posizione)
-                                  <option value="{{$posizione->id}}">{{$posizione->nome}}</option>
-                              @endforeach
-                            </select> -->
                           </div>
                         </div>
                         <div class="form-group row">
@@ -69,24 +61,6 @@
                             Disattiva
                           </label>
                         </div>
-                        <!-- <h5 class="my-2">Inserimento nuova posizione</h5>
-                        <div class="form-group row">
-                          <label for="staticEmail" class="col-sm-4 col-form-label">Posizione</label>
-                          <div class="col-sm-8">
-                            <select name="posizione_id" class="form-control">
-                                <option selecte>---seleziona posizione---</option>
-                                @foreach (App\Nomadelfia\Models\Posizione::all() as $posizione)
-                                  <option value="{{$posizione->id}}">{{$posizione->nome}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-sm-4 col-form-label">Data inizio</label>
-                          <div class="col-sm-8">
-                            <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
-                          </div>
-                        </div> -->
                       </form>
                   </template> 
                   <template slot="modal-button">

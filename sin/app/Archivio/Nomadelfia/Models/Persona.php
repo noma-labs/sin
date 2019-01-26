@@ -300,14 +300,14 @@ class Persona extends Model
     $posizioni = Posizione::all();
     if($pos != null){
       $posizioni = $posizioni->except([$pos->id]);
-      if($pos->is(Posizione::findByName("EFFETTIVO")))
-        return $posizioni->except([Posizione::findByName("FIGLIO")->id]);
-      if($pos->is(Posizione::findByName("POSTULANTE")))
-        return $posizioni->except([Posizione::findByName("FIGLIO")->id]);
-      if($pos->is(Posizione::findByName("OSPITE")))
-        return $posizioni->except([Posizione::findByName("EFFETTIVO")->id]);
-      if($pos->is(Posizione::findByName("FIGLIO")))
-        return $posizioni->except([Posizione::findByName("EFFETTIVO")->id]);
+      if($pos->is(Posizione::find("EFFE")))
+        return $posizioni->except([Posizione::find("FIGL")->id]);
+      if($pos->is(Posizione::find("POST")))
+        return $posizioni->except([Posizione::find("FIGL")->id]);
+      if($pos->is(Posizione::find("OSPP")))
+        return $posizioni->except([Posizione::find("EFFE")->id]);
+      if($pos->is(Posizione::find("FIGL")))
+        return $posizioni->except([Posizione::find("EFFE")->id]);
       return $posizioni;
     }else
     return $posizioni;

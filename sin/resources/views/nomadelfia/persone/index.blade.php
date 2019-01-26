@@ -161,8 +161,8 @@
         </div>
         </div>
       </div>
-    </div> <!-- end nomadelfi effettivi card -->
-  </div> <!-- end accordion -->
+    </div> <! -- end nomadelfi effettivi card -- >
+  </div> <! -- end accordion -- >
 </div> -->
 @endsection
 
