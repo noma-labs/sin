@@ -11,7 +11,7 @@
       <form class="form" method="POST"  id="formPersonaGruppo" action="{{ route('nomadelfia.persone.gruppo.assegna', ['idPersona' =>$persona->id]) }}" >      
           {{ csrf_field() }}
 
-          @if($persona->posizioneAttuale())
+          @if($persona->gruppofamiliareAttuale())
           <h5 class="my-2">Completa dati del gruppo attuale:  {{$persona->gruppofamiliareAttuale()->nome}}</h5>
           <div class="form-group row">
             <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita gruppo familiare</label>
