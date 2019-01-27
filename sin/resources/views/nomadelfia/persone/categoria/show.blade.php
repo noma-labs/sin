@@ -28,7 +28,6 @@
               <div class="col-md-3">
                 <my-modal modal-title="Modifica Categoria attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
-                  {{$persona->categoriaAttuale()->id}}
                     <form class="form" method="POST"  id="formPersonaCategoriaModifica" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->categoriaAttuale()->id]) }}" >      
                         {{ csrf_field() }}
                         <div class="form-group row">
@@ -50,17 +49,22 @@
                           </div>
                         </div>
 
-                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->categoriaAttuale()->pivot->stato=='1') checked @endif>
-                            <label class="form-check-label" for="forstatoM">
-                              Attiva
-                            </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->categoriaAttuale()->pivot->stato=='0') checked @endif>
-                          <label class="form-check-label" for="forstao">
-                            Disattiva
-                          </label>
+                         <div class="form-group row">
+                          <label for="inputPassword" class="col-sm-6 col-form-label">Stato</label>
+                          <div class="col-sm-6">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->categoriaAttuale()->pivot->stato=='1') checked @endif>
+                                <label class="form-check-label" for="forstatoM">
+                                  Attiva
+                                </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->categoriaAttuale()->pivot->stato=='0') checked @endif>
+                              <label class="form-check-label" for="forstao">
+                                Disattiva
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </form>
                   </template> 

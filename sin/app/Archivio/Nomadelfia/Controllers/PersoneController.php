@@ -288,9 +288,8 @@ class PersoneController extends CoreBaseController
     ],[
       "data_fine.date" => "La data fine posizione dee essere una data valida", 
       'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
-      'stati.required'=>"Lo stato attuale è obbligatorio.",
-
-  ]);
+      'stato.required'=>"Lo stato attuale è obbligatorio.",
+    ]);
     $persona = Persona::findOrFail($idPersona);
     $persona->posizioni()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo.");
@@ -380,6 +379,21 @@ class PersoneController extends CoreBaseController
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
   }
 
+  public function modificaStato(Request $request, $idPersona, $id){
+    $validatedData = $request->validate([
+      "data_fine" => "date", 
+      "data_inizio" => "required|date",
+      "stato" =>"required"
+    ],[
+      "data_fine.date" => "La data fine posizione dee essere una data valida", 
+      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
+      'stato.required'=>"Lo stato attuale è obbligatorio.",
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->stati()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
+  }
+
   /**
    * Ritorna la view per la modifica del gruppo familiare
    * 
@@ -413,24 +427,85 @@ class PersoneController extends CoreBaseController
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
   }
 
+  public function modificaGruppofamiliare(Request $request, $idPersona, $id){
+    $validatedData = $request->validate([
+      "data_uscita" => "date", 
+      "data_entrata" => "required|date",
+      "stato" =>"required"
+    ],[
+      "data_uscita.date" => "La data fine posizione dee essere una data valida", 
+      'data_entrata.required'=>"La data di inizio della posizione è obbligatoria.",
+      'stato.required'=>"Lo stato attuale è obbligatorio.",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->gruppifamiliari()->updateExistingPivot($id, ['data_uscita_gruppo'=>$request->data_uscita, 'data_entrata_gruppo'=>$request->data_entrata, "stato"=>$request->stato]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
+  }
   
 
-  public function modificaGruppoFamiliare(Request $request, $idPersona){ 
-    $validatedData = $request->validate([
-      "nuovogruppo" => "required", 
-      "datacambiogruppo" => "required|date",
-    ],[
-      "nuovogruppo.required" => "Il nuovo gruppo è obbligatorio", 
-      'datacambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
-  ]);
-     $persona = Persona::findOrFail($idPersona);
+  // public function modificaGruppoFamiliare(Request $request, $idPersona){ 
+  //   $validatedData = $request->validate([
+  //     "nuovogruppo" => "required", 
+  //     "datacambiogruppo" => "required|date",
+  //   ],[
+  //     "nuovogruppo.required" => "Il nuovo gruppo è obbligatorio", 
+  //     'datacambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
+  // ]);
+  //   $persona = Persona::findOrFail($idPersona);
      
-          $data = $request->datacambiogruppo;
-          $idnuovogruppo =  $request->nuovogruppo;
-         $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
+  //   $data = $request->datacambiogruppo;
+  //   $idnuovogruppo =  $request->nuovogruppo;
+  //   $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
+  //    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eseguito con successo");
+  // }
 
-     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eeguito con successo");
 
+  public function aziende(Request $request, $idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.aziende.show",compact('persona'));
+  } 
+
+
+
+  /**
+   * Assegna una nuova azienda alla persona
+   * 
+   * @author Davide Neri
+   */
+  public function  assegnaAzienda(Request $request, $idPersona){ 
+    $validatedData = $request->validate([
+      "azienda_id" => "required", 
+      "mansione" => "required", 
+      "data_inizio" => "required|date",
+    ],[
+      "azienda_id.required" => "L'azienda è obbligatorio", 
+      'data_inizio.required'=>"La data di inizio dell'azienda è obbligatoria.",
+      'mansione.required'=>"La mansione del lavoratore nell'azienda è obbligatoria.",
+
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $azienda = Azienda::findOrFail($request->azienda_id);
+    if($persona->aziendeAttuali->contains($azienda->id)) // la persona è stata già asseganta all'azienda
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("$persona->nominativo è già assegnata all'azienda $azienda->nome_azienda");
+      
+    $persona->aziende()->attach($azienda->id, ['stato'=>'Attivo','data_inizio_azienda'=>$request->data_inizio,'mansione'=>$request->mansione]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+  }
+
+  public function modificaAzienda(Request $request, $idPersona, $id){
+    $validatedData = $request->validate([
+      "mansione" => "required", 
+      "data_entrata" => "required|date",
+      "stato" => "required", 
+    ],[
+      'data_entrata.required'=>"La data di inizio dell'azienda è obbligatoria.",
+      'mansione.required'=>"La mansione del lavoratore nell'azienda è obbligatoria.",
+      'stato.required'=>"Lo stato è obbligatoria.",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $azienda = Azienda::findOrFail($id);
+    $persona->aziende()->updateExistingPivot($id, ['stato'=>$request->stato,'data_inizio_azienda'=>$request->data_entrata,'data_fine_azienda'=>$request->data_uscita, 'mansione'=>$request->mansione]);
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
   }
 
 }

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Nomadelfia\Models\Persona;
 use App\Traits\Enums;
+use Illuminate\Database\Eloquent\Builder;
 
 class Azienda extends Model
 {
@@ -14,8 +15,16 @@ class Azienda extends Model
   protected $table = 'aziende';
   protected $primaryKey = "id";
 
-  public function lavoratori(){
+  protected static function boot()
+  {
+      parent::boot();
 
+      static::addGlobalScope('order', function (Builder $builder) {
+          $builder->orderby('nome_azienda');
+      });
+  }
+
+  public function lavoratori(){
     return $this->belongsToMany(Persona::class,'aziende_persone','azienda_id','persona_id')->withPivot('stato', 'data_inizio_azienda');
   }
 

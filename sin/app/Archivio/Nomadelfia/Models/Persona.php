@@ -104,7 +104,7 @@ class Persona extends Model
    // GRUPPO FAMILIARE
   public function gruppifamiliari(){
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
-                ->withPivot("data_entrata_gruppo","data_uscita_gruppo");
+                ->withPivot("data_entrata_gruppo","data_uscita_gruppo",'stato');
   }
 
   public function gruppofamiliareAttuale(){
@@ -119,16 +119,21 @@ class Persona extends Model
   }
  
   // AZIENDE
-  public function aziendeAttuali(){
+  public function aziende(){
     return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
-              ->wherePivotIn('stato', ['Attivo', 'Sospeso'])
-              ->withPivot('data_inizio_azienda', 'mansione', 'stato');
-              // ->orderBy('nominativo');
+                ->withPivot('data_inizio_azienda', 'data_fine_azienda','mansione', 'stato')
+                ->orderby("nome_azienda");
   }
 
-  public function aziende(){
-    return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id');
+  public function aziendeAttuali(){
+    return $this->aziende()->wherePivotIn('stato', ['Attivo', 'Sospeso']);
   }
+
+  public function aziendeStorico(){
+    return $this->aziende()->wherePivot('stato', 'Non attivo');
+  }
+
+ 
 
   // CATEGORIA
   // TODO: da eliminare, la persona ha più categoria.
