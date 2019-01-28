@@ -185,7 +185,6 @@
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif
-
                 </div>
                 <div class="col-sm-2">
                   <a class="btn btn-warning" href="{{route('nomadelfia.persone.gruppofamiliare', ['idPersona'=>$persona->id])}}">Modifica</a> 
@@ -195,12 +194,15 @@
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Azienda/e:</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                   @forelse ($persona->aziendeAttuali()->get() as $azienda)
-                      <span> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</span>
+                      <p> <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{ $azienda->nome_azienda }} </a> ({{ $azienda->pivot->mansione }})</p>
                   @empty
                       <span class="text-danger">Nessuna azienda</span>
                   @endforelse
+                </div>
+                <div class="col-sm-2">
+                  <a class="btn btn-warning" href="{{route('nomadelfia.persone.aziende', ['idPersona'=>$persona->id])}}">Modifica</a> 
                 </div>
               </div>
             </li>

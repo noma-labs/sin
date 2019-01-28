@@ -7,6 +7,7 @@
 <div class="row justify-content-center">
    <div class="col-md-6">
   
+    <!-- card posizione attuale -->
     <div class="card">
       <div class="card-header">
         Posizione attuale
@@ -49,25 +50,30 @@
                           </div>
                         </div>
 
-                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->posizioneAttuale()->pivot->stato=='1') checked @endif>
-                            <label class="form-check-label" for="forstatoM">
-                              Attiva
-                            </label>
+                        <div class="form-group row">
+                          <label for="inputPassword" class="col-sm-6 col-form-label">Stato</label>
+                          <div class="col-sm-6">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->posizioneAttuale()->pivot->stato=='1') checked @endif>
+                                <label class="form-check-label" for="forstatoM">
+                                  Attivo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->posizioneAttuale()->pivot->stato=='0') checked @endif>
+                              <label class="form-check-label" for="forstao">
+                                Disattivo
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->posizioneAttuale()->pivot->stato=='0') checked @endif>
-                          <label class="form-check-label" for="forstao">
-                            Disattiva
-                          </label>
-                        </div>
+                         
                       </form>
                   </template> 
                   <template slot="modal-button">
                     <button class="btn btn-success" form="formPersonaPosizioneModifica">Salva</button>
                   </template>
-                 </my-modal> <!--end modal modifica posizione-->
-                
+                </my-modal> <!--end modal modifica posizione-->
                </div>
             </div>
           @else
@@ -115,6 +121,8 @@
             </my-modal> <!--end modal aggiungi posizione-->
       </div>  <!--end card body-->
     </div> <!--end card -->
+     
+     <!-- card posizione storico -->
     <div class="card my-3">
       <div class="card-header">
        Storico delle Posizione 
