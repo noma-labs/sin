@@ -478,7 +478,7 @@ class PersoneController extends CoreBaseController
       "mansione" => "required", 
       "data_inizio" => "required|date",
     ],[
-      "azienda_id.required" => "L'azienda è obbligatorio", 
+      "azienda_id.required" => "L'azienda è obbligatoria", 
       'data_inizio.required'=>"La data di inizio dell'azienda è obbligatoria.",
       'mansione.required'=>"La mansione del lavoratore nell'azienda è obbligatoria.",
 

@@ -110,13 +110,18 @@ class FamiglieController extends CoreBaseController
     $persona = Persona::findorfail($request->persona_id);
     $famiglia_attuale = $persona->famigliaAttuale();
     if($famiglia_attuale != null and $request->stato == "1")
-      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withWarning("Attenzione. $persona->nominativo è già assegnato alla famiglia $famiglia_attuale->nome_famiglia come ". $famiglia_attuale->pivot->posizione_famiglia);
-
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))
+            ->withError("Errore. $persona->nominativo è già assegnato alla famiglia $famiglia_attuale->nome_famiglia come ". $famiglia_attuale->pivot->posizione_famiglia);
     try{
-       $famiglia->componenti()->attach($persona->id,['stato'=>$request->stato,'posizione_famiglia'=>$request->posizione, 
-                                                          'data_entrata'=>($request->data_entrata ? $request->data_entrata: $persona->data_nascita),
-                                                          'note'=>$request->note]);
-      return  redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
+      
+       $famiglia->componenti()->attach($persona->id,['stato'=>$request->stato,
+                                                      'posizione_famiglia'=>$request->posizione, 
+                                                      'data_entrata'=>($request->data_entrata ? $request->data_entrata: $persona->data_nascita),
+                                                      'note'=>$request->note]);
+      # if($persona->syncGruppoFamiliarePersonaWithFamiglia())
+        return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
+      #else
+      #   return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }catch (Exception $e){
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }

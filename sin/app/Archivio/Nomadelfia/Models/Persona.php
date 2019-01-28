@@ -330,8 +330,6 @@ class Persona extends Model
                 ->wherePivot('stato', '0');
   }
 
-
-
   /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
@@ -356,5 +354,30 @@ class Persona extends Model
     {
      throw $e;
     }
+  }
+
+   /**
+     * Associa il gruppo familiare alla persone uguale a quello della sua famiglia.
+     *
+     * @param int|null $gruppoFamiliareAttuale
+     * @param date   $dataUscitaGruppoFamiliareAttuale
+     * @param int $gruppoFamiliareNuovo
+     * @param date $dataEntrataGruppo
+     *
+     */
+  public function syncGruppoFamiliarePersonaWithFamiglia(){
+    if(self::famigliaAttuale()){
+        $gruppoDellaFamiglia = self::famigliaAttuale()->gruppofamiliareAttuale();
+        $gruppoPersona = self::gruppofamiliareAttuale();
+        if($gruppoPersona == null and $gruppoDellaFamiglia == null)
+          return false; //TODO thrwo exception
+        if($gruppoPersona == null and $gruppoDellaFamiglia != null)
+           self::gruppifamiliari()->save($gruppoDellaFamiglia,['data_entrata_gruppo'=>$gruppoDellaFamiglia->pivot->data_inizio, "stato"=>$gruppoDellaFamiglia->pivot->stato]);
+        if(!$gruppoDellaFamiglia->is($gruppoPersona)) // il gruppo della persona non coincide con il gruppo della famiglia
+            $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_uscita_gruppo'=>$dataUscitaGruppoFamiliareAttuale]);
+
+        return  self::gruppifamiliari()->save($gruppoDellaFamiglia,['data_entrata_gruppo'=>$gruppoDellaFamiglia->pivot->data_inizio, "stato"=>$gruppoDellaFamiglia->pivot->stato]);
+    }else
+     return false;
   }
 }

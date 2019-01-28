@@ -13,7 +13,7 @@
         <div class="card-header" id="headSingle">
           <h5 class="mb-0">
             <button class="btn btn-link" data-toggle="collapse" data-target="#Single" aria-expanded="true" aria-controls="Single">
-            Famiglie Capo Famiglia  <span class="badge badge-primary badge-pill"></span> 
+            Famiglie
             </button>
           </h5>
         </div>
@@ -57,8 +57,7 @@
       <div class="card-header" id="headCapoFamiglia">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#CapoFamiglia" aria-expanded="true" aria-controls="CapoFamiglia">
-          Famiglie Single
-        
+           Single
           </button>
         </h5>
       </div>
