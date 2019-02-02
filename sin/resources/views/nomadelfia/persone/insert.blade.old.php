@@ -85,17 +85,17 @@
     </div>
   </div>
 
-<div class="form-group col-md-2">
-  <label for="gruppo">Gruppo Familiare</label>
-  <select class="form-control" id="gruppo" name="gruppo">
-    <option selected hidden value="">Seleziona...</option>
-    @foreach($gruppi as $gruppo)
-      <option value="{{ $gruppo->id }}" @if(old('gruppo')== $gruppo->id) selected @endif>{{ $gruppo->nome }}</option>
-    @endforeach
-  </select>
-</div>
+  <div class="form-group col-md-2">
+    <label for="gruppo">Gruppo Familiare</label>
+    <select class="form-control" id="gruppo" name="gruppo">
+      <option selected hidden value="">Seleziona...</option>
+      @foreach($gruppi as $gruppo)
+        <option value="{{ $gruppo->id }}" @if(old('gruppo')== $gruppo->id) selected @endif>{{ $gruppo->nome }}</option>
+      @endforeach
+    </select>
+  </div>
 
-<div class="col-md-2">
+s<div class="col-md-2">
     <div class="form-group">
       <label for="data_gruppo">Data cambio gruppo</label>
       <input type="date" class="form-control" id="data_gruppo" name="data_gruppo" value="{{ old('data_gruppo') }}">

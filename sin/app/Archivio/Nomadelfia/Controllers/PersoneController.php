@@ -136,9 +136,72 @@ class PersoneController extends CoreBaseController
     return view("nomadelfia.persone.insert_initial");
   }
 
-  public function insertCompletoView(){
-    return view("nomadelfia.persone.insert");
+  public function insertDatiAnagraficiView(){
+    return view("nomadelfia.persone.insert_dati_anagrafici");
   }
+
+  public function insertDatiAnagrafici(Request $request){
+    $validatedData = $request->validate([
+      "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", 
+      "nome" => "required",
+      "cognome" => "required",
+      "data_nascita" => "required|date",
+      "luogo_nascita" => "required",
+      "sesso" => "required",
+      // "categoria_id" => "required"
+    ],[
+      "nominativo.required" => "Il nominativo è obbligatorio", 
+      'nominativo.unique'=>"IL nominativo inserito esiste già.",
+      "nome.required" => "Il nome è obbligatorie",
+      "cognome.required" => "Il cognome è obbligatorio",
+      "data_nascita.required" => "La data di nascita è obbligatoria",
+      "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
+      "sesso.required" => "Il sesso della persona è obbligatorio",
+      // "categoria_id.required" => "La categoria della persona è obbligatoria",
+    ]);
+    $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
+                              'sesso'=>$request->input('sesso'),
+                              'nome'=>$request->input('nome'),
+                              "cognome"=>$request->input('cognome'),
+                              "provincia_nascita"=>$request->input('luogo_nascita'),
+                              'data_nascita'=>$request->input('data_nascita'),
+                              'categoria_id' =>$request->input('categoria_id'),
+                              'id_arch_pietro'=>0,
+                              'id_arch_enrico'=>0,]
+                            );
+    if($persona->save())
+      return redirect(route('nomadelfia.persone.inserimento.datinomadelfia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+    else
+      return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
+  }
+
+
+  public function  insertDatiNomadelfiaView(Request $request, $idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.insert_dati_nomadelfia", compact('persona'));
+  }
+
+  public function insertDatiNomadelfia(Request $request, $idPersona){
+    //TODO: inserire i dati nel data e redirect to inserimento famiglia
+    $persona = Persona::findOrFail($idPersona);
+
+    return redirect(route('nomadelfia.persone.inserimento.famiglia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+  }
+
+  public function insertFamigliaView(Request $request, $idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    return view("nomadelfia.persone.insert_famiglia", compact('persona'));
+  }
+
+  public function insertFamiglia(Request $request, $idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    // TODO; inserire la famiglia di appartenze e redirect to dettaglio
+    return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+  }
+
+
+
+
 
   /**
    * Contolla che non ci sia una persona con il nome e cognome.
@@ -165,7 +228,7 @@ class PersoneController extends CoreBaseController
       if($personeEsistenti->exists() )
         return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
       else
-         return redirect(route('nomadelfia.persone.inserimento.completo'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
+         return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
     }
   }
 
@@ -177,57 +240,57 @@ class PersoneController extends CoreBaseController
    * 
    * @author Davide Neri
    */
-  public function insert(Request $request){
+  // public function insert(Request $request){
 
-    $validatedData = $request->validate([
-        "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", 
-        "nome" => "required",
-        "cognome" => "required",
-        "data_nascita" => "required|date",
-        "luogo_nascita" => "required",
-        "sesso" => "required",
-        "categoria_id" => "required"
-      ],[
-        "nominativo.required" => "Il nominativo è obbligatorio", 
-        'nominativo.unique'=>"IL nominativo inserito esiste già.",
-        "nome.required" => "Il nome è obbligatorie",
-        "cognome.required" => "Il cognome è obbligatorio",
-        "data_nascita.required" => "La data di nascita è obbligatoria",
-        "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
-        "sesso.required" => "Il sesso della persona è obbligatorio",
-        "categoria_id.required" => "La categoria della persona è obbligatoria",
+  //   $validatedData = $request->validate([
+  //       "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", 
+  //       "nome" => "required",
+  //       "cognome" => "required",
+  //       "data_nascita" => "required|date",
+  //       "luogo_nascita" => "required",
+  //       "sesso" => "required",
+  //       "categoria_id" => "required"
+  //     ],[
+  //       "nominativo.required" => "Il nominativo è obbligatorio", 
+  //       'nominativo.unique'=>"IL nominativo inserito esiste già.",
+  //       "nome.required" => "Il nome è obbligatorie",
+  //       "cognome.required" => "Il cognome è obbligatorio",
+  //       "data_nascita.required" => "La data di nascita è obbligatoria",
+  //       "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
+  //       "sesso.required" => "Il sesso della persona è obbligatorio",
+  //       "categoria_id.required" => "La categoria della persona è obbligatoria",
 
-    ]);
-    $_addanother= $request->input('_addanother');  // save and add another libro
-    $_addonly   = $request->input('_addonly');     // save only
-    try{
-      $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
-                                'sesso'=>$request->input('sesso'),
-                                'nome'=>$request->input('nome'),
-                                "cognome"=>$request->input('cognome'),
-                                "provincia_nascita"=>$request->input('luogo_nascita'),
-                                'data_nascita'=>$request->input('data_nascita'),
-                                'categoria_id' =>$request->input('categoria_id'),
-                                'id_arch_pietro'=>0,
-                                'id_arch_enrico'=>0,]
-                              );
-      $res = $persona->save();
-      $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-      $persona->posizioni()->attach(Posizione::find("DADE"), ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+  //   ]);
+  //   $_addanother= $request->input('_addanother');  // save and add another libro
+  //   $_addonly   = $request->input('_addonly');     // save only
+  //   try{
+  //     $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
+  //                               'sesso'=>$request->input('sesso'),
+  //                               'nome'=>$request->input('nome'),
+  //                               "cognome"=>$request->input('cognome'),
+  //                               "provincia_nascita"=>$request->input('luogo_nascita'),
+  //                               'data_nascita'=>$request->input('data_nascita'),
+  //                               'categoria_id' =>$request->input('categoria_id'),
+  //                               'id_arch_pietro'=>0,
+  //                               'id_arch_enrico'=>0,]
+  //                             );
+  //     $res = $persona->save();
+  //     $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
+  //     $persona->posizioni()->attach(Posizione::find("DADE"), ['stato'=>'1','data_inizio'=>$request->data_inizio]);
 
-      if($_addanother )
-        return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
-      if($_addonly)
-        return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+  //     if($_addanother )
+  //       return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
+  //     if($_addonly)
+  //       return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
       
-    }
-    catch (Illuminate\Database\QueryException $e){
-        $error_code = $e->errorInfo[1];
-        if($error_code == 1062){
-            return redirect(route('nomadelfia.persone.inserimento'))->withError('Persona già esistente con il nominativo.');
-        }
-        return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore sconosciuto.");
-    }
+  //   }
+  //   catch (Illuminate\Database\QueryException $e){
+  //       $error_code = $e->errorInfo[1];
+  //       if($error_code == 1062){
+  //           return redirect(route('nomadelfia.persone.inserimento'))->withError('Persona già esistente con il nominativo.');
+  //       }
+  //       return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore sconosciuto.");
+  //   }
     // $persona->posizioni()->attach($request->input('posizione'), ['data_inizio' => $request->input('inizio')]);
     // $persona->famiglie()->attach($request->input('famiglia'), ['nucleo_famigliare_id' => $request->input('nucleo')]);
     // $persona->gruppi()->attach($request->input('gruppo'), ['data_entrata_gruppo' => $request->input('data_gruppo')]);
@@ -239,7 +302,7 @@ class PersoneController extends CoreBaseController
     //   $persona->incarichi()->attach($request->input('incarico'), ['data_inizio' => $request->input('data_incarico')]);
     // }
     // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
-  }
+  // }
 
   /**
    * Ritorna la view per la modifica della posizione assegnata ad una persona
@@ -248,7 +311,7 @@ class PersoneController extends CoreBaseController
    */
   public function posizione($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.posizione.show",compact('persona'));
+    return view("nomadelfia.persone.posizione.show", compact('persona'));
   }
 
   /**
@@ -265,14 +328,13 @@ class PersoneController extends CoreBaseController
       "posizione_id.required" => "La posizione è obbligatorio", 
       'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
       // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
-  ]);
+    ]);
     $persona = Persona::findOrFail($idPersona);
     if($persona->posizioneAttuale()) // se 
       $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->posizioni()->attach($request->posizione_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
   }
-
 
   /**
    * Modifica la posizione  di una persona.
@@ -294,7 +356,6 @@ class PersoneController extends CoreBaseController
     $persona->posizioni()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo.");
   }
-
   
    /**
    * Ritorna la view per la modifica della categoria di una persona

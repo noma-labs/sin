@@ -62,7 +62,18 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   // PERSONA
   Route::get('persone', 'PersoneController@view')->name("nomadelfia.persone"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
-  Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.completo");
+  // Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.anagrafici");
+
+  Route::get('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
+  Route::post('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
+
+  Route::get('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfiaView')->name("nomadelfia.persone.inserimento.datinomadelfia");
+  Route::post('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfia')->name("nomadelfia.persone.inserimento.datinomadelfia.confirm");
+  
+  Route::get('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamigliaView')->name("nomadelfia.persone.inserimento.famiglia");
+  Route::post('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamiglia')->name("nomadelfia.persone.inserimento.famiglia.confirm");
+  
+
   Route::post('persone/inserimento/initial', 'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
   Route::post('persone/inserimento', 'PersoneController@insert')->name("nomadelfia.persone.inserimento.confirm");
   Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelfia.persone.dettaglio"); //middleware('permission:cliente-visualizza')
