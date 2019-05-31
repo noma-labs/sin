@@ -249,7 +249,8 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get("/", 'PatenteController@scadenze')->middleware('ability:patente.visualizza')->name('patente.scadenze');
   Route::get("/ricerca", 'PatenteController@patente')->middleware('ability:patente.visualizza')->name('patente.ricerca');
   Route::get("/elenchi", 'PatenteController@elenchi')->name('patente.elenchi');
-  Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->name('patente.elenchi.stampa.autorizzati');
+  Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->name('patente.elenchi.autorizzati.esporta.pdf');
+  Route::get("/elenchi/esporta/excel", 'PatenteController@autorizzatiEsportaExcel')->name('patente.elenchi.autorizzati.esporta.excel');
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->middleware('ability:patente.modifica')->name('patente.modifica');
   Route::get('elimina/{id}','PatenteController@elimina')->middleware('ability:patente.elimina')->name('patente.elimina');
