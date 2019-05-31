@@ -24,8 +24,8 @@ class PersoneController extends CoreBaseController
 
   
   public function view(){
-    $persone =  Persona::orderBy("nominativo","ASC")->get();
-    return view('nomadelfia.persone.index',compact('persone'));
+    $persone =  Persona::orderBy("nominativo","ASC")->paginate(50);
+    return view('nomadelfia.persone.index2',compact('persone'));
   }
 
   public function show($idPersona){
@@ -170,7 +170,8 @@ class PersoneController extends CoreBaseController
                               'id_arch_enrico'=>0,]
                             );
     if($persona->save())
-      return redirect(route('nomadelfia.persone.inserimento.datinomadelfia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+    return redirect(route('nomadelfia.persone.inserimento.famiglia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+      // return redirect(route('nomadelfia.persone.inserimento.datinomadelfia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     else
       return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
   }

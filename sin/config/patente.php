@@ -26,7 +26,7 @@ return [
             'scadute'=> null
         ],
         'cqc'=> [
-            'inscadenza'=>90,
+            'inscadenza'=>180,
              'scadute'=>null
         ],
     ],

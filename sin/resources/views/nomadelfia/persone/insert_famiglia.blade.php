@@ -2,11 +2,10 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => 'Aggiungi Persona'])
+@include('partials.header', ['title' => 'Aggiungi famiglia'])
 
 <div class="row">
   <div class="col-md-4 offset-md-4">
-   <h4>Dati Famiglia</h4>
     <div class="form-group row">
         <label for="staticEmail" class="col-sm-4 col-form-label">Famiglia</label>
         <div class="col-sm-8">
@@ -17,8 +16,8 @@
               @endforeach
           </select>
         </div>
-      </div>
-      <div class="form-group row">
+    </div>
+    <div class="form-group row">
         <label for="staticEmail" class="col-sm-4 col-form-label">Posizione Famiglia</label>
         <div class="col-sm-8">
           <select name="posizione_famiglia" class="form-control">
@@ -31,7 +30,6 @@
       </div>
   </div>
 </div>
-
 
 <form method="POST" action="{{route('nomadelfia.persone.inserimento.famiglia.confirm',['idPersona'=>$persona->id])}}">
 {{ csrf_field() }}  

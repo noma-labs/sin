@@ -26,11 +26,9 @@
         <input  class="form-control" id="fornome" name="cognome" value="{{ old('cognome') }}" placeholder="---Inserisci Cognome---">
      </div>
     </div> -->
-    <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-success pull-right mt-2" type="submit">Cerca persone</button>
+      <div class="col-md-6">
+        <button class="btn btn-success mt-2" type="submit">Cerca persone</button>
       </div>
-    </div>
   </form>
   </div>
 </div>

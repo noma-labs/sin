@@ -12,6 +12,7 @@ return array(
         'timeout' => false,
         'options' => array(),
         'env'     => array(),
+        // 'print-media-type' => true,
     ),
     'image' => array(
         'enabled' => true,
