@@ -51,7 +51,12 @@ class PatenteController extends CoreBaseController
     }
 
     public function stampaAutorizzati(){
-        $patentiAutorizzati = Patente::all();
+            
+        $patentiAutorizzati = Patente::has('categorie')->get()
+        ->sortBy(function($product) { 
+            return $product->persona->nome;
+       });
+
         $pdf = SnappyPdf::loadView('patente.elenchi.index',  ["patentiAutorizzati"=>$patentiAutorizzati]);
         $data = Carbon::now();
         // viewport-size must be set otherwise the pdf will be bad formatted
