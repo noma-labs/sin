@@ -6,12 +6,15 @@
         <style type="text/css">
         div.page
         {
-            /* page-break-after: always; */
+            page-break-before: always; 
             page-break-inside: avoid;
         }
         table td{
                 color:#000000;
+		font-size: 65%;
+		font-stretch: expanded;
         }
+
     </style>
     </head>
 

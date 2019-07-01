@@ -1,5 +1,5 @@
 
-@foreach ($patentiAutorizzati->chunk(55) as $chunk)
+@foreach ($patentiAutorizzati->chunk(50) as $chunk)
 <div class="page">
 <table class="table table-hover table-bordered table-sm table-striped"  style="background-color:white">
     <thead class="thead-inverse">
@@ -14,7 +14,7 @@
   
    <tr>
    <td>@if ($loop->parent)
-            {{$loop->parent->index * 55 + $loop->iteration }}
+            {{$loop->parent->index * 50 + $loop->iteration }}
         @endif</td>
      <td>@isset($patente->persona->nome)
            {{ $patente->persona->nome}}
