@@ -57,11 +57,14 @@ class PatenteController extends CoreBaseController
             return $product->persona->nome;
        });
 
+
         $pdf = SnappyPdf::loadView('patente.elenchi.index',  ["patentiAutorizzati"=>$patentiAutorizzati]);
         $data = Carbon::now();
         // viewport-size must be set otherwise the pdf will be bad formatted
         $pdf->setOption('viewport-size','1280x1024');
-        return $pdf->setPaper('a4')->setOrientation('portrait')->stream("autorizzati-$data.pdf"); 
+	//$pdf->setOption('disable-smart-shrinking', true);
+	//$pdf->setOption('image-quality', 100);
+        return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf"); 
 
         // return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
     }
@@ -76,11 +79,20 @@ class PatenteController extends CoreBaseController
                     ->setCellValue('B1', 'COGNOME')
                     ->setCellValue('C1', 'DATA NASCITA')
                     ->setCellValue('D1', 'CATEGORIE');
+
+	$patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function($product) { 
+	            return $product->persona->nome;
+       	});
        
-        $patenti = Patente::with("persona")->get()->map(function ($patente, $key) {
-            return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
-         });
-        $spreadsheet->getActiveSheet()->fromArray(
+        //$patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
+        //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
+        //  });
+
+	$patenti = $patenti->map(function ($patente, $key) {
+        	return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
+        });
+        
+	$spreadsheet->getActiveSheet()->fromArray(
             $patenti->toArray(), //->toArray(),  // The data to set
             NULL,        // Array values with this value will not be set
             'A2'         // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
