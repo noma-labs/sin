@@ -5,7 +5,6 @@
 <sin-header title="Elenchi Patente"> </sin-header>
 
 @include('patente.elenchi.percategoria')
-
 <div class="container">
     <div class="row">
         <div class="col-md-3">
