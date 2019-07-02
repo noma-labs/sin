@@ -9,8 +9,8 @@
 <h3 class="text-right py-5">Nomadelfia, {{Carbon::now()->format('d/m/Y')}}<h3>
 
 <h3 class="text-left py-5">
-   Il sottoscritto MATTERAZZO FRANCESCO, nato a Campolongo Maggiore VE, il 20.07.1958,
-   residente in Grosseto, Loc. Nomadelfia 14, in qualità di Presidente pro-tempore della Comunità di
+   Il sottoscritto MATTERAZZO FRANCESCO, nato a Campolongo Maggiore VE il 20.07.1958,
+   residente in Via Nomadelfia 1, Roselle  58100 Grosseto (GR), in qualità di Presidente pro-tempore della Comunità di
 Nomadelfia, con sede in Grosseto
 </h3>
 
