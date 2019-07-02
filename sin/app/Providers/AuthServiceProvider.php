@@ -40,8 +40,9 @@ class AuthServiceProvider extends ServiceProvider
             $risorsa_operazione = explode('.', $ability);
             try {
                 if (method_exists($user, 'hasPermissionTo')) {
-                    // dd($risorsa_operazione[0]);
-                    return $user->hasPermissionTo($risorsa_operazione[0],$risorsa_operazione[1]) ?: null;
+                    $risorsa = $risorsa_operazione[0];
+                    $operazione = $risorsa_operazione[1];
+                    return $user->hasPermissionTo($risorsa, $operazione) ?: null;
                 }
             } catch (RisorsaDoesNotExist $e) {
             }
