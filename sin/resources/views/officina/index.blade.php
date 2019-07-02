@@ -22,7 +22,4 @@
       <a class="dropdown-item" href="{{route('veicoli.nuovo')}}">Nuovo Veicolo</a>
     </div>
   </li>
-  <li class="nav-item">
-        <a class="nav-link"  href="{{route('officina.patenti')}}" >Elenco Patenti</a>
-  </li>
 @endsection
