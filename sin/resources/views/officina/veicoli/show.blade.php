@@ -64,12 +64,29 @@
     <div class="card" >
       <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
       <div class="card-header">
-        <h3 class="card-title">Manutenzione</h3>
+        <h3 class="card-title">Ultime Manutenzioni</h3>
       </div>
       <div class="card-body">
-        <h5 class="card-title">lista manutenzioni macchina</h5>
-        <p class="card-text"></p>
-        <a href="#" class="btn btn-primary">Manutenzione</a>
+        <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm" >
+          <thead class="thead-inverse">
+            <tr>
+              <th width="20%">Data</th>
+              <th width="30%">Tipo Manutenzione</th>
+              <th width="20%">Km</th>
+              <th width="30%">Meccanico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>22-07-2019</td>
+              <td>Giro Gomme</td>
+              <td>85.000</td>
+              <td>Daniele S.</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
       </div>
     </div>
   </div>
