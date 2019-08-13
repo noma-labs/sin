@@ -14,7 +14,6 @@ class AddVeicoloCampiManutenzione extends Migration
     public function up()
     {
         Schema::connection('db_officina')->table('veicolo', function (Blueprint $table) {
-            $table->integer('gomme_id')->nullable();
             $table->integer('filtro_olio')->unsigned()->nullable();
             $table->integer('filtro_gasolio')->unsigned()->nullable();
             $table->integer('filtro_aria')->unsigned()->nullable();
@@ -31,7 +30,7 @@ class AddVeicoloCampiManutenzione extends Migration
     public function down()
     {
         Schema::connection('db_officina')->table('veicolo', function (Blueprint $table) {
-            $table->dropColumn(['gomme_id', 'filtro_olio', 'filtro_gasolio', 'filtro_aria', 'filtro_aria_condizionata', 'olio_id']);
+            $table->dropColumn(['filtro_olio', 'filtro_gasolio', 'filtro_aria', 'filtro_aria_condizionata', 'olio_id']);
         });
     }
 }

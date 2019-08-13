@@ -28,6 +28,8 @@ Vue.component('libro-editore-autore', require('./components/biblioteca/libro-edi
 // Officina components
 Vue.component('veicolo-create-form', require('./components/veicolo-create-form.vue'));
 Vue.component('veicolo-prenotazione', require('./components/veicolo-prenotazione.vue'));
+Vue.component('gomme-veicolo', require('./components/officina/gomme-veicolo.vue'));
+Vue.component('gestione-filtri', require('./components/officina/gestione-filtri.vue'));
 
 // DB nomadelfia components
 Vue.component('famiglia-select', require('./components/famiglia-select.vue'));

@@ -214,7 +214,12 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   Route::get('veicoli/{id}','VeicoliController@show')->middleware('ability:veicolo.visualizza')->name('veicoli.dettaglio');
   Route::get('veicoli/modifica/{id}','VeicoliController@edit')->middleware('ability:veicolo.modifica')->name('veicoli.modifica');
   Route::post('veicoli/modifica/{id}','VeicoliController@editConfirm')->middleware('ability:veicolo.modifica')->name('veicoli.modifica.confirm');
-
+  Route::delete('demolisci/veicolo','VeicoliController@demolisci')->middleware('ability:veicolo.modifica')->name('veicoli.demolisci');
+  // Filtri
+  Route::post('filtro/aggiungi', 'VeicoliController@aggiungiFiltro')->middleware('ability:veicolo.modifica')->name('filtri.aggiungi');
+  Route::view('filtri', 'officina.gestione.filtri')->middleware('ability:veicolo.modifica')->name('filtri');
+  // Olio motore
+  Route::post('olio/aggiungi', 'VeicoliController@aggiungiOlio')->middleware('ability:veicolo.modifica')->name('olio.aggiungi');
   //Patenti
   Route::get("/patenti", 'PatentiController@patenti')->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TableTipoOlio extends Migration
+class AddLitriOlioVeicolo extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class TableTipoOlio extends Migration
      */
     public function up()
     {
-        Schema::connection('db_officina')->create('tipo_olio', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('codice')->unique();
-            $table->string('note');
+        Schema::connection('db_officina')->table('veicolo', function (Blueprint $table) {
+            $table->integer('litri_olio')->nullable();
         });
     }
 
@@ -27,6 +25,8 @@ class TableTipoOlio extends Migration
      */
     public function down()
     {
-        Schema::connection('db_officina')->dropIfExists('tipo_olio');
+        Schema::connection('db_officina')->table('veicolo', function (Blueprint $table) {
+            $table->dropColumn('litri_olio');
+        });
     }
 }

@@ -13,9 +13,14 @@ $table-border-color:#ddd !default;//** Border color for table and cell borders.
   }
 }
 
-table {
+table td {
     color: white;
     font-weight: bold;
     table-layout: fixed;
     word-wrap: break-word;
+    background-color: $nomadelfia-azzurro;
+}
+
+tr:hover td {
+  background-color: $nomadelfia-blu;
 }

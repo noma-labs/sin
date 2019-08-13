@@ -14,11 +14,11 @@ class AlterTableVeicoloForeignKeys extends Migration
     public function up()
     {
         Schema::connection('db_officina')->table('veicolo', function (Blueprint $table) {
-            $table->foreign('filtro_olio')->references('id')->on('tipo_filtro');
-            $table->foreign('filtro_gasolio')->references('id')->on('tipo_filtro');
-            $table->foreign('filtro_aria')->references('id')->on('tipo_filtro');
-            $table->foreign('filtro_aria_condizionata')->references('id')->on('tipo_filtro');
-            $table->foreign('olio_id')->references('id')->on('tipo_olio');
+            $table->foreign('filtro_olio')->references('id')->on('tipo_filtro')->onDelete('set null');
+            $table->foreign('filtro_gasolio')->references('id')->on('tipo_filtro')->onDelete('set null');
+            $table->foreign('filtro_aria')->references('id')->on('tipo_filtro')->onDelete('set null');
+            $table->foreign('filtro_aria_condizionata')->references('id')->on('tipo_filtro')->onDelete('set null');
+            $table->foreign('olio_id')->references('id')->on('tipo_olio')->onDelete('set null');
         });
     }
 

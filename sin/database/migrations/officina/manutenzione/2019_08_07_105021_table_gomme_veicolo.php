@@ -17,6 +17,7 @@ class TableGommeVeicolo extends Migration
             $table->integer('gomme_id')->unsigned();
             $table->integer('veicolo_id');
 
+            $table->unique(['gomme_id', 'veicolo_id']);
             // foreign key
             $table->foreign('gomme_id')->references('id')->on('tipo_gomme');
             $table->foreign('veicolo_id')->references('id')->on('veicolo');
