@@ -91,7 +91,7 @@
         </div>
       @endhasrole
 
-      @hasrole('patente-amm|presidenza-amm|master')
+      @can("patente.visualizza")
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
@@ -103,10 +103,9 @@
             </div>
           </div>
         </div>
-      @endhasrole
+      @endcan
 
-      @hasrole('patente-amm|presidenza-amm|master')
-      @endhasrole
+      @hasrole('presidenza-amm')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
@@ -118,6 +117,7 @@
             </div>
           </div>
         </div>
+        @endhasrole
 
     </div>
 

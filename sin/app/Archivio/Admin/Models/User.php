@@ -120,7 +120,6 @@ class User extends Authenticatable
     {
         $risorsa = Risorsa::findByName($risorsa);
         $ruoli = $risorsa->getRuoliForPermesso($permesso)->get();
-        // dd($ruoli->intersect($this->ruoli)->isNotEmpty());
         return $ruoli->intersect($this->ruoli)->isNotEmpty();
     }
 

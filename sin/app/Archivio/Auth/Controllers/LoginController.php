@@ -51,8 +51,6 @@ class LoginController extends Controller
          return route("home");
     }
 
-   
-
     // By default, Laravel uses the email field for authentication.
     // If you would like to customize this, you may define a username method on your LoginController:
     //

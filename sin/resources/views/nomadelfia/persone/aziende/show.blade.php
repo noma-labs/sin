@@ -105,11 +105,11 @@
                 <div class="form-group row">
                   <label for="staticEmail" class="col-sm-6 col-form-label">Azienda</label>
                   <div class="col-sm-6">
-                    <select name="azienda_id" class="form-control">
-                        <option selected>---seleziona azienda ---</option>
+                    <select  name="azienda_id" class="form-control">
+                        <option  value="" selected>---seleziona azienda ---</option>
                         @foreach (App\Nomadelfia\Models\Azienda::all() as $azienda)
                         @if($persona->aziendeAttuali()->get()->contains(App\Nomadelfia\Models\Azienda::find(4)) == false)
-                          <option value="{{$azienda->id}}" {{ old('azienda_id') == $azienda->id ? 'selected' : '' }}>{{$azienda->nome_azienda}}</option>
+                          <option value="{{$azienda->id}}" {{ old('azienda_id') === $azienda->id ? 'selected' : '' }}> {{$azienda->nome_azienda}}</option>
                           @endif
                         @endforeach
                     </select>
@@ -125,7 +125,7 @@
                   <label  class="col-sm-6 col-form-label">Mansione</label>
                   <div class="col-sm-6">
                     <select name="mansione" class="form-control">
-                        <option selected>---seleziona mansione---</option>
+                        <option value=""  selected>---seleziona mansione---</option>
                         <option value="LAVORATORE">Lavoratore</option>
                          <option value="RESPONSABILE AZIENDA">Responsabile azienda</option>
                     </select>

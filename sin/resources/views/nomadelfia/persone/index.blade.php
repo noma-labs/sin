@@ -5,10 +5,10 @@
 @include('partials.header', ['title' => 'Gestione Persone'])
 
 <h1 class="display-5">Categoria</h1>
-@foreach (App\Nomadelfia\Models\Categoria::all()->chunk(4) as $chunk)
+@foreach (App\Nomadelfia\Models\Categoria::all()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $categoria)
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div id="accordion">
                   <div class="card">
                   <div class="card-header" id="head{{$categoria->nome}}">
@@ -49,10 +49,10 @@
 @endforeach
 
 <h1 class="display-5">Stato Familiare</h1>
-@foreach (App\Nomadelfia\Models\Stato::orderby("nome")->get()->chunk(4) as $chunk)
+@foreach (App\Nomadelfia\Models\Stato::orderby("nome")->get()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $stato)
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div id="accordion">
                   <div class="card">
                   <div class="card-header" id="stato{{$stato->id}}">
@@ -94,10 +94,10 @@
 
 
 <h1 class="display-5">Posizioni</h1>
-@foreach (App\Nomadelfia\Models\Posizione::all()->chunk(4) as $chunk)
+@foreach (App\Nomadelfia\Models\Posizione::all()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $posizione)
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div id="accordion">
                   <div class="card">
                   <div class="card-header" id="head{{$posizione->id}}">
@@ -137,6 +137,7 @@
     </div>
 @endforeach
 
+<!-- pesone senza famiglia -->
 <!-- <div class="col-md-3">
     <div id="accordion">
       <div class="card">

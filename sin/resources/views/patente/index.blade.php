@@ -10,7 +10,9 @@
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       <a class="dropdown-item" href="{{ route('patente.scadenze') }}">Scadenze patenti</a>
+      @can("patente.inserisci")
       <a class="dropdown-item" href="{{ route('patente.inserimento') }}">Aggiungi patente</a>
+      @endcan
       <a class="dropdown-item" href="{{ route('patente.ricerca') }}">Ricerca patente</a>
   
     </div>

@@ -62,7 +62,17 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   // PERSONA
   Route::get('persone', 'PersoneController@view')->name("nomadelfia.persone"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
-  Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.completo");
+  // Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.anagrafici");
+
+  Route::get('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
+  Route::post('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
+
+  Route::get('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfiaView')->name("nomadelfia.persone.inserimento.datinomadelfia");
+  Route::post('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfia')->name("nomadelfia.persone.inserimento.datinomadelfia.confirm");
+  
+  Route::get('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamigliaView')->name("nomadelfia.persone.inserimento.famiglia");
+  Route::post('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamiglia')->name("nomadelfia.persone.inserimento.famiglia.confirm");
+  
   Route::post('persone/inserimento/initial', 'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
   Route::post('persone/inserimento', 'PersoneController@insert')->name("nomadelfia.persone.inserimento.confirm");
   Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelfia.persone.dettaglio"); //middleware('permission:cliente-visualizza')
@@ -200,7 +210,7 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   // PRENOTAZIONI add, delete, update, search
   // officina/
   Route::post("/", 'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
- 
+  // PRENOTAZIONI delete, modify, list
   Route::get("delete/{id}/", 'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
   Route::get("modifica/{id}/", 'PrenotazioniController@modifica')->middleware('ability:veicolo.modifica')->name('officina.prenota.modifica');;
   Route::post("modifica/{id}/", 'PrenotazioniController@update')->middleware('ability:veicolo.modifica')->name('officina.prenota.update');
@@ -223,6 +233,7 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   //Patenti
   Route::get("/patenti", 'PatentiController@patenti')->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 
+  // PRENOTAZIONI
   Route::get("/{giorno?}", 'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
 });
 
@@ -242,8 +253,9 @@ Route::group(['prefix' => 'rtn','namespace' => 'App\Rtn\Controllers'], function(
 Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], function(){
   Route::get("/", 'PatenteController@scadenze')->middleware('ability:patente.visualizza')->name('patente.scadenze');
   Route::get("/ricerca", 'PatenteController@patente')->middleware('ability:patente.visualizza')->name('patente.ricerca');
-  Route::get("/elenchi", 'PatenteController@elenchi')->name('patente.elenchi');
-  Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->name('patente.elenchi.stampa.autorizzati');
+  Route::get("/elenchi", 'PatenteController@elenchi')->middleware('ability:patente.visualizza')->name('patente.elenchi');
+  Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
+  Route::get("/elenchi/esporta/excel", 'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->middleware('ability:patente.modifica')->name('patente.modifica');
   Route::get('elimina/{id}','PatenteController@elimina')->middleware('ability:patente.elimina')->name('patente.elimina');

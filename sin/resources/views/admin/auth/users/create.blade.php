@@ -9,7 +9,11 @@
     <div class="form-group">
       {{ Form::label('name', 'Nominativo (Persona anagrafe)(*)') }}
       <!-- <search-persona></search-persona> -->
+<<<<<<< HEAD
  <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.persone.search')}}></autocomplete>
+=======
+      <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.persone.search')}}></autocomplete>
+>>>>>>> laravel5.8
         <!-- {{ Form::text('name', '', array('class' => 'form-control')) }} -->
     </div>
 

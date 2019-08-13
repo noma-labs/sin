@@ -11,6 +11,10 @@ use Validator;
 use SnappyPdf;
 use Carbon;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class PatenteController extends CoreBaseController
 {
@@ -47,14 +51,67 @@ class PatenteController extends CoreBaseController
     }
 
     public function stampaAutorizzati(){
-        $patentiAutorizzati = Patente::all();
+            
+        $patentiAutorizzati = Patente::has('categorie')->get()
+        ->sortBy(function($product) { 
+            return $product->persona->nome;
+       });
+
+
         $pdf = SnappyPdf::loadView('patente.elenchi.index',  ["patentiAutorizzati"=>$patentiAutorizzati]);
         $data = Carbon::now();
         // viewport-size must be set otherwise the pdf will be bad formatted
         $pdf->setOption('viewport-size','1280x1024');
-        return $pdf->setPaper('a4')->setOrientation('portrait')->stream("autorizzati-$data.pdf"); 
+	//$pdf->setOption('disable-smart-shrinking', true);
+	//$pdf->setOption('image-quality', 100);
+        return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf"); 
 
         // return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
+    }
+
+    public function autorizzatiEsportaExcel(){
+        $data = Carbon::now();
+        $name = "Conducenti autorizzati $data.xlsx";
+ 
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'NOME')
+                    ->setCellValue('B1', 'COGNOME')
+                    ->setCellValue('C1', 'DATA NASCITA')
+                    ->setCellValue('D1', 'CATEGORIE');
+
+	$patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function($product) { 
+	            return $product->persona->nome;
+       	});
+       
+        //$patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
+        //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
+        //  });
+
+	$patenti = $patenti->map(function ($patente, $key) {
+        	return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
+        });
+        
+	$spreadsheet->getActiveSheet()->fromArray(
+            $patenti->toArray(), //->toArray(),  // The data to set
+            NULL,        // Array values with this value will not be set
+            'A2'         // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
+        );
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.$name.'"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+
     }
 
     public function patente()

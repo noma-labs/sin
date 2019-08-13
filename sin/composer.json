@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -11,11 +14,11 @@
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/utilities": "^3.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "^5.8.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "maatwebsite/excel": "~2.1.0",
         "milon/barcode": "^5.3",
+        "phpoffice/phpspreadsheet": "^1.7",
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-backup": "^5.1",
         "spatie/laravel-medialibrary": "^7.5",
@@ -23,31 +26,32 @@
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
     "require-dev": {
-        "filp/whoops":"~2.0",
+        "composer/composer": "^1.8",
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "^7.0"
     },
     "autoload": {
-         "files" : [
-           "app/helpers.php"
-         ],
+        "files": [
+            "app/helpers.php"
+        ],
         "classmap": [
             "database/seeds",
             "database/factories"
         ],
         "psr-4": {
             "App\\": "app/",
-            "App\\Biblioteca\\" : "app/Archivio/Biblioteca",
-            "App\\Authentication\\" : "app/Archivio/Auth",
-            "App\\Admin\\" : "app/Archivio/Admin",
-            "App\\Core\\" : "app/Archivio/Core",
-            "App\\Officina\\" : "app/Archivio/Officina",
-            "App\\Nomadelfia\\" : "app/Archivio/Nomadelfia",
-            "App\\Anagrafe\\" : "app/Archivio/Anagrafe",
-            "App\\Rtn\\" : "app/Archivio/Rtn",
-            "App\\Patente\\" : "app/Archivio/Patente",
-            "App\\ArchivioDocumenti\\" : "app/Archivio/ArchivioDocumenti"
+            "App\\Biblioteca\\": "app/Archivio/Biblioteca",
+            "App\\Authentication\\": "app/Archivio/Auth",
+            "App\\Admin\\": "app/Archivio/Admin",
+            "App\\Core\\": "app/Archivio/Core",
+            "App\\Officina\\": "app/Archivio/Officina",
+            "App\\Nomadelfia\\": "app/Archivio/Nomadelfia",
+            "App\\Anagrafe\\": "app/Archivio/Anagrafe",
+            "App\\Rtn\\": "app/Archivio/Rtn",
+            "App\\Patente\\": "app/Archivio/Patente",
+            "App\\ArchivioDocumenti\\": "app/Archivio/ArchivioDocumenti"
         }
     },
     "autoload-dev": {
@@ -69,9 +73,9 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ],
         "post-autoload-dump": [
-           "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-           "@php artisan package:discover"
-       ]
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ]
     },
     "config": {
         "preferred-install": "dist",
