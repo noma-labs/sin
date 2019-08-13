@@ -62,7 +62,7 @@ La password di default dell'utente `Admin` per entrare nel pannello di controllo
  - `Username: Admin`
  - `Password: nomadelfia`
 
-### Test
+### Start server
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.
 
 4. Start the **development** Server
@@ -86,6 +86,17 @@ Aggiungere il seguente Virtual Host
 ```
 
 Fai ripartire il server  apache da xampp.
+## Importazione Database da dump.
+
+Ogni settimana vengono creati dei dump nell cartella `Z:\sys` sun Nas.
+L'importazione deve seguire il seguente ordine di importazione dei database:
+1. db_nomadelfia
+2.	db_admsys
+3.	db_anagrafe
+4.	db_patente
+5.	db_meccanica
+6.	archivio_biblioteca
+7.	archivio_nomadelfia
 
 ## Struttura ER database
 
