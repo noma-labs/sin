@@ -74,22 +74,34 @@
   <table class="table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
       <tr>
+        <th width="2%">#</th>
+        <th width="5%">Stato</th>
         <th width="7%">Nome</th>
-        <th width="10%">Macchina</th>
-        <th width="6%">Data P./A.</th>
+        <th width="12%">Macchina</th>
+        <th width="10%">Data P./A.</th>
         <th width="3%">Ora P.</th>
         <th width="3%">Ora A.</th>
-        <th width="8%">Meccanico</th>
+        <th width="10%">Meccanico</th>
         <th width="8%">Uso</th>
         <th width="10%">Destinazione</th>
         <th width="15%">Note</th>
-        <th width="10%">Oper.</th>
+        <th width="15%">Oper.</th>
       </tr>
     </thead>
     <tbody>
       @foreach ( $prenotazioni as $pren)
       @empty($pren->delated_at)
       <tr hoverable>
+        <td>{{ $loop->iteration }}</td>
+        <td>
+          @if ($pren->isPartita())
+            <span class="badge badge-danger">Partita</span>
+          @elseif($pren->deveAncoraPartire())
+            <span class="badge badge-warning">Deve Partire</span>
+          @elseif($pren->isArrivata())
+            <span class="badge badge-success">Arrivata</span>
+          @endif 
+        </td>
         <td>{{ $pren->cliente->nominativo }}</td>
         <td>{{ $pren->veicolo->nome }}</td>
         <td>
@@ -108,10 +120,10 @@
         <td>
           <div class='btn-group' role='group' aria-label="Basic example">
             @can('veicolo.modifica')
-            <a class="btn btn-warning" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
+            <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
             @endcan
             @can('veicolo.elimina')
-              <a class="btn btn-danger" href="{{ route('officina.prenota.delete', $pren->id) }}">Eli.</a>
+              <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
             @endcan
           </div>
         </td>

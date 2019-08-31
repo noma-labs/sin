@@ -22,4 +22,18 @@
       <a class="dropdown-item" href="{{route('veicoli.nuovo')}}">Nuovo Veicolo</a>
     </div>
   </li>
+  <li class="nav-item">
+        <a class="nav-link"  href="{{route('officina.patenti')}}" >Elenco Patenti</a>
+  </li>
+  <li class='nav-item dropdown'> 
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione</a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="{{route('filtri')}}">Filtri</a>
+      <a class="dropdown-item" href="">Gomme</a>
+      <a class="dropdown-item" href="">Modelli</a>
+      <a class="dropdown-item" href="">Marche</a>
+      <a class="dropdown-item" href="">Oli Motore</a>
+    </div>
+  </li>
+
 @endsection

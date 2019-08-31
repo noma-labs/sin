@@ -5,6 +5,9 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche;
+use App\Officina\Models\TipoGomme;
+use App\Officina\Models\TipoFiltro;
+use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\Veicolo;
@@ -281,4 +284,95 @@ class ApiController extends CoreBaseController
         return response()->json($results);
     }
 
+  /**
+   * elimina una tipo di gomma da un veicolo
+   */
+  public function eliminaGomma(Request $request){
+    $veicolo = Veicolo::find($request->input('veicolo'));
+    try {
+      $veicolo->gomme()->detach($request->input('gomma'));
+    } catch (\Throwable $th) {
+      return ['error'];
+    }
+      return ['success'];
+  }
+
+  /**
+   * ritorna tutte i tipi di gomme nel db
+   */
+  public function gomme(){
+      $gomme = TipoGomme::all();
+      $result = array();
+      foreach ($gomme as $gomma) {
+        $result[] = ['codice' => $gomma->codice." ".$gomma->note, 'id' => $gomma->id];
+      }
+      return response()->json($result);
+  }
+
+  /**
+   * salva una nuova gomma e la lega ad un veicolo
+   */
+  public function nuovaGomma(Request $request){
+      if($request->input('note')==""){
+        $note = "";
+      }
+      else{
+        $note = $request->input('note');
+      }
+      if($request->input('gomma_id') == ""){
+        // salvo la nuova gomma nel db
+        try {
+          $gomma = TipoGomme::create([
+            'codice' => strtoupper($request->input('nuovo_codice')),
+            'note' => $note
+          ]);
+        } catch (\Throwable $th) {
+          return ['status' => 'error', 'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note')=='')];
+        }
+      }
+      else{
+        $gomma = TipoGomme::find($request->input('gomma_id'));
+      }
+      $veicolo = Veicolo::find($request->input('veicolo_id'));
+      try {
+        $veicolo->gomme()->attach($gomma->id);
+      } catch (\Throwable $th) {
+        return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
+      }
+      return ['status' => 'ok'];
+  }
+
+  /**
+   * ritorna tutti i filtri nel db
+   */
+  public function filtri(){
+      $filtri = TipoFiltro::all()->sortBy('tipo');
+      $result = array();
+      foreach ($filtri as $value) {
+        $result[] = $value;
+      }
+
+      return $result;
+  }
+
+  /**
+   * ritorna tutti i tipi di filtro 
+   */
+  public function tipiFiltro(){
+    $filtri = TipoFiltro::tipo();
+    return $filtri;
+  }
+
+  /**
+   * elimina un filtro dal db
+   */
+  public function eliminaFiltro(Request $request){
+    $filtro = TipoFiltro::find($request->input('filtro'));
+    try {
+      $filtro->delete();
+    } catch (\Throwable $th) {
+      return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
+    }
+    return ['status' => 'success', 'msg' => "Filtro eliminato"];
+  }
 }

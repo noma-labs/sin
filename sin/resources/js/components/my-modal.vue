@@ -6,35 +6,35 @@
             <div class="modal-container"  @click.stop>
                 <div class="modal-header">
                     <h3>{{modalTitle}}</h3>
+					<button type="button" class="btn btn-danger btn-close" aria-label="Close" @click="close()">
+            			<span aria-hidden="true">&times;</span>
+        			</button>
                 </div>
                 <div class="modal-body">
                   <slot name="modal-body-slot">
-					
+					<!-- slot for modal body -->
 				  </slot>
                 </div>
                 <div class="modal-footer text-right">
-                  <button class="btn btn-info" role="button" @click="close()">
-                      Chiudi
-                  </button>
-                  <slot name="modal-button"> </slot>
+                  <!-- <button class="btn btn-danger" type="button" @click="close()">Chiudi</button> -->
+                  <slot name="modal-button"> <!-- slot additional button --> </slot>
                 </div>
             </div>
         </div>
     </transition>
-    <button v-bind:class="['btn', buttonStyle]" @click="showModal=true">{{buttonTitle}}</button>
+    <button v-bind:class="['btn', buttonStyle]" type="button" @click="showModal=true">{{buttonTitle}}</button>
   </span>
 </template>
 
 <script>
   export default {
     props: {
-        modalTitle: {type:String}, 
-		buttonTitle: {type:String},
+        modalTitle: String, 
+		buttonTitle: String,
 		buttonStyle: {
 			type:String, 
 			default:"btn-primary"
 		}
-
     },
     data() {
       return{
@@ -69,7 +69,7 @@
 	.modal-container {
 	    width: 700px;
 	    margin: 40px auto 0;
-	    background-color: #fff;
+		background-color: #fff;
         color: #1D70B8;
 	    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
 	    transition: all .3s ease;
@@ -78,10 +78,12 @@
 
 	.modal-header {
 		background: #1D70B8;
+		border-radius: 0;
 	}
 
 	.modal-footer {
 		background: #1D70B8;
+		border-radius: 0;
 	}
 
 	.modal-header h3 {
@@ -90,7 +92,11 @@
 	}
 
 	.modal-body {
-	    margin: 20px 0;
+	    margin: 0;
+	}
+	 
+	div .form-group {
+		margin: 0;
 	}
 
 	.text-right {
@@ -99,7 +105,13 @@
 
 	.form-label {
 	    display: block;
-	    margin-bottom: 1em;
+		margin-bottom: 1em;
+		color: black;
+	}
+
+	.btn-close {
+		float: right;
+		font-weight: 1000;
 	}
 
 	.form-label > .form-control {

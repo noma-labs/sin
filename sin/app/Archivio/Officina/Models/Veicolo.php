@@ -8,10 +8,15 @@ use App\Officina\Models\Impiego;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Prenotazioni;
+use App\Officina\Models\Documento;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Veicolo extends Model
 {
+  use SoftDeletes;
+
   protected $table = 'veicolo';
   protected $connection = 'db_officina';
   protected $primaryKey = "id";
@@ -40,6 +45,38 @@ class Veicolo extends Model
 
   public function prenotazioni() {
       return $this->hasMany(Prenotazioni::class, 'veicolo_id');
+  }
+
+  // codice del filtro dell'aria del veicolo
+  public function filtroAria(){
+    return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria');
+  }
+
+  // codice del filtro del gasolio del veicolo
+  public function filtroGasolio(){
+    return $this->hasOne(TipoFiltro::class, 'id', 'filtro_gasolio');
+  }
+
+  // codice del filtro dell'olio del veicolo
+  public function filtroOlio(){
+    return $this->hasOne(TipoFiltro::class, 'id', 'filtro_olio');
+  }
+
+  // codice del filtro dell'aria condizionata del veicolo
+  public function filtroAriaCondizionata(){
+    return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria_condizionata');
+  }
+
+  // codice del tipo di olio motore del veicolo
+  public function olioMotore(){
+    return $this->hasOne(TipoOlio::class, 'id', 'olio_id');
+  }
+
+  /**
+  * ritorna tutti le gomme del veicolo
+  */
+  public function gomme(){
+    return $this->belongsToMany(TipoGomme::class, 'gomme_veicolo', 'veicolo_id', 'gomme_id');
   }
 
   public function scopePrenotabili($query){
@@ -89,5 +126,12 @@ class Veicolo extends Model
 
   public function scopeMotocicli($query){
     return $query->where('tipologia_id', 10);
+  }
+
+  /**
+   * cambia la classe di media_model
+   */
+  public function media(){
+    return $this->morphMany(Documento::class, 'model');
   }
 }

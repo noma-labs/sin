@@ -28,6 +28,12 @@ Route::group(['prefix' => 'officina','namespace' => 'App\Officina\Controllers'],
   Route::get('clienti', 'ApiController@clientiMeccanica')->name('api.officina.clienti');
   Route::get('veicoli', 'ApiController@veicoli')->name('api.officina.veicoli');
   Route::get('meccanici', 'ApiController@meccanici')->name('api.officina.meccanici');
+  Route::post('gomme/elimina', 'ApiController@eliminaGomma')->name('api.officina.gomme.elimina');
+  Route::post('gomme/nuova', 'ApiController@nuovaGomma')->name('api.officina.gomme.nuova');
+  Route::get('gomme/', 'ApiController@gomme')->name('api.officina.gomme');
+  Route::get('filtri/tipi', 'ApiController@tipiFiltro')->name('api.officina.filtri.tipi');
+  Route::delete('filtri/elimina', 'ApiController@eliminaFiltro')->name('api.officina.filtri.elimina');
+  Route::get('filtri/', 'ApiController@filtri')->name('api.officina.filtri');
   // ->middleware('ability:veicolo.visualizza')
 });
 
