@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Input;
 */
 
 Route::view('/','welcome');
+Route::view('/meteo','meteo');
+
 
 Route::group(['namespace' => 'App\Auth\Controllers'], function(){
     // login routes
