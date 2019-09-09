@@ -3,6 +3,7 @@
 @section('archivio')
     <div class="container">
       <div class="row">
+
         @if (Auth::guest())
         <div class="col-md-4">
           <div class="card text-center border-info mb-3">
@@ -16,19 +17,20 @@
             </div>
           </div>
         </div>
+        @endif
+
         <div class="col-md-4">
-          <div class="card text-center border-info mb-3">
-            <div class="card-header">
-              Meteo
-            </div>
-            <div class="card-body">
-              <!-- <h3 class="card-title">Biblioteca</h3> -->
-              <p class="card-text">Stazione metereologica di Nomadelfia</p>
-              <a href="{{ url('/meteo')}} " class="btn btn-primary">Accedi</a>
+            <div class="card text-center border-info mb-3">
+              <div class="card-header">
+                Meteo
+              </div>
+              <div class="card-body">
+                <!-- <h3 class="card-title">Biblioteca</h3> -->
+                <p class="card-text">Stazione metereologica di Nomadelfia</p>
+                <a href="{{ url('/meteo')}} " class="btn btn-primary">Accedi</a>
+              </div>
             </div>
           </div>
-        </div>
-        @endif
         
         @hasanyrole("biblioteca-amm|presidenza-amm|master")
         <div class="col-md-4">
