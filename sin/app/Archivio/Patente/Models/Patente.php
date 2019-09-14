@@ -79,26 +79,9 @@ class Patente extends Model
         return $this->cqc()->wherePivot('categoria_patente_id', 17)->first();
     }
 
-    // public function CQCPersone(){
-    //   return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
-    //                               ->withPivot('data_rilascio','data_scadenza')
-    //                               ->wherePivot('categoria_patente_id',16);
-    // }
-
-    // public function CQCMerci(){
-    //   return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie','numero_patente','categoria_patente_id')
-    //                               ->withPivot('data_rilascio','data_scadenza')
-    //                               ->wherePivot('categoria_patente_id',17);
-    // }
-
     public function categorieAsString()
     {
         return $this->categorie()->get()->implode('categoria', ',');
-    }
-
-    public function cqcAsString()
-    {
-        return $this->cqc()->get()->implode('categoria', ',');
     }
 
     /**
