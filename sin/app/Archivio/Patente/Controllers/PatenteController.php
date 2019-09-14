@@ -139,7 +139,6 @@ class PatenteController extends CoreBaseController
             }
             if($request->filled('numero_patente')){
               $numero_patente = $request->numero_patente;
-              $orderBy = "numero_patente";
               $q->where('numero_patente','LIKE', "$numero_patente%");
               $msgSearch= $msgSearch." numero_patente=".$numero_patente;
             }
@@ -158,7 +157,7 @@ class PatenteController extends CoreBaseController
                     $q->where('id', $cqc);
                 });
                 $nome = CQC::findorfail($cqc)->categoria;
-                $msgSearch = $msgSearch." categoria=".$nome;
+                $msgSearch = $msgSearch." cqc=".$nome;
             }
             if($request->filled('categoria_patente')){
                 $categoria = $request->categoria_patente;
@@ -171,6 +170,7 @@ class PatenteController extends CoreBaseController
           });
         //$msgSearch=$msgSearch."order by: $orderBy";
         $patenti = $queryPatenti->sortable($orderBy,'asc')->paginate(25);
+
         $categorie = CategoriaPatente::orderby("categoria")->get();
         $cqc = CQC::orderby("categoria")->get();
         return view("patente.search", compact('patenti','categorie','cqc','msgSearch'));

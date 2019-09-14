@@ -140,11 +140,12 @@
   <table class="mt-2 table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
         <tr>
-            <th  style="width: 20%"> Nome Cognome </th>
-            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Numero Patente") }}</th>
-            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
-            <th style="width: 20%"> Categorie </th>
-            <th style="width: 20%"> C.Q.C </th>
+            <th style="width: 20%"> Nome Cognome </th>
+            <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Num. Patente") }}</th>
+            <th style="width: 15%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
+            <th style="width: 10%"> Categorie </th>
+            <th style="width: 15%"> Scadenza C.Q.C M. </th>
+            <th style="width: 15%"> Scadenza C.Q.C P. </th>
             <th style="width: 10%"> Operazioni </th>
         </tr>
     </thead>
@@ -157,25 +158,36 @@
               @else
                 {{ $patente->persona->nome}} {{ $patente->persona->cognome}}
                @endif
-
               
                 @if($patente->stato == 'commissione')
                   <span class="badge badge-warning">C.</span>
                 @endif
                 @isset($patente->note)
-                <span class="badge badge-success">N.</span>
+                 <span class="badge badge-success">N.</span>
                 @endisset
               </td>
               <td> {{$patente->numero_patente}}</td>
               <td> {{$patente->data_scadenza_patente}}</td>
               <td >{{$patente->categorieAsString()}} </td>
-              <td> {{$patente->cqcAsString()}}</td>
+              <td>
+                @if ($patente->hasCqcMerci())
+                  {{$patente->cqcMerci()->pivot->data_scadenza}}
+                @else 
+                   ---
+                @endif
+              </td>
+              <td> 
+                @if ($patente->hasCqcPersone())
+                  {{$patente->cqcPersone()->pivot->data_scadenza}}
+                @else 
+                  ---
+                @endif
+              </td>
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
                 @can('patente.modifica')
                   <a class="btn btn-warning" href="{{ route('patente.modifica', $patente->numero_patente) }}">Modifica</a>
                 @endcan
-              
                 @can('patente.elimina')
                 <my-modal modal-title="Eliminazione patente" button-title="Elimina" button-style="btn-danger">
                     <template slot="modal-body-slot">

@@ -6,7 +6,7 @@
 <form method="GET" action="{{route('patente.ricerca.conferma')}}">
    {{ csrf_field() }}
   <div class="form-row">
-    <div class="form-group col-md-3 offset-md-1">
+    <div class="form-group col-md-2 offset-md-1">
         <label>Persona</label>
         <autocomplete placeholder="---Inserisci nome o cognome ---" 
                       name="persona_id" 
@@ -19,27 +19,40 @@
       <label for="numero_patente">Numero Patente</label>
       <input  class="form-control" id="numero_patente" name="numero_patente" placeholder="---Inserisci numero patente---">
     </div>
+   
+    
     <div class="form-group col-md-2">
-      <label for="categoria_patente">Categoria patente</label>
-      <select class="form-control" id="categoria_patente" name="categoria_patente">
-        <option selected value="">---Scegli categoria---</option>
-        @foreach ($categorie as $categoria)
-          <option value="{{ $categoria->id }}">{{ $categoria->categoria }} </option> 
-        @endforeach
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="categoria_patente">Categoria patente</label>
-      <select class="form-control" id="cqc_patente" name="cqc_patente">
-        <option selected value="">---Scegli C.Q.C---</option>
-        @foreach ($cqc as $c)
-          <option value="{{ $c->id }}">{{ $c->categoria }} </option> 
-        @endforeach
-      </select>
-    </div>
+        <label class="control-label">Data Scadenza patente</label>
+        <select class="form-control" name="criterio_data_scadenza" type="text" >
+        <option selected value="">---Scegli criterio---</option>
+            <option value="<">Minore</option>
+            <option value="<=">Minore Uguale</option>
+            <option value="=">Uguale</option>
+            <option value=">">Maggiore</option>
+            <option value=">=">Maggiore Uguale</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <input type="date" class="form-control" name="data_scadenza">
+          </div>
+      </div>
+
+      <div class="form-group col-md-2">
+          <label for="categoria_patente">Categoria patente</label>
+          <select class="form-control" id="categoria_patente" name="categoria_patente">
+            <option selected value="">---Scegli categoria---</option>
+            @foreach ($categorie as $categoria)
+              <option value="{{ $categoria->id }}">{{ $categoria->categoria }} </option> 
+            @endforeach
+          </select>
+        </div>
+  
+
   </div>
   <div class="form-row">
-      <div class="form-group col-md-2  offset-md-1">
+      {{-- <div class="form-group col-md-2  offset-md-1">
         <label class="control-label">Data Rilascio</label>
         <select class="form-control" name="criterio_data_rilascio" type="text" >
         <option selected value="">---Scegli criterio---</option>
@@ -55,24 +68,17 @@
             <label >&nbsp;</label>
             <input type="date" class="form-control" name="data_rilascio">
           </div>
-        </div>
-      <div class="form-group col-md-2">
-        <label class="control-label">Data Scadenza</label>
-        <select class="form-control" name="criterio_data_scadenza" type="text" >
-        <option selected value="">---Scegli criterio---</option>
-            <option value="<">Minore</option>
-            <option value="<=">Minore Uguale</option>
-            <option value="=">Uguale</option>
-            <option value=">">Maggiore</option>
-            <option value=">=">Maggiore Uguale</option>
-        </select>
-      </div>
-      <div class="col-md-2">
-          <div class="form-group">
-            <label>&nbsp;</label>
-            <input type="date" class="form-control" name="data_scadenza">
-          </div>
-        </div>
+        </div> --}}
+    <div class="form-group col-md-2 offset-md-1">
+      <label for="categoria_patente">C.Q.C</label>
+      <select class="form-control" id="cqc_patente" name="cqc_patente">
+        <option selected value="">---Scegli C.Q.C---</option>
+        @foreach ($cqc as $c)
+          <option value="{{ $c->id }}">{{ $c->categoria }} </option> 
+        @endforeach
+      </select>
+    </div>
+      
       <div class="form-group">
         <label>&nbsp;</label>
         <button type="submit" class="btn btn-block btn-primary">Ricerca</button>
@@ -100,7 +106,8 @@
             <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"N. Patente") }}</th>
             <th style="width: 10%"> {{ App\Traits\SortableTrait::link_to_sorting_action('numero_patente',"Data Scadenza") }} </th>
             <th style="width: 20%"> Categorie  </th>
-            <th style="width: 20%"> C.Q.C  </th>
+            <th style="width: 15%"> Scadenza C.Q.C M. </th>
+            <th style="width: 15%"> Scadenza C.Q.C P. </th>
             <th style="width: 10%"> Operazioni </th>
         </tr>
     </thead>
@@ -123,7 +130,20 @@
               <td> {{$patente->numero_patente}}</td>
               <td> {{$patente->data_scadenza_patente}}</td>
               <td>{{$patente->categorieAsString()}}</td>
-              <td>{{$patente->cqcAsString()}}</td>
+              <td>
+                  @if ($patente->hasCqcMerci())
+                    {{$patente->cqcMerci()->pivot->data_scadenza}}
+                  @else 
+                     ---
+                  @endif
+                </td>
+                <td> 
+                  @if ($patente->hasCqcPersone())
+                    {{$patente->cqcPersone()->pivot->data_scadenza}}
+                  @else 
+                    ---
+                  @endif
+                </td>
               <td>
                 <div class='btn-group' role='group' aria-label="Basic example">
                 @can('patente.modifica')
