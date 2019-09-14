@@ -34,12 +34,12 @@
                   <div class="card">
                   <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#{{ $cqc->id }}" aria-expanded="true" aria-controls="{{ $cqc->id }}">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#cqc{{ $cqc->id }}" aria-expanded="true" aria-controls="{{ $cqc->id }}">
                       {{ $cqc->categoria }} ({{ $cqc->patenti->count() }})
                       </button>
                     </h5>
                   </div>
-                  <div id="{{ $cqc->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div id="cqc{{ $cqc->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
                       <ul>
                       @foreach($cqc->patenti()->get() as $patente)
