@@ -78,14 +78,29 @@
         @endforeach
       </select>
     </div>
-      
-      <div class="form-group">
+  
+    <div class="form-group col-md-2 ">
+        <label class="control-label">Data Scadenza C.Q.C</label>
+        <select class="form-control" name="criterio_cqc_data_scadenza" type="text" >
+        <option selected value="">---Scegli criterio---</option>
+            <option value="<">Minore</option>
+            <option value="<=">Minore Uguale</option>
+            <option value="=" >Uguale</option>
+            <option value=">">Maggiore</option>
+            <option value=">=">Maggiore Uguale</option>
+        </select>
+        </div>
+      <div class="col-md-2">
+          <div class="form-group">
+            <label >&nbsp;</label>
+            <input type="date" class="form-control" name="cqc_data_scadenza">
+          </div>
+      </div> 
+    <div class="form-group">
         <label>&nbsp;</label>
         <button type="submit" class="btn btn-block btn-primary">Ricerca</button>
       </div>
-  </div>
-  <div class="form-row">
-    
+  
   </div>
 </form>
 
