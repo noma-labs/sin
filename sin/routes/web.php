@@ -256,8 +256,12 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get("/", 'PatenteController@scadenze')->middleware('ability:patente.visualizza')->name('patente.scadenze');
   Route::get("/ricerca", 'PatenteController@patente')->middleware('ability:patente.visualizza')->name('patente.ricerca');
   Route::get("/elenchi", 'PatenteController@elenchi')->middleware('ability:patente.visualizza')->name('patente.elenchi');
+  // esposta elenchi
   Route::get("/elenchi/stampa", 'PatenteController@stampaAutorizzati')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
   Route::get("/elenchi/esporta/excel", 'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
+  Route::get("/elenchi/patenti/pdf", 'PatenteController@esportaPatentiPdf')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
+  Route::get("/elenchi/patenti/excel", 'PatenteController@esportaPatentiExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
+  
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->middleware('ability:patente.modifica')->name('patente.modifica');
   Route::get('elimina/{id}','PatenteController@elimina')->middleware('ability:patente.elimina')->name('patente.elimina');
