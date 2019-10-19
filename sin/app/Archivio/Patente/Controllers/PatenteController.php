@@ -157,7 +157,7 @@ class PatenteController extends CoreBaseController
                     $q->where('id', $cqc);
                     if ($request->filled('criterio_cqc_data_scadenza') and $request->filled('cqc_data_scadenza')) {
                         $q->where("data_scadenza", $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
-                        $msgSearch = $msgSearch . " data scadenza " . $request->input('criterio_cqc_data_scadenza').$request->input('cqc_data_scadenza');
+                        $msgSearch = $msgSearch . " data scadenza " . $request->input('criterio_cqc_data_scadenza') . $request->input('cqc_data_scadenza');
                     }
                 });
 

@@ -12,6 +12,7 @@
 
     <!-- CSS style (boostrap, jquery-ui) compiled with "npm run prod"  -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sin-theme.css') }}">
 
     <!-- Custom boostrap themes -->
     <!-- <link rel="stylesheet" href="{{ asset('css/vendor/themes/readable.min.css') }}"> -->
@@ -85,6 +86,7 @@
 
    <!-- JS compiled with Laravel-mix -->
    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
 
    <!-- Script  Archivio-->
    <script type="text/javascript" src="{{ asset('js/archivio/httpMethodLinks.js')}}"></script>

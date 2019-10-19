@@ -3,18 +3,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" >
-        {{-- <style type="text/css">
+        <style type="text/css">
         div.page
         {
             page-break-before: always; 
             page-break-inside: avoid;
         }
-        table td{
-                color:white;
-                font-size: 65%;
-                font-stretch: expanded;
-        }
-        </style> --}}
+        </style>
     </head>
 
     <body>
@@ -25,19 +20,5 @@
         <div class="page">
             @include('patente.elenchi.autorizzati')
         </div>
-
-        <style type="text/css">
-            div.page
-            {
-                page-break-before: always; 
-                page-break-inside: avoid;
-            }
-            table td{
-                    color:white;
-                    font-size: 65%;
-                    font-stretch: expanded;
-            }
-            </style>
     </body>
-
 </html>

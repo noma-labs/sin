@@ -315,7 +315,7 @@
 			loadPatente: function(){
 				axios.get(this.apiPatente).then(response => {
 					this.nuovaPatente = response.data;
-					this.sortCategorie();
+					// this.sortCategorie();
 				});
 			},
 			formatCQCDate(){
@@ -347,6 +347,8 @@
 		      return moment(date).format('YYYY-MM-DD');
 			},
 			salvaNuovaPatente(){
+				console.log("Richiesta:")
+				console.log(this.nuovaPatente);
 				axios.put(this.apiPatenteModifica, this.nuovaPatente)
 					.then(response=>{
 						this.showAlert =true;
@@ -357,7 +359,9 @@
 							axios.get(this.apiPatente).then(response => {
 								this.nuovaPatente = response.data;
 								this.disabledAll = false;
-								this.sortCategorie();
+								console.log("Response:")
+								console.log(response.data);
+								// this.sortCategorie();
 							});
 						}
 						else // {"err":1,"msg":"patente inserita correttamente"}
@@ -397,9 +401,9 @@
 				this.nuovaPatente.data_scadenza_patente = this.customFormatter(data);
 				this.selectCategoriaValidita(data); // data validità categoria uguale alla patente
 			},
-			sortCategorie:function(){
-				this.nuovaPatente.categorie.sort(this._compare);
-			},
+			// sortCategorie:function(){
+			// 	this.nuovaPatente.categorie.sort(this._compare);
+			// },
 			_compare: function(a,b){
 				// funzione usata per compare e ordinare le categoria
 				if (a.categoria < b.categoria) {
