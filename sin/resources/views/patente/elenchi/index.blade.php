@@ -9,6 +9,9 @@
             page-break-before: always; 
             page-break-inside: avoid;
         }
+        td {
+            font-size: 15px;
+        }
         </style>
     </head>
 

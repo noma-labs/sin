@@ -1,8 +1,8 @@
 
 @foreach ($patentiAutorizzati->chunk(50) as $chunk)
 <div class="page">
-<table class="table table-hover table-bordered table-sm table-striped"  style="background-color:white;">
-    <thead class="thead-inverse">
+<table class="table table-bordered table-sm table-striped">
+    <thead>
       <tr>
         <th width="5%">#</th>
         <th>Nome Cognome</th>
