@@ -10,7 +10,7 @@
             page-break-inside: avoid;
         }
         td {
-            font-size: 15px;
+            font-size: 12px;
         }
         </style>
     </head>
