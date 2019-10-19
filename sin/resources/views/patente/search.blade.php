@@ -96,11 +96,10 @@
             <input type="date" class="form-control" name="cqc_data_scadenza">
           </div>
       </div> 
-    <div class="form-group">
+      <div class="form-group">
         <label>&nbsp;</label>
         <button type="submit" class="btn btn-block btn-primary">Ricerca</button>
       </div>
-  
   </div>
 </form>
 
