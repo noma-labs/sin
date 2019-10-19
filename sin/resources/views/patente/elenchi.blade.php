@@ -26,7 +26,7 @@
                 Esporta patenti
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{route('patente.elenchi.patenti.esporta.pdf')}}">.pdf</a>
+                    {{-- <a class="dropdown-item" href="{{route('patente.elenchi.patenti.esporta.pdf')}}">.pdf</a> --}}
                     <a class="dropdown-item" href="{{route('patente.elenchi.patenti.esporta.excel')}}">.excel</a>
                 </div>
             </div>
