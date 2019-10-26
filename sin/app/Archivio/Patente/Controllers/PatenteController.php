@@ -69,17 +69,17 @@ class PatenteController extends CoreBaseController
             ->setCellValue('I1', 'CATEGORIE')
             ->setCellValue('J1', 'STATO')
             ->setCellValue('K1', 'NOTE');
-        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
         $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->nome;
