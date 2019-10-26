@@ -159,7 +159,7 @@
                 {{ $patente->persona->nome}} {{ $patente->persona->cognome}}
                @endif
               
-                @if($patente->stato == 'commissione')
+                @if($patente->hasCommissione())
                   <span class="badge badge-warning">C.</span>
                 @endif
                 @isset($patente->note)

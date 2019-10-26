@@ -125,6 +125,14 @@ class Patente extends Model
         }
     }
 
+    /** Return TRUE if the patente has the commissione, FALSE otherwise
+     * @author Davide Neri
+     * @return Bool
+     */
+    public function hasCommissione(){
+        return $this->stato == "commissione";
+    }
+
     /** Ritorna le patenti a cui è stata assegnata la commissione
      * @author Davide Neri
      */

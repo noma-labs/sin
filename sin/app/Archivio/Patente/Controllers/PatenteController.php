@@ -61,9 +61,15 @@ class PatenteController extends CoreBaseController
             ->setCellValue('A1', 'NOME')
             ->setCellValue('B1', 'COGNOME')
             ->setCellValue('C1', 'DATA NASCITA')
-            ->setCellValue('D1', 'N PATENTE')
-            ->setCellValue('E1', 'SCADENZA PATENTE')
-            ->setCellValue('F1', 'CATEGORIE');
+            ->setCellValue('D1', 'LUOGO NASCITA')
+            ->setCellValue('E1', 'N PATENTE')
+            ->setCellValue('F1', 'DATA RILASCIO')
+            ->setCellValue('G1', 'RILASCIATA DA')
+            ->setCellValue('H1', 'DATA SCADENZA')
+            ->setCellValue('I1', 'CATEGORIE')
+            ->setCellValue('J1', 'STATO')
+            ->setCellValue('K1', 'NOTE');
+
 
         $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->nome;
@@ -73,9 +79,14 @@ class PatenteController extends CoreBaseController
             return array($patente->persona->nome, 
                         $patente->persona->cognome, 
                         $patente->persona->data_nascita,
+                        $patente->persona->provincia_nascita,
                         $patente->numero_patente,
+                        $patente->data_rilascio_patente,
+                        $patente->rilasciata_dal,
                         $patente->data_scadenza_patente,
-                        $patente->categorieAsString());
+                        $patente->categorieAsString(),
+                        $patente->stato,
+                        $patente->note);
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
