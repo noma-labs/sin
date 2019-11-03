@@ -96,13 +96,14 @@ class PatenteController extends CoreBaseController
                         $patente->data_scadenza_patente,
                         $patente->categorieAsString(),
                         $patente->stato,
-                        $patente->note);
+                        str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
             $patenti->toArray(), //->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
+            // true
         );
 
         // Redirect output to a client’s web browser (Xlsx)
