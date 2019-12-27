@@ -81,6 +81,8 @@ class PatenteController extends CoreBaseController
         // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
         // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
+        $spreadsheet->getActiveSheet()->getStyle("A1:I1")->applyFromArray(['font' => ["bold" => true]]);
+       
         $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->cognome;
         });
@@ -148,6 +150,8 @@ class PatenteController extends CoreBaseController
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+
+        $spreadsheet->getActiveSheet()->getStyle("A1:I1")->applyFromArray(['font' => ["bold" => true]]);
 
         $cqcPersone = Patente::with("persona")->has("cqc")->get()->sortBy(function ($product) {
             return $product->persona->cognome;
