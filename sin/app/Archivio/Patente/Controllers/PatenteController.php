@@ -94,8 +94,8 @@ class PatenteController extends CoreBaseController
                         $patente->data_rilascio_patente,
                         $patente->rilasciata_dal,
                         $patente->data_scadenza_patente,
-                        $patente->categorieAsString(),
-                        // $patente->stato,
+                        $patente->categorieAsString()
+        );    // $patente->stato,
                         // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
         });
 
