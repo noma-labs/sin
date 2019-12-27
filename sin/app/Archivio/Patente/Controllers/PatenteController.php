@@ -58,8 +58,8 @@ class PatenteController extends CoreBaseController
 
         $spreadsheet = new Spreadsheet();
         $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'NOME')
-            ->setCellValue('B1', 'COGNOME')
+            ->setCellValue('A1', 'COGNOME')
+            ->setCellValue('B1', 'NOME')
             ->setCellValue('C1', 'DATA NASCITA')
             ->setCellValue('D1', 'LUOGO NASCITA')
             ->setCellValue('E1', 'N PATENTE')
@@ -149,9 +149,6 @@ class PatenteController extends CoreBaseController
             return $product->persona->cognome;
         });
 
-        // $cqcMerci = CQC::CQCMerci()->patenti()->with("persona")->get()->sortBy(function ($product) {
-        //     return $product->persona->nome;
-        // });
 
         $cqcPersone = $cqcPersone->map(function ($patente, $key) {
             return array($patente->persona->cognome, 
