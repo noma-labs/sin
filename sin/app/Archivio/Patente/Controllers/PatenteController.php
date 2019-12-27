@@ -69,17 +69,17 @@ class PatenteController extends CoreBaseController
             ->setCellValue('I1', 'CATEGORIE')
             ->setCellValue('J1', 'STATO')
             ->setCellValue('K1', 'NOTE');
-            $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('A');//->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B');//->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C');//->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D');//->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
         $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->nome;
@@ -105,6 +105,9 @@ class PatenteController extends CoreBaseController
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
             // true
         );
+
+        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -132,7 +135,7 @@ class PatenteController extends CoreBaseController
             ->setCellValue('D1', 'LUOGO NASCITA')
             ->setCellValue('E1', 'N PATENTE')
             ->setCellValue('F1', 'DATA RILASCIO CQC PERSONE')
-            ->setCellValue('G1', 'DATA SCADENZA CQC PERONSE')
+            ->setCellValue('G1', 'DATA SCADENZA CQC PERSONE')
             ->setCellValue('H1', 'DATA RILASCIO CQC MERCI')
             ->setCellValue('I1', 'DATA SCADENZA CQC MERCI');
         $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
