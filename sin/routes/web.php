@@ -261,6 +261,7 @@ Route::group(['prefix' => 'patente','namespace' => 'App\Patente\Controllers'], f
   Route::get("/elenchi/esporta/excel", 'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
   Route::get("/elenchi/patenti/pdf", 'PatenteController@esportaPatentiPdf')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
   Route::get("/elenchi/patenti/excel", 'PatenteController@esportaPatentiExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
+  Route::get("/elenchi/cqc/excel", 'PatenteController@esportaCQCExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.cqc.esporta.excel');
   
   Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
   Route::get('modifica/{id}','PatenteController@modifica')->middleware('ability:patente.modifica')->name('patente.modifica');

@@ -60,6 +60,10 @@ class Patente extends Model
             ->withPivot('data_rilascio', 'data_scadenza');
     }
 
+    public function hasCqc(){
+      return $this->cqc()->count() > 0;
+    }
+
     public function hasCqcPersone(){
       return $this->cqcPersone() != null;
     }

@@ -120,6 +120,75 @@ class PatenteController extends CoreBaseController
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
+    
+    public function esportaCQCExcel(){
+        $data = Carbon::now();
+        $name = "cqc-$data.xlsx";
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'NOME')
+            ->setCellValue('B1', 'COGNOME')
+            ->setCellValue('C1', 'DATA NASCITA')
+            ->setCellValue('D1', 'LUOGO NASCITA')
+            ->setCellValue('E1', 'N PATENTE')
+            ->setCellValue('F1', 'DATA RILASCIO CQC PERSONE')
+            ->setCellValue('G1', 'DATA SCADENZA CQC PERONSE')
+            ->setCellValue('H1', 'DATA RILASCIO CQC MERCI')
+            ->setCellValue('I1', 'DATA SCADENZA CQC MERCI');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+
+        $cqcPersone = Patente::with("persona")->has("cqc")->get()->sortBy(function ($product) {
+            return $product->persona->cognome;
+        });
+
+        // $cqcMerci = CQC::CQCMerci()->patenti()->with("persona")->get()->sortBy(function ($product) {
+        //     return $product->persona->nome;
+        // });
+
+        $cqcPersone = $cqcPersone->map(function ($patente, $key) {
+            return array($patente->persona->cognome, 
+                        $patente->persona->nome, 
+                        $patente->persona->data_nascita,
+                        $patente->persona->provincia_nascita,
+                        $patente->numero_patente,
+                        // $patente->data_rilascio_patente,
+                        // $patente->rilasciata_dal,
+                        $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio:"",
+                        $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio:"",
+                        $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio:"",
+                        $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio:"",
+            );
+        });
+
+        $spreadsheet->getActiveSheet()->fromArray(
+            $cqcPersone->toArray(), //->toArray(),  // The data to set
+            null, // Array values with this value will not be set
+            'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
+            // true
+        );
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $name . '"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+    }
 
     public function stampaAutorizzati()
     {

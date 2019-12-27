@@ -31,6 +31,16 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="btn-group my-3">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Esporta C.Q.C
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{route('patente.elenchi.cqc.esporta.excel')}}">.excel</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
