@@ -66,28 +66,28 @@ class PatenteController extends CoreBaseController
             ->setCellValue('F1', 'DATA RILASCIO')
             ->setCellValue('G1', 'RILASCIATA DA')
             ->setCellValue('H1', 'DATA SCADENZA')
-            ->setCellValue('I1', 'CATEGORIE')
-            ->setCellValue('J1', 'STATO')
-            ->setCellValue('K1', 'NOTE');
-        $spreadsheet->getActiveSheet()->getColumnDimension('A');//->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('B');//->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('C');//->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('D');//->setAutoSize(true);
+            ->setCellValue('I1', 'CATEGORIE');
+            // ->setCellValue('J1', 'STATO')
+            // ->setCellValue('K1', 'NOTE');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
         $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->nome;
         });
 
         $patenti = $patenti->map(function ($patente, $key) {
-            return array($patente->persona->nome, 
-                        $patente->persona->cognome, 
+            return array($patente->persona->cognome, 
+                        $patente->persona->nome, 
                         $patente->persona->data_nascita,
                         $patente->persona->provincia_nascita,
                         $patente->numero_patente,
@@ -95,8 +95,8 @@ class PatenteController extends CoreBaseController
                         $patente->rilasciata_dal,
                         $patente->data_scadenza_patente,
                         $patente->categorieAsString(),
-                        $patente->stato,
-                        str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
+                        // $patente->stato,
+                        // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
@@ -106,8 +106,8 @@ class PatenteController extends CoreBaseController
             // true
         );
 
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
+        // $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+        // $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -129,8 +129,8 @@ class PatenteController extends CoreBaseController
         $name = "cqc-$data.xlsx";
         $spreadsheet = new Spreadsheet();
         $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'NOME')
-            ->setCellValue('B1', 'COGNOME')
+            ->setCellValue('A1', 'COGNOME')
+            ->setCellValue('B1', 'NOME')
             ->setCellValue('C1', 'DATA NASCITA')
             ->setCellValue('D1', 'LUOGO NASCITA')
             ->setCellValue('E1', 'N PATENTE')
