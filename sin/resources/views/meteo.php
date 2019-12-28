@@ -6,7 +6,7 @@
     <meta name="description" content="A web interface for MQTT over Websockets">
     <meta name="author" content="Fabian Affolter">
 
-    <title>Home conditions</title>
+    <title>Meteo</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -194,8 +194,6 @@
                     $('#pressione_bar_label').removeClass('badge-secondary').addClass('badge-primary');
                     $('#pressione_pressione_label').text(atmosfere +' atmosfere');
                     $('#pressione_pressione_label').removeClass('badge-secondary').addClass('badge-primary');
-
-
                     break;
             case 'IR':
                 $('#luce_ir_value').html('Infrarossi: ' + payload );
@@ -206,6 +204,10 @@
             case 'visibile':
                 $('#luce_visibile_value').html('Visibile: ' + payload );
                 $('#luce_visibile_value').removeClass('badge-secondary').addClass('badge-primary');
+                break;
+            case "pluviometro":
+                $('#pluviometro_value').html('Millimetri: ' + payload );
+                $('#pluviometro_value').removeClass('badge-secondary').addClass('badge-primary');
                 break;
             default: 
                 console.log('Error: <'+ sensor +'> do not match the MQTT topic.'); 
@@ -222,31 +224,39 @@
   <body>
     <div id="wrap">
       <div class="container">
-        <div class="page-header my-4"><h1><b>Stazione meteriologica Nomadelfia</b></h1></div>
+        <div class="page-header my-4"><h1><b>Stazione Meteo Nomadelfia</b></h1></div>
             <div class="panel panel-default">
               <div class="panel-body">
                     <table class="table table-striped">
                          <!-- Temperatura-->
                         <tr>
-                            <td width="40%" style="vertical-align:middle;"><h3>Temperatura</h3><small id="temperatura_value">(no value recieved)</small></td>
+                            <td width="40%" style="vertical-align:middle;"><h3>Temperatura</h3><small id="temperatura_value">(no value received)</small></td>
                             <td style="vertical-align:middle;"><div id="TemperaturaChart" style="height:150px; width:400px;"></div></td>
                             <td width="30%" style="vertical-align:middle;"><h4>&nbsp;<span id="temperatura_label" class="badge badge-secondary">Unknown</span></h4></td>
                         </tr>
                         <!-- Anemometro door -->
                         <tr>
-                                <td width="40%" style="vertical-align:middle;"><h3>Anemometro</h3><small id="anemometro_value">(no value recieved)</small></td>
+                                <td width="40%" style="vertical-align:middle;"><h3>Anemometro</h3><small id="anemometro_value">(no value received)</small></td>
                                 <td style="vertical-align:middle;"><div id="AnemometroChart" style="height:150px; width:400px;"></div></td>
                                 <td width="30%" style="vertical-align:middle;"><h4>&nbsp;<span id="anemometro_label" class="badge badge-secondary">Unknown</span></h4></td>
                         </tr>
+                        <!-- Pluviometro door -->
+                        <tr>
+                                <td width="40%" style="vertical-align:middle;"><h3>Pluviometro</h3><small id="pluviometro_value">(no value received)</small></td>
+                                <td style="vertical-align:middle;"></td>
+                                <td width="30%" style="vertical-align:middle;">
+                                    <h4>&nbsp;<span id="pluviometro_label" class="badge badge-secondary">Unknown</span></h4>
+                                </td>
+                        </tr>
                         <!-- Umidità door -->
                         <tr>
-                            <td width="40%" style="vertical-align:middle;"><h3>Umidità</h3><small id="umidita_value">(no value recieved)</small></td>
+                            <td width="40%" style="vertical-align:middle;"><h3>Umidità</h3><small id="umidita_value">(no value received)</small></td>
                             <td style="vertical-align:middle;"></td>
                             <td width="30%" style="vertical-align:middle;"><h4>&nbsp;<span id="umidita_label" class="badge badge-secondary">Unknown</span></h4></td>
                         </tr>
                         <!-- pressione -->
                         <tr>
-                            <td width="40%" style="vertical-align:middle;"><h3>Pressione</h3><small id="pressione_value">(no value recieved)</small></td>
+                            <td width="40%" style="vertical-align:middle;"><h3>Pressione</h3><small id="pressione_value">(no value received)</small></td>
                             <td style="vertical-align:middle;"></td>
                             <td width="30%" style="vertical-align:middle;">
                                 <h4>&nbsp;<span id="pressione_bar_label" class="badge badge-secondary">Unknown</span></h4>
@@ -255,7 +265,7 @@
                         </tr>
                         <!-- Intensita luminosita -->
                         <tr>
-                            <td width="40%" style="vertical-align:middle;"><h3>Intensità luce</h3><small id="luce_label">(no value recieved)</small></td>
+                            <td width="40%" style="vertical-align:middle;"><h3>Intensità luce</h3><small id="luce_label">(no value received)</small></td>
                             <td style="vertical-align:middle;"></td>
                             <td width="30%" style="vertical-align:middle;">
                                 <h4><span id="luce_ir_value" class="badge badge-secondary">Unknown</span></h4>
@@ -269,7 +279,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
               <div class="row">
-                <div class="col-md-6"><b>Latest MQTT message:  </b> <small id="message">no message recieved</small></div>
+                <div class="col-md-6"><b>Latest MQTT message:  </b> <small id="message">no message received</small></div>
                 <div class="col-md-6"><b>Status: </b>  <small id='status'></small></div>
               </div>
           </div>
