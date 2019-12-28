@@ -24,7 +24,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.js"></script>
     <script type="text/javascript">
         var host = "192.168.11.7";
-        var port = 9001; //3000;
+        var port = 15675; // web socket port of the plugin over MQTT //1883; // 9001; //3000;
+        var path ="/ws"
+        
         var topic = '#'; // subscribe too al the topic
         var useTLS = false;
         var cleansession = true;
@@ -39,18 +41,21 @@
 	        if (typeof path == "undefined") {
                  path = '/';// '/mqtt';
             }
-	        mqtt = new Paho.MQTT.Client(host, port, path, "mqtt_panel" + parseInt(Math.random() * 100, 10)
+	        mqtt = new Paho.MQTT.Client(host, port, path, "mqtt_web_sin" + parseInt(Math.random() * 100, 10)
 	    );
-            var options = {
-                timeout: 3,
-                useSSL: useTLS,
-                cleanSession: cleansession,
-                onSuccess: onConnect,
-                onFailure: function (message) {
-                    $('#status').html("Connection failed: " + message.errorMessage + "Retrying...");
-                    setTimeout(MQTTconnect, reconnectTimeout);
-                }
-            };
+
+        var options = {
+            timeout: 3,
+            userName : "scuola",
+            password : "scuola",
+            useSSL: useTLS,
+            cleanSession: cleansession,
+            onSuccess: onConnect,
+            onFailure: function (message) {
+                $('#status').html("Connection failed: " + message.errorMessage + "Retrying...");
+                setTimeout(MQTTconnect, reconnectTimeout);
+            }
+        };
 
             mqtt.onConnectionLost = onConnectionLost;
             mqtt.onMessageArrived = onMessageArrived;
