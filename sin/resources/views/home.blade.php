@@ -22,12 +22,12 @@
         <div class="col-md-4">
             <div class="card text-center border-info mb-3">
               <div class="card-header">
-                Meteo
+               Stazione Meteo Nomadelfia
               </div>
               <div class="card-body">
                 <!-- <h3 class="card-title">Biblioteca</h3> -->
-                <p class="card-text">Stazione metereologica di Nomadelfia</p>
-                <a href="{{ url('/meteo')}} " class="btn btn-primary">Accedi</a>
+                <p class="card-text">Stazione meteo situata nella zona delle scuole</p>
+                <a href="http://127.0.0.1:8081" class="btn btn-primary">Accedi</a>
               </div>
             </div>
           </div>
