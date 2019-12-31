@@ -27,7 +27,7 @@
               <div class="card-body">
                 <!-- <h3 class="card-title">Biblioteca</h3> -->
                 <p class="card-text">Stazione meteo situata nella zona delle scuole</p>
-                <a href="http://127.0.0.1:8081" class="btn btn-primary">Accedi</a>
+                <a href="http://192.168.11.7:8081" class="btn btn-primary">Accedi</a>
               </div>
             </div>
           </div>
