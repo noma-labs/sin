@@ -47,6 +47,21 @@
         </div>
         @endhasrole
         
+        
+        @hasanyrole("agraria-amm|presidenza-amm|master")
+        <div class="col-md-4">
+          <div class="card text-center border-info mb-3">
+            <div class="card-header">
+              Agraria
+            </div>
+            <div class="card-body">
+              <p class="card-text">Gestione mezzi agricoli dell'azienda agraria</p>
+              <a href="http://192.168.11.7:8080/" class="btn btn-primary">Accedi</a>
+            </div>
+          </div>
+        </div>
+        @endhasrole
+
         @hasanyrole('rtn|presidenza-amm|master')
             <div class="col-md-4">
               <div class="card text-center border-success mb-3">
@@ -119,7 +134,7 @@
         </div>
       @endcan
 
-      @hasrole('presidenza-amm')
+      @hasrole('admin|presidenza-amm')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
             <div class="card-header">
