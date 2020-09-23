@@ -226,16 +226,15 @@
         <div class="card-body">
         <h5 class="my-3">Famiglia Attuale</h5>
   
+        @if($persona->famigliaAttuale() != null)
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
               <label class="col-sm-4 font-weight-bold">Nome:</label>
               <div class="col-sm-8">
-                @if($persona->famigliaAttuale() != null)
+                
                  <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
-                @else
-                  <span class="text-danger">Nessuna famiglia</span>
-                @endif
+                
               </div>
             </div>
           </li>
@@ -243,20 +242,15 @@
             <div class="row">
               <label class="col-sm-4 font-weight-bold">Posizione:</label>
               <div class="col-sm-8">
-                @if($persona->famigliaAttuale() != null)
-                  <span>{{$persona->famigliaAttuale()->pivot->posizione_famiglia}}
-                     </span>
-              </span>
-                @else
-                  <span class="text-danger">Nessuna posizione famiglia</span>
-                @endif
+                  <span>{{$persona->famigliaAttuale()->pivot->posizione_famiglia}}</span>
               </div>
             </div>
           </li>
         </ul>
-        <!-- @if($persona->famigliaAttuale() == null)
-          <a  class="btn btn-warning my-2" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>2])}}"> Crea Famiglia </a>
-          @endif -->
+        @else
+              <span class="text-danger">Nessuna famiglia</span>
+              <a  class="btn btn-warning my-2" href="{{route('nomadelfia.persone.inserimento.famiglia',['idPersona'=>2])}}"> Assegna famiglia </a>
+        @endif
 
         <h5 class="my-3">Famiglia Storico</h5>
         @forelse($persona->famiglieStorico as $famiglia)

@@ -1,7 +1,8 @@
 @extends('nomadelfia.index')
 
+
 @section('archivio') 
-<sin-header title="Elenco persone"> Numero persone: </sin-header>
+{{-- <sin-header title="Elenco persone"> Numero persone: </sin-header>
 
 <form method="GET" action="">
    {{ csrf_field() }}
@@ -13,11 +14,12 @@
 <div class="alert alert-warning alert-dismissible fade show" role="alert" >Ricerca effettuata:<strong> {{$msgSearch}}</strong>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 </div>
-@endif
+@endif --}}
+
 
 @if(!empty($persone))
-<div id="results" class="alert alert-success"> Numero di patenti trovate: <strong> {{ $persone->count() }} </strong></div>
-
+{{-- <div id="results" class="alert alert-success"> Numero di persone trovate: <strong> {{ $persone->count() }} </strong></div>
+ --}}
 <div class="table-responsive">
   <table class="table table-hover table-bordered table-sm"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
@@ -25,19 +27,22 @@
             <th  style="width: 20%">Nominativo</th>
             <th style="width: 10%"> Nome </th>
             <th style="width: 10%"> Cognome </th>
-            <th style="width: 20%"> Sata nascita  </th>
-            <th style="width: 20%"> Famiglia </th>
+            <th style="width: 20%"> Data nascita  </th>
             <th style="width: 10%"> Operazioni </th>
         </tr>
     </thead>
     <tbody>
           @foreach($persone as $persona)
-          <tr hoverable>
-          <td> {{ $persona->nominativo}} </td>
+          <tr >
+          <td>   {{ $persona->nominativo}}</td>
           <td> {{ $persona->nome}}</td>
-          <td>  {{ $persona->cognome}} </td>
-          <td>  {{$persona->data_nascita}}</td>
-          <td> </td>
+          <td> {{ $persona->cognome}} </td>
+          <td> {{$persona->data_nascita}}</td>
+          <td>
+              <div class='btn-group' role='group' aria-label="Dettaglio Person">                
+                  <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a>
+                </div>
+             </td>
           </tr>
           @endforeach
     </tbody>

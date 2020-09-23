@@ -182,6 +182,7 @@ class Famiglia extends Model
       $persona->gruppifamiliari()->detach($idGruppo);
   }
 
+
   /**
   * Assegna un nuovo gruppo familiare alla famiglia.
   * Se il gruppoFamiliare attuale non è nullo aggiorna lo stato =0.

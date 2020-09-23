@@ -69,6 +69,7 @@ class Posizione extends Model
         "postulante"=>"POST",
         "ospite"=>"OSPP",
         "figlio"=>"FIGL",
+        "uscito" =>"DADE",
     ];
     return static::where('abbreviato',$mapNamesToDB[$nome])->first();
   }

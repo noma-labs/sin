@@ -34,6 +34,13 @@ class GruppoFamiliare extends Model
                 ->orderby("nome_famiglia");
   }
 
+  public function famiglie2()
+  {
+    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
+                ->withPivot("stato")
+                ->orderby("nome_famiglia");
+  }
+
   public function famiglieAttuale()
   {
     return $this->famiglie()
@@ -51,6 +58,7 @@ class GruppoFamiliare extends Model
                 ->wherePivot('stato', 1)
                 ->first();
   }
+
 
   /**
    * Ritorna le persone in un gruppo familiare 
@@ -74,6 +82,41 @@ class GruppoFamiliare extends Model
     $persone = self::personeAttuale()->get();           # collect [2, 4, 6, 8]);
     $diff = $collection->diffKeys($persone);            # [1, 3, 5]
     return $diff;
+  }
+
+
+  /**
+   * Ritorna il id delle famiglie che sono capo famiglia in un gruupo
+   *  @author Davide Neri                 
+   *   Gruppi
+   *      id 
+   * 
+   *   GruppiPersone
+   *      gruppo_id
+   *      persona_id
+   * 
+   *   FamigliePersone
+   *     famiglia_id
+   *     persona_id
+   *     posizione_famiglia
+   * 
+   *   Persona
+   *     id   
+   * 
+   *   Famiglia
+   *    id                           
+   */
+  public function scopeCapoFamiglia($gruppoId){
+    return  DB::table('gruppi_persone')
+                  ->select("famiglie_persone.famiglia_id")
+                  ->join('famiglie_persone', 'famiglie_persone.persona_id', '=', 'gruppi_persone.persona_id')
+                  ->where("famiglie_persone.posizione_famiglia", "CAPO FAMIGLIA")
+                  ->where("gruppi_persone.gruppo_famigliare_id", $gruppoId);
+                  
+            //SELECT famiglie_persone.famiglia_id
+            //FROM gruppi_persone
+            //INNER join famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id  
+            //where famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' and gruppi_persone.gruppo_famigliare_id = 8
   }
 
   /**

@@ -57,7 +57,7 @@
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
 
-           @include("nomadelfia.templates.famigliaStorico", ['famiglia' => $famiglia])
+           @include("nomadelfia.templates.famigliaAttuale", ['famiglia' => $famiglia])
 
           <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente" button-style="btn-primary my-2">
             <template slot="modal-body-slot">

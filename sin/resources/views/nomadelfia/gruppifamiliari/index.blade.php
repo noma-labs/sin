@@ -10,9 +10,9 @@
       <div class="col-md-4 my-1">
           <div id="accordion">
             <div class="card">
-              <div class="card-header" id="headingOne">
+              <div class="card-header" id="heading{{$gruppo->id}}">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#{{$gruppo->id}}" aria-expanded="false" aria-controls="collapseOne">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$gruppo->id}}" aria-expanded="false" aria-controls="collapse{{$gruppo->id}}">
                       {{$gruppo->nome}} 
                   <span class="badge badge-primary badge-pill">
                   {{$gruppo->personeAttuale->count()}}
@@ -23,7 +23,7 @@
                   <span class="bg-danger text-white">Il numero di persone non coincidono</span>
                  @endif
               </div>
-              <div id="{{$gruppo->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div id="collapse{{$gruppo->id}}" class="collapse" aria-labelledby="heading{{$gruppo->id}}" data-parent="#accordion">
                 <div class="card-body">
                     @if ($gruppo->capogruppoAttuale())
                     <p class="font-weight-bold"> Capogruppo: 

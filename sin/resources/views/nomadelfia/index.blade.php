@@ -48,19 +48,15 @@
       </div>
       <div class="card-body">
         <p class="card-text"> 
-          Totale: <strong>{{App\Nomadelfia\Models\Persona::attivo()->count()}}</strong> </p>
-          <ul>
-          <li>Donne maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->donne()->maggiorenni()->count()}}</strong> </li>
-          <li>Uomini maggiorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->uomini()->maggiorenni()->count()}}</strong> </li>
-          <li>Figli Minorenni: <strong> {{App\Nomadelfia\Models\Persona::attivo()->minorenni()->count()}}</strong> </li>
-          </ul>
+          Totale Popolazione: <strong>{{App\Nomadelfia\Models\Persona::attivo()->count()}}</strong> </p>
 
-         <p class="card-text">
-         Effettivi:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->count()}}</strong> 
-         Postulanti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->count()}}</strong> 
-          Figli:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->count()}}</strong> 
-          Ospiti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->count()}}</strong> 
-          </p>
+          <ul>
+              <li>Effettivi:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->count()}}</strong>  </li>
+              <li>Postulanti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("postulante")->persone()->count()}}</strong>  </li>
+              <li> Figli:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("figlio")->persone()->count()}}</strong>  </li>
+              <li> Ospiti:  <strong>  {{App\Nomadelfia\Models\Posizione::perNome("ospite")->persone()->count()}}</strong> </li>
+              <li> Non assegnato (usciti): <strong> {{App\Nomadelfia\Models\Posizione::perNome("uscito")->persone()->count() }}</strong> </li> 
+          </ul>
       </div>
       <div class="card-footer">
        <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
