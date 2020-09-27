@@ -62,7 +62,7 @@
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
                                     @if ($famiglia_single_id === "")
-                                        !!! Senza famiglia !!!
+                                    <p class="text-danger">Persone senza famiglia </p>
                                     @else
                                         <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_single_id])}}"> 
                                                 {{$componente->nominativo}}
@@ -79,7 +79,7 @@
                                 <div class="col-md-10">
                                     <div class="font-weight-bold mt-2">
                                          @if ($famiglia_id === "")
-                                           !!! Senza famiglia !!!
+                                             <p class="text-danger">Persone senza famiglia </p>
                                         @else
                                          Fam. 
                                          <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_id])}}"> 
