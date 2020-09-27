@@ -30,7 +30,8 @@ class PersoneController extends CoreBaseController
 
   public function show($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.show",compact('persona'));
+    $gruppoAttuale = $persona->gruppofamiliareAttuale();
+    return view("nomadelfia.persone.show",compact('persona', 'gruppoAttuale'));
   }
 
   public function modificaDatiAnagrafici($idPersona){
@@ -195,14 +196,20 @@ class PersoneController extends CoreBaseController
   }
 
   public function insertFamiglia(Request $request, $idPersona){
+    $validatedData = $request->validate([
+      "famiglia_id" => "required",
+      "posizione_famiglia"=> "required",
+    ],[
+      "famiglia_id.required" => "La famiglia è obbligatoria",
+      "posizione_famiglia.required" => "La posizione nella famiglia è obbligatoria",
+    ]);
     $persona = Persona::findOrFail($idPersona);
-    // TODO; inserire la famiglia di appartenze e redirect to dettaglio
+
+    $persona->famiglie()->attach($request->famiglia_id, ['stato' => '1', "posizione_famiglia"=>$request->posizione_famiglia]);
+    //$persona->save();
+    
     return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
   }
-
-
-
-
 
   /**
    * Contolla che non ci sia una persona con il nome e cognome.
@@ -463,7 +470,16 @@ class PersoneController extends CoreBaseController
    */
   public function gruppoFamiliare($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.gruppofamiliare.show",compact('persona'));
+    $gruppo_attuale = $persona->gruppofamiliareAttuale();
+    if (count($gruppo_attuale) == 1){
+      $gruppo_attuale = $gruppo_attuale[0];
+      return view("nomadelfia.persone.gruppofamiliare.show",compact('persona', 'gruppo_attuale'));
+    }
+    else{
+      dd("eeor, multiple ");
+    }
+
+  
   }
 
    /**
@@ -482,10 +498,14 @@ class PersoneController extends CoreBaseController
       // 'data_uscita.required'=>"La data di uscita nel gruppo familiare è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
-    if($persona->gruppofamiliareAttuale()) // se ha già uno stato attuale aggiorna lo stato attuale
-      $persona->gruppifamiliari()->updateExistingPivot($persona->gruppofamiliareAttuale()->id, ['stato'=>'0',
-                                                                    'data_uscita_gruppo'=>($request->data_uscita ? $request->data_uscita: $request->data_entrata)]);
-    $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
+    $gruppo_attuale = $persona->gruppofamiliareAttuale();
+    if(count($gruppo_attuale) == 1){ // se ha già uno stato attuale aggiorna lo stato attuale
+      $persona->gruppifamiliari()->updateExistingPivot($gruppo_attuale[0]->id, ['stato'=>'0', 'data_uscita_gruppo'=>($request->data_uscita ? $request->data_uscita: $request->data_entrata)]);
+      $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Error ad assegnare $persona->nominativo  al gruppo familiare.");
+    }
+  
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
   }
 

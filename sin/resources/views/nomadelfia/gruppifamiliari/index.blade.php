@@ -19,9 +19,6 @@
                   </span> 
                   </button>
                 </h5>
-                @if( $gruppo->personeAttuale->count() !=  $gruppo->personeAttualeViaFamiglie()->count())
-                  <span class="bg-danger text-white">Il numero di persone non coincidono</span>
-                 @endif
               </div>
               <div id="collapse{{$gruppo->id}}" class="collapse" aria-labelledby="heading{{$gruppo->id}}" data-parent="#accordion">
                 <div class="card-body">
@@ -38,32 +35,6 @@
                       <li> {{$posizione->posizione_famiglia}}  <span class="badge badge-info"> {{$posizione->total}}</span></li>
                     @endforeach
                   </ul>
-                    <!-- componenti gruppi per persone -->
-                    <!-- @foreach($gruppo->personeAttuale as $persona)
-                    
-                      @if($persona->isSingle())
-                        <p><a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">{{$persona->nominativo}}</a></p>
-                       @elseif($persona->isCapofamiglia())
-                        <div class="font-weight-bold mt-3">
-                          <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}"> {{$persona->nominativo}}</a>
-                        </div>
-                        @if($persona->famigliaAttuale())
-                          <div class="font-weight-bold">
-                            @if ($persona->famigliaAttuale()->moglie())  
-                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->famigliaAttuale()->moglie()->id])}}"> {{$persona->famigliaAttuale()->moglie()->nominativo}}</a>
-                            @endif
-                          </div>
-                          <ul>
-                            @foreach($persona->famigliaAttuale()->figliAttuali as $figlio)
-                            <li> @year($figlio->data_nascita)  
-                              <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$figlio->id])}}"> {{$figlio->nominativo}}</a>
-                            </li>
-                            @endforeach
-                          </ul>
-                         @endif
-                      @endif
-                    @endforeach -->
-
                     <a class="btn btn-primary" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">Modifica</a>
                 </div>    
               </div>

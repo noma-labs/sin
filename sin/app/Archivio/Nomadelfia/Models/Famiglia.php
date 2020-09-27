@@ -77,13 +77,18 @@ class Famiglia extends Model
   }
   
  /**
-  * Ritorna tutti i gruppi familiari i cui ha vissuto la famiglia.
+  * Ritorna tutti i gruppi familiari i cui ha vissuto la famiglia (i componeneti CAPO FAMIGLIA o SINGLE)
   * @author Davide Neri
   **/
   public function gruppiFamiliari()
   {
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id')
                 ->withPivot('data_inizio','data_fine','stato');
+             /*   SELECT gruppi_persone.*
+                FROM famiglie_persone
+                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+                WHERE (famiglie_persone.posizione_famiglia = "CAPO FAMIGLIA" or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = 27
+            */
   }
 
  /**
@@ -92,7 +97,22 @@ class Famiglia extends Model
   **/
   public function gruppoFamiliareAttuale()
   {
-    return $this->gruppiFamiliari()->wherePivot('stato','1')->first();
+    $res = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT gruppi_familiari.*, gruppi_persone.data_entrata_gruppo
+      FROM famiglie_persone
+      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+      INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1'"),
+      array("famiglia_id"=> $this->id)
+    );  
+   return $res;
+
+    //return $this->gruppiFamiliari()->wherePivot('stato','1'); //->first();
+    /*SELECT gruppi_persone.
+      FROM famiglie_persone
+      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+      WHERE (famiglie_persone.posizione_famiglia = "CAPO FAMIGLIA" or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = 27 and gruppi_persone.stato = '1'
+      */
   }
 
   /**
@@ -173,42 +193,74 @@ class Famiglia extends Model
     return $this->figli()->wherePivot('stato',"=",'1');
   }
 
-
-  // rimuove la famigla da un gruppo familiare
-
+ 
+  /**
+  * Rimuove tutti i componento della famiglia da un gruppo familiare
+  * @author Davide Neri
+  **/
   public function rimuoviDaGruppoFamiliare($idGruppo){
-    $this->gruppiFamiliari()->detach($idGruppo);
-    foreach($this->componentiAttuali as $persona)
-      $persona->gruppifamiliari()->detach($idGruppo);
+
+    DB::connection('db_nomadelfia')->update(
+      DB::raw("UPDATE gruppi_persone
+              SET
+                  gruppi_persone.stato = '0'
+              WHERE
+                gruppi_persone.gruppo_famigliare_id = :gruppoattuale
+                AND gruppi_persone.persona_id IN (
+                      SELECT persone.id
+                      FROM famiglie_persone
+                      INNER JOIN persone ON persone.id = famiglie_persone.persona_id
+                      #INNER join gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+                      WHERE famiglie_persone.famiglia_id = :famigliaId  AND famiglie_persone.stato = '1' #AND gruppi_persone.stato = '1'
+                )
+                AND gruppi_persone.stato = '1' "), 
+              array('gruppoattuale' => $idGruppo, 'famigliaId'=> $this->id)
+    );
+
   }
 
 
   /**
   * Assegna un nuovo gruppo familiare alla famiglia.
-  * Se il gruppoFamiliare attuale non è nullo aggiorna lo stato =0.
   * @author Davide Neri
   **/
-  public function assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale=null, 
-                                                      $gruppoFamiliareNuovo, $dataEntrataGruppo=null)
-  {
-    try
-    { if($gruppoFamiliareAttuale)
-         $this->gruppiFamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_fine'=>$dataUscitaGruppoFamiliareAttuale]);
+  public function assegnaFamigliaANuovoGruppoFamiliare($gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale=null, $gruppo_nuovo_id, $dataEntrataGruppo=null)
+  { 
+    $famiglia_id = $this->id;
+    $data_entrata = $dataEntrataGruppo;
+    DB::transaction(function () use(&$gruppo_attuale_id, &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
+     
+      // Disabilita tutti i componento della famiglia nelvechi gruppo (metti stato = 0)
+     DB::connection('db_nomadelfia')->update(
+        DB::raw("UPDATE gruppi_persone
+                SET
+                    gruppi_persone.stato = '0'
+                WHERE
+                  gruppi_persone.gruppo_famigliare_id = :gruppoattuale
+                  AND gruppi_persone.persona_id IN (
+                        SELECT persone.id
+                        FROM famiglie_persone
+                        INNER JOIN persone ON persone.id = famiglie_persone.persona_id
+                        #INNER join gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+                        WHERE famiglie_persone.famiglia_id = :famigliaId  AND famiglie_persone.stato = '1' #AND gruppi_persone.stato = '1'
+                  )
+                      
+                  AND gruppi_persone.stato = '1' "), 
+                array('gruppoattuale' => $gruppo_attuale_id, 'famigliaId'=> $famiglia_id)# , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
+      );
       
-      $this->gruppiFamiliari()->attach($gruppoFamiliareNuovo,['stato' => '1','data_inizio'=>$dataUscitaGruppoFamiliareAttuale, 'data_fine'=>$dataEntrataGruppo]);
-      foreach($this->componentiAttuali as $persona)
-        $persona->assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
-      
-      //  $this->commit();
-    }catch (Exception $e)
-      {
-       DB::rollBack();
-       throw $e;
-      }
-      
+      // Aggiungi a tutti i componenti della famiglia nel nuovo gruppo
+      DB::connection('db_nomadelfia')->update(
+        DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
+                SELECT persone.id, :gruppo_nuovo_id, '1', :data_entrata
+                FROM famiglie_persone
+                INNER JOIN persone ON persone.id = famiglie_persone.persona_id
+                WHERE famiglie_persone.famiglia_id = :famigliaId   AND famiglie_persone.stato = '1' "), 
+                array( 'famigliaId'=> $famiglia_id, 'gruppo_nuovo_id' => $gruppo_nuovo_id, 'data_entrata'=> $data_entrata)# , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
+      );
+  });
+
   }
-
-
 }
 
 

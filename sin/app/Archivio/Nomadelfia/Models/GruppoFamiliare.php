@@ -61,65 +61,6 @@ class GruppoFamiliare extends Model
 
 
   /**
-   * Ritorna le persone in un gruppo familiare 
-   * tramite i componenti attuali delle famiglie.          
-   * @author Davide Neri                                           
-   */
-  public function personeAttualeViaFamiglie(){
-    $famiglie = self::famiglieAttuale()->get();
-    $persone = collect();
-    $famiglie->each(function ($famiglia) use ($persone){
-       $famiglia->componentiAttuali->each(function($persona) use($persone) {
-        $persone->push($persona);
-       });
-    });
-    return $persone;
-  }
-  
- // ritorna l'id delle persone che sono nelle famiglie ma non nelle persone
-  public function compare(){
-    $collection = self::personeAttualeViaFamiglie();    # collect([1, 2, 3, 4, 5]);
-    $persone = self::personeAttuale()->get();           # collect [2, 4, 6, 8]);
-    $diff = $collection->diffKeys($persone);            # [1, 3, 5]
-    return $diff;
-  }
-
-
-  /**
-   * Ritorna il id delle famiglie che sono capo famiglia in un gruupo
-   *  @author Davide Neri                 
-   *   Gruppi
-   *      id 
-   * 
-   *   GruppiPersone
-   *      gruppo_id
-   *      persona_id
-   * 
-   *   FamigliePersone
-   *     famiglia_id
-   *     persona_id
-   *     posizione_famiglia
-   * 
-   *   Persona
-   *     id   
-   * 
-   *   Famiglia
-   *    id                           
-   */
-  public function scopeCapoFamiglia($gruppoId){
-    return  DB::table('gruppi_persone')
-                  ->select("famiglie_persone.famiglia_id")
-                  ->join('famiglie_persone', 'famiglie_persone.persona_id', '=', 'gruppi_persone.persona_id')
-                  ->where("famiglie_persone.posizione_famiglia", "CAPO FAMIGLIA")
-                  ->where("gruppi_persone.gruppo_famigliare_id", $gruppoId);
-                  
-            //SELECT famiglie_persone.famiglia_id
-            //FROM gruppi_persone
-            //INNER join famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id  
-            //where famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' and gruppi_persone.gruppo_famigliare_id = 8
-  }
-
-  /**
    * Ritorna il numero di persone con una certa 
    * posizione familiare  (capofamiglia, moglie, figlio nato, accolto,...) 
    * che vivono in un gruppo familiare.         

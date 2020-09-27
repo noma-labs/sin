@@ -5,7 +5,7 @@
         <div class="row">
             <label class="col-sm-4">Single:</label>
             <div class="col-sm-8">
-            <span>{{$famiglia->single()->nominativo}}</span>
+            <span> @include("nomadelfia.templates.persona", ['persona' => $famiglia->single()])</span>
             </div>
         </div>
         </li>
@@ -17,7 +17,7 @@
             <label class="col-sm-4">Capo Famiglia:</label>
             <div class="col-sm-8">
                 @if($famiglia->capofamiglia())
-                    {{$famiglia->capofamiglia()->nominativo}}
+                    @include("nomadelfia.templates.persona", ['persona' => $famiglia->capofamiglia()])
                 @else
                 <p class="text-danger">Nessun capofamiglia</p>
                 @endif
@@ -29,7 +29,7 @@
             <div class="row">
             <label class="col-sm-4">Moglie:</label>
             <div class="col-sm-8">
-                {{$famiglia->moglie()->nominativo}}
+                @include("nomadelfia.templates.persona", ['persona' => $famiglia->moglie()])
             </div>
             </div>
         </li>
@@ -42,7 +42,9 @@
                 @foreach  ($famiglia->figliAttuali as $figlio)
                 <div class="row">
                     <div class="col-sm-12">
-                        <span> @year($figlio->data_nascita) {{$figlio->nominativo}}   ({{$figlio->pivot->posizione_famiglia}}) </span>
+                        <span> @year($figlio->data_nascita)  
+                        @include("nomadelfia.templates.persona", ['persona' => $figlio])
+                        ({{$figlio->pivot->posizione_famiglia}}) </span>
                     </div>
                     <div class="col-sm-2">
                         

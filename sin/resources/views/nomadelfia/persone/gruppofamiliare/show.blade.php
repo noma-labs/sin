@@ -13,7 +13,7 @@
         Gruppo Familiare attuale
       </div>
       <div class="card-body">
-          @if($persona->gruppofamiliareAttuale())
+          @if($gruppo_attuale)
             <div class="row">
               <p class="col-md-3 font-weight-bold"> Gruppo familiare</p>
               <p class="col-md-3 font-weight-bold"> Data entrata</p>
@@ -21,32 +21,32 @@
               <p class="col-md-3 font-weight-bold"> Operazioni</p>
             </div>
             <div class="row">
-              <p class="col-md-3">{{$persona->gruppofamiliareAttuale()->nome}}</p>
-              <p class="col-md-3">{{$persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo }} </p>
+              <p class="col-md-3">{{$gruppo_attuale->nome}}</p>
+              <p class="col-md-3">{{$gruppo_attuale->pivot->data_entrata_gruppo }} </p>
               <div class="col-md-3">
-                <span class="badge badge-info"> @diffHumans($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)</span>
+                <span class="badge badge-info"> @diffHumans($gruppo_attuale->pivot->data_entrata_gruppo)</span>
                </div>
                <div class="col-md-3">
                 <my-modal modal-title="Modifica Gruppo familiare attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
-                    <form class="form" method="POST"  id="formPersonaGruppoModifica" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->gruppofamiliareAttuale()->id]) }}" >      
+                    <form class="form" method="POST"  id="formPersonaGruppoModifica" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id, 'id'=>$gruppo_attuale->id]) }}" >      
                         {{ csrf_field() }}
                         <div class="form-group row">
                           <label for="staticEmail" class="col-sm-6 col-form-label">Gruppo familiare attuale</label>
                           <div class="col-sm-6">
-                              <div>{{$persona->gruppofamiliareAttuale()->nome}}</div>
+                              <div>{{$gruppo_attuale->nome}}</div>
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-sm-6 col-form-label">Data entrata</label>
                           <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo }}" format="yyyy-MM-dd" name="data_entrata"></date-picker>
+                            <date-picker :bootstrap-styling="true" value="{{$gruppo_attuale->pivot->data_entrata_gruppo }}" format="yyyy-MM-dd" name="data_entrata"></date-picker>
                           </div>
                         </div>
                         <div class="form-group row">
                           <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita</label>
                           <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->gruppofamiliareAttuale()->pivot->data_uscita_gruppo }}" format="yyyy-MM-dd" name="data_uscita"></date-picker>
+                            <date-picker :bootstrap-styling="true" value="{{$gruppo_attuale->pivot->data_uscita_gruppo }}" format="yyyy-MM-dd" name="data_uscita"></date-picker>
                           </div>
                         </div>
 
@@ -54,13 +54,13 @@
                           <label for="inputPassword" class="col-sm-6 col-form-label">Stato</label>
                           <div class="col-sm-6">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->gruppofamiliareAttuale()->pivot->stato=='1') checked @endif>
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($gruppo_attuale->pivot->stato=='1') checked @endif>
                                 <label class="form-check-label" for="forstatoM">
                                   Attivo
                                 </label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->gruppofamiliareAttuale()->pivot->stato=='0') checked @endif>
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($gruppo_attuale->pivot->stato=='0') checked @endif>
                               <label class="form-check-label" for="forstao">
                                 Disattivo
                               </label>
@@ -83,8 +83,8 @@
             <form class="form" method="POST"  id="formPersonaGruppo" action="{{ route('nomadelfia.persone.gruppo.assegna', ['idPersona' =>$persona->id]) }}" >      
                 {{ csrf_field() }}
 
-                @if($persona->gruppofamiliareAttuale())
-                <h5 class="my-2">Completa dati del gruppo attuale:  {{$persona->gruppofamiliareAttuale()->nome}}</h5>
+                @if($gruppo_attuale)
+                <h5 class="my-2">Completa dati del gruppo attuale:  {{$gruppo_attuale->nome}}</h5>
                 <div class="form-group row">
                   <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita gruppo familiare</label>
                   <div class="col-sm-6">
@@ -101,7 +101,7 @@
                     <select name="gruppo_id" class="form-control">
                         <option selected>---seleziona gruppo ---</option>
                         @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofam)
-                        @if(!$gruppofam->is($persona->gruppofamiliareAttuale()))
+                        @if(!$gruppofam->is($gruppo_attuale))
                           <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
                           @endif
                         @endforeach

@@ -4,46 +4,6 @@
 
 @include('partials.header', ['title' => 'Gestione Famiglia'])
 
-<!-- <div class="container"> -->
-<!-- <div class="row justify-content-center">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-body">
-       <div class="row">
-          <label class="col-md-4">Nome famiglia:</label> 
-          <div class="col-md-4">
-              <span>{{$famiglia->nome_famiglia}}</span>
-          </div>
-        </div>
-        
-        <div class="row">
-          <label class="col-md-4">Stato famiglia:</label> 
-          <div class="col-md-4">
-              @if($famiglia->stato == '1')
-                <a href="#" class="badge badge-success">Attivo</a>
-              @else
-              <a href="#" class="badge badge-danger">Disattivo</a>
-              @endif
-          </div>
-          <div class="col-md-4">
-            <my-modal modal-title="Modifica stato persona" button-title="Modifica">
-              <template slot="modal-body-slot">
-              <form class="form" method="POST"  id="formStato" >      
-                  {{ csrf_field() }}
-                </form>
-              </template> 
-              <template slot="modal-button">
-                <button class="btn btn-success" form="formStato">Salva</button>
-              </template>
-            </my-modal>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div> -->
-
 <div class="row my-3">
 <div class="col-md-8 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">
@@ -135,31 +95,41 @@
           </div>
           <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
             <div class="card-body">
-                @if($famiglia->gruppoFamiliareAttuale())
-                    <div class="row">
-                      <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
-                      <div class="col-sm-6 font-weight-bold"> Data entrata    </div>
+                @if(count($gruppoAttuale) === 1)
+                <div class="row">
+                    <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
+                    <div class="col-sm-6 font-weight-bold">Data entrata   </div>
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-6">
+                       {{$gruppoAttuale[0]->nome}}
                     </div>
-                    <div class="row">
-                      <div class="col-sm-6">
-                         {{$famiglia->gruppoFamiliareAttuale()->nome}}
-                      </div>
-                      <div class="col-sm-6">
-                        <span> {{$famiglia->gruppoFamiliareAttuale()->pivot->data_inizio}}</span>
-                      </div>
+                    <div class="col-sm-6">
+                      <span> {{$gruppoAttuale[0]->data_entrata_gruppo}}</span>
                     </div>
-                  @else
-                  <p class="text-danger">Nessun gruppo familiare associato</p>
-                  @endif 
+                  </div>
+              @elseif (count($gruppoAttuale) > 1)
+               <p class="text-danger">La famiglia ha multipli gruppi attivi: </p>
+               <p>
+                  @foreach  ($gruppoAttuale as $gruppo)
+                  {{$gruppo->nome}},
+                  @endforeach
+               </p>
+      
+              @else
+               <p class="text-danger">Nessun gruppo familiare associato</p>
+              @endif
+               
                 <!-- <div class="col-md-4"> -->
-                    <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-success my-2" button-title="Assegna nuovo gruppo">
+                    <my-modal modal-title="Sposta Famiglia in un nuovo gruppo familiare" button-style="btn-success my-2" button-title="Assegna nuovo gruppo">
                       <template slot="modal-body-slot">
                         <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
                           {{ csrf_field() }}
                           <div class="form-group row">
                             <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
                               <div class="col-8">
-                                <select class="form-control" name="gruppo_id">
+                                <select class="form-control" name="nuovo_gruppo_id">
                                 <option value="" selected>---scegli gruppo---</option>
                                   @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
                                       <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>

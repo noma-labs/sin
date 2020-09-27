@@ -3,7 +3,7 @@
 @section('archivio')
 
 @include('partials.header', ['title' => 'Assegnazione famiglia'])
-
+<form method="POST" action="{{route('nomadelfia.persone.inserimento.famiglia.confirm',['idPersona'=>$persona->id])}}">
 <div class="row">
   <div class="col-md-4 offset-md-4">
     <div class="form-group row">
@@ -31,7 +31,6 @@
   </div>
 </div>
 
-<form method="POST" action="{{route('nomadelfia.persone.inserimento.famiglia.confirm',['idPersona'=>$persona->id])}}">
 {{ csrf_field() }}  
   <div class="row offset-md-4">
     <button class="btn btn-success" type="submit">Salva e visualizza</button> 

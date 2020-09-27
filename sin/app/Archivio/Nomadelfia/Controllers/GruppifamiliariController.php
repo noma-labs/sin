@@ -26,34 +26,40 @@ class GruppifamiliariController extends CoreBaseController
 
     $countPosizioniFamiglia = GruppoFamiliare::CountPosizioniFamiglia($id)->get();
 
+
+    // TODO: mettere il controllo se una persona è senza famiglia nella pagina delle famiglie.
+    // il controllo nella query (famiglie_persone.stato IS NULL) viene usato per selezaionre anche le persone senza una famiglia.
     $single =  DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia
-      FROM gruppi_persone
-        INNER join famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id
-        INNER join famiglie ON famiglie.id = famiglie_persone.famiglia_id
-      where famiglie_persone.posizione_famiglia = 'SINGLE' and gruppi_persone.gruppo_famigliare_id = :gruppo"), array('gruppo' => $id));
+      DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
+              FROM gruppi_persone 
+              LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
+              INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
+              LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+              WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
+                  AND gruppi_persone.stato = '1' 
+                  AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL) 
+                  AND (famiglie_persone.posizione_famiglia = 'SINGLE' OR famiglie_persone.stato IS NULL)
+              ORDER BY persone.sesso, persone.data_nascita  ASC"), 
+              array('gruppo' => $id)
+    );
+    $famiglie = collect($single)->groupBy('famiglia_id');
 
-    // ritorna tutte le famiglie "CApo FAMIGLIA" in un gruppo familiare
-    $cp =  DB::connection('db_nomadelfia')->select( 
-      DB::raw("SELECT famiglie.*
-      FROM gruppi_persone
-        INNER join famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id
-        INNER join famiglie ON famiglie.id = famiglie_persone.famiglia_id
-      where famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' and gruppi_persone.stato = '1' and gruppi_persone.gruppo_famigliare_id = :gruppo"), array('gruppo' => $id));
 
-   $capoFamiglie = collect();
-  foreach ($cp as $famiglia){
-    $p = DB::connection('db_nomadelfia')->select( 
-      DB::raw("SELECT persone.id, famiglie_persone.posizione_famiglia, persone.data_nascita, persone.nominativo,famiglie.*
-        FROM persone
-          INNER join gruppi_persone ON gruppi_persone.persona_id = persone.id
-          INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id
-          INNER JOIN famiglie ON famiglie.id = famiglie_persone.famiglia_id
-        where famiglie_persone.famiglia_id = :famiglia  and famiglie_persone.stato = '1' and gruppi_persone.stato = '1'
-        order by persone.data_nascita ASC "), array('famiglia' => $famiglia->id)); 
-      $capoFamiglie[$famiglia->nome_famiglia] = $p;
-    }
-    return view("nomadelfia.gruppifamiliari.edit",compact('gruppo','countPosizioniFamiglia', "capoFamiglie", "single"));
+    $famiglie = DB::connection('db_nomadelfia')->select( 
+                DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
+                FROM gruppi_persone 
+                LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
+                INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
+                LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+                WHERE gruppi_persone.gruppo_famigliare_id = :gruppo 
+                    AND gruppi_persone.stato = '1' 
+                    AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
+                    AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
+                ORDER BY  persone.data_nascita ASC"), array('gruppo' => $id));
+   
+    $famiglie = collect($famiglie)->groupBy('famiglia_id');
+
+    return view("nomadelfia.gruppifamiliari.edit",compact('gruppo','countPosizioniFamiglia', "single", "famiglie"));
 
   }
 

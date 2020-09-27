@@ -177,11 +177,15 @@
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Gruppo familiare: </label>
                 <div class="col-sm-6">
-                <!-- TODO 
-                 ADD into the model PERSONA e method for checking if the gruppo familiare is not equal to the gruppo familiare of the family
-                -->
-                  @if($persona->gruppofamiliareAttuale() != null)
-                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$persona->gruppofamiliareAttuale()->id])}}">{{ $persona->gruppofamiliareAttuale()->nome }} </a> 
+                  @if(count($gruppoAttuale) > 1)
+                      <span class="text-danger">Ci sono più gruppi attivi per la stessa persona.</span>
+                      <p>
+                          @foreach  ($gruppoAttuale as $gruppo)
+                          <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppo->id])}}">{{$gruppo->nome}},</a>
+                          @endforeach
+                       </p>
+                  @elseif (count($gruppoAttuale) === 1)
+                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppoAttuale[0]->id])}}">{{ $gruppoAttuale[0]->nome }} </a> 
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif
@@ -232,9 +236,7 @@
             <div class="row">
               <label class="col-sm-4 font-weight-bold">Nome:</label>
               <div class="col-sm-8">
-                
                  <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
-                
               </div>
             </div>
           </li>
@@ -249,7 +251,7 @@
         </ul>
         @else
               <span class="text-danger">Nessuna famiglia</span>
-              <a  class="btn btn-warning my-2" href="{{route('nomadelfia.persone.inserimento.famiglia',['idPersona'=>2])}}"> Assegna famiglia </a>
+              <a  class="btn btn-warning my-2" href="{{route('nomadelfia.persone.inserimento.famiglia',['idPersona'=>$persona->id])}}"> Assegna famiglia </a>
         @endif
 
         <h5 class="my-3">Famiglia Storico</h5>

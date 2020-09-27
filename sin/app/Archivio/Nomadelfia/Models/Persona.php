@@ -110,7 +110,7 @@ class Persona extends Model
   public function gruppofamiliareAttuale(){
     return $this->gruppifamiliari()
                  ->wherePivot('stato', '1')
-                 ->first();
+                 ->get();
   }
 
   public function gruppofamiliariStorico(){
