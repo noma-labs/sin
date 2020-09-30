@@ -38,7 +38,8 @@ class GruppifamiliariController extends CoreBaseController
               WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
                   AND gruppi_persone.stato = '1' 
                   AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL) 
-                  AND (famiglie_persone.posizione_famiglia = 'SINGLE' OR famiglie_persone.stato IS NULL)
+                  AND (famiglie_persone.posizione_famiglia = 'SINGLE' OR famiglie_persone.stato IS NULL
+                  AND persone.stato = '1')
               ORDER BY persone.sesso, persone.data_nascita  ASC"), 
               array('gruppo' => $id)
     );
@@ -54,6 +55,7 @@ class GruppifamiliariController extends CoreBaseController
                     AND gruppi_persone.stato = '1' 
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
+                    AND persone.stato = '1'
                 ORDER BY  persone.data_nascita ASC"), array('gruppo' => $id));
    
     $famiglie = collect($famiglie)->groupBy('famiglia_id');
