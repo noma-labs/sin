@@ -16,8 +16,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <div class="row">
-                <label class="col-sm-4">Capo Famiglia:</label>
-                <div class="col-sm-8">
+                <label class="col-sm-2">Capo Famiglia:</label>
+                <div class="col-sm-10">
                     @if($famiglia->capofamiglia())
                         {{$famiglia->capofamiglia()->nominativo}}
                     @else
@@ -29,8 +29,8 @@
             @if($famiglia->moglie())
             <li class="list-group-item">
                 <div class="row">
-                <label class="col-sm-4">Moglie:</label>
-                <div class="col-sm-8">
+                <label class="col-sm-2">Moglie:</label>
+                <div class="col-sm-10">
                     {{$famiglia->moglie()->nominativo}}
                 </div>
                 </div>
@@ -39,8 +39,8 @@
             @if(! $famiglia->figli->isEmpty())
             <li class="list-group-item">
                 <div class="row">
-                <label class="col-sm-4">Figli:</label>
-                <div class="col-sm-8">
+                <label class="col-sm-2">Figli:</label>
+                <div class="col-sm-10">
                     @foreach  ($famiglia->figli as $figlio)
                     <div class="row justify-content-between">
                         <div class="col-md-6">

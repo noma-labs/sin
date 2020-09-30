@@ -38,7 +38,8 @@ class FamiglieController extends CoreBaseController
   public function show(Request $request, $id){ 
     $famiglia = Famiglia::findorfail($id);
     $gruppoAttuale = $famiglia->gruppoFamiliareAttuale();
-    return view('nomadelfia.famiglie.show',compact('famiglia', 'gruppoAttuale'));
+    $gruppiStorici = $famiglia->gruppiFamiliariStorico();
+    return view('nomadelfia.famiglie.show',compact('famiglia', 'gruppoAttuale', 'gruppiStorici'));
   }
 
 

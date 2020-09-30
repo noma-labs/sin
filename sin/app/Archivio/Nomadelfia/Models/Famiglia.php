@@ -75,26 +75,14 @@ class Famiglia extends Model
   public static function OnlySingle(){
     return self::FamigliePerPosizioni("SINGLE", '1');
   }
-  
- /**
-  * Ritorna tutti i gruppi familiari i cui ha vissuto la famiglia (i componeneti CAPO FAMIGLIA o SINGLE)
-  * @author Davide Neri
-  **/
-  public function gruppiFamiliari()
-  {
-    return $this->belongsToMany(GruppoFamiliare::class,'gruppi_famiglie','famiglia_id','gruppo_famigliare_id')
-                ->withPivot('data_inizio','data_fine','stato');
-             /*   SELECT gruppi_persone.*
-                FROM famiglie_persone
-                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
-                WHERE (famiglie_persone.posizione_famiglia = "CAPO FAMIGLIA" or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = 27
-            */
-  }
+
 
  /**
-  * Ritorna il gruppi familiari attuale in cui vide la famiglia
+  * Ritorna il gruppi familiare attuale in cui vive il CAPO FAMIGLIA e il SINGLE della famiglia.
+  * Si ingeferise che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE:
   * @author Davide Neri
   **/
+
   public function gruppoFamiliareAttuale()
   {
     $res = DB::connection('db_nomadelfia')->select(
@@ -107,21 +95,23 @@ class Famiglia extends Model
     );  
    return $res;
 
-    //return $this->gruppiFamiliari()->wherePivot('stato','1'); //->first();
-    /*SELECT gruppi_persone.
-      FROM famiglie_persone
-      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
-      WHERE (famiglie_persone.posizione_famiglia = "CAPO FAMIGLIA" or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = 27 and gruppi_persone.stato = '1'
-      */
   }
 
   /**
-  * Ritorna i gruppi familiari storici in cui ha vissuto la famiglia
+  * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA o il SINGLE della famiglia
   * @author Davide Neri
   **/
   public function gruppiFamiliariStorico()
   {
-    return $this->gruppiFamiliari()->wherePivot('stato','0');
+     $res = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT gruppi_familiari.*, gruppi_persone.data_entrata_gruppo, gruppi_persone.data_uscita_gruppo
+      FROM famiglie_persone
+      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+      INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
+      array("famiglia_id"=> $this->id)
+    );  
+   return $res;
   }
 
 

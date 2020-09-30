@@ -17,7 +17,7 @@
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
 
-           @include("nomadelfia.templates.famigliaAttuale", ['famiglia' => $famiglia])
+           @include("nomadelfia.templates.famigliaStorico", ['famiglia' => $famiglia])
 
           <my-modal modal-title="Aggiungi componente alla famiglia" button-title="Aggiungi Componente" button-style="btn-primary my-2">
             <template slot="modal-body-slot">
@@ -187,14 +187,14 @@
                   <div class="col-md-6 font-weight-bold"> Data entrata - data uscita   </div>
               </div>
               <ul class="list-group list-group-flush">
-                @forelse($famiglia->gruppiFamiliariStorico as $gruppo)
+                @forelse($gruppiStorici as $gruppo)
                 <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-6">
                        {{$gruppo->nome}}
                       </div>
                       <div class="col-md-6">
-                        <span> {{$gruppo->pivot->data_inizio}} - {{$gruppo->pivot->data_fine}}</span>
+                        <span> {{$gruppo->data_entrata_gruppo}} - {{$gruppo->data_uscita_gruppo}}</span>
                       </div>
                     </div>
                   </li>
