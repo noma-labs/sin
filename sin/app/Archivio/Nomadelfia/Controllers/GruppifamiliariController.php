@@ -42,7 +42,6 @@ class GruppifamiliariController extends CoreBaseController
               ORDER BY persone.sesso, persone.data_nascita  ASC"), 
               array('gruppo' => $id)
     );
-    $famiglie = collect($single)->groupBy('famiglia_id');
 
 
     $famiglie = DB::connection('db_nomadelfia')->select( 

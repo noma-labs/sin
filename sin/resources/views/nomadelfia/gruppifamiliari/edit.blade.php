@@ -56,16 +56,16 @@
                 <h4 class="card-title">Persone divise per famiglie</h4>
                 <ul class="list-group list-group-flush">
                   
-                    @foreach($single as $famiglia_single_id => $componente)
+                    @foreach($single as $famiglia_single)
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
-                                    @if ($famiglia_single_id === "")
+                                    @if ($famiglia_single->famiglia_id === "")
                                     <p class="text-danger">Persone senza famiglia </p>
                                     @else
-                                        <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_single_id])}}"> 
-                                                {{$componente->nominativo}}
+                                        <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_single->famiglia_id])}}"> 
+                                                {{$famiglia_single->nominativo}}
                                         </a>
                                     @endif
                                 </div> 
