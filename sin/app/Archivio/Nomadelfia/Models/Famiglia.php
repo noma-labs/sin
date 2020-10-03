@@ -154,6 +154,7 @@ class Famiglia extends Model
                 ->first();
   }
 
+
   /**
   * Ritorna la persona moglie della famiglia.
   * @author Davide Neri

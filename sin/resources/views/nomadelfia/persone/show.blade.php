@@ -18,6 +18,7 @@
                 <span class="badge badge-success">Attivo</span>
               @else
                <span class="badge badge-danger">Disattivo</span>
+               <input type="checkbox" checked data-toggle="toggle">
               @endif
               </h5>
           </div>
