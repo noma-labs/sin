@@ -16,15 +16,7 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-         
-          @if($famiglia->single())
-                @include("nomadelfia.templates.famigliaSingle", ['single' => $famiglia])
-          @elseif ($famiglia->capofamiglia())
-                @include("nomadelfia.templates.famigliaCapofamiglia", ['famiglia' => $famiglia])
-          @else
-              <p class="text-danger">ATTENZIONE: La famiglia non ha un CAPO FAMIGLIA o un SINGLE.</p>
-              @include("nomadelfia.templates.famigliaOther", ['famiglia' => $famiglia])
-          @endcan
+          @include("nomadelfia.templates.famiglia", ['componenti' => $componenti])
         </div>
       </div>
     </div>

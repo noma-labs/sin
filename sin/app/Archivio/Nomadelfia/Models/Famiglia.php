@@ -116,8 +116,24 @@ class Famiglia extends Model
   }
 
 
+  public function mycomponenti(){
+    $res  = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
+      FROM famiglie 
+      INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
+      INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
+      WHERE famiglie.id = :famiglia
+      ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
+      array('famiglia' => $this->id)
+    );
+    return $res;
+  }
+
+ 
   /**
+  * @Depreacted Use the mycomponenti()
   * Ritorna i componenti che hanno fatto parte della famiglia (padre, madre, e figli)
+  * 
   * @author Davide Neri
   **/
   public function componenti(){
