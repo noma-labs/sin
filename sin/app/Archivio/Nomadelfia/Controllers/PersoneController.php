@@ -22,11 +22,6 @@ use Validator;
 class PersoneController extends CoreBaseController
 {
 
-  
-  public function view(){
-    $persone =  Persona::orderBy("nominativo","ASC")->paginate(50);
-    return view('nomadelfia.persone.index2',compact('persone'));
-  }
 
   public function show($idPersona){
     $persona = Persona::findOrFail($idPersona);
@@ -38,7 +33,76 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     return view('nomadelfia.persone.edit_anagrafica',compact('persona'));
   }
+
   
+  public function search(){
+    return view("nomadelfia.persone.search");
+  }
+
+
+  public function searchPersonaSubmit(Request $request)
+    {
+      /* $validatedData = $request->validate([
+        'nominativo'=>"exists:db_biblioteca.editore,id",
+        'nome'=>"exists:db_biblioteca.autore,id",
+        'cognome'=>"exists:db_biblioteca.classificazione,id",
+        ],[
+          'xIdEditore.exists' => 'Editore inserito non esiste.',
+          'xIdAutore.exists' => 'Autore inserito non esiste.',
+          'xClassificazione.exists' => 'Classificazione inserita non esiste.',
+      ]);
+ */
+        $msgSearch = " ";
+        $orderBy = "nominativo";
+
+       if(!$request->except(['_token']))
+        return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+
+
+       $queryLibri = Persona::sortable()->where(function($q) use ($request, &$msgSearch, &$orderBy){
+            if ($request->filled('stato') && $request->stato == "on"){
+              // include anche le persone che sono disattivate (stato = 0)
+              $stato = $request->stato;
+              $msgSearch= $msgSearch." Persone Attive e Disattive, ";
+            }else{
+              // includi solo persone attive
+              $q->where('stato', '=', "1");
+              $msgSearch= $msgSearch." Solo persone Attive, ";
+            }
+            if($request->nominativo){
+              $nominativo = $request->nominativo;
+              $q->where('nominativo', 'like', "$nominativo%");
+              $msgSearch= $msgSearch."Nominativo=".$nominativo;
+              $orderBy = "nominativo";
+            }
+            if($request->nome){
+              $nome = $request->nome;
+              $q->where('nome', 'like', "$nome%");
+              $msgSearch= $msgSearch." Nome=".$nome;
+              $orderBy = "nominativo";
+            }
+           
+           if( $request->filled('cognome')){
+              $cognome = $request->cognome;
+              $q->where('cognome', 'like', "$cognome%");
+              $msgSearch= $msgSearch." Cognome=".$cognome;
+              $orderBy = "nome";
+            }
+
+            $criterio_nascita = $request->input('criterio_data_nascita',null);
+            $nascita  = $request->input('data_nascita',null);
+
+            if ($criterio_nascita and $nascita) {
+              $q->where('data_nascita', $criterio_nascita, $nascita);
+              $msgSearch= $msgSearch." Data Nascita".$criterio_nascita.$nascita;
+            }
+  
+          });
+      $persone = $queryLibri->orderBy($orderBy)->paginate(50);
+      return view('nomadelfia.persone.search_results',["persone"=>$persone,"msgSearch"=> $msgSearch ]);
+   }
+  
+
   /**
    * Aggiorna lo stato di una persona.
    * 

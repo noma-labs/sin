@@ -13,8 +13,8 @@
       Persone
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
-      <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}" >Gestione persone</a> 
-      <a class="dropdown-item" href="{{route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
+      <a class="dropdown-item" href="{{ route('nomadelfia.persone.ricerca') }}" >Ricerca persone</a> 
+      <a class="dropdown-item" href="{{ route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
     </div>
   </li>
  
@@ -59,7 +59,7 @@
           </ul>
       </div>
       <div class="card-footer">
-       <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
+       <a href="{{ route('nomadelfia.persone.ricerca') }}" class=" text-center  btn btn-primary">Entra</a> 
       </div>
     </div>
 

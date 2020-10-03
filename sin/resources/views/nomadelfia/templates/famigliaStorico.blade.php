@@ -51,13 +51,6 @@
                             <span class="badge badge-pill badge-danger">Fuori da nucleo</span>
                             @endif
                         </div>
-                        <!-- <div class="col-sm-4">
-                            @if($figlio->pivot->stato == '1')
-                            <span class="badge badge-pill badge-success">Nel nucleo</span>
-                            @else
-                            <span class="badge badge-pill badge-danger">Fuori da nucleo</span>
-                            @endif
-                        </div> -->
                         <div class="col-md-4s">
                             <my-modal modal-title="Aggiorna componente" button-title="Modifica" button-style="btn-warning my-2">
                                 <template slot="modal-body-slot">

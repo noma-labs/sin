@@ -6,6 +6,8 @@ Use Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
+use App\Traits\SortableTrait;
+
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Posizione;
@@ -21,6 +23,10 @@ use App\Admin\Models\Ruolo;
 
 class Persona extends Model
 {
+
+  use SortableTrait;
+
+
   protected $connection = 'db_nomadelfia';
   protected $table = 'persone';
   protected $primaryKey = "id";
@@ -46,6 +52,12 @@ class Persona extends Model
   public function scopeAttivo($query)
   {
       return $query->where('persone.stato', '1');
+  }
+
+
+  public function isAttivo()
+  {
+      return $this->stato == "1";
   }
 
   public function scopeMaggiorenni($query)
