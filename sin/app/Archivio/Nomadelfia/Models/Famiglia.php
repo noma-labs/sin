@@ -41,7 +41,8 @@ class Famiglia extends Model
              ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
               ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
               ->where("posizione_famiglia", $posizione)
-              ->where("famiglie_persone.stato", $stato);
+              ->where("famiglie_persone.stato", $stato)
+              ->orderBy("famiglie.nome_famiglia");
   }
 
   /**
