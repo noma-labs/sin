@@ -12,9 +12,9 @@
                 <p class="text-danger">Nessun capofamiglia</p>
                 @endif
             </div>
-            {{-- <div class="col-sm-2">
+             <div class="col-sm-2">
                     @include("nomadelfia.templates.aggiornaComponente", ['componente' => $famiglia->capofamiglia()]) 
-                </div> --}}
+                </div> 
             </div>
         </li>
         @if($famiglia->moglie())
@@ -25,9 +25,9 @@
                     @include("nomadelfia.templates.persona", ['persona' => $famiglia->moglie()]) 
 
             </div>
-            {{-- <div class="col-sm-2">
+            <div class="col-sm-2">
                     @include("nomadelfia.templates.aggiornaComponente", ['componente' =>  $famiglia->moglie()]) 
-            </div> --}}
+            </div>
             </div>
         </li>
         @endif
