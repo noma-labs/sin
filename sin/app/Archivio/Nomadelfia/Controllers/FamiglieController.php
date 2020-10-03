@@ -52,6 +52,32 @@ class FamiglieController extends CoreBaseController
     return view('nomadelfia.famiglie.create');
   }
 
+   /**
+  * Aggiorna ilnome e la data di creazione della famiglia
+  *
+  * @author Davide Neri
+  **/
+  public function update(Request $request, $id){ 
+    $validatedData = $request->validate([
+      "nome_famiglia" => "required", 
+      "data_creazione" => "required|date",
+    ],[
+      "nome_famiglia.required" => "Il nome della fmaiglia è obbligatorio.", 
+      'data_creazione.required'=>"La data di creazione della famiglia è obbligatoria.",
+  ]);
+    $famiglia = Famiglia::findorfail($id);
+    
+    $famiglia->nome_famiglia = $request->nome_famiglia;
+    $famiglia->data_creazione = $request->data_creazione;
+    $saved  = $famiglia->save();
+    if($saved){
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Famiglia $famiglia->nome_famiglia aggiornata con successo");
+    }else  {
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
+    }
+    
+  }
+
   /**
   * Crea una nuova famiglia
   * @author Davide Neri
