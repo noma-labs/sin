@@ -90,25 +90,40 @@
       <div class="card">
       <div class="card-header" id="headCapoFamiglia">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#SenzaComponenti" aria-expanded="true" aria-controls="SenzaComponenti">
-          Famiglie senza componenti
-        
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Errori" aria-expanded="true" aria-controls="Errori">
+          <span class="text text-danger" >Risolvi i seguenti errori</span>  
           </button>
         </h5>
       </div>
-      <div id="SenzaComponenti" class="show" aria-labelledby="headSenzaComponenti" data-parent="#accordion">
+      <div id="Errori" class="show" aria-labelledby="headErrori" data-parent="#accordion">
         <div class="card-body">
         <div class="row">
-                <div class="col-md-12"> 
-                  <h5> Famiglie  <span class="badge badge-primary badge-pill">{{$famiglieNoComponenti->count()}}  </span> </h5>
-                    
-                    @foreach($famiglieNoComponenti->get() as $famiglia)
-                      <div>
-                          <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a>
-                      </div>
-                    @endforeach
-                </div>
+                <div class="col-md-12">
+
+                    @foreach($famigliaError as $famigliaWithDescr)
+                      <span class="text text-danger" >{{$famigliaWithDescr->descrizione}}  ({{count($famigliaWithDescr->results)}})
+                      <ul>
+                          @foreach($famigliaWithDescr->results as $famiglia)
+                          <li>
+                              <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> {{$famiglia->nome_famiglia}}</a> 
+                          </li>
+                        @endforeach
+                         
+                      </ul>
+                  @endforeach 
                 
+
+                    @if(count($personeNoFamiglia) > 0)
+                      <span class="text text-danger" >Persone Interne senza famiglia ({{count($personeNoFamiglia) }})</span>  
+                      <ul>
+                      @foreach($personeNoFamiglia as $persona)
+                        <li>
+                            @include("nomadelfia.templates.persona", ['persona' => $persona])  
+                        </li>
+                      @endforeach 
+                    </ul>
+                  @endif
+                </div>
               </div>         
         </div>
       </div>

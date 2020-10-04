@@ -27,9 +27,9 @@ class FamiglieController extends CoreBaseController
     $singleMaschio = Famiglia::onlySingle()->maschio();
     $singleFemmine = Famiglia::onlySingle()->femmina();
 
-    $famiglieNoComponenti = Famiglia::doesntHave("componenti");
-
-    return view('nomadelfia.famiglie.index',compact('capifamiglieMaschio','capifamiglieFemmina','singleMaschio','singleFemmine','famiglieNoComponenti'));
+    $famigliaError = Famiglia::famigliaConErrore();
+    $personeNoFamiglia = Famiglia::personeSenzaFamiglia();
+    return view('nomadelfia.famiglie.index',compact('capifamiglieMaschio','capifamiglieFemmina','singleMaschio','singleFemmine','famiglieNoComponenti', 'famigliaError', 'personeNoFamiglia'));
   }
 
   /**

@@ -27,10 +27,12 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
   public function index(){
     $perPosizioni =  PopolazioneNomadelfia::perPosizioni();
+    $perCategoria =  PopolazioneNomadelfia::perCategorie();
     $totale = PopolazioneNomadelfia::totalePopolazione();
     $gruppi = PopolazioneNomadelfia::gruppiComponenti();
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-    return view("nomadelfia.summary",compact('totale', 'perPosizioni', 'gruppi', 'posizioniFamiglia'));
+
+    return view("nomadelfia.summary",compact('totale','perCategoria','perPosizioni', 'gruppi', 'posizioniFamiglia'));
   }
 
 /*   SELECT posizioni.nome, count(*) as count

@@ -12,8 +12,14 @@
         Gestione Persone
       </div>
       <div class="card-body">
-        <p class="card-text"> 
-          Totale Popolazione: <strong>{{$totale}}</strong> </p>
+          <p class="card-text">  Popolazione Nomadelfia: <strong>{{$totale}}</strong> </p>
+          <p class="card-text">  Persone divise per categoria </strong> </p>
+          <ul>
+              @foreach ($perCategoria as $categoria)
+                  <li>{{$categoria->nome}}:  <strong> {{$categoria->count}}</strong>  </li>
+              @endforeach
+          </ul>
+          <p class="card-text">  Persone divise per posizione in Nomadelfia </strong> </p>
           <ul>
               @foreach ($perPosizioni as $posizione)
                   <li>{{$posizione->nome}}:  <strong> {{$posizione->count}}</strong>  </li>

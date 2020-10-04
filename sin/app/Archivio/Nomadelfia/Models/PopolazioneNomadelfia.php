@@ -18,22 +18,36 @@ class PopolazioneNomadelfia
   *  Ritorna il totale della popolazione attuale
   *  Una persona fa parte della popolazione se e solo se
   *       - è una persona attiva (stato = '1)
-  *       - ha una tra le seguenti posizioni in nomadelfia: postulante, effettivo, ospite, figlio
+  *       - è una persona con categoria "Persona interna"
   */
   public static function totalePopolazione(){
     $res = DB::connection('db_nomadelfia')->select(
       DB::raw("SELECT count(*) as popolazione
             FROM persone
-            INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-            INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-            WHERE persone.stato = '1' AND posizioni.abbreviato IN ('EFFE', 'POST', 'FIGL', 'OSPP')"
+            INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1'" 
      ));
      return $res[0]->popolazione;
   }
 
   /*
+  *  Ritorna il numero per persone attive per ogni categoria
+  */
+  public static function perCategorie()
+  {
+    $posizioni = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT categorie.nome, count(*) as count
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                INNER JOIN categorie ON categorie.id = persone_categorie.categoria_id
+                WHERE persone.stato = '1' AND persone_categorie.stato = '1'
+                GROUP BY categorie.nome"
+     ));
+    return $posizioni;
+  }
+
+  /*
   *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
-  *  tranne la posizione da definire (che indica una persona uscita da nomadelfia)
   */
   public static function perPosizioni()
   {
@@ -42,7 +56,7 @@ class PopolazioneNomadelfia
                 FROM persone
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE persone.stato = '1' AND posizioni.abbreviato != 'DADE'
+                WHERE persone.stato = '1' AND persone_posizioni.stato = '1'
                 group by posizioni.nome
                 ORDER BY posizioni.ordinamento"
      ));
@@ -84,7 +98,6 @@ class PopolazioneNomadelfia
     return $gruppi;
   }
 
-  
 
 
 

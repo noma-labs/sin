@@ -270,6 +270,63 @@ class Famiglia extends Model
   });
 
   }
+
+  /*
+  *  Ritorna le famiglie che hanno un errore nei loro componenti
+  *   1) ci soono più di un SINGLE nella famiglia
+  *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
+  *   3) ci sono più di una MOGLIE nella famiglia
+  * Ritonra le famiglie senza componenti
+  */
+  public static function famigliaConErrore()
+  {
+    $result = collect();
+    $famiglie = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT famiglie.id, famiglie.nome_famiglia
+              from (
+                  SELECT famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia, count(*) as count
+                  FROM famiglie_persone
+                  WHERE famiglie_persone.stato = '1'
+                  GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
+              ) AS g 
+              INNER JOIN famiglie ON famiglie.id = g.famiglia_id
+              WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
+    ));
+    $result->push( (object)["descrizione" => "Famiglie non valide", "results" => $famiglie]);
+
+    
+    $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT *
+              FROM famiglie
+              WHERE famiglie.id NOT IN (
+              SELECT famiglie_persone.famiglia_id
+                FROm famiglie_persone
+                WHERE famiglie_persone.stato = '1'
+                GROUP BY famiglie_persone.famiglia_id
+              )"
+          ));    
+    $result->push((object)["descrizione" => "Famiglie senza componenti o con nessun componente attivo", "results"=> $famiglieSenzaComponenti]);
+    return $result;
+  }
+
+  /*
+  *  Ritorna le persone Interne che non hanno una famiglia attiva.
+  *  
+  */
+  public static function personeSenzaFamiglia(){
+    $personeSenzaFam = DB::connection('db_nomadelfia')->select(
+      DB::raw("
+        SELECT persone.id, persone.nominativo
+        FROM persone
+        INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+        WHERE persone.id NOT IN (
+          SELECT famiglie_persone.persona_id
+          FROM famiglie_persone
+        )  AND persone_categorie.categoria_id = 1 and persone.stato = '1'
+        "));
+    return $personeSenzaFam;
+  }
+
 }
 
 
