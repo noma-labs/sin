@@ -14,11 +14,31 @@ use App\Anagrafe\Models\Provincia;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;
+use App\Nomadelfia\Models\PopolazioneNomadelfia;
+
+use Illuminate\Support\Facades\DB;
 
 use Validator;
 
+
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
+  // https://laracasts.com/discuss/channels/laravel/is-this-logic-correct?page=1
+
+  public function index(){
+    $perPosizioni =  PopolazioneNomadelfia::perPosizioni();
+    $totale = PopolazioneNomadelfia::totalePopolazione();
+    $gruppi = PopolazioneNomadelfia::gruppiComponenti();
+    $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
+    return view("nomadelfia.summary",compact('totale', 'perPosizioni', 'gruppi', 'posizioniFamiglia'));
+  }
+
+/*   SELECT posizioni.nome, count(*) as count
+FROM persone
+INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+WHERE persone.stato = '1'
+group by posizioni.nome */
 
   public function printPersone(){
 

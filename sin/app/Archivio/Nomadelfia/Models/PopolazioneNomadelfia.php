@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Nomadelfia\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Excpetions\StatoDoesNotExists;
+use Illuminate\Support\Facades\DB;
+
+
+/*  
+* 
+*  Static methods for obtaning statistics on the popolazione 
+*/
+class PopolazioneNomadelfia
+{
+  /*
+  *  Ritorna il totale della popolazione attuale
+  *  Una persona fa parte della popolazione se e solo se
+  *       - è una persona attiva (stato = '1)
+  *       - ha una tra le seguenti posizioni in nomadelfia: postulante, effettivo, ospite, figlio
+  */
+  public static function totalePopolazione(){
+    $res = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT count(*) as popolazione
+            FROM persone
+            INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+            INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+            WHERE persone.stato = '1' AND posizioni.abbreviato IN ('EFFE', 'POST', 'FIGL', 'OSPP')"
+     ));
+     return $res[0]->popolazione;
+  }
+
+  /*
+  *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
+  *  tranne la posizione da definire (che indica una persona uscita da nomadelfia)
+  */
+  public static function perPosizioni()
+  {
+    $posizioni = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT posizioni.nome, count(*) as count
+                FROM persone
+                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+                INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+                WHERE persone.stato = '1' AND posizioni.abbreviato != 'DADE'
+                group by posizioni.nome
+                ORDER BY posizioni.ordinamento"
+     ));
+    return $posizioni;
+  }
+
+
+   /*
+  *  Ritorna il numero di componente per ogni gruppo
+  */
+  public static function gruppiComponenti()
+  {
+    $gruppi = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT gruppi_familiari.nome,  count(*) as componenti
+      FROM gruppi_persone
+      INNER JOIN persone ON gruppi_persone.persona_id = persone.id
+      INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+      WHERE persone.stato = '1' and gruppi_persone.stato = '1'
+      GROUP by gruppi_familiari.nome
+      ORDER BY gruppi_familiari.nome"
+     ));
+    return $gruppi;
+  }
+
+
+  /*
+  *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (masche e femmine)
+  */
+  public static function posizioneFamigliaCount()
+  {
+    $gruppi = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT famiglie_persone.posizione_famiglia, persone.sesso, count(*) as count
+              FROM famiglie_persone
+              INNER JOIN persone ON famiglie_persone.persona_id = persone.id
+              INNER JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
+              WHERE persone.stato = '1'  AND famiglie_persone.stato = '1'
+              GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
+     ));
+    return $gruppi;
+  }
+
+  
+
+
+
+}

@@ -3,9 +3,6 @@
 @section('archivio')
 
 @include('partials.header', ['title' => 'Gestione Famiglie'])
-
-<!-- <a href="{{ route('nomadelfia.famiglie.create') }}" class="btn btn-success my-2">Nuova famiglia</a>  -->
-
 <div class="row">
   <div class="col-md-4">
     <div id="accordion">

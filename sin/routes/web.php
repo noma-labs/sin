@@ -58,14 +58,12 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controllers'],function(){
-  Route::view('/', 'nomadelfia.index')->name('nomadelfia');
+  //TODO: aggiungere il metodo index nel controller PopolazioneNomadelfia che calcoli
+  Route::get('/', 'PopolazioneNomadelfiaController@index')->name('nomadelfia');
  
   // PERSONA
- 
- 
   Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
   // Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.anagrafici");
-
  
   Route::get('persone/ricerca/test', 'PersoneController@search')->name("nomadelfia.persone.ricerca"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/ricerca/submit', 'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
@@ -110,9 +108,6 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persone/{idPersona}/aziende', 'PersoneController@aziende')->name("nomadelfia.persone.aziende");
   Route::post('persone/{idPersona}/aziende/assegna', 'PersoneController@assegnaAzienda')->name("nomadelfia.persone.aziende.assegna");
   Route::post('persone/{idPersona}/aziende/{id}/modifica', 'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
-
-
-
 
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
