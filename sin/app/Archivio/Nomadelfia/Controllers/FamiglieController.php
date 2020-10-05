@@ -164,7 +164,6 @@ class FamiglieController extends CoreBaseController
   }
 
   public function aggiornaComponente(Request $request, $id){ 
-    // dd($request->all());
     $validatedData = $request->validate([
       "persona_id" => "required", 
       "posizione" => "required",

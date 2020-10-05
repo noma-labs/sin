@@ -55,9 +55,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     if($elenchi->contains("personeposizioni"))
       $personeposizioni = true;
     if($elenchi->contains("famiglie"))
-      $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
+      $gruppifamiliari = GruppoFamiliare::orderBy("nome");
     if($elenchi->contains("gruppi"))
-      $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
+      $gruppifamiliari = GruppoFamiliare::orderBy("nome");
     if($elenchi->contains("aziende"))
       $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
     if($elenchi->contains("scuola"))
@@ -84,7 +84,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
     $minorenni = $this->getMinorenni();
     $minorenniCount = Persona::attivo()->minorenni()->count();
-    $gruppifamiliari = GruppoFamiliare::with("famiglie.componenti")->orderBy("nome");
+    $gruppifamiliari = GruppoFamiliare::orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
     return view("nomadelfia.elenchi.popolazionenomadelfia", compact(

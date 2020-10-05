@@ -15,6 +15,19 @@ class GruppoFamiliare extends Model
 
   protected $guarded = [''];
 
+  
+  public function capogruppi()
+  {
+    return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
+  }
+
+  public function capogruppoAttuale()
+  {
+    return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id')
+                ->wherePivot('stato', 1)
+                ->first();
+  }
+
 
   public function persone()
   {
@@ -27,19 +40,12 @@ class GruppoFamiliare extends Model
     return $this->persone()->wherePivot("stato","1");
   }
 
-  // DEPRECATED. usare il metodo byFamiglie
-  public function famiglie()
-  {
-    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
-                ->withPivot("stato")
-                ->orderby("nome_famiglia");
-  }
 
   /*
-  * Ricostrutisc le famifle del gruppo familiare partendo dalle persone presenti.
-  *
+  * Ricostrutisce le famiglie del gruppo familiare partendo dalle persone presenti.
+  * 
   */
-  public function scopebyFamiglie($query)
+  public function scopeFamiglie($query)
   {
     $famiglie = DB::connection('db_nomadelfia')->select( 
       DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
@@ -57,34 +63,32 @@ class GruppoFamiliare extends Model
     return $famiglie;
   }
 
-  
 
-
-
-  public function famiglie2()
+  /*
+  * Ritorna famiglie SINGLE del gruppo familiare partendo dalle persone presenti.
+  * Il controllo nella query (famiglie_persone.stato IS NULL) viene usato per selezionare anche le persone senza una famiglia.
+  *  
+  */
+  public function scopeSingle($query)
   {
-    return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
-                ->withPivot("stato")
-                ->orderby("nome_famiglia");
+    $single = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
+              FROM gruppi_persone 
+              LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
+              INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
+              LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+              WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
+                  AND gruppi_persone.stato = '1' 
+                  AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL) 
+                  AND (famiglie_persone.posizione_famiglia = 'SINGLE' OR famiglie_persone.stato IS NULL
+                  AND persone.stato = '1')
+              ORDER BY persone.sesso DESC, persone.data_nascita  ASC"), 
+              array('gruppo' => $this->id)
+    );
+    return $single;
   }
 
-  public function famiglieAttuale()
-  {
-    return $this->famiglie()
-                ->wherePivot("stato","1");
-  }
 
-  public function capogruppi()
-  {
-    return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id');
-  }
-
-  public function capogruppoAttuale()
-  {
-    return $this->belongsToMany(Persona::class,'gruppi_familiari_capogruppi','gruppo_familiare_id','persona_id')
-                ->wherePivot('stato', 1)
-                ->first();
-  }
 
 
   /**

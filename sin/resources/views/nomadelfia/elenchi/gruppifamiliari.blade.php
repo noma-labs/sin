@@ -5,24 +5,23 @@
             <div class="col-md-3"> 
             <p class="font-weight-bold">{{$gruppo->nome}} {{$gruppo->persone()->count()}}</p>
             @if ($gruppo->capogruppoAttuale())
-            <p class="font-weight-bold"> Capogruppo: {{$gruppo->capogruppoAttuale()->nominativo}}</p> 
+            <p> Capogruppo: <span class="font-weight-bold">{{$gruppo->capogruppoAttuale()->nominativo}}</span></p> 
             @else
             <p class="text-danger">Senza capogruppo</p> 
-        @endif
-        @foreach($gruppo->famiglie as $famiglia)
-            @if ($famiglia->single())
-            <div class="font-weight-bold"> {{$famiglia->single()->nominativo}}</div>
-            @else
-            <div class="font-weight-bold">@if ($famiglia->capofamiglia())  {{$famiglia->capofamiglia()->nominativo}} @endif</div>
-            <div class="font-weight-bold">@if ($famiglia->moglie())  {{$famiglia->moglie()->nominativo}} @endif</div>
-            <ul>
-                @foreach($famiglia->figliAttuali as $fig)
-                @if($fig)
-                <li> @year($fig->data_nascita) {{$fig->nominativo}}</li>
-                @endif
-                @endforeach
-            </ul>
             @endif
+            @foreach($gruppo->Single() as $famiglia)
+            <p class="font-weight-bold"> {{$famiglia->nominativo}}</p> 
+            @endforeach
+            @foreach($gruppo->Famiglie() as $famiglia_id => $componenti)
+                <ul class="list-unstyled">
+                    @foreach($componenti as $componente)
+                    @if(str_contains($componente->posizione_famiglia,"FIGLIO"))
+                        <li> @year($componente->data_nascita) {{$componente->nominativo}}</li>
+                    @else
+                        <li class="font-weight-bold">{{$componente->nominativo}}</li>
+                    @endif
+                    @endforeach
+                </ul>
             @endforeach
             </div>
         @endforeach

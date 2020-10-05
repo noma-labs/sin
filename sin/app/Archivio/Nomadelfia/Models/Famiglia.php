@@ -305,7 +305,21 @@ class Famiglia extends Model
                 GROUP BY famiglie_persone.famiglia_id
               )"
           ));    
+
     $result->push((object)["descrizione" => "Famiglie senza componenti o con nessun componente attivo", "results"=> $famiglieSenzaComponenti]);
+
+    $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
+      DB::raw("
+      SELECT famiglie.*
+      FROM  famiglie 
+      WHERE famiglie.id NOT IN (
+           SELECT famiglie_persone.famiglia_id
+           FROM famiglie_persone
+           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' OR famiglie_persone.posizione_famiglia = 'SINGLE')
+      )
+        "));
+    $result->push((object)["descrizione" => "Famiglie senza un CAPO FAMIGLIA", "results"=> $famiglieSenzaCapo]);
+
     return $result;
   }
 
@@ -326,6 +340,9 @@ class Famiglia extends Model
         "));
     return $personeSenzaFam;
   }
+
+
+
 
 }
 
