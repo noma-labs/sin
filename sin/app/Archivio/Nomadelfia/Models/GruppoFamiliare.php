@@ -27,12 +27,39 @@ class GruppoFamiliare extends Model
     return $this->persone()->wherePivot("stato","1");
   }
 
+  // DEPRECATED. usare il metodo byFamiglie
   public function famiglie()
   {
     return $this->belongsToMany(Famiglia::class,'gruppi_famiglie','gruppo_famigliare_id','famiglia_id')
                 ->withPivot("stato")
                 ->orderby("nome_famiglia");
   }
+
+  /*
+  * Ricostrutisc le famifle del gruppo familiare partendo dalle persone presenti.
+  *
+  */
+  public function scopebyFamiglie($query)
+  {
+    $famiglie = DB::connection('db_nomadelfia')->select( 
+      DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
+      FROM gruppi_persone 
+      LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
+      INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
+      LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+      WHERE gruppi_persone.gruppo_famigliare_id = :gruppo 
+          AND gruppi_persone.stato = '1' 
+          AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
+          AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
+          AND persone.stato = '1'
+      ORDER BY  persone.data_nascita ASC"), array('gruppo' => $this->id));
+    $famiglie = collect($famiglie)->groupBy('famiglia_id');
+    return $famiglie;
+  }
+
+  
+
+
 
   public function famiglie2()
   {

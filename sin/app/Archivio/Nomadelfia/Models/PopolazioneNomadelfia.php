@@ -25,7 +25,7 @@ class PopolazioneNomadelfia
       DB::raw("SELECT count(*) as popolazione
             FROM persone
             INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1'" 
+            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'" 
      ));
      return $res[0]->popolazione;
   }

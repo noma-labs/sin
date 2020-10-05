@@ -35,12 +35,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     return view("nomadelfia.summary",compact('totale','perCategoria','perPosizioni', 'gruppi', 'posizioniFamiglia'));
   }
 
-/*   SELECT posizioni.nome, count(*) as count
-FROM persone
-INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-WHERE persone.stato = '1'
-group by posizioni.nome */
 
   public function printPersone(){
 

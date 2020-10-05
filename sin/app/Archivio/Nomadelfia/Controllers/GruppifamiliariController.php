@@ -45,7 +45,8 @@ class GruppifamiliariController extends CoreBaseController
     );
 
 
-    $famiglie = DB::connection('db_nomadelfia')->select( 
+    $famiglie = $gruppo::byFamiglie();
+     /*DB::connection('db_nomadelfia')->select( 
                 DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
                 FROM gruppi_persone 
                 LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
@@ -59,6 +60,7 @@ class GruppifamiliariController extends CoreBaseController
                 ORDER BY  persone.data_nascita ASC"), array('gruppo' => $id));
    
     $famiglie = collect($famiglie)->groupBy('famiglia_id');
+    */
 
     return view("nomadelfia.gruppifamiliari.edit",compact('gruppo','countPosizioniFamiglia', "single", "famiglie"));
 
