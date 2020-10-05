@@ -23,22 +23,13 @@ use Validator;
 
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
-  // https://laracasts.com/discuss/channels/laravel/is-this-logic-correct?page=1
-
   public function index(){
     $perPosizioni =  PopolazioneNomadelfia::perPosizioni();
     $perCategoria =  PopolazioneNomadelfia::perCategorie();
     $totale = PopolazioneNomadelfia::totalePopolazione();
     $gruppi = PopolazioneNomadelfia::gruppiComponenti();
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-
     return view("nomadelfia.summary",compact('totale','perCategoria','perPosizioni', 'gruppi', 'posizioniFamiglia'));
-  }
-
-
-  public function printPersone(){
-
-
   }
   
   public function print(Request $request){
@@ -80,15 +71,15 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   }
 
   public function preview(){
-    $maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
-    $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
+    $maggiorenniUomini= PopolazioneNomadelfia::MaggiorenniUomini(); //attivo()->maggiorenni()->orderBy("nominativo");
+    $maggiorenniDonne = PopolazioneNomadelfia::MaggiorenniDonne();
     $minorenni = $this->getMinorenni();
     $minorenniCount = Persona::attivo()->minorenni()->count();
     $gruppifamiliari = GruppoFamiliare::orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
     return view("nomadelfia.elenchi.popolazionenomadelfia", compact(
-                                            "maggiorenni",
+                                            "maggiorenniUomini",
                                             "maggiorenniDonne",
                                             "minorenni",
                                             "minorenniCount",

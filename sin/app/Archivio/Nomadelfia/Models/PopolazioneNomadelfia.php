@@ -63,9 +63,8 @@ class PopolazioneNomadelfia
     return $posizioni;
   }
 
-
-   /*
-  *  Ritorna il numero di componente per ogni gruppo
+  /*
+  *  Ritorna il numero di persone maggiorenni e minorenni divisi per eta per ogni gruppo
   */
   public static function gruppiComponenti()
   {
@@ -80,6 +79,62 @@ class PopolazioneNomadelfia
      ));
     return $gruppi;
   }
+
+
+   /*
+  *  Ritorna i maggiorenni donna
+  */
+  public static function MaggiorenniDonne()
+  {
+    $magg = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT *
+              FROM persone
+              INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+              WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                  AND persone.sesso = 'F'
+                  ORDER BY nominativo
+                  " 
+
+        ));
+    return $magg;
+  }
+
+  /*
+  *  Ritorna i maggiorenni uomini
+  */
+  public static function MaggiorenniUomini()
+  {
+    $magg = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT *
+              FROM persone
+              INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+              WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                  AND persone.sesso = 'M'
+                  ORDER BY nominativo" 
+        ));
+    return $magg;
+  }
+
+   /*
+  *  Ritorna il numero di componente per ogni gruppo
+  */
+  public static function Minorenni()
+  {
+    $magg = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT *
+              FROM persone
+              INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+              WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                  AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                  ORDER BY nominativo
+                  " 
+
+        ));
+    return $magg;
+  }
+
 
 
   /*
