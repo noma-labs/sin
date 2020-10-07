@@ -40,6 +40,27 @@ class GruppoFamiliare extends Model
     return $this->persone()->wherePivot("stato","1");
   }
 
+  /*
+  * Ritorna il numero di componenti per ogni gruppi familiare
+  * Le persone sono contate nel gruppo se:
+  *       - è una persona attiva
+  *       - è una persone con categoria diversa da "persona esterna"
+  *       - 
+  */
+  public static function countComponenti()
+  {
+    $gruppi = DB::connection('db_nomadelfia')->select( 
+      DB::raw("
+          SELECT  gruppi_familiari.id, max(gruppi_familiari.nome) as nome,count(*) as count
+          FROM gruppi_familiari
+          INNER JOIN gruppi_persone ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+          INNER JOIN persone ON gruppi_persone.persona_id = persone.id
+          INNER JOIN persone_categorie ON persone_categorie.persona_id = gruppi_persone.persona_id
+          WHERE gruppi_persone.stato = '1' AND persone_categorie.categoria_id != 4 AND gruppi_persone.stato = '1'
+          GROUP BY gruppi_familiari.id
+          order by gruppi_familiari.nome"));
+    return $gruppi;
+  }
 
   /*
   * Ricostrutisce le famiglie del gruppo familiare partendo dalle persone presenti.
@@ -98,6 +119,7 @@ class GruppoFamiliare extends Model
    * 
    *  @author Davide Neri                                               
    */
+  
   public function scopeCountPosizioniFamiglia($query, $gruppoId){
     return  $query->join('gruppi_famiglie', 'gruppi_famiglie.gruppo_famigliare_id', '=', 'gruppi_familiari.id')
                   ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'gruppi_famiglie.famiglia_id')
@@ -107,6 +129,7 @@ class GruppoFamiliare extends Model
                   ->where("famiglie_persone.stato",'1')
                   ->groupBy("gruppi_famiglie.gruppo_famigliare_id","famiglie_persone.posizione_famiglia");
   }
+  
 
   public function scopePersoneConFamiglia($query, $gruppoid){
       return self::find($gruppoid)->personeAttuale()->with(["famiglie"=>function($query){$query->where("stato","1"); }]);

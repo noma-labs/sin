@@ -34,12 +34,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-sm-6 font-weight-bold">Numero persone per posizione:</label>
+                        <label class="col-sm-6 font-weight-bold">Donne/uomini/bambini</label>
                         <div class="col-sm-6">
-                        @foreach($countPosizioniFamiglia as $posizione)
-                            <span class="text-lowercase">{{$posizione->posizione_famiglia}}</span>
-                            <span class="badge badge-info"> {{$posizione->total}}</span>
-                        @endforeach
+                        
                         </div>
                     </div>
                 </div> <!--end col dati statistici -->

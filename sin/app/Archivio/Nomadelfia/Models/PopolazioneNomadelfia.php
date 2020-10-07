@@ -123,14 +123,12 @@ class PopolazioneNomadelfia
   public static function Minorenni()
   {
     $magg = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT *
+      DB::raw("SELECT *, YEAR(persone.data_nascita) as anno
               FROM persone
               INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
               WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
                   AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
-                  ORDER BY nominativo
-                  " 
-
+                  ORDER BY data_nascita"
         ));
     return $magg;
   }

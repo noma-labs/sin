@@ -73,8 +73,11 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   public function preview(){
     $maggiorenniUomini= PopolazioneNomadelfia::MaggiorenniUomini(); //attivo()->maggiorenni()->orderBy("nominativo");
     $maggiorenniDonne = PopolazioneNomadelfia::MaggiorenniDonne();
-    $minorenni = $this->getMinorenni();
-    $minorenniCount = Persona::attivo()->minorenni()->count();
+    $minorenni = PopolazioneNomadelfia::Minorenni();
+    $minorenni = collect($minorenni)->groupby(['anno', function($item){
+                                                        return $item->sesso;
+                                            }]);
+    $minorenniCount = 0; // Persona::attivo()->minorenni()->count();
     $gruppifamiliari = GruppoFamiliare::orderBy("nome");
     $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
