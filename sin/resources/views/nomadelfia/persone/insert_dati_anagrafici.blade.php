@@ -62,8 +62,7 @@
       </fieldset>
       <div class="row my-2">
         <div class="col-auto">
-          <!-- <button class="btn btn-warning " name="_addanother" value="true" type="submit">Salva e aggiungi un'altro </button> -->
-          <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva e aggiungi famiglia</button> 
+          <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva</button> 
         </div>
       </div>
     </form>

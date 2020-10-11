@@ -9,25 +9,11 @@
   <form method="POST" action="{{route('nomadelfia.persone.inserimento.initial')}}">
     {{ csrf_field() }}
     <div class="row">
-    <div class="col-md-6">
-       <label for="forpersona">Persona</label>
-        <input  class="form-control" id="forpersona" name="persona" value="{{ old('persona') }}" placeholder="---Inserisci Nominativo o Nome o Cognome---">
-     </div>
-    <!-- <div class="col-md-4">
-       <label for="fornominativo">Nominativo</label>
-        <input  class="form-control" id="fornominativo" name="nominativo" value="{{ old('nominativo') }}" placeholder="---Inserisci Nominativo---">
-     </div>
-     <div class="col-md-4">
-       <label for="fornome">Nome</label>
-        <input  class="form-control" id="fornome" name="nome" value="{{ old('nome') }}" placeholder="---Inserisci Nome---">
-     </div>
-     <div class="col-md-4">
-       <label for="fornome">Cognome</label>
-        <input  class="form-control" id="fornome" name="cognome" value="{{ old('cognome') }}" placeholder="---Inserisci Cognome---">
-     </div>
-    </div> -->
       <div class="col-md-6">
-        <button class="btn btn-success mt-2" type="submit">Cerca persone</button>
+          <input  class="form-control" id="forpersona" name="persona" value="{{ old('persona') }}" placeholder="---Inserisci Nominativo o Nome o Cognome---">
+      </div>
+      <div class="col-md-6">
+          <button class="btn btn-success mt-2" type="submit">Cerca persone</button>
       </div>
   </form>
   </div>

@@ -213,7 +213,6 @@ class PersoneController extends CoreBaseController
       "data_nascita" => "required|date",
       "luogo_nascita" => "required",
       "sesso" => "required",
-      // "categoria_id" => "required"
     ],[
       "nominativo.required" => "Il nominativo è obbligatorio", 
       'nominativo.unique'=>"IL nominativo inserito esiste già.",
@@ -222,7 +221,6 @@ class PersoneController extends CoreBaseController
       "data_nascita.required" => "La data di nascita è obbligatoria",
       "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
       "sesso.required" => "Il sesso della persona è obbligatorio",
-      // "categoria_id.required" => "La categoria della persona è obbligatoria",
     ]);
     $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
                               'sesso'=>$request->input('sesso'),
@@ -230,13 +228,13 @@ class PersoneController extends CoreBaseController
                               "cognome"=>$request->input('cognome'),
                               "provincia_nascita"=>$request->input('luogo_nascita'),
                               'data_nascita'=>$request->input('data_nascita'),
+                              // TODO: delete this column because the categoria is a many to many relationship in to the persone_categoria table
                               'categoria_id' =>$request->input('categoria_id'),
                               'id_arch_pietro'=>0,
                               'id_arch_enrico'=>0,]
                             );
     if($persona->save())
-    return redirect(route('nomadelfia.persone.inserimento.famiglia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
-      // return redirect(route('nomadelfia.persone.inserimento.datinomadelfia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+      return redirect(route('nomadelfia.persone.dettaglio',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     else
       return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
   }
