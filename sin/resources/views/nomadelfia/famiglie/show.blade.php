@@ -48,74 +48,32 @@
           <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
             <div class="card-body">
                 @if(count($gruppoAttuale) === 1)
-                <div class="row">
-                    <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
-                    <div class="col-sm-6 font-weight-bold">Data entrata   </div>
-                  </div>
-                
                   <div class="row">
-                    <div class="col-sm-6">
-                       {{$gruppoAttuale[0]->nome}}
+                      <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
+                      <div class="col-sm-6 font-weight-bold">Data entrata   </div>
                     </div>
-                    <div class="col-sm-6">
-                      <span> {{$gruppoAttuale[0]->data_entrata_gruppo}}</span>
-                    </div>
-                  </div>
-              @elseif (count($gruppoAttuale) > 1)
-               <p class="text-danger">La famiglia ha multipli gruppi attivi: </p>
-               <p>
-                  @foreach  ($gruppoAttuale as $gruppo)
-                  {{$gruppo->nome}},
-                  @endforeach
-               </p>
-      
-              @else
-               <p class="text-danger">Nessun gruppo familiare associato</p>
-              @endif
-               
-                <!-- <div class="col-md-4"> -->
-                    <my-modal modal-title="Sposta Famiglia in un nuovo gruppo familiare" button-style="btn-success my-2" button-title="Assegna nuovo gruppo">
-                      <template slot="modal-body-slot">
-                        <form class="form" method="POST" id="formGruppo" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia->id]) }}" >      
-                          {{ csrf_field() }}
-                          <div class="form-group row">
-                            <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>
-                              <div class="col-8">
-                                <select class="form-control" name="nuovo_gruppo_id">
-                                <option value="" selected>---scegli gruppo---</option>
-                                  @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
-                                      <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
-                                    @endforeach
-                              </select>
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="example-text-input" class="col-4 col-form-label">Data cambio gruppo:</label>
-                              <div class="col-8">
-                                <date-picker :bootstrap-styling="true" value="{{ old('datacambiogruppo') }}" format="yyyy-MM-dd" name="data_cambiogruppo"></date-picker>
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                            <div class="col">
-                            <div class="text-justify"> Le seguenti persone saranno spostate nel gruppo familiare selezionato:</p>
-                                <ul >
-                                  @foreach($famiglia->componentiAttuali as $componente)
-                                    <li>{{$componente->nominativo}}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                          </div>
-                          </div>
-                        </form>
-                      </template> 
-                      <template slot="modal-button">
-                            <button class="btn btn-success" form="formGruppo">Salva</button>
-                      </template>
-                    </my-modal>
-                 <!-- </div>   end col-md-3 formodal-->
                   
-                <!-- </div>  -->
-              </div> <!--  end card body -->
+                    <div class="row">
+                      <div class="col-sm-6">
+                        {{$gruppoAttuale[0]->nome}}
+                      </div>
+                      <div class="col-sm-6">
+                        <span> {{$gruppoAttuale[0]->data_entrata_gruppo}}</span>
+                        @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia->id, 'componenti'=>$componenti, "gruppo_id"=>$gruppoAttuale[0]->id])
+                      </div>
+                    </div>
+                @elseif (count($gruppoAttuale) > 1)
+                <p class="text-danger">La famiglia ha multipli gruppi attivi: </p>
+                <p>
+                    @foreach  ($gruppoAttuale as $gruppo)
+                    {{$gruppo->nome}},
+                    @endforeach
+                </p>
+        
+                @else
+                <p class="text-danger">Nessun gruppo familiare associato</p>
+                @endif
+            </div> <!--  end card body -->
             </div>  <!--  end collapse -->
           </div>  <!--  end card -->
         </div> <!--  end colum -->

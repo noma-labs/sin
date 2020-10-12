@@ -66,7 +66,7 @@ class GruppoFamiliare extends Model
   * Ricostrutisce le famiglie del gruppo familiare partendo dalle persone presenti.
   * 
   */
-  public function scopeFamiglie($query)
+  public function Famiglie()
   {
     $famiglie = DB::connection('db_nomadelfia')->select( 
       DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
@@ -90,7 +90,7 @@ class GruppoFamiliare extends Model
   * Il controllo nella query (famiglie_persone.stato IS NULL) viene usato per selezionare anche le persone senza una famiglia.
   *  
   */
-  public function scopeSingle($query)
+  public function Single()
   {
     $single = DB::connection('db_nomadelfia')->select(
       DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 

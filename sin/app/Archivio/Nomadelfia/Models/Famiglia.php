@@ -320,6 +320,20 @@ class Famiglia extends Model
         "));
     $result->push((object)["descrizione" => "Famiglie senza un CAPO FAMIGLIA", "results"=> $famiglieSenzaCapo]);
 
+    $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT *
+              from famiglie
+              WHERE famiglie.id IN (
+                SELECT famiglie_persone.famiglia_id
+                FROM famiglie_persone
+                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+                INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')  and gruppi_persone.stato = '1'
+                GROUP BY famiglie_persone.famiglia_id
+                HAVING count(*) > 1
+              )"));
+    $result->push((object)["descrizione" => "Famiglie assegnate in più di un grupo familiare", "results"=> $famiglieConPiuGruppi]);
+
     return $result;
   }
 

@@ -56,33 +56,37 @@
                     @foreach($single as $famiglia_single)
                     <li class="list-group-item">
                         <div class="row">
+                            @if ($famiglia_single->famiglia_id === "")
+                                <p class="text-danger">Persone senza famiglia </p>
+                            @else
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
-                                    @if ($famiglia_single->famiglia_id === "")
-                                    <p class="text-danger">Persone senza famiglia </p>
-                                    @else
                                         <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_single->famiglia_id])}}"> 
                                                 {{$famiglia_single->nominativo}}
                                         </a>
-                                    @endif
                                 </div> 
                             </div>
+                            <div class="col-md-4 offset-md-2">
+                                    @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia_single->famiglia_id, 'componenti'=>[], "gruppo_id"=>$gruppo->id])
+                            </div>
+                            @endif
                         </div>
+                        
                     </li>
                     @endforeach
                     @foreach($famiglie as $famiglia_id => $componenti)
                     <li class="list-group-item">
                             <div class="row">
-                                <div class="col-md-10">
+                                @if ($famiglia_id === "")
+                                    <p class="text-danger">Persone senza famiglia </p>
+                                @else
+                                <div class="col-md-6">
                                     <div class="font-weight-bold mt-2">
-                                         @if ($famiglia_id === "")
-                                             <p class="text-danger">Persone senza famiglia </p>
-                                        @else
                                          Fam. 
                                          <a href="{{route('nomadelfia.famiglia.dettaglio',['idFamiglia'=>$famiglia_id])}}"> 
                                                 {{App\Nomadelfia\Models\Famiglia::find($famiglia_id)->nome_famiglia}} 
                                          </a>({{count($componenti)}})
-                                        @endif
+                                       
                                     </div> 
                                     <ul>
                                     @foreach($componenti as $componente)
@@ -93,7 +97,11 @@
                                     @endforeach
                                     </ul>
                                 </div>
+                                <div class="col-md-4 offset-md-2">
+                                    @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia_id, 'componenti'=>$componenti, "gruppo_id"=>$gruppo->id])
+                                </div>
                             </div>
+                            @endif
                         </li>
                     @endforeach
                 <ul>

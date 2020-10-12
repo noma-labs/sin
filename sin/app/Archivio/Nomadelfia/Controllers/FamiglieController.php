@@ -33,7 +33,7 @@ class FamiglieController extends CoreBaseController
   }
 
   /**
-  * Ritorna la view di gestione din una singola famiglia
+  * Ritorna la view di gestione una una singola famiglia
   * @author Davide Neri
   **/
   public function show(Request $request, $id){ 
@@ -53,8 +53,8 @@ class FamiglieController extends CoreBaseController
     return view('nomadelfia.famiglie.create');
   }
 
-   /**
-  * Aggiorna ilnome e la data di creazione della famiglia
+  /**
+  * Aggiorna il nome e la data di creazione della famiglia
   *
   * @author Davide Neri
   **/
@@ -109,12 +109,12 @@ class FamiglieController extends CoreBaseController
   *
   * @author Davide Neri
   **/
-  public function assegnaGruppoFamiliare(Request $request, $id){ 
+  public function assegnaGruppoFamiliare(Request $request, $id, $currentGruppo){ 
     $validatedData = $request->validate([
       "nuovo_gruppo_id" => "required", 
       "data_cambiogruppo" => "required|date",
     ],[
-      "nuovo_gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
+      "nuovo_gruppo_id.required" => "Il nuovo gruppo dove spostare la famiglia è obbligatorio", 
       'data_cambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
   ]);
     $famiglia = Famiglia::findorfail($id);
@@ -128,6 +128,7 @@ class FamiglieController extends CoreBaseController
     }
     
   }
+
 
   public function assegnaComponente(Request $request, $id){ 
     $validatedData = $request->validate([
