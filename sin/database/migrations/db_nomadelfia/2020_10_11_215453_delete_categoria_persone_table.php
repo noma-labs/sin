@@ -14,7 +14,7 @@ class DeleteCategoriaPersoneTable extends Migration
     public function up()
     {
         Schema::table('persone', function (Blueprint $table) {
-            $table->dropColumn('categoria_id');
+            //$table->dropColumn('categoria_id');
         });
     }
 
@@ -26,7 +26,7 @@ class DeleteCategoriaPersoneTable extends Migration
     public function down()
     {
         Schema::table('persone', function (Blueprint $table) {
-            $table->integer('categoria_id');
+           // $table->integer('categoria_id');
         });
     }
 }

@@ -526,22 +526,14 @@ class PersoneController extends CoreBaseController
   }
 
   /**
-   * Ritorna la view per la modifica del gruppo familiare
+   * Ritorna la view per la modifica del gruppo familiare di una persona
    * 
    * @author Davide Neri
    */
   public function gruppoFamiliare($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    $gruppo_attuale = $persona->gruppofamiliareAttuale();
-    if (count($gruppo_attuale) == 1){
-      $gruppo_attuale = $gruppo_attuale[0];
-      return view("nomadelfia.persone.gruppofamiliare.show",compact('persona', 'gruppo_attuale'));
-    }
-    else{
-      dd("eeor, multiple ");
-    }
-
-  
+    $gruppi = $persona->gruppofamiliareAttuale();
+    return view("nomadelfia.persone.gruppofamiliare.show",compact('persona', 'gruppi'));
   }
 
    /**
@@ -573,16 +565,18 @@ class PersoneController extends CoreBaseController
 
   public function modificaGruppofamiliare(Request $request, $idPersona, $id){
     $validatedData = $request->validate([
-      "data_uscita" => "date", 
+      "data_uscita" => "required|date", 
       "data_entrata" => "required|date",
       "stato" =>"required"
     ],[
-      "data_uscita.date" => "La data fine posizione dee essere una data valida", 
-      'data_entrata.required'=>"La data di inizio della posizione è obbligatoria.",
+      "data_uscita.date" => "La data fine posizione deve essere una data valida", 
+      'data_entrata.required'=>"La data di inizio dal gruppo è obbligatoria.",
+      'data_uscita.required'=>"La data di uscita dal gruppo è obbligatoria.",
       'stato.required'=>"Lo stato attuale è obbligatorio.",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->gruppifamiliari()->updateExistingPivot($id, ['data_uscita_gruppo'=>$request->data_uscita, 'data_entrata_gruppo'=>$request->data_entrata, "stato"=>$request->stato]);
+    $persona->updateGruppoFamiliare($id, $request->stato,$request->data_entrata,  $request->data_uscita);
+
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
   }
   

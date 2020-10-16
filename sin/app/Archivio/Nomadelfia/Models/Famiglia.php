@@ -92,7 +92,8 @@ class Famiglia extends Model
       FROM famiglie_persone
       INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1'"),
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+           and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1' and famiglie_persone.stato = '1'"),
       array("famiglia_id"=> $this->id)
     );  
    return $res;
@@ -110,7 +111,8 @@ class Famiglia extends Model
       FROM famiglie_persone
       INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE') and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+       and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
       array("famiglia_id"=> $this->id)
     );  
    return $res;
@@ -328,7 +330,7 @@ class Famiglia extends Model
                 FROM famiglie_persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
                 INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-                WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')  and gruppi_persone.stato = '1'
+                WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
                 GROUP BY famiglie_persone.famiglia_id
                 HAVING count(*) > 1
               )"));

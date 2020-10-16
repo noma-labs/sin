@@ -129,6 +129,16 @@ class Persona extends Model
     return $this->gruppifamiliari()
                 ->wherePivot('stato', '0');
   }
+
+  public function updateGruppoFamiliare($gruppo_id, $stato, $datain, $dataout){
+    $res = DB::connection('db_nomadelfia')->update( 
+      DB::raw("UPDATE gruppi_persone
+               SET stato = :stato, data_uscita_gruppo = :dataout
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain"),
+               array('persona' => $this->id, "gruppo"=> $gruppo_id, "datain"=>$datain, "dataout"=>$dataout, "stato"=>$stato)
+      );
+    return $res;
+  }
  
   // AZIENDE
   public function aziende(){
