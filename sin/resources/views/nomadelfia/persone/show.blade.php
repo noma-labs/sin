@@ -4,41 +4,6 @@
 
 @include('partials.header', ['title' => $persona->nome." ". $persona->cognome])
 
-<div class="container">
-
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <h5 class="col-md-4"> Stato:</h5> 
-          <div class="col-md-4">
-          <h5>
-              @if($persona->stato =="1")
-                <span class="badge badge-success">Attivo</span>
-              @else
-               <span class="badge badge-danger">Disattivo</span>
-               <input type="checkbox" checked data-toggle="toggle">
-              @endif
-              </h5>
-          </div>
-          <div class="col-md-3">
-          <form class="form" method="POST"  id="formPersonaStatus" action="{{ route('nomadelfia.persone.status.modifica', ['idPersona' =>$persona->id]) }}" >      
-            {{ csrf_field() }}
-            @if($persona->stato =="1")
-              <button class="btn btn-danger" name="stato" type="submit" value="0"  form="formPersonaStatus">Disattiva</button>
-            @else
-              <button class="btn btn-success my-2" name="stato" type="submit" value="1" form="formPersonaStatus">Attiva</button>
-            @endif
-          </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
 <div class="row my-3">
 <div class="col-md-4 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">

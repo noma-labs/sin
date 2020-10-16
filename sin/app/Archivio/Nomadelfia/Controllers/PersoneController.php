@@ -580,29 +580,10 @@ class PersoneController extends CoreBaseController
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
   }
   
-
-  // public function modificaGruppoFamiliare(Request $request, $idPersona){ 
-  //   $validatedData = $request->validate([
-  //     "nuovogruppo" => "required", 
-  //     "datacambiogruppo" => "required|date",
-  //   ],[
-  //     "nuovogruppo.required" => "Il nuovo gruppo è obbligatorio", 
-  //     'datacambiogruppo.required'=>"La data del cambio di gruppo è obbligatoria.",
-  // ]);
-  //   $persona = Persona::findOrFail($idPersona);
-     
-  //   $data = $request->datacambiogruppo;
-  //   $idnuovogruppo =  $request->nuovogruppo;
-  //   $persona->cambiaGruppoFamiliare($persona->gruppofamiliareAttuale()->id, $data, $idnuovogruppo, $data);
-  //    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Spostamento in un gruppo familiare eseguito con successo");
-  // }
-
-
   public function aziende(Request $request, $idPersona){
     $persona = Persona::findOrFail($idPersona);
     return view("nomadelfia.persone.aziende.show",compact('persona'));
   } 
-
 
 
   /**
