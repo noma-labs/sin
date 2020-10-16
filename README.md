@@ -118,6 +118,7 @@ php artisan db:seed
 - `composer install`
 
 - `php artisan  migrate --path="database/migrations/auth"`
+- `php artisan migrate --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 
 - `composer dump-autoload`
 
