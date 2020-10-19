@@ -78,22 +78,12 @@
           @empty
            <p class="text-danger">Nessun gruppo familiare</p>
           @endforelse
+
           <my-modal modal-title="Aggiungi Gruppo Familiare" button-title="Nuovo Gruppo" button-style="btn-success my-2">
             <template slot="modal-body-slot">
             <form class="form" method="POST"  id="formPersonaGruppo" action="{{ route('nomadelfia.persone.gruppo.assegna', ['idPersona' =>$persona->id]) }}" >      
                 {{ csrf_field() }}
-
-                @if($gruppo)
-                <h5 class="my-2">Completa dati del gruppo attuale:  {{$gruppo->nome}}</h5>
-                <div class="form-group row">
-                  <label for="inputPassword" class="col-sm-6 col-form-label">Data uscita gruppo familiare</label>
-                  <div class="col-sm-6">
-                    <date-picker :bootstrap-styling="true" value="{{ old('data_uscita') }}" format="yyyy-MM-dd"name="data_uscita"></date-picker>
-                    <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di entrata nel nuovo gruppo familiare.</small>
-                  </div>
-                </div>
-                <hr>
-                @endif
+             
                 <h5 class="my-2">Nuovo gruppo familiare</h5>
                 <div class="form-group row">
                   <label for="staticEmail" class="col-sm-6 col-form-label">Gruppo familiare</label>
@@ -101,9 +91,7 @@
                     <select name="gruppo_id" class="form-control">
                         <option selected>---seleziona gruppo ---</option>
                         @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofam)
-                        @if(!$gruppofam->is($gruppo))
                           <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
-                          @endif
                         @endforeach
                     </select>
                   </div>

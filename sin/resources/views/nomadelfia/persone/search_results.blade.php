@@ -18,8 +18,8 @@
   <table class="table table-hover table-bordered"  style="table-layout:auto;overflow-x:scroll;">
     <thead class="thead-inverse">
       <tr>
+        <th>Nominativo</th>
         <th>Nome</th>
-        <th>Cognome</th>
         <th>Cognome</th>
         <th>Data Nascita</th>
         <th>Operazioni</th>

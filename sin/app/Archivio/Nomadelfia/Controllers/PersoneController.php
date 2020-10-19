@@ -22,6 +22,11 @@ use Validator;
 class PersoneController extends CoreBaseController
 {
 
+  public function index(){
+    
+    return view("nomadelfia.persone.index");
+  }
+
 
   public function show($idPersona){
     $persona = Persona::findOrFail($idPersona);
@@ -533,7 +538,7 @@ class PersoneController extends CoreBaseController
   public function gruppoFamiliare($idPersona){
     $persona = Persona::findOrFail($idPersona);
     $gruppi = $persona->gruppofamiliareAttuale();
-    return view("nomadelfia.persone.gruppofamiliare.show",compact('persona', 'gruppi'));
+    return view("nomadelfia.persone.gruppofamiliare.show", compact('persona', 'gruppi'));
   }
 
    /**
@@ -544,33 +549,29 @@ class PersoneController extends CoreBaseController
   public function assegnaGruppofamiliare(Request $request, $idPersona){ 
     $validatedData = $request->validate([
       "gruppo_id" => "required", 
-      // "data_uscita" => "required|date",
       "data_entrata" => "required|date",
     ],[
       "gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
       'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
-      // 'data_uscita.required'=>"La data di uscita nel gruppo familiare è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
-    $gruppo_attuale = $persona->gruppofamiliareAttuale();
-    if(count($gruppo_attuale) == 1){ // se ha già uno stato attuale aggiorna lo stato attuale
-      $persona->gruppifamiliari()->updateExistingPivot($gruppo_attuale[0]->id, ['stato'=>'0', 'data_uscita_gruppo'=>($request->data_uscita ? $request->data_uscita: $request->data_entrata)]);
-      $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
+    $res = $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
+    if ($res){ // se ha già uno stato attuale aggiorna lo stato attuale
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Error ad assegnare $persona->nominativo  al gruppo familiare.");
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. La persona ha più di un gruppo attivo. LAsciara ad assegnare $persona->nominativo  al gruppo familiare.");
     }
   
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
+  
   }
 
   public function modificaGruppofamiliare(Request $request, $idPersona, $id){
     $validatedData = $request->validate([
-      "data_uscita" => "required|date", 
+      "data_uscita" => "date", 
       "data_entrata" => "required|date",
       "stato" =>"required"
     ],[
       "data_uscita.date" => "La data fine posizione deve essere una data valida", 
-      'data_entrata.required'=>"La data di inizio dal gruppo è obbligatoria.",
       'data_uscita.required'=>"La data di uscita dal gruppo è obbligatoria.",
       'stato.required'=>"Lo stato attuale è obbligatorio.",
     ]);

@@ -27,7 +27,7 @@
           </ul>
       </div>
       <div class="card-footer">
-       <a href="{{ route('nomadelfia.persone.ricerca') }}" class=" text-center  btn btn-primary">Entra</a> 
+       <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
       </div>
     </div>
 

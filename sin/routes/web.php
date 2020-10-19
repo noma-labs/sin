@@ -62,6 +62,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('/', 'PopolazioneNomadelfiaController@index')->name('nomadelfia');
  
   // PERSONA
+  Route::get('persone', 'PersoneController@index')->name('nomadelfia.persone');
   Route::get('persone/inserimento/', 'PersoneController@insertView')->name("nomadelfia.persone.inserimento");
   // Route::get('persone/inserimento/completo', 'PersoneController@insertCompletoView')->name("nomadelfia.persone.inserimento.anagrafici");
  
