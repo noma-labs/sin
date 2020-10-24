@@ -2,6 +2,7 @@
 namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 Use Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,7 @@ class Persona extends Model
 {
 
   use SortableTrait;
+  use SoftDeletes;
 
 
   protected $connection = 'db_nomadelfia';
@@ -183,7 +185,6 @@ class Persona extends Model
                 array( 'persona'=> $persona_id, 'gruppo' => $gruppo_id_new, 'datain'=> $datain_new)
         );
     });
-    return $true;
   }
  
   // AZIENDE

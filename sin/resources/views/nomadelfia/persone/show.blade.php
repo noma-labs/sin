@@ -4,6 +4,7 @@
 
 @include('partials.header', ['title' => $persona->nome." ". $persona->cognome])
 
+
 <div class="row my-3">
  <div class="col-md-3 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">
@@ -62,6 +63,20 @@
           <!-- <div class="row"> -->
             <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
           <!-- </div> -->
+
+                  
+        <my-modal modal-title="Rimuovi persona " button-title="Elimina Persona" button-style="btn-danger my-2">
+            <template slot="modal-body-slot">
+                <form class="form" method="POST"  id="formEliminaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.rimuovi', ['idPersona' =>$persona->id]) }}" >      
+                    @csrf
+                    @method('delete')
+                    <body> Vuoi davvero eliminare {{$persona->nominativo}} ? </body>
+                </form>
+            </template> 
+            <template slot="modal-button">
+                <button class="btn btn-danger" form="formEliminaPersona{{$persona->id}}" >Elimina</button>
+            </template> 
+        </my-modal> 
         </div>
       </div>
     </div>
