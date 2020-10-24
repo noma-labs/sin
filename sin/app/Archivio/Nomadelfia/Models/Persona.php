@@ -319,7 +319,29 @@ class Persona extends Model
   public function posizioniStorico(){
     return $this->posizioni()
                 ->wherePivot('stato', '0');
+                //->withPivot('posizione_famiglia','data_entrata', "data_uscita");
   }
+
+  public function modificaDataInizioPosizione($posizione_id, $currentDatain, $newDataIn){
+    $res = DB::connection('db_nomadelfia')->update( 
+      DB::raw("UPDATE persone_posizioni
+               SET  data_inizio = :new
+               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current"),
+               array("posizone"=> $posizione_id, 'persona' => $this->id, "current"=>$currentDatain,  "new"=>$newDataIn)
+      );
+    return $res;
+  }
+
+  public function concludiPosizione($posizione_id, $datain, $datafine){
+    $res = DB::connection('db_nomadelfia')->update( 
+      DB::raw("UPDATE persone_posizioni
+               SET stato = '0', data_fine = :dataout
+               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :datain"),
+               array( "posizone"=> $posizione_id, 'persona' => $this->id,"datain"=>$datain, "dataout"=>$datafine)
+      );
+    return $res;
+  }
+
  
    /**
    * Ritorna le posizioni assegnabili ad una persona.
@@ -382,28 +404,4 @@ class Persona extends Model
     }
   }
 
-   /**
-     * Associa il gruppo familiare alla persone uguale a quello della sua famiglia.
-     *
-     * @param int|null $gruppoFamiliareAttuale
-     * @param date   $dataUscitaGruppoFamiliareAttuale
-     * @param int $gruppoFamiliareNuovo
-     * @param date $dataEntrataGruppo
-     *
-     */
-  public function syncGruppoFamiliarePersonaWithFamiglia(){
-    if(self::famigliaAttuale()){
-        $gruppoDellaFamiglia = self::famigliaAttuale()->gruppofamiliareAttuale();
-        $gruppoPersona = self::gruppofamiliareAttuale();
-        if($gruppoPersona == null and $gruppoDellaFamiglia == null)
-          return false; //TODO thrwo exception
-        if($gruppoPersona == null and $gruppoDellaFamiglia != null)
-           self::gruppifamiliari()->save($gruppoDellaFamiglia,['data_entrata_gruppo'=>$gruppoDellaFamiglia->pivot->data_inizio, "stato"=>$gruppoDellaFamiglia->pivot->stato]);
-        if(!$gruppoDellaFamiglia->is($gruppoPersona)) // il gruppo della persona non coincide con il gruppo della famiglia
-            $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,['stato' => '0','data_uscita_gruppo'=>$dataUscitaGruppoFamiliareAttuale]);
-
-        return  self::gruppifamiliari()->save($gruppoDellaFamiglia,['data_entrata_gruppo'=>$gruppoDellaFamiglia->pivot->data_inizio, "stato"=>$gruppoDellaFamiglia->pivot->stato]);
-    }else
-     return false;
-  }
 }

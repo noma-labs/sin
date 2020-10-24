@@ -330,7 +330,9 @@ class PersoneController extends CoreBaseController
    */
   public function posizione($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.posizione.show", compact('persona'));
+    $attuale = $persona->posizioneAttuale();
+    $storico = $persona->posizioniStorico;
+    return view("nomadelfia.persone.posizione.show", compact('persona', 'attuale', "storico"));
   }
 
   /**
@@ -360,20 +362,21 @@ class PersoneController extends CoreBaseController
    * 
    * @author Davide Neri
    */
-  public function modificaPosizione(Request $request, $idPersona, $id){ 
-    // dd($request->all());
+  public function modificaDataInizioPosizione(Request $request, $idPersona, $id){ 
     $validatedData = $request->validate([
-      "data_fine" => "date", 
-      "data_inizio" => "required|date",
-      "stato" =>"required"
+      "current_data_inizio" => "required|date", 
+      "new_data_inizio" => "required|date",
     ],[
-      "data_fine.date" => "La data fine posizione dee essere una data valida", 
-      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
-      'stato.required'=>"Lo stato attuale è obbligatorio.",
+      "new_data_inizio.date" => "La nuova data di inzio posizione non è una data valida", 
+      'new_data_inizio.required'=>"La nuova data di inizio della posizione è obbligatoria.",
+      "current_data_inizio.date" => "La data di inzio posizione non è una data valida", 
+      'current_data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->posizioni()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo.");
+    if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo");
+    }
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("IMpossibile aggiornare la posizione di  $persona->nominativo");
   }
   
    /**
@@ -442,6 +445,45 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $persona->categorie()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
     return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
+  }
+
+   /**
+   * Elimina una posizione assegnata ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function eliminaPosizione(Request $request, $idPersona, $id){
+    $persona =  Persona::findOrFail($idPersona);
+    $res = $persona->posizioni()->detach($id);
+    if ($res){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
+    }
+  }
+
+    /**
+   * Conclude una posizione assegnata ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function concludiPosizione(Request $request, $idPersona, $id){
+    $validatedData = $request->validate([
+      "data_inizio" => "required|date", 
+      "data_fine" => "required|date",
+    ],[
+      "data_inizio.date" => "La data di entrata non è  una data valida", 
+      'data_inizio.required'=>"La data di entrata è obbligatoria",
+      "data_fine.date" => "La data di uscita non è  una data valida", 
+      "data_fine.required" => "La data di uscita  è obbligatoria", 
+  ]);
+    $persona = Persona::findOrFail($idPersona);
+    $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
+    if ($res){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
+    }
   }
 
   /**

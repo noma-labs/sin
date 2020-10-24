@@ -155,10 +155,7 @@ class FamiglieController extends CoreBaseController
                                                       'posizione_famiglia'=>$request->posizione, 
                                                       'data_entrata'=>($request->data_entrata ? $request->data_entrata: $persona->data_nascita),
                                                       'note'=>$request->note]);
-      # if($persona->syncGruppoFamiliarePersonaWithFamiglia())
         return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
-      #else
-      #   return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }catch (Exception $e){
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
     }

@@ -96,7 +96,9 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
 
   Route::get('persone/{idPersona}/posizione', 'PersoneController@posizione')->name("nomadelfia.persone.posizione");
   Route::post('persone/{idPersona}/posizione/assegna', 'PersoneController@assegnaPosizione')->name("nomadelfia.persone.posizione.assegna");
-  Route::post('persone/{idPersona}/posizione/{id}/modifica', 'PersoneController@modificaPosizione')->name("nomadelfia.persone.posizione.modifica");
+  Route::post('persone/{idPersona}/posizione/{id}/modifica', 'PersoneController@modificaDataInizioPosizione')->name("nomadelfia.persone.posizione.modifica");
+  Route::delete('persone/{idPersona}/posizione/{id}', 'PersoneController@eliminaPosizione')->name("nomadelfia.persone.posizione.elimina");
+  Route::put('persone/{idPersona}/posizione/{id}/concludi', 'PersoneController@concludiPosizione')->name("nomadelfia.persone.posizione.concludi");
   
   Route::get('persone/{idPersona}/categoria', 'PersoneController@categoria')->name("nomadelfia.persone.categoria");
   Route::post('persone/{idPersona}/categoria/{id}/modifica', 'PersoneController@modificaCategoria')->name("nomadelfia.persone.categoria.modifica");
