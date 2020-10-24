@@ -239,7 +239,7 @@ class Famiglia extends Model
   { 
     $famiglia_id = $this->id;
     $data_entrata = $dataEntrataGruppo;
-    DB::transaction(function () use(&$gruppo_attuale_id, &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
+    return DB::transaction(function () use(&$gruppo_attuale_id, &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
      
       // Disabilita tutti i componento della famiglia nelvechi gruppo (metti stato = 0)
      DB::connection('db_nomadelfia')->update(
@@ -269,6 +269,7 @@ class Famiglia extends Model
                 WHERE famiglie_persone.famiglia_id = :famigliaId   AND famiglie_persone.stato = '1' "), 
                 array( 'famigliaId'=> $famiglia_id, 'gruppo_nuovo_id' => $gruppo_nuovo_id, 'data_entrata'=> $data_entrata)# , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
       );
+      return true;
   });
 
   }

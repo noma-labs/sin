@@ -149,6 +149,42 @@ class Persona extends Model
       );
     return $res;
   }
+
+  
+  /**
+  * Sposta una persona da un gruppo familiare a un altro..
+  * @author Davide Neri
+  **/
+  public function spostaPersonaInGruppoFamiliare($gruppo_id_current, $datain_current, $dataout_current, $gruppo_id_new, $datain_new)
+  { 
+  $persona_id = $this->id;
+   return  DB::transaction(function () use(&$persona_id, &$gruppo_id_current, &$datain_current, &$dataout_current, &$gruppo_id_new, &$datain_new) {
+      // disabilita il gruppo attuale
+      DB::connection('db_nomadelfia')->update(
+        DB::raw("UPDATE gruppi_persone
+                 SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
+                 WHERE persona_id = :p  AND gruppo_famigliare_id = :g AND data_entrata_gruppo = :datain
+                "), 
+                array('p' => $persona_id, 'g'=> $gruppo_id_current, "datain"=> $datain_current, 'dataout'=>$dataout_current)
+      );
+      // disabilita tutti i gruppi familiare della persona
+      DB::connection('db_nomadelfia')->update(
+        DB::raw("UPDATE gruppi_persone
+                SET gruppi_persone.stato = '0'
+                WHERE persona_id = :p
+                "), 
+                array('p' => $persona_id)
+      );
+      
+      // assegna il nuovo gruppo alla persona
+      DB::connection('db_nomadelfia')->insert(
+        DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
+                VALUES (:persona, :gruppo, '1', :datain) "), 
+                array( 'persona'=> $persona_id, 'gruppo' => $gruppo_id_new, 'datain'=> $datain_new)
+        );
+    });
+    return $true;
+  }
  
   // AZIENDE
   public function aziende(){

@@ -13,7 +13,7 @@
         Gruppo Familiare attuale
       </div>
       <div class="card-body">
-        @forelse($gruppi as $gruppo)
+        @forelse($attuale as $gruppo)
             <div class="row">
               <p class="col-md-3 font-weight-bold"> Gruppo familiare</p>
               <p class="col-md-2 font-weight-bold"> Data entrata</p>
@@ -52,7 +52,7 @@
                 </my-modal> <!--end modal modifica posizione-->
                
               
-                    <!--modal concludi gruppo -->
+                
               <my-modal modal-title="Concludi Gruppo familiare" button-title="Concludi" button-style="btn-info my-2">
                   <template slot="modal-body-slot">
                       <form class="form" method="POST"  id="formConcludigruppo{{$gruppo->id}}" action="{{ route('nomadelfia.persone.gruppo.concludi', ['idPersona' =>$persona->id, 'id'=>$gruppo->id]) }}" >      
@@ -85,37 +85,15 @@
           @empty
            <p class="text-danger">Nessun gruppo familiare</p>
           @endforelse
-          <!--modal modifica gruppo attuale -->
-          <my-modal modal-title="Aggiungi Gruppo Familiare" button-title="Nuovo Gruppo" button-style="btn-success my-2">
-            <template slot="modal-body-slot">
-            <form class="form" method="POST"  id="formPersonaGruppo" action="{{ route('nomadelfia.persone.gruppo.assegna', ['idPersona' =>$persona->id]) }}" >      
-                {{ csrf_field() }}
-             
-                <h5 class="my-2">Nuovo gruppo familiare</h5>
-                <div class="form-group row">
-                  <label for="staticEmail" class="col-sm-6 col-form-label">Gruppo familiare</label>
-                  <div class="col-sm-6">
-                    <select name="gruppo_id" class="form-control">
-                        <option selected>---seleziona gruppo ---</option>
-                        @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppofam)
-                          <option value="{{$gruppofam->id}}" {{ old('gruppo_id') == $gruppofam->id ? 'selected' : '' }}>{{$gruppofam->nome}}</option>
-                        @endforeach
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputPassword" class="col-sm-6 col-form-label">Data entrata gruppo familiare</label>
-                  <div class="col-sm-6">
-                    <date-picker :bootstrap-styling="true" value="{{ old('data_entrata') }}" format="yyyy-MM-dd"name="data_entrata"></date-picker>
-                  </div>
-                </div>
-              </form>
-            </template> 
-            <template slot="modal-button">
-              <button class="btn btn-success" form="formPersonaGruppo">Salva</button>
-            </template>
-          </my-modal> <!--end modal-->
-     
+
+          @if (count($attuale) ==1 )
+             @include("nomadelfia.templates.spostaPersonaGruppo",['persona' => $persona, 'attuale'=>$attuale[0]])
+          @elseif (count($attuale) > 1)
+            <p class="text-danger">Attenzione. Multiple gruppi attivi per la stessa persona.</p>
+          @else
+             @include("nomadelfia.templates.assegnaPersonaNuovoGruppo",['persona' => $persona])
+          @endif        
+        
           
         </div>  <!--end card body-->
     </div> <!--end card -->

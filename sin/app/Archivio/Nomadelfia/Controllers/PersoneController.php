@@ -354,7 +354,7 @@ class PersoneController extends CoreBaseController
     if($persona->posizioneAttuale()) // se 
       $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->posizioni()->attach($request->posizione_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
+    return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
   }
 
   /**
@@ -374,9 +374,9 @@ class PersoneController extends CoreBaseController
     ]);
     $persona = Persona::findOrFail($idPersona);
     if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione modificata di $persona->nominativo  con successo");
+      return redirect()->back()->withSuccess("Posizione modificata di $persona->nominativo  con successo");
     }
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("IMpossibile aggiornare la posizione di  $persona->nominativo");
+    return redirect()->back()->withError("IMpossibile aggiornare la posizione di  $persona->nominativo");
   }
   
    /**
@@ -406,7 +406,7 @@ class PersoneController extends CoreBaseController
     if($persona->categoriaAttuale()) // se 
       $persona->categorie()->updateExistingPivot($persona->categoriaAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Nuova categoria assegnata a $persona->nominativo  con successo.");
+    return redirect()->back()->withSuccess("Nuova categoria assegnata a $persona->nominativo  con successo.");
   }
 
   /**
@@ -418,9 +418,9 @@ class PersoneController extends CoreBaseController
     $persona =  Persona::findOrFail($idPersona);
     $res = $persona->categorie()->detach($id);
     if ($res){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Categoria rimossa consuccesso per $persona->nominativo ");
+      return redirect()->back()->withSuccess("Categoria rimossa consuccesso per $persona->nominativo ");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere la categoria per $persona->nominativo");
+      return redirect()->back()->withErro("Errore. Impossibile rimuovere la categoria per $persona->nominativo");
     }
   }
 
@@ -444,7 +444,7 @@ class PersoneController extends CoreBaseController
   ]);
     $persona = Persona::findOrFail($idPersona);
     $persona->categorie()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
+    return redirect()->back()->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
   }
 
    /**
@@ -456,9 +456,9 @@ class PersoneController extends CoreBaseController
     $persona =  Persona::findOrFail($idPersona);
     $res = $persona->posizioni()->detach($id);
     if ($res){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
+      return redirect()->back()->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
+      return redirect()->back()->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
     }
   }
 
@@ -480,9 +480,9 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
     if ($res){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
+      return redirect()->back()->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
+      return redirect()->back()->withErro("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
     }
   }
 
@@ -515,7 +515,7 @@ class PersoneController extends CoreBaseController
     if($persona->statoAttuale()) 
       $persona->stati()->updateExistingPivot($persona->statoAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->stati()->attach($request->stato_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato assegnato a $persona->nominativo con successo");
+    return redirect()->back()->withSuccess("Stato assegnato a $persona->nominativo con successo");
   }
 
   public function modificaStato(Request $request, $idPersona, $id){
@@ -530,7 +530,7 @@ class PersoneController extends CoreBaseController
   ]);
     $persona = Persona::findOrFail($idPersona);
     $persona->stati()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
+    return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
   }
 
   /**
@@ -540,8 +540,8 @@ class PersoneController extends CoreBaseController
    */
   public function gruppoFamiliare($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    $gruppi = $persona->gruppofamiliareAttuale();
-    return view("nomadelfia.persone.gruppofamiliare.show", compact('persona', 'gruppi'));
+    $attuale = $persona->gruppofamiliareAttuale();
+    return view("nomadelfia.persone.gruppofamiliare.show", compact('persona', 'attuale'));
   }
 
 
@@ -555,9 +555,9 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $res = $persona->gruppifamiliari()->detach($id);
     if ($res){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
+      return redirect()->back()->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+      return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
     }
   }
 
@@ -581,9 +581,9 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $res = $persona->concludiGruppoFamiliare($id, $request->data_entrata, $request->data_uscita);
     if ($res){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
+      return redirect()->back()->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+      return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
     }
   }
 
@@ -606,17 +606,39 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $attuale = $persona->gruppofamiliareAttuale();
     if (count($attuale) > 0){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("Errore. $persona->nominativo ha gia un gruppo familiare attivo.");
+      return redirect()->back()->withError("Errore. $persona->nominativo ha gia un gruppo familiare attivo.");
     }
 
     $res = $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
     if ($res){ // se ha già uno stato attuale aggiorna lo stato attuale
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
+      return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }else{
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. La persona ha più di un gruppo attivo. LAsciara ad assegnare $persona->nominativo  al gruppo familiare.");
+      return redirect()->back()->withErro("Errore. La persona ha più di un gruppo attivo. LAsciara ad assegnare $persona->nominativo  al gruppo familiare.");
     }
-  
-  
+  }
+
+   /**
+   * Sposta una persona da un gruppo familiare ad un  nuovo gruppo familiare settando al data di entrata e uscita
+   * 
+   * @author Davide Neri
+   */
+  public function spostaNuovoGruppofamiliare(Request $request, $idPersona, $id){ 
+    $validatedData = $request->validate([
+      "new_gruppo_id" => "required", 
+      "new_data_entrata" => "required|date",
+      "current_data_entrata" => "required|date",
+    ],[
+      "new_gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
+      'new_data_entrata.required'=>"La data di entrata nel nuovo gruppo familiare è obbligatoria.",
+      'current_data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
+  ]);
+   // se la data  di uscita del nuovo gruppo non è stata indicata, viene settata uguale all data di entrata nel nuovo gruppo
+    $new_datain = $request->new_data_entrata;
+    $current_data_uscita = $request->input('current_data_uscita', $new_datain);
+    $persona = Persona::findOrFail($idPersona);
+
+    $persona->spostaPersonaInGruppoFamiliare($id, $request->current_data_entrata, $current_data_uscita, $request->new_gruppo_id, $new_datain);
+    return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
   }
 
   public function modificaGruppofamiliare(Request $request, $idPersona, $id){
@@ -632,9 +654,9 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     
     if ($persona->updateDataInizioGruppoFamiliare($id,  $request->current_data_entrata, $request->new_data_entrata)){
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
+      return redirect()->back()->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
     }
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("Impossibile aggiornare la data di nizio del gruppo familiare.");
+    return redirect()->back()->withError("Impossibile aggiornare la data di nizio del gruppo familiare.");
   }
   
   public function aziende(Request $request, $idPersona){
@@ -662,10 +684,10 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $azienda = Azienda::findOrFail($request->azienda_id);
     if($persona->aziendeAttuali->contains($azienda->id)) // la persona è stata già asseganta all'azienda
-      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("$persona->nominativo è già assegnata all'azienda $azienda->nome_azienda");
+      return redirect()->back()->withError("$persona->nominativo è già assegnata all'azienda $azienda->nome_azienda");
       
     $persona->aziende()->attach($azienda->id, ['stato'=>'Attivo','data_inizio_azienda'=>$request->data_inizio,'mansione'=>$request->mansione]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+    return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
   }
 
   public function modificaAzienda(Request $request, $idPersona, $id){
@@ -681,7 +703,7 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
     $azienda = Azienda::findOrFail($id);
     $persona->aziende()->updateExistingPivot($id, ['stato'=>$request->stato,'data_inizio_azienda'=>$request->data_entrata,'data_fine_azienda'=>$request->data_uscita, 'mansione'=>$request->mansione]);
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
+    return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
   }
 
 }
