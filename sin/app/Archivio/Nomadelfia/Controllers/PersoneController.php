@@ -16,6 +16,8 @@ use App\Anagrafe\Models\Provincia;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;
+use App\Nomadelfia\Models\PopolazioneNomadelfia;
+
 
 use Validator;
 
@@ -23,8 +25,9 @@ class PersoneController extends CoreBaseController
 {
 
   public function index(){
-    
-    return view("nomadelfia.persone.index");
+    $effettivi = PopolazioneNomadelfia::effettivi();
+    $postulanti = PopolazioneNomadelfia::postulanti();
+    return view("nomadelfia.persone.effettivi", compact("effettivi", "postulanti"));
   }
 
 
@@ -308,76 +311,17 @@ class PersoneController extends CoreBaseController
   }
 
   /**
-   * Inserisci una persona nel sistema con i dati personali.
-   * L'inserimento associa un ID alla persona che è
-   * è l'identificativo univoco usato in tutti i sistemi per
-   * identificare la persona.
+   * Ritorna la view per la modifica delle famiglie di una persona
    * 
    * @author Davide Neri
    */
-  // public function insert(Request $request){
+  public function famiglie($idPersona){
+    $persona = Persona::findOrFail($idPersona);
+    $attuale = $persona->famigliaAttuale();
+    $storico = $persona->famiglieStorico;
+    return view("nomadelfia.persone.famiglia.show", compact('persona', 'attuale', 'storico'));
+  }
 
-  //   $validatedData = $request->validate([
-  //       "nominativo" => "required|unique:db_nomadelfia.persone,nominativo", 
-  //       "nome" => "required",
-  //       "cognome" => "required",
-  //       "data_nascita" => "required|date",
-  //       "luogo_nascita" => "required",
-  //       "sesso" => "required",
-  //       "categoria_id" => "required"
-  //     ],[
-  //       "nominativo.required" => "Il nominativo è obbligatorio", 
-  //       'nominativo.unique'=>"IL nominativo inserito esiste già.",
-  //       "nome.required" => "Il nome è obbligatorie",
-  //       "cognome.required" => "Il cognome è obbligatorio",
-  //       "data_nascita.required" => "La data di nascita è obbligatoria",
-  //       "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
-  //       "sesso.required" => "Il sesso della persona è obbligatorio",
-  //       "categoria_id.required" => "La categoria della persona è obbligatoria",
-
-  //   ]);
-  //   $_addanother= $request->input('_addanother');  // save and add another libro
-  //   $_addonly   = $request->input('_addonly');     // save only
-  //   try{
-  //     $persona = Persona::create(['nominativo'=>$request->input('nominativo'), 
-  //                               'sesso'=>$request->input('sesso'),
-  //                               'nome'=>$request->input('nome'),
-  //                               "cognome"=>$request->input('cognome'),
-  //                               "provincia_nascita"=>$request->input('luogo_nascita'),
-  //                               'data_nascita'=>$request->input('data_nascita'),
-  //                               'categoria_id' =>$request->input('categoria_id'),
-  //                               'id_arch_pietro'=>0,
-  //                               'id_arch_enrico'=>0,]
-  //                             );
-  //     $res = $persona->save();
-  //     $persona->categorie()->attach($request->categoria_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-  //     $persona->posizioni()->attach(Posizione::find("DADE"), ['stato'=>'1','data_inizio'=>$request->data_inizio]);
-
-  //     if($_addanother )
-  //       return redirect(route('nomadelfia.persone.inserimento'))->withSuccess("Persona $persona->nominativo inserita correttamente.");
-  //     if($_addonly)
-  //       return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
-      
-  //   }
-  //   catch (Illuminate\Database\QueryException $e){
-  //       $error_code = $e->errorInfo[1];
-  //       if($error_code == 1062){
-  //           return redirect(route('nomadelfia.persone.inserimento'))->withError('Persona già esistente con il nominativo.');
-  //       }
-  //       return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore sconosciuto.");
-  //   }
-    // $persona->posizioni()->attach($request->input('posizione'), ['data_inizio' => $request->input('inizio')]);
-    // $persona->famiglie()->attach($request->input('famiglia'), ['nucleo_famigliare_id' => $request->input('nucleo')]);
-    // $persona->gruppi()->attach($request->input('gruppo'), ['data_entrata_gruppo' => $request->input('data_gruppo')]);
-    // if ($request->input('azienda') != ''){
-    //   $persona->aziende()->attach($request->input('azienda'), ['data_inizio_azienda' => $request->input('data_lavoro')]);
-    // }
-
-    // if ($request->input('incarico') != ''){
-    //   $persona->incarichi()->attach($request->input('incarico'), ['data_inizio' => $request->input('data_incarico')]);
-    // }
-    // return redirect(route('nomadelfia.persone.inserimento'))->withSuccess('Iserimento completato');
-  // }
 
   /**
    * Ritorna la view per la modifica della posizione assegnata ad una persona
@@ -463,6 +407,23 @@ class PersoneController extends CoreBaseController
   }
 
   /**
+   * Elimina una categoria assegnata ad una persona
+   * 
+   * @author Davide Neri
+   */
+  public function eliminaCategoria(Request $request, $idPersona, $id){
+    $persona =  Persona::findOrFail($idPersona);
+    $res = $persona->categorie()->detach($id);
+    if ($res){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Categoria rimossa consuccesso per $persona->nominativo ");
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere la categoria per $persona->nominativo");
+    }
+  }
+
+  
+
+  /**
    * Modifica la posizione  di una persona.
    * 
    * @author Davide Neri
@@ -541,6 +502,52 @@ class PersoneController extends CoreBaseController
     return view("nomadelfia.persone.gruppofamiliare.show", compact('persona', 'gruppi'));
   }
 
+
+  /**
+   * Elimina la persona da un gruppo familiare
+   * 
+   * @author Davide Neri
+   */
+  public function eliminaGruppofamiliare(Request $request, $idPersona, $id){ 
+
+    $persona = Persona::findOrFail($idPersona);
+    $res = $persona->gruppifamiliari()->detach($id);
+    if ($res){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+    }
+  }
+
+
+  /**
+   * Conclude la persona in un gruppo familiare settando la data di uscita e lo stato = 0.
+   * 
+   * @author Davide Neri
+   */
+  public function concludiGruppofamiliare(Request $request, $idPersona, $id){ 
+    $validatedData = $request->validate([
+      "data_entrata" => "required|date", 
+      "data_uscita" => "required|date",
+    ],[
+      "data_entrata.date" => "La data di entrata non è  una data valida", 
+      'data_entrata.required'=>"La data di entrata è obbligatoria",
+      "data_entrata.date" => "La data di uscita non è  una data valida", 
+      "data_entrata.required" => "La data di uscota non è  una data valida", 
+  ]);
+
+    $persona = Persona::findOrFail($idPersona);
+    $res = $persona->concludiGruppoFamiliare($id, $request->data_entrata, $request->data_uscita);
+    if ($res){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
+    }else{
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+    }
+  }
+
+
+  
+
    /**
    * Assegna un nuovo gruppo familiare ad una persona
    * 
@@ -555,6 +562,11 @@ class PersoneController extends CoreBaseController
       'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
   ]);
     $persona = Persona::findOrFail($idPersona);
+    $attuale = $persona->gruppofamiliareAttuale();
+    if (count($attuale) > 0){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("Errore. $persona->nominativo ha gia un gruppo familiare attivo.");
+    }
+
     $res = $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
     if ($res){ // se ha già uno stato attuale aggiorna lo stato attuale
       return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
@@ -567,18 +579,20 @@ class PersoneController extends CoreBaseController
 
   public function modificaGruppofamiliare(Request $request, $idPersona, $id){
     $validatedData = $request->validate([
-      "data_uscita" => "date", 
-      "data_entrata" => "required|date",
-      "stato" =>"required"
+      "current_data_entrata" => "required|date",
+      "new_data_entrata"=> "required|date",
     ],[
-      "data_uscita.date" => "La data fine posizione deve essere una data valida", 
-      'data_uscita.required'=>"La data di uscita dal gruppo è obbligatoria.",
-      'stato.required'=>"Lo stato attuale è obbligatorio.",
+      "current_data_entrata.date" => "La data corrente di entrata non è una data valida", 
+      'current_data_entrata.required'=>"La data corrente di entrata dal gruppo è obbligatoria.",
+      'new_data_entrata.required'=>"La data corrente di entrata dal gruppo è obbligatoria.",
+      'new_data_entrata.date'=>"La data corrente di entrata non è una data valida",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->updateGruppoFamiliare($id, $request->stato,$request->data_entrata,  $request->data_uscita);
-
-    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
+    
+    if ($persona->updateDataInizioGruppoFamiliare($id,  $request->current_data_entrata, $request->new_data_entrata)){
+      return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
+    }
+    return redirect(route('nomadelfia.persone.dettaglio',[$persona->id]))->withError("Impossibile aggiornare la data di nizio del gruppo familiare.");
   }
   
   public function aziende(Request $request, $idPersona){

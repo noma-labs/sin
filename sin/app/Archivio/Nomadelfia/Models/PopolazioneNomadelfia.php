@@ -47,6 +47,39 @@ class PopolazioneNomadelfia
   }
 
   /*
+  *  Ritorna i nomadelfi effettivi (sia donne che uomini) della popolazione
+  */
+  public static function effettivi()
+  {
+    return self::byPosizione("EFFE");
+  }
+
+   /*
+  *  Ritorna i postulanti (sia donne che uomini) della popolazione
+  */
+  public static function postulanti()
+  {
+    return self::byPosizione("POST");
+  }
+
+  /*
+  *  Ritorna le persone con una certa posizione.
+  *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
+  */
+  public static function byPosizione(string $posizione)
+  {
+    $posizioni = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT persone.*, persone_posizioni.*
+      FROM persone
+      INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+      INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+      WHERE persone.stato = '1' AND persone_posizioni.stato = '1' and posizioni.abbreviato = :posizione
+      ORDER by persone.nominativo, persone_posizioni.data_inizio ASC"
+     ), array("posizione"=>$posizione));
+    return $posizioni;
+  }
+
+  /*
   *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
   */
   public static function perPosizioni()
@@ -136,7 +169,7 @@ class PopolazioneNomadelfia
 
 
   /*
-  *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (masche e femmine)
+  *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
   */
   public static function posizioneFamigliaCount()
   {

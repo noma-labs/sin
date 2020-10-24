@@ -5,7 +5,7 @@
 @include('partials.header', ['title' => $persona->nome." ". $persona->cognome])
 
 <div class="row my-3">
-<div class="col-md-4 mb-2"> <!--  start col dati anagrafici -->
+ <div class="col-md-3 mb-2"> <!--  start col dati anagrafici -->
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
@@ -194,13 +194,12 @@
       </div>
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
-        <h5 class="my-3">Famiglia Attuale</h5>
-  
+        
         @if($persona->famigliaAttuale() != null)
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4 font-weight-bold">Nome:</label>
+              <label class="col-sm-4 font-weight-bold">Nome Famiglia:</label>
               <div class="col-sm-8">
                  <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$persona->famigliaAttuale()->id])}}"> {{$persona->famigliaAttuale()->nome_famiglia}} </a>
               </div>
@@ -214,38 +213,21 @@
               </div>
             </div>
           </li>
+
+          <li class="list-group-item">
+              <div class="row">
+                <div class="col-sm-8">
+                    <a class="btn btn-warning" href="{{route('nomadelfia.persone.famiglie', ['idPersona'=>$persona->id])}}">Modifica</a> 
+                </div>
+              </div>
+            </li>
+
+         
         </ul>
         @else
               <span class="text-danger">Nessuna famiglia</span>
               <a  class="btn btn-warning my-2" href="{{route('nomadelfia.persone.inserimento.famiglia',['idPersona'=>$persona->id])}}"> Assegna famiglia </a>
         @endif
-
-        <h5 class="my-3">Famiglia Storico</h5>
-        @forelse($persona->famiglieStorico as $famiglia)
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="row">
-              <label class="col-sm-4 font-weight-bold">Nome:</label>
-              <div class="col-sm-8">
-                <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])}}"> 
-                {{ $famiglia->nome_famiglia}} 
-                  </a>
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <label class="col-sm-4 font-weight-bold">Posizione:</label>
-              <div class="col-sm-8">
-                  <span> {{$famiglia->pivot->posizione_famiglia}}</span>
-              </div>
-            </div>
-          </li>
-        </ul>
-        @empty
-          <span class="text-danger my-2">Nessuna famiglia storico</span>
-        @endforelse
-         
       
         </div>
       </div>

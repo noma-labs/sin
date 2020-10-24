@@ -52,7 +52,7 @@
                 </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="sesso" id="forsessoF"  value="M" @if(old('sesso')=='F') checked @endif>
+              <input class="form-check-input" type="radio" name="sesso" id="forsessoF"  value="F" @if(old('sesso')=='F') checked @endif>
               <label class="form-check-label" for="forsessoF">
                 Femmina
               </label>

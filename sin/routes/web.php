@@ -101,14 +101,20 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persone/{idPersona}/categoria', 'PersoneController@categoria')->name("nomadelfia.persone.categoria");
   Route::post('persone/{idPersona}/categoria/{id}/modifica', 'PersoneController@modificaCategoria')->name("nomadelfia.persone.categoria.modifica");
   Route::post('persone/{idPersona}/categoria/assegna', 'PersoneController@assegnaCategoria')->name("nomadelfia.persone.categoria.assegna");
+  Route::delete('persone/{idPersona}/categoria/{id}', 'PersoneController@eliminaCategoria')->name("nomadelfia.persone.categoria.elimina");
 
   Route::get('persone/{idPersona}/gruppofamiliare', 'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
   Route::post('persone/{idPersona}/gruppofamiliare/assegna', 'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");
   Route::post('persone/{idPersona}/gruppofamiliare/{id}/modifica', 'PersoneController@modificaGruppofamiliare')->name("nomadelfia.persone.gruppo.modifica");
+  Route::delete('persone/{idPersona}/gruppofamiliare/{id}', 'PersoneController@eliminaGruppofamiliare')->name("nomadelfia.persone.gruppo.elimina");
+  Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi', 'PersoneController@concludiGruppofamiliare')->name("nomadelfia.persone.gruppo.concludi");
 
   Route::get('persone/{idPersona}/aziende', 'PersoneController@aziende')->name("nomadelfia.persone.aziende");
   Route::post('persone/{idPersona}/aziende/assegna', 'PersoneController@assegnaAzienda')->name("nomadelfia.persone.aziende.assegna");
   Route::post('persone/{idPersona}/aziende/{id}/modifica', 'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
+
+  
+  Route::get('persone/{idPersona}/famiglie', 'PersoneController@famiglie')->name("nomadelfia.persone.famiglie");
 
   //AZIENDE
   Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')

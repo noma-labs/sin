@@ -130,12 +130,22 @@ class Persona extends Model
                 ->wherePivot('stato', '0');
   }
 
-  public function updateGruppoFamiliare($gruppo_id, $stato, $datain, $dataout){
+  public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout){
     $res = DB::connection('db_nomadelfia')->update( 
       DB::raw("UPDATE gruppi_persone
-               SET stato = :stato, data_uscita_gruppo = :dataout
+               SET stato = '0', data_uscita_gruppo = :dataout
                WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain"),
-               array('persona' => $this->id, "gruppo"=> $gruppo_id, "datain"=>$datain, "dataout"=>$dataout, "stato"=>$stato)
+               array('persona' => $this->id, "gruppo"=> $gruppo_id, "datain"=>$datain, "dataout"=>$dataout)
+      );
+    return $res;
+  }
+
+  public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn){
+    $res = DB::connection('db_nomadelfia')->update( 
+      DB::raw("UPDATE gruppi_persone
+               SET  data_entrata_gruppo = :new
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current"),
+               array('persona' => $this->id, "gruppo"=> $gruppo_id, "current"=>$currentDatain, "new"=>$newDataIn)
       );
     return $res;
   }
@@ -158,11 +168,6 @@ class Persona extends Model
  
 
   // CATEGORIA
-  // TODO: da eliminare, la persona ha più categoria.
-  // public function categoria(){
-  //   return $this->hasOne(Categoria::class,  'id', 'categoria_id');
-  // }
-
   public function categorie(){
     return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
                 ->withPivot('stato','data_inizio','data_fine');
@@ -177,7 +182,7 @@ class Persona extends Model
                 ->orderby('data_fine','desc');
   }
 
-    /**
+  /**
    * Ritorna le posizioni assegnabili ad una persona.
    * @return Collection Posizione 
    * @author Davide Neri
@@ -223,18 +228,17 @@ class Persona extends Model
   public function famigliaAttuale(){
     return $this->famiglie()
                 ->wherePivot('stato', '1')
-                ->withPivot('posizione_famiglia')
-                 ->first();
+                ->withPivot('posizione_famiglia','data_entrata', "data_uscita")
+                ->first();
   }
   
   public function famiglieStorico(){
     return $this->famiglie()
                 ->wherePivot('stato', '0')
-                ->withPivot('posizione_famiglia');
+                ->withPivot('posizione_famiglia','data_entrata', "data_uscita");
   }
 
 
-  
   /**
    * Ritorna la posizione di una persona in una famiglia
    * @param String $posizione 
