@@ -470,12 +470,13 @@ class PersoneController extends CoreBaseController
   public function concludiPosizione(Request $request, $idPersona, $id){
     $validatedData = $request->validate([
       "data_inizio" => "required|date", 
-      "data_fine" => "required|date",
+      "data_fine" => "required|date|after_or_equal:data_inizio"
     ],[
       "data_inizio.date" => "La data di entrata non è  una data valida", 
       'data_inizio.required'=>"La data di entrata è obbligatoria",
       "data_fine.date" => "La data di uscita non è  una data valida", 
       "data_fine.required" => "La data di uscita  è obbligatoria", 
+      "data_fine.after_or_equal" => "La data di fine posizione non può essere inferiore alla data di inizio", 
   ]);
     $persona = Persona::findOrFail($idPersona);
     $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
@@ -570,12 +571,13 @@ class PersoneController extends CoreBaseController
   public function concludiGruppofamiliare(Request $request, $idPersona, $id){ 
     $validatedData = $request->validate([
       "data_entrata" => "required|date", 
-      "data_uscita" => "required|date",
+      "data_uscita" => "required|date|after_or_equal:data_entrata",
     ],[
-      "data_entrata.date" => "La data di entrata non è  una data valida", 
+      "data_entrata.date" => "La data di entrata non è una data valida", 
       'data_entrata.required'=>"La data di entrata è obbligatoria",
       "data_entrata.date" => "La data di uscita non è  una data valida", 
       "data_entrata.required" => "La data di uscota non è  una data valida", 
+      "data_uscita.after_or_equal" => "La data di uscita non può essere inferiore alla data di entrata", 
   ]);
 
     $persona = Persona::findOrFail($idPersona);
@@ -625,8 +627,8 @@ class PersoneController extends CoreBaseController
   public function spostaNuovoGruppofamiliare(Request $request, $idPersona, $id){ 
     $validatedData = $request->validate([
       "new_gruppo_id" => "required", 
-      "new_data_entrata" => "required|date",
-      "current_data_entrata" => "required|date",
+      "new_data_entrata" => "required|date", // data entrata delnuovo gruppo familiare
+      "current_data_entrata" => "required|date", // data entrata del vecchio gruppo familiare
     ],[
       "new_gruppo_id.required" => "Il nuovo gruppo è obbligatorio", 
       'new_data_entrata.required'=>"La data di entrata nel nuovo gruppo familiare è obbligatoria.",
