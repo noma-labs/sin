@@ -62,6 +62,15 @@ class PopolazioneNomadelfia
     return self::byPosizione("POST");
   }
 
+   /*
+  *  Ritorna i postulanti (sia donne che uomini) della popolazione
+  */
+  public static function figli()
+  {
+    return self::byPosizione("FIGL");
+  }
+
+
   /*
   *  Ritorna le persone con una certa posizione.
   *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"

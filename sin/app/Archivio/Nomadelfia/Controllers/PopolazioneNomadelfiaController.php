@@ -120,6 +120,23 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     return view("nomadelfia.popolazione.effettivi",compact('count', $count,'uomini', $uomini, "donne",$donne));
   }
 
+  public function postulanti(Request $request){
+    $postulanti = collect(PopolazioneNomadelfia::postulanti());
+    $count = $postulanti->count();
+    $g =  $postulanti->groupBy("sesso");
+    $uomini = $g->get('M');
+    $donne = $g->get('F');
+    return view("nomadelfia.popolazione.postulanti",compact('count', $count,'uomini', $uomini, "donne",$donne));
+  }
+
+  public function figli(Request $request){
+    $postulanti = collect(PopolazioneNomadelfia::figli())->sortBy("data_nascita");
+    $count = $postulanti->count();
+    $g =  $postulanti->groupBy("sesso");
+    $uomini = $g->get('M');
+    $donne = $g->get('F');
+    return view("nomadelfia.popolazione.figli",compact('count', $count,'uomini', $uomini, "donne",$donne));
+  }
   
 
 }

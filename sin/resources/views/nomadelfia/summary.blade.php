@@ -22,10 +22,10 @@
           <p class="card-text">  Persone divise per posizione in Nomadelfia </strong> </p>
           <ul>
               <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Effettivi</a>   <strong> {{count($effettivi)}}</strong>    </li>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Postulanti</a>   <strong> {{count($postulanti)}}</strong>    </li>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Figli</a>   <strong> {{count($figli)}}</strong>    </li>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Ospiti</a>   <strong> {{count($ospiti)}}</strong>    </li>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Non Assegnato</a>   <strong> {{count($nonassegnato)}}</strong>    </li>
+              <li> <a href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">  Postulanti</a>   <strong> {{count($postulanti)}}</strong>    </li>
+              <li> <a href="{{route('nomadelfia.popolazione.posizione.figli')}}">  Figli</a>   <strong> {{count($figli)}}</strong>    </li>
+              <li>  Ospiti  <strong> {{count($ospiti)}}</strong>    </li>
+              <li> Non Assegnato   <strong> {{count($nonassegnato)}}</strong>    </li>
           </ul>
       </div>
       <div class="card-footer">
