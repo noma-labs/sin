@@ -25,11 +25,16 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 {
   public function index(){
     $perPosizioni =  PopolazioneNomadelfia::perPosizioni();
+    $effettivi = PopolazioneNomadelfia::effettivi();
+    $postulanti = PopolazioneNomadelfia::postulanti();
+    $figli = PopolazioneNomadelfia::byPosizione("FIGL");
+    $ospiti = PopolazioneNomadelfia::byPosizione("OSP");
+    $nonassegnato = PopolazioneNomadelfia::byPosizione("DADE");
     $perCategoria =  PopolazioneNomadelfia::perCategorie();
     $totale = PopolazioneNomadelfia::totalePopolazione();
     $gruppi = PopolazioneNomadelfia::gruppiComponenti();
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-    return view("nomadelfia.summary",compact('totale','perCategoria','perPosizioni', 'gruppi', 'posizioniFamiglia'));
+    return view("nomadelfia.summary",compact('totale','perCategoria','effettivi', 'postulanti','figli','ospiti', 'nonassegnato', 'gruppi', 'posizioniFamiglia'));
   }
   
   public function print(Request $request){
@@ -104,5 +109,13 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                         return $item['sesso'];
                       }]);
   }
+
+
+  public function dettaglio(Request $request, $posizione){
+    $persone = PopolazioneNomadelfia::byPosizione($posizione);
+    return view("nomadelfia.popolazione.detail",compact('persone', $persone));
+  }
+
+  
 
 }

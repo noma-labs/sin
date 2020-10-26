@@ -72,9 +72,6 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
   Route::post('persone/inserimento/anagrafici', 'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
-  Route::get('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfiaView')->name("nomadelfia.persone.inserimento.datinomadelfia");
-  Route::post('persone/{idPersona}/inserimento/datinomadelfia', 'PersoneController@insertDatiNomadelfia')->name("nomadelfia.persone.inserimento.datinomadelfia.confirm");
-  
   Route::get('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamigliaView')->name("nomadelfia.persone.inserimento.famiglia");
   Route::post('persone/{idPersona}/inserimento/famiglia', 'PersoneController@insertFamiglia')->name("nomadelfia.persone.inserimento.famiglia.confirm");
   
@@ -144,6 +141,9 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   //stampa elenchi
   Route::post('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
   Route::get('popolazione/stampa/preview', 'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
+
+  // POPOLAZIONE 
+  Route::get('popolazione/{posizione}', 'PopolazioneNomadelfiaController@dettaglio')->name("nomadelfia.popolazione.dettaglio");
 
 });
 

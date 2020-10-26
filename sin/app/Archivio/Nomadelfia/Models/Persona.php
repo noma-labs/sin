@@ -106,6 +106,7 @@ class Persona extends Model
     $todata = Carbon::now()->subYears($frometa)->toDateString();
     return $query->whereBetween('data_nascita',[$fromdata, $todata]);
   }
+
  
   public function patenti(){
     return $this->hasMany(Patente::class, 'persona_id', 'id');

@@ -20,6 +20,21 @@ class Categoria extends Model
                 ->orderby("nominativo");
   }
 
+  /**
+   * Ritorna la posizione dal nome (interno, esterno, collaboratore)
+   * 
+   * @author: Davide Neri
+   */
+  public static function perNome($nome){
+    
+    $mapNamesToDB = [
+        "interno"=> "Persona Interna",
+        "esterno"=>"Collaboratore Esterno",
+        "collaboratore"=>"Persona esterna",
+    ];
+    return static::where('nome',$mapNamesToDB[$nome])->first();
+  }
+
   public function personeAttuale(){
     $res =DB::connection('db_nomadelfia')->select(
       DB::raw(" SELECT categorie.nome, persone.*

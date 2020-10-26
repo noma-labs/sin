@@ -2,7 +2,7 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => "Gestione Famiglia della persona ".$persona->nominativo])
+@include('partials.header', ['title' => "Gestione Famiglie di ".$persona->nominativo])
 
 <div class="row justify-content-center">
    <div class="col-md-6">
@@ -14,67 +14,35 @@
       <div class="card-body">
           @if($attuale)
             <div class="row">
-              <p class="col-md-3 font-weight-bold"> Nome Famiglie</p>
+              <p class="col-md-3 font-weight-bold"> Nome Famigla</p>
               <p class="col-md-3 font-weight-bold"> Data Entrata</p>
+              <p class="col-md-3 font-weight-bold"> Posizione Famiglia</p>
               <p class="col-md-3 font-weight-bold"> Operazioni</p>
             </div>
             <div class="row">
               <p class="col-md-3">  <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$attuale->id])}}">{{$attuale->nome_famiglia}}  </a></p>
               <p class="col-md-3">{{$attuale->pivot->data_entrata }} </p>
-              <div class="col-md-3">
-                <my-modal modal-title="Modifica Categoria attuale" button-title="Modifica" button-style="btn-warning my-2">
-                  <template slot="modal-body-slot">
-                    <form class="form" method="POST"  id="formPersonaCategoriaModifica" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->categoriaAttuale()->id]) }}" >      
-                        {{ csrf_field() }}
-                        <div class="form-group row">
-                          <label for="staticEmail" class="col-sm-6 col-form-label">Categoria attuale</label>
-                          <div class="col-sm-6">
-                              <div>{{$persona->categoriaAttuale()->nome}}</div>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-sm-6 col-form-label">Data inizio</label>
-                          <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->categoriaAttuale()->pivot->data_inizio }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-6 col-form-label">Data fine categoria</label>
-                          <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->categoriaAttuale()->pivot->data_fine }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
-                          </div>
-                        </div>
-
-                         <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-6 col-form-label">Stato</label>
-                          <div class="col-sm-6">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->categoriaAttuale()->pivot->stato=='1') checked @endif>
-                                <label class="form-check-label" for="forstatoM">
-                                  Attiva
-                                </label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->categoriaAttuale()->pivot->stato=='0') checked @endif>
-                              <label class="form-check-label" for="forstao">
-                                Disattiva
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                  </template> 
-                  <template slot="modal-button">
-                    <button class="btn btn-success" form="formPersonaCategoriaModifica">Salva</button>
-                  </template>
-                 </my-modal> <!--end modal modifica categoria-->
-                
-               </div>
+              <p class="col-md-3">{{$attuale->pivot->posizione_famiglia }} </p>
+              <div class="col-md-3">     <a class="btn btn-warning" href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$attuale->id])}}" role="button">Dettaglio</a>
             </div>
           @else
            <p class="text-danger">Nessuna famiglia</p>
           @endif
-          <my-modal modal-title="Aggiungi Categoria persona" button-title="Nuova Categoria" button-style="btn-success  my-2">
+
+          @if($attuale)
+          <my-modal modal-title="Sposta in una Famiglia" button-title="Sposta in Altra Famiglia" button-style="btn-success  my-2">
+              <template slot="modal-body-slot">
+                <form class="form" method="POST"  id="formPersonaCategoria" action="{{ route('nomadelfia.persone.categoria.assegna', ['idPersona' =>$persona->id]) }}" >      
+                    {{ csrf_field() }}
+                </form>
+              </template> 
+              <template slot="modal-button">
+                <button class="btn btn-success" form="formPersonaCategoria">Salva</button>
+              </template>
+            </my-modal> <!--end modal aggiungi categoria-->
+
+          @else
+          <my-modal modal-title="Crea Nuova Famiglia" button-title="Crea Famiglia" button-style="btn-success  my-2">
               <template slot="modal-body-slot">
                 <form class="form" method="POST"  id="formPersonaCategoria" action="{{ route('nomadelfia.persone.categoria.assegna', ['idPersona' =>$persona->id]) }}" >      
                     {{ csrf_field() }}
@@ -114,6 +82,7 @@
                 <button class="btn btn-success" form="formPersonaCategoria">Salva</button>
               </template>
             </my-modal> <!--end modal aggiungi categoria-->
+          @endif
       </div>  <!--end card body-->
     </div> <!--end card -->
     <div class="card my-3">
@@ -131,7 +100,7 @@
         @forelse($storico as $famigliaStorico)
       
         <div class="row">
-          <p class="col-md-3"> {{$famigliaStorico->nome}}</p>
+          <p class="col-md-3"> {{$famigliaStorico->nome_famiglia}}</p>
           <p class="col-md-3">{{$famigliaStorico->pivot->data_entrata }} </p>
           <p class="col-md-3">{{$famigliaStorico->pivot->data_uscita }} </p>
 

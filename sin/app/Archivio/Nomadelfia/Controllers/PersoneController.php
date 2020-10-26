@@ -17,7 +17,7 @@ use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
-
+use Carbon\Carbon;
 
 use Validator;
 
@@ -55,8 +55,6 @@ class PersoneController extends CoreBaseController
     }
     return view("nomadelfia.persone")->withError("Impossibile eliminare $persona->nominativo ");
   }
-  
-
 
   public function searchPersonaSubmit(Request $request)
     {
@@ -251,24 +249,26 @@ class PersoneController extends CoreBaseController
                               'id_arch_pietro'=>0,
                               'id_arch_enrico'=>0,]
                             );
-    if($persona->save())
+    $res = $persona->save();
+    $data_nascita = $request->input('data_nascita');
+    if($res){
+      $persona->categorie()->attach(Categoria::perNome("interno")->id, ['data_inizio' => $data_nascita]);
+
+     /*  $date = Carbon::parse($data_nascita);
+      $now = Carbon::now();
+      $diff = $date->diffInYears($now);
+      if ($diff <= 18){
+         if (!$persona->posizioni()->attach(Posizione::perNome("figlio")->id, ['data_inizio' => $data_nascita, "stato"=>"1"])){
+           return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
+         }
+      }  */
+  
       return redirect(route('nomadelfia.persone.dettaglio',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+    }
     else
       return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
   }
 
-
-  public function  insertDatiNomadelfiaView(Request $request, $idPersona){
-    $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.insert_dati_nomadelfia", compact('persona'));
-  }
-
-  public function insertDatiNomadelfia(Request $request, $idPersona){
-    //TODO: inserire i dati nel data e redirect to inserimento famiglia
-    $persona = Persona::findOrFail($idPersona);
-
-    return redirect(route('nomadelfia.persone.inserimento.famiglia',['idPersona'=> $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
-  }
 
   public function insertFamigliaView(Request $request, $idPersona){
     $persona = Persona::findOrFail($idPersona);
@@ -374,12 +374,11 @@ class PersoneController extends CoreBaseController
    */
   public function modificaDataInizioPosizione(Request $request, $idPersona, $id){ 
     $validatedData = $request->validate([
-      "current_data_inizio" => "required|date", 
+      "current_data_inizio" => "required", 
       "new_data_inizio" => "required|date",
     ],[
       "new_data_inizio.date" => "La nuova data di inzio posizione non è una data valida", 
       'new_data_inizio.required'=>"La nuova data di inizio della posizione è obbligatoria.",
-      "current_data_inizio.date" => "La data di inzio posizione non è una data valida", 
       'current_data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
     ]);
     $persona = Persona::findOrFail($idPersona);

@@ -48,14 +48,14 @@ class Posizione extends Model
      *
      * @return  \App\Nomadelfia\Models\Posizione
      */
-    public static function find(string $name): Posizione
-    {
-        $posizione = Posizione::where("abbreviato", $name)->first();
-        if (! $posizione) {
-            throw PosizioneDoesNotExist::create($name);
-        }
-        return $posizione;
-    }
+  public static function find(string $name): Posizione
+  {
+      $posizione = Posizione::where("abbreviato", $name)->first();
+      if (! $posizione) {
+          throw PosizioneDoesNotExist::create($name);
+      }
+      return $posizione;
+  }
 
   /**
    * Ritorna la posizione dal nome
