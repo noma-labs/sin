@@ -74,7 +74,7 @@ class PopolazioneNomadelfia
       INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
       INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
       WHERE persone.stato = '1' AND persone_posizioni.stato = '1' and posizioni.abbreviato = :posizione
-      ORDER by persone.nominativo, persone_posizioni.data_inizio ASC"
+      ORDER by persone_posizioni.data_inizio ASC, persone.nominativo"
      ), array("posizione"=>$posizione));
     return $posizioni;
   }

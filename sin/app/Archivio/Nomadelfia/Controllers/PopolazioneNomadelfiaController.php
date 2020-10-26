@@ -111,9 +111,13 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   }
 
 
-  public function dettaglio(Request $request, $posizione){
-    $persone = PopolazioneNomadelfia::byPosizione($posizione);
-    return view("nomadelfia.popolazione.detail",compact('persone', $persone));
+  public function effettivi(Request $request){
+    $effettivi = collect(PopolazioneNomadelfia::effettivi());
+    $count = $effettivi->count();
+    $g =  $effettivi->groupBy("sesso");
+    $uomini = $g->get('M');
+    $donne = $g->get('F');
+    return view("nomadelfia.popolazione.effettivi",compact('count', $count,'uomini', $uomini, "donne",$donne));
   }
 
   
