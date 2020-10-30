@@ -78,6 +78,7 @@ class Handler extends ExceptionHandler
     
     public function render($request, Exception $e)
     {
+        $this->registerErrorViewPaths();
 
         if ($e instanceof \Illuminate\Session\TokenMismatchException)
         {

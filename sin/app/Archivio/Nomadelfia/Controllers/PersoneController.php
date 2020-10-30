@@ -742,7 +742,7 @@ class PersoneController extends CoreBaseController
     }
   }
 
-  public function spostaInNuovaFamiglia(Request $request, $idPersona, $id){
+  public function spostaInNuovaFamiglia(Request $request, $idPersona){
     $validatedData = $request->validate([
       "new_famiglia_id" => "required", 
       "new_posizione_famiglia" => "required",
@@ -756,14 +756,8 @@ class PersoneController extends CoreBaseController
       'old_data_uscita.date'=>"Lo data di uscita dalla famiglia non è valida",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $attuale = $persona->famigliaAttuale();
-    if (! $attuale ){
-      return redirect()->back()->withError("La persona $persona->nomativo non ha nessuna famiglia attiva");
-    }
-
-    $old_data_uscita = $request->input("old_data_uscita",  $request->data_entrata);
-
-    $res = $persona->spostaNellaFamiglia($id, $old_data_uscita, $request->new_famiglia_id, $request->new_posizione_famiglia, $request->new_data_entrata);
+    $famiglia = Famiglia::findOrFail($request->new_famiglia_id);
+    $res = $persona->spostaNellaFamiglia($famiglia,  $request->new_data_entrata, $request->new_posizione_famiglia, $request->old_data_uscita);
     if ($res){
       return redirect()->back()->withSuccess("Persona $persona->nominativo spostata nella famiglia con successo");
     }else{

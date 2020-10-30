@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 Use Carbon;
 use Exception;
+use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use Illuminate\Support\Facades\DB;
 
 use App\Traits\SortableTrait;
@@ -296,34 +297,46 @@ class Persona extends Model
     }
   }
 
-  
-  // Sposta una persona da una famiglia ad un altra, settando le date di entrata e uscita.
-  // La vecchia famiglia viene disabilitata e la  persona viene inserita nel nucleo familiare della nuova famiglia
-  public function spostaNellaFamiglia($old_famiglia_id, $data_uscita=null, $nuova_famiglia_id, $posizione_famiglia, $nuova_data_entrata){
-    //$nuova_famiglia = Famiglia::findOrFail($nuova_famiglia_id);
-   // dd($nuova_famiglia->mycomponenti());
-    try {
-      DB::transaction(function () use(&$old_famiglia_id,  &$data_uscita, &$nuova_famiglia_id, &$posizione_famiglia,  &$nuova_data_entrata) {
-        DB::connection('db_nomadelfia')->update( 
-          DB::raw("UPDATE famiglie_persone
-                   SET  data_uscita = :uscita, stato = '0'
-                   WHERE persona_id  = :persona AND famiglia_id = :famiglia "), //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
-                   array("persona"=> $this->id, 'famiglia' =>$old_famiglia_id,  "uscita"=>($data_uscita ? $data_uscita: $nuova_data_entrata))
-          );
 
-         $this->famiglie()->attach($nuova_famiglia_id,['stato'=>'1',
-                                                      'posizione_famiglia'=>$posizione_famiglia, 
-                                                      'data_entrata'=>$nuova_data_entrata,
-                                                    ]);
-
-       });
-       return true;
+    /**
+     * Move a person to a family. 
+     * If the person has already an active family, the current family is deactivate.
+     * 
+     * @param Famiglia
+     *
+     * @return $this
+     */
+    public function spostaNellaFamiglia($famiglia, $data_entrata, $posizione, $data_uscita=null)
+    {
+        if ($famiglia->single()){
+          throw  SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, "La famiglia single non può avere più di un componente");
+        }
+        $attuale = $this->famigliaAttuale();
+        try {
+          if (!$attuale)
+          {
+            $this->famiglie()->attach($famiglia->id, ['stato'=>'1', 'posizione_famiglia'=>$posizione, 'data_entrata'=>$data_entrata]);
+          } 
+          else
+          {
+            // TODO; check se la persona può essere asseganta alla nuova famiglia
+            DB::transaction(function () use(&$attuale,  &$famiglia, &$data_uscita, &$data_entrata, &$posizione) {
+              DB::connection('db_nomadelfia')->update( 
+                DB::raw("UPDATE famiglie_persone
+                        SET  data_uscita = :uscita, stato = '0'
+                        WHERE persona_id  = :persona AND famiglia_id = :famiglia "), //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
+                        array("persona"=> $this->id, 'famiglia' =>$attuale->id,  "uscita"=>($data_uscita ? $data_uscita: $data_entrata))
+                );
+      
+                $this->famiglie()->attach($famiglia->id,['stato'=>'1', 'posizione_famiglia'=>$posizione,  'data_entrata'=>$data_entrata]);
+      
+            });
+          }
+        } catch (\Exception $e) {
+          throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str(e));
+        }
+        return $this;
     }
-    catch (\Exception $e) {
-      dd($e);
-        return false;
-    }
-  }
 
 
   /**
