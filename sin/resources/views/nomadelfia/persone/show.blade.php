@@ -198,7 +198,7 @@
   </div> <!--  end col dati nomadelfia -->
 
  
-   <div class="col-md-3"> <!--  start col dati famiglia -->
+   <div class="col-md-4"> <!--  start col dati famiglia -->
     <div class="card">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
@@ -210,8 +210,9 @@
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
         
-        @if($persona->famigliaAttuale() != null)
+   
         <ul class="list-group list-group-flush">
+          @if($famigliaAttuale)
           <li class="list-group-item">
             <div class="row">
               <label class="col-sm-4 font-weight-bold">Nome Famiglia:</label>
@@ -228,21 +229,25 @@
               </div>
             </div>
           </li>
-
-          <li class="list-group-item">
-              <div class="row">
-                <div class="col-sm-8">
-                    <a class="btn btn-warning" href="{{route('nomadelfia.persone.famiglie', ['idPersona'=>$persona->id])}}">Modifica</a> 
-                </div>
-              </div>
-            </li>
-
-         
-        </ul>
         @else
-              <span class="text-danger">Nessuna famiglia</span>
-              <a  class="btn btn-warning my-2" href="{{route('nomadelfia.persone.inserimento.famiglia',['idPersona'=>$persona->id])}}"> Assegna famiglia </a>
+          <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4 font-weight-bold">Nome Famiglia:</label>
+              <div class="col-sm-8">
+                  <span class="text-danger">Nessuna famiglia</span>
+              </div>
+            </div>
+          </li>
         @endif
+        <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-8">
+                  <a class="btn btn-warning" href="{{route('nomadelfia.persone.famiglie', ['idPersona'=>$persona->id])}}">Modifica</a> 
+              </div>
+            </div>
+          </li>
+        </ul>
+       
       
         </div>
       </div>

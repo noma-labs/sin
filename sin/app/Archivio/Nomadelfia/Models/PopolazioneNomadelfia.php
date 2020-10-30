@@ -82,7 +82,7 @@ class PopolazioneNomadelfia
       FROM persone
       INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
       INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-      WHERE persone.stato = '1' AND persone_posizioni.stato = '1' and posizioni.abbreviato = :posizione
+      WHERE persone.stato = '1' AND persone_posizioni.stato = '1' and posizioni.abbreviato = :posizione AND persone.deleted_at is  NULL
       ORDER by persone_posizioni.data_inizio ASC, persone.nominativo"
      ), array("posizione"=>$posizione));
     return $posizioni;
@@ -98,7 +98,7 @@ class PopolazioneNomadelfia
                 FROM persone
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE persone.stato = '1' AND persone_posizioni.stato = '1'
+                WHERE persone.stato = '1' AND persone_posizioni.stato = '1'  AND persone.deleted_at is NULL
                 group by posizioni.nome
                 ORDER BY posizioni.ordinamento"
      ));

@@ -276,6 +276,55 @@ class Persona extends Model
                 ->withPivot('posizione_famiglia','data_entrata', "data_uscita");
   }
 
+  // Crea una famiglia e aggiunge la persona come componente
+  // Se la data_entrata è null (default) viene settata uguale alla data di creazione della famiglia
+  public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione, $data_entrata=null){
+    try {
+      DB::transaction(function () use(&$persona_id,  &$posizione, &$nome, &$data_creazione, &$data_entrata) {
+       $famiglia = Famiglia::create(['nome_famiglia'=>$nome, 'data_creazione'=>$data_creazione]);
+
+       $famiglia->componenti()->attach($persona_id,['stato'=>'1',
+                                                      'posizione_famiglia'=>$posizione, 
+                                                      'data_entrata'=>($data_entrata ? $data_entrata: $data_creazione),
+                                                    ]);
+
+       });
+       return true;
+    }
+    catch (\Exception $e) {
+        return false;
+    }
+  }
+
+  
+  // Sposta una persona da una famiglia ad un altra, settando le date di entrata e uscita.
+  // La vecchia famiglia viene disabilitata e la  persona viene inserita nel nucleo familiare della nuova famiglia
+  public function spostaNellaFamiglia($old_famiglia_id, $data_uscita=null, $nuova_famiglia_id, $posizione_famiglia, $nuova_data_entrata){
+    //$nuova_famiglia = Famiglia::findOrFail($nuova_famiglia_id);
+   // dd($nuova_famiglia->mycomponenti());
+    try {
+      DB::transaction(function () use(&$old_famiglia_id,  &$data_uscita, &$nuova_famiglia_id, &$posizione_famiglia,  &$nuova_data_entrata) {
+        DB::connection('db_nomadelfia')->update( 
+          DB::raw("UPDATE famiglie_persone
+                   SET  data_uscita = :uscita, stato = '0'
+                   WHERE persona_id  = :persona AND famiglia_id = :famiglia "), //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
+                   array("persona"=> $this->id, 'famiglia' =>$old_famiglia_id,  "uscita"=>($data_uscita ? $data_uscita: $nuova_data_entrata))
+          );
+
+         $this->famiglie()->attach($nuova_famiglia_id,['stato'=>'1',
+                                                      'posizione_famiglia'=>$posizione_famiglia, 
+                                                      'data_entrata'=>$nuova_data_entrata,
+                                                    ]);
+
+       });
+       return true;
+    }
+    catch (\Exception $e) {
+      dd($e);
+        return false;
+    }
+  }
+
 
   /**
    * Ritorna la posizione di una persona in una famiglia
@@ -289,6 +338,15 @@ class Persona extends Model
     else
       return false;
   }
+  /**
+   * Ritorna vero se la persona è maggiorenne
+   * @return boolean  
+   * @author Davide Neri
+   **/
+  public function isMaggiorenne(){
+    return  Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
+  }
+
 
   /**
    * Ritorna vero se la persona è single altrimenti ritorna falso.
