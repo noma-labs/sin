@@ -1,6 +1,6 @@
 <my-modal modal-title="Sposta in un nuovo gruppo familiare" button-style="btn-warning my-2" button-title="Sposta">
     <template slot="modal-body-slot">
-        <form class="form" method="POST" id="formAssegnaGruppo{{$famiglia_id}}" action="{{ route('nomadelfia.famiglie.gruppo.assegna', ['id' =>$famiglia_id, 'currentGruppo'=>$gruppo_id]) }}" >      
+        <form class="form" method="POST" id="formAssegnaGruppo{{$famiglia_id}}" action="{{ route('nomadelfia.famiglie.gruppo.sposta', ['id' =>$famiglia_id, 'currentGruppo'=>$gruppo_id]) }}" >      
             {{ csrf_field() }}
             <div class="form-group row">
                 <label for="example-text-input" class="col-4 col-form-label">Nuovo gruppo</label>

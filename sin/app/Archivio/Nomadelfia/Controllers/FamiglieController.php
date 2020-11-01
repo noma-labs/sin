@@ -105,11 +105,11 @@ class FamiglieController extends CoreBaseController
   }
 
   /**
-  * Sposta la famiglia e tutti i componenti attivi (stato = 1) in un nuovo gruppo familiare.
+  * Sposta la famiglia e tutti i componenti attivi in un nuovo gruppo familiare.
   *
   * @author Davide Neri
   **/
-  public function assegnaGruppoFamiliare(Request $request, $id, $currentGruppo){ 
+  public function spostaInGruppoFamiliare(Request $request, $id, $currentGruppo){ 
     $validatedData = $request->validate([
       "nuovo_gruppo_id" => "required", 
       "data_cambiogruppo" => "required|date",
@@ -124,7 +124,7 @@ class FamiglieController extends CoreBaseController
       return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withSuccess("Famiglia spostata nel gruppo familiare con successo");
     }
     else{
-      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("Famiglia spostata nel gruppo familiare con successo");
+      return redirect(route('nomadelfia.famiglia.dettaglio',['id'=>$id]))->withError("La famiglia ha più di un gruppo attivo.");
     }
     
   }

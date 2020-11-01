@@ -240,17 +240,17 @@ class Famiglia extends Model
   * Assegna un nuovo gruppo familiare alla famiglia.
   * @author Davide Neri
   **/
-  public function assegnaFamigliaANuovoGruppoFamiliare($gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale=null, $gruppo_nuovo_id, $dataEntrataGruppo=null)
+  public function assegnaFamigliaANuovoGruppoFamiliare($gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale, $gruppo_nuovo_id, $dataEntrataGruppo=null)
   { 
     $famiglia_id = $this->id;
     $data_entrata = $dataEntrataGruppo;
-    return DB::transaction(function () use(&$gruppo_attuale_id, &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
+    return DB::transaction(function () use(&$gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale,  &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
      
       // Disabilita tutti i componento della famiglia nelvechi gruppo (metti stato = 0)
      DB::connection('db_nomadelfia')->update(
         DB::raw("UPDATE gruppi_persone
                 SET
-                    gruppi_persone.stato = '0'
+                    gruppi_persone.stato = '0', data_uscita_gruppo = :data_uscita
                 WHERE
                   gruppi_persone.gruppo_famigliare_id = :gruppoattuale
                   AND gruppi_persone.persona_id IN (
@@ -262,7 +262,7 @@ class Famiglia extends Model
                   )
                       
                   AND gruppi_persone.stato = '1' "), 
-                array('gruppoattuale' => $gruppo_attuale_id, 'famigliaId'=> $famiglia_id)# , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
+                array('gruppoattuale' => $gruppo_attuale_id, 'famigliaId'=> $famiglia_id , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
       );
       
       // Aggiungi a tutti i componenti della famiglia nel nuovo gruppo
