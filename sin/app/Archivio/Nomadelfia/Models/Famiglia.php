@@ -240,10 +240,9 @@ class Famiglia extends Model
   * Assegna un nuovo gruppo familiare alla famiglia.
   * @author Davide Neri
   **/
-  public function assegnaFamigliaANuovoGruppoFamiliare($gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale, $gruppo_nuovo_id, $dataEntrataGruppo=null)
+  public function assegnaFamigliaANuovoGruppoFamiliare($gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale, $gruppo_nuovo_id, $data_entrata=null)
   { 
     $famiglia_id = $this->id;
-    $data_entrata = $dataEntrataGruppo;
     return DB::transaction(function () use(&$gruppo_attuale_id, $dataUscitaGruppoFamiliareAttuale,  &$famiglia_id, &$gruppo_nuovo_id, &$data_entrata) {
      
       // Disabilita tutti i componento della famiglia nelvechi gruppo (metti stato = 0)

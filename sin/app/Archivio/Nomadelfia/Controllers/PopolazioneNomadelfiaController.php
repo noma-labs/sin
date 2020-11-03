@@ -24,17 +24,15 @@ use Validator;
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
   public function index(){
-    $perPosizioni =  PopolazioneNomadelfia::perPosizioni();
+    $totale = PopolazioneNomadelfia::totalePopolazione();
     $effettivi = PopolazioneNomadelfia::effettivi();
     $postulanti = PopolazioneNomadelfia::postulanti();
+    $ospiti = PopolazioneNomadelfia::ospiti();
     $figli = PopolazioneNomadelfia::byPosizione("FIGL");
-    $ospiti = PopolazioneNomadelfia::byPosizione("OSP");
-    $nonassegnato = PopolazioneNomadelfia::byPosizione("DADE");
-    $perCategoria =  PopolazioneNomadelfia::perCategorie();
-    $totale = PopolazioneNomadelfia::totalePopolazione();
+
     $gruppi = PopolazioneNomadelfia::gruppiComponenti();
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-    return view("nomadelfia.summary",compact('totale','perCategoria','effettivi', 'postulanti','figli','ospiti', 'nonassegnato', 'gruppi', 'posizioniFamiglia'));
+    return view("nomadelfia.summary",compact('totale','effettivi', 'postulanti','ospiti','figli', 'gruppi', 'posizioniFamiglia'));
   }
   
   public function print(Request $request){

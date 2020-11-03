@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Excpetions\StatoDoesNotExists;
 use Illuminate\Support\Facades\DB;
+use \stdClass;
 
 
 /*  
 * 
-*  Static methods for obtaning statistics on the popolazione 
+*  Static methods for obtaning statistics on the popolazione di Nomadelfia
 */
 class PopolazioneNomadelfia
 {
+
   /*
   *  Ritorna il totale della popolazione attuale
   *  Una persona fa parte della popolazione se e solo se
@@ -30,40 +32,53 @@ class PopolazioneNomadelfia
      return $res[0]->popolazione;
   }
 
-  /*
-  *  Ritorna il numero per persone attive per ogni categoria
-  */
-  public static function perCategorie()
-  {
-    $posizioni = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT categorie.nome, count(*) as count
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                INNER JOIN categorie ON categorie.id = persone_categorie.categoria_id
-                WHERE persone.stato = '1' AND persone_categorie.stato = '1'
-                GROUP BY categorie.nome"
-     ));
-    return $posizioni;
-  }
 
   /*
-  *  Ritorna i nomadelfi effettivi (sia donne che uomini) della popolazione
+  *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
+  *
   */
   public static function effettivi()
   {
-    return self::byPosizione("EFFE");
+    $result = new stdClass;
+    $effettivi = collect(self::byPosizione("EFFE"));
+    $sesso = $effettivi->groupBy("sesso");
+    $result->total =  $effettivi->count();
+    $result->uomini =  $sesso->get("M");
+    $result->donne = $sesso->get("F");
+    return $result;
+
   }
 
-   /*
-  *  Ritorna i postulanti (sia donne che uomini) della popolazione
+  /*
+  *  Ritorna i postulanti  della popolazione
   */
   public static function postulanti()
   {
-    return self::byPosizione("POST");
+    $result = new stdClass;
+    $postulanti = collect(self::byPosizione("POST"));
+    $sesso = $postulanti->groupBy("sesso");
+    $result->total =  $postulanti->count();
+    $result->uomini =  $sesso->get("M");
+    $result->donne = $sesso->get("F");
+    return $result;
+  }
+
+     /*
+  *  Ritorna gli ospiti  della popolazione
+  */
+  public static function ospiti()
+  {
+    $result = new stdClass;
+    $ospiti = collect(self::byPosizione("OSPP"));
+    $sesso = $ospiti->groupBy("sesso");
+    $result->total =  $ospiti->count();
+    $result->uomini =  $sesso->get("M");
+    $result->donne = $sesso->get("F");
+    return $result;
   }
 
    /*
-  *  Ritorna i postulanti (sia donne che uomini) della popolazione
+  *  Ritorna i figli  della popolazione
   */
   public static function figli()
   {
@@ -88,6 +103,21 @@ class PopolazioneNomadelfia
     return $posizioni;
   }
 
+  /*
+  *  Ritorna il numero per persone attive per ogni categoria
+  */
+  public static function perCategorie()
+  {
+    $posizioni = DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT categorie.nome, count(*) as count
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                INNER JOIN categorie ON categorie.id = persone_categorie.categoria_id
+                WHERE persone.stato = '1' AND persone_categorie.stato = '1'
+                GROUP BY categorie.nome"
+     ));
+    return $posizioni;
+  }
   /*
   *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
   */
@@ -192,8 +222,6 @@ class PopolazioneNomadelfia
      ));
     return $gruppi;
   }
-
-
 
 
 }

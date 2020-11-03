@@ -9,24 +9,40 @@
 
     <div class="card ">
       <div class="card-header">
-        Gestione Persone
+        Gestione Popolazione
       </div>
       <div class="card-body">
-          <p class="card-text">  Popolazione Nomadelfia: <strong>{{$totale}}</strong> </p>
-          <p class="card-text">  Persone divise per categoria </strong> </p>
-          <ul>
-              @foreach ($perCategoria as $categoria)
-                  <li>{{$categoria->nome}}:  <strong> {{$categoria->count}}</strong>  </li>
-              @endforeach
-          </ul>
-          <p class="card-text">  Persone divise per posizione in Nomadelfia </strong> </p>
-          <ul>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Effettivi</a>   <strong> {{count($effettivi)}}</strong>    </li>
-              <li> <a href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">  Postulanti</a>   <strong> {{count($postulanti)}}</strong>    </li>
+        
+        <h5 class="card-text">  Totale Popolazione Nomadelfia: <strong>{{$totale}}</strong> </h5>
+
+        <div class="row align-items-center">
+          <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Effettivi</a> </strong> </div>
+          <div class="col-md-6"> <strong> {{$effettivi->total}}</strong>  </div>
+          <div class="col-md-6"><p>Uomini</p> </div>
+          <div class="col-md-6">  {{count($effettivi->uomini)}} </div>
+          <div class="col-md-6"><p>Donne</p> </div>
+          <div class="col-md-6">  {{count($effettivi->donne)}} </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">  Postulanti</a> </strong> </div>
+            <div class="col-md-6"> <strong> {{$postulanti->total}}</strong>  </div>
+            <div class="col-md-6"><p>Uomini</p> </div>
+            <div class="col-md-6">  {{count($postulanti->uomini)}} </div>
+            <div class="col-md-6"><p>Donne</p> </div>
+            <div class="col-md-6">  {{count($postulanti->donne)}} </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Ospiti</a> </strong> </div>
+            <div class="col-md-6"> <strong> {{$ospiti->total}}</strong>  </div>
+            <div class="col-md-6"><p>Uomini</p> </div>
+            <div class="col-md-6">  {{count($ospiti->uomini)}} </div>
+            <div class="col-md-6"><p>Donne</p> </div>
+            <div class="col-md-6">  {{count($ospiti->donne)}} </div>
+        </div>
+
+          {{-- <ul>
               <li> <a href="{{route('nomadelfia.popolazione.posizione.figli')}}">  Figli</a>   <strong> {{count($figli)}}</strong>    </li>
-              <li>  Ospiti  <strong> {{count($ospiti)}}</strong>    </li>
-              <li> Non Assegnato   <strong> {{count($nonassegnato)}}</strong>    </li>
-          </ul>
+          </ul> --}}
       </div>
       <div class="card-footer">
        <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a> 
