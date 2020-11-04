@@ -28,11 +28,16 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     $effettivi = PopolazioneNomadelfia::effettivi();
     $postulanti = PopolazioneNomadelfia::postulanti();
     $ospiti = PopolazioneNomadelfia::ospiti();
+    $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+    $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+    $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
+    $minorenni = PopolazioneNomadelfia::figliMinorenni();
     $figli = PopolazioneNomadelfia::byPosizione("FIGL");
+
 
     $gruppi = PopolazioneNomadelfia::gruppiComponenti();
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-    return view("nomadelfia.summary",compact('totale','effettivi', 'postulanti','ospiti','figli', 'gruppi', 'posizioniFamiglia'));
+    return view("nomadelfia.summary",compact('totale','effettivi', 'postulanti','ospiti', 'sacerdoti', 'mvocazione', 'maggiorenni', 'minorenni','figli', 'gruppi', 'posizioniFamiglia'));
   }
   
   public function print(Request $request){
@@ -74,8 +79,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   }
 
   public function preview(){
-    $maggiorenniUomini= PopolazioneNomadelfia::MaggiorenniUomini(); //attivo()->maggiorenni()->orderBy("nominativo");
-    $maggiorenniDonne = PopolazioneNomadelfia::MaggiorenniDonne();
+    $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
+    $maggiorenniUomini= $maggiorenni->uomini; 
+    $maggiorenniDonne = $maggiorenni->donne;
     $minorenni = PopolazioneNomadelfia::Minorenni();
     $minorenni = collect($minorenni)->groupby(['anno', function($item){
                                                         return $item->sesso;

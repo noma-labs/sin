@@ -39,6 +39,30 @@
             <div class="col-md-6"><p>Donne</p> </div>
             <div class="col-md-6">  {{count($ospiti->donne)}} </div>
         </div>
+        <div class="row">
+            <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Sacerdoti</a> </strong> </div>
+            <div class="col-md-6"> <strong> {{count($sacerdoti)}}</strong>  </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Mamme di vocazione</a> </strong> </div>
+            <div class="col-md-6"> <strong> {{count($mvocazione)}}</strong>  </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Figli Maggiorenni</a> </strong> </div>
+          <div class="col-md-6"> <strong> {{$maggiorenni->total}}</strong>  </div>
+          <div class="col-md-6"><p>Uomini</p> </div>
+            <div class="col-md-6">  {{count($maggiorenni->uomini)}} </div>
+            <div class="col-md-6"><p>Donne</p> </div>
+            <div class="col-md-6">  {{count($maggiorenni->donne)}} </div>
+      </div>
+        <div class="row">
+          <div class="col-md-6"><strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}"> Figli  Minorenni</a> </strong> </div>
+          <div class="col-md-6"> <strong> {{$minorenni->total}}</strong>  </div>
+          <div class="col-md-6"><p>Uomini</p> </div>
+            <div class="col-md-6">  {{count($minorenni->uomini)}} </div>
+            <div class="col-md-6"><p>Donne</p> </div>
+            <div class="col-md-6">  {{count($minorenni->donne)}} </div>
+      </div>
 
           {{-- <ul>
               <li> <a href="{{route('nomadelfia.popolazione.posizione.figli')}}">  Figli</a>   <strong> {{count($figli)}}</strong>    </li>
