@@ -55,7 +55,8 @@
                   
                     <div class="row">
                       <div class="col-sm-6">
-                        {{$gruppoAttuale[0]->nome}}
+                          @include('nomadelfia.templates.gruppo', ['id'=>($gruppoAttuale[0])->id, "nome"=>($gruppoAttuale[0])->nome])
+                      
                       </div>
                       <div class="col-sm-6">
                         <span> {{$gruppoAttuale[0]->data_entrata_gruppo}}</span>
@@ -101,7 +102,7 @@
                 <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-6">
-                       {{$gruppo->nome}}
+                       @include('nomadelfia.templates.gruppo', ['id'=>$gruppo->id, "nome"=>$gruppo->nome])
                       </div>
                       <div class="col-md-6">
                         <span> {{$gruppo->data_entrata_gruppo}} - {{$gruppo->data_uscita_gruppo}}</span>

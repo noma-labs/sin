@@ -29,6 +29,7 @@ class GruppoFamiliare extends Model
   }
 
 
+  // deprecato: usare il metodo componenti()
   public function persone()
   {
     return $this->belongsToMany(Persona::class,'gruppi_persone','gruppo_famigliare_id','persona_id')
@@ -41,11 +42,30 @@ class GruppoFamiliare extends Model
   }
 
   /*
+  * Ritorna il numero di componenti per un singolo gruppo familiare
+  * Le persone sono contate nel gruppo se:
+  *       - è una persona attiva
+  *       - è una persone con categoria diversa da "persona esterna"
+  */
+  public function componenti()
+  {
+    $gruppi = DB::connection('db_nomadelfia')->select( 
+      DB::raw("
+      SELECT  persone.*
+      FROM persone
+      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
+      INNER JOIN persone_categorie ON persone_categorie.persona_id = gruppi_persone.persona_id
+      WHERE gruppi_persone.stato = '1' AND persone_categorie.categoria_id != 4 AND gruppi_persone.stato = '1'
+           AND gruppi_persone.gruppo_famigliare_id = :gruppo
+      order by persone.data_nascita ASC"), array('gruppo' => $this->id));
+    return $gruppi;
+  }
+
+  /*
   * Ritorna il numero di componenti per ogni gruppi familiare
   * Le persone sono contate nel gruppo se:
   *       - è una persona attiva
   *       - è una persone con categoria diversa da "persona esterna"
-  *       - 
   */
   public static function countComponenti()
   {

@@ -4,10 +4,20 @@
             {{ csrf_field() }}
             <input type="hidden" name="current_data_inizio"  value="{{$data_inizio}}"  />
             <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Data inizio</label>
-            <div class="col-sm-6">
-                <date-picker :bootstrap-styling="true" value="{{$data_inizio }}" format="yyyy-MM-dd" name="new_data_inizio"></date-picker>
+                <label class="col-sm-6 col-form-label"> Data Attuale</label>
+                <div class="form-check  col-sm-6 ">
+                        <label class="form-check-label" for="exampleRadios1">
+                                {{$data_inizio}}
+                        </label>
+                </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Nuova Data</label>
+                <div class="form-check  col-sm-6">
+                        <label class="form-check-label">
+                                <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_nascita }}" format="yyyy-MM-dd" name="new_data_inizio"></date-picker>
+                        </label>
+                </div>
             </div>
         </form>
     </template> 

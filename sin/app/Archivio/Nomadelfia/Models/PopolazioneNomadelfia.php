@@ -77,12 +77,44 @@ class PopolazioneNomadelfia
     return $result;
   }
 
-   /*
+  /*
   *  Ritorna i figli  della popolazione
   */
   public static function figli()
   {
     return self::byPosizione("FIGL");
+  }
+
+   /*
+  *  Ritorna i figli maggiorenni
+  */
+  public static function figliMaggiorenni()
+  {
+    $magg = self::figliDaEta(18);
+    $result = new stdClass;
+    $maggioreni = collect($magg);
+    
+    $sesso = $maggioreni->groupBy("sesso");
+    $result->total =  $maggioreni->count();
+    $result->uomini =  $sesso->get("M");
+    $result->donne = $sesso->get("F");
+    return $result;
+  }
+
+  
+  /*
+  *  Ritorna i maggiorenni donna
+  */
+  public static function figliMinorenni()
+  {
+    $magg = self::figliDaEta(0,18);
+    $result = new stdClass;
+    $maggioreni = collect($magg);
+    $sesso = $maggioreni->groupBy("sesso");
+    $result->total =  $maggioreni->count();
+    $result->uomini =  $sesso->get("M");
+    $result->donne = $sesso->get("F");
+    return $result;
   }
 
   /*
@@ -100,6 +132,15 @@ class PopolazioneNomadelfia
   {
     return self::byStati("MAV");
   }
+
+   /*
+  *  Ritorna le nomadelfa mamma  della popolazione
+  */
+  public static function nomadelfaMamma()
+  {
+    return self::byStati("MAM");
+  }
+
 
 
   /*
@@ -169,54 +210,25 @@ class PopolazioneNomadelfia
   }
 
   /*
-  *  Ritorna il numero di persone maggiorenni e minorenni divisi per eta per ogni gruppo
-  */
+  *  Ritorna il numero di persone per ogni gruppo familiare
+ 
   public static function gruppiComponenti()
   {
     $gruppi = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT gruppi_familiari.nome,  count(*) as componenti
+      DB::raw("SELECT gruppi_familiari.id,  count(*) as componenti
       FROM gruppi_persone
       INNER JOIN persone ON gruppi_persone.persona_id = persone.id
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
       WHERE persone.stato = '1' and gruppi_persone.stato = '1'
-      GROUP by gruppi_familiari.nome
+      GROUP by gruppi_familiari.id
       ORDER BY gruppi_familiari.nome"
      ));
     return $gruppi;
   }
+   */
 
 
-  /*
-  *  Ritorna i figli maggiorenni
-  */
-  public static function figliMaggiorenni()
-  {
-    $magg = self::figliDaEta(18);
-    $result = new stdClass;
-    $maggioreni = collect($magg);
-    
-    $sesso = $maggioreni->groupBy("sesso");
-    $result->total =  $maggioreni->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
-
-  
-  /*
-  *  Ritorna i maggiorenni donna
-  */
-  public static function figliMinorenni()
-  {
-    $magg = self::figliDaEta(0,18);
-    $result = new stdClass;
-    $maggioreni = collect($magg);
-    $sesso = $maggioreni->groupBy("sesso");
-    $result->total =  $maggioreni->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
+ 
 
   /*
   *  Ritorna le persona della popolazione con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo) 
@@ -226,19 +238,19 @@ class PopolazioneNomadelfia
     if ($toEta == null)
     {
       return DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT * FROM persone
+        DB::raw("SELECT persone.*, persone_posizioni.* FROM persone
       INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
       INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
       INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
       WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
           AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :anni YEAR)
           AND posizioni.abbreviato = 'FIGL'
-          ORDER BY data_nascita "), array('anni'=>$fromEta)
+          ORDER BY data_nascita"), array('anni'=>$fromEta)
           );
 
     } else{
       return  DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT *
+        DB::raw("SELECT persone.*, persone_posizioni.*
                 FROM persone
                 INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id

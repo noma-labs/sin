@@ -3,7 +3,10 @@
 namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+/*
+select `archivio_biblioteca`.`libro`.`collocazione` AS `COLLOCAZIONE`,substr(`archivio_biblioteca`.`libro`.`collocazione`,1,3) 
+AS `lettere`,cast(substr(`archivio_biblioteca`.`libro`.`collocazione`,4,3) as unsigned) AS `numeri` from `archivio_biblioteca`.`libro`
+*/
 class ViewCollocazione extends Model
 {
   protected $connection = 'db_biblioteca';

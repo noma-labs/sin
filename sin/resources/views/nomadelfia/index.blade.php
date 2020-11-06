@@ -6,6 +6,19 @@
   <li class="nav-item">
       <a class="nav-link" href="{{ route('nomadelfia') }}">Nomadelfia</a>
   </li>
+  <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle"  id="navbarPopolazione" role="button" 
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Popolazione
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarPopolazione">
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.effettivi')}}" >Effettivi</a> 
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">Postulanti</a>
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.ospiti')}}">Ospiti</a>
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.figli.maggiorenni')}}">Figli Mag.</a>
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.figli.minorenni')}}">Figli Min.</a>
+      </div>
+    </li>
   
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle"  id="navbarPesone" role="button" 

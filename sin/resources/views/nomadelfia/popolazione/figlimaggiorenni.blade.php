@@ -4,13 +4,13 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => 'Gestione Postulanti '])
+@include('partials.header', ['title' => 'Gestione Figli Maggiorenni'])
 
 <div class="row justify-content-md-center">
     <div class="col-md-12">
       <div class="card my-2">
         <div class="card-body">
-          <h3>Postulanti <span class="badge badge-primary"> {{$postulanti->total}}</span></h3>
+          <h3>Figli Maggiorenni <span class="badge badge-primary"> {{$maggiorenni->total}}</span></h3>
          </div> 
        </div> 
     </div> 
@@ -20,7 +20,7 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
-              <h5>Uomini <span class="badge badge-primary"> {{count($postulanti->uomini)}}</span></h5>
+              <h5>Uomini <span class="badge badge-primary"> {{count($maggiorenni->uomini)}}</span></h5>
             </div>
             <div class="card-body">
               <div class="row">
@@ -30,7 +30,7 @@
                 <p class="col-md-3 font-weight-bold"> Operazioni </p>
               </div>
       
-              @forelse($postulanti->uomini as $persona)
+              @forelse($maggiorenni->uomini as $persona)
             
                 <div class="row">
                   <p class="col-md-3"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
@@ -51,7 +51,7 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
-              <h5>Donne <span class="badge badge-primary"> {{count($postulanti->donne)}}</span></h5>
+              <h5>Donne <span class="badge badge-primary"> {{count($maggiorenni->donne)}}</span></h5>
             </div>
             <div class="card-body">
               <div class="row">
@@ -61,7 +61,7 @@
                 <p class="col-md-3 font-weight-bold"> Operazioni </p>
               </div>
       
-              @forelse($postulanti->donne as $persona)
+              @forelse($maggiorenni->donne as $persona)
             
                 <div class="row">
                   <p class="col-md-3"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
