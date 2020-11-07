@@ -66,7 +66,7 @@
               <template slot="modal-body-slot">
                 <form class="form" method="POST"  id="formPersonaPosizione" action="{{ route('nomadelfia.persone.posizione.assegna', ['idPersona' =>$persona->id]) }}" >      
                     {{ csrf_field() }}
-                    @if($attuale)
+                    @if(count($posattuale) == 1)
                     <h5 class="my-2">Completa dati della posizione attuale: {{$attuale->nome}}</h5>
                     <div class="form-group row">
                       <label for="inputPassword" class="col-sm-6 col-form-label">Data fine posizione</label>
