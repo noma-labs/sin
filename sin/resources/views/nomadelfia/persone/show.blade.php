@@ -142,7 +142,11 @@
                 <label class="col-sm-4 font-weight-bold">Posizione: </label>
                 <div class="col-sm-6">
                   @forelse ($persona->posizioneAttuale()->get() as $attuale)
-                    {{$attuale->nome}}, 
+                    @if ($attuale->number == 0)
+                     {{$attuale->nome}}
+                    @else
+                     ,{{$attuale->nome}}
+                    @endif
                   @empty
                     <span class="text-danger">Nessuna posizione</span>
                   @endforelse
