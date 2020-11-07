@@ -144,6 +144,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::get('popolazione/stampa/preview', 'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
 
   // POPOLAZIONE 
+  Route::get('popolazione/', 'PopolazioneNomadelfiaController@show')->name("nomadelfia.popolazione");
   Route::get('popolazione/posizione/effettivi', 'PopolazioneNomadelfiaController@effettivi')->name("nomadelfia.popolazione.posizione.effettivi");
   Route::get('popolazione/posizione/postulanti', 'PopolazioneNomadelfiaController@postulanti')->name("nomadelfia.popolazione.posizione.postulanti");
   Route::get('popolazione/posizione/figlimaggiorenni', 'PopolazioneNomadelfiaController@figliMaggiorenni')->name("nomadelfia.popolazione.posizione.figli.maggiorenni");

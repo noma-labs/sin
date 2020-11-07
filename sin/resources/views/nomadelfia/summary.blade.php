@@ -14,46 +14,47 @@
       <div class="card-body">
         <ul class="list-group list-group-flush ">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              Popolazione Nomadelfia 
+                <a href="{{route('nomadelfia.popolazione')}}"> Popolazione Nomadelfia</a>
+               
               <span class="badge badge-primary badge-pill"> {{$totale}}</span> </li>
             <li class="list-group-item  d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Effettivi</a> </strong> 
+                <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Effettivi</a> 
                 <p>Donne ({{count($effettivi->donne)}})</p>
                 <p>Uomini  ({{count($effettivi->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$effettivi->total}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">  Postulanti</a> </strong> 
+                <a href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">  Postulanti</a> 
                 <p>Donne ({{count($postulanti->donne)}})</p>
                 <p>Uomini  ({{count($postulanti->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$postulanti->total}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.ospiti')}}">  Ospiti</a> </strong> 
+                <a href="{{route('nomadelfia.popolazione.posizione.ospiti')}}">  Ospiti</a> 
                 <p>Donne ({{count($ospiti->donne)}})</p>
                 <p>Uomini  ({{count($ospiti->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$postulanti->total}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Sacerdoti</a> </strong> 
+               <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Sacerdoti</a> 
                 <span class="badge badge-primary badge-pill"> {{count($sacerdoti)}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Mamme di Vocazione</a> </strong> 
+               <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Mamme di Vocazione</a> 
                 <span class="badge badge-primary badge-pill"> {{count($mvocazione)}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Nomadelfa Mamma</a> </strong> 
+               <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Nomadelfa Mamma</a> 
                 <span class="badge badge-primary badge-pill"> {{count($nomanamma)}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.figli.maggiorenni')}}">  Figli Maggiorenni</a> </strong> 
+               <a href="{{route('nomadelfia.popolazione.posizione.figli.maggiorenni')}}">  Figli Maggiorenni</a> 
                 <p>Donne ({{count($maggiorenni->donne)}})</p>
                 <p>Uomini  ({{count($maggiorenni->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$maggiorenni->total}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong> <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Figli Minorenni</a> </strong> 
+               <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Figli Minorenni</a> 
                 <p>Donne ({{count($minorenni->donne)}})</p>
                 <p>Uomini  ({{count($minorenni->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$minorenni->total}}</span>

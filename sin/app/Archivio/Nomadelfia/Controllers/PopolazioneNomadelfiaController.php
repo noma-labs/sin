@@ -41,6 +41,37 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
     return view("nomadelfia.summary",compact('totale','effettivi', 'postulanti','ospiti', 'sacerdoti', 'mvocazione', 'nomanamma','maggiorenni', 'minorenni','figli', 'gruppi', 'posizioniFamiglia'));
   }
+
+  public function show(Request $request){
+    $popolazione = PopolazioneNomadelfia::popolazione();
+    return view("nomadelfia.popolazione.show",compact('popolazione'));
+  }
+
+  public function effettivi(Request $request){
+    $effettivi = PopolazioneNomadelfia::effettivi();
+    return view("nomadelfia.popolazione.effettivi",compact('effettivi'));
+  }
+
+  public function postulanti(Request $request){
+    $postulanti = PopolazioneNomadelfia::postulanti();
+    return view("nomadelfia.popolazione.postulanti",compact('postulanti'));
+  }
+
+  public function ospiti(Request $request){
+    $ospiti = PopolazioneNomadelfia::ospiti();
+    return view("nomadelfia.popolazione.ospiti",compact('ospiti'));
+  }
+
+  public function figliMaggiorenni(Request $request){
+    $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
+    return view("nomadelfia.popolazione.figlimaggiorenni",compact('maggiorenni'));
+  }
+
+  public function figliMinorenni(Request $request){
+    $minorenni = PopolazioneNomadelfia::figliMinorenni();
+    return view("nomadelfia.popolazione.figliminorenni",compact('minorenni'));
+  }
+  
   
   public function print(Request $request){
     $elenchi = collect($request->elenchi);
@@ -116,40 +147,5 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                       }]);
   }
 
-
-  public function effettivi(Request $request){
-    $effettivi = PopolazioneNomadelfia::effettivi();
-    return view("nomadelfia.popolazione.effettivi",compact('effettivi'));
-  }
-
-  public function postulanti(Request $request){
-    $postulanti = PopolazioneNomadelfia::postulanti();
-    return view("nomadelfia.popolazione.postulanti",compact('postulanti'));
-  }
-
-  public function ospiti(Request $request){
-    $ospiti = PopolazioneNomadelfia::ospiti();
-    return view("nomadelfia.popolazione.ospiti",compact('ospiti'));
-  }
-
-  public function figliMaggiorenni(Request $request){
-    $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
-    return view("nomadelfia.popolazione.figlimaggiorenni",compact('maggiorenni'));
-  }
-
-  public function figliMinorenni(Request $request){
-    $minorenni = PopolazioneNomadelfia::figliMinorenni();
-    return view("nomadelfia.popolazione.figliminorenni",compact('minorenni'));
-  }
-
-  public function figli(Request $request){
-    $postulanti = collect(PopolazioneNomadelfia::figli())->sortBy("data_nascita");
-    $count = $postulanti->count();
-    $g =  $postulanti->groupBy("sesso");
-    $uomini = $g->get('M');
-    $donne = $g->get('F');
-    return view("nomadelfia.popolazione.figli",compact('count', $count,'uomini', $uomini, "donne",$donne));
-  }
-  
 
 }
