@@ -362,8 +362,8 @@ class PersoneController extends CoreBaseController
       // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    if($persona->posizioneAttuale()) // se 
-      $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
+    if($persona->posizioneAttuale->count() == 1) // se 
+      $persona->posizioni()->updateExistingPivot($persona->posizioneAttuale()->first()->id, ['stato'=>'0','data_fine'=>($request->data_fine ? $request->data_fine: $request->data_inizio)]);
     $persona->posizioni()->attach($request->posizione_id, ['stato'=>'1','data_inizio'=>$request->data_inizio]);
     return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
   }
