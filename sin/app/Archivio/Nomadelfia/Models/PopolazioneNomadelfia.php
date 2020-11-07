@@ -32,6 +32,7 @@ class PopolazioneNomadelfia
       LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
       LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
       WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
+      ORDER BY nominativo
       "
       ));
      return $res;
