@@ -422,7 +422,8 @@ class Persona extends Model
   }
   public function posizioneAttuale(){
     return $this->posizioni()
-                ->wherePivot('stato', '1')->first();
+                ->wherePivot('stato', '1');
+                #->first();
   }
 
   public function posizioniStorico(){
@@ -460,7 +461,9 @@ class Persona extends Model
   public function posizioniPossibili(){
     $pos = self::posizioneAttuale();
     $posizioni = Posizione::all();
-    if($pos != null){
+    if($pos != null && $pos->count() == 1){
+     
+      $pos = $pos->first();
       $posizioni = $posizioni->except([$pos->id]);
       if($pos->is(Posizione::find("EFFE")))
         return $posizioni->except([Posizione::find("FIGL")->id]);

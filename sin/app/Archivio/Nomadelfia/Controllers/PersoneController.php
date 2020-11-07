@@ -341,9 +341,9 @@ class PersoneController extends CoreBaseController
    */
   public function posizione($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    $attuale = $persona->posizioneAttuale();
+    $posattuale = $persona->posizioneAttuale; // ce ne possono essere più di una (per errori di isnerimento dati)
     $storico = $persona->posizioniStorico;
-    return view("nomadelfia.persone.posizione.show", compact('persona', 'attuale', "storico"));
+    return view("nomadelfia.persone.posizione.show", compact('persona', 'posattuale', "storico"));
   }
 
   /**

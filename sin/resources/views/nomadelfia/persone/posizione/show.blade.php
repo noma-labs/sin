@@ -13,7 +13,7 @@
         Posizione attuale
       </div>
       <div class="card-body">
-          @if($attuale)
+          @forelse ($posattuale as $attuale)
             <div class="row">
               <p class="col-md-3 font-weight-bold"> Posizione</p>
               <p class="col-md-2 font-weight-bold"> Data Inizio</p>
@@ -59,9 +59,9 @@
                 @include('nomadelfia.templates.eliminaPersonaPosizione',['persona'=>$persona, 'posizione'=>$attuale])
                </div>
             </div>
-          @else
+          @empty
            <p class="text-danger">Nessuna posizione</p>
-          @endif
+          @endforelse
           <my-modal modal-title="Aggiungi Posizione persona" button-title="Nuova Posizione" button-style="btn-success  my-2">
               <template slot="modal-body-slot">
                 <form class="form" method="POST"  id="formPersonaPosizione" action="{{ route('nomadelfia.persone.posizione.assegna', ['idPersona' =>$persona->id]) }}" >      
