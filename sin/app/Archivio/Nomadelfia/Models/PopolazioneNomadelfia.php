@@ -22,7 +22,7 @@ class PopolazioneNomadelfia
   */
   public static function popolazione(){
     $res = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT *
+      DB::raw("SELECT persone.*, posizioni.nome as posizione
             FROM persone
             INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
             LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id

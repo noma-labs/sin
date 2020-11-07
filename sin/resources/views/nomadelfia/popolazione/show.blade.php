@@ -25,7 +25,11 @@
           <td>{{ $persona->nome }} </td>
           <td>{{ $persona->cognome }}</td>
           <td>{{ $persona->data_nascita }}</td>
-          <td>{{ $persona->posizione }}</td>
+          <td>
+            @if ($persona->posizione)
+             {{ $persona->posizione }}
+            @endif
+          </td>
           <td><a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a></td>
         </tr>
     @empty
