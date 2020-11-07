@@ -22,13 +22,13 @@ class PopolazioneNomadelfia
   */
   public static function popolazione(){
     $res = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT persone.*, posizioni.nome as posizione
-      FROM persone
-      INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-      LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-      INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-      WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
-      ORDER BY nominativo
+      DB::raw("SELECT *
+            FROM persone
+            INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+            LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+            LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+            ORDER BY nominativo
             "));
      return $res;
   }
