@@ -21,7 +21,7 @@ Framework:
 
 1. Scarica ed installa [`xampp 7.1.10`](https://www.apachefriends.org/it/index.html) (include Apache 2.4.28, MariaDB 10.1.28, PHP 7.1.10, phpMyAdmin 4.7.4).
 
-2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
+2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). (Composer 1.8.5 2019-04-09) Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
 
 3. Scarica e instalal [`node.js 8.9.x`](https://nodejs.org/it/download/) (include `npm 5.5.1`)
 
