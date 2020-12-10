@@ -12,7 +12,7 @@
             <h5 class="mb-0">
               <button class="btn btn-link" data-toggle="collapse" data-target="#effettivi" aria-expanded="true" aria-controls="effettivi">
               Effettivi 
-              <span class="badge badge-primary badge-pill"></span> 
+              <span class="badge badge-primary badge-pill"> {{$effettivi->total}}</span> 
               </button>
             </h5>
           </div>
@@ -20,19 +20,15 @@
             <div class="card-body">
             <div class="row">
               <div class="col-md-6"> 
-                <h5>Uomini<span class="badge badge-primary badge-pill"> COUNT UOMINI</span> </h5>
-                  @foreach($effettivi as $effettivo)
-                    @if($effettivo->sesso == "M")
-                     <div>@include("nomadelfia.templates.persona", ['persona' => $effettivo]) {{$effettivo->data_inizio}}</div>
-                    @endif
+                <h5>Uomini<span class="badge badge-primary badge-pill"> {{count($effettivi->uomini)}}</span> </h5>
+                  @foreach($effettivi->uomini as $uomo)
+                     <div>@include("nomadelfia.templates.persona", ['persona' => $uomo]) {{$uomo->data_inizio}}</div>
                   @endforeach
               </div>
               <div class="col-md-6"> 
-                <h5>Donne <span class="badge badge-primary badge-pill"> COUNT DONNE</span> </h5>
-                @foreach($effettivi as $effettivo)
-                  @if($effettivo->sesso == "F")
-                  <div>@include("nomadelfia.templates.persona", ['persona' => $effettivo]) {{$effettivo->data_inizio}}</div>
-                  @endif
+              <h5>Donne <span class="badge badge-primary badge-pill"> {{count($effettivi->donne)}}</span> </h5>
+                @foreach($effettivi->donne as $donna)
+                  <div>@include("nomadelfia.templates.persona", ['persona' => $donna]) {{$donna->data_inizio}}</div>
                 @endforeach
               </div>
             </div>
@@ -49,7 +45,7 @@
             <h5 class="mb-0">
               <button class="btn btn-link" data-toggle="collapse" data-target="#postulanti" aria-expanded="true" aria-controls="postulanti">
               Postulanti 
-              <span class="badge badge-primary badge-pill">{{count($postulanti)}}</span> 
+              <span class="badge badge-primary badge-pill">{{$postulanti->total}}</span> 
               </button>
             </h5>
           </div>

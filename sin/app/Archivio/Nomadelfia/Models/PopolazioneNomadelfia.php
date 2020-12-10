@@ -67,7 +67,7 @@ class PopolazioneNomadelfia
     $effettivi = collect(self::byPosizione("EFFE"));
     $sesso = $effettivi->groupBy("sesso");
     $result->total =  $effettivi->count();
-    $result->uomini =  $sesso->get("M");
+    $result->uomini = $sesso->get("M");
     $result->donne = $sesso->get("F");
     return $result;
 

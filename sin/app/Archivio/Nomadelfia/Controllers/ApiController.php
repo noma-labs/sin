@@ -9,6 +9,7 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\NucleoFamigliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\GruppoFamiliare;
 
 use Carbon;
 
@@ -22,13 +23,28 @@ class ApiController extends BaseController
 			$results[] = ['value'=>$persona->id,'label'=>$persona->nominativo];
 		return response()->json($results);
 	}
+
+	function persona(Request $request, $id){
+		$persona = Persona::findOrFail($id);
+		return response()->json($persona);
+	}
 	
-	function famiglieAll(Request $request)
+	function gruppi(Request $request){
+		$term = $request->term;
+		$gruppi = GruppoFamiliare::where("nome", "LIKE", "$term%")->orderBy("nome")->get();
+		$results = array();
+		foreach ($gruppi as $gruppo)
+			$results[] = ['value'=>$gruppo->id,'label'=>$gruppo->nome];
+		return response()->json($results);
+	}
+
+	function famiglie(Request $request)
 	{
-		$famiglie = Famiglia::all();
+		$term = $request->term;
+		$famiglie = Famiglia::where("nome_famiglia", "LIKE", "$term%")->orderBy("nome_famiglia")->get();
 		$results = array();
 		foreach ($famiglie as $famiglia) {
-			$results[] = ['id' => $famiglia->id, 'nome' => $famiglia->famiglia];
+			$results[] = ['value' => $famiglia->id, 'label' => $famiglia->nome_famiglia];
 		}
 		return response()->json($results);
 	}

@@ -17,6 +17,10 @@ use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
 
 use App\Nomadelfia\Exceptions\GruppoFamiliareDoesNOtExists;
+use App\Nomadelfia\Exceptions\PersonaErrors;
+use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
+use App\Nomadelfia\Exceptions\PersonaHasNoGroup;
+use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 
 use App\Patente\Models\Patente;
 use App\Nomadelfia\Models\Stato;
@@ -61,6 +65,11 @@ class Persona extends Model
   public function isAttivo()
   {
       return $this->stato == "1";
+  }
+
+  public function isMaschio()
+  {
+      return $this->sesso == "M";
   }
 
   public function scopeMaggiorenni($query)
@@ -117,6 +126,7 @@ class Persona extends Model
     return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
   }
 
+
    // GRUPPO FAMILIARE
   public function gruppifamiliari(){
     return $this->belongsToMany(GruppoFamiliare::class,'gruppi_persone','persona_id','gruppo_famigliare_id')
@@ -124,10 +134,18 @@ class Persona extends Model
   }
 
   public function gruppofamiliareAttuale(){
-    return $this->gruppifamiliari()
+    $gruppo = $this->gruppifamiliari()
                  ->wherePivot('stato', '1')
                  ->get();
+    if ($gruppo->count() == 1){
+      return $gruppo[0];
+    } elseif ($gruppo->count() == 0){
+      return null;
+    }else {
+      throw  PersonaHasMultipleGroup::named($this->nominativo);
+    }
   }
+  
 
   public function gruppofamiliariStorico(){
     return $this->gruppifamiliari()
@@ -209,7 +227,7 @@ class Persona extends Model
   // CATEGORIA
   public function categorie(){
     return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
-                ->withPivot('stato','data_inizio','data_fine');
+          ->withPivot('data_inizio', 'data_fine', 'stato');
   }
 
   public function categoriaAttuale(){
@@ -220,6 +238,162 @@ class Persona extends Model
     return $this->categorie()->wherePivot('stato', '0')
                 ->orderby('data_fine','desc');
   }
+
+  // Inserisce un minorenne che entra con la sua famiglia
+  public function entrataMinorenneConFamiglia($data_entrata, $famiglia_id){
+    $famiglia = Famiglia::findOrFail($famiglia_id);
+    $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+
+    $pos = Posizione::find("FIGL");
+    $stato = Stato::find("CEL");
+    $famiglia_data = $this->data_nascita; // la data di entrata nella famiglia è uguale alla data di nascita
+    $gruppo_data = $data_entrata;
+    $pos_data = $data_entrata;
+    $stato_data = $this->data_nascita;
+    $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id, $stato_data, $famiglia_id, "FIGLIO NATO", $famiglia_data);
+ 
+  }
+
+  // Inserissce un minorenne che entra come figlio accolto
+  public function entrataMinorenneAccolto($data_entrata, $famiglia_id){
+    $famiglia = Famiglia::findOrFail($famiglia_id);
+    $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+
+    $pos = Posizione::find("FIGL");
+    if ($this->isMaschio())
+      $stato = Stato::find("CEL");
+    else
+      $stato = Stato::find("NUB");
+    $famiglia_data = $data_entrata;  // la data di entrata nella famiglia è uguale alla data di entrata in nomadelfia
+    $gruppo_data = $data_entrata;
+    $pos_data = $data_entrata;
+    $stato_data = $this->data_nascita;
+    $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id, $stato_data, $famiglia_id, "FIGLIO ACCOLTO", $famiglia_data);
+  }
+
+  public function entrataNatoInNomadelfia($famiglia_id){
+    $famiglia = Famiglia::findOrFail($famiglia_id);
+    $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+
+    $pos = Posizione::find("FIGL");
+    if ($this->isMaschio())
+      $stato = Stato::find("CEL");
+    else
+      $stato = Stato::find("NUB");
+    $famiglia_data = $this->data_nascita; 
+    $gruppo_data = $this->data_nascita; 
+    $pos_data = $this->data_nascita;
+    $stato_data = $this->data_nascita;
+    $this->entrataInNomadelfia($this->data_nascita, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id, $stato_data, $famiglia_id, "FIGLIO NATO", $famiglia_data);
+  }
+
+  public function entrataMaggiorenneSingle($data_entrata, $gruppo_id){
+    $pos = Posizione::find("OSPP");
+    if ($this->isMaschio())
+      $stato = Stato::find("CEL");
+    else
+      $stato = Stato::find("NUB");
+    $gruppo_data = $data_entrata; 
+    $pos_data = $data_entrata;
+    $stato_data = $this->data_nascita;
+    $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo_id, $gruppo_data, $stato->id, $stato_data);
+  }
+
+  public function entrataMaggiorenneSposato($data_entrata, $gruppo_id){
+    $pos = Posizione::find("OSPP");
+    $gruppo_data = $data_entrata; 
+    $pos_data = $data_entrata;
+    $stato_data = $this->data_nascita;
+    $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo_id, $gruppo_data);
+  }
+
+  
+  // Inserisce una persona nella comunità per la prima volta.
+  public function entrataInNomadelfia($data,
+                                      $posizione_id, $posizione_data,  
+                                      $gruppo_id, $gruppo_data, 
+                                      $stato_id=null, $stato_data=null,
+                                      $famiglia_id=null, $famiglia_posizione=null, $famiglia_data=null
+                                      ){
+    if ($this->categorie->count() > 0) {
+      throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
+    }
+
+   $persona_id = $this->id;
+   DB::connection('db_nomadelfia')->beginTransaction();
+
+   try {
+     $conn = DB::connection('db_nomadelfia');
+     
+     // inserisce la categoria come persona interna
+      $conn->insert("INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 1, ?, 1, NOW(), NOW())",
+                    [$persona_id, $data]);
+
+      // inserisce la posizione in nomadelfia della persona
+      $conn->insert("INSERT INTO persone_posizioni (persona_id, posizione_id, data_inizio, stato) VALUES (?, ?, ?,'1')", 
+                    [$persona_id, $posizione_id, $posizione_data]);
+
+      // inserisce la persona nel gruppo familiare
+      $conn->insert("INSERT INTO gruppi_persone (gruppo_famigliare_id, persona_id, data_entrata_gruppo, stato) VALUES (?, ?, ?, '1')",
+                    [$gruppo_id, $persona_id, $gruppo_data]);
+      
+      if ($stato_id){
+        // inserisce lo stato familiare 
+        $conn->insert("INSERT INTO persone_stati (persona_id, stato_id, data_inizio, stato) VALUES (?, ?, ?,'1')", 
+                    [$persona_id, $stato_id, $stato_data]);
+      }
+
+      // inserisce la persona nella famiglia con una posizione
+      if ($famiglia_id){
+        $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')", 
+                    [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione]);
+      }
+
+      
+      
+
+  DB::connection('db_nomadelfia')->commit();
+  } catch ( \Exception $e) {
+    DB::connection('db_nomadelfia')->rollback();
+    dd($e);
+      // something went wrong
+  }
+}
+
+  // inserisce la persona per la prima volta nella comunità come persona interna
+  public function primaEntrataInNomadelfia($data_entrata){
+    if ($this->categorie->count() > 0) {
+      throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
+    }
+
+    $interno = Categoria::perNome("interno");
+    $this->categorie()->attach([$interno->id => ['stato'=>'1','data_inizio'=>$data_entrata]]);
+  }
+
+  public function getDataEntrataNomadelfia(){
+    $int = Categoria::perNome("interno");
+    $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato','data_inizio','data_fine')->orderby('data_inizio', 'desc')->first();
+    return $categorie->pivot->data_inizio;
+  }
+
+  public function getDataUscitaaNomadelfia(){
+    $int = Categoria::perNome("esterno");
+    $categorie = $this->categorie()->where('nome', $int->nome)->orderby('data_inizio', 'desc')->first();
+    return $categorie->data_inizio;
+  }
+
+  public function isPersonaInterna() {
+    $categorie = $this->categorie()->wherePivot('stato', '1')->get();
+    $isInterna = false;
+    foreach ($categorie as $categoria) {
+      if ($categoria->isPersonaInterna()){
+        $isInterna = True;
+      }
+    }
+    return $isInterna;
+  }
+
+
 
   /**
    * Ritorna le posizioni assegnabili ad una persona.

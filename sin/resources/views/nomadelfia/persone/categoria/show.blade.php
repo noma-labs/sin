@@ -12,7 +12,7 @@
         Categoria attuale
       </div>
       <div class="card-body">
-          @if($persona->categoriaAttuale())
+          @if($categoriaAttuale)
             <div class="row">
               <p class="col-md-3 font-weight-bold"> Categoria</p>
               <p class="col-md-3 font-weight-bold"> Data Inizio</p>
@@ -20,32 +20,32 @@
               <p class="col-md-3 font-weight-bold"> Operazioni</p>
             </div>
             <div class="row">
-              <p class="col-md-3"> {{$persona->categoriaAttuale()->nome}}</p>
-              <p class="col-md-3">{{$persona->categoriaAttuale()->pivot->data_inizio }} </p>
+              <p class="col-md-3"> {{$categoriaAttuale->nome}}</p>
+              <p class="col-md-3">{{$categoriaAttuale->pivot->data_inizio }} </p>
               <div class="col-md-3">
-                <span class="badge badge-info"> @diffHumans($persona->categoriaAttuale()->pivot->data_inizio) </span>
+                <span class="badge badge-info"> @diffHumans($categoriaAttuale->pivot->data_inizio) </span>
                </div>
               <div class="col-md-3">
                 <my-modal modal-title="Modifica Categoria attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
-                    <form class="form" method="POST"  id="formPersonaCategoriaModifica" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->categoriaAttuale()->id]) }}" >      
+                    <form class="form" method="POST"  id="formPersonaCategoriaModifica" action="{{ route('nomadelfia.persone.categoria.modifica', ['idPersona' =>$persona->id, 'id'=>$categoriaAttuale->id]) }}" >      
                         {{ csrf_field() }}
                         <div class="form-group row">
                           <label for="staticEmail" class="col-sm-6 col-form-label">Categoria attuale</label>
                           <div class="col-sm-6">
-                              <div>{{$persona->categoriaAttuale()->nome}}</div>
+                              <div>{{$categoriaAttuale->nome}}</div>
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-sm-6 col-form-label">Data inizio</label>
                           <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->categoriaAttuale()->pivot->data_inizio }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
+                            <date-picker :bootstrap-styling="true" value="{{$categoriaAttuale->pivot->data_inizio }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
                           </div>
                         </div>
                         <div class="form-group row">
                           <label for="inputPassword" class="col-sm-6 col-form-label">Data fine categoria</label>
                           <div class="col-sm-6">
-                            <date-picker :bootstrap-styling="true" value="{{$persona->categoriaAttuale()->pivot->data_fine }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
+                            <date-picker :bootstrap-styling="true" value="{{$categoriaAttuale->pivot->data_fine }}" format="yyyy-MM-dd" name="data_fine"></date-picker>
                           </div>
                         </div>
 
@@ -53,13 +53,13 @@
                           <label for="inputPassword" class="col-sm-6 col-form-label">Stato</label>
                           <div class="col-sm-6">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($persona->categoriaAttuale()->pivot->stato=='1') checked @endif>
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoM" value="1" @if($categoriaAttuale->pivot->stato=='1') checked @endif>
                                 <label class="form-check-label" for="forstatoM">
                                   Attiva
                                 </label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($persona->categoriaAttuale()->pivot->stato=='0') checked @endif>
+                              <input class="form-check-input" type="radio" name="stato" id="forstatoF"  value="0" @if($categoriaAttuale->pivot->stato=='0') checked @endif>
                               <label class="form-check-label" for="forstao">
                                 Disattiva
                               </label>
@@ -73,7 +73,7 @@
                   </template>
                 </my-modal> <!--end modal modifica categoria-->
                                
-                 @include('nomadelfia.templates.eliminaPersonaCategoria',['persona'=>$persona, 'categoria'=>$persona->categoriaAttuale()])
+                 @include('nomadelfia.templates.eliminaPersonaCategoria',['persona'=>$persona, 'categoria'=>$categoriaAttuale])
                 </div>
             </div>
           @else
@@ -83,8 +83,8 @@
               <template slot="modal-body-slot">
                 <form class="form" method="POST"  id="formPersonaCategoria" action="{{ route('nomadelfia.persone.categoria.assegna', ['idPersona' =>$persona->id]) }}" >      
                     {{ csrf_field() }}
-                    @if($persona->categoriaAttuale())
-                    <h5 class="my-2">Completa dati della categoria attuale: {{$persona->categoriaAttuale()->nome}}</h5>
+                    @if($categoriaAttuale)
+                    <h5 class="my-2">Completa dati della categoria attuale: {{$categoriaAttuale->nome}}</h5>
                     <div class="form-group row">
                       <label for="inputPassword" class="col-sm-6 col-form-label">Data fine categoria</label>
                       <div class="col-sm-6">

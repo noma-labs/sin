@@ -12,6 +12,9 @@ class Categoria extends Model
   protected $table = 'categorie';
   protected $primaryKey = "id";
 
+  public function isPersonaInterna(){
+    return $this->nome == "Persona Interna";
+  }
 
   // TODO: delete this method and use raw query
   public function persone(){

@@ -34,6 +34,7 @@ Vue.component('gestione-filtri', require('./components/officina/gestione-filtri.
 // DB nomadelfia components
 Vue.component('famiglia-select', require('./components/famiglia-select.vue'));
 Vue.component('azienda-edit', require('./components/azienda-edit.vue'));
+Vue.component('persona-entrata', require('./components/popolazione/persona-entrata.vue'));
 
 // Patente components
 Vue.component('patente-modfica', require('./components/patente/patente-modifica.vue'))
@@ -42,10 +43,10 @@ Vue.component('patente-inserimento', require('./components/patente/patente-inser
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from 'vuejs-datepicker';
 // set the language fo all the date-picker component
-import {it} from 'vuejs-datepicker/dist/locale';
+import { it } from 'vuejs-datepicker/dist/locale';
 
-Datepicker.computed.translation = function (){
-  return it;
+Datepicker.computed.translation = function() {
+    return it;
 }
 
 Vue.component('date-picker', Datepicker);
@@ -54,11 +55,11 @@ Vue.component('date-picker', Datepicker);
 const app = new Vue({
     el: '#archivio',
     data: {
-      showModal: false
+        showModal: false
     }
 });
 
 
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip(); 
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
 });

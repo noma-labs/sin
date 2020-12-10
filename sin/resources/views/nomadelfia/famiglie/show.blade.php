@@ -47,7 +47,7 @@
           </div>
           <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
             <div class="card-body">
-                @if(count($gruppoAttuale) === 1)
+                @if($gruppoAttuale)
                   <div class="row">
                       <div class="col-sm-6 font-weight-bold">Gruppo familiare </div>
                       <div class="col-sm-6 font-weight-bold">Data entrata   </div>
@@ -55,22 +55,14 @@
                   
                     <div class="row">
                       <div class="col-sm-6">
-                          @include('nomadelfia.templates.gruppo', ['id'=>($gruppoAttuale[0])->id, "nome"=>($gruppoAttuale[0])->nome])
+                          @include('nomadelfia.templates.gruppo', ['id'=>$gruppoAttuale->id, "nome"=>$gruppoAttuale->nome])
                       
                       </div>
                       <div class="col-sm-6">
-                        <span> {{$gruppoAttuale[0]->data_entrata_gruppo}}</span>
-                        @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia->id, 'componenti'=>$componenti, "gruppo_id"=>$gruppoAttuale[0]->id])
+                        <span> {{$gruppoAttuale->data_entrata_gruppo}}</span>
+                        @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia->id, 'componenti'=>$componenti, "gruppo_id"=>$gruppoAttuale->id])
                       </div>
-                    </div>
-                @elseif (count($gruppoAttuale) > 1)
-                <p class="text-danger">La famiglia ha multipli gruppi attivi: </p>
-                <p>
-                    @foreach  ($gruppoAttuale as $gruppo)
-                    {{$gruppo->nome}},
-                    @endforeach
-                </p>
-        
+                    </div>      
                 @else
                 <p class="text-danger">Nessun gruppo familiare associato</p>
                 @endif

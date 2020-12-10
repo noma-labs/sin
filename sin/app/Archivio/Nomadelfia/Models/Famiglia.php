@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Traits\Enums;
+use Illuminate\Support\Str;
+
 
 
 class Famiglia extends Model
@@ -29,6 +31,13 @@ class Famiglia extends Model
     'SINGLE'
    ];
 
+  public static function figliEnums()
+  {
+      return collect(self::getEnum('Posizione'))->filter(function ($value, $key) {
+        return Str::startsWith($value, 'FIGLIO');
+    });;
+  }
+
   /**
    * Set the nome in uppercase when a new famiglia is insereted.
   */
@@ -41,15 +50,31 @@ class Famiglia extends Model
       return $query->orderBy('nome_famiglia', 'asc')->get();
   }
 
+
+  /**
+   * Returns the families with a CAPO FAMIGLIA (men or women)
+  */
+  public static function conCapofamiglia()
+  {
+    return  DB::connection('db_nomadelfia')->select(
+      DB::raw("SELECT famiglie.*
+              FROM `famiglie` 
+              INNER JOIN famiglie_persone on famiglie_persone.famiglia_id = famiglie.id
+              WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
+              ORDER BY famiglie.nome_famiglia")
+    );  
+  }
+
+
   public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
      return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
-             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-              ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
-              ->where("posizione_famiglia", $posizione)
-              ->where("famiglie_persone.stato", $stato)
-              ->where("persone.stato",'1')
-              ->orderBy("famiglie.nome_famiglia");
-  }
+                    ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+                    ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
+                    ->where("posizione_famiglia", $posizione)
+                    ->where("famiglie_persone.stato", $stato)
+                    ->where("persone.stato",'1')
+                    ->orderBy("famiglie.nome_famiglia");
+        }
 
   /**
   * Ritorna le famiglie che hanno come capo famiglia un maschio
@@ -72,7 +97,7 @@ class Famiglia extends Model
   * @author Davide Neri
   **/
   public static function OnlyCapofamiglia(){
-    return self::FamigliePerPosizioni("CAPO FAMIGLIA", '1');
+    return self::FamigliePerPosizioni("CAPO FAMIGLIA");
   }
 
   /**
@@ -86,13 +111,13 @@ class Famiglia extends Model
 
  /**
   * Ritorna il gruppi familiare attuale in cui vive il CAPO FAMIGLIA e il SINGLE della famiglia.
-  * Si ingeferise che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE:
+  * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE:
   * @author Davide Neri
   **/
 
   public function gruppoFamiliareAttuale()
   {
-    $res = DB::connection('db_nomadelfia')->select(
+    $res = collect(DB::connection('db_nomadelfia')->select(
       DB::raw("SELECT gruppi_familiari.*, gruppi_persone.data_entrata_gruppo
       FROM famiglie_persone
       INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
@@ -100,9 +125,22 @@ class Famiglia extends Model
       WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
            and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1' and famiglie_persone.stato = '1'"),
       array("famiglia_id"=> $this->id)
-    );  
-   return $res;
-
+    ));  
+    if ($res->count() == 1){
+      return $res->first();
+    } elseif ($res->count() == 0){
+      return null;
+    }else {
+      throw PersonaHasMultipleGroup::named($this->nominativo);
+    }
+  }
+  
+  public function gruppoFamiliareAttualeOrFail(){
+    $gruppo = $this->gruppoFamiliareAttuale();
+    if ($gruppo == null){
+      throw  FamigliaHasNoGroup::named($famiglia->nome_famiglia);
+    }
+    return $gruppo;
   }
 
   /**

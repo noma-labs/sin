@@ -41,7 +41,7 @@ class Stato extends Model
      *
      * @return  \App\Nomadelfia\Models\Posizione
      */
-    public static function find(string $name): Posizione
+    public static function find(string $name): Stato
     {
         $stato = Stato::where("stato", $name)->first();
         if (! $stato) {

@@ -60,10 +60,21 @@
             </div>
           </li>
         </ul>
-            <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
+
+        <li class="list-group-item">
+            <div class="row">
+              <label class="col-sm-4 font-weight-bold">Data Entrata in Nomadelfia:</label>
+              <div class="col-sm-8">
+                  <span>{{--  $persona->getDataEntrataNomadelfia()--}}</span>
+              </div>
+            </div>
+          </li>
+
+        <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
 
                   
-       {{--  <my-modal modal-title="Rimuovi persona " button-title="Elimina Persona" button-style="btn-danger my-2">
+       {{-- 
+        <my-modal modal-title="Rimuovi persona " button-title="Elimina Persona" button-style="btn-danger my-2">
             <template slot="modal-body-slot">
                 <form class="form" method="POST"  id="formEliminaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.rimuovi', ['idPersona' =>$persona->id]) }}" >      
                     @csrf
@@ -74,7 +85,8 @@
             <template slot="modal-button">
                 <button class="btn btn-danger" form="formEliminaPersona{{$persona->id}}" >Elimina</button>
             </template> 
-        </my-modal>  --}}
+        </my-modal> 
+        --}}
         </div>
       </div>
     </div>
@@ -95,7 +107,6 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div class="row">
-                <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
                 <label class="col-sm-4 font-weight-bold">Nominativo: </label>
                 <div class="col-sm-6">
                   {{$persona->nominativo}}
@@ -107,11 +118,10 @@
             </li>
             <li class="list-group-item">
               <div class="row">
-                <!-- <  p for="staticEmail" class="col-sm-6 col-form-label">Nominativo Attuale:</span> -->
                 <label class="col-sm-4 font-weight-bold">Categoria: </label>
                 <div class="col-sm-6">
-                    @if ($persona->categoriaAttuale() != null)
-                        {{$persona->categoriaAttuale()->nome}}
+                    @if ($categoriaAttuale != null)
+                        {{$categoriaAttuale->nome}}
                     @else
                         <span class="text-danger">Nessuna categoria</span>
                     @endif
@@ -160,15 +170,8 @@
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Gruppo familiare: </label>
                 <div class="col-sm-6">
-                  @if(count($gruppoAttuale) > 1)
-                      <span class="text-danger">Ci sono più gruppi attivi per la stessa persona.</span>
-                      <p>
-                          @foreach  ($gruppoAttuale as $gruppo)
-                          <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppo->id])}}">{{$gruppo->nome}},</a>
-                          @endforeach
-                       </p>
-                  @elseif (count($gruppoAttuale) === 1)
-                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppoAttuale[0]->id])}}">{{ $gruppoAttuale[0]->nome }} </a> 
+                  @if ($gruppoAttuale)
+                      <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppoAttuale->id])}}">{{ $gruppoAttuale->nome }} </a> 
                   @else
                     <span class="text-danger">Nessun gruppo</span>
                   @endif

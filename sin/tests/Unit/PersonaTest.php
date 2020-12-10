@@ -15,9 +15,9 @@ class PersonaTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testPersonaEntrata()
     {
-        $persona = Persona::create(['nominativo'=>"my-test", 
+        /*$persona = Persona::create(['nominativo'=>"my-test-3", 
                               'sesso'=>"M",
                               'nome'=>"dido",
                               "cognome"=>"neri",
@@ -29,7 +29,12 @@ class PersonaTest extends TestCase
                               'id_arch_enrico'=>0
                               ]
                             );
-        $fam = $persona->famigliaAttual();
-        $this->assertNull($fam);
+                            */
+        $persona = Persona::find(388);
+        $res = $persona->entrataNomadelfia("2020-12-12");
+
+        $cat = $persona->categoriaAttuale();
+        $this->assertEquals($cat->id, 1);
+        $this->assertEquals($cat->data_inizio, "2020-12-12");
     }
 }

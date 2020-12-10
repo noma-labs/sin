@@ -9,10 +9,6 @@ class GruppoFamiliareDoesNOtExists extends InvalidArgumentException
         return new static("Il gruppo familiare `{$nome}` non esiste.");
     }
     
-    // public static function withId(int $roleId)
-    // {
-    //     return new static("There is no role with id `{$roleId}`.");
-    // }
 }
 
 
