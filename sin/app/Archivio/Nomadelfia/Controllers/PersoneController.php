@@ -219,6 +219,31 @@ class PersoneController extends CoreBaseController
     return view("nomadelfia.persone.inserimento.initial");
   }
 
+   /**
+   * Contolla che non ci sia una persona con il nome e cognome.
+   * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
+   * Se non esistono persone ritorna il form per aggiungere la persona.
+   * 
+   * @author Davide Neri
+   */
+  public function insertInitial(Request $request){
+    $validatedData = $request->validate([
+      "persona" => "required",
+    ],[
+      "persona.required" => "Il cognome è obbligatorio",
+    ]);
+   
+    if ($request->filled('persona')) {
+      $personeEsistenti = Persona::where("nominativo","like","%".$request->persona."%")
+                                  ->orWhere("nome", "like", "%".$request->persona."%")
+                                  ->orWhere("cognome", "like", "%".$request->persona);
+      if($personeEsistenti->exists() )
+        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
+      else
+         return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
+    }
+  }
+
   public function insertDatiAnagraficiView(){
     return view("nomadelfia.persone.inserimento.dati_anagrafici");
   }
@@ -278,7 +303,6 @@ class PersoneController extends CoreBaseController
       "gruppo_id.required_if" => "Il gruppo familiare  è obbligatoria",
       ]);
     
-    //dd($request->all());
     $persona = Persona::findOrFail($idPersona);
 
     switch ($request->tipologia) {
@@ -303,90 +327,6 @@ class PersoneController extends CoreBaseController
     }
     return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
 }
-  
-  public function entrataInNomadelfia(Request $request, $idPersona, $tipologia, $data){
-    $validatedData = $request->validate([
-      "famiglia_id" => "required",
-    ],[
-      "famiglia_id.required" => "La tipologia di entrata è obbligatoria",
-    ]);
-    $persona = Persona::findOrFail($idPersona);
-
-    return view("nomadelfia.persone.inserimento.insert_famiglia_dallanascita", compact('persona'));
-  }
-  /*
-   Inserisce la famiglia (e in automatico) il suo grauppo familiare di una persona nata dalla nascita
-  */
-  public function insertFamigliaDallaNascitaView(Request $request, $idPersona){
-    $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.inserimento.insert_famiglia_dallanascita", compact('persona'));
-  }
-
-  public function insertFamigliaGruppoDallaNascita(Request $request, $idPersona){
-    $validatedData = $request->validate([
-      "famiglia_id" => "required",
-      "posizione_famiglia"=> "required",
-    ],[
-      "famiglia_id.required" => "La famiglia è obbligatoria",
-      "posizione_famiglia.required" => "La posizione nella famiglia è obbligatoria",
-    ]);
-    $persona = Persona::findOrFail($idPersona);
-
-    // inserice la persona nella famiglia e nel gruppo del capofamiglia.
-    return view("nomadelfia.persone.a", compact('persona'));
-  }
-
-  public function insertFamigliaNonNascitaView(Request $request, $idPersona, $data){
-    $persona = Persona::findOrFail($idPersona);
-    return view("nomadelfia.persone.inserimento.insert_famiglia_nonnascita", compact('persona','data'));
-  }
-
-  public function insertPersonaNonNascitaPreview(Request $request, $idPersona, $data){
-    $validatedData = $request->validate([
-      "famiglia_id" => "required",
-      "posizione"=> "required",
-    ],[
-      "famiglia_id.required" => "La famiglia è obbligatoria",
-      "posizione.required" => "La seleziona del figlio è obbligatoria",
-    ]);
-    $data_entrata = $data;
-    $persona = Persona::findOrFail($idPersona);
-    $famiglia = Famiglia::findOrFail($request->famiglia_id);
-    $gruppo = $famiglia->gruppoFamiliareAttuale();
-
-    if ($request->posizione == "nato"){
-      $posizione_famiglia = "FIGLIO NATO";
-      $data_entrata_fam = $persona->data_nascita;
-    } elseif ($request->posizione == "accolto"){
-      $posizione_famiglia = "FIGLIO ACCOLTO";
-      $data_entrata_fam = $persona->data_entrata;
-    }  
-    return view("nomadelfia.persone.inserimento.insert_summary", compact('persona','data_entrata', 'famiglia', 'posizione_famiglia', 'data_entrata_fam', 'gruppo'));
-
-  }
-
-
-  public function entrataInNomadelfiaNonNascita(Request $request, $idPersona, $data){
-    $validatedData = $request->validate([
-      "famiglia_id" => "required",
-      "posizione_famiglia"=> "required",
-      "data_entrata_famiglia"=> "required",
-      "gruppo_id" => "required",
-    ],[
-      "famiglia_id.required" => "La famiglia è obbligatoria",
-      "posizione.required" => "La seleziona del figlio è obbligatoria",
-    ]);
-    $persona = Persona::findOrFail($idPersona);
-    if ($request->posizione_famiglia == "FIGLIO NATO"){
-      $persona->entrataMinorenneConFamiglia($data, $request->famiglia_id, $request->gruppo_id);
-    } elseif ($request->posizione_famiglia == "FIGLIO ACCOLTO"){
-      $persona->entrataMinorenneAccolto($data, $request->famiglia_id, $request->gruppo_id);
-    } else{
-      return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withError("Impossibile inserire i dettagli $persona->nominativo.");
-    }
-    return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
-
-  }
 
   public function insertFamiglia(Request $request, $idPersona){
     $validatedData = $request->validate([
@@ -399,39 +339,10 @@ class PersoneController extends CoreBaseController
     $persona = Persona::findOrFail($idPersona);
 
     $persona->famiglie()->attach($request->famiglia_id, ['stato' => '1', "posizione_famiglia"=>$request->posizione_famiglia]);
-    //$persona->save();
-    
     return redirect()->route('nomadelfia.persone.dettaglio', [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
   }
 
-  /**
-   * Contolla che non ci sia una persona con il nome e cognome.
-   * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
-   * Se non esistono persone ritorna il form per aggiungere la persona.
-   * 
-   * @author Davide Neri
-   */
-  public function insertInitial(Request $request){
-    $validatedData = $request->validate([
-      "persona" => "required",
-      // "nome" => "required",
-      // "cognome" => "required",
-    ],[
-      // "nominativo.required" => "Il nome è obbligatorie",
-      // "nome.required" => "Il nome è obbligatorie",
-      "persona.required" => "Il cognome è obbligatorio",
-    ]);
-   
-    if ($request->filled('persona')) {
-      $personeEsistenti = Persona::where("nominativo","like","%".$request->persona."%")
-                                  ->orWhere("nome", "like", "%".$request->persona."%")
-                                  ->orWhere("cognome", "like", "%".$request->persona);
-      if($personeEsistenti->exists() )
-        return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
-      else
-         return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
-    }
-  }
+
 
   /**
    * Ritorna la view per la modifica delle famiglie di una persona
