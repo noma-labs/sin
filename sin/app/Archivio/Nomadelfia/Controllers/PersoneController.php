@@ -51,6 +51,17 @@ class PersoneController extends CoreBaseController
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
   }
 
+  public function uscita(Request $request, $idPersona){
+    $validatedData = $request->validate([
+      "data_uscita" => "required",
+    ],[
+      "data_uscita.required" => "La data del decesso è obbligatorio",
+    ]);
+    $persona = Persona::findOrFail($idPersona);
+    $persona->uscitoODeceduto($request->data_uscita);
+    return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
+  }
+
   public function modificaDatiAnagrafici($idPersona){
     $persona = Persona::findOrFail($idPersona);
     return view('nomadelfia.persone.edit_anagrafica',compact('persona'));

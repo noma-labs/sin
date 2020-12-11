@@ -75,6 +75,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   Route::post('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInterna')->name("nomadelfia.persone.inserimento.entrata.scelta");
  
   Route::post('persone/{idPersona}/decesso', 'PersoneController@decesso')->name("nomadelfia.persone.decesso");
+  Route::post('persone/{idPersona}/uscita', 'PersoneController@uscita')->name("nomadelfia.persone.uscita");
   
   Route::get('persone/ricerca/test', 'PersoneController@search')->name("nomadelfia.persone.ricerca"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/ricerca/submit', 'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");

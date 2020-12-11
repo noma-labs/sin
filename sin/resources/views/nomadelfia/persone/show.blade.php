@@ -77,14 +77,15 @@
                   @else
                   <my-modal modal-title="Uscita dalla comunità" button-title="Uscita" button-style="btn-danger my-2">
                       <template slot="modal-body-slot">
-                          <form class="form" method="POST"  id="formEliminaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.rimuovi', ['idPersona' =>$persona->id]) }}" >      
+                          <form class="form" method="POST"  id="formUscitaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.uscita', ['idPersona' =>$persona->id]) }}" >      
                               @csrf
-                              @method('delete')
-                              <body> Vuoi davvero eliminare {{$persona->nominativo}} ? </body>
+                              <p> Inserire la data di uscita di {{$persona->nominativo}} </p>
+                              <date-picker :bootstrap-styling="true" format="yyyy-MM-dd" name="data_uscita"></date-picker>
+
                           </form>
                       </template> 
                       <template slot="modal-button">
-                          <button class="btn btn-danger" form="formEliminaPersona{{$persona->id}}" >Elimina</button>
+                          <button class="btn btn-danger" form="formUscitaPersona{{$persona->id}}">Salva</button>
                       </template> 
                   </my-modal> 
                   @endif
