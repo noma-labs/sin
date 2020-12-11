@@ -73,6 +73,8 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
   // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
   Route::get('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
   Route::post('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInterna')->name("nomadelfia.persone.inserimento.entrata.scelta");
+ 
+  Route::post('persone/{idPersona}/decesso', 'PersoneController@decesso')->name("nomadelfia.persone.decesso");
   
   Route::get('persone/ricerca/test', 'PersoneController@search')->name("nomadelfia.persone.ricerca"); //->middleware('permission:cliente-visualizza')
   Route::get('persone/ricerca/submit', 'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");

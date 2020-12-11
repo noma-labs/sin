@@ -59,17 +59,64 @@
               </div>
             </div>
           </li>
-        </ul>
-
-        <li class="list-group-item">
+          
+          <li class="list-group-item">
             <div class="row">
-              <label class="col-sm-4 font-weight-bold">Data Entrata in Nomadelfia:</label>
-              <div class="col-sm-8">
-                  <span>{{--  $persona->getDataEntrataNomadelfia()--}}</span>
+              <label class="col-sm-6 font-weight-bold">Data Entrata:</label>
+              <div class="col-sm-6">
+                <span> {{$persona->getDataEntrataNomadelfia()}} </span>
               </div>
             </div>
           </li>
+          <li class="list-group-item">
+              <div class="row">
+                <label class="col-sm-6 font-weight-bold">Data Uscita:</label>
+                <div class="col-sm-6">
+                  @if ($persona->getDataUscitaNomadelfia())
+                    <span> {{$persona->getDataUscitaNomadelfia()}} </span>
+                  @else
+                  <my-modal modal-title="Uscita dalla comunità" button-title="Uscita" button-style="btn-danger my-2">
+                      <template slot="modal-body-slot">
+                          <form class="form" method="POST"  id="formEliminaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.rimuovi', ['idPersona' =>$persona->id]) }}" >      
+                              @csrf
+                              @method('delete')
+                              <body> Vuoi davvero eliminare {{$persona->nominativo}} ? </body>
+                          </form>
+                      </template> 
+                      <template slot="modal-button">
+                          <button class="btn btn-danger" form="formEliminaPersona{{$persona->id}}" >Elimina</button>
+                      </template> 
+                  </my-modal> 
+                  @endif
+                 
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                  <label class="col-sm-6 font-weight-bold">Data decesso:</label>
+                  <div class="col-sm-6">
+                    @if ($persona->getDataDecesso())
+                      <span> {{$persona->getDataDecesso()}} </span>
+                    @else
+                    <my-modal modal-title="Decesso di persona" button-title="Decesso" button-style="btn-danger my-2">
+                        <template slot="modal-body-slot">
+                            <form class="form" method="POST"  id="formDecessoPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.decesso', ['idPersona' =>$persona->id]) }}" >      
+                                @csrf
+                                <p> Inserire la data di cesso di {{$persona->nominativo}} </p>
+                                <date-picker :bootstrap-styling="true" format="yyyy-MM-dd" name="data_decesso"></date-picker>
 
+                            </form>
+                        </template> 
+                        <template slot="modal-button">
+                            <button class="btn btn-danger" form="formDecessoPersona{{$persona->id}}">Salva</button>
+                        </template> 
+                    </my-modal>
+                    @endif 
+                  </div>
+                </div>
+              </li>
+        </ul>
         <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
 
                   

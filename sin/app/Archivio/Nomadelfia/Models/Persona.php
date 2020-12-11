@@ -348,38 +348,36 @@ class Persona extends Model
         $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')", 
                     [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione]);
       }
-
-      
-      
-
   DB::connection('db_nomadelfia')->commit();
   } catch ( \Exception $e) {
     DB::connection('db_nomadelfia')->rollback();
     dd($e);
-      // something went wrong
   }
 }
 
-  // inserisce la persona per la prima volta nella comunità come persona interna
-  public function primaEntrataInNomadelfia($data_entrata){
-    if ($this->categorie->count() > 0) {
-      throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
-    }
-
-    $interno = Categoria::perNome("interno");
-    $this->categorie()->attach([$interno->id => ['stato'=>'1','data_inizio'=>$data_entrata]]);
-  }
-
   public function getDataEntrataNomadelfia(){
     $int = Categoria::perNome("interno");
-    $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato','data_inizio','data_fine')->orderby('data_inizio', 'desc')->first();
-    return $categorie->pivot->data_inizio;
+    $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato','data_inizio','data_fine')->orderby('data_inizio', 'desc');
+    if ($categorie->count() > 0){
+      return $categorie->first()->pivot->data_inizio;
+    }
+    return null;
   }
 
-  public function getDataUscitaaNomadelfia(){
-    $int = Categoria::perNome("esterno");
-    $categorie = $this->categorie()->where('nome', $int->nome)->orderby('data_inizio', 'desc')->first();
-    return $categorie->data_inizio;
+  public function getDataUscitaNomadelfia(){
+    $esterno = Categoria::perNome("esterno");
+    $categorie = $this->categorie()->where('nome', $esterno->nome)->withPivot('stato','data_inizio','data_fine')->orderby('data_inizio', 'desc');
+    if ($categorie->count() > 0){
+      return $categorie->first()->pivot->data_inizio;
+    }
+    return null;
+  }
+
+  public function getDataDecesso(){
+   // if ($this->data_decesso != null){
+      return $this->data_decesso;
+    //}
+   // return null;
   }
 
   public function isPersonaInterna() {
@@ -393,7 +391,67 @@ class Persona extends Model
     return $isInterna;
   }
 
+  public function uscitoODeceduto($data_uscita, $is_deceduto=false) {
 
+    $persona_id = $this->id;
+    DB::connection('db_nomadelfia')->beginTransaction();
+    try {
+      $conn = DB::connection('db_nomadelfia');
+       if ($is_deceduto == true){
+        $conn->update("UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW()
+                      WHERE id = ?",
+                     [$data_uscita, $persona_id]);
+      
+      }else{
+        $conn->update("UPDATE persone SET stato = '0', updated_at = NOW()
+                       WHERE persona_id = ? AND stato = '1'",
+                      [$persona_id]);
+      }
+      
+       // inserisce la categoria come persona esterna
+       $conn->insert("INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW())",
+                  [$persona_id, $data_uscita]);
+      
+       // aggiorna la categorie attive con la data di uscita
+       $conn->update("UPDATE persone_categorie 
+                      SET data_fine = ?, stato = '0', updated_at = NOW()
+                      WHERE persona_id = ? AND stato = '1'",
+                     [$data_uscita, $persona_id]);
+ 
+       // conclude la posizione in nomadelfia della persona
+       $conn->insert("UPDATE persone_posizioni 
+                      SET data_fine = ?, stato = '0'
+                      WHERE persona_id = ? AND stato = '1'", 
+                     [$data_uscita, $persona_id]);
+ 
+       // inserisce la persona nel gruppo familiare
+       $conn->insert("UPDATE gruppi_persone 
+                     SET data_uscita_gruppo = ?, stato = '0'
+                     WHERE persona_id = ? AND stato = '1'", 
+                    [$data_uscita, $persona_id]);
+       
+      if ($is_deceduto == true){
+         // aggiorna lo stato familiare 
+        $conn->insert("UPDATE persone_stati
+                      SET data_fine = ?, stato = '0'
+                      WHERE persona_id = ? AND stato = '1'", 
+                    [$data_uscita, $persona_id]);
+       
+ 
+        // aggiorna la persona nella famiglia con una posizione
+         $conn->insert("UPDATE famiglie_persone 
+                        SET data_uscita = ?, stato = '0'
+                        WHERE persona_id = ? AND stato = '1'", 
+                        [$data_uscita, $persona_id]);
+      
+      }
+   DB::connection('db_nomadelfia')->commit();
+   } catch ( \Exception $e) {
+     DB::connection('db_nomadelfia')->rollback();
+     dd($e);
+   }
+
+  }
 
   /**
    * Ritorna le posizioni assegnabili ad una persona.

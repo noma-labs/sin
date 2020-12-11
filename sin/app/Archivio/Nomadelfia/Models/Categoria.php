@@ -32,8 +32,8 @@ class Categoria extends Model
     
     $mapNamesToDB = [
         "interno"=> "Persona Interna",
-        "esterno"=>"Collaboratore Esterno",
-        "collaboratore"=>"Persona esterna",
+        "esterno"=>"Persona esterna",
+        "collaboratore"=>"Collaboratore Esterno"
     ];
     return static::where('nome',$mapNamesToDB[$nome])->first();
   }
