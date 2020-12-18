@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "45688ae687d750df432b0469c3320f4a",
+    "content-hash": "cad1bc59403a150075a9e426332f0568",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -54,6 +54,7 @@
                 "laravel",
                 "toolkit"
             ],
+            "abandoned": true,
             "time": "2015-05-16T19:24:58+00:00"
         },
         {
@@ -1069,6 +1070,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -1115,6 +1117,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -5127,6 +5130,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         }
     ],
@@ -5596,6 +5600,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2018-07-12T10:23:15+00:00"
         },
         {
@@ -6389,6 +6394,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2018-10-30T05:52:18+00:00"
         },
         {
@@ -6474,6 +6480,55 @@
                 "xunit"
             ],
             "time": "2018-12-12T07:20:32+00:00"
+        },
+        {
+            "name": "pmatseykanets/laravel-sql-migrations",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pmatseykanets/laravel-sql-migrations.git",
+                "reference": "a6da13ca971a8427b321926510872cf76fde604e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pmatseykanets/laravel-sql-migrations/zipball/a6da13ca971a8427b321926510872cf76fde604e",
+                "reference": "a6da13ca971a8427b321926510872cf76fde604e",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.5|~6.0|~7.0|~8.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2.3",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SqlMigrations\\SqlMigrationsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SqlMigrations\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Matseykanets",
+                    "email": "pmatseykanets@gmail.com"
+                }
+            ],
+            "description": "Raw SQL migrations for Laravel",
+            "homepage": "https://github.com/pmatseykanets/laravel-sql-migrations",
+            "time": "2020-11-26T03:19:18+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

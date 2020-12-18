@@ -1,15 +1,14 @@
 <template>
- <div class="row">
-    <div class="col-md-6 offset-md-4">
-        <div class="row">
-            <label for="fornascita" class="col-md-3">Nome</label>
-            <div class="col-md-4">
+<div>
+       <div class="form-group row">
+            <label for="fornascita" class="col-sm-6">Nome</label>
+            <div class="col-sm-6">
                 <p class="font-weight-bold">{{this.persona.nominativo}}</p>
             </div>
         </div>
-        <div class="row">
-            <label for="fornascita" class="col-md-3">Data nascita</label>
-            <div class="col-md-4">
+        <div class="form-group row">
+            <label for="fornascita" class="col-sm-6">Data nascita</label>
+            <div class="col-sm-6">
                 <p class="font-weight-bold">{{this.persona.data_nascita}}</p>
             </div>
         </div>
@@ -52,8 +51,8 @@
         <br>
         
         <div v-if="tipologiaEntrata" class="form-group row">
-            <label class="col-form-label col-md-3" for="dallaNascita">Data Entrata: </label>
-            <div class="col-md-4">
+            <label class="col-sm-6 col-form-label" for="dallaNascita">Data Entrata: </label>
+            <div class="col-sm-6">
                 <date-picker name="data_entrata" 
                     @selected="selectDataEntrata" 
                     :bootstrap-styling="true" 
@@ -67,21 +66,19 @@
         </div>
         
         <div v-if="isNatoANomadelfia || isMinorenneAccolto || isMinorenneConFamiglia" class="form-group row">
-            <label  class="col-form-label col-md-3" for="famiglia">Famiglia:</label>
-            <div class="col-md-4">
+            <label  class="col-form-label col-sm-6" for="famiglia">Famiglia:</label>
+            <div class="col-sm-6">
                 <autocomplete placeholder="Inserisci famiglia..." name="famiglia_id" :url="this.apiNomadelfiaFamiglie"></autocomplete>
             </div>
         </div>
 
         <div v-if="isMaggiorenneSingle || isMaggiorenneConFamiglia" class="form-group row">
-            <label  class="col-form-label col-md-3" for="gruppo">Gruppo Familiare:</label>
-            <div class="col-md-4">
+            <label  class="col-form-label col-sm-6" for="gruppo">Gruppo Familiare:</label>
+            <div class="col-sm-6">
                 <autocomplete placeholder="Inserisci Gruppo Familiare..." name="gruppo_id" :url="this.apiNomadelfiaGruppi"></autocomplete>
             </div>
         </div>
-
-    </div>
- </div>      
+</div>
 </template>
 
 <script>

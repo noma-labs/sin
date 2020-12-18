@@ -14,7 +14,7 @@
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/utilities": "^3.0",
-        "laravel/framework": "^5.8.0",
+        "laravel/framework": "5.7.19",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "milon/barcode": "^5.3",
@@ -30,7 +30,8 @@
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "pmatseykanets/laravel-sql-migrations": "^1.0"
     },
     "autoload": {
         "files": [

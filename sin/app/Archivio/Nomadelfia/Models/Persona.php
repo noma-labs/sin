@@ -67,6 +67,11 @@ class Persona extends Model
       return $this->stato == "1";
   }
 
+  public function isDeceduta()
+  {
+      return $this->data_decesso != null;
+  }
+
   public function isMaschio()
   {
       return $this->sesso == "M";
@@ -374,10 +379,7 @@ class Persona extends Model
   }
 
   public function getDataDecesso(){
-   // if ($this->data_decesso != null){
       return $this->data_decesso;
-    //}
-   // return null;
   }
 
   public function isPersonaInterna() {
@@ -403,9 +405,7 @@ class Persona extends Model
                      [$data_uscita, $persona_id]);
       
       }else{
-        $conn->update("UPDATE persone SET stato = '0', updated_at = NOW()
-                       WHERE persona_id = ? AND stato = '1'",
-                      [$persona_id]);
+        $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'", [$persona_id]);
       }
       
        // inserisce la categoria come persona esterna
