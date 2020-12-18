@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 
 
 
+
 class Famiglia extends Model
 {
   use Enums;
@@ -66,15 +67,23 @@ class Famiglia extends Model
   }
 
 
-  public function scopeFamigliePerPosizioni($query, $posizione, $stato=1){
-     return  $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+  public function scopeFamigliePerPosizioni($query, $posizione, $stato='1'){
+     return $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
                     ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
                     ->select('famiglie.*',"persone.sesso", 'famiglie_persone.posizione_famiglia','famiglie_persone.stato' )
                     ->where("posizione_famiglia", $posizione)
                     ->where("famiglie_persone.stato", $stato)
                     ->where("persone.stato",'1')
                     ->orderBy("famiglie.nome_famiglia");
-        }
+       /* return  DB::connection('db_nomadelfia')->select("
+           SELECT `famiglie`.*, `persone`.`sesso`, `famiglie_persone`.`posizione_famiglia`, `famiglie_persone`.`stato` 
+           FROM `famiglie` 
+           INNER JOIN `famiglie_persone` on `famiglie_persone`.`famiglia_id` = `famiglie`.`id` 
+           INNER JOIN `persone` on `famiglie_persone`.`persona_id` = `persone`.`id` 
+           WHERE `posizione_famiglia` = ? and `famiglie_persone`.`stato` = ? and `persone`.`stato` = '1'
+           ORDER BY `famiglie`.`nome_famiglia` asc",[$posizione, $stato]); 
+           */
+    }
 
   /**
   * Ritorna le famiglie che hanno come capo famiglia un maschio

@@ -20,7 +20,7 @@ class FamiglieController extends CoreBaseController
   * @author Davide Neri
   **/
   public function view(){
-    $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
+    $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio(); 
     $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
 
     $singleMaschio = Famiglia::onlySingle()->maschio();
