@@ -1,4 +1,2 @@
--- Reverse the migrations
 
-
-DROP TABLE IF EXISTS `persone_test`;
+DROP TABLE IF EXISTS `persone`;
