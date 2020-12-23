@@ -6,9 +6,9 @@ CREATE TABLE `gruppi_familiari` (
   `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Id Gruppo Familiare',
   `nome` varchar(30) NOT NULL COMMENT 'Nome del Gruppo familiare',
   `descrizione` varchar(200) DEFAULT NULL,
-  `borgata` varchar(200) NOT NULL COMMENT 'Borgata',
-  `ubicazione` varchar(500) NOT NULL COMMENT 'Ubicazione Gruppo',
-  `data_creazione` date NOT NULL COMMENT 'Data Nascita Gruppo',
+  `borgata` varchar(200) NULL COMMENT 'Borgata',
+  `ubicazione` varchar(500) NULL COMMENT 'Ubicazione Gruppo',
+  `data_creazione` date  DEFAULT CURRENT_TIMESTAMP COMMENT 'Data Nascita Gruppo',
   UNIQUE KEY `nome` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

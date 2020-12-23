@@ -7,9 +7,11 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\Famiglia;
 
 class PersonaTest extends TestCase
 {
+
     /**
      * A basic test example.
      *
@@ -17,7 +19,7 @@ class PersonaTest extends TestCase
      */
     public function testPersonaEntrata()
     {
-        /*$persona = Persona::create(['nominativo'=>"my-test-3", 
+        $persona = Persona::create(['nominativo'=>"my-test-3", 
                               'sesso'=>"M",
                               'nome'=>"dido",
                               "cognome"=>"neri",
@@ -29,12 +31,12 @@ class PersonaTest extends TestCase
                               'id_arch_enrico'=>0
                               ]
                             );
-                            */
-        $persona = Persona::find(388);
-        $res = $persona->entrataNomadelfia("2020-12-12");
+        //$famiglia = Famiglia::factory()->make();
+        $fam = factory(Famiglia::class)->create();
 
-        $cat = $persona->categoriaAttuale();
-        $this->assertEquals($cat->id, 1);
-        $this->assertEquals($cat->data_inizio, "2020-12-12");
+        $persona->entrataMaggiorenneSingle("2020-12-31", 1);
+
+        $this->assertTrue($persona->isPersonaInterna());
+        //$this->assertEquals($cat->data_inizio, $persona->data_nascita);
     }
 }

@@ -323,6 +323,7 @@ class Persona extends Model
     if ($this->categorie->count() > 0) {
       throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
     }
+    $interna = Categoria::perNome("interno");
 
    $persona_id = $this->id;
    DB::connection('db_nomadelfia')->beginTransaction();
@@ -331,8 +332,8 @@ class Persona extends Model
      $conn = DB::connection('db_nomadelfia');
      
      // inserisce la categoria come persona interna
-      $conn->insert("INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 1, ?, 1, NOW(), NOW())",
-                    [$persona_id, $data]);
+      $conn->insert("INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
+                    [$persona_id, $interna->id, $data]);
 
       // inserisce la posizione in nomadelfia della persona
       $conn->insert("INSERT INTO persone_posizioni (persona_id, posizione_id, data_inizio, stato) VALUES (?, ?, ?,'1')", 

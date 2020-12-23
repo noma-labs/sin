@@ -12,7 +12,7 @@ use App\Traits\Enums;
 use Illuminate\Support\Str;
 
 
-
+use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 
 class Famiglia extends Model
 {
@@ -147,7 +147,7 @@ class Famiglia extends Model
   public function gruppoFamiliareAttualeOrFail(){
     $gruppo = $this->gruppoFamiliareAttuale();
     if ($gruppo == null){
-      throw  FamigliaHasNoGroup::named($famiglia->nome_famiglia);
+      throw FamigliaHasNoGroup::named($this->nome_famiglia);
     }
     return $gruppo;
   }

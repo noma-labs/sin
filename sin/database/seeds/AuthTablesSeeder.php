@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use App\Admin\Models\Sistema;
+use App\Admin\Models\Permission;
 
 class AuthTablesSeeder extends Seeder
 {
@@ -21,8 +22,8 @@ class AuthTablesSeeder extends Seeder
        // Truncate all tables, except migrations
         $tables = DB::select('SHOW TABLES');
         foreach ($tables as $table) {
-            if ($table->Tables_in_archivio_auth !== 'migrations')
-                DB::table($table->Tables_in_archivio_auth)->truncate();
+            if ($table->Tables_in_db_nomadelfia_test !== 'migrations')
+                DB::table($table->Tables_in_db_nomadelfia_test)->truncate();
         }
 
         //Creazione dei sistemi
