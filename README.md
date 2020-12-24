@@ -107,6 +107,10 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 <img src="./docs/diagram/Archivio_diagrammaER.png" width="600">
 </p> -->
 
+## Database migration
+- https://github.com/pmatseykanets/laravel-sql-migrations
+
+
 ## Seed dati authentiazione
 Per popolare le tabelle dell'authenticazione (ruoli, permessi, utenti) eseguire il comando:
 ```
@@ -138,8 +142,6 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-##
-- https://foundation.zurb.com/ 
 
 
 # Linea guida di sviluppo
