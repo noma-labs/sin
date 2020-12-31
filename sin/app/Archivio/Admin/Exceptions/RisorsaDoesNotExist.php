@@ -1,6 +1,8 @@
 <?php
-namespace Spatie\Permission\Exceptions;
+
+namespace App\Admin\Exceptions;
 use InvalidArgumentException;
+
 
 class RisorsaDoesNotExist extends InvalidArgumentException
 {

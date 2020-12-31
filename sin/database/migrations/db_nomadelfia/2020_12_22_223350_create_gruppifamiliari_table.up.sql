@@ -8,7 +8,7 @@ CREATE TABLE `gruppi_familiari` (
   `descrizione` varchar(200) DEFAULT NULL,
   `borgata` varchar(200) NULL COMMENT 'Borgata',
   `ubicazione` varchar(500) NULL COMMENT 'Ubicazione Gruppo',
-  `data_creazione` date  DEFAULT CURRENT_TIMESTAMP COMMENT 'Data Nascita Gruppo',
+  `data_creazione` date COMMENT 'Data Nascita Gruppo',
   UNIQUE KEY `nome` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

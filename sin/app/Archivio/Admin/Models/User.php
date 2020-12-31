@@ -17,7 +17,7 @@ class User extends Authenticatable
 {
     use CausesActivity; // returns the activities of the user ($user->activity;)
     use Notifiable;
-    use SoftDeletes;   // soft deletion trait of the user ("deleted_at" column in the users table)
+    use SoftDeletes;    // soft deletion trait of the user ("deleted_at" column in the users table)
 
     protected $connection = 'db_auth';
     protected $table = 'utenti';

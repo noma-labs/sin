@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
+use App\Admin\Models\Ruolo;
 use App\Admin\Models\Sistema;
-use App\Admin\Models\Permission;
+use App\Admin\Models\Risorsa;
 
 class AuthTablesSeeder extends Seeder
 {
@@ -12,84 +12,67 @@ class AuthTablesSeeder extends Seeder
      *
      * @return void
      */
-     public function run()
-     {
-       if (App::environment() === 'production') exit();
-       // Reset cached roles and permissions
-       app()['cache']->forget('spatie.permission.cache');
-
-
-       // Truncate all tables, except migrations
-        $tables = DB::select('SHOW TABLES');
-        foreach ($tables as $table) {
-            if ($table->Tables_in_db_nomadelfia_test !== 'migrations')
-                DB::table($table->Tables_in_db_nomadelfia_test)->truncate();
+    public function run()
+    {
+        if (App::environment() === 'production') {
+            exit();
         }
+        // Reset cached roles and permissions
+        app()['cache']->forget('spatie.permission.cache');
 
-        //Creazione dei sistemi
-        Sistema::create(['nome'=>'Popolazione Nomadelfia', 'descrizione'=>"Gestione della popolazione di Nomadelfia"]);
-        Sistema::create(['nome'=>'Anagrafe', 'descrizione'=>"Gestione dati anagrafici della popolazione attuale"]);
-        Sistema::create(['nome'=>'Autenticazione', 'descrizione'=>"Gestione dei ruoli e permessi degli utentid"]);
-        Sistema::create(['nome'=>'Biblioteca', 'descrizione'=>"Gestione libri biblioteca"]);
-        Sistema::create(['nome'=>'Meccaniza', 'descrizione'=>"Gestione autoveicoli e prenotazioni azienda meccanica."]);
-        Sistema::create(['nome'=>'Patente', 'descrizione'=>"Gestione delle patenti delle persone."]);
-        Sistema::create(['nome'=>'Scuola', 'descrizione'=>"Gestione degli alunni della scuola familiare di Nomadelfia."]);
+        // Creazione dei sistemi
+        $nomadelfia = Sistema::create(['nome'=>'Popolazione Nomadelfia', 'descrizione'=>"Gestione della popolazione di Nomadelfia"]);
+        $anagrafe = Sistema::create(['nome'=>'Anagrafe', 'descrizione'=>"Gestione dati anagrafici della popolazione attuale"]);
+        $auth    = Sistema::create(['nome'=>'Autenticazione', 'descrizione'=>"Gestione dei ruoli e permessi degli utentid"]);
+        $biblioteca = Sistema::create(['nome'=>'Biblioteca', 'descrizione'=>"Gestione libri biblioteca"]);
+        $meccanica = Sistema::create(['nome'=>'Meccaniza', 'descrizione'=>"Gestione autoveicoli e prenotazioni azienda meccanica."]);
+        $patente = Sistema::create(['nome'=>'Patente', 'descrizione'=>"Gestione delle patenti delle persone."]);
+        $scuola = Sistema::create(['nome'=>'Scuola', 'descrizione'=>"Gestione degli alunni della scuola familiare di Nomadelfia."]);
+        
+        // Creazione dei ruoli
+        $roleAdmin = Ruolo::create(['nome' => 'Admin', 'descrizione'=>'Amministratore del sistema (utenti, ruoli, permessi, backup,logs).']);
+        $presAdmin = Ruolo::create(['nome' => 'presidenza-amm', 'descrizione'=>'Amminstratore della presidenza']);
+        $meccAdmin = Ruolo::create(['nome' => 'meccanica-amm', 'descrizione'=>'Amminstratore della meccanica con tutti i permessi.']);
+        $biblioAdmin = Ruolo::create(['nome' => 'biblioteca-amm', 'descrizione'=>'Amministratore della biblioteca']);
+        $master = Ruolo::create(['nome' => 'master', 'descrizione'=>'A tutti i permessi su tutte le risorse dei sistemi.']);
+        
+        // Creazione delle risorse
+        $persona = Risorsa::create(['nome' => 'persona', 'sistema_id'=>$nomadelfia->id]);
+        $veicolo = Risorsa::create(['nome' => 'veicolo', 'sistema_id'=>$meccanica->id]);
+        $libro = Risorsa::create(['nome' => 'libro', 'sistema_id'=>$scuola->id]);
+        $autore = Risorsa::create(['nome' => 'autore', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'editore', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'video', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'etichetta', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'film', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'professionale', 'sistema_id'=>$scuola->id]);
+        Risorsa::create(['nome' => 'patente', 'sistema_id'=>$patente->id]);
 
-       // create permissions
-       Permission::create(['name'=>'Administer roles & permissions']);
-       Permission::create(['name'=>'admin-roles']);
-       Permission::create(['name'=>'admin-permissions']);
-       Permission::create(['name'=>'admin-users']);
+        // Gestione dei permessi di ogni risorse dei ruoli
+        // `ruolo_id`  `risorsa_id` => `visualizza`, `inserisci`, `elimina`, `modifica`, `prenota`, `esporta`, `svuota`
+        $master->risorse()->save($persona, [
+                                                "visualizza" => "1",
+                                                "inserisci" => "1",
+                                                "elimina" => "1",
+                                                "modifica" => "1",
+                                                "prenota" => "1",
+                                                "esporta" => "1",
+                                                "svuota" => "1",
+        ]);
 
-       //autori
-       Permission::create(['name'=>'autore-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'autore-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'autore-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'autore-elimina','_belong_to_archivio'=>"biblioteca"]);
+        // creazione degli utenti
+        $userAdmin = App\Admin\Models\User::create([
+            'username' => 'Admin',
+            'email' => 'archivio@nomadelfia.it',
+            'password' => 'nomadelfia',
+            'persona_id' => 0
+       ]);
 
-       //editori
-       Permission::create(['name'=>'editore-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'editore-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'editore-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'editore-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       //libro
-       Permission::create(['name'=>'libro-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       //libro media
-       Permission::create(['name'=>'libro-media-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-media-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-media-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-media-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       // prestito libro
-       Permission::create(['name'=>'libro-prestito-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-prestito-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-prestito-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'libro-prestito-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       //cliente
-       Permission::create(['name'=>'cliente-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'cliente-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'cliente-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'cliente-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       // etichetta
-       Permission::create(['name'=>'etichetta-crea','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'etichetta-visualizza','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'etichetta-modifica','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'etichetta-elimina','_belong_to_archivio'=>"biblioteca"]);
-
-       Permission::create(['name'=>'etichetta-anteprima','_belong_to_archivio'=>"biblioteca"]);
-       Permission::create(['name'=>'etichetta-stampa','_belong_to_archivio'=>"biblioteca"]);
-
-       //prenotazioni officina
-       Permission::create(['name'=>'veicoli-prenotazione','_belong_to_archivio'=>"officina"]);
+        // Assegnamento degli utenti ai ruoli
+        $userAdmin->assignRole($master);
 
 
+    /*
        //create Role
        $roleAdmin = Role::create(['name' => 'Admin']);
        $roleAdmin->givePermissionTo('Administer roles & permissions');
@@ -154,7 +137,6 @@ class AuthTablesSeeder extends Seeder
        // Adding permissions via a role
        $userAdmin->assignRole('Admin');
        $userLice->assignRole('biblioteca');
-
-
-     }
+       */
+    }
 }

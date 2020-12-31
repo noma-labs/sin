@@ -22,11 +22,11 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    /**
+    * Create a new controller instance.
+    *
+    * @return void
+    */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -41,14 +41,16 @@ class LoginController extends Controller
 
     public function redirectPath()
     {
-      if(Auth::user()->hasRole('admin'))
-        return route('admin.backup');//"/roles";
-      else if (Auth::user()->hasRole(['biblioteca-amm','biblioteca-ope']))
-          return route("biblioteca");
-      else if (Auth::user()->hasRole(['meccanica-amm','meccanica-ope']))
-          return route("officina.index");
-      else
-         return route("home");
+        if (Auth::user()->hasRole('admin')) {
+            return route('admin.backup');
+        }//"/roles";
+        elseif (Auth::user()->hasRole(['biblioteca-amm','biblioteca-ope'])) {
+            return route("biblioteca");
+        } elseif (Auth::user()->hasRole(['meccanica-amm','meccanica-ope'])) {
+            return route("officina.index");
+        } else {
+            return route("home");
+        }
     }
 
     // By default, Laravel uses the email field for authentication.

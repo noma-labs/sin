@@ -1,6 +1,7 @@
 <?php
 namespace Tests;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\App;
 
 trait MigrateFreshDB
 {
@@ -16,8 +17,10 @@ trait MigrateFreshDB
     public function setUp()
     {
         parent::setUp();
+        if (App::environment() === 'production') exit();
+        
         if (!static::$setUpHasRunOnce) {
-            Artisan::call('migrate:fresh', ['--database'=> 'db_nomadelfia_test']);
+            Artisan::call('migrate:fresh', ['--database'=> 'db_nomadelfia_test', '--path', "database/migrations/db_nomadelfia"]);
             Artisan::call(
                 'db:seed', ['--database'=> 'db_nomadelfia_test']
             );

@@ -22,6 +22,6 @@ class CategoriaTableSeeder extends Seeder
             'nome' => 'Persona esterna',
         ],
     ];
-    DB::table('categorie')->insert($data);
+    DB::connection('db_nomadelfia')->table('categorie')->insert($data);
     }
 }

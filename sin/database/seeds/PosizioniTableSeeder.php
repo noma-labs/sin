@@ -40,6 +40,6 @@ class PosizioniTableSeeder extends Seeder
             'nome' => 'Postulante',
             'ordinamento' => 2,
         ]];
-        DB::table('posizioni')->insert($data);
+        DB::connection('db_nomadelfia')->table('posizioni')->insert($data);
     }
 }

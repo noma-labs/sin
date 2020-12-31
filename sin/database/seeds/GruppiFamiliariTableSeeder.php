@@ -21,6 +21,6 @@ class GruppiFamiliariTableSeeder extends Seeder
             'nome' => 'Subiaco',
         ],
     ];
-    DB::table('gruppi_familiari')->insert($data);
+    DB::connection('db_nomadelfia')->table('gruppi_familiari')->insert($data);
     }
 }

@@ -25,6 +25,6 @@ class StatiTableSeeder extends Seeder
             ], 
         ];
 
-        DB::table('stati')->insert($data);
+        DB::connection('db_nomadelfia')->table('stati')->insert($data);
     }
 }
