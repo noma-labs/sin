@@ -32,7 +32,7 @@ class PersonaTest extends TestCase
                               ]
                             );
         //$famiglia = Famiglia::factory()->make();
-        $fam = factory(Famiglia::class)->create();
+        //$fam = factory(Famiglia::class)->create();
 
         $persona->entrataMaggiorenneSingle("2020-12-31", 1);
 
