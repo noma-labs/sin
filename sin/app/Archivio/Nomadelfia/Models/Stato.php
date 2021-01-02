@@ -64,6 +64,7 @@ class Stato extends Model
     $mapNamesToDB = [
         "sacerdote"=> "SAC",
         "celibe"=>"CEL",
+        "nubile"=>"NUB",
         "mammavocazione"=>"MAV",
         "sposato"=>"SPO",
     ];

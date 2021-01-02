@@ -273,7 +273,11 @@ class Persona extends Model
         $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
 
         $pos = Posizione::find("FIGL");
-        $stato = Stato::find("CEL");
+        if ($this->isMaschio()) {
+            $stato = Stato::find("CEL");
+        } else {
+            $stato = Stato::find("NUB");
+        }
         $famiglia_data = $this->data_nascita; // la data di entrata nella famiglia è uguale alla data di nascita
         $gruppo_data = $data_entrata;
         $pos_data = $data_entrata;
