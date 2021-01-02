@@ -17,14 +17,45 @@ class StatiTableSeeder extends Seeder
         $data =[ 
             [
                 'stato' => "CDE",
-                'nome' => 'Celi e di elezione',
+                'nome' => 'Celibe di elezione',
             ], 
             [
                 'stato' => "CEL",
                 'nome' => 'Celibe',
             ], 
+            [
+                'stato' => "MAM",
+                'nome' => 'NOMADELFA MAMMA',
+            ], 
+            [
+                'stato' => "MAV",
+                'nome' => 'MAMMA DI VOCAZIONE',
+            ], 
+            [
+                'stato' => "NUB",
+                'nome' => 'Nubile',
+            ], 
+            [
+                'stato' => "MAN",
+                'nome' => 'MAMMA NUBILE',
+            ], 
+            [
+                'stato' => "SAC",
+                'nome' => 'SACERDOTE',
+            ], 
+            [
+                'stato' => "SEP",
+                'nome' => 'CONIUGE SEPARATO(A)',
+            ], 
+            [
+                'stato' => "SPO",
+                'nome' => 'SPOSATO/A',
+            ],
+            [
+                'stato' => "VED",
+                'nome' => 'VEDOVO/A',
+            ],  
         ];
-
         DB::connection('db_nomadelfia')->table('stati')->insert($data);
     }
 }
