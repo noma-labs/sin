@@ -22,6 +22,14 @@ $factory->define(Persona::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(Persona::class, 'femmina', [
+    'sesso' => "F",
+]);
+
+$factory->state(Persona::class, 'maschio', [
+    'sesso' => "M",
+]);
+
 $factory->state(Persona::class, 'minorenne', [
     'data_nascita' => Carbon::now()->subYears(10)->toDateString(),
 ]);

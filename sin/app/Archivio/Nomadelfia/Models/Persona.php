@@ -343,6 +343,9 @@ class Persona extends Model
 
     public function entrataMaggiorenneSposato($data_entrata, $gruppo_id)
     {
+        if (!$this->isMaggiorenne()) {
+            throw new PersonaIsMinorenne($this->nominativo);
+          }
         $pos = Posizione::find("OSPP");
         $gruppo_data = $data_entrata;
         $pos_data = $data_entrata;
