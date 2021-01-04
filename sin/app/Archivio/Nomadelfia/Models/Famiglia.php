@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
+use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Traits\Enums;
@@ -133,15 +134,40 @@ class Famiglia extends Model
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
-            // TODO: il miorenne viene sempre tolto dal nusceo failiare dal metodo uscitoOrDeceduto().
-            // modificare ilmetodo
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
-                $componente->uscita($data_uscita);
+                $componente->uscita($data_uscita, false);
             });
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
+        }
+    }
+
+
+    /**
+     * Ritorna True se tutti i componenti nel nucleo familiare sono persone esterne.
+     *
+     * @author Davide Neri
+     **/
+    public function isUscita()
+    {
+        $interno = Categoria::perNome("interno");
+        $res = DB::connection('db_nomadelfia')->select(
+            // seleziona tutti componenti attivi della famiglia che sono interni.
+            DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
+                    FROM famiglie 
+                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
+                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
+                    INNER JOIN persone_categorie ON persone.id = famiglie_persone.persona_id 
+                    WHERE famiglie.id = :famiglia AND persone_categorie.categoria_id = :interno AND persone_categorie.stato = '1' AND famiglie_persone = '1'
+                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
+            array('famiglia' => $this->id, 'interno'=>$interno->id)
+        );
+        if (count($res) >= 1) {
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -203,11 +229,11 @@ class Famiglia extends Model
     {
         $res  = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
-      FROM famiglie 
-      INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
-      INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
-      WHERE famiglie.id = :famiglia
-      ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
+                    FROM famiglie 
+                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
+                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
+                    WHERE famiglie.id = :famiglia
+                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
             array('famiglia' => $this->id)
         );
         return $res;
@@ -295,6 +321,23 @@ class Famiglia extends Model
         throw Exception("Bad person as arguemnt. It must be the id or the model of a person.");
     }
 
+
+    /**
+    * Fa uscire un figlio dal nucleo familiare.
+    * Il figlio rimane nucleo familiare come "fuori nucleo familiare".
+    *
+    * @author Davide Neri
+    **/
+    public function uscitaDalNucleoFamiliare($persona, $data_uscita, $note=null)
+    {
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            return $this->componenti()->updateExistingPivot($persona->id, ['stato'=>'0','data_uscita'=>$data_uscita,'note'=>$note]);
+        }
+        throw Exception("Bad person as arguemnt. It must be the id or the model of a person.");
+    }
 
     /**
     * @Depreacted

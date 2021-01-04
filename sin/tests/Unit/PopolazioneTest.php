@@ -97,7 +97,7 @@ class PopolazioneTest extends BaseTestCase
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-        $persona->uscita($data_uscita);
+        $persona->uscita($data_uscita, TRUE);
 
         $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
         $this->assertNull($persona->posizioneAttuale());
@@ -143,5 +143,40 @@ class PopolazioneTest extends BaseTestCase
         $famiglia->uscita($data_uscita);
         
         $this->assertEquals($init_tot, PopolazioneNomadelfia::totalePopolazione());
+    }
+
+    /*
+    * Testa l'uscita di una famiglia con alcuni componeneti fuori dal nucleo.
+    * Solo i compomente nel nucleo familiare devono uscire.
+    */
+    public function testUscitaFamigliaConComponentiFuoriDalNucleo()
+    {
+        $init_tot = PopolazioneNomadelfia::totalePopolazione();
+        $now = Carbon::now()->toDatestring();
+        $gruppo = GruppoFamiliare::all()->random();
+
+        $famiglia = factory(Famiglia::class)->create();
+
+        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $faccolto = factory(Persona::class)->states("minorenne", "maschio")->create();
+
+        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
+        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam, $now);
+        $famiglia->assegnaMoglie($moglie, $now);
+
+        $fnato->entrataNatoInNomadelfia($famiglia->id);
+        $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
+
+        $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
+        // toglie un figlio dal nucleo familiare
+        $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(), "test remove from nucleo");
+
+        $data_uscita = Carbon::now()->toDatestring();
+        $famiglia->uscita($data_uscita);
+        // controlla che il figlio fuori dal nucleo non è uscito
+        $this->assertEquals($init_tot + 1, PopolazioneNomadelfia::totalePopolazione());
     }
 }

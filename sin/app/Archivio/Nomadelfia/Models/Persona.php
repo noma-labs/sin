@@ -497,22 +497,25 @@ class Persona extends Model
             throw $e;
         }
     }
-    public function uscita($data_uscita)
+
+    /*
+    * Fa uscire  una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
+    * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
+    *
+    * @param date $name
+    * @param bool $disable_from_family
+    */
+    public function uscita($data_uscita, $disable_from_family=true)
     {
         $persona_id = $this->id;
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
-            /*  if ($is_deceduto == true) {
-                 $conn->update(
-                     "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
-                     [$data_uscita, $persona_id]
-                 );
-             } else { */
+            
+            // disabilità la persona
             $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'", [$persona_id]);
-            //}
       
-            // inserisce la categoria come persona esterna
+            // aggiunge la categoria persona esterna
             $conn->insert(
                 "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW())",
                 [$persona_id, $data_uscita]
@@ -520,39 +523,36 @@ class Persona extends Model
       
             // aggiorna la categorie attive con la data di uscita
             $conn->update(
-                "UPDATE persone_categorie 
-                      SET data_fine = ?, stato = '0', updated_at = NOW()
-                      WHERE persona_id = ? AND stato = '1'",
+                "UPDATE persone_categorie SET data_fine = ?, stato = '0', updated_at = NOW() WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
  
-            // conclude la posizione in nomadelfia della persona
+            // conclude la posizione in nomadelfia della persona con la data di uscita
             $conn->insert(
-                "UPDATE persone_posizioni 
-                      SET data_fine = ?, stato = '0'
-                      WHERE persona_id = ? AND stato = '1'",
+                "UPDATE persone_posizioni  SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
  
-            // conclude la persona nel gruppo familiare
+            // conclude la persona nel gruppo familiare con la data di uscita
             $conn->insert(
-                "UPDATE gruppi_persone 
-                     SET data_uscita_gruppo = ?, stato = '0'
-                     WHERE persona_id = ? AND stato = '1'",
+                "UPDATE gruppi_persone SET data_uscita_gruppo = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
 
-            if (!$this->isMaggiorenne()) {
-                // se è minorenne,  toglie la persona dal nucleo familiare
+            // conclude le aziende dove lavora con la data di uscita
+            $conn->insert(
+                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+                [$data_uscita, $persona_id]
+            );
+
+            if (!$this->isMaggiorenne() && $disable_from_family) {
+                // toglie la persona dal nucleo familiare
                 $conn->insert(
-                    "UPDATE famiglie_persone 
-                        SET data_uscita = ?, stato = '0'
-                        WHERE persona_id = ? AND stato = '1'",
+                    "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                     [$data_uscita, $persona_id]
                 );
             }
        
-           
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
