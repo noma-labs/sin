@@ -325,7 +325,7 @@ class Persona extends Model
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
         if (!$this->isMaggiorenne()) {
-          throw new PersonaIsMinorenne($this->nominativo);
+            throw new PersonaIsMinorenne($this->nominativo);
         }
 
         $pos = Posizione::find("OSPP");
@@ -348,8 +348,8 @@ class Persona extends Model
     public function entrataMaggiorenneSposato($data_entrata, $gruppo_id)
     {
         if (!$this->isMaggiorenne()) {
-            throw new PersonaIsMinorenne($this->nominativo);
-          }
+            throw PersonaIsMinorenne::named($this->nominativo);
+        }
         $pos = Posizione::find("OSPP");
         $gruppo_data = $data_entrata;
         $pos_data = $data_entrata;
@@ -357,7 +357,6 @@ class Persona extends Model
         $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo_id, $gruppo_data);
     }
 
-  
     // Inserisce una persona nella comunità per la prima volta.
     public function entrataInNomadelfia(
         $data,
@@ -459,21 +458,59 @@ class Persona extends Model
         return $isInterna;
     }
 
-    public function uscitoODeceduto($data_uscita, $is_deceduto=false)
+    /*
+    * Return True if the person is dead, false otherwise
+    */
+    public function isDeceduto()
+    {
+        return $this->data_decesso != null;
+    }
+
+    public function deceduto($data_decesso)
+    {
+        DB::connection('db_nomadelfia')->beginTransaction();
+        try {
+            $this->uscita($data_decesso);
+
+            $conn = DB::connection('db_nomadelfia');
+            // aggiorna la data di decesso
+            $conn->update(
+                "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
+                [$data_decesso, $this->id]
+            );
+
+            // aggiorna lo stato familiare  con la data di decesso
+            $conn->insert(
+                "UPDATE persone_stati SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+                [$data_decesso, $this->id]
+            );
+ 
+            // aggiorna la data di uscita dalla famiglia con la data di decesso
+            $conn->insert(
+                "UPDATE famiglie_persone SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+                [$data_decesso, $this->id]
+            );
+
+            DB::connection('db_nomadelfia')->commit();
+        } catch (\Exception $e) {
+            DB::connection('db_nomadelfia')->rollback();
+            throw $e;
+        }
+    }
+    public function uscita($data_uscita)
     {
         $persona_id = $this->id;
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
-            if ($is_deceduto == true) {
-                $conn->update(
-                    "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW()
-                      WHERE id = ?",
-                    [$data_uscita, $persona_id]
-                );
-            } else {
-                $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'", [$persona_id]);
-            }
+            /*  if ($is_deceduto == true) {
+                 $conn->update(
+                     "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
+                     [$data_uscita, $persona_id]
+                 );
+             } else { */
+            $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'", [$persona_id]);
+            //}
       
             // inserisce la categoria come persona esterna
             $conn->insert(
@@ -497,25 +534,16 @@ class Persona extends Model
                 [$data_uscita, $persona_id]
             );
  
-            // inserisce la persona nel gruppo familiare
+            // conclude la persona nel gruppo familiare
             $conn->insert(
                 "UPDATE gruppi_persone 
                      SET data_uscita_gruppo = ?, stato = '0'
                      WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
-       
-            if ($is_deceduto == true) {
-                // aggiorna lo stato familiare
-                $conn->insert(
-                    "UPDATE persone_stati
-                      SET data_fine = ?, stato = '0'
-                      WHERE persona_id = ? AND stato = '1'",
-                    [$data_uscita, $persona_id]
-                );
-       
- 
-                // aggiorna la persona nella famiglia con una posizione
+
+            if (!$this->isMaggiorenne()) {
+                // se è minorenne,  toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone 
                         SET data_uscita = ?, stato = '0'
@@ -523,10 +551,12 @@ class Persona extends Model
                     [$data_uscita, $persona_id]
                 );
             }
+       
+           
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
-            dd($e);
+            throw $e;
         }
     }
 

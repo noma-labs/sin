@@ -1,5 +1,6 @@
 <?php
 namespace Tests;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\App;
 
@@ -10,6 +11,7 @@ trait MigrateFreshDB
     * @var boolean
     */
     protected static $setUpHasRunOnce = false;
+   
     /**
     * After the first run of setUp "migrate:fresh --seed"
     * @return void
@@ -17,7 +19,9 @@ trait MigrateFreshDB
     public function setUp()
     {
         parent::setUp();
-        if (App::environment() === 'production') exit();
+        if (App::environment() === 'production') {
+            exit();
+        }
         
         if (!static::$setUpHasRunOnce) {
             Artisan::call('migrate:fresh', ['--database'=> 'db_auth', '--path'=> "database/migrations/admsys"]);
@@ -29,7 +33,7 @@ trait MigrateFreshDB
             Artisan::call('db:seed', ['--class'=> 'StatiTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'GruppiFamiliariTableSeeder']);
             
-            static::$setUpHasRunOnce = true;
-         }
+        static::$setUpHasRunOnce = true;
+        }
     }
 }

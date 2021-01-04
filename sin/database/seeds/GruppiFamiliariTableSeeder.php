@@ -15,10 +15,40 @@ class GruppiFamiliariTableSeeder extends Seeder
     {
         $data =[ 
             [
-            'nome' => 'Bruciata',
+            'nome' => 'Cenacolo',
         ], 
         [
+            'nome' => 'Diaccialone',
+        ],
+        [
+            'nome' => 'Nazareth',
+        ],
+        [
+            'nome' => 'Assunta',
+        ],
+        [
+            'nome' => 'Betlam Basso',
+        ],
+        [
+            'nome' => 'Betlem Alto',
+        ],
+        [
+            'nome' => 'Bruciata',
+        ],
+        [
+            'nome' => 'Sughera',
+        ],
+        [
+            'nome' => 'Rosellana',
+        ],
+        [
             'nome' => 'Subiaco',
+        ],
+        [
+            'nome' => 'Poggetto',
+        ],
+        [
+            'nome' => 'Giovanni Paolo II',
         ],
     ];
     DB::connection('db_nomadelfia')->table('gruppi_familiari')->insert($data);

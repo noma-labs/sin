@@ -32,7 +32,7 @@
                 </div>
       
               @empty
-              <p class="text-danger">Nessun Nomadelfa mamma</p>
+              <p class="text-danger">Nessuna Nomadelfa mamma</p>
               @endforelse
             </div>  <!--end card body-->
       

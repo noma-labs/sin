@@ -16,8 +16,7 @@ use App\Nomadelfia\Models\Stato;
 
 class PersonaTest extends TestCase
 {
-
-
+  
     public function testEntrataMaschioDallaNascita()
     {  /*
         Person interna (DN)
@@ -195,7 +194,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
     }
 
-    public function testEntrataMinorenneMachioConFamiglia()
+    public function testEntrataMinorenneMaschioConFamiglia()
     {
         $data_entrata = Carbon::now()->toDatestring();
         $persona = factory(Persona::class)->states("minorenne", "maschio")->create();

@@ -47,7 +47,7 @@ class PersoneController extends CoreBaseController
       "data_decesso.required" => "La data del decesso è obbligatorio",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->uscitoODeceduto($request->data_decesso, true);
+    $persona->deceduto($request->data_decesso);
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
   }
 
@@ -61,7 +61,7 @@ class PersoneController extends CoreBaseController
     if($persona->isMoglie() or $persona->isCapofamiglia()){
       return redirect()->back()->withError("Impossible settare uscita perchè $persona->nominativo risulta essere moglie o capo famiglia");
     }
-    $persona->uscitoODeceduto($request->data_uscita);
+    $persona->uscita($request->data_uscita);
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
   }
 

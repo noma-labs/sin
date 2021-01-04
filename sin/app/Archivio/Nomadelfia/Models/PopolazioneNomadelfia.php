@@ -124,8 +124,8 @@ class PopolazioneNomadelfia
     
         $sesso = $maggioreni->groupBy("sesso");
         $result->total =  $maggioreni->count();
-        $result->uomini =  $sesso->get("M");
-        $result->donne = $sesso->get("F");
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
         return $result;
     }
 
@@ -140,8 +140,8 @@ class PopolazioneNomadelfia
         $maggioreni = collect($magg);
         $sesso = $maggioreni->groupBy("sesso");
         $result->total =  $maggioreni->count();
-        $result->uomini =  $sesso->get("M");
-        $result->donne = $sesso->get("F");
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
         return $result;
     }
 

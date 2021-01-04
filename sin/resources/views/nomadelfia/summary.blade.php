@@ -54,7 +54,7 @@
                 <span class="badge badge-primary badge-pill"> {{$maggiorenni->total}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-               <a href="{{route('nomadelfia.popolazione.posizione.effettivi')}}">  Figli Minorenni</a> 
+               <a href="{{route('nomadelfia.popolazione.posizione.figli.minorenni')}}">  Figli Minorenni</a> 
                 <p>Donne ({{count($minorenni->donne)}})</p>
                 <p>Uomini  ({{count($minorenni->uomini)}})</p>
                 <span class="badge badge-primary badge-pill"> {{$minorenni->total}}</span>
