@@ -1,18 +1,8 @@
 @extends('biblioteca.video.index')
 
 @section('archivio')
-     @include('biblioteca.video.search_partial')
-
-      <div class="alert alert-info alert-dismissable fade in">Ricerca effettuata:<strong> {{$msgSearch}}</strong>
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-       </div>
-
-       <div class="alert alert-info alert-dismissable fade in"><strong> {{$query}}</strong>
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-       </div>
-
-       <div id="results" class="alert alert-success"> Numero di video Trovati: <strong> {{ $videos->total() }} </strong></div>
-
+  @include('biblioteca.video.search_partial')
+  <div id="results" class="alert alert-success"> Numero di video Trovati: <strong> {{ $videos->total() }} </strong></div>
 
   @if ($videos->total() > 0)
      <table  id="table" class='table table-bordered'>

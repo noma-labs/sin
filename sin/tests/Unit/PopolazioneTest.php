@@ -147,7 +147,7 @@ class PopolazioneTest extends BaseTestCase
 
     /*
     * Testa l'uscita di una famiglia con alcuni componeneti fuori dal nucleo.
-    * Solo i compomente nel nucleo familiare devono uscire.
+    * Controlla che i componenti fuori dal nucleo rimagono come persone interne.
     */
     public function testUscitaFamigliaConComponentiFuoriDalNucleo()
     {
