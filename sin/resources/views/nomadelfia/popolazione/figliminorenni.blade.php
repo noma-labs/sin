@@ -37,7 +37,6 @@
                   <p class="col-md-3">{{$persona->data_inizio}}</p>
                   <p class="col-md-3"> @diffHumans($persona->data_inizio)</p>
                   <div class="col-md-3"> 
-                    @include("nomadelfia.templates.modificaDataPosizione",["persona"=>$persona, 'id'=>$persona->posizione_id, "data_inizio"=>$persona->data_inizio])
                   </div>
                 </div>
       

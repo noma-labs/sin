@@ -325,7 +325,7 @@ class Persona extends Model
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
         if (!$this->isMaggiorenne()) {
-            throw new PersonaIsMinorenne($this->nominativo);
+            throw PersonaIsMinorenne::named($this->nominativo);
         }
 
         $pos = Posizione::find("OSPP");
@@ -609,6 +609,33 @@ class Persona extends Model
         return $this->stati()->wherePivot('stato', '0')
                 ->orderby('data_fine', 'desc');
     }
+    /*
+    * Assegna un nuovo stato alla persona.
+    * Se la persona ha uno stato attuale viene concluso con la data di inizio del nuovo stato.
+    */
+    public function assegnaStato($stato, $data_inizio, $attuale_data_fine=null)
+    {
+        if (is_string($stato)) {
+            $stato = Stato::findOrFail($stato);
+        }
+        if ($stato instanceof Stato) {
+            DB::connection('db_nomadelfia')->beginTransaction();
+            try {
+                $attuale = $this->statoAttuale();
+                if ($attuale) {
+                    $this->stati()->updateExistingPivot($attuale->id, ['stato'=>'0','data_fine'=>($attuale_data_fine ? $attuale_data_fine: $data_inizio)]);
+                }
+                $this->stati()->attach($stato->id, ['stato'=>'1','data_inizio'=>$data_inizio]);
+                DB::connection('db_nomadelfia')->commit();
+            } catch (\Exception $e) {
+                DB::connection('db_nomadelfia')->rollback();
+                throw $e;
+            }
+        } else {
+            throw new Exception("Bad Argument. Stato must be an id or a model.");
+        }
+    }
+    
 
     // FAMIGLIA
     public function famiglie()
@@ -805,6 +832,29 @@ class Persona extends Model
         return $this->posizioni()
                 ->wherePivot('stato', '0');
         //->withPivot('posizione_famiglia','data_entrata', "data_uscita");
+    }
+
+    public function assegnaPosizione($posizione, $data_inizio, $attuale_data_fine)
+    {
+        if (is_string($posizione)) {
+            $posizione = Posizione::findOrFail($posizione);
+        }
+        if ($posizione instanceof Posizione) {
+            DB::connection('db_nomadelfia')->beginTransaction();
+            try {
+                $attuale = $this->posizioneAttuale();
+                if ($attuale) {
+                    $this->posizioni()->updateExistingPivot($attuale->id, ['stato'=>'0','data_fine'=>($attuale_data_fine ? $attuale_data_fine: $data_inizio)]);
+                }
+                $this->posizioni()->attach($posizione->id, ['stato'=>'1','data_inizio'=>$data_inizio]);
+                DB::connection('db_nomadelfia')->commit();
+            } catch (\Exception $e) {
+                DB::connection('db_nomadelfia')->rollback();
+                throw $e;
+            }
+        } else {
+            throw new Exception("Bad Argument. Stato must be an id or a model.");
+        }
     }
 
     public function modificaDataInizioPosizione($posizione_id, $currentDatain, $newDataIn)
