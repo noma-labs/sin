@@ -146,12 +146,13 @@ class PopolazioneNomadelfia
     }
 
     /*
-    *  Ritorna i sacerdoti  della popolazione
+    *  Ritorna i sacerdoti della popolazione
     */
     public static function sacerdoti()
     {
         return self::byStati("SAC");
     }
+
 
     /*
     *  Ritorna le mamme di vocazione  della popolazione
@@ -218,11 +219,11 @@ class PopolazioneNomadelfia
         $posizioni = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT persone.*, persone_stati.*
-      FROM persone
-      INNER JOIN persone_stati ON persone_stati.persona_id = persone.id
-      INNER JOIN stati ON stati.id = persone_stati.stato_id
-      WHERE persone.stato = '1' AND persone_stati.stato = '1' and stati.stato = :stato AND persone.deleted_at is  NULL
-      ORDER by persone_stati.data_inizio ASC, persone.nominativo"
+                FROM persone
+                INNER JOIN persone_stati ON persone_stati.persona_id = persone.id
+                INNER JOIN stati ON stati.id = persone_stati.stato_id
+                WHERE persone.stato = '1' AND persone_stati.stato = '1' and stati.stato = :stato AND persone.deleted_at is  NULL
+                ORDER by persone_stati.data_inizio ASC, persone.nominativo"
             ),
             array("stato"=>$stato)
         );

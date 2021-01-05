@@ -97,7 +97,7 @@ class PopolazioneTest extends BaseTestCase
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-        $persona->uscita($data_uscita, TRUE);
+        $persona->uscita($data_uscita, true);
 
         $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
         $this->assertNull($persona->posizioneAttuale());
