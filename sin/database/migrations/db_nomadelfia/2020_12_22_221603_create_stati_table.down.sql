@@ -1,0 +1,8 @@
+-- Reverse the migrations
+SET FOREIGN_KEY_CHECKS=0;
+
+
+DROP TABLE IF EXISTS `stati`;
+DROP TABLE IF EXISTS `persone_stati`;
+
+SET FOREIGN_KEY_CHECKS=1;

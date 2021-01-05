@@ -8,9 +8,8 @@ use App\Nomadelfia\Excpetions\StatoDoesNotExists;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
 
-
-/*  
-* 
+/*
+*
 *  Static methods for obtaning statistics on the popolazione di Nomadelfia
 */
 class PopolazioneNomadelfia
@@ -20,9 +19,11 @@ class PopolazioneNomadelfia
   *  Ritorna le persone della popolazione di Nomadelfia
   *
   */
-  public static function popolazione(){
-    $res = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT popolazione.* , posizioni.nome as posizione
+    public static function popolazione()
+    {
+        $res = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT popolazione.* , posizioni.nome as posizione
       from (
         SELECT persone.*
         FROM persone
@@ -34,247 +35,259 @@ class PopolazioneNomadelfia
       WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
       ORDER BY nominativo
       "
-      ));
-     return $res;
-  }
+            )
+        );
+        return $res;
+    }
 
   
 
-  /*
-  *  Ritorna il totale della popolazione attuale
-  *  Una persona fa parte della popolazione se e solo se
-  *       - è una persona attiva (stato = '1)
-  *       - è una persona con categoria "Persona interna"
-  */
-  public static function totalePopolazione(){
-    $res = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT count(*) as popolazione
+    /*
+    *  Ritorna il totale della popolazione attuale
+    *  Una persona fa parte della popolazione se e solo se
+    *       - è una persona attiva (stato = '1)
+    *       - è una persona con categoria "Persona interna"
+    */
+    public static function totalePopolazione()
+    {
+        $res = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT count(*) as popolazione
             FROM persone
             INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'" 
-     ));
-     return $res[0]->popolazione;
-  }
+            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'"
+            )
+        );
+        return $res[0]->popolazione;
+    }
 
 
-  /*
-  *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
-  *
-  */
-  public static function effettivi()
-  {
-    $result = new stdClass;
-    $effettivi = collect(self::byPosizione("EFFE"));
-    $sesso = $effettivi->groupBy("sesso");
-    $result->total =  $effettivi->count();
-    $result->uomini = $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
+    /*
+    *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
+    *
+    */
+    public static function effettivi()
+    {
+        $result = new stdClass;
+        $effettivi = collect(self::byPosizione("EFFE"));
+        $sesso = $effettivi->groupBy("sesso");
+        $result->total =  $effettivi->count();
+        $result->uomini = $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
-  }
+    /*
+    *  Ritorna i postulanti  della popolazione
+    */
+    public static function postulanti()
+    {
+        $result = new stdClass;
+        $postulanti = collect(self::byPosizione("POST"));
+        $sesso = $postulanti->groupBy("sesso");
+        $result->total =  $postulanti->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
-  /*
-  *  Ritorna i postulanti  della popolazione
-  */
-  public static function postulanti()
-  {
-    $result = new stdClass;
-    $postulanti = collect(self::byPosizione("POST"));
-    $sesso = $postulanti->groupBy("sesso");
-    $result->total =  $postulanti->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
-
-     /*
+    /*
   *  Ritorna gli ospiti  della popolazione
   */
-  public static function ospiti()
-  {
-    $result = new stdClass;
-    $ospiti = collect(self::byPosizione("OSPP"));
-    $sesso = $ospiti->groupBy("sesso");
-    $result->total =  $ospiti->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
+    public static function ospiti()
+    {
+        $result = new stdClass;
+        $ospiti = collect(self::byPosizione("OSPP"));
+        $sesso = $ospiti->groupBy("sesso");
+        $result->total =  $ospiti->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
-  /*
-  *  Ritorna i figli  della popolazione
-  */
-  public static function figli()
-  {
-    return self::byPosizione("FIGL");
-  }
+    /*
+    *  Ritorna i figli  della popolazione
+    */
+    public static function figli()
+    {
+        return self::byPosizione("FIGL");
+    }
 
-   /*
+    /*
   *  Ritorna i figli maggiorenni
   */
-  public static function figliMaggiorenni()
-  {
-    $magg = self::figliDaEta(18);
-    $result = new stdClass;
-    $maggioreni = collect($magg);
+    public static function figliMaggiorenni()
+    {
+        $magg = self::figliDaEta(18);
+        $result = new stdClass;
+        $maggioreni = collect($magg);
     
-    $sesso = $maggioreni->groupBy("sesso");
-    $result->total =  $maggioreni->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
+        $sesso = $maggioreni->groupBy("sesso");
+        $result->total =  $maggioreni->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
   
-  /*
-  *  Ritorna i maggiorenni donna
-  */
-  public static function figliMinorenni()
-  {
-    $magg = self::figliDaEta(0,18);
-    $result = new stdClass;
-    $maggioreni = collect($magg);
-    $sesso = $maggioreni->groupBy("sesso");
-    $result->total =  $maggioreni->count();
-    $result->uomini =  $sesso->get("M");
-    $result->donne = $sesso->get("F");
-    return $result;
-  }
+    /*
+    *  Ritorna i maggiorenni donna
+    */
+    public static function figliMinorenni()
+    {
+        $magg = self::figliDaEta(0, 18);
+        $result = new stdClass;
+        $maggioreni = collect($magg);
+        $sesso = $maggioreni->groupBy("sesso");
+        $result->total =  $maggioreni->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
-  /*
-  *  Ritorna i sacerdoti  della popolazione
-  */
-  public static function sacerdoti()
-  {
-    return self::byStati("SAC");
-  }
+    /*
+    *  Ritorna i sacerdoti  della popolazione
+    */
+    public static function sacerdoti()
+    {
+        return self::byStati("SAC");
+    }
 
-  /*
-  *  Ritorna le mamme di vocazione  della popolazione
-  */
-  public static function mammeVocazione()
-  {
-    return self::byStati("MAV");
-  }
+    /*
+    *  Ritorna le mamme di vocazione  della popolazione
+    */
+    public static function mammeVocazione()
+    {
+        return self::byStati("MAV");
+    }
 
-   /*
+    /*
   *  Ritorna le nomadelfa mamma  della popolazione
   */
-  public static function nomadelfaMamma()
-  {
-    return self::byStati("MAM");
-  }
+    public static function nomadelfaMamma()
+    {
+        return self::byStati("MAM");
+    }
 
 
 
-  /*
-  *  Ritorna le persone con una certa posizione.
-  *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
-  */
-  public static function byPosizione(string $posizione)
-  {
-    $posizioni = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT persone.*, persone_posizioni.*
+    /*
+    *  Ritorna le persone con una certa posizione.
+    *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
+    */
+    public static function byPosizione(string $posizione)
+    {
+        $posizioni = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT persone.*, persone_posizioni.*
       FROM persone
       INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
       INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
       WHERE persone.stato = '1' AND persone_posizioni.stato = '1' and posizioni.abbreviato = :posizione AND persone.deleted_at is  NULL
       ORDER by persone_posizioni.data_inizio ASC, persone.nominativo"
-     ), array("posizione"=>$posizione));
-    return $posizioni;
-  }
+            ),
+            array("posizione"=>$posizione)
+        );
+        return $posizioni;
+    }
 
-  /*
-  *  Ritorna il numero per persone attive per ogni categoria
-  */
-  public static function perCategorie()
-  {
-    $posizioni = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT categorie.nome, count(*) as count
+    /*
+    *  Ritorna il numero per persone attive per ogni categoria
+    */
+    public static function perCategorie()
+    {
+        $posizioni = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT categorie.nome, count(*) as count
                 FROM persone
                 INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
                 INNER JOIN categorie ON categorie.id = persone_categorie.categoria_id
                 WHERE persone.stato = '1' AND persone_categorie.stato = '1'
                 GROUP BY categorie.nome"
-     ));
-    return $posizioni;
-  }
+            )
+        );
+        return $posizioni;
+    }
 
     /*
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
-  public static function byStati(string $stato)
-  {
-    $posizioni = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT persone.*, persone_stati.*
+    public static function byStati(string $stato)
+    {
+        $posizioni = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT persone.*, persone_stati.*
       FROM persone
       INNER JOIN persone_stati ON persone_stati.persona_id = persone.id
       INNER JOIN stati ON stati.id = persone_stati.stato_id
       WHERE persone.stato = '1' AND persone_stati.stato = '1' and stati.stato = :stato AND persone.deleted_at is  NULL
       ORDER by persone_stati.data_inizio ASC, persone.nominativo"
-     ), array("stato"=>$stato));
-    return $posizioni;
-  }
-  /*
-  *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
-  */
-  public static function perPosizioni()
-  {
-    $posizioni = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT posizioni.nome, count(*) as count
+            ),
+            array("stato"=>$stato)
+        );
+        return $posizioni;
+    }
+    /*
+    *  Ritorna il numero per persone attive per ogni posizione (postulante, effettivo, ospite, figlio)
+    */
+    public static function perPosizioni()
+    {
+        $posizioni = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT posizioni.nome, count(*) as count
                 FROM persone
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
                 WHERE persone.stato = '1' AND persone_posizioni.stato = '1'  AND persone.deleted_at is NULL
                 group by posizioni.nome
                 ORDER BY posizioni.ordinamento"
-     ));
-    return $posizioni;
-  }
+            )
+        );
+        return $posizioni;
+    }
 
-  /*
-  *  Ritorna il numero di persone per ogni gruppo familiare
- 
-  public static function gruppiComponenti()
-  {
-    $gruppi = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT gruppi_familiari.id,  count(*) as componenti
-      FROM gruppi_persone
-      INNER JOIN persone ON gruppi_persone.persona_id = persone.id
-      INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-      WHERE persone.stato = '1' and gruppi_persone.stato = '1'
-      GROUP by gruppi_familiari.id
-      ORDER BY gruppi_familiari.nome"
-     ));
-    return $gruppi;
-  }
-   */
+    /*
+    *  Ritorna il numero di persone per ogni gruppo familiare
 
-
- 
-
-  /*
-  *  Ritorna le persona della popolazione con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo) 
-  */
-  public static function figliDaEta(int $fromEta, int $toEta=null)
-  {
-    if ($toEta == null)
+    public static function gruppiComponenti()
     {
-      return DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT persone.*, persone_posizioni.* FROM persone
+      $gruppi = DB::connection('db_nomadelfia')->select(
+        DB::raw("SELECT gruppi_familiari.id,  count(*) as componenti
+        FROM gruppi_persone
+        INNER JOIN persone ON gruppi_persone.persona_id = persone.id
+        INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+        WHERE persone.stato = '1' and gruppi_persone.stato = '1'
+        GROUP by gruppi_familiari.id
+        ORDER BY gruppi_familiari.nome"
+       ));
+      return $gruppi;
+    }
+     */
+
+
+ 
+
+    /*
+    *  Ritorna le persona della popolazione con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
+    */
+    public static function figliDaEta(int $fromEta, int $toEta=null)
+    {
+        if ($toEta == null) {
+            return DB::connection('db_nomadelfia')->select(
+                DB::raw("SELECT persone.*, persone_posizioni.* FROM persone
       INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
       INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
       INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
       WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
           AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :anni YEAR)
           AND posizioni.abbreviato = 'FIGL'
-          ORDER BY data_nascita"), array('anni'=>$fromEta)
-          );
-
-    } else{
-      return  DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT persone.*, persone_posizioni.*
+          ORDER BY data_nascita"),
+                array('anni'=>$fromEta)
+            );
+        } else {
+            return  DB::connection('db_nomadelfia')->select(
+                DB::raw("SELECT persone.*, persone_posizioni.*
                 FROM persone
                 INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
@@ -282,45 +295,46 @@ class PopolazioneNomadelfia
                 WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
                     AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :fromanni YEAR)  AND  persone.data_nascita > DATE_SUB(NOW(), INTERVAL :toanni YEAR)
                     AND  posizioni.abbreviato = 'FIGL'
-                    ORDER BY data_nascita"), array("fromanni" => $fromEta, "toanni" =>$toEta));
+                    ORDER BY data_nascita"),
+                array("fromanni" => $fromEta, "toanni" =>$toEta)
+            );
+        }
     }
-  
-  }
 
-  /* 
-  *  Ritorna il numero di componente per ogni gruppo
-  */
-  /*
-  public static function Minorenni()
-  {
-    $magg = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT *, YEAR(persone.data_nascita) as anno
-              FROM persone
-              INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-              WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
-                  AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
-                  ORDER BY data_nascita"
-        ));
-    return $magg;
-  } */
+    /*
+    *  Ritorna il numero di componente per ogni gruppo
+    */
+    /*
+    public static function Minorenni()
+    {
+      $magg = DB::connection('db_nomadelfia')->select(
+        DB::raw("SELECT *, YEAR(persone.data_nascita) as anno
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                    AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                    ORDER BY data_nascita"
+          ));
+      return $magg;
+    } */
 
 
 
-  /*
-  *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
-  */
-  public static function posizioneFamigliaCount()
-  {
-    $gruppi = DB::connection('db_nomadelfia')->select(
-      DB::raw("SELECT famiglie_persone.posizione_famiglia, persone.sesso, count(*) as count
+    /*
+    *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
+    */
+    public static function posizioneFamigliaCount()
+    {
+        $gruppi = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT famiglie_persone.posizione_famiglia, persone.sesso, count(*) as count
               FROM famiglie_persone
               INNER JOIN persone ON famiglie_persone.persona_id = persone.id
               INNER JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
               WHERE persone.stato = '1'  AND famiglie_persone.stato = '1'
               GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
-     ));
-    return $gruppi;
-  }
-
-
+            )
+        );
+        return $gruppi;
+    }
 }

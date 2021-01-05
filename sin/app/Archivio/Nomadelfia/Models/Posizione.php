@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Excpetions\PosizioneDoesNotExist;
+use App\Nomadelfia\Exceptions\PosizioneDoesNotExists;
 
 class Posizione extends Model
 {
@@ -44,15 +44,16 @@ class Posizione extends Model
      * @param string $name abbreviato
      * @param string|null $guardName
      *
-     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
+     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExists
+     *
      *
      * @return  \App\Nomadelfia\Models\Posizione
      */
   public static function find(string $name): Posizione
   {
       $posizione = Posizione::where("abbreviato", $name)->first();
-      if (! $posizione) {
-          throw PosizioneDoesNotExist::create($name);
+      if (!$posizione) {
+          throw PosizioneDoesNotExists::named($name);
       }
       return $posizione;
   }

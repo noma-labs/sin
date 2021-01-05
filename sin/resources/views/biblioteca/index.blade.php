@@ -24,15 +24,15 @@
   <div class="col-md-4">
     <div class="card" style="width: 17rem;">
       <div class="card-body">
-        <h3 class="card-title">Video</h3>
+        <h3 class="card-title">DVD</h3>
         <p class="card-text">
-        Gestione dei video presenti nella biblioteca di Nomadelfia.</p>
-        <a href="{{ route('video') }}"class="btn btn-primary">Gestione Video </a>
+        Gestione dei DVD presenti nella biblioteca di Nomadelfia.</p>
+        <a href="{{ route('video') }}"class="btn btn-primary">Gestione DVD </a>
       </div>
     </div>
     <!-- <a href="{{ route('video') }}">
       <div class="jumbotron ">
-        <h2 class="text-center">Gestione Video Biblioteca</h2>
+        <h2 class="text-center">Gestione DVD Biblioteca</h2>
       </div>
     </a> -->
   </div>

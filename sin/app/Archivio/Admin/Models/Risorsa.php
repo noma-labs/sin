@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 use App\Admin\Models\Sistema;
 use App\Admin\Models\Ruolo;
 
+use App\Admin\Exceptions\RisorsaDoesNotExist;
+
 class Risorsa extends Model
 {
     protected $connection = 'db_auth';
@@ -64,7 +66,7 @@ class Risorsa extends Model
             return $risorsa->nome === $name;
         })->first();
         if (! $risorsa) {
-         throw RisorsaDoesNotExist::create($name, $guardName);
+         throw RisorsaDoesNotExist::create($name);
         }
         return $risorsa;
     } 

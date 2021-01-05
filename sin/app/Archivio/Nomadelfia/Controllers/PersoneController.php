@@ -34,10 +34,10 @@ class PersoneController extends CoreBaseController
   public function show($idPersona){
     $persona = Persona::findOrFail($idPersona);
     $categoriaAttuale = $persona->categoriaAttuale();
-
+    $posizioneAttuale = $persona->posizioneAttuale();
     $gruppoAttuale = $persona->gruppofamiliareAttuale();
     $famigliaAttuale = $persona->famigliaAttuale();
-    return view("nomadelfia.persone.show",compact('persona', 'categoriaAttuale','gruppoAttuale', 'famigliaAttuale'));
+    return view("nomadelfia.persone.show",compact('persona', 'categoriaAttuale','posizioneAttuale','gruppoAttuale', 'famigliaAttuale'));
   }
 
   public function decesso(Request $request, $idPersona){
@@ -47,7 +47,7 @@ class PersoneController extends CoreBaseController
       "data_decesso.required" => "La data del decesso è obbligatorio",
     ]);
     $persona = Persona::findOrFail($idPersona);
-    $persona->uscitoODeceduto($request->data_decesso, true);
+    $persona->deceduto($request->data_decesso);
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
   }
 
@@ -61,7 +61,7 @@ class PersoneController extends CoreBaseController
     if($persona->isMoglie() or $persona->isCapofamiglia()){
       return redirect()->back()->withError("Impossible settare uscita perchè $persona->nominativo risulta essere moglie o capo famiglia");
     }
-    $persona->uscitoODeceduto($request->data_uscita);
+    $persona->uscita($request->data_uscita);
     return redirect()->route('nomadelfia.persone.dettaglio',['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
   }
 
@@ -389,7 +389,7 @@ class PersoneController extends CoreBaseController
    */
   public function posizione($idPersona){
     $persona = Persona::findOrFail($idPersona);
-    $posattuale = $persona->posizioneAttuale; // ce ne possono essere più di una (per errori di isnerimento dati)
+    $posattuale = $persona->posizioneAttuale();
     $storico = $persona->posizioniStorico;
     return view("nomadelfia.persone.posizione.show", compact('persona', 'posattuale', "storico"));
   }

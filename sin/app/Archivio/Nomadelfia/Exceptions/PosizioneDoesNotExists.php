@@ -13,8 +13,5 @@ class PosizioneDoesNotExists extends InvalidArgumentException
     {
         return new static("La posizione `{$posizionenName}` non esiste.");
     }
-    // public static function withId(int $roleId)
-    // {
-    //     return new static("There is no role with id `{$roleId}`.");
-    // }
+
 }

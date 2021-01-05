@@ -4,7 +4,7 @@ namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Excpetions\StatoDoesNotExists;
+use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 
 
 class Stato extends Model
@@ -12,6 +12,9 @@ class Stato extends Model
   protected $connection = 'db_nomadelfia';
   protected $table = 'stati';
   protected $primaryKey = "id";
+
+  public $guarded = ['id'];
+  public $timestamps = false;
 
 
   public function persone(){
@@ -61,6 +64,7 @@ class Stato extends Model
     $mapNamesToDB = [
         "sacerdote"=> "SAC",
         "celibe"=>"CEL",
+        "nubile"=>"NUB",
         "mammavocazione"=>"MAV",
         "sposato"=>"SPO",
     ];

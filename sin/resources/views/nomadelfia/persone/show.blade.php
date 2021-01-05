@@ -208,15 +208,11 @@
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Posizione: </label>
                 <div class="col-sm-6">
-                  @forelse ($persona->posizioneAttuale()->get() as $attuale)
-                    @if ($attuale->number == 0)
-                     {{$attuale->nome}}
-                    @else
-                     ,{{$attuale->nome}}
-                    @endif
-                  @empty
+                  @if ($posizioneAttuale != null)
+                     {{$posizioneAttuale->nome}}
+                  @else
                     <span class="text-danger">Nessuna posizione</span>
-                  @endforelse
+                  @endif
                 </div>
                 <div class="col-sm-2">
                   <a class="btn btn-warning" href="{{route('nomadelfia.persone.posizione', ['idPersona'=>$persona->id])}}">Modifica</a> 

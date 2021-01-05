@@ -42,7 +42,7 @@
                 </div>
       
               @empty
-              <p class="text-danger">Nessuna categoria nello storico</p>
+              <p class="text-danger">Nessun effettivo</p>
               @endforelse
             </div>  <!--end card body-->
       
@@ -73,7 +73,7 @@
                 </div>
       
               @empty
-              <p class="text-danger">Nessuna categoria nello storico</p>
+              <p class="text-danger">Nessun effettivo</p>
               @endforelse
             </div>  <!--end card body-->
       

@@ -11,6 +11,20 @@
           <p class="card-text">Nome famiglia: <span class="font-weight-bold">{{$famiglia->nome_famiglia}}</span></p>
           <p class="card-text">Data creazione:  <span class="font-weight-bold">{{$famiglia->data_creazione}}</span></p>
           @include("nomadelfia.templates.aggiornaFamiglia", ['famiglia' => $famiglia])
+
+           <my-modal modal-title="Uscita famiglia dalla comunità" button-title="Uscita" button-style="btn-danger my-2">
+              <template slot="modal-body-slot">
+                  <form class="form" method="POST"  id="formUscitaFamiglia{{$famiglia->id}}" action="{{ route('nomadelfia.famiglie.uscita', ['id' =>$famiglia->id]) }}" >      
+                      @csrf
+                      <p> Inserire la data di uscita della famiglia {{$famiglia->nome}} </p>
+                      <date-picker :bootstrap-styling="true" format="yyyy-MM-dd" name="data_uscita"></date-picker>
+
+                  </form>
+              </template> 
+              <template slot="modal-button">
+                  <button class="btn btn-success" form="formUscitaFamiglia{{$famiglia->id}}">Salva</button>
+              </template> 
+          </my-modal> 
         </div>
       </div>
     </div>

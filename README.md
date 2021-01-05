@@ -51,16 +51,29 @@ cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 
 php artisan key:generate
 ```
-
-Se nel database `db_anagrafe` le tabelle `permissions`,  `roles`, `users` sono vuote eseguire il seguent comando per aggiungere nel database i *ruoli*: `biblioteca`, `rtn` `Admin`;  l'*utente*: `Admin` e i *permessi*.
+9. Create the databases
+```
+CREATE DATABASE db_admsys  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
+CREATE DATABASE db_nomadelfia  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
 
 ```
-cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
+10. Execute migrations 
+IMPORTANT: do not execute on production
+
+- `php artisan migrate --path="database/migrations/admsys" --database=db_auth`
+- `php artisan migrate --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
+
+
+11. Seed di dati
+
+```
 php artisan db:seed
 ```
+
 La password di default dell'utente `Admin` per entrare nel pannello di controllo:
  - `Username: Admin`
  - `Password: nomadelfia`
+
 
 ### Start server
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.
@@ -98,6 +111,11 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 6.	archivio_biblioteca
 7.	archivio_nomadelfia
 
+##  Running unit test
+IMPORTANT: do not run test on production
+
+-  .\vendor\bin\phpunit --testdox
+
 ## Struttura ER database
 
 - [cartella drive](https://drive.google.com/open?id=190iYionZjETbbRi_J6G6534Bkx3apkpx)
@@ -106,6 +124,10 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 <!-- <p align="center">
 <img src="./docs/diagram/Archivio_diagrammaER.png" width="600">
 </p> -->
+
+## Database migration
+- https://github.com/pmatseykanets/laravel-sql-migrations
+
 
 ## Seed dati authentiazione
 Per popolare le tabelle dell'authenticazione (ruoli, permessi, utenti) eseguire il comando:
@@ -117,8 +139,7 @@ php artisan db:seed
 
 - `composer install`
 
-- `php artisan  migrate --path="database/migrations/auth"`
-- `php artisan migrate --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
+
 
 - `composer dump-autoload`
 
@@ -138,8 +159,6 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-##
-- https://foundation.zurb.com/ 
 
 
 # Linea guida di sviluppo
