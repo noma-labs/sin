@@ -100,9 +100,22 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   
     public function print(Request $request)
     {
+        /*
+        $totale = PopolazioneNomadelfia::totalePopolazione();
+        $effettivi = PopolazioneNomadelfia::effettivi();
+        $postulanti = PopolazioneNomadelfia::postulanti();
+        $ospiti = PopolazioneNomadelfia::ospiti();
+        $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+        $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+        $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
+        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
+        $minorenni = PopolazioneNomadelfia::figliMinorenni();
+        $figli = PopolazioneNomadelfia::byPosizione("FIGL");
+*/
         $elenchi = collect($request->elenchi);
         if ($elenchi->contains("personeeta")) {
-            $maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
+            //$maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
+            $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
             $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
             $minorenni = $this->getMinorenni();
             $minorenniCount = Persona::attivo()->minorenni()->count();
@@ -147,26 +160,51 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
     public function preview()
     {
+        /*
+        $totale = PopolazioneNomadelfia::totalePopolazione();
+        
+        $ospiti = PopolazioneNomadelfia::ospiti();
+     
+        $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
         $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
-        $maggiorenniUomini= $maggiorenni->uomini;
-        $maggiorenniDonne = $maggiorenni->donne;
-        $minorenni = PopolazioneNomadelfia::Minorenni();
-        $minorenni = collect($minorenni)->groupby(['anno', function ($item) {
-            return $item->sesso;
-        }]);
-        $minorenniCount = 0; // Persona::attivo()->minorenni()->count();
+        $minorenni = PopolazioneNomadelfia::figliMinorenni();
+        $figli = PopolazioneNomadelfia::byPosizione("FIGL");
+*/
+        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni('nominativo');
+        $minorenni = PopolazioneNomadelfia::figliMinorenniPerAnno();    
+
+        $effettivi = PopolazioneNomadelfia::effettivi();
+        $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+        $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+
+        $postulanti = PopolazioneNomadelfia::postulanti();
+        $ospiti = PopolazioneNomadelfia::ospiti();
+        $fra1821= PopolazioneNomadelfia::figliFra18e21();
+        $mag21 = PopolazioneNomadelfia::figliMaggiori21();
+
         $gruppifamiliari = GruppoFamiliare::orderBy("nome");
         $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
 
+        $personestati = true;
+        $personeposizioni = true;
+
         return view("nomadelfia.elenchi.popolazionenomadelfia", compact(
-            "maggiorenniUomini",
-            "maggiorenniDonne",
-            "minorenni",
+            "maggiorenni",
+             "minorenni",
+             "personestati",
+             "personeposizioni",
+             "effettivi",
+             "postulanti",
+             "ospiti",
+             "fra1821",
+             "mag21",
+             "sacerdoti",
+             "mvocazione",
             "minorenniCount",
             "gruppifamiliari",
             "aziende"
         ));
-    }
+    }   
 
 
     public function getMinorenni()

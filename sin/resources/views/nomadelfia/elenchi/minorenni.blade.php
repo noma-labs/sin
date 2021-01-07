@@ -1,6 +1,6 @@
 
-<h2> Figli minorenni {{$minorenniCount}}</h2> 
-@foreach ($minorenni->chunk(4) as $anni)
+<h2> Figli minorenni {{$minorenni->total}}</h2> 
+@foreach ($minorenni->anno->chunk(4) as $anni)
   <div class="row">
         @foreach ($anni as $key =>$anno)
           <div class="col-md-3">
