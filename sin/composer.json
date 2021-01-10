@@ -19,6 +19,7 @@
         "laravelcollective/html": "^5.4",
         "milon/barcode": "^5.3",
         "phpoffice/phpspreadsheet": "^1.7",
+        "phpoffice/phpword": "^0.17.0",
         "pmatseykanets/laravel-sql-migrations": "^0.3.0",
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-backup": "^5.1",

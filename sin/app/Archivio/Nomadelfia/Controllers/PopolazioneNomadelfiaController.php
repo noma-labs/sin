@@ -162,16 +162,115 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     {
         /*
         $totale = PopolazioneNomadelfia::totalePopolazione();
-        
+
         $ospiti = PopolazioneNomadelfia::ospiti();
-     
+
         $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
         $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 */
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+      
+        // Normal
+        $section = $phpWord->addSection();
+        $section->addText("TUTTI");
+
+        // Two columns
+        $maggUomini = $phpWord->addSection(
+            array(
+                'colsNum'   => 2,
+                'colsSpace' => 300,
+                'breakType' => 'continuous',
+            )
+        );
+
         $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni('nominativo');
-        $minorenni = PopolazioneNomadelfia::figliMinorenniPerAnno();    
+        $maggUomini->addText("Uomini Maggiorenne". count($maggiorenni->uomini));
+        foreach ($maggiorenni->uomini as $value) {
+            $maggUomini->addText(" {$value->nominativo}");
+        }
+
+        
+        $maggUomini->addPageBreak();
+        $maggUomini->addText("Donne Maggiorenne". count($maggiorenni->donne));
+        foreach ($maggiorenni->donne as $value) {
+            $maggUomini->addText(" {$value->nominativo}");
+        }
+
+        // Normal
+        //$section->addText("POSZIONIE NOMADELFIE");
+
+        $effettiviUomini = $phpWord->addSection(
+            array(
+                'colsNum'   => 2,
+                'colsSpace' => 300,
+                'breakType' => 'nextColumn',
+            )
+        );
+        $effettivi = PopolazioneNomadelfia::effettivi();
+        $effettiviUomini->addText("Uomini Effettivi". count($effettivi->uomini));
+        foreach ($effettivi->uomini as $value) {
+            $effettiviUomini->addText(" {$value->nominativo}");
+        }
+        
+        
+        $effettiviDonne = $phpWord->addSection(
+            array(
+                'colsNum'   => 2,
+                'colsSpace' => 300,
+                'breakType' => 'nextColumn',
+            )
+        );
+        $effettiviDonne->addText("Donne Effettivi". count($effettivi->donne));
+        foreach ($effettivi->donne as $value) {
+            $effettiviDonne->addText(" {$value->nominativo}");
+        }
+        /*
+                $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+                $section->addTextBreak(2);
+                $posizioni->addText("Sacerdoti". count($sacerdoti));
+                foreach ($sacerdoti as $value) {
+                    $posizioni->addText(" {$value->nominativo}");
+                }
+
+                $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+                $posizioni->addText("Mamme Vocazione". count($mvocazione));
+                foreach ($mvocazione as $value) {
+                    $posizioni->addText(" {$value->nominativo}");
+                }
+        */
+        /* Normal
+        $section = $phpWord->addSection(array('breakType' => 'continuous'));
+        $section->addText("Normal paragraph again. {$filler}");
+
+        // Three columns
+        $section = $phpWord->addSection(
+            array(
+        'colsNum'   => 3,
+        'colsSpace' => 720,
+        'breakType' => 'continuous',
+    )
+        );
+        $section->addText("Three columns, half inch (720 twips) spacing. {$filler}");
+
+        // Normal
+        $section = $phpWord->addSection(array('breakType' => 'continuous'));
+        $section->addText("Normal paragraph again. {$filler}");
+        */
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path('helloWorld.docx'));
+        } catch (Exception $e) {
+        }
+
+
+        return response()->download(storage_path('helloWorld.docx'));
+        
+
+        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni('nominativo');
+        $minorenni = PopolazioneNomadelfia::figliMinorenniPerAnno();
 
         $effettivi = PopolazioneNomadelfia::effettivi();
         $sacerdoti = PopolazioneNomadelfia::sacerdoti();
@@ -190,21 +289,21 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         return view("nomadelfia.elenchi.popolazionenomadelfia", compact(
             "maggiorenni",
-             "minorenni",
-             "personestati",
-             "personeposizioni",
-             "effettivi",
-             "postulanti",
-             "ospiti",
-             "fra1821",
-             "mag21",
-             "sacerdoti",
-             "mvocazione",
+            "minorenni",
+            "personestati",
+            "personeposizioni",
+            "effettivi",
+            "postulanti",
+            "ospiti",
+            "fra1821",
+            "mag21",
+            "sacerdoti",
+            "mvocazione",
             "minorenniCount",
             "gruppifamiliari",
             "aziende"
         ));
-    }   
+    }
 
 
     public function getMinorenni()

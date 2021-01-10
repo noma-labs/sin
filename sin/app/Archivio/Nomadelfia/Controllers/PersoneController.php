@@ -691,24 +691,15 @@ class PersoneController extends CoreBaseController
     public function assegnaGruppofamiliare(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-      "gruppo_id" => "required",
-      "data_entrata" => "required|date",
-    ], [
-      "gruppo_id.required" => "Il nuovo gruppo è obbligatorio",
-      'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
-  ]);
+        "gruppo_id" => "required",
+        "data_entrata" => "required|date",
+        ], [
+        "gruppo_id.required" => "Il nuovo gruppo è obbligatorio",
+        'data_entrata.required'=>"La data di entrata nel gruppo familiare è obbligatoria.",
+    ]);
         $persona = Persona::findOrFail($idPersona);
-        $attuale = $persona->gruppofamiliareAttuale();
-        if (count($attuale) > 0) {
-            return redirect()->back()->withError("Errore. $persona->nominativo ha gia un gruppo familiare attivo.");
-        }
-
-        $res = $persona->gruppifamiliari()->attach($request->gruppo_id, ['stato'=>'1','data_entrata_gruppo'=>$request->data_entrata]);
-        if ($res) { // se ha già uno stato attuale aggiorna lo stato attuale
-            return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
-        } else {
-            return redirect()->back()->withErro("Errore. La persona ha più di un gruppo attivo. LAsciara ad assegnare $persona->nominativo  al gruppo familiare.");
-        }
+        $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
+        return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
     /**

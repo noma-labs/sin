@@ -159,9 +159,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::get('popolazione/stati/sacerdoti', 'PopolazioneNomadelfiaController@sacerdoti')->name("nomadelfia.popolazione.stati.sacerdoti");
     Route::get('popolazione/stati/mamvocazione', 'PopolazioneNomadelfiaController@mammeVocazione')->name("nomadelfia.popolazione.stati.mammevocazione");
     Route::get('popolazione/stati/nommamme', 'PopolazioneNomadelfiaController@nomadelfaMamma')->name("nomadelfia.popolazione.stati.nomadelfamamma");
-
-
-  });
+});
 
 #################################################################
 ######################  BIBLIOTECA ##############################
