@@ -7,7 +7,7 @@ use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Excpetions\StatoDoesNotExists;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
-use Carbon; 
+use Carbon;
 
 /*
 *
@@ -51,17 +51,43 @@ class PopolazioneNomadelfia
     */
     public static function totalePopolazione()
     {
+        $interna = Categoria::perNome("interno");
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT count(*) as popolazione
-            FROM persone
-            INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-            WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'"
-            )
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'"
+            ),
+            array('interna'=> $interna->id)
         );
         return $res[0]->popolazione;
     }
 
+    /*
+     *  Ritorna tutte e persone maggiorenni della popoalzione
+     */
+    public static function maggiorenni($orderby='data_nascita')
+    {
+        $interna = Categoria::perNome("interno");
+        $magg =  DB::connection('db_nomadelfia')->select(
+            DB::raw("SELECT persone.*, persone_categorie.* 
+              FROM persone
+              INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+              WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'
+                AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                  ORDER BY :order"),
+            array('interna'=> $interna->id, 'order'=>$orderby)
+        );
+        $result = new stdClass;
+        $maggioreni = collect($magg);
+      
+        $sesso = $maggioreni->groupBy("sesso");
+        $result->total =  $maggioreni->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 
     /*
     *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
@@ -161,14 +187,14 @@ class PopolazioneNomadelfia
             return $persona->anno;
         });
         $result->anno = $groupMinorenni->groupby(['anno', function ($item) {
-                          return $item->sesso;
-                }]);
-        return $result; 
+            return $item->sesso;
+        }]);
+        return $result;
     }
 
-   /*
-    *  Ritorna i figlio fra 18 e 21 anni
-    */
+    /*
+     *  Ritorna i figlio fra 18 e 21 anni
+     */
     public static function figliFra18e21()
     {
         $magg = self::figliDaEta(18, 21);
@@ -318,7 +344,7 @@ class PopolazioneNomadelfia
  
 
     /*
-    *  Ritorna le persona della popolazione con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
+    *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(int $fromEta, int $toEta=null, string $orderBy='data_nascita')
     {
@@ -333,7 +359,7 @@ class PopolazioneNomadelfia
                     AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :anni YEAR)
                     AND posizioni.abbreviato = 'FIGL'
                     ORDER BY :order"),
-                    array('anni'=>$fromEta, 'order'=>$orderBy)
+                array('anni'=>$fromEta, 'order'=>$orderBy)
             );
         } else {
             return  DB::connection('db_nomadelfia')->select(
@@ -369,6 +395,7 @@ class PopolazioneNomadelfia
     } */
 
 
+  
 
     /*
     *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (maschi e femmine)

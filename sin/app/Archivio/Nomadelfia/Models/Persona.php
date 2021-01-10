@@ -52,8 +52,13 @@ class Persona extends Model
      */
     public function setNominativoAttribute($value)
     {
-        $this->attributes['nominativo'] = strtoupper($value);
+        $this->attributes['nominativo'] = ucfirst($value);
     }
+
+    public function getNominativoAttribute($value)
+    {
+        return ucfirst($value);
+    } 
 
     /**
      * Returns only the people that are currently living in Nomadelfia.
