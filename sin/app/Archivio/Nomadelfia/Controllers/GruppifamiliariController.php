@@ -25,7 +25,6 @@ class GruppifamiliariController extends CoreBaseController
     $gruppo = GruppoFamiliare::findOrFail($id);
     $single = $gruppo->Single();
     $famiglie = $gruppo->Famiglie();
-  
     return view("nomadelfia.gruppifamiliari.edit",compact('gruppo', "single", "famiglie"));
   }
 

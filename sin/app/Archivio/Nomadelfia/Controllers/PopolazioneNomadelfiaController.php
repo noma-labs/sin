@@ -3,6 +3,7 @@ namespace App\Nomadelfia\Controllers;
 
 use SnappyPdf;
 use Carbon;
+use Illuminate\Support\Str;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
@@ -103,13 +104,14 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         // define styles
         $fontStyle12 = array('size' => 10, 'spaceAfter' => 60);
-        $phpWord->addTitleStyle(1, array('size' => 14, 'bold' => true, 'allCaps' => true), array('spaceAfter' => 240));
-        $phpWord->addTitleStyle(2, array('size' => 12, 'bold' => true, 'allCaps' => true));
+        $phpWord->addTitleStyle(1, array('size' => 12, 'bold' => true, 'allCaps' => true), array('spaceAfter' => 240));
+        $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true, 'allCaps' => true));
+        $phpWord->addTitleStyle(3, array('size' => 8, 'bold' => true)); //stile per le famiglie
 
         $colStyle4Next = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'nextColumn' );
         $colStyle4NCont = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'continuous' );
 
-        $phpWord->setDefaultFontName('Times New Roman');
+        //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
 
         // Add text elements
@@ -238,17 +240,47 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         // Famiglie
         $figlMagSect->addPageBreak();
         $famiglieSect = $phpWord->addSection();
-        $famiglie = Famiglia::conCapofamiglia();
+        $famiglie = PopolazioneNomadelfia::famiglie();
         $figlMagSect->addTitle('Famiglie '. count($famiglie), 1);
-        foreach ($famiglie as $value) {
-            $figlMagSect->addText(ucfirst($value->nome_famiglia));
-            foreach ($value->myComponenti( )as $componente) {
-                $figlMagSect->addText(ucfirst($componente->nominativo));
+
+        foreach ($famiglie as $id => $componenti) {
+            //$figlMagSect->addText(ucfirst($value->nome_famiglia));
+            $figlMagSect->addTextBreak(1);
+            foreach ($componenti as $componente) {
+                if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')){
+                    $figlMagSect->addTitle($componente->nominativo, 3);
+                } else{
+                    $year = Carbon::parse($componente->data_nascita)->year;
+                    $figlMagSect->addText("    ".$year." ".$componente->nominativo);
+                }
             }
         }
-        
 
-         
+        // gruppi familiari 
+        // $gruppiSect = $phpWord->addSection();
+        // $figlMagSect->addTitle('Gruppi Familiari '. count($famiglie), 1);
+        foreach (GruppoFamiliare::all() as $gruppo)
+        {
+            $gruppiSect = $phpWord->addSection($colStyle4Next);
+            $gruppiSect->addTitle($gruppo->nome);
+            foreach ($gruppo->Single() as $single) {
+                $gruppiSect->addTitle($single->nominativo, 3);
+            }
+
+            foreach ($gruppo->Famiglie() as $famiglia_id => $componenti) {
+                $gruppiSect->addTextBreak(1);
+                foreach ($componenti as $componente) {
+                    if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
+                        $gruppiSect->addTitle($componente->nominativo, 3);
+                    } else {
+                        $year = Carbon::parse($componente->data_nascita)->year;
+                        $gruppiSect->addText("    ".$year." ".$componente->nominativo);
+                    }
+                }
+            }
+        }
+        $famiglie = $gruppo->Famiglie();
+        
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
             $objWriter->save(storage_path('helloWorld.docx'));
@@ -344,8 +376,8 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         foreach ($effettivi->uomini as $value) {
             $effettiviUomini->addText(" {$value->nominativo}");
         }
-        
-        
+
+
         $effettiviDonne = $phpWord->addSection(
             array(
                 'colsNum'   => 2,

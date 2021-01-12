@@ -394,11 +394,34 @@ class PopolazioneNomadelfia
       return $magg;
     } */
 
+    /*
+    *  Ritorna la famiglie e i componenti nel nucleo familiare che vivono attualmente in Nomadelfia.
+    *
+    */
+    public static function famiglie()
+    {
+        $interna = Categoria::perNome("interno");
 
-  
+        $famiglie = DB::connection('db_nomadelfia')->select( 
+            DB::raw(
+                "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
+                FROM persone 
+                INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id 
+                INNER JOIN persone_categorie on persone_categorie.persona_id = famiglie_persone.persona_id
+                LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+                WHERE persone_categorie.categoria_id = :interna 
+                    AND persone_categorie.stato = '1'
+                    AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
+                    AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
+                    AND persone.stato = '1'
+                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"), array('interna' => $interna->id));
+        $famiglie = collect($famiglie)->groupBy('famiglia_id');
+        return $famiglie;
+    }
+
 
     /*
-    *  Ritorna il  numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
+    *  Ritorna il numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
     */
     public static function posizioneFamigliaCount()
     {
