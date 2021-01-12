@@ -121,6 +121,8 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         
         // Add TOC #1
         $toc = $section->addTOC($fontStyle12);
+        $toc->setMaxDepth(2);
+
         $section->addTextBreak(2);
 
         // Section maggiorenni
@@ -257,8 +259,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         }
 
         // gruppi familiari 
-        // $gruppiSect = $phpWord->addSection();
-        // $figlMagSect->addTitle('Gruppi Familiari '. count($famiglie), 1);
         foreach (GruppoFamiliare::all() as $gruppo)
         {
             $gruppiSect = $phpWord->addSection($colStyle4Next);
@@ -279,7 +279,22 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                 }
             }
         }
-        $famiglie = $gruppo->Famiglie();
+        
+        // Aziende
+        $azi = $phpWord->addSection();
+        $azi->addTitle('Aziende ', 1);
+
+        $sectAziende = $phpWord->addSection($colStyle4NCont);
+        foreach (Azienda::all() as $azienda)
+        {
+            $sectAziende->addTextBreak(1);
+            $lavoratori = $azienda->lavoratoriAttuali()->get();
+            $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
+            foreach ($lavoratori as $lavoratore) {
+                $sectAziende->addText("    ".$lavoratore->nominativo);
+            }
+        }
+
         
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         try {
