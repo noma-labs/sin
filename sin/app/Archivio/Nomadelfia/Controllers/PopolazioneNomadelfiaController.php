@@ -101,11 +101,13 @@ class PopolazioneNomadelfiaController extends CoreBaseController
   
     public function print(Request $request)
     {
+        $elenchi = collect($request->elenchi);
+    
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         // define styles
         $fontStyle12 = array('size' => 10, 'spaceAfter' => 60);
         $phpWord->addTitleStyle(1, array('size' => 12, 'bold' => true, 'allCaps' => true), array('spaceAfter' => 240));
-        $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true, 'allCaps' => true));
+        $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true,));
         $phpWord->addTitleStyle(3, array('size' => 8, 'bold' => true)); //stile per le famiglie
 
         $colStyle4Next = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'nextColumn' );
@@ -113,333 +115,216 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
+        $phpWord->setDefaultParagraphStyle(array('spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2), 'spacing' => 4 ));
 
-        // Add text elements
-        $section = $phpWord->addSection();
-        $section->addTitle('Table of contents', 0);
-        $section->addTextBreak(2);
         
+        // main page
+        $section = $phpWord->addSection(array('vAlign'=>\PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+        $section->addText(Carbon::now()->toDatestring(), array('bold'=>true, 'italic'=>false, 'size'=>16), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
+        $section->addTextBreak(2);
+        $section->addText("POPOLAZIONE DI NOMADELFIA", array('bold'=>true, 'italic'=>false, 'size'=>14), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
+        $section->addTextBreak(2);
+        $section->addText("Totale ". PopolazioneNomadelfia::totalePopolazione(), array('bold'=>true, 'italic'=>false, 'size'=>12), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
+
         // Add TOC #1
+        $section = $phpWord->addSection();
+        $section->addTitle('Indice', 0);
+        $section->addTextBreak(2);
         $toc = $section->addTOC($fontStyle12);
         $toc->setMaxDepth(2);
-
         $section->addTextBreak(2);
 
         // Section maggiorenni
-        $section->addPageBreak();
-        $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
-        $section = $phpWord->addSection()->addTitle('Maggiorenni '. $maggiorenni->total, 1);
-
-        $sectMaggUomini = $phpWord->addSection($colStyle4NCont);
-        $sectMaggUomini->addTitle("Uomini ". count($maggiorenni->uomini), 2);
-        foreach ($maggiorenni->uomini as $value) {
-            $sectMaggUomini->addText(ucfirst($value->nominativo));
+        if ($elenchi->contains("maggMin")) {
+            $section->addPageBreak();
+            $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
+            $section = $phpWord->addSection();
+            $section->addTitle('Maggiorenni '. $maggiorenni->total, 1);
+    
+            $sectMaggUomini = $phpWord->addSection($colStyle4NCont);
+            $sectMaggUomini->addTitle("Uomini ". count($maggiorenni->uomini), 2);
+            foreach ($maggiorenni->uomini as $value) {
+                $sectMaggUomini->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $maggDonne = $phpWord->addSection($colStyle4Next);
+            $maggDonne->addTitle("Donne ". count($maggiorenni->donne), 2);
+            foreach ($maggiorenni->donne as $value) {
+                $maggDonne->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            // Figli minorenni
+            $minorenni = PopolazioneNomadelfia::figliMinorenni();
+            $section = $phpWord->addSection()->addTitle('Figli Minorenni '. $minorenni->total, 1);
+            $sectMinorenniUomini = $phpWord->addSection($colStyle4NCont);
+            $sectMinorenniUomini->addTitle("Uomini ". count($minorenni->uomini), 2);
+            foreach ($minorenni->uomini as $value) {
+                $sectMinorenniUomini->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $maggDonne = $phpWord->addSection($colStyle4Next);
+            $maggDonne->addTitle("Donne ". count($minorenni->donne), 2);
+            foreach ($minorenni->donne as $value) {
+                $maggDonne->addText(ucfirst(strtolower($value->nominativo)));
+            }
         }
-        $maggDonne = $phpWord->addSection($colStyle4Next);
-        $maggDonne->addTitle("Donne ". count($maggiorenni->donne), 2);
-        foreach ($maggiorenni->donne as $value) {
-            $maggDonne->addText(ucfirst($value->nominativo));
-        }
-
-        // Section minorenni
-        $minorenni = PopolazioneNomadelfia::figliMinorenni();
-        $section = $phpWord->addSection()->addTitle('Figli Minorenni '. $minorenni->total, 1);
-        $sectMinorenniUomini = $phpWord->addSection($colStyle4NCont);
-        $sectMinorenniUomini->addTitle("Uomini ". count($minorenni->uomini), 2);
-        foreach ($minorenni->uomini as $value) {
-            $sectMinorenniUomini->addText(ucfirst($value->nominativo));
-        }
-        $maggDonne = $phpWord->addSection($colStyle4Next);
-        $maggDonne->addTitle("Donne ". count($minorenni->donne), 2);
-        foreach ($minorenni->donne as $value) {
-            $maggDonne->addText(ucfirst($value->nominativo));
-        }
-
+    
+        if ($elenchi->contains("effePostOspFig")) {
+            
         // Effettivi
-        $effettivi = PopolazioneNomadelfia::effettivi();
-        $section = $phpWord->addSection()->addTitle('Effettivi '. $effettivi->total, 1);
+            $effettivi = PopolazioneNomadelfia::effettivi();
+            $section = $phpWord->addSection()->addTitle('Effettivi '. $effettivi->total, 1);
 
-        $effeUomini = $phpWord->addSection($colStyle4NCont);
-        $effeUomini->addTitle("Uomini ". count($effettivi->uomini), 2);
-        foreach ($effettivi->uomini as $value) {
-            $effeUomini->addText(ucfirst($value->nominativo));
-        }
-        $effeDonne = $phpWord->addSection($colStyle4Next);
-        $effeDonne->addTitle("Donne ". count($effettivi->donne), 2);
-        foreach ($effettivi->donne as $value) {
-            $effeDonne->addText(ucfirst($value->nominativo));
-        }
-
-        // Sacerdoti
-        $sacerdoti = PopolazioneNomadelfia::sacerdoti();
-        $sacSect = $phpWord->addSection($colStyle4Next);
-        $sacSect->addTitle('Sacerdoti '. count($sacerdoti), 1);
-        foreach ($sacerdoti as $value) {
-            $sacSect->addText(ucfirst($value->nominativo));
-        }
-
-        // Mamme di vocazione
-        $mvocazione = PopolazioneNomadelfia::mammeVocazione();
-        $mvocSect = $phpWord->addSection($colStyle4Next);
-        $mvocSect->addTitle('Mamme Di Vocazione '. count($mvocazione), 1);
-        foreach ($mvocazione as $value) {
-            $mvocSect->addText(ucfirst($value->nominativo));
-        }
-
-        // Postulanti
-        $postulanti = PopolazioneNomadelfia::postulanti();
-        $postSect = $phpWord->addSection($colStyle4Next);
-        $postSect->addTitle('Postulanti '. $postulanti->total, 1);
-        
-        $postSect->addTitle('Uomini '. count($postulanti->uomini), 2);
-        foreach ($postulanti->uomini as $value) {
-            $postSect->addText(ucfirst($value->nominativo));
-        }
-        $postSect->addTitle('Donne '. count($postulanti->donne), 2);
-        foreach ($postulanti->donne as $value) {
-            $postSect->addText(ucfirst($value->nominativo));
-        }
-
-        // Ospiti
-        $ospiti = PopolazioneNomadelfia::ospiti();
-        $postSect = $phpWord->addSection($colStyle4Next);
-        $postSect->addTitle('Ospiti '. $ospiti->total, 1);
-        $postSect->addTitle('Uomini '. count($ospiti->uomini), 2);
-        foreach ($ospiti->uomini as $value) {
-            $postSect->addText(ucfirst($value->nominativo));
-        }
-        $postSect->addTitle('Donne '. count($ospiti->donne), 2);
-        foreach ($ospiti->donne as $value) {
-            $postSect->addText(ucfirst($value->nominativo));
-        }
-
-        // Figli 18-21
-        $figli21 = PopolazioneNomadelfia::figliFra18e21();
-        $figliSect = $phpWord->addSection($colStyle4Next);
-        $figliSect->addTitle('18...21 '. $figli21->total, 1);
-        $figliSect->addTitle('Figli '. count($figli21->uomini), 2);
-        foreach ($figli21->uomini as $value) {
-            $figliSect->addText(ucfirst($value->nominativo));
-        }
-        $figliSect->addTitle('Figlie '. count($figli21->donne), 2);
-        foreach ($figli21->donne as $value) {
-            $figliSect->addText(ucfirst($value->nominativo));
-        }
-
-        // Figli >21
-        $figliMag21 = PopolazioneNomadelfia::figliMaggiori21();
-        $figlMagSect = $phpWord->addSection($colStyle4Next);
-        $figlMagSect->addTitle('>21 '. $figliMag21->total, 1);
-        $figlMagSect->addTitle('Figli '. count($figliMag21->uomini), 2);
-        foreach ($figliMag21->uomini as $value) {
-            $figlMagSect->addText(ucfirst($value->nominativo));
-        }
-        $figlMagSect->addTitle('Figlie '. count($figliMag21->donne), 2);
-        foreach ($figliMag21->donne as $value) {
-            $figlMagSect->addText(ucfirst($value->nominativo));
-        }
- 
-        // Famiglie
-        $figlMagSect->addPageBreak();
-        $famiglieSect = $phpWord->addSection();
-        $famiglie = PopolazioneNomadelfia::famiglie();
-        $figlMagSect->addTitle('Famiglie '. count($famiglie), 1);
-
-        foreach ($famiglie as $id => $componenti) {
-            //$figlMagSect->addText(ucfirst($value->nome_famiglia));
-            $figlMagSect->addTextBreak(1);
-            foreach ($componenti as $componente) {
-                if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')){
-                    $figlMagSect->addTitle($componente->nominativo, 3);
-                } else{
-                    $year = Carbon::parse($componente->data_nascita)->year;
-                    $figlMagSect->addText("    ".$year." ".$componente->nominativo);
-                }
+            $effeUomini = $phpWord->addSection($colStyle4NCont);
+            $effeUomini->addTitle("Uomini ". count($effettivi->uomini), 2);
+            foreach ($effettivi->uomini as $value) {
+                $effeUomini->addText(ucfirst(strtolower($value->nominativo)));
             }
-        }
-
-        // gruppi familiari 
-        foreach (GruppoFamiliare::all() as $gruppo)
-        {
-            $gruppiSect = $phpWord->addSection($colStyle4Next);
-            $gruppiSect->addTitle($gruppo->nome);
-            foreach ($gruppo->Single() as $single) {
-                $gruppiSect->addTitle($single->nominativo, 3);
+            $effeDonne = $phpWord->addSection($colStyle4Next);
+            $effeDonne->addTitle("Donne ". count($effettivi->donne), 2);
+            foreach ($effettivi->donne as $value) {
+                $effeDonne->addText(ucfirst(strtolower($value->nominativo)));
             }
 
-            foreach ($gruppo->Famiglie() as $famiglia_id => $componenti) {
-                $gruppiSect->addTextBreak(1);
+            // Postulanti
+            $postulanti = PopolazioneNomadelfia::postulanti();
+            $postSect = $phpWord->addSection($colStyle4Next);
+            $postSect->addTitle('Postulanti '. $postulanti->total, 1);
+          
+            $postSect->addTitle('Uomini '. count($postulanti->uomini), 2);
+            foreach ($postulanti->uomini as $value) {
+                $postSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $postSect->addTitle('Donne '. count($postulanti->donne), 2);
+            foreach ($postulanti->donne as $value) {
+                $postSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+
+            // Ospiti
+            $ospiti = PopolazioneNomadelfia::ospiti();
+            $postSect = $phpWord->addSection($colStyle4Next);
+            $postSect->addTitle('Ospiti '. $ospiti->total, 1);
+            $postSect->addTitle('Uomini '. count($ospiti->uomini), 2);
+            foreach ($ospiti->uomini as $value) {
+                $postSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $postSect->addTitle('Donne '. count($ospiti->donne), 2);
+            foreach ($ospiti->donne as $value) {
+                $postSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+
+            // Sacerdoti
+            $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+            $sacSect = $phpWord->addSection($colStyle4Next);
+            $sacSect->addTitle('Sacerdoti '. count($sacerdoti), 2);
+            foreach ($sacerdoti as $value) {
+                $sacSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+
+            // Mamme di vocazione
+            $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+            $mvocSect = $phpWord->addSection($colStyle4Next);
+            $mvocSect->addTitle('Mamme Di Vocazione '. count($mvocazione), 2);
+            foreach ($mvocazione as $value) {
+                $mvocSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+
+            // Figli >21
+            $figliMag21 = PopolazioneNomadelfia::figliMaggiori21();
+            $figlMagSect = $phpWord->addSection($colStyle4Next);
+            $figlMagSect->addTitle('Figli/e >21 '. $figliMag21->total, 1);
+            $figlMagSect->addTitle('Figli '. count($figliMag21->uomini), 2);
+            foreach ($figliMag21->uomini as $value) {
+                $figlMagSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $figlMagSect->addTitle('Figlie '. count($figliMag21->donne), 2);
+            foreach ($figliMag21->donne as $value) {
+                $figlMagSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+         
+            // Figli 18-21
+            $figli21 = PopolazioneNomadelfia::figliFra18e21();
+            $figliSect = $phpWord->addSection($colStyle4Next);
+            $figliSect->addTitle('Figli/e 18...21 '. $figli21->total, 1);
+            $figliSect->addTitle('Figli '. count($figli21->uomini), 2);
+            foreach ($figli21->uomini as $value) {
+                $figliSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+            $figliSect->addTitle('Figlie '. count($figli21->donne), 2);
+            foreach ($figli21->donne as $value) {
+                $figliSect->addText(ucfirst(strtolower($value->nominativo)));
+            }
+        }
+        if ($elenchi->contains("famiglie")) {
+            // Famiglie
+            $famiglie = PopolazioneNomadelfia::famiglie();
+            $famiglieSect = $phpWord->addSection($colStyle4NCont);
+            $famiglieSect->addPageBreak();
+            $famiglieSect->addTitle('Famiglie '. count($famiglie), 1);
+            foreach ($famiglie as $id => $componenti) {
+                $famiglieSect->addTextBreak(1);
                 foreach ($componenti as $componente) {
                     if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
-                        $gruppiSect->addTitle($componente->nominativo, 3);
+                        $famiglieSect->addTitle(ucfirst(strtolower($componente->nominativo)), 3);
                     } else {
                         $year = Carbon::parse($componente->data_nascita)->year;
-                        $gruppiSect->addText("    ".$year." ".$componente->nominativo);
+                        $famiglieSect->addText("    ".$year." ".ucfirst(strtolower($componente->nominativo)));
                     }
                 }
             }
         }
-        
-        // Aziende
-        $azi = $phpWord->addSection();
-        $azi->addTitle('Aziende ', 1);
+        if ($elenchi->contains("gruppi")) {
+            // gruppi familiari
+            // $gruppiSect = $phpWord->addSection();
+            // $gruppiSect->addTitle('Gruppi Familiari ', 1);
 
-        $sectAziende = $phpWord->addSection($colStyle4NCont);
-        foreach (Azienda::all() as $azienda)
-        {
-            $sectAziende->addTextBreak(1);
-            $lavoratori = $azienda->lavoratoriAttuali()->get();
-            $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
-            foreach ($lavoratori as $lavoratore) {
-                $sectAziende->addText("    ".$lavoratore->nominativo);
+            foreach (GruppoFamiliare::all() as $gruppo) {
+                $gruppiSect = $phpWord->addSection($colStyle4Next);
+                $gruppiSect->addTitle($gruppo->nome, 2);
+     
+                foreach ($gruppo->Single() as $single) {
+                    $gruppiSect->addTitle($single->nominativo, 3);
+                }
+                foreach ($gruppo->Famiglie() as $famiglia_id => $componenti) {
+                    $gruppiSect->addTextBreak(1);
+                    foreach ($componenti as $componente) {
+                        if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
+                            $gruppiSect->addText(ucfirst(strtolower($componente->nominativo)), array('bold'  => true));
+                        } else {
+                            $year = Carbon::parse($componente->data_nascita)->year;
+                            $gruppiSect->addText("    ".$year." ".ucfirst(strtolower($componente->nominativo)));
+                        }
+                    }
+                }
             }
         }
-
-        
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        try {
-            $objWriter->save(storage_path('helloWorld.docx'));
-        } catch (Exception $e) {
-        }
-        return response()->download(storage_path('helloWorld.docx'));
-
-        /*
-        $totale = PopolazioneNomadelfia::totalePopolazione();
-        $effettivi = PopolazioneNomadelfia::effettivi();
-        $postulanti = PopolazioneNomadelfia::postulanti();
-        $ospiti = PopolazioneNomadelfia::ospiti();
-        $sacerdoti = PopolazioneNomadelfia::sacerdoti();
-        $mvocazione = PopolazioneNomadelfia::mammeVocazione();
-        $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
-        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
-        $minorenni = PopolazioneNomadelfia::figliMinorenni();
-        $figli = PopolazioneNomadelfia::byPosizione("FIGL");
-*/
-        $elenchi = collect($request->elenchi);
-        if ($elenchi->contains("personeeta")) {
-            //$maggiorenni= Persona::attivo()->maggiorenni()->orderBy("nominativo");
-            $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
-            $maggiorenniDonne = Persona::attivo()->donne()->maggiorenni()->orderBy("nominativo");
-            $minorenni = $this->getMinorenni();
-            $minorenniCount = Persona::attivo()->minorenni()->count();
-        }
-    
-        if ($elenchi->contains("personestati")) {
-            $personestati = true;
-        }
-        if ($elenchi->contains("personeposizioni")) {
-            $personeposizioni = true;
-        }
-        if ($elenchi->contains("famiglie")) {
-            $gruppifamiliari = GruppoFamiliare::orderBy("nome");
-        }
-        if ($elenchi->contains("gruppi")) {
-            $gruppifamiliari = GruppoFamiliare::orderBy("nome");
-        }
         if ($elenchi->contains("aziende")) {
-            $aziende = Azienda::with("lavoratoriAttuali")->orderBy("nome_azienda");
+            // Aziende
+            $azi = $phpWord->addSection();
+            $azi->addTitle('Aziende ', 1);
+            $sectAziende = $phpWord->addSection($colStyle4NCont);
+            foreach (Azienda::all() as $azienda) {
+                $sectAziende->addTextBreak(1);
+                $lavoratori = $azienda->lavoratoriAttuali()->get();
+                $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
+                foreach ($lavoratori as $lavoratore) {
+                    $sectAziende->addText("    ".ucfirst(strtolower($lavoratore->nominativo)));
+                }
+            }
         }
         if ($elenchi->contains("scuola")) {
-            $scuola = [];
+            // TODO
         }
 
-
-        $pdf = SnappyPdf::loadView("nomadelfia.elenchi.popolazionenomadelfia", compact(
-            'totale',
-            "maggiorenni",
-            "maggiorenniDonne",
-            "minorenni",
-            "minorenniCount",
-            "personestati",
-            "personeposizioni",
-            "gruppifamiliari",
-            "aziende"
-        ));
-        // viewport-size must be set otherwise the pdf will be bad formatted
-        $pdf->setOption('viewport-size', '1280x1024');
-        $data = Carbon::now();
-        return $pdf->download("popolazione-$data.pdf"); //stream
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $data = Carbon::now()->toDatestring();
+        $file_name = "popolazione-$data.docx";
+        try {
+            $objWriter->save(storage_path($file_name));
+        } catch (Exception $e) {
+        }
+        return response()->download(storage_path($file_name));
     }
 
     public function preview()
     {
-        /*
-        $totale = PopolazioneNomadelfia::totalePopolazione();
-
-        $ospiti = PopolazioneNomadelfia::ospiti();
-
-        $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
-        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
-        $minorenni = PopolazioneNomadelfia::figliMinorenni();
-        $figli = PopolazioneNomadelfia::byPosizione("FIGL");
-*/
-
-       
-
-        // Normal
-        //$section->addText("POSZIONIE NOMADELFIE");
-        /*
-        $effettiviUomini = $phpWord->addSection(
-            array(
-                'colsNum'   => 2,
-                'colsSpace' => 300,
-                'breakType' => 'nextColumn',
-            )
-        );
-        $effettivi = PopolazioneNomadelfia::effettivi();
-        $effettiviUomini->addText("Uomini Effettivi". count($effettivi->uomini));
-        foreach ($effettivi->uomini as $value) {
-            $effettiviUomini->addText(" {$value->nominativo}");
-        }
-
-
-        $effettiviDonne = $phpWord->addSection(
-            array(
-                'colsNum'   => 2,
-                'colsSpace' => 300,
-                'breakType' => 'nextColumn',
-            )
-        );
-        $effettiviDonne->addText("Donne Effettivi". count($effettivi->donne));
-        foreach ($effettivi->donne as $value) {
-            $effettiviDonne->addText(" {$value->nominativo}");
-        }
-        */
-        /*
-                $sacerdoti = PopolazioneNomadelfia::sacerdoti();
-                $section->addTextBreak(2);
-                $posizioni->addText("Sacerdoti". count($sacerdoti));
-                foreach ($sacerdoti as $value) {
-                    $posizioni->addText(" {$value->nominativo}");
-                }
-
-                $mvocazione = PopolazioneNomadelfia::mammeVocazione();
-                $posizioni->addText("Mamme Vocazione". count($mvocazione));
-                foreach ($mvocazione as $value) {
-                    $posizioni->addText(" {$value->nominativo}");
-                }
-        */
-        /* Normal
-        $section = $phpWord->addSection(array('breakType' => 'continuous'));
-        $section->addText("Normal paragraph again. {$filler}");
-
-        // Three columns
-        $section = $phpWord->addSection(
-            array(
-        'colsNum'   => 3,
-        'colsSpace' => 720,
-        'breakType' => 'continuous',
-    )
-        );
-        $section->addText("Three columns, half inch (720 twips) spacing. {$filler}");
-
-        // Normal
-        $section = $phpWord->addSection(array('breakType' => 'continuous'));
-        $section->addText("Normal paragraph again. {$filler}");
-        */
-       
-        
-
         $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni('nominativo');
         $minorenni = PopolazioneNomadelfia::figliMinorenniPerAnno();
 

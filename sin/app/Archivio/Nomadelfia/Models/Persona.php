@@ -57,8 +57,9 @@ class Persona extends Model
 
     public function getNominativoAttribute($value)
     {
-        return ucfirst($value);
-    } 
+        return ucfirst(strtolower($value));
+    }
+
 
     /**
      * Returns only the people that are currently living in Nomadelfia.
@@ -177,11 +178,11 @@ class Persona extends Model
     * Assegna un nuovo gruppo familiare con la data di inzio.
     * Se la persona vive già in un gruppo familiare questo viene concluso usando come data di fine
     * la data di inizio se la data di attuale_data_fine è null.
-    * 
+    *
     */
     public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine=null)
     {
-        /*if ($this->isCapoFamiglia()){    
+        /*if ($this->isCapoFamiglia()){
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
         }*/
         if (is_string($gruppo)) {
@@ -203,7 +204,6 @@ class Persona extends Model
         } else {
             throw new Exception("Bad Argument. Gruppo familiare must be an id or a model.");
         }
-        
     }
 
     public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)

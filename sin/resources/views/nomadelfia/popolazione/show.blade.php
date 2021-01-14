@@ -14,7 +14,7 @@
       <th style="width:30%"  style="font-size:10px" >Cognome</th>
       <th style="width:10%"  style="font-size:10px" >Data Nascita </th>
       <th style="width:12%"  style="font-size:10px" >Posizione Nomadelfia</th>
-      <th style="width:18%"  style="font-size:10px" > Operaioni</th>
+      <th style="width:18%"  style="font-size:10px" >Operazioni</th>
       </tr>
     </thead>
     <tbody>

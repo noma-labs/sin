@@ -144,29 +144,23 @@
       <template slot="modal-body-slot">
       <form class="form" method="POST"  id="formStampa" action="{{ route('nomadelfia.popolazione.stampa') }}" >      
           {{ csrf_field() }}
-        <h5>Seleziona gli elenchi da stampare:</h5>
+       <h5>Seleziona gli elenchi da stampare:</h5>
        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="personeeta" id="defaultCheck1"   name="elenchi[]" checked>
+          <input class="form-check-input" type="checkbox" value="maggMin" id="defaultCheck1"   name="elenchi[]" checked>
           <label class="form-check-label" for="defaultCheck1">
-            Persone eta
+            Popolazione Maggiorenni, Minorenni
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="personestati" id="defaultCheck1"   name="elenchi[]" checked>
+          <input class="form-check-input" type="checkbox" value="effePostOspFig" id="defaultCheck1"   name="elenchi[]" checked>
           <label class="form-check-label" for="defaultCheck1">
-            Persone stati
+            Effettivi, Postulanti, Ospiti, Figli
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="personeposizioni" id="defaultCheck1"   name="elenchi[]" checked>
-          <label class="form-check-label" for="defaultCheck1">
-            Persone posizioni
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="aziende" id="defaultCheck2"   name="elenchi[]" checked>
+          <input class="form-check-input" type="checkbox" value="famiglie" id="defaultCheck2"   name="elenchi[]" checked>
           <label class="form-check-label" for="defaultCheck2">
-            Aziende
+            Famiglie
           </label>
         </div>
         <div class="form-check">
@@ -175,10 +169,10 @@
             Gruppi familiari
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="famiglie" id="defaultCheck2"   name="elenchi[]" checked>
+         <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="aziende" id="defaultCheck2"   name="elenchi[]" checked>
           <label class="form-check-label" for="defaultCheck2">
-            Famiglie
+            Aziende
           </label>
         </div>
         <div class="form-check">
