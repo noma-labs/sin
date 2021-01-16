@@ -24,20 +24,17 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <p class="col-md-3 font-weight-bold"> Nominativo</p>
-                <p class="col-md-3 font-weight-bold"> Data inizio</p>
-                <p class="col-md-3 font-weight-bold"> Durata </p>
-                <p class="col-md-3 font-weight-bold"> Operazioni </p>
+                <p class="col-md-4 font-weight-bold"> Nominativo</p>
+                <p class="col-md-4 font-weight-bold"> Data inizio</p>
+                <p class="col-md-4 font-weight-bold"> Durata </p>
               </div>
       
               @forelse($minorenni->uomini as $persona)
             
                 <div class="row">
-                  <p class="col-md-3"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
-                  <p class="col-md-3">{{$persona->data_inizio}}</p>
-                  <p class="col-md-3"> @diffHumans($persona->data_inizio)</p>
-                  <div class="col-md-3"> 
-                  </div>
+                  <p class="col-md-4"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
+                  <p class="col-md-4">{{$persona->data_inizio}}</p>
+                  <p class="col-md-4"> @diffHumans($persona->data_inizio)</p>
                 </div>
       
               @empty
@@ -54,21 +51,17 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <p class="col-md-3 font-weight-bold"> Nominativo</p>
-                <p class="col-md-3 font-weight-bold"> Data inizio</p>
-                <p class="col-md-3 font-weight-bold"> Durata </p>
-                <p class="col-md-3 font-weight-bold"> Operazioni </p>
+                <p class="col-md-4 font-weight-bold"> Nominativo</p>
+                <p class="col-md-4 font-weight-bold"> Data inizio</p>
+                <p class="col-md-4 font-weight-bold"> Durata </p>
               </div>
       
               @forelse($minorenni->donne as $persona)
             
                 <div class="row">
-                  <p class="col-md-3"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
-                  <p class="col-md-3">{{$persona->data_inizio}}</p>
-                  <p class="col-md-3"> @diffHumans($persona->data_inizio)</p>
-                  <div class="col-md-3"> 
-                    @include("nomadelfia.templates.modificaDataPosizione",["persona"=>$persona, 'id'=>$persona->posizione_id, "data_inizio"=>$persona->data_inizio])
-                  </div>
+                  <p class="col-md-4"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
+                  <p class="col-md-4">{{$persona->data_inizio}}</p>
+                  <p class="col-md-4"> @diffHumans($persona->data_inizio)</p>
                 </div>
       
               @empty

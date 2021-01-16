@@ -48,7 +48,7 @@ CREATE TABLE `gruppi_persone` (
   `stato` enum('0','1') NOT NULL,
   `data_entrata_gruppo` date NOT NULL,
   `data_uscita_gruppo` date DEFAULT NULL,
-  PRIMARY KEY (`gruppo_famigliare_id`,`persona_id`,`data_entrata_gruppo`) USING BTREE,
+  PRIMARY KEY (`gruppo_famigliare_id`,`persona_id`,`stato`,`data_entrata_gruppo`) USING BTREE,
   KEY `persona_id` (`persona_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -224,7 +224,6 @@ class Famiglia extends Model
         return $res;
     }
 
-
     public function mycomponenti()
     {
         $res  = DB::connection('db_nomadelfia')->select(

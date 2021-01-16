@@ -52,8 +52,14 @@ class Persona extends Model
      */
     public function setNominativoAttribute($value)
     {
-        $this->attributes['nominativo'] = strtoupper($value);
+        $this->attributes['nominativo'] = ucfirst($value);
     }
+
+    public function getNominativoAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
 
     /**
      * Returns only the people that are currently living in Nomadelfia.
@@ -152,9 +158,7 @@ class Persona extends Model
 
     public function gruppofamiliareAttuale()
     {
-        $gruppo = $this->gruppifamiliari()
-                 ->wherePivot('stato', '1')
-                 ->get();
+        $gruppo = $this->gruppifamiliari()->wherePivot('stato', '1')->get();
         if ($gruppo->count() == 1) {
             return $gruppo[0];
         } elseif ($gruppo->count() == 0) {
@@ -167,8 +171,39 @@ class Persona extends Model
 
     public function gruppofamiliariStorico()
     {
-        return $this->gruppifamiliari()
-                ->wherePivot('stato', '0');
+        return $this->gruppifamiliari()->wherePivot('stato', '0');
+    }
+
+    /*
+    * Assegna un nuovo gruppo familiare con la data di inzio.
+    * Se la persona vive già in un gruppo familiare questo viene concluso usando come data di fine
+    * la data di inizio se la data di attuale_data_fine è null.
+    *
+    */
+    public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine=null)
+    {
+        /*if ($this->isCapoFamiglia()){
+            $gruppo = GruppoFamiliare::findOrFail($gruppo);
+        }*/
+        if (is_string($gruppo)) {
+            $gruppo = GruppoFamiliare::findOrFail($gruppo);
+        }
+        if ($gruppo instanceof GruppoFamiliare) {
+            DB::connection('db_nomadelfia')->beginTransaction();
+            try {
+                $attuale = $this->gruppofamiliareAttuale();
+                if ($attuale) {
+                    $this->gruppifamiliari()->updateExistingPivot($attuale->id, ['stato'=>'0','data_uscita_gruppo'=>($attuale_data_fine ? $attuale_data_fine: $data_inizio)]);
+                }
+                $this->gruppifamiliari()->attach($gruppo->id, ['stato'=>'1','data_entrata_gruppo'=> $data_inizio]);
+                DB::connection('db_nomadelfia')->commit();
+            } catch (\Exception $e) {
+                DB::connection('db_nomadelfia')->rollback();
+                throw $e;
+            }
+        } else {
+            throw new Exception("Bad Argument. Gruppo familiare must be an id or a model.");
+        }
     }
 
     public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)
@@ -759,7 +794,7 @@ class Persona extends Model
     }
 
     /**
-     * Ritorna vero se una persona è  il capo famiglia altrimenti ritorna falso.
+     * Ritorna vero se una persona è il capo famiglia altrimenti ritorna falso.
      * @return boolean
      * @author Davide Neri
      **/

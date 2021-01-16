@@ -37,7 +37,7 @@ cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
 composer install
 ```
 
-6. Installa le dipendenze con `npm` (installa le dipendenze latao front end leggendo il file _packages.json_)
+6. Installa le dipendenze con `npm` (installa le dipendenze  front end leggendo il file _packages.json_)
 ```
 npm install --no-bin-links    (for windows installation)
 ```
@@ -55,13 +55,14 @@ php artisan key:generate
 ```
 CREATE DATABASE db_admsys  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
 CREATE DATABASE db_nomadelfia  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
-
-```
+CREATE DATABASE archivio_biblioteca  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
+```   
 10. Execute migrations 
 IMPORTANT: do not execute on production
 
 - `php artisan migrate --path="database/migrations/admsys" --database=db_auth`
 - `php artisan migrate --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
+- `php artisan migrate --path="database/migrations/biblioteca" --database=db_biblioteca`
 
 
 11. Seed di dati
@@ -74,6 +75,10 @@ La password di default dell'utente `Admin` per entrare nel pannello di controllo
  - `Username: Admin`
  - `Password: nomadelfia`
 
+12. Install frontend dependencies
+```
+npm run prod
+```
 
 ### Start server
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.

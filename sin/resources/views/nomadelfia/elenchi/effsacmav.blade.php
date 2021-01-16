@@ -1,31 +1,28 @@
 
 <div class="row">
     <div class="col-md-3">
-      <h2>Effettivi Uomini {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->uomini()->count()}}</h2>
-        @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->uomini()->get() as $uomo)
-        <div>{{$uomo->nominativo}}
-        </div>
+      <h2>Effettivi Uomini {{count($effettivi->uomini)}}</h2>
+        @foreach($effettivi->uomini as $uomo)
+           <div>{{$uomo->nominativo}}</div>
         @endforeach
     </div>
     <div class="col-md-3">
-      <h2>Effettivi Donne {{App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->donne()->count()}}</h2>
-        @foreach(App\Nomadelfia\Models\Posizione::perNome("effettivo")->persone()->donne()->get() as $donna)
-        <div>{{$donna->nominativo}}
-        </div>
+      <h2>Effettivi Donne {{count($effettivi->donne)}}</h2>
+        @foreach($effettivi->donne as $donna)
+         <div>{{$donna->nominativo}}</div>  
         @endforeach
     </div>
     <div class="col-md-3">
-      <h2>Sacerdoti {{App\Nomadelfia\Models\Stato::perNome("sacerdote")->persone()->attivo()->count()}}</h2>
-        @foreach(App\Nomadelfia\Models\Stato::perNome("sacerdote")->persone()->get() as $sac)
-        <div>{{$sac->nominativo}}
-        </div>
+      <h2>Sacerdoti {{count($sacerdoti  )}}</h2>
+       @forelse($sacerdoti as $sacerdote)
+             <div>{{$sacerdote->nominativo}}</div>  
         @endforeach
     </div>
-    <div class="col-md-3">
-      <h2>Mamme vocazione {{App\Nomadelfia\Models\Stato::perNome("mammavocazione")->persone()->attivo()->count()}}</h2>
-        @foreach(App\Nomadelfia\Models\Stato::perNome("mammavocazione")->persone()->get() as $mamma)
-        <div>{{$mamma->nominativo}}
-        </div>
+     <div class="col-md-3">
+      <h2>Mamme Di vocazione {{count($mvocazione)}}</h2>
+       @forelse($mvocazione as $mammavoc)
+             <div>{{$mammavoc->nominativo}}</div>  
         @endforeach
     </div>
+  
 </div>

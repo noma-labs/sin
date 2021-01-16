@@ -17,6 +17,31 @@ use App\Nomadelfia\Models\Stato;
 class PersonaTest extends TestCase
 {
   
+    public function testAssegnaGruppoFamiliare()
+    {  
+        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $gruppo = GruppoFamiliare::first();
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona->assegnaGruppoFamiliare($gruppo, $data_entrata);
+
+        $attuale = $persona->gruppofamiliareAttuale();
+        $this->assertEquals( $attuale->id, $gruppo->id);
+        $this->assertEquals( $attuale->pivot->data_entrata_gruppo, $data_entrata);
+
+        // nuovo gruppo 
+        $newGruppo = GruppoFamiliare::all()->random();
+        $data_entrata = Carbon::now()->addYears(3)->toDatestring();
+        $persona->assegnaGruppoFamiliare($newGruppo, $data_entrata);
+        $attuale = $persona->gruppofamiliareAttuale();
+        $this->assertEquals($attuale->id, $newGruppo->id);
+        $this->assertEquals($attuale->pivot->data_entrata_gruppo, $data_entrata);
+        $storico = $persona->gruppofamiliariStorico()->get()->last();
+        $this->assertEquals($storico->id, $gruppo->id);
+        $this->assertEquals($storico->pivot->data_uscita_gruppo,  $data_entrata);
+        
+    }
+
+
     public function testEntrataMaschioDallaNascita()
     {  /*
         Person interna (DN)
@@ -28,7 +53,6 @@ class PersonaTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
         $famiglia = factory(Famiglia::class)->create();
-
         
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");

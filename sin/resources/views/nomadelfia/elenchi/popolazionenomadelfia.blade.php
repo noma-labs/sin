@@ -27,7 +27,7 @@
             @include('nomadelfia.elenchi.header')
         </div>
 
-        @isset($maggiorenniUomini)
+        @isset($maggiorenni )
         <div class="page">
             @include('nomadelfia.elenchi.maggiorenni')
         </div>
