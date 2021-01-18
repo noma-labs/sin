@@ -6,6 +6,39 @@
 
 @foreach(collect($esercizi)->chunk(3) as $chunk)
  <div class="row">
+   <div class="col-md-4 my-1">
+          <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="heading0">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseNo" aria-expanded="false" aria-controls="collapseNo">
+                  Persone senza Es. Spirituale
+                  <span class="badge badge-primary badge-pill"> {{$noEsercizi->total}} </span> 
+                  </button>
+                </h5>
+              </div>
+              <div id="collapseNo" class="collapse" aria-labelledby="heading0" data-parent="#accordion">
+                <div class="card-body">
+                  <p> Persone:</p> 
+                    <ul>
+                    @forelse($noEsercizi->uomini as $persona)
+                        <li> @include('nomadelfia.templates.persona', ['persona'=>$persona])</li>
+                    @empty
+                      <p class="text-danger">Nessun maggiorenne</p>
+                    @endforelse
+                    @forelse($noEsercizi->donne as $persona)
+                        <li> @include('nomadelfia.templates.persona', ['persona'=>$persona])</li>
+                    @empty
+                      <p class="text-danger">Nessun maggiorenne</p>
+                    @endforelse
+                    </ul>
+                     
+                </div>    
+              </div>
+            </div>
+          </div>
+      </div>   
+
     @foreach ($chunk as $esercizio)
       <div class="col-md-4 my-1">
           <div id="accordion">
@@ -37,22 +70,10 @@
 @endforeach
 
 
- <my-modal modal-title="Stampa Elechi" button-title="Stampa Es.Spirituali" button-style="btn-success my-2">
+ <my-modal modal-title="Esporta Elechi" button-title="Esporta Es.Spirituali" button-style="btn-success my-2">
       <template slot="modal-body-slot">
       <form class="form" method="get"  id="formStampa" action="{{ route('nomadelfia.esercizi.stampa') }}" >      
-       <h5>Seleziona gli elenchi da stampare:</h5>
-       <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="maggMin" id="defaultCheck1"   name="elenchi[]" checked>
-          <label class="form-check-label" for="defaultCheck1">
-            Popolazione Maggiorenni, Minorenni
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="effePostOspFig" id="defaultCheck1"   name="elenchi[]" checked>
-          <label class="form-check-label" for="defaultCheck1">
-            Effettivi, Postulanti, Ospiti, Figli
-          </label>
-        </div>
+          <h5>Esporta esercizi Spirituali in Word (.docx) </h5>
       
         </form>
       </template> 
