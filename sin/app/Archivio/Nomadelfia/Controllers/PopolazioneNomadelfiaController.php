@@ -17,6 +17,7 @@ use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\Models\EserciziSpirituali;
 
 use Illuminate\Support\Facades\DB;
 
@@ -27,13 +28,14 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     public function index()
     {
         $totale = PopolazioneNomadelfia::totalePopolazione();
+        $maggiorenni = PopolazioneNomadelfia::maggiorenni();
         $effettivi = PopolazioneNomadelfia::effettivi();
         $postulanti = PopolazioneNomadelfia::postulanti();
         $ospiti = PopolazioneNomadelfia::ospiti();
         $sacerdoti = PopolazioneNomadelfia::sacerdoti();
         $mvocazione = PopolazioneNomadelfia::mammeVocazione();
         $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
-        $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
+        $figliMaggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
@@ -41,13 +43,21 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $gruppi = GruppoFamiliare::all();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
-        return view("nomadelfia.summary", compact('totale', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'maggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
+        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
     }
 
     public function show(Request $request)
     {
         $popolazione = PopolazioneNomadelfia::popolazione();
         return view("nomadelfia.popolazione.show", compact('popolazione'));
+    }
+
+    public function maggiorenni(Request $request)
+    {
+        $maggiorenni = PopolazioneNomadelfia::maggiorenni();
+        // TODO: togliere da qui. messo solo per urgenza di creare es spirituali
+        $esercizi = EserciziSpirituali::attivi()->get();
+        return view("nomadelfia.popolazione.maggiorenni", compact('maggiorenni', 'esercizi'));
     }
 
     public function effettivi(Request $request)

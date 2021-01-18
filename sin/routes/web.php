@@ -105,6 +105,8 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::post('persone/{idPersona}/categoria/{id}/modifica', 'PersoneController@modificaCategoria')->name("nomadelfia.persone.categoria.modifica");
     Route::post('persone/{idPersona}/categoria/assegna', 'PersoneController@assegnaCategoria')->name("nomadelfia.persone.categoria.assegna");
     Route::delete('persone/{idPersona}/categoria/{id}', 'PersoneController@eliminaCategoria')->name("nomadelfia.persone.categoria.elimina");
+    // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
+    Route::post('persone/{idPersona}/categoria/{id}/modifica', 'PersoneController@updateDataEntrataNomadelfia')->name("nomadelfia.persone.dataentrata.modifica");
 
     Route::get('persone/{idPersona}/gruppofamiliare', 'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
     Route::post('persone/{idPersona}/gruppofamiliare/assegna', 'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");
@@ -117,26 +119,26 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::post('persone/{idPersona}/aziende/assegna', 'PersoneController@assegnaAzienda')->name("nomadelfia.persone.aziende.assegna");
     Route::post('persone/{idPersona}/aziende/{id}/modifica', 'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
 
-  
     Route::get('persone/{idPersona}/famiglie', 'PersoneController@famiglie')->name("nomadelfia.persone.famiglie");
     Route::post('persona/{idPersona}/famiglie/create', 'PersoneController@createAndAssignFamiglia')->name("nomadelfia.personae.famiglie.create"); //->middleware('permission:cliente-visualizza')
-  Route::post('persona/{idPersona}/famiglie/sposta', 'PersoneController@spostaInNuovaFamiglia')->name("nomadelfia.personae.famiglie.sposta"); //->middleware('permission:cliente-visualizza')
+    Route::post('persona/{idPersona}/famiglie/sposta', 'PersoneController@spostaInNuovaFamiglia')->name("nomadelfia.personae.famiglie.sposta"); //->middleware('permission:cliente-visualizza')
 
-  //AZIENDE
-  Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
-  Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
+    
+    //AZIENDE
+    Route::get('aziende', 'AziendeController@view')->name("nomadelfia.aziende"); //->middleware('permission:cliente-visualizza')
+    Route::get('aziende/edit/{id}', 'AziendeController@edit')->name("nomadelfia.aziende.edit");
   
     //GRUPPI FAMILIARI
-  Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
-  Route::get('gruppifamiliari/{id}', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.dettaglio"); //->middleware('permission:cliente-visualizza')
+    Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
+    Route::get('gruppifamiliari/{id}', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.dettaglio"); //->middleware('permission:cliente-visualizza')
 
-  // FAMIGLIE
-  Route::get('famiglie', 'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
-  Route::get('famiglie/create', 'FamiglieController@create')->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
-  Route::post('famiglie/create', 'FamiglieController@createConfirm')->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
-  Route::post('famiglie/{id}/uscita', 'FamiglieController@uscita')->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
-  Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
-  Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna', 'FamiglieController@spostaInGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.sposta");
+    // FAMIGLIE
+    Route::get('famiglie', 'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie/create', 'FamiglieController@create')->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
+    Route::post('famiglie/create', 'FamiglieController@createConfirm')->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
+    Route::post('famiglie/{id}/uscita', 'FamiglieController@uscita')->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie/{id}', 'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
+    Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna', 'FamiglieController@spostaInGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.sposta");
     Route::delete('famiglie/{id}/gruppo/{idGruppo}', 'FamiglieController@eliminaGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.elimina");
 
     Route::post('famiglie/{id}/aggiorna/', 'FamiglieController@update')->name("nomadelfia.famiglia.aggiorna");
@@ -150,6 +152,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
 
     // POPOLAZIONE
     Route::get('popolazione/', 'PopolazioneNomadelfiaController@show')->name("nomadelfia.popolazione");
+    Route::get('popolazione/posizione/maggiorenni', 'PopolazioneNomadelfiaController@maggiorenni')->name("nomadelfia.popolazione.maggiorenni");
     Route::get('popolazione/posizione/effettivi', 'PopolazioneNomadelfiaController@effettivi')->name("nomadelfia.popolazione.posizione.effettivi");
     Route::get('popolazione/posizione/postulanti', 'PopolazioneNomadelfiaController@postulanti')->name("nomadelfia.popolazione.posizione.postulanti");
     Route::get('popolazione/posizione/figlimaggiorenni', 'PopolazioneNomadelfiaController@figliMaggiorenni')->name("nomadelfia.popolazione.posizione.figli.maggiorenni");
@@ -159,6 +162,14 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::get('popolazione/stati/sacerdoti', 'PopolazioneNomadelfiaController@sacerdoti')->name("nomadelfia.popolazione.stati.sacerdoti");
     Route::get('popolazione/stati/mamvocazione', 'PopolazioneNomadelfiaController@mammeVocazione')->name("nomadelfia.popolazione.stati.mammevocazione");
     Route::get('popolazione/stati/nommamme', 'PopolazioneNomadelfiaController@nomadelfaMamma')->name("nomadelfia.popolazione.stati.nomadelfamamma");
+
+    // ESERCIZI SPIRITUALI
+    Route::get('esercizi/', 'EsSpiritualiController@index')->name("nomadelfia.esercizi");
+    Route::get('esercizi/{id}', 'EsSpiritualiController@show')->name("nomadelfia.esercizi.dettaglio");
+    Route::post('esercizi/{id}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.assegna");
+    Route::delete('esercizi/{id}/persona/{idPersona}', 'EsSpiritualiController@eliminaPersona')->name("nomadelfia.esercizi.elimina");
+    
+    //Route::post('persona/{idPersona}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.persona.assegna");
 });
 
 #################################################################

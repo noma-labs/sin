@@ -49,5 +49,8 @@
   <li class="nav-item">
      <a class="nav-link"  href="{{ route('nomadelfia.aziende') }}">Aziende</a>
   </li>
+  <li class="nav-item">
+     <a class="nav-link"  href="{{ route('nomadelfia.esercizi') }}">Es. Spirituali</a>
+  </li>
 @append 
 

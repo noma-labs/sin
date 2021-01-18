@@ -14,6 +14,7 @@
       <th style="width:30%"  style="font-size:10px" >Cognome</th>
       <th style="width:10%"  style="font-size:10px" >Data Nascita </th>
       <th style="width:12%"  style="font-size:10px" >Posizione Nomadelfia</th>
+      <th style="width:12%"  style="font-size:10px" >Data Entrata</th>
       <th style="width:18%"  style="font-size:10px" >Operazioni</th>
       </tr>
     </thead>
@@ -30,7 +31,12 @@
              {{ $persona->posizione }}
             @endif
           </td>
-          <td><a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a></td>
+           <td> {{ $persona->data_entrata }} </td>
+          <td>
+          <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a>
+          @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona, 'id'=>$persona->posizione_id, "data_inizio"=>$persona->data_entrata])
+
+          </td>
         </tr>
     @empty
         <div class="alert alert-danger">
