@@ -24,18 +24,17 @@ class PopolazioneNomadelfia
     {
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
-                "SELECT popolazione.* , posizioni.nome as posizione
-      from (
-        SELECT persone.*
-        FROM persone
-        INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-        WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
-      ) as popolazione
-      LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
-      LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-      WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
-      ORDER BY nominativo
-      "
+                "SELECT popolazione.* , persone_posizioni.* , posizioni.nome as posizione
+                FROM (
+                    SELECT persone.*, persone_categorie.data_inizio as data_entrata
+                    FROM persone
+                    INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                    WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                ) as popolazione
+                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
+                LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
+                WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
+                ORDER BY nominativo"
             )
         );
         return $res;
@@ -402,7 +401,7 @@ class PopolazioneNomadelfia
     {
         $interna = Categoria::perNome("interno");
 
-        $famiglie = DB::connection('db_nomadelfia')->select( 
+        $famiglie = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
                 FROM persone 
@@ -414,7 +413,10 @@ class PopolazioneNomadelfia
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
                     AND persone.stato = '1'
-                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"), array('interna' => $interna->id));
+                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
+            ),
+            array('interna' => $interna->id)
+        );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
         return $famiglie;
     }

@@ -16,6 +16,8 @@ use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Azienda;
+use App\Nomadelfia\Models\EserciziSpirituali;
+
 
 use App\Nomadelfia\Exceptions\GruppoFamiliareDoesNOtExists;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
@@ -26,8 +28,6 @@ use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasNoGroup;
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
-
-
 
 use App\Patente\Models\Patente;
 use App\Nomadelfia\Models\Stato;
@@ -454,6 +454,15 @@ class Persona extends Model
             DB::connection('db_nomadelfia')->rollback();
             dd($e);
         }
+    }
+
+    public function setDataEntrataNomadelfia($data_entrata)
+    {
+        $att = $this->getDataEntrataNomadelfia();
+        if ($att) {
+            $this->categorie()->updateExistingPivot($int->id, ['data_fine'=>$att->pivot->data_fine, 'data_inizio'=>$data_inizio, "stato"=>$att->pivot->stato]);
+        }
+        return null;
     }
 
     public function getDataEntrataNomadelfia()
@@ -945,7 +954,17 @@ class Persona extends Model
         }
     }
 
-   
+    //***************************************************************************
+    //                         Esercizi Spirituali
+    //***************************************************************************
+
+    public function eserciziSpirituali()
+    {
+        return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
+    }
+
+
+
     //INCARICHI
     public function incarichiAttuali()
     {

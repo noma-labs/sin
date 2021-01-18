@@ -434,9 +434,9 @@ class PersoneController extends CoreBaseController
         'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
         // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
       ]);
-      $persona = Persona::findOrFail($idPersona);
-      $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
-      return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
+        $persona = Persona::findOrFail($idPersona);
+        $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
+        return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
     /**
@@ -521,20 +521,33 @@ class PersoneController extends CoreBaseController
     public function modificaCategoria(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-      "data_fine" => "date",
-      "data_inizio" => "required|date",
-      "stato" =>"required"
-    ], [
-      "data_fine.date" => "La data fine posizione dee essere una data valida",
-      'data_inizio.required'=>"La data di inizio della posizione è obbligatoria.",
-      'stati.required'=>"Lo stato attuale è obbligatorio.",
+            "data_fine" => "date",
+            "data_inizio" => "required|date",
+            "stato" =>"required"
+            ], [
+            "data_fine.date" => "La data fine categoria deve essere una data valida",
+            'data_inizio.required'=>"La data di inizio della categoria è obbligatoria.",
+            'stati.required'=>"Lo stato attuale è obbligatorio.",
 
-  ]);
+        ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->categorie()->updateExistingPivot($id, ['data_fine'=>$request->data_fine, 'data_inizio'=>$request->data_inizio, "stato"=>$request->stato]);
         return redirect()->back()->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
     }
 
+
+    public function updateDataEntrataNomadelfia(Request $request, $idPersona, $id)
+    {
+        $validatedData = $request->validate([
+            "data_entrata" => "required|date",
+            ], [
+            'data_entrata.required'=>"La data di entrata obbligatoria.",
+            'data_entrata.date'=>"La data entrata non è valida.",
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $persona->setDataEntrataNomadelfia($request->data_entrata);
+        return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
+    }
     /**
     * Elimina una posizione assegnata ad una persona
     *
