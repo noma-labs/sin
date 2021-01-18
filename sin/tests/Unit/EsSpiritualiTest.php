@@ -29,4 +29,12 @@ class EsSpiritualiTest extends TestCase
         $this->expectException(EsSpiritualeNotActive::class);
         $esercizi->aggiungiPersona($persona);
     }
+
+    public function testAssegnaResponsabile()
+    {
+        $esercizi = factory(EserciziSpirituali::class)->create();
+        $resp = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $esercizi->assegnaResponsabile($resp);
+        $this->assertEquals($esercizi->responsabile->id, $resp->id);
+    }
 }

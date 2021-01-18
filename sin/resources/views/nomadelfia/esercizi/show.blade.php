@@ -16,7 +16,8 @@
                     <div class="row">
                         <label class="col-sm-6 font-weight-bold">Responsabile:</label>
                         <div class="col-sm-6">
-                            @if ($esercizio->responsabile())
+                            @if ($esercizio->responsabile)
+                                <span class="text-bold">{{$esercizio->responsabile->nominativo}} </span> 
                             @else
                                 <span class="text-danger">Responsabile non assegnato</span> 
                             @endif
