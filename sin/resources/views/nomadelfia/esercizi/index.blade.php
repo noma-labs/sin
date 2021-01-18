@@ -36,4 +36,28 @@
  </div> 
 @endforeach
 
+
+ <my-modal modal-title="Stampa Elechi" button-title="Stampa Es.Spirituali" button-style="btn-success my-2">
+      <template slot="modal-body-slot">
+      <form class="form" method="get"  id="formStampa" action="{{ route('nomadelfia.esercizi.stampa') }}" >      
+       <h5>Seleziona gli elenchi da stampare:</h5>
+       <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="maggMin" id="defaultCheck1"   name="elenchi[]" checked>
+          <label class="form-check-label" for="defaultCheck1">
+            Popolazione Maggiorenni, Minorenni
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="effePostOspFig" id="defaultCheck1"   name="elenchi[]" checked>
+          <label class="form-check-label" for="defaultCheck1">
+            Effettivi, Postulanti, Ospiti, Figli
+          </label>
+        </div>
+      
+        </form>
+      </template> 
+      <template slot="modal-button">
+        <button class="btn btn-success" form="formStampa">Salva</button>
+      </template>
+    </my-modal> 
 @endsection

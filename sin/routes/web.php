@@ -165,9 +165,11 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
 
     // ESERCIZI SPIRITUALI
     Route::get('esercizi/', 'EsSpiritualiController@index')->name("nomadelfia.esercizi");
+    Route::get('esercizi/stampa', 'EsSpiritualiController@stampa')->name("nomadelfia.esercizi.stampa");
     Route::get('esercizi/{id}', 'EsSpiritualiController@show')->name("nomadelfia.esercizi.dettaglio");
     Route::post('esercizi/{id}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.assegna");
     Route::delete('esercizi/{id}/persona/{idPersona}', 'EsSpiritualiController@eliminaPersona')->name("nomadelfia.esercizi.elimina");
+
     
     //Route::post('persona/{idPersona}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.persona.assegna");
 });
