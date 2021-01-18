@@ -16,7 +16,8 @@ class EsSpiritualiController extends CoreBaseController
     public function index(Request $request)
     {
         $esercizi = EserciziSpirituali::attivi()->get();
-        return view("nomadelfia.esercizi.index", compact('esercizi'));
+        $noEsercizi = EserciziSpirituali::personeNoEsercizi();
+        return view("nomadelfia.esercizi.index", compact('esercizi', 'noEsercizi'));
     }
     
     public function show(Request $request, $id)
@@ -52,9 +53,12 @@ class EsSpiritualiController extends CoreBaseController
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         // define styles
         $fontStyle12 = array('size' => 10, 'spaceAfter' => 60);
-        $phpWord->addTitleStyle(1, array('size' => 12, 'bold' => true, 'allCaps' => true), array('spaceAfter' => 240));
-        $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true,));
+        $phpWord->addTitleStyle(1, array('size' => 12, 'bold' => true, 'allCaps' => false), array('spaceAfter' => 240));
+        $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true), array('spaceBefore' => 240));
         $phpWord->addTitleStyle(3, array('size' => 8, 'bold' => true));
+
+        $colStyle2Next = array('colsNum'   => 2,'colsSpace' => 700,'breakType' => 'nextColumn' );
+        $colStyle2Cont = array('colsNum'   => 2,'colsSpace' => 700,'breakType' => 'continuous' );
 
         $colStyle4Next = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'nextColumn' );
         $colStyle4NCont = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'continuous' );
@@ -73,19 +77,34 @@ class EsSpiritualiController extends CoreBaseController
 
         $esercizi = EserciziSpirituali::attivi()->get();
         foreach ($esercizi as $esercizio) {
-            $section = $phpWord->addSection($colStyle4Next);
-            $section->addTitle(($esercizio->turno), 1);
+            $section = $phpWord->addSection($colStyle2Next);
+            $section->addTitle($esercizio->turno, 1);
             $persone = $esercizio->personeOk();
-            $section->addTitle('Uomini '. count($persone->uomini), 2);
+            $uomini = $phpWord->addSection($colStyle2Cont);
+            $uomini->addTitle('Uomini '. count($persone->uomini), 2);
             foreach ($persone->uomini as $value) {
-                $section->addText(ucwords(strtolower($value->nominativo)));
+                $uomini->addText(ucwords(strtolower($value->nominativo)));
             }
-            $section->addTitle('Donne '. count($persone->donne), 2);
+            $donne = $phpWord->addSection($colStyle2Next);
+            $donne->addTitle('Donne '. count($persone->donne), 2);
             foreach ($persone->donne as $value) {
-                $section->addText(ucfirst(strtolower($value->nominativo)));
+                $donne->addText(ucfirst(strtolower($value->nominativo)));
             }
         }
-
+        // persone senza esercizi spirituali
+        $section = $phpWord->addSection();
+        $noEsercizi = EserciziSpirituali::personeNoEsercizi();
+        $uomini = $phpWord->addSection($colStyle2Cont);
+        $uomini->addTitle("Senza esercizi Spirituali", 1);
+        $uomini->addTitle('Uomini '. count($noEsercizi->uomini), 2);
+        foreach ($noEsercizi->uomini as $value) {
+            $uomini->addText(ucwords(strtolower($value->nominativo)));
+        }
+        $donne = $phpWord->addSection($colStyle2Next);
+        $donne->addTitle('Donne '. count($noEsercizi->donne), 2);
+        foreach ($noEsercizi->donne as $value) {
+            $donne->addText(ucfirst(strtolower($value->nominativo)));
+        }
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();

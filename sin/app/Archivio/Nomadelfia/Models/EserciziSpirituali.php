@@ -101,4 +101,37 @@ class EserciziSpirituali extends Model
         }
         return $this->hasOne(Persona::class, "persona_id", "id");
     }
+
+    /*
+    *  Ritorna le personemaggiorenne interne che nono sono in nessun es spirituale
+    *
+    */
+    public static function personeNoEsercizi()
+    {
+        $interna = Categoria::perNome("interno");
+        $persone = DB::connection('db_nomadelfia')->select(
+            DB::raw("
+            SELECT persone.*
+            FROM persone
+            INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+            WHERE persone.id NOT IN (
+                      SELECT persone_esercizi.persona_id
+                      FROM persone_esercizi
+                      INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
+                      where esercizi_spirituali.stato = '1'
+            )  AND persone_categorie.categoria_id = :interna 
+                AND persone_categorie.stato = '1' 
+                AND persone.stato = '1' 
+                AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+            ORDER BY persone.nominativo"),
+            array("interna"=>$interna->id)
+        );
+        $result = new stdClass;
+        $per = collect($persone);
+        $sesso = $per->groupBy("sesso");
+        $result->total =  $per->count();
+        $result->uomini =  $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
+    }
 }
