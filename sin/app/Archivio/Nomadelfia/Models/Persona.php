@@ -52,12 +52,12 @@ class Persona extends Model
      */
     public function setNominativoAttribute($value)
     {
-        $this->attributes['nominativo'] = ucfirst($value);
+        $this->attributes['nominativo'] = ucwords($value);
     }
 
     public function getNominativoAttribute($value)
     {
-        return ucfirst(strtolower($value));
+        return ucwords(strtolower($value));
     }
 
 

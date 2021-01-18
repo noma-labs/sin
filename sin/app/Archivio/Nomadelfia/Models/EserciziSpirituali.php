@@ -88,7 +88,17 @@ class EserciziSpirituali extends Model
 
     public function responsabile()
     {
-        //return $this->belongsToMany(Persona::class, 'persone_esercizi', 'esercizi_id', 'persona_id');
-        return null;
+        return $this->hasOne(Persona::class, "id", "responsabile_id");
+    }
+
+    public function assegnaResponsabile($persona)
+    {
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            return  $this->responsabile()->save($persona);
+        }
+        return $this->hasOne(Persona::class, "persona_id", "id");
     }
 }
