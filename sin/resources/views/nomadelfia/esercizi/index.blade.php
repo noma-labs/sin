@@ -20,7 +20,12 @@
               </div>
               <div id="collapse{{$esercizio->id}}" class="collapse" aria-labelledby="heading{{$esercizio->id}}" data-parent="#accordion">
                 <div class="card-body">
-                  <p> Responsabile: {{ $esercizio->responsabile->nominativo}}</p>
+                  <p> Responsabile:</p> 
+                    @if ($esercizio->responsabile)
+                      <span class="text-bold">{{$esercizio->responsabile->nominativo}} </span> 
+                  @else
+                      <span class="text-danger">Responsabile non assegnato</span> 
+                  @endif
                   <a class="btn btn-primary" href="{{ route('nomadelfia.esercizi.dettaglio', $esercizio->id)}}">Modifica</a>
                 </div>    
               </div>
