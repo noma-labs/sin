@@ -130,6 +130,8 @@
                   </div>
                   <div class="col-sm-2">
                     @if($persona->isPersonaInterna())
+                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
+
                       <my-modal modal-title="Uscita dalla comunità" button-title="Uscita" button-style="btn-danger my-2">
                           <template slot="modal-body-slot">
                               <form class="form" method="POST"  id="formUscitaPersona{{$persona->id}}" action="{{ route('nomadelfia.persone.uscita', ['idPersona' =>$persona->id]) }}" >      
@@ -155,7 +157,6 @@
                         <span> {{$persona->getDataUscitaNomadelfia()}} </span>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-warning" href="{{route('nomadelfia.persone.stato', ['idPersona'=>$persona->id])}}">Modifica</a> 
                       </div>
                   </div>
               </li>

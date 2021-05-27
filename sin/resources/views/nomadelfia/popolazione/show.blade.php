@@ -4,8 +4,6 @@
 
 @include('partials.header', ['title' => 'Gestione Popolazione ' . count($popolazione)])
 
-
-
 <table  id="table" class='table table-bordered table-hover table-sm'>
     <thead class='thead-inverse'>
     <tr>
@@ -34,8 +32,7 @@
            <td> {{ $persona->data_entrata }} </td>
           <td>
           <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a>
-          @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona, 'id'=>$persona->posizione_id, "data_inizio"=>$persona->data_entrata])
-
+          @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
           </td>
         </tr>
     @empty

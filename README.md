@@ -118,7 +118,7 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 
 ##  Running unit test
 IMPORTANT: do not run test on production
-
+- `php artisan make:test UserTest --unit`
 -  .\vendor\bin\phpunit --testdox
 
 ## Struttura ER database
@@ -131,7 +131,11 @@ IMPORTANT: do not run test on production
 </p> -->
 
 ## Database migration
-- https://github.com/pmatseykanets/laravel-sql-migrations
+Le migration del database vengono fatte usando il pacchetto  https://github.com/pmatseykanets/laravel-sql-migrations
+Questo permette di creare le migration in formato SQL.
+
+Create a migration:
+- `php artisan make:migration create_flights_table  --path="database/migrations/nomadelfia" --sql`
 
 
 ## Seed dati authentiazione
@@ -143,8 +147,6 @@ php artisan db:seed
 ## Comandi utili
 
 - `composer install`
-
-
 
 - `composer dump-autoload`
 

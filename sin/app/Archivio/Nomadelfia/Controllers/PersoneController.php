@@ -440,7 +440,7 @@ class PersoneController extends CoreBaseController
     }
 
     /**
-     * Modifica la posizione  di una persona.
+     * Modifica la posizione di una persona.
      *
      * @author Davide Neri
      */
@@ -456,9 +456,9 @@ class PersoneController extends CoreBaseController
     ]);
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
-            return redirect()->back()->withSuccess("Posizione modificata di $persona->nominativo  con successo");
+            return redirect()->back()->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
-        return redirect()->back()->withError("IMpossibile aggiornare la posizione di  $persona->nominativo");
+        return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
   
     /**
@@ -536,7 +536,7 @@ class PersoneController extends CoreBaseController
     }
 
 
-    public function updateDataEntrataNomadelfia(Request $request, $idPersona, $id)
+    public function updateDataEntrataNomadelfia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
             "data_entrata" => "required|date",

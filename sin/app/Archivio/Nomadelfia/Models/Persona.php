@@ -458,11 +458,8 @@ class Persona extends Model
 
     public function setDataEntrataNomadelfia($data_entrata)
     {
-        $att = $this->getDataEntrataNomadelfia();
-        if ($att) {
-            $this->categorie()->updateExistingPivot($int->id, ['data_fine'=>$att->pivot->data_fine, 'data_inizio'=>$data_inizio, "stato"=>$att->pivot->stato]);
-        }
-        return null;
+        $int = Categoria::perNome("interno");
+        return $this->categorie()->updateExistingPivot($int->id, ['data_inizio'=>$data_entrata]);
     }
 
     public function getDataEntrataNomadelfia()
