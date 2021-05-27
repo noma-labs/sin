@@ -4,7 +4,7 @@
             @csrf
             @method('delete')
             <body> Vuoi davvero eliminare {{$persona->nominativo}} dalla posizione  {{$posizione->nome}} ? </body>
-        </form>
+            </form>
     </template> 
     <template slot="modal-button">
         <button class="btn btn-danger" form="formEliminaposizioneStorico{{$persona->id}}" >Elimina</button>
