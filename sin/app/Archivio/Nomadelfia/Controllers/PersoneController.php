@@ -58,14 +58,14 @@ class PersoneController extends CoreBaseController
         $validatedData = $request->validate([
       "data_uscita" => "required",
     ], [
-      "data_uscita.required" => "La data del decesso è obbligatorio",
+      "data_uscita.required" => "La data di uscita è obbligatoria",
     ]);
         $persona = Persona::findOrFail($idPersona);
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
-            return redirect()->back()->withError("Impossible settare uscita perchè $persona->nominativo risulta essere moglie o capo famiglia");
+            return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $persona->uscita($request->data_uscita);
-        return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' =>$idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
+        return redirect()->route('nomadelfia.persone.dettaglio', ['idPersona' =>$idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
     }
 
     public function modificaDatiAnagrafici($idPersona)
