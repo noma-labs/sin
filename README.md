@@ -104,6 +104,7 @@ Aggiungere il seguente Virtual Host
 ```
 
 Fai ripartire il server  apache da xampp.
+
 ## Importazione Database da dump.
 
 Ogni settimana vengono creati dei dump nell cartella `Z:\sys` sun Nas.
@@ -137,6 +138,8 @@ Questo permette di creare le migration in formato SQL.
 Create a migration:
 - `php artisan make:migration create_flights_table  --path="database/migrations/nomadelfia" --sql`
 
+Refresh the structure
+- `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 
 ## Seed dati authentiazione
 Per popolare le tabelle dell'authenticazione (ruoli, permessi, utenti) eseguire il comando:
@@ -166,11 +169,3 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-
-
-# Linea guida di sviluppo
-
-classi per i bottoni:
- - `warning`: per operazion che modificano una stato (modifica)
- - `success`: per operazioni di conferma (Salva,)
- - `danger`: per operazioni  delicate (Elimina,)

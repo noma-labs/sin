@@ -870,9 +870,7 @@ class Persona extends Model
 
     public function posizioniStorico()
     {
-        return $this->posizioni()
-                ->wherePivot('stato', '0');
-        //->withPivot('posizione_famiglia','data_entrata', "data_uscita");
+        return $this->posizioni()->wherePivot('stato', '0');
     }
 
     public function assegnaPosizione($posizione, $data_inizio, $attuale_data_fine)
