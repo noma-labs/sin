@@ -114,7 +114,7 @@ Fai ripartire il server  apache da xampp.
 - `docker-compose exec app php artisan config:cache`
   
 Create the table structure:
--  ` docker-compose exec app php artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth`
+-  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth`
 -  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 -  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/biblioteca" --database=db_biblioteca`
 
@@ -135,8 +135,13 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 
 ##  Running unit test
 IMPORTANT: do not run test on production
-- `php artisan make:test UserTest --unit`
+
 -  `.\vendor\bin\phpunit --testdox`
+Running tests inside docker   
+- `docker-compose exec app php ./vendor/bin/phpunit --testdox `
+
+Create an unit test
+- `php artisan make:test UserTest --unit`
 
 ## Struttura ER database
 
@@ -152,7 +157,7 @@ Le migration del database vengono fatte usando il pacchetto  https://github.com/
 Questo permette di creare le migration in formato SQL.
 
 Create a migration:
-- `php artisan make:migration create_flights_table  --path="database/migrations/nomadelfia" --sql`
+- `php artisan make:migration create_flights_table  --path="database/migrations/db_nomadelfia" --sql`
 
 Refresh the structure
 - `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`

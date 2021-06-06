@@ -6,12 +6,8 @@ services:
     build:
       context: ./sin
       dockerfile: Dockerfile
-    container_name: app
     restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
+#    tty: true
     working_dir: /var/www
     volumes:
       - ./sin:/var/www
@@ -53,6 +49,7 @@ services:
       - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
     networks:
       - app-network
+
   phpmyadmin:
     image: phpmyadmin:5-apache
     restart: always
