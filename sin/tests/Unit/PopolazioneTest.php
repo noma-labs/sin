@@ -19,17 +19,31 @@ class PopolazioneTest extends BaseTestCase
 {
     use CreatesApplication, MigrateFreshDB;
 
+    public function testEntrataInNomadelfia()
+    {
+        $persona = factory(Persona::class)
+            ->states("maggiorenne", "maschio")
+            ->create();
+        $data_entrata = Carbon::now()->toDatestring();
+        $pos = Posizione::find("OSPP");
+        $gruppo = GruppoFamiliare::all()->random();
+        $persona->entrataInNomadelfia($data_entrata, $pos->id, $data_entrata, $gruppo->id, $data_entrata);
+
+    }
+
     public function testDecedutoMaggiorenne()
     {
         $persona = factory(Persona::class)
-                    ->states("maggiorenne", "maschio")
-                    ->create();
-        
+            ->states("maggiorenne", "maschio")
+            ->create();
+
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot, count($pop));
 
         $data_decesso = Carbon::now()->addYears(5)->toDatestring();
         $persona->deceduto($data_decesso);
@@ -43,22 +57,28 @@ class PopolazioneTest extends BaseTestCase
         $this->assertNull($persona->statoAttuale());
         $this->assertEquals($data_decesso, $persona->statiStorico()->get()->last()->pivot->data_fine);
         $this->assertNull($persona->gruppofamiliareAttuale());
-        $this->assertEquals($data_decesso, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
+        $this->assertEquals($data_decesso,
+            $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
         $this->assertNull($persona->famigliaAttuale());
         $this->assertEquals($data_decesso, $persona->famiglieStorico()->get()->last()->pivot->data_uscita);
+
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot - 1, count($pop));
     }
 
     public function testUscitaMaggiorenne()
     {
         $persona = factory(Persona::class)
-                    ->states("maggiorenne", "maschio")
-                    ->create();
-        
+            ->states("maggiorenne", "maschio")
+            ->create();
+
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot, count($pop));
 
         $data_uscita = Carbon::now()->addYears(5)->toDatestring();
         $persona->uscita($data_uscita);
@@ -66,13 +86,16 @@ class PopolazioneTest extends BaseTestCase
         $this->assertFalse($persona->isPersonaInterna());
         $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
         $this->assertNull($persona->posizioneAttuale());
-        $last_posi =  $persona->posizioniStorico()->get()->last();
+        $last_posi = $persona->posizioniStorico()->get()->last();
         $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
         $celibe = Stato::perNome("celibe");
         $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
         $this->assertNull($persona->gruppofamiliareAttuale());
         $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
         $this->assertNotNull($persona->famigliaAttuale());
+
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot - 1, count($pop));
     }
 
     /*
@@ -83,35 +106,43 @@ class PopolazioneTest extends BaseTestCase
     public function testUscitaMinorenne()
     {
         $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
-         
+
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
         $famiglia = factory(Famiglia::class)->create();
         $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato'=>'1','data_entrata_gruppo'=> Carbon::now()->subYears(10)->toDatestring()]);
-        $famiglia->componenti()->attach($capoFam->id, ['stato'=>'1', 'posizione_famiglia'=>"CAPO FAMIGLIA", 'data_entrata'=>Carbon::now()->toDatestring()]);
+        $capoFam->gruppifamiliari()->attach($gruppo->id,
+            ['stato' => '1', 'data_entrata_gruppo' => Carbon::now()->subYears(10)->toDatestring()]);
+        $famiglia->componenti()->attach($capoFam->id,
+            ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
         $persona->entrataNatoInNomadelfia($famiglia->id);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot, count($pop));
+
         $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
         $persona->uscita($data_uscita, true);
 
         $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
         $this->assertNull($persona->posizioneAttuale());
-        $last_posi =   $persona->posizioniStorico()->get()->last();
+        $last_posi = $persona->posizioniStorico()->get()->last();
         $this->assertEquals($persona->data_nascita, $last_posi->pivot->data_inizio);
         $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
         $celibe = Stato::perNome("celibe");
         $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
-         
+
         $this->assertNull($persona->gruppofamiliareAttuale());
         $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
-        
+
         $this->assertNull($persona->famigliaAttuale());
         $this->assertEquals($data_uscita, $persona->famiglieStorico()->get()->last()->pivot->data_uscita);
+
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($tot - 1, count($pop));
     }
 
     /*
@@ -120,6 +151,9 @@ class PopolazioneTest extends BaseTestCase
     public function testUscitaFamiglia()
     {
         $init_tot = PopolazioneNomadelfia::totalePopolazione();
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot, count($pop));
+
         $now = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
@@ -138,11 +172,15 @@ class PopolazioneTest extends BaseTestCase
         $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot + 4, count($pop));
 
         $data_uscita = Carbon::now()->toDatestring();
         $famiglia->uscita($data_uscita);
-        
+
         $this->assertEquals($init_tot, PopolazioneNomadelfia::totalePopolazione());
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot, count($pop));
     }
 
     /*
@@ -152,6 +190,9 @@ class PopolazioneTest extends BaseTestCase
     public function testUscitaFamigliaConComponentiFuoriDalNucleo()
     {
         $init_tot = PopolazioneNomadelfia::totalePopolazione();
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot, count($pop));
+
         $now = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
@@ -171,12 +212,18 @@ class PopolazioneTest extends BaseTestCase
         $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot + 4, count($pop));
+
         // toglie un figlio dal nucleo familiare
-        $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(), "test remove from nucleo");
+        $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(),
+            "test remove from nucleo");
 
         $data_uscita = Carbon::now()->toDatestring();
         $famiglia->uscita($data_uscita);
         // controlla che il figlio fuori dal nucleo non è uscito
         $this->assertEquals($init_tot + 1, PopolazioneNomadelfia::totalePopolazione());
+        $pop = PopolazioneNomadelfia::popolazione();
+        $this->assertEquals($init_tot + 1, count($pop));
     }
 }
