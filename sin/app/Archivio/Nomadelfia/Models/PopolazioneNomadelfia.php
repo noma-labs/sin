@@ -24,7 +24,7 @@ class PopolazioneNomadelfia
     {
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
-                "SELECT popolazione.* , persone_posizioni.* , posizioni.nome as posizione
+                "SELECT popolazione.*, posizioni.nome as posizione
                 FROM (
                     SELECT persone.*, persone_categorie.data_inizio as data_entrata
                     FROM persone

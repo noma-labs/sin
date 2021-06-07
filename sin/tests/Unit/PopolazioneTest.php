@@ -13,23 +13,13 @@ use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Stato;
+use App\Nomadelfia\Models\Azienda;
 use Carbon;
 
 class PopolazioneTest extends BaseTestCase
 {
     use CreatesApplication, MigrateFreshDB;
 
-    public function testEntrataInNomadelfia()
-    {
-//        $persona = factory(Persona::class)
-//            ->states("maggiorenne", "maschio")
-//            ->create();
-//        $data_entrata = Carbon::now()->toDatestring();
-//        $pos = Posizione::find("OSPP");
-//        $gruppo = GruppoFamiliare::all()->random();
-//        $persona->entrataInNomadelfia($data_entrata, $pos->id, $data_entrata, $gruppo->id, $data_entrata);
-
-    }
 
     public function testDecedutoMaggiorenne()
     {
@@ -76,6 +66,12 @@ class PopolazioneTest extends BaseTestCase
         $gruppo = GruppoFamiliare::all()->random();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
+        $azienda = Azienda::all()->random();
+        $persona->aziende()->attach($azienda->id,
+            ['stato' => 'Attivo', 'data_inizio_azienda' => $data_entrata, 'mansione' => "LAVORATORE"]);
+
+        $this->assertEquals(1, $persona->aziendeAttuali()->count());
+
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot, count($pop));
@@ -94,6 +90,7 @@ class PopolazioneTest extends BaseTestCase
         $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
         $this->assertNotNull($persona->famigliaAttuale());
 
+        $this->assertEquals(0, $persona->aziendeAttuali()->count());
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot - 1, count($pop));
     }

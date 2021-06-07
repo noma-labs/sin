@@ -303,6 +303,7 @@ class Persona extends Model
     }
 
 
+
     // CATEGORIA
     public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
@@ -447,10 +448,10 @@ class Persona extends Model
                 [$persona_id, $interna->id, $data]
             );
 
-            $conn->insert(
-                "INSERT INTO popolazione (persona_id, data_entrata, created_at, updated_at) VALUES (?, ?, NOW(), NOW())",
-                [$persona_id, $data]
-            );
+//            $conn->insert(
+//                "INSERT INTO popolazione (persona_id, data_entrata, created_at, updated_at) VALUES (?, ?, NOW(), NOW())",
+//                [$persona_id, $data]
+//            );
 
             // inserisce la posizione in nomadelfia della persona
             $conn->insert(
@@ -614,8 +615,8 @@ class Persona extends Model
             );
 
             // conclude le aziende dove lavora con la data di uscita
-            $conn->insert(
-                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+            $conn->update(
+                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = '0' WHERE persona_id = ? AND stato = 'Attivo'",
                 [$data_uscita, $persona_id]
             );
 
