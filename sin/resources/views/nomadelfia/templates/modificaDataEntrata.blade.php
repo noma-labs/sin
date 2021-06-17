@@ -1,17 +1,28 @@
 <my-modal modal-title="Modifica data entrata" button-title="Modifica" button-style="btn-warning my-1">
     <template slot="modal-body-slot">
-    <form class="form" method="POST"  id="formModificaDataEntrata{{$persona->id}}" action="{{ route('nomadelfia.persone.dataentrata.modifica', ['idPersona' =>$persona->id]) }}" >      
+        <form class="form" method="POST" id="formModificaDataEntrata{{$persona->id}}"
+              action="{{ route('nomadelfia.persone.dataentrata.modifica', ['idPersona' =>$persona->id]) }}">
             {{ csrf_field() }}
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Nuova Data Entrata</label>
-                <div class="form-check  col-sm-6">
+                <div class="col-sm-6">
                     <label class="form-check-label">
-                            <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_nascita }}" format="yyyy-MM-dd" name="data_entrata"></date-picker>
-                    </label>        
+                        <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_entrata }}"
+                                     format="yyyy-MM-dd" name="data_entrata"></date-picker>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label"></label>
+                <div class="col-sm-6">
+                    <input class="form-check-input" type="radio" name="data_nascita" id="data_nascita" value="yes">
+                    <label class="form-check-label" for="data_nascita">
+                        Usa la data di nascita come data di entrata
+                    </label>
                 </div>
             </div>
         </form>
-    </template> 
+    </template>
 
     <template slot="modal-button">
         <button class="btn btn-success" form="formModificaDataEntrata{{$persona->id}}">Salva</button>
