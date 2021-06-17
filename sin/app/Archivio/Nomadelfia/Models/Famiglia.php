@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
-
+use Carbon;
 use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Traits\Enums;
@@ -46,6 +46,21 @@ class Famiglia extends Model
     public static function getMoglieEnum()
     {
         return self::getEnum('Posizione')[1];
+    }
+
+    public static function getFiglioNatoEnum()
+    {
+        return self::getEnum('Posizione')[2];
+    }
+
+    public static function getFiglioAccoltoEnum()
+    {
+        return self::getEnum('Posizione')[3];
+    }
+
+    public static function getSingleEnum()
+    {
+        return self::getEnum('Posizione')[4];
     }
 
     public static function figliEnums()
@@ -298,10 +313,10 @@ class Famiglia extends Model
             if ($this->moglie() != null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
             }
-//            $single = $this->single();
-//            if ($single != null) {
-//                throw CouldNotAssignMoglie::beacuseIsSingle($this, $single);
-//            }
+            $single = $this->single();
+            if ($single != null) {
+                throw CouldNotAssignMoglie::beacuseIsSingle($this, $persona);
+            }
             if ($persona->isMaggiorenne() == false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
             }
@@ -314,16 +329,17 @@ class Famiglia extends Model
         throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
     }
 
-
-    function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = "1", $note = null)
+    public function assegnaSingle($persona, $data = null, $note = null)
     {
-        if (!in_array($posizione, $this->enumPosizione)) {
-            throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
         }
-        return $this->componenti()->attach($persona->id,
-            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata, 'note' => $note]);
+        if ($persona instanceof Persona) {
+            $data = $data ? $data : Carbon::parse($this->nascita)->addYears(18)->toDateString();
+            return $this->assegnaComponente($persona, $this->getSingleEnum(), $data);
+        }
+        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
     }
-
 
     /**
      *
@@ -334,13 +350,12 @@ class Famiglia extends Model
     public function assegnaFiglioNato($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
-        // TODO: check that the family is not a SINLGE
+        // TODO: check that the family is not a SINGLE
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->componenti()->attach($persona->id,
-                ['stato' => '1', 'posizione_famiglia' => "FIGLIO NATO", 'data_entrata' => $persona->data_nascita]);
+            return $this->assegnaComponente($persona, $this->getFiglioNatoEnum(), $persona->data_nascita);
         }
         throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
     }
@@ -359,11 +374,21 @@ class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->componenti()->attach($persona->id,
-                ['stato' => '1', 'posizione_famiglia' => "FIGLIO ACCOLTO", 'data_entrata' => $data_accolto]);
+            return $this->assegnaComponente($persona, $this->getFiglioAccoltoEnum(), $data_accolto);
         }
         throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
     }
+
+
+    function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = "1", $note = null)
+    {
+        if (!in_array($posizione, $this->enumPosizione)) {
+            throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
+        }
+        return $this->componenti()->attach($persona->id,
+            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata, 'note' => $note]);
+    }
+
 
 
     /**

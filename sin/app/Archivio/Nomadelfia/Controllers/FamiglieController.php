@@ -141,7 +141,6 @@ class FamiglieController extends CoreBaseController
         }
     }
 
-
     public function assegnaComponente(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -166,14 +165,17 @@ class FamiglieController extends CoreBaseController
                 $famiglia->assegnaMoglie($persona, $request->data_entrata);
                 break;
             case "FIGLIO NATO":
-                echo "i equals 2";
+                $famiglia->assegnaFiglioNato($persona);
                 break;
             case "FIGLIO ACCOLTO":
-                echo "i equals 2";
+                $famiglia->assegnaFiglioAccolto($persona, $request->data_entrata);
                 break;
             case "SINGLE":
-                echo "i equals 2";
+                $famiglia->assegnaSingle($persona, $request->data_entrata);
                 break;
+            default:
+                return redirect(route('nomadelfia.famiglia.dettaglio',
+                    ['id' => $id]))->withErrors("Posizione `{$request->posizione}` non riconosciuta");
         }
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
