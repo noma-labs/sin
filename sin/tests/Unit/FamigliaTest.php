@@ -101,7 +101,7 @@ class FamigliaTest extends TestCase
         $this->assertEquals($famiglia->moglie()->id, $persona->id);
         $this->assertEquals($famiglia->data_creazione, $famiglia->moglie()->pivot->data_entrata);
 
-        // entrata moglie con custom data
+        //moglie
         $famiglia = factory(Famiglia::class)->create();
         $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
         $now = Carbon::now()->toDatestring();

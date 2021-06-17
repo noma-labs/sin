@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Models;
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
+use App\Nomadelfia\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -260,18 +261,19 @@ class Famiglia extends Model
      **/
     function assegnaCapoFamiglia($persona, string $data_entrata = null, $note = null)
     {
-        $capo = $this->capofamiglia();
-        if ($capo != null) {
-            throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
-        }
-        $single = $this->single();
-        if ($single != null) {
-            throw CouldNotAssignCapoFamiglia::beacuseIsSingle($this, $capo);
-        }
+
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
+            $capo = $this->capofamiglia();
+            if ($capo != null) {
+                throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
+            }
+            $single = $this->single();
+            if ($single != null) {
+                throw CouldNotAssignCapoFamiglia::beacuseIsSingle($this, $single);
+            }
             if ($persona->isMaggiorenne() != true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
@@ -290,14 +292,17 @@ class Famiglia extends Model
      **/
     public function assegnaMoglie($persona, $data = null, $note = null)
     {
-        if ($this->moglie() != null) {
-            throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
-        }
-
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
+            if ($this->moglie() != null) {
+                throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
+            }
+            $single = $this->single();
+            if ($single != null) {
+                throw CouldNotAssignMoglie::beacuseIsSingle($this, $single);
+            }
             if ($persona->isMaggiorenne() == false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
             }
@@ -310,7 +315,9 @@ class Famiglia extends Model
         throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
     }
 
-    function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = "1", $note = null) {
+
+    function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = "1", $note = null)
+    {
         if (!in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }

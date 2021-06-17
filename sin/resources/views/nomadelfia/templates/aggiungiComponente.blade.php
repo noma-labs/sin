@@ -23,7 +23,7 @@
         <label for="example-text-input" class="col-4 col-form-label">Data entrata nella famiglia:</label>
           <div class="col-8">
             <date-picker :bootstrap-styling="true" value="{{ old('data_entrata') }}" format="yyyy-MM-dd" name="data_entrata"></date-picker>
-            <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di nascita del nuovo componente.</small>
+            <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di nascita/matrimonio del nuovo componente.</small>
           </div>
       </div>
       <div class="form-group row">

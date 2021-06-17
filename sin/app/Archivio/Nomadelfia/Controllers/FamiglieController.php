@@ -148,12 +148,11 @@ class FamiglieController extends CoreBaseController
             "persona_id" => "required",
             "posizione" => "required",
             "stato" => "required",
-            // "data_entrata" => "required|date"
+            "data_entrata" => "date"
         ], [
             "persona_id.required" => "La persona è obbligatoria.",
             "stato.required" => "Lo stato della persona è obbligatoria.",
             'posizione.required' => "La posizione nella famiglia è obbligatoria.",
-            // 'data_entrata.required'=>"La data di entrata nella famiglia è obbligatoria.",
             'data_entrata.date' => "La data del cambio di gruppo non è una data corretta.",
         ]);
         $famiglia = Famiglia::findorfail($id);
@@ -164,7 +163,7 @@ class FamiglieController extends CoreBaseController
                 $famiglia->assegnaCapoFamiglia($persona, $request->data_entrata);
                 break;
             case "MOGLIE":
-                echo "i equals 1";
+                $famiglia->assegnaMoglie($persona, $request->data_entrata);
                 break;
             case "FIGLIO NATO":
                 echo "i equals 2";
