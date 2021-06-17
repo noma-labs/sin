@@ -158,24 +158,28 @@ class FamiglieController extends CoreBaseController
         ]);
         $famiglia = Famiglia::findorfail($id);
         $persona = Persona::findorfail($request->persona_id);
-        $famiglia_attuale = $persona->famigliaAttuale();
-        if ($famiglia_attuale != null and $request->stato == "1") {
-            return redirect(route('nomadelfia.famiglia.dettaglio', ['id' => $id]))
-                ->withError("Errore. $persona->nominativo è già assegnato alla famiglia $famiglia_attuale->nome_famiglia come " . $famiglia_attuale->pivot->posizione_famiglia);
+
+        switch ($request->posizione) {
+            case "CAPO FAMIGLIA":
+                $famiglia->assegnaCapoFamiglia($persona, $request->data_entrata);
+                break;
+            case "MOGLIE":
+                echo "i equals 1";
+                break;
+            case "FIGLIO NATO":
+                echo "i equals 2";
+                break;
+            case "FIGLIO ACCOLTO":
+                echo "i equals 2";
+                break;
+            case "SINGLE":
+                echo "i equals 2";
+                break;
         }
-        try {
-            $famiglia->componenti()->attach($persona->id, [
-                'stato' => $request->stato,
-                'posizione_famiglia' => $request->posizione,
-                'data_entrata' => ($request->data_entrata ? $request->data_entrata : $persona->data_nascita),
-                'note' => $request->note
-            ]);
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
-        } catch (Exception $e) {
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withError("Errore. Nessun componente aggiunto alla famiglia.");
-        }
+
+        return redirect(route('nomadelfia.famiglia.dettaglio',
+            ['id' => $id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
+
     }
 
     public function aggiornaComponente(Request $request, $id)
