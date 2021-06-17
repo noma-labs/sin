@@ -303,8 +303,8 @@ class Persona extends Model
     }
 
 
-
     // CATEGORIA
+
     public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
@@ -321,6 +321,7 @@ class Persona extends Model
         return $this->categorie()->wherePivot('stato', '0')
             ->orderby('data_fine', 'desc');
     }
+
 
     // Inserisce un minorenne che entra con la sua famiglia
     public function entrataMinorenneConFamiglia($data_entrata, $famiglia_id)
