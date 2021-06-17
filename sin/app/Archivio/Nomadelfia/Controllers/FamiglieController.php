@@ -119,7 +119,7 @@ class FamiglieController extends CoreBaseController
      *
      * @author Davide Neri
      **/
-    public function spostaInGruppoFamiliare(Request $request, $id, $currentGruppo)
+    public function spostaInGruppoFamiliare(Request $request, $id)
     {
         $validatedData = $request->validate([
             "nuovo_gruppo_id" => "required",
@@ -129,16 +129,12 @@ class FamiglieController extends CoreBaseController
             'data_cambiogruppo.required' => "La data del cambio di gruppo è obbligatoria.",
         ]);
         $famiglia = Famiglia::findorfail($id);
-        $gruppo_corrente = $famiglia->gruppoFamiliareAttuale();
-        if (count($gruppo_corrente) == 1) {
-            $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente[0]->id, $request->data_cambiogruppo,
-                $request->nuovo_gruppo_id, $request->data_cambiogruppo);
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withSuccess("Famiglia spostata nel gruppo familiare con successo");
-        } else {
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withError("La famiglia ha più di un gruppo attivo.");
-        }
+        $gruppo_corrente = $famiglia->gruppoFamiliareAttualeOrFail();
+        $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente->id, $request->data_cambiogruppo,
+            $request->nuovo_gruppo_id, $request->data_cambiogruppo);
+        return redirect(route('nomadelfia.famiglia.dettaglio',
+            ['id' => $id]))->withSuccess("Famiglia spostata nel gruppo familiare con successo");
+
     }
 
     public function assegnaComponente(Request $request, $id)
