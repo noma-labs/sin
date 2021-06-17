@@ -177,11 +177,6 @@ class FamigliaTest extends TestCase
         $famiglia->assegnaMoglie($moglie);
         $famiglia->assegnaFiglioNato($fnato);
 
-
-//        $gruppo_attuale_id,
-//        $dataUscitaGruppoFamiliareAttuale,
-//        $gruppo_nuovo_id,
-//        $data_entrata = null
         $nuovoGruppo = GruppoFamiliare::all()->random();
         $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->toDatestring(), $nuovoGruppo->id, Carbon::now()->toDatestring());
         $this->assertEquals($nuovoGruppo->id, $capoFam->gruppofamiliareAttuale()->id);

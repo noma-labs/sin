@@ -2,6 +2,7 @@
 
 namespace App\Nomadelfia\Models;
 
+use App\Nomadelfia\Exceptions\PersonaHasMultipleCategorieAttuale;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon;
@@ -313,7 +314,15 @@ class Persona extends Model
 
     public function categoriaAttuale()
     {
-        return $this->categorie()->wherePivot('stato', '1')->first();
+//        return $this->categorie()->wherePivot('stato', '1')->first();
+        $categoria = $this->categorie()->wherePivot('stato', '1')->get();
+        if ($categoria->count() == 1) {
+            return $categoria[0];
+        } elseif ($categoria->count() == 0) {
+            return null;
+        } else {
+            throw PersonaHasMultipleCategorieAttuale::named($this->nominativo);
+        }
     }
 
     public function categorieStorico(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -491,7 +500,14 @@ class Persona extends Model
     public function setDataEntrataNomadelfia($data_entrata)
     {
         $int = Categoria::perNome("interno");
-        return $this->categorie()->updateExistingPivot($int->id, ['data_inizio' => $data_entrata]);
+
+        $cat = $this->categoriaAttuale();
+        if ($cat->isPersonaInterna()) {
+            $data = $data_entrata ? $data_entrata : $this->data_nascita;
+            return $this->categorie()->updateExistingPivot($int->id, ['data_inizio' => $data]);
+        }
+        throw new Exception("Error. La persona non ha una person ainterna");
+
     }
 
     public function getDataEntrataNomadelfia()

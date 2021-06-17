@@ -10,15 +10,7 @@
                         <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_entrata }}"
                                      format="yyyy-MM-dd" name="data_entrata"></date-picker>
                     </label>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label"></label>
-                <div class="col-sm-6">
-                    <input class="form-check-input" type="radio" name="data_nascita" id="data_nascita" value="yes">
-                    <label class="form-check-label" for="data_nascita">
-                        Usa la data di nascita come data di entrata
-                    </label>
+                    <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se coincide con la data di nascita della persona.</small>
                 </div>
             </div>
         </form>
