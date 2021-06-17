@@ -25,7 +25,7 @@
             <div class="card-body">
               <div class="row">
                 <p class="col-md-4  font-weight-bold"> Nominativo</p>
-                <p class="col-md-4  font-weight-bold"> Data inizio</p>
+                <p class="col-md-4  font-weight-bold"> Data Entrata</p>
                 <p class="col-md-4  font-weight-bold"> Durata </p>
               </div>
       
@@ -52,7 +52,7 @@
             <div class="card-body">
               <div class="row">
                 <p class="col-md-3 font-weight-bold"> Nominativo</p>
-                <p class="col-md-3 font-weight-bold"> Data inizio</p>
+                <p class="col-md-3 font-weight-bold"> Data Entrata</p>
                 <p class="col-md-3 font-weight-bold"> Durata </p>
                 <p class="col-md-3 font-weight-bold"> Operazioni</p>
 

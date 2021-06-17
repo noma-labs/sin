@@ -81,8 +81,8 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::get('persone/ricerca/submit', 'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
  
     Route::get('persone/{idPersona}', 'PersoneController@show')->name("nomadelfia.persone.dettaglio"); //middleware('permission:cliente-visualizza')
-  Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
-  Route::get('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
+    Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
+    Route::get('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
     Route::post('persone/{idPersona}/anagrafica/modifica', 'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
     Route::get('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica");
     Route::post('persone/{idPersona}/nominativo/modifica', 'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
@@ -106,7 +106,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::post('persone/{idPersona}/categoria/assegna', 'PersoneController@assegnaCategoria')->name("nomadelfia.persone.categoria.assegna");
     Route::delete('persone/{idPersona}/categoria/{id}', 'PersoneController@eliminaCategoria')->name("nomadelfia.persone.categoria.elimina");
     // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
-    Route::post('persone/{idPersona}/categoria/{id}/modifica', 'PersoneController@updateDataEntrataNomadelfia')->name("nomadelfia.persone.dataentrata.modifica");
+    Route::post('persone/{idPersona}/entrata/modifica', 'PersoneController@updateDataEntrataNomadelfia')->name("nomadelfia.persone.dataentrata.modifica");
 
     Route::get('persone/{idPersona}/gruppofamiliare', 'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
     Route::post('persone/{idPersona}/gruppofamiliare/assegna', 'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");

@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  #PHP Service
+  app:
+    build:
+      context: ./sin
+      dockerfile: Dockerfile
+    restart: unless-stopped
+#    tty: true
+    working_dir: /var/www
+    volumes:
+      - ./sin:/var/www
+#      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./sin:/var/www
+      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
+    networks:
+      - app-network
+
+  #MariaDB Service
+  db:
+    image: mariadb:10.1
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/my.cnf
+      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

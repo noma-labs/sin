@@ -1,6 +1,5 @@
 # SIN Nomadelfia
-SIN (sistema informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomadelefi in un unino sistema.
-
+SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomadelfia in un unico sistema.
 
 ### Dipendenze
 
@@ -104,6 +103,24 @@ Aggiungere il seguente Virtual Host
 ```
 
 Fai ripartire il server  apache da xampp.
+
+
+## Installazione con Docker
+
+- `docker-compose up`
+- `cp .env.example .env`
+- `docker-compose exec app composer install`
+- `docker-compose exec app php artisan key:generate`
+- `docker-compose exec app php artisan config:cache`
+  
+Create the table structure:
+-  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth`
+-  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
+-  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/biblioteca" --database=db_biblioteca`
+
+Seed the table
+-  `docker-compose exec app php artisan db:seed`
+
 ## Importazione Database da dump.
 
 Ogni settimana vengono creati dei dump nell cartella `Z:\sys` sun Nas.
@@ -119,7 +136,12 @@ L'importazione deve seguire il seguente ordine di importazione dei database:
 ##  Running unit test
 IMPORTANT: do not run test on production
 
--  .\vendor\bin\phpunit --testdox
+-  `.\vendor\bin\phpunit --testdox`
+Running tests inside docker   
+- `docker-compose exec app php ./vendor/bin/phpunit --testdox `
+
+Create an unit test
+- `php artisan make:test UserTest --unit`
 
 ## Struttura ER database
 
@@ -131,8 +153,14 @@ IMPORTANT: do not run test on production
 </p> -->
 
 ## Database migration
-- https://github.com/pmatseykanets/laravel-sql-migrations
+Le migration del database vengono fatte usando il pacchetto  https://github.com/pmatseykanets/laravel-sql-migrations
+Questo permette di creare le migration in formato SQL.
 
+Create a migration:
+- `php artisan make:migration create_flights_table  --path="database/migrations/db_nomadelfia" --sql`
+
+Refresh the structure
+- `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 
 ## Seed dati authentiazione
 Per popolare le tabelle dell'authenticazione (ruoli, permessi, utenti) eseguire il comando:
@@ -143,8 +171,6 @@ php artisan db:seed
 ## Comandi utili
 
 - `composer install`
-
-
 
 - `composer dump-autoload`
 
@@ -164,11 +190,3 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-
-
-# Linea guida di sviluppo
-
-classi per i bottoni:
- - `warning`: per operazion che modificano una stato (modifica)
- - `success`: per operazioni di conferma (Salva,)
- - `danger`: per operazioni  delicate (Elimina,)
