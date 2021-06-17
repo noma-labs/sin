@@ -416,7 +416,6 @@ class PersoneController extends CoreBaseController
     public function famiglie($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-        $persona->spostaInNuovaFamiglia();
         $attuale = $persona->famigliaAttuale();
         $storico = $persona->famiglieStorico;
         return view("nomadelfia.persone.famiglia.show", compact('persona', 'attuale', 'storico'));
