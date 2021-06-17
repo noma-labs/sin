@@ -557,9 +557,8 @@ class PersoneController extends CoreBaseController
     public function updateDataEntrataNomadelfia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "data_entrata" => "required|date",
+            "data_entrata" => "date",
         ], [
-            'data_entrata.required' => "La data di entrata obbligatoria.",
             'data_entrata.date' => "La data entrata non è valida.",
         ]);
         $persona = Persona::findOrFail($idPersona);

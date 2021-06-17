@@ -159,4 +159,29 @@ class FamigliaTest extends TestCase
 
         $this->assertEquals(3, $famiglia->componentiAttuali()->get()->count());
     }
+    /**
+     * Test se l'uscita dal nucleo familiare di un figlio.
+     *
+     * */
+    public function testAssegnaNuovoGruppoFamiliare()
+    {
+        $famiglia = factory(Famiglia::class)->create();
+        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $gruppo = GruppoFamiliare::all()->random();
+        $now = Carbon::now()->toDatestring();
+        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
+        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam);
+        $famiglia->assegnaMoglie($moglie);
+        $famiglia->assegnaFiglioNato($fnato);
+
+        $nuovoGruppo = GruppoFamiliare::all()->random();
+        $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->toDatestring(), $nuovoGruppo->id, Carbon::now()->toDatestring());
+        $this->assertEquals($nuovoGruppo->id, $capoFam->gruppofamiliareAttuale()->id);
+        $this->assertEquals($nuovoGruppo->id, $moglie->gruppofamiliareAttuale()->id);
+        $this->assertEquals($nuovoGruppo->id, $fnato->gruppofamiliareAttuale()->id);
+
+    }
 }
