@@ -26,8 +26,7 @@ class CouldNotAssignMoglie extends \Exception
 
     public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): self
     {
-        return new static("La moglie {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
+        return new static("La moglie {$persona}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
     }
-
 
 }

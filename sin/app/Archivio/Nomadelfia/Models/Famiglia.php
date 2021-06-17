@@ -13,7 +13,6 @@ use InvalidArgumentException;
 
 
 use App\Nomadelfia\Models\Categoria;
-use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Traits\Enums;
 use Illuminate\Support\Str;
@@ -299,10 +298,10 @@ class Famiglia extends Model
             if ($this->moglie() != null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
             }
-            $single = $this->single();
-            if ($single != null) {
-                throw CouldNotAssignMoglie::beacuseIsSingle($this, $single);
-            }
+//            $single = $this->single();
+//            if ($single != null) {
+//                throw CouldNotAssignMoglie::beacuseIsSingle($this, $single);
+//            }
             if ($persona->isMaggiorenne() == false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
             }

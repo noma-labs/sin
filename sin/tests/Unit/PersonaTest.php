@@ -2,11 +2,13 @@
 
 namespace Tests\Unit;
 
+use Tests\MigrateFreshDB;
 use Tests\TestCase;
 use Carbon;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\CreatesApplication;
 
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\Famiglia;
@@ -16,7 +18,8 @@ use App\Nomadelfia\Models\Stato;
 
 class PersonaTest extends TestCase
 {
-  
+    use CreatesApplication, MigrateFreshDB;
+
     public function testAssegnaGruppoFamiliare()
     {  
         $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
