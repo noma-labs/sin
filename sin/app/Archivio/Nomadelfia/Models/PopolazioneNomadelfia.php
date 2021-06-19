@@ -142,7 +142,7 @@ class PopolazioneNomadelfia
     /*
   *  Ritorna i figli maggiorenni
   */
-    public static function figliMaggiorenni($orderby = 'data_nascita')
+    public static function figliMaggiorenni($orderby = 'nominativo')
     {
         $magg = self::figliDaEta(18, null, $orderby);
         $result = new stdClass;
@@ -341,11 +341,10 @@ class PopolazioneNomadelfia
     }
      */
 
-
     /*
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
-    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'data_nascita')
+    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo')
     {   $interna = Categoria::perNome("interno");
         $posizione = Posizione::perNome("figlio");
         $q = DB::connection('db_nomadelfia')
