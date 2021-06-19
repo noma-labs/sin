@@ -40,7 +40,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 
-
         $gruppi = GruppoFamiliare::all();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
@@ -147,33 +146,33 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         // Section maggiorenni
         if ($elenchi->contains("maggMin")) {
             $section->addPageBreak();
-            $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
+            $maggiorenni = PopolazioneNomadelfia::maggiorenni();
             $section = $phpWord->addSection();
             $section->addTitle('Maggiorenni '. $maggiorenni->total, 1);
     
             $sectMaggUomini = $phpWord->addSection($colStyle4NCont);
             $sectMaggUomini->addTitle("Uomini ". count($maggiorenni->uomini), 2);
             foreach ($maggiorenni->uomini as $value) {
-                $sectMaggUomini->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $sectMaggUomini->addText($value->nominativo);
+          }
             $maggDonne = $phpWord->addSection($colStyle4Next);
             $maggDonne->addTitle("Donne ". count($maggiorenni->donne), 2);
             foreach ($maggiorenni->donne as $value) {
-                $maggDonne->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $maggDonne->addText($value->nominativo);
+          }
             // Figli minorenni
             $minorenni = PopolazioneNomadelfia::figliMinorenni();
             $section = $phpWord->addSection()->addTitle('Figli Minorenni '. $minorenni->total, 1);
             $sectMinorenniUomini = $phpWord->addSection($colStyle4NCont);
             $sectMinorenniUomini->addTitle("Uomini ". count($minorenni->uomini), 2);
             foreach ($minorenni->uomini as $value) {
-                $sectMinorenniUomini->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $sectMinorenniUomini->addText($value->nominativo);
+          }
             $maggDonne = $phpWord->addSection($colStyle4Next);
             $maggDonne->addTitle("Donne ". count($minorenni->donne), 2);
             foreach ($minorenni->donne as $value) {
-                $maggDonne->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $maggDonne->addText($value->nominativo);
+          }
         }
     
         if ($elenchi->contains("effePostOspFig")) {
@@ -185,13 +184,13 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $effeUomini = $phpWord->addSection($colStyle4NCont);
             $effeUomini->addTitle("Uomini ". count($effettivi->uomini), 2);
             foreach ($effettivi->uomini as $value) {
-                $effeUomini->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $effeUomini->addText($value->nominativo);
+          }
             $effeDonne = $phpWord->addSection($colStyle4Next);
             $effeDonne->addTitle("Donne ". count($effettivi->donne), 2);
             foreach ($effettivi->donne as $value) {
-                $effeDonne->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $effeDonne->addText($value->nominativo);
+          }
 
             // Postulanti
             $postulanti = PopolazioneNomadelfia::postulanti();
@@ -200,12 +199,12 @@ class PopolazioneNomadelfiaController extends CoreBaseController
           
             $postSect->addTitle('Uomini '. count($postulanti->uomini), 2);
             foreach ($postulanti->uomini as $value) {
-                $postSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $postSect->addText($value->nominativo);
+          }
             $postSect->addTitle('Donne '. count($postulanti->donne), 2);
             foreach ($postulanti->donne as $value) {
-                $postSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $postSect->addText($value->nominativo);
+          }
 
             // Ospiti
             $ospiti = PopolazioneNomadelfia::ospiti();
@@ -213,28 +212,28 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $postSect->addTitle('Ospiti '. $ospiti->total, 1);
             $postSect->addTitle('Uomini '. count($ospiti->uomini), 2);
             foreach ($ospiti->uomini as $value) {
-                $postSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $postSect->addText($value->nominativo);
+          }
             $postSect->addTitle('Donne '. count($ospiti->donne), 2);
             foreach ($ospiti->donne as $value) {
-                $postSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $postSect->addText($value->nominativo);
+          }
 
             // Sacerdoti
             $sacerdoti = PopolazioneNomadelfia::sacerdoti();
             $sacSect = $phpWord->addSection($colStyle4Next);
             $sacSect->addTitle('Sacerdoti '. count($sacerdoti), 2);
             foreach ($sacerdoti as $value) {
-                $sacSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $sacSect->addText($value->nominativo);
+          }
 
             // Mamme di vocazione
             $mvocazione = PopolazioneNomadelfia::mammeVocazione();
             $mvocSect = $phpWord->addSection($colStyle4Next);
             $mvocSect->addTitle('Mamme Di Vocazione '. count($mvocazione), 2);
             foreach ($mvocazione as $value) {
-                $mvocSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $mvocSect->addText($value->nominativo);
+          }
 
             // Figli >21
             $figliMag21 = PopolazioneNomadelfia::figliMaggiori21();
@@ -242,12 +241,12 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $figlMagSect->addTitle('Figli/e >21 '. $figliMag21->total, 1);
             $figlMagSect->addTitle('Figli '. count($figliMag21->uomini), 2);
             foreach ($figliMag21->uomini as $value) {
-                $figlMagSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $figlMagSect->addText($value->nominativo);
+          }
             $figlMagSect->addTitle('Figlie '. count($figliMag21->donne), 2);
             foreach ($figliMag21->donne as $value) {
-                $figlMagSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $figlMagSect->addText($value->nominativo);
+          }
          
             // Figli 18-21
             $figli21 = PopolazioneNomadelfia::figliFra18e21();
@@ -255,12 +254,12 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $figliSect->addTitle('Figli/e 18...21 '. $figli21->total, 1);
             $figliSect->addTitle('Figli '. count($figli21->uomini), 2);
             foreach ($figli21->uomini as $value) {
-                $figliSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $figliSect->addText($value->nominativo);
+          }
             $figliSect->addTitle('Figlie '. count($figli21->donne), 2);
             foreach ($figli21->donne as $value) {
-                $figliSect->addText(ucfirst(strtolower($value->nominativo)));
-            }
+                $figliSect->addText($value->nominativo);
+          }
         }
         if ($elenchi->contains("famiglie")) {
             // Famiglie
@@ -272,10 +271,10 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                 $famiglieSect->addTextBreak(1);
                 foreach ($componenti as $componente) {
                     if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
-                        $famiglieSect->addTitle(ucfirst(strtolower($componente->nominativo)), 3);
+                        $famiglieSect->addTitle($componente->nominativo, 3);
                     } else {
                         $year = Carbon::parse($componente->data_nascita)->year;
-                        $famiglieSect->addText("    ".$year." ".ucfirst(strtolower($componente->nominativo)));
+                        $famiglieSect->addText("    ".$year." ".$componente->nominativo);
                     }
                 }
             }
@@ -296,10 +295,10 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                     $gruppiSect->addTextBreak(1);
                     foreach ($componenti as $componente) {
                         if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
-                            $gruppiSect->addText(ucfirst(strtolower($componente->nominativo)), array('bold'  => true));
+                            $gruppiSect->addText($componente->nominativo, array('bold'  => true));
                         } else {
                             $year = Carbon::parse($componente->data_nascita)->year;
-                            $gruppiSect->addText("    ".$year." ".ucfirst(strtolower($componente->nominativo)));
+                            $gruppiSect->addText("    ".$year." ".$componente->nominativo);
                         }
                     }
                 }
@@ -315,7 +314,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                 $lavoratori = $azienda->lavoratoriAttuali()->get();
                 $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
                 foreach ($lavoratori as $lavoratore) {
-                    $sectAziende->addText("    ".ucfirst(strtolower($lavoratore->nominativo)));
+                    $sectAziende->addText("    ".$lavoratore->nominativo);
                 }
             }
         }

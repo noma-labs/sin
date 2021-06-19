@@ -223,4 +223,34 @@ class PopolazioneTest extends BaseTestCase
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($init_tot + 1, count($pop));
     }
+
+    /*
+   * Testa il conteggio dei figli minorenni nella popolazione
+   */
+    public function testCountFigliDaEta()
+    {
+        $now = Carbon::now()->toDatestring();
+        $famiglia = factory(Famiglia::class)->create();
+        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia->assegnaCapoFamiglia($capoFam, $now);
+        $gruppo = GruppoFamiliare::all()->random();
+        $capoFam->assegnaGruppoFamiliare($gruppo,$now);
+
+        $tot = PopolazioneNomadelfia::totalePopolazione();
+        $min = PopolazioneNomadelfia::figliDaEta(0, 18)->count();
+        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $persona->entrataNatoInNomadelfia($famiglia->id);
+
+        $this->assertEquals($tot + 1, PopolazioneNomadelfia::totalePopolazione());
+        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
+
+        $mag = PopolazioneNomadelfia::figliDaEta(18, null)->count();
+        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona->entrataNatoInNomadelfia($famiglia->id);
+        $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
+        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
+        $this->assertEquals($mag + 1, PopolazioneNomadelfia::figliDaEta(18, null)->count());
+
+    }
+
 }

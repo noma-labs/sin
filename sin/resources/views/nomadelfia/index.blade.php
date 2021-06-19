@@ -13,7 +13,8 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarPopolazione">
           <a class="dropdown-item" href="{{route('nomadelfia.popolazione')}}"> Popolazione</a> 
-        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.effettivi')}}"> Effettivi</a> 
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.maggiorenni')}}"> Maggiorenni</a>
+        <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.effettivi')}}"> Effettivi</a>
         <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.postulanti')}}">Postulanti</a>
         <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.ospiti')}}">Ospiti</a>
         <a class="dropdown-item" href="{{route('nomadelfia.popolazione.posizione.figli.maggiorenni')}}">Figli Mag.</a>

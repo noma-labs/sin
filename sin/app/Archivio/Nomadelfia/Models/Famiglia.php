@@ -101,21 +101,18 @@ class Famiglia extends Model
 
     public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
     {
-        return $query->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+        $interna = Categoria::perNome("interno");
+        $q = $query->select('famiglie.*', "persone.sesso", 'famiglie_persone.posizione_famiglia',
+            'famiglie_persone.stato')
+            ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-            ->select('famiglie.*', "persone.sesso", 'famiglie_persone.posizione_famiglia', 'famiglie_persone.stato')
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->where("persone.stato", '1')
+            ->where("persone_categorie.categoria_id", "=", $interna->id)
             ->where("posizione_famiglia", $posizione)
             ->where("famiglie_persone.stato", $stato)
-            ->where("persone.stato", '1')
             ->orderBy("famiglie.nome_famiglia");
-        /* return  DB::connection('db_nomadelfia')->select("
-            SELECT `famiglie`.*, `persone`.`sesso`, `famiglie_persone`.`posizione_famiglia`, `famiglie_persone`.`stato`
-            FROM `famiglie`
-            INNER JOIN `famiglie_persone` on `famiglie_persone`.`famiglia_id` = `famiglie`.`id`
-            INNER JOIN `persone` on `famiglie_persone`.`persona_id` = `persone`.`id`
-            WHERE `posizione_famiglia` = ? and `famiglie_persone`.`stato` = ? and `persone`.`stato` = '1'
-            ORDER BY `famiglie`.`nome_famiglia` asc",[$posizione, $stato]);
-            */
+        return $q;
     }
 
     /**
@@ -137,7 +134,7 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna tutti capi famiglie delle famiglie
+     * Ritorna tutti capi famiglia delle famiglie
      * @author Davide Neri
      **/
     public static function OnlyCapofamiglia()
@@ -146,7 +143,7 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna tutti i signle  delle famiglie
+     * Ritorna tutti i single delle famiglie
      * @author Davide Neri
      **/
     public static function OnlySingle()
@@ -388,7 +385,6 @@ class Famiglia extends Model
         return $this->componenti()->attach($persona->id,
             ['stato' => $stato, 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata, 'note' => $note]);
     }
-
 
 
     /**

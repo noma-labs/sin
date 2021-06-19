@@ -142,7 +142,7 @@ class PopolazioneNomadelfia
     /*
   *  Ritorna i figli maggiorenni
   */
-    public static function figliMaggiorenni($orderby = 'data_nascita')
+    public static function figliMaggiorenni($orderby = 'nominativo')
     {
         $magg = self::figliDaEta(18, null, $orderby);
         $result = new stdClass;
@@ -288,8 +288,8 @@ class PopolazioneNomadelfia
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
-    public static function byStati(string $stato)
-    {
+    public static function byStati(string $stato, $orderby="nominativo")
+    {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_stati.*")
@@ -299,7 +299,7 @@ class PopolazioneNomadelfia
             ->where("persone_stati.stato", "=", '1')
             ->where("stati.stato", "=", $stato)
             ->whereRaw("persone.deleted_at IS NULL")
-            ->orderByRaw("persone_stati.data_inizio ASC, persone.nominativo")
+            ->orderByRaw($orderby)
             ->get();
         return $stati;
     }
@@ -341,39 +341,29 @@ class PopolazioneNomadelfia
     }
      */
 
-
     /*
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
-    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'data_nascita')
-    {
-        if ($toEta == null) {
-            return DB::connection('db_nomadelfia')->select(
-                DB::raw("SELECT persone.*, persone_posizioni.* 
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-                INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
-                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
-                    AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :anni YEAR)
-                    AND posizioni.abbreviato = 'FIGL'
-                    ORDER BY :order"),
-                array('anni' => $fromEta, 'order' => $orderBy)
-            );
-        } else {
-            return DB::connection('db_nomadelfia')->select(
-                DB::raw("SELECT persone.*, persone_posizioni.*
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-                INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
-                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
-                    AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :fromanni YEAR)  AND  persone.data_nascita > DATE_SUB(NOW(), INTERVAL :toanni YEAR)
-                    AND  posizioni.abbreviato = 'FIGL'
-                    ORDER BY  :order"),
-                array("fromanni" => $fromEta, "toanni" => $toEta, 'order' => $orderBy)
-            );
+    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo')
+    {   $interna = Categoria::perNome("interno");
+        $posizione = Posizione::perNome("figlio");
+        $q = DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->selectRaw("persone.*, persone_posizioni.*")
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
+            ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
+            ->where("persone_categorie.categoria_id", "=", $interna->id)
+            ->where("persone.stato", "=", '1')
+            ->where("persone_categorie.stato", "=", "1")
+            ->where("persone_posizioni.stato", "=", "1")
+            ->where("persone.data_nascita", "<=", Carbon::now()->subYears($fromEta))
+            ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
+            ->orderByRaw($orderBy);
+        if ($toEta != null){
+            $q->where("persone.data_nascita", ">", Carbon::now()->subYears($toEta));
         }
+        return $q->get();
     }
 
     /*
