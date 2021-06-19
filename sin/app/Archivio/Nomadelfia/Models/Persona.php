@@ -51,12 +51,12 @@ class Persona extends Model
 
     public function setNomeAttribute($value)
     {
-        $this->attributes['nome'] = ucwords($value);
+        $this->attributes['nome'] = ucwords(strtolower($value));
     }
 
     public function setCognomeAttribute($value)
     {
-        $this->attributes['cognome'] = ucwords($value);
+        $this->attributes['cognome'] = ucwords(strtolower($value));
     }
 
     /**
@@ -64,7 +64,7 @@ class Persona extends Model
      */
     public function setNominativoAttribute($value)
     {
-        $this->attributes['nominativo'] = ucwords($value);
+        $this->attributes['nominativo'] = ucwords(strtolower($value));
     }
 
     public function getNominativoAttribute($value)
