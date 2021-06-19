@@ -346,34 +346,25 @@ class PopolazioneNomadelfia
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'data_nascita')
-    {
-        if ($toEta == null) {
-            return DB::connection('db_nomadelfia')->select(
-                DB::raw("SELECT persone.*, persone_posizioni.* 
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-                INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
-                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
-                    AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :anni YEAR)
-                    AND posizioni.abbreviato = 'FIGL'
-                    ORDER BY :order"),
-                array('anni' => $fromEta, 'order' => $orderBy)
-            );
-        } else {
-            return DB::connection('db_nomadelfia')->select(
-                DB::raw("SELECT persone.*, persone_posizioni.*
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
-                INNER JOIN posizioni ON persone_posizioni.posizione_id = posizioni.id
-                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1' AND persone_posizioni.stato = '1'
-                    AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL :fromanni YEAR)  AND  persone.data_nascita > DATE_SUB(NOW(), INTERVAL :toanni YEAR)
-                    AND  posizioni.abbreviato = 'FIGL'
-                    ORDER BY  :order"),
-                array("fromanni" => $fromEta, "toanni" => $toEta, 'order' => $orderBy)
-            );
+    {   $interna = Categoria::perNome("interno");
+        $posizione = Posizione::perNome("figlio");
+        $q = DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->selectRaw("persone.*, persone_posizioni.*")
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
+            ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
+            ->where("persone_categorie.categoria_id", "=", $interna->id)
+            ->where("persone.stato", "=", '1')
+            ->where("persone_categorie.stato", "=", "1")
+            ->where("persone_posizioni.stato", "=", "1")
+            ->where("persone.data_nascita", "<=", Carbon::now()->subYears($fromEta))
+            ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
+            ->orderByRaw($orderBy);
+        if ($toEta != null){
+            $q->where("persone.data_nascita", ">", Carbon::now()->subYears($toEta));
         }
+        return $q->get();
     }
 
     /*
