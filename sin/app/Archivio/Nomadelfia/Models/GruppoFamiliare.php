@@ -45,42 +45,38 @@ class GruppoFamiliare extends Model
 
     /*
     * Ritorna il numero di componenti per un singolo gruppo familiare
-    * Le persone sono contate nel gruppo se:
-    *       - è una persona attiva
-    *       - è una persone con categoria diversa da "persona esterna"
     */
     public function componenti()
     {
-        $esterna = Categoria::perNome('esterno');
         $gruppi = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT  persone.*
-      FROM persone
-      INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
-      INNER JOIN persone_categorie ON persone_categorie.persona_id = gruppi_persone.persona_id
-      WHERE persone.stato = '1' AND persone_categorie.categoria_id != :esterna AND gruppi_persone.stato = '1'
-           AND gruppi_persone.gruppo_famigliare_id = :gruppo
-      order by persone.data_nascita ASC"), array("esterna" => $esterna->id, 'gruppo' => $this->id));
+            DB::raw("Select *
+                from persone
+                where persone.id IN (
+                    SELECT gruppi_persone.persona_id
+                    from gruppi_persone
+                    where gruppi_persone.stato = '1'
+                      AND gruppi_persone.gruppo_famigliare_id = 9
+                )
+                order by data_nascita")
+        );
         return $gruppi;
     }
 
     /*
     * Ritorna il numero di componenti per ogni gruppi familiare
-    * Le persone sono contate nel gruppo se:
-    *       - è una persona attiva
-    *       - è una persone con categoria diversa da "persona esterna"
-    */
+   */
     public static function countComponenti()
     {
         $esterna = Categoria::perNome('esterno');
         $gruppi = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT  gruppi_familiari.id, max(gruppi_familiari.nome) as nome, count(*) as count
-          FROM gruppi_familiari
-          INNER JOIN gruppi_persone ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-          INNER JOIN persone ON gruppi_persone.persona_id = persone.id
-          INNER JOIN persone_categorie ON persone_categorie.persona_id = gruppi_persone.persona_id
-          WHERE persone.stato = '1' AND persone_categorie.categoria_id != :esterna AND gruppi_persone.stato = '1'
-          GROUP BY gruppi_familiari.id
-          order by gruppi_familiari.nome"), array("esterna" => $esterna->id));
+            DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
+                            from gruppi_persone
+                            inner  join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                            where gruppi_persone.stato = '1'
+                            group by gruppi_persone.gruppo_famigliare_id
+                            order by gruppi_familiari.nome"
+            )
+        );
         return $gruppi;
     }
 
@@ -102,6 +98,7 @@ class GruppoFamiliare extends Model
           AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
           AND persone.stato = '1'
       ORDER BY  persone.data_nascita ASC"), array('gruppo' => $this->id));
+
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
         return $famiglie;
     }
