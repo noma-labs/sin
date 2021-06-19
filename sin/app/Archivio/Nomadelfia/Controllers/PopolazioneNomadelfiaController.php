@@ -54,7 +54,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
     public function maggiorenni(Request $request)
     {
-        $maggiorenni = PopolazioneNomadelfia::maggiorenni();
+        $maggiorenni = PopolazioneNomadelfia::maggiorenni("nominativo");
         // TODO: togliere da qui. messo solo per urgenza di creare es spirituali
         $esercizi = EserciziSpirituali::attivi()->get();
         return view("nomadelfia.popolazione.maggiorenni", compact('maggiorenni', 'esercizi'));
