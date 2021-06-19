@@ -30,7 +30,7 @@
                     <div class="row">
                         <label class="col-sm-6 font-weight-bold">Numero componenti:</label>
                         <div class="col-sm-3">
-                        <span class="badge badge-info ">{{$gruppo->personeAttuale->count()}}</span>
+                        <span class="badge badge-info ">{{count($gruppo->componenti())}}</span>
                         </div>
                     </div>
                     <div class="row">
