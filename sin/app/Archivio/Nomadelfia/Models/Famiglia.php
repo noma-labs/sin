@@ -38,6 +38,14 @@ class Famiglia extends Model
         'SINGLE'
     ];
 
+    /**
+     * Set the nome in uppercase when a new famiglia is insereted.
+     */
+    public function setNomeFamigliaAttribute($value)
+    {
+        $this->attributes['nome_famiglia'] = ucwords(strtolower($value));
+    }
+
     public static function getCapoFamigliaEnum()
     {
         return self::getEnum('Posizione')[0];
@@ -70,13 +78,7 @@ class Famiglia extends Model
         });;
     }
 
-    /**
-     * Set the nome in uppercase when a new famiglia is insereted.
-     */
-    public function setNomeFamigliaAttribute($value)
-    {
-        $this->attributes['nome_famiglia'] = strtoupper($value);
-    }
+
 
     public function scopeOrdered($query)
     {

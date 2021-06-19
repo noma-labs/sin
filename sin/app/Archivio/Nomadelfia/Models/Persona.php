@@ -49,19 +49,28 @@ class Persona extends Model
     public $timestamps = true;
     protected $guarded = [];
 
+    public function setNomeAttribute($value)
+    {
+        $this->attributes['nome'] = ucwords(strtolower($value));
+    }
+
+    public function setCognomeAttribute($value)
+    {
+        $this->attributes['cognome'] = ucwords(strtolower($value));
+    }
+
     /**
      * Set the nominativo in uppercase when a new persona is insereted.
      */
     public function setNominativoAttribute($value)
     {
-        $this->attributes['nominativo'] = ucwords($value);
+        $this->attributes['nominativo'] = ucwords(strtolower($value));
     }
 
     public function getNominativoAttribute($value)
     {
         return ucwords(strtolower($value));
     }
-
 
     /**
      * Returns only the people that are currently living in Nomadelfia.

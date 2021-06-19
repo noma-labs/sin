@@ -27,18 +27,18 @@
                     </div>
                 </div> <!--end col dati gruppo -->
                 <div class="col-md-8">
-                    <div class="row">
-                        <label class="col-sm-6 font-weight-bold">Numero componenti:</label>
-                        <div class="col-sm-3">
-                        <span class="badge badge-info ">{{count($gruppo->componenti())}}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-6 font-weight-bold">Donne/uomini/bambini</label>
-                        <div class="col-sm-6">
-                        
-                        </div>
-                    </div>
+{{--                    <div class="row">--}}
+{{--                        <label class="col-sm-6 font-weight-bold">Numero componenti:</label>--}}
+{{--                        <div class="col-sm-3">--}}
+{{--                        <span class="badge badge-info ">{{count($gruppo->componenti())}}</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row">--}}
+{{--                        <label class="col-sm-6 font-weight-bold">Donne/uomini/bambini</label>--}}
+{{--                        <div class="col-sm-6">--}}
+{{--                        --}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div> <!--end col dati statistici -->
             </div>  <!--end row -->           
          </div> <!--end card body -->
