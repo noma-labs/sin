@@ -12,6 +12,7 @@ class GruppifamiliariController extends CoreBaseController
 {
   public function view(){
     $g = GruppoFamiliare::countComponenti();
+//    dd($g);
     $gruppifamiliari = GruppoFamiliare::orderby('nome')->get();
     return view('nomadelfia.gruppifamiliari.index',compact('gruppifamiliari', 'g'));
   }
