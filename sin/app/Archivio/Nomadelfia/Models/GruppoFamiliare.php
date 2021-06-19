@@ -85,7 +85,7 @@ class GruppoFamiliare extends Model
     }
 
     /*
-    * Ricostrutisce le famiglie del gruppo familiare partendo dalle persone presenti.
+    * Ricostruisce le famiglie del gruppo familiare partendo dalle persone presenti.
     *
     */
     public function Famiglie()
@@ -94,8 +94,8 @@ class GruppoFamiliare extends Model
             DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
       FROM gruppi_persone 
       LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id 
-      INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
       LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+      INNER JOIN persone ON gruppi_persone.persona_id = persone.id 
       WHERE gruppi_persone.gruppo_famigliare_id = :gruppo 
           AND gruppi_persone.stato = '1' 
           AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
@@ -110,7 +110,6 @@ class GruppoFamiliare extends Model
     /*
     * Ritorna famiglie SINGLE del gruppo familiare partendo dalle persone presenti.
     * Il controllo nella query (famiglie_persone.stato IS NULL) viene usato per selezionare anche le persone senza una famiglia.
-    *
     */
     public function Single()
     {

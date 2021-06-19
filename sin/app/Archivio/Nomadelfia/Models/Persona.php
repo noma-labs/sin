@@ -49,6 +49,16 @@ class Persona extends Model
     public $timestamps = true;
     protected $guarded = [];
 
+    public function setNomeAttribute($value)
+    {
+        $this->attributes['nome'] = ucwords($value);
+    }
+
+    public function setCognomeAttribute($value)
+    {
+        $this->attributes['cognome'] = ucwords($value);
+    }
+
     /**
      * Set the nominativo in uppercase when a new persona is insereted.
      */
@@ -61,7 +71,6 @@ class Persona extends Model
     {
         return ucwords(strtolower($value));
     }
-
 
     /**
      * Returns only the people that are currently living in Nomadelfia.
