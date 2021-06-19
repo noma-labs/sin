@@ -288,8 +288,8 @@ class PopolazioneNomadelfia
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
-    public static function byStati(string $stato)
-    {
+    public static function byStati(string $stato, $orderby="nominativo")
+    {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_stati.*")
@@ -299,7 +299,7 @@ class PopolazioneNomadelfia
             ->where("persone_stati.stato", "=", '1')
             ->where("stati.stato", "=", $stato)
             ->whereRaw("persone.deleted_at IS NULL")
-            ->orderByRaw("persone_stati.data_inizio ASC, persone.nominativo")
+            ->orderByRaw($orderby)
             ->get();
         return $stati;
     }
