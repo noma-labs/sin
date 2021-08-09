@@ -24,7 +24,8 @@
                     <div class="card-body">
                       <ul>
                       @foreach($azienda->lavoratoriAttuali as $lavoratore)
-                        <li>{{ $lavoratore->nominativo }}</li>
+                        <li>@include('nomadelfia.templates.persona', ['persona'=>$lavoratore])</li>
+
                       @endforeach
                       </ul>
                       <div class="row">
