@@ -22,7 +22,7 @@
           @endif
           @forelse ($persona->aziendeAttuali as $azienda)
             <div class="row">
-              <p class="col-md-3">{{$azienda->nome_azienda}}</p>
+              <p class="col-md-3">@include("nomadelfia.templates.azienda",["azienda"=>$azienda])</p>
               <p class="col-md-2">{{$azienda->pivot->data_inizio_azienda }} </p>
               <p class="col-md-3">{{$azienda->pivot->mansione }} </p>
               <div class="col-md-2">
@@ -37,6 +37,7 @@
                           <label for="staticEmail" class="col-sm-6 col-form-label">Azienda attuale</label>
                           <div class="col-sm-6">
                               <div>{{$azienda->nome_azienda}}</div>
+
                           </div>
                         </div>
                         <div class="form-group row">

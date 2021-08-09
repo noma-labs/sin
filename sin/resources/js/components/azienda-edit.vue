@@ -11,7 +11,9 @@
 					</thead>
 					<tbody>
 						<tr v-for="lavoratore in lavoratori" v-bind:id="lavoratore.id" hoverable>
-							<td scope="row">{{ lavoratore.nominativo }}<span v-bind:class="badgeMansione(lavoratore.pivot.mansione)">{{ lavoratore.pivot.mansione }}</span></td>
+							<td scope="row">{{ lavoratore.nominativo }}<span v-bind:class="badgeMansione(lavoratore.pivot.mansione)">{{ lavoratore.pivot.mansione }}</span>
+								<a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">  {{$persona->nominativo}}</a>
+							</td>
 							<td class="text-center"><span v-bind:class="badgeStato(lavoratore.pivot.stato)">{{ lavoratore.pivot.stato }}</span></td>
 							<td>{{ lavoratore.pivot.data_inizio_azienda }}</td>
 							<td class="text-center">
