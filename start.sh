@@ -1,5 +1,5 @@
 #!/bin/bash
-docker-compose up -d app
+docker-compose up -d
 
 sleep 5
 
