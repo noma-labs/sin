@@ -91,8 +91,11 @@ class PopolazioneTest extends BaseTestCase
         $this->assertNotNull($persona->famigliaAttuale());
 
         $this->assertEquals(0, $persona->aziendeAttuali()->count());
+        $this->assertEquals(1, $azienda->lavoratoriStorici()->count());
+
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot - 1, count($pop));
+
     }
 
     /*

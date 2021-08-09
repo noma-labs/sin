@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 class Azienda extends Model
 {
   use Enums;
+
+  public $timestamps = false;
   
   protected $connection = 'db_nomadelfia';
   protected $table = 'aziende';

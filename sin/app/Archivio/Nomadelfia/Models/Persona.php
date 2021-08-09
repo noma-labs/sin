@@ -642,7 +642,7 @@ class Persona extends Model
 
             // conclude le aziende dove lavora con la data di uscita
             $conn->update(
-                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = '0' WHERE persona_id = ? AND stato = 'Attivo'",
+                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = 'Non Attivo' WHERE persona_id = ? AND stato = 'Attivo'",
                 [$data_uscita, $persona_id]
             );
 
