@@ -143,6 +143,8 @@ Running tests inside docker
 Create an unit test
 - `php artisan make:test UserTest --unit`
 
+Create unit test with docker
+- `docker-compose exec app php artisan make:test CaricheTest --unit`
 ## Struttura ER database
 
 - [cartella drive](https://drive.google.com/open?id=190iYionZjETbbRi_J6G6534Bkx3apkpx)
@@ -159,7 +161,10 @@ Questo permette di creare le migration in formato SQL.
 Create a migration:
 - `php artisan make:migration create_flights_table  --path="database/migrations/db_nomadelfia" --sql`
 
-Refresh the structure
+With Docker 
+- `docker-compose exec app php artisan make:migration create_cariche_table  --path="database/migrations/db_nomadelfia" --sql`
+
+  Refresh the structure
 - `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 
 ## Seed dati authentiazione

@@ -10,7 +10,7 @@
             <th style="width:10%" style="font-size:10px">Nominativo</th>
             <th style="width:10%" style="font-size:10px">Nome</th>
             <th style="width:30%" style="font-size:10px">Cognome</th>
-            <th style="width:10%" style="font-size:10px">Data Nascita</th>
+            <th style="width:10%" style="font-size:10px">{{ App\Traits\SortableTrait::link_to_sorting_action('data_nascita',"Data Nascita") }}</th>
             <th style="width:12%" style="font-size:10px">Posizione Nomadelfia</th>
             <th style="width:12%" style="font-size:10px">Data Entrata</th>
             <th style="width:18%" style="font-size:10px">Operazioni</th>

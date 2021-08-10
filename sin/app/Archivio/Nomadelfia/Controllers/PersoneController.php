@@ -803,13 +803,15 @@ class PersoneController extends CoreBaseController
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($request->azienda_id);
-        if ($persona->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
-            return redirect()->back()->withError("$persona->nominativo è già assegnata all'azienda $azienda->nome_azienda");
+        if (strcasecmp($request->mansione, "lavoratore") == 0) {
+            $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
+            return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
-
-        $persona->aziende()->attach($azienda->id,
-            ['stato' => 'Attivo', 'data_inizio_azienda' => $request->data_inizio, 'mansione' => $request->mansione]);
-        return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+        if (strcasecmp($request->mansione, "responsabile azienda") == 0) {
+            $persona->assegnaResponsabileAzienda($azienda, $request->data_inizio);
+            return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+        }
+        return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
     }
 
     public function modificaAzienda(Request $request, $idPersona, $id)

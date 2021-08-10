@@ -2,39 +2,24 @@
 
 namespace App\Nomadelfia\Models;
 
+use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
+use App\Nomadelfia\Exceptions\PersonaErrors;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleCategorieAttuale;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon;
-use Exception;
-use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
-use Illuminate\Support\Facades\DB;
-
-use App\Traits\SortableTrait;
-use Illuminate\Support\Str;
-
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\EserciziSpirituali;
-
-
-use App\Nomadelfia\Exceptions\GruppoFamiliareDoesNOtExists;
+use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
+use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
-use App\Nomadelfia\Exceptions\PersonaErrors;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
-use App\Nomadelfia\Exceptions\PersonaHasNoGroup;
-use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
-
+use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use App\Patente\Models\Patente;
-use App\Nomadelfia\Models\Stato;
-use App\Nomadelfia\Models\Categoria;
-use App\Admin\Models\Ruolo;
+use App\Traits\SortableTrait;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon;
+
 
 class Persona extends Model
 {
@@ -310,6 +295,58 @@ class Persona extends Model
     public function aziendeStorico()
     {
         return $this->aziende()->wherePivot('stato', 'Non attivo');
+    }
+
+    public function assegnaLavoratoreAzienda($azienda, $data_inizio)
+    {
+        return $this->assegnaAzienda($azienda, $data_inizio, "LAVORATORE");
+    }
+
+
+    public function assegnaResponsabileAzienda($azienda, $data_inizio)
+    {
+        return $this->assegnaAzienda($azienda, $data_inizio, "RESPONSABILE AZIENDA");
+    }
+
+    public function assegnaAzienda($azienda, $data_inizio, $mansione)
+    {
+        if (is_string($azienda)) {
+            $azienda = Azienda::findOrFail($azienda);
+        }
+        if (strcasecmp($mansione, "LAVORATORE") == 0 or strcasecmp($mansione, "RESPONSABILE AZIENDA") == 0) {
+            if ($azienda instanceof Azienda) {
+                if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
+                    throw  CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
+                }
+                $this->aziende()->attach($azienda->id, [
+                    'stato' => 'Attivo',
+                    'data_inizio_azienda' => $data_inizio,
+                    'mansione' => $mansione
+                ]);
+            } else {
+                throw new Exception("Bad Argument. Azienda must be the id or a model.");
+            }
+        } else {
+            throw  CouldNotAssignAzienda::mansioneNotValid($mansione);
+        }
+    }
+
+    // CARICHCE
+    public function cariche()
+    {
+        return $this->belongsToMany(Azienda::class, 'persone_cariche', 'persona_id', 'cariche_id')
+            ->withPivot('data_inizio', 'data_fine')
+            ->orderby("nome");
+    }
+
+    public function caricheAttuali()
+    {
+        return $this->aziende()->wherePivot('data_fine', "=", null);
+    }
+
+    public function caricheStorico()
+    {
+        return $this->aziende()->wherePivot('stato', "!=", null);
     }
 
 
