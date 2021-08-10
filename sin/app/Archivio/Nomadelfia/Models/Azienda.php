@@ -1,11 +1,11 @@
 <?php
 namespace App\Nomadelfia\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-use App\Nomadelfia\Models\Persona;
 use App\Traits\Enums;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Carbon;
+
 
 class Azienda extends Model
 {

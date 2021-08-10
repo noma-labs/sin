@@ -807,8 +807,9 @@ class PersoneController extends CoreBaseController
             return redirect()->back()->withError("$persona->nominativo è già assegnata all'azienda $azienda->nome_azienda");
         }
 
+
         $persona->aziende()->attach($azienda->id,
-            ['stato' => 'Attivo', 'data_inizio_azienda' => $request->data_inizio, 'mansione' => $request->mansione]);
+        	['stato' => 'Attivo', 'data_inizio_azienda' => $request->data_inizio, 'mansione' => $request->mansione]);
         return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
     }
 

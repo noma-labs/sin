@@ -4,18 +4,15 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
-use InvalidArgumentException;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\MigrateFreshDB;
-use Tests\CreatesApplication;
-
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
-
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Persona;
+use InvalidArgumentException;
+use Tests\CreatesApplication;
+use Tests\MigrateFreshDB;
+use Tests\TestCase;
 use Carbon;
+
 
 class FamigliaTest extends TestCase
 {
