@@ -33,6 +33,7 @@ trait MigrateFreshDB
             Artisan::call('db:seed', ['--class'=> 'StatiTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'GruppiFamiliariTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'AziendeTableSeeder']);
+            Artisan::call('db:seed', ['--class'=> 'CaricheTableSeeder']);
 
         static::$setUpHasRunOnce = true;
         }

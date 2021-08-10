@@ -331,6 +331,24 @@ class Persona extends Model
         }
     }
 
+    // CARICHCE
+    public function cariche()
+    {
+        return $this->belongsToMany(Azienda::class, 'persone_cariche', 'persona_id', 'cariche_id')
+            ->withPivot('data_inizio', 'data_fine')
+            ->orderby("nome");
+    }
+
+    public function caricheAttuali()
+    {
+        return $this->aziende()->wherePivot('data_fine', "=", null);
+    }
+
+    public function caricheStorico()
+    {
+        return $this->aziende()->wherePivot('stato', "!=", null);
+    }
+
 
     // CATEGORIA
 

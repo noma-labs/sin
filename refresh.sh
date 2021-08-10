@@ -12,3 +12,4 @@ echo "import succesfully"
 
 # seed the auth tables for authentication
 docker-compose exec app php artisan db:seed --class=AuthTablesSeeder
+docker-compose exec app php artisan db:seed --class=CaricheTableSeeder
