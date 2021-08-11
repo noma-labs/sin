@@ -51,7 +51,9 @@ class CaricheController extends CoreBaseController
         // Consiglio degli anziani eleggibili
         $section = $phpWord->addSection();
         $section->addTitle('Consiglio degli anziani ' . $anz->total, 1);
+
         $sectAnzUomini = $phpWord->addSection($colStyle4NCont);
+        $sectAnzUomini->addTitle("Uomini " . count($anz->donne), 2);
         foreach ($anz->uomini as $value) {
             $sectAnzUomini->addText($value->nominativo);
         }
@@ -62,7 +64,7 @@ class CaricheController extends CoreBaseController
         }
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
-        $file_name = "pelezioni-$data.docx";
+        $file_name = "elezioni-$data.docx";
         try {
             $objWriter->save(storage_path($file_name));
         } catch (Exception $e) {
