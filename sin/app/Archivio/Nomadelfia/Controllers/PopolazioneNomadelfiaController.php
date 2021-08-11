@@ -1,26 +1,15 @@
 <?php
 namespace App\Nomadelfia\Controllers;
 
-use SnappyPdf;
-use Carbon;
-use Illuminate\Support\Str;
-
 use App\Core\Controllers\BaseController as CoreBaseController;
-
-use Illuminate\Http\Request;
-
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Famiglia;
-use App\Anagrafe\Models\Provincia;
-use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\Models\EserciziSpirituali;
-
-use Illuminate\Support\Facades\DB;
-
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use SnappyPdf;
 use Validator;
 
 class PopolazioneNomadelfiaController extends CoreBaseController

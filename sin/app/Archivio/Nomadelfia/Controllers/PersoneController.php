@@ -3,23 +3,11 @@
 namespace App\Nomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-
-use Illuminate\Database\QueryException;
-
-use Illuminate\Http\Request;
-
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Categoria;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Stato;
-use App\Nomadelfia\Models\Famiglia;
-use App\Anagrafe\Models\Provincia;
-use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\Incarico;
+use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
-use Carbon\Carbon;
-
+use Illuminate\Http\Request;
 use Validator;
 
 class PersoneController extends CoreBaseController

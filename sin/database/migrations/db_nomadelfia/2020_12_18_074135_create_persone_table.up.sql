@@ -10,7 +10,6 @@ CREATE TABLE `persone` (
   `provincia_nascita` varchar(30) DEFAULT NULL,
   `data_nascita` date NOT NULL,
   `sesso` enum('F','M') NOT NULL,
-  `categoria_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `stato` enum('0','1') NOT NULL DEFAULT '1',

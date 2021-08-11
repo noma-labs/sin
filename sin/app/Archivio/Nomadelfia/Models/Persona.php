@@ -57,14 +57,6 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-    /**
-     * Returns only the people that are currently living in Nomadelfia.
-     */
-    public function scopePresente($query)
-    {
-        return $query->where('categoria_id', "<", 4);
-    }
-
     public function scopeAttivo($query)
     {
         return $query->where('persone.stato', '1');
@@ -982,7 +974,8 @@ class Persona extends Model
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-    public function assegnaPostulante($data_inizio){
+    public function assegnaPostulante($data_inizio)
+    {
         // TODO check if the person is ospite before postulante
 //        $attuale = this->posizioneAttuale();
 //        if $attuale && $attuale->isPostulante){
@@ -992,7 +985,8 @@ class Persona extends Model
         $this->assegnaPosizione($p, $data_inizio);
     }
 
-    public function assegnaNomadelfoEffettivo($data_inizio){
+    public function assegnaNomadelfoEffettivo($data_inizio)
+    {
         // TODO: check that the posizione attuale è postulante
 //        $attuale = this->posizioneAttuale();
 //        if $attuale && !$attuale->isPostulante){
@@ -1002,7 +996,7 @@ class Persona extends Model
         $this->assegnaPosizione($effe, $data_inizio);
     }
 
-    public function assegnaPosizione($posizione, string  $data_inizio, string $attuale_data_fine=null)
+    public function assegnaPosizione($posizione, string $data_inizio, string $attuale_data_fine = null)
     {
         if (is_string($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
@@ -1086,22 +1080,6 @@ class Persona extends Model
     public function eserciziSpirituali()
     {
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
-    }
-
-
-    //INCARICHI
-    public function incarichiAttuali()
-    {
-        return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id',
-            'organo_constituzionale_id')
-            ->wherePivot('stato', '1');
-    }
-
-    public function incarichiStorici()
-    {
-        return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id',
-            'organo_constituzionale_id')
-            ->wherePivot('stato', '0');
     }
 
     /**
