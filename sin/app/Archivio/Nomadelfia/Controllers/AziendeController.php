@@ -14,7 +14,7 @@ class AziendeController extends CoreBaseController
   * @author Matteo Neri
   **/
   public function view(){
-    $aziende =  Azienda::orderBy("nome_azienda")->with('lavoratoriAttuali')->get();
+    $aziende =  Azienda::aziende()->orderBy("nome_azienda")->with('lavoratoriAttuali')->get();
     return view('nomadelfia.aziende.index',compact('aziende'));
   }
 

@@ -27,6 +27,11 @@ class Azienda extends Model
         });
     }
 
+    public function scopeAziende($query)
+    {
+        return $query->where('tipo', "=", 'azienda');
+    }
+
     public function scopeIncarichi($query)
     {
         return $query->where('tipo', "=", 'incarico');
