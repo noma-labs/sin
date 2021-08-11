@@ -57,7 +57,6 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-
     public function scopeAttivo($query)
     {
         return $query->where('persone.stato', '1');
@@ -975,7 +974,8 @@ class Persona extends Model
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-    public function assegnaPostulante($data_inizio){
+    public function assegnaPostulante($data_inizio)
+    {
         // TODO check if the person is ospite before postulante
 //        $attuale = this->posizioneAttuale();
 //        if $attuale && $attuale->isPostulante){
@@ -985,7 +985,8 @@ class Persona extends Model
         $this->assegnaPosizione($p, $data_inizio);
     }
 
-    public function assegnaNomadelfoEffettivo($data_inizio){
+    public function assegnaNomadelfoEffettivo($data_inizio)
+    {
         // TODO: check that the posizione attuale è postulante
 //        $attuale = this->posizioneAttuale();
 //        if $attuale && !$attuale->isPostulante){
@@ -995,7 +996,7 @@ class Persona extends Model
         $this->assegnaPosizione($effe, $data_inizio);
     }
 
-    public function assegnaPosizione($posizione, string  $data_inizio, string $attuale_data_fine=null)
+    public function assegnaPosizione($posizione, string $data_inizio, string $attuale_data_fine = null)
     {
         if (is_string($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
