@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Models\Posizione;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -237,7 +238,7 @@ class PopolazioneTest extends BaseTestCase
         $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $gruppo = GruppoFamiliare::all()->random();
-        $capoFam->assegnaGruppoFamiliare($gruppo,$now);
+        $capoFam->assegnaGruppoFamiliare($gruppo, $now);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $min = PopolazioneNomadelfia::figliDaEta(0, 18)->count();
@@ -253,6 +254,25 @@ class PopolazioneTest extends BaseTestCase
         $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
         $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
         $this->assertEquals($mag + 1, PopolazioneNomadelfia::figliDaEta(18, null)->count());
+
+    }
+
+    /*
+     * Testa quando una persona diventa postulante e nomadelfo effettivo
+     */
+    public function testNomadelfoEffettivo()
+    {
+        // entrata maggiorenne
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $gruppo = GruppoFamiliare::first();
+        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $now = Carbon::now()->subYears(4);
+        $persona->assegnaPostulante($now->toDatestring());
+        $this->assertTrue($persona->posizioneAttuale()->isPostulante());
+
+        $persona->assegnaNomadelfoEffettivo($now->subYears(1)->toDatestring());
+        $this->assertTrue($persona->posizioneAttuale()->isEffettivo());
 
     }
 

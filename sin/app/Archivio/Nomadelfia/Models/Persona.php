@@ -982,7 +982,27 @@ class Persona extends Model
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-    public function assegnaPosizione($posizione, $data_inizio, $attuale_data_fine)
+    public function assegnaPostulante($data_inizio){
+        // TODO check if the person is ospite before postulante
+//        $attuale = this->posizioneAttuale();
+//        if $attuale && $attuale->isPostulante){
+//            throw new Es
+//        }
+        $p = Posizione::perNome("postulante");
+        $this->assegnaPosizione($p, $data_inizio);
+    }
+
+    public function assegnaNomadelfoEffettivo($data_inizio){
+        // TODO: check that the posizione attuale è postulante
+//        $attuale = this->posizioneAttuale();
+//        if $attuale && !$attuale->isPostulante){
+//            throw new Es
+//        }
+        $effe = Posizione::perNome("effettivo");
+        $this->assegnaPosizione($effe, $data_inizio);
+    }
+
+    public function assegnaPosizione($posizione, string  $data_inizio, string $attuale_data_fine=null)
     {
         if (is_string($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
@@ -1002,7 +1022,7 @@ class Persona extends Model
                 throw $e;
             }
         } else {
-            throw new Exception("Bad Argument. Stato must be an id or a model.");
+            throw new Exception("Bad Argument. Posizione must be an id or a model.");
         }
     }
 

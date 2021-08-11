@@ -4,7 +4,8 @@
 
 @include('partials.header', ['title' => 'Gestione Cariche costituzionali'])
 <div class="row ">
-    <div class="col-md-4 card-deck">
+
+    <div class="col-md-3 card-deck">
         <div class="card" >
             <div class="card-header">
                Associazione Nomadelfia
@@ -22,12 +23,13 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+                <a href="{{ route('nomadelfia.cariche.elezioni') }}" class="btn btn-primary">Elenco Elezioni</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
 
-    <div class="col-md-4 card-deck">
+    <div class="col-md-3 card-deck">
         <div class="card" >
             <div class="card-header">
                 Solidarietà Nomadelfia ODV
@@ -38,18 +40,24 @@
                         <li>{{$key}} </li>
                         <ul>
                             @foreach($membri as $m)
-                                <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li>
+                                <li>
+                                @if (empty($m->nominativo))
+                                    I have NO record!
+                                @else
+                                    @include("nomadelfia.templates.persona", ['persona' => $m])
+                                @endif
+                                </li>
                             @endforeach
                         </ul>
                     @endforeach
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
-    <div class="col-md-4 card-deck">
+    <div class="col-md-2 card-deck">
         <div class="card" >
             <div class="card-header">
                 Fondazione Nomadelfia
@@ -67,14 +75,12 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
-</div>
 
-<div class="row mt-3">
-    <div class="col-md-4 card-deck">
+    <div class="col-md-2 card-deck">
         <div class="card" >
             <div class="card-header">
                 Cooperativa Agricola Culturale
@@ -92,12 +98,12 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
 
-    <div class="col-md-4 card-deck">
+    <div class="col-md-2 card-deck">
         <div class="card" >
             <div class="card-header">
                 Cooperativa Culturale
@@ -115,7 +121,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
