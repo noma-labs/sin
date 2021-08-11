@@ -72,6 +72,7 @@ class Cariche extends Model
         $cariche = $membri->groupBy("nome");
         return $cariche;
     }
+
     public static function byOrg(string $org)
     {
         $membri = DB::connection('db_nomadelfia')

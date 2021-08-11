@@ -21,7 +21,7 @@ class CaricheController extends CoreBaseController
         $fon = Cariche::FondazioneCariche();
         $agr = Cariche::AgricolaCariche();
         $cul = Cariche::CulturaleCariche();
-//    dd($ass);
+//        dd($sol);
         return view('nomadelfia.cariche.index', compact('ass', 'sol', 'fon', 'agr', 'cul'));
     }
 
