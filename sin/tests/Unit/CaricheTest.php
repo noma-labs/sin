@@ -34,8 +34,8 @@ class CaricheTest extends TestCase
         $ele = Cariche::EleggibiliConsiglioAnziani();
         $this->assertEquals(0, $ele->total);
 
-        $persona->assegnaPostulante(Carbon::now()->SubYears(20)->toDatestring());
-        $persona->assegnaNomadelfoEffettivo(Carbon::now()->SubYears(12)->toDatestring());
+        $persona->assegnaPostulante(Carbon::now()->SubYears(20));
+        $persona->assegnaNomadelfoEffettivo(Carbon::now()->SubYears(12));
 
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
