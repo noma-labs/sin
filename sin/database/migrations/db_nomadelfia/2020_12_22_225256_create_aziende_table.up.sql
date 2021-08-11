@@ -8,9 +8,10 @@
 CREATE TABLE `aziende` (
   `id` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT'Id Azienda',
   `nome_azienda` varchar(50) NOT NULL COMMENT 'nome',
-  `descrizione_azienda` varchar(200) DEFAULT NULL COMMENT 'Descrizione',
-  `data_azienda` date NOT NULL COMMENT 'Data creazione azienda',
-  `tipo` enum('ufficio','azienda','magazzino') NOT NULL
+  `descrizione_azienda` varchar(200) DEFAULT NULL COMMENT 'Descrizione Azienda/Incarico',
+  `tipo` enum('azienda','incarico') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

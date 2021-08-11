@@ -11,7 +11,7 @@ class Azienda extends Model
 {
   use Enums;
 
-  public $timestamps = false;
+  public $timestamps = true;
   
   protected $connection = 'db_nomadelfia';
   protected $table = 'aziende';

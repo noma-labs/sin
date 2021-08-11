@@ -14,16 +14,32 @@ class AziendeTableSeeder extends Seeder
     {
         $data = [
             [
-                'nome_azienda' => 'RTN',
-                "data_azienda" => "2021-04-01"
+                'nome_azienda' => 'Senza Azienda',
+                'tipo'=>'azienda'
+            ],[
+                'nome_azienda' => 'Officina Meccanica',
+                'tipo'=>'azienda'
+
             ],
             [
-                'nome_azienda' => 'Meccanica',
-                "data_azienda" => "2021-04-01"
+                'nome_azienda' => 'Falegnameria',
+                'tipo'=>'azienda'
+
             ],
             [
                 'nome_azienda' => 'Agraria',
-                "data_azienda" => "2021-04-01"
+                'tipo'=>'azienda'
+
+            ],
+            [
+                'nome_azienda' => 'Elettrotecnica',
+                'tipo'=>'azienda'
+
+            ],
+            [
+                'nome_azienda' => 'Idraulica',
+                'tipo'=>'azienda'
+
             ],
 
         ];

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatiTableSeeder::class);
         $this->call(CategoriaTableSeeder::class);
         $this->call(GruppiFamiliariTableSeeder::class);
-        $this->call(CaricheTableSeeder::class);
+        $this->call(IncarichiTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

@@ -10,11 +10,10 @@ $factory->define(Azienda::class, function (Faker $faker) {
     return [
         'nome_azienda'=>$name,
         'descrizione_azienda'=>"a description",
-        'data_azienda'=>$faker->date,
         'tipo'=>'azienda',
     ];
 });
 
-$factory->state(Azienda::class, 'ufficio', [
-    'tipo' => "ufficio",
+$factory->state(Azienda::class, 'incarico', [
+    'tipo' => "incarico",
 ]);
