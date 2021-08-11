@@ -15,8 +15,6 @@ $factory->define(Persona::class, function (Faker $faker) {
         "cognome"=>$surname,
         "provincia_nascita"=>"GR",
         'data_nascita'=>$faker->date,
-        // TODO: delete this column because the categoria is a many to many relationship in to the persone_categoria table
-        'categoria_id' =>1,
         'id_arch_pietro'=>0,
         'id_arch_enrico'=>0
     ];

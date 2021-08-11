@@ -24,7 +24,7 @@
                 <div class="card-body">
                   
                   </ul>
-                    <a class="btn btn-primary" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">Modifica</a>
+                    <a class="btn btn-primary" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">Dettaglio</a>
                 </div>    
               </div>
             </div>

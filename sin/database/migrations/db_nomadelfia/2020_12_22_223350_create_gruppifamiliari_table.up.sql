@@ -22,7 +22,7 @@ CREATE TABLE `gruppi_familiari_capogruppi` (
   `persona_id` int(11) NOT NULL,
   `data_inizio_incarico` date NOT NULL,
   `data_fine_incarico` date DEFAULT NULL,
-  `note` varchar(100) NOT NULL,
+  `note` varchar(100),
   `stato` tinyint(1) NOT NULL,
   PRIMARY KEY (`gruppo_familiare_id`,`persona_id`,`data_inizio_incarico`),
   UNIQUE KEY `gruppo_familiare_id` (`gruppo_familiare_id`,`persona_id`,`data_inizio_incarico`,`data_fine_incarico`,`stato`)
