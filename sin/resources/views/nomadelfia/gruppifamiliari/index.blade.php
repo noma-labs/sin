@@ -12,8 +12,9 @@
             <div class="card">
               <div class="card-header" id="heading{{$gruppo->id}}">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$gruppo->id}}" aria-expanded="false" aria-controls="collapse{{$gruppo->id}}">
-                      {{$gruppo->nome}} 
+                    <a class="btn btn-link" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">{{$gruppo->nome}}</a>
+{{--                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$gruppo->id}}" aria-expanded="false" aria-controls="collapse{{$gruppo->id}}">--}}
+{{--                      {{$gruppo->nome}} --}}
                   <span class="badge badge-primary badge-pill">
                   {{$gruppo->count}}
                   </span> 
