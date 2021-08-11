@@ -57,13 +57,6 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-    /**
-     * Returns only the people that are currently living in Nomadelfia.
-     */
-    public function scopePresente($query)
-    {
-        return $query->where('categoria_id', "<", 4);
-    }
 
     public function scopeAttivo($query)
     {
