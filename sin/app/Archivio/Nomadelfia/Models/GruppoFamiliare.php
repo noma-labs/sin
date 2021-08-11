@@ -2,11 +2,9 @@
 
 namespace App\Nomadelfia\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Famiglia;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class GruppoFamiliare extends Model
 {
@@ -14,7 +12,9 @@ class GruppoFamiliare extends Model
     protected $table = 'gruppi_familiari';
     protected $primaryKey = "id";
 
-    protected $guarded = [''];
+    public $timestamps = false;
+
+    protected $guarded = [];
 
 
     public function capogruppi()
@@ -24,13 +24,67 @@ class GruppoFamiliare extends Model
 
     public function capogruppoAttuale()
     {
-        return $this->belongsToMany(Persona::class, 'gruppi_familiari_capogruppi', 'gruppo_familiare_id', 'persona_id')
-            ->wherePivot('stato', 1)
-            ->first();
+        return $this->capogruppi()->wherePivot('stato', 1)->first();
+    }
+
+    /**
+     *  Ritorna le persone che possono fare il capogruppo (maschi, nomadelfi effettivi??)
+     */
+    public function capogruppiPossibili()
+    {
+        $effetivo = Posizione::perNome("effettivo");
+        $attuale = $this->capogruppoAttuale();
+        $res = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT * 
+                FROM persone
+                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
+                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+                WHERE gruppi_persone.stato = '1' AND persone_posizioni.stato = '1'  AND persone_posizioni.posizione_id = :effe
+                    AND gruppi_persone.gruppo_famigliare_id = :gr AND persone.sesso = 'M' AND gruppi_persone.persona_id != :capoatt
+                ORDER BY persone.data_nascita ASC"
+            ),
+            array(
+                'gr' => $this->id,
+                'effe' => $effetivo->id,
+                'capoatt' => $attuale ? $attuale->id : "",
+            )
+        );
+        return $res;
+    }
+
+    /**
+     *  Assegna un nuovo capogruppo
+     */
+    public function assegnaCapogruppo($persona, $data_inizio)
+    {
+        // TODO: controllare che la persona sia un mascho e nomadeflo effettivo
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            DB::connection('db_nomadelfia')->beginTransaction();
+            try {
+                $attuale = $this->capogruppoAttuale();
+                if ($attuale) {
+                    $this->capogruppi()->updateExistingPivot($attuale->id, [
+                        'stato' => '0',
+                        'data_fine_incarico' => $data_inizio
+                    ]);
+                }
+                $this->capogruppi()->attach($persona->id, ['stato' => '1', 'data_inizio_incarico' => $data_inizio]);
+                DB::connection('db_nomadelfia')->commit();
+            } catch (\Exception $e) {
+                DB::connection('db_nomadelfia')->rollback();
+                throw $e;
+            }
+        } else {
+            throw new Exception("Bad Argument. Personae must be an id or a model.");
+        }
+
     }
 
 
-    // deprecato: usare il metodo componenti()
     public function persone()
     {
         return $this->belongsToMany(Persona::class, 'gruppi_persone', 'gruppo_famigliare_id', 'persona_id')
@@ -43,24 +97,24 @@ class GruppoFamiliare extends Model
         return $this->persone()->wherePivot("stato", "1");
     }
 
-    /*
-    * Ritorna il numero di componenti per un singolo gruppo familiare
-    */
-    public function componenti()
-    {
-        $gruppi = DB::connection('db_nomadelfia')->select(
-            DB::raw("Select *
-                from persone
-                where persone.id IN (
-                    SELECT gruppi_persone.persona_id
-                    from gruppi_persone
-                    where gruppi_persone.stato = '1'
-                      AND gruppi_persone.gruppo_famigliare_id = 9
-                )
-                order by data_nascita")
-        );
-        return $gruppi;
-    }
+//    /*
+//    * Ritorna il numero di componenti per un singolo gruppo familiare
+//    */
+//    public function componenti()
+//    {
+//        $gruppi = DB::connection('db_nomadelfia')->select(
+//            DB::raw("Select *
+//                from persone
+//                where persone.id IN (
+//                    SELECT gruppi_persone.persona_id
+//                    from gruppi_persone
+//                    where gruppi_persone.stato = '1'
+//                      AND gruppi_persone.gruppo_famigliare_id = 9
+//                )
+//                order by data_nascita")
+//        );
+//        return $gruppi;
+//    }
 
     /*
     * Ritorna il numero di componenti per ogni gruppi familiare
@@ -128,13 +182,13 @@ class GruppoFamiliare extends Model
     }
 
 
-    public function scopePersoneConFamiglia($query, $gruppoid)
-    {
-        return self::find($gruppoid)->personeAttuale()->with([
-            "famiglie" => function ($query) {
-                $query->where("stato", "1");
-            }
-        ]);
-    }
+//    public function scopePersoneConFamiglia($query, $gruppoid)
+//    {
+//        return self::find($gruppoid)->personeAttuale()->with([
+//            "famiglie" => function ($query) {
+//                $query->where("stato", "1");
+//            }
+//        ]);
+//    }
 
 }

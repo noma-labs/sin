@@ -27,18 +27,39 @@
                     </div>
                 </div> <!--end col dati gruppo -->
                 <div class="col-md-8">
-{{--                    <div class="row">--}}
-{{--                        <label class="col-sm-6 font-weight-bold">Numero componenti:</label>--}}
-{{--                        <div class="col-sm-3">--}}
-{{--                        <span class="badge badge-info ">{{count($gruppo->componenti())}}</span>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="row">--}}
-{{--                        <label class="col-sm-6 font-weight-bold">Donne/uomini/bambini</label>--}}
-{{--                        <div class="col-sm-6">--}}
-{{--                        --}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    <my-modal modal-title="Modifica Capogruppo" button-title="Cambia Capogruppo" button-style="btn-danger my-2">
+                    <template slot="modal-body-slot">
+                        <form class="form" method="POST"  id="formPersonaGruppoModifica{{$gruppo->id}}" action="{{ route('nomadelfia.gruppifamiliari.capogruppo', ['id'=>$gruppo->id]) }}" >
+                            {{ csrf_field() }}
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label">Capogruppo Attuale</label>
+                                <div class="col-sm-6">
+                                    <div>{{$gruppo->capogruppoAttuale()->nominativo}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label">Nuovo capogruppo </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="nuovo">
+                                        <option value="" selected>---scegli capogruppo--</option>
+                                        @foreach ($gruppo->capogruppiPossibili() as $p)
+                                            <option value="{{ $p->id }}">{{ $p->nominativo }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Data Cambio</label>
+                                <div class="col-sm-6">
+                                    <date-picker :bootstrap-styling="true" format="yyyy-MM-dd" name="inizio"></date-picker>
+                                </div>
+                            </div>
+                        </form>
+                    </template>
+                    <template slot="modal-button">
+                        <button class="btn btn-success" form="formPersonaGruppoModifica{{$gruppo->id}}" >Salva</button>
+                    </template>
+                    </my-modal> <!--end modal modifica posizione-->
                 </div> <!--end col dati statistici -->
             </div>  <!--end row -->           
          </div> <!--end card body -->

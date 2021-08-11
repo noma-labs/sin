@@ -32,5 +32,20 @@ class GruppifamiliariController extends CoreBaseController
         return view("nomadelfia.gruppifamiliari.edit", compact('gruppo', "single", "famiglie"));
     }
 
+    public function assegnaCapogruppo(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            "nuovo" => "required",
+            "inizio" => "required",
+        ], [
+            "nuovo.required" => "Il nuovo capogruppo è abbligatoripo",
+            "inizio.required" => "La data di inizio è obbligatoria",
+        ]);
+        $gruppo = GruppoFamiliare::findOrFail($id);
+        $gruppo->assegnaCapogruppo($request->nuovo, $request->inizio);
+        return redirect()->back()->withSuccess('NUovo capogruppo inserito con successo');
+    }
+
+
 
 }
