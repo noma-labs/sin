@@ -2,6 +2,8 @@
 
 namespace App\Nomadelfia\Models;
 
+use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
+use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -24,7 +26,14 @@ class GruppoFamiliare extends Model
 
     public function capogruppoAttuale()
     {
-        return $this->capogruppi()->wherePivot('stato', 1)->first();
+        $cp = $this->capogruppi()->wherePivot('stato', 1)->get();
+        if ($cp->count() == 1) {
+            return $cp[0];
+        } elseif ($cp->count() == 0) {
+            return null;
+        } else {
+            throw GruppoHaMultipleCapogruppi::named($this);
+        }
     }
 
     /**
@@ -63,6 +72,12 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
+            if (!$persona->isEffettivo()){
+                throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
+            }
+            if (!$persona->isMaschio()){
+                throw CouldNotAssignCapogruppo::isNotAMan($persona);
+            }
             DB::connection('db_nomadelfia')->beginTransaction();
             try {
                 $attuale = $this->capogruppoAttuale();

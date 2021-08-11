@@ -268,10 +268,10 @@ class PopolazioneTest extends BaseTestCase
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $now = Carbon::now()->subYears(4);
-        $persona->assegnaPostulante($now->toDatestring());
+        $persona->assegnaPostulante($now);
         $this->assertTrue($persona->posizioneAttuale()->isPostulante());
 
-        $persona->assegnaNomadelfoEffettivo($now->subYears(1)->toDatestring());
+        $persona->assegnaNomadelfoEffettivo($now->subYears(1));
         $this->assertTrue($persona->posizioneAttuale()->isEffettivo());
 
     }

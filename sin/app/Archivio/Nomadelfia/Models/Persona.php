@@ -969,12 +969,22 @@ class Persona extends Model
         }
     }
 
-    public function posizioniStorico()
+    public function isEffettivo(): bool
+    {
+        $posizione = $this->posizioneAttuale();
+        if ($posizione) {
+            return $posizione->isEffettivo();
+        }
+        return false;
+    }
+
+    public
+    function posizioniStorico()
     {
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-    public function assegnaPostulante($data_inizio)
+    public function assegnaPostulante(Carbon\Carbon $data_inizio)
     {
         // TODO check if the person is ospite before postulante
 //        $attuale = this->posizioneAttuale();
@@ -985,8 +995,10 @@ class Persona extends Model
         $this->assegnaPosizione($p, $data_inizio);
     }
 
-    public function assegnaNomadelfoEffettivo($data_inizio)
-    {
+    public
+    function assegnaNomadelfoEffettivo(
+        Carbon\Carbon $data_inizio
+    ) {
         // TODO: check that the posizione attuale è postulante
 //        $attuale = this->posizioneAttuale();
 //        if $attuale && !$attuale->isPostulante){
@@ -996,8 +1008,12 @@ class Persona extends Model
         $this->assegnaPosizione($effe, $data_inizio);
     }
 
-    public function assegnaPosizione($posizione, string $data_inizio, string $attuale_data_fine = null)
-    {
+    public
+    function assegnaPosizione(
+        $posizione,
+        string $data_inizio,
+        string $attuale_data_fine = null
+    ) {
         if (is_string($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
@@ -1020,8 +1036,12 @@ class Persona extends Model
         }
     }
 
-    public function modificaDataInizioPosizione($posizione_id, $currentDatain, $newDataIn)
-    {
+    public
+    function modificaDataInizioPosizione(
+        $posizione_id,
+        $currentDatain,
+        $newDataIn
+    ) {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw("UPDATE persone_posizioni
                SET  data_inizio = :new
@@ -1031,8 +1051,12 @@ class Persona extends Model
         return $res;
     }
 
-    public function concludiPosizione($posizione_id, $datain, $datafine)
-    {
+    public
+    function concludiPosizione(
+        $posizione_id,
+        $datain,
+        $datafine
+    ) {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
@@ -1048,7 +1072,8 @@ class Persona extends Model
      * @return Collection Posizione
      * @author Davide Neri
      **/
-    public function posizioniPossibili()
+    public
+    function posizioniPossibili()
     {
         $pos = self::posizioneAttuale();
         $posizioni = Posizione::all();
@@ -1073,11 +1098,12 @@ class Persona extends Model
         }
     }
 
-    //***************************************************************************
-    //                         Esercizi Spirituali
-    //***************************************************************************
+//***************************************************************************
+//                         Esercizi Spirituali
+//***************************************************************************
 
-    public function eserciziSpirituali()
+    public
+    function eserciziSpirituali()
     {
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
     }
@@ -1091,7 +1117,8 @@ class Persona extends Model
      * @param date $dataEntrataGruppo
      *
      */
-    public function cambiaGruppoFamiliare(
+    public
+    function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
@@ -1103,7 +1130,8 @@ class Persona extends Model
         }
     }
 
-    public function assegnaPersonaANuovoGruppoFamiliare(
+    public
+    function assegnaPersonaANuovoGruppoFamiliare(
         $gruppoFamiliareAttuale,
         $dataUscitaGruppoFamiliareAttuale = null,
         $gruppoFamiliareNuovo,

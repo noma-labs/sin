@@ -1,12 +1,13 @@
 <?php
 namespace App\Nomadelfia\Exceptions;
+use App\Nomadelfia\Models\GruppoFamiliare;
 use InvalidArgumentException;
 
-class PersonaHasMultipleGroup extends InvalidArgumentException
+class GruppoHaMultipleCapogruppi extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(GruppoFamiliare $gruppo)
     {
-        return new static("La persona `{$nome}` risulta essere in più di un gruppo familiare.");
+        return new static("Il gruppo `{$gruppo->nome}` ha più di un capogruppo.");
     }
 }
     
