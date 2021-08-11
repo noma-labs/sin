@@ -130,8 +130,10 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
 
     // INcarichi
     Route::get('incarichi', 'IncarichiController@view')->name("nomadelfia.incarichi.index"); //->middleware('permission:cliente-visualizza')
+    Route::get('incarichi/edit/{id}', 'IncarichiController@edit')->name("nomadelfia.incarichi.edit");
 
-  
+
+
     //GRUPPI FAMILIARI
     Route::get('gruppifamiliari', 'GruppifamiliariController@view')->name("nomadelfia.gruppifamiliari"); //->middleware('permission:cliente-visualizza')
     Route::get('gruppifamiliari/{id}', 'GruppifamiliariController@edit')->name("nomadelfia.gruppifamiliari.dettaglio"); //->middleware('permission:cliente-visualizza')

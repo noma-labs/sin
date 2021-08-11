@@ -14,8 +14,8 @@ class IncarichiController extends CoreBaseController
   * @author Matteo Neri
   **/
   public function view(){
-    $aziende =  Azienda::incarichi()->with('lavoratoriAttuali')->get();
-    return view('nomadelfia.incarichi.index',compact('aziende'));
+    $incarichi =  Azienda::incarichi()->with('lavoratoriAttuali')->get();
+    return view('nomadelfia.incarichi.index',compact('incarichi'));
   }
 
   /**
@@ -24,8 +24,8 @@ class IncarichiController extends CoreBaseController
   * @author Matteo Neri
   **/
   public function edit($id){
-    $azienda = Azienda::findOrFail($id);
-    return view('nomadelfia.aziende.edit', compact('azienda'));
+    $incarico = Azienda::findOrFail($id);
+    return view('nomadelfia.incarichi.edit', compact('incarico'));
 
   }
 
