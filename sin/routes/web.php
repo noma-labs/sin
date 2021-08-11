@@ -175,6 +175,7 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     // CARICHE COSTITUZIONALI
     Route::get('cariche/', 'CaricheController@index')->name("nomadelfia.cariche.index");
     Route::get('elezioni', 'CaricheController@elezioni')->name("nomadelfia.cariche.elezioni");
+    Route::get('elezioni/esporta', 'CaricheController@esporta')->name("nomadelfia.cariche.esporta");
 
 
 });

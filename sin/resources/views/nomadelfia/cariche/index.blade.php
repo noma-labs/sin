@@ -4,6 +4,7 @@
 
 @include('partials.header', ['title' => 'Gestione Cariche costituzionali'])
 <div class="row ">
+
     <div class="col-md-3 card-deck">
         <div class="card" >
             <div class="card-header">
@@ -22,8 +23,8 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Elenco Elezioni</a>
+                <a href="{{ route('nomadelfia.cariche.elezioni') }}" class="btn btn-primary">Elenco Elezioni</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
@@ -52,7 +53,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
@@ -97,7 +98,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>
@@ -120,7 +121,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>
+{{--                <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a>--}}
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Carbon;
 use Illuminate\Support\Facades\DB;
+use \stdClass;
 
 
 class Cariche extends Model
@@ -104,7 +105,8 @@ class Cariche extends Model
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'
                 AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
-                AND persone_posizioni.posizione_id = :effe"
+                AND persone_posizioni.posizione_id = :effe
+                ORDER BY persone_posizioni.data_inizio ASC"
             ),
             array(
                 'interna' => $interna->id,
@@ -113,7 +115,13 @@ class Cariche extends Model
                 'datanoma' => Carbon::now()->subYears(10)->toDatestring()
             )
         );
-        return $res;
+        $result = new stdClass;
+        $maggioreni = collect($res);
+        $sesso = $maggioreni->groupBy("sesso");
+        $result->total = $maggioreni->count();
+        $result->uomini = $sesso->get("M", []);
+        $result->donne = $sesso->get("F", []);
+        return $result;
     }
 
 
