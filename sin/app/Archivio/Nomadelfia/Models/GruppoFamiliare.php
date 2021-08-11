@@ -97,24 +97,24 @@ class GruppoFamiliare extends Model
         return $this->persone()->wherePivot("stato", "1");
     }
 
-//    /*
-//    * Ritorna il numero di componenti per un singolo gruppo familiare
-//    */
-//    public function componenti()
-//    {
-//        $gruppi = DB::connection('db_nomadelfia')->select(
-//            DB::raw("Select *
-//                from persone
-//                where persone.id IN (
-//                    SELECT gruppi_persone.persona_id
-//                    from gruppi_persone
-//                    where gruppi_persone.stato = '1'
-//                      AND gruppi_persone.gruppo_famigliare_id = 9
-//                )
-//                order by data_nascita")
-//        );
-//        return $gruppi;
-//    }
+    /*
+    * Ritorna il numero di componenti per un singolo gruppo familiare
+    */
+    public function componenti()
+    {
+        $gruppi = DB::connection('db_nomadelfia')->select(
+            DB::raw("Select *
+                from persone
+                where persone.id IN (
+                    SELECT gruppi_persone.persona_id
+                    from gruppi_persone
+                    where gruppi_persone.stato = '1'
+                      AND gruppi_persone.gruppo_famigliare_id = 9
+                )
+                order by data_nascita")
+        );
+        return $gruppi;
+    }
 
     /*
     * Ritorna il numero di componenti per ogni gruppi familiare
