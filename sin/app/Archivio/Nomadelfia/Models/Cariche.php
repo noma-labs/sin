@@ -37,7 +37,6 @@ class Cariche extends Model
         });
     }
 
-
     public static function AssociazioneCariche()
     {
         $membri = self::byOrg("associazione");
@@ -83,20 +82,40 @@ class Cariche extends Model
             ->where("cariche.org", "=", $org)
             ->orderByRaw("cariche.ord")
             ->get();
-        //        return $query->where("org", "associazione")->orderby("ord");
-        //        select c.id, c.nome, p.id, p.nome, pc.data_inizio, pc.data_fine
-        //from cariche c
-        //LEFT JOIN persone_cariche pc on c.id = pc.cariche_id
-        //LEFT JOIN persone p on p.id = pc.persona_id
-        //where  c.org = 'associazione'
-        //order by c.ord
+        // return $query->where("org", "associazione")->orderby("ord");
+        // select c.id, c.nome, p.id, p.nome, pc.data_inizio, pc.data_fine
+        // from cariche c
+        // LEFT JOIN persone_cariche pc on c.id = pc.cariche_id
+        // LEFT JOIN persone p on p.id = pc.persona_id
+        // where  c.org = 'associazione'
+        // order by c.ord
         return $membri;
     }
 
-    public function scopePresidente($query)
+    public static function EleggibiliConsiglioAnziani()
     {
-        return $query->where("nome", "Presidente");
+        $interna = Categoria::perNome("interno");
+        $effetivo = Posizione::perNome("effettivo");
+        $res = DB::connection('db_nomadelfia')->select(
+            DB::raw(
+                "SELECT * 
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
+                WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'
+                AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
+                AND persone_posizioni.posizione_id = :effe"
+            ),
+            array(
+                'interna' => $interna->id,
+                'effe' => $effetivo->id,
+                'date' => Carbon::now()->subYears(40)->toDatestring(),
+                'datanoma' => Carbon::now()->subYears(10)->toDatestring()
+            )
+        );
+        return $res;
     }
+
 
     // ritorna le persone che ricoprono le cariche di una organizazione
     public function membri()

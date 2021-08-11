@@ -21,7 +21,20 @@ class CaricheController extends CoreBaseController
         $fon = Cariche::FondazioneCariche();
         $agr = Cariche::AgricolaCariche();
         $cul = Cariche::CulturaleCariche();
-//        dd($sol);
+        return view('nomadelfia.cariche.index', compact('ass', 'sol', 'fon', 'agr', 'cul'));
+    }
+
+    /**
+     * view della pagina di visualizazione delle persone eleggibili per ogni carica
+     * @author Davide Neri
+     **/
+    public function elezioni()
+    {
+        $ass = Cariche::AssociazioneCariche();
+        $sol = Cariche::SolidarietaCariche();
+        $fon = Cariche::FondazioneCariche();
+        $agr = Cariche::AgricolaCariche();
+        $cul = Cariche::CulturaleCariche();
         return view('nomadelfia.cariche.index', compact('ass', 'sol', 'fon', 'agr', 'cul'));
     }
 

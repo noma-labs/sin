@@ -37,3 +37,7 @@ $factory->state(Persona::class, 'minorenne', [
 $factory->state(Persona::class, 'maggiorenne', [
     'data_nascita' => Carbon::now()->subYears(30)->toDateString(),
 ]);
+
+$factory->state(Persona::class, 'cinquantenne', [
+    'data_nascita' => Carbon::now()->subYears(50)->toDateString(),
+]);

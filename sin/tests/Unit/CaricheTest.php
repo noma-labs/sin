@@ -3,7 +3,10 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Cariche;
+use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\Posizione;
+use App\Nomadelfia\Models\Stato;
 use Tests\TestCase;
 use Carbon;
 
@@ -20,4 +23,24 @@ class CaricheTest extends TestCase
 //        $this->assertEquals(1, $c->membri()->count());
 
     }
+    public function testEliggibiliConsiglioAnziani()
+    {
+        // entrata maggiorenne maschio
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $gruppo = GruppoFamiliare::first();
+        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        $ele = Cariche::EleggibiliConsiglioAnziani();
+        $this->assertEquals(0, count($ele));
+
+        $persona->assegnaPostulante(Carbon::now()->SubYears(20)->toDatestring());
+        $persona->assegnaNomadelfoEffettivo(Carbon::now()->SubYears(12)->toDatestring());
+
+
+        $ele = Cariche::EleggibiliConsiglioAnziani();
+        $this->assertEquals(1, count($ele));
+
+    }
+
 }
