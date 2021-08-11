@@ -32,14 +32,14 @@ class CaricheTest extends TestCase
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
-        $this->assertEquals(0, count($ele));
+        $this->assertEquals(0, $ele->total);
 
         $persona->assegnaPostulante(Carbon::now()->SubYears(20)->toDatestring());
         $persona->assegnaNomadelfoEffettivo(Carbon::now()->SubYears(12)->toDatestring());
 
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
-        $this->assertEquals(1, count($ele));
+        $this->assertEquals(1, $ele->total);
 
     }
 

@@ -1088,22 +1088,6 @@ class Persona extends Model
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
     }
 
-
-    //INCARICHI
-    public function incarichiAttuali()
-    {
-        return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id',
-            'organo_constituzionale_id')
-            ->wherePivot('stato', '1');
-    }
-
-    public function incarichiStorici()
-    {
-        return $this->belongsToMany(Incarico::class, 'organi_constituzionali_persone', 'persona_id',
-            'organo_constituzionale_id')
-            ->wherePivot('stato', '0');
-    }
-
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
