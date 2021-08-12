@@ -2,11 +2,13 @@
 
 namespace App\Nomadelfia\Models;
 
-use App\Traits\Enums;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Azienda extends Model
+use App\Nomadelfia\Models\Persona;
+use App\Traits\Enums;
+use Illuminate\Database\Eloquent\Builder;
+
+class Scuola extends Model
 {
     use Enums;
 
@@ -57,16 +59,6 @@ class Azienda extends Model
     public static function perNome($nome)
     {
         return static::where('nome_azienda', $nome)->first();
-    }
-
-    public function isIncarico()
-    {
-        return $this->tipo == 'incarico';
-    }
-
-    public function isAzienda()
-    {
-        return $this->tipo == 'azienda';
     }
 
 

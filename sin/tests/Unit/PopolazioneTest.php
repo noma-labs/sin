@@ -67,9 +67,8 @@ class PopolazioneTest extends BaseTestCase
         $gruppo = GruppoFamiliare::all()->random();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
-        $azienda = Azienda::all()->random();
-        $persona->aziende()->attach($azienda->id,
-            ['stato' => 'Attivo', 'data_inizio_azienda' => $data_entrata, 'mansione' => "LAVORATORE"]);
+        $azienda = Azienda::aziende()->get()->random();
+        $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
 
         $this->assertEquals(1, $persona->aziendeAttuali()->count());
 
