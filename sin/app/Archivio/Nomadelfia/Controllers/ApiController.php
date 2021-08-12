@@ -166,7 +166,7 @@ class ApiController extends BaseController
         if ($request->has('filtro')) {
             // Aziende nello storico
             if ($request->query('filtro') == 'storico') {
-                $aziende = Azienda::whereHas('lavoratoriStorici', function ($query) use ($id) {
+                $aziende = Azienda::aziende()->whereHas('lavoratoriStorici', function ($query) use ($id) {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
                 foreach ($aziende as $azienda) {
@@ -174,7 +174,7 @@ class ApiController extends BaseController
                 }
             } // Aziende possibili per il lavoratore
             elseif ($request->query('filtro') == 'possibili') {
-                $aziende = Azienda::whereDoesntHave('lavoratoriAttuali', function ($query) use ($id) {
+                $aziende = Azienda::aziende()->whereDoesntHave('lavoratoriAttuali', function ($query) use ($id) {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
                 foreach ($aziende as $azienda) {
@@ -183,7 +183,7 @@ class ApiController extends BaseController
             }
         } // Aziende attuali del lavoratore
         else {
-            $aziende = Azienda::whereHas('lavoratoriAttuali', function ($query) use ($id) {
+            $aziende = Azienda::aziende()->whereHas('lavoratoriAttuali', function ($query) use ($id) {
                 $query->where('id', '=', $id);
             })->orderBy('nome_azienda')->get();
             foreach ($aziende as $azienda) {

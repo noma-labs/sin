@@ -68,7 +68,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   // INCARICHI
   Route::get('/incarichi/edit/{id}', 'ApiController@incarichiEdit')->name("api.nomadeflia.incarichi.edit");
   Route::post('/incarichi/sposta/lavoratore', 'ApiController@incarichiSpostaLavoratore')->name("api.nomadeflia.incarichi.sposta.lavoratore");
-    Route::get('/incarichi/lavoratore/{id}', 'ApiController@incarichiLavoratore')->name("api.nomadeflia.incarichi.lavoratori");
+  Route::get('/incarichi/lavoratore/{id}', 'ApiController@incarichiLavoratore')->name("api.nomadeflia.incarichi.lavoratori");
 
 
 });
