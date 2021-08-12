@@ -12,7 +12,6 @@
 					<tbody>
 						<tr v-for="lavoratore in lavoratori" v-bind:id="lavoratore.id" hoverable>
 							<td scope="row">{{ lavoratore.nominativo }}<span v-bind:class="badgeMansione(lavoratore.pivot.mansione)">{{ lavoratore.pivot.mansione }}</span>
-								<a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])}}">  {{$persona->nominativo}}</a>
 							</td>
 							<td class="text-center"><span v-bind:class="badgeStato(lavoratore.pivot.stato)">{{ lavoratore.pivot.stato }}</span></td>
 							<td>{{ lavoratore.pivot.data_inizio_azienda }}</td>
@@ -215,7 +214,7 @@
 
 	export default {
 		components: {vSelect},
-		props: ['url_azienda_edit', 'url_mansioni', 'url_stati', 'url_modifica_lavoratore', 'id_azienda'],
+		props: ['url_azienda_edit', 'url_mansioni', 'url_stati', 'url_modifica_lavoratore', 'id_azienda', 'base_url'],
 		data: function() {
 			return {
 				language: it,
@@ -304,7 +303,7 @@
 			spostaLavoratore: async function(id){
 				const response = await axios.get("/api/nomadelfia/aziende/lavoratore/"+this.lavoratori[id].id+'?filtro=storico');
 				this.aziendeStorico = response.data;
-				await axios.get("/api/nomadelfia/aziende/lavoratore/"+this.lavoratori[id].id+'?filtro=possibili').then(response => (this.aziendePossibili = response.data));
+				await axios.get(this.base_url + "/lavoratore/"+this.lavoratori[id].id+'?filtro=possibili').then(response => (this.aziendePossibili = response.data));
 				this.titoloModal = 'Sposta lavoratore: '+this.lavoratori[id].nominativo;
 				this.disableDateSposta(this.lavoratori[id].pivot.data_inizio_azienda);
 				this.spostaModalShow = true;
