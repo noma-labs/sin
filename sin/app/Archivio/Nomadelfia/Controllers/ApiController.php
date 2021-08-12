@@ -83,7 +83,26 @@ class ApiController extends BaseController
      **/
     public function aziendaEdit($id)
     {
-        $azienda = Azienda::with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
+        $azienda = Azienda::aziende()->with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
+        $results = array(
+            [
+                'nome' => $azienda->nome_azienda,
+                'lavoratori' => $azienda->lavoratoriAttuali,
+                "tipo" => $azienda->tipo,
+                "lavoratoriStorici" => $azienda->lavoratoriStorici
+            ]
+        );
+        return response()->json($results);
+    }
+
+    /**
+     * ritorna il json deglin incarichi insieme ai lavoratori
+     * @param id incarico
+     * @author Matteo Neri
+     **/
+    public function incarichiEdit($id)
+    {
+        $azienda = Azienda::incarichi()->with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
         $results = array(
             [
                 'nome' => $azienda->nome_azienda,
@@ -174,6 +193,39 @@ class ApiController extends BaseController
         return response()->json($results);
     }
 
+    public function incarichiLavoratore(Request $request, $id)
+    {
+        $results = array();
+        if ($request->has('filtro')) {
+            // Aziende nello storico
+            if ($request->query('filtro') == 'storico') {
+                $aziende = Azienda::incarichi()->whereHas('lavoratoriStorici', function ($query) use ($id) {
+                    $query->where('id', '=', $id);
+                })->orderBy('nome_azienda')->get();
+                foreach ($aziende as $azienda) {
+                    $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+                }
+            } // Aziende possibili per il lavoratore
+            elseif ($request->query('filtro') == 'possibili') {
+                $aziende = Azienda::incarichi()->whereDoesntHave('lavoratoriAttuali', function ($query) use ($id) {
+                    $query->where('id', '=', $id);
+                })->orderBy('nome_azienda')->get();
+                foreach ($aziende as $azienda) {
+                    $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+                }
+            }
+        } // Aziende attuali del lavoratore
+        else {
+            $aziende = Azienda::incarichi()->whereHas('lavoratoriAttuali', function ($query) use ($id) {
+                $query->where('id', '=', $id);
+            })->orderBy('nome_azienda')->get();
+            foreach ($aziende as $azienda) {
+                $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
+            }
+        }
+        return response()->json($results);
+    }
+
     /**
      * sposta un lavoratore da un'azienda ad unaltra
      * @return se l'operazione è andata a buon fine
@@ -191,6 +243,25 @@ class ApiController extends BaseController
 
         return [$result1 && $result2];
     }
+
+    /**
+     * sposta un lavoratore da un incarico all'altro
+     * @return se l'operazione è a ndata a buon fine
+     * @author Matteo Neri
+     **/
+    public function incarichiSpostaLavoratore(Request $request)
+    {
+        $azienda = Azienda::incarichi()->findOrFail($request->input('id_azienda'));
+        $nuova_azienda = Azienda::incarichi()->findOrFail($request->input('nuova_azienda_id'));
+
+        $result1 = $azienda->lavoratoriAttuali()->updateExistingPivot($request->input('id_lavoratore'),
+            ['stato' => 'Non Attivo', 'data_fine_azienda' => $request->input('data')]);
+        $result2 = $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'),
+            ['data_inizio_azienda' => $request->input('data')]);
+
+        return [$result1 && $result2];
+    }
+
 
     /**
      * Aggiunge una persona ad un'azienda

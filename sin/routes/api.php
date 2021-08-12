@@ -65,6 +65,12 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   Route::post('/azienda/sposta/lavoratore', 'ApiController@spostaLavoratore')->name("api.nomadeflia.azienda.sposta.lavoratore");
   Route::get('/azienda/aggiungi/search', 'ApiController@autocompleteLavoratore')->name("api.nomadelfia.azienda.persone");
   Route::post('/azienda/aggiungi/lavoratore', 'ApiController@aggiungiNuovoLavoratore')->name("api.nomadelfia.azienda.aggiungi.lavoratore");
+  // INCARICHI
+  Route::get('/incarichi/edit/{id}', 'ApiController@incarichiEdit')->name("api.nomadeflia.incarichi.edit");
+  Route::post('/incarichi/sposta/lavoratore', 'ApiController@incarichiSpostaLavoratore')->name("api.nomadeflia.incarichi.sposta.lavoratore");
+    Route::get('/incarichi/lavoratore/{id}', 'ApiController@incarichiLavoratore')->name("api.nomadeflia.incarichi.lavoratori");
+
+
 });
 
 //Api route /api/patente
