@@ -53,7 +53,7 @@ class CaricheController extends CoreBaseController
         $section->addTitle('Consiglio degli anziani ' . $anz->total, 1);
 
         $sectAnzUomini = $phpWord->addSection($colStyle4NCont);
-        $sectAnzUomini->addTitle("Uomini " . count($anz->donne), 2);
+        $sectAnzUomini->addTitle("Uomini " . count($anz->uomini), 2);
         foreach ($anz->uomini as $value) {
             $sectAnzUomini->addText($value->nominativo);
         }
