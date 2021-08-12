@@ -15,30 +15,31 @@ class AziendeTableSeeder extends Seeder
         $data = [
             [
                 'nome_azienda' => 'Senza Azienda',
-                'tipo'=>'azienda'
-            ],[
+                'tipo' => 'azienda'
+            ],
+            [
                 'nome_azienda' => 'Officina Meccanica',
-                'tipo'=>'azienda'
+                'tipo' => 'azienda'
 
             ],
             [
                 'nome_azienda' => 'Falegnameria',
-                'tipo'=>'azienda'
+                'tipo' => 'azienda'
 
             ],
             [
                 'nome_azienda' => 'Agraria',
-                'tipo'=>'azienda'
+                'tipo' => 'azienda'
 
             ],
             [
                 'nome_azienda' => 'Elettrotecnica',
-                'tipo'=>'azienda'
+                'tipo' => 'azienda'
 
             ],
             [
                 'nome_azienda' => 'Idraulica',
-                'tipo'=>'azienda'
+                'tipo' => 'azienda'
 
             ],
 

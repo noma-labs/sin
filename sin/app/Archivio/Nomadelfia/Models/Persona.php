@@ -3,6 +3,7 @@
 namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
+use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
 use App\Nomadelfia\Exceptions\PersonaErrors;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleCategorieAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
@@ -276,6 +277,7 @@ class Persona extends Model
     {
         return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
             ->withPivot('data_inizio_azienda', 'data_fine_azienda', 'mansione', 'stato')
+            ->where("tipo", "azienda")
             ->orderby("nome_azienda");
     }
 
@@ -307,6 +309,9 @@ class Persona extends Model
         }
         if (strcasecmp($mansione, "LAVORATORE") == 0 or strcasecmp($mansione, "RESPONSABILE AZIENDA") == 0) {
             if ($azienda instanceof Azienda) {
+                if (!$azienda->isAzienda()) {
+                    throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
+                }
                 if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
                     throw  CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
                 }
@@ -320,6 +325,69 @@ class Persona extends Model
             }
         } else {
             throw  CouldNotAssignAzienda::mansioneNotValid($mansione);
+        }
+    }
+
+    // Incarichi
+    public function incarichi()
+    {
+        return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
+            ->withPivot('data_inizio_azienda', 'data_fine_azienda', 'mansione', 'stato')
+            ->where("tipo", "incarico")
+            ->orderby("nome_azienda");
+    }
+
+    public function incarichiAttuali()
+    {
+        return $this->incarichi()->wherePivotIn('stato', ['Attivo', 'Sospeso']);
+    }
+
+    public function incarichiStorico()
+    {
+        return $this->incarichi()->wherePivot('stato', 'Non attivo');
+    }
+
+    public function incarichiPossibili()
+    {
+        $attuali = collect($this->incarichiAttuali()->get());
+        $multiplied = $attuali->map(function ($item) {
+            return $item->id;
+        });
+        if ($attuali != null){
+            $attuali = Azienda::incarichi()->whereNotIn("id", $multiplied)->get();
+            return $attuali;
+        }
+        return $attuali;
+    }
+
+    public function assegnaLavoratoreIncarico($azienda, Carbon\Carbon $data_inizio)
+    {
+        return $this->assegnaIncarico($azienda, $data_inizio, "LAVORATORE");
+    }
+
+    public function assegnaIncarico($azienda, Carbon\Carbon $data_inizio, $mansione)
+    {
+        if (is_string($azienda)) {
+            $azienda = Azienda::findOrFail($azienda);
+        }
+        if (strcasecmp($mansione, "LAVORATORE") == 0 or strcasecmp($mansione, "RESPONSABILE AZIENDA") == 0) {
+            if ($azienda instanceof Azienda) {
+                if (!$azienda->isIncarico()) {
+                    throw  CouldNotAssignIncarico::isNotValidIncarico($azienda);
+                }
+                if ($this->incarichiAttuali()->get()->contains($azienda->id)) { // la persona è stata già l'incarico
+                    throw  CouldNotAssignIncarico::CouldNotAssignIncarico($azienda, $this);
+                }
+                $this->incarichi()->attach($azienda->id, [
+                    'stato' => 'Attivo',
+                    'data_inizio_azienda' => $data_inizio,
+                    'mansione' => $mansione
+                ]);
+            } else {
+                throw new Exception("Bad Argument. Incarico must be the id or a model.");
+            }
+        } else {
+            throw  CouldNotAssignIncarico::mansioneNotValid($mansione);
         }
     }
 

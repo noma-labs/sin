@@ -119,6 +119,9 @@ Route::group(['prefix' => 'nomadelfia','namespace' => 'App\Nomadelfia\Controller
     Route::post('persone/{idPersona}/aziende/assegna', 'PersoneController@assegnaAzienda')->name("nomadelfia.persone.aziende.assegna");
     Route::post('persone/{idPersona}/aziende/{id}/modifica', 'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
 
+    Route::get('persone/{idPersona}/incarichi', 'PersoneController@incarichi')->name("nomadelfia.persone.incarichi");
+
+
     Route::get('persone/{idPersona}/famiglie', 'PersoneController@famiglie')->name("nomadelfia.persone.famiglie");
     Route::post('persona/{idPersona}/famiglie/create', 'PersoneController@createAndAssignFamiglia')->name("nomadelfia.personae.famiglie.create"); //->middleware('permission:cliente-visualizza')
     Route::post('persona/{idPersona}/famiglie/sposta', 'PersoneController@spostaInNuovaFamiglia')->name("nomadelfia.personae.famiglie.sposta"); //->middleware('permission:cliente-visualizza')

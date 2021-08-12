@@ -771,6 +771,14 @@ class PersoneController extends CoreBaseController
         return view("nomadelfia.persone.aziende.show", compact('persona'));
     }
 
+    public function incarichi(Request $request, $idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        $attuali = $persona->incarichiAttuali();
+        $storico = $persona->incarichiStorico();
+        return view("nomadelfia.persone.incarichi.show", compact('persona', 'attuali', 'storico'));
+    }
+
 
     /**
      * Assegna una nuova azienda alla persona

@@ -250,6 +250,21 @@
                 </div>
               </div>
             </li>
+              <li class="list-group-item">
+                  <div class="row">
+                      <label class="col-sm-4 font-weight-bold">Incarichi:</label>
+                      <div class="col-sm-6">
+                          @forelse ($persona->incarichiAttuali()->get() as $incarico)
+                              <p> <a href="{{route('nomadelfia.incarichi.edit', [$incarico->id])}}">{{ $incarico->nome_azienda }} </a> (@diffHumans($incarico->pivot->data_inizio_azienda))</p>
+                          @empty
+                              <span class="text-danger">Nessun incarico</span>
+                          @endforelse
+                      </div>
+                      <div class="col-sm-2">
+                          <a class="btn btn-warning" href="{{route('nomadelfia.persone.incarichi', ['idPersona'=>$persona->id])}}">Modifica</a>
+                      </div>
+                  </div>
+              </li>
           </ul>
         </div>
       </div> 
