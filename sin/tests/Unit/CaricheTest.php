@@ -14,15 +14,10 @@ class CaricheTest extends TestCase
 {
     public function testCariche()
     {
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $ass = Cariche::AssociazioneCariche();
-        $this->assertEquals(12, count($ass));
+        $this->assertEquals(12, count(Cariche::AssociazioneCariche()));
         $this->assertEquals(4, count(Cariche::SolidarietaCariche()));
-//        $c = $ass->random();
-//        $c->assegnaMembro($persona,Carbon::now()->addYears(5)->toDatestring() );
-//        $this->assertEquals(1, $c->membri()->count());
-
     }
+
     public function testEliggibiliConsiglioAnziani()
     {
         // entrata maggiorenne maschio
@@ -30,6 +25,13 @@ class CaricheTest extends TestCase
         $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        // Sacerdote: non deve essere contato negli eleggibili
+        $data_entrata = Carbon::now();
+        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona->assegnaSacerdote($data_entrata);
+        $gruppo = GruppoFamiliare::first();
+        $persona->entrataMaggiorenneSingle($data_entrata->toDatestring(), $gruppo->id);
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
         $this->assertEquals(0, $ele->total);

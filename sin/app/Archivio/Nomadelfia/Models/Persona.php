@@ -768,6 +768,12 @@ class Persona extends Model
         }
     }
 
+    public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null)
+    {
+        $sacerdote = Stato::perNome("sacerdote");
+        $this->assegnaStato($sacerdote, $data_inizio, $attuale_data_fine);
+    }
+
 
     // FAMIGLIA
     public function famiglie()
