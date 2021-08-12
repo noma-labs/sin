@@ -7,6 +7,7 @@ use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -777,6 +778,53 @@ class PersoneController extends CoreBaseController
         $attuali = $persona->incarichiAttuali();
         $storico = $persona->incarichiStorico();
         return view("nomadelfia.persone.incarichi.show", compact('persona', 'attuali', 'storico'));
+    }
+
+    public function assegnaIncarico(Request $request, $idPersona)
+    {
+        $validatedData = $request->validate([
+            "azienda_id" => "required",
+            "mansione" => "required",
+            "data_inizio" => "required|date",
+        ], [
+            "azienda_id.required" => "L'azienda è obbligatoria",
+            'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
+            'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
+
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $azienda = Azienda::incarichi()->findOrFail($request->azienda_id);
+        if (strcasecmp($request->mansione, "lavoratore") == 0) {
+            $persona->assegnaLavoratoreIncarico($azienda, Carbon::parse($request->data_inizio));
+            return redirect()->back()->withSuccess("$persona->nominativo assegnato incarico $azienda->nome_azienda come $request->mansione con successo");
+        }
+        if (strcasecmp($request->mansione, "responsabile azienda") == 0) {
+            $persona->assegnaResponsabileIncarico($azienda, $request->data_inizio);
+            return redirect()->back()->withSuccess("$persona->nominativo assegnato incarico $azienda->nome_azienda come $request->mansione con successo");
+        }
+        return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
+    }
+
+    public function modificaIncarico(Request $request, $idPersona, $id)
+    {
+        $validatedData = $request->validate([
+            "mansione" => "required",
+            "data_entrata" => "required|date",
+            "stato" => "required",
+        ], [
+            'data_entrata.required' => "La data di inizio dell'azienda è obbligatoria.",
+            'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
+            'stato.required' => "Lo stato è obbligatoria.",
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $incarico = Azienda::incarichi()->findOrFail($id);
+        $persona->incarichi()->updateExistingPivot($incarico->id, [
+            'stato' => $request->stato,
+            'data_inizio_azienda' => $request->data_entrata,
+            'data_fine_azienda' => $request->data_uscita,
+            'mansione' => $request->mansione
+        ]);
+        return redirect()->back()->withSuccess("Incarico $incarico->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 
 

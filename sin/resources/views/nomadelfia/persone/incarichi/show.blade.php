@@ -29,7 +29,7 @@
                <div class="col-md-3">
                 <my-modal modal-title="Modifica Incarico attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
-                    <form class="form" method="POST"  id="formPersonaGruppoModifica" action="{{ route('nomadelfia.persone.aziende.modifica', ['idPersona' =>$persona->id, 'id'=>$incarico->id]) }}" >
+                    <form class="form" method="POST"  id="formPersonaGruppoModifica" action="{{ route('nomadelfia.persone.incarichi.modifica', ['idPersona' =>$persona->id, 'id'=>$incarico->id]) }}" >
                         {{ csrf_field() }}
                         <div class="form-group row">
                           <label for="staticEmail" class="col-sm-6 col-form-label">Incarico attuale</label>
@@ -98,7 +98,7 @@
 
           <my-modal modal-title="Aggiungi Incarico" button-title="Nuovo Incarico" button-style="btn-success my-2">
             <template slot="modal-body-slot">
-            <form class="form" method="POST"  id="formPersonaAzinedaAggiungi" action="{{ route('nomadelfia.persone.aziende.assegna', ['idPersona' =>$persona->id]) }}" >
+            <form class="form" method="POST"  id="formPersonaAzinedaAggiungi" action="{{ route('nomadelfia.persone.incarichi.assegna', ['idPersona' =>$persona->id]) }}" >
                 {{ csrf_field() }}
                 <h5 class="my-2">Nuovo Incarico</h5>
                 <div class="form-group row">
