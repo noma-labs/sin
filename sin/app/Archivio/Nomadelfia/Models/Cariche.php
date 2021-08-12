@@ -108,7 +108,7 @@ class Cariche extends Model
                 WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'
                 AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
                 AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac
-                ORDER BY persone_posizioni.data_inizio ASC"
+                ORDER BY persone.nominativo ASC"
             ),
             array(
                 'interna' => $interna->id,
