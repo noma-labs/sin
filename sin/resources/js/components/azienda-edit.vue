@@ -214,7 +214,7 @@
 
 	export default {
 		components: {vSelect},
-		props: ['url_azienda_edit', 'url_mansioni', 'url_stati', 'url_modifica_lavoratore', 'id_azienda', 'base_url'],
+		props: ['url_azienda_edit', 'url_mansioni', 'url_stati', 'url_modifica_lavoratore', 'id_azienda', 'base_url', 'url_aggiungi'],
 		data: function() {
 			return {
 				language: it,
@@ -245,7 +245,6 @@
 		        showModalAggiungi: false,
 		        nuovo_lavoratore: '',
 		        url_search: '/api/nomadelfia/azienda/aggiungi/search',
-		        url_aggiungi: '/api/nomadelfia/azienda/aggiungi/lavoratore',
 		        persone: [],
 		        placeholder: 'Ricerca la persona...',
 		        nuovo_data_inizio: '',

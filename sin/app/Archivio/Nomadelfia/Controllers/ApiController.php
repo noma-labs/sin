@@ -262,6 +262,13 @@ class ApiController extends BaseController
         return [$result1 && $result2];
     }
 
+    public function incarichiAggiungiNuovoLavoratore(Request $request)
+    {
+        $persona = Persona::findOrFail($request->input('lavoratore_id'));
+        $azienda = Azienda::incarichi()->findOrFail($request->input('azienda_id'));
+        $persona->assegnaLavoratoreIncarico($azienda, Carbon::parse($request->input('data')));
+    }
+
 
     /**
      * Aggiunge una persona ad un'azienda
