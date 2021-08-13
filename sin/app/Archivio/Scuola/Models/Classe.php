@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace App\Scuola\Models;
 
 use App\Scuola\Exceptions\CouldNotAssignAlunno;
+use App\Scuola\Models\ClasseTipo;
+use App\Scuola\Models\Classe;
 use Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -43,18 +45,5 @@ class Classe extends Model
         }
     }
 
-    public static function aggiungiClasse(string $annoScolastico, ClasseTipo $tipo): Classe
-    {
-        if (!Str::contains($annoScolastico, '/')){
-            throw CouldNotAssignAlunno::isNotValidAnno($annoScolastico);
-        }
-
-        //TODO: check that anno scolastico is of the form "AAAA/AAAA"
-        $c = self::create([
-            'tipo_id' => $tipo->id,
-            'anno' => $annoScolastico
-        ]);
-        return $c;
-    }
 
 }

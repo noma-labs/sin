@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace App\Scuola\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
