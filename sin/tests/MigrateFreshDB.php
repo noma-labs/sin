@@ -26,7 +26,8 @@ trait MigrateFreshDB
         if (!static::$setUpHasRunOnce) {
             Artisan::call('migrate:fresh', ['--database'=> 'db_auth', '--path'=> "database/migrations/admsys"]);
             Artisan::call('migrate:fresh', ['--database'=> 'db_nomadelfia', '--path'=> "database/migrations/db_nomadelfia"]);
-          
+            Artisan::call('migrate:fresh', ['--database'=> 'db_scuola', '--path'=> "database/migrations/scuola"]);
+
             //Artisan::call('db:seed', ['--class'=> 'AuthTablesSeeder']);
             Artisan::call('db:seed', ['--class'=> 'CategoriaTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'PosizioniTableSeeder']);
@@ -35,6 +36,7 @@ trait MigrateFreshDB
             Artisan::call('db:seed', ['--class'=> 'AziendeTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'CaricheTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'IncarichiTableSeeder']);
+            Artisan::call('db:seed', ['--class'=> 'ClassiTableSeeder']);
 
         static::$setUpHasRunOnce = true;
         }
