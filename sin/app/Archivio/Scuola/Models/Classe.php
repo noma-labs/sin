@@ -17,10 +17,18 @@ class Classe extends Model
     protected $primaryKey = "id";
     protected $guarded = [];
 
+    public static function perAnno(string $anno){
+        return self::where("anno", $anno)->get();
+    }
 
     public function alunni()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id', 'persona_id')->withPivot('data_inizio');
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(ClasseTipo::class,"tipo_id",'id');
     }
 
     public function aggiungiAlunno(Persona $alunno, Carbon\Carbon $data_inizio)

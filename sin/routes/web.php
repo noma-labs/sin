@@ -265,6 +265,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('index', 'ScuolaController@index')->name('scuola');
+    Route::get('classi', 'ClassiController@index')->name('scuola.classi');
 });
 
 #################################################################
