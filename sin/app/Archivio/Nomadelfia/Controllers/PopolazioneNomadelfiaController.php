@@ -299,7 +299,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $azi = $phpWord->addSection();
             $azi->addTitle('Aziende ', 1);
             $sectAziende = $phpWord->addSection($colStyle4NCont);
-            foreach (Azienda::all() as $azienda) {
+            foreach (Azienda::aziende()->get() as $azienda) {
                 $sectAziende->addTextBreak(1);
                 $lavoratori = $azienda->lavoratoriAttuali()->get();
                 $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
