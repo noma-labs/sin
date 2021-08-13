@@ -2,12 +2,9 @@
 
 namespace App\Scuola\Models;
 
-use App\Scuola\Exceptions\CouldNotAssignAlunno;
-use App\Scuola\Models\ClasseTipo;
-use App\Scuola\Models\Classe;
+use App\Nomadelfia\Models\Persona;
 use Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Classe extends Model
 {
@@ -19,18 +16,20 @@ class Classe extends Model
     protected $primaryKey = "id";
     protected $guarded = [];
 
-    public static function perAnno(string $anno){
+    public static function perAnno(string $anno)
+    {
         return self::where("anno", $anno)->get();
     }
 
     public function alunni()
     {
-        return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id', 'persona_id')->withPivot('data_inizio');
+        return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
+            'persona_id')->withPivot('data_inizio');
     }
 
     public function tipo()
     {
-        return $this->belongsTo(ClasseTipo::class,"tipo_id",'id');
+        return $this->belongsTo(ClasseTipo::class, "tipo_id", 'id');
     }
 
     public function aggiungiAlunno(Persona $alunno, Carbon\Carbon $data_inizio)

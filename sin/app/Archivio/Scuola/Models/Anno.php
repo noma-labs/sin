@@ -2,6 +2,7 @@
 
 namespace App\Scuola\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Anno extends Model
@@ -14,10 +15,12 @@ class Anno extends Model
     protected $primaryKey = "id";
     protected $guarded = [];
 
-    // TODO Create anno scolastico
-//if (!Str::contains($annoScolastico, '/')){
-//throw CouldNotAssignAlunno::isNotValidAnno($annoScolastico);
-//}
+    public static function createAnno(int $year)
+    {
+        $succ = $year + 1;
+        $as = "{$year}/{$succ}";
+        return self::create([ "anno" => $year, 'scolastico' => $as]);
+    }
 
     public function classi()
     {
@@ -26,7 +29,7 @@ class Anno extends Model
 
     public function aggiungiClasse(ClasseTipo $tipo): Classe
     {
-        return $this->classi()->create($this->id, ['tipo_id' => $tipo->id]);
+        return $this->classi()->create(["anno_id" => 3, 'tipo_id' => $tipo->id]);
     }
 
 }
