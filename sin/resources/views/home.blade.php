@@ -106,6 +106,20 @@
         </div>
       @endhasrole
 
+          @hasrole('presidenza-amm|presidenza-ope|master')
+          <div class="col-md-4">
+            <div class="card text-center border-warning mb-3">
+              <div class="card-header">
+                Gestione Scuola
+              </div>
+              <div class="card-body">
+                <p class="card-text">Gestione  classi, alunni cordinatori </p>
+                <a href="{{ route('scuola') }}" class="btn btn-primary">Accedi</a>
+              </div>
+            </div>
+          </div>
+          @endhasrole
+
       @hasrole('admin|master')
         <div class="col-md-4">
           <div class="card text-center border-warning mb-3">
