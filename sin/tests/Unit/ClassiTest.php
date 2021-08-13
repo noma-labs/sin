@@ -28,7 +28,7 @@ class ClassiTest extends TestCase
 
     }
 
-    public function testGetClassiInAnno()
+    public function testGetAlunnniInAnno()
     {
         $a = Anno::createAnno(2018);
         $t = ClasseTipo::all();
@@ -38,11 +38,16 @@ class ClassiTest extends TestCase
         $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
         $c1->aggiungiAlunno($p1, Carbon::now());
 
-        $c2 = $a->aggiungiClasse($t->get(3));
+        $c2 = $a->aggiungiClasse($t->get(2));
         $p2 = factory(Persona::class)->states("minorenne", "maschio")->create();
         $c2->aggiungiAlunno($p2, Carbon::now());
 
-        $this->assertCount(2, $a->classi()->get());
+        $c3 = $a->aggiungiClasse($t->get(3));
+        $p3 = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $c3->aggiungiAlunno($p3, Carbon::now());
+
+        $this->assertCount(3, $a->classi()->get());
+        $this->assertCount(3, $a->alunni());
 
     }
 
