@@ -21,7 +21,7 @@ class Classe extends Model
     public function alunni()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
-            'persona_id')->withPivot('data_inizio');
+            'persona_id')->whereNull("data_fine")->withPivot('data_inizio');
     }
 
     public function anno()
@@ -48,9 +48,13 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
+        if ($this->tipo->isPrescuola()) {
+            $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
+        } else {
+            $all = PopolazioneNomadelfia::figliDaEta(7, 21, "data_nascita");
+        }
 
-        $all = PopolazioneNomadelfia::figliDaEta(3,21, "data_nascita");
-        $currrent =  $this->alunni()->get();
+        $currrent = $this->alunni()->get();
         $multiplied = $currrent->map(function ($item, $key) {
             return $item->id;
         });

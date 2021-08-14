@@ -70,4 +70,11 @@ class ClassiTest extends TestCase
         $this->assertCount(1, $classe->alunni()->get());
         $this->assertEquals($tipo->id, $classe->tipo->id);
     }
+
+    public function testClassiTipo()
+    {
+        $t = ClasseTipo::findOrFail(1);
+        $this->assertTrue($t->isPrescuola());
+
+    }
 }
