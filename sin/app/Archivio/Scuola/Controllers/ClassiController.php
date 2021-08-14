@@ -42,7 +42,15 @@ class ClassiController extends CoreBaseController
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($request->alunno_id);
         $classe->aggiungiAlunno($alunno, Carbon::parse($request->data_inizio));
-        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  aggiunto a `{$classe->tipo->nome}`con successo.");
+        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
+    }
+
+    public function rimuoviAlunno(Request $request, $id, $alunno_id)
+    {
+        $classe = Classe::findOrFail($id);
+        $alunno = Persona::findOrFail($alunno_id);
+        $classe->rimuoviAlunno($alunno);
+        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 
 }
