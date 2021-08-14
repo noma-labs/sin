@@ -749,6 +749,12 @@ class Persona extends Model
                 [$data_uscita, $persona_id]
             );
 
+            // conclude la scuola
+            $conn->update(
+                "UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL",
+                [$data_uscita, $persona_id]
+            );
+
             if (!$this->isMaggiorenne() && $disable_from_family) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(

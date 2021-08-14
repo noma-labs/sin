@@ -25,6 +25,10 @@ class ClasseTipo extends Model
         return $this->alunni()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->orderBy('mansione', 'asc');
     }
 
+    public function scopeIsPrescuola(){
+        return $this->nome == "Prescuola";
+    }
+
     public function assegnaAlunno($persona, Carbon\Carbon $data_inizio)
     {
         if (is_string($persona)) {

@@ -6,7 +6,7 @@
         <label for="example-text-input" class="col-4 col-form-label">Alunno</label>
           <div class="col-8">
             <select class="form-control" name="alunno_id">
-              <option value="" selected>---scegli capogruppo--</option>
+              <option value="" selected>---scegli alunno--</option>
               @foreach ($possibili as $p)
                 <option value="{{ $p->id }}">@year($p->data_nascita) {{$p->nominativo}} </option>
               @endforeach

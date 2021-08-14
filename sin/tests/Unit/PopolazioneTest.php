@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Posizione;
+use App\Scuola\Models\Anno;
+use App\Scuola\Models\ClasseTipo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -107,7 +109,6 @@ class PopolazioneTest extends BaseTestCase
     {
         $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
 
-        $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
         $famiglia = factory(Famiglia::class)->create();
@@ -118,6 +119,12 @@ class PopolazioneTest extends BaseTestCase
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
         $persona->entrataNatoInNomadelfia($famiglia->id);
+
+        // assegna minorenne in una classe
+        $a = Anno::createAnno(2000);
+        $classe = $a->aggiungiClasse(ClasseTipo::all()->random());
+        $classe->aggiungiAlunno($persona, \Carbon\Carbon::now());
+        $this->assertCount(1, $classe->alunni()->get());
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $pop = PopolazioneNomadelfia::popolazione();
@@ -140,6 +147,8 @@ class PopolazioneTest extends BaseTestCase
 
         $this->assertNull($persona->famigliaAttuale());
         $this->assertEquals($data_uscita, $persona->famiglieStorico()->get()->last()->pivot->data_uscita);
+
+        $this->assertCount(0, $classe->alunni()->get());
 
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot - 1, count($pop));
