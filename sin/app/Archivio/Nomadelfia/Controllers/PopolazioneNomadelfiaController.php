@@ -7,6 +7,7 @@ use App\Nomadelfia\Models\EserciziSpirituali;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use App\Scuola\Models\Anno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use SnappyPdf;
@@ -309,7 +310,22 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             }
         }
         if ($elenchi->contains("scuola")) {
-            // TODO
+            $sc = $phpWord->addSection();
+            $anno = Anno::getLastAnno();
+            $sc->addTitle('Scuola '. count($anno->alunni()), 1);
+            $classeSect = $phpWord->addSection($colStyle4NCont);
+            foreach ($anno->classi()->get() as $classe) {
+                $alunni = $classe->alunni();
+                if ($alunni->count() > 0 ){
+                    $classeSect->addTitle($classe->tipo->nome. " ". $alunni->count(), 2);
+                    foreach ($classe->alunni()->get() as $alunno) {
+                        $classeSect->addTextBreak(1);
+                        $year = Carbon::parse($alunno->data_nascita)->year;
+                        $classeSect->addText("    " . $year . " " . $alunno->nominativo);
+                    }
+                }
+                }
+
         }
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');

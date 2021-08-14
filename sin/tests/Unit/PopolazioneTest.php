@@ -71,8 +71,11 @@ class PopolazioneTest extends BaseTestCase
 
         $azienda = Azienda::aziende()->get()->random();
         $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
-
         $this->assertEquals(1, $persona->aziendeAttuali()->count());
+        // assegna incarico
+        $incarico = Azienda::incarichi()->get()->random();
+        $persona->assegnaLavoratoreIncarico($incarico,Carbon::now());
+        $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $pop = PopolazioneNomadelfia::popolazione();
@@ -94,6 +97,8 @@ class PopolazioneTest extends BaseTestCase
 
         $this->assertEquals(0, $persona->aziendeAttuali()->count());
         $this->assertEquals(1, $azienda->lavoratoriStorici()->count());
+        $this->assertCount(0, $incarico->lavoratoriAttuali()->get());
+        $this->assertCount(1, $incarico->lavoratoriStorici()->get());
 
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot - 1, count($pop));

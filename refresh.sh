@@ -15,6 +15,4 @@ echo "import succesfully"
 docker-compose exec app php artisan db:seed --class=AuthTablesSeeder
 docker-compose exec app php artisan db:seed --class=CaricheTableSeeder
 docker-compose exec app php artisan db:seed --class=IncarichiTableSeeder
-docker-compose exec app php artisan db:seed --class=ClassiTableSeeder
 docker-compose exec app php artisan db:seed --class=ScuolaTableSeeder
-

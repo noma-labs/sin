@@ -5,6 +5,7 @@ namespace App\Scuola\Models;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class Classe extends Model
@@ -36,13 +37,27 @@ class Classe extends Model
 
     public function aggiungiAlunno($alunno, Carbon\Carbon $data_inizio)
     {
-        if (is_string($alunno)) {
+        if (is_integer($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
         if ($alunno instanceof Persona) {
             $this->alunni()->attach($alunno->id, [
                 'data_inizio' => $data_inizio,
             ]);
+        }else {
+            throw new Exception("Alunno is not a valid id or model");
+        }
+    }
+
+    public function rimuoviAlunno($alunno)
+    {
+        if (is_integer($alunno)) {
+            $alunno = Persona::findOrFail($alunno);
+        }
+        if ($alunno instanceof Persona) {
+            $this->alunni()->detach($alunno->id);
+        }else {
+            throw new Exception("Alunno is not a valid id or model");
         }
     }
 
