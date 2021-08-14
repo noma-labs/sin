@@ -12,7 +12,7 @@ class Categoria extends Model
   protected $table = 'categorie';
   protected $primaryKey = "id";
 
-  public function isPersonaInterna(){
+  public function isInterna(){
     return $this->nome == "Persona Interna";
   }
 

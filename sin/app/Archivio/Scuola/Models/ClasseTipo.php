@@ -25,8 +25,49 @@ class ClasseTipo extends Model
         return $this->alunni()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->orderBy('mansione', 'asc');
     }
 
-    public function scopeIsPrescuola(){
+    public function scopeIsPrescuola()
+    {
         return $this->nome == "Prescuola";
+    }
+
+    public function scopeIsPrimaEl()
+    {
+        return $this->nome == "1a Elementare";
+    }
+
+    public function scopeIsSecondaEl()
+    {
+        return $this->nome == "2a Elementare";
+    }
+
+    public function scopeIsTerzaEl()
+    {
+        return $this->nome == "3a Elementare";
+    }
+
+    public function scopeIsQuartaEl()
+    {
+        return $this->nome == "4a Elementare";
+    }
+
+    public function scopeIsQuintaEl()
+    {
+        return $this->nome == "5a Elementare";
+    }
+
+    public function scopeIsPrimaMed()
+    {
+        return $this->nome == "1a Media";
+    }
+
+    public function scopeIsSecondaMed()
+    {
+        return $this->nome == "2a Media";
+    }
+
+    public function scopeIsTerzaMed()
+    {
+        return $this->nome == "3a Media";
     }
 
     public function assegnaAlunno($persona, Carbon\Carbon $data_inizio)
@@ -42,7 +83,7 @@ class ClasseTipo extends Model
 //                    $this->posizioni()->updateExistingPivot($attuale->id,
 //                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
 //                }
-                $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
+            $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
 //                DB::connection('db_nomadelfia')->commit();
 //            } catch (\Exception $e) {
 //                DB::connection('db_nomadelfia')->rollback();

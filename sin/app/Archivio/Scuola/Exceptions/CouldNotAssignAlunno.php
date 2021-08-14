@@ -13,4 +13,5 @@ class CouldNotAssignAlunno extends \Exception
     {
         return new static("L'anno scolastico `{$anno}` non è valido.`");
     }
+
 }

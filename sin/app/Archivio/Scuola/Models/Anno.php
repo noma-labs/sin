@@ -27,7 +27,7 @@ class Anno extends Model
         });
     }
 
-    public static function createAnno(int $year)
+    public static function createAnno(int $year): Anno
     {
         $succ = $year + 1;
         $as = "{$year}/{$succ}";
