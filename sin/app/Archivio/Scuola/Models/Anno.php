@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class Anno extends Model
 {
@@ -39,7 +40,7 @@ class Anno extends Model
         if ($a->count() > 0) {
             return $a->first();
         }
-        return None;
+        throw new Exception("Non ci sono anni scolastici attivi");
     }
 
     public function classi()
@@ -55,12 +56,13 @@ class Anno extends Model
     public function alunni()
     {
         $res = DB::connection('db_scuola')->select(
-            DB::raw("SELECT persone.*,
-                      INNER JOIN alunni_classi ON alunni_classi.persona_id = persone.id
-                      INNER JOIN classi ON classi.id = alunni_classi.classe_id
-                      INNER JOIN anno ON anno.id = classi.anno_id
-                      WHERE alunni_classi.data_fine IS NOT NULL AND anno.id = :aid
-                      ORDER BY persone.data_nascita"),
+            DB::raw("SELECT p.*
+                FROM alunni_classi as ac
+                INNER JOIN classi ON classi.id = ac.classe_id
+                INNER JOIN anno ON anno.id = classi.anno_id
+                INNER JOIN db_nomadelfia.persone as p ON p.id = ac.persona_id
+                WHERE ac.data_fine IS NULL AND anno.id = :aid
+                ORDER BY p.data_nascita"),
             array('aid' => $this->id)
         );
         return $res;
