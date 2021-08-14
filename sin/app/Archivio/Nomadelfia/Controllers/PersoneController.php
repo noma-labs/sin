@@ -317,8 +317,6 @@ class PersoneController extends CoreBaseController
                 "cognome" => $request->input('cognome'),
                 "provincia_nascita" => $request->input('luogo_nascita'),
                 'data_nascita' => $request->input('data_nascita'),
-                // TODO: delete this column because the categoria is a many to many relationship in to the persone_categoria table
-                'categoria_id' => $request->input('categoria_id'),
                 'id_arch_pietro' => 0,
                 'id_arch_enrico' => 0,
             ]
@@ -490,7 +488,6 @@ class PersoneController extends CoreBaseController
             'data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
-        // dd($request->all());
         $persona = Persona::findOrFail($idPersona);
         // $persona->categoria_id = $request->categoria_id;
         if ($persona->categoriaAttuale()) { // se

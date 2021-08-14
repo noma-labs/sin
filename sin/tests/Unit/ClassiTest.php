@@ -22,6 +22,7 @@ class ClassiTest extends TestCase
         $c = $a->aggiungiClasse($t);
         $this->assertCount(1, $a->classi()->get());
         $this->assertCount(0, $c->alunni()->get());
+        $this->assertEquals($a->id, $c->anno->id);
         $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
         $c->aggiungiAlunno($p1, Carbon::now());
         $this->assertCount(1, $c->alunni()->get());
@@ -68,5 +69,12 @@ class ClassiTest extends TestCase
         $classe->aggiungiAlunno($persona, Carbon::now());
         $this->assertCount(1, $classe->alunni()->get());
         $this->assertEquals($tipo->id, $classe->tipo->id);
+    }
+
+    public function testClassiTipo()
+    {
+        $t = ClasseTipo::findOrFail(1);
+        $this->assertTrue($t->isPrescuola());
+
     }
 }

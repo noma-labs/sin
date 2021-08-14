@@ -20,8 +20,15 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
+# install node version 10
+RUN curl -sL https://deb.nodesource.com/setup_10.x -o setup_node.sh
+RUN chmod +x setup_node.sh
+RUN bash setup_node.sh
+RUN apt-get install -y nodejs
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN rm -f setup_node.sh
 
 # Install extensions
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
@@ -38,6 +45,9 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
 COPY . /var/www
+
+# Install node dependencies
+RUN npm i
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www

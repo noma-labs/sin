@@ -426,7 +426,6 @@ class Persona extends Model
 
     public function categoriaAttuale()
     {
-//        return $this->categorie()->wherePivot('stato', '1')->first();
         $categoria = $this->categorie()->wherePivot('stato', '1')->get();
         if ($categoria->count() == 1) {
             return $categoria[0];
@@ -553,18 +552,18 @@ class Persona extends Model
         $famiglia_data = null
     ) {
         // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
-        if ($this->categorie->count() > 0) {
+        if ($this->isPersonaInterna()) {
             throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
         $interna = Categoria::perNome("interno");
-
         $persona_id = $this->id;
-        DB::connection('db_nomadelfia')->beginTransaction();
 
+        DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
 
             // @deprecated: inserisce la categoria come persona interna. Usare la tabella popolazione
+
             $conn->insert(
                 "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
                 [$persona_id, $interna->id, $data]
@@ -654,12 +653,25 @@ class Persona extends Model
         $categorie = $this->categorie()->wherePivot('stato', '1')->get();
         $isInterna = false;
         foreach ($categorie as $categoria) {
-            if ($categoria->isPersonaInterna()) {
+            if ($categoria->isInterna()) {
                 $isInterna = true;
             }
         }
         return $isInterna;
     }
+
+//    // Return True if the person is already entrata in Nomadelfia in the past, False otherwise
+//    public function isAlreadyEntrataInNomadelfia():bool
+//    {
+//        $categorie = $this->categorieStorico()->get();
+//        $isInterna = false;
+//        foreach ($categorie as $categoria) {
+//            if ($categoria->isInterna()) {
+//                $isInterna = true;
+//            }
+//        }
+//        return $isInterna;
+//    }
 
     /*
     * Return True if the person is dead, false otherwise
@@ -746,6 +758,12 @@ class Persona extends Model
             // conclude le aziende dove lavora con la data di uscita
             $conn->update(
                 "UPDATE aziende_persone SET data_fine_azienda = ?, stato = 'Non Attivo' WHERE persona_id = ? AND stato = 'Attivo'",
+                [$data_uscita, $persona_id]
+            );
+
+            // conclude la scuola
+            $conn->update(
+                "UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL",
                 [$data_uscita, $persona_id]
             );
 

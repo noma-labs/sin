@@ -23,16 +23,15 @@
                     <div class="card-body">
                       <ul>
                       @foreach($classe->alunni as $alunno)
-                        <li> {{$alunno->data_nascita}}@include('nomadelfia.templates.persona', ['persona'=>$alunno])</li>
+                        <li>  @year($alunno->data_nascita) @include('nomadelfia.templates.persona', ['persona'=>$alunno])</li>
                       @endforeach
                       </ul>
-                      <div class="row">
-                          <a class="btn btn-danger btn-block col-md-4 offset-md-2" type="button" href="{{ route('nomadelfia.incarichi.edit', $classe->id)}}">Modifica</a>
-                      </div>            
-                    </div>
+                        <a class="btn btn-primary" href="{{ route('scuola.classi.show', $classe->id)}}">Dettaglio</a>
+                      </div>
                   </div>
                  </div>
                 </div>  <!-- end card -->
+
               </div>
         @endforeach
     </div>

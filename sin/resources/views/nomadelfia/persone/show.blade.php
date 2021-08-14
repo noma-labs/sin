@@ -154,10 +154,17 @@
                   <div class="row">
                     <label class="col-sm-4 font-weight-bold">Data Uscita:</label>
                     <div class="col-sm-6">
-                        <span> {{$persona->getDataUscitaNomadelfia()}} </span>
+                        <p> {{$persona->getDataUscitaNomadelfia()}}
+                        <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
+                        </p>
                     </div>
                     <div class="col-sm-2">
-                      </div>
+                        <my-modal modal-title="Entrata nella comunità" button-title="Entrata" button-style="btn-secondary my-2">
+                            <template slot="modal-body-slot">
+                                @include("nomadelfia.templates.entrataPersona", ['persona' => $persona])
+                            </template>
+                        </my-modal>
+                    </div>
                   </div>
               </li>
               @endif
