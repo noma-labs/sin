@@ -37,22 +37,33 @@
 </div>
 
 <div class="row justify-content-md-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Alunni <span class="badge badge-primary">{{$alunni->count()}}</span></h4>
                 <ul class="list-group list-group-flush">
                     @foreach($alunni->get() as $alunno)
-                        <li class="list-group-item"> @year($alunno->data_nascita)
-                            @include("nomadelfia.templates.persona", ['persona' => $alunno])
-                            (@diffYears($alunno->data_nascita) anni)</li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="font-weight-bold mt-2">
+                                            @year($alunno->data_nascita)
+                                            @include("nomadelfia.templates.persona", ['persona' => $alunno])
+                                            (@diffYears($alunno->data_nascita) anni)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 offset-md-2">
+                                        @include('scuola.templates.rimuoviAlunno', ['classe'=> $classe, 'alunno' => $alunno] )
+                                    </div>
+                            </div>
+                        </li>
                     @endforeach
                 </ul>
             </div>
 
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Coordinatori</h4>

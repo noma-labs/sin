@@ -49,6 +49,18 @@ class Classe extends Model
         }
     }
 
+    public function rimuoviAlunno($alunno)
+    {
+        if (is_integer($alunno)) {
+            $alunno = Persona::findOrFail($alunno);
+        }
+        if ($alunno instanceof Persona) {
+            $this->alunni()->detach($alunno->id);
+        }else {
+            throw new Exception("Alunno is not a valid id or model");
+        }
+    }
+
     public function alunniPossibili()
     {
         if ($this->tipo->isPrescuola()) {
