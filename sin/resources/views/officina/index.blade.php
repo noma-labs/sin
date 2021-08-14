@@ -20,6 +20,8 @@
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       <a class="dropdown-item" href="{{route('veicoli.index')}}">Lista Veicoli</a>
       <a class="dropdown-item" href="{{route('veicoli.nuovo')}}">Nuovo Veicolo</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{{route('veicoli.demoliti')}}">Veicoli Demoliti</a>
     </div>
   </li>
   <li class="nav-item">
