@@ -44,12 +44,12 @@ class VeicoliController extends CoreBaseController
   	}
 
   	public function show($id){
-    	$veicolo = Veicolo::findOrFail($id);
+    	$veicolo = Veicolo::withTrashed()->findOrFail($id);
     	return view('officina.veicoli.show', compact('veicolo'));
   	}
 
 	public function edit($id){
-		$veicolo = Veicolo::findOrFail($id);
+		$veicolo = Veicolo::withTrashed()->findOrFail($id);
 		$marche = Marca::all();
 		$modelli = Modello::all();
 		$impieghi = Impiego::all();
@@ -192,4 +192,47 @@ class VeicoliController extends CoreBaseController
 		}
 		return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato demolito");
 	}
+
+    public function veicoliDemoliti(Request $request){
+        $marche = Marca::orderBy('nome', 'asc')->get();
+        $modelli = Modello::orderBy('nome', 'asc')->get();
+
+        $veicoli = Veicolo::onlyTrashed()->orderBy('veicolo.nome', 'asc');
+        if($request->filled('marca')){
+            $veicoli->join('db_meccanica.modello', 'veicolo.modello_id', '=' , 'modello.id')
+                ->where('modello.marca_id', '=', $request->input('marca'));
+        }
+        if($request->filled('nome')){
+            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
+        }
+        if($request->filled('targa')){
+            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
+        }
+        if($request->filled('modello')){
+            $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));
+        }
+        $veicoli = $veicoli->get();
+
+        return view('officina.veicoli.show-demoliti', compact('veicoli', 'marche', 'modelli'));
+    }
+
+    public function veicoloEliminaDefinitivamente(Request $request) {
+        $veicolo = Veicolo::onlyTrashed()->find($request->input("v_id"));
+        try {
+            $veicolo->forceDelete();
+        } catch (\Throwable $th) {
+            return redirect(route('veicoli.modifica', ['id' => $request->input("v_id")]))->withError("Errore nella eliminazione del veicolo");
+        }
+        return redirect(route('veicoli.demoliti'))->withSuccess("Il veicolo $veicolo->nome è stato eliminato definitivamente");
+    }
+
+    public function veicoloRiabilita(Request $request) {
+        $veicolo = Veicolo::onlyTrashed()->find($request->input("v_id"));
+        try {
+            $veicolo->restore();
+        } catch (\Throwable $th) {
+            return redirect(route('veicoli.modifica', ['id' => $request->input("v_id")]))->withError("Errore nella riabilitazione del veicolo");
+        }
+        return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato riabilitato");
+    }
 }
