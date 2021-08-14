@@ -490,7 +490,6 @@ class PersoneController extends CoreBaseController
             'data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
-        // dd($request->all());
         $persona = Persona::findOrFail($idPersona);
         // $persona->categoria_id = $request->categoria_id;
         if ($persona->categoriaAttuale()) { // se

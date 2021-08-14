@@ -23,8 +23,6 @@
               </div>
               <div id="collapse{{$gruppo->id}}" class="collapse" aria-labelledby="heading{{$gruppo->id}}" data-parent="#accordion">
                 <div class="card-body">
-                  
-                  </ul>
                     <a class="btn btn-primary" href="{{ route('nomadelfia.gruppifamiliari.dettaglio', $gruppo->id)}}">Dettaglio</a>
                 </div>    
               </div>

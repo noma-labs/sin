@@ -3,6 +3,7 @@
 namespace App\Scuola\Models;
 
 use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,10 +17,6 @@ class Classe extends Model
     protected $primaryKey = "id";
     protected $guarded = [];
 
-    public static function perAnno(string $anno)
-    {
-        return self::where("anno", $anno)->get();
-    }
 
     public function alunni()
     {
@@ -27,12 +24,17 @@ class Classe extends Model
             'persona_id')->withPivot('data_inizio');
     }
 
+    public function anno()
+    {
+        return $this->belongsTo(Anno::class, "anno_id", 'id');
+    }
+
     public function tipo()
     {
         return $this->belongsTo(ClasseTipo::class, "tipo_id", 'id');
     }
 
-    public function aggiungiAlunno(Persona $alunno, Carbon\Carbon $data_inizio)
+    public function aggiungiAlunno($alunno, Carbon\Carbon $data_inizio)
     {
         if (is_string($alunno)) {
             $alunno = Persona::findOrFail($alunno);
@@ -44,5 +46,13 @@ class Classe extends Model
         }
     }
 
+    public function alunniPossibili()
+    {
+
+        $all = PopolazioneNomadelfia::figliDaEta(3,21, "data_nascita");
+        $currrent =  $this->alunni();
+        $this->alunni()->whereNotIn('id', [278]);
+        return $alunni;
+    }
 
 }

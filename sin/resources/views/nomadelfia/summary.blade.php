@@ -138,7 +138,7 @@
         </p>
       </div>
       <div class="card-footer">
-      <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>
+      <a href="{{ route('scuola') }}"class="btn btn-primary">Entra</a>
       </div>
     </div>
   </div> <!-- end card deck-->
