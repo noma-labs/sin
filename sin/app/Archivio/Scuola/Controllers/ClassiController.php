@@ -22,5 +22,27 @@ class ClassiController extends CoreBaseController
         return view('scuola.classi.index', compact('classi'));
     }
 
+    public function show(Request $request, $id)
+    {
+        $classe = Classe::findOrFail($id);
+        $alunni = $classe->alunni();
+        $possibili = $classe->alunniPossibili();
+        return view('scuola.classi.show', compact('classe', 'alunni', 'possibili'));
+    }
+
+    public function aggiungeAlunno(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            "alunno_id" => "required",
+            "data_inizio" => "required|date",
+        ], [
+            "alunno_id.required" => "Alunno è obbligatorio",
+            'data_inizio.required' => "La data di inizio è obbligatoria.",
+        ]);
+        $classe = Classe::findOrFail($id);
+        $alunno = Persona::findOrFail($request->alunno_id);
+        $classe->aggiungiAlunno($alunno, Carbon::parse($request->data_inizio));
+        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  aggiunto a `{$classe->tipo->nome}`con successo.");
+    }
 
 }

@@ -9,8 +9,9 @@ class ScuolaController extends CoreBaseController
 {
 
   public function index(){
-    $classi = Anno::getLastAnno();
-    return view('scuola.summary',compact('classi'));
+    $anno = Anno::getLastAnno();
+    $alunni = $anno->alunni();
+    return view('scuola.summary',compact('anno', 'alunni'));
   }
 
 }

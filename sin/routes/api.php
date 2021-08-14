@@ -70,9 +70,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   Route::post('/incarichi/sposta/lavoratore', 'ApiController@incarichiSpostaLavoratore')->name("api.nomadeflia.incarichi.sposta.lavoratore");
   Route::get('/incarichi/lavoratore/{id}', 'ApiController@incarichiLavoratore')->name("api.nomadeflia.incarichi.lavoratori");
   Route::post('/incarichi/aggiungi/lavoratore', 'ApiController@incarichiAggiungiNuovoLavoratore')->name("api.nomadelfia.incarichi.aggiungi.lavoratore");
-
-
-
 });
 
 //Api route /api/patente
@@ -88,4 +85,9 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
   Route::put('/{numero}', 'ApiController@update')->name("api.patente.modifica"); // modifica una nuova patente
   Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name("api.patente.categorie.assegnate");
   // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
+});
+
+// API route (/api/scuola)
+Route::group(['prefix' => 'scuola','namespace' => 'App\Scuola\Controllers'],function(){
+    Route::post('/alunni', 'ApiController@alunni')->name("api.scuola.alunni.all");
 });

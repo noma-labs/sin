@@ -46,7 +46,7 @@ class AuthTablesSeeder extends Seeder
         Risorsa::create(['nome' => 'etichetta', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'film', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'professionale', 'sistema_id'=>$scuola->id]);
-        Risorsa::create(['nome' => 'patente', 'sistema_id'=>$patente->id]);
+        $patente = Risorsa::create(['nome' => 'patente', 'sistema_id'=>$patente->id]);
 
         // Gestione dei permessi di ogni risorse dei ruoli
         // `ruolo_id`  `risorsa_id` => `visualizza`, `inserisci`, `elimina`, `modifica`, `prenota`, `esporta`, `svuota`
@@ -58,6 +58,24 @@ class AuthTablesSeeder extends Seeder
                                                 "prenota" => "1",
                                                 "esporta" => "1",
                                                 "svuota" => "1",
+        ]);
+        $master->risorse()->save($veicolo, [
+            "visualizza" => "1",
+            "inserisci" => "1",
+            "elimina" => "1",
+            "modifica" => "1",
+            "prenota" => "1",
+            "esporta" => "1",
+            "svuota" => "1",
+        ]);
+        $master->risorse()->save($patente, [
+            "visualizza" => "1",
+            "inserisci" => "1",
+            "elimina" => "1",
+            "modifica" => "1",
+            "prenota" => "1",
+            "esporta" => "1",
+            "svuota" => "1",
         ]);
 
         // creazione degli utenti
