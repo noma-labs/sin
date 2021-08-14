@@ -5,11 +5,12 @@
       <div class="form-group row">
         <label for="example-text-input" class="col-4 col-form-label">Alunno</label>
           <div class="col-8">
-            <autocomplete placeholder="Inserisci nominativo..." name="alunno_id" url="{{route('api.nomadeflia.persone.search')}}"></autocomplete>
-            <ul>
-              @foreach($possibili as $a)
-                <li> @year($a->data_nascita) {{$a->nominativo}}  {{$a->id}} </li>
-            @endforeach
+            <select class="form-control" name="alunno_id">
+              <option value="" selected>---scegli capogruppo--</option>
+              @foreach ($possibili as $p)
+                <option value="{{ $p->id }}">@year($p->data_nascita) {{$p->nominativo}} </option>
+              @endforeach
+            </select>
           </div>
       </div>
            <div class="form-group row">

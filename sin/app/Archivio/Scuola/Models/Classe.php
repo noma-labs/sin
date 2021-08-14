@@ -50,9 +50,12 @@ class Classe extends Model
     {
 
         $all = PopolazioneNomadelfia::figliDaEta(3,21, "data_nascita");
-        $currrent =  $this->alunni();
-        $this->alunni()->whereNotIn('id', [278]);
-        return $alunni;
+        $currrent =  $this->alunni()->get();
+        $multiplied = $currrent->map(function ($item, $key) {
+            return $item->id;
+        });
+//        dd($multiplied);
+        return $all->whereNotIn('id', $multiplied);
     }
 
 }
