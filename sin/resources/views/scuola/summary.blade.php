@@ -3,7 +3,8 @@
 @section('title', 'Gestione Scuola')
 
 @section('archivio')
-
+<div class="row">
+    <div class="col-md-6 offset-md-3">
     <div class="card-deck">
         <div class="card ">
             <div class="card-header">
@@ -30,6 +31,8 @@
                 <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a>
 
             </div>
+        </div>
+        </div>
         </div>
 
     </div>
