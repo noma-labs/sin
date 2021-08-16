@@ -9,7 +9,8 @@
             Scuola
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarScuola">
-            <a class="dropdown-item" href="{{route('scuola.classi')}}"> Anno Scolastico</a>
+            <a class="dropdown-item" href="{{route('scuola')}}">Anno Scolastico</a>
+            <a class="dropdown-item" href="{{route('scuola.classi')}}"> Classi</a>
         </div>
     </li>
 @append

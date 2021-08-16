@@ -28,8 +28,13 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <a href="{{ route('nomadelfia.persone') }}" class=" text-center  btn btn-primary">Entra</a>
-
+                <form class="form" method="POST"  id="formStampa" action="{{ route('nomadelfia.popolazione.stampa') }}" >
+                    {{ csrf_field() }}
+                    <div class="form-check">
+                        <input class="form-check-input" type="hidden" value="scuola" id="defaultCheck1"  name="elenchi[]" checked>
+                    </div>
+                </form>
+                <button class="btn btn-primary" form="formStampa">Stampa</button>
             </div>
         </div>
         </div>
