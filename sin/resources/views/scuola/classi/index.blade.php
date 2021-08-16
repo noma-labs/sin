@@ -2,8 +2,9 @@
 
 @section('archivio')
 
-@include('partials.header', ['title' => 'Gestione Classi'])
+@include('partials.header', ['title' => "Classi A.S. ".$anno->scolastico ])
 
+@include('scuola.templates.aggiungiClasse',["anno"=>$anno])
 @foreach ($classi->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $classe)
@@ -27,6 +28,7 @@
                       @endforeach
                       </ul>
                         <a class="btn btn-primary" href="{{ route('scuola.classi.show', $classe->id)}}">Dettaglio</a>
+
                       </div>
                   </div>
                  </div>

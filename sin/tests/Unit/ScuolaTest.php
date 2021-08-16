@@ -10,16 +10,19 @@ use Carbon\Carbon;
 use Tests\TestCase;
 
 
-class ClassiTest extends TestCase
+class ScuolaTest extends TestCase
 {
 
     public function testAggiungiClasseInAnno()
     {
         $a = Anno::createAnno(2017);
-        $t = ClasseTipo::all()->random();
         $this->assertNotNull($a->id);
+        $tipi = ClasseTipo::all();
+        $t = $tipi->random();
         $this->assertCount(0, $a->classi()->get());
+        $this->assertEquals(count($tipi), count($a->classiTipoPossibili()));
         $c = $a->aggiungiClasse($t);
+        $this->assertEquals(count($tipi) - 1, count($a->classiTipoPossibili()));
         $this->assertCount(1, $a->classi()->get());
         $this->assertCount(0, $c->alunni()->get());
         $this->assertEquals($a->id, $c->anno->id);

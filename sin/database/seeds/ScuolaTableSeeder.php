@@ -75,138 +75,123 @@ class ScuolaTableSeeder extends Seeder
 
             ],
             [
-                'nome' => '4a Elementare',
+                'nome' => '5a Elementare',
                 'ord' => 6,
 
             ],
             [
-                'nome' => '4a Elementare',
+                'nome' => '1a Media',
                 'ord' => 7,
 
             ],
             [
-                'nome' => '5a Elementare',
+                'nome' => '2a Media',
                 'ord' => 8,
 
             ],
             [
-                'nome' => '1a Media',
+                'nome' => '3a Media',
                 'ord' => 9,
 
             ],
             [
-                'nome' => '2a Media',
+                'nome' => '1 Agrario',
                 'ord' => 10,
 
             ],
             [
-                'nome' => '3a Media',
-                'ord' => 11,
-
-            ],
-            [
-                'nome' => '1 Agrario',
+                'nome' => '2 Agrario',
                 'ord' => 12,
 
             ],
             [
-                'nome' => '1 Agrario',
+                'nome' => '3 Agrario',
                 'ord' => 13,
 
             ],
             [
-                'nome' => '2 Agrario',
+                'nome' => '4 Agrario',
                 'ord' => 14,
 
             ],
             [
-                'nome' => '3 Agrario',
+                'nome' => '5 Agrario',
                 'ord' => 15,
 
             ],
             [
-                'nome' => '4 Agrario',
+                'nome' => '1 Scentifico',
                 'ord' => 16,
 
             ],
             [
-                'nome' => '5 Agrario',
+                'nome' => '2 Scentifico',
                 'ord' => 17,
 
             ],
             [
-                'nome' => '1 Scentifico',
+                'nome' => '3 Scentifico',
                 'ord' => 18,
 
             ],
             [
-                'nome' => '2 Scentifico',
+                'nome' => '4 Scentifico',
                 'ord' => 19,
 
             ],
             [
-                'nome' => '3 Scentifico',
-                'ord' => 20,
-
-            ],
-            [
-                'nome' => '4 Scentifico',
-                'ord' => 21,
-
-            ],
-            [
                 'nome' => '5 Scentifico',
-                'ord' => 22,
+                'ord' => 200,
 
             ],
             [
                 'nome' => '1 Scienze Umane',
-                'ord' => 23,
+                'ord' => 21,
 
             ],
             [
                 'nome' => '2 Scienze Umane',
-                'ord' => 24,
+                'ord' => 22,
 
             ],
             [
                 'nome' => '3 Scienze Umane',
-                'ord' => 25,
+                'ord' => 23,
 
             ],
             [
                 'nome' => '4 Scienze Umane',
-                'ord' => 26,
+                'ord' => 24,
 
             ],
             [
                 'nome' => '5 Scienze Umane',
-                'ord' => 27,
+                'ord' => 25,
 
             ],
             [
                 'nome' => '1 Agrario',
-                'ord' => 28,
+                'ord' => 26,
 
             ],
             [
                 'nome' => '2 Agrario',
-                'ord' => 29,
+                'ord' => 27,
 
             ],
             [
                 'nome' => '3 Agrario',
-                'ord' => 30,
+                'ord' => 28,
 
             ],
             [
                 'nome' => '4 Agrario',
-                'ord' =>31,
+                'ord' =>29,
 
             ],
             [
                 'nome' => '5 Agrario',
-                'ord' => 32,
+                'ord' => 30,
 
             ]
 

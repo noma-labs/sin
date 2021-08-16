@@ -73,7 +73,6 @@ class Classe extends Model
         $multiplied = $currrent->map(function ($item, $key) {
             return $item->id;
         });
-//        dd($multiplied);
         return $all->whereNotIn('id', $multiplied);
     }
 
