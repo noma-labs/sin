@@ -251,24 +251,63 @@
     </template>
 </my-modal>
 </div>
-<div class="col-md-2 offset-md-4">
-  <my-modal modal-title="Demolisci Veicolo" button-title="Demolisci" button-style="btn-danger btn-block">
-    <template v-slot:modal-body-slot>
-      <div class="alert alert-danger" role="alert">
-        <p>Attenzione si sta per demolire il veicolo: <strong>{{$veicolo->nome}}</strong>.</p>
-        <p>Il veicolo verrà comunque conservato come <span class="font-italic">veicolo demolito</span>.</p>
-        <form action="{{route('veicoli.demolisci')}}" method="post" id="form-demolisci">
-          @csrf
-          @method('DELETE')
-          <input name="v_id" type="hidden" value="{{$veicolo->id}}">
-        </form>
-      </div>
-    </template>
-    <template v-slot:modal-button>
-      <button type="submit" class="btn btn-success" form="form-demolisci">Ok</button>
-    </template>
-  </my-modal>
-</div>
+    @if($veicolo->deleted_at)
+        <div class="col-md-2 offset-md-2">
+            <my-modal modal-title="Elimina Veicolo Definitivamente" button-title="Elimina Definitivamente" button-style="btn-danger btn-block">
+                <template v-slot:modal-body-slot>
+                    <div class="alert alert-danger" role="alert">
+                        <p>Attenzione si sta per eliminare il veicolo: <strong>{{$veicolo->nome}}</strong>.</p>
+                        <p>Il veicolo verrà eliminato <span class="font-italic">definitivamente</span> e non sarà più possibile recuperarlo.</p>
+                        <form action="{{route('veicoli.elimina.definitivamente')}}" method="post" id="form-elimina">
+                            @csrf
+                            @method('DELETE')
+                            <input name="v_id" type="hidden" value="{{$veicolo->id}}">
+                        </form>
+                    </div>
+                </template>
+                <template v-slot:modal-button>
+                    <button type="submit" class="btn btn-success" form="form-elimina">Ok</button>
+                </template>
+            </my-modal>
+        </div>
+        <div class="col-md-2">
+            <my-modal modal-title="Riabilita Veicolo" button-title="Riabilita Veicolo" button-style="btn-danger btn-block">
+                <template v-slot:modal-body-slot>
+                    <div class="alert alert-warning" role="alert">
+                        <p>Attenzione si sta per riabilitare il veicolo: <strong>{{$veicolo->nome}}</strong>.</p>
+                        <p>Il veicolo tornerà disponibile nei veicoli della comunità.</p>
+                        <form action="{{route('veicolo.riabilita')}}" method="post" id="form-riabilita">
+                            @csrf
+                            @method('POST')
+                            <input name="v_id" type="hidden" value="{{$veicolo->id}}">
+                        </form>
+                    </div>
+                </template>
+                <template v-slot:modal-button>
+                    <button type="submit" class="btn btn-success" form="form-riabilita">Ok</button>
+                </template>
+            </my-modal>
+        </div>
+    @else
+        <div class="col-md-2 offset-md-4">
+          <my-modal modal-title="Demolisci Veicolo" button-title="Demolisci" button-style="btn-danger btn-block">
+            <template v-slot:modal-body-slot>
+              <div class="alert alert-danger" role="alert">
+                <p>Attenzione si sta per demolire il veicolo: <strong>{{$veicolo->nome}}</strong>.</p>
+                <p>Il veicolo verrà comunque conservato come <span class="font-italic">veicolo demolito</span>.</p>
+                <form action="{{route('veicoli.demolisci')}}" method="post" id="form-demolisci">
+                  @csrf
+                  @method('DELETE')
+                  <input name="v_id" type="hidden" value="{{$veicolo->id}}">
+                </form>
+              </div>
+            </template>
+            <template v-slot:modal-button>
+              <button type="submit" class="btn btn-success" form="form-demolisci">Ok</button>
+            </template>
+          </my-modal>
+        </div>
+    @endif
 <div class="col-md-2">
 <button class="btn btn-block btn-success"  form="veicolo-form-modifica"  type="submit">Salva</button>
 </div>

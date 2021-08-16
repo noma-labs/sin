@@ -402,6 +402,9 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
         'PrenotazioniController@search')->middleware('ability:veicolo.visualizza')->name('officina.ricerca.submit');
     // VEICOLI add, update
     Route::get('veicoli', 'VeicoliController@index')->middleware('ability:veicolo.visualizza')->name('veicoli.index');
+    Route::get('veicoli/demoliti', 'VeicoliController@veicoliDemoliti')->middleware('ability:veicolo.visualizza')->name('veicoli.demoliti');
+    Route::post('veicoli/riabilita', 'VeicoliController@veicoloRiabilita')->middleware('ability:veicolo.modifica')->name('veicolo.riabilita');
+    Route::delete('veicoli/elimina-definitivamente', 'VeicoliController@veicoloEliminaDefinitivamente')->middleware('ability:veicolo.modifica')->name('veicoli.elimina.definitivamente');
     Route::get('veicoli/nuovo',
         'VeicoliController@viewCreate')->middleware('ability:veicolo.inserisci')->name('veicoli.nuovo');
     Route::post('veicoli/nuovo',
