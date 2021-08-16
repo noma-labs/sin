@@ -48,6 +48,16 @@ class Anno extends Model
         return $this->hasMany(Classe::class, 'anno_id', 'id');
     }
 
+    public function classiTipoPossibili()
+    {
+        $current = $this->classi()->get();
+        $ids = $current->map(function ($item) {
+            return $item->tipo->id;
+        });
+        $all = ClasseTipo::all();
+        return $all->whereNotIn('id', $ids);
+    }
+
     public function aggiungiClasse(ClasseTipo $tipo): Classe
     {
         return $this->classi()->create(["anno_id" => 3, 'tipo_id' => $tipo->id]);

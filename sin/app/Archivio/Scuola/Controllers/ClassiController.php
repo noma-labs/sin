@@ -17,9 +17,9 @@ class ClassiController extends CoreBaseController
 {
     public function index()
     {
-        $a = Anno::getLastAnno();
-        $classi = $a->classi()->get();
-        return view('scuola.classi.index', compact('classi'));
+        $anno = Anno::getLastAnno();
+        $classi = $anno->classi()->get();
+        return view('scuola.classi.index', compact('anno', 'classi'));
     }
 
     public function show(Request $request, $id)
