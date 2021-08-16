@@ -34,6 +34,7 @@ class AuthTablesSeeder extends Seeder
         $presAdmin = Ruolo::create(['nome' => 'presidenza-amm', 'descrizione'=>'Amminstratore della presidenza']);
         $meccAdmin = Ruolo::create(['nome' => 'meccanica-amm', 'descrizione'=>'Amminstratore della meccanica con tutti i permessi.']);
         $biblioAdmin = Ruolo::create(['nome' => 'biblioteca-amm', 'descrizione'=>'Amministratore della biblioteca']);
+        $scuolaAdmin = Ruolo::create(['nome' => 'scuola-amm', 'descrizione'=>'Amministratore della scuola di Nomadelfia']);
         $master = Ruolo::create(['nome' => 'master', 'descrizione'=>'A tutti i permessi su tutte le risorse dei sistemi.']);
         
         // Creazione delle risorse
@@ -47,6 +48,7 @@ class AuthTablesSeeder extends Seeder
         Risorsa::create(['nome' => 'film', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'professionale', 'sistema_id'=>$scuola->id]);
         $patente = Risorsa::create(['nome' => 'patente', 'sistema_id'=>$patente->id]);
+        $classi = Risorsa::create(['nome' => 'classe', 'sistema_id'=>$scuola->id]);
 
         // Gestione dei permessi di ogni risorse dei ruoli
         // `ruolo_id`  `risorsa_id` => `visualizza`, `inserisci`, `elimina`, `modifica`, `prenota`, `esporta`, `svuota`
@@ -69,6 +71,15 @@ class AuthTablesSeeder extends Seeder
             "svuota" => "1",
         ]);
         $master->risorse()->save($patente, [
+            "visualizza" => "1",
+            "inserisci" => "1",
+            "elimina" => "1",
+            "modifica" => "1",
+            "prenota" => "1",
+            "esporta" => "1",
+            "svuota" => "1",
+        ]);
+        $master->risorse()->save($classi, [
             "visualizza" => "1",
             "inserisci" => "1",
             "elimina" => "1",
