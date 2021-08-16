@@ -25,7 +25,7 @@ class ScuolaController extends CoreBaseController
         ], [
             'tipo.required' => "Il tipo di classe da aggiungere è obbligatorio.",
         ]);
-        $anno = Anno::FindOrFail($id());
+        $anno = Anno::FindOrFail($id);
         $classe = $anno->aggiungiClasse(ClasseTipo::findOrFail($request->tipo));
         return redirect()->back()->withSuccess("Classe  {$classe->tipo->nome} aggiunta a {{$anno->scolastico}} con successo.");
     }

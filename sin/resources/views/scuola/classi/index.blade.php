@@ -27,8 +27,7 @@
                         <li>  @year($alunno->data_nascita) @include('nomadelfia.templates.persona', ['persona'=>$alunno])</li>
                       @endforeach
                       </ul>
-                        <a class="btn btn-primary" href="{{ route('scuola.classi.show', $classe->id)}}">Dettaglio</a>
-
+                        <a class="btn btn-primary" href="{{ route('scuola.classi.show',$classe->id)}}">Dettaglio</a>
                       </div>
                   </div>
                  </div>
