@@ -106,7 +106,7 @@
         </div>
       @endhasrole
 
-          @hasrole('presidenza-amm|presidenza-ope|master')
+          @hasrole('presidenza-amm|presidenza-ope|master|scuola-amm')
           <div class="col-md-4">
             <div class="card text-center border-warning mb-3">
               <div class="card-header">
