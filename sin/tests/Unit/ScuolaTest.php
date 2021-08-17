@@ -80,4 +80,17 @@ class ScuolaTest extends TestCase
         $this->assertTrue($t->isPrescuola());
 
     }
+
+    public function testAggiungiAlunnoWitDataInizio()
+    {
+        $now = Carbon::now();
+        $a = Anno::createAnno(2002, $now);
+        $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
+        $c = $a->aggiungiClasse(ClasseTipo::all()->random());
+        $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
+
+        // Add alunno with a carbon
+        $c->aggiungiAlunno($p1,  $now->addDays(15));
+
+    }
 }

@@ -1,19 +1,21 @@
 CREATE TABLE `anno`
 (
     `id`          int(10)     NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT'Anno (intero) è la chiave primaria',
-    `anno`        int(10)     NOT NULL COMMENT'Anno (intero) è la chiave primaria',
     `scolastico`  varchar(10) NOT NULL COMMENT'Anno scolastico. E.g. 2018/2019',
-    `descrizione` varchar(100)     DEFAULT NULL,
+    `descrizione` varchar(100)  DEFAULT NULL,
+    `data_inizio` date         NOT NULL COMMENT'Data inizio dell anno scolastico',
+    `data_fine`   date         DEFAULT NULL COMMENT'Data fine dell anno scolastico',
     `created_at`  timestamp   NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`  timestamp   NULL DEFAULT NULL,
-    CONSTRAINT unique_anno_scolastico UNIQUE (anno)
+    CONSTRAINT unique_anno_scolastico UNIQUE (scolastico)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 CREATE TABLE `tipo`
 (
     `id`          int(10)     NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT'Id univoco della classe in un anno scolastico',
     `nome`        varchar(50) NOT NULL,
-    `descrizione` varchar(100)     DEFAULT NULL,
+    `ciclo`       ENUM('prescuola', 'elementari', 'medie', 'superiori') NOT NULL DEFAULT 'superiori',
+    `descrizione` varchar(100) DEFAULT NULL,
     `ord`         int(10)     NOT NULL COMMENT'ordine progressivo per ordinare le classi',
     `created_at`  timestamp   NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`  timestamp   NULL DEFAULT NULL

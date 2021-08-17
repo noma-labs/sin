@@ -289,4 +289,32 @@ class PopolazioneTest extends BaseTestCase
 
     }
 
+    public function testFigliDaEta()
+    {
+        // store the actual figli (maybe inserted by other tests)
+        $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18 )->count();
+
+        $famiglia = factory(Famiglia::class)->create();
+        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
+        $capoFam->assegnaGruppoFamiliare(GruppoFamiliare::all()->random(), Carbon::now());
+
+        $p1 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()] ); // 2018-01-01 00:00:00
+        $p0 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)] );                // 2018-now()
+        $p2 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()] );   // 2018-12-31 23:59:59
+
+        $pafter = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()] );   // 2019-01-01 00:00:00
+
+        $p0->entrataNatoInNomadelfia($famiglia->id);
+        $p1->entrataNatoInNomadelfia($famiglia->id);
+        $p2->entrataNatoInNomadelfia($famiglia->id);
+        $pafter->entrataNatoInNomadelfia($famiglia->id);
+
+        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', true)) );
+        $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', false)));
+
+        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', false))); // - $actualFigli );
+        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', true))); // - $actualFigli );
+    }
+
 }
