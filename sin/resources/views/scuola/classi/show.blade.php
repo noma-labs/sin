@@ -1,4 +1,4 @@
-@extends('nomadelfia.index')
+@extends('scuola.index')
 
 @section('archivio')
     @include('partials.header', ['title' => 'Gestione Classe'])
