@@ -8,6 +8,6 @@
      </form>
   </template> 
   <template slot="modal-button">
-        <button class="btn btn-danger" form="formRimuoviAlunno{{$alunno->id}}">Elimina</button>
+        <button class="btn btn-danger btn-sm" form="formRimuoviAlunno{{$alunno->id}}">Elimina</button>
   </template>
 </my-modal> 

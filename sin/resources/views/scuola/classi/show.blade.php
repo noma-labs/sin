@@ -46,6 +46,9 @@
                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ['persona' => $alunno])
                                             (@diffYears($alunno->data_nascita) anni)
+                                            @liveRome($alunno)
+                                                <span class="badge badge-warning">Roma</span>
+                                            @endliveRome
                                         </div>
                                     </div>
                                     <div class="col-md-4 offset-md-2">

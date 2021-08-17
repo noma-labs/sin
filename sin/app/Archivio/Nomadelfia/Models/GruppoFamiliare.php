@@ -197,13 +197,9 @@ class GruppoFamiliare extends Model
     }
 
 
-//    public function scopePersoneConFamiglia($query, $gruppoid)
-//    {
-//        return self::find($gruppoid)->personeAttuale()->with([
-//            "famiglie" => function ($query) {
-//                $query->where("stato", "1");
-//            }
-//        ]);
-//    }
+    public function isCentroDiSpirito() : bool
+    {
+        return $this->nome === 'GIOVANNI PAOLO II';
+    }
 
 }
