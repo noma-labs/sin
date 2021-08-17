@@ -72,7 +72,7 @@ class Classe extends Model
         if ($this->tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
         } else {
-            $all = PopolazioneNomadelfia::figliDaEta(7, 21, "data_nascita");
+            $all = PopolazioneNomadelfia::figliDaEta(7, 20, "data_nascita");
         }
 
         $current = collect($this->anno->alunni());
