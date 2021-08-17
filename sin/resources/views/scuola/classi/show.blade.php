@@ -18,11 +18,7 @@
                             <div class="row">
                                 <label class="col-sm-6 font-weight-bold">Responsabile:</label>
                                 <div class="col-sm-6">
-                                    {{--                            @if ($classe->capogruppoAttuale())--}}
-                                    {{--                                <a href="{{}}"> XXXXX </a>--}}
-                                    {{--                            @else--}}
-                                    <span class="text-danger">Responabile non assegnato</span>
-                                    {{--                            @endif--}}
+                                    <span class="text-danger">Responsabile non assegnato</span>
                                 </div>
                             </div>
                         </div> <!--end col dati gruppo -->
