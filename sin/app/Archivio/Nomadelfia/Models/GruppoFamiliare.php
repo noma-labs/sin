@@ -7,6 +7,7 @@ use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Str;
 
 class GruppoFamiliare extends Model
 {
@@ -199,7 +200,7 @@ class GruppoFamiliare extends Model
 
     public function isCentroDiSpirito() : bool
     {
-        return $this->nome === 'GIOVANNI PAOLO II';
+        return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
     }
 
 }
