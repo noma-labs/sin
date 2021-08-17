@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Persona;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -19,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Return True of the persone live in the centro di spirito.
+        Blade::if('liveRome', function ($persona) {
+            if (is_string($persona)) {
+                $persona= Persona::findOrFail($persona);
+            }
+            return $persona->gruppofamiliareAttuale()->isCentroDiSpirito();
+        });
 
         Blade::if('maggiorenne', function ($persona) {
            // return false; $date = Carbon::now()->subYears(18)->toDatestring();

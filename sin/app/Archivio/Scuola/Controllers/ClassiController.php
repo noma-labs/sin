@@ -34,14 +34,13 @@ class ClassiController extends CoreBaseController
     {
         $validatedData = $request->validate([
             "alunno_id" => "required",
-            "data_inizio" => "required|date",
         ], [
             "alunno_id.required" => "Alunno è obbligatorio",
-            'data_inizio.required' => "La data di inizio è obbligatoria.",
         ]);
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($request->alunno_id);
-        $classe->aggiungiAlunno($alunno, Carbon::parse($request->data_inizio));
+
+        $classe->aggiungiAlunno($alunno, $request->data_inizio);
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
     }
 

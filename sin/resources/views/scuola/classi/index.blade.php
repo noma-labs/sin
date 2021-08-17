@@ -24,7 +24,11 @@
                     <div class="card-body">
                       <ul>
                       @foreach($classe->alunni as $alunno)
-                        <li>  @year($alunno->data_nascita) @include('nomadelfia.templates.persona', ['persona'=>$alunno])</li>
+                        <li>  @year($alunno->data_nascita) @include('nomadelfia.templates.persona', ['persona'=>$alunno])
+                            @liveRome($alunno)
+                            <span class="badge badge-warning">Roma</span>
+                            @endliveRome
+                        </li>
                       @endforeach
                       </ul>
                         <a class="btn btn-primary" href="{{ route('scuola.classi.show',$classe->id)}}">Dettaglio</a>

@@ -18,11 +18,7 @@
                             <div class="row">
                                 <label class="col-sm-6 font-weight-bold">Responsabile:</label>
                                 <div class="col-sm-6">
-                                    {{--                            @if ($classe->capogruppoAttuale())--}}
-                                    {{--                                <a href="{{}}"> XXXXX </a>--}}
-                                    {{--                            @else--}}
-                                    <span class="text-danger">Responabile non assegnato</span>
-                                    {{--                            @endif--}}
+                                    <span class="text-danger">Responsabile non assegnato</span>
                                 </div>
                             </div>
                         </div> <!--end col dati gruppo -->
@@ -50,6 +46,9 @@
                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ['persona' => $alunno])
                                             (@diffYears($alunno->data_nascita) anni)
+                                            @liveRome($alunno)
+                                                <span class="badge badge-warning">Roma</span>
+                                            @endliveRome
                                         </div>
                                     </div>
                                     <div class="col-md-4 offset-md-2">

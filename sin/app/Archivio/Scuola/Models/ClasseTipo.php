@@ -25,9 +25,24 @@ class ClasseTipo extends Model
         return $this->alunni()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->orderBy('mansione', 'asc');
     }
 
-    public function scopeIsPrescuola()
+    public function scopeIsPrescuola() :bool
     {
-        return $this->nome == "Prescuola";
+        return $this->ciclo === "prescuola";
+    }
+
+    public function scopeIsElementari(): bool
+    {
+        return $this->ciclo === "elementari";
+    }
+
+    public function scopeIsMedie(): bool
+    {
+        return $this->ciclo === "medie";
+    }
+
+    public function scopeIsSuperiori(): bool
+    {
+        return $this->ciclo === "superiori";
     }
 
     public function scopeIsPrimaEl()

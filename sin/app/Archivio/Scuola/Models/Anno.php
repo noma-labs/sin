@@ -23,15 +23,21 @@ class Anno extends Model
         parent::boot();
 
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderby('anno');
+            $builder->orderby('data_inizio');
         });
     }
 
-    public static function createAnno(int $year): Anno
+    public static function createAnno(int $year, $datainizo=null): Anno
     {
         $succ = $year + 1;
         $as = "{$year}/{$succ}";
-        return self::create(["anno" => $year, 'scolastico' => $as]);
+
+        if ($datainizo === null){
+            $d = Carbon::now();
+        }else{
+            $d = Carbon::parse($datainizo);
+        }
+        return self::create(['scolastico' => $as, 'data_inizio' =>$d]);
     }
 
     public static function getLastAnno(): Anno

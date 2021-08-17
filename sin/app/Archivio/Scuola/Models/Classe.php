@@ -22,7 +22,7 @@ class Classe extends Model
     public function alunni()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
-            'persona_id')->whereNull("data_fine")->withPivot('data_inizio');
+            'persona_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy('nominativo');
     }
 
     public function anno()
@@ -35,8 +35,14 @@ class Classe extends Model
         return $this->belongsTo(ClasseTipo::class, "tipo_id", 'id');
     }
 
-    public function aggiungiAlunno($alunno, Carbon\Carbon $data_inizio)
+    public function aggiungiAlunno($alunno, $data_inizio)
     {
+        if (is_null($data_inizio)) {
+            $data_inizio = $this->anno->data_inizio;
+        }
+        if (is_string($data_inizio)) {
+            $data_inizio = Carbon::parse($data_inizio);
+        }
         if (is_integer($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
@@ -69,11 +75,11 @@ class Classe extends Model
             $all = PopolazioneNomadelfia::figliDaEta(7, 21, "data_nascita");
         }
 
-        $currrent = $this->alunni()->get();
-        $multiplied = $currrent->map(function ($item, $key) {
+        $current = collect($this->anno->alunni());
+        $ids = $current->map(function ($item) {
             return $item->id;
         });
-        return $all->whereNotIn('id', $multiplied);
+        return $all->whereNotIn('id', $ids);
     }
 
 }

@@ -344,9 +344,18 @@ class PopolazioneNomadelfia
     /*
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
-    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo')
+    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo', $withInYear=false)
     {   $interna = Categoria::perNome("interno");
         $posizione = Posizione::perNome("figlio");
+        $end = Carbon::now()->subYears($fromEta);
+        if ($withInYear){
+            $end = $end->endOfYear();
+        }
+        $start = Carbon::now()->subYears($toEta);
+        if ($withInYear){
+            $start = $start->endOfYear();
+        }
+
         $q = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_posizioni.*")
@@ -357,11 +366,11 @@ class PopolazioneNomadelfia
             ->where("persone.stato", "=", '1')
             ->where("persone_categorie.stato", "=", "1")
             ->where("persone_posizioni.stato", "=", "1")
-            ->where("persone.data_nascita", "<=", Carbon::now()->subYears($fromEta))
+            ->where("persone.data_nascita", "<=",$end)
             ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
             ->orderByRaw($orderBy);
         if ($toEta != null){
-            $q->where("persone.data_nascita", ">", Carbon::now()->subYears($toEta));
+            $q->where("persone.data_nascita", ">=", $start);
         }
         return $q->get();
     }
