@@ -130,7 +130,6 @@
                   </div>
                   <div class="col-sm-2">
                     @if($persona->isPersonaInterna())
-                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
 
                       <my-modal modal-title="Uscita dalla comunità" button-title="Uscita" button-style="btn-danger my-2">
                           <template slot="modal-body-slot">
@@ -144,7 +143,9 @@
                           <template slot="modal-button">
                               <button class="btn btn-success" form="formUscitaPersona{{$persona->id}}">Salva</button>
                           </template> 
-                      </my-modal> 
+                      </my-modal>
+                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
+
                       @endif
                   </div>
                 </div>
@@ -159,11 +160,13 @@
                         </p>
                     </div>
                     <div class="col-sm-2">
-                        <my-modal modal-title="Entrata nella comunità" button-title="Entrata" button-style="btn-secondary my-2">
+                        @if (!$persona->isPersonaInterna())
+                        <my-modal modal-title="Entrata nella comunità" button-title="Entrata" button-style="btn-success my-2">
                             <template slot="modal-body-slot">
                                 @include("nomadelfia.templates.entrataPersona", ['persona' => $persona])
                             </template>
                         </my-modal>
+                            @endif
                     </div>
                   </div>
               </li>

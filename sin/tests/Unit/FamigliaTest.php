@@ -22,7 +22,6 @@ class FamigliaTest extends TestCase
     {
         $famiglia = factory(Famiglia::class)->create();
         $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-
         $this->expectException(InvalidArgumentException::class);
         $famiglia->assegnaComponente($persona, "NOT EXISTING", Carbon::now()->toDatestring());
         $this->assertEquals(3,3);

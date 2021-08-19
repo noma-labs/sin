@@ -55,6 +55,7 @@ php artisan key:generate
 CREATE DATABASE db_admsys  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
 CREATE DATABASE db_nomadelfia  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
 CREATE DATABASE archivio_biblioteca  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
+CREATE DATABASE db_scuola  CHARACTER SET = 'utf8'  COLLATE = 'utf8_general_ci';
 ```   
 10. Execute migrations 
 IMPORTANT: do not execute on production

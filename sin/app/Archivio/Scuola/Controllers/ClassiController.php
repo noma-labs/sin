@@ -19,6 +19,7 @@ class ClassiController extends CoreBaseController
     {
         $anno = Anno::getLastAnno();
         $classi = $anno->classi()->get();
+        // TODO: group by ciclo delle classi
         return view('scuola.classi.index', compact('anno', 'classi'));
     }
 
