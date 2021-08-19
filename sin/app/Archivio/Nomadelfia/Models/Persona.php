@@ -567,6 +567,12 @@ class Persona extends Model
         try {
             $conn = DB::connection('db_nomadelfia');
 
+            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
+            $conn->update(
+                "UPDATE persone SET stato = '1' WHERE id = ? and stato = '0';",
+                [$persona_id]
+            );
+
             // inserisce la persona nella popolazione (mette la categoria persona interna)
             $conn->insert(
                 "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
@@ -603,9 +609,9 @@ class Persona extends Model
             // inserisce la persona nella famiglia con una posizione
             if ($famiglia_id) {
                 // NOTE: ignore il fallimentto di inserimento della stessa persona nella stessa famiglia
-                // perchè nel caso cche la famiglia esce e rietnra da Nomadelfia, la persona risulta essere giò nella famiglia
+                // perchè nel caso in cui la famiglia esce e rientra in Nomadelfia, la persona risulta essere gia nella famiglia
                 $conn->insert(
-                    "INSERT IGNORE INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')",
+                    "INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')",
                     [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione]
                 );
             }
