@@ -9,66 +9,79 @@ use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 
 class Stato extends Model
 {
-  protected $connection = 'db_nomadelfia';
-  protected $table = 'stati';
-  protected $primaryKey = "id";
+    protected $connection = 'db_nomadelfia';
+    protected $table = 'stati';
+    protected $primaryKey = "id";
 
-  public $guarded = ['id'];
-  public $timestamps = false;
+    public $guarded = ['id'];
+    public $timestamps = false;
 
-
-  public function persone(){
-    return $this->belongsToMany(Persona::class,'persone_stati', 'stato_id', 'persona_id')
-                 ->withPivot("stato")
-                 ->orderby("nominativo");
-  }
-
-  public function personeAttuale(){
-    return $this->persone()->where("persone_stati.stato","1");
-  }
-
-  //usat ???
-  public function scopeAttivo($query)
-  {
-      return $query->where('persone_stati.stato', 1);
-  }
+    public static $mapNamesToDB = [
+        "sacerdote" => "SAC",
+        "celibe" => "CEL",
+        "nubile" => "NUB",
+        "mammavocazione" => "MAV",
+        "sposato" => "SPO",
+    ];
 
 
-   /**
+    public function persone()
+    {
+        return $this->belongsToMany(Persona::class, 'persone_stati', 'stato_id', 'persona_id')
+            ->withPivot("stato")
+            ->orderby("nominativo");
+    }
+
+    public function personeAttuale()
+    {
+        return $this->persone()->where("persone_stati.stato", "1");
+    }
+
+    public function scopeAttivo($query)
+    {
+        return $query->where('persone_stati.stato', 1);
+    }
+
+
+    public function isCelibe(): bool
+    {
+        return $this->stato == $this->mapNamesToDB['celibe'];
+    }
+
+    public function isNubile(): bool
+    {
+        return $this->stato == $this->mapNamesToDB['nubile'];
+    }
+
+    /**
      * Find a STATO by its abbreviato
      *
      * @param string $name
      * @param string|null $guardName
      *
+     * @return  \App\Nomadelfia\Models\Posizione
      * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
      *
-     * @return  \App\Nomadelfia\Models\Posizione
      */
     public static function find(string $name): Stato
     {
         $stato = Stato::where("stato", $name)->first();
-        if (! $stato) {
+        if (!$stato) {
             throw StatoDoesNotExists::create($name);
         }
         return $stato;
     }
 
-  /**
-   * Ritorna lo stato dal suo nome
-   * 
-   * @author: Davide Neri
-   */
+    /**
+     * Ritorna lo stato dal suo nome
+     *
+     * @author: Davide Neri
+     */
 
-  public static function perNome($nome){
-    
-    $mapNamesToDB = [
-        "sacerdote"=> "SAC",
-        "celibe"=>"CEL",
-        "nubile"=>"NUB",
-        "mammavocazione"=>"MAV",
-        "sposato"=>"SPO",
-    ];
-    return static::where('stato',$mapNamesToDB[$nome])->first();
-  }
+    public static function perNome($nome)
+    {
+
+        return static::where('stato', self::$mapNamesToDB[$nome])->first();
+    }
 
 }

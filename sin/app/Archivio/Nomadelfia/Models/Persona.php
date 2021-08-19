@@ -504,6 +504,9 @@ class Persona extends Model
 
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
+        if ($gruppo_id instanceof GruppoFamiliare) {
+            $gruppo_id  = $gruppo_id->id;
+        }
         if (!$this->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($this->nominativo);
         }
@@ -555,6 +558,7 @@ class Persona extends Model
         if ($this->isPersonaInterna()) {
             throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
+
         $interna = Categoria::perNome("interno");
         $esterno = Categoria::perNome("esterno");
         $persona_id = $this->id;
@@ -563,19 +567,19 @@ class Persona extends Model
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            // inserisce la categoria come persona interna.
+            // inserisce la persona nella popolazione (mette la categoria persona interna)
             $conn->insert(
                 "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
                 [$persona_id, $interna->id, $data]
             );
 
-            // conclude la persona esterna con la data di fine = alla data di entrata
-            $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
-                [$persona_id, $interna->id, $data]
+            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
+            $conn->update(
+                "UPDATE persone_categorie SET data_fine=?, stato = '0' WHERE persona_id = ? and categoria_id = ? and data_fine IS NULL;",
+                [$data, $persona_id, $esterno->id]
             );
 
-            // inserisce la posizione in nomadelfia della persona
+            // inserisce la persone come Ospite, o Figlio
             $conn->insert(
                 "INSERT INTO persone_posizioni (persona_id, posizione_id, data_inizio, stato) VALUES (?, ?, ?,'1')",
                 [$persona_id, $posizione_id, $posizione_data]
@@ -588,17 +592,20 @@ class Persona extends Model
             );
 
             if ($stato_id) {
-                // inserisce lo stato familiare
+                // inserisce lo stato familiare di Celibe o Nubile
+                // NOTE: ignora perchè lo stato di celibe o nubile rimane
                 $conn->insert(
-                    "INSERT INTO persone_stati (persona_id, stato_id, data_inizio, stato) VALUES (?, ?, ?,'1')",
+                    "INSERT IGNORE INTO persone_stati (persona_id, stato_id, data_inizio, stato) VALUES (?, ?, ?,'1')",
                     [$persona_id, $stato_id, $stato_data]
                 );
             }
 
             // inserisce la persona nella famiglia con una posizione
             if ($famiglia_id) {
+                // NOTE: ignore il fallimentto di inserimento della stessa persona nella stessa famiglia
+                // perchè nel caso cche la famiglia esce e rietnra da Nomadelfia, la persona risulta essere giò nella famiglia
                 $conn->insert(
-                    "INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')",
+                    "INSERT IGNORE INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')",
                     [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione]
                 );
             }
