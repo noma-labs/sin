@@ -608,11 +608,11 @@ class Persona extends Model
 
             // inserisce la persona nella famiglia con una posizione
             if ($famiglia_id) {
-                // NOTE: ignore il fallimentto di inserimento della stessa persona nella stessa famiglia
-                // perchè nel caso in cui la famiglia esce e rientra in Nomadelfia, la persona risulta essere gia nella famiglia
+                // NOTE: se la persone è già nella famiglia (è duplicato) si aggiorna lo stato a 1 con la nuova data
                 $conn->insert(
-                    "INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')",
-                    [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione]
+                    "INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1') 
+                            ON DUPLICATE KEY UPDATE stato='1', data_entrata=?, data_uscita=NULL",
+                    [$famiglia_id, $persona_id, $famiglia_data, $famiglia_posizione, $famiglia_data]
                 );
             }
             DB::connection('db_nomadelfia')->commit();
