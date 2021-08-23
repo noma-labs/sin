@@ -276,7 +276,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
             foreach (GruppoFamiliare::orderby("nome")->get() as $gruppo) {
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
-                $gruppiSect->addTitle($gruppo->nome, 2);
+                $gruppiSect->addTitle($gruppo->nome. " ".$gruppo->personeAttuale()->count(), 2);
      
                 foreach ($gruppo->Single() as $single) {
                     $gruppiSect->addTitle($single->nominativo, 3);
