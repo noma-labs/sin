@@ -2,6 +2,7 @@
 
 namespace App\Scuola\Models;
 
+use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
@@ -23,6 +24,12 @@ class Classe extends Model
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
             'persona_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy('nominativo');
+    }
+
+    public function coordinatori()
+    {
+        return $this->belongsToMany(Persona::class, 'db_scuola.coordinatori_classi', 'classe_id',
+            'coordinatore_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy('nominativo');
     }
 
     public function anno()
@@ -52,6 +59,48 @@ class Classe extends Model
             ]);
         }else {
             throw new Exception("Alunno is not a valid id or model");
+        }
+    }
+
+    public function aggiungiCoordinatore($persona, $data_inizio)
+    {
+        if (is_null($data_inizio)) {
+            $data_inizio = $this->anno->data_inizio;
+        }
+        if (is_string($data_inizio)) {
+            $data_inizio = Carbon::parse($data_inizio);
+        }
+        if (is_integer($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            $this->coordinatori()->attach($persona->id, [
+                'data_inizio' => $data_inizio,
+            ]);
+        }else {
+            throw new Exception("Coordinatore is not a valid id or model");
+        }
+    }
+    public function coordinatoriPossibili()
+    {
+        $all = Azienda::scuola()->lavoratoriAttuali()->orderby("persone.nome")->get();
+
+        $current = collect($this->coordinatori()->get());
+        $ids = $current->map(function ($item) {
+            return $item->id;
+        });
+        return $all->whereNotIn('id', $ids);
+    }
+
+    public function rimuoviCoordinatore($coord)
+    {
+        if (is_integer($coord)) {
+            $coord = Persona::findOrFail($coord);
+        }
+        if ($coord instanceof Persona) {
+            $this->coordinatori()->detach($coord->id);
+        }else {
+            throw new Exception("Coordinatore  is not a valid id or model");
         }
     }
 

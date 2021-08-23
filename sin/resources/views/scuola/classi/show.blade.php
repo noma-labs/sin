@@ -22,8 +22,11 @@
                                 </div>
                             </div>
                         </div> <!--end col dati gruppo -->
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             @include("scuola.templates.aggiungiAlunno",["classe"=>$classe])
+                        </div> <!--end col -->
+                        <div class="col-md-4">
+                            @include("scuola.templates.aggiungiCoordinatore",["classe"=>$classe])
                         </div> <!--end col -->
                     </div>  <!--end row -->
                 </div> <!--end card body -->
@@ -67,8 +70,21 @@
                 <div class="card-body">
                     <h4 class="card-title">Coordinatori</h4>
                     <ul class="list-group list-group-flush">
-
-                        <ul>
+                        @foreach($coords->get() as $coord)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="font-weight-bold mt-2">
+                                            @include("nomadelfia.templates.persona", ['persona' => $coord])
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 offset-md-2">
+                                        @include('scuola.templates.rimuoviCoordinatore', ['classe'=> $classe, 'alunno' => $coord] )
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                      <ul>
                 </div>
             </div>
         </div>

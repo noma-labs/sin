@@ -54,6 +54,11 @@ class Azienda extends Model
             '=', 'Non Attivo')->withPivot('data_fine_azienda', 'stato');
     }
 
+    public static function scuola()
+    {
+        return static::perNome("scuola");
+    }
+
     public static function perNome($nome)
     {
         return static::where('nome_azienda', $nome)->first();

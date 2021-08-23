@@ -27,8 +27,10 @@ class ClassiController extends CoreBaseController
     {
         $classe = Classe::findOrFail($id);
         $alunni = $classe->alunni();
+        $coords = $classe->coordinatori();
         $possibili = $classe->alunniPossibili();
-        return view('scuola.classi.show', compact('classe', 'alunni', 'possibili'));
+        $coordPossibili = $classe->coordinatoriPossibili();
+        return view('scuola.classi.show', compact('classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
     }
 
     public function aggiungeAlunno(Request $request, $id)
@@ -52,5 +54,28 @@ class ClassiController extends CoreBaseController
         $classe->rimuoviAlunno($alunno);
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
+
+    public function aggiungiCoordinatore(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            "coord_id" => "required",
+        ], [
+            "coord_id.required" => "Coordinatore è obbligatorio",
+        ]);
+        $classe = Classe::findOrFail($id);
+        $coord = Persona::findOrFail($request->coord_id);
+
+        $classe->aggiungiCoordinatore($coord, $request->data_inizio);
+        return redirect()->back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
+    }
+
+    public function rimuoviCoordinatore(Request $request, $id, $coord_id)
+    {
+        $classe = Classe::findOrFail($id);
+        $coord = Persona::findOrFail($coord_id);
+        $classe->rimuoviCoordinatore($coord);
+        return redirect()->back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
+    }
+
 
 }
