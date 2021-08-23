@@ -31,7 +31,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 
-        $gruppi = GruppoFamiliare::all();
+        $gruppi =  GruppoFamiliare::countComponenti();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
     }
