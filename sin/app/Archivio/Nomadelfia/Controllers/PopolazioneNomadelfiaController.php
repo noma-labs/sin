@@ -31,7 +31,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 
-        $gruppi = GruppoFamiliare::all();
+        $gruppi =  GruppoFamiliare::countComponenti();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
     }
@@ -117,7 +117,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle(array('spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2), 'spacing' => 4 ));
 
-        
         // main page
         $section = $phpWord->addSection(array('vAlign'=>\PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
         $section->addText(Carbon::now()->toDatestring(), array('bold'=>true, 'italic'=>false, 'size'=>16), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
@@ -275,9 +274,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             // $gruppiSect = $phpWord->addSection();
             // $gruppiSect->addTitle('Gruppi Familiari ', 1);
 
-            foreach (GruppoFamiliare::all() as $gruppo) {
+            foreach (GruppoFamiliare::orderby("nome")->get() as $gruppo) {
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
-                $gruppiSect->addTitle($gruppo->nome, 2);
+                $gruppiSect->addTitle($gruppo->nome. " ".$gruppo->personeAttuale()->count(), 2);
      
                 foreach ($gruppo->Single() as $single) {
                     $gruppiSect->addTitle($single->nominativo, 3);

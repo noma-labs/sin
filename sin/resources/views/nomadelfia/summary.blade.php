@@ -103,7 +103,7 @@
               @foreach ($gruppi as $gruppo)
                   <li>
                       @include('nomadelfia.templates.gruppo', ['id'=>$gruppo->id, "nome"=>$gruppo->nome])
-                          <span class="badge badge-primary badge-pill"> {{count($gruppo->componenti())}}</span>
+                          <span class="badge badge-primary badge-pill"> {{$gruppo->count}}</span>
                   </strong>  
                   
                   </li>
