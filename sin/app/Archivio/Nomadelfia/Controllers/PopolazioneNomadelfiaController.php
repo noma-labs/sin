@@ -117,7 +117,6 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle(array('spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2), 'spacing' => 4 ));
 
-        
         // main page
         $section = $phpWord->addSection(array('vAlign'=>\PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
         $section->addText(Carbon::now()->toDatestring(), array('bold'=>true, 'italic'=>false, 'size'=>16), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
@@ -275,7 +274,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             // $gruppiSect = $phpWord->addSection();
             // $gruppiSect->addTitle('Gruppi Familiari ', 1);
 
-            foreach (GruppoFamiliare::all() as $gruppo) {
+            foreach (GruppoFamiliare::orderby("nome")->get() as $gruppo) {
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
                 $gruppiSect->addTitle($gruppo->nome, 2);
      
