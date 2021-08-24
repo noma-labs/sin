@@ -38,19 +38,18 @@ class Azienda extends Model
     public function lavoratori()
     {
         return $this->belongsToMany(Persona::class, 'aziende_persone', 'azienda_id', 'persona_id')->withPivot('stato',
-            'data_inizio_azienda');
+            'data_inizio_azienda')->orderBy('mansione', 'asc')->orderBy('persone.nominativo');
     }
 
     public function lavoratoriAttuali()
     {
-        return $this->belongsToMany(Persona::class, 'aziende_persone', 'azienda_id',
-            'persona_id')->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione',
-            'stato')->orderBy('mansione', 'asc');
+        return $this->lavoratori()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione',
+            'stato');
     }
 
     public function lavoratoriStorici()
     {
-        return $this->belongsToMany(Persona::class, 'aziende_persone', 'azienda_id', 'persona_id')->wherePivot('stato',
+        return $this->lavoratori()->wherePivot('stato',
             '=', 'Non Attivo')->withPivot('data_fine_azienda', 'stato');
     }
 

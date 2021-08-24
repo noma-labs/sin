@@ -83,7 +83,7 @@ class Classe extends Model
     }
     public function coordinatoriPossibili()
     {
-        $all = Azienda::scuola()->lavoratoriAttuali()->orderby("persone.nome")->get();
+        $all = Azienda::scuola()->lavoratoriAttuali()->get();
 
         $current = collect($this->coordinatori()->get());
         $ids = $current->map(function ($item) {
