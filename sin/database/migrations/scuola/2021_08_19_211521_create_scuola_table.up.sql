@@ -49,9 +49,11 @@ CREATE TABLE `coordinatori_classi`
 (
     `classe_id`       int(10)   NOT NULL,
     `coordinatore_id` int(10)   NOT NULL,
-    `note`            varchar(100)   DEFAULT NULL,
+    `data_inizio` date      NOT NULL COMMENT'Data inizio del coordiantore nella classe',
+    `data_fine`   date           DEFAULT NULL COMMENT'Data fine del coordinatore nella classe',
     `created_at`      timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at`      timestamp NULL DEFAULT NULL
+    `updated_at`      timestamp NULL DEFAULT NULL,
+     CONSTRAINT unique_coord UNIQUE (classe_id, coordinatore_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 

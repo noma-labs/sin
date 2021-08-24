@@ -268,8 +268,10 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('anno/{id}', 'ScuolaController@aggiungiClasse')->name('scuola.anno.classe.aggiungi');
     Route::get('classi', 'ClassiController@index')->name('scuola.classi');
     Route::get('classi/{id}', 'ClassiController@show')->name('scuola.classi.show');
-    Route::post('classi/{id}/assegna', 'ClassiController@aggiungeAlunno')->name('scuola.classi.alunno.assegna');
+    Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
+    Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungeAlunno')->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
+    Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
 });
 
 #################################################################

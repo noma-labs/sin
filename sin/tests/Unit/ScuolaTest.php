@@ -90,7 +90,21 @@ class ScuolaTest extends TestCase
         $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
 
         // Add alunno with a carbon
-        $c->aggiungiAlunno($p1,  $now->addDays(15));
+        $c->aggiungiAlunno($p1, $now->addDays(15));
+    }
+
+    public function testAggiungiCoordiantoreWithDataInizio()
+    {
+        $now = Carbon::now();
+        $a = Anno::createAnno(2199, $now);
+        $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
+        $c = $a->aggiungiClasse(ClasseTipo::all()->random());
+        $p1 = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+
+        // Add coordinatore with a carbon
+        $c->aggiungiCoordinatore($p1, $now->addDays(15));
+        $this->assertCount(1, $c->coordinatori()->get());
+
 
     }
 }
