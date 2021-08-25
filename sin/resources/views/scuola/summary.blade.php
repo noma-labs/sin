@@ -14,7 +14,11 @@
                 <ul class="list-group list-group-flush ">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <p>Responsabile Scuola</p>
-                        <span class="badge badge-primary badge-pill">xxxx </span>
+                         @if ($resp)
+                                @include("nomadelfia.templates.persona", ['persona' => $resp])
+                            @else
+                                Non presente
+                            @endif
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{{route('scuola.classi')}}"> Classi</a>
@@ -28,7 +32,7 @@
                 </ul>
             </div>
             <div class="card-footer">
-                <form class="form" method="POST"  id="formStampa" action="{{ route('nomadelfia.popolazione.stampa') }}" >
+                <form class="form" method="POST"  id="formStampa" action="{{ route('scuola.stampa') }}" >
                     {{ csrf_field() }}
                     <div class="form-check">
                         <input class="form-check-input" type="hidden" value="scuola" id="defaultCheck1"  name="elenchi[]" checked>

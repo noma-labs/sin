@@ -2,6 +2,7 @@
 
 namespace App\Scuola\Models;
 
+use App\Nomadelfia\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Anno extends Model
     protected $table = 'anno';
     protected $primaryKey = "id";
     protected $guarded = [];
+//    protected $fillable = ['responsabile_id', 'scolastico'];
 
     protected static function boot()
     {
@@ -25,6 +27,16 @@ class Anno extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderby('data_inizio');
         });
+    }
+
+    public function responsabile()
+    {
+        return $this->belongsTo(Persona::class, 'responsabile_id','id');
+    }
+
+    public function aggiungiResponsabile(Persona $persona)
+    {
+        return $this->responsabile()->associate($persona);
     }
 
     public static function createAnno(int $year, $datainizo=null): Anno

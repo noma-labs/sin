@@ -13,6 +13,15 @@ use Tests\TestCase;
 class ScuolaTest extends TestCase
 {
 
+    public function testAggiungiResponabile()
+    {
+        $a = Anno::createAnno(2014);
+        $p = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $a->aggiungiResponsabile($p);
+        $this->assertEquals($p->id, $a->responsabile->id);
+
+    }
+
     public function testAggiungiClasseInAnno()
     {
         $a = Anno::createAnno(2017);
