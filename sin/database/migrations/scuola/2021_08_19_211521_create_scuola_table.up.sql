@@ -78,5 +78,5 @@ ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
-CREATE INDEX ON classi (as,tipo_id);
-CREATE INDEX ON alunni_classi (classe_id);
+CREATE INDEX classi_anni_idx ON classi (anno_id);
+CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
