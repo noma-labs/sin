@@ -64,6 +64,33 @@ class ScuolaTest extends TestCase
 
     }
 
+    public function testGetAlunnniPerCicloInAnno()
+    {
+        $a = Anno::createAnno(1991);
+        $t = ClasseTipo::all();
+
+        // prescuola
+        $c1 = $a->aggiungiClasse($t->get(0));
+        $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $c1->aggiungiAlunno($p1, Carbon::now());
+
+        // elemenatri
+        $c2 = $a->aggiungiClasse($t->get(3));
+        $p2 = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $c2->aggiungiAlunno($p2, Carbon::now());
+
+        // medie
+        $c3 = $a->aggiungiClasse($t->get(9));
+        $p3 = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $c3->aggiungiAlunno($p3, Carbon::now());
+
+        $tot = $a->totAlunniPerCiclo();
+        $this->assertEquals(1, $tot->prescuola);
+        $this->assertEquals(1, $tot->elementari);
+        $this->assertEquals(1, $tot->medie);
+//        $this->assertEquals(1, $tot->superiori);
+    }
+
     public function testCreaClasseInAnnoScolastico()
     {
         $a = Anno::createAnno(2019);
@@ -87,7 +114,6 @@ class ScuolaTest extends TestCase
     {
         $t = ClasseTipo::findOrFail(1);
         $this->assertTrue($t->isPrescuola());
-
     }
 
     public function testAggiungiAlunnoWitDataInizio()
@@ -113,7 +139,5 @@ class ScuolaTest extends TestCase
         // Add coordinatore with a carbon
         $c->aggiungiCoordinatore($p1, $now->addDays(15));
         $this->assertCount(1, $c->coordinatori()->get());
-
-
     }
 }
