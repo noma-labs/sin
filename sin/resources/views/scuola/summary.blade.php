@@ -20,10 +20,12 @@
                                 Non presente
                             @endif
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{{route('scuola.classi')}}"> Classi</a>
-                        <span class="badge badge-primary badge-pill">{{$anno->classi->count()}} </span>
-                    </li>
+                     @foreach ($cicloAlunni as $c)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{route('scuola.classi')}}"> {{$c->ciclo}}</a>
+                            <span class="badge badge-primary badge-pill">{{$c->count}} </span>
+                        </li>
+                     @endforeach
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <p> Totale studenti</p>
                         <span class="badge badge-primary badge-pill">{{count($alunni)}} </span>

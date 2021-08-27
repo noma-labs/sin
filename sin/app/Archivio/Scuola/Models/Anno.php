@@ -116,13 +116,13 @@ class Anno extends Model
                         order by tipo.ord;"),
             array('aid' => $this->id)
         );
-        $result = new \stdClass();
-        $maggioreni = collect($res);
-        $maggioreni->each(function ($item, $key) use ($result) {
-            $c = $item->ciclo;
-            $result->$c = $item->count;
-        });
-        return $result;
+//        $result = new \stdClass();
+//        $maggioreni = collect($res);
+//        $maggioreni->each(function ($item, $key) use ($result) {
+//            $c = $item->ciclo;
+//            $result->$c = $item->count;
+//        });
+        return collect($res);
     }
 
     public function coordinatoriPrescuola()

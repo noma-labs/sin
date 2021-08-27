@@ -16,9 +16,10 @@ class ScuolaController extends CoreBaseController
     public function index()
     {
         $anno = Anno::getLastAnno();
+        $cicloAlunni = $anno->totAlunniPerCiclo();
         $alunni = $anno->alunni();
         $resp = $anno->responsabile;
-        return view('scuola.summary', compact('anno', 'alunni', 'resp'));
+        return view('scuola.summary', compact('anno','cicloAlunni', 'alunni', 'resp'));
     }
 
     public function aggiungiClasse(Request $request, $id)
