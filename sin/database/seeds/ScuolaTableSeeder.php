@@ -22,8 +22,14 @@ class ScuolaTableSeeder extends Seeder
         foreach($t as $tipo) {
             if (!$tipo->isSuperiori()){
                 $classe = $anno->aggiungiClasse($tipo);
-                if ($tipo->isPrescuola()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 6, "data_nascita", true);
+                if ($tipo->IsPrescuola()) {
+                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita", true);
+//                if ($tipo->IsPrescuola3Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 4, "data_nascita", true);
+//                }else if ($tipo->IsPrescuola4Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(4, 5, "data_nascita", true);
+//                }else if ($tipo->IsPrescuola5Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(5, 6, "data_nascita", true);
                 }else if ($tipo->IsPrimaEl()){
                     $alunni = PopolazioneNomadelfia::figliDaEta(6, 7, "data_nascita",true);
                 }else if ($tipo->IsSecondaEl()){
@@ -58,173 +64,183 @@ class ScuolaTableSeeder extends Seeder
                 'ord' => 1,
                 'ciclo' => 'prescuola'
             ],
+//            [
+//                'nome' => '4 Anni Prescuola',
+//                'ord' => 2,
+//                'ciclo' => 'prescuola'
+//            ],
+//            [
+//                'nome' => '5 Anni Prescuola',
+//                'ord' => 3,
+//                'ciclo' => 'prescuola'
+//            ],
             [
                 'nome' => '1a Elementare',
-                'ord' => 2,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '2a Elementare',
-                'ord' => 3,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '3a Elementare',
                 'ord' => 4,
                 'ciclo' => 'elementari'
 
             ],
             [
-                'nome' => '4a Elementare',
+                'nome' => '2a Elementare',
                 'ord' => 5,
                 'ciclo' => 'elementari'
 
             ],
             [
-                'nome' => '5a Elementare',
+                'nome' => '3a Elementare',
                 'ord' => 6,
                 'ciclo' => 'elementari'
 
             ],
             [
-                'nome' => '1a Media',
+                'nome' => '4a Elementare',
                 'ord' => 7,
-                'ciclo' => 'medie'
+                'ciclo' => 'elementari'
+
             ],
             [
-                'nome' => '2a Media',
+                'nome' => '5a Elementare',
                 'ord' => 8,
-                'ciclo' => 'medie'
+                'ciclo' => 'elementari'
+
             ],
             [
-                'nome' => '3a Media',
+                'nome' => '1a Media',
                 'ord' => 9,
                 'ciclo' => 'medie'
             ],
             [
-                'nome' => '1 Prof. Agrario',
+                'nome' => '2a Media',
                 'ord' => 10,
+                'ciclo' => 'medie'
+            ],
+            [
+                'nome' => '3a Media',
+                'ord' => 11,
+                'ciclo' => 'medie'
+            ],
+            [
+                'nome' => '1 Prof. Agrario',
+                'ord' => 12,
                 'ciclo' => 'superiori'
             ],
             [
                 'nome' => '2 Prof. Agrario',
-                'ord' => 12,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '3 Prof. Agrario',
                 'ord' => 13,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '4 Prof. Agrario',
+                'nome' => '3 Prof. Agrario',
                 'ord' => 14,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '5 Prof. Agrario',
+                'nome' => '4 Prof. Agrario',
                 'ord' => 15,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '1 L. Scentifico',
+                'nome' => '5 Prof. Agrario',
                 'ord' => 16,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '2 L. Scentifico',
+                'nome' => '1 L. Scentifico',
                 'ord' => 17,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '3 L. Scentifico',
+                'nome' => '2 L. Scentifico',
                 'ord' => 18,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '4 L. Scentifico',
+                'nome' => '3 L. Scentifico',
                 'ord' => 19,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '5 L. Scentifico',
-                'ord' => 200,
+                'nome' => '4 L. Scentifico',
+                'ord' => 20,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '1 L. Scienze Umane',
+                'nome' => '5 L. Scentifico',
                 'ord' => 21,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '2 L. Scienze Umane',
+                'nome' => '1 L. Scienze Umane',
                 'ord' => 22,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '3 L. Scienze Umane',
+                'nome' => '2 L. Scienze Umane',
                 'ord' => 23,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '4 L. Scienze Umane',
+                'nome' => '3 L. Scienze Umane',
                 'ord' => 24,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '5 L. Scienze Umane',
+                'nome' => '4 L. Scienze Umane',
                 'ord' => 25,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '1 Agrario',
+                'nome' => '5 L. Scienze Umane',
                 'ord' => 26,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '2 Agrario',
+                'nome' => '1 Agrario',
                 'ord' => 27,
                 'ciclo' => 'superiori'
 
             ],
             [
-                'nome' => '3 Agrario',
+                'nome' => '2 Agrario',
                 'ord' => 28,
                 'ciclo' => 'superiori'
 
             ],
             [
+                'nome' => '3 Agrario',
+                'ord' => 29,
+                'ciclo' => 'superiori'
+
+            ],
+            [
                 'nome' => '4 Agrario',
-                'ord' =>29,
+                'ord' =>30,
                 'ciclo' => 'superiori'
 
             ],
             [
                 'nome' => '5 Agrario',
-                'ord' => 30,
+                'ord' => 31,
                 'ciclo' => 'superiori'
 
             ],
             [
                 'nome' => '1 L. SU.E.S.',
-                'ord' => 31,
+                'ord' => 32,
                 'ciclo' => 'superiori'
 
             ]

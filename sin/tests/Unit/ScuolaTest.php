@@ -13,6 +13,15 @@ use Tests\TestCase;
 class ScuolaTest extends TestCase
 {
 
+    public function testAggiungiResponabile()
+    {
+        $a = Anno::createAnno(2014);
+        $p = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $a->aggiungiResponsabile($p);
+        $this->assertEquals($p->id, $a->responsabile->id);
+
+    }
+
     public function testAggiungiClasseInAnno()
     {
         $a = Anno::createAnno(2017);
@@ -55,6 +64,33 @@ class ScuolaTest extends TestCase
 
     }
 
+    public function testGetAlunnniPerCicloInAnno()
+    {
+        $a = Anno::createAnno(1991);
+        $t = ClasseTipo::all();
+
+        // prescuola
+        $c1 = $a->aggiungiClasse($t->get(0));
+        $p1 = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $c1->aggiungiAlunno($p1, Carbon::now());
+
+        // elemenatri
+        $c2 = $a->aggiungiClasse($t->get(2));
+        $p2 = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $c2->aggiungiAlunno($p2, Carbon::now());
+
+        // medie
+        $c3 = $a->aggiungiClasse($t->get(6));
+        $p3 = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $c3->aggiungiAlunno($p3, Carbon::now());
+
+        $tot = $a->totAlunniPerCiclo();
+        $this->assertEquals(1, $tot->prescuola);
+        $this->assertEquals(1, $tot->elementari);
+        $this->assertEquals(1, $tot->medie);
+//        $this->assertEquals(1, $tot->superiori);
+    }
+
     public function testCreaClasseInAnnoScolastico()
     {
         $a = Anno::createAnno(2019);
@@ -78,7 +114,6 @@ class ScuolaTest extends TestCase
     {
         $t = ClasseTipo::findOrFail(1);
         $this->assertTrue($t->isPrescuola());
-
     }
 
     public function testAggiungiAlunnoWitDataInizio()
@@ -98,13 +133,17 @@ class ScuolaTest extends TestCase
         $now = Carbon::now();
         $a = Anno::createAnno(2199, $now);
         $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
-        $c = $a->aggiungiClasse(ClasseTipo::all()->random());
+        $c = $a->aggiungiClasse(ClasseTipo::all()->first());
         $p1 = factory(Persona::class)->states("maggiorenne", "maschio")->create();
 
         // Add coordinatore with a carbon
         $c->aggiungiCoordinatore($p1, $now->addDays(15));
         $this->assertCount(1, $c->coordinatori()->get());
 
+        $p1 = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $c->aggiungiCoordinatore($p1, $now->addDays(15));
 
+        $r = $a->coordinatoriPrescuola();
+        $this->assertCount(2, $r['Prescuola']);
     }
 }

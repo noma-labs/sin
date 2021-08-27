@@ -3,6 +3,7 @@
 namespace App\Scuola\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ClasseTipo extends Model
 {
@@ -25,7 +26,22 @@ class ClasseTipo extends Model
         return $this->alunni()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->orderBy('mansione', 'asc');
     }
 
-    public function scopeIsPrescuola() :bool
+    public function scopePrescuola($query)
+    {
+        return $query->where('ciclo', '=','prescuola');
+    }
+
+    public function scopeElementari($query)
+    {
+        return $query->where('ciclo',  '=', 'elementari');
+    }
+
+    public function scopeMedie($query)
+    {
+        return $query->where('ciclo', '=', 'medie');
+    }
+
+    public function scopeIsPrescuola(): bool
     {
         return $this->ciclo === "prescuola";
     }
@@ -43,6 +59,23 @@ class ClasseTipo extends Model
     public function scopeIsSuperiori(): bool
     {
         return $this->ciclo === "superiori";
+    }
+
+    public function scopeIsPrescuola3Anni()
+    {
+        return Str::contains($this->nome, '3 Anni');
+    }
+
+    public function scopeIsPrescuola4Anni()
+    {
+        return Str::contains($this->nome, '4 Anni');
+
+    }
+
+    public function scopeIsPrescuola5Anni()
+    {
+        return Str::contains($this->nome, '5 Anni');
+
     }
 
     public function scopeIsPrimaEl()
