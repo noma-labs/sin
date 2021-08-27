@@ -35,7 +35,7 @@ class Anno extends Model
 
     public function responsabile()
     {
-        return $this->belongsTo(Persona::class, 'responsabile_id','id');
+        return $this->belongsTo(Persona::class, 'responsabile_id', 'id');
     }
 
     public function aggiungiResponsabile(Persona $persona)
@@ -43,17 +43,17 @@ class Anno extends Model
         return $this->responsabile()->associate($persona);
     }
 
-    public static function createAnno(int $year, $datainizo=null): Anno
+    public static function createAnno(int $year, $datainizo = null): Anno
     {
         $succ = $year + 1;
         $as = "{$year}/{$succ}";
 
-        if ($datainizo === null){
+        if ($datainizo === null) {
             $d = Carbon::now();
-        }else{
+        } else {
             $d = Carbon::parse($datainizo);
         }
-        return self::create(['scolastico' => $as, 'data_inizio' =>$d]);
+        return self::create(['scolastico' => $as, 'data_inizio' => $d]);
     }
 
     public static function getLastAnno(): Anno
@@ -118,11 +118,47 @@ class Anno extends Model
         );
         $result = new \stdClass();
         $maggioreni = collect($res);
-        $maggioreni->each(function ($item, $key) use($result) {
+        $maggioreni->each(function ($item, $key) use ($result) {
             $c = $item->ciclo;
             $result->$c = $item->count;
         });
         return $result;
+    }
+
+    public function coordinatoriPrescuola()
+    {
+        return $this->coordinatoriPerClassi("prescuola");
+    }
+
+    public function coordinatoriElementari()
+    {
+        return $this->coordinatoriPerClassi("elementari");
+    }
+
+    public function coordinatoriMedie()
+    {
+        return $this->coordinatoriPerClassi("medie");
+    }
+
+    public function coordinatorSuperiori()
+    {
+        return $this->coordinatoriPerClassi("superiori");
+    }
+
+    public function coordinatoriPerClassi(string $ciclo)
+    {
+        $res = DB::connection('db_scuola')->select(
+            DB::raw("SELECT tipo.nome as classe, p.id as persona_id,  p.nominativo
+                        FROM `coordinatori_classi`
+                        INNER JOIN classi On classi.id = coordinatori_classi.classe_id
+                        INNER JOIN tipo ON classi.tipo_id = tipo.id
+                        INNER JOIN db_nomadelfia.persone as p ON p.id = coordinatori_classi.coordinatore_id
+                        where coordinatori_classi.data_fine IS NULL AND classi.anno_id = :aid and tipo.ciclo = :ciclo
+                        order by tipo.ord;"),
+            array('aid' => $this->id, 'ciclo'=>$ciclo)
+        );
+        $cc = collect($res)->groupBy("classe");
+        return $cc;
     }
 
 

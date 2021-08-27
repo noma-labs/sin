@@ -72,5 +72,11 @@ ALTER TABLE `classi`
 ALTER TABLE `anno`
     ADD FOREIGN KEY (`responsabile_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
+ALTER TABLE `coordinatori_classi`
+    ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `coordinatori_classi`
+    ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
 CREATE INDEX ON classi (as,tipo_id);
 CREATE INDEX ON alunni_classi (classe_id);

@@ -22,12 +22,14 @@ class ScuolaTableSeeder extends Seeder
         foreach($t as $tipo) {
             if (!$tipo->isSuperiori()){
                 $classe = $anno->aggiungiClasse($tipo);
-                if ($tipo->IsPrescuola3Anni()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 4, "data_nascita", true);
-                }else if ($tipo->IsPrescuola4Anni()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(4, 5, "data_nascita", true);
-                }else if ($tipo->IsPrescuola5Anni()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(5, 6, "data_nascita", true);
+                if ($tipo->IsPrescuola()) {
+                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita", true);
+//                if ($tipo->IsPrescuola3Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 4, "data_nascita", true);
+//                }else if ($tipo->IsPrescuola4Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(4, 5, "data_nascita", true);
+//                }else if ($tipo->IsPrescuola5Anni()) {
+//                    $alunni = PopolazioneNomadelfia::figliDaEta(5, 6, "data_nascita", true);
                 }else if ($tipo->IsPrimaEl()){
                     $alunni = PopolazioneNomadelfia::figliDaEta(6, 7, "data_nascita",true);
                 }else if ($tipo->IsSecondaEl()){
@@ -58,20 +60,20 @@ class ScuolaTableSeeder extends Seeder
     public function createClasseTipo(){
         $data = [
             [
-                'nome' => '3 Anni Prescuola',
+                'nome' => 'Prescuola',
                 'ord' => 1,
                 'ciclo' => 'prescuola'
             ],
-            [
-                'nome' => '4 Anni Prescuola',
-                'ord' => 2,
-                'ciclo' => 'prescuola'
-            ],
-            [
-                'nome' => '5 Anni Prescuola',
-                'ord' => 3,
-                'ciclo' => 'prescuola'
-            ],
+//            [
+//                'nome' => '4 Anni Prescuola',
+//                'ord' => 2,
+//                'ciclo' => 'prescuola'
+//            ],
+//            [
+//                'nome' => '5 Anni Prescuola',
+//                'ord' => 3,
+//                'ciclo' => 'prescuola'
+//            ],
             [
                 'nome' => '1a Elementare',
                 'ord' => 4,

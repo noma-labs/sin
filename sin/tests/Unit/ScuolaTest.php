@@ -75,12 +75,12 @@ class ScuolaTest extends TestCase
         $c1->aggiungiAlunno($p1, Carbon::now());
 
         // elemenatri
-        $c2 = $a->aggiungiClasse($t->get(3));
+        $c2 = $a->aggiungiClasse($t->get(2));
         $p2 = factory(Persona::class)->states("minorenne", "maschio")->create();
         $c2->aggiungiAlunno($p2, Carbon::now());
 
         // medie
-        $c3 = $a->aggiungiClasse($t->get(9));
+        $c3 = $a->aggiungiClasse($t->get(6));
         $p3 = factory(Persona::class)->states("minorenne", "femmina")->create();
         $c3->aggiungiAlunno($p3, Carbon::now());
 
@@ -133,11 +133,17 @@ class ScuolaTest extends TestCase
         $now = Carbon::now();
         $a = Anno::createAnno(2199, $now);
         $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
-        $c = $a->aggiungiClasse(ClasseTipo::all()->random());
+        $c = $a->aggiungiClasse(ClasseTipo::all()->first());
         $p1 = factory(Persona::class)->states("maggiorenne", "maschio")->create();
 
         // Add coordinatore with a carbon
         $c->aggiungiCoordinatore($p1, $now->addDays(15));
         $this->assertCount(1, $c->coordinatori()->get());
+
+        $p1 = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $c->aggiungiCoordinatore($p1, $now->addDays(15));
+
+        $r = $a->coordinatoriPrescuola();
+        $this->assertCount(2, $r['Prescuola']);
     }
 }
