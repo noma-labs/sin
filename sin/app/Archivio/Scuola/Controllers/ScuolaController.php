@@ -82,7 +82,7 @@ class ScuolaController extends CoreBaseController
                 if ($c->ciclo == "prescuola") {
                     $pre = $anno->prescuola();
 //                    $classeSect->addText($el->tipo->nome . "  " . count($alunni));
-                    foreach ($pre->alunni("data_nascita")->get() as $alunno) {
+                    foreach ($pre->alunni("data_nascita", "DESC")->get() as $alunno) {
                         $classeSect->addText($alunno->nominativo);
                     }
                 }
