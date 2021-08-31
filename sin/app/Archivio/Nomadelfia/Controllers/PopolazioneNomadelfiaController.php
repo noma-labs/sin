@@ -312,6 +312,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             $sc = $phpWord->addSection();
             $anno = Anno::getLastAnno();
             $sc->addTitle('Scuola '. count($anno->alunni()), 1);
+
             $classeSect = $phpWord->addSection($colStyle4NCont);
             foreach ($anno->classi()->get() as $classe) {
                 $alunni = $classe->alunni();
