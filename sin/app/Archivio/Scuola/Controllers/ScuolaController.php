@@ -19,7 +19,7 @@ class ScuolaController extends CoreBaseController
         $cicloAlunni = $anno->totAlunniPerCiclo();
         $alunni = $anno->alunni();
         $resp = $anno->responsabile;
-        return view('scuola.summary', compact('anno','cicloAlunni', 'alunni', 'resp'));
+        return view('scuola.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
     }
 
     public function aggiungiClasse(Request $request, $id)
@@ -36,6 +36,8 @@ class ScuolaController extends CoreBaseController
 
     public function print(Request $request)
     {
+        $elenchi = collect($request->elenchi);
+
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         // define styles
         $fontStyle12 = array('size' => 10, 'spaceAfter' => 60);
@@ -68,37 +70,89 @@ class ScuolaController extends CoreBaseController
         $firstPage->addText("Responsabile: " . $r, array('bold' => true, 'italic' => false, 'size' => 10),
             ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
 
-        $prescuola = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
-        $prescuola->addText("PRESCUOLA ", array('bold' => true, 'italic' => false, 'size' => 14));
+        if ($elenchi->contains("studenti")) {
+            $sc = $phpWord->addSection();
+            $anno = Anno::getLastAnno();
+            $sc->addTitle('Scuola ' . count($anno->alunni()), 1);
 
-        $cc = $anno->coordinatoriPrescuola();
-        foreach ($cc as $classe => $coords) {
-            $prescuola->addText($classe . "    " . $coords->implode("nominativo", ","));
+            $cicloAlunni = $anno->totAlunniPerCiclo();
+            foreach ($cicloAlunni as $c) {
+                $classeSect = $phpWord->addSection($colStyle4Next);
+                $classeSect->addTitle(ucfirst($c->ciclo) . " " . $c->count, 1);
+                if ($c->ciclo == "prescuola") {
+                    $pre = $anno->prescuola();
+//                    $classeSect->addText($el->tipo->nome . "  " . count($alunni));
+                    foreach ($pre->alunni("data_nascita", "DESC")->get() as $alunno) {
+                        $classeSect->addText($alunno->nominativo);
+                    }
+                }
+                if ($c->ciclo == "elementari") {
+                    $elemenatari = $anno->elementari();
+                    foreach ($elemenatari as $el) {
+                        $alunni = $el->alunni;
+                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                        foreach ($alunni as $alunno) {
+                            $classeSect->addText($alunno->nominativo);
+                        }
+                    }
+                }
+                if ($c->ciclo == "medie") {
+                    $medie = $anno->medie();
+                    foreach ($medie as $el) {
+                        $alunni = $el->alunni;
+                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                        foreach ($alunni as $alunno) {
+                            $classeSect->addText($alunno->nominativo);
+                        }
+                    }
+                }
+                if ($c->ciclo == "superiori") {
+                    $superiori = $anno->superiori();
+                    foreach ($superiori as $el) {
+                        $alunni = $el->alunni;
+                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                        foreach ($alunni as $alunno) {
+                            $classeSect->addText($alunno->nominativo);
+                        }
+                    }
+                }
+            }
+        }
+        if ($elenchi->contains("coordinatori")) {
+            $prescuola = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+            $prescuola->addText("PRESCUOLA ", array('bold' => true, 'italic' => false, 'size' => 14));
+
+            $cc = $anno->coordinatoriPrescuola();
+            foreach ($cc as $classe => $coords) {
+                $prescuola->addText($classe . "    " . $coords->implode("nominativo", ","));
+            }
+
+            $elementari = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+            $elementari->addText("ELEMENTARI - Scuola Primaria ",
+                array('bold' => true, 'italic' => false, 'size' => 12));
+            $cc = $anno->coordinatoriElementari();
+            foreach ($cc as $classe => $coords) {
+                $elementari->addText($classe . "    " . $coords->implode("nominativo", ","));
+            }
+
+            $medie = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+            $medie->addText("MEDIE - Scuola Secondaria di primo grado",
+                array('bold' => true, 'italic' => false, 'size' => 12));
+            $cc = $anno->coordinatoriMedie();
+            foreach ($cc as $classe => $coords) {
+                $medie->addText($classe . "    " . $coords->implode("nominativo", ","));
+            }
+
+            $superiore = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+            $superiore->addText("SUPERIORI - Scuola Secondaria di secondo grado",
+                array('bold' => true, 'italic' => false, 'size' => 12));
+            $cc = $anno->coordinatorSuperiori();
+            foreach ($cc as $classe => $coords) {
+                $superiore->addText($classe . "    " . $coords->implode("nominativo", ","));
+            }
+
         }
 
-        $elementari = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
-        $elementari->addText("ELEMENTARI - Scuola Primaria ", array('bold' => true, 'italic' => false, 'size' => 14));
-        $cc = $anno->coordinatoriElementari();
-        foreach ($cc as $classe => $coords) {
-            $elementari->addText($classe . "    " . $coords->implode("nominativo", ","));
-        }
-
-        $medie = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
-        $medie->addText("MEDIE - Scuola Secondaria di primo grado",
-            array('bold' => true, 'italic' => false, 'size' => 14));
-        $cc = $anno->coordinatoriMedie();
-        foreach ($cc as $classe => $coords) {
-            $medie->addText($classe . "    " . $coords->implode("nominativo", ","));
-        }
-
-
-        $superiore = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
-        $superiore->addText("SUPERIORI - Scuola Secondaria di secondo grado",
-            array('bold' => true, 'italic' => false, 'size' => 14));
-        $cc = $anno->coordinatorSuperiori();
-        foreach ($cc as $classe => $coords) {
-            $superiore->addText($classe . "    " . $coords->implode("nominativo", ","));
-        }
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();

@@ -23,12 +23,12 @@ class ClasseTipo extends Model
 
     public function alunniAttuali()
     {
-        return $this->alunni()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->orderBy('mansione', 'asc');
+        return $this->alunni()->where('data_fine',"=", null);
     }
 
     public function scopePrescuola($query)
     {
-        return $query->where('ciclo', '=','prescuola');
+        return $query->where('ciclo', '=','prescuola')->first();
     }
 
     public function scopeElementari($query)
@@ -39,6 +39,11 @@ class ClasseTipo extends Model
     public function scopeMedie($query)
     {
         return $query->where('ciclo', '=', 'medie');
+    }
+
+    public function scopeSuperiori($query)
+    {
+        return $query->where('ciclo', '=', 'superiori');
     }
 
     public function scopeIsPrescuola(): bool
@@ -61,22 +66,21 @@ class ClasseTipo extends Model
         return $this->ciclo === "superiori";
     }
 
-    public function scopeIsPrescuola3Anni()
-    {
-        return Str::contains($this->nome, '3 Anni');
-    }
-
-    public function scopeIsPrescuola4Anni()
-    {
-        return Str::contains($this->nome, '4 Anni');
-
-    }
-
-    public function scopeIsPrescuola5Anni()
-    {
-        return Str::contains($this->nome, '5 Anni');
-
-    }
+//    public function scopeIsPrescuola3Anni()
+//    {
+//        return Str::contains($this->nome, '3 Anni');
+//    }
+//
+//    public function scopeIsPrescuola4Anni()
+//    {
+//        return Str::contains($this->nome, '4 Anni');
+//
+//    }
+//
+//    public function scopeIsPrescuola5Anni()
+//    {
+//        return Str::contains($this->nome, '5 Anni');
+//    }
 
     public function scopeIsPrimaEl()
     {

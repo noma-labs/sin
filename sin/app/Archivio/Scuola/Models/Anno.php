@@ -70,6 +70,26 @@ class Anno extends Model
         return $this->hasMany(Classe::class, 'anno_id', 'id');
     }
 
+    public function prescuola(){
+        $p = ClasseTipo::Prescuola();
+        return $this->classi()->where("tipo_id", "=", $p->id)->first();
+    }
+
+    public function elementari(){
+        $p = ClasseTipo::Elementari()->get();
+        return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
+    }
+
+    public function medie(){
+        $p = ClasseTipo::Medie()->get();
+        return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
+    }
+
+    public function superiori(){
+        $p = ClasseTipo::Superiori()->get();
+        return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
+    }
+
     public function classiTipoPossibili()
     {
         $current = $this->classi()->get();
@@ -116,12 +136,6 @@ class Anno extends Model
                         order by tipo.ord;"),
             array('aid' => $this->id)
         );
-//        $result = new \stdClass();
-//        $maggioreni = collect($res);
-//        $maggioreni->each(function ($item, $key) use ($result) {
-//            $c = $item->ciclo;
-//            $result->$c = $item->count;
-//        });
         return collect($res);
     }
 
