@@ -21,24 +21,16 @@
                             @endif
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <p>Studenti</p>
-                        <ul class="list-group">
-                            @foreach ($cicloAlunni as $c)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{route('scuola.classi')}}"> {{ucfirst($c->ciclo)}}</a>
-                                    <span class="badge badge-primary badge-pill">{{$c->count}} </span>
-                                </li>
-                            @endforeach
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Totale
-                                    <span class="badge badge-primary badge-pill">{{count($alunni)}} </span>
-                                </li>
-                        </ul>
+                       Studenti
+                        <span class="badge badge-primary badge-pill">{{count($alunni)}} </span>
                     </li>
+                    @foreach ($cicloAlunni as $c)
+                        <li class="list-group-item d-flex justify-content-end  align-items-center ">
 
-
-
-
+                            <p class="m-2">   {{ucfirst($c->ciclo)}}</p>
+                            <span class="badge badge-primary badge-pill">{{$c->count}} </span>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
             <div class="card-footer">
