@@ -26,7 +26,6 @@
                     </li>
                     @foreach ($cicloAlunni as $c)
                         <li class="list-group-item d-flex justify-content-end  align-items-center ">
-
                             <p class="m-2">   {{ucfirst($c->ciclo)}}</p>
                             <span class="badge badge-primary badge-pill">{{$c->count}} </span>
                         </li>

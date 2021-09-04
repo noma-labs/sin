@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Return True of the persone live in the centro di spirito.
+        // Return True of the persona live in the centro di spirito.
         Blade::if('liveRome', function ($persona) {
             if (is_string($persona)) {
                 $persona= Persona::findOrFail($persona);
@@ -30,12 +30,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::if('maggiorenne', function ($persona) {
-           // return false; $date = Carbon::now()->subYears(18)->toDatestring();
-            return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;  
-            // return $persona->data_nascita > "0000-00-00";
+            return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;
         });
 
-        // directive which formats a given  DateTime $expression,
         // which should be an instance of DateTime
         Blade::directive('year', function ($date) {
             return "<?php echo Carbon::parse($date)->year ?>";
@@ -44,13 +41,11 @@ class AppServiceProvider extends ServiceProvider
         // Directoves that return the number of days from the $date.
         Blade::directive('diffdays', function ($date) {
             return "<?php echo Carbon::now()->diffInDays(Carbon::parse($date)) ?>";
-            // return "<?php echo Carbon::parse($date)->diffForHumans() ? >";
         });
 
          // Directoves that return the number of days from the $date.
          Blade::directive('diffYears', function ($date) {
             return "<?php echo Carbon::now()->diffInYears(Carbon::parse($date)) ?>";
-            // return "<?php echo Carbon::parse($date)->diffForHumans() ? >";
         });
 
         Blade::directive('diffHumans', function ($date) {
@@ -78,7 +73,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Blade::directive('role', function ($role) {
-            // dd(auth()->check() && auth()->user()->hasRole($role));
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
 
@@ -87,7 +81,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('hasrole', function ($role) {
-            // list($role, $guard) = explode(',', $arguments.',');
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
      
@@ -96,9 +89,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('hasanyrole', function ($arguments) {
-        //     dd($arguments);
-        //     list($roles) = explode('|', $arguments.'|');
-        //    dd($roles);
             return "<?php if(auth()->check() && auth()->user()->hasAnyRole({$arguments})): ?>";
         });
         Blade::directive('endhasanyrole', function () {
