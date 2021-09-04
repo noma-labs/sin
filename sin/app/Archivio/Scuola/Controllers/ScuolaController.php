@@ -89,6 +89,7 @@ class ScuolaController extends CoreBaseController
                     $elemenatari = $anno->elementari();
                     foreach ($elemenatari as $el) {
                         $alunni = $el->alunni;
+                        $classeSect->addTextBreak(1);
                         $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
                         foreach ($alunni as $alunno) {
                             $classeSect->addText($alunno->nominativo);
@@ -110,6 +111,7 @@ class ScuolaController extends CoreBaseController
                     $superiori = $anno->superiori();
                     foreach ($superiori as $el) {
                         $alunni = $el->alunni;
+                        $classeSect->addTextBreak(1);
                         $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
                         foreach ($alunni as $alunno) {
                             $classeSect->addText($alunno->nominativo);
