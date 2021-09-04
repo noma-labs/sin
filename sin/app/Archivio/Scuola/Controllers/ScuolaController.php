@@ -99,6 +99,7 @@ class ScuolaController extends CoreBaseController
                     $medie = $anno->medie();
                     foreach ($medie as $el) {
                         $alunni = $el->alunni;
+                        $classeSect->addTextBreak(1);
                         $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
                         foreach ($alunni as $alunno) {
                             $classeSect->addText($alunno->nominativo);
@@ -126,6 +127,7 @@ class ScuolaController extends CoreBaseController
             $prescuola->addTitle("Prescuola ", 1);
             $cc = $anno->coordinatoriPrescuola();
             foreach ($cc as $classe => $coords) {
+                $prescuola->addTextBreak(1);
                 $prescuola->addTitle($classe, 2);
                 foreach ($coords as $cord) {
                     $prescuola->addText($cord->nominativo );
@@ -136,6 +138,7 @@ class ScuolaController extends CoreBaseController
             $elementari->addTitle("Elementare - Scuola Primaria ", 1);
             $cc = $anno->coordinatoriElementari();
             foreach ($cc as $classe => $coords) {
+                $elementari->addTextBreak(1);
                 $elementari->addTitle($classe, 2);
                 foreach ($coords as $cord) {
                     $elementari->addText($cord->nominativo);
@@ -146,6 +149,7 @@ class ScuolaController extends CoreBaseController
             $medie->addTitle("Media - Scuola Secondaria di primo grado",1);
             $cc = $anno->coordinatoriMedie();
             foreach ($cc as $classe => $coords) {
+                $medie->addTextBreak(1);
                 $medie->addTitle($classe, 2);
                 foreach ($coords as $cord) {
                     $medie->addText($cord->nominativo);
@@ -156,6 +160,7 @@ class ScuolaController extends CoreBaseController
             $superiore->addTitle("Superiori - Scuola Secondaria di secondo grado",1);
             $cc = $anno->coordinatorSuperiori();
             foreach ($cc as $classe => $coords) {
+                $superiore->addTextBreak(1);
                 $superiore->addTitle($classe, 2);
                 foreach ($coords as $cord) {
                     $superiore->addText($cord->nominativo);
