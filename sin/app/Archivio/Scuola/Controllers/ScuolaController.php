@@ -128,7 +128,7 @@ class ScuolaController extends CoreBaseController
             foreach ($cc as $classe => $coords) {
                 $prescuola->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $prescuola->addText($cord->nominativo);
+                    $prescuola->addText($cord->nominativo );
                 }
             }
 
