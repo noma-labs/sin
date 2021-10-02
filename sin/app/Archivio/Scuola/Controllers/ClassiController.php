@@ -4,10 +4,12 @@ namespace App\Scuola\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
+use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Classe;
 use App\Scuola\Models\ClasseTipo;
 use App\Nomadelfia\Models\Persona;
 use App\Scuola\Models\Anno;
+use App\Scuola\Requests\AddStudentRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -33,18 +35,15 @@ class ClassiController extends CoreBaseController
         return view('scuola.classi.show', compact('classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
     }
 
-    public function aggiungeAlunno(Request $request, $id)
+    public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
     {
-        $validatedData = $request->validate([
-            "alunno_id" => "required",
-        ], [
-            "alunno_id.required" => "Alunno è obbligatorio",
-        ]);
+        $request->validated();
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($request->alunno_id);
 
-        $classe->aggiungiAlunno($alunno, $request->data_inizio);
-        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
+//        $classe->aggiungiAlunno($alunno, $request->data_inizio);
+        $addStudentAction->execute($classe, $alunno, $request->data_inizio);
+        return redirect()->back()->withSuccess("Alunno $alunno->nominativo aggiunto a {$classe->tipo->nome} con successo.");
     }
 
     public function rimuoviAlunno(Request $request, $id, $alunno_id)

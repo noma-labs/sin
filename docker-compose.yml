@@ -11,7 +11,6 @@ services:
     working_dir: /var/www
     volumes:
       - ./sin:/var/www
-#      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     depends_on:
       - db
     networks:
@@ -51,6 +50,21 @@ services:
     networks:
       - app-network
 
+  dbtest:
+    image: mariadb:10.1
+    container_name: db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdatatest:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/my.cnf
+      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
+    networks:
+      - app-network
   phpmyadmin:
     image: phpmyadmin:5-apache
     restart: always
@@ -69,4 +83,6 @@ networks:
 
 volumes:
   dbdata:
+    driver: local
+  dbdatatest:
     driver: local
