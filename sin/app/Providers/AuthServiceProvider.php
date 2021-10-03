@@ -2,14 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-// use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Gate;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App;
-use App\Policies\ClientePolicy;
-use App\Policies\EtichettaPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,9 +26,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    // public function boot(GateContract $gate)
     public function boot(Gate $gate)
-
     {
         // Gate for checking if an user is authorized to perform an ability (risorsa.operation)
         // An ability is a string of the form  "RISORSA.OPERAZIONE"

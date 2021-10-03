@@ -13,7 +13,7 @@ use Tests\TestCase;
 class AdminControllerTest extends TestCase
 {
     /** @test */
-    public function only_admin_can_see_all_systems()
+    public function only_admin_can_see_nomadelfia_system()
     {
         $this->withExceptionHandling();
 
@@ -26,8 +26,6 @@ class AdminControllerTest extends TestCase
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
             ->assertSuccessful();
-
-
     }
 
 }

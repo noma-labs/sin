@@ -62,7 +62,6 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function () {
-    //TODO: aggiungere il metodo index nel controller PopolazioneNomadelfia che calcoli
     Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('ability:persona.visualizza')->name('nomadelfia');
 
     // PERSONA

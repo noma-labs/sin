@@ -43,7 +43,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function setPasswordAttribute($password)// mutator taht encrypt all the passwarod of the users
+    public function setPasswordAttribute($password)// mutator that encrypt all the password of the users
       {
           $this->attributes['password'] = bcrypt($password);
       }
@@ -74,8 +74,7 @@ class User extends Authenticatable
      */
     public function hasRole($roles): bool
     {
-        //  dd(strpos($roles, '|'));
-        if (is_string($roles) && false !== strpos($roles, '|')) { // false !== strpos($roles, ',')
+        if (is_string($roles) && false !== strpos($roles, '|')) {
             $roles = $this->convertPipeToArray($roles);
         }
         if (is_string($roles)) {
