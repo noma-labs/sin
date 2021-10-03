@@ -23,7 +23,7 @@ class Risorsa extends Model
      * @var array
      */
     protected $fillable = [
-        'nome'
+        'nome', 'sistema_id'
     ];
 
     public $mapPermessiNames = [

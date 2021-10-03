@@ -17,3 +17,4 @@ $factory->define(Azienda::class, function (Faker $faker) {
 $factory->state(Azienda::class, 'incarico', [
     'tipo' => "incarico",
 ]);
+

@@ -50,6 +50,7 @@ CREATE TABLE `coordinatori_classi`
 (
     `classe_id`       int(10) NOT NULL,
     `coordinatore_id` int(10) NOT NULL,
+    `tipo`            enum('responsabile','coordinatore','collaboratore')  DEFAULT 'coordinatore' NOT NULL,
     `data_inizio`     date NOT NULL COMMENT 'Data inizio del coordiantore nella classe',
     `data_fine`       date DEFAULT NULL COMMENT 'Data fine del coordinatore nella classe',
     `created_at`      timestamp NULL DEFAULT CURRENT_TIMESTAMP,

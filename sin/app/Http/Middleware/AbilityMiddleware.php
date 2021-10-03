@@ -15,7 +15,7 @@ class AbilityMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$abilities)// middleware('risorse:libro.select,libro.seleziona,autore.seleziona)
+    public function handle($request, Closure $next, ...$abilities) // middleware('ability:libro.select,libro.seleziona,autore.seleziona)
     {
         if (app('auth')->guest()) {
             throw UnauthorizedException::notLoggedIn();
@@ -25,9 +25,9 @@ class AbilityMiddleware
             ? $abilities
             : explode(',', $abilities);
 
-        //each abilitty is of the form: <RISORSA>.<OPERAZIONE> e.g. libro.select
+        //each ability is of the form: <RISORSA>.<OPERAZIONE> e.g. libro.select
         foreach ($abilities as $ability) {
-            //uset the gate registerd in AuthServiceProvider
+            //using the the gate registered in AuthServiceProvider
             if (app('auth')->user()->can($ability)) {  
                 return $next($request);
             }

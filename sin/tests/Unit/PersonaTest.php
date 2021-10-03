@@ -20,6 +20,7 @@ class PersonaTest extends TestCase
 {
     use CreatesApplication, MigrateFreshDB;
 
+    /** @test */
     public function testAssegnaGruppoFamiliare()
     {
         $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
@@ -44,7 +45,7 @@ class PersonaTest extends TestCase
 
     }
 
-
+    /** @test */
     public function testEntrataMaschioDallaNascita()
     {  /*
         Person interna (DN)
@@ -81,6 +82,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
     }
 
+    /** @test */
     public function testEntrataFemminaDallaNascita()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -112,6 +114,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
     }
 
+    /** @test */
     public function testEntrataMinorenneFemminaAccolto()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -150,6 +153,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
     }
 
+    /** @test */
     public function testEntrataMinorenneMaschioAccolto()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -187,6 +191,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
     }
 
+    /** @test */
     public function testEntrataMinorenneFemminaConFamiglia()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -224,6 +229,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
     }
 
+    /** @test */
     public function testEntrataMinorenneMaschioConFamiglia()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -261,6 +267,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
     }
 
+    /** @test */
     public function testEntrataMaggiorenneMaschioSingle()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -286,6 +293,7 @@ class PersonaTest extends TestCase
             Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
     }
 
+    /** @test */
     public function testEntrataMaggiorenneFemminaSingle()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -311,7 +319,7 @@ class PersonaTest extends TestCase
             Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
     }
 
-
+    /** @test */
     public function testEntrataMaggiorenneSposato()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -332,6 +340,7 @@ class PersonaTest extends TestCase
         $this->assertNull($persona->famigliaAttuale());
     }
 
+    /** @test */
     public function testRientroMaggiorenneInNomadelfia()
     {
         $data_entrata = Carbon::now()->toDatestring();
@@ -364,6 +373,7 @@ class PersonaTest extends TestCase
         $this->assertEquals($persona->getDataUscitaNomadelfia(), $data_uscita);
     }
 
+    /** @test */
     public function testRientroMinorenneInNuovaFamigliaNomadelfia()
     {
         $data_entrata = Carbon::now();
@@ -392,17 +402,17 @@ class PersonaTest extends TestCase
         $cp = factory(Persona::class)->states("maggiorenne")->create();
         $cp->assegnaGruppoFamiliare(GruppoFamiliare::first(), Carbon::now());
         $famiglia_rientro->assegnaCapoFamiglia($cp);
-        $this->assertCount(0,  $famiglia_rientro->figliAttuali()->get());
+        $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
         $data_rientro = Carbon::now()->addYears(10)->toDatestring();
         $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
         $this->assertTrue($figlio->isPersonaInterna());
         $this->assertEquals($figlio->getDataEntrataNomadelfia(), $data_rientro);
         $this->assertEquals($figlio->getDataUscitaNomadelfia(), $data_uscita);
-        $this->assertCount(1,  $famiglia_rientro->figliAttuali()->get());
+        $this->assertCount(1, $famiglia_rientro->figliAttuali()->get());
     }
 
-
+    /** @test */
     public function testRientroFamigliaInNomadelfia()
     {
         $data_entrata = Carbon::now()->toDatestring();

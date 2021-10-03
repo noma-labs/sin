@@ -20,7 +20,12 @@ class Classe extends Model
     protected $guarded = [];
 
 
-    public function alunni($orderby="nominativo", $order="ASC")
+    public function newEloquentBuilder($query)
+    {
+        return new ClasseBuilder($query);
+    }
+
+    public function alunni($orderby = "nominativo", $order = "ASC")
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
             'persona_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy($orderby, $order);
@@ -29,7 +34,7 @@ class Classe extends Model
     public function coordinatori()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.coordinatori_classi', 'classe_id',
-            'coordinatore_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy('nominativo');
+            'coordinatore_id')->whereNull("data_fine")->withPivot('data_inizio', "tipo")->orderBy('nominativo');
     }
 
     public function anno()
@@ -57,12 +62,12 @@ class Classe extends Model
             $this->alunni()->attach($alunno->id, [
                 'data_inizio' => $data_inizio,
             ]);
-        }else {
+        } else {
             throw new Exception("Alunno is not a valid id or model");
         }
     }
 
-    public function aggiungiCoordinatore($persona, $data_inizio)
+    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo=null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno->data_inizio;
@@ -74,14 +79,18 @@ class Classe extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $this->coordinatori()->attach($persona->id, [
-                'data_inizio' => $data_inizio,
-            ]);
-        }else {
+            $attr = ['data_inizio' => $data_inizio];
+            if (!is_null($tipo)) {
+                $attr['tipo'] = $tipo;
+            }
+            $this->coordinatori()->attach($persona->id, $attr);
+        } else {
             throw new Exception("Coordinatore is not a valid id or model");
         }
     }
-    public function coordinatoriPossibili()
+
+    public
+    function coordinatoriPossibili()
     {
         $all = Azienda::scuola()->lavoratoriAttuali()->get();
 
@@ -92,31 +101,36 @@ class Classe extends Model
         return $all->whereNotIn('id', $ids);
     }
 
-    public function rimuoviCoordinatore($coord)
-    {
+    public
+    function rimuoviCoordinatore(
+        $coord
+    ) {
         if (is_integer($coord)) {
             $coord = Persona::findOrFail($coord);
         }
         if ($coord instanceof Persona) {
             $this->coordinatori()->detach($coord->id);
-        }else {
+        } else {
             throw new Exception("Coordinatore  is not a valid id or model");
         }
     }
 
-    public function rimuoviAlunno($alunno)
-    {
+    public
+    function rimuoviAlunno(
+        $alunno
+    ) {
         if (is_integer($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
         if ($alunno instanceof Persona) {
             $this->alunni()->detach($alunno->id);
-        }else {
+        } else {
             throw new Exception("Alunno is not a valid id or model");
         }
     }
 
-    public function alunniPossibili()
+    public
+    function alunniPossibili()
     {
         if ($this->tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
