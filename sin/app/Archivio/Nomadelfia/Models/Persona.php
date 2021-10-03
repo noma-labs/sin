@@ -27,7 +27,6 @@ class Persona extends Model
     use SortableTrait;
     use SoftDeletes;
 
-
     protected $connection = 'db_nomadelfia';
     protected $table = 'persone';
     protected $primaryKey = "id";

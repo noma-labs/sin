@@ -8,7 +8,6 @@ use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Scuola\Models\ClasseBuilder;
 
 class Classe extends Model
 {
@@ -35,7 +34,7 @@ class Classe extends Model
     public function coordinatori()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.coordinatori_classi', 'classe_id',
-            'coordinatore_id')->whereNull("data_fine")->withPivot('data_inizio')->orderBy('nominativo');
+            'coordinatore_id')->whereNull("data_fine")->withPivot('data_inizio', "tipo")->orderBy('nominativo');
     }
 
     public function anno()
@@ -68,7 +67,7 @@ class Classe extends Model
         }
     }
 
-    public function aggiungiCoordinatore($persona, $data_inizio)
+    public function aggiungiCoordinatore(Persona $persona, $data_inizio,  $tipo=null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno->data_inizio;
@@ -82,6 +81,7 @@ class Classe extends Model
         if ($persona instanceof Persona) {
             $this->coordinatori()->attach($persona->id, [
                 'data_inizio' => $data_inizio,
+                'tipo' => $tipo
             ]);
         } else {
             throw new Exception("Coordinatore is not a valid id or model");

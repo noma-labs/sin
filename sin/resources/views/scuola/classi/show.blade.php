@@ -15,12 +15,6 @@
                                     {{$classe->tipo->nome}}
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-sm-6 font-weight-bold">Responsabile:</label>
-                                <div class="col-sm-6">
-                                    <span class="text-danger">Responsabile non assegnato</span>
-                                </div>
-                            </div>
                         </div> <!--end col dati gruppo -->
                         <div class="col-md-4">
                             @include("scuola.templates.aggiungiAlunno",["classe"=>$classe])
@@ -50,7 +44,7 @@
                                             @include("nomadelfia.templates.persona", ['persona' => $alunno])
                                             (@diffYears($alunno->data_nascita) anni)
                                             @liveRome($alunno)
-                                                <span class="badge badge-warning">Roma</span>
+                                            <span class="badge badge-warning">Roma</span>
                                             @endliveRome
                                         </div>
                                     </div>
@@ -74,8 +68,9 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold mt-2">
+                                        <div class="font-weight-bold">
                                             @include("nomadelfia.templates.persona", ['persona' => $coord])
+                                            <span> ({{$coord->pivot->tipo}})</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 offset-md-2">
@@ -84,7 +79,7 @@
                                 </div>
                             </li>
                         @endforeach
-                      <ul>
+                        <ul>
                 </div>
             </div>
         </div>

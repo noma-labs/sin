@@ -129,7 +129,8 @@ class ScuolaTest extends TestCase
         $c->aggiungiAlunno($p1, $now->addDays(15));
     }
 
-    public function testAggiungiCoordiantoreWithDataInizio()
+    /** @test  **/
+    public function add_coordinatore_with_data_inizio()
     {
         $now = Carbon::now();
         $a = Anno::createAnno(2199, $now);

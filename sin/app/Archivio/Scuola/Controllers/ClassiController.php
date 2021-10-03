@@ -9,6 +9,7 @@ use App\Scuola\Models\Classe;
 use App\Scuola\Models\ClasseTipo;
 use App\Nomadelfia\Models\Persona;
 use App\Scuola\Models\Anno;
+use App\Scuola\Requests\AddCoordinatoreRequest;
 use App\Scuola\Requests\AddStudentRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,17 +55,13 @@ class ClassiController extends CoreBaseController
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 
-    public function aggiungiCoordinatore(Request $request, $id)
+    public function aggiungiCoordinatore(AddCoordinatoreRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            "coord_id" => "required",
-        ], [
-            "coord_id.required" => "Coordinatore è obbligatorio",
-        ]);
+        $request->validated();
         $classe = Classe::findOrFail($id);
         $coord = Persona::findOrFail($request->coord_id);
 
-        $classe->aggiungiCoordinatore($coord, $request->data_inizio);
+        $classe->aggiungiCoordinatore($coord, $request->data_inizio, $request->coord_tipo);
         return redirect()->back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
     }
 

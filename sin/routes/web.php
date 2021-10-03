@@ -1,6 +1,7 @@
 <?php
 
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -264,7 +265,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
 
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
-    Route::get('index', 'ScuolaController@index')->name('scuola');
+    Route::get('/', [ScuolaController::class, 'index'])->name('scuola');
     Route::post('anno/{id}', 'ScuolaController@aggiungiClasse')->name('scuola.anno.classe.aggiungi');
     Route::post('stampa', 'ScuolaController@print')->name('scuola.stampa');
     Route::get('classi', 'ClassiController@index')->name('scuola.classi');
