@@ -67,7 +67,7 @@ class Classe extends Model
         }
     }
 
-    public function aggiungiCoordinatore(Persona $persona, $data_inizio,  $tipo=null)
+    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo=null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno->data_inizio;
@@ -79,16 +79,18 @@ class Classe extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $this->coordinatori()->attach($persona->id, [
-                'data_inizio' => $data_inizio,
-                'tipo' => $tipo
-            ]);
+            $attr = ['data_inizio' => $data_inizio];
+            if (!is_null($tipo)) {
+                $attr['tipo'] = $tipo;
+            }
+            $this->coordinatori()->attach($persona->id, $attr);
         } else {
             throw new Exception("Coordinatore is not a valid id or model");
         }
     }
 
-    public function coordinatoriPossibili()
+    public
+    function coordinatoriPossibili()
     {
         $all = Azienda::scuola()->lavoratoriAttuali()->get();
 
@@ -99,8 +101,10 @@ class Classe extends Model
         return $all->whereNotIn('id', $ids);
     }
 
-    public function rimuoviCoordinatore($coord)
-    {
+    public
+    function rimuoviCoordinatore(
+        $coord
+    ) {
         if (is_integer($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -111,8 +115,10 @@ class Classe extends Model
         }
     }
 
-    public function rimuoviAlunno($alunno)
-    {
+    public
+    function rimuoviAlunno(
+        $alunno
+    ) {
         if (is_integer($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
@@ -123,7 +129,8 @@ class Classe extends Model
         }
     }
 
-    public function alunniPossibili()
+    public
+    function alunniPossibili()
     {
         if ($this->tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
