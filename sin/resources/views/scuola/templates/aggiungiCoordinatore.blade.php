@@ -1,4 +1,4 @@
-<my-modal modal-title="Aggiungi Coordinatore" button-title="Aggiungi coordinatore" button-style="btn-secondary my-2">
+<my-modal modal-title="Aggiungi Coordinatore" button-title="Aggiungi coordinatore" button-style="btn-primary my-2">
     <template slot="modal-body-slot">
         <form class="form" method="POST" id="formAggiungiCoord"
               action="{{ route('scuola.classi.coordinatore.assegna', ['id' =>$classe->id]) }}">

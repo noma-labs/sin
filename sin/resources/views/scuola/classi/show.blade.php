@@ -9,31 +9,32 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="row">
-                                <label class="col-sm-6 font-weight-bold">Classe:</label>
-                                <div class="col-sm-6">
-                                    {{$classe->tipo->nome}}
-                                </div>
-                            </div>
-                        </div> <!--end col dati gruppo -->
+                            Classe:<span class="font-weight-bold">  {{$classe->tipo->nome}}          </span>
+                        </div>
                         <div class="col-md-4">
-                            @include("scuola.templates.aggiungiAlunno",["classe"=>$classe])
                         </div> <!--end col -->
                         <div class="col-md-4">
-                            @include("scuola.templates.aggiungiCoordinatore",["classe"=>$classe])
-                        </div> <!--end col -->
-                    </div>  <!--end row -->
-                </div> <!--end card body -->
-            </div>  <!--end card -->
-
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row justify-content-md-center">
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            Alunni <span class="badge badge-primary">{{$alunni->count()}}</span>
+                        </div>
+                        <div class="col-4">
+                         @include("scuola.templates.aggiungiAlunno",["classe"=>$classe])
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title">Alunni <span class="badge badge-primary">{{$alunni->count()}}</span></h4>
                     <ul class="list-group list-group-flush">
                         @foreach($alunni->get() as $alunno)
                             <li class="list-group-item">
@@ -61,8 +62,17 @@
         </div>
         <div class="col-md-4">
             <div class="card">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            Coordinatori <span class="badge badge-primary">{{$coords->count()}}</span>
+                        </div>
+                        <div class="col-4">
+                            @include("scuola.templates.aggiungiCoordinatore",["classe"=>$classe])
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title">Coordinatori</h4>
                     <ul class="list-group list-group-flush">
                         @foreach($coords->get() as $coord)
                             <li class="list-group-item">
