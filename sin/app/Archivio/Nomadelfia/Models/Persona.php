@@ -624,13 +624,12 @@ class Persona extends Model
     public function setDataEntrataNomadelfia($data_entrata)
     {
         $int = Categoria::perNome("interno");
-
         $cat = $this->categoriaAttuale();
-        if ($cat->isPersonaInterna()) {
+        if ($cat->isInterna()) {
             $data = $data_entrata ? $data_entrata : $this->data_nascita;
             return $this->categorie()->updateExistingPivot($int->id, ['data_inizio' => $data]);
         }
-        throw new Exception("Error. La persona non ha una person ainterna");
+        throw new Exception("Error. La persona non è una persona interna");
 
     }
 
