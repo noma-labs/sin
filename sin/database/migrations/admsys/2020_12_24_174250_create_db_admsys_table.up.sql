@@ -10,7 +10,7 @@
 
 CREATE TABLE `utenti` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `persona_id` int(11) UNSIGNED NOT NULL COMMENT 'Connette l''utente loggato con la persona nell''anagrafe',
+  `persona_id` int(11) UNSIGNED NOT NULL COMMENT 'Connette lutente loggato con la persona nellanagrafe',
   `username` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,

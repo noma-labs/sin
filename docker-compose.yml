@@ -50,21 +50,21 @@ services:
     networks:
       - app-network
 
-  dbtest:
-    image: mariadb:10.1
-    container_name: db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: root
-      MYSQL_ROOT_PASSWORD: root
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - dbdatatest:/var/lib/mysql
-      - ./db/my.cnf:/etc/mysql/my.cnf
-      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
-    networks:
-      - app-network
+#  dbtest:
+#    image: mariadb:10.1
+#    container_name: dbtest
+#    restart: unless-stopped
+#    environment:
+#      MYSQL_DATABASE: root
+#      MYSQL_ROOT_PASSWORD: root
+#      SERVICE_TAGS: dev
+#      SERVICE_NAME: mysql
+#    volumes:
+#      - dbdatatest:/var/lib/mysql
+#      - ./db/my.cnf:/etc/mysql/my.cnf
+#      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
+#    networks:
+#      - app-network
   phpmyadmin:
     image: phpmyadmin:5-apache
     restart: always
@@ -84,5 +84,5 @@ networks:
 volumes:
   dbdata:
     driver: local
-  dbdatatest:
-    driver: local
+#  dbdatatest:
+#    driver: local
