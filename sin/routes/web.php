@@ -1,5 +1,6 @@
 <?php
 
+use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Http\Request;
@@ -68,21 +69,16 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     // PERSONA
     Route::get('persone', 'PersoneController@index')->name('nomadelfia.persone');
 
-    Route::get('persone/inserimento/initial',
-        'PersoneController@insertInitialView')->name("nomadelfia.persone.inserimento");
-    Route::post('persone/inserimento/initial',
-        'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
+    Route::get('persone/inserimento/initial', 'PersoneController@insertInitialView')->name("nomadelfia.persone.inserimento");
+    Route::post('persone/inserimento/initial',  'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
 
-    Route::get('persone/inserimento/anagrafici',
-        'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
+    Route::get('persone/inserimento/anagrafici',  'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
     Route::post('persone/inserimento/anagrafici',
         'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta',
-        'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
-    Route::post('persone/{idPersona}/entrata/scelta',
-        'PersoneController@insertPersonaInterna')->name("nomadelfia.persone.inserimento.entrata.scelta");
+    Route::get('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
+    Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
 
     Route::post('persone/{idPersona}/decesso', 'PersoneController@decesso')->name("nomadelfia.persone.decesso");
     Route::post('persone/{idPersona}/uscita', 'PersoneController@uscita')->name("nomadelfia.persone.uscita");
@@ -92,10 +88,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/submit',
         'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
 
-    Route::get('persone/{idPersona}',
-        'PersoneController@show')->name("nomadelfia.persone.dettaglio"); //middleware('permission:cliente-visualizza')
-    Route::delete('persone/{idPersona}',
-        'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
+    Route::get('persone/{persona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
+    Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
+
     Route::get('persone/{idPersona}/anagrafica/modifica',
         'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
     Route::post('persone/{idPersona}/anagrafica/modifica',
