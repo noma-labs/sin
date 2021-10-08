@@ -10,8 +10,7 @@ use \stdClass;
 use Carbon;
 
 /*
-*
-*  Static methods for obtaning statistics on the popolazione di Nomadelfia
+*  Static methods for obtaining statistics on the popolazione di Nomadelfia
 */
 
 class PopolazioneNomadelfia
@@ -19,13 +18,11 @@ class PopolazioneNomadelfia
 
     /*
     *  Ritorna le persone della popolazione di Nomadelfia
-    *
     */
     public static function popolazione()
     {
         $res = DB::connection('db_nomadelfia')->select(
-            DB::raw(
-                "SELECT popolazione.*, persone_posizioni.*, posizioni.nome as posizione
+            DB::raw("SELECT popolazione.*, persone_posizioni.*, posizioni.nome as posizione
                 FROM (
                     SELECT persone.*, persone_categorie.data_inizio as data_entrata
                     FROM persone
@@ -35,8 +32,7 @@ class PopolazioneNomadelfia
                 LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
                 LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
                 WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
-                ORDER BY nominativo"
-            )
+                ORDER BY nominativo")
         );
         return $res;
     }

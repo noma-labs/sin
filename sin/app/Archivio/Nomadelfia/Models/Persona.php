@@ -572,6 +572,11 @@ class Persona extends Model
                 [$persona_id]
             );
 
+            $conn->insert(
+                "INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)",
+                [$persona_id, $data]
+            );
+
             // inserisce la persona nella popolazione (mette la categoria persona interna)
             $conn->insert(
                 "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
