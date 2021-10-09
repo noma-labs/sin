@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Scuola\Models;
+namespace App\Nomadelfia\Actions;
 
 use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\Posizione;
 use App\Nomadelfia\Models\Stato;
@@ -18,9 +19,11 @@ class EntrataNatoAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, Famiglia $famiglia): Persona
+    public function execute(Persona $persona, Famiglia $famiglia)
     {
-        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+        $gruppoStd = $famiglia->gruppoFamiliareAttualeOrFail();
+
+        $gruppo = GruppoFamiliare::findOrFail($gruppoStd->id);
 
         $pos = Posizione::find("FIGL");
         if ($persona->isMaschio()) {

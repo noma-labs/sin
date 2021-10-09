@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scuola\Models;
+namespace App\Nomadelfia\Actions;
 
 use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Famiglia;
