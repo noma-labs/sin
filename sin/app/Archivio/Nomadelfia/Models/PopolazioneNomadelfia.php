@@ -2,9 +2,11 @@
 
 namespace App\Nomadelfia\Models;
 
+use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Excpetions\StatoDoesNotExists;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
 use Carbon;
@@ -13,8 +15,13 @@ use Carbon;
 *  Static methods for obtaining statistics on the popolazione di Nomadelfia
 */
 
-class PopolazioneNomadelfia
+class PopolazioneNomadelfia extends Model
 {
+    protected $connection = 'db_nomadelfia';
+    protected $table = 'popolazione';
+
+    public $timestamps = true;
+    protected $guarded = [];
 
     /*
     *  Ritorna le persone della popolazione di Nomadelfia
@@ -22,16 +29,13 @@ class PopolazioneNomadelfia
     public static function popolazione()
     {
         $res = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT popolazione.*, persone_posizioni.*, posizioni.nome as posizione
-                FROM (
-                    SELECT persone.*, persone_categorie.data_inizio as data_entrata
-                    FROM persone
-                    INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                    WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
-                ) as popolazione
-                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
+            DB::raw("SELECT popolazione.*, persone.*,  persone_posizioni.*, posizioni.nome as posizione
+                FROM popolazione
+                LEFT JOIN persone p on popolazione.persona_id = p.id
+                LEFT JOIN persone ON persone.id = popolazione.persona_id
+                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.persona_id
                 LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
+                WHERE popolazione.data_uscita IS NULL AND p.stato = '1' AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
                 ORDER BY nominativo")
         );
         return $res;
@@ -46,15 +50,13 @@ class PopolazioneNomadelfia
     */
     public static function totalePopolazione()
     {
-        $interna = Categoria::perNome("interno");
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT count(*) as popolazione
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'"
-            ),
-            array('interna' => $interna->id)
+                FROM popolazione
+                INNER JOIN persone p ON p.id = popolazione.persona_id
+                WHERE popolazione.data_uscita IS NULL AND p.stato = '1'"
+            )
         );
         return $res[0]->popolazione;
     }

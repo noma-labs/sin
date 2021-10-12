@@ -750,7 +750,7 @@ class Persona extends Model
 
             // aggiunge la categoria persona esterna
             $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW())",
+                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW()) ON DUPLICATE KEY UPDATE updated_at=NOW()",
                 [$persona_id, $data_uscita]
             );
 
