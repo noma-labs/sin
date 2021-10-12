@@ -16,6 +16,8 @@ class Azienda extends Model
     protected $table = 'aziende';
     protected $primaryKey = "id";
 
+    protected $guarded = [];
+
     protected static function boot()
     {
         parent::boot();
@@ -43,7 +45,8 @@ class Azienda extends Model
 
     public function lavoratoriAttuali()
     {
-        return $this->lavoratori()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda', 'mansione',
+        return $this->lavoratori()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda',
+            'mansione',
             'stato');
     }
 
