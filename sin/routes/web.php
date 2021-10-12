@@ -1,5 +1,6 @@
 <?php
 
+use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Scuola\Controllers\ScuolaController;
@@ -153,6 +154,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/aziende/{id}/modifica',
         'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
 
+    Route::post('incarichi', [IncarichiController::class, 'insert'])->name("nomadelfia.incarichi.aggiungi");
     Route::get('persone/{idPersona}/incarichi', 'PersoneController@incarichi')->name("nomadelfia.persone.incarichi");
     Route::post('persone/{idPersona}/incarichi/assegna',
         'PersoneController@assegnaIncarico')->name("nomadelfia.persone.incarichi.assegna");
