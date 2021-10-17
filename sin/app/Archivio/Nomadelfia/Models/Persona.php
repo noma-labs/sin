@@ -636,8 +636,7 @@ class Persona extends Model
     public function getDataEntrataNomadelfia()
     {
         $int = Categoria::perNome("interno");
-        $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
+        $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato', 'data_inizio', 'data_fine')->orderby('data_inizio', 'desc');
         if ($categorie->count() > 0) {
             return $categorie->first()->pivot->data_inizio;
         }
@@ -647,8 +646,7 @@ class Persona extends Model
     public function getDataUscitaNomadelfia()
     {
         $esterno = Categoria::perNome("esterno");
-        $categorie = $this->categorie()->where('nome', $esterno->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
+        $categorie = $this->categorie()->where('nome', $esterno->nome)->withPivot('stato', 'data_inizio', 'data_fine')->orderby('data_inizio', 'desc');
         if ($categorie->count() > 0) {
             return $categorie->first()->pivot->data_inizio;
         }

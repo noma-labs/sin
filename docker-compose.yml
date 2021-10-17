@@ -10,7 +10,7 @@ services:
 #    tty: true
     working_dir: /var/www
     volumes:
-      - ./sin:/var/www
+      - ${PWD}/sin:/var/www
     depends_on:
       - db
     networks:

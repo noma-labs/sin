@@ -74,7 +74,7 @@ class PopolazioneTest extends BaseTestCase
         $this->assertEquals(1, $persona->aziendeAttuali()->count());
         // assegna incarico
         $incarico = Azienda::incarichi()->get()->random();
-        $persona->assegnaLavoratoreIncarico($incarico,Carbon::now());
+        $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
         $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
@@ -292,29 +292,63 @@ class PopolazioneTest extends BaseTestCase
     public function testFigliDaEta()
     {
         // store the actual figli (maybe inserted by other tests)
-        $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18 )->count();
+        $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18)->count();
 
         $famiglia = factory(Famiglia::class)->create();
         $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
         $capoFam->assegnaGruppoFamiliare(GruppoFamiliare::all()->random(), Carbon::now());
 
-        $p1 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()] ); // 2018-01-01 00:00:00
-        $p0 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)] );                // 2018-now()
-        $p2 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()] );   // 2018-12-31 23:59:59
+        $p1 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()]); // 2018-01-01 00:00:00
+        $p0 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)]);                // 2018-now()
+        $p2 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()]);   // 2018-12-31 23:59:59
 
-        $pafter = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()] );   // 2019-01-01 00:00:00
+        $pafter = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()]);   // 2019-01-01 00:00:00
 
         $p0->entrataNatoInNomadelfia($famiglia->id);
         $p1->entrataNatoInNomadelfia($famiglia->id);
         $p2->entrataNatoInNomadelfia($famiglia->id);
         $pafter->entrataNatoInNomadelfia($famiglia->id);
 
-        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', true)) );
+        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', true)));
         $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', false)));
 
-        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', false))); // - $actualFigli );
+        $this->assertEquals(4,
+            count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', false))); // - $actualFigli );
         $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', true))); // - $actualFigli );
     }
+
+    /** @test */
+    public function correct_date_if_persona_exit_multiple_times_from_nomadelfia()
+    {
+        $totInit = PopolazioneNomadelfia::totalePopolazione();
+
+        $now = Carbon::now();
+        $data_nascita = $now->subYears(50)->startOfYear();
+        $gruppo = GruppoFamiliare::all()->random();
+        $p = factory(Persona::class)->create(['data_nascita' => $data_nascita]);
+
+        $data_entrata = $data_nascita->copy()->addYears(20);
+        $p->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        $tot = PopolazioneNomadelfia::totalePopolazione();
+        $this->assertEquals($totInit + 1, $tot);
+
+        $data_uscita = $data_nascita->copy()->addYears(30);
+        $p->uscita($data_uscita);
+        $tot = PopolazioneNomadelfia::totalePopolazione();
+        $this->assertEquals($totInit, $tot);
+
+        // rientra 2 volta
+        $data_entrata_2 = $data_nascita->copy()->addYears(40);
+        $p->entrataMaggiorenneSingle($data_entrata_2, $gruppo->id);
+        $tot = PopolazioneNomadelfia::totalePopolazione();
+        $this->assertEquals($totInit + 1, $tot);
+
+        $this->assertEquals($data_entrata_2->toDatestring(), $p->getDataEntrataNomadelfia());
+        $this->assertEquals($data_uscita->toDatestring(), $p->getDataUscitaNomadelfia());
+
+    }
+
 
 }
