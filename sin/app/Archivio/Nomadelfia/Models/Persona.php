@@ -416,8 +416,13 @@ class Persona extends Model
     }
 
 
-    // CATEGORIA
+    // Popolazione
+    public function popolazione(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
+    }
 
+    // CATEGORIA
     public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
@@ -626,8 +631,9 @@ class Persona extends Model
 
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata)
     {
-        $affected = PopolazioneNomadelfia::query()->where("persona_id", $this->id)->where("data_entrata", $old_data_entrata)->update(["data_entrata"=>$data_entrata]);
-        if ($affected) {
+        $affected = PopolazioneNomadelfia::query()->where("persona_id", $this->id)->where("data_entrata",
+            $old_data_entrata)->update(["data_entrata" => $data_entrata]);
+        if ($affected > 0) {
             return true;
         }
         return false;

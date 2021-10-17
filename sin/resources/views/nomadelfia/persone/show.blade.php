@@ -124,8 +124,8 @@
                 <div class="row">
                   <label class="col-sm-4 font-weight-bold">Data Entrata:</label>
                   <div class="col-sm-6">
-                    <p> {{$persona->getDataEntrataNomadelfia()}}
-                      <span class="badge badge-info"> @diffHumans($persona->getDataEntrataNomadelfia()) </span>
+                    <p> {{$pop->data_entrata}}
+                      <span class="badge badge-info"> @diffHumans($pop->data_entrata) </span>
                     </p>
                   </div>
                   <div class="col-sm-2">
@@ -144,19 +144,19 @@
                               <button class="btn btn-success" form="formUscitaPersona{{$persona->id}}">Salva</button>
                           </template> 
                       </my-modal>
-                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
+                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona, "data_entrata" =>$pop->data_entrata])
 
                       @endif
                   </div>
                 </div>
               </li>
-              @if ($persona->getDataUscitaNomadelfia())
+              @if ($pop->data_uscita)
               <li class="list-group-item">
                   <div class="row">
                     <label class="col-sm-4 font-weight-bold">Data Uscita:</label>
                     <div class="col-sm-6">
-                        <p> {{$persona->getDataUscitaNomadelfia()}}
-                        <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
+                        <p> {{$pop->data_uscita}}
+                        <span class="badge badge-info"> @diffHumans($pop->data_uscita) </span>
                         </p>
                     </div>
                     <div class="col-sm-2">

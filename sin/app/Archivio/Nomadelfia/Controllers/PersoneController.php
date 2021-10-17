@@ -27,8 +27,9 @@ class PersoneController extends CoreBaseController
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
+        $pop = $persona->popolazione()->orderBy("data_entrata", "DESC")->first();
         return view("nomadelfia.persone.show",
-            compact('persona', 'categoriaAttuale', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale'));
+            compact('persona', 'categoriaAttuale', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'pop'));
     }
 
     public function decesso(Request $request, $idPersona)
@@ -542,7 +543,7 @@ class PersoneController extends CoreBaseController
     {
         $validatedData = $request->validate([
             "data_entrata" => "date",
-            "old_data_entrata" => "date!required"
+            "old_data_entrata" => "date|required"
         ], [
             'data_entrata.date' => "La data entrata non è valida.",
             'old_data_entrata.date' => "La data entrata precedente non è valida.",
