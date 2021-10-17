@@ -542,11 +542,14 @@ class PersoneController extends CoreBaseController
     {
         $validatedData = $request->validate([
             "data_entrata" => "date",
+            "old_data_entrata" => "date!required"
         ], [
             'data_entrata.date' => "La data entrata non è valida.",
+            'old_data_entrata.date' => "La data entrata precedente non è valida.",
+            'old_data_entrata.required' => "La data entrata precedente è obbligatoria.",
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->setDataEntrataNomadelfia($request->data_entrata);
+        $persona->setDataEntrataNomadelfia($request->old_data_entrata, $request->data_entrata);
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }
 

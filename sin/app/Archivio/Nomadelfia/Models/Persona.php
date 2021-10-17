@@ -624,16 +624,13 @@ class Persona extends Model
         }
     }
 
-    public function setDataEntrataNomadelfia($data_entrata)
+    public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata)
     {
-        $int = Categoria::perNome("interno");
-        $cat = $this->categoriaAttuale();
-        if ($cat->isInterna()) {
-            $data = $data_entrata ? $data_entrata : $this->data_nascita;
-            return $this->categorie()->updateExistingPivot($int->id, ['data_inizio' => $data]);
+        $affected = PopolazioneNomadelfia::query()->where("persona_id", $this->id)->where("data_entrata", $old_data_entrata)->update(["data_entrata"=>$data_entrata]);
+        if ($affected) {
+            return true;
         }
-        throw new Exception("Error. La persona non è una persona interna");
-
+        return false;
     }
 
     public function getDataEntrataNomadelfia()

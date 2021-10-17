@@ -4,6 +4,7 @@
               action="{{ route('nomadelfia.persone.dataentrata.modifica', ['idPersona' =>$persona->id]) }}">
             {{ csrf_field() }}
             <div class="form-group row">
+                <input class="form-control" type="text" name="old_data_entrata" value="{{$persona->data_entrata}}" hidden>
                 <label class="col-sm-6 col-form-label">Nuova Data Entrata</label>
                 <div class="col-sm-6">
                     <label class="form-check-label">

@@ -66,21 +66,29 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function () {
-    Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('ability:persona.visualizza')->name('nomadelfia');
+    Route::get('/', [
+        PopolazioneNomadelfiaController::class,
+        'index'
+    ])->middleware('ability:persona.visualizza')->name('nomadelfia');
 
     // PERSONA
     Route::get('persone', 'PersoneController@index')->name('nomadelfia.persone');
 
-    Route::get('persone/inserimento/initial', 'PersoneController@insertInitialView')->name("nomadelfia.persone.inserimento");
-    Route::post('persone/inserimento/initial',  'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
+    Route::get('persone/inserimento/initial',
+        'PersoneController@insertInitialView')->name("nomadelfia.persone.inserimento");
+    Route::post('persone/inserimento/initial',
+        'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
 
-    Route::get('persone/inserimento/anagrafici',  'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
+    Route::get('persone/inserimento/anagrafici',
+        'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
     Route::post('persone/inserimento/anagrafici',
         'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
-    Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
+    Route::get('persone/{idPersona}/entrata/scelta',
+        'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
+    Route::post('persone/{idPersona}/entrata/scelta',
+        [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
 
     Route::post('persone/{idPersona}/decesso', 'PersoneController@decesso')->name("nomadelfia.persone.decesso");
     Route::post('persone/{idPersona}/uscita', 'PersoneController@uscita')->name("nomadelfia.persone.uscita");
@@ -90,8 +98,12 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/submit',
         'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
 
-    Route::get('persone/{persona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
-    Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
+    Route::get('persone/{persona}', [
+        PersoneController::class,
+        'show'
+    ])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
+    Route::delete('persone/{idPersona}',
+        'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
 
     Route::get('persone/{idPersona}/anagrafica/modifica',
         'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
@@ -134,7 +146,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'PersoneController@eliminaCategoria')->name("nomadelfia.persone.categoria.elimina");
     // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
     Route::post('persone/{idPersona}/entrata/modifica',
-        'PersoneController@updateDataEntrataNomadelfia')->name("nomadelfia.persone.dataentrata.modifica");
+        [PersoneController::class, 'updateDataEntrataNomadelfia'])->name("nomadelfia.persone.dataentrata.modifica");
 
     Route::get('persone/{idPersona}/gruppofamiliare',
         'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
@@ -196,7 +208,10 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'FamiglieController@create')->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/create',
         'FamiglieController@createConfirm')->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
-    Route::post('famiglie/{id}/uscita', [FamiglieController::class, 'uscita'])->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
+    Route::post('famiglie/{id}/uscita', [
+        FamiglieController::class,
+        'uscita'
+    ])->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
     Route::get('famiglie/{id}',
         'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna',
@@ -267,10 +282,13 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('stampa', 'ScuolaController@print')->name('scuola.stampa');
     Route::get('classi', 'ClassiController@index')->name('scuola.classi');
     Route::get('classi/{id}', 'ClassiController@show')->name('scuola.classi.show');
-    Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
+    Route::post('classi/{id}/assegna/coordinatore',
+        'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungiAlunno')->name('scuola.classi.alunno.assegna');
-    Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
-    Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
+    Route::post('classi/{id}/rimuovi/{alunno_id}',
+        'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
+    Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore',
+        'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
 });
 
 #################################################################
@@ -403,9 +421,12 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
         'PrenotazioniController@search')->middleware('ability:veicolo.visualizza')->name('officina.ricerca.submit');
     // VEICOLI add, update
     Route::get('veicoli', 'VeicoliController@index')->middleware('ability:veicolo.visualizza')->name('veicoli.index');
-    Route::get('veicoli/demoliti', 'VeicoliController@veicoliDemoliti')->middleware('ability:veicolo.visualizza')->name('veicoli.demoliti');
-    Route::post('veicoli/riabilita', 'VeicoliController@veicoloRiabilita')->middleware('ability:veicolo.modifica')->name('veicolo.riabilita');
-    Route::delete('veicoli/elimina-definitivamente', 'VeicoliController@veicoloEliminaDefinitivamente')->middleware('ability:veicolo.modifica')->name('veicoli.elimina.definitivamente');
+    Route::get('veicoli/demoliti',
+        'VeicoliController@veicoliDemoliti')->middleware('ability:veicolo.visualizza')->name('veicoli.demoliti');
+    Route::post('veicoli/riabilita',
+        'VeicoliController@veicoloRiabilita')->middleware('ability:veicolo.modifica')->name('veicolo.riabilita');
+    Route::delete('veicoli/elimina-definitivamente',
+        'VeicoliController@veicoloEliminaDefinitivamente')->middleware('ability:veicolo.modifica')->name('veicoli.elimina.definitivamente');
     Route::get('veicoli/nuovo',
         'VeicoliController@viewCreate')->middleware('ability:veicolo.inserisci')->name('veicoli.nuovo');
     Route::post('veicoli/nuovo',
