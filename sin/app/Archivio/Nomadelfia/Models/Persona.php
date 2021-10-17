@@ -12,6 +12,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
+use App\Nomadelfia\QueryBuilders\PopolazioneScope;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Exception;
@@ -352,7 +353,7 @@ class Persona extends Model
         $multiplied = $attuali->map(function ($item) {
             return $item->id;
         });
-        if ($attuali != null){
+        if ($attuali != null) {
             $attuali = Azienda::incarichi()->whereNotIn("id", $multiplied)->get();
             return $attuali;
         }
@@ -504,7 +505,7 @@ class Persona extends Model
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
         if ($gruppo_id instanceof GruppoFamiliare) {
-            $gruppo_id  = $gruppo_id->id;
+            $gruppo_id = $gruppo_id->id;
         }
         if (!$this->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($this->nominativo);
@@ -572,10 +573,7 @@ class Persona extends Model
                 [$persona_id]
             );
 
-            $conn->insert(
-                "INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)",
-                [$persona_id, $data]
-            );
+            $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
 
             // inserisce la persona nella popolazione (mette la categoria persona interna)
             $conn->insert(
@@ -640,24 +638,23 @@ class Persona extends Model
 
     public function getDataEntrataNomadelfia()
     {
-        $int = Categoria::perNome("interno");
-        $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
-        if ($categorie->count() > 0) {
-            return $categorie->first()->pivot->data_inizio;
+
+        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->orderBy("data_entrata", "DESC")->get();
+        if (count($pop) > 0) {
+            return $pop->first()->data_entrata;
         }
         return null;
     }
 
     public function getDataUscitaNomadelfia()
     {
-        $esterno = Categoria::perNome("esterno");
-        $categorie = $this->categorie()->where('nome', $esterno->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
-        if ($categorie->count() > 0) {
-            return $categorie->first()->pivot->data_inizio;
+
+        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->whereNotNull("data_uscita");
+        if ($pop->count() > 0) {
+            return $pop->first()->data_uscita;
         }
         return null;
+
     }
 
     public function getDataDecesso()
@@ -665,30 +662,14 @@ class Persona extends Model
         return $this->data_decesso;
     }
 
-    public function isPersonaInterna()
+    public function isPersonaInterna(): bool
     {
-        $categorie = $this->categorie()->wherePivot('stato', '1')->get();
-        $isInterna = false;
-        foreach ($categorie as $categoria) {
-            if ($categoria->isInterna()) {
-                $isInterna = true;
-            }
+        $pop = PopolazioneNomadelfia::attuale()->where("persona_id", $this->id);
+        if ($pop->count() > 0) {
+            return true;
         }
-        return $isInterna;
+        return false;
     }
-
-//    // Return True if the person is already entrata in Nomadelfia in the past, False otherwise
-//    public function isAlreadyEntrataInNomadelfia():bool
-//    {
-//        $categorie = $this->categorieStorico()->get();
-//        $isInterna = false;
-//        foreach ($categorie as $categoria) {
-//            if ($categoria->isInterna()) {
-//                $isInterna = true;
-//            }
-//        }
-//        return $isInterna;
-//    }
 
     /*
     * Return True if the person is dead, false otherwise
@@ -705,11 +686,16 @@ class Persona extends Model
             $this->uscita($data_decesso);
 
             $conn = DB::connection('db_nomadelfia');
+
+
             // aggiorna la data di decesso
             $conn->update(
                 "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
                 [$data_decesso, $this->id]
             );
+
+            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+                [$data_decesso, $this->id]);
 
             // aggiorna lo stato familiare  con la data di decesso
             $conn->insert(
@@ -747,6 +733,11 @@ class Persona extends Model
             // disabilità la persona
             $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'",
                 [$persona_id]);
+
+            // setta la data uscita della persona
+            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+                [$data_uscita, $persona_id]);
+
 
             // aggiunge la categoria persona esterna
             $conn->insert(

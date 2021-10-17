@@ -111,6 +111,7 @@ class Famiglia extends Model
             ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
             ->where("persone.stato", '1')
             ->where("persone_categorie.categoria_id", "=", $interna->id)
+            ->where("persone_categorie.stato", "=",'1')
             ->where("posizione_famiglia", $posizione)
             ->where("famiglie_persone.stato", $stato)
             ->orderBy("famiglie.nome_famiglia");
@@ -163,7 +164,7 @@ class Famiglia extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
-                $componente->uscita($data_uscita, false);
+                    $componente->uscita($data_uscita, false);
             });
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {

@@ -32,7 +32,16 @@ class IncarichiController extends CoreBaseController
   public function  editConfirm(Request $request, $idPersona){
  }
 
-  public function insert(){
+  public function insert(Request $request){
+      $validatedData = $request->validate([
+          "name" => "required|unique:db_nomadelfia.aziende,nome_azienda",
+      ], [
+          'name.required' => "Il nome del'incarico aggiungere è obbligatorio.",
+          'aziende.unique' => "L'incarico $request->name esistente già.",
+      ]);
+
+      Azienda::create(["nome_azienda"=> $request->name, "tipo"=>"incarico"]);
+      return redirect()->back()->withSuccess("Incarico $request->name aggiunto correttamente.");
   }
 
   public function insertConfirm(Request $request){ //InsertClientiRequest $request

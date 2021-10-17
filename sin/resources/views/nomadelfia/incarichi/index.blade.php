@@ -5,6 +5,7 @@
 @include('partials.header', ['title' => 'Gestione Incarichi'])
 
 
+@include("nomadelfia.templates.aggiungiIncarico")
 @foreach ($incarichi->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $incarico)
