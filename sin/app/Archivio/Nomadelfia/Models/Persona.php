@@ -4,15 +4,12 @@ namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
-use App\Nomadelfia\Exceptions\PersonaErrors;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleCategorieAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
-use App\Nomadelfia\QueryBuilders\PopolazioneScope;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Exception;
@@ -422,31 +419,6 @@ class Persona extends Model
         return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
 
-    // CATEGORIA
-    public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
-            ->withPivot('data_inizio', 'data_fine', 'stato');
-    }
-
-    public function categoriaAttuale()
-    {
-        $categoria = $this->categorie()->wherePivot('stato', '1')->get();
-        if ($categoria->count() == 1) {
-            return $categoria[0];
-        } elseif ($categoria->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultipleCategorieAttuale::named($this->nominativo);
-        }
-    }
-
-    public function categorieStorico(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->categorie()->wherePivot('stato', '0')
-            ->orderby('data_fine', 'desc');
-    }
-
 
     // Inserisce un minorenne che entra con la sua famiglia
     public function entrataMinorenneConFamiglia($data_entrata, $famiglia_id)
@@ -564,8 +536,6 @@ class Persona extends Model
             throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
 
-        $interna = Categoria::perNome("interno");
-        $esterno = Categoria::perNome("esterno");
         $persona_id = $this->id;
 
         DB::connection('db_nomadelfia')->beginTransaction();
@@ -579,18 +549,6 @@ class Persona extends Model
             );
 
             $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
-
-            // inserisce la persona nella popolazione (mette la categoria persona interna)
-            $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
-                [$persona_id, $interna->id, $data]
-            );
-
-            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-            $conn->update(
-                "UPDATE persone_categorie SET data_fine=?, stato = '0' WHERE persona_id = ? and categoria_id = ? and data_fine IS NULL;",
-                [$data, $persona_id, $esterno->id]
-            );
 
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(
@@ -741,18 +699,6 @@ class Persona extends Model
             $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
                 [$data_uscita, $persona_id]);
 
-
-            // aggiunge la categoria persona esterna
-            $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW()) ON DUPLICATE KEY UPDATE updated_at=NOW()",
-                [$persona_id, $data_uscita]
-            );
-
-            // aggiorna la categorie attive con la data di uscita
-            $conn->update(
-                "UPDATE persone_categorie SET data_fine = ?, stato = '0', updated_at = NOW() WHERE persona_id = ? AND stato = '1'",
-                [$data_uscita, $persona_id]
-            );
 
             // conclude la posizione in nomadelfia della persona con la data di uscita
             $conn->insert(

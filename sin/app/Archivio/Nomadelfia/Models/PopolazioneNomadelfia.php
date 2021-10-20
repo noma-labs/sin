@@ -75,11 +75,10 @@ class PopolazioneNomadelfia extends Model
         $interna = Categoria::perNome("interno");
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, persone_categorie.*")
-            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
-            ->where("persone_categorie.categoria_id", "=", $interna->id)
+            ->selectRaw("persone.*, popolazione.*")
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->whereNull("popolazione.data_uscita")
             ->where("persone.stato", "=", '1')
-            ->where("persone_categorie.stato", "=", '1')
             ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
             ->orderByRaw("persone." . strval($orderby) . " " . $order)
             ->get();
@@ -272,23 +271,6 @@ class PopolazioneNomadelfia extends Model
     }
 
     /*
-    *  Ritorna il numero per persone attive per ogni categoria
-    */
-    public static function perCategorie()
-    {
-        $posizioni = DB::connection('db_nomadelfia')
-            ->table('persone')
-            ->selectRaw("categorie.nome, count(*) as count")
-            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
-            ->join('categorie', 'categorie.id', '=', 'persone_categorie.categoria_id')
-            ->where("persone.stato", "=", '1')
-            ->where("persone_categorie.stato", "=", '1')
-            ->groupBy("categorie.nome")
-            ->get();
-        return $posizioni;
-    }
-
-    /*
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
@@ -363,12 +345,11 @@ class PopolazioneNomadelfia extends Model
         $q = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_posizioni.*")
-            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
-            ->where("persone_categorie.categoria_id", "=", $interna->id)
+            ->whereNull("popolazione.data_uscita")
             ->where("persone.stato", "=", '1')
-            ->where("persone_categorie.stato", "=", "1")
             ->where("persone_posizioni.stato", "=", "1")
             ->where("persone.data_nascita", "<=",$end)
             ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
@@ -378,23 +359,6 @@ class PopolazioneNomadelfia extends Model
         }
         return $q->get();
     }
-
-    /*
-    *  Ritorna il numero di componente per ogni gruppo
-    */
-    /*
-    public static function Minorenni()
-    {
-      $magg = DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT *, YEAR(persone.data_nascita) as anno
-                FROM persone
-                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
-                    AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
-                    ORDER BY data_nascita"
-          ));
-      return $magg;
-    } */
 
     /*
     *  Ritorna la famiglie e i componenti nel nucleo familiare che vivono attualmente in Nomadelfia.
@@ -409,10 +373,9 @@ class PopolazioneNomadelfia extends Model
                 "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
                 FROM persone 
                 INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id 
-                INNER JOIN persone_categorie on persone_categorie.persona_id = famiglie_persone.persona_id
+                INNER JOIN popolazione on popolazione.persona_id = famiglie_persone.persona_id
                 LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
-                WHERE persone_categorie.categoria_id = :interna 
-                    AND persone_categorie.stato = '1'
+                WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
                     AND persone.stato = '1'

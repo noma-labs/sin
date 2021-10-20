@@ -137,14 +137,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::put('persone/{idPersona}/posizione/{id}/concludi',
         'PersoneController@concludiPosizione')->name("nomadelfia.persone.posizione.concludi");
 
-    Route::get('persone/{idPersona}/categoria', 'PersoneController@categoria')->name("nomadelfia.persone.categoria");
-    Route::post('persone/{idPersona}/categoria/{id}/modifica',
-        'PersoneController@modificaCategoria')->name("nomadelfia.persone.categoria.modifica");
-    Route::post('persone/{idPersona}/categoria/assegna',
-        'PersoneController@assegnaCategoria')->name("nomadelfia.persone.categoria.assegna");
-    Route::delete('persone/{idPersona}/categoria/{id}',
-        'PersoneController@eliminaCategoria')->name("nomadelfia.persone.categoria.elimina");
-    // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
     Route::post('persone/{idPersona}/entrata/modifica',
         [PersoneController::class, 'updateDataEntrataNomadelfia'])->name("nomadelfia.persone.dataentrata.modifica");
 
