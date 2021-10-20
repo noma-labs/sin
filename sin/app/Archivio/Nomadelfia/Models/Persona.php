@@ -793,30 +793,6 @@ class Persona extends Model
         }
     }
 
-    /**
-     * Ritorna le posizioni assegnabili ad una persona.
-     * @return Collection Posizione
-     * @author Davide Neri
-     **/
-    public function categoriePossibili()
-    {
-        $categoria = self::categoriaAttuale();
-        $categorie = Categoria::all();
-        if ($categoria != null) {
-            $categorie = $categorie->except([$categoria->id]);
-            // if($categoria->is(Posizione::findByName("EFFETTIVO")))
-            //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
-            // if($categoria->is(Posizione::findByName("POSTULANTE")))
-            //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
-            // if($categoria->is(Posizione::findByName("OSPITE")))
-            //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
-            // if($categoria->is(Posizione::findByName("FIGLIO")))
-            //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
-            return $categorie;
-        } else {
-            return $categorie;
-        }
-    }
 
     // STATO
     public function stati()

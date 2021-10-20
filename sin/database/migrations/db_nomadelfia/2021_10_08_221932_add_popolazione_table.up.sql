@@ -12,11 +12,11 @@ ALTER TABLE `popolazione` ADD CONSTRAINT `popolazione_persona_fk` FOREIGN KEY (`
 
 
 -- Persone uscite da nomadelfia
-INSERT INTO popolazione(persona_id, data_uscita)
-SELECT persone.id, persone_categorie.data_inizio as data_uscita
+INSERT INTO popolazione(persona_id, data_entrata, data_uscita)
+SELECT persone.id, persone_categorie.data_inizio as data_entrata, persone_categorie.data_fine as data_uscita
 FROM persone
 INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
-WHERE persone_categorie.categoria_id = 4  AND  persone_categorie.stato = '1';
+WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND  persone_categorie.stato = '0' and persone_categorie.data_fine IS NOT NULL;
 
 
 -- Persone entrare e in da nomadelfia
