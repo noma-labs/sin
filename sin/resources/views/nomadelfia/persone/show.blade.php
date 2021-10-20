@@ -120,6 +120,14 @@
       <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
         <div class="card-body">
           <ul class="list-group list-group-flush">
+           @if(empty($pop))
+                  <my-modal modal-title="Entrata nella comunità" button-title="Entrata" button-style="btn-success my-2">
+                      <template slot="modal-body-slot">
+                          @include("nomadelfia.templates.entrataPersona", ['persona' => $persona])
+                      </template>
+                  </my-modal>
+           @else
+              @if ($pop->data_entrata)
             <li class="list-group-item">
                 <div class="row">
                   <label class="col-sm-4 font-weight-bold">Data Entrata:</label>
@@ -150,6 +158,7 @@
                   </div>
                 </div>
               </li>
+              @endif
               @if ($pop->data_uscita)
               <li class="list-group-item">
                   <div class="row">
@@ -171,7 +180,8 @@
                   </div>
               </li>
               @endif
-              
+           @endif
+
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Nominativo: </label>

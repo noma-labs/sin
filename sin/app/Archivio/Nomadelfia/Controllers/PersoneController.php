@@ -26,6 +26,7 @@ class PersoneController extends CoreBaseController
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
+        // TODO:   mettere la data di entrata uscita nella persona (in DTO ??)
         $pop = $persona->popolazione()->orderBy("data_entrata", "DESC")->first();
         return view("nomadelfia.persone.show",
             compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'pop'));

@@ -33,8 +33,8 @@
             
                 <div class="row">
                   <p class="col-md-4 "> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
-                  <p class="col-md-4 ">{{$persona->data_inizio}}</p>
-                  <p class="col-md-4 "> @diffHumans($persona->data_inizio)</p>
+                  <p class="col-md-4 ">{{$persona->data_entrata}}</p>
+                  <p class="col-md-4 "> @diffHumans($persona->data_entrata)</p>
                 </div>
       
               @empty
@@ -62,8 +62,8 @@
             
                 <div class="row">
                   <p class="col-md-3"> @include('nomadelfia.templates.persona', ['persona'=>$persona])</p>
-                  <p class="col-md-3">{{$persona->data_inizio}}</p>
-                  <p class="col-md-3"> @diffHumans($persona->data_inizio)</p>
+                  <p class="col-md-3">{{$persona->data_entrata}}</p>
+                  <p class="col-md-3"> @diffHumans($persona->data_entrata)</p>
                   <div class="col-md-3">
                   </div>
                 </div>
