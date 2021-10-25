@@ -57,5 +57,19 @@ class GruppiFamiliareTest extends TestCase
     }
 
 
+    /** @test */
+    public function uscita_persona_rimuove_dal_gruppo_familiare()
+    {
+        $gruppo = factory(GruppoFamiliare::class)->create();
+        $now = Carbon::now();
+        $data_entrata = $now->subYear(5)->toDatestring();
+        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $data_uscita = $now;
+        $this->assertEquals(1, $gruppo->personeAttuale->count());
+        $persona->uscita($data_uscita);
+        $this->assertEquals(0, $gruppo->personeAttuale()->count());
+
+    }
 
 }
