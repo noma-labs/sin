@@ -73,10 +73,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (!$persona->isEffettivo()){
+            if (!$persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (!$persona->isMaschio()){
+            if (!$persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();
@@ -110,7 +110,10 @@ class GruppoFamiliare extends Model
 
     public function personeAttuale()
     {
-        return $this->persone()->wherePivot("stato", "1");
+        return $this->persone()
+            ->join("popolazione", "gruppi_persone.persona_id", "popolazione.persona_id")
+            ->whereNull("popolazione.data_uscita")
+            ->wherePivot("stato", "1");
     }
 
     /*
@@ -141,8 +144,8 @@ class GruppoFamiliare extends Model
         $gruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
                             from gruppi_persone
-                             inner join popolazione ON popolazione.persona_id = gruppi_persone.persona_id   
-                            inner  join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                            inner join popolazione ON popolazione.persona_id = gruppi_persone.persona_id   
+                            inner join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
                             where gruppi_persone.stato = '1' AND popolazione.data_uscita IS NULL
                             group by gruppi_persone.gruppo_famigliare_id
                             order by gruppi_familiari.nome"
@@ -199,7 +202,7 @@ class GruppoFamiliare extends Model
     }
 
 
-    public function isCentroDiSpirito() : bool
+    public function isCentroDiSpirito(): bool
     {
         return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
     }

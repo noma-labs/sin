@@ -739,7 +739,6 @@ class Persona extends Model
         }
     }
 
-
     // STATO
     public function stati()
     {
