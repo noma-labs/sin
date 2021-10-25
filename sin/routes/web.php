@@ -219,7 +219,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'FamiglieController@aggiornaComponente')->name("nomadelfia.famiglie.componente.aggiorna");
 
     //stampa elenchi
-    Route::post('popolazione/stampa', 'PopolazioneNomadelfiaController@print')->name("nomadelfia.popolazione.stampa");
+    Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name("nomadelfia.popolazione.stampa");
     Route::get('popolazione/stampa/preview',
         'PopolazioneNomadelfiaController@preview')->name("nomadelfia.popolazione.anteprima");
 
