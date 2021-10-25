@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\Actions;
 
-use App\Nomadelfia\Models\Categoria;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
@@ -32,8 +31,6 @@ class EntrataInNomadelfiaAction
             throw new \Exception("Impossibile inserire `{$persona->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
 
-        $interna = Categoria::perNome("interno");
-        $esterno = Categoria::perNome("esterno");
         $persona_id = $persona->id;
 
         DB::connection('db_nomadelfia')->beginTransaction();

@@ -72,7 +72,6 @@ class PopolazioneNomadelfia extends Model
      */
     public static function maggiorenni($orderby = 'nominativo', $order = "ASC")
     {
-        $interna = Categoria::perNome("interno");
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, popolazione.*")
@@ -335,7 +334,7 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo', $withInYear=false)
-    {   $interna = Categoria::perNome("interno");
+    {
         $posizione = Posizione::perNome("figlio");
         $end = Carbon::now()->subYears($fromEta);
         if ($withInYear){
@@ -370,8 +369,6 @@ class PopolazioneNomadelfia extends Model
     */
     public static function famiglie()
     {
-        $interna = Categoria::perNome("interno");
-
         $famiglie = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
@@ -384,8 +381,7 @@ class PopolazioneNomadelfia extends Model
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
                     AND persone.stato = '1'
                 ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
-            ),
-            array('interna' => $interna->id)
+            )
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
         return $famiglie;
