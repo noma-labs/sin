@@ -38,6 +38,8 @@ class PopolazioneTest extends BaseTestCase
         $pop = PopolazioneNomadelfia::popolazione();
         $this->assertEquals($tot, count($pop));
 
+        $this->assertEquals($tot, PopolazioneNomadelfia::attuale()->count());
+
         $data_decesso = Carbon::now()->addYears(5)->toDatestring();
         $persona->deceduto($data_decesso);
 
@@ -318,37 +320,38 @@ class PopolazioneTest extends BaseTestCase
         $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', true))); // - $actualFigli );
     }
 
-    /** @test */
-    public function correct_date_if_persona_exit_multiple_times_from_nomadelfia()
-    {
-        $totInit = PopolazioneNomadelfia::totalePopolazione();
+//    /** @test */
+//    public function correct_date_if_persona_exit_multiple_times_from_nomadelfia()
+//    {
+//        $totInit = PopolazioneNomadelfia::totalePopolazione();
+//
+//        $now = Carbon::now();
+//        $data_nascita = $now->subYears(50)->startOfYear();
+//        $gruppo = GruppoFamiliare::all()->random();
+//        $p = factory(Persona::class)->create(['data_nascita' => $data_nascita]);
+//
+//        $data_entrata = $data_nascita->copy()->addYears(20);
+//        $p->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+//
+//        $tot = PopolazioneNomadelfia::totalePopolazione();
+//        $this->assertEquals($totInit + 1, $tot);
+//
+//        $data_uscita = $data_nascita->copy()->addYears(30);
+//        $p->uscita($data_uscita);
+//        $tot = PopolazioneNomadelfia::totalePopolazione();
+//        $this->assertEquals($totInit, $tot);
+//
+//        // rientra 2 volta
+//        $data_entrata_2 = $data_nascita->copy()->addYears(40);
+//        $p->entrataMaggiorenneSingle($data_entrata_2, $gruppo->id);
+//        $tot = PopolazioneNomadelfia::totalePopolazione();
+//        $this->assertEquals($totInit + 1, $tot);
+//
+//        $this->assertEquals($data_entrata_2->toDatestring(), $p->getDataEntrataNomadelfia());
+//        $this->assertEquals($data_uscita->toDatestring(), $p->getDataUscitaNomadelfia());
+//
+//    }
 
-        $now = Carbon::now();
-        $data_nascita = $now->subYears(50)->startOfYear();
-        $gruppo = GruppoFamiliare::all()->random();
-        $p = factory(Persona::class)->create(['data_nascita' => $data_nascita]);
-
-        $data_entrata = $data_nascita->copy()->addYears(20);
-        $p->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
-
-        $tot = PopolazioneNomadelfia::totalePopolazione();
-        $this->assertEquals($totInit + 1, $tot);
-
-        $data_uscita = $data_nascita->copy()->addYears(30);
-        $p->uscita($data_uscita);
-        $tot = PopolazioneNomadelfia::totalePopolazione();
-        $this->assertEquals($totInit, $tot);
-
-        // rientra 2 volta
-        $data_entrata_2 = $data_nascita->copy()->addYears(40);
-        $p->entrataMaggiorenneSingle($data_entrata_2, $gruppo->id);
-        $tot = PopolazioneNomadelfia::totalePopolazione();
-        $this->assertEquals($totInit + 1, $tot);
-
-        $this->assertEquals($data_entrata_2->toDatestring(), $p->getDataEntrataNomadelfia());
-        $this->assertEquals($data_uscita->toDatestring(), $p->getDataUscitaNomadelfia());
-
-    }
 
 
 }

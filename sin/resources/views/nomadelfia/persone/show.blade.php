@@ -120,12 +120,20 @@
       <div id="collapsezero" class="collapse show" aria-labelledby="headingZero" data-parent="#accordion">
         <div class="card-body">
           <ul class="list-group list-group-flush">
+           @if(empty($pop))
+                  <my-modal modal-title="Entrata nella comunità" button-title="Entrata" button-style="btn-success my-2">
+                      <template slot="modal-body-slot">
+                          @include("nomadelfia.templates.entrataPersona", ['persona' => $persona])
+                      </template>
+                  </my-modal>
+           @else
+              @if ($pop->data_entrata)
             <li class="list-group-item">
                 <div class="row">
                   <label class="col-sm-4 font-weight-bold">Data Entrata:</label>
                   <div class="col-sm-6">
-                    <p> {{$persona->getDataEntrataNomadelfia()}}
-                      <span class="badge badge-info"> @diffHumans($persona->getDataEntrataNomadelfia()) </span>
+                    <p> {{$pop->data_entrata}}
+                      <span class="badge badge-info"> @diffHumans($pop->data_entrata) </span>
                     </p>
                   </div>
                   <div class="col-sm-2">
@@ -144,19 +152,20 @@
                               <button class="btn btn-success" form="formUscitaPersona{{$persona->id}}">Salva</button>
                           </template> 
                       </my-modal>
-                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona])
+                      @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona, "data_entrata" =>$pop->data_entrata])
 
                       @endif
                   </div>
                 </div>
               </li>
-              @if ($persona->getDataUscitaNomadelfia())
+              @endif
+              @if ($pop->data_uscita)
               <li class="list-group-item">
                   <div class="row">
                     <label class="col-sm-4 font-weight-bold">Data Uscita:</label>
                     <div class="col-sm-6">
-                        <p> {{$persona->getDataUscitaNomadelfia()}}
-                        <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
+                        <p> {{$pop->data_uscita}}
+                        <span class="badge badge-info"> @diffHumans($pop->data_uscita) </span>
                         </p>
                     </div>
                     <div class="col-sm-2">
@@ -171,7 +180,8 @@
                   </div>
               </li>
               @endif
-              
+           @endif
+
             <li class="list-group-item">
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Nominativo: </label>
@@ -183,23 +193,7 @@
                 </div>
               </div>
             </li>
-           
-            {{-- <li class="list-group-item">
-              <div class="row">
-                <label class="col-sm-4 font-weight-bold">Categoria: </label>
-                <div class="col-sm-6">
-                    @if ($categoriaAttuale != null)
-                        {{$categoriaAttuale->nome}}
-                    @else
-                        <span class="text-danger">Nessuna categoria</span>
-                    @endif
-                </div>
-                <div class="col-sm-2">
-                  <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.categoria', $persona->id)}}"  role="button">Modifica</a>
-                </div>
-              </div>
-            </li> --}}
-            
+
             <li class="list-group-item">
               <div class="row">
                   <label class="col-sm-4 font-weight-bold">Stato familiare:</label>

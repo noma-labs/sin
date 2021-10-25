@@ -4,10 +4,11 @@
               action="{{ route('nomadelfia.persone.dataentrata.modifica', ['idPersona' =>$persona->id]) }}">
             {{ csrf_field() }}
             <div class="form-group row">
+                <input type="hidden" name="old_data_entrata" id="hiddenField" value="{{$data_entrata}}" />
                 <label class="col-sm-6 col-form-label">Nuova Data Entrata</label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
-                        <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_entrata }}"
+                        <date-picker :bootstrap-styling="true" typeable="true" value="{{$data_entrata }}"
                                      format="yyyy-MM-dd" name="data_entrata"></date-picker>
                     </label>
                     <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se coincide con la data di nascita della persona.</small>
