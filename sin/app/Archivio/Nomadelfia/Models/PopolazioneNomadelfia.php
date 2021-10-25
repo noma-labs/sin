@@ -38,7 +38,7 @@ class PopolazioneNomadelfia extends Model
                 LEFT JOIN persone ON persone.id = popolazione.persona_id
                 LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.persona_id
                 LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE popolazione.data_uscita IS NULL AND p.stato = '1' AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
+                WHERE popolazione.data_uscita IS NULL AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
                 ORDER BY nominativo")
         );
         return $res;
@@ -58,7 +58,7 @@ class PopolazioneNomadelfia extends Model
                 "SELECT count(*) as popolazione
                 FROM popolazione
                 INNER JOIN persone p ON p.id = popolazione.persona_id
-                WHERE popolazione.data_uscita IS NULL AND p.stato = '1'"
+                WHERE popolazione.data_uscita IS NULL"
             )
         );
         return $res[0]->popolazione;

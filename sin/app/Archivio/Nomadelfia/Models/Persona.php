@@ -532,13 +532,7 @@ class Persona extends Model
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-            $conn->update(
-                "UPDATE persone SET stato = '1' WHERE id = ? and stato = '0';",
-                [$persona_id]
-            );
-
-            $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
+              $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
 
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(
@@ -638,10 +632,9 @@ class Persona extends Model
 
             $conn = DB::connection('db_nomadelfia');
 
-
             // aggiorna la data di decesso
             $conn->update(
-                "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
+                "UPDATE persone SET data_decesso = ?, updated_at = NOW() WHERE id = ?",
                 [$data_decesso, $this->id]
             );
 
@@ -680,10 +673,6 @@ class Persona extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
-
-            // disabilità la persona
-            $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'",
-                [$persona_id]);
 
             // setta la data uscita della persona
             $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",

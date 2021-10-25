@@ -37,12 +37,6 @@ class EntrataInNomadelfiaAction
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-            $conn->update(
-                "UPDATE persone SET stato = '1' WHERE id = ? and stato = '0';",
-                [$persona_id]
-            );
-
             $conn->insert(
                 "INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)",
                 [$persona_id, $data_entrata]
