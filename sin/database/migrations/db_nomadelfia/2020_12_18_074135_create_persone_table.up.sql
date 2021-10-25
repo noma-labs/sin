@@ -12,7 +12,7 @@ CREATE TABLE `persone` (
   `sesso` enum('F','M') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `stato` enum('0','1') NOT NULL DEFAULT '1',
+--   `stato` enum('0','1') NOT NULL DEFAULT '1',
   `dispense` enum('0','1') DEFAULT NULL,
   `guardia` enum('0','1') DEFAULT NULL,
   `sigla_biancheria` varchar(30) DEFAULT NULL,

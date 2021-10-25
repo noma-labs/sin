@@ -30,11 +30,6 @@
       @empty($persona->delated_at)
       <tr hoverable>
           <td>  {{ $persona->nominativo}} 
-              {{-- @if ($persona->isAttivo())
-                <span class="badge badge-success">Attivo</span>
-              @else
-                <span class="badge badge-danger">Disattivo</span
-              @endif --}}
           </td>
           <td> {{ $persona->nome}}</td>
           <td> {{ $persona->cognome}} </td>
