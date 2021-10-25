@@ -42,18 +42,6 @@ class EntrataInNomadelfiaAction
                 [$persona_id, $data_entrata]
             );
 
-//            // inserisce la persona nella popolazione (mette la categoria persona interna)
-//            $conn->insert(
-//                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
-//                [$persona_id, $interna->id, $data_entrata]
-//            );
-//
-//            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-//            $conn->update(
-//                "UPDATE persone_categorie SET data_fine=?, stato = '0' WHERE persona_id = ? and categoria_id = ? and data_fine IS NULL;",
-//                [$data_entrata, $persona_id, $esterno->id]
-//            );
-
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(
                 "INSERT INTO persone_posizioni (persona_id, posizione_id, data_inizio, stato) VALUES (?, ?, ?,'1')",

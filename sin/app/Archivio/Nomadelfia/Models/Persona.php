@@ -681,7 +681,7 @@ class Persona extends Model
 
             // conclude la posizione in nomadelfia della persona con la data di uscita
             $conn->insert(
-                "UPDATE persone_posizioni  SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+                "UPDATE persone_posizioni SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
 
