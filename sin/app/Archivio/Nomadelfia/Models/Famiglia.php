@@ -108,7 +108,6 @@ class Famiglia extends Model
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->where("persone.stato", '1')
             ->whereNull("popolazione.data_uscita")
             ->where("posizione_famiglia", $posizione)
             ->where("famiglie_persone.stato", $stato)
@@ -663,8 +662,7 @@ class Famiglia extends Model
         WHERE persone.id NOT IN (
           SELECT famiglie_persone.persona_id
           FROM famiglie_persone
-        )  AND popolazione.data_uscita IS NULL and persone.stato = '1'
-        ")
+        )  AND popolazione.data_uscita IS NULL")
         );
         return $personeSenzaFam;
     }

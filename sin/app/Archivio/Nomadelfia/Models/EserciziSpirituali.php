@@ -118,9 +118,7 @@ class EserciziSpirituali extends Model
                       FROM persone_esercizi
                       INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
                       where esercizi_spirituali.stato = '1'
-            )  AND popolazione.data_uscita IS NULL 
-                AND persone.stato = '1' 
-                AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+            )  AND popolazione.data_uscita IS NULL  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
             ORDER BY persone.nominativo")
         );
         $result = new stdClass;

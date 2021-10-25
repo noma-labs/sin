@@ -55,16 +55,6 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-    public function scopeAttivo($query)
-    {
-        return $query->where('persone.stato', '1');
-    }
-
-
-    public function isAttivo()
-    {
-        return $this->stato == "1";
-    }
 
     public function isDeceduta()
     {

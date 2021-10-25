@@ -12,9 +12,6 @@ use Illuminate\Support\Facades\DB;
 use \stdClass;
 use Carbon;
 
-/*
-*  Static methods for obtaining statistics on the popolazione di Nomadelfia
-*/
 
 class PopolazioneNomadelfia extends Model
 {
@@ -77,7 +74,6 @@ class PopolazioneNomadelfia extends Model
             ->selectRaw("persone.*, popolazione.*")
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNull("popolazione.data_uscita")
-            ->where("persone.stato", "=", '1')
             ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
             ->orderByRaw("persone." . strval($orderby) . " " . $order)
             ->get();
@@ -262,7 +258,6 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'posizioni.id', '=', 'persone_posizioni.posizione_id')
-            ->where("persone.stato", "=", '1')
             ->whereNull("popolazione.data_uscita")
             ->where("persone_posizioni.stato", "=", '1')
             ->where("posizioni.abbreviato", "=", $posizione)
@@ -283,7 +278,6 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_stati', 'persone_stati.persona_id', '=', 'persone.id')
             ->join('stati', 'stati.id', '=', 'persone_stati.stato_id')
-            ->where("persone.stato", "=", '1')
             ->whereNull("popolazione.data_uscita")
             ->where("persone_stati.stato", "=", '1')
             ->where("stati.stato", "=", $stato)
@@ -304,7 +298,7 @@ class PopolazioneNomadelfia extends Model
                 FROM persone
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 INNER JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE persone.stato = '1' AND persone_posizioni.stato = '1'  AND persone.deleted_at is NULL
+                WHERE persone_posizioni.stato = '1'  AND persone.deleted_at is NULL
                 group by posizioni.nome
                 ORDER BY posizioni.ordinamento"
             )
@@ -352,7 +346,6 @@ class PopolazioneNomadelfia extends Model
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
             ->whereNull("popolazione.data_uscita")
-            ->where("persone.stato", "=", '1')
             ->where("persone_posizioni.stato", "=", "1")
             ->where("persone.data_nascita", "<=",$end)
             ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
@@ -379,7 +372,6 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-                    AND persone.stato = '1'
                 ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
             )
         );
@@ -399,7 +391,7 @@ class PopolazioneNomadelfia extends Model
               FROM famiglie_persone
               INNER JOIN persone ON famiglie_persone.persona_id = persone.id
               INNER JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
-              WHERE persone.stato = '1'  AND famiglie_persone.stato = '1'
+              WHERE famiglie_persone.stato = '1'
               GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
             )
         );
