@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         // DB NOMADELIFA
         $this->call(PosizioniTableSeeder::class);
         $this->call(StatiTableSeeder::class);
-        $this->call(CategoriaTableSeeder::class);
         $this->call(GruppiFamiliariTableSeeder::class);
         $this->call(IncarichiTableSeeder::class);
 

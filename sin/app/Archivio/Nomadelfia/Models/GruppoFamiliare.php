@@ -140,7 +140,6 @@ class GruppoFamiliare extends Model
    */
     public static function countComponenti()
     {
-        $esterna = Categoria::perNome('esterno');
         $gruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
                             from gruppi_persone
