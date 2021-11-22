@@ -2,8 +2,7 @@
 
 use SqlMigrations\SqlMigration;
 
-class AddPopolazioneTable extends SqlMigration
+class AlterCategorieTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
-
 }

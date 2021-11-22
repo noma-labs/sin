@@ -23,13 +23,12 @@ class PersoneController extends CoreBaseController
 
     public function show(Persona $persona)
     {
+        $categoriaAttuale = $persona->categoriaAttuale();
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
-        // TODO:   mettere la data di entrata uscita nella persona (in DTO ??)
-        $pop = $persona->popolazione()->orderBy("data_entrata", "DESC")->first();
         return view("nomadelfia.persone.show",
-            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'pop'));
+            compact('persona', 'categoriaAttuale', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale'));
     }
 
     public function decesso(Request $request, $idPersona)
@@ -464,19 +463,90 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
 
+    /**
+     * Ritorna la view per la modifica della categoria di una persona
+     *
+     * @author Davide Neri
+     */
+    public function categoria($idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        $categoriaAttuale = $persona->categoriaAttuale();
+        return view("nomadelfia.persone.categoria.show", compact('persona', 'categoriaAttuale'));
+    }
+
+    // assegnaCategoria
+    public function assegnaCategoria(Request $request, $idPersona)
+    {
+        $validatedData = $request->validate([
+            "categoria_id" => "required",
+            "data_inizio" => "required|date",
+            // "data_fine" => "required|date",
+        ], [
+            "categoria_id.required" => "La posizione è obbligatorio",
+            'data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
+            // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        // $persona->categoria_id = $request->categoria_id;
+        if ($persona->categoriaAttuale()) { // se
+            $persona->categorie()->updateExistingPivot($persona->categoriaAttuale()->id,
+                ['stato' => '0', 'data_fine' => ($request->data_fine ? $request->data_fine : $request->data_inizio)]);
+        }
+        $persona->categorie()->attach($request->categoria_id, ['stato' => '1', 'data_inizio' => $request->data_inizio]);
+        return redirect()->back()->withSuccess("Nuova categoria assegnata a $persona->nominativo  con successo.");
+    }
+
+    /**
+     * Elimina una categoria assegnata ad una persona
+     *
+     * @author Davide Neri
+     */
+    public function eliminaCategoria(Request $request, $idPersona, $id)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        $res = $persona->categorie()->detach($id);
+        if ($res) {
+            return redirect()->back()->withSuccess("Categoria rimossa consuccesso per $persona->nominativo ");
+        } else {
+            return redirect()->back()->withErro("Errore. Impossibile rimuovere la categoria per $persona->nominativo");
+        }
+    }
+
+
+    /**
+     * Modifica la posizione  di una persona.
+     *
+     * @author Davide Neri
+     */
+    public function modificaCategoria(Request $request, $idPersona, $id)
+    {
+        $validatedData = $request->validate([
+            "data_fine" => "date",
+            "data_inizio" => "required|date",
+            "stato" => "required"
+        ], [
+            "data_fine.date" => "La data fine categoria deve essere una data valida",
+            'data_inizio.required' => "La data di inizio della categoria è obbligatoria.",
+            'stati.required' => "Lo stato attuale è obbligatorio.",
+
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $persona->categorie()->updateExistingPivot($id,
+            ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, "stato" => $request->stato]);
+        return redirect()->back()->withSuccess("Categoria modificata di $persona->nominativo  con successo.");
+    }
+
 
     public function updateDataEntrataNomadelfia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
             "data_entrata" => "date",
-            "old_data_entrata" => "date|required"
         ], [
             'data_entrata.date' => "La data entrata non è valida.",
-            'old_data_entrata.date' => "La data entrata precedente non è valida.",
-            'old_data_entrata.required' => "La data entrata precedente è obbligatoria.",
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->setDataEntrataNomadelfia($request->old_data_entrata, $request->data_entrata);
+        $persona->setDataEntrataNomadelfia($request->data_entrata);
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }
 

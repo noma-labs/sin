@@ -2,47 +2,41 @@
 
 namespace App\Nomadelfia\Models;
 
-use App\Nomadelfia\QueryBuilders\PopolazioneQueryBuilder;
-use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Excpetions\StatoDoesNotExists;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
 use Carbon;
 
 /*
-*  Static methods for obtaining statistics on the popolazione di Nomadelfia
+*
+*  Static methods for obtaning statistics on the popolazione di Nomadelfia
 */
 
-class PopolazioneNomadelfia extends Model
+class PopolazioneNomadelfia
 {
-    protected $connection = 'db_nomadelfia';
-    protected $table = 'popolazione';
 
-    public $timestamps = true;
-    protected $guarded = [];
-
-
-    public function newEloquentBuilder($query): PopolazioneQueryBuilder
-    {
-        return new PopolazioneQueryBuilder($query);
-    }
     /*
     *  Ritorna le persone della popolazione di Nomadelfia
+    *
     */
     public static function popolazione()
     {
         $res = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT popolazione.*, persone.*,  persone_posizioni.*, posizioni.nome as posizione
-                FROM popolazione
-                LEFT JOIN persone p on popolazione.persona_id = p.id
-                LEFT JOIN persone ON persone.id = popolazione.persona_id
-                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.persona_id
+            DB::raw(
+                "SELECT popolazione.*, persone_posizioni.*, posizioni.nome as posizione
+                FROM (
+                    SELECT persone.*, persone_categorie.data_inizio as data_entrata
+                    FROM persone
+                    INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                    WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                ) as popolazione
+                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.id
                 LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE popolazione.data_uscita IS NULL AND p.stato = '1' AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
-                ORDER BY nominativo")
+                WHERE  ( persone_posizioni.stato = '1' OR persone_posizioni.stato IS NULL)
+                ORDER BY nominativo"
+            )
         );
         return $res;
     }
@@ -56,13 +50,15 @@ class PopolazioneNomadelfia extends Model
     */
     public static function totalePopolazione()
     {
+        $interna = Categoria::perNome("interno");
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT count(*) as popolazione
-                FROM popolazione
-                INNER JOIN persone p ON p.id = popolazione.persona_id
-                WHERE popolazione.data_uscita IS NULL AND p.stato = '1'"
-            )
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                WHERE persone_categorie.categoria_id = :interna AND persone.stato = '1' AND persone_categorie.stato = '1'"
+            ),
+            array('interna' => $interna->id)
         );
         return $res[0]->popolazione;
     }
@@ -72,12 +68,14 @@ class PopolazioneNomadelfia extends Model
      */
     public static function maggiorenni($orderby = 'nominativo', $order = "ASC")
     {
+        $interna = Categoria::perNome("interno");
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, popolazione.*")
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull("popolazione.data_uscita")
+            ->selectRaw("persone.*, persone_categorie.*")
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->where("persone_categorie.categoria_id", "=", $interna->id)
             ->where("persone.stato", "=", '1')
+            ->where("persone_categorie.stato", "=", '1')
             ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
             ->orderByRaw("persone." . strval($orderby) . " " . $order)
             ->get();
@@ -259,14 +257,29 @@ class PopolazioneNomadelfia extends Model
         $posizioni = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_posizioni.*")
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'posizioni.id', '=', 'persone_posizioni.posizione_id')
             ->where("persone.stato", "=", '1')
-            ->whereNull("popolazione.data_uscita")
             ->where("persone_posizioni.stato", "=", '1')
             ->where("posizioni.abbreviato", "=", $posizione)
             ->orderByRaw($ordeby)
+            ->get();
+        return $posizioni;
+    }
+
+    /*
+    *  Ritorna il numero per persone attive per ogni categoria
+    */
+    public static function perCategorie()
+    {
+        $posizioni = DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->selectRaw("categorie.nome, count(*) as count")
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
+            ->join('categorie', 'categorie.id', '=', 'persone_categorie.categoria_id')
+            ->where("persone.stato", "=", '1')
+            ->where("persone_categorie.stato", "=", '1')
+            ->groupBy("categorie.nome")
             ->get();
         return $posizioni;
     }
@@ -280,11 +293,9 @@ class PopolazioneNomadelfia extends Model
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_stati.*")
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_stati', 'persone_stati.persona_id', '=', 'persone.id')
             ->join('stati', 'stati.id', '=', 'persone_stati.stato_id')
             ->where("persone.stato", "=", '1')
-            ->whereNull("popolazione.data_uscita")
             ->where("persone_stati.stato", "=", '1')
             ->where("stati.stato", "=", $stato)
             ->whereRaw("persone.deleted_at IS NULL")
@@ -334,7 +345,7 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo', $withInYear=false)
-    {
+    {   $interna = Categoria::perNome("interno");
         $posizione = Posizione::perNome("figlio");
         $end = Carbon::now()->subYears($fromEta);
         if ($withInYear){
@@ -348,11 +359,12 @@ class PopolazioneNomadelfia extends Model
         $q = DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw("persone.*, persone_posizioni.*")
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
-            ->whereNull("popolazione.data_uscita")
+            ->where("persone_categorie.categoria_id", "=", $interna->id)
             ->where("persone.stato", "=", '1')
+            ->where("persone_categorie.stato", "=", "1")
             ->where("persone_posizioni.stato", "=", "1")
             ->where("persone.data_nascita", "<=",$end)
             ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
@@ -364,24 +376,45 @@ class PopolazioneNomadelfia extends Model
     }
 
     /*
+    *  Ritorna il numero di componente per ogni gruppo
+    */
+    /*
+    public static function Minorenni()
+    {
+      $magg = DB::connection('db_nomadelfia')->select(
+        DB::raw("SELECT *, YEAR(persone.data_nascita) as anno
+                FROM persone
+                INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+                WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND persone_categorie.stato = '1'
+                    AND persone.data_nascita > DATE_SUB(NOW(), INTERVAL 18 YEAR)
+                    ORDER BY data_nascita"
+          ));
+      return $magg;
+    } */
+
+    /*
     *  Ritorna la famiglie e i componenti nel nucleo familiare che vivono attualmente in Nomadelfia.
     *
     */
     public static function famiglie()
     {
+        $interna = Categoria::perNome("interno");
+
         $famiglie = DB::connection('db_nomadelfia')->select(
             DB::raw(
                 "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
                 FROM persone 
                 INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id 
-                INNER JOIN popolazione on popolazione.persona_id = famiglie_persone.persona_id
+                INNER JOIN persone_categorie on persone_categorie.persona_id = famiglie_persone.persona_id
                 LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
-                WHERE popolazione.data_uscita IS NULL
+                WHERE persone_categorie.categoria_id = :interna 
+                    AND persone_categorie.stato = '1'
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
                     AND persone.stato = '1'
                 ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
-            )
+            ),
+            array('interna' => $interna->id)
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
         return $famiglie;

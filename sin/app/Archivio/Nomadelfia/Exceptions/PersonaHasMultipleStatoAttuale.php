@@ -6,7 +6,7 @@ class PersonaHasMultipleStatoAttuale  extends InvalidArgumentException
 {
     public static function named(string $nome)
     {
-        return new static("La persona `{$nome}` ha più di uno stato attuale.");
+        return new static("La persona `{$nome}` ha più di una famiglia attuale.");
     }
 }
     

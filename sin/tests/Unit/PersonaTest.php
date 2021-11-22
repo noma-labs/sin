@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
 use Carbon;
