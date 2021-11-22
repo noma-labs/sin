@@ -106,7 +106,7 @@ class Cariche extends Model
                 LEFT JOIN persone_stati ON persone_stati.persona_id = persone.id
                 WHERE popolazione.data_uscita IS NULL AND persone.stato = '1'
                 AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
-                AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac 
+                AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac  AND  persone_stati.stato = '1'
                 ORDER BY persone.nominativo ASC"
             ),
             array(
