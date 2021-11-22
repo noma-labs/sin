@@ -26,9 +26,9 @@ ALTER TABLE `popolazione` ADD CONSTRAINT `popolazione_persona_fk` FOREIGN KEY (`
 --
 --
 -- -- Persone entrare e in da nomadelfia
--- INSERT INTO popolazione(persona_id, data_entrata)
--- SELECT persone.id, persone_categorie.data_inizio as data_entrata
--- FROM persone
--- INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
--- WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND  persone_categorie.stato = '1'
+INSERT INTO popolazione(persona_id, data_entrata)
+SELECT persone.id, persone_categorie.data_inizio as data_entrata
+ FROM persone
+INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+ WHERE persone_categorie.categoria_id = 1 AND persone.stato = '1' AND  persone_categorie.stato = '1'
 -- --

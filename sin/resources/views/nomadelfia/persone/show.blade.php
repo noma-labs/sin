@@ -184,22 +184,7 @@
               </div>
             </li>
            
-            {{-- <li class="list-group-item">
-              <div class="row">
-                <label class="col-sm-4 font-weight-bold">Categoria: </label>
-                <div class="col-sm-6">
-                    @if ($categoriaAttuale != null)
-                        {{$categoriaAttuale->nome}}
-                    @else
-                        <span class="text-danger">Nessuna categoria</span>
-                    @endif
-                </div>
-                <div class="col-sm-2">
-                  <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.categoria', $persona->id)}}"  role="button">Modifica</a>
-                </div>
-              </div>
-            </li> --}}
-            
+
             <li class="list-group-item">
               <div class="row">
                   <label class="col-sm-4 font-weight-bold">Stato familiare:</label>
