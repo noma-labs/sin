@@ -609,7 +609,7 @@ class Persona extends Model
 
     public function isPersonaInterna(): bool
     {
-        $pop = PopolazioneNomadelfia::attuale()->where("persona_id", $this->id);
+        $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where("persona_id", $this->id);
         if ($pop->count() > 0) {
             return true;
         }
