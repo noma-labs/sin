@@ -1,8 +1,6 @@
 # SIN Nomadelfia
 SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomadelfia in un unico sistema.
 
-
-
 ### Dipendenze
 
 Linguaggi:
