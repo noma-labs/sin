@@ -4,8 +4,6 @@ namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
-use App\Nomadelfia\Exceptions\PersonaErrors;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleCategorieAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
@@ -57,16 +55,6 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-    public function scopeAttivo($query)
-    {
-        return $query->where('persone.stato', '1');
-    }
-
-
-    public function isAttivo()
-    {
-        return $this->stato == "1";
-    }
 
     public function isDeceduta()
     {
@@ -415,30 +403,10 @@ class Persona extends Model
     }
 
 
-    // CATEGORIA
-
-    public function categorie(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    // Popolazione
+    public function popolazione(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(Categoria::class, 'persone_categorie', 'persona_id', 'categoria_id')
-            ->withPivot('data_inizio', 'data_fine', 'stato');
-    }
-
-    public function categoriaAttuale()
-    {
-        $categoria = $this->categorie()->wherePivot('stato', '1')->get();
-        if ($categoria->count() == 1) {
-            return $categoria[0];
-        } elseif ($categoria->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultipleCategorieAttuale::named($this->nominativo);
-        }
-    }
-
-    public function categorieStorico(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->categorie()->wherePivot('stato', '0')
-            ->orderby('data_fine', 'desc');
+        return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
 
 
@@ -504,7 +472,7 @@ class Persona extends Model
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
         if ($gruppo_id instanceof GruppoFamiliare) {
-            $gruppo_id  = $gruppo_id->id;
+            $gruppo_id = $gruppo_id->id;
         }
         if (!$this->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($this->nominativo);
@@ -558,31 +526,13 @@ class Persona extends Model
             throw new Exception("Impossibile inserire `{$this->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
 
-        $interna = Categoria::perNome("interno");
-        $esterno = Categoria::perNome("esterno");
         $persona_id = $this->id;
 
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-            $conn->update(
-                "UPDATE persone SET stato = '1' WHERE id = ? and stato = '0';",
-                [$persona_id]
-            );
-
-            // inserisce la persona nella popolazione (mette la categoria persona interna)
-            $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, ?, ?, 1, NOW(), NOW())",
-                [$persona_id, $interna->id, $data]
-            );
-
-            // se la persona era esterna (rientrata in Nomadelfia) concludi la categoria da esterna con la data di entrata
-            $conn->update(
-                "UPDATE persone_categorie SET data_fine=?, stato = '0' WHERE persona_id = ? and categoria_id = ? and data_fine IS NULL;",
-                [$data, $persona_id, $esterno->id]
-            );
+              $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
 
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(
@@ -621,38 +571,35 @@ class Persona extends Model
         }
     }
 
-    public function setDataEntrataNomadelfia($data_entrata)
+    public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata)
     {
-        $int = Categoria::perNome("interno");
-        $cat = $this->categoriaAttuale();
-        if ($cat->isInterna()) {
-            $data = $data_entrata ? $data_entrata : $this->data_nascita;
-            return $this->categorie()->updateExistingPivot($int->id, ['data_inizio' => $data]);
+        $affected = PopolazioneNomadelfia::query()->where("persona_id", $this->id)->where("data_entrata",
+            $old_data_entrata)->update(["data_entrata" => $data_entrata]);
+        if ($affected > 0) {
+            return true;
         }
-        throw new Exception("Error. La persona non è una persona interna");
-
+        return false;
     }
 
     public function getDataEntrataNomadelfia()
     {
-        $int = Categoria::perNome("interno");
-        $categorie = $this->categorie()->where('nome', $int->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
-        if ($categorie->count() > 0) {
-            return $categorie->first()->pivot->data_inizio;
+
+        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->orderBy("data_entrata", "DESC")->get();
+        if (count($pop) > 0) {
+            return $pop->first()->data_entrata;
         }
         return null;
     }
 
     public function getDataUscitaNomadelfia()
     {
-        $esterno = Categoria::perNome("esterno");
-        $categorie = $this->categorie()->where('nome', $esterno->nome)->withPivot('stato', 'data_inizio',
-            'data_fine')->orderby('data_inizio', 'desc');
-        if ($categorie->count() > 0) {
-            return $categorie->first()->pivot->data_inizio;
+
+        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->whereNotNull("data_uscita");
+        if ($pop->count() > 0) {
+            return $pop->first()->data_uscita;
         }
         return null;
+
     }
 
     public function getDataDecesso()
@@ -660,30 +607,14 @@ class Persona extends Model
         return $this->data_decesso;
     }
 
-    public function isPersonaInterna()
+    public function isPersonaInterna(): bool
     {
-        $categorie = $this->categorie()->wherePivot('stato', '1')->get();
-        $isInterna = false;
-        foreach ($categorie as $categoria) {
-            if ($categoria->isInterna()) {
-                $isInterna = true;
-            }
+        $pop = PopolazioneNomadelfia::attuale()->where("persona_id", $this->id);
+        if ($pop->count() > 0) {
+            return true;
         }
-        return $isInterna;
+        return false;
     }
-
-//    // Return True if the person is already entrata in Nomadelfia in the past, False otherwise
-//    public function isAlreadyEntrataInNomadelfia():bool
-//    {
-//        $categorie = $this->categorieStorico()->get();
-//        $isInterna = false;
-//        foreach ($categorie as $categoria) {
-//            if ($categoria->isInterna()) {
-//                $isInterna = true;
-//            }
-//        }
-//        return $isInterna;
-//    }
 
     /*
     * Return True if the person is dead, false otherwise
@@ -700,11 +631,15 @@ class Persona extends Model
             $this->uscita($data_decesso);
 
             $conn = DB::connection('db_nomadelfia');
+
             // aggiorna la data di decesso
             $conn->update(
-                "UPDATE persone SET data_decesso = ?, stato = '0', updated_at = NOW() WHERE id = ?",
+                "UPDATE persone SET data_decesso = ?, updated_at = NOW() WHERE id = ?",
                 [$data_decesso, $this->id]
             );
+
+            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+                [$data_decesso, $this->id]);
 
             // aggiorna lo stato familiare  con la data di decesso
             $conn->insert(
@@ -739,25 +674,14 @@ class Persona extends Model
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            // disabilità la persona
-            $conn->update("UPDATE persone SET stato = '0', updated_at = NOW() WHERE id = ? AND stato = '1'",
-                [$persona_id]);
+            // setta la data uscita della persona
+            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+                [$data_uscita, $persona_id]);
 
-            // aggiunge la categoria persona esterna
-            $conn->insert(
-                "INSERT INTO persone_categorie (persona_id, categoria_id, data_inizio, stato, created_at, updated_at) VALUES (?, 4, ?, 1, NOW(), NOW())",
-                [$persona_id, $data_uscita]
-            );
-
-            // aggiorna la categorie attive con la data di uscita
-            $conn->update(
-                "UPDATE persone_categorie SET data_fine = ?, stato = '0', updated_at = NOW() WHERE persona_id = ? AND stato = '1'",
-                [$data_uscita, $persona_id]
-            );
 
             // conclude la posizione in nomadelfia della persona con la data di uscita
             $conn->insert(
-                "UPDATE persone_posizioni  SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
+                "UPDATE persone_posizioni SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                 [$data_uscita, $persona_id]
             );
 
@@ -791,31 +715,6 @@ class Persona extends Model
         } catch (\Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
-        }
-    }
-
-    /**
-     * Ritorna le posizioni assegnabili ad una persona.
-     * @return Collection Posizione
-     * @author Davide Neri
-     **/
-    public function categoriePossibili()
-    {
-        $categoria = self::categoriaAttuale();
-        $categorie = Categoria::all();
-        if ($categoria != null) {
-            $categorie = $categorie->except([$categoria->id]);
-            // if($categoria->is(Posizione::findByName("EFFETTIVO")))
-            //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
-            // if($categoria->is(Posizione::findByName("POSTULANTE")))
-            //   return $categorie->except([Posizione::findByName("FIGLIO")->id]);
-            // if($categoria->is(Posizione::findByName("OSPITE")))
-            //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
-            // if($categoria->is(Posizione::findByName("FIGLIO")))
-            //   return $categorie->except([Posizione::findByName("EFFETTIVO")->id]);
-            return $categorie;
-        } else {
-            return $categorie;
         }
     }
 

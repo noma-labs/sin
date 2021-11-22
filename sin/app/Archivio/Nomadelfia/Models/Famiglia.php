@@ -103,15 +103,12 @@ class Famiglia extends Model
 
     public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
     {
-        $interna = Categoria::perNome("interno");
         $q = $query->select('famiglie.*', "persone.sesso", 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-            ->join('persone_categorie', 'persone_categorie.persona_id', '=', 'persone.id')
-            ->where("persone.stato", '1')
-            ->where("persone_categorie.categoria_id", "=", $interna->id)
-            ->where("persone_categorie.stato", "=",'1')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->whereNull("popolazione.data_uscita")
             ->where("posizione_famiglia", $posizione)
             ->where("famiglie_persone.stato", $stato)
             ->orderBy("famiglie.nome_famiglia");
@@ -179,26 +176,26 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function isUscita()
-    {
-        $interno = Categoria::perNome("interno");
-        $res = DB::connection('db_nomadelfia')->select(
-        // seleziona tutti componenti attivi della famiglia che sono interni.
-            DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
-                    FROM famiglie 
-                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
-                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
-                    INNER JOIN persone_categorie ON persone.id = famiglie_persone.persona_id 
-                    WHERE famiglie.id = :famiglia AND persone_categorie.categoria_id = :interno AND persone_categorie.stato = '1' AND famiglie_persone = '1'
-                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
-            array('famiglia' => $this->id, 'interno' => $interno->id)
-        );
-        if (count($res) >= 1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    public function isUscita()
+//    {
+//        $interno = Categoria::perNome("interno");
+//        $res = DB::connection('db_nomadelfia')->select(
+//        // seleziona tutti componenti attivi della famiglia che sono interni.
+//            DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita
+//                    FROM famiglie
+//                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id
+//                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id
+//                    INNER JOIN persone_categorie ON persone.id = famiglie_persone.persona_id
+//                    WHERE famiglie.id = :famiglia AND persone_categorie.categoria_id = :interno AND persone_categorie.stato = '1' AND famiglie_persone = '1'
+//                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
+//            array('famiglia' => $this->id, 'interno' => $interno->id)
+//        );
+//        if (count($res) >= 1) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     /**
      * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA o il SINGLE della famiglia.
@@ -661,12 +658,11 @@ class Famiglia extends Model
             DB::raw("
         SELECT persone.id, persone.nominativo
         FROM persone
-        INNER JOIN persone_categorie ON persone_categorie.persona_id = persone.id
+        INNER JOIN popolazione ON popolazione.persona_id = persone.id
         WHERE persone.id NOT IN (
           SELECT famiglie_persone.persona_id
           FROM famiglie_persone
-        )  AND persone_categorie.categoria_id = 1 and persone.stato = '1'
-        ")
+        )  AND popolazione.data_uscita IS NULL")
         );
         return $personeSenzaFam;
     }
