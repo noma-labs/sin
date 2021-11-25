@@ -2,9 +2,7 @@
 namespace App\Biblioteca\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 
 use App\Biblioteca\Models\Libro as Libro;
