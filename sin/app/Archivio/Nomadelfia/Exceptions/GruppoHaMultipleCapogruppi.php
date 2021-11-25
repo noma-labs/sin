@@ -2,7 +2,7 @@
 namespace App\Nomadelfia\Exceptions;
 use InvalidArgumentException;
 
-class PersonaHasMultipleGroup extends InvalidArgumentException
+class GruppoHaMultipleCapogruppi extends InvalidArgumentException
 {
     public static function named(string $nome)
     {

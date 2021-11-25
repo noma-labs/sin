@@ -1,10 +1,7 @@
---
--- Struttura della tabella `libro`
---
 
 DROP TABLE IF EXISTS `libro`;
 CREATE TABLE `libro` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `titolo` varchar(255) DEFAULT NULL,
   `ID_AUTORE` int(9) NOT NULL,
   `autore` varchar(255) DEFAULT NULL,
@@ -13,8 +10,8 @@ CREATE TABLE `libro` (
   `collocazione` varchar(255) DEFAULT NULL,
   `classificazione_id` int(11) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tobe_printed` tinyint(1) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `deleted_note` text,
@@ -26,15 +23,3 @@ CREATE TABLE `libro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
---
--- AUTO_INCREMENT per la tabella `libro`
---
-ALTER TABLE `libro`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
-  
---
--- Indici per le tabelle `libro`
---
-ALTER TABLE `libro`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `classificazione_id` (`classificazione_id`);

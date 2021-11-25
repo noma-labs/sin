@@ -3,7 +3,7 @@
 namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
-use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
+use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -33,7 +33,7 @@ class GruppoFamiliare extends Model
         } elseif ($cp->count() == 0) {
             return null;
         } else {
-            throw GruppoHaMultipleCapogruppi::named($this);
+            throw GruppoHasMultipleCapogruppi::named($this);
         }
     }
 

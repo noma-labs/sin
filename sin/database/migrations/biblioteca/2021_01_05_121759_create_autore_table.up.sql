@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS `autore`;
 CREATE TABLE `autore` (
   `id` int(10) UNSIGNED NOT NULL COMMENT 'Id Unico Autore, esiste un reference con la tabella Autore',
   `autore` varchar(120) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tipaut` enum('S','V','D') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
