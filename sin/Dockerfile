@@ -36,7 +36,8 @@ RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --wi
 RUN docker-php-ext-install gd
 
 # Install composer (VERSION 1.8.5 for an old laravel poject)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=1.8.5 --filename=composer
+#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=1.8.5 --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=2.1.12 --filename=composer
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
