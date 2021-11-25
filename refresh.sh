@@ -8,6 +8,7 @@ docker-compose exec app php artisan migrate:fresh --path="database/migrations/ad
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
+docker-compose exec app php artisan migrate # migrate the migrations outside the folder (lke the activity_log)
 
 # import dump of a db_nomadelfia
 DB_CONTAINER=$(docker-compose ps -q db)
