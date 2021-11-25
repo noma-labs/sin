@@ -2,12 +2,12 @@
 
 namespace App\Auth\Controllers;
 
-use App\Core\Controllers\BaseController as Controller;
+use App\Core\Controllers\BaseController as BaseController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     /*
     |--------------------------------------------------------------------------

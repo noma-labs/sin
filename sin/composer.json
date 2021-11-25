@@ -46,7 +46,7 @@
         "psr-4": {
             "App\\": "app/",
             "App\\Biblioteca\\": "app/Archivio/Biblioteca",
-            "App\\Authentication\\": "app/Archivio/Auth",
+            "App\\Auth\\": "app/Archivio/Auth",
             "App\\Admin\\": "app/Archivio/Admin",
             "App\\Core\\": "app/Archivio/Core",
             "App\\Officina\\": "app/Archivio/Officina",

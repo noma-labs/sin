@@ -2,7 +2,7 @@
 namespace App\Nomadelfia\Exceptions;
 use InvalidArgumentException;
 
-class GruppoFamiliareDoesNOtExists extends InvalidArgumentException
+class GruppoFamiliareDoesNotExists extends InvalidArgumentException
 {
     public static function named(string $nome)
     {
