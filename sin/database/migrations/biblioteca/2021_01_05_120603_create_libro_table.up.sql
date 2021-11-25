@@ -4,7 +4,7 @@
 
 DROP TABLE IF EXISTS `libro`;
 CREATE TABLE `libro` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `titolo` varchar(255) DEFAULT NULL,
   `ID_AUTORE` int(9) NOT NULL,
   `autore` varchar(255) DEFAULT NULL,
@@ -25,16 +25,6 @@ CREATE TABLE `libro` (
   `data_pubblicazione` text COMMENT 'Mese e anno di pubblicazione del libro (e.g. Aprile 2017).'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
---
--- AUTO_INCREMENT per la tabella `libro`
---
-ALTER TABLE `libro`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
-  
---
--- Indici per le tabelle `libro`
---
-ALTER TABLE `libro`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `classificazione_id` (`classificazione_id`);
+-- ALTER TABLE `libro`
+--   ADD PRIMARY KEY (`id`),
+--   ADD KEY `classificazione_id` (`classificazione_id`);

@@ -4,31 +4,40 @@ services:
   #PHP Service
   app:
     build:
-      context: ./sin
+      context: ./docker/7.4
       dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP:-1000}'
+    environment:
+      WWWUSER: '${WWWUSER:-$UID}'
+      WWWGROUP: '${WWWGROUP:-1000}'
+      LARAVEL_SAIL: 1
     restart: unless-stopped
 #    tty: true
     working_dir: /var/www
     volumes:
-      - ./sin:/var/www
+#      - ./sin:/var/www
+      - './sin:/var/www/html'
+    ports:
+        - "127.0.0.1:8082:80"
     depends_on:
       - db
     networks:
       - app-network
 
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "127.0.0.1:9000:80"
-    volumes:
-      - ./sin:/var/www
-      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
-    networks:
-      - app-network
+#  #Nginx Service
+#  webserver:
+#    image: nginx:alpine
+#    container_name: webserver
+#    restart: unless-stopped
+#    tty: true
+#    ports:
+#      - "127.0.0.1:9000:80"
+#    volumes:
+#      - ./sin:/var/www
+#      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
+#    networks:
+#      - app-network
 
   #MariaDB Service
   db:
