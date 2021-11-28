@@ -19,7 +19,8 @@ Php extensions
     - gd
     - zip (require apt-get install libzip-dev, zip) -> required by spreedsheet 
     - exif                                          -> required by spatie/media-library
-   -  pdo_mysql             
+   - pdo_mysql             
+   - mbstring                                         -> required by laravel sail  
 
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
