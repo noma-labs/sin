@@ -1,7 +1,3 @@
--- Run the migrations
---
--- Struttura della tabella `prestito`
---
 
 DROP TABLE IF EXISTS `prestito`;
 CREATE TABLE `prestito` (

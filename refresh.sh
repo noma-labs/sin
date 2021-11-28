@@ -2,6 +2,7 @@
 
 # Create the database
 docker-compose exec app php artisan make:database db_scuola db_scuola
+docker-compose exec app php artisan make:database db_patente db_patente
 
 # THE ORDER IS IMPORTANT
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/admsys" --database=db_auth
