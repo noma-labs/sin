@@ -2,7 +2,7 @@
 
 use SqlMigrations\SqlMigration;
 
-class CreateVideoTable extends SqlMigration
+class CreateBibliotecaViews extends SqlMigration
 {
     public $connection = 'db_biblioteca';
 }

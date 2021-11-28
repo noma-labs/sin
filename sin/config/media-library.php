@@ -25,8 +25,8 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    //  'media_model' => Spatie\MediaLibrary\Models\Media::class,
-     'media_model' => App\Biblioteca\Models\MyMedia::class,
+      'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
+//     'media_model' => App\Biblioteca\Models\MyMedia::class,
     //  'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
     's3' => [

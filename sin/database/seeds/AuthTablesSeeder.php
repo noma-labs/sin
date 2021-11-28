@@ -41,10 +41,10 @@ class AuthTablesSeeder extends Seeder
         $persona = Risorsa::create(['nome' => 'persona', 'sistema_id'=>$nomadelfia->id]);
         $veicolo = Risorsa::create(['nome' => 'veicolo', 'sistema_id'=>$meccanica->id]);
         $libro = Risorsa::create(['nome' => 'libro', 'sistema_id'=>$scuola->id]);
+        $etichetta = Risorsa::create(['nome' => 'etichetta', 'sistema_id'=>$scuola->id]);
         $autore = Risorsa::create(['nome' => 'autore', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'editore', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'video', 'sistema_id'=>$scuola->id]);
-        Risorsa::create(['nome' => 'etichetta', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'film', 'sistema_id'=>$scuola->id]);
         Risorsa::create(['nome' => 'professionale', 'sistema_id'=>$scuola->id]);
         $patente = Risorsa::create(['nome' => 'patente', 'sistema_id'=>$patente->id]);
@@ -89,6 +89,24 @@ class AuthTablesSeeder extends Seeder
             "svuota" => "1",
         ]);
 
+        $master->risorse()->save($libro, [
+            "visualizza" => "1",
+            "inserisci" => "1",
+            "elimina" => "1",
+            "modifica" => "1",
+            "prenota" => "1",
+            "esporta" => "1",
+            "svuota" => "1",
+        ]);
+        $master->risorse()->save($etichetta, [
+            "visualizza" => "1",
+            "inserisci" => "1",
+            "elimina" => "1",
+            "modifica" => "1",
+            "prenota" => "1",
+            "esporta" => "1",
+            "svuota" => "1",
+        ]);
         // creazione degli utenti
         $userAdmin = App\Admin\Models\User::create([
             'username' => 'Admin',

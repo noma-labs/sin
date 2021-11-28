@@ -1,6 +1,3 @@
---
--- Struttura della tabella `libro`
---
 
 DROP TABLE IF EXISTS `libro`;
 CREATE TABLE `libro` (
@@ -13,8 +10,8 @@ CREATE TABLE `libro` (
   `collocazione` varchar(255) DEFAULT NULL,
   `classificazione_id` int(11) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tobe_printed` tinyint(1) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `deleted_note` text,
@@ -25,6 +22,3 @@ CREATE TABLE `libro` (
   `data_pubblicazione` text COMMENT 'Mese e anno di pubblicazione del libro (e.g. Aprile 2017).'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ALTER TABLE `libro`
---   ADD PRIMARY KEY (`id`),
---   ADD KEY `classificazione_id` (`classificazione_id`);

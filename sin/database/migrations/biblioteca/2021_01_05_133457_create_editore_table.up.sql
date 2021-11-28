@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS `editore`;
 CREATE TABLE `editore` (
   `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `editore` varchar(120) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `tipedi` enum('S','V','D') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -17,6 +17,5 @@ CREATE TABLE `editore_libro` (
 
 
 ALTER TABLE `editore_libro`
-  ADD PRIMARY KEY (`libro_id`,`editore_id`) USING BTREE,
-  ADD KEY `editore_id` (`editore_id`),
-  ADD KEY `libro_id` (`libro_id`);
+  ADD PRIMARY KEY (`libro_id`,`editore_id`) USING BTREE;
+

@@ -3,7 +3,7 @@ namespace App\Nomadelfia\Exceptions;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use InvalidArgumentException;
 
-class GruppoHaMultipleCapogruppi extends InvalidArgumentException
+class PersonaHasMultipleGroup extends InvalidArgumentException
 {
     public static function named(GruppoFamiliare $gruppo)
     {

@@ -51,27 +51,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('diffHumans', function ($date) {
                 return "<?php echo Carbon::parse($date)->diffForHumans() ?>";
         });
-        // Resolve error: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
-         Schema::defaultStringLength(191);
 
-        //salva la collocazione nelle note ogni volta che viene cancellato il libro
-        Libro::deleted(function ($libro) {
-          #Salva la collocazione vecchia nelle note
-          $libro->deleted_note = "$libro->collocazione - $libro->deleted_note";
-          $libro->collocazione = "";
-          $libro->tobe_printed = 0; // remove from the list of the libri to be printed
-          $libro->save();
-        });
-
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
         Blade::directive('role', function ($role) {
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
@@ -83,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('hasrole', function ($role) {
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
-     
+
         Blade::directive('endhasrole', function () {
             return '<?php endif; ?>';
         });
@@ -94,6 +74,28 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('endhasanyrole', function () {
             return '<?php endif; ?>';
         });
+
+        // Resolve error: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
+        Schema::defaultStringLength(191);
+
+        //salva la collocazione nelle note ogni volta che viene cancellato il libro
+        Libro::deleted(function ($libro) {
+            #Salva la collocazione vecchia nelle note
+            $libro->deleted_note = "$libro->collocazione - $libro->deleted_note";
+            $libro->collocazione = "";
+            $libro->tobe_printed = 0; // remove from the list of the libri to be printed
+            $libro->save();
+        });
+
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
 
     }
 }
