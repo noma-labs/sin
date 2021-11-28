@@ -22,4 +22,3 @@ CREATE TABLE `libro` (
   `data_pubblicazione` text COMMENT 'Mese e anno di pubblicazione del libro (e.g. Aprile 2017).'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-

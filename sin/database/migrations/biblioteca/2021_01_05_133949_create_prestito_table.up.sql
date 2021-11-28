@@ -1,7 +1,8 @@
 
+
 DROP TABLE IF EXISTS `prestito`;
 CREATE TABLE `prestito` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `data_inizio_prestito` date DEFAULT NULL,
   `data_fine_prestito` date DEFAULT NULL,
   `libro_id` int(11) DEFAULT NULL,
@@ -14,18 +15,3 @@ CREATE TABLE `prestito` (
   `note` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- AUTO_INCREMENT per la tabella `prestito`
---
-ALTER TABLE `prestito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Indici per le tabelle `prestito`
---
-ALTER TABLE `prestito`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `data_inizio_prestito` (`data_inizio_prestito`),
-  ADD KEY `data_fine_prestito` (`data_fine_prestito`),
-  ADD KEY `cliente_id` (`cliente_id`),
-  ADD KEY `libro_id` (`libro_id`);
