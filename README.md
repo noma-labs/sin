@@ -202,5 +202,5 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
-## UPGRADE laravel 8
-- toArray or toJson method on Eloquent models produces an ISO-8601
+## UPGRADE laravel 7
+- use php7.4

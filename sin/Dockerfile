@@ -32,9 +32,7 @@ RUN apt-get update && apt-get install -y \
 #RUN rm -f setup_node.sh
 
 # Install extensions
-RUN docker-php-ext-install gd zip #pdo_mysql mbstring zip exif pcntl
-#RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
-#RUN docker-php-ext-install gd
+RUN docker-php-ext-install gd zip pdo_mysql exif
 
 # Install composer (VERSION 1.8.5 for an old laravel poject)
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=1.8.5 --filename=composer
