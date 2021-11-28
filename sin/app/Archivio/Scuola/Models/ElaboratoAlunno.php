@@ -3,12 +3,12 @@
 namespace App\Scuola\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+//use Spatie\MediaLibrary\HasMedia\HasMedia;
+//use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ElaboratoAlunno extends Model implements HasMedia
+class ElaboratoAlunno extends Model #implements HasMedia
 {
-    use HasMediaTrait;
+    #use HasMediaTrait;
 
     public $timestamps = true;
 

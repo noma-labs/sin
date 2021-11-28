@@ -139,43 +139,43 @@
     <div class="card border-warning my-2" >
       <div class="card-header">Versione Digitale</div>
       <div class="card-body">
-        @if($libro->getMedia()->count() > 0)
-          <div class="list-group-item">
-          @foreach  ($libro->getMedia()  as $file)
-            <div class="media">
-                <div class="media-left">
-                       @if(starts_with($file->mime_type, 'image'))
-                        <a href="{{ $file->getUrl() }}" target="_blank">
-                            <img class="media-object" style="width:75px" src="{{ $file->getUrl() }}" alt="{{ $file->name }}">
-                        </a>
-                        @elseif (str_contains($file->mime_type,'pdf'))
-                        <a href="{{ $file->getUrl() }}" target="_blank">
-                            <span class="glyphicon glyphicon-file" style="font-size:48px"></span>
-                          <!-- <i class="fa fa-file-pdf-o" style="font-size:48px"></i> -->
-                        </a>
-                        @else
-                        <i class="fa fa-file" aria-hidden="true" style="font-size:48px"></i>
-                        @endif
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">{{ $file->name }}</h4>
-                    <p>
-                        <!-- <code>
-                            {{ $file->getPath() }}<br/>
-                        </code> -->
-                        <small>
-                            {{ $file->human_readable_size }} |
-                            {{ $file->mime_type }}
-                        </small>
-                    </p>
-                </div>
-            </div>
-          @endforeach
-            </div>
-        @else
-        <p class="bg-danger">Nessun file digitale esistente</p>
-        @endif
-        <a class="btn btn-warning"   href="{{route('libri.media.store', $libro->id)}}" > Gestisci digitale</a>
+{{--        @if($libro->getMedia()->count() > 0)--}}
+{{--          <div class="list-group-item">--}}
+{{--          @foreach  ($libro->getMedia()  as $file)--}}
+{{--            <div class="media">--}}
+{{--                <div class="media-left">--}}
+{{--                       @if(starts_with($file->mime_type, 'image'))--}}
+{{--                        <a href="{{ $file->getUrl() }}" target="_blank">--}}
+{{--                            <img class="media-object" style="width:75px" src="{{ $file->getUrl() }}" alt="{{ $file->name }}">--}}
+{{--                        </a>--}}
+{{--                        @elseif (str_contains($file->mime_type,'pdf'))--}}
+{{--                        <a href="{{ $file->getUrl() }}" target="_blank">--}}
+{{--                            <span class="glyphicon glyphicon-file" style="font-size:48px"></span>--}}
+{{--                          <!-- <i class="fa fa-file-pdf-o" style="font-size:48px"></i> -->--}}
+{{--                        </a>--}}
+{{--                        @else--}}
+{{--                        <i class="fa fa-file" aria-hidden="true" style="font-size:48px"></i>--}}
+{{--                        @endif--}}
+{{--                </div>--}}
+{{--                <div class="media-body">--}}
+{{--                    <h4 class="media-heading">{{ $file->name }}</h4>--}}
+{{--                    <p>--}}
+{{--                        <!-- <code>--}}
+{{--                            {{ $file->getPath() }}<br/>--}}
+{{--                        </code> -->--}}
+{{--                        <small>--}}
+{{--                            {{ $file->human_readable_size }} |--}}
+{{--                            {{ $file->mime_type }}--}}
+{{--                        </small>--}}
+{{--                    </p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--          @endforeach--}}
+{{--            </div>--}}
+{{--        @else--}}
+{{--        <p class="bg-danger">Nessun file digitale esistente</p>--}}
+{{--        @endif--}}
+{{--        <a class="btn btn-warning"   href="{{route('libri.media.store', $libro->id)}}" > Gestisci digitale</a>--}}
        </div>
       </div>
     </div>

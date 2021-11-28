@@ -15,6 +15,11 @@ Framework:
       - *Vue.js 2.x*
       - *Bootstrap  4.x*
 
+Php extensions
+    - gd
+    - zip (require apt-get install libzip-dev, zip) -> required by spreedsheet 
+    - exif                                          -> required by spatie/media-library
+
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
 
