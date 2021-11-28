@@ -20,9 +20,10 @@
         "phpoffice/phpspreadsheet": "^1.7",
         "phpoffice/phpword": "^0.17.0",
         "pmatseykanets/laravel-sql-migrations": "^0.4.0",
+        "spatie/image-optimizer": "^1.6",
         "spatie/laravel-activitylog": "^3.0",
         "spatie/laravel-backup": "^6.0",
-        "spatie/laravel-medialibrary": "^7.5",
+        "spatie/laravel-medialibrary": "^7.0.0",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
     "require-dev": {
@@ -83,5 +84,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.spatie.be"
+        }
+    ]
 }
