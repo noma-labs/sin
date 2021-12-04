@@ -108,7 +108,8 @@ class PersoneController extends CoreBaseController
                 $msgSearch = $msgSearch . " Persone Attive e Disattive, ";
             } else {
                 // includi solo persone attive
-                $q->where('stato', '=', "1");
+                // TODO:  adde where(popolazione.data_uscita == NULL)
+                //$q->where('stato', '=', "1");
                 $msgSearch = $msgSearch . " Solo persone Attive, ";
             }
             if ($request->nominativo) {
