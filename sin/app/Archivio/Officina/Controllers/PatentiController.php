@@ -7,7 +7,7 @@ class PatentiController extends CoreBaseController
 {
 
   public function patenti(){
-    return view('officina.patenti.index');
+    return view('officina.patenti');
   }
   
 }
