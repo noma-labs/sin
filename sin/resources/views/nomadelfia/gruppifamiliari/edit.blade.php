@@ -19,7 +19,7 @@
                         <label class="col-sm-6 font-weight-bold">Capogruppo:</label>
                         <div class="col-sm-6">
                             @if ($gruppo->capogruppoAttuale())
-                                <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
+                                <a href="{{route('nomadelfia.persone.dettaglio',['persona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
                             @else
                                 <span class="text-danger">Capogruppo non assegnato</span> 
                             @endif
@@ -112,7 +112,7 @@
                                     <ul>
                                     @foreach($componenti as $componente)
                                     <li> @year($componente->data_nascita)  
-                                        <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$componente->persona_id])}}"> 
+                                        <a href="{{route('nomadelfia.persone.dettaglio',['persona'=>$componente->persona_id])}}">
                                         {{$componente->nominativo}}</a>
                                     </li>
                                     @endforeach
