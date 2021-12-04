@@ -16,7 +16,7 @@
                         <li>{{$key}} </li>
                         <ul>
                             @foreach($membri as $m)
-                                <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li>
+{{--                                <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li>--}}
                             @endforeach
                         </ul>
                     @endforeach
