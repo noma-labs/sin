@@ -46,7 +46,8 @@
                                     I have NO record!
                                 @else
 {{--                                    @include("nomadelfia.templates.persona", ['persona' => $m])--}}
-                                @endif
+                                    <li>{{$m->nominativo}}  </li>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>
@@ -70,6 +71,8 @@
                         <ul>
                             @foreach($membri as $m)
 {{--                                <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li>--}}
+                                <li>{{$m->nominativo}}  </li>
+
                             @endforeach
                         </ul>
                     @endforeach
@@ -93,6 +96,8 @@
                         <ul>
                             @foreach($membri as $m)
 {{--                                <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li>--}}
+                                <li>{{$m->nominativo}}  </li>
+
                             @endforeach
                         </ul>
                     @endforeach
