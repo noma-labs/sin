@@ -11,6 +11,7 @@ CREATE TABLE `aziende` (
   `descrizione_azienda` varchar(200) DEFAULT NULL COMMENT 'Descrizione Azienda/Incarico',
   `tipo` enum('azienda','incarico') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
