@@ -20,7 +20,6 @@
         "phpoffice/phpspreadsheet": "^1.7",
         "phpoffice/phpword": "^0.17.0",
         "pmatseykanets/laravel-sql-migrations": "^0.4.0",
-        "spatie/image-optimizer": "^1.6",
         "spatie/laravel-activitylog": "^3.0",
         "spatie/laravel-backup": "^6.0",
         "spatie/laravel-medialibrary": "^7.0.0",
