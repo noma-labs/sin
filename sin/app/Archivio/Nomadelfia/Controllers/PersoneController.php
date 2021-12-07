@@ -21,8 +21,9 @@ class PersoneController extends CoreBaseController
     }
 
 
-    public function show(Persona $persona)
+    public function show($idPersona)
     {
+        $persona = Persona::findOrFail($idPersona);
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();

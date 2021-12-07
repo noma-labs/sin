@@ -19,7 +19,7 @@
                         <label class="col-sm-6 font-weight-bold">Capogruppo:</label>
                         <div class="col-sm-6">
                             @if ($gruppo->capogruppoAttuale())
-                                <a href="{{route('nomadelfia.persone.dettaglio',['persona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
+                                <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$gruppo->capogruppoAttuale()->id])}}"> {{$gruppo->capogruppoAttuale()->nominativo}}</a>
                             @else
                                 <span class="text-danger">Capogruppo non assegnato</span> 
                             @endif
@@ -82,7 +82,7 @@
                             @else
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
-                                        <a href="{{route('nomadelfia.persone.dettaglio',['id'=>$famiglia_single->famiglia_id])}}">
+                                        <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$famiglia_single->famiglia_id])}}">
                                                 {{$famiglia_single->nominativo}}
                                         </a>
                                 </div> 
@@ -104,7 +104,7 @@
                                 <div class="col-md-6">
                                     <div class="font-weight-bold mt-2">
                                          Fam. 
-                                         <a href="{{route('nomadelfia.persone.dettaglio',['id'=>$famiglia_id])}}">
+                                         <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$famiglia_id])}}">
                                                 {{App\Nomadelfia\Models\Famiglia::find($famiglia_id)->nome_famiglia}} 
                                          </a>({{count($componenti)}})
                                        
@@ -112,7 +112,7 @@
                                     <ul>
                                     @foreach($componenti as $componente)
                                     <li> @year($componente->data_nascita)  
-                                        <a href="{{route('nomadelfia.persone.dettaglio',['persona'=>$componente->persona_id])}}">
+                                        <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$componente->persona_id])}}">
                                         {{$componente->nominativo}}</a>
                                     </li>
                                     @endforeach

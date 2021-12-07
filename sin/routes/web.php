@@ -89,7 +89,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/submit',
         'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
 
-    Route::get('persone/{persona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
+    Route::get('persone/{idPersona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
     Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
 
     Route::get('persone/{idPersona}/anagrafica/modifica',

@@ -31,7 +31,7 @@
           <td>{{ $persona->sesso }}</td>
           <td>
             <div class='btn-group' role='group' aria-label="Basic example">
-              <a class="btn btn-success" href="{{ route('nomadelfia.persone.dettaglio',['persona'=> $persona->id]) }}">Scegli</a>
+              <a class="btn btn-success" href="{{ route('nomadelfia.persone.dettaglio',['idPersona'=> $persona->id]) }}">Scegli</a>
             </div>
           </td>
         </tr>
