@@ -26,6 +26,7 @@
         <th>Ora Arrivo</th>
         <th>Meccanico</th>
         <th>Uso</th>
+        <th>Destinazione</th>
         <th>Note</th>
         <th></th>
       </tr>
@@ -42,6 +43,7 @@
         <td>{{ $pren->ora_arrivo }}</td>
         <td>{{ $pren->meccanico->nominativo }}</td>
         <td>{{ $pren->uso->ofus_nome }}</td>
+        <td>{{ $pren->destinazione }}</td>
         <td>{{ $pren->note }}</td>
         <td>
           <div class='button-group btn-block' role='group'>
