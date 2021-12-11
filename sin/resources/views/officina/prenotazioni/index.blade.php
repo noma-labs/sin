@@ -26,9 +26,7 @@
           <select class="form-control" id="meccanico" name="meccanico" required>
             <option selected disabled>--Seleziona--</option>
             @foreach ($meccanici as $mecc)
-              @unless($mecc->nominativo == 'GENNARO')
-              <option value="{{ $mecc->persona_id }}" @if (old('meccanico') === (string)$mecc->persona_id) selected @endif>{{ $mecc->nominativo }}</option>
-              @endunless
+              <option value="{{ $mecc->persona_id }}" @if (old('meccanico') === (string)$mecc->persona_id) selected @endif @if ($mecc->nominativo == 'GENNARO' OR $mecc->nominativo == 'CARLO S.') disabled @endif >{{ $mecc->nominativo }}</option>
             @endforeach
           </select>
         </div>
