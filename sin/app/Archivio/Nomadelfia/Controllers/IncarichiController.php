@@ -20,12 +20,12 @@ class IncarichiController extends CoreBaseController
         return view('nomadelfia.incarichi.index', compact('incarichi'));
     }
 
-//    public function delete($idIncarico)
-//    {
-//        $incarico = Azienda::incarichi()->findOrFail($idIncarico);
-//        $lav = $incarico->lavoratoriAttuali()->get();
-//
-//    }
+    public function delete($id)
+    {
+        $incarico = Azienda::incarichi()->findOrFail($id);
+        $lav = $incarico->lavoratoriAttuali()->get();
+
+    }
 
     /**
      * ritorna la view per editare una azienda

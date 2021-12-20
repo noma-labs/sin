@@ -148,6 +148,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
 
     Route::post('incarichi', [IncarichiController::class, 'insert'])->name("nomadelfia.incarichi.aggiungi");
+    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name("nomadelfia.incarichi.delete");
     Route::get('persone/{idPersona}/incarichi', 'PersoneController@incarichi')->name("nomadelfia.persone.incarichi");
     Route::post('persone/{idPersona}/incarichi/assegna',
         'PersoneController@assegnaIncarico')->name("nomadelfia.persone.incarichi.assegna");
