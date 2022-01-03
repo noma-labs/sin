@@ -1,0 +1,696 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Creato il: Dic 11, 2021 alle 16:26
+-- Versione del server: 10.1.37-MariaDB
+-- Versione PHP: 7.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE  DATABASE IF NOT EXISTS db_patente;
+
+USE  db_patente;
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db_patente`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `categorie`
+--
+
+CREATE TABLE `categorie` (
+    `id` int(1) NOT NULL,
+    `categoria` varchar(200) NOT NULL,
+    `descrizione` varchar(150) NOT NULL,
+    `note` varchar(500) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `categorie`
+--
+
+INSERT INTO `categorie` (`id`, `categoria`, `descrizione`, `note`) VALUES
+    (0, 'BS', 'SPECIALE', ''),
+    (1, 'AM', 'ETÀ MINIMA RICHIESTA: 14 ANNI', ''),
+    (2, 'A1', 'ETÀ MINIMA RICHIESTA: 16 ANNI', ''),
+    (3, 'A2', 'ETÀ MINIMA RICHIESTA: 18 ANNI', ''),
+    (4, 'A', 'CLASSIFICATA ANCHE COME PATENTE A3, È CONSEGUIBILE A DIVERSE ETÀ E CON DIFFERENTI MODALITÀ', ''),
+    (5, 'B1', 'ETÀ MINIMA RICHIESTA: 16 ANNI. INTRODOTTA DAL 19 GENNAIO 2013', ''),
+    (6, 'B', 'ETÀ MINIMA RICHIESTA: 18 ANNI.', ''),
+    (7, 'B E', 'CONSEGUIBILE A 18 ANNI, ABILITA ALLA CONDUZIONE DI AUTOVEICOLI CONDUCIBILI CON LA PATENTE B', ''),
+    (8, 'C1', 'CONSEGUIBILE A 18 ANNI (CON L\'OBBLIGO DI AVER CONSEGUITO LA PATENTE B)', ''),
+(9, 'C1 E', 'ETÀ MINIMA RICHIESTA: 18 ANNI (CON L\'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA C1)', ''),
+    (10, 'C', 'CONSEGUIBILE A 21 ANNI (CON OBBLIGO DI AVER CONSEGUITO LA PATENTE B)', ''),
+    (11, 'C E', 'CONSEGUIBILE A 21 ANNI (CON OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA C)', ''),
+    (12, 'D1', 'ETÀ MINIMA RICHIESTA: 21 ANNI (CON L\'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA B)', ''),
+(13, 'D', 'CONSEGUIBILE A 24 ANNI (CON OBBLIGO DI AVERE CONSEGUITO ALMENO LA PATENTE B)', ''),
+(14, 'D E', 'CONSEGUIBILE A 24 ANNI ( CON L\'OBBLIGO DI AVER CONSEGUITO LA PATENTE DI CATEGORIA D)', ''),
+    (16, 'C.Q.C. PERSONE', 'PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)', ''),
+    (17, 'C.Q.C. MERCI', 'PER TRASPORTO MERCI (IN VIGORE DAL 10/09/2009)', ''),
+    (18, 'D1 E', 'CONSEGUIBILE A 21 ANNI (CON OBBLIGO DI AVER CONSEGUITO LA PATENTE D1)', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `patenti_categorie`
+--
+
+CREATE TABLE `patenti_categorie` (
+    `numero_patente` varchar(30) NOT NULL,
+    `categoria_patente_id` int(11) NOT NULL,
+    `data_rilascio` date DEFAULT NULL COMMENT 'campo 10 patente europea',
+    `data_scadenza` date DEFAULT NULL COMMENT 'capo 11 patente europea',
+    `note` varchar(200) DEFAULT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `patenti_categorie`
+--
+
+INSERT INTO `patenti_categorie` (`numero_patente`, `categoria_patente_id`, `data_rilascio`, `data_scadenza`, `note`) VALUES
+    ('', 0, '0000-00-00', '0000-00-00', ''),
+    ('GR5084967L', 0, '2006-10-13', '2015-10-21', NULL),
+    ('U13L91658J', 0, NULL, NULL, NULL),
+    ('U1D376150P', 0, '2009-04-17', '2019-05-05', NULL),
+    ('GR5146160L', 1, '2015-12-15', '2026-04-09', NULL),
+    ('GR5146162N', 1, '2015-12-15', '2020-12-08', NULL),
+    ('GR5148819K', 1, '2016-05-13', '2021-06-03', NULL),
+    ('GR5150671N', 1, NULL, NULL, NULL),
+    ('GR5154983P', 1, NULL, NULL, NULL),
+    ('GR5158167N', 1, NULL, NULL, NULL),
+    ('GR5159352U', 1, NULL, NULL, NULL),
+    ('GR5159358K', 1, NULL, NULL, NULL),
+    ('GR5161134T', 1, NULL, NULL, NULL),
+    ('GR5161895P', 1, NULL, NULL, NULL),
+    ('GR5163059J', 1, NULL, NULL, NULL),
+    ('GR5163079V', 1, NULL, NULL, NULL),
+    ('GR5172150J', 1, NULL, NULL, NULL),
+    ('GR5173429V', 1, NULL, NULL, NULL),
+    ('GR5177613K', 1, NULL, NULL, NULL),
+    ('GR5178875F', 1, NULL, NULL, NULL),
+    ('GR5179654B', 1, NULL, NULL, NULL),
+    ('GR5180315L', 1, NULL, NULL, NULL),
+    ('GR5180362N', 1, NULL, NULL, NULL),
+    ('GR5181013P', 1, NULL, NULL, NULL),
+    ('RM8285869G', 1, NULL, NULL, NULL),
+    ('U11C53591A', 1, NULL, NULL, NULL),
+    ('U11T69672K', 1, NULL, NULL, NULL),
+    ('U11Z81820N', 1, NULL, NULL, NULL),
+    ('U127D7965X', 1, NULL, NULL, NULL),
+    ('U12W48362K', 1, NULL, NULL, NULL),
+    ('U13K63940K', 1, NULL, NULL, NULL),
+    ('U13N61612D', 1, NULL, NULL, NULL),
+    ('U144D8375S', 1, NULL, NULL, NULL),
+    ('U145D5489S', 1, NULL, NULL, NULL),
+    ('U14E79157U', 1, NULL, NULL, NULL),
+    ('U14S84717S', 1, NULL, NULL, NULL),
+    ('U15C79143X', 1, '2018-02-23', '2019-02-22', NULL),
+    ('U15R14420A', 1, NULL, NULL, NULL),
+    ('U15T87602N', 1, NULL, NULL, NULL),
+    ('U15W47878K', 1, NULL, NULL, NULL),
+    ('U167D5266J', 1, NULL, NULL, NULL),
+    ('U175B4165E', 1, NULL, NULL, NULL),
+    ('U17G44356X', 1, NULL, NULL, NULL),
+    ('U17L87759M', 1, NULL, NULL, NULL),
+    ('U17S17601G', 1, NULL, NULL, NULL),
+    ('U17X98980K', 1, NULL, NULL, NULL),
+    ('U18J48754X', 1, NULL, NULL, NULL),
+    ('U18Y69722L', 1, NULL, NULL, NULL),
+    ('U19Y08798K', 1, NULL, NULL, NULL),
+    ('U19Z45576X', 1, NULL, NULL, NULL),
+    ('U1Z433742W', 1, NULL, NULL, NULL),
+    ('GR5156028P', 2, '2017-07-18', '2028-05-08', NULL),
+    ('GR5157934U', 2, '2017-11-14', '2028-02-26', NULL),
+    ('GR5158473X', 2, '2017-12-19', '2028-07-03', NULL),
+    ('GR5158476K', 2, '2017-12-19', '2028-08-30', NULL),
+    ('GR5160580N', 2, '2018-05-08', '2028-09-04', NULL),
+    ('GR5160916K', 2, '2018-05-28', '2029-02-16', NULL),
+    ('GR5161155M', 2, NULL, NULL, NULL),
+    ('GR5166008X', 2, NULL, NULL, NULL),
+    ('GR5167082J', 2, NULL, NULL, NULL),
+    ('GR5168809J', 2, NULL, NULL, NULL),
+    ('GR5169079J', 2, NULL, NULL, NULL),
+    ('GR5169080J', 2, NULL, NULL, NULL),
+    ('GR5169266P', 2, NULL, NULL, NULL),
+    ('GR5171059K', 2, NULL, NULL, NULL),
+    ('GR5171790U', 2, NULL, NULL, NULL),
+    ('GR5172150J', 2, NULL, NULL, NULL),
+    ('GR5173429V', 2, NULL, NULL, NULL),
+    ('GR5174817N', 2, NULL, NULL, NULL),
+    ('GR5177613K', 2, NULL, NULL, NULL),
+    ('GR5178875F', 2, NULL, NULL, NULL),
+    ('GR5179654B', 2, NULL, NULL, NULL),
+    ('GR5180362N', 2, NULL, NULL, NULL),
+    ('GR5181013P', 2, NULL, NULL, NULL),
+    ('U12M15918L', 2, NULL, NULL, NULL),
+    ('U15E79834X', 2, '2018-06-19', '2019-06-28', NULL),
+    ('GR5154983P', 3, NULL, NULL, NULL),
+    ('GR5158898N', 3, NULL, NULL, NULL),
+    ('GR5160009J', 3, '2018-03-30', '2029-03-15', NULL),
+    ('GR5161134T', 3, NULL, NULL, NULL),
+    ('U1R872207L', 3, NULL, NULL, NULL),
+    ('GR2047516N', 4, NULL, NULL, NULL),
+    ('GR2053419M', 4, NULL, NULL, NULL),
+    ('GR2110358W', 4, NULL, NULL, NULL),
+    ('GR2156563K', 4, NULL, NULL, NULL),
+    ('GR5115372M', 4, NULL, NULL, NULL),
+    ('GR5143777X', 4, NULL, NULL, NULL),
+    ('GR5156139U', 4, NULL, NULL, NULL),
+    ('GR5156140K', 4, NULL, NULL, NULL),
+    ('GR5161484J', 4, NULL, NULL, NULL),
+    ('GR5168061P', 4, NULL, NULL, NULL),
+    ('GR5168071K', 4, NULL, NULL, NULL),
+    ('GR5168072J', 4, NULL, NULL, NULL),
+    ('GR5168133P', 4, NULL, NULL, NULL),
+    ('PE5256175P', 4, NULL, NULL, NULL),
+    ('U111D3831B', 4, NULL, NULL, NULL),
+    ('U119E2027K', 4, NULL, NULL, NULL),
+    ('U11E70931X', 4, NULL, NULL, NULL),
+    ('U11G30941C', 4, NULL, NULL, NULL),
+    ('U11L57256L', 4, NULL, NULL, NULL),
+    ('U11Z66353T', 4, NULL, NULL, NULL),
+    ('U121B7793X', 4, NULL, NULL, NULL),
+    ('U12D87024W', 4, NULL, NULL, NULL),
+    ('U12D92854P', 4, NULL, NULL, NULL),
+    ('U12K31058M', 4, NULL, NULL, NULL),
+    ('U12L63570W', 4, NULL, NULL, NULL),
+    ('U12M51480N', 4, NULL, NULL, NULL),
+    ('U12T98869L', 4, NULL, NULL, NULL),
+    ('U12W85851X', 4, NULL, NULL, NULL),
+    ('U13N43880C', 4, NULL, NULL, NULL),
+    ('U13P30562D', 4, NULL, NULL, NULL),
+    ('U144B1463P', 4, NULL, NULL, NULL),
+    ('U149B1366X', 4, NULL, NULL, NULL),
+    ('U14N61559P', 4, NULL, NULL, NULL),
+    ('U14R97838K', 4, NULL, NULL, NULL),
+    ('U14U20353B', 4, NULL, NULL, NULL),
+    ('U14U20774J', 4, NULL, NULL, NULL),
+    ('U151C0545E', 4, NULL, NULL, NULL),
+    ('U15U77127X', 4, NULL, NULL, NULL),
+    ('U15U97798Y', 4, NULL, NULL, NULL),
+    ('U16R67886K', 4, NULL, NULL, NULL),
+    ('U16V92333L', 4, NULL, NULL, NULL),
+    ('U16X57948K', 4, NULL, NULL, NULL),
+    ('U16Z24601K', 4, NULL, NULL, NULL),
+    ('U173B7888K', 4, NULL, NULL, NULL),
+    ('U179C5386P', 4, NULL, NULL, NULL),
+    ('U18F22800N', 4, '2018-09-07', '2023-09-06', NULL),
+    ('U18G42017G', 4, NULL, NULL, NULL),
+    ('U18K97276K', 4, NULL, NULL, NULL),
+    ('U18T82947P', 4, NULL, NULL, NULL),
+    ('U19F46324N', 4, NULL, NULL, NULL),
+    ('U19L75690X', 4, NULL, NULL, NULL),
+    ('U19Y09057P', 4, NULL, NULL, NULL),
+    ('U19Z28870V', 4, NULL, NULL, NULL),
+    ('U1D519904N', 4, NULL, NULL, NULL),
+    ('U1F302229L', 4, '1989-10-08', '2019-09-15', NULL),
+    ('U1F304162A', 4, NULL, NULL, NULL),
+    ('U1G022600C', 4, '2014-11-04', '2019-11-03', NULL),
+    ('U1G893383V', 4, NULL, NULL, NULL),
+    ('U1H295884X', 4, NULL, NULL, NULL),
+    ('U1J702195J', 4, NULL, NULL, NULL),
+    ('U1L954934V', 4, NULL, NULL, NULL),
+    ('U1N345657P', 4, NULL, NULL, NULL),
+    ('U1N399425J', 4, NULL, NULL, NULL),
+    ('U1P686044N', 4, NULL, NULL, NULL),
+    ('U1R170760X', 4, NULL, NULL, NULL),
+    ('U1R872207L', 4, NULL, NULL, NULL),
+    ('U1S691693V', 4, NULL, NULL, NULL),
+    ('U1T236534S', 4, NULL, NULL, NULL),
+    ('U1U789102M', 4, NULL, NULL, NULL),
+    ('U1X639626T', 4, '2017-05-27', '2022-05-26', NULL),
+    ('U1Z224931K', 4, NULL, NULL, NULL),
+    ('152196', 6, '1968-10-04', '2019-05-12', NULL),
+    ('6687709006', 6, '2012-03-18', '2023-01-01', NULL),
+    ('AT2102445Y', 6, '1992-10-17', '2023-07-05', NULL),
+    ('CN5139868W', 6, '2003-07-09', '2023-11-05', NULL),
+    ('GR2047516N', 6, '1981-05-04', '2021-04-12', NULL),
+    ('GR2053419M', 6, NULL, NULL, NULL),
+    ('GR2110358W', 6, '1988-10-20', '2020-02-01', NULL),
+    ('GR2142291A', 6, '1991-11-08', '2021-11-08', NULL),
+    ('GR2145193N', 6, '1992-03-05', '2022-03-05', NULL),
+    ('GR2152869N', 6, '1992-12-05', '2023-06-15', NULL),
+    ('GR2156563K', 6, '1999-03-09', '2023-08-13', NULL),
+    ('GR2163486K', 6, '1994-04-29', '2019-07-03', NULL),
+    ('GR5048208P', 6, '2002-01-10', '2021-01-03', NULL),
+    ('GR5049040K', 6, '2002-02-21', '2022-02-13', NULL),
+    ('GR5102667P', 6, '1992-02-26', '2022-04-02', NULL),
+    ('GR5103194L', 6, '2009-06-17', '2019-06-17', NULL),
+    ('GR5105077N', 6, '2009-09-16', '2019-09-16', NULL),
+    ('GR5107022E', 6, '2009-12-15', '2019-12-15', NULL),
+    ('GR5108667X', 6, '2010-03-24', '2020-03-24', NULL),
+    ('GR5109126M', 6, '2010-04-15', '2020-04-15', NULL),
+    ('GR5109601K', 6, '2010-05-05', '2020-05-05', NULL),
+    ('GR5109674W', 6, '2010-05-11', '2020-05-11', NULL),
+    ('GR5114427M', 6, '2011-01-21', '2021-01-21', NULL),
+    ('GR5115148N', 6, '2011-02-25', '2021-02-25', NULL),
+    ('GR5115372M', 6, '2011-03-08', '2021-03-08', NULL),
+    ('GR5118977K', 6, '2011-10-14', '2021-10-14', NULL),
+    ('GR5119777J', 6, '2011-12-05', '2021-11-05', NULL),
+    ('GR5126111N', 6, '2012-12-21', '2023-03-20', NULL),
+    ('GR5135507X', 6, '2014-04-01', '2024-04-13', NULL),
+    ('GR5135723X', 6, '2014-04-10', '2024-05-07', NULL),
+    ('GR5137299K', 6, NULL, NULL, NULL),
+    ('GR5140490L', 6, '2015-01-13', '2020-10-13', NULL),
+    ('GR5141388Y', 6, '1999-01-09', '2025-04-20', NULL),
+    ('GR5143282N', 6, '2015-07-08', '2026-03-15', NULL),
+    ('GR5143777X', 6, NULL, NULL, NULL),
+    ('GR5144191E', 6, '2015-09-09', '2026-02-28', NULL),
+    ('GR5144302G', 6, NULL, NULL, NULL),
+    ('GR5144376Y', 6, '2015-09-18', '2026-06-07', NULL),
+    ('GR5144876P', 6, '2015-10-16', '2026-01-25', NULL),
+    ('GR5144877K', 6, '2015-10-16', '2025-11-03', NULL),
+    ('GR5145028N', 6, '2015-10-28', '2026-11-12', NULL),
+    ('GR5145855X', 6, '2015-12-14', '2026-10-23', NULL),
+    ('GR5146386N', 6, '2016-01-13', '2026-07-18', NULL),
+    ('GR5147380S', 6, NULL, NULL, NULL),
+    ('GR5148140L', 6, '2016-04-18', '2026-06-27', NULL),
+    ('GR5148872P', 6, '2016-05-30', '2026-06-30', NULL),
+    ('GR5148880X', 6, '2016-05-30', '2027-02-27', NULL),
+    ('GR5149350P', 6, '2016-06-22', '2027-01-21', NULL),
+    ('GR5149704U', 6, NULL, NULL, NULL),
+    ('GR5150671N', 6, '2016-09-09', '2027-02-27', NULL),
+    ('GR5150817P', 6, '2016-09-16', '2026-10-14', NULL),
+    ('GR5154164X', 6, NULL, NULL, NULL),
+    ('GR5154171D', 6, '2017-03-22', '2027-08-30', NULL),
+    ('GR5154983P', 6, '2017-05-15', '2028-03-24', NULL),
+    ('GR5155698L', 6, '2017-06-21', '2028-02-28', NULL),
+    ('GR5156127P', 6, '2017-07-21', '2027-12-02', NULL),
+    ('GR5156139U', 6, NULL, NULL, NULL),
+    ('GR5156140K', 6, NULL, NULL, NULL),
+    ('GR5157678L', 6, '2017-10-30', '2028-06-08', NULL),
+    ('GR5158167N', 6, '2017-11-27', '2027-12-04', NULL),
+    ('GR5158898N', 6, '2018-02-26', '2028-11-18', NULL),
+    ('GR5159352U', 6, '2018-02-19', '2028-07-03', NULL),
+    ('GR5159358K', 6, '2018-02-19', '2028-11-13', NULL),
+    ('GR5160009J', 6, '2018-03-30', '2029-03-15', NULL),
+    ('GR5160916K', 6, '2018-05-28', '2029-02-16', NULL),
+    ('GR5161134T', 6, NULL, NULL, NULL),
+    ('GR5161484J', 6, '2018-07-03', '2023-07-03', NULL),
+    ('GR5161895P', 6, '2018-08-01', '2023-08-01', NULL),
+    ('GR5163059J', 6, '2018-10-15', '2028-11-05', NULL),
+    ('GR5163079V', 6, NULL, NULL, NULL),
+    ('GR5166008X', 6, NULL, NULL, NULL),
+    ('GR5167082J', 6, NULL, NULL, NULL),
+    ('GR5167983D', 6, NULL, NULL, NULL),
+    ('GR5168071K', 6, NULL, NULL, NULL),
+    ('GR5168072J', 6, NULL, NULL, NULL),
+    ('GR5168133P', 6, NULL, NULL, NULL),
+    ('GR5169079J', 6, NULL, NULL, NULL),
+    ('GR5169080J', 6, NULL, NULL, NULL),
+    ('GR5169266P', 6, NULL, NULL, NULL),
+    ('GR5171059K', 6, NULL, NULL, NULL),
+    ('IDP 510263', 6, NULL, NULL, NULL),
+    ('PE5256175P', 6, NULL, NULL, NULL),
+    ('PI5236621N', 6, '2012-07-18', '2022-07-18', NULL),
+    ('RM8285869G', 6, NULL, NULL, NULL),
+    ('U111D3831B', 6, NULL, NULL, NULL),
+    ('U119E2027K', 6, NULL, NULL, NULL),
+    ('U11C11310X', 6, '2018-01-24', '2028-12-08', NULL),
+    ('U11C37554Y', 6, '2018-01-26', '2021-01-23', NULL),
+    ('U11C53591A', 6, '2018-01-26', '2028-06-04', NULL),
+    ('U11E70931X', 6, '2018-05-25', '2021-05-29', NULL),
+    ('U11G30941C', 6, '2018-09-19', '2021-06-28', NULL),
+    ('U11L57256L', 6, NULL, NULL, NULL),
+    ('U11T69672K', 6, NULL, NULL, NULL),
+    ('U11Z66353T', 6, NULL, NULL, NULL),
+    ('U11Z81820N', 6, NULL, NULL, NULL),
+    ('U121B7793X', 6, NULL, NULL, NULL),
+    ('U127D7965X', 6, NULL, NULL, NULL),
+    ('U12D87024W', 6, '2018-04-06', '2021-04-19', NULL),
+    ('U12K31058M', 6, NULL, NULL, NULL),
+    ('U12L63570W', 6, NULL, NULL, NULL),
+    ('U12M51480N', 6, NULL, NULL, NULL),
+    ('U12T98869L', 6, NULL, NULL, NULL),
+    ('U12W85851X', 6, NULL, NULL, NULL),
+    ('U13K63940K', 6, NULL, NULL, NULL),
+    ('U13N43880C', 6, NULL, NULL, NULL),
+    ('U13N61612D', 6, NULL, NULL, NULL),
+    ('U13P30562D', 6, NULL, NULL, NULL),
+    ('U144B1463P', 6, NULL, NULL, NULL),
+    ('U144D8375S', 6, NULL, NULL, NULL),
+    ('U145D5489S', 6, NULL, NULL, NULL),
+    ('U149B1366X', 6, NULL, NULL, NULL),
+    ('U14B54366E', 6, '2017-12-12', '2019-04-17', NULL),
+    ('U14C26402C', 6, '2018-02-14', '2024-01-26', NULL),
+    ('U14E79157U', 6, NULL, NULL, NULL),
+    ('U14N61559P', 6, NULL, NULL, NULL),
+    ('U14R97838K', 6, NULL, NULL, NULL),
+    ('U14U20353B', 6, NULL, NULL, NULL),
+    ('U14U20774J', 6, NULL, NULL, NULL),
+    ('U151C0545E', 6, NULL, NULL, NULL),
+    ('U15B61462T', 6, '2017-12-20', '2019-12-30', NULL),
+    ('U15B61724K', 6, '2017-12-20', '2028-10-27', NULL),
+    ('U15R14420A', 6, NULL, NULL, NULL),
+    ('U15T87602N', 6, NULL, NULL, NULL),
+    ('U15U77127X', 6, NULL, NULL, NULL),
+    ('U15U97798Y', 6, NULL, NULL, NULL),
+    ('U15W47878K', 6, NULL, NULL, NULL),
+    ('U16556600E', 6, '2005-02-11', '2021-10-11', NULL),
+    ('U167D5266J', 6, NULL, NULL, NULL),
+    ('U16R67886K', 6, NULL, NULL, NULL),
+    ('U16V92333L', 6, NULL, NULL, NULL),
+    ('U16X57948K', 6, NULL, NULL, NULL),
+    ('U16Z24601K', 6, NULL, NULL, NULL),
+    ('U173B7888K', 6, NULL, NULL, NULL),
+    ('U175B4165E', 6, NULL, NULL, NULL),
+    ('U179C5386P', 6, NULL, NULL, NULL),
+    ('U17G44354D', 6, '2018-10-24', '2029-07-04', NULL),
+    ('U17G44356X', 6, '2018-10-24', '2028-11-12', NULL),
+    ('U17L87759M', 6, NULL, NULL, NULL),
+    ('U17S17601G', 6, NULL, NULL, NULL),
+    ('U17X98980K', 6, NULL, NULL, NULL),
+    ('U18F22800N', 6, '2018-09-07', '2023-09-06', NULL),
+    ('U18G42017G', 6, '2018-10-31', '2021-09-12', NULL),
+    ('U18K97276K', 6, NULL, NULL, NULL),
+    ('U18T82947P', 6, NULL, NULL, NULL),
+    ('U19C80120N', 6, '2018-03-21', '2028-10-09', NULL),
+    ('U19F46324N', 6, '2018-09-14', '2019-03-13', NULL),
+    ('U19L75690X', 6, NULL, NULL, NULL),
+    ('U19Y08798K', 6, NULL, NULL, NULL),
+    ('U19Y09057P', 6, NULL, NULL, NULL),
+    ('U19Z28870V', 6, NULL, NULL, NULL),
+    ('U1B960623L', 6, '2013-11-07', '2021-07-11', NULL),
+    ('U1C323185G', 6, '2014-02-25', '2024-04-19', NULL),
+    ('U1D222597M', 6, '2014-04-23', '2024-08-15', NULL),
+    ('U1D519904N', 6, '2014-05-13', '2024-08-16', NULL),
+    ('U1F302229L', 6, '1989-10-08', '2019-09-15', NULL),
+    ('U1F304162A', 6, NULL, NULL, NULL),
+    ('U1G022600C', 6, '2014-11-04', '2019-11-03', NULL),
+    ('U1G893383V', 6, NULL, NULL, NULL),
+    ('U1H295884X', 6, '1990-01-05', '2020-02-03', NULL),
+    ('U1H547352L', 6, '2005-03-07', '2025-06-20', NULL),
+    ('U1H902770K', 6, '1978-05-26', '2020-07-31', NULL),
+    ('U1J452215K', 6, '2003-01-02', '2025-09-26', NULL),
+    ('U1J702195J', 6, NULL, NULL, NULL),
+    ('U1L859912V', 6, '2015-09-18', '2026-04-16', NULL),
+    ('U1L954934V', 6, NULL, NULL, NULL),
+    ('U1M491150N', 6, '2015-10-30', '2021-07-20', NULL),
+    ('U1M690993N', 6, '2015-11-13', '2026-10-16', NULL),
+    ('U1N345657P', 6, NULL, NULL, NULL),
+    ('U1N399425J', 6, '2016-01-09', '2021-03-09', NULL),
+    ('U1P485944L', 6, '2016-03-09', '2021-10-13', NULL),
+    ('U1P488555W', 6, NULL, NULL, NULL),
+    ('U1P488655W', 6, '2016-03-09', '2026-11-09', NULL),
+    ('U1P611158G', 6, '2016-03-16', '2022-01-04', NULL),
+    ('U1P686044N', 6, '2016-03-19', '2021-09-21', NULL),
+    ('U1R170760X', 6, NULL, NULL, NULL),
+    ('U1R767859D', 6, NULL, NULL, NULL),
+    ('U1R872207L', 6, NULL, NULL, NULL),
+    ('U1S691693V', 6, '2016-07-20', '2022-01-26', NULL),
+    ('U1T099158J', 6, '2016-08-27', '2027-02-27', NULL),
+    ('U1T236534S', 6, '1980-11-29', '2022-06-04', NULL),
+    ('U1T257577U', 6, '2006-09-04', '2027-08-14', NULL),
+    ('U1T713170M', 6, '1981-11-20', '2022-02-06', NULL),
+    ('U1U199055X', 6, '2016-11-04', '2026-12-22', NULL),
+    ('U1V960851X', 6, '1985-03-07', '2020-02-04', NULL),
+    ('U1W081727K', 6, '1981-11-20', '2022-05-05', NULL),
+    ('U1X319587U', 6, '2017-05-10', '2027-11-18', NULL),
+    ('U1X639626T', 6, '2017-05-27', '2022-05-26', NULL),
+    ('U1X780587W', 6, '2017-06-07', '2023-01-04', NULL),
+    ('U1X782835K', 6, '2017-06-07', '2020-07-10', NULL),
+    ('U1X793588J', 6, '2017-06-07', '2027-12-26', NULL),
+    ('U1Y621496N', 6, '2017-07-25', '2019-08-07', NULL),
+    ('U1Y630853K', 6, '2017-07-25', '2028-04-03', NULL),
+    ('U1Z224931K', 6, '2017-09-19', '2019-03-18', NULL),
+    ('U1Z337302C', 6, '2017-09-26', '2023-08-23', NULL),
+    ('U1Z433742W', 6, '2017-10-04', '2027-10-08', NULL),
+    ('U1Z986163K', 6, '2017-11-13', '2027-09-20', NULL),
+    ('GR5143777X', 7, '2015-07-22', '2020-07-08', NULL),
+    ('GR5147380S', 7, NULL, NULL, NULL),
+    ('GR5153322A', 7, NULL, NULL, NULL),
+    ('GR5156139U', 7, '2017-07-25', '2022-07-25', NULL),
+    ('GR5156140K', 7, '2017-07-25', '2022-07-25', NULL),
+    ('GR5167983D', 7, NULL, NULL, NULL),
+    ('GR5168061P', 7, NULL, NULL, NULL),
+    ('GR5168133P', 7, NULL, NULL, NULL),
+    ('IDP 510263', 7, NULL, NULL, NULL),
+    ('U12D92854P', 7, '2018-04-06', '2023-04-05', NULL),
+    ('U149B1366X', 7, NULL, NULL, NULL),
+    ('U14N61559P', 7, NULL, NULL, NULL),
+    ('U15U77127X', 7, NULL, NULL, NULL),
+    ('U16V92333L', 7, NULL, NULL, NULL),
+    ('U16X57948K', 7, NULL, NULL, NULL),
+    ('U19Y08798K', 7, NULL, NULL, NULL),
+    ('U1F304162A', 7, '2014-09-16', '2019-09-15', NULL),
+    ('U1K617667U', 7, NULL, NULL, NULL),
+    ('U1L954934V', 7, '2015-09-25', '2020-09-24', NULL),
+    ('U1N345657P', 7, '2016-01-07', '2021-01-05', NULL),
+    ('U1R170760X', 7, '2016-04-20', '2021-04-19', NULL),
+    ('U1U789102M', 7, '2016-12-13', '2021-12-13', NULL),
+    ('GR5143777X', 10, NULL, NULL, NULL),
+    ('GR5144302G', 10, NULL, NULL, NULL),
+    ('GR5147380S', 10, NULL, NULL, NULL),
+    ('GR5149704U', 10, NULL, NULL, NULL),
+    ('GR5156139U', 10, NULL, NULL, NULL),
+    ('GR5156140K', 10, NULL, NULL, NULL),
+    ('GR5161134T', 10, NULL, NULL, NULL),
+    ('GR5161484J', 10, NULL, NULL, NULL),
+    ('GR5161895P', 10, NULL, NULL, NULL),
+    ('GR5163079V', 10, NULL, NULL, NULL),
+    ('GR5167983D', 10, NULL, NULL, NULL),
+    ('GR5168071K', 10, NULL, NULL, NULL),
+    ('GR5168072J', 10, NULL, NULL, NULL),
+    ('GR5168133P', 10, NULL, NULL, NULL),
+    ('U12T98869L', 10, NULL, NULL, NULL),
+    ('U13N43880C', 10, NULL, NULL, NULL),
+    ('U13P30562D', 10, NULL, NULL, NULL),
+    ('U149B1366X', 10, NULL, NULL, NULL),
+    ('U14N61559P', 10, NULL, NULL, NULL),
+    ('U14R97838K', 10, NULL, NULL, NULL),
+    ('U15U77127X', 10, NULL, NULL, NULL),
+    ('U16R67886K', 10, NULL, NULL, NULL),
+    ('U16V92333L', 10, NULL, NULL, NULL),
+    ('U16X57948K', 10, NULL, NULL, NULL),
+    ('U175B4165E', 10, NULL, NULL, NULL),
+    ('U18F22800N', 10, '2018-09-07', '2023-09-06', NULL),
+    ('U19Y08798K', 10, NULL, NULL, NULL),
+    ('U1F302229L', 10, NULL, NULL, NULL),
+    ('U1F304162A', 10, NULL, NULL, NULL),
+    ('U1G022600C', 10, '2014-11-04', '2019-11-03', NULL),
+    ('U1G893383V', 10, NULL, NULL, NULL),
+    ('U1H295884X', 10, NULL, NULL, NULL),
+    ('U1J702195J', 10, NULL, NULL, NULL),
+    ('U1L954934V', 10, NULL, NULL, NULL),
+    ('U1N345657P', 10, NULL, NULL, NULL),
+    ('U1R170760X', 10, NULL, NULL, NULL),
+    ('U1X639626T', 10, '2017-05-27', '2022-05-26', NULL),
+    ('GR5143777X', 11, NULL, NULL, NULL),
+    ('GR5147380S', 11, NULL, NULL, NULL),
+    ('GR5153322A', 11, NULL, NULL, NULL),
+    ('GR5156139U', 11, NULL, NULL, NULL),
+    ('GR5156140K', 11, NULL, NULL, NULL),
+    ('GR5167983D', 11, NULL, NULL, NULL),
+    ('GR5168061P', 11, NULL, NULL, NULL),
+    ('GR5168133P', 11, NULL, NULL, NULL),
+    ('U12D92854P', 11, NULL, NULL, NULL),
+    ('U149B1366X', 11, NULL, NULL, NULL),
+    ('U14N61559P', 11, NULL, NULL, NULL),
+    ('U15U77127X', 11, NULL, NULL, NULL),
+    ('U16V92333L', 11, NULL, NULL, NULL),
+    ('U16X57948K', 11, NULL, NULL, NULL),
+    ('U19Y08798K', 11, NULL, NULL, NULL),
+    ('U1F304162A', 11, NULL, NULL, NULL),
+    ('U1K617667U', 11, NULL, NULL, NULL),
+    ('U1L954934V', 11, NULL, NULL, NULL),
+    ('U1N345657P', 11, NULL, NULL, NULL),
+    ('U1R170760X', 11, NULL, NULL, NULL),
+    ('U1U789102M', 11, NULL, NULL, NULL),
+    ('GR5143777X', 13, NULL, NULL, NULL),
+    ('GR5147380S', 13, NULL, NULL, NULL),
+    ('GR5149704U', 13, '2016-07-13', '2021-07-13', NULL),
+    ('GR5156139U', 13, NULL, NULL, NULL),
+    ('GR5167983D', 13, NULL, NULL, NULL),
+    ('GR5168071K', 13, NULL, NULL, NULL),
+    ('GR5168072J', 13, NULL, NULL, NULL),
+    ('GR5168133P', 13, NULL, NULL, NULL),
+    ('U12T98869L', 13, NULL, NULL, NULL),
+    ('U13N43880C', 13, NULL, NULL, NULL),
+    ('U13P30562D', 13, NULL, NULL, NULL),
+    ('U149B1366X', 13, NULL, NULL, NULL),
+    ('U14N61559P', 13, NULL, NULL, NULL),
+    ('U14R97838K', 13, NULL, NULL, NULL),
+    ('U15U77127X', 13, NULL, NULL, NULL),
+    ('U16R67886K', 13, NULL, NULL, NULL),
+    ('U16V92333L', 13, NULL, NULL, NULL),
+    ('U16X57948K', 13, NULL, NULL, NULL),
+    ('U175B4165E', 13, NULL, NULL, NULL),
+    ('U18F22800N', 13, '2018-09-07', '2023-09-06', NULL),
+    ('U19Y08798K', 13, NULL, NULL, NULL),
+    ('U1F302229L', 13, NULL, NULL, NULL),
+    ('U1F304162A', 13, NULL, NULL, NULL),
+    ('U1G022600C', 13, '2014-11-04', '2019-11-03', NULL),
+    ('U1G893383V', 13, '2015-01-13', '2020-01-12', NULL),
+    ('U1H295884X', 13, '1990-01-05', '2020-02-03', NULL),
+    ('U1J702195J', 13, '1989-03-17', '2020-04-27', NULL),
+    ('U1L954934V', 13, NULL, NULL, NULL),
+    ('U1N345657P', 13, NULL, NULL, NULL),
+    ('U1R170760X', 13, NULL, NULL, NULL),
+    ('U1X639626T', 13, '2017-05-27', '2022-05-26', NULL),
+    ('GR5143777X', 14, '2015-07-22', '2020-07-08', NULL),
+    ('GR5147380S', 14, '2016-03-09', '2021-03-09', NULL),
+    ('GR5156139U', 14, '2017-07-25', '2022-07-25', NULL),
+    ('GR5156140K', 14, '2017-07-25', '2022-07-25', NULL),
+    ('GR5167983D', 14, NULL, NULL, NULL),
+    ('GR5168061P', 14, NULL, NULL, NULL),
+    ('GR5168133P', 14, NULL, NULL, NULL),
+    ('U12D92854P', 14, '2018-04-06', '2023-04-05', NULL),
+    ('U149B1366X', 14, NULL, NULL, NULL),
+    ('U14N61559P', 14, NULL, NULL, NULL),
+    ('U15U77127X', 14, NULL, NULL, NULL),
+    ('U16V92333L', 14, NULL, NULL, NULL),
+    ('U16X57948K', 14, NULL, NULL, NULL),
+    ('U19Y08798K', 14, NULL, NULL, NULL),
+    ('U1F304162A', 14, '2014-09-16', '2019-09-15', NULL),
+    ('U1K617667U', 14, '2015-06-19', '2020-06-18', NULL),
+    ('U1L954934V', 14, '2015-09-25', '2020-09-24', NULL),
+    ('U1N345657P', 14, '2016-01-07', '2021-01-05', NULL),
+    ('U1R170760X', 14, '2016-04-20', '2021-04-19', NULL),
+    ('U1U789102M', 14, '2016-12-13', '2021-12-13', NULL),
+    ('GR5167983D', 16, '2009-07-24', '2020-05-18', NULL),
+    ('GR5168133P', 16, '2007-11-13', '2024-09-04', NULL),
+    ('GRQ000142C', 16, '2007-11-13', '2014-09-09', NULL),
+    ('GRQ000150K', 16, '2007-11-13', '2019-09-09', NULL),
+    ('GRQ000151L', 16, '2007-11-13', '2020-01-12', NULL),
+    ('GRQ000152M', 16, '2007-11-13', '2014-09-09', NULL),
+    ('GRQ000154K', 16, '2007-11-13', '2018-09-03', NULL),
+    ('GRQ000155G', 16, '2007-11-13', '2014-09-09', NULL),
+    ('GRQ000826D', 16, '2008-01-29', '2021-09-09', NULL),
+    ('GRQ003345C', 16, '2009-07-24', '2016-09-09', NULL),
+    ('U12D92854P', 16, '2007-11-13', '2019-09-08', NULL),
+    ('U149B1366X', 16, '2007-11-13', '2022-03-31', NULL),
+    ('U14N61559P', 16, '2008-10-17', '2024-04-04', NULL),
+    ('U16V92333L', 16, '2020-09-25', '2022-03-31', NULL),
+    ('U16X57948K', 16, '2016-01-07', '2022-03-03', NULL),
+    ('U1F304162A', 16, '2008-10-17', '2019-09-15', NULL),
+    ('U1L954934V', 16, '2007-11-13', '2020-09-09', NULL),
+    ('U1N345657P', 16, '2016-01-07', '2020-06-19', NULL),
+    ('U1R170760X', 16, '2007-11-13', '2022-02-09', NULL),
+    ('U1X639626T', 16, '2008-01-29', '2022-03-31', NULL),
+    ('GR5167983D', 17, '2009-07-24', '2020-05-18', NULL),
+    ('GR5168061P', 17, '2007-11-13', '2022-03-31', NULL),
+    ('GR5168071K', 17, '2007-09-13', '2020-06-05', NULL),
+    ('GR5168072J', 17, '2007-11-13', '2022-03-31', NULL),
+    ('GR5168133P', 17, '2007-11-13', '2024-09-04', NULL),
+    ('GRQ000147H', 17, '2007-11-13', '2020-09-09', NULL),
+    ('GRQ000148A', 17, '2007-11-13', '2020-09-09', NULL),
+    ('GRQ000826D', 17, '2008-01-29', '2020-09-09', NULL),
+    ('GRQ002494P', 17, '2008-10-17', '2020-09-09', NULL),
+    ('RM7806207P', 17, '2007-11-13', '2019-09-08', NULL),
+    ('U12D92854P', 17, '2007-11-13', '2019-09-08', NULL),
+    ('U149B1366X', 17, '2007-11-13', '2022-03-31', NULL),
+    ('U14N61559P', 17, '2008-10-17', '2024-09-04', NULL),
+    ('U14R97838K', 17, '2007-09-13', '2022-03-03', NULL),
+    ('U16V92333L', 17, '2020-09-25', '2022-03-31', NULL),
+    ('U16X57948K', 17, '2016-01-07', '2022-03-03', NULL),
+    ('U18F22800N', 17, '2007-11-13', '2014-09-09', NULL),
+    ('U1F302229L', 17, '2007-11-13', '2016-09-09', NULL),
+    ('U1F304162A', 17, '2008-10-17', '2019-09-15', NULL),
+    ('U1G893383V', 17, '2007-09-13', '2016-09-09', NULL),
+    ('U1K617667U', 17, '2009-07-24', '2016-09-09', NULL),
+    ('U1L954934V', 17, '2007-11-13', '2020-09-24', NULL),
+    ('U1N345657P', 17, '2016-01-07', '2020-06-19', NULL),
+    ('U1R170760X', 17, '2007-11-13', '2022-02-19', NULL),
+    ('U1U789102M', 17, '2007-11-13', '2016-09-09', NULL),
+    ('U1X639626T', 17, '2008-01-29', '2022-03-31', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `persone_patenti`
+--
+
+CREATE TABLE `persone_patenti` (
+    `persona_id` int(10) NOT NULL,
+    `numero_patente` varchar(15) NOT NULL,
+    `rilasciata_dal` varchar(100) NOT NULL,
+    `data_rilascio_patente` date NOT NULL,
+    `data_scadenza_patente` date NOT NULL,
+    `stato` enum('commissione') DEFAULT NULL,
+    `note` varchar(200) DEFAULT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura stand-in per le viste `v_clienti_patente`
+-- (Vedi sotto per la vista effettiva)
+--
+CREATE TABLE `v_clienti_patente` (
+    `persona_id` int(10)
+    ,`nome_cognome` varchar(201)
+    ,`nominativo` varchar(100)
+    ,`nome` varchar(100)
+    ,`cognome` varchar(100)
+    ,`data_nascita` date
+    ,`provincia_nascita` varchar(60)
+    ,`cliente_con_patente` varchar(3)
+    );
+
+-- --------------------------------------------------------
+
+--
+-- Struttura per vista `v_clienti_patente`
+--
+DROP TABLE IF EXISTS `v_clienti_patente`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_clienti_patente`  AS  select `db_nomadelfia`.`persone`.`id` AS `persona_id`,concat(`db_anagrafe`.`dati_personali`.`nome`,' ',`db_anagrafe`.`dati_personali`.`cognome`) AS `nome_cognome`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_anagrafe`.`dati_personali`.`nome` AS `nome`,`db_anagrafe`.`dati_personali`.`cognome` AS `cognome`,`db_anagrafe`.`dati_personali`.`data_nascita` AS `data_nascita`,`db_anagrafe`.`dati_personali`.`provincia_nascita` AS `provincia_nascita`,(select distinct (case `persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `persone_patenti` where ((`persone_patenti`.`numero_patente` is not null) and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))) AS `cliente_con_patente` from (`db_nomadelfia`.`persone` join `db_anagrafe`.`dati_personali`) where ((`db_nomadelfia`.`persone`.`id` = `db_anagrafe`.`dati_personali`.`persona_id`) and (`db_anagrafe`.`dati_personali`.`data_nascita` <= (sysdate() - interval 180 year_month))) ;
+
+--
+-- Indici per le tabelle scaricate
+--
+
+--
+-- Indici per le tabelle `categorie`
+--
+ALTER TABLE `categorie`
+    ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indici per le tabelle `patenti_categorie`
+--
+ALTER TABLE `patenti_categorie`
+    ADD PRIMARY KEY (`categoria_patente_id`,`numero_patente`) USING BTREE,
+    ADD KEY `numero_patente_persona` (`numero_patente`,`categoria_patente_id`) USING BTREE;
+
+--
+-- Indici per le tabelle `persone_patenti`
+--
+ALTER TABLE `persone_patenti`
+    ADD PRIMARY KEY (`persona_id`,`numero_patente`,`data_rilascio_patente`,`data_scadenza_patente`) USING BTREE,
+    ADD UNIQUE KEY `numero_patente_2` (`numero_patente`);
+
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `patenti_categorie`
+--
+ALTER TABLE `patenti_categorie`
+    ADD CONSTRAINT `patenti_categorie_ibfk_1` FOREIGN KEY (`categoria_patente_id`) REFERENCES `categorie` (`id`);
+
+--
+-- Limiti per la tabella `persone_patenti`
+--
+ALTER TABLE `persone_patenti`
+    ADD CONSTRAINT `persone_patenti_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

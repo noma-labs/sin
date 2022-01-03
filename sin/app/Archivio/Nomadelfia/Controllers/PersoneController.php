@@ -21,8 +21,9 @@ class PersoneController extends CoreBaseController
     }
 
 
-    public function show(Persona $persona)
+    public function show($idPersona)
     {
+        $persona = Persona::findOrFail($idPersona);
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
@@ -108,7 +109,8 @@ class PersoneController extends CoreBaseController
                 $msgSearch = $msgSearch . " Persone Attive e Disattive, ";
             } else {
                 // includi solo persone attive
-                $q->where('stato', '=', "1");
+                // TODO:  adde where(popolazione.data_uscita == NULL)
+                //$q->where('stato', '=', "1");
                 $msgSearch = $msgSearch . " Solo persone Attive, ";
             }
             if ($request->nominativo) {

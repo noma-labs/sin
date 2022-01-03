@@ -2,13 +2,13 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Input;
-use Route;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 
 trait SortableTrait {
     public function scopeSortable($query, $column=null, $order=null) {
-        if(Input::has('s') && Input::has('o'))
-            return $query->orderBy(Input::get('s'), Input::get('o'));
+        if(Request::has('s') && Request::has('o'))
+            return $query->orderBy(Request::input('s'), Request::input('o'));
         if($column != null && $order != null)
             return $query->orderBy($column, $order);
         else
@@ -21,8 +21,8 @@ trait SortableTrait {
             $title = ucfirst($title);
         }
 
-        $indicator = (Input::get('s') == $col ? (Input::get('o') === 'asc' ? '&uarr;' : '&darr;') : null);
-        $parameters = array_merge(Input::get(), array('s' => $col, 'o' => (Input::get('o') === 'asc' ? 'desc' : 'asc')));
+        $indicator = (Request::input('s') == $col ? (Request::input('o') === 'asc' ? '&uarr;' : '&darr;') : null);
+        $parameters = array_merge(Request::input(), array('s' => $col, 'o' => (Request::input('o') === 'asc' ? 'desc' : 'asc')));
 
         return link_to_route(Route::currentRouteName(), "$title $indicator", $parameters);
     }

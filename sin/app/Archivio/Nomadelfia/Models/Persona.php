@@ -352,11 +352,11 @@ class Persona extends Model
         return $this->assegnaIncarico($azienda, $data_inizio, "LAVORATORE");
     }
 
+
     public function assegnaResponabileIncarico($azienda, Carbon\Carbon $data_inizio)
     {
         return $this->assegnaIncarico($azienda, $data_inizio, "RESPONSABILE AZIENDA");
     }
-
 
     public function assegnaIncarico($azienda, Carbon\Carbon $data_inizio, $mansione)
     {

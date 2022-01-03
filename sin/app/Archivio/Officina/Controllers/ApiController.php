@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Officina\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -14,7 +15,6 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 class ApiController extends CoreBaseController
 {
@@ -39,7 +39,10 @@ class ApiController extends CoreBaseController
             ->take(50)->get();
         $results = array();
         foreach ($veicoli as $veicolo) {
-            $results[] = ['value' => $veicolo->id, 'label' => "$veicolo->nome - $veicolo->targa " . $veicolo->impiego->nome];
+            $results[] = [
+                'value' => $veicolo->id,
+                'label' => "$veicolo->nome - $veicolo->targa " . $veicolo->impiego->nome
+            ];
         }
 
         return response($results);
@@ -118,8 +121,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->grosseto()->autovettura()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Grosseto autovettura", "count" => $autovettura_grosseto->count(), 'veicoli' => $autovettura_grosseto->get()];
+            }
+        ])->prenotabili()->grosseto()->autovettura()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Grosseto autovettura",
+            "count" => $autovettura_grosseto->count(),
+            'veicoli' => $autovettura_grosseto->get()
+        ];
 
         // grosseto -> furgoni
         $furgoni_grosseto1 = Veicolo::with([
@@ -128,8 +136,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->grosseto()->furgoni()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Grosseto furgoni", "count" => $furgoni_grosseto1->count(), 'veicoli' => $furgoni_grosseto1->get()];
+            }
+        ])->prenotabili()->grosseto()->furgoni()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Grosseto furgoni",
+            "count" => $furgoni_grosseto1->count(),
+            'veicoli' => $furgoni_grosseto1->get()
+        ];
 
         // grosseto -> Pulmino
         $furgoni_grosseto2 = Veicolo::with([
@@ -138,8 +151,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->grosseto()->Pulmino()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Grosseto pulmini", "count" => $furgoni_grosseto2->count(), 'veicoli' => $furgoni_grosseto2->get()];
+            }
+        ])->prenotabili()->grosseto()->Pulmino()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Grosseto pulmini",
+            "count" => $furgoni_grosseto2->count(),
+            'veicoli' => $furgoni_grosseto2->get()
+        ];
 
         //grosseto motocicli
         $motocicli = Veicolo::with([
@@ -148,8 +166,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->motocicli()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Motocicli", "count" => $motocicli->count(), 'veicoli' => $motocicli->get()];
+            }
+        ])->prenotabili()->motocicli()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Motocicli",
+            "count" => $motocicli->count(),
+            'veicoli' => $motocicli->get()
+        ];
 
         // viaggi lunghi autovettura
         $autovettura_lunghi = Veicolo::with([
@@ -158,8 +181,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->viaggilunghi()->autovettura()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Viaggi lunghi autovettura", "count" => $autovettura_lunghi->count(), 'veicoli' => $autovettura_lunghi->get()];
+            }
+        ])->prenotabili()->viaggilunghi()->autovettura()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Viaggi lunghi autovettura",
+            "count" => $autovettura_lunghi->count(),
+            'veicoli' => $autovettura_lunghi->get()
+        ];
 
         // viaggi lunghi furgnoi
         $furgoni_lunghi = Veicolo::with([
@@ -168,8 +196,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->viaggilunghi()->furgoni()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Viaggi lunghi furgoni", "count" => $furgoni_lunghi->count(), 'veicoli' => $furgoni_lunghi->get()];
+            }
+        ])->prenotabili()->viaggilunghi()->furgoni()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Viaggi lunghi furgoni",
+            "count" => $furgoni_lunghi->count(),
+            'veicoli' => $furgoni_lunghi->get()
+        ];
 
         // viaggi lunghi pulmino
         $furgoni_lunghi1 = Veicolo::with([
@@ -178,8 +211,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->viaggilunghi()->Pulmino()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Viaggi lunghi pulmini", "count" => $furgoni_lunghi1->count(), 'veicoli' => $furgoni_lunghi1->get()];
+            }
+        ])->prenotabili()->viaggilunghi()->Pulmino()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Viaggi lunghi pulmini",
+            "count" => $furgoni_lunghi1->count(),
+            'veicoli' => $furgoni_lunghi1->get()
+        ];
 
         //viaggi lunghi autobus
         $autobus = Veicolo::with([
@@ -188,8 +226,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->viaggilunghi()->autobus()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Viaggi lunghi Autobus", "count" => $autobus->count(), 'veicoli' => $autobus->get()];
+            }
+        ])->prenotabili()->viaggilunghi()->autobus()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Viaggi lunghi Autobus",
+            "count" => $autobus->count(),
+            'veicoli' => $autobus->get()
+        ];
 
         // viaggi lunghi autocarri
         $autocarri = Veicolo::with([
@@ -198,8 +241,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->viaggilunghi()->autocarri()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Viaggi lunghi Autocarri", "count" => $autocarri->count(), 'veicoli' => $autocarri->get()];
+            }
+        ])->prenotabili()->viaggilunghi()->autocarri()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Viaggi lunghi Autocarri",
+            "count" => $autocarri->count(),
+            'veicoli' => $autocarri->get()
+        ];
 
         // personali
         $personali = Veicolo::with([
@@ -208,8 +256,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->personali()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Veicoli Personali", "count" => $personali->count(), 'veicoli' => $personali->get()];
+            }
+        ])->prenotabili()->personali()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Veicoli Personali",
+            "count" => $personali->count(),
+            'veicoli' => $personali->get()
+        ];
 
         // roma
         $roma = Veicolo::with([
@@ -218,8 +271,13 @@ class ApiController extends CoreBaseController
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }])->prenotabili()->roma()->orderBy('nome');
-        $veicoliPrenotabili[] = ["impiego_tipologia" => "Veicoli Roma", "count" => $roma->count(), 'veicoli' => $roma->get()];
+            }
+        ])->prenotabili()->roma()->orderBy('nome');
+        $veicoliPrenotabili[] = [
+            "impiego_tipologia" => "Veicoli Roma",
+            "count" => $roma->count(),
+            'veicoli' => $roma->get()
+        ];
 
         return response()->json($veicoliPrenotabili);
     }
@@ -247,6 +305,7 @@ class ApiController extends CoreBaseController
 
         return response()->json($results);
     }
+
     public function tipologia(Request $request)
     {
         // $term = $request->input('term');
@@ -284,95 +343,102 @@ class ApiController extends CoreBaseController
         return response()->json($results);
     }
 
-  /**
-   * elimina una tipo di gomma da un veicolo
-   */
-  public function eliminaGomma(Request $request){
-    $veicolo = Veicolo::find($request->input('veicolo'));
-    try {
-      $veicolo->gomme()->detach($request->input('gomma'));
-    } catch (\Throwable $th) {
-      return ['error'];
-    }
-      return ['success'];
-  }
-
-  /**
-   * ritorna tutte i tipi di gomme nel db
-   */
-  public function gomme(){
-      $gomme = TipoGomme::all();
-      $result = array();
-      foreach ($gomme as $gomma) {
-        $result[] = ['codice' => $gomma->codice." ".$gomma->note, 'id' => $gomma->id];
-      }
-      return response()->json($result);
-  }
-
-  /**
-   * salva una nuova gomma e la lega ad un veicolo
-   */
-  public function nuovaGomma(Request $request){
-      if($request->input('note')==""){
-        $note = "";
-      }
-      else{
-        $note = $request->input('note');
-      }
-      if($request->input('gomma_id') == ""){
-        // salvo la nuova gomma nel db
+    /**
+     * elimina una tipo di gomma da un veicolo
+     */
+    public function eliminaGomma(Request $request)
+    {
+        $veicolo = Veicolo::find($request->input('veicolo'));
         try {
-          $gomma = TipoGomme::create([
-            'codice' => strtoupper($request->input('nuovo_codice')),
-            'note' => $note
-          ]);
+            $veicolo->gomme()->detach($request->input('gomma'));
         } catch (\Throwable $th) {
-          return ['status' => 'error', 'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note')=='')];
+            return ['error'];
         }
-      }
-      else{
-        $gomma = TipoGomme::find($request->input('gomma_id'));
-      }
-      $veicolo = Veicolo::find($request->input('veicolo_id'));
-      try {
-        $veicolo->gomme()->attach($gomma->id);
-      } catch (\Throwable $th) {
-        return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
-      }
-      return ['status' => 'ok'];
-  }
-
-  /**
-   * ritorna tutti i filtri nel db
-   */
-  public function filtri(){
-      $filtri = TipoFiltro::all()->sortBy('tipo');
-      $result = array();
-      foreach ($filtri as $value) {
-        $result[] = $value;
-      }
-
-      return $result;
-  }
-
-  /**
-   * ritorna tutti i tipi di filtro 
-   */
-  public function tipiFiltro(){
-    $filtri = TipoFiltro::tipo();
-    return $filtri;
-  }
-
-  /**
-   * elimina un filtro dal db
-   */
-  public function eliminaFiltro(Request $request){
-    $filtro = TipoFiltro::find($request->input('filtro'));
-    try {
-      $filtro->delete();
-    } catch (\Throwable $th) {
-      return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
+        return ['success'];
     }
-    return ['status' => 'success', 'msg' => "Filtro eliminato"];
-  }
+
+    /**
+     * ritorna tutte i tipi di gomme nel db
+     */
+    public function gomme()
+    {
+        $gomme = TipoGomme::all();
+        $result = array();
+        foreach ($gomme as $gomma) {
+            $result[] = ['codice' => $gomma->codice . " " . $gomma->note, 'id' => $gomma->id];
+        }
+        return response()->json($result);
+    }
+
+    /**
+     * salva una nuova gomma e la lega ad un veicolo
+     */
+    public function nuovaGomma(Request $request)
+    {
+        if ($request->input('note') == "") {
+            $note = "";
+        } else {
+            $note = $request->input('note');
+        }
+        if ($request->input('gomma_id') == "") {
+            // salvo la nuova gomma nel db
+            try {
+                $gomma = TipoGomme::create([
+                    'codice' => strtoupper($request->input('nuovo_codice')),
+                    'note' => $note
+                ]);
+            } catch (\Throwable $th) {
+                return [
+                    'status' => 'error',
+                    'msg' => "Errore: codice della gomma gia' presente " . $request->input('nuovo_codice') . ' ' . ($request->input('note') == '')
+                ];
+            }
+        } else {
+            $gomma = TipoGomme::find($request->input('gomma_id'));
+        }
+        $veicolo = Veicolo::find($request->input('veicolo_id'));
+        try {
+            $veicolo->gomme()->attach($gomma->id);
+        } catch (\Throwable $th) {
+            return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
+        }
+        return ['status' => 'ok'];
+    }
+
+    /**
+     * ritorna tutti i filtri nel db
+     */
+    public function filtri()
+    {
+        $filtri = TipoFiltro::all()->sortBy('tipo');
+        $result = array();
+        foreach ($filtri as $value) {
+            $result[] = $value;
+        }
+
+        return $result;
+    }
+
+    /**
+     * ritorna tutti i tipi di filtro
+     */
+    public function tipiFiltro()
+    {
+        $filtri = TipoFiltro::tipo();
+        return $filtri;
+    }
+
+    /**
+     * elimina un filtro dal db
+     */
+    public function eliminaFiltro(Request $request)
+    {
+        $filtro = TipoFiltro::find($request->input('filtro'));
+        try {
+            $filtro->delete();
+        } catch (\Throwable $th) {
+            return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
+        }
+        return ['status' => 'success', 'msg' => "Filtro eliminato"];
+    }
 }
