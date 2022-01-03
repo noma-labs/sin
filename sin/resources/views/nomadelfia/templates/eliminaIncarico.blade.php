@@ -4,7 +4,7 @@
             @csrf
             @method('delete')
             <p> Vuoi davvero eliminare l'incarico {{$incarico->nome_azienda}} ? </p>
-            <small>L'incarico verrà eliminato e tutte le persone ad esso associate verrano concluse con la data inserita</small>
+            <small>L'incarico verrà eliminato e tutte le persone ad esso associate sarannao rimosse dall'incarico</small>
         </form>
     </template>
     <template slot="modal-button">

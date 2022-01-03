@@ -4,6 +4,9 @@ namespace App\Nomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
+use App\Nomadelfia\Models\Incarico;
+use App\Nomadelfia\Models\Persona;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Azienda;
@@ -11,55 +14,58 @@ use App\Nomadelfia\Models\Azienda;
 class IncarichiController extends CoreBaseController
 {
     /**
-     * view della pagina di gestione delle aziende
+     * view della pagina di gestione degli incarichi
      * @author Matteo Neri
      **/
     public function view()
     {
-        $incarichi = Azienda::incarichi()->with('lavoratoriAttuali')->get();
+        $incarichi = Incarico::all();
         return view('nomadelfia.incarichi.index', compact('incarichi'));
     }
 
     public function delete($id)
     {
-        $incarico = Azienda::incarichi()->findOrFail($id);
-        $lav = $incarico->lavoratoriAttuali()->get();
-
+        Incarico::destroy($id);
+        return redirect()->back()->withSuccess("Incarico cancellato con successo.");
     }
 
-    /**
-     * ritorna la view per editare una azienda
-     * @param id dell'azienda da editare
-     * @author Matteo Neri
-     **/
     public function edit($id)
     {
-        $incarico = Azienda::findOrFail($id);
-        return view('nomadelfia.incarichi.edit', compact('incarico'));
+        $incarico = Incarico::findOrFail($id);
+        $lavoratori = $incarico->lavoratoriAttuali;
+        $possibili = $incarico->lavoratoriPossibili();
+        return view('nomadelfia.incarichi.edit', compact('incarico', "lavoratori", "possibili"));
 
     }
 
-    public function editConfirm(Request $request, $idPersona)
+    public function assegnaPersona(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            "persona_id" => "required",
+        ], [
+            'persona_id.required' => "La persona è obbligatoria.",
+        ]);
+        $incarico = Incarico::findOrFail($id);
+        $persona = Persona::findOrFail($request->persona_id);
+        $d = $request->input('data_inizio', Carbon::now());
+        $attr = ['data_inizio' => $d];
+        $incarico->lavoratori()->attach($persona->id, $attr);
+        return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
 
     public function insert(Request $request)
     {
         $validatedData = $request->validate([
-            "name" => "required|unique:db_nomadelfia.aziende,nome_azienda",
+            "name" => "required|unique:db_nomadelfia.incarichi,nome",
         ], [
-            'name.required' => "Il nome del'incarico aggiungere è obbligatorio.",
-            'aziende.unique' => "L'incarico $request->name esistente già.",
+            'name.required' => "Il nome dell'incarico  è obbligatorio.",
+            'name.unique' => "L'incarico $request->name esiste già.",
         ]);
 
-        Azienda::create(["nome_azienda" => $request->name, "tipo" => "incarico"]);
+        Incarico::create(["nome" => $request->name]);
         return redirect()->back()->withSuccess("Incarico $request->name aggiunto correttamente.");
     }
 
-    public function insertConfirm(Request $request)
-    { //InsertClientiRequest $request
-
-    }
 
     public function searchPersona(Request $request)
     {

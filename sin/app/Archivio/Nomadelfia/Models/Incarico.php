@@ -43,5 +43,16 @@ class Incarico extends Model
         return $this->lavoratori()->wherePivot('data_fine', "IS NOT", null)->withPivot('data_fine');
     }
 
+    public function lavoratoriPossibili()
+    {
+        $all = PopolazioneNomadelfia::daEta(18);
+
+        $current = collect($this->lavoratoriAttuali);
+        $ids = $current->map(function ($item) {
+            return $item->id;
+        });
+        return $all->whereNotIn('id', $ids);
+    }
+
 
 }

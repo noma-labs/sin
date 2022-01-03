@@ -16,7 +16,7 @@
                                     <button class="btn btn-link" data-toggle="collapse"
                                             data-target="#collapse{{$incarico->id}}" aria-expanded="true"
                                             aria-controls="collapse{{$incarico->id}}">
-                                        {{ $incarico->nome_azienda }}
+                                        {{ $incarico->nome }}
                                         <span class="badge badge-primary badge-pill">{{ $incarico->lavoratoriAttuali->count() }}</span>
                                     </button>
                                 </h5>
