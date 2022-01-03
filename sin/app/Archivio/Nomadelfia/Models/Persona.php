@@ -340,7 +340,7 @@ class Persona extends Model
             return $item->id;
         });
         if ($attuali != null){
-            $attuali = Azienda::incarichi()->whereNotIn("id", $multiplied)->get();
+            $attuali = Incarico::whereNotIn("id", $multiplied)->get();
             return $attuali;
         }
         return $attuali;
@@ -348,39 +348,23 @@ class Persona extends Model
 
     public function assegnaLavoratoreIncarico($azienda, Carbon\Carbon $data_inizio)
     {
-        return $this->assegnaIncarico($azienda, $data_inizio, "LAVORATORE");
+        return $this->assegnaIncarico($azienda, $data_inizio);
     }
 
-
-    public function assegnaResponabileIncarico($azienda, Carbon\Carbon $data_inizio)
+    public function assegnaIncarico($incarico, Carbon\Carbon $data_inizio)
     {
-        return $this->assegnaIncarico($azienda, $data_inizio, "RESPONSABILE AZIENDA");
-    }
-
-    public function assegnaIncarico($azienda, Carbon\Carbon $data_inizio, $mansione)
-    {
-        if (is_string($azienda)) {
-            $azienda = Azienda::findOrFail($azienda);
+        if (is_string($incarico)) {
+            $incarico = Incarico::findOrFail($incarico);
         }
-        if (strcasecmp($mansione, "LAVORATORE") == 0 or strcasecmp($mansione, "RESPONSABILE AZIENDA") == 0) {
-            if ($azienda instanceof Azienda) {
-                if (!$azienda->isIncarico()) {
-                    throw  CouldNotAssignIncarico::isNotValidIncarico($azienda);
-                }
-                if ($this->incarichiAttuali()->get()->contains($azienda->id)) { // la persona è stata già l'incarico
-                    throw  CouldNotAssignIncarico::CouldNotAssignIncarico($azienda, $this);
-                }
-                $this->incarichi()->attach($azienda->id, [
-                    'stato' => 'Attivo',
-                    'data_inizio_azienda' => $data_inizio,
-                    'mansione' => $mansione
-                ]);
-            } else {
-                throw new Exception("Bad Argument. Incarico must be the id or a model.");
-            }
-        } else {
-            throw  CouldNotAssignIncarico::mansioneNotValid($mansione);
+        if (!$incarico instanceof Incarico) {
+            throw new Exception("Bad Argument. Incarico must be the id or a model.");
         }
+        if ($this->incarichiAttuali()->get()->contains($incarico->id)) { // la persona è stata già l'incarico
+            throw  CouldNotAssignIncarico::CouldNotAssignIncarico($incarico, $this);
+        }
+        $this->incarichi()->attach($incarico->id, [
+            'data_inizio' => $data_inizio,
+        ]);
     }
 
     // CARICHCE
@@ -693,6 +677,11 @@ class Persona extends Model
             // conclude le aziende dove lavora con la data di uscita
             $conn->update(
                 "UPDATE aziende_persone SET data_fine_azienda = ?, stato = 'Non Attivo' WHERE persona_id = ? AND stato = 'Attivo'",
+                [$data_uscita, $persona_id]
+            );
+
+            $conn->update(
+                "UPDATE incarichi_persone SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL",
                 [$data_uscita, $persona_id]
             );
 

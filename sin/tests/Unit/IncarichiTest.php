@@ -18,10 +18,8 @@ class IncarichiTest extends TestCase
     public function testIncarichi()
     {
         $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $incarico1 = factory(Azienda::class)->states("incarico")->create();
-        $incarico = factory(Azienda::class)->states("incarico")->create();
-
-        $this->assertTrue($incarico->isIncarico());
+        $incarico1 = factory(Incarico::class)->create();
+        $incarico = factory(Incarico::class)->create();
 
         $this->assertEquals(0, $incarico->lavoratori()->count());
         $this->assertEquals(0, $incarico->lavoratoriAttuali()->count());

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Posizione;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -73,8 +74,8 @@ class PopolazioneTest extends BaseTestCase
         $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
         $this->assertEquals(1, $persona->aziendeAttuali()->count());
         // assegna incarico
-        $incarico = Azienda::incarichi()->get()->random();
-        $persona->assegnaLavoratoreIncarico($incarico,Carbon::now());
+        $incarico = Incarico::get()->random();
+        $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
         $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
 
         $tot = PopolazioneNomadelfia::totalePopolazione();

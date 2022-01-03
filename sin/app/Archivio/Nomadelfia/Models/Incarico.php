@@ -40,7 +40,7 @@ class Incarico extends Model
 
     public function lavoratoriStorici()
     {
-        return $this->lavoratori()->wherePivot('data_fine', "IS NOT", null)->withPivot('data_fine');
+        return $this->lavoratori()->wherePivot('data_fine', '!=','null')->withPivot('data_fine');
     }
 
     public function lavoratoriPossibili()
