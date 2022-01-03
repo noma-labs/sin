@@ -4,9 +4,6 @@
 	<sin-header title="{{'Modifica Incarico: '.$incarico->nome }}">
 		
 	</sin-header>
-{{--	<azienda-edit url_aggiungi="{{route('api.nomadelfia.incarichi.aggiungi.lavoratore')}}" base_url='/api/nomadelfia/incarichi' url_azienda_edit="{{ route('api.nomadeflia.incarichi.edit', $incarico->id ) }}" url_persona url_mansioni="{{ route('api.nomadeflia.azienda.mansioni') }}" url_stati="{{ route('api.nomadeflia.azienda.stati') }}" url_modifica_lavoratore="{{ route('api.nomadeflia.azienda.modifica.lavoratore') }}" id_azienda="{{$incarico->id}}">--}}
-
-{{--	</azienda-edit>--}}
 
 	<div>
 		<div class="row">
@@ -20,22 +17,35 @@
 					<tbody>
 						@foreach ($lavoratori as $lavoratore)
 					<tr>
-							<td>{{$lavoratore->nominativo}} </td>
+							<td>{{$lavoratore->nominativo}}</td>
 							<td>{{$lavoratore->pivot->data_inizio}}</td>
-							<td></td>
+							<td>
+								<my-modal modal-title="Elimina persona" button-title="Elimina" button-style="btn-danger my-2">
+									<template slot="modal-body-slot">
+										<form class="form" method="POST"  id="formEliminaPersona{{$lavoratore->id}}" action="{{ route('nomadelfia.incarichi.persone.elimina', ['idPersona' =>$lavoratore->id, 'id'=>$incarico->id]) }}" >
+											@csrf
+											@method('delete')
+											<body> Vuoi davvero eliminare {{$lavoratore->nominativo}} dall'incarico  {{$incarico->nome}} ? </body>
+										</form>
+									</template>
+									<template slot="modal-button">
+										<button class="btn btn-danger" form="formEliminaPersona{{$lavoratore->id}}" >Elimina</button>
+									</template>
+								</my-modal>
+							</td>
 					 </tr>
 						@endforeach
 					</tbody>
 				</table>
 				<div class="row">
 					<div class="col-sm-2 offset-sm-10">
-{{--						<button class="btn btn-success btn-block" role="button" @click="aggiungiLavoratore">Aggiungi</button>--}}
+						@include('nomadelfia.templates.aggiungiPersonaIncarico',['incarico'=>$incarico])
 					</div>
 				</div>
 			</div>
 
 		</div>
-		@include('nomadelfia.templates.aggiungiPersonaIncarico',['incarico'=>$incarico])
+
 
 	</div>
 @endsection

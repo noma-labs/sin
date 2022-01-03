@@ -53,6 +53,14 @@ class IncarichiController extends CoreBaseController
         return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
 
+    public function eliminaPersona(Request $request, $id, $idPersona)
+    {
+        $incarico = Incarico::findOrFail($id);
+        $incarico->lavoratori()->detach($idPersona);
+        return redirect()->back()->withSuccess("Persona rimossa dall'incarico {$incarico->nome} con successo.");
+    }
+
+
     public function insert(Request $request)
     {
         $validatedData = $request->validate([

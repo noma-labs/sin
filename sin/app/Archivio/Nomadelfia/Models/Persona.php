@@ -318,20 +318,19 @@ class Persona extends Model
     // Incarichi
     public function incarichi()
     {
-        return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
-            ->withPivot('data_inizio_azienda', 'data_fine_azienda', 'mansione', 'stato')
-            ->where("tipo", "incarico")
-            ->orderby("nome_azienda");
+        return $this->belongsToMany(Incarico::class, 'incarichi_persone', 'persona_id', 'incarico_id')
+            ->withPivot('data_inizio', 'data_fine')
+            ->orderby("nome");
     }
 
     public function incarichiAttuali()
     {
-        return $this->incarichi()->wherePivotIn('stato', ['Attivo', 'Sospeso']);
+        return $this->incarichi()->wherePivot('data_fine', null);
     }
 
     public function incarichiStorico()
     {
-        return $this->incarichi()->wherePivot('stato', 'Non attivo');
+        return $this->incarichi()->wherePivot('data_fine', 'Non attivo');
     }
 
     public function incarichiPossibili()
