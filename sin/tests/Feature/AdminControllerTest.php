@@ -68,7 +68,7 @@ class AdminControllerTest extends TestCase
             ->assertSee($gruppo->nome);
 
         $this
-            ->get(route('nomadelfia.gruppifamiliari.dettaglio', ['id' => $gruppo->id]))
+            ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
             ->assertSuccessful()
             ->assertSee($gruppo->nome);
 

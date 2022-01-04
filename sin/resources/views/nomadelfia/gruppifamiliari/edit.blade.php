@@ -34,7 +34,11 @@
                             <div class="form-group row">
                                 <label for="staticEmail" class="col-sm-6 col-form-label">Capogruppo Attuale</label>
                                 <div class="col-sm-6">
-                                    <div>{{$gruppo->capogruppoAttuale()->nominativo}}</div>
+                                    @if ($gruppo->capogruppoAttuale())
+                                        <div>{{$gruppo->capogruppoAttuale()->nominativo}}</div>
+                                    @else
+                                        <span class="text-danger">Capogruppo non assegnato</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group row">
