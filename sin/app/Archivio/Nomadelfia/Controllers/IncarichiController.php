@@ -16,7 +16,7 @@ class IncarichiController extends CoreBaseController
     public function view()
     {
         $incarichi = Incarico::all();
-        $min = 4
+        $min = 4;
         $busy = Incarico::getBusyPeople($min);
         return view('nomadelfia.incarichi.index', compact('incarichi', "busy", "min"));
     }
