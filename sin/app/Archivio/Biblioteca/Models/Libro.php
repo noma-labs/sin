@@ -7,8 +7,8 @@ use App\Traits\SortableTrait;
 use App\Traits\Enums;
 
 // Extrnal library to associate media files a model
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+//use Spatie\MediaLibrary\HasMedia;
+//use Spatie\MediaLibrary\InteractsWithMedia;
 
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -17,9 +17,9 @@ use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\Classificazione as Classificazione;
 
-class Libro extends Model implements HasMedia 
+class Libro extends Model #mplements HasMedia
 {
-  use HasMediaTrait;
+//  use HasMediaTrait;
   use SortableTrait;
   use SoftDeletes;
   use Enums;
