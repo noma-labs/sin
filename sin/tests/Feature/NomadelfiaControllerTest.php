@@ -6,9 +6,11 @@ use App\Admin\Models\Risorsa;
 use App\Admin\Models\Ruolo;
 use App\Admin\Models\Sistema;
 use App\Admin\Models\User;
+use App\Nomadelfia\Controllers\AziendeController;
 use App\Nomadelfia\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
@@ -64,6 +66,28 @@ class NomadelfiaControllerTest extends TestCase
             ->assertSee($incarico->nome);
 
     }
+
+    /** @test */
+    public function show_aziende_index()
+    {
+        $this->withExceptionHandling();
+
+        $this->login();
+
+        $a = factory(Azienda::class)->create();
+
+        $this
+            ->get(action([AziendeController::class, 'view']))
+            ->assertSuccessful()
+            ->assertSee($a->nome_azienda);
+
+        $this
+            ->get(action([AziendeController::class, 'edit'], $a->id))
+            ->assertSuccessful()
+            ->assertSee($a->nome_azienda);
+
+    }
+
 
     /** @test */
     public function show_gruppifamiliari_edit()
