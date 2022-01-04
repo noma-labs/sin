@@ -14,8 +14,7 @@ class GruppifamiliariController extends CoreBaseController
     public function view()
     {
         $g = GruppoFamiliare::countComponenti();
-        $gruppifamiliari = GruppoFamiliare::orderby('nome')->get();
-        return view('nomadelfia.gruppifamiliari.index', compact('gruppifamiliari', 'g'));
+        return view('nomadelfia.gruppifamiliari.index', compact('g'));
     }
 
     public function show($idPersona)
@@ -24,7 +23,7 @@ class GruppifamiliariController extends CoreBaseController
         return view("nomadelfia.gruppifamiliari.show", compact('persona'));
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         $gruppo = GruppoFamiliare::findOrFail($id);
         $single = $gruppo->Single();

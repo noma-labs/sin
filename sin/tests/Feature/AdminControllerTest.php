@@ -6,7 +6,13 @@ use App\Admin\Models\Risorsa;
 use App\Admin\Models\Ruolo;
 use App\Admin\Models\Sistema;
 use App\Admin\Models\User;
+use App\Nomadelfia\Controllers\GruppifamiliariController;
+use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Incarico;
+use App\Nomadelfia\Models\Persona;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 
@@ -26,6 +32,46 @@ class AdminControllerTest extends TestCase
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
             ->assertSuccessful();
+    }
+
+    /** @test */
+    public function show_incarichi_index()
+    {
+        $this->withExceptionHandling();
+
+        $this->login();
+
+        $incarico = factory(Incarico::class)->create();
+
+        $this
+            ->get(action([IncarichiController::class, 'view']))
+            ->assertSuccessful()
+            ->assertSee($incarico->nome);
+
+    }
+
+    /** @test */
+    public function show_gruppifamiliari_edit()
+    {
+        $this->withExceptionHandling();
+
+        $this->login();
+
+        $gruppo = factory(GruppoFamiliare::class)->create();
+        $data_entrata = Carbon::now();
+        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        $this
+            ->get(action([GruppifamiliariController::class, 'view']))
+            ->assertSuccessful()
+            ->assertSee($gruppo->nome);
+
+        $this
+            ->get(route('nomadelfia.gruppifamiliari.dettaglio', ['id' => $gruppo->id]))
+            ->assertSuccessful()
+            ->assertSee($gruppo->nome);
+
     }
 
 }
