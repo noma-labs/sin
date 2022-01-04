@@ -8,10 +8,10 @@
 
     <div class="row">
         <div class="col-md-9">
-            @foreach ($incarichi->chunk(4) as $chunk)
+            @foreach ($incarichi->chunk(3) as $chunk)
                 <div class="row my-2">
                     @foreach ($chunk as $incarico)
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div id="accordion">
                                 <div class="card">
                                     <div class="card-header" id="heading{{$incarico->id}}">
@@ -29,16 +29,20 @@
                                          aria-labelledby="heading{{$incarico->id}}" data-parent="#accordion">
                                         <div class="card-body">
                                             <ul>
-                                                @foreach($incarico->lavoratoriAttuali as $lavoratore)
+                                                @forelse($incarico->lavoratoriAttuali as $lavoratore)
                                                     <li>@include('nomadelfia.templates.persona', ['persona'=>$lavoratore])</li>
-                                                @endforeach
+                                                @empty
+                                                    <p class="text-danger">Nessuna Persona</p>
+                                                @endforelse
                                             </ul>
-                                            <div class="row">
-                                                <div class="col-sm">
-                                                    <a class="btn btn-secondary btn-block col-md-4 offset-md-2" type="button"
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row justify-content-between">
+                                                <div class="col-4">
+                                                    <a class="btn btn-warning" type="button"
                                                        href="{{ route('nomadelfia.incarichi.edit', $incarico->id)}}">Modifica</a>
                                                 </div>
-                                                <div class="col-sm">
+                                                <div class="col-4">
                                                     @include('nomadelfia.templates.eliminaIncarico', ['incarico'=>$incarico])
                                                 </div>
                                             </div>
