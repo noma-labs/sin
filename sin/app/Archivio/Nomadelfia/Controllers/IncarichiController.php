@@ -13,14 +13,11 @@ use App\Nomadelfia\Models\Azienda;
 
 class IncarichiController extends CoreBaseController
 {
-    /**
-     * view della pagina di gestione degli incarichi
-     * @author Matteo Neri
-     **/
     public function view()
     {
         $incarichi = Incarico::all();
-        return view('nomadelfia.incarichi.index', compact('incarichi'));
+        $busy = Incarico::getBusyPeople();
+        return view('nomadelfia.incarichi.index', compact('incarichi', "busy"));
     }
 
     public function delete($id)
