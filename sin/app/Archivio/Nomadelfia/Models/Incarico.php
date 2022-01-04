@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Models;
 use App\Traits\Enums;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Incarico extends Model
 {
@@ -54,5 +55,25 @@ class Incarico extends Model
         return $all->whereNotIn('id', $ids);
     }
 
+    public static function getBusyPeople(int $limit=10)
+    {
+        $personeCount = DB::connection('db_nomadelfia')
+            ->table('incarichi_persone')
+            ->selectRaw("persone.id, max(persone.nominativo) as nominativo,  count(*)  as count")
+            ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
+            ->whereNull("incarichi_persone.data_fine")
+            ->groupBy("persone.id")
+            ->orderBy("count", "DESC")
+            ->limit($limit)
+            ->get();
+        return $personeCount;
+    }
+
+    //SELECT p.id, max(p.nominativo) as nominativo,  count(*)  as count
+    //FROM `incarichi_persone` as ip
+    //LEFT JOIN persone as p ON p.id = ip.persona_id
+    //GROUP BY p.id
+    //ORDER by count DESC
+    //LIMIT 10;
 
 }
