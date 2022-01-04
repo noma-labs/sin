@@ -55,7 +55,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">Suggerimenti</h3>
-                    <b>Elenco delle persone con più di {{$min}} incarichi:</b>
+                    <b>Queste persone hanno {{$min}} o più incarichi:</b>
                     <ul class="list-group list-group-flush">
                         @forelse($busy as $b)
                             <li class="list-group-item"> @include('nomadelfia.templates.persona', ['persona'=>$b])  <span class="badge badge-primary">{{$b->count}}</span> </li>
