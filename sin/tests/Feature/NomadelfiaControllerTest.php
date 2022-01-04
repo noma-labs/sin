@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 
 
-class AdminControllerTest extends TestCase
+class NomadelfiaControllerTest extends TestCase
 {
     /** @test */
     public function only_admin_can_see_nomadelfia_system()
@@ -35,6 +35,21 @@ class AdminControllerTest extends TestCase
     }
 
     /** @test */
+    public function show_popolazione_summary()
+    {
+        $this->withExceptionHandling();
+
+        $this->login();
+
+        $this
+            ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+            ->assertSuccessful()
+            ->assertSee("Gestione Popolazione")
+            ->assertSee("Gestione Famiglie")
+            ->assertSee("Gestione Gruppi Familiari");
+    }
+
+      /** @test */
     public function show_incarichi_index()
     {
         $this->withExceptionHandling();
@@ -71,7 +86,6 @@ class AdminControllerTest extends TestCase
             ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
             ->assertSuccessful()
             ->assertSee($gruppo->nome);
-
     }
 
 }

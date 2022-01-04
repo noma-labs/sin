@@ -107,6 +107,7 @@ class AuthTablesSeeder extends Seeder
             "esporta" => "1",
             "svuota" => "1",
         ]);
+
         // creazione degli utenti
         $userAdmin = App\Admin\Models\User::create([
             'username' => 'Admin',

@@ -28,7 +28,7 @@ trait MigrateFreshDB
             Artisan::call('migrate:fresh', ['--database'=> 'db_nomadelfia', '--path'=> "database/migrations/db_nomadelfia"]);
             Artisan::call('migrate:fresh', ['--database'=> 'db_scuola', '--path'=> "database/migrations/scuola"]);
 
-            //Artisan::call('db:seed', ['--class'=> 'AuthTablesSeeder']);
+            Artisan::call('db:seed', ['--class'=> 'AuthTablesSeeder']);
             Artisan::call('db:seed', ['--class'=> 'PosizioniTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'StatiTableSeeder']);
             Artisan::call('db:seed', ['--class'=> 'GruppiFamiliariTableSeeder']);
