@@ -181,6 +181,12 @@
             Aziende
           </label>
         </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="incarichi" id="defaultCheck2"   name="elenchi[]" checked>
+              <label class="form-check-label" for="defaultCheck2">
+                  Incarichi
+              </label>
+          </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="scuola" id="defaultCheck2"   name="elenchi[]" checked>
           <label class="form-check-label" for="defaultCheck2">
