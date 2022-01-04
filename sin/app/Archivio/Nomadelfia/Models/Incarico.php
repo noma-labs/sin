@@ -55,7 +55,12 @@ class Incarico extends Model
         return $all->whereNotIn('id', $ids);
     }
 
-    public static function getBusyPeople(int $limit=10)
+    /**
+     * Returns the people that have more than $minNUm incarichi.
+     * @param int $minNum
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getBusyPeople(int $minNum=3)
     {
         $personeCount = DB::connection('db_nomadelfia')
             ->table('incarichi_persone')
@@ -63,17 +68,13 @@ class Incarico extends Model
             ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
             ->whereNull("incarichi_persone.data_fine")
             ->groupBy("persone.id")
+            ->having("count", ">=",  $minNum)
             ->orderBy("count", "DESC")
-            ->limit($limit)
+            //->limit($limit)
             ->get();
         return $personeCount;
     }
 
-    //SELECT p.id, max(p.nominativo) as nominativo,  count(*)  as count
-    //FROM `incarichi_persone` as ip
-    //LEFT JOIN persone as p ON p.id = ip.persona_id
-    //GROUP BY p.id
-    //ORDER by count DESC
-    //LIMIT 10;
+
 
 }
