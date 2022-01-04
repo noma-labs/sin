@@ -58,7 +58,7 @@
                     <b>Elenco delle 10 persone con più incarichi:</b>
                     <ul class="list-group list-group-flush">
                         @forelse($busy as $b)
-                            <li class="list-group-item">{{$b->nominativo}} {{$b->count}}</li>
+                            <li class="list-group-item"> @include('nomadelfia.templates.persona', ['persona'=>$b])  <span class="badge badge-primary">{{$b->count}}</span> </li>
                         @empty
                             <p>Nessuna persona</p>
                         @endforelse
