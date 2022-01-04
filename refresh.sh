@@ -2,10 +2,13 @@
 
 # Create the database
 docker-compose exec app php artisan make:database db_scuola db_scuola
+docker-compose exec app php artisan make:database db_anagrafe db_anagrafe
 docker-compose exec app php artisan make:database db_patente db_patente
+
 
 # THE ORDER IS IMPORTANT
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/admsys" --database=db_auth
+docker-compose exec app php artisan migrate:fresh --path="database/migrations/angrafe" --database=db_anagrafe
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola

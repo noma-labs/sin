@@ -14,203 +14,155 @@ class IncarichiTableSeeder extends Seeder
     {
         $data = [
             [
-                'nome_azienda' => 'Programmazione TV',
-                "tipo" => 'incarico'
+                'nome' => 'Programmazione TV',
             ],
             [
-                'nome_azienda' => 'Commissione liturgia',
-                "tipo" => 'incarico'
+                'nome' => 'Commissione liturgia',
 
             ],
             [
-                'nome_azienda' => 'Commissione nuovi media',
-                "tipo" => 'incarico'
+                'nome' => 'Commissione nuovi media',
             ],
             [
-                'nome_azienda' => 'Commissione Sport',
-                "tipo" => 'incarico'
+                'nome' => 'Commissione Sport',
             ],
             [
-                'nome_azienda' => 'Commissione feste',
-                "tipo" => 'incarico'
+                'nome' => 'Commissione feste',
             ],
             [
-                'nome_azienda' => 'Approfondimento politico',
-                "tipo" => 'incarico'
+                'nome' => 'Approfondimento politico',
             ],
             [
-                'nome_azienda' => 'Pastorale giovanile diocesana',
-                "tipo" => 'incarico'
+                'nome' => 'Pastorale giovanile diocesana',
             ],
             [
-                'nome_azienda' => 'Pastorale familiare',
-                "tipo" => 'incarico'
+                'nome' => 'Pastorale familiare',
             ],
             [
-                'nome_azienda' => 'Incontri giovani famiglie',
-                "tipo" => 'incarico'
+                'nome' => 'Incontri giovani famiglie',
             ],
             [
-                'nome_azienda' => 'Pulizia Chiesa',
-                "tipo" => 'incarico'
+                'nome' => 'Pulizia Chiesa',
             ],
             [
-                'nome_azienda' => 'Pulizia Sala don Zeno',
-                "tipo" => 'incarico'
+                'nome' => 'Pulizia Sala don Zeno',
             ]
             ,
             [
-                'nome_azienda' => 'Pulizia cimitero',
-                "tipo" => 'incarico'
+                'nome' => 'Pulizia cimitero',
             ]
             ,
             [
-                'nome_azienda' => 'Resp. Bar',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Bar',
             ]
             ,
             [
-                'nome_azienda' => 'Resp. Sala don Zeno',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Sala don Zeno',
             ]
             ,
             [
-                'nome_azienda' => 'Resp. Sala Cultura',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Sala Cultura',
             ],
             [
-                'nome_azienda' => 'Resp. Spogliatoi campo sportivo',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Spogliatoi campo sportivo',
             ],
             [
-                'nome_azienda' => 'Resp. Cimitero',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Cimitero',
             ],
             [
-                'nome_azienda' => 'Resp. Biblioteca',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Biblioteca',
             ],
             [
-                'nome_azienda' => 'Resp. Campo sportivo',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Campo sportivo',
             ],
             [
-                'nome_azienda' => 'Resp. Ballo',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Ballo',
             ],
             [
-                'nome_azienda' => 'Resp. Pallavolo',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Pallavolo',
             ],
             [
-                'nome_azienda' => 'Resp. Ginnastica Posturale',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Ginnastica Posturale',
             ],
             [
-                'nome_azienda' => 'Resp. Fitness',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Fitness',
             ],
             [
-                'nome_azienda' => 'Affido minori',
-                "tipo" => 'incarico'
+                'nome' => 'Affido minori',
             ],
             [
-                'nome_azienda' => 'Centro studi di Nomadelfia',
-                "tipo" => 'incarico'
+                'nome' => 'Centro studi di Nomadelfia',
             ],
             [
-                'nome_azienda' => 'Coordinatore cultura',
-                "tipo" => 'incarico'
+                'nome' => 'Coordinatore cultura',
             ],
             [
-                'nome_azienda' => 'Ministro Comunione',
-                "tipo" => 'incarico'
+                'nome' => 'Ministro Comunione',
             ],
             [
-                'nome_azienda' => 'Attenzione ai poveri',
-                "tipo" => 'incarico'
+                'nome' => 'Attenzione ai poveri',
             ],
             [
-                'nome_azienda' => 'Pacchi viveri',
-                "tipo" => 'incarico'
+                'nome' => 'Pacchi viveri',
             ],
             [
-                'nome_azienda' => 'Nomadelfia è una proposta',
-                "tipo" => 'incarico'
+                'nome' => 'Nomadelfia è una proposta',
             ],
             [
-                'nome_azienda' => 'Nomadelfia social',
-                "tipo" => 'incarico'
+                'nome' => 'Nomadelfia social',
             ],
             [
-                'nome_azienda' => 'Nomadelfia internet',
-                "tipo" => 'incarico'
+                'nome' => 'Nomadelfia internet',
             ],
             [
-                'nome_azienda' => 'Nomadelfia news',
-                "tipo" => 'incarico'
+                'nome' => 'Nomadelfia news',
             ],
             [
-                'nome_azienda' => ' Pubbliche relazioni',
-                "tipo" => 'incarico'
+                'nome' => ' Pubbliche relazioni',
             ],
             [
-                'nome_azienda' => 'Mailing list',
-                "tipo" => 'incarico'
+                'nome' => 'Mailing list',
             ],
             [
-                'nome_azienda' => 'Ringraziamenti',
-                "tipo" => 'incarico'
+                'nome' => 'Ringraziamenti',
             ],
             [
-                'nome_azienda' => 'Resp. Pulizia polli',
-                "tipo" => 'incarico'
+                'nome' => 'Resp. Pulizia polli',
             ],
             [
-                'nome_azienda' => 'Raccolta differenziata',
-                "tipo" => 'incarico'
+                'nome' => 'Raccolta differenziata',
             ],
             [
-                'nome_azienda' => 'Smaltimento rifiuti',
-                "tipo" => 'incarico'
+                'nome' => 'Smaltimento rifiuti',
             ],
             [
-                'nome_azienda' => 'Centralino',
-                "tipo" => 'incarico'
+                'nome' => 'Centralino',
             ],
             [
-                'nome_azienda' => 'Controllo estintori',
-                "tipo" => 'incarico'
+                'nome' => 'Controllo estintori',
             ],
             [
-                'nome_azienda' => 'Squadra Antincendio',
-                "tipo" => 'incarico'
+                'nome' => 'Squadra Antincendio',
             ],
             [
-                'nome_azienda' => 'Patenti di guida',
-                "tipo" => 'incarico'
+                'nome' => 'Patenti di guida',
             ],
             [
-                'nome_azienda' => 'Tessere sanitarie',
-                "tipo" => 'incarico'
+                'nome' => 'Tessere sanitarie',
             ],
             [
-                'nome_azienda' => 'Ufficio amministrativo',
-                "tipo" => 'incarico'
+                'nome' => 'Ufficio amministrativo',
             ],
             [
-                'nome_azienda' => 'Acquisti carta credito',
-                "tipo" => 'incarico'
+                'nome' => 'Acquisti carta credito',
             ],
             [
-                'nome_azienda' => 'Rapporti con la FIPS (pesca)',
-                "tipo" => 'incarico'
+                'nome' => 'Rapporti con la FIPS (pesca)',
             ],
             [
-                'nome_azienda' => 'Giri autobus',
-                "tipo" => 'incarico'
+                'nome' => 'Giri autobus',
             ]
         ];
-        DB::connection('db_nomadelfia')->table('aziende')->insert($data);
+        DB::connection('db_nomadelfia')->table('incarichi')->insert($data);
     }
 }

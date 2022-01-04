@@ -5,6 +5,7 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\EserciziSpirituali;
 use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
@@ -29,10 +30,12 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $figliMaggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
 
+
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 
         $gruppi =  GruppoFamiliare::countComponenti();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
+
         return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
     }
 
@@ -303,6 +306,21 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                 $sectAziende->addTextBreak(1);
                 $lavoratori = $azienda->lavoratoriAttuali()->get();
                 $sectAziende->addTitle($azienda->nome_azienda. "  ". count($lavoratori), 3);
+                foreach ($lavoratori as $lavoratore) {
+                    $sectAziende->addText("    ".$lavoratore->nominativo);
+                }
+            }
+        }
+        if ($elenchi->contains("incarichi")) {
+            // Incarichi
+            $azi = $phpWord->addSection();
+            $incarichi = Incarico::all();
+            $azi->addTitle('Incarichi '.$incarichi->count() , 1);
+            $sectAziende = $phpWord->addSection($colStyle4NCont);
+            foreach ($incarichi as $incarico) {
+                $sectAziende->addTextBreak(1);
+                $lavoratori = $incarico->lavoratoriAttuali()->get();
+                $sectAziende->addTitle($incarico->nome. "  ". count($lavoratori), 3);
                 foreach ($lavoratori as $lavoratore) {
                     $sectAziende->addText("    ".$lavoratore->nominativo);
                 }

@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Azienda;
+use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
@@ -17,10 +18,7 @@ class IncarichiTest extends TestCase
     public function testIncarichi()
     {
         $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $incarico1 = factory(Azienda::class)->states("incarico")->create();
-        $incarico = factory(Azienda::class)->states("incarico")->create();
-
-        $this->assertTrue($incarico->isIncarico());
+        $incarico = factory(Incarico::class)->create();
 
         $this->assertEquals(0, $incarico->lavoratori()->count());
         $this->assertEquals(0, $incarico->lavoratoriAttuali()->count());
@@ -38,7 +36,22 @@ class IncarichiTest extends TestCase
         $this->assertEquals(1, $persona->incarichiAttuali()->count());
         $this->assertEquals(0, $persona->aziendeAttuali()->count());
 
-//        $i = $persona->incarichiPossibili();
-//        $this->assertEquals(1, count($i));
     }
+
+    /** @test */
+    public function it_get_the_most_busy_people(){
+        $busyPeaple = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+
+        $num = 10;
+        for ($i = 1; $i <= $num; $i++) {
+            $incarico = factory(Incarico::class)->create();
+            $busyPeaple->assegnaLavoratoreIncarico($incarico, Carbon::now());
+        }
+
+        $p = Incarico::getBusyPeople();
+        $this->assertEquals($busyPeaple->id, $p[0]->id);
+        $this->assertEquals(10, $p[0]->count);
+
+    }
+
 }

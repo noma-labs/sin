@@ -36,7 +36,7 @@
           <td> {{$persona->data_nascita}}</td>
         <td>
           <div class='button-group btn-block' role='group'>
-              <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', $persona->id) }}">Dettaglio</a>
+              <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio', ['idPersona'=>$persona->id]) }}">Dettaglio</a>
           </div>
         </td>
       </tr>

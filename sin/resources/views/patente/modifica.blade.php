@@ -3,7 +3,7 @@
 @section('archivio')
 <sin-header title="Modifica Patente"> </sin-header>
 <patente-modfica
-      api-patente="{{route('api.patente',['id'=>$patente->numero_patente]) }}"
+      api-patente="{{route('api.patente',['numero'=>$patente->numero_patente]) }}"
       api-patente-modifica="{{route('api.patente.modifica',['numero'=>$patente->numero_patente])}}"
 	  web-patente-elimina="{{ route('patente.elimina', $patente->numero_patente) }}"
 	  api-patente-persone="{{route('api.patente.persone.senzapatente')}}"

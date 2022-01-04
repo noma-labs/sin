@@ -89,7 +89,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/submit',
         'PersoneController@searchPersonaSubmit')->name("nomadelfia.persone.ricerca.submit");
 
-    Route::get('persone/{persona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
+    Route::get('persone/{idPersona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
     Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
 
     Route::get('persone/{idPersona}/anagrafica/modifica',
@@ -148,11 +148,12 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'PersoneController@modificaAzienda')->name("nomadelfia.persone.aziende.modifica");
 
     Route::post('incarichi', [IncarichiController::class, 'insert'])->name("nomadelfia.incarichi.aggiungi");
-    Route::get('persone/{idPersona}/incarichi', 'PersoneController@incarichi')->name("nomadelfia.persone.incarichi");
-    Route::post('persone/{idPersona}/incarichi/assegna',
-        'PersoneController@assegnaIncarico')->name("nomadelfia.persone.incarichi.assegna");
-    Route::post('persone/{idPersona}/incarichi/{id}/modifica',
-        'PersoneController@modificaIncarico')->name("nomadelfia.persone.incarichi.modifica");
+    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name("nomadelfia.incarichi.delete");
+    Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name("nomadelfia.incarichi.assegna");
+    Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name("nomadelfia.incarichi.persone.elimina");
+
+    Route::post('persone/{idPersona}/incarichi/assegna', 'PersoneController@assegnaIncarico')->name("nomadelfia.persone.incarichi.assegna");
+    Route::post('persone/{idPersona}/incarichi/{id}/modifica',  'PersoneController@modificaIncarico')->name("nomadelfia.persone.incarichi.modifica");
 
 
     Route::get('persone/{idPersona}/famiglie', 'PersoneController@famiglie')->name("nomadelfia.persone.famiglie");
