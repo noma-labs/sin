@@ -3,17 +3,20 @@
 namespace App\Scuola\Models;
 
 use Illuminate\Database\Eloquent\Model;
-//use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
 //use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ElaboratoAlunno extends Model #implements HasMedia
+class Elaborato extends Model implements HasMedia
 {
     #use HasMediaTrait;
+    use InteractsWithMedia;
 
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
-    protected $table = 'classi';
+    protected $table = 'elaborati';
     protected $primaryKey = "id";
     protected $guarded = [];
 

@@ -22,6 +22,7 @@
     <!-- CSS dropzone -->
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/dropzone.min.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/basic.min.css') }}" />
+    @livewireStyles
 </head>
 
 <body>
@@ -98,6 +99,7 @@
 
    <!-- CSS archivio -->
    <link rel="stylesheet" href="{{ asset('css/archivio/archivio.css') }}" >
+    @livewireScripts
 </body>
 
 </html>
