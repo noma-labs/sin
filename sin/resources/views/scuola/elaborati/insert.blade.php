@@ -2,15 +2,15 @@
 
 @section('archivio')
     @include('partials.header', ['title' => 'Aggiungi elaborato'])
-
     <form method="POST" action="{{route('libri.inserisci.Confirm')}}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
                     </div>
                     <div class="col-md-6">
+                        <x-media-library-attachment name="avatar"></x-media-library-attachment>
                     </div>
                 </div>
                 <div class="row">

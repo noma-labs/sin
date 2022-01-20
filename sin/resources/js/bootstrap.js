@@ -69,3 +69,4 @@ import 'jquery-ui/ui/widgets/autocomplete.js';
 $(document).ready(function(){ 
     $("#datepicker" ).datepicker();
 });
+

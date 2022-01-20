@@ -1,7 +1,4 @@
-// Fonts
-// @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// font-awesone import 
+// font-awesone import
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
 // bootstrap
@@ -13,3 +10,5 @@
 // @import "my-theme";
 // @import "tables";
 // @import "others";
+
+@import "./media-library-pro/styles.css";

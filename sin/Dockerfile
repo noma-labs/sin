@@ -23,10 +23,11 @@ RUN apt-get update && apt-get install -y \
     libonig-dev   # required while installing mbstring
 
 # install node version 10
-#RUN curl -sL https://deb.nodesource.com/setup_10.x -o setup_node.sh
-#RUN chmod +x setup_node.sh
-#RUN bash setup_node.sh
-#RUN apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_10.x -o setup_node.sh
+RUN chmod +x setup_node.sh
+RUN bash setup_node.sh
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
 
 # Clear cache
 #RUN apt-get clean && rm -rf /var/lib/apt/lists/*
