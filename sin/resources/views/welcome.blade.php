@@ -95,4 +95,12 @@
         </div>
     </div>
 </body>
+
+<footer class="footer">
+ <div class="container-fluid">
+  <div class="row text-center">
+   <div class="col-lg-12">@php  echo 'PHP version: ' . phpversion();   @endphp </div>
+  </div>
+</div>
+</footer> 
 </html>
