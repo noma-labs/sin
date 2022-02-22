@@ -22,8 +22,9 @@ DB_CONTAINER=$(docker-compose ps -q db)
 docker exec -i  $DB_CONTAINER sh -c 'exec mysql -uroot -proot db_nomadelfia' < ./sql/db_nomadelfia.sql
 echo "import succesfully"
 
-# seed the auth tables for authentication
+# seed tables
 docker-compose exec app php artisan db:seed --class=AuthTablesSeeder
 docker-compose exec app php artisan db:seed --class=CaricheTableSeeder
 docker-compose exec app php artisan db:seed --class=IncarichiTableSeeder
 docker-compose exec app php artisan db:seed --class=ScuolaTableSeeder
+docker-compose exec app php artisan db:seed --class=BibliotecaTableSeeder
