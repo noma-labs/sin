@@ -6,7 +6,7 @@
 require('./bootstrap');
 
 // include vue library
-// livewire-vue is needed t ouse livewire with vue - https://github.com/livewire/vue
+// livewire-vue is needed to use livewire with vue - https://github.com/livewire/vue
 import Vue from 'vue'
 import 'livewire-vue'
 
