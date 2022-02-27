@@ -14,7 +14,7 @@ docker-compose exec app php artisan migrate:fresh --path="database/migrations/db
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
 docker-compose exec app php artisan migrate:refresh --path="database/migrations/patente" --database=db_patente
-#docker-compose exec app php artisan migrate:fresh --path="database/migrations/officina" --database=db_officina
+docker-compose exec app php artisan migrate:refresh --path="database/migrations/officina" --database=db_officina
 docker-compose exec app php artisan migrate # migrate the migrations outside the folder (like the activity_log)
 
 # import dump of a db_nomadelfia

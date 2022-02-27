@@ -3,6 +3,7 @@
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Officina\Controllers\PatentiController;
 use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
@@ -426,8 +427,7 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::post('olio/aggiungi',
         'VeicoliController@aggiungiOlio')->middleware('ability:veicolo.modifica')->name('olio.aggiungi');
     //Patenti
-    Route::get("/patenti",
-        'PatentiController@patenti')->middleware('ability:veicolo.visualizza')->name('officina.patenti');
+    Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 
     // PRENOTAZIONI
     Route::get("/{giorno?}",

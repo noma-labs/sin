@@ -50,154 +50,11 @@ CREATE TABLE IF NOT EXISTS `gomme_veicolo` (
     `veicolo_id` int(11) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dump dei dati per la tabella `gomme_veicolo`
---
-
-INSERT INTO `gomme_veicolo` (`gomme_id`, `veicolo_id`) VALUES
-    (3, 1),
-    (4, 1),
-    (4, 32),
-    (4, 85),
-    (4, 89),
-    (5, 25),
-    (5, 31),
-    (5, 82),
-    (5, 104),
-    (6, 11),
-    (6, 12),
-    (6, 31),
-    (6, 121),
-    (7, 31),
-    (8, 32),
-    (9, 32),
-    (12, 32),
-    (13, 32),
-    (14, 32),
-    (15, 32),
-    (16, 32),
-    (17, 87),
-    (18, 2),
-    (19, 2),
-    (19, 38),
-    (20, 2),
-    (21, 2),
-    (21, 5),
-    (22, 2),
-    (23, 2),
-    (24, 2),
-    (25, 2),
-    (26, 3),
-    (27, 3),
-    (28, 5),
-    (28, 6),
-    (33, 6),
-    (34, 7),
-    (36, 8),
-    (37, 8),
-    (39, 8),
-    (40, 100),
-    (41, 100),
-    (42, 10),
-    (42, 11),
-    (42, 119),
-    (43, 10),
-    (43, 11),
-    (44, 13),
-    (44, 14),
-    (45, 23),
-    (46, 23),
-    (47, 22),
-    (47, 23),
-    (48, 15),
-    (49, 15),
-    (49, 19),
-    (49, 21),
-    (49, 108),
-    (50, 15),
-    (50, 16),
-    (50, 108),
-    (51, 17),
-    (52, 17),
-    (52, 17),
-    (53, 45),
-    (53, 111),
-    (54, 16),
-    (55, 16),
-    (55, 19),
-    (55, 21),
-    (55, 108),
-    (55, 129),
-    (57, 22),
-    (58, 105),
-    (59, 105),
-    (59, 107),
-    (60, 25),
-    (61, 83),
-    (62, 89),
-    (63, 24),
-    (63, 121),
-    (64, 24),
-    (65, 24),
-    (66, 27),
-    (67, 27),
-    (68, 30),
-    (69, 30),
-    (70, 38),
-    (72, 38),
-    (74, 45),
-    (74, 90),
-    (75, 45),
-    (75, 90),
-    (76, 45),
-    (76, 90),
-    (77, 45),
-    (77, 85),
-    (77, 90),
-    (78, 90),
-    (78, 124),
-    (79, 45),
-    (80, 45),
-    (81, 96),
-    (82, 96),
-    (83, 95),
-    (84, 95),
-    (85, 94),
-    (86, 94),
-    (87, 98),
-    (88, 110),
-    (89, 97),
-    (90, 97),
-    (91, 93),
-    (91, 97),
-    (92, 93),
-    (93, 115),
-    (94, 115),
-    (95, 115),
-    (96, 115),
-    (97, 118),
-    (98, 118),
-    (100, 118),
-    (101, 124),
-    (102, 124),
-    (108, 124),
-    (112, 129),
-    (113, 129);
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `impiego`
---
-
 CREATE TABLE IF NOT EXISTS `impiego` (
     `id` int(10) NOT NULL,
     `nome` varchar(100) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dump dei dati per la tabella `impiego`
---
 
 INSERT INTO `impiego` (`id`, `nome`) VALUES
     (1, 'interno'),
@@ -207,11 +64,6 @@ INSERT INTO `impiego` (`id`, `nome`) VALUES
     (5, 'roma'),
     (6, 'Autobus');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `incidenti`
---
 
 CREATE TABLE IF NOT EXISTS `incidenti` (
     `ofin_veic` int(10) NOT NULL,
@@ -221,50 +73,11 @@ CREATE TABLE IF NOT EXISTS `incidenti` (
     `ofin_idpe` int(10) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `libretto_circolazione`
---
 
 CREATE TABLE IF NOT EXISTS `libretto_circolazione` (
     `ofli_iden` int(10) NOT NULL,
     `ofli_desc` varchar(300) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struttura stand-in per le viste `log2`
--- (Vedi sotto per la vista effettiva)
---
-CREATE TABLE IF NOT EXISTS `log2` (
-    `nominativo` varchar(100)
-    ,`count(1)` bigint(21)
-    );
-
--- --------------------------------------------------------
-
---
--- Struttura stand-in per le viste `log_annio`
--- (Vedi sotto per la vista effettiva)
---
-CREATE TABLE IF NOT EXISTS `log_annio` (
-    `cliente_id` int(11)
-    ,`nominativo` varchar(100)
-    ,`veicolo_id` int(11)
-    ,`nome` varchar(100)
-    ,`uso_id` int(11)
-    ,`ofus_nome` varchar(30)
-    ,`destinazione` varchar(191)
-    ,`note` varchar(100)
-    );
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `manutenzione_programmata`
---
 
 CREATE TABLE IF NOT EXISTS `manutenzione_programmata` (
     `id` int(10) UNSIGNED NOT NULL,
@@ -314,12 +127,6 @@ INSERT INTO `marca` (`id`, `nome`) VALUES
     (21, 'APRILIA'),
     (22, 'YAMAHA ');
 
--- --------------------------------------------------------
-
-
---
--- Struttura della tabella `modello`
---
 
 CREATE TABLE IF NOT EXISTS `modello` (
     `id` int(10) NOT NULL,
@@ -336,79 +143,73 @@ INSERT INTO `modello` (`id`, `marca_id`, `nome`) VALUES
     (2, 7, 'C3'),
     (3, 5, 'CLIO'),
     (4, 16, 'DAILY'),
-    (5, 1, 'DOBLO\''),
-(6, 1, 'DUCATO'),
-(7, 1, 'PUNTO'),
-(8, 1, 'IDEA'),
-(9, 2, 'DELTA'),
-(10, 8, 'LUPO'),
-(11, 1, 'MAREA'),
-(12, 3, 'PICK-UP'),
-(13, 4, 'ASTRA'),
-(14, 1, 'PALIO'),
-(15, 1, 'PANDA'),
-(16, 5, 'MEGANE'),
-(17, 1, 'SCUDO'),
-(18, 6, 'FABIA'),
-(19, 1, 'STILO'),
-(20, 1, '500 X'),
-(21, 1, 'TIPO'),
-(22, 1, 'TEMPRA'),
-(23, 4, 'CORSA'),
-(24, 1, 'INNOCENTI'),
-(25, 1, 'COMPAGNOLA'),
-(26, 9, '146'),
-(27, 1, 'FIORINO'),
-(28, 10, 'DISCOVERY'),
-(29, 11, '207'),
-(30, 8, 'LT35'),
-(31, 12, 'TRANSIT'),
-(32, 1, 'MULTIPLA'),
-(33, 13, 'TELCOLINE'),
-(34, 3, 'DELTA'),
-(35, 4, 'ALGKFVQ'),
-(36, 7, 'GLKGN'),
-(37, 18, 'SDF'),
-(40, 15, 'AAAAAA'),
-(41, 2, 'SDF'),
-(44, 17, 'AGFAG'),
-(45, 16, 'FAFF'),
-(46, 16, 'KAJGN'),
-(47, 18, 'AG'),
-(48, 16, 'FA'),
-(49, 16, 'AFAF'),
-(50, 20, 'AGQ'),
-(51, 20, 'AG'),
-(52, 16, '11'),
-(56, 1, 'STILO BLU'),
-(57, 4, 'MERIVA'),
-(58, 7, 'JUMPY'),
-(59, 1, 'ULYSSE'),
-(60, 17, 'ONDA SH'),
-(61, 12, 'FOCUS'),
-(62, 14, 'VESPONE'),
-(63, 1, 'LEONARDO 150'),
-(64, 15, 'SPRINTER TRAVEL'),
-(65, 1, 'BRAVO NERA'),
-(66, 7, 'ZX'),
-(67, 10, 'FREELANDER'),
-(68, 7, 'CITROEN'),
-(69, 1, 'TALENTO'),
-(70, 1, 'DOBLO'),
-(71, 1, 'DOBLÃ² MERCI 1.6'),
-(72, 1, 'GRANDE PUNTO BIANCA'),
-(73, 17, 'FORESIGHT 150 ROSSO'),
-(74, 1, 'CROMA'),
-(75, 22, 'N MAX'),
-(76, 2, 'PHEDRA'),
-(77, 3, 'TERRANO'),
-(78, 1, 'DUCATO MAXI 2.3');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `prenotazioni`
---
+    (5, 1, 'DOBLO'),
+    (6, 1, 'DUCATO'),
+    (7, 1, 'PUNTO'),
+    (8, 1, 'IDEA'),
+    (9, 2, 'DELTA'),
+    (10, 8, 'LUPO'),
+    (11, 1, 'MAREA'),
+    (12, 3, 'PICK-UP'),
+    (13, 4, 'ASTRA'),
+    (14, 1, 'PALIO'),
+    (15, 1, 'PANDA'),
+    (16, 5, 'MEGANE'),
+    (17, 1, 'SCUDO'),
+    (18, 6, 'FABIA'),
+    (19, 1, 'STILO'),
+    (20, 1, '500 X'),
+    (21, 1, 'TIPO'),
+    (22, 1, 'TEMPRA'),
+    (23, 4, 'CORSA'),
+    (24, 1, 'INNOCENTI'),
+    (25, 1, 'COMPAGNOLA'),
+    (26, 9, '146'),
+    (27, 1, 'FIORINO'),
+    (28, 10, 'DISCOVERY'),
+    (29, 11, '207'),
+    (30, 8, 'LT35'),
+    (31, 12, 'TRANSIT'),
+    (32, 1, 'MULTIPLA'),
+    (33, 13, 'TELCOLINE'),
+    (34, 3, 'DELTA'),
+    (35, 4, 'ALGKFVQ'),
+    (36, 7, 'GLKGN'),
+    (37, 18, 'SDF'),
+    (40, 15, 'AAAAAA'),
+    (41, 2, 'SDF'),
+    (44, 17, 'AGFAG'),
+    (45, 16, 'FAFF'),
+    (46, 16, 'KAJGN'),
+    (47, 18, 'AG'),
+    (48, 16, 'FA'),
+    (49, 16, 'AFAF'),
+    (50, 20, 'AGQ'),
+    (51, 20, 'AG'),
+    (52, 16, '11'),
+    (56, 1, 'STILO BLU'),
+    (57, 4, 'MERIVA'),
+    (58, 7, 'JUMPY'),
+    (59, 1, 'ULYSSE'),
+    (60, 17, 'ONDA SH'),
+    (61, 12, 'FOCUS'),
+    (62, 14, 'VESPONE'),
+    (63, 1, 'LEONARDO 150'),
+    (64, 15, 'SPRINTER TRAVEL'),
+    (65, 1, 'BRAVO NERA'),
+    (66, 7, 'ZX'),
+    (67, 10, 'FREELANDER'),
+    (68, 7, 'CITROEN'),
+    (69, 1, 'TALENTO'),
+    (70, 1, 'DOBLO'),
+    (71, 1, 'DOBLÃ² MERCI 1.6'),
+    (72, 1, 'GRANDE PUNTO BIANCA'),
+    (73, 17, 'FORESIGHT 150 ROSSO'),
+    (74, 1, 'CROMA'),
+    (75, 22, 'N MAX'),
+    (76, 2, 'PHEDRA'),
+    (77, 3, 'TERRANO'),
+    (78, 1, 'DUCATO MAXI 2.3');
 
 CREATE TABLE IF NOT EXISTS `prenotazioni` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -433,30 +234,21 @@ CREATE TABLE IF NOT EXISTS `tipologia` (
   `nome` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dump dei dati per la tabella `tipologia`
---
 
 INSERT INTO `tipologia` (`id`, `nome`) VALUES
-(1, 'Autovettura'),
-(2, 'Autocarro'),
-(3, 'Autobus'),
-(4, 'Camper'),
-(5, 'Ciclomotore'),
-(6, 'Furgoncino'),
-(7, 'Furgone'),
-(8, 'Mezzo agricolo'),
-(9, 'Motocarro'),
-(10, 'Motociclo'),
-(11, 'Rimorchio'),
-(12, 'Trattore'),
-(13, 'Veicolo edile');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tipo_filtro`
---
+    (1, 'Autovettura'),
+    (2, 'Autocarro'),
+    (3, 'Autobus'),
+    (4, 'Camper'),
+    (5, 'Ciclomotore'),
+    (6, 'Furgoncino'),
+    (7, 'Furgone'),
+    (8, 'Mezzo agricolo'),
+    (9, 'Motocarro'),
+    (10, 'Motociclo'),
+    (11, 'Rimorchio'),
+    (12, 'Trattore'),
+    (13, 'Veicolo edile');
 
 CREATE TABLE IF NOT EXISTS `tipo_filtro` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -464,10 +256,6 @@ CREATE TABLE IF NOT EXISTS `tipo_filtro` (
   `tipo` enum('aria','gasolio','olio','ac') NOT NULL,
   `note` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dump dei dati per la tabella `tipo_filtro`
---
 
 INSERT INTO `tipo_filtro` (`id`, `codice`, `tipo`, `note`) VALUES
 (1, 'UFI 2513900', 'olio', ''),
@@ -577,11 +365,6 @@ INSERT INTO `tipo_filtro` (`id`, `codice`, `tipo`, `note`) VALUES
 (120, 'N 2862', 'gasolio', ''),
 (121, 'ADP 152207', 'aria', '');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tipo_gomme`
---
 
 CREATE TABLE IF NOT EXISTS `tipo_gomme` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -589,9 +372,6 @@ CREATE TABLE IF NOT EXISTS `tipo_gomme` (
   `note` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dump dei dati per la tabella `tipo_gomme`
---
 
 INSERT INTO `tipo_gomme` (`id`, `codice`, `note`) VALUES
 (1, '195/70 R15', ''),
@@ -695,11 +475,6 @@ INSERT INTO `tipo_gomme` (`id`, `codice`, `note`) VALUES
 (112, '225/70 R15 C 110/112S', ''),
 (113, '225/70 R15 C 110/112R', '');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tipo_manutenzione`
---
 
 CREATE TABLE IF NOT EXISTS `tipo_manutenzione` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -708,11 +483,6 @@ CREATE TABLE IF NOT EXISTS `tipo_manutenzione` (
   `unita` enum('km','anni') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tipo_olio`
---
 
 CREATE TABLE IF NOT EXISTS `tipo_olio` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -720,9 +490,6 @@ CREATE TABLE IF NOT EXISTS `tipo_olio` (
   `note` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dump dei dati per la tabella `tipo_olio`
---
 
 INSERT INTO `tipo_olio` (`id`, `codice`, `note`) VALUES
 (1, '5W/30', ''),
@@ -730,11 +497,6 @@ INSERT INTO `tipo_olio` (`id`, `codice`, `note`) VALUES
 (3, '15/W40', ''),
 (4, '0W/20', '');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `usi`
---
 
 CREATE TABLE IF NOT EXISTS `usi` (
   `ofus_iden` int(10) NOT NULL,
@@ -743,9 +505,6 @@ CREATE TABLE IF NOT EXISTS `usi` (
   `ordinamento` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dump dei dati per la tabella `usi`
---
 
 INSERT INTO `usi` (`ofus_iden`, `ofus_nome`, `ofus_abbr`, `ordinamento`) VALUES
 (1, 'Personale', 'PER', 3),
@@ -755,11 +514,6 @@ INSERT INTO `usi` (`ofus_iden`, `ofus_nome`, `ofus_abbr`, `ordinamento`) VALUES
 (5, 'Stazione', 'STA', 6),
 (6, 'Mediche', 'MED', 1);
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `veicolo`
---
 
 CREATE TABLE IF NOT EXISTS `veicolo` (
   `id` int(10) NOT NULL COMMENT 'identificativo veicolo',
@@ -780,8 +534,6 @@ CREATE TABLE IF NOT EXISTS `veicolo` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `litri_olio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
 -- Struttura stand-in per le viste `v_clienti_meccanica`
@@ -810,25 +562,6 @@ CREATE TABLE IF NOT EXISTS `v_lavoratori_meccanica` (
 ,`data_fine_azienda` date
 );
 
--- --------------------------------------------------------
-
---
--- Struttura per vista `log2`
---
-DROP TABLE IF EXISTS `log2`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `log2`  AS  select `db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,count(1) AS `count(1)` from (((`prenotazioni` join `db_nomadelfia`.`persone`) join `veicolo`) join `usi`) where ((substr(`prenotazioni`.`data_partenza`,1,4) = '2019') and (`db_nomadelfia`.`persone`.`id` = `prenotazioni`.`cliente_id`) and (`veicolo`.`id` = `prenotazioni`.`veicolo_id`) and (`usi`.`ofus_iden` = `prenotazioni`.`uso_id`)) group by 1 ;
-
--- --------------------------------------------------------
-
---
--- Struttura per vista `log_annio`
---
-DROP TABLE IF EXISTS `log_annio`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `log_annio`  AS  select `prenotazioni`.`cliente_id` AS `cliente_id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`prenotazioni`.`veicolo_id` AS `veicolo_id`,`veicolo`.`nome` AS `nome`,`prenotazioni`.`uso_id` AS `uso_id`,`usi`.`ofus_nome` AS `ofus_nome`,`prenotazioni`.`destinazione` AS `destinazione`,`prenotazioni`.`note` AS `note` from (((`prenotazioni` join `db_nomadelfia`.`persone`) join `veicolo`) join `usi`) where ((substr(`prenotazioni`.`data_partenza`,1,4) = '2019') and (`db_nomadelfia`.`persone`.`id` = `prenotazioni`.`cliente_id`) and (`veicolo`.`id` = `prenotazioni`.`veicolo_id`) and (`usi`.`ofus_iden` = `prenotazioni`.`uso_id`)) order by `prenotazioni`.`cliente_id` ;
-
--- --------------------------------------------------------
 
 --
 -- Struttura per vista `v_clienti_meccanica`
@@ -885,9 +618,6 @@ ALTER TABLE `marca`
   ADD PRIMARY KEY (`id`);
 
 
---
--- Indici per le tabelle `modello`
---
 ALTER TABLE `modello`
   ADD PRIMARY KEY (`id`);
 
@@ -1075,6 +805,3 @@ ALTER TABLE `veicolo`
   ADD CONSTRAINT `veicolo_olio_id_foreign` FOREIGN KEY (`olio_id`) REFERENCES `tipo_olio` (`id`) ON DELETE SET NULL;
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
