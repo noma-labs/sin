@@ -80,10 +80,15 @@
              @yield('archivio')
         </div>
     </div>
-     <!-- <footer>
-       Tutti Diritti riservati Archivio di Nomadelfia
-    </footer> -->
 
+    <footer class="page-footer font-small blue">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2022 Copyright:
+            <a href="https://nomadelfia.it/"> Nomadelfia</a>
+        </div>
+        <div class="footer-copyright text-center py-3">php version      {{ phpversion() }}.
+        </div>
+    </footer>
    <!-- JS compiled with Laravel-mix -->
    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
