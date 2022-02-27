@@ -24,18 +24,6 @@ CREATE TABLE `persone` (
 --
 -- Indici per le tabelle `persone`
 --
---ALTER TABLE `persone`
---  ADD
---  ADD UNIQUE KEY `nominativo` (`nominativo`),
---  ADD UNIQUE KEY `nominativo_2` (`nominativo`),
---  ADD KEY `amm_nomin` (`nominativo`),
---  ADD KEY `id_arch_enrico` (`id_arch_enrico`),
---  ADD KEY `categoria_id` (`categoria_id`),
---  ADD KEY `data_nascita_persona` (`data_nascita`);
+-- ALTER TABLE `persone`
+--     ADD UNIQUE KEY `nominativo` (`nominativo`)
 
---
--- Limiti per la tabella `persone`
---
---ALTER TABLE `persone`
---  ADD CONSTRAINT `persone_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorie` (`id`),
---  ADD CONSTRAINT `persone_ibfk_2` FOREIGN KEY (`id_arch_enrico`) REFERENCES `archivio_enrico` (`ID`);

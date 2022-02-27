@@ -8,6 +8,7 @@ use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Carbon;
 use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
 
 class Patente extends Model
 {
@@ -23,6 +24,12 @@ class Patente extends Model
 
     public $timestamps = false;
     protected $guarded = [];
+
+    # see https://laravel.com/docs/7.x/upgrade
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function persona()
     {

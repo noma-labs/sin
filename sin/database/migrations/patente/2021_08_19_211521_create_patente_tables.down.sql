@@ -1,0 +1,7 @@
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `categorie`;
+DROP TABLE IF EXISTS `patenti_categorie`;
+DROP TABLE IF EXISTS `persone_patenti`;
+DROP VIEW IF EXISTS `v_clienti_patente`;
+
+SET FOREIGN_KEY_CHECKS=1;

@@ -7,7 +7,7 @@ services:
       context: ./sin
       dockerfile: Dockerfile
     restart: unless-stopped
-#    tty: true
+    #    tty: true
     working_dir: /var/www
     volumes:
       - ./sin:/var/www
@@ -50,21 +50,21 @@ services:
     networks:
       - app-network
 
-#  dbtest:
-#    image: mariadb:10.1
-#    container_name: dbtest
-#    restart: unless-stopped
-#    environment:
-#      MYSQL_DATABASE: root
-#      MYSQL_ROOT_PASSWORD: root
-#      SERVICE_TAGS: dev
-#      SERVICE_NAME: mysql
-#    volumes:
-#      - dbdatatest:/var/lib/mysql
-#      - ./db/my.cnf:/etc/mysql/my.cnf
-#      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
-#    networks:
-#      - app-network
+  #  dbtest:
+  #    image: mariadb:10.1
+  #    container_name: dbtest
+  #    restart: unless-stopped
+  #    environment:
+  #      MYSQL_DATABASE: root
+  #      MYSQL_ROOT_PASSWORD: root
+  #      SERVICE_TAGS: dev
+  #      SERVICE_NAME: mysql
+  #    volumes:
+  #      - dbdatatest:/var/lib/mysql
+  #      - ./db/my.cnf:/etc/mysql/my.cnf
+  #      - ./db/sin_db.sql:/docker-entrypoint-initdb.d/sin.sql
+  #    networks:
+  #      - app-network
   phpmyadmin:
     image: phpmyadmin:5-apache
     restart: always

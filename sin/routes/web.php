@@ -3,6 +3,9 @@
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Officina\Controllers\PatentiController;
+use App\Patente\Controllers\PatenteController;
+use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -78,7 +81,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'PersoneController@insertDatiAnagrafici')->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
+//    Route::get('persone/{idPersona}/entrata/scelta', 'PersoneController@insertPersonaInternaView')->name("nomadelfia.persone.inserimento.entrata.scelta");
     Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
 
     Route::post('persone/{idPersona}/decesso', 'PersoneController@decesso')->name("nomadelfia.persone.decesso");
@@ -93,17 +96,15 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::delete('persone/{idPersona}', 'PersoneController@rimuovi')->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
 
     Route::get('persone/{idPersona}/anagrafica/modifica',
-        'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica");
+        'PersoneController@modificaDatiAnagrafici')->name("nomadelfia.persone.anagrafica.modifica.view");
     Route::post('persone/{idPersona}/anagrafica/modifica',
         'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
     Route::get('persone/{idPersona}/nominativo/modifica',
-        'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica");
+        'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica.view");
     Route::post('persone/{idPersona}/nominativo/modifica',
         'PersoneController@modificaNominativoConfirm')->name("nomadelfia.persone.nominativo.modifica");
     Route::post('persone/{idPersona}/nominativo/assegna',
         'PersoneController@assegnaNominativoConfirm')->name("nomadelfia.persone.nominativo.assegna");
-    Route::post('persone/{idPersona}/gruppo/modifica',
-        'PersoneController@modificaGruppoFamiliare')->name("nomadelfia.persone.gruppo.modifica");
 
     Route::post('persone/{idPersona}/status',
         'PersoneController@modficaStatus')->name("nomadelfia.persone.status.modifica");
@@ -132,8 +133,10 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'PersoneController@gruppofamiliare')->name("nomadelfia.persone.gruppofamiliare");
     Route::post('persone/{idPersona}/gruppofamiliare/assegna',
         'PersoneController@assegnaGruppofamiliare')->name("nomadelfia.persone.gruppo.assegna");
+
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/modifica',
         'PersoneController@modificaGruppofamiliare')->name("nomadelfia.persone.gruppo.modifica");
+
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}',
         'PersoneController@eliminaGruppofamiliare')->name("nomadelfia.persone.gruppo.elimina");
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi',
@@ -253,6 +256,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 // ###################### DB SCUOLA ############################
 // ################################################################
 
+Route::mediaLibrary();
 
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'index'])->name('scuola');
@@ -264,6 +268,10 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungiAlunno')->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
+
+    // elaborati
+    Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
+    Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert');
 });
 
 #################################################################
@@ -419,8 +427,7 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::post('olio/aggiungi',
         'VeicoliController@aggiungiOlio')->middleware('ability:veicolo.modifica')->name('olio.aggiungi');
     //Patenti
-    Route::get("/patenti",
-        'PatentiController@patenti')->middleware('ability:veicolo.visualizza')->name('officina.patenti');
+    Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 
     // PRENOTAZIONI
     Route::get("/{giorno?}",
@@ -449,6 +456,7 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     // esposta elenchi
     Route::get("/elenchi/stampa",
         'PatenteController@stampaAutorizzati')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
+    Route::get("/elenchi/preview", [PatenteController::class ,'stampaAutorizzatiPreview'])->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
     Route::get("/elenchi/esporta/excel",
         'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get("/elenchi/patenti/pdf",

@@ -6,7 +6,11 @@
 require('./bootstrap');
 
 // include vue library
-window.Vue = require('vue');
+// livewire-vue is needed to use livewire with vue - https://github.com/livewire/vue
+import Vue from 'vue'
+// import 'livewire-vue'
+
+window.Vue = Vue //this is important! Do not use require('vue')
 Vue.config.devtools = true;
 
 // moment for date formatting

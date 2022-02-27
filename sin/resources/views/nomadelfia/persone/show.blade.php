@@ -71,7 +71,7 @@
           @endif 
          
         </ul>
-        <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica', $persona->id)}}"  role="button">Modifica</a>
+        <a class="btn btn-warning my-2"  href="{{route('nomadelfia.persone.anagrafica.modifica.view', $persona->id)}}"  role="button">Modifica</a>
         @if (! $persona->isDeceduta())
         <my-modal modal-title="Decesso di persona" button-title="Decesso" button-style="btn-danger my-2">
           <template slot="modal-body-slot">
@@ -179,7 +179,7 @@
                   {{$persona->nominativo}}
                 </div>
                 <div class="col-sm-2">
-                <a class="btn btn-warning"  href="{{route('nomadelfia.persone.nominativo.modifica', $persona->id)}}"  role="button">Modifica</a>
+                <a class="btn btn-warning"  href="{{route('nomadelfia.persone.nominativo.modifica.view', $persona->id)}}"  role="button">Modifica</a>
                 </div>
               </div>
             </li>

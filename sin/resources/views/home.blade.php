@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
 
-        @if (Auth::guest())
+      @if (Auth::guest())
         <div class="col-md-4">
           <div class="card text-center border-info mb-3">
             <div class="card-header">
