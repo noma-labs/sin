@@ -1,9 +1,12 @@
 <?php
+namespace Database\Seeders;
 
+use App\Admin\Models\User;
 use Illuminate\Database\Seeder;
 use App\Admin\Models\Ruolo;
 use App\Admin\Models\Sistema;
 use App\Admin\Models\Risorsa;
+use Illuminate\Support\Facades\App;
 
 class AuthTablesSeeder extends Seeder
 {
@@ -109,7 +112,7 @@ class AuthTablesSeeder extends Seeder
         ]);
 
         // creazione degli utenti
-        $userAdmin = App\Admin\Models\User::create([
+        $userAdmin = User::create([
             'username' => 'Admin',
             'email' => 'archivio@nomadelfia.it',
             'password' => 'nomadelfia',
