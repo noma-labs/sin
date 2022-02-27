@@ -5,8 +5,7 @@ namespace Tests\Unit;
 use App\Nomadelfia\Models\Cariche;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Stato;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Carbon;
 
@@ -16,6 +15,26 @@ class CaricheTest extends TestCase
     {
         $this->assertEquals(12, count(Cariche::AssociazioneCariche()));
         $this->assertEquals(4, count(Cariche::SolidarietaCariche()));
+    }
+
+    public function testGetPresidenteAssociazione()
+    {
+        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+
+        $carica = Cariche::associazione()->presidente()->first();
+
+        DB::connection('db_nomadelfia')->insert(
+            DB::raw("INSERT INTO persone_cariche (persona_id, cariche_id, data_inizio)
+                VALUES (:persona, :carica, :datain) "),
+            array('persona' => $persona->id, 'carica' => $carica->id, 'datain' => Carbon\Carbon::now())
+        );
+
+        $p = Cariche::GetAssociazionePresidente();
+        $this->assertEquals($persona->id, $p->id);
+        $this->assertEquals($persona->nome, $p->nome);
+        $this->assertEquals($persona->cognome, $p->cognome);
+        $this->assertEquals($persona->data_nascita, $p->data_nascita);
+        $this->assertEquals($persona->provincia_nascita, $p->provincia_nascita);
     }
 
     public function testEliggibiliConsiglioAnziani()

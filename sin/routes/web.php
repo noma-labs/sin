@@ -3,6 +3,7 @@
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Http\Request;
@@ -455,6 +456,7 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     // esposta elenchi
     Route::get("/elenchi/stampa",
         'PatenteController@stampaAutorizzati')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
+    Route::get("/elenchi/preview", [PatenteController::class ,'stampaAutorizzatiPreview'])->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
     Route::get("/elenchi/esporta/excel",
         'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get("/elenchi/patenti/pdf",

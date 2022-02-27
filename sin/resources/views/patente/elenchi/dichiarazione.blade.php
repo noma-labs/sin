@@ -9,9 +9,9 @@
 <h3 class="text-right py-5">Nomadelfia, {{Carbon::now()->format('d/m/Y')}}<h3>
 
 <h3 class="text-left py-5">
-   Il sottoscritto MATTERAZZO FRANCESCO, nato a Campolongo Maggiore VE il 20.07.1958,
+   Il sottoscritto {{$presidente->cognome}} {{$presidente->nome}}, nato a {{$presidente->provincia_nascita}} il {{$presidente->data_nascita}},
    residente in Via Nomadelfia 1, Roselle  58100 Grosseto (GR), in qualità di Presidente pro-tempore della Comunità di
-Nomadelfia, con sede in Grosseto
+   Nomadelfia, con sede in Grosseto
 </h3>
 
 
@@ -24,7 +24,7 @@ gli autoveicoli di proprietà della stessa.
 
 <h2 class="text-right pt-5"> Il presidente</h2>
 <div class="text-right">
-    <img src="{{url('/images/patente/firma-presidente.jpg')}}" width="200"  alt=""/>
+{{--    <img src="{{url('/images/patente/firma-presidente.jpg')}}" width="200"  alt=""/>--}}
     <img src="{{url('/images/patente/timbro.jpg')}}" width="200" alt=""/>
 </div>
-<h2 class="text-right">Francesco Matterazzo di Nomadelfia</h2>
+<h2 class="text-right">{{$presidente->nome}} {{$presidente->cognome}}  di Nomadelfia</h2>
