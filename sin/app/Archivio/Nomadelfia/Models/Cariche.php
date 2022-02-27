@@ -123,6 +123,7 @@ class Cariche extends Model
             ->leftJoin('persone_cariche', 'cariche.id', '=', 'persone_cariche.cariche_id')
             ->leftJoin('persone', 'persone.id', '=', 'persone_cariche.persona_id')
             ->where("cariche.org", "=", $org)
+            ->whereNull("persone_cariche.data_fine")
             ->orderByRaw("cariche.ord");
         // return $query->where("org", "associazione")->orderby("ord");
         // select c.id, c.nome, p.id, p.nome, pc.data_inizio, pc.data_fine

@@ -22,7 +22,6 @@ class CaricheTest extends TestCase
         $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
 
         $carica = Cariche::associazione()->presidente()->first();
-
         DB::connection('db_nomadelfia')->insert(
             DB::raw("INSERT INTO persone_cariche (persona_id, cariche_id, data_inizio)
                 VALUES (:persona, :carica, :datain) "),
@@ -35,6 +34,7 @@ class CaricheTest extends TestCase
         $this->assertEquals($persona->cognome, $p->cognome);
         $this->assertEquals($persona->data_nascita, $p->data_nascita);
         $this->assertEquals($persona->provincia_nascita, $p->provincia_nascita);
+
     }
 
     public function testEliggibiliConsiglioAnziani()
