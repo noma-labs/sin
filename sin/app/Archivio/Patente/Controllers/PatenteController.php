@@ -2,6 +2,7 @@
 namespace App\Patente\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use App\Nomadelfia\Models\Cariche;
 use App\Nomadelfia\Models\Persona;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
@@ -200,23 +201,30 @@ class PatenteController extends CoreBaseController
         $writer->save('php://output');
     }
 
-    public function stampaAutorizzati()
-    {
-
+    public function stampaAutorizzatiPreview(){
+        $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
             ->sortBy(function ($product) {
                 return $product->persona->nome;
             });
 
-        $pdf = SnappyPdf::loadView('patente.elenchi.index', ["patentiAutorizzati" => $patentiAutorizzati]);
+        return view('patente.elenchi.index', ["patentiAutorizzati" => $patentiAutorizzati, "presidente"=> $presidente]);
+
+    }
+    public function stampaAutorizzati()
+    {
+        $presidente = Cariche::GetAssociazionePresidente();
+        $patentiAutorizzati = Patente::has('categorie')->get()
+            ->sortBy(function ($product) {
+                return $product->persona->nome;
+            });
+
+        $pdf = SnappyPdf::loadView('patente.elenchi.index', ["patentiAutorizzati" => $patentiAutorizzati,"presidente"=> $presidente]);
         $data = Carbon::now();
         // viewport-size must be set otherwise the pdf will be bad formatted
         $pdf->setOption('viewport-size', '1280x1024');
-        //$pdf->setOption('disable-smart-shrinking', true);
-        //$pdf->setOption('image-quality', 100);
         return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf");
 
-        // return view("patente.elenchi.autorizzati",compact('patentiAutorizzati'));
     }
 
     public function autorizzatiEsportaExcel()

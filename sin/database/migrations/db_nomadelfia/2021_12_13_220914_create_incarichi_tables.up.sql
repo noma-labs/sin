@@ -21,7 +21,7 @@ CREATE TABLE `incarichi_persone` (
 
 ALTER TABLE `incarichi_persone`
     ADD CONSTRAINT `incarichi_persone_ibfk_1` FOREIGN KEY (`incarico_id`) REFERENCES `incarichi` (`id`) ON DELETE CASCADE,
-    ADD CONSTRAINT `incarichi_persone_ibfk_2` FOREIGN KEY (`persona_id`) REFERENCES `persone` (`id`) ON SET NULL;
+    ADD CONSTRAINT `incarichi_persone_ibfk_2` FOREIGN KEY (`persona_id`) REFERENCES `persone` (`id`) ON DELETE RESTRICT;
 
 -- Copy the incarichi from the table aziende
 INSERT INTO incarichi (id, nome, descrizione, created_at, updated_at)

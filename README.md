@@ -15,6 +15,13 @@ Framework:
       - *Vue.js 2.x*
       - *Bootstrap  4.x*
 
+Php extensions
+    - gd
+    - zip (require apt-get install libzip-dev, zip) -> required by spreedsheet 
+    - exif                                          -> required by spatie/media-library
+   - pdo_mysql             
+   - mbstring                                         -> required by laravel sail  
+
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
 
@@ -196,3 +203,29 @@ Run all Mix tasks...
 Run all mix Task and look for changes
 - `npm run watch`
 
+## UPGRADE laravel 7.4
+Source: https://stackoverflow.com/questions/45790160/is-there-way-to-use-two-php-versions-in-xampp 
+
+Add these lines go the http-xampp.conf installation
+``` 
+ScriptAlias /php7x "C:/xampp/php74"
+Action application/x-httpd-php7-cgi /php7x/php-cgi.exe
+<Directory "C:/xampp/php74">
+    AllowOverride None
+    Options None
+    Require all denied
+    <Files "php-cgi.exe">
+        Require all granted
+    </Files>
+</Directory>
+
+
+
+<VirtualHost *:8082>
+# ServerName 127.0.0.1
+    DocumentRoot "C:/xampp/htdocs/sistema-informativo-nomadelfia-php74/sin/public"
+    <FilesMatch "\.php$">
+        SetHandler application/x-httpd-php7-cgi
+    </FilesMatch>
+</VirtualHost>
+``` 

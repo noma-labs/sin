@@ -2,6 +2,7 @@
 
 namespace App\Nomadelfia\Models;
 
+use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
 use App\Traits\Enums;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,16 @@ class Cariche extends Model
         'culturale'
     ];
 
+    public function scopeAssociazione($query)
+    {
+        return $query->where('org', '=', 'associazione');
+    }
+
+    public function scopePresidente($query)
+    {
+        return $query->where('nome', '=', 'presidente');
+    }
+
 
     protected static function boot()
     {
@@ -41,35 +52,66 @@ class Cariche extends Model
     public static function AssociazioneCariche()
     {
         $membri = self::byOrg("associazione");
-        $cariche = $membri->groupBy("nome");
+        $cariche = $membri->get()->groupBy("nome");
         return $cariche;
+    }
+
+    public static function GetAssociazionePresidente()
+    {
+        $membri = self::byOrg("associazione");
+        $presidente = $membri->select("persone.*")
+                            ->where('cariche.nome', "=", 'Presidente')
+                            ->first();
+        return $presidente;
+    }
+
+    /**
+     *
+     * Aggiunge il presidente dell'associazione
+     *
+     * @author Davide Neri
+     **/
+    function assegnaPresidenteAssociazione($persona, Carbon\Carbon $data_inizio)
+    {
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            $pres = $this->GetAssociazionePresidente();
+            if ($pres != null) {
+                throw CouldNotAssignCarica::presidenteAssociazioneAlreadySet($pres);
+            }
+           return  $this->assegnaMembro($persona, $data_inizio);
+        } else {
+            throw new InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
+        }
     }
 
     public static function SolidarietaCariche()
     {
         $membri = self::byOrg("solidarieta");
-        $cariche = $membri->groupBy("nome");
+        $cariche = $membri->get()->groupBy("nome");
         return $cariche;
     }
 
     public static function FondazioneCariche()
     {
         $membri = self::byOrg("fondazione");
-        $cariche = $membri->groupBy("nome");
+        $cariche = $membri->get()->groupBy("nome");
         return $cariche;
     }
 
     public static function AgricolaCariche()
     {
         $membri = self::byOrg("agricola");
-        $cariche = $membri->groupBy("nome");
+        $cariche = $membri->get()->groupBy("nome");
         return $cariche;
     }
 
     public static function CulturaleCariche()
     {
         $membri = self::byOrg("culturale");
-        $cariche = $membri->groupBy("nome");
+        $cariche = $membri->get()->groupBy("nome");
         return $cariche;
     }
 
@@ -81,8 +123,8 @@ class Cariche extends Model
             ->leftJoin('persone_cariche', 'cariche.id', '=', 'persone_cariche.cariche_id')
             ->leftJoin('persone', 'persone.id', '=', 'persone_cariche.persona_id')
             ->where("cariche.org", "=", $org)
-            ->orderByRaw("cariche.ord")
-            ->get();
+            ->whereNull("persone_cariche.data_fine")
+            ->orderByRaw("cariche.ord");
         // return $query->where("org", "associazione")->orderby("ord");
         // select c.id, c.nome, p.id, p.nome, pc.data_inizio, pc.data_fine
         // from cariche c

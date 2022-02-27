@@ -45,9 +45,9 @@
                  @if($libro->tobe_printed ==1 and !$libro->trashed())
                    <span class="badge badge-warning">In stampa</span>
                 @endif
-                @if($libro->HasMedia())
-                    <a href="{{route('libri.media.store', $libro->id)}}" class="badge badge-success">Digitale</a>
-                 @endif
+{{--                @if($libro->HasMedia())--}}
+{{--                    <a href="{{route('libri.media.store', $libro->id)}}" class="badge badge-success">Digitale</a>--}}
+{{--                 @endif--}}
               </td>
              <td onclick="gotoLibroDetails({{$libro->id}})" >{{ $libro->collocazione }} </td>
              <td onclick="gotoLibroDetails({{$libro->id}})" >{{ $libro->titolo }}</td>

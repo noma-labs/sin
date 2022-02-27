@@ -286,7 +286,9 @@
 		},
 		methods:{
 			changeAziendaSposta: function(){
-				this.nome_nuova_azienda = this.aziendePossibili[this.nuova_azienda_id].nome;
+				console.log(this.nuova_azienda_id);
+				var r = this.aziendePossibili.find(el => el.id == this.nuova_azienda_id);
+				this.nome_nuova_azienda = r.nome;
 			},
 			aggiungiLavoratore: function(){
 				this.showModalAggiungi = true;

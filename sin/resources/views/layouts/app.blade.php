@@ -14,18 +14,18 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sin-theme.css') }}">
 
-    <!-- Custom boostrap themes -->
-    <!-- <link rel="stylesheet" href="{{ asset('css/vendor/themes/readable.min.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ asset('css/vendor/themes/spacelab.min.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ asset('css/vendor/themes/flatly.min.css') }}"> -->
-
     <!-- CSS dropzone -->
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/dropzone.min.css') }}" />
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/basic.min.css') }}" />
+
+    @livewireStyles
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
 </head>
 
 <body>
-    <div id="app">
+
+<div id="app">
+
     <div class="sticky-top">
       <nav class="navbar navbar-expand-md navbar-inverse bg-inverse" style="background-color: white" >
           <!-- Branding Image -->
@@ -80,9 +80,14 @@
              @yield('archivio')
         </div>
     </div>
-     <!-- <footer>
-       Tutti Diritti riservati Archivio di Nomadelfia
-    </footer> -->
+
+{{--    <footer class="page-footer font-small blue">--}}
+{{--        <div class="footer-copyright text-center py-3">© 2022 Copyright:--}}
+{{--            <a href="https://nomadelfia.it/"> Nomadelfia</a>--}}
+{{--        </div>--}}
+{{--        <div class="footer-copyright text-center py-3">php version      {{ phpversion() }}.--}}
+{{--        </div>--}}
+{{--    </footer>--}}
 
    <!-- JS compiled with Laravel-mix -->
    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
@@ -93,11 +98,12 @@
    <script type="text/javascript" src="{{ asset('js/archivio/archivio.js')}}"></script>
 
    <!-- third part javascript -->
-   <!-- <script src="/cleave.min.js"></script> -->
-   <!-- <script src="cleave.min.js"></script> -->
 
    <!-- CSS archivio -->
    <link rel="stylesheet" href="{{ asset('css/archivio/archivio.css') }}" >
+
+
+    @livewireScripts
 </body>
 
 </html>

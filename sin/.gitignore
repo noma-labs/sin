@@ -16,3 +16,4 @@ yarn-error.log
 /public/css/app.css
 
 **/storage/*
+auth.json
