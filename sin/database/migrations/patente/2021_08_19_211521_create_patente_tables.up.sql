@@ -30,8 +30,6 @@ INSERT INTO `categorie` (`id`, `categoria`, `descrizione`, `note`) VALUES
     (17, 'C.Q.C. MERCI', 'PER TRASPORTO MERCI (IN VIGORE DAL 10/09/2009)', ''),
     (18, 'D1 E', 'CONSEGUIBILE A 21 ANNI (CON OBBLIGO DI AVER CONSEGUITO LA PATENTE D1)', '');
 
--- --------------------------------------------------------
-
 --
 -- Struttura della tabella `patenti_categorie`
 --
@@ -44,7 +42,6 @@ CREATE TABLE `patenti_categorie` (
     `note` varchar(200) DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-----------------------------------------
 
 --
 -- Struttura della tabella `persone_patenti`
@@ -66,7 +63,7 @@ CREATE TABLE `persone_patenti` (
 -- Struttura stand-in per le viste `v_clienti_patente`
 -- (Vedi sotto per la vista effettiva)
 --
-CREATE TABLE `v_clienti_patente` (
+CREATE TABLE IF NOT EXISTS `v_clienti_patente` (
     `persona_id` int(10)
     ,`nome_cognome` varchar(201)
     ,`nominativo` varchar(100)
@@ -84,7 +81,20 @@ CREATE TABLE `v_clienti_patente` (
 --
 DROP TABLE IF EXISTS `v_clienti_patente`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_clienti_patente`  AS  select `db_nomadelfia`.`persone`.`id` AS `persona_id`,concat(`db_anagrafe`.`dati_personali`.`nome`,' ',`db_anagrafe`.`dati_personali`.`cognome`) AS `nome_cognome`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_anagrafe`.`dati_personali`.`nome` AS `nome`,`db_anagrafe`.`dati_personali`.`cognome` AS `cognome`,`db_anagrafe`.`dati_personali`.`data_nascita` AS `data_nascita`,`db_anagrafe`.`dati_personali`.`provincia_nascita` AS `provincia_nascita`,(select distinct (case `persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `persone_patenti` where ((`persone_patenti`.`numero_patente` is not null) and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))) AS `cliente_con_patente` from (`db_nomadelfia`.`persone` join `db_anagrafe`.`dati_personali`) where ((`db_nomadelfia`.`persone`.`id` = `db_anagrafe`.`dati_personali`.`persona_id`) and (`db_anagrafe`.`dati_personali`.`data_nascita` <= (sysdate() - interval 180 year_month))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_clienti_patente`  AS
+    select `db_nomadelfia`.`persone`.`id` AS `persona_id`,
+        concat(`db_nomadelfia`.`persone`.`nome`,' ',`db_nomadelfia`.`persone`.`cognome`) AS `nome_cognome`,
+        `db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,
+        `db_nomadelfia`.`persone`.`nome` AS `nome`,
+        `db_nomadelfia`.`persone`.`cognome` AS `cognome`,
+        `db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,
+        `db_nomadelfia`.`persone`.`provincia_nascita` AS `provincia_nascita`,
+    (
+     select distinct (case `persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `persone_patenti`
+     where ((`persone_patenti`.`numero_patente` is not null) and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))
+     ) AS `cliente_con_patente`
+    from `db_nomadelfia`.`persone`
+    where `db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 180 year_month) ;
 
 --
 -- Indici per le tabelle scaricate
@@ -125,8 +135,4 @@ ALTER TABLE `patenti_categorie`
 --
 ALTER TABLE `persone_patenti`
     ADD CONSTRAINT `persone_patenti_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`);
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

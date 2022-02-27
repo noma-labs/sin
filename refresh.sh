@@ -13,7 +13,7 @@ docker-compose exec app php artisan migrate:fresh --path="database/migrations/an
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
 docker-compose exec app php artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
-#docker-compose exec app php artisan migrate:fresh --path="database/migrations/patente" --database=db_patente
+docker-compose exec app php artisan migrate:refresh --path="database/migrations/patente" --database=db_patente
 #docker-compose exec app php artisan migrate:fresh --path="database/migrations/officina" --database=db_officina
 docker-compose exec app php artisan migrate # migrate the migrations outside the folder (like the activity_log)
 

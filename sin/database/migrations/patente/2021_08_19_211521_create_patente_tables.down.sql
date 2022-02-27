@@ -1,12 +1,7 @@
--- Reverse the migrations
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `categorie`;
+DROP TABLE IF EXISTS `patenti_categorie`;
+DROP TABLE IF EXISTS `persone_patenti`;
+DROP VIEW IF EXISTS `v_clienti_patente`;
 
--- SET FOREIGN_KEY_CHECKS=0;
---
---
--- DROP TABLE IF EXISTS `anno`;
--- DROP TABLE IF EXISTS `tipo`;
--- DROP TABLE IF EXISTS `alunni_classi`;
--- DROP TABLE IF EXISTS `classi`;
--- DROP TABLE IF EXISTS `coordinatori_classi`;
---
--- SET FOREIGN_KEY_CHECKS=1;
+SET FOREIGN_KEY_CHECKS=1;
