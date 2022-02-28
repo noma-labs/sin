@@ -7,7 +7,7 @@ use App\Nomadelfia\Models\Persona;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
-use Carbon;
+use Carbon\Carbon;
 
 
 class AziendaTest extends TestCase
@@ -16,8 +16,8 @@ class AziendaTest extends TestCase
 
     public function testAzienda()
     {
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $azienda = factory(Azienda::class)->create();
+        $azienda = Azienda::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
         $this->assertEquals(0, $azienda->lavoratori()->count());
         $this->assertEquals(0, $azienda->lavoratoriAttuali()->count());
@@ -30,7 +30,7 @@ class AziendaTest extends TestCase
         $persona->assegnaLavoratoreAzienda($azienda, $data_inizio);
         $this->assertEquals(1, $azienda->lavoratoriAttuali()->count());
 
-        $resp = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $resp = Persona::factory()->maggiorenne()->maschio()->create();
         $resp->assegnaResponsabileAzienda($azienda, $data_inizio);
         $this->assertEquals(2, $azienda->lavoratoriAttuali()->count());
 

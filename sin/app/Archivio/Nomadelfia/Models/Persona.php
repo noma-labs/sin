@@ -12,7 +12,9 @@ use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
+use Database\Factories\PersonaFactory;
 use Exception;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +26,8 @@ class Persona extends Model
 {
     use SortableTrait;
     use SoftDeletes;
+    use HasFactory;
+
 
     protected $connection = 'db_nomadelfia';
     protected $table = 'persone';
@@ -31,6 +35,11 @@ class Persona extends Model
 
     public $timestamps = true;
     protected $guarded = [];
+
+    protected static function newFactory()
+    {
+        return PersonaFactory::new();
+    }
 
     public function setNomeAttribute($value)
     {
@@ -339,7 +348,7 @@ class Persona extends Model
         $multiplied = $attuali->map(function ($item) {
             return $item->id;
         });
-        if ($attuali != null){
+        if ($attuali != null) {
             $attuali = Incarico::whereNotIn("id", $multiplied)->get();
             return $attuali;
         }
@@ -515,7 +524,7 @@ class Persona extends Model
         try {
             $conn = DB::connection('db_nomadelfia');
 
-              $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
+            $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data]);
 
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(

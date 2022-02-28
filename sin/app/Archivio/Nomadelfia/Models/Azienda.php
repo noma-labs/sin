@@ -3,12 +3,15 @@
 namespace App\Nomadelfia\Models;
 
 use App\Traits\Enums;
+use Database\Factories\AziendaFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Azienda extends Model
 {
     use Enums;
+    use HasFactory;
 
     public $timestamps = true;
 
@@ -25,6 +28,11 @@ class Azienda extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderby('nome_azienda');
         });
+    }
+
+    protected static function newFactory()
+    {
+        return AziendaFactory::new();
     }
 
     public function scopeAziende($query)

@@ -1,20 +1,30 @@
 <?php
-
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+namespace Database\Factories;
 
 use App\Nomadelfia\Models\Azienda;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Azienda::class, function (Faker $faker) {
-    $name = $faker->firstName;
-    return [
-        'nome_azienda'=>$name,
-        'descrizione_azienda'=>"a description",
-        'tipo'=>'azienda',
-    ];
-});
+class AziendaFactory extends Factory
+{
 
-$factory->state(Azienda::class, 'incarico', [
-    'tipo' => "incarico",
-]);
+    protected $model = Azienda::class;
+
+    public function definition()
+    {
+
+        return [
+            'nome_azienda' => $this->faker->firstName,
+            'descrizione_azienda' => "a description",
+            'tipo' => 'azienda',
+        ];
+    }
+    public function incarico()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'tipo' => "incarico",
+               ];
+        });
+    }
+}
 
