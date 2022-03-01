@@ -19,7 +19,7 @@ class CaricheTest extends TestCase
 
     public function testGetPresidenteAssociazione()
     {
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
         $carica = Cariche::associazione()->presidente()->first();
         DB::connection('db_nomadelfia')->insert(
@@ -41,13 +41,13 @@ class CaricheTest extends TestCase
     {
         // entrata maggiorenne maschio
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         // Sacerdote: non deve essere contato negli eleggibili
         $data_entrata = Carbon::now();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->assegnaSacerdote($data_entrata);
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata->toDatestring(), $gruppo->id);
