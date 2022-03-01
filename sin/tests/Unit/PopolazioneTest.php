@@ -27,9 +27,7 @@ class PopolazioneTest extends BaseTestCase
 
     public function testDecedutoMaggiorenne()
     {
-        $persona = factory(Persona::class)
-            ->states("maggiorenne", "maschio")
-            ->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
@@ -62,9 +60,7 @@ class PopolazioneTest extends BaseTestCase
 
     public function testUscitaMaggiorenne()
     {
-        $persona = factory(Persona::class)
-            ->states("maggiorenne", "maschio")
-            ->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
@@ -113,12 +109,12 @@ class PopolazioneTest extends BaseTestCase
     */
     public function testUscitaMinorenne()
     {
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $persona = Persona::factory()->minorenne()->maschio()->create();
 
         $gruppo = GruppoFamiliare::all()->random();
 
-        $famiglia = factory(Famiglia::class)->create();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id,
             ['stato' => '1', 'data_entrata_gruppo' => Carbon::now()->subYears(10)->toDatestring()]);
         $famiglia->componenti()->attach($capoFam->id,
@@ -172,12 +168,12 @@ class PopolazioneTest extends BaseTestCase
         $now = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
-        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $faccolto = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        $fnato = Persona::factory()->minorenne()->femmina()->create();
+        $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
         $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
         $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
@@ -211,12 +207,12 @@ class PopolazioneTest extends BaseTestCase
         $now = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
-        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $faccolto = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        $fnato = Persona::factory()->minorenne()->femmina()->create();
+        $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
         $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
         $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
@@ -248,22 +244,22 @@ class PopolazioneTest extends BaseTestCase
     public function testCountFigliDaEta()
     {
         $now = Carbon::now()->toDatestring();
-        $famiglia = factory(Famiglia::class)->create();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $gruppo = GruppoFamiliare::all()->random();
         $capoFam->assegnaGruppoFamiliare($gruppo, $now);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $min = PopolazioneNomadelfia::figliDaEta(0, 18)->count();
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $persona = Persona::factory()->minorenne()->maschio()->create();
         $persona->entrataNatoInNomadelfia($famiglia->id);
 
         $this->assertEquals($tot + 1, PopolazioneNomadelfia::totalePopolazione());
         $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
 
         $mag = PopolazioneNomadelfia::figliDaEta(18, null)->count();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $persona->entrataNatoInNomadelfia($famiglia->id);
         $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
         $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
@@ -278,7 +274,7 @@ class PopolazioneTest extends BaseTestCase
     {
         // entrata maggiorenne
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $now = Carbon::now()->subYears(4);
@@ -295,16 +291,16 @@ class PopolazioneTest extends BaseTestCase
         // store the actual figli (maybe inserted by other tests)
         $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18 )->count();
 
-        $famiglia = factory(Famiglia::class)->create();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
         $capoFam->assegnaGruppoFamiliare(GruppoFamiliare::all()->random(), Carbon::now());
 
-        $p1 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()] ); // 2018-01-01 00:00:00
-        $p0 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)] );                // 2018-now()
-        $p2 = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()] );   // 2018-12-31 23:59:59
+        $p1 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()] ); // 2018-01-01 00:00:00
+        $p0 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)] );                // 2018-now()
+        $p2 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()] );   // 2018-12-31 23:59:59
 
-        $pafter = factory(Persona::class)->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()] );   // 2019-01-01 00:00:00
+        $pafter = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()] );   // 2019-01-01 00:00:00
 
         $p0->entrataNatoInNomadelfia($famiglia->id);
         $p1->entrataNatoInNomadelfia($famiglia->id);
