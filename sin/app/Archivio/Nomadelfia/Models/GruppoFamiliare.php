@@ -4,6 +4,8 @@ namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
+use Database\Factories\GruppoFamiliareFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -11,6 +13,7 @@ use Illuminate\Support\Str;
 
 class GruppoFamiliare extends Model
 {
+    use HasFactory;
     protected $connection = 'db_nomadelfia';
     protected $table = 'gruppi_familiari';
     protected $primaryKey = "id";
@@ -19,6 +22,10 @@ class GruppoFamiliare extends Model
 
     protected $guarded = [];
 
+    protected static function newFactory()
+    {
+        return GruppoFamiliareFactory::new();
+    }
 
     public function capogruppi()
     {

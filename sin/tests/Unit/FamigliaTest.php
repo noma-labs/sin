@@ -153,6 +153,7 @@ class FamigliaTest extends TestCase
 
         $this->assertEquals(3, $famiglia->componentiAttuali()->get()->count());
     }
+
     /**
      * Test se l'uscita dal nucleo familiare di un figlio.
      *
