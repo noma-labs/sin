@@ -11,7 +11,6 @@ class AziendaFactory extends Factory
 
     public function definition()
     {
-
         return [
             'nome_azienda' => $this->faker->firstName,
             'descrizione_azienda' => "a description",

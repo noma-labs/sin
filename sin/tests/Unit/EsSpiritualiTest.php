@@ -15,8 +15,8 @@ class EsSpiritualiTest extends TestCase
 {
     public function testAggiungiPersona()
     {
-        $esercizi = factory(EserciziSpirituali::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $esercizi = EserciziSpirituali::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $esercizi->aggiungiPersona($persona);
         $this->assertEquals($esercizi->persone->count(), 1);
         //$this->assertEquals($persona->eserciziSpiritualiAttuale()->count(), 1);
@@ -24,16 +24,16 @@ class EsSpiritualiTest extends TestCase
 
     public function testEsSpiritualeNotActive()
     {
-        $esercizi = factory(EserciziSpirituali::class)->state("disattivo")->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $esercizi = EserciziSpirituali::factory()->disattivo()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $this->expectException(EsSpiritualeNotActive::class);
         $esercizi->aggiungiPersona($persona);
     }
 
     public function testAssegnaResponsabile()
     {
-        $esercizi = factory(EserciziSpirituali::class)->create();
-        $resp = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $esercizi = EserciziSpirituali::factory()->create();
+        $resp = Persona::factory()->maggiorenne()->maschio()->create();
         $esercizi->assegnaResponsabile($resp);
         $this->assertEquals($esercizi->responsabile->id, $resp->id);
     }

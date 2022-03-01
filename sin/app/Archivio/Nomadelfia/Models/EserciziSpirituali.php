@@ -2,24 +2,29 @@
 
 namespace App\Nomadelfia\Models;
 
+use Database\Factories\EsSpiritualiFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use \stdClass;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Famiglia;
 
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
 
 class EserciziSpirituali extends Model
 {
+    use HasFactory;
     protected $connection = 'db_nomadelfia';
     protected $table = 'esercizi_spirituali';
     protected $primaryKey = "id";
 
     protected $guarded = [''];
 
+    protected static function newFactory()
+    {
+        return EsSpiritualiFactory::new();
+    }
     /**
      * Returns gli esercizi spirituali attivi
      */
