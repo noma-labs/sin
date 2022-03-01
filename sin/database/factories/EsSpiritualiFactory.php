@@ -1,7 +1,6 @@
 <?php
 namespace Database\Factories;
 
-
 use App\Nomadelfia\Models\EserciziSpirituali;
 use App\Nomadelfia\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
