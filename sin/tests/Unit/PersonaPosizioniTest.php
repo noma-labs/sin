@@ -24,7 +24,7 @@ class PersonaPosizioniTest extends TestCase
     public function testAssignPosizione()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
@@ -41,7 +41,7 @@ class PersonaPosizioniTest extends TestCase
     public function testModificaDataPosizione()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
@@ -52,7 +52,6 @@ class PersonaPosizioniTest extends TestCase
         $persona->assegnaPosizione($postulante, $data_inizio, $data_fine);
         $new_data_inizio = Carbon::now()->addYears(6)->toDatestring();
 
-        
         $persona->modificaDataInizioPosizione($postulante->id, $data_inizio, $new_data_inizio);
 
         $this->assertEquals($persona->posizioneAttuale()->id, $postulante->id);

@@ -23,7 +23,7 @@ class PersonaTest extends TestCase
     /** @test */
     public function testAssegnaGruppoFamiliare()
     {
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $data_entrata = Carbon::now()->toDatestring();
         $persona->assegnaGruppoFamiliare($gruppo, $data_entrata);
@@ -55,14 +55,14 @@ class PersonaTest extends TestCase
         Famiglia, Figlio (DN)
         */
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->maschio()->create();
+        $famiglia = Famiglia::factory()->create();
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $celibe = Stato::perNome("celibe");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -86,15 +86,15 @@ class PersonaTest extends TestCase
     public function testEntrataFemminaDallaNascita()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->femmina()->create();
+        $famiglia = Famiglia::factory()->create();
 
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $nubile = Stato::perNome("nubile");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -118,15 +118,15 @@ class PersonaTest extends TestCase
     public function testEntrataMinorenneFemminaAccolto()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->femmina()->create();
+        $famiglia = Famiglia::factory()->create();
 
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $nubile = Stato::perNome("nubile");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -157,14 +157,14 @@ class PersonaTest extends TestCase
     public function testEntrataMinorenneMaschioAccolto()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->maschio()->create();
+        $famiglia = Famiglia::factory()->create();
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $nubile = Stato::perNome("celibe");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -195,14 +195,14 @@ class PersonaTest extends TestCase
     public function testEntrataMinorenneFemminaConFamiglia()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->femmina()->create();
+        $famiglia = Famiglia::factory()->create();
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $nubile = Stato::perNome("nubile");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -233,14 +233,14 @@ class PersonaTest extends TestCase
     public function testEntrataMinorenneMaschioConFamiglia()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->minorenne()->maschio()->create();
+        $famiglia = Famiglia::factory()->create();
 
         $gruppo = GruppoFamiliare::first();
         $figlio = Posizione::perNome("figlio");
         $nubile = Stato::perNome("celibe");
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -271,7 +271,7 @@ class PersonaTest extends TestCase
     public function testEntrataMaggiorenneMaschioSingle()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
         $ospite = Posizione::perNome("ospite");
         $celibe = Stato::perNome("celibe");
@@ -297,7 +297,7 @@ class PersonaTest extends TestCase
     public function testEntrataMaggiorenneFemminaSingle()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::first();
         $ospite = Posizione::perNome("ospite");
         $nubile = Stato::perNome("nubile");
@@ -323,7 +323,7 @@ class PersonaTest extends TestCase
     public function testEntrataMaggiorenneSposato()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne")->create();
+        $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
         $ospite = Posizione::perNome("ospite");
 
@@ -344,10 +344,10 @@ class PersonaTest extends TestCase
     public function testRientroMaggiorenneInNomadelfia()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $famiglia = factory(Famiglia::class)->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
+        $famiglia = Famiglia::factory()->create();
         $gruppo = GruppoFamiliare::first();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
@@ -377,13 +377,13 @@ class PersonaTest extends TestCase
     public function testRientroMinorenneInNuovaFamigliaNomadelfia()
     {
         $data_entrata = Carbon::now();
-        $persona = factory(Persona::class)->states("maggiorenne")->create();
+        $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
         // viene creata la famiglia e aggiunto come campo famiglia
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
         $famiglia->assegnaCapoFamiglia($persona);
-        $figlio = factory(Persona::class)->states("minorenne")->create();
+        $figlio = Persona::factory()->minorenne()->create();
 
         // il minorenne entra con la sua famiglia in Nomadelfia
         $figlio->entrataMinorenneConFamiglia($data_entrata, $famiglia->id);
@@ -398,8 +398,8 @@ class PersonaTest extends TestCase
         $this->assertEquals($figlio->getDataUscitaNomadelfia(), $data_uscita);
 
         // la persona rientra in Nomadelfia in una nuova famiglia
-        $famiglia_rientro = factory(Famiglia::class)->create();
-        $cp = factory(Persona::class)->states("maggiorenne")->create();
+        $famiglia_rientro = Famiglia::factory()->create();
+        $cp = Persona::factory()->maggiorenne()->create();
         $cp->assegnaGruppoFamiliare(GruppoFamiliare::first(), Carbon::now());
         $famiglia_rientro->assegnaCapoFamiglia($cp);
         $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
@@ -416,14 +416,14 @@ class PersonaTest extends TestCase
     public function testRientroFamigliaInNomadelfia()
     {
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("maggiorenne")->create();
+        $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
         $persona->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
 
         // viene creata la famiglia e aggiunto come campo famiglia
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
         $famiglia->assegnaCapoFamiglia($persona);
-        $figlio = factory(Persona::class)->states("minorenne")->create();
+        $figlio = Persona::factory()->minorenne()->create();
         $figlio->entrataNatoInNomadelfia($famiglia->id);
 
         // la famiglia esce da Nomadelfia
