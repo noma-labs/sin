@@ -2,13 +2,15 @@
 
 namespace App\Nomadelfia\Models;
 
-use App\Traits\Enums;
+use Database\Factories\IncaricoFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Incarico extends Model
 {
+    use HasFactory;
 
     public $timestamps = true;
 
@@ -18,6 +20,11 @@ class Incarico extends Model
 
     protected $guarded = [];
 
+    protected static function newFactory()
+    {
+        return IncaricoFactory::new();
+    }
+    
     protected static function boot()
     {
         parent::boot();
@@ -41,7 +48,7 @@ class Incarico extends Model
 
     public function lavoratoriStorici()
     {
-        return $this->lavoratori()->wherePivot('data_fine', '!=','null')->withPivot('data_fine');
+        return $this->lavoratori()->wherePivot('data_fine', '!=', 'null')->withPivot('data_fine');
     }
 
     public function lavoratoriPossibili()
@@ -60,7 +67,7 @@ class Incarico extends Model
      * @param int $minNum
      * @return \Illuminate\Support\Collection
      */
-    public static function getBusyPeople(int $minNum=3)
+    public static function getBusyPeople(int $minNum = 3)
     {
         $personeCount = DB::connection('db_nomadelfia')
             ->table('incarichi_persone')
@@ -68,13 +75,12 @@ class Incarico extends Model
             ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
             ->whereNull("incarichi_persone.data_fine")
             ->groupBy("persone.id")
-            ->having("count", ">=",  $minNum)
+            ->having("count", ">=", $minNum)
             ->orderBy("count", "DESC")
             //->limit($limit)
             ->get();
         return $personeCount;
     }
-
 
 
 }
