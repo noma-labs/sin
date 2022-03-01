@@ -1,4 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `migrations`;
+
 DROP TABLE IF EXISTS `alimentazione`;
 DROP TABLE IF EXISTS `colori`;
 DROP TABLE IF EXISTS `gomme_veicolo`;
