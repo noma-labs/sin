@@ -58,7 +58,7 @@ class NomadelfiaControllerTest extends TestCase
 
         $this->login();
 
-        $incarico = factory(Incarico::class)->create();
+        $incarico = Incarico::factory()->create();
 
         $this
             ->get(action([IncarichiController::class, 'view']))
@@ -74,7 +74,7 @@ class NomadelfiaControllerTest extends TestCase
 
         $this->login();
 
-        $a = factory(Azienda::class)->create();
+        $a = Azienda::factory()->create();
 
         $this
             ->get(action([AziendeController::class, 'view']))
@@ -96,9 +96,9 @@ class NomadelfiaControllerTest extends TestCase
 
         $this->login();
 
-        $gruppo = factory(GruppoFamiliare::class)->create();
+        $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         $this
