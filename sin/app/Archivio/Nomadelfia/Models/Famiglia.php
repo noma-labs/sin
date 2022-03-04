@@ -5,15 +5,14 @@ namespace App\Nomadelfia\Models;
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
-use App\Nomadelfia\Models\Persona;
+use Database\Factories\FamigliaFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
 use Carbon;
-use App\Nomadelfia\Models\Categoria;
-use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Traits\Enums;
 use Illuminate\Support\Str;
 
@@ -23,12 +22,18 @@ use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 class Famiglia extends Model
 {
     use Enums;
+    use HasFactory;
 
     protected $connection = 'db_nomadelfia';
     protected $table = 'famiglie';
     protected $primaryKey = "id";
 
     protected $guarded = [];
+
+    protected static function newFactory()
+    {
+        return FamigliaFactory::new();
+    }
 
     protected $enumPosizione = [
         'CAPO FAMIGLIA',

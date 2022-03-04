@@ -20,8 +20,8 @@ class FamigliaTest extends TestCase
 
     public function testAssegnaComponenteThrowException()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $this->expectException(InvalidArgumentException::class);
         $famiglia->assegnaComponente($persona, "NOT EXISTING", Carbon::now()->toDatestring());
         $this->assertEquals(3,3);
@@ -31,15 +31,15 @@ class FamigliaTest extends TestCase
     public function testAssegnaComponente()
     {
         // assegna capo famiglia
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $now = Carbon::now()->toDatestring();
         $famiglia->assegnaComponente($persona, $famiglia::getCapoFamigliaEnum(), $now);
         $this->assertEquals($now, $famiglia->capofamiglia()->pivot->data_entrata);
 
         // test assegna MOGLIE
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $now = Carbon::now()->toDatestring();
         $famiglia->assegnaComponente($persona, $famiglia::getMoglieEnum(), $now);
         $this->assertEquals($now, $famiglia->moglie()->pivot->data_entrata);
@@ -47,8 +47,8 @@ class FamigliaTest extends TestCase
 
     public function testAssegnaCapoFamigliaThrowExceptionsWithMinorenne()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $minorenne = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $minorenne = Persona::factory()->minorenne()->maschio()->create();
         $now = Carbon::now()->toDatestring();
         $this->expectException(CouldNotAssignCapoFamiglia::class);
         $famiglia->assegnaCapoFamiglia($minorenne, $now);
@@ -56,67 +56,65 @@ class FamigliaTest extends TestCase
 
     public function testAssegnaCapoFamigliaThrowExceptionsWithMAlreadyCapofamiglia()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $now = Carbon::now()->toDatestring();
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
-        $newCapoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $newCapoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $this->expectException(CouldNotAssignCapoFamiglia::class);
         $famiglia->assegnaCapoFamiglia($newCapoFam, $now);
     }
 
     public function testAssegnaMoglieThrowErrorWithMultipleMogli()
     {
-        $now = Carbon::now()->toDatestring();
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
 
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $famiglia->assegnaMoglie($persona);
-        $persona2 = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $persona2 = Persona::factory()->maggiorenne()->femmina()->create();
         $this->expectException(CouldNotAssignMoglie::class);
         $famiglia->assegnaMoglie($persona2);
     }
 
     public function testAssegnaMoglieThrowErrorWithMan()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $this->expectException(CouldNotAssignMoglie::class);
         $famiglia->assegnaMoglie($persona);
     }
 
     public function testAssegnaMoglieThrowErrorWithMinorenne()
     {
-        $famiglia = factory(Famiglia::class)->create();
-
-        $persona = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();;
         $this->expectException(CouldNotAssignMoglie::class);
         $famiglia->assegnaMoglie($persona);
     }
 
     public function testAssegnaMoglieThrowErrorWithSingle()
     {
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
 
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $famiglia->assegnaSingle($persona);
 
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $this->expectException(CouldNotAssignMoglie::class);
         $famiglia->assegnaMoglie($persona);
     }
 
     public function testAssegnaMoglie()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $famiglia->assegnaMoglie($persona);
         $this->assertEquals($famiglia->moglie()->id, $persona->id);
         $this->assertEquals($famiglia->data_creazione, $famiglia->moglie()->pivot->data_entrata);
 
         //moglie
-        $famiglia = factory(Famiglia::class)->create();
-        $persona = factory(Persona::class)->states("maggiorenne", "femmina")->create();
+        $famiglia = Famiglia::factory()->create();
+        $persona = Persona::factory()->maggiorenne()->femmina()->create();
         $now = Carbon::now()->toDatestring();
         $famiglia->assegnaMoglie($persona, $now);
         $this->assertEquals($famiglia->moglie()->id, $persona->id);
@@ -132,12 +130,12 @@ class FamigliaTest extends TestCase
         $now = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
 
-        $famiglia = factory(Famiglia::class)->create();
+        $famiglia = Famiglia::factory()->create();
 
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
-        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
-        $faccolto = factory(Persona::class)->states("minorenne", "maschio")->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        $fnato = Persona::factory()->minorenne()->femmina()->create();
+        $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
         $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
         $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
@@ -155,16 +153,17 @@ class FamigliaTest extends TestCase
 
         $this->assertEquals(3, $famiglia->componentiAttuali()->get()->count());
     }
+
     /**
      * Test se l'uscita dal nucleo familiare di un figlio.
      *
      * */
     public function testAssegnaNuovoGruppoFamiliare()
     {
-        $famiglia = factory(Famiglia::class)->create();
-        $capoFam = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $moglie = factory(Persona::class)->states("maggiorenne", "femmina")->create();
-        $fnato = factory(Persona::class)->states("minorenne", "femmina")->create();
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        $fnato = Persona::factory()->minorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $now = Carbon::now()->toDatestring();
         $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);

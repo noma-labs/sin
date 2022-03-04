@@ -30,8 +30,7 @@ class FamiglieController extends CoreBaseController
         $famigliaError = Famiglia::famigliaConErrore();
         $personeNoFamiglia = Famiglia::personeSenzaFamiglia();
         return view('nomadelfia.famiglie.index',
-            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine',
-                'famiglieNoComponenti', 'famigliaError', 'personeNoFamiglia'));
+            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'personeNoFamiglia'));
     }
 
     /**

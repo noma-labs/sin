@@ -1,7 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Nomadelfia\Models\GruppoFamiliare;
+use Illuminate\Support\Facades\DB;
 
 
 class GruppiFamiliariTableSeeder extends Seeder

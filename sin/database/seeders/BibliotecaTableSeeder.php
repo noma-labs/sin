@@ -1,7 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Nomadelfia\Models\Stato;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class BibliotecaTableSeeder extends Seeder
 {

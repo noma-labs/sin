@@ -1,18 +1,32 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Nomadelfia\Models\Incarico;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 
-$factory->define(Incarico::class, function (Faker $faker) {
-    $name = $faker->firstName;
-    return [
-        'nome'=>$name,
-        'descrizione'=>"a description",
-    ];
-});
+class IncaricoFactory extends Factory
+{
 
-$factory->state(Incarico::class, 'incarico', [
-    'tipo' => "incarico",
-]);
+    protected $model = Incarico::class;
+
+    public function definition()
+    {
+        return [
+            'nome' => $this->faker->name,
+            'descrizione' => "a description",
+        ];
+    }
+
+    public function incarico()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'tipo' => "incarico",
+            ];
+        });
+    }
+}
+
 

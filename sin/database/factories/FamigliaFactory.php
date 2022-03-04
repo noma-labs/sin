@@ -1,11 +1,19 @@
 <?php
 
-use App\Nomadelfia\Models\Famiglia;
+namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Famiglia::class, function (Faker\Generator $faker) {
-    return [
-        'nome_famiglia'=> $this->faker->name, 
-        'data_creazione'=> $this->faker->date,
-    ];
-});
+use App\Nomadelfia\Models\Famiglia;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class FamigliaFactory extends Factory
+{
+
+    protected $model = Famiglia::class;
+
+    public function definition(){
+        return [
+            'nome_famiglia'=> $this->faker->name,
+            'data_creazione'=> $this->faker->date,
+        ];
+    }
+}

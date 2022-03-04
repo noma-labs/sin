@@ -1,10 +1,12 @@
 <?php
+namespace Database\Seeders;
 
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 
 class ScuolaTableSeeder extends Seeder

@@ -1,11 +1,19 @@
 <?php
 
-use App\Nomadelfia\Models\GruppoFamiliare;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(GruppoFamiliare::class, function (Faker $faker) {
-    $nome = $faker->lastName;
-    return [
-        'nome' => $nome
-    ];
-});
+use App\Nomadelfia\Models\GruppoFamiliare;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+
+class GruppoFamiliareFactory extends Factory
+{
+
+    protected $model = GruppoFamiliare::class;
+
+    public function definition(){
+        return [
+            'nome'=> $this->faker->name,
+        ];
+    }
+}

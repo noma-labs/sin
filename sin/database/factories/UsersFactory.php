@@ -1,24 +1,23 @@
 <?php
+namespace Database\Factories;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    static $password;
-
-    return [
-        'name' => 'Admin', 
-        'email' => 'archivio@nomadelfia.it', 
-        'password' => $password ?: $password = bcrypt('admin'),
-        'remember_token' => str_random(100),
-    ];
-});
+class UsersFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        static $password;
+        return [
+            'name' => 'Admin',
+            'email' => 'archivio@nomadelfia.it',
+            'password' => $password ?: $password = bcrypt('admin'),
+            'remember_token' => str_random(100),
+        ];
+    }
+}

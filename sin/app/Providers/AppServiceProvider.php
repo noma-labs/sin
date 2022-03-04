@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Pagination\Paginator;
 
-use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        # laravel 8: requires this in order to use boostrap as default paginator (and not tailwind)
+        # https://laravel.com/docs/8.x/upgrade#pagination-defaults
+        Paginator::useBootstrap();
+
         // Return True of the persona live in the centro di spirito.
         Blade::if('liveRome', function ($persona) {
             if (is_string($persona)) {

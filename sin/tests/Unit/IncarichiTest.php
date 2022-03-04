@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
 use Tests\CreatesApplication;
@@ -17,8 +16,8 @@ class IncarichiTest extends TestCase
 
     public function testIncarichi()
     {
-        $persona = factory(Persona::class)->states("maggiorenne", "maschio")->create();
-        $incarico = factory(Incarico::class)->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
+        $incarico = Incarico::factory()->create();
 
         $this->assertEquals(0, $incarico->lavoratori()->count());
         $this->assertEquals(0, $incarico->lavoratoriAttuali()->count());
@@ -40,11 +39,11 @@ class IncarichiTest extends TestCase
 
     /** @test */
     public function it_get_the_most_busy_people(){
-        $busyPeaple = factory(Persona::class)->states("maggiorenne", "maschio")->create();
+        $busyPeaple = Persona::factory()->cinquantenne()->maschio()->create();
 
         $num = 10;
         for ($i = 1; $i <= $num; $i++) {
-            $incarico = factory(Incarico::class)->create();
+            $incarico = Incarico::factory()->create();
             $busyPeaple->assegnaLavoratoreIncarico($incarico, Carbon::now());
         }
 

@@ -12,9 +12,9 @@ class GruppiFamiliareTest extends TestCase
 {
     public function testAssegnaCapoGruppo()
     {
-        $gruppo = factory(GruppoFamiliare::class)->create();
+        $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $persona->assegnaPostulante($data_entrata);
         $persona->assegnaNomadelfoEffettivo($data_entrata);
@@ -24,9 +24,9 @@ class GruppiFamiliareTest extends TestCase
 
     public function testAssegnaCapogruppoErrorsWithPostulante()
     {
-        $gruppo = factory(GruppoFamiliare::class)->create();
+        $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $persona->assegnaPostulante($data_entrata);
         $this->expectException(CouldNotAssignCapogruppo::class);
@@ -36,9 +36,9 @@ class GruppiFamiliareTest extends TestCase
 
     public function testAssegnaCapogruppoErrorsWithOspite()
     {
-        $gruppo = factory(GruppoFamiliare::class)->create();
+        $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("cinquantenne", "maschio")->create();
+        $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $this->expectException(CouldNotAssignCapogruppo::class);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
@@ -47,9 +47,9 @@ class GruppiFamiliareTest extends TestCase
 
     public function testAssegnaCapogruppoErrorsWithWomen()
     {
-        $gruppo = factory(GruppoFamiliare::class)->create();
+        $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now()->toDatestring();
-        $persona = factory(Persona::class)->states("cinquantenne", "femmina")->create();
+        $persona = Persona::factory()->cinquantenne()->femmina()->create();
         $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
         $this->expectException(CouldNotAssignCapogruppo::class);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
