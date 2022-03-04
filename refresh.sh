@@ -3,6 +3,9 @@
 #alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 # Create the database
+sail artisan make:database db_admsys
+sail artisan make:database db_nomadelfia
+sail artisan make:database archivio_biblioteca
 sail artisan make:database db_scuola db_scuola
 sail artisan make:database db_anagrafe db_anagrafe
 sail artisan make:database db_patente db_patente
