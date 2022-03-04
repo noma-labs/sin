@@ -26,20 +26,36 @@ services:
             - mysql
             - meilisearch
     mysql:
-        image: 'mysql/mysql-server:8.0'
-#        ports:
-#            - '${FORWARD_DB_PORT:-3306}:3306'
+        image: mariadb:10.1
+        container_name: db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: 'root'
-            MYSQL_ROOT_HOST: "root"
-#            MYSQL_DATABASE: '${DB_DATABASE}'
-#            MYSQL_USER: '${DB_USERNAME}'
-#            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_DATABASE: root
+            MYSQL_ROOT_PASSWORD: root
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
         volumes:
             - 'sail-mysql:/var/lib/mysql'
         networks:
             - sail
+#    mysql:
+#        image: 'mysql/mysql-server:8.0'
+##        ports:
+##            - '${FORWARD_DB_PORT:-3306}:3306'
+#        environment:
+#            MYSQL_ROOT_PASSWORD: 'root'
+#            MYSQL_ROOT_HOST: "root"
+##            MYSQL_DATABASE: '${DB_DATABASE}'
+##            MYSQL_USER: '${DB_USERNAME}'
+##            MYSQL_PASSWORD: '${DB_PASSWORD}'
+##            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+#        volumes:
+#            - 'sail-mysql:/var/lib/mysql'
+#        networks:
+#            - sail
 #        healthcheck:
 #            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
 #            retries: 3
