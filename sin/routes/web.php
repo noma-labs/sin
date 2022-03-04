@@ -1,5 +1,6 @@
 <?php
 
+use App\Nomadelfia\Controllers\FamiglieController;
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -185,16 +186,14 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         'GruppifamiliariController@assegnaCapogruppo')->name("nomadelfia.gruppifamiliari.capogruppo"); //->middleware('permission:cliente-visualizza')
 
     // FAMIGLIE
-    Route::get('famiglie',
-        'FamiglieController@view')->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie', [FamiglieController::class,'view'])->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
     Route::get('famiglie/create',
         'FamiglieController@create')->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/create',
         'FamiglieController@createConfirm')->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/{id}/uscita',
         'FamiglieController@uscita')->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
-    Route::get('famiglie/{id}',
-        'FamiglieController@show')->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie/{id}', [FamiglieController::class,'show'])->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna',
         'FamiglieController@spostaInGruppoFamiliare')->name("nomadelfia.famiglie.gruppo.sposta");
     Route::delete('famiglie/{id}/gruppo/{idGruppo}',

@@ -86,7 +86,7 @@
                             @else
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
-                                        <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$famiglia_single->famiglia_id])}}">
+                                        <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia_single->famiglia_id])}}">
                                                 {{$famiglia_single->nominativo}}
                                         </a>
                                 </div> 
@@ -108,7 +108,7 @@
                                 <div class="col-md-6">
                                     <div class="font-weight-bold mt-2">
                                          Fam. 
-                                         <a href="{{route('nomadelfia.persone.dettaglio',['idPersona'=>$famiglia_id])}}">
+                                         <a  href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia_id])}}">
                                                 {{App\Nomadelfia\Models\Famiglia::find($famiglia_id)->nome_famiglia}} 
                                          </a>({{count($componenti)}})
                                        
