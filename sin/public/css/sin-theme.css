@@ -44,8 +44,7 @@
   display: inline-block;
 }
 
-.file-label:focus,
-.file-label:hover {
+.file-label:focus, .file-label:hover {
   cursor: pointer;
   color: white;
 }
@@ -63,7 +62,6 @@
   color: #0c1529;
   background-color: #F9B233;
 }
-
 .thead-inverse th a {
   color: #0c1529;
 }
@@ -83,4 +81,3 @@ tr:hover td {
 .dropdown-toggle {
   height: 38px;
 }
-

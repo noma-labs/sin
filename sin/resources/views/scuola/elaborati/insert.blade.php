@@ -5,14 +5,10 @@
     <form method="POST" action="{{route('libri.inserisci.Confirm')}}">
         @csrf
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-6">
-                        <x-media-library-attachment name="avatar"></x-media-library-attachment>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                 <x-media-library-attachment name="avatar"></x-media-library-attachment>
+            </div>
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
                     </div>
@@ -61,37 +57,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="stampaEtichetta" id="addToEtichette"
-                                   value="aggiungiEtichetta" checked>
-                            <label class="form-check-label" for="addToEtichette">
-                                Aggiungi il nuovo libro nella lista delle etichette da stampare.
-                            </label>
-                        </div>
-                        <!-- <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stampaEtichetta" id="printEtichetta" value="stampaEtichetta">
-                          <label class="form-check-label" for="printEtichetta">
-                            Aggiungi e stampa l'etichetta del libro.
-                          </label>
-                        </div> -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="stampaEtichetta" id="notPrint"
-                                   value="noEtichetta">
-                            <label class="form-check-label" for="notPrint">
-                                Non aggiungere il libro nella stampa delle etichette.
-                            </label>
-                        </div>
-                    </div>
                     <div class="col-md-4">
                         <p class="text-right text-danger ">Le informazioni segnate con (*) sono obbligatorie.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-success" name="_addanother" value="true" type="submit">Salva e aggiungi
-                            un'altro Libro
-                        </button>
                         <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva</button>
                     </div>
                 </div>
