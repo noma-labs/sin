@@ -23,7 +23,7 @@ sail artisan migrate:refresh --path="database/migrations/officina" --database=db
 sail artisan migrate # migrate the migrations outside the folder (like the activity_log)
 
 # import dump of a db_nomadelfia
-DB_CONTAINER=$(docker-compose ps -q db)
+DB_CONTAINER=$(docker-compose ps -q mysql)
 docker exec -i  $DB_CONTAINER sh -c 'exec mysql -uroot -proot db_nomadelfia' < ./sql/db_nomadelfia.sql
 echo "import succesfully"
 

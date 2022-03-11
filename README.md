@@ -4,23 +4,23 @@ SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomad
 ### Dipendenze
 
 Linguaggi:
-   - *php 7.x*
-   - *mysql (MariaDB 10.1.x) *
-   - *javascript*
+   - *php 7.4.* 
+   - *MariaDB 10.1.x*
+   - *node 10.X*
    
 Framework:
   - backend
-      - *Laravel 5.5*
+      - *Laravel 8.x*
   - frontend
       - *Vue.js 2.x*
       - *Bootstrap  4.x*
 
-Php extensions
-    - gd
-    - zip (require apt-get install libzip-dev, zip) -> required by spreedsheet 
-    - exif                                          -> required by spatie/media-library
-   - pdo_mysql             
-   - mbstring                                         -> required by laravel sail  
+Required PHP extensions
+  - gd
+  - zip (require apt-get install libzip-dev, zip) -> required by spreedsheet 
+  - exif                                          -> required by spatie/media-library
+  - pdo_mysql             
+  - mbstring                                      -> required by laravel sail  
 
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
@@ -71,7 +71,6 @@ IMPORTANT: do not execute on production
 - `php artisan migrate --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 - `php artisan migrate --path="database/migrations/biblioteca" --database=db_biblioteca`
 
-
 11. Seed di dati
 
 ```
@@ -110,17 +109,18 @@ Aggiungere il seguente Virtual Host
 </VirtualHost>
 ```
 
-Fai ripartire il server  apache da xampp.
+Fai ripartire il server apache da xampp.
 
 
-## Installazione con Docker
+## Local Dev with Docker
+Exploits the Laravel sail (https://laravel.com/docs/9.x/sail) package to run the app into docker containers
 
-- `docker-compose up`
-- `cp .env.example .env`
-- `docker-compose exec app composer install`
-- `docker-compose exec app php artisan key:generate`
-- `docker-compose exec app php artisan config:cache`
-  
+- Clone the repo: `git clone git@github.com:noma-labs/sistema-informativo-nomadelfia.git`
+- Install the php dep: `cd sin &&  composer install` (inncluding sail script)
+- `cp .env.docker .env`
+- `./vendor/bin/sail up`
+- `./vendor/bin/sail npm install`
+
 Create the table structure:
 -  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth`
 -  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
@@ -133,7 +133,7 @@ Seed the table
 
 Ogni settimana vengono creati dei dump nell cartella `Z:\sys` sun Nas.
 L'importazione deve seguire il seguente ordine di importazione dei database:
-1. db_nomadelfia
+1.  db_nomadelfia
 2.	db_admsys
 3.	db_anagrafe
 4.	db_patente

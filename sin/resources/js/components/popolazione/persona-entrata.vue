@@ -56,7 +56,6 @@
                 <date-picker name="data_entrata" 
                     @selected="selectDataEntrata" 
                     :bootstrap-styling="true" 
-                    :language="it" 
                     :format="customFormatter"
                     :disabled="isNatoANomadelfia ? true: false"
                     :value="isNatoANomadelfia ? persona.data_nascita: null"
@@ -82,7 +81,6 @@
 </template>
 
 <script>
-import {it} from 'vuejs-datepicker/dist/locale'
 import vSelect from "vue-select"
 	
 export default {
@@ -95,9 +93,6 @@ export default {
     data(){
         return {
             persona: null,                   // info della persona
-           // bodyPersonaEntrata: {            // oggetto con le info da inserire
-            //    data_entrata: null
-           // },                  
             tipologiaEntrata: null,          // tipologia di entrata della persona
             optionsFamiglie: [],             // list of the famiglie to be shown in the dropdown menu
 }
