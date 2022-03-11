@@ -6,6 +6,7 @@
         @csrf
         <div class="row">
             <div class="col-md-6">
+                <input id="name" name="name">
                  <x-media-library-attachment name="avatar"></x-media-library-attachment>
             </div>
             <div class="col-md-6">

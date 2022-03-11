@@ -92,12 +92,9 @@
    <!-- JS compiled with Laravel-mix -->
    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
-
-   <!-- Script  Archivio-->
+   <!-- Script Archivio-->
    <script type="text/javascript" src="{{ asset('js/archivio/httpMethodLinks.js')}}"></script>
    <script type="text/javascript" src="{{ asset('js/archivio/archivio.js')}}"></script>
-
-   <!-- third part javascript -->
 
    <!-- CSS archivio -->
    <link rel="stylesheet" href="{{ asset('css/archivio/archivio.css') }}" >
