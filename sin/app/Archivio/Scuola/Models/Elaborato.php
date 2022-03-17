@@ -2,21 +2,17 @@
 
 namespace App\Scuola\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
-//use Spatie\MediaLibrary\InteractsWithMedia;
-
-class Elaborato extends Model implements HasMedia
+class Elaborato extends BaseMedia
 {
     #use HasMediaTrait;
-    use InteractsWithMedia;
+//    use InteractsWithMedia;
 
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
-    protected $table = 'elaborati';
+    protected $table = 'media';
     protected $primaryKey = "id";
     protected $guarded = [];
 

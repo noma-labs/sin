@@ -2,7 +2,9 @@
 
 @section('archivio')
     @include('partials.header', ['title' => 'Aggiungi elaborato'])
+        @livewire('counter')
     <form method="POST" action="{{route('libri.inserisci.Confirm')}}">
+
         @csrf
         <div class="row">
             <div class="col-md-6">
