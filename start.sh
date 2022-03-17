@@ -5,16 +5,18 @@
 #
 #docker-compose ps
 
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-sail up
+#alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+cd sin
+
+./vendor/bin/sail up
 
 sleep 5
 
 
-sail artisan make:database db_admsys
-sail artisan make:database db_nomadelfia
-sail artisan make:database archivio_biblioteca
-sail artisan make:database db_scuola db_scuola
-sail artisan make:database db_anagrafe db_anagrafe
-sail artisan make:database db_patente db_patente
-sail artisan make:database db_meccanica db_meccanica
+./vendor/bin/sail artisan make:database db_admsys
+./vendor/bin/sail artisan make:database db_nomadelfia
+./vendor/bin/sail artisan make:database archivio_biblioteca
+./vendor/bin/sail artisan make:database db_scuola db_scuola
+./vendor/bin/sail artisan make:database db_anagrafe db_anagrafe
+./vendor/bin/sail artisan make:database db_patente db_patente
+./vendor/bin/sail artisan make:database db_meccanica db_meccanica

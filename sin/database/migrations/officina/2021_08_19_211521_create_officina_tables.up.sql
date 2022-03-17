@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `alimentazione` (
     `id` int(10) NOT NULL,
     `nome` varchar(30) NOT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `alimentazione`
