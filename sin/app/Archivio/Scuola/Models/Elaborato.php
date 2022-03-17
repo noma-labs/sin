@@ -2,12 +2,13 @@
 
 namespace App\Scuola\Models;
 
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Elaborato extends BaseMedia
 {
     #use HasMediaTrait;
-//    use InteractsWithMedia;
+    use InteractsWithMedia;
 
     public $timestamps = true;
 
