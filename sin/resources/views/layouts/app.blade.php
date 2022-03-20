@@ -22,10 +22,8 @@
     <!--   Needed by laravel-medialibary-pro UI component -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
     </head>
-
     <body>
     <div id="app">
-
         <div class="sticky-top">
           <nav class="navbar navbar-expand-md navbar-inverse bg-inverse" style="background-color: white" >
               <!-- Branding Image -->

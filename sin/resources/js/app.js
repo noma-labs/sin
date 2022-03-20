@@ -7,10 +7,8 @@ require('./bootstrap');
 
 // include vue library
 import Vue from 'vue'
-
-
 // livewire-vue is needed to use livewire with vue - https://github.com/livewire/vue
-// import 'livewire-vue'
+// require('livewire-vue')
 
 window.Vue = Vue //this is important! Do not use require('vue')
 Vue.config.devtools = true;
@@ -58,12 +56,12 @@ Datepicker.computed.translation = function() {
 Vue.component('date-picker', Datepicker);
 
 // create Vue instance
-// const app = new Vue({
-//     el: '#archivio',
-//     data: {
-//         showModal: false
-//     }
-// });
+const app = new Vue({
+    el: '#archivio',
+    data: {
+        showModal: false
+    }
+});
 
 
 $(document).ready(function() {

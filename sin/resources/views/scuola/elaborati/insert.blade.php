@@ -2,55 +2,33 @@
 
 @section('archivio')
     @include('partials.header', ['title' => 'Aggiungi elaborato'])
-        @livewire('counter')
-    <form method="POST" action="{{route('libri.inserisci.Confirm')}}">
+    <form method="POST" action="{{route('scuola.elaborati.insert')}}">
         @csrf
+        @livewire('counter')
         <div class="row">
             <div class="col-md-6">
-                <input id="name" name="name">
-                <x-media-library-attachment name="avatar"></x-media-library-attachment>
-            </div>
-
-            <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="xTitolo" class="control-label">Titolo (*)</label>
+                        <input class="form-control" type="text" name="dimensione" value="{{ old('titolo')}}">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="descrizione">Descrizione</label>
+                        <input class="form-control" type="text" name="descrizione" value="{{ old('descrizione')}}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="critica">Collocazione</label>
+                        <input class="form-control" type="text" name="collocazione" value="{{ old('collocazione')}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="xClassificazione" class="control-label">Classificazione (*)</label>
-                        <select class="form-control" name="xClassificazione" type="text" id="xClassificazione">
-                            <option disabled selected>---Seleziona la Classificazione---</option>
-                        </select>
+                        <label for="isbn">Studente/Classe</label>
                     </div>
                     <div class="col-md-4">
-                        <label for="dimensione">Dimensione</label>
-                        <input class="form-control" type="text" name="dimensione" value="{{ old('dimensione')}}">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="critica">Critica</label>
-                        <select class="form-control" name="critica" type="text">
-                            <option disabled selected>---Seleziona la critica---</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="isbn">ISBN</label>
-                        <input class="form-control" type="text" autocomplete="off" value="{{ old('isbn')}}" name="isbn">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="data_pubblicazione">Data pubblicazione</label>
+                        <label for="data_pubblicazione">Data Creazione</label>
                         <input type="text" class="form-control" id="dataPubblicazione"
-                               value="{{ old('data_pubblicazione')}}" name="data_pubblicazione">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="categoria">Categoria</label>
-                        <select class="form-control" name="categoria" type="text">
-                            <option disabled selected>---Seleziona la categoria---</option>
-                        </select>
+                               value="{{ old('data_creazione')}}" name="data_creazione">
                     </div>
                 </div>
                 <div class="row">
@@ -70,6 +48,12 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6" v-pre>
+
+{{--                <x-media-library-attachment name="avatar"></x-media-library-attachment>--}}
+
+           </div>
+
         </div>
     </form>
 @endsection

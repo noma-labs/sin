@@ -13,7 +13,7 @@ class Elaborato extends BaseMedia
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
-    protected $table = 'media';
+    protected $table = 'elaborati';
     protected $primaryKey = "id";
     protected $guarded = [];
 
