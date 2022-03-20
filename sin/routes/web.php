@@ -270,6 +270,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     // elaborati
     Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
     Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert');
+    Route::post('elaborati/insert', [ElaboratiController::class, 'insertConfirm'])->name('scuola.elaborati.insert');
 });
 
 #################################################################

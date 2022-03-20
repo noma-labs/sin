@@ -19,16 +19,14 @@
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/basic.min.css') }}" />
 
     @livewireStyles
+    <!--   Needed by laravel-medialibary-pro UI component -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
-</head>
-
-<body>
-
-<div id="app">
-
-    <div class="sticky-top">
-      <nav class="navbar navbar-expand-md navbar-inverse bg-inverse" style="background-color: white" >
-          <!-- Branding Image -->
+    </head>
+    <body>
+    <div id="app">
+        <div class="sticky-top">
+          <nav class="navbar navbar-expand-md navbar-inverse bg-inverse" style="background-color: white" >
+              <!-- Branding Image -->
         <a class="navbar-brand" href="{{ url('/home') }}">
           <img style="display: inline-block; height:40px; margin-top: -5px" src="/images/logo-noma.png" >
          </a>
@@ -88,22 +86,19 @@
 {{--        <div class="footer-copyright text-center py-3">php version      {{ phpversion() }}.--}}
 {{--        </div>--}}
 {{--    </footer>--}}
+    @livewireScripts
 
    <!-- JS compiled with Laravel-mix -->
    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
-
-   <!-- Script  Archivio-->
+   <!-- Script Archivio-->
    <script type="text/javascript" src="{{ asset('js/archivio/httpMethodLinks.js')}}"></script>
    <script type="text/javascript" src="{{ asset('js/archivio/archivio.js')}}"></script>
-
-   <!-- third part javascript -->
 
    <!-- CSS archivio -->
    <link rel="stylesheet" href="{{ asset('css/archivio/archivio.css') }}" >
 
 
-    @livewireScripts
 </body>
 
 </html>

@@ -2,56 +2,33 @@
 
 @section('archivio')
     @include('partials.header', ['title' => 'Aggiungi elaborato'])
-    <form method="POST" action="{{route('libri.inserisci.Confirm')}}">
+    <form method="POST" action="{{route('scuola.elaborati.insert')}}">
         @csrf
+        @livewire('counter')
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-6">
-                        <x-media-library-attachment name="avatar"></x-media-library-attachment>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                </div>
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="xClassificazione" class="control-label">Classificazione (*)</label>
-                        <select class="form-control" name="xClassificazione" type="text" id="xClassificazione">
-                            <option disabled selected>---Seleziona la Classificazione---</option>
-                        </select>
+                        <label for="xTitolo" class="control-label">Titolo (*)</label>
+                        <input class="form-control" type="text" name="dimensione" value="{{ old('titolo')}}">
                     </div>
                     <div class="col-md-4">
-                        <label for="dimensione">Dimensione</label>
-                        <input class="form-control" type="text" name="dimensione" value="{{ old('dimensione')}}">
+                        <label for="descrizione">Descrizione</label>
+                        <input class="form-control" type="text" name="descrizione" value="{{ old('descrizione')}}">
                     </div>
                     <div class="col-md-4">
-                        <label for="critica">Critica</label>
-                        <select class="form-control" name="critica" type="text">
-                            <option disabled selected>---Seleziona la critica---</option>
-                        </select>
+                        <label for="critica">Collocazione</label>
+                        <input class="form-control" type="text" name="collocazione" value="{{ old('collocazione')}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="isbn">ISBN</label>
-                        <input class="form-control" type="text" autocomplete="off" value="{{ old('isbn')}}" name="isbn">
+                        <label for="isbn">Studente/Classe</label>
                     </div>
                     <div class="col-md-4">
-                        <label for="data_pubblicazione">Data pubblicazione</label>
+                        <label for="data_pubblicazione">Data Creazione</label>
                         <input type="text" class="form-control" id="dataPubblicazione"
-                               value="{{ old('data_pubblicazione')}}" name="data_pubblicazione">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="categoria">Categoria</label>
-                        <select class="form-control" name="categoria" type="text">
-                            <option disabled selected>---Seleziona la categoria---</option>
-                        </select>
+                               value="{{ old('data_creazione')}}" name="data_creazione">
                     </div>
                 </div>
                 <div class="row">
@@ -61,41 +38,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="stampaEtichetta" id="addToEtichette"
-                                   value="aggiungiEtichetta" checked>
-                            <label class="form-check-label" for="addToEtichette">
-                                Aggiungi il nuovo libro nella lista delle etichette da stampare.
-                            </label>
-                        </div>
-                        <!-- <div class="form-check">
-                          <input class="form-check-input" type="radio" name="stampaEtichetta" id="printEtichetta" value="stampaEtichetta">
-                          <label class="form-check-label" for="printEtichetta">
-                            Aggiungi e stampa l'etichetta del libro.
-                          </label>
-                        </div> -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="stampaEtichetta" id="notPrint"
-                                   value="noEtichetta">
-                            <label class="form-check-label" for="notPrint">
-                                Non aggiungere il libro nella stampa delle etichette.
-                            </label>
-                        </div>
-                    </div>
                     <div class="col-md-4">
                         <p class="text-right text-danger ">Le informazioni segnate con (*) sono obbligatorie.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-success" name="_addanother" value="true" type="submit">Salva e aggiungi
-                            un'altro Libro
-                        </button>
                         <button class="btn btn-success" name="_addonly" value="true" type="submit">Salva</button>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6" v-pre>
+
+{{--                <x-media-library-attachment name="avatar"></x-media-library-attachment>--}}
+
+           </div>
+
         </div>
     </form>
 @endsection

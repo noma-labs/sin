@@ -15,7 +15,7 @@
                 <label class="col-sm-6 col-form-label">Nuova Data</label>
                 <div class="form-check  col-sm-6">
                         <label class="form-check-label">
-                                <date-picker :bootstrap-styling="true" typeable="true" value="{{$persona->data_nascita }}" format="yyyy-MM-dd" name="new_data_inizio"></date-picker>
+                                <date-picker :bootstrap-styling="true" :typeable="true" value="{{$persona->data_nascita }}" format="yyyy-MM-dd" name="new_data_inizio"></date-picker>
                         </label>
                 </div>
             </div>

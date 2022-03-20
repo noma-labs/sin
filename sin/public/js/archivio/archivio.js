@@ -58,20 +58,6 @@ function   gotoPrestitoDetails(idPrestito) {
 
 
 
-
-Dropzone.options.myAwesomeDropzone = {
-      parallelUploads: 1,
-      dictFallbackMessage: "The browser non è supportato",
-      dictInvalidFileType : "Tipo non valido",
-      dictResponseError : "Errore del server {{error}}",
-      dictDefaultMessage: "Rilasciare qui i file da caricare",
-      init: function () {
-          this.on("queuecomplete", function (file) {
-              location.reload();
-          });
-      }
-  };
-
 $(document).ready(function(){
   // disabled all the input element in a form when a form is submitted
   $(function() {

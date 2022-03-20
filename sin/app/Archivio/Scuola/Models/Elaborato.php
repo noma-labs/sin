@@ -2,13 +2,10 @@
 
 namespace App\Scuola\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
-//use Spatie\MediaLibrary\InteractsWithMedia;
-
-class Elaborato extends Model implements HasMedia
+class Elaborato extends BaseMedia
 {
     #use HasMediaTrait;
     use InteractsWithMedia;
