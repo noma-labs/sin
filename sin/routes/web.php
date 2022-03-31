@@ -497,3 +497,9 @@ Route::group(['prefix' => 'archiviodocumenti', 'namespace' => 'App\ArchivioDocum
     Route::delete("/etichette/delete/{id}",
         'ArchivioDocumentiController@eliminaSingolo')->name('archiviodocumenti.etichette.rimuovi.singolo');
 });
+
+//#################################################################
+//######################   STAZIONE METEO  ###################################
+//#################################################################
+
+Route::view('/meteo', 'stazionemeteo.index')->name('stazionemeteo');

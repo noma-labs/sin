@@ -11,7 +11,6 @@
               Biblioteca
             </div>
             <div class="card-body">
-              <!-- <h3 class="card-title">Biblioteca</h3> -->
               <p class="card-text">Ricerca libri e video della biblioteca di Nomadelfia.</p>
               <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi</a>
             </div>
@@ -25,9 +24,8 @@
                Stazione Meteo Nomadelfia
               </div>
               <div class="card-body">
-                <!-- <h3 class="card-title">Biblioteca</h3> -->
                 <p class="card-text">Stazione meteo situata nella zona delle scuole</p>
-                <a href="http://192.168.11.7:3000/dashboard/snapshot/40CbOLWT3NSNdc62Pm6KZzmyLt4Fk6t6" class="btn btn-primary">Accedi</a>
+                <a href={{ url('/meteo')}} class="btn btn-primary">Accedi</a>
               </div>
             </div>
           </div>
@@ -39,7 +37,6 @@
               Biblioteca
             </div>
             <div class="card-body">
-              <!-- <h3 class="card-title">Biblioteca</h3> -->
               <p class="card-text">Gestione libri e video della biblioteca di Nomadelfia.</p>
               <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi</a>
             </div>
@@ -69,7 +66,6 @@
                   Archivio RTN
                 </div>
                 <div class="card-body">
-                  <!-- <h3 class="card-title">RTN</h3> -->
                   <p class="card-text">Gestione archivio Rtn</p>
                   <a href="{{ route('rtn.index')}} " class="btn btn-primary">Accedi</a>
                 </div>
@@ -84,7 +80,6 @@
               Officina
             </div>
             <div class="card-body">
-              <!-- <h3 class="card-title">Officina Meccanica</h3> -->
               <p class="card-text">Gestione mezzi di Nomadelfia</p>
               <a href="{{ route('officina.index') }}" class="btn btn-primary">Accedi</a>
             </div>
