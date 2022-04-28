@@ -10,8 +10,7 @@
 
 <h3 class="text-left py-5">
    Il sottoscritto {{$presidente->cognome}} {{$presidente->nome}}, nato a {{$presidente->provincia_nascita}} il {{$presidente->data_nascita}},
-   residente in Via Nomadelfia 1, Roselle  58100 Grosseto (GR), in qualità di Presidente pro-tempore della Comunità di
-   Nomadelfia, con sede in Grosseto
+   residente in Via Nomadelfia 1, Roselle  58100 Grosseto (GR), in qualità di Presidente pro-tempore della Associazione Nomadelfia, con sede in Grosseto
 </h3>
 
 
