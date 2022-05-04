@@ -17,7 +17,7 @@
 <h1 class="text-center font-weight-bold py-5"> DICHIARA</h1>
       
 <h3 class="text-left py-5">
-che le persone sottoelencate appartengono alla Comunità e pertanto sono autorizzate a condurre
+che le persone sottoelencate appartengono all'associazione e pertanto sono autorizzate a condurre
 gli autoveicoli di proprietà della stessa.
 </h3>
 
