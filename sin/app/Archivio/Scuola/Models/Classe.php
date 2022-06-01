@@ -134,7 +134,9 @@ class Classe extends Model
     {
         if ($this->tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
-        } else {
+        } elseif ($this->tipo->IsUniversita()){
+            $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
+        }  else {
             $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
         }
 

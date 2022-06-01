@@ -122,6 +122,11 @@ class ClasseTipo extends Model
         return $this->nome == "3a Media";
     }
 
+    public function scopeIsUniversita(): bool
+    {
+        return $this->ciclo === 'universita';
+    }
+
     public function assegnaAlunno($persona, Carbon\Carbon $data_inizio)
     {
         if (is_string($persona)) {
