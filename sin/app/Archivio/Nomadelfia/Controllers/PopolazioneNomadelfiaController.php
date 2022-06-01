@@ -335,9 +335,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
             foreach ($anno->classi()->get() as $classe) {
                 $alunni = $classe->alunni();
                 if ($alunni->count() > 0 ){
+                    $classeSect->addTextBreak(1);
                     $classeSect->addTitle($classe->tipo->nome. " ". $alunni->count(), 2);
                     foreach ($classe->alunni()->get() as $alunno) {
-                        $classeSect->addTextBreak(1);
                         $year = Carbon::parse($alunno->data_nascita)->year;
                         $classeSect->addText("    " . $year . " " . $alunno->nominativo);
                     }
