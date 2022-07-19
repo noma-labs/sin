@@ -9,11 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class Res extends Model
-{
-    protected $guarded = [];
-}
-
 class Anno extends Model
 {
 
@@ -105,6 +100,7 @@ class Anno extends Model
         return $this->classi()->create(["anno_id" => $this->id, 'tipo_id' => $tipo->id]);
     }
 
+//    @deprecated use the Studente::InAnnoScolastico()
     public function alunni()
     {
         $res = DB::connection('db_scuola')->select(
@@ -120,24 +116,6 @@ class Anno extends Model
         return $res;
     }
 
-    /**
-     * Per ogni ciclo (prescuola, elementari, medie, superiori) ritorna il nummero di studenti
-     * @return array
-     */
-    public function totAlunniPerCiclo()
-    {
-        $res = DB::connection('db_scuola')->select(
-            DB::raw("select tipo.ciclo, count(*) as count 
-                        from tipo
-                        INNER JOIN classi as c ON c.tipo_id = tipo.id
-                        INNER JOIN alunni_classi as a ON a.classe_id = c.id
-                        where c.anno_id = :aid and a.data_fine IS NULL
-                        GROUP by tipo.ciclo
-                        order by tipo.ord;"),
-            array('aid' => $this->id)
-        );
-        return collect($res);
-    }
 
     public function coordinatoriPrescuola()
     {

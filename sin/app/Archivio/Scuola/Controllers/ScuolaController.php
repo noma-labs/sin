@@ -9,7 +9,6 @@ use App\Scuola\Models\Studente;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ScuolaController extends CoreBaseController
 {
@@ -18,8 +17,7 @@ class ScuolaController extends CoreBaseController
     {
         $anno = Anno::getLastAnno();
         $alunni = Studente::InAnnoScolastico($anno)->count();
-        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno);
-        dd($cicloAlunni);
+        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;
         return view('scuola.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
     }
@@ -74,9 +72,9 @@ class ScuolaController extends CoreBaseController
         if ($elenchi->contains("studenti")) {
             $sc = $phpWord->addSection();
             $anno = Anno::getLastAnno();
-            $sc->addTitle('Studenti ' . count($anno->alunni()), 1);
+            $sc->addTitle('Studenti ' . Studente::InAnnoScolastico($anno)->count(), 1);
 
-            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno);
+            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
             foreach ($cicloAlunni as $c) {
                 $classeSect = $phpWord->addSection($colStyle4Next);
                 $classeSect->addTitle(ucfirst($c->ciclo) . " " . $c->count, 1);
@@ -134,7 +132,7 @@ class ScuolaController extends CoreBaseController
                 $prescuola->addTextBreak(1);
                 $prescuola->addTitle($classe, 2);
                 foreach ($coords as $cord) {
-                    $prescuola->addText($cord->nominativo );
+                    $prescuola->addText($cord->nominativo);
                 }
             }
 
@@ -150,7 +148,7 @@ class ScuolaController extends CoreBaseController
             }
 
             $medie = $phpWord->addSection($colStyle4Next);
-            $medie->addTitle("Media - Scuola Secondaria di primo grado",1);
+            $medie->addTitle("Media - Scuola Secondaria di primo grado", 1);
             $cc = $anno->coordinatoriMedie();
             foreach ($cc as $classe => $coords) {
                 $medie->addTextBreak(1);
@@ -161,7 +159,7 @@ class ScuolaController extends CoreBaseController
             }
 
             $superiore = $phpWord->addSection($colStyle4Next);
-            $superiore->addTitle("Superiori - Scuola Secondaria di secondo grado",1);
+            $superiore->addTitle("Superiori - Scuola Secondaria di secondo grado", 1);
             $cc = $anno->coordinatorSuperiori();
             foreach ($cc as $classe => $coords) {
                 $superiore->addTextBreak(1);

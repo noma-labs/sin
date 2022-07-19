@@ -6,6 +6,7 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Nomadelfia\Models\AnnoScolastico;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Models\Studente;
 use App\Scuola\Requests\AddElaboratoRequest;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class ElaboratiController extends CoreBaseController
     public function index()
     {
         $anno = Anno::getLastAnno();
-        $cicloAlunni = $anno->totAlunniPerCiclo();
+        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $alunni = $anno->alunni();
         $resp = $anno->responsabile;
         return view('scuola.elaborati.insert', compact('anno', 'cicloAlunni', 'alunni', 'resp'));

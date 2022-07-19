@@ -19,14 +19,15 @@ class StudenteQueryBuilder extends Builder
             ->join('db_scuola.tipo', 'db_scuola.tipo.id', "=", 'db_scuola.classi.tipo_id')
             ->join('db_scuola.anno', 'db_scuola.anno.id', "=", 'db_scuola.classi.anno_id')
             ->whereNull('db_scuola.alunni_classi.data_fine')
-            ->where('db_scuola.anno.id', '=', $anno);
+            ->where('db_scuola.anno.id', '=', $anno)
+            ->orderBy('data_nascita');
         return $students;
     }
 
     public function InAnnoScolasticoPerCiclo($anno){
         $query = $this->InAnnoScolastico($anno);
-        $cicloAlunni = $query->select('db_scuola.tipo.ciclo',
-            DB::raw('count(*) as count'))->groupBy('db_scuola.tipo.ciclo')->get();
+        $cicloAlunni = $query
+            ->select('db_scuola.tipo.ciclo', DB::raw('count(*) as count'))->groupBy('db_scuola.tipo.ciclo');
         return $cicloAlunni;
     }
 

@@ -61,7 +61,7 @@ class ScuolaTest extends TestCase
         $c3->aggiungiAlunno($p3, Carbon::now());
 
         $this->assertCount(3, $a->classi()->get());
-        $this->assertCount(3, $a->alunni());
+        $this->assertEquals(3, Studente::InAnnoScolastico($a)->count());
         $this->assertEquals(3, Studente::InAnnoScolastico($a->id)->count());
         $this->assertEquals(3, Studente::InAnnoScolastico($a)->count());
 
@@ -89,7 +89,7 @@ class ScuolaTest extends TestCase
         $p4 = Persona::factory()->minorenne()->femmina()->create();
         $c3->aggiungiAlunno($p4, Carbon::now());
 
-        $tot =  Studente::InAnnoScolasticoPerCiclo($a);
+        $tot =  Studente::InAnnoScolasticoPerCiclo($a)->get();
         $this->assertCount(3, $tot);
         $this->assertEquals(1, $tot[0]->count);
         $this->assertEquals(1, $tot[1]->count);
