@@ -44,6 +44,11 @@ class AziendeTableSeeder extends Seeder
                 'tipo' => 'azienda'
 
             ],
+            [
+                'nome_azienda' => 'scuola',
+                'tipo' => 'azienda'
+
+            ],
 
         ];
         DB::connection('db_nomadelfia')->table('aziende')->insert($data);

@@ -22,7 +22,7 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                        Studenti
-                        <span class="badge badge-primary badge-pill">{{count($alunni)}} </span>
+                        <span class="badge badge-primary badge-pill">{{$alunni}} </span>
                     </li>
                     @foreach ($cicloAlunni as $c)
                         <li class="list-group-item d-flex justify-content-end  align-items-center ">

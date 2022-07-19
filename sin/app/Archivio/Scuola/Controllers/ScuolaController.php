@@ -3,12 +3,13 @@
 namespace App\Scuola\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\AnnoScolastico;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\Studente;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScuolaController extends CoreBaseController
 {
@@ -16,8 +17,9 @@ class ScuolaController extends CoreBaseController
     public function index()
     {
         $anno = Anno::getLastAnno();
-        $cicloAlunni = $anno->totAlunniPerCiclo();
-        $alunni = $anno->alunni();
+        $alunni = Studente::InAnnoScolastico($anno)->count();
+        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno);
+        dd($cicloAlunni);
         $resp = $anno->responsabile;
         return view('scuola.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
     }
@@ -74,7 +76,7 @@ class ScuolaController extends CoreBaseController
             $anno = Anno::getLastAnno();
             $sc->addTitle('Studenti ' . count($anno->alunni()), 1);
 
-            $cicloAlunni = $anno->totAlunniPerCiclo();
+            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno);
             foreach ($cicloAlunni as $c) {
                 $classeSect = $phpWord->addSection($colStyle4Next);
                 $classeSect->addTitle(ucfirst($c->ciclo) . " " . $c->count, 1);

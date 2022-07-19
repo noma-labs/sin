@@ -6,6 +6,7 @@ use App\Nomadelfia\Models\Persona;
 use App\Scuola\Exceptions\CouldNotAssignAlunno;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
+use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 use Tests\TestCase;
 
@@ -61,6 +62,8 @@ class ScuolaTest extends TestCase
 
         $this->assertCount(3, $a->classi()->get());
         $this->assertCount(3, $a->alunni());
+        $this->assertEquals(3, Studente::InAnnoScolastico($a->id)->count());
+        $this->assertEquals(3, Studente::InAnnoScolastico($a)->count());
 
     }
 
@@ -83,13 +86,14 @@ class ScuolaTest extends TestCase
         $c3 = $a->aggiungiClasse($t->get(6));
         $p3 = Persona::factory()->minorenne()->femmina()->create();
         $c3->aggiungiAlunno($p3, Carbon::now());
+        $p4 = Persona::factory()->minorenne()->femmina()->create();
+        $c3->aggiungiAlunno($p4, Carbon::now());
 
-        $tot = $a->totAlunniPerCiclo();
-//        dd($tot);
-//        $this->assertEquals(1, $tot->prescuola);
-//        $this->assertEquals(1, $tot->elementari);
-//        $this->assertEquals(1, $tot->medie);
-//        $this->assertEquals(1, $tot->superiori);
+        $tot =  Studente::InAnnoScolasticoPerCiclo($a);
+        $this->assertCount(3, $tot);
+        $this->assertEquals(1, $tot[0]->count);
+        $this->assertEquals(1, $tot[1]->count);
+        $this->assertEquals(2, $tot[2]->count);
     }
 
     public function testCreaClasseInAnnoScolastico()
