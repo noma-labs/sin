@@ -109,7 +109,7 @@
               </div>
               <div class="card-body">
                 <p class="card-text">Gestione  classi, alunni cordinatori </p>
-                <a href="{{ route('scuola') }}" class="btn btn-primary">Accedi</a>
+                <a href="{{ route('scuola.summary') }}" class="btn btn-primary">Accedi</a>
               </div>
             </div>
           </div>

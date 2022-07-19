@@ -3,69 +3,38 @@
 @section('title', 'Gestione Scuola')
 
 @section('archivio')
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-    <div class="card-deck">
-        <div class="card ">
-            <div class="card-header">
-                Scuola A.S.  {{$anno->scolastico}}
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush ">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <p>Responsabile Scuola</p>
-                         @if ($resp)
-                                @include("nomadelfia.templates.persona", ['persona' => $resp])
-                            @else
-                                Non Assegnato
-                            @endif
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                       Studenti
-                        <span class="badge badge-primary badge-pill">{{$alunni}} </span>
-                    </li>
-                    @foreach ($cicloAlunni as $c)
-                        <li class="list-group-item d-flex justify-content-end  align-items-center ">
-                            <p class="m-2">   {{ucfirst($c->ciclo)}}</p>
-                            <span class="badge badge-primary badge-pill">{{$c->count}} </span>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="card-footer">
-                <my-modal modal-title="Esporta Elenchi" button-title="Esporta Elenchi" button-style="btn-primary my-2">
-                    <template slot="modal-body-slot">
-                        <form class="form" method="POST"  id="formStampa"  action="{{ route('scuola.stampa') }}" >
-                            {{ csrf_field() }}
-                            <p>Seleziona gli elenchi da stampare:</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="studenti" id="defaultCheck1"   name="elenchi[]" checked>
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Elenco Studenti
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="coordinatori" id="defaultCheck1"   name="elenchi[]" checked>
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Elenco Coordinatori
-                                </label>
-                            </div>
-                        </form>
-                    </template>
-                    <template slot="modal-button">
-                        <button class="btn btn-success" form="formStampa">Esporta (.doc) </button>
-                    </template>
-                </my-modal>
+    <my-modal modal-title="Aggiungi A.Scolastico" button-title="Aggiungi Anno Scolastico" button-style="btn-primary my-2">
+        <template slot="modal-body-slot">
+            <form class="form" method="POST" id="formComponente" action="{{ route('nomadelfia.incarichi.aggiungi') }}" >
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <label for="annoInizio">Anno</label>
+                    <input type="text" name="name" class="form-control" id="annoInizio" aria-describedby="emailHelp" placeholder="Anno Inizio">
+                </div>
+            </form>
+        </template>
+        <template slot="modal-button">
+            <button class="btn btn-danger" form="formComponente">Salva</button>
+        </template>
+    </my-modal>
 
-{{--                <form class="form" method="POST"  id="formStampa" action="{{ route('scuola.stampa') }}" >--}}
-{{--                    {{ csrf_field() }}--}}
-
-{{--                </form>--}}
-{{--                <button class="btn btn-primary" form="formStampa">Esporta (.docx)</button>--}}
+    @foreach(collect($anni)->chunk(3) as $chunk)
+    <div class="row">
+        @foreach ($chunk as $anno)
+            <div class="col-md-4 my-1">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="heading{{$anno->id}}">
+                            <h5 class="mb-0">
+                                {{$anno->scolastico}}
+                                <a class="btn btn-link" href="{{ route('scuola.anno', $anno->id)}}">{{$anno->scolastico}}</a>
+                                <span class="badge badge-primary badge-pill"></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
-        </div>
-
+        @endforeach
     </div>
+    @endforeach
 @endsection

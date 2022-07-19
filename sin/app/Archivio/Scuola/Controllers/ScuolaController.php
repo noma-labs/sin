@@ -13,13 +13,20 @@ use Illuminate\Http\Request;
 class ScuolaController extends CoreBaseController
 {
 
-    public function index()
+    public function summary()
     {
-        $anno = Anno::getLastAnno();
+        $anni = Anno::orderBy('scolastico', "DESC")->get();
+//        dd($anni);
+        return view('scuola.summary', compact('anni'));
+    }
+
+    public function index(Request $request, $id)
+    {
+        $anno = Anno::find($id);
         $alunni = Studente::InAnnoScolastico($anno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;
-        return view('scuola.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
+        return view('scuola.anno.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
     }
 
     public function aggiungiClasse(Request $request, $id)
