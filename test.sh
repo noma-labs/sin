@@ -1,11 +1,15 @@
 
 #!/bin/bash
-docker-compose up -d app
+cd sin
 
-# Create the database
-docker-compose exec app php artisan make:database db_scuola db_scuola
-docker-compose exec app php artisan make:database db_anagrafe db_anagrafe
+./vendor/bin/sail  up -d
 
-#docker-compose exec app php ./vendor/bin/phpunit  --configuration /var/www/phpunit.xml --testsuite Unit --testdox "$@"
-#docker-compose exec app php ./vendor/bin/phpunit  --configuration /var/www/phpunit.xml --testsuite Feature --testdox
-docker-compose exec app php ./vendor/bin/phpunit  --configuration /var/www/phpunit.xml --testsuite Http --testdox
+#docker-compose up -d app
+#
+## Create the database
+docker-compose exec laravel.test php artisan make:database db_scuola db_scuola
+docker-compose exec laravel.test php artisan make:database db_anagrafe db_anagrafe
+
+docker-compose exec laravel.test php /var/www/html/vendor/bin/phpunit  --configuration /var/www/html/phpunit.xml --testsuite Unit --testdox "$@"
+#docker-compose exec laravel.test php ./vendor/bin/phpunit  --configuration /var/www/phpunit.xml --testsuite Feature --testdox
+#docker-compose exec laravel.test php /var/www/html/vendor/bin/phpunit  --configuration //var/www/html/phpunit.xml --testsuite Http --testdox
