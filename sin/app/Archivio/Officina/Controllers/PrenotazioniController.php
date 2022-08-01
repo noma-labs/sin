@@ -115,23 +115,21 @@ class PrenotazioniController extends CoreBaseController
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
+
+        $query = null;
         if ($giorno == "oggi") {
-            $prenotazioni = Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
-                ->orderBy('data_partenza', 'asc')
-                ->orderBy('data_arrivo', 'desc')
-                ->orderBy('ora_partenza', 'desc')
-                ->orderBy('ora_arrivo', 'asc')
-                ->get();
+            $query= Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
+                                ->where('data_partenza','=', Carbon::now()->toDateString());
         } else {
             if ($giorno == "ieri") {
-                $prenotazioni = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString())
-                    ->orderBy('data_partenza', 'asc')
-                    ->orderBy('data_arrivo', 'desc')
-                    ->orderBy('ora_partenza', 'desc')
-                    ->orderBy('ora_arrivo', 'asc')
-                    ->get();
+                $query = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString());
             }
         }
+        $prenotazioni = $query->orderBy('data_partenza', 'asc')
+            ->orderBy('data_arrivo', 'desc')
+            ->orderBy('ora_partenza', 'desc')
+            ->orderBy('ora_arrivo', 'asc')
+            ->get();
 
         return view("officina.prenotazioni.index", compact('clienti',
             'usi',

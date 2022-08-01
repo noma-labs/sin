@@ -24,11 +24,13 @@ class DatabaseSeeder extends Seeder
         
   
         $this->call(AuthTablesSeeder::class);
+
         // DB NOMADELIFA
         $this->call(PosizioniTableSeeder::class);
         $this->call(StatiTableSeeder::class);
         $this->call(GruppiFamiliariTableSeeder::class);
         $this->call(IncarichiTableSeeder::class);
+        $this->call(VeicoloTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
