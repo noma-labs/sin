@@ -110,19 +110,24 @@ class PrenotazioniController extends CoreBaseController
         return view("officina.prenotazioni.search_results", compact('usi', 'prenotazioni', 'msgSearch'));
     }
 
-    public function prenotazioni($giorno = "oggi")
+    public function prenotazioni(Request $request)
     {
+        $day = $request->get('day', "oggi");
+
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
-        if ($giorno == "oggi") {
+        if ($day == "oggi") {
             $query= Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
                                 ->where('data_partenza','=', Carbon::now()->toDateString());
         } else {
-            if ($giorno == "ieri") {
+            if ($day == "ieri") {
                 $query = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString());
+            }
+            if ($day == 'all') {
+                $query = Prenotazioni::where('data_partenza', '>=', Carbon::now()->toDateString());
             }
         }
         $prenotazioni = $query->orderBy('data_partenza', 'asc')
@@ -135,7 +140,7 @@ class PrenotazioniController extends CoreBaseController
             'usi',
             'meccanici',
             'prenotazioni',
-            'giorno'));
+            'day'));
     }
 
     public function prenotazioniSucc(Request $request)

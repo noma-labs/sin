@@ -133,8 +133,9 @@
 </div>
 <div class="row justify-content-center mb-2">
   <div class="btn-group btn-group-lg" role="group">
-    <a role="button" href="{{route("officina.index", "ieri")}}" class="btn btn-danger @if($giorno == 'ieri') active @endif" >Ieri</a>
-    <a role="button" href="{{route("officina.index")}}" class="btn btn-success @if($giorno == 'oggi') active @endif" >Oggi</a>
+    <a role="button" href="{{route("officina.index", ["day" =>"ieri"])}}" class="btn btn-danger @if($day == 'ieri') active @endif" >Ieri</a>
+    <a role="button" href="{{route("officina.index",  ["day" => "oggi"])}}" class="btn btn-success @if($day == 'oggi') active @endif" >Oggi</a>
+    <a role="button" href="{{route("officina.index", ["day" =>  "all"])}}" class="btn btn-warning @if($day == 'all') active @endif" >Tutte</a>
   </div>
 </div>
 @endsection
