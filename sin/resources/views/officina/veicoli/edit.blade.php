@@ -33,11 +33,17 @@
         <div class="col-md-3">
           <div class="form-group">
              <label for="modello_id">Modello</label>
-             <select class="form-control" name="modello_id" type="text">
-                @foreach ($modelli as $mod)
-                  <option value="{{ $mod->id }}" @if($mod->id == $veicolo->modello->id) selected @endif>{{ $mod->nome }}</option>
-                @endforeach
-              </select>
+              <input class="form-control" list="modelli" name="modello_id">
+              <datalist id="modelli">
+                  @foreach ($modelli as $mod)
+                      <option value="{{ $mod->id }}" @if($mod->id == $veicolo->modello->id) selected @endif>{{ $mod->nome }}</option>
+                  @endforeach
+              </datalist>
+{{--             <select class="form-control" name="modello_id" type="text">--}}
+{{--                @foreach ($modelli as $mod)--}}
+{{--                  <option value="{{ $mod->id }}" @if($mod->id == $veicolo->modello->id) selected @endif>{{ $mod->nome }}</option>--}}
+{{--                @endforeach--}}
+{{--              </select>--}}
            </div>
          </div>
       </div>

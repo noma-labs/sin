@@ -50,11 +50,11 @@ class VeicoliController extends CoreBaseController
 
 	public function edit($id){
 		$veicolo = Veicolo::withTrashed()->findOrFail($id);
-		$marche = Marca::all();
-		$modelli = Modello::all();
-		$impieghi = Impiego::all();
-		$tipologie = Tipologia::all();
-		$alimentazioni = Alimentazioni::all();
+		$marche = Marca::orderBy('nome', 'asc')->get();
+		$modelli = Modello::orderBy('nome', 'asc')->get();
+		$impieghi = Impiego::orderBy('nome', 'asc')->get();
+		$tipologie = Tipologia::orderBy('nome', 'asc')->get();
+		$alimentazioni = Alimentazioni::orderBy('nome', 'asc')->get();
 		$f_aria = TipoFiltro::where('tipo', '=', 'aria')->orderBy('codice', 'asc')->get();
 		$f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
 		$f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
@@ -77,10 +77,10 @@ class VeicoliController extends CoreBaseController
 
 
 	public function viewCreate(){
-      $marche = Marca::all();
-      $impieghi = Impiego::all();
-      $tipologie = Tipologia::all();
-	  $alimentazioni = Alimentazioni::all();
+      $marche = Marca::orderBy('nome', 'asc')->get();
+      $impieghi = Impiego::orderBy('nome', 'asc')->get();
+      $tipologie = Tipologia::orderBy('nome', 'asc')->get();
+	  $alimentazioni = Alimentazioni::orderBy('nome', 'asc')->get();
 	  $f_aria = TipoFiltro::where('tipo', '=', 'aria')->orderBy('codice', 'asc')->get();
 	  $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
 	  $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
