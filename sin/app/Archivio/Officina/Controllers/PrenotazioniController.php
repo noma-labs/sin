@@ -119,15 +119,16 @@ class PrenotazioniController extends CoreBaseController
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
+        $now =  Carbon::now();
         if ($day == "oggi") {
-            $query= Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
-                                ->where('data_partenza','=', Carbon::now()->toDateString());
+            $query= Prenotazioni::where('data_partenza','=', $now->toDateString())
+                                 ->orWhere('data_arrivo', '=', $now->toDateString());
         } else {
             if ($day == "ieri") {
-                $query = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString());
+                $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
             if ($day == 'all') {
-                $query = Prenotazioni::where('data_partenza', '>=', Carbon::now()->toDateString());
+                $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString());
             }
         }
         $prenotazioni = $query->orderBy('data_partenza', 'asc')

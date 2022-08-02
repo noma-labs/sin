@@ -5,6 +5,7 @@ use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Officina\Controllers\PatentiController;
+use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
@@ -388,8 +389,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     // PRENOTAZIONI add, delete, update, search
     // officina/
-    Route::post("/",
-        'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
+    Route::post("/",[PrenotazioniController::class, 'prenotazioniSucc'])->middleware('ability:veicolo.prenota')->name('officina.prenota');
     // PRENOTAZIONI delete, modify, list
     Route::get("delete/{id}/",
         'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
