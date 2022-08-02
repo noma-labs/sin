@@ -26,7 +26,6 @@
                     <div class="card">
                         <div class="card-header" id="heading{{$anno->id}}">
                             <h5 class="mb-0">
-                                {{$anno->scolastico}}
                                 <a class="btn btn-link" href="{{ route('scuola.anno', $anno->id)}}">{{$anno->scolastico}}</a>
                                 <span class="badge badge-primary badge-pill"></span>
                             </h5>

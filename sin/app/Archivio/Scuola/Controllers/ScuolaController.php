@@ -16,7 +16,6 @@ class ScuolaController extends CoreBaseController
     public function summary()
     {
         $anni = Anno::orderBy('scolastico', "DESC")->get();
-//        dd($anni);
         return view('scuola.summary', compact('anni'));
     }
 
