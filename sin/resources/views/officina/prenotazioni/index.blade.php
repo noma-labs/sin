@@ -88,45 +88,45 @@
     </thead>
     <tbody>
       @foreach ( $prenotazioni as $pren)
-      @empty($pren->delated_at)
-      <tr hoverable>
-        <td>{{ $loop->iteration }}</td>
-        <td>
-          @if ($pren->isPartita())
-            <span class="badge badge-danger">Partita</span>
-          @elseif($pren->deveAncoraPartire())
-            <span class="badge badge-warning">Deve Partire</span>
-          @elseif($pren->isArrivata())
-            <span class="badge badge-success">Arrivata</span>
-          @endif 
-        </td>
-        <td>{{ $pren->cliente->nominativo }}</td>
-        <td>{{ $pren->veicolo->nome }}</td>
-        <td>
-          @if($pren->data_partenza == $pren->data_arrivo)
-            {{$pren->data_partenza}}
-          @else
-          {{ $pren->data_partenza }} <br>{{ $pren->data_arrivo}}
-          @endif
-        </td>
-        <td>{{ $pren->ora_partenza }}</td>
-        <td>{{ $pren->ora_arrivo }}</td>
-        <td>{{ $pren->meccanico->nominativo }}</td>
-        <td>{{ $pren->uso->ofus_nome }}</td>
-        <td>{{ $pren->destinazione }}</td>
-        <td>{{ $pren->note }}</td>
-        <td>
-          <div class='btn-group' role='group' aria-label="Basic example">
-            @can('veicolo.modifica')
-            <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
-            @endcan
-            @can('veicolo.elimina')
-              <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
-            @endcan
-          </div>
-        </td>
-      </tr>
-      @endempty
+        @empty($pren->delated_at)
+        <tr hoverable>
+          <td>{{ $loop->iteration }}</td>
+          <td>
+            @if ($pren->isPartita())
+              <span class="badge badge-danger">Partita</span>
+            @elseif($pren->deveAncoraPartire())
+              <span class="badge badge-warning">Deve Partire</span>
+            @elseif($pren->isArrivata())
+              <span class="badge badge-success">Arrivata</span>
+            @endif
+          </td>
+          <td>{{ $pren->cliente->nominativo }}</td>
+          <td>{{ $pren->veicolo->nome }}</td>
+          <td>
+            @if($pren->data_partenza == $pren->data_arrivo)
+              {{$pren->data_partenza}}
+            @else
+            {{ $pren->data_partenza }} <br>{{ $pren->data_arrivo}}
+            @endif
+          </td>
+          <td>{{ $pren->ora_partenza }}</td>
+          <td>{{ $pren->ora_arrivo }}</td>
+          <td>{{ $pren->meccanico->nominativo }}</td>
+          <td>{{ $pren->uso->ofus_nome }}</td>
+          <td>{{ $pren->destinazione }}</td>
+          <td>{{ $pren->note }}</td>
+          <td>
+            <div class='btn-group' role='group' aria-label="Basic example">
+              @can('veicolo.modifica')
+              <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
+              @endcan
+              @can('veicolo.elimina')
+                <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
+              @endcan
+            </div>
+          </td>
+        </tr>
+        @endempty
       @endforeach
     </tbody>
   </table>

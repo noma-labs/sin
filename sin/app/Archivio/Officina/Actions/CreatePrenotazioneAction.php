@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Officina\Actions;
 
 use App\Nomadelfia\Models\Persona;
@@ -9,7 +10,7 @@ use App\Officina\Models\Veicolo;
 class CreatePrenotazioneAction
 {
 
-    public function execute(
+    public function __invoke(
         Persona $cliente,
         Veicolo $veicolo,
         Persona $meccanico,
@@ -22,20 +23,18 @@ class CreatePrenotazioneAction
         string $destianazione
     ): Prenotazioni {
 
-        $p = Prenotazioni::create([
+        return Prenotazioni::create([
             'cliente_id' => $cliente->id,
             'veicolo_id' => $veicolo->id,
             'meccanico_id' => $meccanico->id,
             'data_partenza' => $data_partenza,
-            'ora_partenza' => $data_arrivo,
-            'data_arrivo' => $ora_partenza,
+            'ora_partenza' =>  $ora_partenza,
+            'data_arrivo' => $data_arrivo,
             'ora_arrivo' => $ora_arrivo,
             'uso_id' => $uso->ofus_iden,
             'note' => $note,
             'destinazione' => $destianazione
         ]);
-
-        return $p;
     }
 
 

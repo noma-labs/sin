@@ -388,9 +388,8 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
 //##################################################################
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     // PRENOTAZIONI add, delete, update, search
-    // officina/
     Route::post("/",[PrenotazioniController::class, 'prenotazioniSucc'])->middleware('ability:veicolo.prenota')->name('officina.prenota');
-    // PRENOTAZIONI delete, modify, list
+
     Route::get("delete/{id}/",
         'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
     Route::get("modifica/{id}/",
@@ -430,8 +429,7 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 
     // PRENOTAZIONI
-    Route::get("/{giorno?}",
-        'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
+    Route::get("/", [PrenotazioniController::class, 'prenotazioni'])->middleware('ability:veicolo.prenota')->name('officina.index');
 });
 
 //#################################################################

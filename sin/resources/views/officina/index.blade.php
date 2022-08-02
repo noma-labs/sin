@@ -3,8 +3,7 @@
 @section('title', 'officina')
 
 @section('navbar-link')
-  <li class='nav-item'><a href="{{ route('officina.index') }}" class="nav-link">Officina</a> </li>
-  <!-- <li class='nav-item'><a href="{{ route('officina.index') }}" class="nav-link">Prenotazioni</a> </li> -->
+  <li class='nav-item'><a href="{{ route('officina.index', ['giorno'=>'oggi']) }}" class="nav-link">Officina</a> </li>
 
   <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

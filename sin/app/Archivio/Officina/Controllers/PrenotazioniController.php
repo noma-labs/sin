@@ -2,6 +2,8 @@
 
 namespace App\Officina\Controllers;
 
+use App\Nomadelfia\Models\Persona;
+use App\Officina\Actions\CreatePrenotazioneAction;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
 
@@ -165,19 +167,18 @@ class PrenotazioniController extends CoreBaseController
         if ($validRequest->fails()) {
             return redirect(route('officina.index'))->withErrors($validRequest)->withInput();
         }
-
-        Prenotazioni::create([
-            'cliente_id' => request('nome'),
-            'veicolo_id' => request('veicolo'),
-            'meccanico_id' => request('meccanico'),
-            'data_partenza' => request('data_par'),
-            'ora_partenza' => request('ora_par'),
-            'data_arrivo' => request('data_arr'),
-            'ora_arrivo' => request('ora_arr'),
-            'uso_id' => request('uso'),
-            'note' => request('note'),
-            'destinazione' => $request->input('destinazione')
-        ]);
+        (new CreatePrenotazioneAction)(
+            Persona::findOrFail($request->get('nome')),
+            Veicolo::findOrFail($request->get('veicolo')),
+            Persona::findOrFail($request->get('meccanico')),
+            $request->get('data_par'),
+            $request->get('data_arr'),
+            $request->get('ora_par'),
+            $request->get('ora_arr'),
+            Uso::findOrFail($request->get('uso')),
+            $request->get('note', ''),
+            $request->input('destinazione','')
+        );
         return redirect(route('officina.prenota'))->withSuccess('Prenotazione eseguita.');
 
     }

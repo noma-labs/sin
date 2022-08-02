@@ -12,7 +12,7 @@ use App\Exceptions\UnauthorizedException;
 class AbilityMiddlewareTest extends TestCase
 {
     /** @test */
-    public function test_middleware_in_isolation()
+    public function no_loged_in_user_return_unhautorize()
     {
         $middleare = app(AbilityMiddleware::class);
 
@@ -31,7 +31,7 @@ class AbilityMiddlewareTest extends TestCase
     }
 
     /** @test */
-    public function test_middleware_as_integration()
+    public function loged_in_user_can_view_index()
     {
         $this->get(action([PopolazioneNomadelfiaController::class, 'index']))->assertForbidden();
 
