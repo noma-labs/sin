@@ -6,6 +6,7 @@ use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Officina\Controllers\PatentiController;
 use App\Patente\Controllers\PatenteController;
+use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Http\Request;
@@ -265,7 +266,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungiAlunno')->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
-    Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
+    Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiController::class, 'rimuoviCoordinatore'])->name('scuola.classi.coordinatore.rimuovi');
 
     // elaborati
     Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
