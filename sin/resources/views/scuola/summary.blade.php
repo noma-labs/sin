@@ -5,11 +5,11 @@
 @section('archivio')
     <my-modal modal-title="Aggiungi A.Scolastico" button-title="Aggiungi Anno Scolastico" button-style="btn-primary my-2">
         <template slot="modal-body-slot">
-            <form class="form" method="POST" id="formComponente" action="{{ route('nomadelfia.incarichi.aggiungi') }}" >
+            <form class="form" method="POST" id="formComponente" action="{{ route('scuola.anno.aggiungi') }}" >
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="annoInizio">Anno</label>
-                    <input type="text" name="name" class="form-control" id="annoInizio" aria-describedby="emailHelp" placeholder="Anno Inizio">
+                    <input type="text" name="anno_inizio" class="form-control" id="annoInizio" aria-describedby="Anno inizio" placeholder="Anno Inizio">
                 </div>
             </form>
         </template>

@@ -260,9 +260,10 @@ Route::mediaLibrary();
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
     Route::get('/anno/{id}', [ScuolaController::class, 'index'])->name('scuola.anno');
-    Route::post('anno/{id}', 'ScuolaController@aggiungiClasse')->name('scuola.anno.classe.aggiungi');
-    Route::post('stampa', 'ScuolaController@print')->name('scuola.stampa');
-    Route::get('classi',  [ClassiController::class, 'index'])->name('scuola.classi');
+    Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('scuola.anno.aggiungi');
+    Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('scuola.anno.classe.aggiungi');
+    Route::post('stampa',  [ScuolaController::class, 'print'])->name('scuola.stampa');
+    Route::get('/anno/{anno_id}/classi',  [ClassiController::class, 'index'])->name('scuola.classi');
     Route::get('classi/{id}', 'ClassiController@show')->name('scuola.classi.show');
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungiAlunno')->name('scuola.classi.alunno.assegna');

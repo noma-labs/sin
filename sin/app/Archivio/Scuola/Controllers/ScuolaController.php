@@ -25,7 +25,10 @@ class ScuolaController extends CoreBaseController
         $alunni = Studente::InAnnoScolastico($anno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;
-        return view('scuola.anno.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp'));
+
+        $classi = $anno->classi()->get();
+
+        return view('scuola.anno.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
     }
 
     public function aggiungiClasse(Request $request, $id)
@@ -38,6 +41,21 @@ class ScuolaController extends CoreBaseController
         $anno = Anno::FindOrFail($id);
         $classe = $anno->aggiungiClasse(ClasseTipo::findOrFail($request->tipo));
         return redirect()->back()->withSuccess("Classe  {$classe->tipo->nome} aggiunta a {{$anno->scolastico}} con successo.");
+    }
+
+    public function aggiungiAnnoScolastico(Request $request)
+    {
+        $validatedData = $request->validate([
+            'anno_inizio' => 'required',
+            'data_inizio' => 'date',
+        ], [
+            'anno_inizio.required' => "l'inizio dell'anno scolastico è obbligatorio.",
+            'data_inizio.date' => "la data di inizio no è una data valida",
+        ]);
+
+        Anno::createAnno($request->get('anno_inizio'), $request->get("data_inizio", Carbon::now()->toDateString()), true);
+        return redirect()->back()->withSuccess("Anno scolastico aggiunto con successo.");
+
     }
 
     public function print(Request $request)

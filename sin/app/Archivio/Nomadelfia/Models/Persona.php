@@ -64,6 +64,10 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
+    public function anni()
+    {
+        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
+    }
 
     public function isDeceduta()
     {

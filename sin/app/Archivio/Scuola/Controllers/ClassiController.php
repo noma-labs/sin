@@ -18,11 +18,10 @@ use App\Nomadelfia\Models\AnnoScolastico;
 
 class ClassiController extends CoreBaseController
 {
-    public function index()
+    public function index(int $anno_id)
     {
-        $anno = Anno::getLastAnno();
+        $anno = Anno::firstOrFail($anno_id);
         $classi = $anno->classi()->get();
-        // TODO: group by ciclo delle classi
         return view('scuola.classi.index', compact('anno', 'classi'));
     }
 

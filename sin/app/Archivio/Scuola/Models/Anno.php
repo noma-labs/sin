@@ -38,7 +38,7 @@ class Anno extends Model
         return $this->responsabile()->associate($persona);
     }
 
-    public static function createAnno(int $year, $datainizo = null): Anno
+    public static function createAnno(int $year, $datainizo = null, $with_classi = false): Anno
     {
         $succ = $year + 1;
         $as = "{$year}/{$succ}";
@@ -48,7 +48,46 @@ class Anno extends Model
         } else {
             $d = Carbon::parse($datainizo);
         }
-        return self::create(['scolastico' => $as, 'data_inizio' => $d]);
+        try {
+            \DB::beginTransaction();
+            $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
+            if ($with_classi) {
+                $pre = ClasseTipo::prescuola();
+                $elem = ClasseTipo::elementari()->get();
+                $med = ClasseTipo::medie()->get();
+                $a->aggiungiClasse($pre);
+                foreach ($elem as $e) {
+                    $a->aggiungiClasse($e);
+                }
+                foreach ($med as $m) {
+                    $a->aggiungiClasse($m);
+                }
+            }
+            \DB::commit();
+            return $a;
+        } catch (\Exception $e) {
+            \DB::rollback();
+            throw $e;
+        }
+    }
+
+    public function importStudentsFromExistingAnno(Anno $copy_from_as)
+    {
+        $stud_pre = $copy_from_as->prescuola()->alunni()->get();
+        foreach ($stud_pre as $student) {
+            if ($student->anni() == 5) {
+                $this->primaElementare()->aggiungiAlunno($student, $this->data_inizio);
+            }else{
+                $this->prescuola()->aggiungiAlunno($student, $this->data_inizio);
+            }
+        }
+        $stud_1e = $copy_from_as->primaElementare()->alunni()->get();
+        foreach ($stud_1e as $st1e) {
+//            if ($stmedia->isPersonaInterna()) {
+//                $this->seco()->aggiungiAlunno($st1e, $this->data_inizio);
+//            }
+        }
+
     }
 
     public static function getLastAnno(): Anno
@@ -65,22 +104,74 @@ class Anno extends Model
         return $this->hasMany(Classe::class, 'anno_id', 'id');
     }
 
-    public function prescuola(){
+    public function prescuola()
+    {
         $p = ClasseTipo::Prescuola();
         return $this->classi()->where("tipo_id", "=", $p->id)->first();
     }
 
-    public function elementari(){
+    public function elementari()
+    {
         $p = ClasseTipo::Elementari()->get();
         return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
     }
 
-    public function medie(){
+    public function primaElementare()
+    {
+        $p = ClasseTipo::PrimaElem();
+        return $this->classi()->where('tipo_id', "=", $p->id)->first();
+    }
+
+    public function secondaElementare()
+    {
+        $p = ClasseTipo::SecondaElem();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function terzaElementare()
+    {
+        $p = ClasseTipo::TerzaElem();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function quartaElementare()
+    {
+        $p = ClasseTipo::QuartaElem();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function quintaElementare()
+    {
+        $p = ClasseTipo::QuintaElem();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function medie()
+    {
         $p = ClasseTipo::Medie()->get();
         return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
     }
 
-    public function superiori(){
+    public function primaMedia()
+    {
+        $p = ClasseTipo::PrimaMed();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function secondaMedia()
+    {
+        $p = ClasseTipo::SecondaMed();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function terzaMedia()
+    {
+        $p = ClasseTipo::TerzaMed();
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function superiori()
+    {
         $p = ClasseTipo::Superiori()->get();
         return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
     }
@@ -147,7 +238,7 @@ class Anno extends Model
                         INNER JOIN db_nomadelfia.persone as p ON p.id = coordinatori_classi.coordinatore_id
                         where coordinatori_classi.data_fine IS NULL AND classi.anno_id = :aid and tipo.ciclo = :ciclo
                         order by tipo.ord;"),
-            array('aid' => $this->id, 'ciclo'=>$ciclo)
+            array('aid' => $this->id, 'ciclo' => $ciclo)
         );
         $cc = collect($res)->groupBy("classe");
         return $cc;
