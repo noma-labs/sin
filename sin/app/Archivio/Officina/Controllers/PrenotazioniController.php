@@ -122,15 +122,30 @@ class PrenotazioniController extends CoreBaseController
 
         $query = null;
         $now =  Carbon::now();
+        // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day == "oggi") {
             $query= Prenotazioni::where('data_partenza','=', $now->toDateString())
-                                 ->orWhere('data_arrivo', '=', $now->toDateString());
+                                 ->orWhere('data_arrivo', '=', $now->toDateString())
+                                ->orWhere(function($query) use ($now) {
+                                    // prenotazioni a cavallo di oggi
+                                    $query->where('data_partenza', '<', $now->toDateString())
+                                        ->where('data_arrivo', '>',  $now->toDateString());
+                                });
         } else {
             if ($day == "ieri") {
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
             if ($day == 'all') {
-                $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString());
+                // include: 1) prenotazioni che partono dopo oggi (o uguale)
+//                            2) prenotazioni a cavallo di oggi
+//                            3) prenotazioni che si concludono oggi
+                $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
+                                    ->orWhere(function($query) use ($now) {
+                                        // prenotazioni a cavallo di oggi
+                                        $query->where('data_partenza', '<', $now->toDateString())
+                                            ->where('data_arrivo', '>',  $now->toDateString());
+                                    })
+                                    ->orWhere('data_arrivo', '=', $now->toDateString());
             }
         }
         $prenotazioni = $query->orderBy('data_partenza', 'asc')

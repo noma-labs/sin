@@ -535,49 +535,15 @@ CREATE TABLE IF NOT EXISTS `veicolo` (
   `litri_olio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Struttura stand-in per le viste `v_clienti_meccanica`
--- (Vedi sotto per la vista effettiva)
---
-CREATE TABLE IF NOT EXISTS `v_clienti_meccanica` (
-`id` int(10)
-,`nominativo` varchar(100)
-,`data_nascita` date
-,`cliente_con_patente` varchar(3)
-);
+-- Crea vista `v_clienti_meccanica`
 
+CREATE VIEW IF NOT EXISTS `v_clienti_meccanica`
+AS select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,(select distinct (case `db_patente`.`persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `db_patente`.`persone_patenti` where ((`db_patente`.`persone_patenti`.`numero_patente` is not null) and (`db_patente`.`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))) AS `cliente_con_patente` from `db_nomadelfia`.`persone` where (isnull(`db_nomadelfia`.`persone`.`data_decesso`) and (`db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 200 year_month))) ;
+
+
+CREATE VIEW IF NOT EXISTS `v_lavoratori_meccanica`
+AS select `db_nomadelfia`.`aziende_persone`.`azienda_id` AS `azienda_id`,`db_nomadelfia`.`aziende_persone`.`persona_id` AS `persona_id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`aziende_persone`.`stato` AS `stato`,`db_nomadelfia`.`aziende_persone`.`mansione` AS `mansione`,`db_nomadelfia`.`aziende_persone`.`data_inizio_azienda` AS `data_inizio_azienda`,`db_nomadelfia`.`aziende_persone`.`data_fine_azienda` AS `data_fine_azienda` from (`db_nomadelfia`.`aziende_persone` join `db_nomadelfia`.`persone`) where ((`db_nomadelfia`.`aziende_persone`.`azienda_id` = 1) and (`db_nomadelfia`.`persone`.`id` = `db_nomadelfia`.`aziende_persone`.`persona_id`) and (`db_nomadelfia`.`persone`.`id` <> 127)) order by `db_nomadelfia`.`aziende_persone`.`mansione` ;
 -- --------------------------------------------------------
-
---
--- Struttura stand-in per le viste `v_lavoratori_meccanica`
--- (Vedi sotto per la vista effettiva)
---
-CREATE TABLE IF NOT EXISTS `v_lavoratori_meccanica` (
-`azienda_id` int(10)
-,`persona_id` int(10)
-,`nominativo` varchar(100)
-,`stato` enum('Attivo','Non Attivo','Sospeso')
-,`mansione` enum('RESPONSABILE AZIENDA','LAVORATORE')
-,`data_inizio_azienda` date
-,`data_fine_azienda` date
-);
-
-
---
--- Struttura per vista `v_clienti_meccanica`
---
-DROP TABLE IF EXISTS `v_clienti_meccanica`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_clienti_meccanica`  AS  select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,(select distinct (case `db_patente`.`persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `db_patente`.`persone_patenti` where ((`db_patente`.`persone_patenti`.`numero_patente` is not null) and (`db_patente`.`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))) AS `cliente_con_patente` from `db_nomadelfia`.`persone` where (isnull(`db_nomadelfia`.`persone`.`data_decesso`) and (`db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 200 year_month))) ;
-
--- --------------------------------------------------------
-
---
--- Struttura per vista `v_lavoratori_meccanica`
---
-DROP TABLE IF EXISTS `v_lavoratori_meccanica`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_lavoratori_meccanica`  AS  select `db_nomadelfia`.`aziende_persone`.`azienda_id` AS `azienda_id`,`db_nomadelfia`.`aziende_persone`.`persona_id` AS `persona_id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`aziende_persone`.`stato` AS `stato`,`db_nomadelfia`.`aziende_persone`.`mansione` AS `mansione`,`db_nomadelfia`.`aziende_persone`.`data_inizio_azienda` AS `data_inizio_azienda`,`db_nomadelfia`.`aziende_persone`.`data_fine_azienda` AS `data_fine_azienda` from (`db_nomadelfia`.`aziende_persone` join `db_nomadelfia`.`persone`) where ((`db_nomadelfia`.`aziende_persone`.`azienda_id` = 1) and (`db_nomadelfia`.`persone`.`id` = `db_nomadelfia`.`aziende_persone`.`persona_id`) and (`db_nomadelfia`.`persone`.`id` <> 127)) order by `db_nomadelfia`.`aziende_persone`.`mansione` ;
 
 --
 -- Indici per le tabelle scaricate
