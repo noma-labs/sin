@@ -107,23 +107,30 @@ class Persona extends Model
      * @param int $eta
      * @author Davide Neri
      **/
-    public function scopeDaEta($query, int $eta)
+    public function scopeDaEta($query, int $eta, string $orderBy='nominativo', $travel_to_year=null)
     {
-        $data = Carbon::now()->subYears($eta)->toDateString();
-        return $query->where('data_nascita', '<=', $data);
+        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+        $end = $date->subYears($eta);
+        return $query->where('data_nascita', '<=', $end)->orderby($orderBy);
     }
 
-    /**
-     * Ritorna le persone che hanno un eta compresa tra da $frometa e  $toeta.
+      /**
+     * Ritorna le persone che hanno un eta compresa tra da $frometa e $toeta.
      * @param int $frometa
      * @param int $toeta
      * @author Davide Neri
      **/
-    public function scopeFraEta($query, int $frometa, int $toeta)
+    public function scopeFraEta($query, int $frometa, int $toeta, string $orderBy='nominativo', $travel_to_year=null)
     {
-        $fromdata = Carbon::now()->subYears($toeta)->toDateString();
-        $todata = Carbon::now()->subYears($frometa)->toDateString();
+        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+        $fromdata = $date->subYears($toeta)->toDateString();
+        $todata = $date->subYears($frometa)->toDateString();
         return $query->whereBetween('data_nascita', [$fromdata, $todata]);
+    }
+
+    public function scopeNatiInAnno($query, int $anno)
+    {
+        return $query->whereRaw('YEAR(data_nascita)= ?',[$anno]);
     }
 
 

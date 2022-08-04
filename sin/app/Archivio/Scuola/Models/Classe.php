@@ -140,11 +140,10 @@ class Classe extends Model
         }
     }
 
-    public
-    function alunniPossibili()
+    public function alunniPossibili()
     {
         if ($this->tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
+            $all = Persona::DaEta(3, 7, "data_nascita", 1994);
         } elseif ($this->tipo->IsUniversita()) {
             $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
         } else {

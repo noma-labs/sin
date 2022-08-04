@@ -450,4 +450,17 @@ class PersonaTest extends TestCase
             $this->assertEquals($componente->getDataUscitaNomadelfia(), $data_uscita);
         });
     }
+
+    /** @test */
+    public function get_persone_from_eta()
+    {
+        $init  = Persona::all()->count();
+        $persona2 = Persona::factory()->nato(Carbon::parse('01-01-1991'))->maschio()->create();
+        $persona1 = Persona::factory()->nato(Carbon::parse("18-04-1991"))->maschio()->create();
+        $persona2 = Persona::factory()->nato(Carbon::parse('31-12-1991'))->maschio()->create();
+        $after  = Persona::all()->count();
+        $this->assertEquals(3, $after  - $init );
+        $this->assertEquals(3, Persona::NatiInAnno(1991)->count());
+
+    }
 }

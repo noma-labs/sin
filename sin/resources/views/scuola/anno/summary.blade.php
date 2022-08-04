@@ -63,7 +63,8 @@
         </div>
     </div>
 </div>
-    @include('scuola.templates.aggiungiClasse',["anno"=>$anno])
+@include('scuola.templates.aggiungiClasse',["anno"=>$anno])
+
 @foreach ($classi->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $classe)

@@ -27,6 +27,10 @@ class ClassiController extends CoreBaseController
 
     public function show(Request $request, $id)
     {
+        $date = Carbon::now()->setYear(1994);
+        $fromdata = $date->subYears(5)->toDateString();
+        $todata = $date->subYears(2)->toDateString();
+        dd($todata);
         $classe = Classe::findOrFail($id);
         $alunni = $classe->alunni();
         $coords = $classe->coordinatori();
