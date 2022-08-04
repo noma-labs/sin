@@ -67,7 +67,18 @@ class Classe extends Model
         }
     }
 
-    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo=null)
+    public function importStudentsFromOtherClasse(Classe $classe_from)
+    {
+        $a = $classe_from->alunni();
+        $this->alunni()->attach($a);
+    }
+
+    public function nextClasseTipo()
+    {
+        return $this->tipo->classeSuccessiva();
+    }
+
+    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo = null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno->data_inizio;
@@ -134,9 +145,9 @@ class Classe extends Model
     {
         if ($this->tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
-        } elseif ($this->tipo->IsUniversita()){
+        } elseif ($this->tipo->IsUniversita()) {
             $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
-        }  else {
+        } else {
             $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
         }
 

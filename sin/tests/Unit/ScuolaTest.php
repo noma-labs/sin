@@ -157,39 +157,79 @@ class ScuolaTest extends TestCase
     public function classe_successiva_is_correct()
     {
         $a = Anno::createAnno(2030, '2023-12-12', true);
-        $this->assertEquals($a->prescuola()->tipo->ClasseSuccessiva(), ClasseTipo::PrimaElem());
-        $this->assertEquals($a->primaElementare()->tipo->ClasseSuccessiva(), ClasseTipo::SecondaElem());
-        $this->assertEquals($a->secondaElementare()->tipo->ClasseSuccessiva(), ClasseTipo::TerzaElem());
-        $this->assertEquals($a->terzaElementare()->tipo->ClasseSuccessiva(), ClasseTipo::QuartaElem());
-        $this->assertEquals($a->quintaElementare()->tipo->ClasseSuccessiva(), ClasseTipo::PrimaMed());
+        $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
+        $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
+        $this->assertEquals($a->secondaElementare()->nextClasseTipo(), ClasseTipo::TerzaElem());
+        $this->assertEquals($a->terzaElementare()->nextClasseTipo(), ClasseTipo::QuartaElem());
+        $this->assertEquals($a->quintaElementare()->nextClasseTipo(), ClasseTipo::PrimaMed());
 
-        $this->assertEquals($a->primaMedia()->tipo->ClasseSuccessiva(), ClasseTipo::SecondaMed());
-        $this->assertEquals($a->secondaMedia()->tipo->ClasseSuccessiva(), ClasseTipo::TerzaMed());
+        $this->assertEquals($a->primaMedia()->nextClasseTipo(), ClasseTipo::SecondaMed());
+        $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
 //        $this->assertEquals($a->terzaMedia()->tipo->ClasseSuccessiva(), ClasseTipo::SecondaMed());
     }
 
     /** @test */
     public function copy_students_from_existing_anno()
     {
-        $a = Anno::createAnno(2026, "2023-12-12", true);
+        $a = Anno::createAnno(2039, "2023-12-12", true);
         $this->assertCount(9, $a->classi()->get());
 
-        $s5year = Studente::factory()->diEta(5)->maschio()->create();
-        $s3year = Studente::factory()->diEta(3)->maschio()->create();
-        $a->prescuola()->aggiungiAlunno($s5year, Carbon::now());
-        $a->prescuola()->aggiungiAlunno($s3year, Carbon::now());
+        $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
+        $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(3)->maschio()->create(), Carbon::now());
+        $a->primaElementare()->aggiungiAlunno(Studente::factory()->diEta(6)->maschio()->create(), Carbon::now());
+        $a->secondaElementare()->aggiungiAlunno(Studente::factory()->diEta(7)->maschio()->create(), Carbon::now());
+        $a->terzaElementare()->aggiungiAlunno(Studente::factory()->diEta(8)->maschio()->create(), Carbon::now());
+        $a->quartaElementare()->aggiungiAlunno(Studente::factory()->diEta(9)->maschio()->create(), Carbon::now());
+        $a->quintaElementare()->aggiungiAlunno(Studente::factory()->diEta(10)->maschio()->create(), Carbon::now());
+        $a->primaMedia()->aggiungiAlunno(Studente::factory()->diEta(11)->maschio()->create(), Carbon::now());
+        $a->secondaMedia()->aggiungiAlunno(Studente::factory()->diEta(12)->maschio()->create(), Carbon::now());
+        $a->terzaMedia()->aggiungiAlunno(Studente::factory()->diEta(13)->maschio()->create(), Carbon::now());
+
         $this->assertCount(2, $a->prescuola()->alunni()->get());
-        $this->assertCount(2, $a->alunni());
-
-        $this->assertCount(0, $a->primaElementare()->alunni()->get());
-        $s6year = Studente::factory()->diEta(6)->maschio()->create();
-        $a->primaElementare()->aggiungiAlunno($s6year, Carbon::now());
-        $this->assertCount(1, $a->primaElementare()->alunni()->get());
+        $this->assertCount(10, $a->alunni());
 
 
-        $aNew = Anno::createAnno(2024, '2024-08-01', true);
+        $aNew = Anno::createAnno(2040, '2024-08-01');
         $aNew->importStudentsFromExistingAnno($a);
+        $this->assertCount(9, $a->classi()->get());
+        $this->assertCount(10, $aNew->alunni());
+    }
 
-        $this->assertCount(1, $aNew->primaElementare()->alunni()->get());
+    public function copy_students_from_other_classe()
+    {
+        $a = Anno::createAnno(2034, '2023-12-12', true);
+        $this->assertCount(9, $a->classi()->get());
+
+        $pre = $a->prescuola();
+        $pre->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
+        $pre->aggiungiAlunno(Studente::factory()->diEta(3)->maschio()->create(), Carbon::now());
+        $this->assertCount(2, $pre->alunni()->get());
+
+        $aNew = Anno::createAnno(2035, '2024-08-01', true);
+        $aNew->primaElementare()->importStudentsFromOtherClasse($pre);
+        $this->assertCount(2, $aNew->primaElementare()->alunni()->get());
+        $this->assertCount(2, $aNew->alunni()->get());
+    }
+
+    public function next_classe_in_anno()
+    {
+        $a = Anno::createAnno(2035, '2023-12-12', true);
+        $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
+        $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
+        $this->assertEquals($a->secondaElementare()->nextClasseTipo(), ClasseTipo::TerzaElem());
+        $this->assertEquals($a->terzaElementare()->nextClasseTipo(), ClasseTipo::QuartaElem());
+        $this->assertEquals($a->quintaElementare()->nextClasseTipo(), ClasseTipo::PrimaMed());
+
+        $this->assertEquals($a->primaMedia()->nextClasseTipo(), ClasseTipo::SecondaMed());
+        $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
+    }
+
+    public function first_or_create_classe_in_anno()
+    {
+        $a = Anno::createAnno(2035, '2023-12-12');
+        $this->assertCount(0, $a->classi());
+        $a->findOrCreateClasseByTipo(ClasseTipo::prescuola());
+        $this->assertCount(0, $a->classi());
+
     }
 }

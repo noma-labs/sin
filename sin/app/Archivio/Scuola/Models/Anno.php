@@ -52,15 +52,11 @@ class Anno extends Model
             \DB::beginTransaction();
             $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
             if ($with_classi) {
-                $pre = ClasseTipo::prescuola();
-                $elem = ClasseTipo::elementari()->get();
-                $med = ClasseTipo::medie()->get();
-                $a->aggiungiClasse($pre);
-                foreach ($elem as $e) {
-                    $a->aggiungiClasse($e);
-                }
-                foreach ($med as $m) {
-                    $a->aggiungiClasse($m);
+                $t = ClasseTipo::all();
+                foreach($t as $tipo) {
+                    if (!$tipo->isSuperiori()) {
+                        $a->aggiungiClasse($tipo);
+                    }
                 }
             }
             \DB::commit();
@@ -73,19 +69,11 @@ class Anno extends Model
 
     public function importStudentsFromExistingAnno(Anno $copy_from_as)
     {
-        $stud_pre = $copy_from_as->prescuola()->alunni()->get();
-        foreach ($stud_pre as $student) {
-            if ($student->anni() == 5) {
-                $this->primaElementare()->aggiungiAlunno($student, $this->data_inizio);
-            }else{
-                $this->prescuola()->aggiungiAlunno($student, $this->data_inizio);
-            }
-        }
-        $stud_1e = $copy_from_as->primaElementare()->alunni()->get();
-        foreach ($stud_1e as $st1e) {
-//            if ($stmedia->isPersonaInterna()) {
-//                $this->seco()->aggiungiAlunno($st1e, $this->data_inizio);
-//            }
+        $classi_from = $copy_from_as->classi();
+        foreach ($classi_from as $classe) {
+            $next = $classe->nextClasseTipo();
+            $new_classe = $this->findOrCreateClasseByTipo($next);
+            $new_classe->importStudentsFromOtherClasse($classe);
         }
 
     }
@@ -102,6 +90,15 @@ class Anno extends Model
     public function classi()
     {
         return $this->hasMany(Classe::class, 'anno_id', 'id');
+    }
+
+    public function findOrCreateClasseByTipo(ClasseTipo $t): Classe
+    {
+        $c = $this->classi()->where('tipo_id', '=', $t->id)->first();
+        if (!$c) {
+            $c = $this->aggiungiClasse($t);
+        }
+        return $c;
     }
 
     public function prescuola()
