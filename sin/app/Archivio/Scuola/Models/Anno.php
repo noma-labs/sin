@@ -69,18 +69,19 @@ class Anno extends Model
 
     public function importStudentsFromExistingAnno(Anno $copy_from_as)
     {
-        $classi_from = $copy_from_as->classi();
+        $classi_from = $copy_from_as->classi()->get();
         foreach ($classi_from as $classe) {
             $next = $classe->nextClasseTipo();
             $new_classe = $this->findOrCreateClasseByTipo($next);
-            $new_classe->importStudentsFromOtherClasse($classe);
+            $new_classe->importStudentsFromOtherClasse($classe, $this->data_inizio);
+
         }
 
     }
 
     public static function getLastAnno(): Anno
     {
-        $a = self::all();
+        $a = self::orderBy('scolastico', 'DESC')->limit(1)->get();
         if ($a->count() > 0) {
             return $a->first();
         }

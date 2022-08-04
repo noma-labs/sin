@@ -1,9 +1,9 @@
-@extends('scuola.index-anno')
+@extends('scuola.index')
 
 @section('title', 'Gestione Scuola')
 
 @section('archivio')
-    @include('partials.header', ['title' => "Gestione Anno Scolastico"])
+    @include('partials.header', ['title' => "Anno scolastico " . $anno->scolastico])
 
 <div class="row">
     <div class="col-md-12">
@@ -26,44 +26,33 @@
                             Studenti
                             <span class="badge badge-primary badge-pill">{{$alunni}} </span>
                         </li>
-                        @foreach ($cicloAlunni as $c)
-                            <li class="list-group-item d-flex justify-content-end  align-items-center ">
-                                <p class="m-2">   {{ucfirst($c->ciclo)}}</p>
-                                <span class="badge badge-primary badge-pill">{{$c->count}} </span>
-                            </li>
-                        @endforeach
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <my-modal modal-title="Esporta Elenchi" button-title="Esporta Elenchi" button-style="btn-primary my-2">
-                        <template slot="modal-body-slot">
-                            <form class="form" method="POST"  id="formStampa"  action="{{ route('scuola.stampa') }}" >
-                                {{ csrf_field() }}
-                                <p>Seleziona gli elenchi da stampare:</p>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="studenti" id="defaultCheck1"   name="elenchi[]" checked>
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Elenco Studenti
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="coordinatori" id="defaultCheck1"   name="elenchi[]" checked>
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Elenco Coordinatori
-                                    </label>
-                                </div>
-                            </form>
-                        </template>
-                        <template slot="modal-button">
-                            <button class="btn btn-success" form="formStampa">Esporta (.doc) </button>
-                        </template>
-                    </my-modal>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 @include('scuola.templates.aggiungiClasse',["anno"=>$anno])
+
+
+    <form class="form" method="POST" id="importStudents" action="{{  route('scuola.anno.import', ["id"=>$anno->id]) }}" >
+        {{ csrf_field() }}
+        <div class="form-group row">
+            <label for="example-text-input" class="col-4 col-form-label">Tipo di classe</label>
+            <div class="col-8">
+                <select class="form-control" name="anno_from">
+                    <option value="" selected>---scegli--</option>
+                    @foreach (App\Scuola\Models\Anno::orderBy("scolastico")->get() as  $t)
+                        <option value="{{ $t->id }}"> {{$t->scolastico}} </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-danger" form="importStudents">Aggiungi</button>
+    </form>
 
 @foreach ($classi->chunk(3) as $chunk)
     <div class="row my-2">

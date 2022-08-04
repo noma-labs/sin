@@ -67,10 +67,10 @@ class Classe extends Model
         }
     }
 
-    public function importStudentsFromOtherClasse(Classe $classe_from)
+    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio)
     {
-        $a = $classe_from->alunni();
-        $this->alunni()->attach($a);
+        $a = $classe_from->alunni()->get();
+        $this->alunni()->attach($a, ['data_inizio' => $data_inizio]);
     }
 
     public function nextClasseTipo()
@@ -142,15 +142,17 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
-        if ($this->tipo->isPrescuola()) {
-            $all = Persona::DaEta(3, 7, "data_nascita", 1994);
-        } elseif ($this->tipo->IsUniversita()) {
-            $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
-        } else {
-            $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
-        }
+        $all = Persona::NatiInAnno(1991)->get();
+//        if ($this->tipo->isPrescuola()) {
+//            $all = Persona::NatiInAnno(1991);
+//        } elseif ($this->tipo->IsUniversita()) {
+//            $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
+//        } else {
+//            $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
+//        }
 
-        $current = collect($this->anno->alunni());
+
+        $current = collect(  Studente::InAnnoScolastico($this->anno)->get());//     $this->anno->alunni());
         $ids = $current->map(function ($item) {
             return $item->id;
         });

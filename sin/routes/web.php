@@ -259,8 +259,10 @@ Route::mediaLibrary();
 
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
-    Route::get('/anno/{id}', [ScuolaController::class, 'index'])->name('scuola.anno');
+    Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('scuola.anno.storico');
+    Route::get('/anno/{id}', [ScuolaController::class, 'index'])->name('scuola.anno.show');
     Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('scuola.anno.aggiungi');
+    Route::post('/anno/{id}/students', [ScuolaController::class, 'importStudentsFromOtherAnnoScolastico'])->name('scuola.anno.import');
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('scuola.anno.classe.aggiungi');
     Route::post('stampa',  [ScuolaController::class, 'print'])->name('scuola.stampa');
     Route::get('/anno/{anno_id}/classi',  [ClassiController::class, 'index'])->name('scuola.classi');

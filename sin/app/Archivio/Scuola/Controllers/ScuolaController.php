@@ -15,8 +15,17 @@ class ScuolaController extends CoreBaseController
 
     public function summary()
     {
+        $lastAnno = Anno::getLastAnno();
+        $alunni = Studente::InAnnoScolastico($lastAnno)->count();
+        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($lastAnno)->get();
+        $resp = $lastAnno->responsabile;
+        return view('scuola.summary', compact( 'lastAnno', 'alunni', 'cicloAlunni','resp'));
+    }
+
+    public function storico()
+    {
         $anni = Anno::orderBy('scolastico', "DESC")->get();
-        return view('scuola.summary', compact('anni'));
+        return view('scuola.anno.storico', compact( 'anni'));
     }
 
     public function index(Request $request, $id)
@@ -25,10 +34,8 @@ class ScuolaController extends CoreBaseController
         $alunni = Studente::InAnnoScolastico($anno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;
-
         $classi = $anno->classi()->get();
-
-        return view('scuola.anno.summary', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
+        return view('scuola.anno.show', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
     }
 
     public function aggiungiClasse(Request $request, $id)
@@ -53,8 +60,25 @@ class ScuolaController extends CoreBaseController
             'data_inizio.date' => "la data di inizio no è una data valida",
         ]);
 
-        Anno::createAnno($request->get('anno_inizio'), $request->get("data_inizio", Carbon::now()->toDateString()), true);
+        $a = Anno::createAnno($request->get('anno_inizio'), $request->get("data_inizio", Carbon::now()->toDateString()), true);
         return redirect()->back()->withSuccess("Anno scolastico aggiunto con successo.");
+
+    }
+
+    public function importStudentsFromOtherAnnoScolastico(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'anno_from' => 'required',
+        ], [
+            'anno_from.required' => "Anno scolastico di partenza è obbligatorio.",
+        ]);
+
+        $a = Anno::findOrFail($id);
+        $a_from = Anno::findOrFail($request->get('anno_from'));
+        $a->importStudentsFromExistingAnno($a_from);
+        $count = Studente::InAnnoScolastico($a_from)->count();
+        $counta = Studente::InAnnoScolastico($a)->count();
+        return redirect()->back()->withSuccess(" $count Studenti dall'anno $a_from->scolastico importati con successo ($counta).");
 
     }
 
