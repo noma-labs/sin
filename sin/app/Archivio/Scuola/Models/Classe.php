@@ -67,7 +67,18 @@ class Classe extends Model
         }
     }
 
-    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo=null)
+    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio)
+    {
+        $a = $classe_from->alunni()->get();
+        $this->alunni()->attach($a, ['data_inizio' => $data_inizio]);
+    }
+
+    public function nextClasseTipo()
+    {
+        return $this->tipo->classeSuccessiva();
+    }
+
+    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo = null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno->data_inizio;
@@ -129,21 +140,19 @@ class Classe extends Model
         }
     }
 
-    public
-    function alunniPossibili()
+    public function alunniPossibili()
     {
-        if ($this->tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita");
-        } elseif ($this->tipo->IsUniversita()){
-            $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
-        }  else {
-            $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
+        $as = $this->anno->annoSolareInizio();
+        $tipo = $this->tipo;
+        if ($tipo->isPrescuola()) {
+            $all = Studente::FraEta(3, 6, 'nominativo', $as, true)->get();
+        } elseif ($tipo->IsUniversita()) {
+            $all = Studente::FraEta(18, 26, 'nominativo', $as, true)->get();
+        } else {
+            $all = Studente::FraEta(7, 19, 'nominativo', $as, true)->get();
         }
 
-        $current = collect($this->anno->alunni());
-        $ids = $current->map(function ($item) {
-            return $item->id;
-        });
+        $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
         return $all->whereNotIn('id', $ids);
     }
 

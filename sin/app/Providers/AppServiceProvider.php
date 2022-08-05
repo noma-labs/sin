@@ -30,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             if (is_string($persona)) {
                 $persona= Persona::findOrFail($persona);
             }
+            $gruppoAttuale = $persona->gruppofamiliareAttuale();
+            if (! $gruppoAttuale){
+                return false;
+            }
             return $persona->gruppofamiliareAttuale()->isCentroDiSpirito();
         });
 

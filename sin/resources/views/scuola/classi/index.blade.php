@@ -36,7 +36,7 @@
                                             </li>
                                         @endforeach
                                     </ul>
-                                    <a class="btn btn-primary" href="{{ route('scuola.classi.show',$classe->id)}}">Dettaglio</a>
+                                    <a class="btn btn-primary" href="{{ route('scuola.anno.show',$classe->id)}}">Dettaglio</a>
                                 </div>
                             </div>
                         </div>

@@ -51,6 +51,24 @@ class PersonaFactory extends Factory
         });
     }
 
+    public function diEta(int $year)
+    {
+        return $this->state(function (array $attributes) use ($year) {
+            return [
+                'data_nascita' => Carbon::now()->subYears($year)->toDateString(),
+            ];
+        });
+    }
+
+    public function nato(Carbon $data_nascita)
+    {
+        return $this->state(function (array $attributes) use ($data_nascita) {
+            return [
+                'data_nascita' => $data_nascita->toDateString(),
+            ];
+        });
+    }
+
     public function minorenne()
     {
         return $this->state(function (array $attributes) {

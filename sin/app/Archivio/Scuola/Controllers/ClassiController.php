@@ -18,15 +18,14 @@ use App\Nomadelfia\Models\AnnoScolastico;
 
 class ClassiController extends CoreBaseController
 {
-    public function index()
+    public function index(int $anno_id)
     {
-        $anno = Anno::getLastAnno();
+        $anno = Anno::firstOrFail($anno_id);
         $classi = $anno->classi()->get();
-        // TODO: group by ciclo delle classi
         return view('scuola.classi.index', compact('anno', 'classi'));
     }
 
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $classe = Classe::findOrFail($id);
         $alunni = $classe->alunni();
@@ -38,11 +37,10 @@ class ClassiController extends CoreBaseController
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
     {
+        dd($request->get("alunno_id"));
         $request->validated();
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($request->alunno_id);
-
-//        $classe->aggiungiAlunno($alunno, $request->data_inizio);
         $addStudentAction->execute($classe, $alunno, $request->data_inizio);
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo aggiunto a {$classe->tipo->nome} con successo.");
     }
