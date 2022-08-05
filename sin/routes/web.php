@@ -5,6 +5,7 @@ use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Officina\Controllers\PatentiController;
+use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
@@ -271,7 +272,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
-    Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
+    Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiController::class, 'rimuoviCoordinatore'])->name('scuola.classi.coordinatore.rimuovi');
 
     // elaborati
     Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
@@ -392,10 +393,8 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
 //##################################################################
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     // PRENOTAZIONI add, delete, update, search
-    // officina/
-    Route::post("/",
-        'PrenotazioniController@prenotazioniSucc')->middleware('ability:veicolo.prenota')->name('officina.prenota');
-    // PRENOTAZIONI delete, modify, list
+    Route::post("/",[PrenotazioniController::class, 'prenotazioniSucc'])->middleware('ability:veicolo.prenota')->name('officina.prenota');
+
     Route::get("delete/{id}/",
         'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
     Route::get("modifica/{id}/",
@@ -435,8 +434,7 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('ability:veicolo.visualizza')->name('officina.patenti');
 
     // PRENOTAZIONI
-    Route::get("/{giorno?}",
-        'PrenotazioniController@prenotazioni')->middleware('ability:veicolo.prenota')->name('officina.index');
+    Route::get("/", [PrenotazioniController::class, 'prenotazioni'])->middleware('ability:veicolo.prenota')->name('officina.index');
 });
 
 //#################################################################

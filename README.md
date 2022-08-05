@@ -169,8 +169,8 @@ Questo permette di creare le migration in formato SQL.
 Create a migration:
 - `php artisan make:migration create_flights_table  --path="database/migrations/db_nomadelfia" --sql`
 
-With Docker 
-- `docker-compose exec app php artisan make:migration create_cariche_table  --path="database/migrations/db_nomadelfia" --sql`
+With sail (docker-compose) 
+- ` sail php artisan make:migration create_flights_table  --path="database/migrations/db_nomadelfia" --sql`
 
   Refresh the structure
 - `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`

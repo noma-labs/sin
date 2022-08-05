@@ -88,53 +88,54 @@
     </thead>
     <tbody>
       @foreach ( $prenotazioni as $pren)
-      @empty($pren->delated_at)
-      <tr hoverable>
-        <td>{{ $loop->iteration }}</td>
-        <td>
-          @if ($pren->isPartita())
-            <span class="badge badge-danger">Partita</span>
-          @elseif($pren->deveAncoraPartire())
-            <span class="badge badge-warning">Deve Partire</span>
-          @elseif($pren->isArrivata())
-            <span class="badge badge-success">Arrivata</span>
-          @endif 
-        </td>
-        <td>{{ $pren->cliente->nominativo }}</td>
-        <td>{{ $pren->veicolo->nome }}</td>
-        <td>
-          @if($pren->data_partenza == $pren->data_arrivo)
-            {{$pren->data_partenza}}
-          @else
-          {{ $pren->data_partenza }} <br>{{ $pren->data_arrivo}}
-          @endif
-        </td>
-        <td>{{ $pren->ora_partenza }}</td>
-        <td>{{ $pren->ora_arrivo }}</td>
-        <td>{{ $pren->meccanico->nominativo }}</td>
-        <td>{{ $pren->uso->ofus_nome }}</td>
-        <td>{{ $pren->destinazione }}</td>
-        <td>{{ $pren->note }}</td>
-        <td>
-          <div class='btn-group' role='group' aria-label="Basic example">
-            @can('veicolo.modifica')
-            <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
-            @endcan
-            @can('veicolo.elimina')
-              <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
-            @endcan
-          </div>
-        </td>
-      </tr>
-      @endempty
+        @empty($pren->delated_at)
+        <tr hoverable>
+          <td>{{ $loop->iteration }}</td>
+          <td>
+            @if ($pren->isPartita())
+              <span class="badge badge-danger">Partita</span>
+            @elseif($pren->deveAncoraPartire())
+              <span class="badge badge-warning">Deve Partire</span>
+            @elseif($pren->isArrivata())
+              <span class="badge badge-success">Arrivata</span>
+            @endif
+          </td>
+          <td>{{ $pren->cliente->nominativo }}</td>
+          <td>{{ $pren->veicolo->nome }}</td>
+          <td>
+            @if($pren->data_partenza == $pren->data_arrivo)
+              {{$pren->data_partenza}}
+            @else
+            {{ $pren->data_partenza }} <br>{{ $pren->data_arrivo}}
+            @endif
+          </td>
+          <td>{{ $pren->ora_partenza }}</td>
+          <td>{{ $pren->ora_arrivo }}</td>
+          <td>{{ $pren->meccanico->nominativo }}</td>
+          <td>{{ $pren->uso->ofus_nome }}</td>
+          <td>{{ $pren->destinazione }}</td>
+          <td>{{ $pren->note }}</td>
+          <td>
+            <div class='btn-group' role='group' aria-label="Basic example">
+              @can('veicolo.modifica')
+              <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
+              @endcan
+              @can('veicolo.elimina')
+                <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
+              @endcan
+            </div>
+          </td>
+        </tr>
+        @endempty
       @endforeach
     </tbody>
   </table>
 </div>
 <div class="row justify-content-center mb-2">
   <div class="btn-group btn-group-lg" role="group">
-    <a role="button" href="{{route("officina.index", "ieri")}}" class="btn btn-danger @if($giorno == 'ieri') active @endif" >Ieri</a>
-    <a role="button" href="{{route("officina.index")}}" class="btn btn-success @if($giorno == 'oggi') active @endif" >Oggi</a>
+    <a role="button" href="{{route("officina.index", ["day" =>"ieri"])}}" class="btn btn-danger @if($day == 'ieri') active @endif" >Ieri</a>
+    <a role="button" href="{{route("officina.index",  ["day" => "oggi"])}}" class="btn btn-success @if($day == 'oggi') active @endif" >Oggi</a>
+    <a role="button" href="{{route("officina.index", ["day" =>  "all"])}}" class="btn btn-warning @if($day == 'all') active @endif" >Tutte</a>
   </div>
 </div>
 @endsection

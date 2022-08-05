@@ -2,6 +2,8 @@
 
 namespace App\Officina\Controllers;
 
+use App\Nomadelfia\Models\Persona;
+use App\Officina\Actions\CreatePrenotazioneAction;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
 
@@ -110,34 +112,53 @@ class PrenotazioniController extends CoreBaseController
         return view("officina.prenotazioni.search_results", compact('usi', 'prenotazioni', 'msgSearch'));
     }
 
-    public function prenotazioni($giorno = "oggi")
+    public function prenotazioni(Request $request)
     {
+        $day = $request->get('day', "oggi");
+
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
-        if ($giorno == "oggi") {
-            $prenotazioni = Prenotazioni::where('data_arrivo', '>=', Carbon::now()->toDateString())
-                ->orderBy('data_partenza', 'asc')
-                ->orderBy('data_arrivo', 'desc')
-                ->orderBy('ora_partenza', 'desc')
-                ->orderBy('ora_arrivo', 'asc')
-                ->get();
+
+        $query = null;
+        $now =  Carbon::now();
+        // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
+        if ($day == "oggi") {
+            $query= Prenotazioni::where('data_partenza','=', $now->toDateString())
+                                 ->orWhere('data_arrivo', '=', $now->toDateString())
+                                ->orWhere(function($query) use ($now) {
+                                    // prenotazioni a cavallo di oggi
+                                    $query->where('data_partenza', '<', $now->toDateString())
+                                        ->where('data_arrivo', '>',  $now->toDateString());
+                                });
         } else {
-            if ($giorno == "ieri") {
-                $prenotazioni = Prenotazioni::where('data_arrivo', '=', Carbon::now()->subDay()->toDateString())
-                    ->orderBy('data_partenza', 'asc')
-                    ->orderBy('data_arrivo', 'desc')
-                    ->orderBy('ora_partenza', 'desc')
-                    ->orderBy('ora_arrivo', 'asc')
-                    ->get();
+            if ($day == "ieri") {
+                $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
+            }
+            if ($day == 'all') {
+                // include: 1) prenotazioni che partono dopo oggi (o uguale)
+//                            2) prenotazioni a cavallo di oggi
+//                            3) prenotazioni che si concludono oggi
+                $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
+                                    ->orWhere(function($query) use ($now) {
+                                        // prenotazioni a cavallo di oggi
+                                        $query->where('data_partenza', '<', $now->toDateString())
+                                            ->where('data_arrivo', '>',  $now->toDateString());
+                                    })
+                                    ->orWhere('data_arrivo', '=', $now->toDateString());
             }
         }
+        $prenotazioni = $query->orderBy('data_partenza', 'asc')
+            ->orderBy('data_arrivo', 'desc')
+            ->orderBy('ora_partenza', 'desc')
+            ->orderBy('ora_arrivo', 'asc')
+            ->get();
 
         return view("officina.prenotazioni.index", compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
-            'giorno'));
+            'day'));
     }
 
     public function prenotazioniSucc(Request $request)
@@ -161,19 +182,18 @@ class PrenotazioniController extends CoreBaseController
         if ($validRequest->fails()) {
             return redirect(route('officina.index'))->withErrors($validRequest)->withInput();
         }
-
-        Prenotazioni::create([
-            'cliente_id' => request('nome'),
-            'veicolo_id' => request('veicolo'),
-            'meccanico_id' => request('meccanico'),
-            'data_partenza' => request('data_par'),
-            'ora_partenza' => request('ora_par'),
-            'data_arrivo' => request('data_arr'),
-            'ora_arrivo' => request('ora_arr'),
-            'uso_id' => request('uso'),
-            'note' => request('note'),
-            'destinazione' => $request->input('destinazione')
-        ]);
+        (new CreatePrenotazioneAction)(
+            Persona::findOrFail($request->get('nome')),
+            Veicolo::findOrFail($request->get('veicolo')),
+            Persona::findOrFail($request->get('meccanico')),
+            $request->get('data_par'),
+            $request->get('data_arr'),
+            $request->get('ora_par'),
+            $request->get('ora_arr'),
+            Uso::findOrFail($request->get('uso')),
+            $request->get('note', ''),
+            $request->input('destinazione','')
+        );
         return redirect(route('officina.prenota'))->withSuccess('Prenotazione eseguita.');
 
     }

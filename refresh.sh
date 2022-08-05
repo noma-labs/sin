@@ -33,3 +33,4 @@ echo "import succesfully"
 ./vendor/bin/sail artisan db:seed --class=IncarichiTableSeeder
 ./vendor/bin/sail artisan db:seed --class=ScuolaTableSeeder
 ./vendor/bin/sail artisan db:seed --class=BibliotecaTableSeeder
+./vendor/bin/sail artisan db:seed --class=VeicoloTableSeeder

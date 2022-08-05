@@ -7,7 +7,6 @@
 
 #alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 cd sin
-
 ./vendor/bin/sail up
 
 sleep 5
