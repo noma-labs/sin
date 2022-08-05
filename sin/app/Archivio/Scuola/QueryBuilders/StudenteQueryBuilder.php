@@ -14,7 +14,7 @@ class StudenteQueryBuilder extends Builder
             $anno = $anno->id;
         }
         $students = $this
-            ->join('db_scuola.alunni_classi', 'db_scuola.alunni_classi.classe_id', "=", 'db_nomadelfia.persone.id')
+            ->join('db_scuola.alunni_classi', 'db_scuola.alunni_classi.persona_id', "=", 'db_nomadelfia.persone.id')
             ->join('db_scuola.classi', "db_scuola.classi.id", "=", "db_scuola.alunni_classi.classe_id")
             ->join('db_scuola.tipo', 'db_scuola.tipo.id', "=", 'db_scuola.classi.tipo_id')
             ->join('db_scuola.anno', 'db_scuola.anno.id', "=", 'db_scuola.classi.anno_id')

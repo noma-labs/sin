@@ -3,6 +3,7 @@
 @section('title', 'Storico Anni scolastici')
 
 @section('archivio')
+    @include('scuola.templates.aggiungiAnnoScolastico')
       @foreach(collect($anni)->chunk(3) as $chunk)
     <div class="row">
         @foreach ($chunk as $anno)

@@ -8,6 +8,10 @@ use Illuminate\Support\Str;
 class ClasseTipo extends Model
 {
 
+    const PRIMA_MEDIA = '1a media';
+    const SECONDA_MEDIA = '2a media';
+    const TERZA_MEDIA = '3a media';
+
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
@@ -76,17 +80,17 @@ class ClasseTipo extends Model
 
     public function scopePrimaMed($query)
     {
-        return $query->where('nome', '=', '1a Media')->first();
+        return $query->where('nome', '=', self::PRIMA_MEDIA)->first();
     }
 
     public function scopeSecondaMed($query)
     {
-        return $query->where('nome', '=', '2a media')->first();
+        return $query->where('nome', '=', self::SECONDA_MEDIA)->first();
     }
 
     public function scopeTerzaMed($query)
     {
-        return $query->where('nome', '=', '3a media')->first();
+        return $query->where('nome', '=', self::TERZA_MEDIA)->first();
     }
 
     public function scopeSuperiori($query)
@@ -139,19 +143,19 @@ class ClasseTipo extends Model
         return $this->nome == "5a Elementare";
     }
 
-    public function scopeIsPrimaMed()
+    public function IsPrimaMed()
     {
-        return $this->nome == "1a Media";
+        return $this->nome == self::PRIMA_MEDIA;
     }
 
     public function scopeIsSecondaMed()
     {
-        return $this->nome == "2a Media";
+        return $this->nome == self::SECONDA_MEDIA;
     }
 
     public function scopeIsTerzaMed()
     {
-        return $this->nome == "3a Media";
+        return $this->nome == self::TERZA_MEDIA;
     }
 
     public function scopeIsUniversita(): bool

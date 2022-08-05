@@ -142,20 +142,17 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
-        $all = Persona::NatiInAnno(1991)->get();
-//        if ($this->tipo->isPrescuola()) {
-//            $all = Persona::NatiInAnno(1991);
-//        } elseif ($this->tipo->IsUniversita()) {
-//            $all = PopolazioneNomadelfia::figliDaEta(18, 26, 'data_nascita');
-//        } else {
-//            $all = PopolazioneNomadelfia::figliDaEta(7, 19, "data_nascita");
-//        }
+        $as = $this->anno->annoSolareInizio();
+        $tipo = $this->tipo;
+        if ($tipo->isPrescuola()) {
+            $all = Studente::FraEta(3, 6, 'nominativo', $as, true)->get();
+        } elseif ($tipo->IsUniversita()) {
+            $all = Studente::FraEta(18, 26, 'nominativo', $as, true)->get();
+        } else {
+            $all = Studente::FraEta(7, 19, 'nominativo', $as, true)->get();
+        }
 
-
-        $current = collect(  Studente::InAnnoScolastico($this->anno)->get());//     $this->anno->alunni());
-        $ids = $current->map(function ($item) {
-            return $item->id;
-        });
+        $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
         return $all->whereNotIn('id', $ids);
     }
 

@@ -17,7 +17,7 @@
         <label for="example-text-input" class="col-4 col-form-label">Data Inizio</label>
           <div class="col-8">
             <date-picker :bootstrap-styling="true" value="{{ old('data_inizio') }}" format="yyyy-MM-dd" name="data_inizio"></date-picker>
-            <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se concide con la data di inzio anno scolastico.</small>
+            <small id="emailHelp" class="form-text text-muted">Lasciare vuoto se coincide con la data di inizio anno scolastico.</small>
           </div>
       </div>
      </form>

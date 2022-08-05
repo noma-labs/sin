@@ -50,18 +50,30 @@ class ScuolaController extends CoreBaseController
         return redirect()->back()->withSuccess("Classe  {$classe->tipo->nome} aggiunta a {{$anno->scolastico}} con successo.");
     }
 
-    public function aggiungiAnnoScolastico(Request $request)
+    public function cloneAnnoScolastico(Request $request, $id)
     {
         $validatedData = $request->validate([
             'anno_inizio' => 'required',
-            'data_inizio' => 'date',
         ], [
-            'anno_inizio.required' => "l'inizio dell'anno scolastico è obbligatorio.",
-            'data_inizio.date' => "la data di inizio no è una data valida",
+            'anno_inizio.date' => 'La data di inizio non è una data valida.',
+            'anno_inizio.required' => 'La data di inizio anno è obbligatoria',
         ]);
+        $anno = Anno::FindOrFail($id);
+        $aNew = Anno::cloneAnnoScolastico($anno, $request->get('anno_inizio'));
+        return redirect()->back()->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
 
-        $a = Anno::createAnno($request->get('anno_inizio'), $request->get("data_inizio", Carbon::now()->toDateString()), true);
-        return redirect()->back()->withSuccess("Anno scolastico aggiunto con successo.");
+    }
+
+    public function aggiungiAnnoScolastico(Request $request)
+    {
+        $validatedData = $request->validate([
+            'data_inizio' => 'required',
+        ], [
+            'data_inizio.required' => 'La data di inizio anno è obbligatoria',
+        ]);
+        $year = Carbon::parse($request->get('data_inizio'))->year;
+        $anno = Anno::createAnno($year, $request->get('data_inizio'), true);
+        return redirect()->back()->withSuccess("Anno scolastico $anno->scolastico aggiunto con successo.");
 
     }
 

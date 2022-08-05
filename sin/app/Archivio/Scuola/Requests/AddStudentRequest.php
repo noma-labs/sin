@@ -14,14 +14,14 @@ class AddStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            "alunno_id" => "required",
+//            "alunno_id" => "required",
         ];
     }
 
     public function messages()
     {
         return [
-                "alunno_id.required" => "L'Alunno è obbligatorio",
+//                "alunno_id.required" => "L'Alunno è obbligatorio",
         ];
     }
 

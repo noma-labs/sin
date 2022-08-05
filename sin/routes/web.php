@@ -261,6 +261,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
     Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('scuola.anno.storico');
     Route::get('/anno/{id}', [ScuolaController::class, 'index'])->name('scuola.anno.show');
+    Route::post('/anno/{id}/clone', [ScuolaController::class, 'cloneAnnoScolastico'])->name('scuola.anno.clone');
     Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('scuola.anno.aggiungi');
     Route::post('/anno/{id}/students', [ScuolaController::class, 'importStudentsFromOtherAnnoScolastico'])->name('scuola.anno.import');
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('scuola.anno.classe.aggiungi');
@@ -268,7 +269,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::get('/anno/{anno_id}/classi',  [ClassiController::class, 'index'])->name('scuola.classi');
     Route::get('classi/{id}', 'ClassiController@show')->name('scuola.classi.show');
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
-    Route::post('classi/{id}/assegna/alunno', 'ClassiController@aggiungiAlunno')->name('scuola.classi.alunno.assegna');
+    Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{alunno_id}/coordinatore', 'ClassiController@rimuoviCoordinatore')->name('scuola.classi.coordinatore.rimuovi');
 

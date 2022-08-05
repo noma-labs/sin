@@ -61,20 +61,7 @@
                             </my-modal>
                         </div>
                         <div class="col-4">
-                            <my-modal modal-title="Aggiungi A.Scolastico" button-title="Crea nuovo Anno Scolastico" button-style="btn-secondary my-2">
-                                <template slot="modal-body-slot">
-                                    <form class="form" method="POST" id="formComponente" action="{{ route('scuola.anno.aggiungi') }}" >
-                                        {{ csrf_field() }}
-                                        <div class="form-group">
-                                            <label for="annoInizio">Inzio Anno</label>
-                                            <input type="text" name="anno_inizio" class="form-control" id="annoInizio" aria-describedby="Anno inizio" placeholder="e.g., 2022">
-                                        </div>
-                                    </form>
-                                </template>
-                                <template slot="modal-button">
-                                    <button class="btn btn-primary" form="formComponente">Salva</button>
-                                </template>
-                            </my-modal>
+                            @include('scuola.templates.cloneAnnoDaPrecedente',["anno"=>$lastAnno])
                         </div>
                     </div>
 

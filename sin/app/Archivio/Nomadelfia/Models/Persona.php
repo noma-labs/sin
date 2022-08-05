@@ -120,12 +120,20 @@ class Persona extends Model
      * @param int $toeta
      * @author Davide Neri
      **/
-    public function scopeFraEta($query, int $frometa, int $toeta, string $orderBy='nominativo', $travel_to_year=null)
+    public function scopeFraEta($query, int $frometa, int $toeta, string $orderBy='nominativo', $travel_to_year=null, $withInYear = false)
     {
         $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
-        $fromdata = $date->subYears($toeta)->toDateString();
-        $todata = $date->subYears($frometa)->toDateString();
-        return $query->whereBetween('data_nascita', [$fromdata, $todata]);
+        $end = $date->copy()->subYears($frometa);
+        if ($withInYear) {
+            $end = $end->endOfYear();
+        }
+        $start = $date->copy()->subYears($toeta);
+        if ($withInYear) {
+            $start = $start->endOfYear();
+        }
+        $fromdata = $start->toDateString();
+        $todata = $end->toDateString();
+        return $query->whereBetween('data_nascita', [$fromdata, $todata])->orderBy($orderBy);
     }
 
     public function scopeNatiInAnno($query, int $anno)

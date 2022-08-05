@@ -11,12 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Studente extends Persona
 {
-//    public $timestamps = true;
-//
-//    protected $connection = 'db_nomadelfia';
-//    protected $table = 'persone';
-//    protected $primaryKey = "id";
-//    protected $guarded = [];
 
     public function newEloquentBuilder($query): StudenteQueryBuilder
     {

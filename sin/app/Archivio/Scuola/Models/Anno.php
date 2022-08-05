@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Str;
 
 class Anno extends Model
 {
@@ -38,10 +39,27 @@ class Anno extends Model
         return $this->responsabile()->associate($persona);
     }
 
+    public function nextAnnoScolasticoString()
+    {
+        $as = Str::of($this->scolastico)->explode('/');
+        return $this->buildAsString($as[1]);
+    }
+
+    public function annoSolareInizio()
+    {
+        $as = Str::of($this->scolastico)->explode('/');
+        return $as[0];
+    }
+
+    public function buildAsString(int $from_year): string
+    {
+        $succ = $from_year + 1;
+        return "{$from_year}/{$succ}";
+    }
+
     public static function createAnno(int $year, $datainizo = null, $with_classi = false): Anno
     {
-        $succ = $year + 1;
-        $as = "{$year}/{$succ}";
+        $as = self::buildAsString($year);
 
         if ($datainizo === null) {
             $d = Carbon::now();
@@ -53,7 +71,7 @@ class Anno extends Model
             $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
             if ($with_classi) {
                 $t = ClasseTipo::all();
-                foreach($t as $tipo) {
+                foreach ($t as $tipo) {
                     if (!$tipo->isSuperiori()) {
                         $a->aggiungiClasse($tipo);
                     }
@@ -67,16 +85,19 @@ class Anno extends Model
         }
     }
 
-    public function importStudentsFromExistingAnno(Anno $copy_from_as)
+    public static function cloneAnnoScolastico(Anno $copy_from_as, $data_inizio)
     {
+        $nextas = $copy_from_as->nextAnnoScolasticoString();
+        $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
         $classi_from = $copy_from_as->classi()->get();
         foreach ($classi_from as $classe) {
             $next = $classe->nextClasseTipo();
-            $new_classe = $this->findOrCreateClasseByTipo($next);
-            $new_classe->importStudentsFromOtherClasse($classe, $this->data_inizio);
-
+            if ($next) {
+                $new_classe = $a->findOrCreateClasseByTipo($next);
+                $new_classe->importStudentsFromOtherClasse($classe, $data_inizio);
+            }
         }
-
+        return $a;
     }
 
     public static function getLastAnno(): Anno

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -19,6 +20,14 @@ class ScuolaTest extends TestCase
         $a->aggiungiResponsabile($p);
         $this->assertEquals($p->id, $a->responsabile->id);
 
+    }
+
+    /** @test */
+    public function anno_scolastico_is_build_correclty()
+    {
+        $a = Anno::createAnno(1999);
+        $this->assertEquals('1999/2000', $a->scolastico);
+        $this->assertEquals('2000/2001', $a->nextAnnoScolasticoString());
     }
 
     public function testAggiungiClasseInAnno()
@@ -169,9 +178,9 @@ class ScuolaTest extends TestCase
     }
 
     /** @test */
-    public function copy_students_from_existing_anno()
+    public function clone_students_from_existing_anno()
     {
-        $a = Anno::createAnno(2039, "2023-12-12", true);
+        $a = Anno::createAnno(2050, "2023-12-12", true);
         $this->assertCount(9, $a->classi()->get());
 
         $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
@@ -189,12 +198,13 @@ class ScuolaTest extends TestCase
         $this->assertCount(10, $a->alunni());
 
 
-        $aNew = Anno::createAnno(2040, '2024-08-01');
-        $aNew->importStudentsFromExistingAnno($a);
-        $this->assertCount(9, $a->classi()->get());
-//        $this->assertCount(10, $aNew->alunni());
+        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
+        $this->assertEquals('2024-08-01', $aNew->data_inizio);
+        $this->assertCount(9, $aNew->classi()->get());
+        $this->assertCount(10, $aNew->alunni());
     }
 
+    /** @test */
     public function copy_students_from_other_classe()
     {
         $a = Anno::createAnno(2034, '2023-12-12', true);
@@ -206,14 +216,15 @@ class ScuolaTest extends TestCase
         $this->assertCount(2, $pre->alunni()->get());
 
         $aNew = Anno::createAnno(2035, '2024-08-01', true);
-        $aNew->primaElementare()->importStudentsFromOtherClasse($pre);
+        $aNew->primaElementare()->importStudentsFromOtherClasse($pre, '2024-08-01');
         $this->assertCount(2, $aNew->primaElementare()->alunni()->get());
-        $this->assertCount(2, $aNew->alunni()->get());
+        $this->assertCount(2, $aNew->alunni());
     }
 
+    /** @test */
     public function next_classe_in_anno()
     {
-        $a = Anno::createAnno(2035, '2023-12-12', true);
+        $a = Anno::createAnno(2037, '2023-12-12', true);
         $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
         $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
         $this->assertEquals($a->secondaElementare()->nextClasseTipo(), ClasseTipo::TerzaElem());
@@ -224,12 +235,29 @@ class ScuolaTest extends TestCase
         $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
     }
 
+    /** @test */
     public function first_or_create_classe_in_anno()
     {
-        $a = Anno::createAnno(2035, '2023-12-12');
-        $this->assertCount(0, $a->classi());
+        $a = Anno::createAnno(2070, '2023-12-12');
+        $this->assertCount(0, $a->classi()->get());
         $a->findOrCreateClasseByTipo(ClasseTipo::prescuola());
-        $this->assertCount(0, $a->classi());
+        $this->assertCount(1, $a->classi()->get());
+    }
 
+    /** @test */
+    public function allunni_possibili_in_anno()
+    {
+        $before = Persona::get()->count();
+        $anno = 1994;
+        $a = Anno::createAnno($anno, '2023-12-12', true);
+        $this->assertCount(9, $a->classi()->get());
+        $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
+        $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
+        $after = Persona::get()->count();
+        $this->assertEquals(2, $after - $before);
+        $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
+        $this->assertEquals(2, $a->prescuola()->alunniPossibili()->count());
+        $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
+        $this->assertEquals(1, $a->prescuola()->alunniPossibili()->count());
     }
 }

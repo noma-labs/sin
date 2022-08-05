@@ -37,23 +37,6 @@
 </div>
 @include('scuola.templates.aggiungiClasse',["anno"=>$anno])
 
-
-    <form class="form" method="POST" id="importStudents" action="{{  route('scuola.anno.import', ["id"=>$anno->id]) }}" >
-        {{ csrf_field() }}
-        <div class="form-group row">
-            <label for="example-text-input" class="col-4 col-form-label">Tipo di classe</label>
-            <div class="col-8">
-                <select class="form-control" name="anno_from">
-                    <option value="" selected>---scegli--</option>
-                    @foreach (App\Scuola\Models\Anno::orderBy("scolastico")->get() as  $t)
-                        <option value="{{ $t->id }}"> {{$t->scolastico}} </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <button class="btn btn-danger" form="importStudents">Aggiungi</button>
-    </form>
-
 @foreach ($classi->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $classe)
