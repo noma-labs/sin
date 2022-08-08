@@ -124,8 +124,12 @@
                 <div class="row">
                   <label class="col-sm-4 font-weight-bold">Data Entrata:</label>
                   <div class="col-sm-6">
-                    <p> {{$persona->getDataEntrataNomadelfia()}}
-                      <span class="badge badge-info"> @diffHumans($persona->getDataEntrataNomadelfia()) </span>
+                        @if ($persona->getDataEntrataNomadelfia())
+                          {{$persona->getDataEntrataNomadelfia()}} <span class="badge badge-info"> @diffHumans($persona->getDataEntrataNomadelfia()) </span>
+                        @else
+                          <div class="text-danger"> Non presente</div>
+                        @endif
+
                     </p>
                   </div>
                   <div class="col-sm-2">
