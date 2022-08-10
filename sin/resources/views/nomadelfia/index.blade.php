@@ -29,7 +29,7 @@
             Persone
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarPesone">
-            <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}">Visualizza</a>
+{{--            <a class="dropdown-item" href="{{ route('nomadelfia.persone') }}">Visualizza</a>--}}
             <a class="dropdown-item" href="{{ route('nomadelfia.persone.ricerca') }}">Ricerca persone</a>
             <a class="dropdown-item" href="{{ route('nomadelfia.persone.inserimento')}}">Inserisci Persona</a>
         </div>
