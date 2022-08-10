@@ -116,11 +116,13 @@ class PopolazioneNomadelfia extends Model
             ->table('persone')
             ->selectRaw('persone.*, popolazione.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->where(function ($query) use ($end){
+            ->where(function ($query) use ($end, $start) {
                 $query->whereNull('popolazione.data_uscita')
-                    ->orWhere('popolazione.data_uscita', '>=', $end);
+                    ->orWhere(function ($query) use ($start, $end){
+                        $query->where('popolazione.data_entrata', ">=", $start)
+                             ->where('popolazione.data_uscita', "<=", $end);
+                });
             })
-
             ->where('persone.data_nascita', '<=', $end)
             ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order);
         if ($toEta != null) {
