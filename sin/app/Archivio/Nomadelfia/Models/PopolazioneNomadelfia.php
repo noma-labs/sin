@@ -118,8 +118,7 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNull('popolazione.data_uscita')
             ->where('persone.data_nascita', '<=', $end)
-            ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order)
-            ->get();
+            ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
         }
