@@ -25,23 +25,23 @@ class ScuolaTableSeeder extends Seeder
             if (!$tipo->isSuperiori()){
                 $classe = $anno->aggiungiClasse($tipo);
                 if ($tipo->IsPrescuola()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita", true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 7, "data_nascita", null, true);
                 }else if ($tipo->IsPrimaEl()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(6, 7, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(6, 7, "data_nascita", null, true);
                 }else if ($tipo->IsSecondaEl()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(7, 8, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(7, 8, "data_nascita", null, true);
                 }else if ($tipo->IsTerzaEl()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(8, 9, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(8, 9, "data_nascita", null, true);
                 }else if ($tipo->IsQuartaEl()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(9, 10, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(9, 10, "data_nascita", null, true);
                 }else if ($tipo->IsQuintaEl()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(10, 11, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(10, 11, "data_nascita", null, true);
                 }else if ($tipo->IsPrimaMed()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(11, 12, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(11, 12, "data_nascita", null, true);
                 }else if ($tipo->IsSecondaMed()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(12, 13, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(12, 13, "data_nascita", null, true);
                 }else if ($tipo->IsTerzaMed()){
-                    $alunni = PopolazioneNomadelfia::figliDaEta(13, 14, "data_nascita",true);
+                    $alunni = PopolazioneNomadelfia::figliDaEta(13, 14, "data_nascita", null, true);
                 }else{
                     $alunni = [];
                 }

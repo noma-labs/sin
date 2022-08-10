@@ -166,7 +166,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function figliMinorenni()
     {
-        $magg = self::figliDaEta(0, 18);
+        $magg = self::figliDaEta(0, 18, 'nominativo');
         $result = new stdClass;
         $maggioreni = collect($magg);
         $sesso = $maggioreni->groupBy("sesso");
@@ -181,7 +181,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function figliMinorenniPerAnno()
     {
-        $minorenni = collect(self::figliDaEta(0, 18));
+        $minorenni = collect(self::figliDaEta(0, 18, 'nominativo'));
         $result = new stdClass;
         $result->total = $minorenni->count();
         $minorenni->map(function ($item, $key) {
@@ -204,7 +204,7 @@ class PopolazioneNomadelfia extends Model
      */
     public static function figliFra18e21()
     {
-        $magg = self::figliDaEta(18, 21);
+        $magg = self::figliDaEta(18, 21, 'nominativo');
         $result = new stdClass;
         $maggioreni = collect($magg);
         $sesso = $maggioreni->groupBy("sesso");
@@ -334,14 +334,22 @@ class PopolazioneNomadelfia extends Model
     /*
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
-    public static function figliDaEta(int $fromEta, int $toEta = null, string $orderBy = 'nominativo', $withInYear=false)
+    public static function figliDaEta(
+        int $fromEta,
+        int $toEta = null,
+        string $orderBy = 'nominativo',
+        int $travel_to_year=null,
+        $withInYear=false
+    )
     {
+        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+
         $posizione = Posizione::perNome("figlio");
-        $end = Carbon::now()->subYears($fromEta);
+        $end =$date->copy()->subYears($fromEta);
         if ($withInYear){
             $end = $end->endOfYear();
         }
-        $start = Carbon::now()->subYears($toEta);
+        $start = $date->copy()->subYears($toEta);
         if ($withInYear){
             $start = $start->endOfYear();
         }

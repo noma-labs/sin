@@ -251,19 +251,19 @@ class PopolazioneTest extends BaseTestCase
         $capoFam->assegnaGruppoFamiliare($gruppo, $now);
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
-        $min = PopolazioneNomadelfia::figliDaEta(0, 18)->count();
+        $min = PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count();
         $persona = Persona::factory()->minorenne()->maschio()->create();
         $persona->entrataNatoInNomadelfia($famiglia->id);
 
         $this->assertEquals($tot + 1, PopolazioneNomadelfia::totalePopolazione());
-        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
+        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count());
 
-        $mag = PopolazioneNomadelfia::figliDaEta(18, null)->count();
+        $mag = PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $persona->entrataNatoInNomadelfia($famiglia->id);
         $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
-        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18)->count());
-        $this->assertEquals($mag + 1, PopolazioneNomadelfia::figliDaEta(18, null)->count());
+        $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count());
+        $this->assertEquals($mag + 1, PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count());
 
     }
 
@@ -289,7 +289,7 @@ class PopolazioneTest extends BaseTestCase
     public function testFigliDaEta()
     {
         // store the actual figli (maybe inserted by other tests)
-        $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18 )->count();
+        $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count();
 
         $famiglia = Famiglia::factory()->create();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
@@ -307,11 +307,11 @@ class PopolazioneTest extends BaseTestCase
         $p2->entrataNatoInNomadelfia($famiglia->id);
         $pafter->entrataNatoInNomadelfia($famiglia->id);
 
-        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', true)) );
-        $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', false)));
+        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)) );
+        $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)));
 
-        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', false))); // - $actualFigli );
-        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', true))); // - $actualFigli );
+        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false))); // - $actualFigli );
+        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true))); // - $actualFigli );
     }
 
 }

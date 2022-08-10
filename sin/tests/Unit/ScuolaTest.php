@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -247,14 +249,20 @@ class ScuolaTest extends TestCase
     /** @test */
     public function allunni_possibili_in_anno()
     {
-        $before = Persona::get()->count();
         $anno = 1994;
         $a = Anno::createAnno($anno, '2023-12-12', true);
         $this->assertCount(9, $a->classi()->get());
         $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
         $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
-        $after = Persona::get()->count();
-        $this->assertEquals(2, $after - $before);
+
+        $famiglia = Famiglia::factory()->create();
+        $gruppo = GruppoFamiliare::all()->random();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
+        $capoFam->entrataMaggiorenneSposato(Carbon::now(), $gruppo->id);
+        $alunno->entrataNatoInNomadelfia($famiglia->id);
+        $alunnoFem->entrataNatoInNomadelfia($famiglia->id);
+
         $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
         $this->assertEquals(2, $a->prescuola()->alunniPossibili()->count());
         $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
