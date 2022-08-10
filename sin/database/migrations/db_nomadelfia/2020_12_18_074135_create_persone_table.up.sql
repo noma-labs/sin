@@ -17,6 +17,9 @@ CREATE TABLE `persone` (
   `sigla_biancheria` varchar(30) DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `data_decesso` date DEFAULT NULL,
+  `numero_elenco` varchar(32) DEFAULT NULL,
+  `biografia` TEXT DEFAULT NULL,
+  `cf` varchar(32) DEFAULT NULL,
    PRIMARY KEY (`id`,`nominativo`) USING BTREE,
    UNIQUE KEY `nominativo` (`nominativo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

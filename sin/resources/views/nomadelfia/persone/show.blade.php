@@ -35,6 +35,19 @@
               </div>
             </div>
           </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <label class="col-sm-4 font-weight-bold">Codice Fiscale:</label>
+                    <div class="col-sm-8">
+                        <span>@if($persona->cf)
+                                  {{$persona->cf}}
+                            @else
+                                  <p class="text-danger"> Nessun codice fiscale</p>
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </li>
           <li class="list-group-item">
             <div class="row">
               <label class="col-sm-4 font-weight-bold">Data Nascita:</label>
@@ -153,7 +166,7 @@
                       @endif
                   </div>
                 </div>
-              </li>
+            </li>
               @if ($persona->getDataUscitaNomadelfia())
               <li class="list-group-item">
                   <div class="row">
@@ -177,6 +190,7 @@
               @endif
               
             <li class="list-group-item">
+
               <div class="row">
                 <label class="col-sm-4 font-weight-bold">Nominativo: </label>
                 <div class="col-sm-6">
@@ -187,7 +201,18 @@
                 </div>
               </div>
             </li>
-           
+              <li class="list-group-item">
+              <div class="row">
+                  <label class="col-sm-4 font-weight-bold">Numero Elenco: </label>
+                  <div class="col-sm-6">
+                      @if($persona->numero_elenco)
+                          <span class="badge badge-info"> {{$persona->numero_elenco}}</span>
+                      @else
+                          <p class="text-danger">Nessun numero elenco</p>
+                      @endif
+                  </div>
+              </div>
+              </li>
 
             <li class="list-group-item">
               <div class="row">
