@@ -146,12 +146,12 @@ class Classe extends Model
         $tipo = $this->tipo;
         if ($tipo->isPrescuola()) {
 //            $all = Studente::FraEta(3, 6, 'nominativo', $as, true)->get();
-            $all = PopolazioneNomadelfia::figliDaEta(3,6,'nominativo', $as,true);
+            $all = PopolazioneNomadelfia::fraEta(3,6,'nominativo', $as,true);
         } elseif ($tipo->IsUniversita()) {
 //            $all = Studente::FraEta(18, 26, 'nominativo', $as, true);
-            $all = PopolazioneNomadelfia::figliDaEta(18,26,'nominativo', $as,true);
+            $all = PopolazioneNomadelfia::fraEta(18,26,'nominativo', $as,true);
         } else {
-            $all = PopolazioneNomadelfia::figliDaEta(7, 19, 'nominativo', $as, true);
+            $all = PopolazioneNomadelfia::fraEta(7, 19, 'nominativo', $as, true);
         }
 
         $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
