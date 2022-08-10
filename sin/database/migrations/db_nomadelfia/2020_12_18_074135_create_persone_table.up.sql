@@ -7,7 +7,7 @@ CREATE TABLE `persone` (
   `cognome` varchar(30) NOT NULL,
   `id_arch_pietro` int(10) NOT NULL,
   `id_arch_enrico` int(10) NOT NULL,
-  `provincia_nascita` varchar(30) DEFAULT NULL,
+  `provincia_nascita` varchar(64) DEFAULT NULL,
   `data_nascita` date NOT NULL,
   `sesso` enum('F','M') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

@@ -1,9 +1,5 @@
 #!/bin/bash
-#docker-compose up -d
-#
-#sleep 5
-#
-#docker-compose ps
+
 
 #alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 cd sin

@@ -56,16 +56,17 @@
                         <div id="collapse{{$classe->id}}" class="collapse" aria-labelledby="heading{{$classe->id}}"
                              data-parent="#accordion">
                             <div class="card-body">
-                                <div>Alunni</div>
                                 <ul>
-                                    @foreach($classe->alunni as $alunno)
+                                    @forelse($classe->alunni as $alunno)
                                         <li>
                                             @year($alunno->data_nascita) @include('nomadelfia.templates.persona', ['persona'=>$alunno])
                                             @liveRome($alunno)
                                             <span class="badge badge-warning">Roma</span>
                                             @endliveRome
                                         </li>
-                                    @endforeach
+                                    @empty
+                                        <p class="text-danger">No Studenti</p>
+                                    @endforelse
                                 </ul>
                                 <a class="btn btn-primary" href="{{ route('scuola.classi.show',$classe->id)}}">Dettaglio</a>
                             </div>
