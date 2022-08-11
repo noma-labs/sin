@@ -123,7 +123,7 @@ class PopolazioneNomadelfia extends Model
 //                             ->where('popolazione.data_uscita', "<=", $end);
 //                });
 //            })
-            ->whereNull('persone.data_deesso')
+            ->whereNull('persone.data_decesso')
             ->where('persone.data_nascita', '<=', $end)
             ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order);
         if ($toEta != null) {
