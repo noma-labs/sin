@@ -37,7 +37,6 @@ class ClassiController extends CoreBaseController
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
     {
-        dd($request->get("alunno_id"));
         $request->validated();
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($request->alunno_id);
