@@ -29,7 +29,7 @@
                         {{ $persona->posizione }}
                     @endif
                 </td>
-                <td> {{ $persona->data_entrata }}   @include("nomadelfia.templates.modificaDataEntrata",["persona"=>$persona]) </td>
+                <td> {{ $persona->data_entrata }} </td>
                 <td>
                     <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio',['idPersona'=> $persona->id]) }}">Dettaglio</a>
 
