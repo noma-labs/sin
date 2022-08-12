@@ -32,7 +32,11 @@ class ApiController extends BaseController
     function searchPersonaInPopolazioneAttuale(Request $request)
     {
         $term = $request->term;
-        $persone = PopolazioneNomadelfia::presente()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
+        $persone = PopolazioneNomadelfia::presente()
+                ->where('nominativo', 'LIKE', "$term%")
+                ->orWhere('nome', 'LIKE', "$term%")
+                ->orWhere('cognome', 'LIKE', "$term%")
+                ->orderBy('nominativo')->get();
         $results = array();
         foreach ($persone as $persona) {
             $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
