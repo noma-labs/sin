@@ -296,22 +296,43 @@ class PopolazioneTest extends BaseTestCase
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
         $capoFam->assegnaGruppoFamiliare(GruppoFamiliare::all()->random(), Carbon::now());
 
-        $p1 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()] ); // 2018-01-01 00:00:00
-        $p0 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)] );                // 2018-now()
-        $p2 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()] );   // 2018-12-31 23:59:59
+        $p1 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()]); // 2018-01-01 00:00:00
+        $p0 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)]);                // 2018-now()
+        $p2 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->endOfYear()]);   // 2018-12-31 23:59:59
 
-        $pafter = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()] );   // 2019-01-01 00:00:00
+        $pafter = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()]);   // 2019-01-01 00:00:00
 
         $p0->entrataNatoInNomadelfia($famiglia->id);
         $p1->entrataNatoInNomadelfia($famiglia->id);
         $p2->entrataNatoInNomadelfia($famiglia->id);
         $pafter->entrataNatoInNomadelfia($famiglia->id);
 
-        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)) );
+        $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)));
         $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)));
 
-        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false))); // - $actualFigli );
-        $this->assertEquals(4, count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true))); // - $actualFigli );
+        $this->assertEquals(4,
+            count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false))); // - $actualFigli );
+        $this->assertEquals(4,
+            count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true))); // - $actualFigli );
     }
 
+
+    public function testPopolazionePresente()
+    {
+        $before = PopolazioneNomadelfia::presente()->count();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+        $data_entrata = Carbon::now()->toDatestring();
+        $gruppo = GruppoFamiliare::all()->random();
+        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        $after = PopolazioneNomadelfia::presente()->count();
+        $this->assertEquals(1, $after-$before);
+
+        $c = PopolazioneNomadelfia::presente()->where('id','=' ,$persona->id)->count();
+        $this->assertEquals(1, $c);
+        $c = PopolazioneNomadelfia::presente()->where('nominativo','=' ,$persona->nominativo)->count();
+        $this->assertEquals(1, $c);
+
+    }
 }

@@ -79,7 +79,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/inserimento/initial', 'PersoneController@insertInitialView')->name("nomadelfia.persone.inserimento");
     Route::post('persone/inserimento/initial',  'PersoneController@insertInitial')->name("nomadelfia.persone.inserimento.initial");
 
-    Route::get('persone/inserimento/anagrafici',  'PersoneController@insertDatiAnagraficiView')->name("nomadelfia.persone.inserimento.anagrafici");
+    Route::get('persone/inserimento/anagrafici',  [PersoneController::class, 'insertDatiAnagraficiView'])->name("nomadelfia.persone.inserimento.anagrafici");
     Route::post('persone/inserimento/anagrafici',[PersoneController::class, 'insertDatiAnagrafici'])->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)

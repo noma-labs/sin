@@ -3,6 +3,7 @@
 namespace App\Scuola\Models;
 
 use App\Nomadelfia\Models\Persona;
+use App\Scuola\QueryBuilders\PopolazioneQueryBuilder;
 use App\Scuola\QueryBuilders\StudenteQueryBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

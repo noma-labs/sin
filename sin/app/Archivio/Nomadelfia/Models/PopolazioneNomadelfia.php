@@ -2,10 +2,8 @@
 
 namespace App\Nomadelfia\Models;
 
-use App\Traits\SortableTrait;
+use App\Nomadelfia\QueryBuilders\PopolazioneQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use App\Nomadelfia\Models\Persona;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
 use Carbon;
@@ -19,6 +17,10 @@ class PopolazioneNomadelfia extends Model
     public $timestamps = true;
     protected $guarded = [];
 
+    public function newEloquentBuilder($query): PopolazioneQueryBuilder
+    {
+        return new PopolazioneQueryBuilder($query);
+    }
 
     /*
     *  Ritorna le persone della popolazione di Nomadelfia
@@ -37,6 +39,7 @@ class PopolazioneNomadelfia extends Model
         );
         return $res;
     }
+
 
 
     /*
