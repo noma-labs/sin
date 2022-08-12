@@ -306,7 +306,7 @@ class ApiController extends BaseController
     public function autocompleteLavoratore(Request $request)
     {
         $azienda_id = $request->input('azienda_id');
-        $persone = Persona::daEta(14)->where('nominativo', 'like', '%' . $request->input('term') . '%')->get();
+        $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($request->input('term'))->get();
         $lavoratori_attivi = Persona::whereHas('aziendeAttuali', function ($query) use ($azienda_id) {
             $query->where('azienda_id', '=', $azienda_id);
         })->get();

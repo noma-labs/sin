@@ -59,14 +59,14 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
   Route::get('/gruppi', 'ApiController@gruppi')->name("api.nomadeflia.gruppi");
   Route::post('/famiglie/create', 'ApiController@famigliaCreate')->name("api.nomadeflia.famiglie.create");
   Route::get('/posizioni', 'ApiController@posizioniAll')->name("api.nomadeflia.posizioni");
-  Route::get('/azienda/edit/{id}', 'ApiController@aziendaEdit')->name("api.nomadeflia.azienda.edit");
+  Route::get('/azienda/edit/{id}', [ApiController::class, 'aziendaEdit'])->name("api.nomadeflia.azienda.edit");
   Route::get('/azienda/mansioni', 'ApiController@mansioni')->name("api.nomadeflia.azienda.mansioni");
   Route::get('/azienda/stati', 'ApiController@stati')->name("api.nomadeflia.azienda.stati");
   Route::get('/aziende/lavoratore/{id}', 'ApiController@aziendeLavoratore')->name("api.nomadeflia.aziende.lavoratori");
   Route::post('/azienda/modifica/lavoratore', 'ApiController@modificaLavoratore')->name("api.nomadeflia.azienda.modifica.lavoratore");
   Route::post('/azienda/sposta/lavoratore', 'ApiController@spostaLavoratore')->name("api.nomadeflia.azienda.sposta.lavoratore");
-  Route::get('/azienda/aggiungi/search', 'ApiController@autocompleteLavoratore')->name("api.nomadelfia.azienda.persone");
-  Route::post('/azienda/aggiungi/lavoratore', 'ApiController@aggiungiNuovoLavoratore')->name("api.nomadelfia.azienda.aggiungi.lavoratore");
+  Route::get('/azienda/aggiungi/search', [ApiController::class, 'autocompleteLavoratore'])->name("api.nomadelfia.azienda.persone");
+  Route::post('/azienda/aggiungi/lavoratore', [ApiController::class, 'aggiungiNuovoLavoratore'])->name("api.nomadelfia.azienda.aggiungi.lavoratore");
   // INCARICHI
   Route::get('/incarichi/edit/{id}', 'ApiController@incarichiEdit')->name("api.nomadeflia.incarichi.edit");
   Route::post('/incarichi/sposta/lavoratore', 'ApiController@incarichiSpostaLavoratore')->name("api.nomadeflia.incarichi.sposta.lavoratore");
