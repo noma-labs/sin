@@ -10,8 +10,14 @@ class PopolazioneQueryBuilder extends Builder
     {
         return $this
             ->selectRaw('persone.*, popolazione.*')
-            ->join('persone', 'persone.id', '=', 'popolazione.persona_id')
-            ->whereNull('popolazione.data_uscita');
+            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id')
+            ->leftJoin('persone_posizioni', 'persone_posizioni.persona_id', '=','popolazione.persona_id')
+            ->whereNull('popolazione.data_uscita')
+            ->whereNull('persone.data_decesso')
+            ->where(function ($query){
+                $query->where('persone_posizioni.stato', '=', '1')
+                    ->orWhereNull('persone_posizioni.stato');
+            });
     }
 
 

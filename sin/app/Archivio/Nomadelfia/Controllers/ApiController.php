@@ -2,6 +2,7 @@
 
 namespace App\Nomadelfia\Controllers;
 
+use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
@@ -27,6 +28,21 @@ class ApiController extends BaseController
         }
         return response()->json($results);
     }
+
+    function searchPersonaInPopolazioneAttuale(Request $request)
+    {
+        $term = $request->term;
+        $persone = PopolazioneNomadelfia::presente()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
+        $results = array();
+        foreach ($persone as $persona) {
+            $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
+        }
+        return response()->json($results);
+    }
+
+
+
 
     function persona(Request $request, $id)
     {

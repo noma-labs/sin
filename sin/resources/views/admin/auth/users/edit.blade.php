@@ -13,7 +13,7 @@
             <autocomplete placeholder="Inserisci nominativo..." 
                 :selected="{{$user->persona()->pluck('nominativo', 'id')}}"
                 name="persona_id" 
-                url={{route('api.nomadeflia.persone.search')}}>
+                url={{route('api.nomadeflia.popolazione.search')}}>
         </autocomplete>
             <!-- <search-persona-selected personaid={{ $user->persona->id}} nominativo={{$user->persona->nominativo}}> </search-persona-selected> -->
         </div>

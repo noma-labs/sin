@@ -3,7 +3,7 @@
     <form class="form" method="POST"  id="assegnaEsSpirituali{{$esercizio->id}}" action="{{ route('nomadelfia.esercizi.assegna', ['id' =>$esercizio->id]) }}" >      
         {{ csrf_field() }}
         <p> Seleziona Persona </p>
-        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.persone.search')}}></autocomplete>
+        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.popolazione.search')}}></autocomplete>
     </form>
     </template> 
     <template slot="modal-button">

@@ -334,5 +334,9 @@ class PopolazioneTest extends BaseTestCase
         $c = PopolazioneNomadelfia::presente()->where('nominativo','=' ,$persona->nominativo)->count();
         $this->assertEquals(1, $c);
 
+        $persona->uscita(Carbon::now()->toDatestring());
+        $afterUscita = PopolazioneNomadelfia::presente()->count();
+//        dd(PopolazioneNomadelfia::presente()->toSql());
+        $this->assertEquals(0, $before-$afterUscita);
     }
 }

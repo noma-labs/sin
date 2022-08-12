@@ -8,7 +8,7 @@
     {{ Form::open(array('method'=>'POST','route' => 'users.store')) }}
     <div class="form-group">
       {{ Form::label('name', 'Nominativo (Persona anagrafe)(*)') }}
-        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.persone.search')}}></autocomplete>
+        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.popolazione.search')}}></autocomplete>
     </div>
 
     <div class="form-group">

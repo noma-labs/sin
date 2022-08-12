@@ -5,7 +5,7 @@
       <div class="form-group row">
         <label for="example-text-input" class="col-4 col-form-label">Persona</label>
           <div class="col-8">
-            <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url="{{route('api.nomadeflia.persone.search')}}"></autocomplete>
+            <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url="{{route('api.nomadeflia.popolazione.search')}}"></autocomplete>
           </div>
       </div>
       <div class="form-group row">
