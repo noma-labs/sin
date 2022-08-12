@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\AnnoScolastico;
+use Illuminate\Support\Str;
 
 class ClassiController extends CoreBaseController
 {
@@ -39,9 +40,13 @@ class ClassiController extends CoreBaseController
     {
         $request->validated();
         $classe = Classe::findOrFail($id);
-        $alunno = Persona::findOrFail($request->alunno_id);
-        $addStudentAction->execute($classe, $alunno, $request->data_inizio);
-        return redirect()->back()->withSuccess("Alunno $alunno->nominativo aggiunto a {$classe->tipo->nome} con successo.");
+        $alunni = explode(',',$request->get('alunno_id'));
+        foreach ($alunni as $id) {
+            $alunno = Persona::findOrFail($id);
+            $addStudentAction->execute($classe, $alunno, $request->data_inizio);
+        }
+
+        return redirect()->back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
     }
 
     public function rimuoviAlunno(Request $request, $id, $alunno_id)

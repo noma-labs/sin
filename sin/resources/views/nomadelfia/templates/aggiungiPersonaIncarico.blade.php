@@ -5,12 +5,7 @@
       <div class="form-group row">
         <label for="example-text-input" class="col-4 col-form-label">Persona</label>
         <div class="col-8">
-          <select class="form-control" name="persona_id">
-            <option value="" selected>---scegli persona--</option>
-            @foreach ($possibili as $p)
-              <option value="{{ $p->id }}">{{$p->nominativo}} </option>
-            @endforeach
-          </select>
+          <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.popolazione.search')}}></autocomplete>
         </div>
       </div>
       <div class="form-group row">

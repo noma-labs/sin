@@ -145,10 +145,8 @@ class Classe extends Model
         $as = $this->anno->annoSolareInizio();
         $tipo = $this->tipo;
         if ($tipo->isPrescuola()) {
-//            $all = Studente::FraEta(3, 6, 'nominativo', $as, true)->get();
             $all = PopolazioneNomadelfia::fraEta(3,6,'nominativo', $as,true)->get();
         } elseif ($tipo->IsUniversita()) {
-//            $all = Studente::FraEta(18, 26, 'nominativo', $as, true)->get();
             $all = PopolazioneNomadelfia::fraEta(18,26,'nominativo', $as,true)->get();
         } else {
             $all = PopolazioneNomadelfia::fraEta(7, 19, 'nominativo', $as, true)->get();

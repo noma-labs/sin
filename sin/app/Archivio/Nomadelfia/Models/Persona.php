@@ -64,6 +64,12 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
+    public function buildCompleteName()
+    {
+        $year = Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
+        return "($this->>year) $this->nominativo ($this->nome  $this->cognome)";
+    }
+
     public function anni()
     {
         return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
