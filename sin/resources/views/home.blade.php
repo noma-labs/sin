@@ -25,7 +25,9 @@
               </div>
               <div class="card-body">
                 <p class="card-text">Stazione meteo situata nella zona delle scuole</p>
-                <a href={{ url('/meteo')}} class="btn btn-primary">Accedi</a>
+                <a target="_blank" href="http://192.168.11.7:3000/d/z-qyiG1Mk/weather?orgId=1&from=now-6h&to=now" class="btn btn-primary">Accedi</a>
+
+{{--                <a href={{ url('/meteo')}} class="btn btn-primary">Accedi</a>--}}
               </div>
             </div>
           </div>
