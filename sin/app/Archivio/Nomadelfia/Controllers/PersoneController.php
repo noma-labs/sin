@@ -189,12 +189,13 @@ class PersoneController extends CoreBaseController
         $persona->data_nascita = $request->datanascita;
         $persona->provincia_nascita = $request->luogonascita;
         $persona->sesso = $request->sesso;
+        $persona->biografia = $request->get('biografia', $persona->biografia);
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         } else {
             return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+                ['idPersona' => $idPersona])->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
         }
     }
 

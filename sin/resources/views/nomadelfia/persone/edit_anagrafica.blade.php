@@ -19,8 +19,6 @@
         <div class="form-group">
           <label for="xNominativo">Data Nascita</label>
         <date-picker :bootstrap-styling="true" value="{{old('datanascita') ? old('datanascita'): $persona->data_nascita}}" format="yyyy-MM-dd" name="datanascita"></date-picker>
-
-          <!-- <input type="text" class="form-control" name="datanascita" value="{{old('datanascita') ? old('datanascita'): $persona->data_nascita}}"> -->
         </div>
         <div class="form-group">
           <label for="xNome">Luogo Nascita</label>
@@ -40,6 +38,10 @@
               Femmina
             </label>
         </div>
+        </div>
+        <div class="form-group">
+          <label for="xBiografia">Biografia</label>
+          <textarea class="form-control" id="xBiografia" name="biografia" rows="10">{{$persona->biografia}}</textarea>
         </div>
 
 

@@ -100,7 +100,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'modificaDatiAnagrafici'])->name("nomadelfia.persone.anagrafica.modifica.view");
     Route::post('persone/{idPersona}/anagrafica/modifica',
-        'PersoneController@modificaDatiAnagraficiConfirm')->name("nomadelfia.persone.anagrafica.modifica");
+        [PersoneController::class, 'modificaDatiAnagraficiConfirm'])->name("nomadelfia.persone.anagrafica.modifica");
     Route::get('persone/{idPersona}/nominativo/modifica',
         'PersoneController@modificaNominativo')->name("nomadelfia.persone.nominativo.modifica.view");
     Route::post('persone/{idPersona}/nominativo/modifica',
