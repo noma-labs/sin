@@ -174,13 +174,13 @@ class PersoneController extends CoreBaseController
             "nome" => "required",
             "cognome" => "required",
             "datanascita" => "required",
-            "luogonascita" => "required",
+//            "luogonascita" => "required",
             "sesso" => "required",
         ], [
             "nome.required" => "Il nome è obbligatorie",
             "cognome.required" => "Il cognome è obbligatorio",
             "datanascita.required" => "La data di nascita è obbligatoria",
-            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
+//            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
             "sesso.required" => "Il sesso è obbligatorio",
         ]);
         $persona = Persona::findOrFail($idPersona);
