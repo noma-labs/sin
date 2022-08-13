@@ -23,7 +23,9 @@
                 <td>{{ $persona->nominativo }} </td>
                 <td>{{ $persona->nome }} </td>
                 <td>{{ $persona->cognome }}</td>
-                <td>{{ $persona->data_nascita }}</td>
+                <td>{{ $persona->data_nascita }}
+                    <span  class="badge badge-secondary">@diffYears($persona->data_nascita) anni</span>
+                </td>
                 <td>
                     @if ($persona->posizione)
                         {{ $persona->posizione }}
@@ -32,7 +34,6 @@
                 <td> {{ $persona->data_entrata }} </td>
                 <td>
                     <a class="btn btn-warning btn-sm" href="{{ route('nomadelfia.persone.dettaglio',['idPersona'=> $persona->id]) }}">Dettaglio</a>
-
                 </td>
             </tr>
         @empty
