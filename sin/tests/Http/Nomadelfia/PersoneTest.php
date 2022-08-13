@@ -18,6 +18,7 @@ class PersoneTest extends TestCase
         $newNascita = "2022-12-12";
         $newLuogo = "my-luogo";
         $newSesso = "F";
+        $newbiografia = "Sono nato e morto";
         $this->login();
         $this->post(action([PersoneController::class, 'modificaDatiAnagraficiConfirm'], ['idPersona' => $persona->id]),
             [
@@ -26,6 +27,7 @@ class PersoneTest extends TestCase
                 'datanascita' => $newNascita,
                 'luogonascita' => $newLuogo,
                 'sesso' => $newSesso,
+                'biografia' => $newbiografia,
             ])
             ->assertRedirect()
             ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
@@ -36,6 +38,7 @@ class PersoneTest extends TestCase
         $this->assertEquals($newLuogo, $p->provincia_nascita);
         $this->assertEquals($newName, $p->nome);
         $this->assertEquals($newNascita, $p->data_nascita);
+        $this->assertEquals($newbiografia, $p->biografia);
     }
 
 }

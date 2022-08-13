@@ -183,7 +183,7 @@ class ScuolaTest extends TestCase
     public function clone_students_from_existing_anno()
     {
         $a = Anno::createAnno(2050, "2023-12-12", true);
-        $this->assertCount(9, $a->classi()->get());
+        $this->assertCount(11, $a->classi()->get());
 
         $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
         $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(3)->maschio()->create(), Carbon::now());
@@ -202,7 +202,7 @@ class ScuolaTest extends TestCase
 
         $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
         $this->assertEquals('2024-08-01', $aNew->data_inizio);
-        $this->assertCount(9, $aNew->classi()->get());
+        $this->assertCount(11, $aNew->classi()->get());
         $this->assertCount(10, $aNew->alunni());
     }
 
@@ -210,7 +210,7 @@ class ScuolaTest extends TestCase
     public function copy_students_from_other_classe()
     {
         $a = Anno::createAnno(2034, '2023-12-12', true);
-        $this->assertCount(9, $a->classi()->get());
+        $this->assertCount(11, $a->classi()->get());
 
         $pre = $a->prescuola();
         $pre->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
@@ -251,7 +251,7 @@ class ScuolaTest extends TestCase
     {
         $anno = 1994;
         $a = Anno::createAnno($anno, '2023-12-12', true);
-        $this->assertCount(9, $a->classi()->get());
+        $this->assertCount(11, $a->classi()->get());
         $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
         $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
 

@@ -16,9 +16,10 @@ CREATE TABLE `tipo`
 (
     `id`          int(10)                                                NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Id univoco della classe in un anno scolastico',
     `nome`        varchar(50)                                            NOT NULL,
-    `ciclo`       ENUM ('prescuola', 'elementari', 'medie', 'superiori') NOT NULL DEFAULT 'superiori',
+    `ciclo`       ENUM ('prescuola', 'elementari', 'medie', 'superiori', 'universita') NOT NULL DEFAULT 'superiori',
     `descrizione` varchar(100)                                                    DEFAULT NULL,
     `ord`         int(10)                                                NOT NULL COMMENT 'ordine progressivo per ordinare le classi',
+    `next`        int(10)                                                NULL DEFAULT NULL COMMENT 'tipo di clsse successivo',
     `created_at`  timestamp                                              NULL     DEFAULT CURRENT_TIMESTAMP,
     `updated_at`  timestamp                                              NULL     DEFAULT NULL
 ) ENGINE = InnoDB
@@ -83,3 +84,4 @@ ALTER TABLE `coordinatori_classi`
 CREATE INDEX classi_anni_idx ON classi (anno_id);
 CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
 CREATE UNIQUE INDEX alunni_classi_unique ON alunni_classi (classe_id, persona_id, data_inizio);
+

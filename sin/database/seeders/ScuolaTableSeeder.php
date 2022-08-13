@@ -54,193 +54,35 @@ class ScuolaTableSeeder extends Seeder
     }
 
     public function createClasseTipo(){
-        $data = [
-            [
-                'nome' => 'Prescuola',
-                'ord' => 1,
-                'ciclo' => 'prescuola'
-            ],
-//            [
-//                'nome' => '4 Anni Prescuola',
-//                'ord' => 2,
-//                'ciclo' => 'prescuola'
-//            ],
-//            [
-//                'nome' => '5 Anni Prescuola',
-//                'ord' => 3,
-//                'ciclo' => 'prescuola'
-//            ],
-            [
-                'nome' => '1a Elementare',
-                'ord' => 4,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '2a Elementare',
-                'ord' => 5,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '3a Elementare',
-                'ord' => 6,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '4a Elementare',
-                'ord' => 7,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '5a Elementare',
-                'ord' => 8,
-                'ciclo' => 'elementari'
-
-            ],
-            [
-                'nome' => '1a Media',
-                'ord' => 9,
-                'ciclo' => 'medie'
-            ],
-            [
-                'nome' => '2a Media',
-                'ord' => 10,
-                'ciclo' => 'medie'
-            ],
-            [
-                'nome' => '3a Media',
-                'ord' => 11,
-                'ciclo' => 'medie'
-            ],
-            [
-                'nome' => '1 Prof. Agrario',
-                'ord' => 12,
-                'ciclo' => 'superiori'
-            ],
-            [
-                'nome' => '2 Prof. Agrario',
-                'ord' => 13,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '3 Prof. Agrario',
-                'ord' => 14,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '4 Prof. Agrario',
-                'ord' => 15,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '5 Prof. Agrario',
-                'ord' => 16,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '1 L. Scentifico',
-                'ord' => 17,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '2 L. Scentifico',
-                'ord' => 18,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '3 L. Scentifico',
-                'ord' => 19,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '4 L. Scentifico',
-                'ord' => 20,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '5 L. Scentifico',
-                'ord' => 21,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '1 L. Scienze Umane',
-                'ord' => 22,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '2 L. Scienze Umane',
-                'ord' => 23,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '3 L. Scienze Umane',
-                'ord' => 24,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '4 L. Scienze Umane',
-                'ord' => 25,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '5 L. Scienze Umane',
-                'ord' => 26,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '1 Agrario',
-                'ord' => 27,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '2 Agrario',
-                'ord' => 28,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '3 Agrario',
-                'ord' => 29,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '4 Agrario',
-                'ord' =>30,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '5 Agrario',
-                'ord' => 31,
-                'ciclo' => 'superiori'
-
-            ],
-            [
-                'nome' => '1 L. SU.E.S.',
-                'ord' => 32,
-                'ciclo' => 'superiori'
-
-            ]
-
+        $data =[
+            ['id' =>1, 'nome'=> 'Prescuola', 'ciclo'=>'prescuola', 'ord'=> 1,  'next'=>2],
+            ['id' =>2, 'nome'=> '1a Elementare', 'ciclo'=>'elementari', 'ord'=> 10, 'next'=> 3],
+            ['id' =>3, 'nome'=> '2a Elementare', 'ciclo'=>'elementari', 'ord'=> 11, 'next'=> 4],
+            ['id' =>4, 'nome'=> '3a Elementare', 'ciclo'=>'elementari', 'ord'=> 12, 'next'=> 5],
+            ['id' =>5, 'nome'=> '4a Elementare', 'ciclo'=>'elementari', 'ord'=> 13, 'next'=> 6],
+            ['id' =>6, 'nome'=> '5a Elementare', 'ciclo'=>'elementari', 'ord'=> 14, 'next'=> 7],
+            ['id' =>7, 'nome'=> '1a Media', 'ciclo'=>'medie', 'ord'=> 20, 'next'=> 8],
+            ['id' =>8, 'nome'=> '2a Media', 'ciclo'=>'medie', 'ord'=> 21, 'next'=> 9],
+            ['id' =>9, 'nome'=> '3a Media', 'ciclo'=>'medie', 'ord'=> 22, 'next'=> 33],
+            ['id' =>10,'nome'=>  '1 Prof. Agrario', 'ciclo'=>'superiori', 'ord'=> 31, 'next'=> 11],
+            ['id' =>11,'nome'=>  '2 Prof. Agrario', 'ciclo'=>'superiori', 'ord'=> 32, 'next'=> 12],
+            ['id' =>12,'nome'=>  '3 Prof. Agrario', 'ciclo'=>'superiori', 'ord'=> 33, 'next'=> 13],
+            ['id' =>13,'nome'=>  '4 Prof. Agrario', 'ciclo'=>'superiori', 'ord'=> 34, 'next'=> 14],
+            ['id' =>14,'nome'=>  '5 Prof. Agrario', 'ciclo'=>'superiori', 'ord'=> 35, 'next'=> NULL],
+            ['id' =>15,'nome'=>  '1 L. Scientifico', 'ciclo'=>'superiori', 'ord'=> 36, 'next'=> 16],
+            ['id' =>16,'nome'=>  '2 L. Scientifico', 'ciclo'=>'superiori', 'ord'=> 37, 'next'=> 17],
+            ['id' =>17,'nome'=>  '3 L. Scientifico', 'ciclo'=>'superiori', 'ord'=> 38, 'next'=> 18],
+            ['id' =>18,'nome'=>  '4 L. Scientifico', 'ciclo'=>'superiori', 'ord'=> 39, 'next'=> 19],
+            ['id' =>19,'nome'=>  '5 L. Scientifico', 'ciclo'=>'superiori', 'ord'=> 40, 'next'=> NULL],
+            ['id' =>20,'nome'=>  '1 L. Scienze Umane', 'ciclo'=>'superiori', 'ord'=> 41, 'next'=> 21],
+            ['id' =>21,'nome'=>  '2 L. Scienze Umane', 'ciclo'=>'superiori', 'ord'=> 42, 'next'=> 22],
+            ['id' =>22,'nome'=>  '3 L. Scienze Umane', 'ciclo'=>'superiori', 'ord'=> 43, 'next'=> 23],
+            ['id' =>23,'nome'=>  '4 L. Scienze Umane', 'ciclo'=>'superiori', 'ord'=> 44, 'next'=> 24],
+            ['id' =>24,'nome'=>  '5 L. Scienze Umane', 'ciclo'=>'superiori', 'ord'=> 45, 'next'=> NULL],
+            ['id' =>30,'nome'=>  '1 L. SU.E.S.', 'ciclo'=>'superiori', 'ord'=> 51, 'next'=> NULL],
+            ['id' =>31,'nome'=>  'Universita', 'ciclo'=>'universita', 'ord'=> 70, 'next'=> NULL],
+            ['id' =>32,'nome'=>  '1a Classe', 'ciclo'=>'elementari', 'ord'=> 46, 'next'=>NULL ],
+            ['id' =>33,'nome'=>  '1 superiore', 'ciclo'=>'superiori', 'ord'=> 30, 'next'=> NULL]
         ];
         DB::connection('db_scuola')->table('tipo')->insert($data);
     }
