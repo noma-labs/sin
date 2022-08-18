@@ -72,6 +72,12 @@ class Persona extends Model
         return "($this->>year) $this->nominativo ($this->nome  $this->cognome)";
     }
 
+    public function getInitialLetterOfCogonome()
+    {
+        return Str::substr($this->cognome, 0, 1);
+    }
+
+
     public function anni()
     {
         return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
@@ -90,24 +96,27 @@ class Persona extends Model
     public function scopeNumeroElencoPrefixByLetter($query, string $lettera)
     {
         $query->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $lettera])
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
+                ['^[a-zA-Z].*[0-9]$', $lettera])
             ->orderBy('numero', 'DESC');
     }
 
-    public function proposeNumeroElenco(){
-        if ($this->numero_elenco){
-            throw new Exception("La persona ". $this->nominativo . " ha già un numero di elenco ". $this->numero_elenco);
+    public function proposeNumeroElenco()
+    {
+        if ($this->numero_elenco) {
+            throw new Exception("La persona " . $this->nominativo . " ha già un numero di elenco " . $this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
         $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $firstLetter])
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
+                ['^[a-zA-Z].*[0-9]$', $firstLetter])
             ->orderBy('numero', 'DESC')
             ->first();
-        if ($res){
+        if ($res) {
             $new = (int)$res->numero + 1;
-            return $res->lettera.$new;
+            return $res->lettera . $new;
         }
-        return $firstLetter."1";
+        return $firstLetter . "1";
 
     }
 
