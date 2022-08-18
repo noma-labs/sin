@@ -54,8 +54,8 @@ class ApiController extends CoreBaseController
     public function autocompleteCollocazione(Request $request)
     {
         // ?term=q       => return all the lettere that start with "q"
-        // ?lettere=XXX  => return the numeri (liberi, asseganti, nuovo numoro) for the selecte lettere
-        // ?lettere=XXX&soloassegnati=true => return onle numeri assseganto for the letters
+        // ?lettere=XXX  => return the numeri (liberi, asseganti, nuovo numero) for the selected lettere
+        // ?lettere=XXX&soloassegnati=true => return only the numbers assigned for the letters
         if ($request->has('term')) {
             $CollocazioneLettere = ViewCollocazione::lettere()
                 ->where("lettere", "LIKE", $request->input('term') . '%')

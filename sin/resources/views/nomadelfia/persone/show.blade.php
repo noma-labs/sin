@@ -147,12 +147,9 @@
                                         @else
                                             <div class="text-danger"> Non presente</div>
                                             @endif
-
-                                            </p>
                                     </div>
                                     <div class="col-sm-2">
                                         @if($persona->isPersonaInterna())
-
                                             <my-modal modal-title="Uscita dalla comunità" button-title="Uscita"
                                                       button-style="btn-danger my-2">
                                                 <template slot="modal-body-slot">
@@ -223,6 +220,14 @@
                                             <span class="badge badge-info"> {{$persona->numero_elenco}}</span>
                                         @else
                                             <p class="text-danger">Nessun numero elenco</p>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @if($persona->numero_elenco)
+                                        @else
+                                            <a class="btn btn-warning"
+                                               href="{{route('nomadelfia.persone.numelenco.modifica.view', $persona->id)}}"
+                                               role="button">Modifica</a>
                                         @endif
                                     </div>
                                 </div>

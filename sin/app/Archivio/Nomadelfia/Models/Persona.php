@@ -10,6 +10,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
+use App\Nomadelfia\QueryBuilders\PersonaQueryBuilder;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Database\Factories\PersonaFactory;
@@ -40,6 +41,7 @@ class Persona extends Model
     {
         return PersonaFactory::new();
     }
+
 
     public function setNomeAttribute($value)
     {
@@ -85,6 +87,30 @@ class Persona extends Model
         return $this->sesso == "M";
     }
 
+    public function scopeNumeroElencoPrefixByLetter($query, string $lettera)
+    {
+        $query->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $lettera])
+            ->orderBy('numero', 'DESC');
+    }
+
+    public function proposeNumeroElenco(){
+        if ($this->numero_elenco){
+            throw new Exception("La persona ". $this->nominativo . " ha già un numero di elenco ". $this->numero_elenco);
+        }
+        $firstLetter = Str::substr($this->cognome, 0, 1);
+        $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $firstLetter])
+            ->orderBy('numero', 'DESC')
+            ->first();
+        if ($res){
+            $new = (int)$res->numero + 1;
+            return $res->lettera.$new;
+        }
+        return $firstLetter."1";
+
+    }
+
     public function scopeMaggiorenni($query)
     {
         $date = Carbon::now()->subYears(18)->toDatestring();
@@ -107,28 +133,35 @@ class Persona extends Model
         return $query->where('sesso', 'M');
     }
 
+
     /**
      * Ritorna le persone che hanno gli anni maggiori o uguali di $eta.
      *
      * @param int $eta
      * @author Davide Neri
      **/
-    public function scopeDaEta($query, int $eta, string $orderBy='nominativo', $travel_to_year=null)
+    public function scopeDaEta($query, int $eta, string $orderBy = 'nominativo', $travel_to_year = null)
     {
-        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->subYears($eta);
         return $query->where('data_nascita', '<=', $end)->orderby($orderBy);
     }
 
-      /**
+    /**
      * Ritorna le persone che hanno un eta compresa tra da $frometa e $toeta.
      * @param int $frometa
      * @param int $toeta
      * @author Davide Neri
      **/
-    public function scopeFraEta($query, int $frometa, int $toeta, string $orderBy='nominativo', $travel_to_year=null, $withInYear = false)
-    {
-        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+    public function scopeFraEta(
+        $query,
+        int $frometa,
+        int $toeta,
+        string $orderBy = 'nominativo',
+        $travel_to_year = null,
+        $withInYear = false
+    ) {
+        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($frometa);
         if ($withInYear) {
             $end = $end->endOfYear();
@@ -144,7 +177,7 @@ class Persona extends Model
 
     public function scopeNatiInAnno($query, int $anno)
     {
-        return $query->whereRaw('YEAR(data_nascita)= ?',[$anno]);
+        return $query->whereRaw('YEAR(data_nascita)= ?', [$anno]);
     }
 
 

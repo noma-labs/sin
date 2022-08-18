@@ -463,4 +463,21 @@ class PersonaTest extends TestCase
         $this->assertEquals(3, Persona::NatiInAnno(1991)->count());
 
     }
+
+
+    /** @test */
+    public function build_numero_elenco_per_persona()
+    {
+        Persona::factory()->create(['numero_elenco' => 'A1']);
+        Persona::factory()->create(['numero_elenco' => 'A9']);
+        $pLast = Persona::factory()->create(['cognome' => 'Aminoacido']);
+
+        $res = Persona::NumeroElencoPrefixByLetter('A')->first();
+        $this->assertEquals(9,  $res->numero);
+        $this->assertEquals('A',  $res->lettera);
+
+        $n = $pLast->proposeNumeroElenco();
+        $this->assertEquals('A10',  $n);
+
+    }
 }
