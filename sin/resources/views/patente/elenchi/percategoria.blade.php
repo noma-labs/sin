@@ -14,7 +14,7 @@
                     <div id="categoria{{ $categoria->id }}" class="collapse" aria-labelledby="heading{{ $categoria->id }}" data-parent="#accordionExample">
                       <div class="card-body">
                         <ul>
-                        @foreach($categoria->patenti()->get()->sortBy('nominativo') as $patente)
+                        @foreach($categoria->patenti()->get() as $patente)
                             <li>{{$patente->persona->nominativo}}</li>
                           @endforeach
                         </ul>
