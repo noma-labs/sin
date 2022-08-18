@@ -17,7 +17,7 @@
                             @if(count($assegnati) >0 )
                             <select class="form-control">
                                 @foreach ($assegnati as $p)
-                                    <option value="{{$p}}"> {{$p->data_nascita}} {{$p->nome}} {{$p->cognome}}</option>
+                                    <option value="{{$p}}"> {{$p->numero_elenco}}  @year($p->data_nascita) {{$p->nome}} {{$p->cognome}}</option>
                                 @endforeach
                             </select>
                             @else
