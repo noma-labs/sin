@@ -20,10 +20,12 @@
         <table class="table table-hover table-bordered" style="table-layout:auto;overflow-x:scroll;">
             <thead class="thead-inverse">
             <tr>
+                <th>Numero Elenco</th>
                 <th>Nominativo</th>
                 <th>Nome</th>
                 <th>Cognome</th>
                 <th>Data Nascita</th>
+                <th>Luogo di Nascita</th>
                 <th>Operazioni</th>
             </tr>
             </thead>
@@ -31,10 +33,12 @@
             @foreach ( $persone as $persona)
                 @empty($persona->delated_at)
                     <tr hoverable>
-                        <td> {{ $persona->nominativo}} {{$persona->numero_elenco}}</td>
+                        <td> <span class="badge badge-primary">{{$persona->numero_elenco}}</span></td>
+                        <td> {{ $persona->nominativo}}</td>
                         <td> {{ $persona->nome}}</td>
                         <td> {{ $persona->cognome}} </td>
                         <td> {{$persona->data_nascita}}</td>
+                        <td> {{$persona->luogo_nascita}}</td>
                         <td>
                             <div class='button-group btn-block' role='group'>
                                 <a class="btn btn-warning btn-sm"
