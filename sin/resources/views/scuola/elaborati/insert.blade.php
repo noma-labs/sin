@@ -4,7 +4,6 @@
     @include('partials.header', ['title' => 'Aggiungi elaborato'])
     <form method="POST" action="{{route('scuola.elaborati.insert')}}">
         @csrf
-        @livewire('counter')
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
