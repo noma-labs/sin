@@ -9,6 +9,7 @@ use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Validator;
 
 class PersoneController extends CoreBaseController
@@ -66,6 +67,14 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
     }
 
+    public function modificaNumeroElenco($idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        $first = Str::substr($persona->cognome, 0, 1);
+        $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
+        $propose = $persona->proposeNumeroElenco();
+        return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'assegnati', 'propose'));
+    }
 
     public function search()
     {
@@ -103,17 +112,7 @@ class PersoneController extends CoreBaseController
 
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
-            if ($request->filled('stato') && $request->stato == "on") {
-                // include anche le persone che sono disattivate (stato = 0)
-                $stato = $request->stato;
-                $msgSearch = $msgSearch . " Persone Attive e Disattive, ";
-            } else {
-                // includi solo persone attive
-                // TODO:  adde where(popolazione.data_uscita == NULL)
-                //$q->where('stato', '=', "1");
-                $msgSearch = $msgSearch . " Solo persone Attive, ";
-            }
-            if ($request->nominativo) {
+           if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
                 $msgSearch = $msgSearch . "Nominativo=" . $nominativo;
