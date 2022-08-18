@@ -4,7 +4,7 @@
 
 @include('partials.header', ['title' => 'Assegna Numero elenco'])
 <div class="row justify-content-md-center">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <h5 class="card-header">Assegna Numero elenco </h5>
             <div class="card-body">
@@ -13,11 +13,11 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-9">
-                            <label for="exampleInputEmail1">precedenti</label>
+                            <label for="exampleInputEmail1">Precedenti</label>
                             @if(count($assegnati) >0 )
                             <select class="form-control">
                                 @foreach ($assegnati as $p)
-                                    <option value="{{$p}}"> {{$p->numero_elenco}}  @year($p->data_nascita) {{$p->nome}} {{$p->cognome}}</option>
+                                    <option value="{{$p}}"> {{$p->numero_elenco}} {{$p->nome}} {{$p->cognome}}</option>
                                 @endforeach
                             </select>
                             @else
