@@ -8,7 +8,7 @@
         <div class="card">
             <h5 class="card-header">Assegna Numero elenco </h5>
             <div class="card-body">
-                <form class="form" method="POST"
+                <form class="form" id="assegnaNumeroElenco" method="POST"
                       action="{{ route('nomadelfia.persone.numelenco.confirm', ['idPersona' =>$persona->id]) }}">
                     {{ csrf_field() }}
                     <div class="row">
@@ -29,8 +29,10 @@
                             <input class="form-control" value="{{$propose}}" name="numero_elenco">
                         </div>
                     </div>
-                    <button class="btn btn-danger">Salva</button>
                 </form>
+            </div>
+            <div class="card-footer">
+                    <button class="btn btn-primary" form="assegnaNumeroElenco">Salva</button>
             </div>
         </div>
     </div>
