@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-6" v-pre>
 
-{{--                <x-media-library-attachment name="avatar"></x-media-library-attachment>--}}
+
 
            </div>
 

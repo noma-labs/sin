@@ -63,7 +63,7 @@ class ApiController extends CoreBaseController
             $results[] = ['value' => "null", 'label' => "SENZA COLLOCAZIONE"];
             foreach ($CollocazioneLettere as $lettere) {
                 $results[] = ['value' => $lettere->lettere, 'label' => $lettere->lettere];
-            }//'id' => $query->id, 'value' => $query->first_name.' '.$query->last_name ];
+            }
             return response()->json($results);
         }
         if ($request->has('lettere')) {

@@ -6,7 +6,7 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
+    'disk_name' => env('MEDIA_DISK', 'media'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -28,14 +28,14 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    'media_model' => App\Scuola\Models\Elaborato::class,
+    'media_model' => App\Biblioteca\Models\Libro::class,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => App\Scuola\Models\TemporaryElaborato::class,
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads there were uploaded

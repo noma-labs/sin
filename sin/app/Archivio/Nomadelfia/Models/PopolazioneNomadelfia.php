@@ -3,6 +3,7 @@
 namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\QueryBuilders\PopolazioneQueryBuilder;
+use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use \stdClass;
@@ -16,6 +17,7 @@ class PopolazioneNomadelfia extends Model
 
     public $timestamps = true;
     protected $guarded = [];
+
 
     public function newEloquentBuilder($query): PopolazioneQueryBuilder
     {

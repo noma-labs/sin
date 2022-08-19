@@ -139,6 +139,7 @@
     <div class="card border-warning my-2" >
       <div class="card-header">Versione Digitale</div>
       <div class="card-body">
+{{--          <x-media-library-attachment name="avatar"></x-media-library-attachment>--}}
 {{--        @if($libro->getMedia()->count() > 0)--}}
 {{--          <div class="list-group-item">--}}
 {{--          @foreach  ($libro->getMedia()  as $file)--}}
@@ -182,5 +183,4 @@
   <!-- </div> -->
 </div>
 
-<!-- end section dettagli prenotazione -->
 @endsection

@@ -9,6 +9,7 @@ use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
 use App\Nomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
+use App\Traits\SortableTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use SnappyPdf;
@@ -17,6 +18,7 @@ use Carbon;
 
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
+
     public function index()
     {
         $totale = PopolazioneNomadelfia::totalePopolazione();
