@@ -193,9 +193,6 @@ class LibriController extends CoreBaseController{
 
   public function show($idLibro){
     $libro = Libro::withTrashed()->find($idLibro);
-      $url = 'https://it.m.wikipedia.org/wiki/File:Cat03.jpg';
-      $libro->addMediaFromUrl($url)
-            ->toMediaCollection();
     $prestitiAttivi =  $libro->prestiti->where("in_prestito",1);//Prestito::InPrestito()->where("libro",$idLibro)->get();
     if ($libro) return view("biblioteca.libri.show",["libro"=>$libro, "prestitiAttivi"=>$prestitiAttivi]);
     else  return redirect()->route("libri.ricerca")->withError("Il libro selezionato non esiste");

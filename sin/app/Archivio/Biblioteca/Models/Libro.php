@@ -23,9 +23,9 @@ use App\Biblioteca\Models\Classificazione as Classificazione;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Libro extends Model implements HasMedia
+class Libro extends Model // implements HasMedia
 {
-    use InteractsWithMedia;
+//    use InteractsWithMedia;
     use SortableTrait;
     use SoftDeletes;
     use Enums;
