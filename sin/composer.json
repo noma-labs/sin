@@ -13,6 +13,7 @@
         "barryvdh/laravel-snappy": "0.4.8",
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^7.0.1",
+        "h4cc/wkhtmltopdf-amd64": "^0.12.4",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "^8.0",
         "laravel/tinker": "~2.0",
@@ -25,8 +26,7 @@
         "spatie/laravel-activitylog": "^3.0",
         "spatie/laravel-backup": "^6.0",
         "spatie/laravel-medialibrary": "^9.0.0",
-        "spatie/laravel-medialibrary-pro": "^1.0.0",
-        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
+        "spatie/laravel-medialibrary-pro": "^1.0.0"
     },
     "require-dev": {
         "composer/composer": "^2.0",
