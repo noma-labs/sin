@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Http\Officina;
 
 use App\Nomadelfia\Models\Persona;
 use App\Officina\Actions\CreatePrenotazioneAction;

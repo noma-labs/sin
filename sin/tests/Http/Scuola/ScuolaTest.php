@@ -1,7 +1,6 @@
 <?php
-namespace Tests\Http;
+namespace Tests\Http\Scuola;
 use App\Scuola\Controllers\ScuolaController;
-use App\Scuola\Models\Anno;
 use Tests\TestCase;
 
 class ScuolaTest extends TestCase

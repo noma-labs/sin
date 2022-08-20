@@ -20,7 +20,7 @@
         "laravelcollective/html": "^6.0",
         "livewire/livewire": "^2.10",
         "phpoffice/phpspreadsheet": "^1.7",
-        "phpoffice/phpword": "^0.17.0",
+        "phpoffice/phpword": "0.18.3",
         "pmatseykanets/laravel-sql-migrations": "^1.0.0",
         "spatie/laravel-activitylog": "^3.0",
         "spatie/laravel-backup": "^6.0",
