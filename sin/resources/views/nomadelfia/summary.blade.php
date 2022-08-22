@@ -77,17 +77,35 @@
         Gestione Famiglie
       </div>
       <div class="card-body">
-          <ul>
-              @foreach ($posizioniFamiglia as $posizione)
-                  <li>{{$posizione->posizione_famiglia}} :   <strong>  {{$posizione->count}}</strong>  
-                     @if($posizione->sesso == 'F') 
-                      <span class="badge badge-primary"> {{$posizione->sesso}}</span>
-                     @else
-                     <span class="badge badge-warning"> {{$posizione->sesso}}</span>
-                    @endif
-                  </li>
-              @endforeach
-          </ul>
+          <div class="row">
+              <div class="col-md-6">
+                  <label>Famiglie per posizione</label>
+                  <ul>
+                      @foreach ($posizioniFamiglia as $posizione)
+                          <li>{{$posizione->posizione_famiglia}} :   <strong>  {{$posizione->count}}</strong>
+                              @if($posizione->sesso == 'F')
+                                  <span class="badge badge-primary"> {{$posizione->sesso}}</span>
+                              @else
+                                  <span class="badge badge-warning"> {{$posizione->sesso}}</span>
+                              @endif
+                          </li>
+                      @endforeach
+                  </ul>
+              </div>
+
+              <div class="col-md-6">
+                  <label>Famiglie Numerose</label>
+                  <ul>
+                      @foreach ($famiglieNumerose as $fam)
+                          <li>
+                              <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$fam->id])}}"> {{$fam->nome_famiglia}}</a> <span class="badge badge-primary"> {{$fam->componenti}}</span>
+                          </li>
+                      @endforeach
+                  </ul>
+              </div>
+
+          </div>
+
       </div>
       <div class="card-footer">
       <a href="{{ route('nomadelfia.famiglie') }}"class="btn btn-primary">Entra</a>

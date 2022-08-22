@@ -179,4 +179,38 @@ class FamigliaTest extends TestCase
         $this->assertEquals($nuovoGruppo->id, $fnato->gruppofamiliareAttuale()->id);
 
     }
+
+    public function testFamiglieNumerose()
+    {
+        $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        $figlio = Persona::factory()->minorenne()->femmina()->create();
+        $gruppo = GruppoFamiliare::all()->random();
+        $now = Carbon::now()->toDatestring();
+        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
+        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam);
+        $famiglia->assegnaMoglie($moglie);
+        $famiglia->assegnaFiglioNato( $figlio);
+        $famiglia->assegnaFiglioNato( Persona::factory()->minorenne()->femmina()->create());
+        $famiglia->assegnaFiglioNato( Persona::factory()->minorenne()->femmina()->create());
+        $famiglia->assegnaFiglioNato( Persona::factory()->minorenne()->femmina()->create());
+        $famiglia->assegnaFiglioNato( Persona::factory()->minorenne()->femmina()->create());
+        $famiglia->assegnaFiglioNato( Persona::factory()->minorenne()->femmina()->create());
+
+        $fanNum = Famiglia::famiglieNumerose(10);
+        $this->assertCount(0, $fanNum);
+        $fanNum = Famiglia::famiglieNumerose(7);
+        $this->assertCount(1, $fanNum);
+        $this->assertEquals($famiglia->id, $fanNum[0]->id);
+        $this->assertEquals(8, $fanNum[0]->componenti);
+
+        $figlio->uscita(Carbon::now()->toDatestring());
+        $fanNum = Famiglia::famiglieNumerose(7);
+        $this->assertCount(1, $fanNum);
+        $this->assertEquals($famiglia->id, $fanNum[0]->id);
+        $this->assertEquals(7, $fanNum[0]->componenti);
+    }
+
 }

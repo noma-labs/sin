@@ -84,7 +84,6 @@ class Famiglia extends Model
     }
 
 
-
     public function scopeOrdered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
@@ -166,7 +165,7 @@ class Famiglia extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
-                    $componente->uscita($data_uscita, false);
+                $componente->uscita($data_uscita, false);
             });
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {
@@ -174,33 +173,6 @@ class Famiglia extends Model
             throw $e;
         }
     }
-
-
-    /**
-     * Ritorna True se tutti i componenti nel nucleo familiare sono persone esterne.
-     *
-     * @author Davide Neri
-     **/
-//    public function isUscita()
-//    {
-//        $interno = Categoria::perNome("interno");
-//        $res = DB::connection('db_nomadelfia')->select(
-//        // seleziona tutti componenti attivi della famiglia che sono interni.
-//            DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita
-//                    FROM famiglie
-//                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id
-//                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id
-//                    INNER JOIN persone_categorie ON persone.id = famiglie_persone.persona_id
-//                    WHERE famiglie.id = :famiglia AND persone_categorie.categoria_id = :interno AND persone_categorie.stato = '1' AND famiglie_persone = '1'
-//                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
-//            array('famiglia' => $this->id, 'interno' => $interno->id)
-//        );
-//        if (count($res) >= 1) {
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
 
     /**
      * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA o il SINGLE della famiglia.
@@ -511,6 +483,24 @@ class Famiglia extends Model
                 )
                 AND gruppi_persone.stato = '1' "),
             array('gruppoattuale' => $idGruppo, 'famigliaId' => $this->id)
+        );
+    }
+
+    public function famiglieNumerose(int $min_componenti = 5)
+    {
+        return DB::connection('db_nomadelfia')->select(
+            DB::raw("WITH famiglie_numerose AS (
+                             SELECT f.id, count(*) as componenti
+                             FROM `famiglie`  f
+                             INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
+                             WHERE fp.stato = '1'
+                             GROUP BY f.id
+                             HAVING componenti >= :minc 
+                             ORDER BY componenti DESC
+                    ) select ff.*, famiglie_numerose.componenti
+                    from famiglie_numerose
+                    join famiglie ff on famiglie_numerose.id = ff.id
+                    order by famiglie_numerose.componenti DESC;"), array('minc' => $min_componenti)
         );
     }
 

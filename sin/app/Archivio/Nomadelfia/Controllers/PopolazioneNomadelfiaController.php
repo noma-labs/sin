@@ -4,6 +4,7 @@ namespace App\Nomadelfia\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Nomadelfia\Models\Azienda;
 use App\Nomadelfia\Models\EserciziSpirituali;
+use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Incarico;
 use App\Nomadelfia\Models\Persona;
@@ -37,8 +38,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $gruppi =  GruppoFamiliare::countComponenti();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
+        $famiglieNumerose = Famiglia::famiglieNumerose();
 
-        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia'));
+        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia','famiglieNumerose'));
     }
 
     public function show(Request $request)
