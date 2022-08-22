@@ -3,7 +3,6 @@
 CREATE TABLE `popolazione` (
     `persona_id` int(11),
     `data_entrata` date NOT NULL,
-    `data_dimisioni` date DEFAULT NULL,
     `data_uscita` date DEFAULT NULL,
     `created_at` timestamp DEFAULT NOW(),
     `updated_at` timestamp DEFAULT NOW(),
