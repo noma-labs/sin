@@ -46,7 +46,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     public function show(Request $request)
     {
         $popolazione = PopolazioneNomadelfia::popolazione();
-        return view("nomadelfia.popolazione.show", compact('popolazione'));
+        $stats = PopolazioneNomadelfia::stats();
+//        dd($stats);
+        return view("nomadelfia.popolazione.show", compact('popolazione', 'stats'));
     }
 
     public function maggiorenni(Request $request)
