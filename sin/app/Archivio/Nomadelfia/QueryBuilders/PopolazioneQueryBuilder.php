@@ -40,7 +40,7 @@ class PopolazioneQueryBuilder extends Builder
                         FROM persone 
                         INNER join popolazione p ON p.persona_id = persone.id
                         where data_uscita is NULL
-                     ) select min(eta) as min, max(eta) as max , avg(eta) as avg  from pop_eta;")
+                     ) select min(eta) as min, max(eta) as max , TRUNCATE(avg(eta),0) as avg , VARIANCE(eta) as var from pop_eta;")
         )[0];
     }
 

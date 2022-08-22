@@ -32,6 +32,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $nomanamma = PopolazioneNomadelfia::nomadelfaMamma();
         $figliMaggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
+        $stats = PopolazioneNomadelfia::stats();
 
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
@@ -40,15 +41,14 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         $famiglieNumerose = Famiglia::famiglieNumerose();
 
-        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia','famiglieNumerose'));
+
+        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia','famiglieNumerose', 'stats'));
     }
 
     public function show(Request $request)
     {
         $popolazione = PopolazioneNomadelfia::popolazione();
-        $stats = PopolazioneNomadelfia::stats();
-//        dd($stats);
-        return view("nomadelfia.popolazione.show", compact('popolazione', 'stats'));
+        return view("nomadelfia.popolazione.show", compact('popolazione'));
     }
 
     public function maggiorenni(Request $request)

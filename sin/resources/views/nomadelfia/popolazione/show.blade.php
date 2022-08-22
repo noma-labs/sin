@@ -3,34 +3,6 @@
 @section('archivio')
 
     @include('partials.header', ['title' => 'Gestione Popolazione ' . count($popolazione)])
-    <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-md-4">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                    <div class="card-header">Età media</div>
-                    <div class="card-body">
-                        <p class="card-text">{{$stats->avg}} anni
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                    <div class="card-header">Persona più anziana</div>
-                    <div class="card-body">
-                        <p class="card-text">{{$stats->max}} anni
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                    <div class="card-header">Persona più giovane</div>
-                    <div class="card-body">
-                        <p class="card-text">{{$stats->min}} anni
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <table id="table" class='table table-bordered table-hover table-sm'>
         <thead class='thead-inverse'>

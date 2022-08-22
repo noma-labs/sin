@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SortableTrait;
 use App\Traits\Enums;
 
-// Extrnal library to associate media files a model
+// External library to associate media files a model
 //use Spatie\MediaLibrary\HasMedia;
 //use Spatie\MediaLibrary\InteractsWithMedia;
 
