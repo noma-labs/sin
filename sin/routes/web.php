@@ -24,6 +24,10 @@ use Illuminate\Support\Facades\Input;
 |
 */
 
+Route::get('/debug-sentry', function () {
+    throw new Exception('My Second Sentry error!');
+});
+
 Route::view('/', 'welcome');
 
 Route::group(['namespace' => 'App\Auth\Controllers'], function () {
