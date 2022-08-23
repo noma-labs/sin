@@ -39,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
                     return $user->hasPermissionTo($risorsa, $operazione) ?: null;
                 }
             } catch (RisorsaDoesNotExist $e) {
+                throw $e;
             }
         });
         $this->registerPolicies($gate);
