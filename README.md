@@ -49,8 +49,13 @@ npm install --no-bin-links    (for windows installation)
 ```
 
 7. Copia il file `.env` presente nella cartella `C:/xampp/htdocs/sistema-informativo-nomadelfia/sin`  del server (192.168.11.7) nella cartella `C:/xampp/htdocs/sistema-informativo-nomadelfia/sin` nel computer dove procendeno con l'installazione.
+```
+   SENTRY_LARAVEL_DSN=https://<key>@o1373805.ingest.sentry.io/6680512
+   SENTRY_SEND_DEFAULT_PII=false
+   SENTRY_ENVIRONMENT=
+```
 
-8. Genera una chiave di sicurezza (N.B: senza la chiave il programma da un errore) che laravel utilizza per crittografare la comunicazione.
+9. Genera una chiave di sicurezza (N.B: senza la chiave il programma da un errore) che laravel utilizza per crittografare la comunicazione.
 
 ```
 cd C:/xampp/htdocs/sistema-informativo-nomadelfia/sin
