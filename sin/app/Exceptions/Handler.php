@@ -22,12 +22,22 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($e);
+            }
+        });
+    }
+
+
     /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
      * @return void
      */
     public function report(Throwable $exception)
@@ -36,34 +46,10 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    // public function render($request, Exception $exception)
-    // {
-    //   // aggiunta Davide per authorie() method in the controller launch this Exception if the user ha no the authorization
-    //   // if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-    //   //     return response()->view('errors.401');
-    //   // }
-    //   //
-    //   // if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
-    //   //   // Code here ...
-    //   //   return response()->view('errors.401');
-    //   // }
-
-    //     return parent::render($request, $exception);
-
-
-    // }
-
-    /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -73,33 +59,25 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest(route('login'))->withError("Operazione non permessa da utente ospite.");
-        // return redirect()->guest(route('auth.guest'));
     }
-    
+
     public function render($request, Throwable $e)
     {
         $this->registerErrorViewPaths();
 
-        if ($e instanceof \Illuminate\Session\TokenMismatchException)
-        {
+        if ($e instanceof \Illuminate\Session\TokenMismatchException) {
             return redirect()
-                    ->back()
-                    ->withInput($request->except('password'))
-                    ->with([
-                        'status' => 'Oops! Your Validation Token has expired. Please try again',
-                        'alert' => 'danger']);
+                ->back()
+                ->withInput($request->except('password'))
+                ->with([
+                    'status' => 'Oops! Your Validation Token has expired. Please try again',
+                    'alert' => 'danger'
+                ]);
         }
 
         return parent::render($request, $e);
     }
 
-    public function register()
-    {
-        $this->reportable(function (Throwable $e) {
-            if (app()->bound('sentry')) {
-                app('sentry')->captureException($e);
-            }
-        });
-    }
+
 
 }

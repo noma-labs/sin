@@ -21,6 +21,12 @@
     @livewireStyles
     <!--   Needed by laravel-medialibary-pro UI component -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
+    <!--    sentry for user feedback form  -->
+    <script
+            src="https://browser.sentry-cdn.com/7.11.1/bundle.min.js"
+            integrity="sha384-qcYSo5+/E8hEkPmHFa79GRDsGT84SRhBJHRw3+dbQyh0UwueiFP1jCsRBClEREcs"
+            crossorigin="anonymous"
+    ></script>
     </head>
     <body>
     <div id="app">
