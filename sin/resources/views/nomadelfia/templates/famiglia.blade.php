@@ -4,7 +4,7 @@
     <div class="row">
         <label class="col-sm-2">{{ $componente->posizione_famiglia }}</label>
         <div class="col-sm-8">
-                <span> @year($componente->data_nascita)    
+                <span> @year($componente->data_nascita)
                         @include("nomadelfia.templates.persona", ['persona' => $componente])  </span>
                         @if($componente->stato == '1')
                         <span class="badge badge-pill badge-success">Nel nucleo</span>
