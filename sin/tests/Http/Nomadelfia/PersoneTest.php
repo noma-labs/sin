@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Controllers\PersoneController;
+use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
