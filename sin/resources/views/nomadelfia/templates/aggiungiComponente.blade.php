@@ -13,7 +13,7 @@
           <div class="col-8">
             <select class="form-control" name="posizione">
             <option value="" selected>---scegli posizione---</option>
-              @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+              @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum('Posizione') as $posizione)
                   <option value="{{ $posizione }}">{{ $posizione }}</option>
                 @endforeach
               </select>

@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
@@ -384,7 +385,10 @@ class PersoneController extends CoreBaseController
                 $persona->entrataMinorenneAccolto($request->data_entrata, $request->famiglia_id);
                 break;
             case "minorenne_famiglia":
-                $persona->entrataMinorenneConFamiglia($request->data_entrata, $request->famiglia_id);
+                $famiglia = Famiglia::findOrFail($request->famiglia_id);
+                $act = new EntrataMinorenneConFamigliaAction();
+                $act->execute($persona, $request->data_entrata, $famiglia);
+//                $persona->entrataMinorenneConFamiglia($request->data_entrata, $request->famiglia_id);
                 break;
             case "maggiorenne_single":
                 $persona->entrataMaggiorenneSingle($request->data_entrata, $request->gruppo_id);
