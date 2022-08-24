@@ -17,7 +17,7 @@ class BladeDirectivesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Return True of the persona live in the centro di spirito.
+        // Return True of the persona live in the "centro di spirito".
         Blade::if('liveRome', function ($persona) {
             if (is_string($persona)) {
                 $persona= Persona::findOrFail($persona);
