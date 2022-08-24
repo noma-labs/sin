@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\Api\Controllers;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
@@ -9,7 +9,6 @@ use App\Traits\Enums;
 
 //models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use App\Nomadelfia\Models\NucleoFamigliare;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
