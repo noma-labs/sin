@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
 use Carbon;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -207,7 +206,8 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataMinorenneConFamiglia($data_entrata, $famiglia->id);
+        $action = new EntrataMinorenneConFamigliaAction();
+        $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
         /*
             Persona interna (DE)
             Figlio (DE)
@@ -245,7 +245,8 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataMinorenneConFamiglia($data_entrata, $famiglia->id);
+        $action = new EntrataMinorenneConFamigliaAction();
+        $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
         /*
             Persona interna (DE)
             Figlio (DE)
@@ -386,7 +387,8 @@ class PersonaTest extends TestCase
         $figlio = Persona::factory()->minorenne()->create();
 
         // il minorenne entra con la sua famiglia in Nomadelfia
-        $figlio->entrataMinorenneConFamiglia($data_entrata, $famiglia->id);
+        $action = new EntrataMinorenneConFamigliaAction();
+        $action->execute($figlio, $data_entrata, Famiglia::findOrFail($famiglia->id));
         $this->assertTrue($figlio->isPersonaInterna());
         $this->assertEquals($figlio->getDataEntrataNomadelfia(), $data_entrata->toDatestring());
 
@@ -443,7 +445,8 @@ class PersonaTest extends TestCase
         // la famiglia rientra a Nomadelfia. Prima entra il capofamiglia
         $data_rientro = Carbon::now()->addYear(20)->toDatestring();
         $persona->entrataMaggiorenneSposato($data_rientro, GruppoFamiliare::all()->random()->id);
-        $figlio->entrataMinorenneConFamiglia($data_rientro, $famiglia->id);
+        $action = new EntrataMinorenneConFamigliaAction();
+        $action->execute($figlio, $data_rientro, Famiglia::findOrFail($famiglia->id));
         $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_rientro, $data_uscita) {
             $this->assertTrue($componente->isPersonaInterna());
             $this->assertEquals($componente->getDataEntrataNomadelfia(), $data_rientro);

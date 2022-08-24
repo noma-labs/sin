@@ -16,9 +16,7 @@ class PersoneEntrataTest extends TestCase
     {
         $persona = Persona::factory()->minorenne()->maschio()->create();
         $data_entrata = Carbon::now()->toDatestring();
-        $gruppo = GruppoFamiliare::all()->random();
         $famiglia = Famiglia::factory()->create();
-//        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
 
         $this->login();
         $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),

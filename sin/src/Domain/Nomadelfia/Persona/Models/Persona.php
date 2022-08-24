@@ -475,25 +475,25 @@ class Persona extends Model
     }
 
 
-    // Inserisce un minorenne che entra con la sua famiglia
-    public function entrataMinorenneConFamiglia($data_entrata, $famiglia_id)
-    {
-        $famiglia = Famiglia::findOrFail($famiglia_id);
-        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
-
-        $pos = Posizione::find("FIGL");
-        if ($this->isMaschio()) {
-            $stato = Stato::find("CEL");
-        } else {
-            $stato = Stato::find("NUB");
-        }
-        $famiglia_data = $this->data_nascita; // la data di entrata nella famiglia è uguale alla data di nascita
-        $gruppo_data = $data_entrata;
-        $pos_data = $data_entrata;
-        $stato_data = $this->data_nascita;
-        $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id,
-            $stato_data, $famiglia_id, "FIGLIO NATO", $famiglia_data);
-    }
+//    // Inserisce un minorenne che entra con la sua famiglia
+//    public function entrataMinorenneConFamiglia($data_entrata, $famiglia_id)
+//    {
+//        $famiglia = Famiglia::findOrFail($famiglia_id);
+//        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+//
+//        $pos = Posizione::find("FIGL");
+//        if ($this->isMaschio()) {
+//            $stato = Stato::find("CEL");
+//        } else {
+//            $stato = Stato::find("NUB");
+//        }
+//        $famiglia_data = $this->data_nascita; // la data di entrata nella famiglia è uguale alla data di nascita
+//        $gruppo_data = $data_entrata;
+//        $pos_data = $data_entrata;
+//        $stato_data = $this->data_nascita;
+//        $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id,
+//            $stato_data, $famiglia_id, "FIGLIO NATO", $famiglia_data);
+//    }
 
     // Inserissce un minorenne che entra come figlio accolto
     public function entrataMinorenneAccolto($data_entrata, $famiglia_id)
