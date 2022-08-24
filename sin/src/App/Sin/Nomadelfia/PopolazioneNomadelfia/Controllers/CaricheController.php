@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 

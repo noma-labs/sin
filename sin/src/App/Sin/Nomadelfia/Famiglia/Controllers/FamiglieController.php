@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Famiglie\Controllers;
+namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;

@@ -2,10 +2,11 @@
 
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
-use App\Nomadelfia\Famiglie\Controllers\FamiglieController;
+use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
@@ -13,7 +14,6 @@ use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
-use Illuminate\Support\Facades\Input;
 
 
 Route::get('/debug-sentry', function () {
@@ -244,9 +244,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
     //Route::post('persona/{idPersona}/assegna', EsSpiritualiController::class, 'assegnaPersona')->name("nomadelfia.esercizi.persona.assegna");
     // CARICHE COSTITUZIONALI
-    Route::get('cariche/', 'CaricheController@index')->name("nomadelfia.cariche.index");
-    Route::get('elezioni', 'CaricheController@elezioni')->name("nomadelfia.cariche.elezioni");
-    Route::get('elezioni/esporta', 'CaricheController@esporta')->name("nomadelfia.cariche.esporta");
+    Route::get('cariche/', [CaricheController::class, 'index'])->name("nomadelfia.cariche.index");
+    Route::get('elezioni', [CaricheController::class, 'elezioni'])->name("nomadelfia.cariche.elezioni");
+    Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name("nomadelfia.cariche.esporta");
 
 
 });
