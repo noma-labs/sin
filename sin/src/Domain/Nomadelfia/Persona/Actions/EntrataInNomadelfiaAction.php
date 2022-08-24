@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Actions;
+namespace Domain\Nomadelfia\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
