@@ -15,17 +15,68 @@ class PersoneEntrataTest extends TestCase
     public function it_can_insert_minorenne_accolto_nella_popolazione()
     {
         $persona = Persona::factory()->minorenne()->maschio()->create();
+        $gruppo = GruppoFamiliare::all()->random();
         $data_entrata = Carbon::now()->toDatestring();
         $famiglia = Famiglia::factory()->create();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $capoFam->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
         $this->login();
+        $this->withoutExceptionHandling();
         $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
             [
                 'tipologia' => 'minorenne_accolto',
                 'data_entrata' => $data_entrata,
                 'famiglia_id' => $famiglia->id,
-            ])
-            ->assertSee("inserita correttamente.");
+            ]);
+//            ->assertSee("inserita correttamente.");
+
+        $persona = Persona::findOrFail($persona->id);
+        $this->assertTrue($persona->isPersonaInterna());
+        $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
+//        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
+        $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
+//        $this->assertEquals($persona->statoAttuale()->id, $nubile->id);
+//        $this->assertEquals($persona->statoAttuale()->stato, $nubile->stato);
+        $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
+//        $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
+        $this->assertNotNull($persona->famigliaAttuale());
+        $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
+    }
+
+    /** @test */
+    public function it_can_insert_minorenne_con_famiglia_nella_popolazione()
+    {
+        $persona = Persona::factory()->minorenne()->maschio()->create();
+        $data_entrata = Carbon::now()->toDatestring();
+        $famiglia = Famiglia::factory()->create();
+        $gruppo = GruppoFamiliare::all()->random();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $capoFam->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+
+        $this->login();
+        $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+            [
+                'tipologia' => 'minorenne_famiglia',
+                'data_entrata' => $data_entrata,
+                'famiglia_id' => $famiglia->id,
+            ]);
+//            ->assertSee('inserita correttamente.');
+
+        $this->assertTrue($persona->isPersonaInterna());
+        $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
+//        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
+        $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
+//        $this->assertEquals($persona->statoAttuale()->id, $nubile->id);
+//        $this->assertEquals($persona->statoAttuale()->stato, $nubile->stato);
+        $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
+//        $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
+        $this->assertNotNull($persona->famigliaAttuale());
+//        $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
     }
 
 }

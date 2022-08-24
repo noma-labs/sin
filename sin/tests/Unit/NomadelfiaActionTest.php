@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -14,7 +15,7 @@ class NomadelfiaActionTest extends TestCase
 {
 
     /** @test */
-    public function it_insert_minorenne()
+    public function entrata_minorenne_con_famiglia()
     {
 
         $data_entrata = Carbon::now()->toDatestring();
@@ -41,6 +42,27 @@ class NomadelfiaActionTest extends TestCase
         $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
         $this->assertNotNull($persona->famigliaAttuale());
         $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
+
+    }
+
+    /** @test */
+    public function entrata_minorenne_accolto()
+    {
+
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona = Persona::factory()->minorenne()->femmina()->create();
+        $famiglia = Famiglia::factory()->create();
+
+        $gruppo = GruppoFamiliare::first();
+
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
+        $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+
+        $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
+
+        $this->assertTrue($persona->isPersonaInterna());
 
     }
 }

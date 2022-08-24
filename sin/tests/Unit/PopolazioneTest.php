@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -180,7 +182,8 @@ class PopolazioneTest extends BaseTestCase
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
         $fnato->entrataNatoInNomadelfia($famiglia->id);
-        $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
+        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
         $pop = PopolazioneNomadelfia::popolazione();
@@ -220,7 +223,8 @@ class PopolazioneTest extends BaseTestCase
         $famiglia->assegnaMoglie($moglie, $now);
 
         $fnato->entrataNatoInNomadelfia($famiglia->id);
-        $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
+        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
         $pop = PopolazioneNomadelfia::popolazione();

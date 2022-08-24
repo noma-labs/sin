@@ -3,9 +3,10 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Domain\Nomadelfia\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -362,7 +363,7 @@ class PersoneController extends CoreBaseController
     }
 
     // Inserisci la persona come persona interna in Nomadelfia.
-    public function insertPersonaInterna(Request $request, $idPersona, EntrataMinorenneConFamigliaAction $action)
+    public function insertPersonaInterna(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
             "tipologia" => "required",
@@ -383,10 +384,14 @@ class PersoneController extends CoreBaseController
                 $persona->entrataNatoInNomadelfia($request->famiglia_id);
                 break;
             case "minorenne_accolto":
-                $persona->entrataMinorenneAccolto($request->data_entrata, $request->famiglia_id);
+                $famiglia = Famiglia::findOrFail($request->famiglia_id);
+                $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+                $action->execute($persona, $request->data_entrata, $famiglia);
+//                $persona->entrataMinorenneAccolto($request->data_entrata, $request->famiglia_id);
                 break;
             case "minorenne_famiglia":
                 $famiglia = Famiglia::findOrFail($request->famiglia_id);
+                $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction());
                 $action->execute($persona, $request->data_entrata, $famiglia);
                 break;
             case "maggiorenne_single":
@@ -399,8 +404,7 @@ class PersoneController extends CoreBaseController
                 return redirect()->back()->withErrore("Tipologia di entrata per $persona->nominativo non riconosciuta.");
 
         }
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+        return redirect()->route('nomadelfia.persone.dettaglio',[$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
     }
 
     public function insertFamiglia(Request $request, $idPersona)

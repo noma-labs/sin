@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
@@ -131,7 +132,9 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
+//        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
+        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $famiglia);
         /*
         Persona interna (DE)
         Figlio (DE)
@@ -169,7 +172,9 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
+        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $famiglia);
+//        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
         /*
         Persona interna (DE)
         Figlio (DE)
@@ -408,7 +413,10 @@ class PersonaTest extends TestCase
         $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
         $data_rientro = Carbon::now()->addYears(10)->toDatestring();
-        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
+//        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
+
+        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act->execute($figlio, $data_rientro, $famiglia_rientro);
         $this->assertTrue($figlio->isPersonaInterna());
         $this->assertEquals($figlio->getDataEntrataNomadelfia(), $data_rientro);
         $this->assertEquals($figlio->getDataUscitaNomadelfia(), $data_uscita);
