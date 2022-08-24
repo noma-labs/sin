@@ -3,12 +3,11 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Tests\TestCase;
 
 class NomadelfiaActionTest extends TestCase
@@ -28,7 +27,7 @@ class NomadelfiaActionTest extends TestCase
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-        $action = new EntrataMinorenneConFamigliaAction();
+        $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());

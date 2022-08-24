@@ -3,6 +3,7 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use Domain\Nomadelfia\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
@@ -361,7 +362,7 @@ class PersoneController extends CoreBaseController
     }
 
     // Inserisci la persona come persona interna in Nomadelfia.
-    public function insertPersonaInterna(Request $request, $idPersona)
+    public function insertPersonaInterna(Request $request, $idPersona, EntrataMinorenneConFamigliaAction $action)
     {
         $validatedData = $request->validate([
             "tipologia" => "required",
@@ -386,9 +387,7 @@ class PersoneController extends CoreBaseController
                 break;
             case "minorenne_famiglia":
                 $famiglia = Famiglia::findOrFail($request->famiglia_id);
-                $act = new EntrataMinorenneConFamigliaAction();
-                $act->execute($persona, $request->data_entrata, $famiglia);
-//                $persona->entrataMinorenneConFamiglia($request->data_entrata, $request->famiglia_id);
+                $action->execute($persona, $request->data_entrata, $famiglia);
                 break;
             case "maggiorenne_single":
                 $persona->entrataMaggiorenneSingle($request->data_entrata, $request->gruppo_id);

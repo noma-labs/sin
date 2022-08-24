@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Nomadelfia\Actions;
+namespace Domain\Nomadelfia\Persona\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -37,10 +37,7 @@ class EntrataInNomadelfiaAction
         try {
             $conn = DB::connection('db_nomadelfia');
 
-            $conn->insert(
-                "INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)",
-                [$persona_id, $data_entrata]
-            );
+            $conn->insert("INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)", [$persona_id, $data_entrata]);
 
             // inserisce la persone come Ospite, o Figlio
             $conn->insert(

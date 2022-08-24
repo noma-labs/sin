@@ -3,16 +3,25 @@
 namespace Domain\Nomadelfia\Persona\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 class EntrataMinorenneConFamigliaAction
 {
+    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+
+    public function __construct(
+        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
+    ) {
+        $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
+    }
 
     public function execute(Persona $persona, $data_entrata, Famiglia $famiglia = null)
     {
         $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+        $g = GruppoFamiliare::findOrFail($gruppo->id);
         $pos = Posizione::find('FIGL');
         if ($persona->isMaschio()) {
             $stato = Stato::find('CEL');
@@ -23,8 +32,18 @@ class EntrataMinorenneConFamigliaAction
         $gruppo_data = $data_entrata;
         $pos_data = $data_entrata;
         $stato_data = $persona->data_nascita;
-        $persona->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id,
-            $stato_data, $famiglia->id, 'FIGLIO NATO', $famiglia_data);
+
+        $this->entrataInNomadelfiaAction->execute($persona,
+            $data_entrata,
+            $pos,
+            $pos_data,
+            $g,
+            $gruppo_data,
+            $stato,
+            $stato_data,
+            $famiglia,
+            'FIGLIO NATO',
+            $famiglia_data);
     }
 
 
