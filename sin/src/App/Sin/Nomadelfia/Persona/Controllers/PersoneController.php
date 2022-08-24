@@ -4,7 +4,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;

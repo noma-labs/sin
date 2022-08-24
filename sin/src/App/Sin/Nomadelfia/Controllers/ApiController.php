@@ -8,11 +8,11 @@ use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 
 //models
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Models\NucleoFamigliare;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 
 use Carbon;
 

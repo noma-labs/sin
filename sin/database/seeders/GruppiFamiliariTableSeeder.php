@@ -2,7 +2,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Support\Facades\DB;
 
 

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Modelli;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\Famiglia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
@@ -16,8 +16,6 @@ use InvalidArgumentException;
 use Carbon;
 use App\Traits\Enums;
 use Illuminate\Support\Str;
-
-
 
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 

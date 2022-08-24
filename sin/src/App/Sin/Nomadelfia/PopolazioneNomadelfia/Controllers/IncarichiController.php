@@ -1,15 +1,12 @@
 <?php
-
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
-use App\Nomadelfia\Models\Incarico;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 
 class IncarichiController extends CoreBaseController
 {

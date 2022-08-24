@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\Persona\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Domain\Nomadelfia\Persona\Models\Persona;
 
 class NominativoStorico extends Model
 {

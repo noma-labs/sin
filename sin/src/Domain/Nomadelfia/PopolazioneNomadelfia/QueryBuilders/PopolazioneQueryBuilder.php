@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\QueryBuilders;
+namespace Domain\Nomadelfia\PopolazioneNomadelfia\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

@@ -2,7 +2,7 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
-use App\Nomadelfia\QueryBuilders\PopolazioneQueryBuilder;
+use Domain\Nomadelfia\PopolazioneNomadelfia\QueryBuilders\PopolazioneQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use \stdClass;

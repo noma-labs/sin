@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Incarico;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -14,8 +14,8 @@ use Tests\CreatesApplication;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Carbon;

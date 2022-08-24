@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
 use Carbon\Carbon;

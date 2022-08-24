@@ -3,7 +3,7 @@ namespace App\Nomadelfia\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Support\Facades\DB;
 use App;
 use Carbon;

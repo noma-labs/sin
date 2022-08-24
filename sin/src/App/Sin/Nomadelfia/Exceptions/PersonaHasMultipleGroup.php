@@ -1,6 +1,6 @@
 <?php
 namespace App\Nomadelfia\Exceptions;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use InvalidArgumentException;
 
 class PersonaHasMultipleGroup extends InvalidArgumentException

@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use InvalidArgumentException;
 use Tests\CreatesApplication;

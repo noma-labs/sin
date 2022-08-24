@@ -9,7 +9,7 @@ use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 
 

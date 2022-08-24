@@ -4,7 +4,7 @@
 namespace App\Nomadelfia\Exceptions;
 
 
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignCapoFamiglia extends \Exception

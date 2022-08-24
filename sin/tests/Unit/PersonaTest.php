@@ -11,8 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 

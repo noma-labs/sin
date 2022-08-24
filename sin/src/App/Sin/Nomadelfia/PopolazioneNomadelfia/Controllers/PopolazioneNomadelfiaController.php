@@ -1,12 +1,12 @@
 <?php
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Models\EserciziSpirituali;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Incarico;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;

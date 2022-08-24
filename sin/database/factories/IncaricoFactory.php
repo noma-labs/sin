@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\Incarico;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 

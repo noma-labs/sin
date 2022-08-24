@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\Famiglie\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Exception;
 
 
 use Illuminate\Http\Request;
 
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
 class FamiglieController extends CoreBaseController

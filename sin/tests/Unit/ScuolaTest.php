@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
