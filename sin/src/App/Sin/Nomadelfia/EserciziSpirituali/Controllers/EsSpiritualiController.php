@@ -1,14 +1,13 @@
 <?php
-namespace App\Nomadelfia\Controllers;
+
+namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Illuminate\Support\Facades\DB;
 use App;
 use Carbon;
 
-use App\Nomadelfia\Models\EserciziSpirituali;
+use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
 class EsSpiritualiController extends CoreBaseController
@@ -19,7 +18,7 @@ class EsSpiritualiController extends CoreBaseController
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
         return view("nomadelfia.esercizi.index", compact('esercizi', 'noEsercizi'));
     }
-    
+
     public function show(Request $request, $id)
     {
         $esercizio = EserciziSpirituali::findOrFail($id);
@@ -57,22 +56,27 @@ class EsSpiritualiController extends CoreBaseController
         $phpWord->addTitleStyle(2, array('size' => 10, 'bold' => true), array('spaceBefore' => 240));
         $phpWord->addTitleStyle(3, array('size' => 8, 'bold' => true));
 
-        $colStyle2Next = array('colsNum'   => 2,'colsSpace' => 700,'breakType' => 'nextColumn' );
-        $colStyle2Cont = array('colsNum'   => 2,'colsSpace' => 700,'breakType' => 'continuous' );
+        $colStyle2Next = array('colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'nextColumn');
+        $colStyle2Cont = array('colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'continuous');
 
-        $colStyle4Next = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'nextColumn' );
-        $colStyle4NCont = array('colsNum'   => 4,'colsSpace' => 300,'breakType' => 'continuous' );
+        $colStyle4Next = array('colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn');
+        $colStyle4NCont = array('colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'continuous');
 
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
-        $phpWord->setDefaultParagraphStyle(array('spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2), 'spacing' => 4 ));
+        $phpWord->setDefaultParagraphStyle(array(
+            'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2),
+            'spacing' => 4
+        ));
 
-        
+
         // main page
-        $section = $phpWord->addSection(array('vAlign'=>\PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
-        $section->addText(Carbon::now()->toDatestring(), array('bold'=>true, 'italic'=>false, 'size'=>16), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
+        $section = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
+        $section->addText(Carbon::now()->toDatestring(), array('bold' => true, 'italic' => false, 'size' => 16),
+            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
         $section->addTextBreak(2);
-        $section->addText("Esercizi Spirituali ", array('bold'=>true, 'italic'=>false, 'size'=>14), [ 'align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER ]);
+        $section->addText("Esercizi Spirituali ", array('bold' => true, 'italic' => false, 'size' => 14),
+            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
         $section->addTextBreak(2);
 
         $esercizi = EserciziSpirituali::attivi()->get();
@@ -81,12 +85,12 @@ class EsSpiritualiController extends CoreBaseController
             $section->addTitle($esercizio->turno, 1);
             $persone = $esercizio->personeOk();
             $uomini = $phpWord->addSection($colStyle2Cont);
-            $uomini->addTitle('Uomini '. count($persone->uomini), 2);
+            $uomini->addTitle('Uomini ' . count($persone->uomini), 2);
             foreach ($persone->uomini as $value) {
                 $uomini->addText(ucwords(strtolower($value->nominativo)));
             }
             $donne = $phpWord->addSection($colStyle2Next);
-            $donne->addTitle('Donne '. count($persone->donne), 2);
+            $donne->addTitle('Donne ' . count($persone->donne), 2);
             foreach ($persone->donne as $value) {
                 $donne->addText(ucfirst(strtolower($value->nominativo)));
             }
@@ -96,12 +100,12 @@ class EsSpiritualiController extends CoreBaseController
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
         $uomini = $phpWord->addSection($colStyle2Cont);
         $uomini->addTitle("Senza esercizi Spirituali", 1);
-        $uomini->addTitle('Uomini '. count($noEsercizi->uomini), 2);
+        $uomini->addTitle('Uomini ' . count($noEsercizi->uomini), 2);
         foreach ($noEsercizi->uomini as $value) {
             $uomini->addText(ucwords(strtolower($value->nominativo)));
         }
         $donne = $phpWord->addSection($colStyle2Next);
-        $donne->addTitle('Donne '. count($noEsercizi->donne), 2);
+        $donne->addTitle('Donne ' . count($noEsercizi->donne), 2);
         foreach ($noEsercizi->donne as $value) {
             $donne->addText(ucfirst(strtolower($value->nominativo)));
         }

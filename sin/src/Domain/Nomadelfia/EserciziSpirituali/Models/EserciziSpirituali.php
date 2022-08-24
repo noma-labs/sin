@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\EserciziSpirituali\Models;
 
 use Database\Factories\EsSpiritualiFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

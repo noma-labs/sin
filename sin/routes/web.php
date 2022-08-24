@@ -1,6 +1,7 @@
 <?php
 
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
+use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglie\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\IncarichiController;
@@ -233,15 +234,15 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PopolazioneNomadelfiaController::class, 'nomadelfaMamma'])->name("nomadelfia.popolazione.stati.nomadelfamamma");
 
     // ESERCIZI SPIRITUALI
-    Route::get('esercizi/', 'EsSpiritualiController@index')->name("nomadelfia.esercizi");
-    Route::get('esercizi/stampa', 'EsSpiritualiController@stampa')->name("nomadelfia.esercizi.stampa");
-    Route::get('esercizi/{id}', 'EsSpiritualiController@show')->name("nomadelfia.esercizi.dettaglio");
-    Route::post('esercizi/{id}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.assegna");
+    Route::get('esercizi/', [EsSpiritualiController::class, 'index'])->name("nomadelfia.esercizi");
+    Route::get('esercizi/stampa', [EsSpiritualiController::class, 'stampa'])->name("nomadelfia.esercizi.stampa");
+    Route::get('esercizi/{id}', [EsSpiritualiController::class, 'show'])->name("nomadelfia.esercizi.dettaglio");
+    Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegn]aPersona'])->name("nomadelfia.esercizi.assegna");
     Route::delete('esercizi/{id}/persona/{idPersona}',
-        'EsSpiritualiController@eliminaPersona')->name("nomadelfia.esercizi.elimina");
+        [EsSpiritualiController::class, 'elimin]aPersona'])->name("nomadelfia.esercizi.elimina");
 
 
-    //Route::post('persona/{idPersona}/assegna', 'EsSpiritualiController@assegnaPersona')->name("nomadelfia.esercizi.persona.assegna");
+    //Route::post('persona/{idPersona}/assegna', EsSpiritualiController::class, 'assegnaPersona')->name("nomadelfia.esercizi.persona.assegna");
     // CARICHE COSTITUZIONALI
     Route::get('cariche/', 'CaricheController@index')->name("nomadelfia.cariche.index");
     Route::get('elezioni', 'CaricheController@elezioni')->name("nomadelfia.cariche.elezioni");

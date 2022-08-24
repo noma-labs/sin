@@ -3,7 +3,7 @@ namespace App\Nomadelfia\Exceptions;
 
 use InvalidArgumentException;
 
-use App\Nomadelfia\Models\EserciziSpirituali;
+use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 
 class EsSpiritualeNotActive extends InvalidArgumentException
 {
