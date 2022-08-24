@@ -2,7 +2,7 @@
 namespace Database\Factories;
 
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

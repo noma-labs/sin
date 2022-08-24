@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 
 use App\Traits\SortableTrait;

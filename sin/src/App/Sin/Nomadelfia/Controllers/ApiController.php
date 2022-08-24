@@ -2,7 +2,7 @@
 
 namespace App\Nomadelfia\Controllers;
 
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
@@ -10,8 +10,8 @@ use App\Traits\Enums;
 //models
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\NucleoFamigliare;
-use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 
 use Carbon;

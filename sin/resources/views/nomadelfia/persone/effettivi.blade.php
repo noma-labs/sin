@@ -71,7 +71,7 @@
 
 
 <h1 class="display-5">Posizioni</h1>
-@foreach (App\Nomadelfia\Models\Posizione::all()->chunk(3) as $chunk)
+@foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::all()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $posizione)
             <div class="col-md-4">
@@ -115,7 +115,7 @@
 @endforeach
 
 <h1 class="display-5">Stato Familiare</h1>
-@foreach (App\Nomadelfia\Models\Stato::orderby("nome")->get()->chunk(3) as $chunk)
+@foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::orderby("nome")->get()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $stato)
             <div class="col-md-4">

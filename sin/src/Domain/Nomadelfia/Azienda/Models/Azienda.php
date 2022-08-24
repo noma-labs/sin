@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\Azienda\Models;
 
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
 use Database\Factories\AziendaFactory;
 use Illuminate\Database\Eloquent\Builder;

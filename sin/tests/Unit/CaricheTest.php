@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Cariche;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Carbon;

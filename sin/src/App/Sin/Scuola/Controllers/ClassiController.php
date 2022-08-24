@@ -7,7 +7,7 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Classe;
 use App\Scuola\Models\ClasseTipo;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Requests\AddCoordinatoreRequest;
 use App\Scuola\Requests\AddStudentRequest;

@@ -1,11 +1,11 @@
 <?php
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\Azienda\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
 use Illuminate\Http\Request;
 
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 
 class AziendeController extends CoreBaseController
 {

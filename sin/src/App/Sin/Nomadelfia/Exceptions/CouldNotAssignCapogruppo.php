@@ -4,7 +4,7 @@
 namespace App\Nomadelfia\Exceptions;
 
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignCapogruppo extends \Exception
 {

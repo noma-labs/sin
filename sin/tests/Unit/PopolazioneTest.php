@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,12 +12,12 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;
 
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\Stato;
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Carbon;
 
 class PopolazioneTest extends BaseTestCase

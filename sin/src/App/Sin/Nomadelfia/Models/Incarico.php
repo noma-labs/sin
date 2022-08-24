@@ -3,6 +3,7 @@
 namespace App\Nomadelfia\Models;
 
 use Database\Factories\IncaricoFactory;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -77,6 +78,7 @@ class Incarico extends Model
             ->groupBy("persone.id")
             ->having("count", ">=", $minNum)
             ->orderBy("count", "DESC")
+            //->limit($limit)
             //->limit($limit)
             ->get();
         return $personeCount;

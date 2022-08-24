@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Spatie\Activitylog\Traits\CausesActivity;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 use App\Admin\Models\Risorsa;
 use App\Admin\Models\Ruolo;

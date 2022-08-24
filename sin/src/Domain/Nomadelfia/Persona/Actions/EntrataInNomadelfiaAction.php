@@ -4,9 +4,9 @@ namespace App\Nomadelfia\Actions;
 
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Stato;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

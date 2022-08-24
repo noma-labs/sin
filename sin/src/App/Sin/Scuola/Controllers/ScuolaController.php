@@ -3,7 +3,7 @@
 namespace App\Scuola\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use App\Scuola\Models\ClasseTipo;

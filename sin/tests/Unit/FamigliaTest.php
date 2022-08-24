@@ -6,7 +6,7 @@ use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use InvalidArgumentException;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;

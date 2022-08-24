@@ -3,7 +3,7 @@ namespace App\Patente\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Patente\Models\Patente;
 use App\Patente\Models\CategoriaPatente;
 

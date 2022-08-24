@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Livewire\Component;
 
 class Dashboard extends Component

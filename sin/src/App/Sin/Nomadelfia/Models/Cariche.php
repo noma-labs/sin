@@ -4,6 +4,9 @@ namespace App\Nomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
 use App\Traits\Enums;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Carbon;

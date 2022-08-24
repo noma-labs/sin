@@ -45,6 +45,7 @@
         ],
         "psr-4": {
             "App\\": "src/App/",
+            "Domain\\": "src/Domain/",
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
             "App\\Biblioteca\\": "src/App/Sin/Biblioteca",

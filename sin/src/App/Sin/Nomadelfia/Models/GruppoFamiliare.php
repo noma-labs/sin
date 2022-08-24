@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Models;
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
 use Database\Factories\GruppoFamiliareFactory;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\Persona\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
@@ -10,10 +10,17 @@ use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
+use App\Nomadelfia\Models\Famiglia;
+use App\Nomadelfia\Models\GruppoFamiliare;
+use App\Nomadelfia\Models\Incarico;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 use App\Nomadelfia\QueryBuilders\PersonaQueryBuilder;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Database\Factories\PersonaFactory;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

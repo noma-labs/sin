@@ -11,11 +11,11 @@ use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;
 
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Stato;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 
 class PersonaPosizioniTest extends TestCase
 {

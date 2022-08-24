@@ -10,10 +10,10 @@ use App\Nomadelfia\Controllers\AziendeController;
 use App\Nomadelfia\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Tests\TestCase;
 

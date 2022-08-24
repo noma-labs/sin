@@ -2,7 +2,7 @@
 namespace App\Patente\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;

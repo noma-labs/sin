@@ -6,6 +6,7 @@ use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use Database\Factories\FamigliaFactory;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
@@ -15,6 +16,7 @@ use InvalidArgumentException;
 use Carbon;
 use App\Traits\Enums;
 use Illuminate\Support\Str;
+
 
 
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;

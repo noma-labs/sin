@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;

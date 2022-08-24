@@ -4,7 +4,7 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Controllers\PersoneController;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
 
 class PersoneTest extends TestCase

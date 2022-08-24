@@ -2,7 +2,7 @@
 
 namespace App\Officina\Controllers;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Actions\CreatePrenotazioneAction;
 use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController as CoreBaseController;

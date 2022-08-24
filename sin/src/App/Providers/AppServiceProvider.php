@@ -3,7 +3,7 @@
 namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 

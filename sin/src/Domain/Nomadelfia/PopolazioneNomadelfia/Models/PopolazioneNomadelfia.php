@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Nomadelfia\QueryBuilders\PopolazioneQueryBuilder;
-use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use \stdClass;

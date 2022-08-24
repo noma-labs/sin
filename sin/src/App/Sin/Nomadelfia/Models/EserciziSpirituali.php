@@ -8,6 +8,7 @@ use \stdClass;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;

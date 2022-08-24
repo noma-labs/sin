@@ -2,7 +2,7 @@
 
 namespace App\Scuola\Models;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\QueryBuilders\PopolazioneQueryBuilder;
 use App\Scuola\QueryBuilders\StudenteQueryBuilder;
 use Carbon\Carbon;

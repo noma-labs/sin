@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Nomadelfia\Controllers;
+namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

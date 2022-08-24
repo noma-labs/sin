@@ -2,13 +2,13 @@
 namespace App\Nomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Models\EserciziSpirituali;
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
 use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Traits\SortableTrait;
 use Illuminate\Http\Request;

@@ -3,7 +3,7 @@
 namespace App\Nomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class NominativoStorico extends Model
 {

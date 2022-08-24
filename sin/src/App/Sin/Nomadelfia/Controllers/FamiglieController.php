@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Nomadelfia\Models\Famiglia;
 use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class FamiglieController extends CoreBaseController
 {

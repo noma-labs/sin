@@ -2,9 +2,9 @@
 
 namespace App\Scuola\Models;
 
-use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;

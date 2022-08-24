@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 
 
@@ -59,7 +59,7 @@ class Stato extends Model
      * @param string $name
      * @param string|null $guardName
      *
-     * @return  \App\Nomadelfia\Models\Posizione
+     * @return  \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
      * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
      *
      */

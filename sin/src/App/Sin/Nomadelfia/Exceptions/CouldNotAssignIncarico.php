@@ -4,8 +4,8 @@
 namespace App\Nomadelfia\Exceptions;
 
 
-use App\Nomadelfia\Models\Azienda;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignIncarico extends \Exception
 {

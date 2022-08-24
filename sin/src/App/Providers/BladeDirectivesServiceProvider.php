@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\Blade;

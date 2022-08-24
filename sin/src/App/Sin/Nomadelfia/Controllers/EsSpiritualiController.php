@@ -9,7 +9,7 @@ use App;
 use Carbon;
 
 use App\Nomadelfia\Models\EserciziSpirituali;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class EsSpiritualiController extends CoreBaseController
 {

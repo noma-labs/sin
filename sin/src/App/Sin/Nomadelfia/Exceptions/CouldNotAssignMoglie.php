@@ -5,7 +5,7 @@ namespace App\Nomadelfia\Exceptions;
 
 
 use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignMoglie extends \Exception
 {

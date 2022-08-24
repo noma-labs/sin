@@ -4,7 +4,7 @@ namespace App\Scuola\Controllers;
 
 use App\Core\Controllers\BaseController;
 use App\Nomadelfia\Models\NucleoFamigliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Classe;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

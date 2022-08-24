@@ -5,11 +5,11 @@ namespace App\Nomadelfia\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 
 use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 
 class IncarichiController extends CoreBaseController
 {

@@ -4,7 +4,7 @@ namespace App\Biblioteca\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Auth\Models\User as User;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\Models\ViewLavoratoriBiblioteca;
 use App\Biblioteca\Models\Libro as Libro;
 
