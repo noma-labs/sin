@@ -4,7 +4,7 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglie\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\IncarichiController;
+use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Officina\Controllers\PatentiController;

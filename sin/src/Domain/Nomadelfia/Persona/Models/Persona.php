@@ -12,7 +12,7 @@ use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
+use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;

@@ -12,7 +12,7 @@ use App\Nomadelfia\Controllers\IncarichiController;
 use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
+use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Tests\TestCase;

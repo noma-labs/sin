@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Cariche;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;

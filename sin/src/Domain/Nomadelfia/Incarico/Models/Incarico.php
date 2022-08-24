@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
+namespace Domain\Nomadelfia\Incarico\Models;
 
 use Database\Factories\IncaricoFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;

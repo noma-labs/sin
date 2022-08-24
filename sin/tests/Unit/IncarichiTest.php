@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
+use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;

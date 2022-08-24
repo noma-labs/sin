@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Models;
+namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
 use App\Traits\Enums;

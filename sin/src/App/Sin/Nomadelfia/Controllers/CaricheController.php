@@ -4,7 +4,7 @@ namespace App\Nomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
-use App\Nomadelfia\Models\Cariche;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Illuminate\Http\Request;
 use Carbon;
 

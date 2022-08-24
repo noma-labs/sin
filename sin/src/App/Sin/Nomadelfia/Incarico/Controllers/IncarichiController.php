@@ -1,9 +1,9 @@
 <?php
-namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
+namespace App\Nomadelfia\Incarico\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Incarico;
+use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
