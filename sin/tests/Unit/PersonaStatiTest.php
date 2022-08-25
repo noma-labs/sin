@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use Carbon;
 
-use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Tests\TestCase;
 use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;

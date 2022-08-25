@@ -8,14 +8,14 @@ use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
-use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Database\Factories\PersonaFactory;
@@ -565,7 +565,7 @@ class Persona extends Model
     }
 
     /*
-    * Fa uscire  una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
+    * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
     * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
     *
     * @param date $name

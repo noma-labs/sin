@@ -1,17 +1,15 @@
 <?php
 
-namespace Domain\Nomadelfia\Persona\Actions;
+namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
-use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Illuminate\Support\Str;
 
-class EntrataMaggiorenneSingleAction
+class EntrataDallaNascitaAction
 {
     private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
 
@@ -21,37 +19,32 @@ class EntrataMaggiorenneSingleAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
+    public function execute(Persona $persona, Famiglia $famiglia)
     {
-        if (!$persona->isMaggiorenne()) {
-            throw PersonaIsMinorenne::named($persona->nominativo);
-        }
+        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
+        $gruppo= GruppoFamiliare::findOrFail($gruppo->id);
 
-        $pos = Posizione::find('OSPP');
+        $pos = Posizione::find('FIGL');
         if ($persona->isMaschio()) {
             $stato = Stato::find('CEL');
         } else {
             $stato = Stato::find('NUB');
         }
-        $gruppo_data = $data_entrata;
-        $pos_data = $data_entrata;
+        $famiglia_data = $persona->data_nascita;
+        $gruppo_data = $persona->data_nascita;
+        $pos_data = $persona->data_nascita;
         $stato_data = $persona->data_nascita;
-
-        $fam_data = Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring();
-        $nome_famiglia = $persona->nome . ' ' . Str::substr($persona->cognome, 0, 2);
-        $fam = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $fam_data]);
-
         $this->entrataInNomadelfiaAction->execute($persona,
-            $data_entrata,
+            $persona->data_nascita,
             $pos,
             $pos_data,
             $gruppo,
             $gruppo_data,
             $stato,
             $stato_data,
-            $fam,
-            'SINGLE',
-            $fam_data);
+            $famiglia,
+            'FIGLIO NATO',
+            $famiglia_data);
     }
 
 

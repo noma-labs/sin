@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Tttp;
+namespace Tests\Http\Nomadelfia;
 
 use Tests\TestCase;
 

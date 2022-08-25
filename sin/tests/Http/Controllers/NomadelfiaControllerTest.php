@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http;
+namespace Tests\Http\Controllers;
 
 use App\Admin\Models\Risorsa;
 use App\Admin\Models\Ruolo;
@@ -13,8 +13,8 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaContro
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Tests\TestCase;

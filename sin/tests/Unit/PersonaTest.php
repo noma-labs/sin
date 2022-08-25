@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
 use Carbon;
