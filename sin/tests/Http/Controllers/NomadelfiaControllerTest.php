@@ -1,18 +1,20 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Http;
 
 use App\Admin\Models\Risorsa;
 use App\Admin\Models\Ruolo;
 use App\Admin\Models\Sistema;
 use App\Admin\Models\User;
-use App\Nomadelfia\Controllers\AziendeController;
-use App\Nomadelfia\Controllers\GruppifamiliariController;
-use App\Nomadelfia\Controllers\IncarichiController;
-use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\Azienda\Controllers\AziendeController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
+use App\Nomadelfia\Incarico\Controllers\IncarichiController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -99,7 +101,9 @@ class NomadelfiaControllerTest extends TestCase
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+
+        $action = new EntrataMaggiorenneSingleAction( new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this
             ->get(action([GruppifamiliariController::class, 'view']))
