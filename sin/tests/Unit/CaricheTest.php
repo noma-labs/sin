@@ -53,7 +53,9 @@ class CaricheTest extends TestCase
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->assegnaSacerdote($data_entrata);
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata->toDatestring(), $gruppo->id);
+
+        $act = new  EntrataMaggiorenneSingleAction( new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata->toDatestring(), $gruppo);
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
         $this->assertEquals(0, $ele->total);

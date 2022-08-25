@@ -8,6 +8,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use InvalidArgumentException;
@@ -140,8 +141,10 @@ class FamigliaTest extends TestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
 
@@ -172,8 +175,10 @@ class FamigliaTest extends TestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $now = Carbon::now()->toDatestring();
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
         $famiglia->assegnaMoglie($moglie);
         $famiglia->assegnaFiglioNato($fnato);
@@ -194,8 +199,10 @@ class FamigliaTest extends TestCase
         $figlio = Persona::factory()->minorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $now = Carbon::now()->toDatestring();
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
         $famiglia->assegnaMoglie($moglie);
         $famiglia->assegnaFiglioNato( $figlio);

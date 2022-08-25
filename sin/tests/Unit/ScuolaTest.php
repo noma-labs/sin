@@ -6,6 +6,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -262,7 +263,9 @@ class ScuolaTest extends TestCase
         $gruppo = GruppoFamiliare::all()->random();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
-        $capoFam->entrataMaggiorenneSposato(Carbon::now(), $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
+
         $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
         $act->execute($alunno,  Famiglia::findOrFail($famiglia->id));
 

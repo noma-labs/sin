@@ -8,6 +8,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
@@ -399,13 +400,14 @@ class PersoneController extends CoreBaseController
                 $action->execute($persona, $request->data_entrata, $famiglia);
                 break;
             case "maggiorenne_single":
-                $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
                 $gruppo = GruppoFamiliare::findOrFail($request->gruppo_id);
+                $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
                 $action->execute($persona, $request->data_entrata, $gruppo);
-//                $persona->entrataMaggiorenneSingle($request->data_entrata, $request->gruppo_id);
                 break;
             case "maggiorenne_famiglia":
-                $persona->entrataMaggiorenneSposato($request->data_entrata, $request->gruppo_id);
+                $gruppo = GruppoFamiliare::findOrFail($request->gruppo_id);
+                $act = new EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+                $act->execute($persona, $request->data_entrata, $gruppo);
                 break;
             default:
                 return redirect()->back()->withErrore("Tipologia di entrata per $persona->nominativo non riconosciuta.");

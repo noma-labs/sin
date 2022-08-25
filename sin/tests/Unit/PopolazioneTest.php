@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
@@ -182,8 +183,10 @@ class PopolazioneTest extends BaseTestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
                 $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
@@ -223,8 +226,10 @@ class PopolazioneTest extends BaseTestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
 

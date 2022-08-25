@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -23,7 +24,8 @@ class PersoneEntrataTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $famiglia = Famiglia::factory()->create();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-        $capoFam->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $data_entrata, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
         $this->login();
@@ -58,7 +60,8 @@ class PersoneEntrataTest extends TestCase
         $famiglia = Famiglia::factory()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-        $capoFam->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, $data_entrata, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
         $this->login();
@@ -90,7 +93,8 @@ class PersoneEntrataTest extends TestCase
         $famiglia = Famiglia::factory()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-        $capoFam->entrataMaggiorenneSposato(Carbon::now()->toDatestring(), $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($capoFam, Carbon::now()->toDatestring(), $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now()->toDatestring());
 
         $this->login();
@@ -122,7 +126,6 @@ class PersoneEntrataTest extends TestCase
         $ospite = Posizione::perNome('ospite');
         $celibe = Stato::perNome('celibe');
 
-        $this->withoutExceptionHandling();
         $this->login();
         $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
             [
@@ -146,5 +149,32 @@ class PersoneEntrataTest extends TestCase
             Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
     }
 
+
+    /** @test */
+    public function entrata_maggiorenne_sposato()
+    {
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona = Persona::factory()->maggiorenne()->create();
+        $gruppo = GruppoFamiliare::first();
+        $ospite = Posizione::perNome('ospite');
+
+        $this->login();
+        $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+            [
+                'tipologia' => 'maggiorenne_famiglia',
+                'gruppo_id' => $gruppo->id,
+                'data_entrata' => $data_entrata,
+            ]);
+
+        $this->assertTrue($persona->isPersonaInterna());
+        $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
+        $this->assertEquals($persona->posizioneAttuale()->id, $ospite->id);
+        $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
+        $this->assertEquals($persona->statoAttuale(), null);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
+
+        $this->assertNull($persona->famigliaAttuale());
+    }
 
 }

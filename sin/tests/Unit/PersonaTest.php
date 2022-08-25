@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
@@ -340,7 +341,8 @@ class PersonaTest extends TestCase
         $gruppo = GruppoFamiliare::first();
         $ospite = Posizione::perNome("ospite");
 
-        $persona->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $gruppo);
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
@@ -395,7 +397,8 @@ class PersonaTest extends TestCase
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $gruppo);
         // viene creata la famiglia e aggiunto come campo famiglia
         $famiglia = Famiglia::factory()->create();
         $famiglia->assegnaCapoFamiglia($persona);
@@ -438,7 +441,8 @@ class PersonaTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSposato($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $gruppo);
 
         // viene creata la famiglia e aggiunto come campo famiglia
         $famiglia = Famiglia::factory()->create();
@@ -465,7 +469,8 @@ class PersonaTest extends TestCase
 
         // la famiglia rientra a Nomadelfia. Prima entra il capofamiglia
         $data_rientro = Carbon::now()->addYear(20)->toDatestring();
-        $persona->entrataMaggiorenneSposato($data_rientro, GruppoFamiliare::all()->random()->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
         $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction()     );
         $action->execute($figlio, $data_rientro, Famiglia::findOrFail($famiglia->id));
         $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_rientro, $data_uscita) {
