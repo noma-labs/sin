@@ -474,25 +474,6 @@ class Persona extends Model
         return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
 
-    // Inserissce un minorenne che entra come figlio accolto
-    public function entrataMinorenneAccolto($data_entrata, $famiglia_id)
-    {
-        $famiglia = Famiglia::findOrFail($famiglia_id);
-        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
-
-        $pos = Posizione::find("FIGL");
-        if ($this->isMaschio()) {
-            $stato = Stato::find("CEL");
-        } else {
-            $stato = Stato::find("NUB");
-        }
-        $famiglia_data = $data_entrata;  // la data di entrata nella famiglia è uguale alla data di entrata in nomadelfia
-        $gruppo_data = $data_entrata;
-        $pos_data = $data_entrata;
-        $stato_data = $this->data_nascita;
-        $this->entrataInNomadelfia($data_entrata, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id,
-            $stato_data, $famiglia_id, "FIGLIO ACCOLTO", $famiglia_data);
-    }
 
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {

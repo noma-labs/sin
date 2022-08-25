@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
 use Carbon\Carbon;
@@ -15,7 +17,10 @@ class GruppiFamiliareTest extends TestCase
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
+
+
         $persona->assegnaPostulante($data_entrata);
         $persona->assegnaNomadelfoEffettivo($data_entrata);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
@@ -27,7 +32,8 @@ class GruppiFamiliareTest extends TestCase
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
         $persona->assegnaPostulante($data_entrata);
         $this->expectException(CouldNotAssignCapogruppo::class);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
@@ -39,7 +45,8 @@ class GruppiFamiliareTest extends TestCase
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
         $this->expectException(CouldNotAssignCapogruppo::class);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
         $this->assertEquals(null, $gruppo->capogruppoAttuale());
@@ -50,7 +57,8 @@ class GruppiFamiliareTest extends TestCase
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->cinquantenne()->femmina()->create();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
         $this->expectException(CouldNotAssignCapogruppo::class);
         $gruppo->assegnaCapogruppo($persona, $data_entrata);
         $this->assertEquals(null, $gruppo->capogruppoAttuale());

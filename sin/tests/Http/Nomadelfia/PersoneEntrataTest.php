@@ -5,7 +5,11 @@ use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Tests\TestCase;
 
 class PersoneEntrataTest extends TestCase
@@ -107,6 +111,39 @@ class PersoneEntrataTest extends TestCase
         $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_nascita->toDatestring());
         $this->assertNotNull($persona->famigliaAttuale());
 //        $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
+    }
+
+    /** @test */
+    public function entrata_maggiorenne_single()
+    {
+        $data_entrata = Carbon::now()->toDatestring();
+        $persona = Persona::factory()->maggiorenne()->maschio()->create();
+        $gruppo = GruppoFamiliare::first();
+        $ospite = Posizione::perNome('ospite');
+        $celibe = Stato::perNome('celibe');
+
+        $this->withoutExceptionHandling();
+        $this->login();
+        $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+            [
+                'tipologia' => 'maggiorenne_single',
+                'gruppo_id' => $gruppo->id,
+                'data_entrata' => $data_entrata,
+            ]);
+
+        $this->assertTrue($persona->isPersonaInterna());
+        $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
+        $this->assertEquals($persona->posizioneAttuale()->id, $ospite->id);
+        $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
+        $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
+        $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
+
+        $this->assertNotNull($persona->famigliaAttuale());
+        // check that the date creation of the family is when the person is 18 years old.
+        $this->assertEquals($persona->famigliaAttuale()->data_creazione,
+            Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
     }
 
 

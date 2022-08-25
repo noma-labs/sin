@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -43,7 +45,8 @@ class CaricheTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         // Sacerdote: non deve essere contato negli eleggibili
         $data_entrata = Carbon::now();

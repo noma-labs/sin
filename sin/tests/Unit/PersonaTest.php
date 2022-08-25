@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Tests\MigrateFreshDB;
@@ -286,7 +287,8 @@ class PersonaTest extends TestCase
         $ospite = Posizione::perNome("ospite");
         $celibe = Stato::perNome("celibe");
 
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+ $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
@@ -312,7 +314,8 @@ class PersonaTest extends TestCase
         $ospite = Posizione::perNome("ospite");
         $nubile = Stato::perNome("nubile");
 
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+ $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
@@ -378,7 +381,9 @@ class PersonaTest extends TestCase
 
         // la persona rientra in Nomadelfia da maggiorenne adulto
         $data_rientro = Carbon::now()->addYears(10)->toDatestring();
-        $persona->entrataMaggiorenneSingle($data_rientro, GruppoFamiliare::all()->random()->id);
+//        $persona->entrataMaggiorenneSingle($data_rientro, ->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_rientro);
         $this->assertEquals($persona->getDataUscitaNomadelfia(), $data_uscita);

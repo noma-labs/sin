@@ -5,8 +5,10 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -397,7 +399,10 @@ class PersoneController extends CoreBaseController
                 $action->execute($persona, $request->data_entrata, $famiglia);
                 break;
             case "maggiorenne_single":
-                $persona->entrataMaggiorenneSingle($request->data_entrata, $request->gruppo_id);
+                $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+                $gruppo = GruppoFamiliare::findOrFail($request->gruppo_id);
+                $action->execute($persona, $request->data_entrata, $gruppo);
+//                $persona->entrataMaggiorenneSingle($request->data_entrata, $request->gruppo_id);
                 break;
             case "maggiorenne_famiglia":
                 $persona->entrataMaggiorenneSposato($request->data_entrata, $request->gruppo_id);

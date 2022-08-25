@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,10 +14,8 @@ use Tests\CreatesApplication;
 
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;;
 
 class PersonaPosizioniTest extends TestCase
 {
@@ -26,7 +26,8 @@ class PersonaPosizioniTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $data_inizio= Carbon::now()->addYears(5)->toDatestring();
         $data_fine= Carbon::now()->addYears(3)->toDatestring();
@@ -43,7 +44,8 @@ class PersonaPosizioniTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $data_inizio = Carbon::now()->addYears(5)->toDatestring();
         $data_fine = Carbon::now()->addYears(3)->toDatestring();

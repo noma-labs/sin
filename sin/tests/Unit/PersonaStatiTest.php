@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use Carbon;
 
+use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\Persona\Actions\EntrataMaggiorenneSingleAction;
 use Tests\TestCase;
 use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;
@@ -22,7 +24,8 @@ class PersonaStatiTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $data_inizio = Carbon::now()->addYears(5)->toDatestring();
         $data_fine = Carbon::now()->addYears(3)->toDatestring();
