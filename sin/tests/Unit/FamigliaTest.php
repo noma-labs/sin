@@ -6,6 +6,7 @@ use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -144,9 +145,11 @@ class FamigliaTest extends TestCase
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
 
-        $fnato->entrataNatoInNomadelfia($famiglia->id);
+        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
+
         $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
-        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
+        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(),  Famiglia::findOrFail($famiglia->id));
 
         $this->assertEquals(4, $famiglia->componentiAttuali()->get()->count());
 

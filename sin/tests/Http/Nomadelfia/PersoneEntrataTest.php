@@ -64,7 +64,6 @@ class PersoneEntrataTest extends TestCase
                 'data_entrata' => $data_entrata,
                 'famiglia_id' => $famiglia->id,
             ]);
-//            ->assertSee('inserita correttamente.');
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
@@ -78,5 +77,37 @@ class PersoneEntrataTest extends TestCase
         $this->assertNotNull($persona->famigliaAttuale());
 //        $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
     }
+
+    /** @test */
+    public function entrata_persona_dalla_nascita()
+    {
+        $data_nascita = Carbon::now();
+        $persona = Persona::factory()->minorenne()->nato($data_nascita)->maschio()->create();
+        $famiglia = Famiglia::factory()->create();
+        $gruppo = GruppoFamiliare::all()->random();
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+        $capoFam->entrataMaggiorenneSposato(Carbon::now()->toDatestring(), $gruppo->id);
+        $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now()->toDatestring());
+
+        $this->login();
+        $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+            [
+                'tipologia' => 'dalla_nascita',
+                'famiglia_id' => $famiglia->id,
+            ]);
+
+        $this->assertTrue($persona->isPersonaInterna());
+        $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_nascita->toDatestring());
+//        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
+        $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_nascita->toDatestring());
+//        $this->assertEquals($persona->statoAttuale()->id, $nubile->id);
+//        $this->assertEquals($persona->statoAttuale()->stato, $nubile->stato);
+        $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
+//        $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
+        $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_nascita->toDatestring());
+        $this->assertNotNull($persona->famigliaAttuale());
+//        $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
+    }
+
 
 }

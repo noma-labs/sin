@@ -494,25 +494,6 @@ class Persona extends Model
             $stato_data, $famiglia_id, "FIGLIO ACCOLTO", $famiglia_data);
     }
 
-    public function entrataNatoInNomadelfia($famiglia_id)
-    {
-        $famiglia = Famiglia::findOrFail($famiglia_id);
-        $gruppo = $famiglia->gruppoFamiliareAttualeOrFail();
-
-        $pos = Posizione::find("FIGL");
-        if ($this->isMaschio()) {
-            $stato = Stato::find("CEL");
-        } else {
-            $stato = Stato::find("NUB");
-        }
-        $famiglia_data = $this->data_nascita;
-        $gruppo_data = $this->data_nascita;
-        $pos_data = $this->data_nascita;
-        $stato_data = $this->data_nascita;
-        $this->entrataInNomadelfia($this->data_nascita, $pos->id, $pos_data, $gruppo->id, $gruppo_data, $stato->id,
-            $stato_data, $famiglia_id, "FIGLIO NATO", $famiglia_data);
-    }
-
     public function entrataMaggiorenneSingle($data_entrata, $gruppo_id)
     {
         if ($gruppo_id instanceof GruppoFamiliare) {

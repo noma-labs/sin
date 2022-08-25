@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
@@ -381,13 +382,14 @@ class PersoneController extends CoreBaseController
 
         switch ($request->tipologia) {
             case "dalla_nascita":
-                $persona->entrataNatoInNomadelfia($request->famiglia_id);
+                $famiglia = Famiglia::findOrFail($request->famiglia_id);
+                $action = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $action->execute($persona, $famiglia);
                 break;
             case "minorenne_accolto":
                 $famiglia = Famiglia::findOrFail($request->famiglia_id);
                 $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
                 $action->execute($persona, $request->data_entrata, $famiglia);
-//                $persona->entrataMinorenneAccolto($request->data_entrata, $request->famiglia_id);
                 break;
             case "minorenne_famiglia":
                 $famiglia = Famiglia::findOrFail($request->famiglia_id);

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Domain\Nomadelfia\Persona\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataInNomadelfiaAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\Persona\Actions\EntrataMinorenneConFamigliaAction;
@@ -68,7 +69,8 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataNatoInNomadelfia($famiglia->id);
+        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $persona->data_nascita);
@@ -100,7 +102,8 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $persona->entrataNatoInNomadelfia($famiglia->id);
+        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $persona->data_nascita);
@@ -360,7 +363,8 @@ class PersonaTest extends TestCase
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
         // la persona nasce in Nomadelfia
-        $persona->entrataNatoInNomadelfia($famiglia->id);
+                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act->execute($persona, Famiglia::findOrFail($famiglia->id));
         $this->assertTrue($persona->isPersonaInterna());
         $data_entrata = Carbon::parse($persona->data_nascita);
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata->toDatestring());
@@ -435,7 +439,10 @@ class PersonaTest extends TestCase
         $famiglia = Famiglia::factory()->create();
         $famiglia->assegnaCapoFamiglia($persona);
         $figlio = Persona::factory()->minorenne()->create();
-        $figlio->entrataNatoInNomadelfia($famiglia->id);
+
+        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act->execute($figlio, Famiglia::findOrFail($famiglia->id));
+
 
         // la famiglia esce da Nomadelfia
         $data_uscita = Carbon::now()->addYear(10)->toDatestring();
