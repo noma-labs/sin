@@ -3,6 +3,7 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -13,6 +14,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleActi
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -92,12 +94,12 @@ class PersoneController extends CoreBaseController
         ]);
         $persona = Persona::findOrFail($idPersona);
         $ne = $request->get('numero_elenco');
-        if($persona->numero_elenco){
+        if ($persona->numero_elenco) {
             return redirect()->back()->withError("La persona $persona->nominativo ha già un numero di elenco: $persona->numero_elenco.");
         }
-        $persona->update(['numero_elenco' =>$ne]);
+        $persona->update(['numero_elenco' => $ne]);
         return redirect()->route('nomadelfia.persone.dettaglio',
-           ['idPersona' => $idPersona])->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
+            ['idPersona' => $idPersona])->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
     }
 
 
@@ -137,7 +139,7 @@ class PersoneController extends CoreBaseController
 
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
-           if ($request->nominativo) {
+            if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
                 $msgSearch = $msgSearch . "Nominativo=" . $nominativo;
@@ -367,53 +369,39 @@ class PersoneController extends CoreBaseController
     }
 
     // Inserisci la persona come persona interna in Nomadelfia.
-    public function insertPersonaInterna(Request $request, $idPersona)
+    public function insertPersonaInterna(EntrataPersonaRequest $request, $idPersona)
     {
-        $validatedData = $request->validate([
-            "tipologia" => "required",
-            "data_entrata" => "required_unless:tipologia,dalla_nascita",
-            "famiglia_id" => "required_unless:tipologia,maggiorenne_single,maggiorenne_famiglia",
-            "gruppo_id" => "required_if:tipologia,maggiorenne_single,maggiorenne_famiglia",
-        ], [
-            "tipologia.required" => "La tipologia di entrata è obbligatoria",
-            "data_entrata.required_unless" => "La data di entrata è obbligatoria",
-            "famiglia_id.required_unless" => "La famiglia è obbligatoria",
-            "gruppo_id.required_if" => "Il gruppo familiare  è obbligatoria",
-        ]);
+        $request->validated();
 
-        $persona = Persona::findOrFail($idPersona);
+        $dto = EntrataPersonaData::fromRequest($request, $idPersona);
 
         switch ($request->tipologia) {
             case "dalla_nascita":
-                $famiglia = Famiglia::findOrFail($request->famiglia_id);
                 $action = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
-                $action->execute($persona, $famiglia);
+                $action->execute($dto->persona, $dto->famiglia);
                 break;
             case "minorenne_accolto":
-                $famiglia = Famiglia::findOrFail($request->famiglia_id);
                 $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
-                $action->execute($persona, $request->data_entrata, $famiglia);
+                $action->execute($dto->persona, $request->data_entrata, $dto->famiglia);
                 break;
             case "minorenne_famiglia":
-                $famiglia = Famiglia::findOrFail($request->famiglia_id);
                 $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction());
-                $action->execute($persona, $request->data_entrata, $famiglia);
+                $action->execute($dto->persona, $request->data_entrata, $dto->famiglia);
                 break;
             case "maggiorenne_single":
-                $gruppo = GruppoFamiliare::findOrFail($request->gruppo_id);
                 $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
-                $action->execute($persona, $request->data_entrata, $gruppo);
+                $action->execute($dto->persona, $request->data_entrata, $dto->gruppoFamiliare);
                 break;
             case "maggiorenne_famiglia":
-                $gruppo = GruppoFamiliare::findOrFail($request->gruppo_id);
                 $act = new EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
-                $act->execute($persona, $request->data_entrata, $gruppo);
+                $act->execute($dto->persona, $request->data_entrata, $dto->gruppoFamiliare);
                 break;
             default:
-                return redirect()->back()->withErrore("Tipologia di entrata per $persona->nominativo non riconosciuta.");
+                return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
 
         }
-        return redirect()->route('nomadelfia.persone.dettaglio',[$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
+        return redirect()->route('nomadelfia.persone.dettaglio',
+            [$dto->persona->id])->withSuccess("Persona ". $dto->persona->nominativo ."inserita correttamente.");
     }
 
     public function insertFamiglia(Request $request, $idPersona)
