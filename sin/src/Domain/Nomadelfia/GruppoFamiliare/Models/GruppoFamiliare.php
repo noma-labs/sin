@@ -149,7 +149,7 @@ class GruppoFamiliare extends Model
         $gruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
                             from gruppi_persone
-                            inner  join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                            left join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
                             where gruppi_persone.stato = '1'
                             group by gruppi_persone.gruppo_famigliare_id
                             order by gruppi_familiari.nome"
