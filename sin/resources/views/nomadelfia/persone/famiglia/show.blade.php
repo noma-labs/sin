@@ -50,7 +50,7 @@
                         <div class="col-sm-8">
                           <select name="new_famiglia_id" class="form-control">
                               <option value="" selected>---Seleziona famiglia---</option>
-                              @foreach (App\Nomadelfia\Models\Famiglia::ordered() as $famiglia)
+                              @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::ordered() as $famiglia)
                                   <option value="{{$famiglia->id}}">{{$famiglia->nome_famiglia}}</option>
                               @endforeach
                           </select>
@@ -68,7 +68,7 @@
                         <div class="col-sm-8">
                           <select name="new_posizione_famiglia" class="form-control">
                               <option value="" selected>---Seleziona posizione---</option>
-                              @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+                              @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum('Posizione') as $posizione)
                                 <option value="{{ $posizione }}">{{ $posizione }}</option>
                             @endforeach
                           </select>
@@ -103,7 +103,7 @@
                           <div class="col-sm-6">
                             <select name="posizione_famiglia" class="form-control">
                                 <option value="" selected>---Seleziona posizione---</option>
-                                @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+                                @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum('Posizione') as $posizione)
                                   @if ($posizione == "SINGLE" ||  $posizione == "CAPO FAMIGLIA")
                                     <option value="{{ $posizione }}">{{ $posizione }}</option>
                                   @endif

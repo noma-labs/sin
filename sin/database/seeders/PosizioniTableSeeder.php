@@ -2,7 +2,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Nomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 

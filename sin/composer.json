@@ -40,24 +40,22 @@
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {
-        "files": [
-            "app/helpers.php"
-        ],
         "psr-4": {
-            "App\\": "app/",
+            "App\\": "src/App/",
+            "Domain\\": "src/Domain/",
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
-            "App\\Biblioteca\\": "app/Archivio/Biblioteca",
-            "App\\Auth\\": "app/Archivio/Auth",
-            "App\\Admin\\": "app/Archivio/Admin",
-            "App\\Core\\": "app/Archivio/Core",
-            "App\\Officina\\": "app/Archivio/Officina",
-            "App\\Nomadelfia\\": "app/Archivio/Nomadelfia",
-            "App\\Anagrafe\\": "app/Archivio/Anagrafe",
-            "App\\Scuola\\": "app/Archivio/Scuola",
-            "App\\Rtn\\": "app/Archivio/Rtn",
-            "App\\Patente\\": "app/Archivio/Patente",
-            "App\\ArchivioDocumenti\\": "app/Archivio/ArchivioDocumenti"
+            "App\\Biblioteca\\": "src/App/Sin/Biblioteca",
+            "App\\Auth\\": "src/App/Sin/Auth",
+            "App\\Admin\\": "src/App/Sin/Admin",
+            "App\\Core\\": "src/App/Sin/Core",
+            "App\\Officina\\": "src/App/Sin/Officina",
+            "App\\Nomadelfia\\": "src/App/Sin/Nomadelfia",
+            "App\\Anagrafe\\": "src/App/Sin/Anagrafe",
+            "App\\Scuola\\": "src/App/Sin/Scuola",
+            "App\\Rtn\\": "src/App/Sin/Rtn",
+            "App\\Patente\\": "src/App/Sin/Patente",
+            "App\\ArchivioDocumenti\\": "src/App/Sin/ArchivioDocumenti"
         }
     },
     "autoload-dev": {

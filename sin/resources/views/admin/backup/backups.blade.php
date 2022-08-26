@@ -25,7 +25,7 @@
                   @foreach($backups as $backup)
                       <tr>
                           <td>{{ $backup['file_name'] }}</td>
-                          <td>{{ human_filesize($backup['file_size']) }}</td>
+                          <td>{{ $backup['file_size'] }}</td>
                           <td>
                               {{ Carbon::createFromTimestamp($backup['last_modified']) }}
                           </td>

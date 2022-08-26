@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use App\Nomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;

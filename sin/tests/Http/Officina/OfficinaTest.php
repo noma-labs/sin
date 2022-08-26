@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Officina;
 
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;

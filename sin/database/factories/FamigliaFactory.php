@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\Famiglia;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FamigliaFactory extends Factory

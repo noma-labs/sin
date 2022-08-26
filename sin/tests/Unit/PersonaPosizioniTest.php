@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,11 +13,9 @@ use Tests\MigrateFreshDB;
 use Tests\CreatesApplication;
 
 
-use App\Nomadelfia\Models\Persona;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Posizione;
-use App\Nomadelfia\Models\Stato;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 
 class PersonaPosizioniTest extends TestCase
 {
@@ -26,7 +26,8 @@ class PersonaPosizioniTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $data_inizio= Carbon::now()->addYears(5)->toDatestring();
         $data_fine= Carbon::now()->addYears(3)->toDatestring();
@@ -43,7 +44,8 @@ class PersonaPosizioniTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $data_inizio = Carbon::now()->addYears(5)->toDatestring();
         $data_fine = Carbon::now()->addYears(3)->toDatestring();

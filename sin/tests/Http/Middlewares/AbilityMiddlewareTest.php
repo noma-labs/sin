@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Admin\Models\Ruolo;
-use App\Nomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 use Illuminate\Http\Request;

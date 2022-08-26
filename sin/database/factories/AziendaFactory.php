@@ -1,7 +1,7 @@
 <?php
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\Azienda;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AziendaFactory extends Factory

@@ -16,7 +16,7 @@
                 <div class="col-8">
                 <select class="form-control" name="posizione">
                 <option value={{ $componente->posizione_famiglia }} selected>---scegli posizione---</option>
-                    @foreach (App\Nomadelfia\Models\Famiglia::getEnum('Posizione') as $posizione)
+                    @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum('Posizione') as $posizione)
                         @if($posizione == $componente->posizione_famiglia)
                         <option value="{{ $posizione }}" selected>{{ $posizione }}</option>
                         @else

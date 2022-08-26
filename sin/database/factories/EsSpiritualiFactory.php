@@ -1,8 +1,8 @@
 <?php
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\EserciziSpirituali;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EsSpiritualiFactory extends Factory

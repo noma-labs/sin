@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Incarico;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;

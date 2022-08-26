@@ -6,8 +6,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use App\Nomadelfia\Models\EserciziSpirituali;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
 

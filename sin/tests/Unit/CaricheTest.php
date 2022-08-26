@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Cariche;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Carbon;
@@ -43,14 +45,17 @@ class CaricheTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         // Sacerdote: non deve essere contato negli eleggibili
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
         $persona->assegnaSacerdote($data_entrata);
         $gruppo = GruppoFamiliare::first();
-        $persona->entrataMaggiorenneSingle($data_entrata->toDatestring(), $gruppo->id);
+
+        $act = new  EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata->toDatestring(), $gruppo);
 
         $ele = Cariche::EleggibiliConsiglioAnziani();
         $this->assertEquals(0, $ele->total);

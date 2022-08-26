@@ -99,7 +99,7 @@
                   <div class="col-sm-8">
                     <select name="stato_id" class="form-control">
                         <option selecte>---seleziona Stato---</option>
-                        @foreach (App\Nomadelfia\Models\Stato::all() as $stato)
+                        @foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::all() as $stato)
                           <option value="{{$stato->id}}">{{$stato->nome}}</option>
                       @endforeach
                     </select>

@@ -108,8 +108,8 @@
                   <div class="col-sm-6">
                     <select  name="azienda_id" class="form-control">
                         <option  value="" selected>---seleziona azienda ---</option>
-                        @foreach (App\Nomadelfia\Models\Azienda::all() as $azienda)
-                        @if($persona->aziendeAttuali()->get()->contains(App\Nomadelfia\Models\Azienda::find(4)) == false)
+                        @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::all() as $azienda)
+                        @if($persona->aziendeAttuali()->get()->contains(Domain\Nomadelfia\Azienda\Models\Azienda::find(4)) == false)
                           <option value="{{$azienda->id}}" {{ old('azienda_id') === $azienda->id ? 'selected' : '' }}> {{$azienda->nome_azienda}}</option>
                           @endif
                         @endforeach

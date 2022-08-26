@@ -1,9 +1,12 @@
 <?php
 
 namespace Tests\Http\Nomadelfia;
-use App\Nomadelfia\Controllers\PersoneController;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use App\Nomadelfia\Persona\Controllers\PersoneController;
+use Carbon\Carbon;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
 
 class PopolazioneTest extends TestCase
@@ -32,7 +35,8 @@ class PopolazioneTest extends TestCase
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $persona->entrataMaggiorenneSingle($data_entrata, $gruppo->id);
+        $act = new  EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($persona, $data_entrata, $gruppo);
 
         $this->login();
         $this->post(action([PersoneController::class, 'insertDatiAnagrafici']),

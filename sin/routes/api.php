@@ -1,6 +1,6 @@
 <?php
 
-use App\Nomadelfia\Controllers\ApiController;
+use App\Nomadelfia\Api\Controllers\ApiController;
 use Illuminate\Http\Request;
 
 /*
@@ -51,7 +51,7 @@ Route::group(['prefix' => 'biblioteca','namespace' => 'App\Biblioteca\Controller
 
 
 //API route: /api/nomadelfia
-Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function(){
+Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Api\Controllers'], function(){
   Route::get('/persone', 'ApiController@persone')->name("api.nomadeflia.persone.search");
   Route::get('/popolazione', [ApiController::class, 'searchPersonaInPopolazioneAttuale'])->name("api.nomadeflia.popolazione.search");
   Route::get('/persone/{id}', 'ApiController@persona')->name("api.nomadelfia.persona");

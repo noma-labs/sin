@@ -4,9 +4,13 @@ namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use InvalidArgumentException;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
@@ -137,13 +141,18 @@ class FamigliaTest extends TestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
 
-        $fnato->entrataNatoInNomadelfia($famiglia->id);
-        $faccolto->entrataMinorenneAccolto(Carbon::now()->addYears(2)->toDatestring(), $famiglia->id);
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+        $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
+
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(),  Famiglia::findOrFail($famiglia->id));
 
         $this->assertEquals(4, $famiglia->componentiAttuali()->get()->count());
 
@@ -166,8 +175,10 @@ class FamigliaTest extends TestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $now = Carbon::now()->toDatestring();
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
         $famiglia->assegnaMoglie($moglie);
         $famiglia->assegnaFiglioNato($fnato);
@@ -188,8 +199,10 @@ class FamigliaTest extends TestCase
         $figlio = Persona::factory()->minorenne()->femmina()->create();
         $gruppo = GruppoFamiliare::all()->random();
         $now = Carbon::now()->toDatestring();
-        $capoFam->entrataMaggiorenneSposato($now, $gruppo->id);
-        $moglie->entrataMaggiorenneSposato($now, $gruppo->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($capoFam, $now, $gruppo);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
         $famiglia->assegnaMoglie($moglie);
         $famiglia->assegnaFiglioNato( $figlio);

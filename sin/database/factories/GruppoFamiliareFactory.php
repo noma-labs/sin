@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Nomadelfia\Models\GruppoFamiliare;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 

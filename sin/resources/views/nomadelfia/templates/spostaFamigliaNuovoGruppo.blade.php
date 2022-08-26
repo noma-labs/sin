@@ -7,7 +7,7 @@
                 <div class="col-8">
                     <select class="form-control" name="nuovo_gruppo_id">
                         <option value="" selected>---scegli gruppo---</option>
-                        @foreach (App\Nomadelfia\Models\GruppoFamiliare::all() as $gruppo)
+                        @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppo)
                             @if ($gruppo->id != $gruppo_id)
                                 <option value="{{ $gruppo->id }}">{{ $gruppo->nome }}</option>
                             @endif

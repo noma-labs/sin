@@ -2,9 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Nomadelfia\Models\Famiglia;
-use App\Nomadelfia\Models\GruppoFamiliare;
-use App\Nomadelfia\Models\Persona;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -260,9 +263,14 @@ class ScuolaTest extends TestCase
         $gruppo = GruppoFamiliare::all()->random();
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
-        $capoFam->entrataMaggiorenneSposato(Carbon::now(), $gruppo->id);
-        $alunno->entrataNatoInNomadelfia($famiglia->id);
-        $alunnoFem->entrataNatoInNomadelfia($famiglia->id);
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
+        $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
+
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+        $act->execute($alunno,  Famiglia::findOrFail($famiglia->id));
+
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+        $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
         $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
         $this->assertEquals(2, $a->prescuola()->alunniPossibili()->count());
