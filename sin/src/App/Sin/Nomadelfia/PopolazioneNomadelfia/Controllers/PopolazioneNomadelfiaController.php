@@ -8,6 +8,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Traits\SortableTrait;
@@ -111,6 +112,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);
+
+        $data = new ExportPopolazioneData();
+        dd($data);
     
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         // define styles
@@ -173,9 +177,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
                 $maggDonne->addText($value->nominativo);
           }
         }
-    
         if ($elenchi->contains("effePostOspFig")) {
-            
         // Effettivi
             $effettivi = PopolazioneNomadelfia::effettivi();
             $section = $phpWord->addSection()->addTitle('Effettivi '. $effettivi->total, 1);
