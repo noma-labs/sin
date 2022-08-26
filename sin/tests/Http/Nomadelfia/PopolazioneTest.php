@@ -4,7 +4,7 @@ namespace Tests\Http\Nomadelfia;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Tests\TestCase;
@@ -35,7 +35,7 @@ class PopolazioneTest extends TestCase
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $act = new  EntrataMaggiorenneSingleAction( new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $gruppo);
 
         $this->login();

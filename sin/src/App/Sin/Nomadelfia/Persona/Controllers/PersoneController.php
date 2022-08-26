@@ -9,6 +9,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
@@ -373,35 +374,42 @@ class PersoneController extends CoreBaseController
     {
         $request->validated();
 
-        $dto = EntrataPersonaData::fromRequest($request, $idPersona);
+        $persona = Persona::findOrFail($idPersona);
+        $data_entrata = $request->input('data_entrata');
+        if ($request->exists('gruppo_id')) {
+            $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
+        }
+        if ($request->exists('famiglia_id')) {
+            $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
+        }
 
         switch ($request->tipologia) {
             case "dalla_nascita":
-                $action = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
-                $action->execute($dto->persona, $dto->famiglia);
+                $action = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+                $action->execute($persona, $famiglia);
                 break;
             case "minorenne_accolto":
-                $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
-                $action->execute($dto->persona, $request->data_entrata, $dto->famiglia);
+                $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+                $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case "minorenne_famiglia":
-                $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction());
-                $action->execute($dto->persona, $request->data_entrata, $dto->famiglia);
+                $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+                $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case "maggiorenne_single":
-                $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
-                $action->execute($dto->persona, $request->data_entrata, $dto->gruppoFamiliare);
+                $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+                $action->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             case "maggiorenne_famiglia":
-                $act = new EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
-                $act->execute($dto->persona, $request->data_entrata, $dto->gruppoFamiliare);
+                $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+                $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             default:
                 return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
 
         }
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$dto->persona->id])->withSuccess("Persona ". $dto->persona->nominativo ."inserita correttamente.");
+            [$persona->id])->withSuccess("Persona ". $persona->nominativo ."inserita correttamente.");
     }
 
     public function insertFamiglia(Request $request, $idPersona)

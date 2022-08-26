@@ -7,16 +7,17 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Illuminate\Support\Str;
 
 class EntrataMaggiorenneSingleAction
 {
-    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+    private SaveEntrataInNomadelfiaAction $entrataInNomadelfiaAction;
 
     public function __construct(
-        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
+        SaveEntrataInNomadelfiaAction $entrataInNomadelfiaAction
     ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
@@ -27,31 +28,48 @@ class EntrataMaggiorenneSingleAction
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
 
-        $pos = Posizione::find('OSPP');
-        if ($persona->isMaschio()) {
-            $stato = Stato::find('CEL');
+        $dto = new EntrataPersonaData();
+        $dto->persona = $persona;
+        $dto->data_entrata = $data_entrata;
+        $dto->gruppoFamiliare = $gruppo;
+
+        $this->calcStato($dto);
+        $this->calcGruppoFamiliare($dto);
+        $this->calcPosizione($dto);
+        $this->calcFamiglia($dto);
+
+        $this->entrataInNomadelfiaAction->execute($dto);
+    }
+
+    public function calcFamiglia(EntrataPersonaData $dto)
+    {
+        $nome_famiglia = $dto->persona->nome . ' ' . Str::substr($dto->persona->cognome, 0, 2);
+        $dto->famiglia_data = Carbon::parse($dto->persona->data_nascita)->addYears(18)->toDatestring();
+        $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $dto->famiglia_data]);
+        $dto->famiglia_posizione = Famiglia::getSingleEnum();
+    }
+
+
+    public function calcGruppoFamiliare(EntrataPersonaData $dto)
+    {
+        $dto->gruppo_data = $dto->data_entrata;
+    }
+
+
+    public function calcPosizione(EntrataPersonaData $dto)
+    {
+        $dto->posizione = Posizione::find('OSPP');
+        $dto->posizione_data = $dto->data_entrata;
+    }
+
+    public function calcStato(EntrataPersonaData $dto)
+    {
+        $dto->stato_data = $dto->persona->data_nascita;
+        if ($dto->persona->isMaschio()) {
+            $dto->stato = Stato::find('CEL');
         } else {
-            $stato = Stato::find('NUB');
+            $dto->stato = Stato::find('NUB');
         }
-        $gruppo_data = $data_entrata;
-        $pos_data = $data_entrata;
-        $stato_data = $persona->data_nascita;
-
-        $fam_data = Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring();
-        $nome_famiglia = $persona->nome . ' ' . Str::substr($persona->cognome, 0, 2);
-        $fam = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $fam_data]);
-
-        $this->entrataInNomadelfiaAction->execute($persona,
-            $data_entrata,
-            $pos,
-            $pos_data,
-            $gruppo,
-            $gruppo_data,
-            $stato,
-            $stato_data,
-            $fam,
-            'SINGLE',
-            $fam_data);
     }
 
 

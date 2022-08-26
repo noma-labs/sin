@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
@@ -36,7 +36,7 @@ class PopolazioneTest extends BaseTestCase
 
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $tot = PopolazioneNomadelfia::totalePopolazione();
@@ -70,7 +70,7 @@ class PopolazioneTest extends BaseTestCase
 
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $azienda = Azienda::aziende()->get()->random();
@@ -127,7 +127,7 @@ class PopolazioneTest extends BaseTestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         // assegna minorenne in una classe
@@ -183,15 +183,15 @@ class PopolazioneTest extends BaseTestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($capoFam, $now, $gruppo);
-        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
-                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
@@ -226,16 +226,16 @@ class PopolazioneTest extends BaseTestCase
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($capoFam, $now, $gruppo);
-        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
 
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
         $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
@@ -269,7 +269,7 @@ class PopolazioneTest extends BaseTestCase
         $tot = PopolazioneNomadelfia::totalePopolazione();
         $min = PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count();
         $persona = Persona::factory()->minorenne()->maschio()->create();
-                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         $this->assertEquals($tot + 1, PopolazioneNomadelfia::totalePopolazione());
@@ -277,7 +277,7 @@ class PopolazioneTest extends BaseTestCase
 
         $mag = PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
-                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
         $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
         $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count());
@@ -294,7 +294,7 @@ class PopolazioneTest extends BaseTestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $gruppo = GruppoFamiliare::first();
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
         $now = Carbon::now()->subYears(4);
         $persona->assegnaPostulante($now);
@@ -326,13 +326,13 @@ class PopolazioneTest extends BaseTestCase
 //        $p2->entrataNatoInNomadelfia($famiglia->id);
 //        $pafter->entrataNatoInNomadelfia($famiglia->id);
 
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($p0, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($p1, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($p2, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($pafter, Famiglia::findOrFail($famiglia->id));
 
         $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)));
@@ -352,7 +352,7 @@ class PopolazioneTest extends BaseTestCase
 
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $after = PopolazioneNomadelfia::presente()->count();

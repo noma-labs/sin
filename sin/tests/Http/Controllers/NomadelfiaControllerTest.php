@@ -13,7 +13,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaContro
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
@@ -102,7 +102,7 @@ class NomadelfiaControllerTest extends TestCase
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
-        $action = new EntrataMaggiorenneSingleAction( new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this

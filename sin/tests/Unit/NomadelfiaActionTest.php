@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
@@ -28,7 +28,7 @@ class NomadelfiaActionTest extends TestCase
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-        $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -59,7 +59,7 @@ class NomadelfiaActionTest extends TestCase
         $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
         $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-        $action = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());

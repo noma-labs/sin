@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
@@ -71,7 +71,7 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -104,7 +104,7 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -138,7 +138,7 @@ class PersonaTest extends TestCase
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
 //        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
-        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $famiglia);
         /*
         Persona interna (DE)
@@ -177,7 +177,7 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $famiglia);
 //        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
         /*
@@ -217,7 +217,7 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction()     );
+        $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction()     );
         $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
         /*
             Persona interna (DE)
@@ -256,7 +256,7 @@ class PersonaTest extends TestCase
         $famiglia->componenti()->attach($capoFam->id,
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
-        $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction()     );
+        $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction()     );
         $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
         /*
             Persona interna (DE)
@@ -288,7 +288,7 @@ class PersonaTest extends TestCase
         $ospite = Posizione::perNome("ospite");
         $celibe = Stato::perNome("celibe");
 
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
  $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -315,7 +315,7 @@ class PersonaTest extends TestCase
         $ospite = Posizione::perNome("ospite");
         $nubile = Stato::perNome("nubile");
 
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
  $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -341,7 +341,7 @@ class PersonaTest extends TestCase
         $gruppo = GruppoFamiliare::first();
         $ospite = Posizione::perNome("ospite");
 
-        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $gruppo);
 
         $this->assertTrue($persona->isPersonaInterna());
@@ -368,7 +368,7 @@ class PersonaTest extends TestCase
             ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
 
         // la persona nasce in Nomadelfia
-                $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+                $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, Famiglia::findOrFail($famiglia->id));
         $this->assertTrue($persona->isPersonaInterna());
         $data_entrata = Carbon::parse($persona->data_nascita);
@@ -384,7 +384,7 @@ class PersonaTest extends TestCase
         // la persona rientra in Nomadelfia da maggiorenne adulto
         $data_rientro = Carbon::now()->addYears(10)->toDatestring();
 //        $persona->entrataMaggiorenneSingle($data_rientro, ->id);
-        $action = new EntrataMaggiorenneSingleAction(new EntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
         $this->assertTrue($persona->isPersonaInterna());
         $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_rientro);
@@ -397,7 +397,7 @@ class PersonaTest extends TestCase
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
-        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $gruppo);
         // viene creata la famiglia e aggiunto come campo famiglia
         $famiglia = Famiglia::factory()->create();
@@ -405,7 +405,7 @@ class PersonaTest extends TestCase
         $figlio = Persona::factory()->minorenne()->create();
 
         // il minorenne entra con la sua famiglia in Nomadelfia
-        $action =new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction()     );
+        $action =new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction()     );
         $action->execute($figlio, $data_entrata, Famiglia::findOrFail($famiglia->id));
         $this->assertTrue($figlio->isPersonaInterna());
         $this->assertEquals($figlio->getDataEntrataNomadelfia(), $data_entrata->toDatestring());
@@ -427,7 +427,7 @@ class PersonaTest extends TestCase
         $data_rientro = Carbon::now()->addYears(10)->toDatestring();
 //        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
 
-        $act = new EntrataMinorenneAccoltoAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($figlio, $data_rientro, $famiglia_rientro);
         $this->assertTrue($figlio->isPersonaInterna());
         $this->assertEquals($figlio->getDataEntrataNomadelfia(), $data_rientro);
@@ -441,7 +441,7 @@ class PersonaTest extends TestCase
         $data_entrata = Carbon::now()->toDatestring();
         $persona = Persona::factory()->maggiorenne()->create();
         $gruppo = GruppoFamiliare::first();
-        $act = new  EntrataMaggiorenneConFamigliaAction( new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction( new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $gruppo);
 
         // viene creata la famiglia e aggiunto come campo famiglia
@@ -449,7 +449,7 @@ class PersonaTest extends TestCase
         $famiglia->assegnaCapoFamiglia($persona);
         $figlio = Persona::factory()->minorenne()->create();
 
-        $act = new EntrataDallaNascitaAction(new EntrataInNomadelfiaAction());
+        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($figlio, Famiglia::findOrFail($famiglia->id));
 
 
@@ -469,9 +469,9 @@ class PersonaTest extends TestCase
 
         // la famiglia rientra a Nomadelfia. Prima entra il capofamiglia
         $data_rientro = Carbon::now()->addYear(20)->toDatestring();
-        $act = new  EntrataMaggiorenneConFamigliaAction(new EntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
-        $action = new EntrataMinorenneConFamigliaAction(new EntrataInNomadelfiaAction()     );
+        $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction()     );
         $action->execute($figlio, $data_rientro, Famiglia::findOrFail($famiglia->id));
         $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_rientro, $data_uscita) {
             $this->assertTrue($componente->isPersonaInterna());
