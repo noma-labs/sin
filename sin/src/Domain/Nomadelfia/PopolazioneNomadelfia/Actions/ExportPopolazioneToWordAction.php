@@ -2,26 +2,19 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Scuola\Models\Anno;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Carbon\Carbon;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use PhpOffice\PhpWord\PhpWord;
 
 class ExportPopolazioneToWordAction
 {
-    public function execute(ExportPopolazioneData $data)
+    public function execute(Collection $elenchi): PhpWord
     {
+        $data = new ExportPopolazioneData();
 
-    }
-
-    public function buildWord(): PhpWord{
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         // define styles
         $fontStyle12 = array('size' => 10, 'spaceAfter' => 60);
         $phpWord->addTitleStyle(1, array('size' => 12, 'bold' => true, 'allCaps' => true), array('spaceAfter' => 240));
@@ -46,7 +39,7 @@ class ExportPopolazioneToWordAction
         $section->addText('POPOLAZIONE DI NOMADELFIA', array('bold' => true, 'italic' => false, 'size' => 14),
             ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
         $section->addTextBreak(2);
-        $section->addText('Totale ' . PopolazioneNomadelfia::totalePopolazione(),
+        $section->addText('Totale ' . $data->totalePopolazione,
             array('bold' => true, 'italic' => false, 'size' => 12),
             ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
 
@@ -61,7 +54,7 @@ class ExportPopolazioneToWordAction
         // Section maggiorenni
         if ($elenchi->contains('maggMin')) {
             $section->addPageBreak();
-            $maggiorenni = PopolazioneNomadelfia::maggiorenni();
+            $maggiorenni = $data->maggiorenni;
             $section = $phpWord->addSection();
             $section->addTitle('Maggiorenni ' . $maggiorenni->total, 1);
 
@@ -76,7 +69,7 @@ class ExportPopolazioneToWordAction
                 $maggDonne->addText($value->nominativo);
             }
             // Figli minorenni
-            $minorenni = PopolazioneNomadelfia::figliMinorenni();
+            $minorenni = $data->figliMinorenni;
             $section = $phpWord->addSection()->addTitle('Figli Minorenni ' . $minorenni->total, 1);
             $sectMinorenniUomini = $phpWord->addSection($colStyle4NCont);
             $sectMinorenniUomini->addTitle('Uomini ' . count($minorenni->uomini), 2);
@@ -91,7 +84,7 @@ class ExportPopolazioneToWordAction
         }
         if ($elenchi->contains('effePostOspFig')) {
             // Effettivi
-            $effettivi = PopolazioneNomadelfia::effettivi();
+            $effettivi = $data->effettivi;
             $section = $phpWord->addSection()->addTitle('Effettivi ' . $effettivi->total, 1);
 
             $effeUomini = $phpWord->addSection($colStyle4NCont);
@@ -106,7 +99,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Postulanti
-            $postulanti = PopolazioneNomadelfia::postulanti();
+            $postulanti = $data->postulanti;
             $postSect = $phpWord->addSection($colStyle4Next);
             $postSect->addTitle('Postulanti ' . $postulanti->total, 1);
 
@@ -120,7 +113,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Ospiti
-            $ospiti = PopolazioneNomadelfia::ospiti();
+            $ospiti = $data->ospiti;
             $postSect = $phpWord->addSection($colStyle4Next);
             $postSect->addTitle('Ospiti ' . $ospiti->total, 1);
             $postSect->addTitle('Uomini ' . count($ospiti->uomini), 2);
@@ -133,7 +126,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Sacerdoti
-            $sacerdoti = PopolazioneNomadelfia::sacerdoti();
+            $sacerdoti = $data->sacerdoti;
             $sacSect = $phpWord->addSection($colStyle4Next);
             $sacSect->addTitle('Sacerdoti ' . count($sacerdoti), 2);
             foreach ($sacerdoti as $value) {
@@ -141,7 +134,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Mamme di vocazione
-            $mvocazione = PopolazioneNomadelfia::mammeVocazione();
+            $mvocazione = $data->mammeVocazione;
             $mvocSect = $phpWord->addSection($colStyle4Next);
             $mvocSect->addTitle('Mamme Di Vocazione ' . count($mvocazione), 2);
             foreach ($mvocazione as $value) {
@@ -149,7 +142,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Figli >21
-            $figliMag21 = PopolazioneNomadelfia::figliMaggiori21();
+            $figliMag21 = $data->figliMaggiori21;
             $figlMagSect = $phpWord->addSection($colStyle4Next);
             $figlMagSect->addTitle('Figli/e >21 ' . $figliMag21->total, 1);
             $figlMagSect->addTitle('Figli ' . count($figliMag21->uomini), 2);
@@ -162,7 +155,7 @@ class ExportPopolazioneToWordAction
             }
 
             // Figli 18-21
-            $figli21 = PopolazioneNomadelfia::figliFra18e21();
+            $figli21 = $data->figliFra18e21;
             $figliSect = $phpWord->addSection($colStyle4Next);
             $figliSect->addTitle('Figli/e 18...21 ' . $figli21->total, 1);
             $figliSect->addTitle('Figli ' . count($figli21->uomini), 2);
@@ -176,11 +169,10 @@ class ExportPopolazioneToWordAction
         }
         if ($elenchi->contains('famiglie')) {
             // Famiglie
-            $famiglie = PopolazioneNomadelfia::famiglie();
             $famiglieSect = $phpWord->addSection($colStyle4NCont);
             $famiglieSect->addPageBreak();
-            $famiglieSect->addTitle('Famiglie ' . count($famiglie), 1);
-            foreach ($famiglie as $id => $componenti) {
+            $famiglieSect->addTitle('Famiglie ' . count($data->famiglie), 1);
+            foreach ($data->famiglie as $id => $componenti) {
                 $famiglieSect->addTextBreak(1);
                 foreach ($componenti as $componente) {
                     if (!Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
@@ -197,7 +189,7 @@ class ExportPopolazioneToWordAction
             // $gruppiSect = $phpWord->addSection();
             // $gruppiSect->addTitle('Gruppi Familiari ', 1);
 
-            foreach (GruppoFamiliare::orderby('nome')->get() as $gruppo) {
+            foreach ($data->gruppiFamiliari  as $gruppo) {
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
                 $gruppiSect->addTitle($gruppo->nome . ' ' . $gruppo->personeAttuale()->count(), 2);
 
@@ -222,7 +214,7 @@ class ExportPopolazioneToWordAction
             $azi = $phpWord->addSection();
             $azi->addTitle('Aziende ', 1);
             $sectAziende = $phpWord->addSection($colStyle4NCont);
-            foreach (Azienda::aziende()->get() as $azienda) {
+            foreach ($data->aziende as $azienda) {
                 $sectAziende->addTextBreak(1);
                 $lavoratori = $azienda->lavoratoriAttuali()->get();
                 $sectAziende->addTitle($azienda->nome_azienda . '  ' . count($lavoratori), 3);
@@ -234,10 +226,10 @@ class ExportPopolazioneToWordAction
         if ($elenchi->contains('incarichi')) {
             // Incarichi
             $azi = $phpWord->addSection();
-            $incarichi = Incarico::all();
-            $azi->addTitle('Incarichi ' . $incarichi->count(), 1);
+
+            $azi->addTitle('Incarichi ' . $data->incarichi->count(), 1);
             $sectAziende = $phpWord->addSection($colStyle4NCont);
-            foreach ($incarichi as $incarico) {
+            foreach ($data->incarichi as $incarico) {
                 $sectAziende->addTextBreak(1);
                 $lavoratori = $incarico->lavoratoriAttuali()->get();
                 $sectAziende->addTitle($incarico->nome . '  ' . count($lavoratori), 3);
@@ -248,11 +240,10 @@ class ExportPopolazioneToWordAction
         }
         if ($elenchi->contains('scuola')) {
             $sc = $phpWord->addSection();
-            $anno = Anno::getLastAnno();
-            $sc->addTitle('Scuola ' . count($anno->alunni()), 1);
+            $sc->addTitle('Scuola ' . count($data->annoScolastico->alunni()), 1);
 
             $classeSect = $phpWord->addSection($colStyle4NCont);
-            foreach ($anno->classi()->get() as $classe) {
+            foreach ($data->annoScolastico->classi()->get() as $classe) {
                 $alunni = $classe->alunni();
                 if ($alunni->count() > 0) {
                     $classeSect->addTextBreak(1);
