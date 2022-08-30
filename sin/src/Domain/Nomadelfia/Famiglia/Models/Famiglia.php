@@ -493,7 +493,8 @@ class Famiglia extends Model
                              SELECT f.id, count(*) as componenti
                              FROM `famiglie`  f
                              INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
-                             WHERE fp.stato = '1'
+                             INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
+                             WHERE fp.stato = '1' and pop.data_uscita is NULL
                              GROUP BY f.id
                              HAVING componenti >= :minc 
                              ORDER BY componenti DESC

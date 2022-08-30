@@ -39,7 +39,7 @@ class PopolazioneQueryBuilder extends Builder
                         SELECT persone.*, p.data_entrata, TIMESTAMPDIFF(YEAR, persone.data_nascita, CURDATE()) as eta
                         FROM persone 
                         INNER join popolazione p ON p.persona_id = persone.id
-                        where data_uscita is NULL and data_decesso IS NULL
+                        where p.data_uscita is NULL and persone.data_decesso IS NULL and persone.id != 0
                      ) select min(eta) as min, max(eta) as max , TRUNCATE(avg(eta),0) as avg , VARIANCE(eta) as var from pop_eta;")
         )[0];
     }
