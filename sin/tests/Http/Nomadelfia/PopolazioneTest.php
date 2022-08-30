@@ -1,12 +1,15 @@
 <?php
 
 namespace Tests\Http\Nomadelfia;
+
 use App\Nomadelfia\Persona\Controllers\PersoneController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PopolazioneTest extends TestCase
@@ -17,7 +20,7 @@ class PopolazioneTest extends TestCase
     {
         $this->login();
         $this->withoutExceptionHandling();
-        $this->post(action([PersoneController::class,'insertDatiAnagrafici']),
+        $this->post(action([PersoneController::class, 'insertDatiAnagrafici']),
             [
                 "nominativo" => "my-name",
                 "nome" => "name",
@@ -35,7 +38,7 @@ class PopolazioneTest extends TestCase
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         $data_entrata = Carbon::now()->toDatestring();
         $gruppo = GruppoFamiliare::all()->random();
-        $act = new  EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
+        $act = new  EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($persona, $data_entrata, $gruppo);
 
         $this->login();
@@ -49,6 +52,19 @@ class PopolazioneTest extends TestCase
                 'sesso' => 'M',
             ])
             ->assertSee("Il nominativo inserito è già assegnato alla persona");
+    }
+
+    /** @test */
+    public function can_export_popolazione_into_word()
+    {
+        $this->login();
+        $this->withoutExceptionHandling();
+        $this->post(action([PopolazioneNomadelfiaController::class, 'print']),
+            [
+                'elenchi' => ["effePostOspFig", "famiglie", "gruppi", "aziende", "incarichi", "scuola"]
+            ])
+            ->assertSuccessful()
+            ->assertDownload();
     }
 
 }

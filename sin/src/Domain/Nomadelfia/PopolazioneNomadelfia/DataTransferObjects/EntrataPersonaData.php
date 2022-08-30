@@ -34,21 +34,4 @@ class EntrataPersonaData
 
     public ?string $famiglia_data;
 
-//    /**
-//     * @throws \Exception
-//     */
-//    public static function fromRequest(EntrataPersonaRequest $request, string $persona_id): EntrataPersonaData
-//    {
-//        $dto = new self();
-//        $dto->persona = Persona::findOrFail($persona_id);
-//        $dto->data_entrata = $request->input('data_entrata');
-//        if ($request->exists('gruppo_id')) {
-//            $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-//        }
-//        if ($request->exists('famiglia_id')) {
-//            $dto->famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-//        }
-//        return $dto;
-//    }
-
 }
