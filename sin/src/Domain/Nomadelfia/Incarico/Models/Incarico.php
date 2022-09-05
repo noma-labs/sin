@@ -4,6 +4,7 @@ namespace Domain\Nomadelfia\Incarico\Models;
 
 use Database\Factories\IncaricoFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
