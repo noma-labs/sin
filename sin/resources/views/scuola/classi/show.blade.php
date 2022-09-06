@@ -9,9 +9,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            Classe:<span class="font-weight-bold">  {{$classe->tipo->nome}}          </span>
+                            A.S.:<span class="font-weight-bold"><a href="{{ route('scuola.anno.show',$anno->id)}}">{{$anno->scolastico}}</a></span>
                         </div>
                         <div class="col-md-4">
+                            Classe:<span class="font-weight-bold">  {{$classe->tipo->nome}}          </span>
                         </div> <!--end col -->
                         <div class="col-md-4">
                         </div>

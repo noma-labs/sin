@@ -29,11 +29,12 @@ class ClassiController extends CoreBaseController
     public function show($id)
     {
         $classe = Classe::findOrFail($id);
+        $anno = $classe->anno()->first();
         $alunni = $classe->alunni();
         $coords = $classe->coordinatori();
         $possibili = $classe->alunniPossibili();
         $coordPossibili = $classe->coordinatoriPossibili();
-        return view('scuola.classi.show', compact('classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
+        return view('scuola.classi.show', compact('anno','classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
     }
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
