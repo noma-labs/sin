@@ -280,11 +280,8 @@
 			    	return {}
 			    }
 		    },
-		    validateSposta: function(){
-        // console.log( this.nuova_azienda_id );
-        // console.log( this.data_fine_sposta );
-          // disabled = false
-		    	return  this.nuova_azienda_id === ''  || this.data_fine_sposta === '';
+		  validateSposta: function(){
+		    	return this.nuova_azienda_id === ''  || this.data_fine_sposta === '';
 		    }
 		},
 		methods:{
