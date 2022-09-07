@@ -149,7 +149,7 @@ class Classe extends Model
         } elseif ($tipo->IsUniversita()) {
             $all = PopolazioneNomadelfia::fraEta(18,26,'nominativo', $as,true)->get();
         } else {
-            $all = PopolazioneNomadelfia::fraEta(7, 21, 'nominativo', $as, true)->get();
+            $all = PopolazioneNomadelfia::fraEta(7, 23, 'nominativo', $as, true)->get();
         }
 
         $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
