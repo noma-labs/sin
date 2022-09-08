@@ -267,7 +267,8 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('scuola.anno.classe.aggiungi');
     Route::post('stampa',  [ScuolaController::class, 'print'])->name('scuola.stampa');
     Route::get('/anno/{anno_id}/classi',  [ClassiController::class, 'index'])->name('scuola.classi');
-    Route::get('classi/{id}', 'ClassiController@show')->name('scuola.classi.show');
+    Route::get('classi/{id}', [ClassiController::class, 'show'])->name('scuola.classi.show');
+    Route::delete('classi/{id}', [ClassiController::class,'delete'])->name('scuola.classi.rimuovi');
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');

@@ -24,7 +24,6 @@ class ScuolaTest extends TestCase
         $p = Studente::factory()->maggiorenne()->maschio()->create();
         $a->aggiungiResponsabile($p);
         $this->assertEquals($p->id, $a->responsabile->id);
-
     }
 
     /** @test */

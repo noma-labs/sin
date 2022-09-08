@@ -50,6 +50,13 @@ class ClassiController extends CoreBaseController
         return redirect()->back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
     }
 
+    public function delete($id)
+    {
+        $classe = Classe::findOrFail($id);
+        $classe->delete();
+        return redirect()->back()->withSuccess("Calsse eliminata con successo.");
+    }
+
     public function rimuoviAlunno(Request $request, $id, $alunno_id)
     {
         $classe = Classe::findOrFail($id);

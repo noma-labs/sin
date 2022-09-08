@@ -69,6 +69,20 @@
                                     @endforelse
                                 </ul>
                                 <a class="btn btn-primary" href="{{ route('scuola.classi.show',$classe->id)}}">Dettaglio</a>
+                                <my-modal modal-title="Elimina classe" button-title="Elimina" button-style="btn-danger my-2">
+                                    <template slot="modal-body-slot">
+                                        <form class="form" method="POST"  id="formEliminaClasse{{$classe->id}}" action="{{ route('scuola.classi.rimuovi',$classe->id)}}" >
+                                            @csrf
+                                            @method('delete')
+                                            <body> Vuoi davvero eliminare la classe con tutti gli alunni ? </body>
+                                        </form>
+                                    </template>
+                                    <template slot="modal-button">
+                                        <button class="btn btn-danger" form="formEliminaClasse{{$classe->id}}" >Elimina</button>
+                                    </template>
+                                </my-modal>
+
+                                </form>
                             </div>
                         </div>
                     </div>

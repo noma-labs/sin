@@ -63,8 +63,9 @@ CREATE TABLE `coordinatori_classi`
 
 ALTER TABLE `alunni_classi`
     ADD FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
 ALTER TABLE `alunni_classi`
-    ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+    ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 ALTER TABLE `classi`
     ADD FOREIGN KEY (`tipo_id`) REFERENCES `tipo` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
