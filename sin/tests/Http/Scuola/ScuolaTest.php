@@ -58,12 +58,15 @@ class ScuolaTest extends TestCase
         $c = $a->aggiungiClasse($tipi->random());
         $s = Studente::factory()->minorenne()->maschio()->create();
         $c->aggiungiAlunno($s, Carbon::now());
+        $coord = Studente::factory()->maggiorenne()->maschio()->create();
+        $c->aggiungiCoordinatore($coord, Carbon::now());
         $this->assertCount(1, $c->alunni()->get());
 
         $this->login();
-        $this->get(action([ScuolaController::class, 'index'], ['id' => $a->id]))
+        $this->get(action([ClassiController::class, 'show'], ['id' => $c->id]))
             ->assertSuccessful()
-            ->assertSee($s->nominativo);
+            ->assertSee($s->nominativo)
+            ->assertSee($coord->nominativo);
 
         $this->delete(action([ClassiController::class, 'delete'], ['id' => $c->id]));
 

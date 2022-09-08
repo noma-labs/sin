@@ -79,7 +79,7 @@ ALTER TABLE `anno`
 ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `coordinatori_classi`
-    ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+    ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 
 CREATE INDEX classi_anni_idx ON classi (anno_id);
