@@ -34,7 +34,7 @@ class ScuolaController extends CoreBaseController
         $alunni = Studente::InAnnoScolastico($anno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;
-        $classi = $anno->classi()->get();
+        $classi = $anno->classi()->with('tipo')->get()->sortBy('tipo.ord');
         return view('scuola.anno.show', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
     }
 
