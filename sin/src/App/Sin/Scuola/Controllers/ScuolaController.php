@@ -19,13 +19,13 @@ class ScuolaController extends CoreBaseController
         $alunni = Studente::InAnnoScolastico($lastAnno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($lastAnno)->get();
         $resp = $lastAnno->responsabile;
-        return view('scuola.summary', compact( 'lastAnno', 'alunni', 'cicloAlunni','resp'));
+        return view('scuola.summary', compact('lastAnno', 'alunni', 'cicloAlunni', 'resp'));
     }
 
     public function storico()
     {
         $anni = Anno::orderBy('scolastico', "DESC")->get();
-        return view('scuola.anno.storico', compact( 'anni'));
+        return view('scuola.anno.storico', compact('anni'));
     }
 
     public function index(Request $request, $id)
@@ -136,51 +136,52 @@ class ScuolaController extends CoreBaseController
             $sc = $phpWord->addSection();
             $sc->addTitle('Studenti ' . Studente::InAnnoScolastico($anno)->count(), 1);
 
-            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
-            foreach ($cicloAlunni as $c) {
-                $classeSect = $phpWord->addSection($colStyle4Next);
-                $classeSect->addTitle(ucfirst($c->ciclo) . " " . $c->count, 1);
-                if ($c->ciclo == "prescuola") {
-                    $pre = $anno->prescuola();
-                    foreach ($pre->alunni("data_nascita", "DESC")->get() as $alunno) {
-                        $classeSect->addText($alunno->nominativo);
-                    }
+//            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
+
+            $classeSect = $phpWord->addSection($colStyle4Next);
+            $pre = $anno->prescuola();
+            $classeSect->addTitle("Prescuola " , 1); //  . $pre->alunni('data_nascita', 'DESC')->count(), 1);
+            foreach ($pre->alunni("data_nascita", "DESC")->get() as $alunno) {
+                $classeSect->addText($alunno->nominativo);
+            }
+
+            $classeSect = $phpWord->addSection($colStyle4Next);
+            $elemenatari = $anno->elementari();
+            $classeSect->addTitle('Elementari ', 1); // . $elemenatari->alunni('data_nascita', 'DESC')->count(), 1);
+            foreach ($elemenatari as $el) {
+                $alunni = $el->alunni;
+                $classeSect->addTextBreak(1);
+                $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                foreach ($alunni as $alunno) {
+                    $classeSect->addText($alunno->nominativo);
                 }
-                if ($c->ciclo == "elementari") {
-                    $elemenatari = $anno->elementari();
-                    foreach ($elemenatari as $el) {
-                        $alunni = $el->alunni;
-                        $classeSect->addTextBreak(1);
-                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
-                        foreach ($alunni as $alunno) {
-                            $classeSect->addText($alunno->nominativo);
-                        }
-                    }
+            }
+
+            $classeSect = $phpWord->addSection($colStyle4Next);
+            $medie = $anno->medie();
+            $classeSect->addTitle('Medie ', 1); // . $elemenatari->alunni('data_nascita', 'DESC')->count(), 1);
+            foreach ($medie as $el) {
+                $alunni = $el->alunni;
+                $classeSect->addTextBreak(1);
+                $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                foreach ($alunni as $alunno) {
+                    $classeSect->addText($alunno->nominativo);
                 }
-                if ($c->ciclo == "medie") {
-                    $medie = $anno->medie();
-                    foreach ($medie as $el) {
-                        $alunni = $el->alunni;
-                        $classeSect->addTextBreak(1);
-                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
-                        foreach ($alunni as $alunno) {
-                            $classeSect->addText($alunno->nominativo);
-                        }
-                    }
-                }
-                if ($c->ciclo == "superiori") {
-                    $superiori = $anno->superiori();
-                    foreach ($superiori as $el) {
-                        $alunni = $el->alunni;
-                        $classeSect->addTextBreak(1);
-                        $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
-                        foreach ($alunni as $alunno) {
-                            $classeSect->addText($alunno->nominativo);
-                        }
-                    }
+            }
+
+            $classeSect = $phpWord->addSection($colStyle4Next);
+            $superiori = $anno->superiori();
+            $classeSect->addTitle('Superiori ', 1); //
+            foreach ($superiori as $el) {
+                $alunni = $el->alunni;
+                $classeSect->addTextBreak(1);
+                $classeSect->addTitle($el->tipo->nome . "  " . count($alunni), 2);
+                foreach ($alunni as $alunno) {
+                    $classeSect->addText($alunno->nominativo);
                 }
             }
         }
+
         if ($elenchi->contains("coordinatori")) {
             $coordinatori = $phpWord->addSection(array('vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER));
             $coordinatori->addText("Responsabili dei cicli ed ambiti scolastici a.s. " . $anno->scolastico,

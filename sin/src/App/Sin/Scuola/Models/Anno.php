@@ -192,7 +192,7 @@ class Anno extends Model
     public function superiori()
     {
         $p = ClasseTipo::Superiori()->get();
-        return $this->classi()->whereIn("tipo_id", $p->pluck("id"))->get();
+        return $this->classi()->with('tipo')->whereIn("tipo_id", $p->pluck("id"))->get()->sortBy('tipo.ord');
     }
 
     public function classiTipoPossibili()
