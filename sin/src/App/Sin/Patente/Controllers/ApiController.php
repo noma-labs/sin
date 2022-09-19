@@ -170,7 +170,7 @@ class ApiController extends CoreBaseController
             ->get();
 
         $persone->map(function ($persona) {
-            $persona['value'] = "$persona->nome  $persona->cognome";
+            $persona['value'] = "($persona->data_nascita) $persona->nome  $persona->cognome";
         });
         return $persone;
     }
