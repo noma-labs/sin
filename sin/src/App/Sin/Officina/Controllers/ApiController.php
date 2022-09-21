@@ -34,8 +34,10 @@ class ApiController extends CoreBaseController
     public function searchVeicoli(Request $request)
     {
         $term = $request->input('term');
-        $veicoli = Veicolo::where("nome", "LIKE", '%' . $term . '%')
-            ->orWhere('targa', "LIKE", '%' . $term . '%')->orderBy("nome")
+        $veicoli = Veicolo::withTrashed()
+            ->where("nome", "LIKE", '%' . $term . '%')
+            ->orWhere('targa', "LIKE", '%' . $term . '%')
+            ->orderBy("nome")
             ->take(50)->get();
         $results = array();
         foreach ($veicoli as $veicolo) {
