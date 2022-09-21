@@ -101,7 +101,12 @@
             @endif
           </td>
           <td>{{ $pren->cliente->nominativo }}</td>
-          <td>{{ $pren->veicolo->nome }}</td>
+          <td>{{  $pren->veicolo()->withTrashed()->first()->nome }}
+              @if($pren->veicolo()->withTrashed()->first()->deleted_at)
+              <span class="badge badge-danger">demolito</span>
+              @endif
+          </td>
+
           <td>
             @if($pren->data_partenza == $pren->data_arrivo)
               {{$pren->data_partenza}}

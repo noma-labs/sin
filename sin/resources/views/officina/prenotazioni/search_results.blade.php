@@ -36,7 +36,7 @@
       @empty($pren->delated_at)
       <tr hoverable>
         <td>{{ $pren->cliente->nominativo }}</td>
-        <td>{{ $pren->veicolo->nome }}</td>
+        <td>{{ $pren->veicolo()->withTrashed()->get() }}</td>
         <td>{{ $pren->data_partenza }}</td>
         <td>{{ $pren->ora_partenza }}</td>
         <td>{{ $pren->data_arrivo }}</td>
