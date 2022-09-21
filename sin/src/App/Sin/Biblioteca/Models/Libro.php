@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\SortableTrait;
 use App\Traits\Enums;
 
-// External library to associate media files a model
-//use Spatie\MediaLibrary\HasMedia;
-//use Spatie\MediaLibrary\InteractsWithMedia;
 
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -20,12 +17,15 @@ use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\Classificazione as Classificazione;
+
+// External library to associate media files a model
+
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Libro extends Model // implements HasMedia
+class Libro extends Model implements HasMedia
 {
-//    use InteractsWithMedia;
+    use InteractsWithMedia;
     use SortableTrait;
     use SoftDeletes;
     use Enums;

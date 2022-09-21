@@ -162,8 +162,13 @@ class LibriPrestitiController extends CoreBaseController
     // salva modifiche button has been clicked
     $persona = ViewClientiBiblioteca::findOrFail($request->persona_id);
     $prestito = Prestito::findOrFail($idPrestito);
-    $prestito->update(["bibliotecario_id"=>$bibliotecario, "data_fine_prestito"=>$datarestituzione, "data_inizio_prestito" => $dataprenotazione, "note"=>$note]);
-    $prestito->cliente()->associate($persona)->save();
+    $prestito->update([
+            "bibliotecario_id"=>$bibliotecario,
+            "data_fine_prestito"=>$datarestituzione,
+            "data_inizio_prestito" => $dataprenotazione,
+            "note"=>$note,
+            "cliente_id"=>$persona->id,
+    ]);
     if($prestito) return redirect()->route('libri.prestiti')->withSuccess("Prestito modificato correttamente");
     else   return redirect()->route('libri.prestiti')->withWarning("Nessuna modifica effettuata");
 

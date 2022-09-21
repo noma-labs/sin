@@ -16,8 +16,10 @@ class BibliotecaTableSeeder extends Seeder
     public function run()
     {
         DB::connection('db_biblioteca')->table('classificazione')->insert(['descrizione'=>"per tutti"]);
+        DB::connection('db_biblioteca')->table('libro')->insert(['collocazione'=>"AAA000"]);
+        DB::connection('db_biblioteca')->table('editore')->insert(['editore'=>"AAA editore"]);
 
-        $autore = Autore::factory()
+        Autore::factory()
             ->has(
                 Libro::factory()
                     ->count(3)
@@ -27,7 +29,5 @@ class BibliotecaTableSeeder extends Seeder
                 'libri'
             )
             ->create();
-//        Libro::factory(5)->create();
-//        Autore::factory(5)->create();
     }
 }

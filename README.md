@@ -234,3 +234,10 @@ Action application/x-httpd-php7-cgi /php7x/php-cgi.exe
     </FilesMatch>
 </VirtualHost>
 ``` 
+
+
+#### Post installation 
+- ./vendor/bin/sail composer run-script post-root-package-install
+- ./vendor/bin/sail php artisan key:generate
+- ./vendor/bin/sail npm install 
+- ./vendor/bin/sail npm run production 
