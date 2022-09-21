@@ -71,7 +71,7 @@
 
 
 <h1 class="display-5">Posizioni</h1>
-@foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::all()->chunk(3) as $chunk)
+@foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione::all()->chunk(3) as $chunk)
     <div class="row my-2">
         @foreach ($chunk as $posizione)
             <div class="col-md-4">
