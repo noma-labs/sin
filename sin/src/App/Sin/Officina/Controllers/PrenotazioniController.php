@@ -50,7 +50,7 @@ class PrenotazioniController extends CoreBaseController
                 // $orderBy = "titolo";
             }
             if ($request->filled('veicolo_id')) {
-                $veicolo = Veicolo::findOrFail($request->input("veicolo_id"));
+                $veicolo = Veicolo::withTrashed()->findOrFail($request->input("veicolo_id"));
                 $q->where('veicolo_id', $veicolo->id);
                 $msgSearch = $msgSearch . " Veicolo=" . $veicolo->nome;
                 $orderBy = "titolo";

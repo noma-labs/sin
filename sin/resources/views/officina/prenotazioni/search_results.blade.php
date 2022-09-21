@@ -36,7 +36,11 @@
       @empty($pren->delated_at)
       <tr hoverable>
         <td>{{ $pren->cliente->nominativo }}</td>
-        <td>{{ $pren->veicolo()->withTrashed()->get() }}</td>
+        <td>{{ $pren->veicolo()->withTrashed()->first()->nome }}
+            @if($pren->veicolo()->withTrashed()->first()->deleted_at)
+            <span class="badge badge-danger">demolito</span>
+            @endif
+        </td>
         <td>{{ $pren->data_partenza }}</td>
         <td>{{ $pren->ora_partenza }}</td>
         <td>{{ $pren->data_arrivo }}</td>
