@@ -70,8 +70,8 @@ class EtichetteController extends CoreBaseController
 
   public function addLibro($idLibro){
     $res = Libro::find($idLibro)->update(["tobe_printed"=>1]);
-    if($res) return redirect()->route('libro.dettaglio',["libro"=>$idLibro])->withSuccess("Libro aggiunto alla stampa delle etichette");
-    else  return redirect()->route('libro.dettaglio',["libro"=>$idLibro])->withError("Errore nell'operazione");
+    if($res) return redirect()->route('libro.dettaglio',["idLibro"=>$idLibro])->withSuccess("Libro aggiunto alla stampa delle etichette");
+    else  return redirect()->route('libro.dettaglio',["idLibro"=>$idLibro])->withError("Errore nell'operazione");
   }
 
   public function removeLibro($idLibro){
