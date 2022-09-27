@@ -94,7 +94,7 @@
 
 
             <div class="card-footer">
-                <a href="{{ route('nomadelfia') }}" class=" text-center  btn btn-primary">Entra</a>
+                <a href="{{ route('nomadelfia.popolazione') }}" class=" text-center  btn btn-primary">Entra</a>
             </div>
         </div>
 
