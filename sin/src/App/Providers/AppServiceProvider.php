@@ -25,9 +25,6 @@ class AppServiceProvider extends ServiceProvider
         # https://laravel.com/docs/8.x/upgrade#pagination-defaults
         Paginator::useBootstrap();
 
-        // Resolve error: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
-        Schema::defaultStringLength(191);
-
         //salva la collocazione nelle note ogni volta che viene cancellato il libro
         Libro::deleted(function ($libro) {
             #Salva la collocazione vecchia nelle note
