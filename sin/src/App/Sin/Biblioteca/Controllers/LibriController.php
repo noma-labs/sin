@@ -206,7 +206,7 @@ class LibriController extends CoreBaseController{
   public function restore($idLibro){
     $libro = Libro::withTrashed()->findOrFail($idLibro);
     $libro->restore();
-    return redirect()->route('libro.dettaglio',["libro"=>$libro])->withSuccess("Il libro è stato ripristinato con successo");
+    return redirect()->route('libro.dettaglio',["idLibro"=>$libro])->withSuccess("Il libro è stato ripristinato con successo");
   }
 
 
@@ -278,8 +278,8 @@ class LibriController extends CoreBaseController{
     $libro->editori()->sync($editoriIDs);
 
 
-    if($res) return redirect()->route('libro.dettaglio',["libro"=>$idLibro])->withSuccess("Libro modificato correttamente");
-    else   return redirect()->route('libro.dettaglio',["libro"=>$idLibro])->withWarning("Nessuna modifica effettuata");
+    if($res) return redirect()->route('libro.dettaglio',["idLibro"=>$idLibro])->withSuccess("Libro modificato correttamente");
+    else   return redirect()->route('libro.dettaglio',["idLibro"=>$idLibro])->withWarning("Nessuna modifica effettuata");
 
   }
 
