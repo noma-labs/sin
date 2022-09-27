@@ -123,8 +123,11 @@ Exploits the Laravel sail (https://laravel.com/docs/9.x/sail) package to run the
 - Clone the repo: `git clone git@github.com:noma-labs/sistema-informativo-nomadelfia.git`
 - Install the php dep: `cd sin &&  composer install` (inncluding sail script)
 - `cp .env.docker .env`
+- ./vendor/bin/sail composer run-script post-root-package-install
+- ./vendor/bin/sail php artisan key:generate
+- ./vendor/bin/sail npm install
+- ./vendor/bin/sail npm run production
 - `./vendor/bin/sail up`
-- `./vendor/bin/sail npm install`
 
 Create the table structure:
 -  `docker-compose exec app php artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth`
@@ -136,7 +139,6 @@ Seed the table
 
 ## Importazione Database da dump.
 
-Ogni settimana vengono creati dei dump nell cartella `Z:\sys` sun Nas.
 L'importazione deve seguire il seguente ordine di importazione dei database:
 1.  db_nomadelfia
 2.	db_admsys
@@ -206,38 +208,13 @@ Run all Mix tasks...
 - `npm run production`
 
 Run all mix Task and look for changes
-- `npm run watch`
+- `npm run watch
 
-## UPGRADE laravel 7.4
-Source: https://stackoverflow.com/questions/45790160/is-there-way-to-use-two-php-versions-in-xampp 
+## Troubleshooting 
+  - On windows, the html-to-pdf executable throws an error:
+    ```
+    C:/xampp/htdocs/sistema-informativo-nomadelfia/sin/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/wkhtmltopdf.exe: 
+    error while loading shared libraries: MSVCR120.dll: cannot open shared object file: No such file or directory
+    ```
+    [solution]: Install the visual studio c++ 2013 [here](https://www.microsoft.com/it-it/download/details.aspx?id=40784)
 
-Add these lines go the http-xampp.conf installation
-``` 
-ScriptAlias /php7x "C:/xampp/php74"
-Action application/x-httpd-php7-cgi /php7x/php-cgi.exe
-<Directory "C:/xampp/php74">
-    AllowOverride None
-    Options None
-    Require all denied
-    <Files "php-cgi.exe">
-        Require all granted
-    </Files>
-</Directory>
-
-
-
-<VirtualHost *:8082>
-# ServerName 127.0.0.1
-    DocumentRoot "C:/xampp/htdocs/sistema-informativo-nomadelfia-php74/sin/public"
-    <FilesMatch "\.php$">
-        SetHandler application/x-httpd-php7-cgi
-    </FilesMatch>
-</VirtualHost>
-``` 
-
-
-#### Post installation 
-- ./vendor/bin/sail composer run-script post-root-package-install
-- ./vendor/bin/sail php artisan key:generate
-- ./vendor/bin/sail npm install 
-- ./vendor/bin/sail npm run production 
