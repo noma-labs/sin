@@ -114,9 +114,9 @@ class PersoneController extends CoreBaseController
     {
         $persona = Persona::findOrFail($idPersona);
         if ($persona->delete()) {
-            return redirect()->route('nomadelfia.persone')->withSuccess("Persona $persona->nominativo eliminata caon successo");
+            return redirect()->route('nomadelfia')->withSuccess("Persona $persona->nominativo eliminata caon successo");
         }
-        return view("nomadelfia.persone")->withError("Impossibile eliminare $persona->nominativo ");
+        return view("nomadelfia")->withError("Impossibile eliminare $persona->nominativo ");
     }
 
     public function searchPersonaSubmit(Request $request)
