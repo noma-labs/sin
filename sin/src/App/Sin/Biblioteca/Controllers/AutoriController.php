@@ -100,7 +100,7 @@ class AutoriController extends CoreBaseController
     public function search(Request $request){
       if($request->has('idAutore')){
         $autore = Autore::findOrFail($request->input('idAutore'));
-        return redirect()->route('autori.show', ['id' => $autore->id]);
+        return redirect()->action('AutoriController@show', ['id' => $autore->id]);
       }
     }
 
