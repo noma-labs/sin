@@ -51,7 +51,7 @@ class Anno extends Model
         return $as[0];
     }
 
-    public function buildAsString(int $from_year): string
+    public static function buildAsString(int $from_year): string
     {
         $succ = $from_year + 1;
         return "{$from_year}/{$succ}";

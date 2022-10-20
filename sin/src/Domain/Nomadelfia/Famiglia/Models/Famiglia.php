@@ -486,7 +486,7 @@ class Famiglia extends Model
         );
     }
 
-    public function famiglieNumerose(int $min_componenti = 5)
+    public static function famiglieNumerose(int $min_componenti = 5)
     {
         return DB::connection('db_nomadelfia')->select(
             DB::raw("WITH famiglie_numerose AS (
