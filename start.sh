@@ -3,6 +3,14 @@
 
 #alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 cd sin
+
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php74-composer:latest \
+    composer install --ignore-platform-reqs
+
 ./vendor/bin/sail up
 
 sleep 5
