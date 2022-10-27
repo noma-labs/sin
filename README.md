@@ -4,18 +4,20 @@ SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomad
 ### Dipendenze
 
 Linguaggi:
-   - *Php 8.1.* 
+   - *Php 8.1.x* 
    - *MariaDB 10.4.x*
    - *Node v16.X*
 
 Framework:
-  - *PhpMyAdmin : 5.2.0*
+  
   - backend
       - *Laravel 8.x*
   - frontend
       - *Vue.js 2.x*
       - *Bootstrap  4.x*
+  
 Other
+  - *PhpMyAdmin : 5.2.0*
   - *npm 8.15.X*
   - *composer 2.4.x*
 
