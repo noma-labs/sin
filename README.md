@@ -4,16 +4,20 @@ SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomad
 ### Dipendenze
 
 Linguaggi:
-   - *php 7.4.* 
-   - *MariaDB 10.1.x*
-   - *node 10.X*
-   
+   - *Php 8.1.* 
+   - *MariaDB 10.4.x*
+   - *Node v16.X*
+
 Framework:
+  - *PhpMyAdmin : 5.2.0*
   - backend
       - *Laravel 8.x*
   - frontend
       - *Vue.js 2.x*
       - *Bootstrap  4.x*
+Other
+  - *npm 8.15.X*
+  - *composer 2.4.x*
 
 Required PHP extensions
   - gd
@@ -29,7 +33,7 @@ Required PHP extensions
 
 2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). (Composer 1.8.5 2019-04-09) Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
 
-3. Scarica e instalal [`node.js 8.9.x`](https://nodejs.org/it/download/) (include `npm 5.5.1`)
+3. Scarica e instalal [`node.js v16.x`](https://nodejs.org/it/download/) (include `npm 8.15.x`)
 
 4. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
 ```
