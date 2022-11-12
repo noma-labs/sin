@@ -11,7 +11,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 use Tests\MigrateFreshDB;
