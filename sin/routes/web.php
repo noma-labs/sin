@@ -14,6 +14,7 @@ use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
+use App\Biblioteca\Controllers\LibriPrestitiController;
 
 
 Route::get('/debug-sentry', function () {
@@ -309,8 +310,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::post('libri/inserimento',
         'LibriController@insertConfirm')->middleware('ability:libro.inserisci')->name('libri.inserisci.Confirm');
     // PRESTITI
-    Route::get("libri/prestiti",
-        "LibriPrestitiController@view")->middleware('ability:libro.prenota')->name("libri.prestiti");
+    Route::get("libri/prestiti", [LibriPrestitiController::class, 'view'])->middleware('ability:libro.prenota')->name("libri.prestiti");
     Route::get("libri/prestiti/ricerca",
         "LibriPrestitiController@search")->middleware('ability:libro.visualizza')->name('libri.prestiti.ricerca');
     Route::get('libri/prestiti/{idPrestito}',

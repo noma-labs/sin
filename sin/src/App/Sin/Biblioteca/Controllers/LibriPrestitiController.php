@@ -47,6 +47,7 @@ class LibriPrestitiController extends CoreBaseController
   public function view(){
     $prestiti = Prestito::leftJoin('v_clienti_biblioteca', 'prestito.cliente_id', '=', 'v_clienti_biblioteca.id')
             ->inPrestito()
+            ->with("cliente", "bibliotecario", "libro")
             ->select('prestito.*')
             ->orderBy("data_inizio_prestito", "desc")
             ->orderBy("nominativo", "asc")
