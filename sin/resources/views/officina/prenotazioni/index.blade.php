@@ -101,8 +101,8 @@
             @endif
           </td>
           <td>{{ $pren->cliente->nominativo }}</td>
-          <td>{{  $pren->veicolo()->withTrashed()->first()->nome }}
-              @if($pren->veicolo()->withTrashed()->first()->deleted_at)
+          <td>{{  $pren->veicolo->withTrashed()->first()->nome }}
+              @if($pren->veicolo->withTrashed()->first()->deleted_at)
               <span class="badge badge-danger">demolito</span>
               @endif
           </td>

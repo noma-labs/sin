@@ -144,7 +144,7 @@ class PrenotazioniController extends CoreBaseController
             }
         }
         $prenotazioni = $query->orderBy('data_partenza', 'asc')
-            ->with("meccanico", "uso")
+            ->with("meccanico", "uso", "veicolo", 'cliente')
             ->orderBy('data_arrivo', 'desc')
             ->orderBy('ora_partenza', 'desc')
             ->orderBy('ora_arrivo', 'asc')
