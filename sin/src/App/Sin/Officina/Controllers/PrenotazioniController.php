@@ -149,6 +149,7 @@ class PrenotazioniController extends CoreBaseController
             ->orderBy('ora_partenza', 'desc')
             ->orderBy('ora_arrivo', 'asc')
             ->get();
+//        dd($prenotazioni);
         return view("officina.prenotazioni.index", compact('clienti',
             'usi',
             'meccanici',
