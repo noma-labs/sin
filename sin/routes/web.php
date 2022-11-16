@@ -80,7 +80,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/inserimento/anagrafici',[PersoneController::class, 'insertDatiAnagrafici'])->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta',  [PersoneController::class,'insertPersonaInternaView'])->name("nomadelfia.persone.inserimento.entrata.scelta");
+    Route::get('persone/{idPersona}/entrata/scelta',  [PersoneController::class,'insertPersonaInternaView'])->name("nomadelfia.persone.inserimento.entrata.scelta.view");
     Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
 
     Route::post('persone/{idPersona}/decesso',  [PersoneController::class,'decesso'])->name("nomadelfia.persone.decesso");
@@ -277,7 +277,7 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
 
     // elaborati
     Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
-    Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert');
+    Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert.view');
     Route::post('elaborati/insert', [ElaboratiController::class, 'insertConfirm'])->name('scuola.elaborati.insert');
 });
 
