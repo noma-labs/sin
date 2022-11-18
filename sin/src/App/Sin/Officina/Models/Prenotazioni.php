@@ -58,7 +58,7 @@ class Prenotazioni extends Model
 
     public function veicolo()
     {
-        return $this->hasOne(Veicolo::class, 'id', 'veicolo_id');
+        return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }
 
     /**

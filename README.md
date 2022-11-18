@@ -122,6 +122,24 @@ Aggiungere il seguente Virtual Host
 
 Fai ripartire il server apache da xampp.
 
+### Abilitazione OPCache
+
+Abilitare l'estensione `zend_extension=opcache` per diminuire la latenza. 
+
+Queste sono le configurazioni di opcache usate e prese da [qui](https://medium.com/appstract/make-your-laravel-app-fly-with-php-opcache-9948db2a5f93)
+
+```aidl
+opcache.enable=1
+opcache.memory_consumption=512
+opcache.interned_strings_buffer=64
+opcache.max_accelerated_files=32531
+opcache.validate_timestamps=1
+opcache.revalidate_freq=4
+opcache.save_comments=1
+```
+
+Abilitando l'estensione, il tempo di bootstrap è sceso notevolmente
+Da `300ms` a `30ms`.
 
 ## Local Dev with Docker
 Exploits the Laravel sail (https://laravel.com/docs/9.x/sail) package to run the app into docker containers
