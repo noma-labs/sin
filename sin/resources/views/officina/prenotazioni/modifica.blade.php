@@ -65,10 +65,12 @@
       <label>&nbsp;</label>
       <button type="submit" id="prenota" class="btn btn-block btn-primary">Modifica</button>
     </div>
+      @can('meccanica.prenotazione.elimina')
     <div class="col-md-2">
       <label>&nbsp;</label>
       <a class="btn btn-block btn-danger" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
     </div>
+      @endcan
   </div>
   <br>
 </form>

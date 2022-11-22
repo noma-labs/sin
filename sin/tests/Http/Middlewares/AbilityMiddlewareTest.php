@@ -2,30 +2,37 @@
 
 namespace App\Http\Middleware;
 
-use App\Admin\Models\Ruolo;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Illuminate\Http\Response;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 use Illuminate\Http\Request;
-use App\Exceptions\UnauthorizedException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class AbilityMiddlewareTest extends TestCase
 {
     /** @test */
-    public function no_loged_in_user_return_unhautorize()
+    public function no_logged_in_user_return_unhautorize()
     {
-        $middleare = app(AbilityMiddleware::class);
+        $middleare = app(PermissionMiddleware::class);
 
         $this->assertEquals(
             403,
-            $this->runMiddleware($middleare, "persona.visualizza")
+            $this->runMiddleware($middleare, "popolazione.persona.visualizza")
         );
+    }
+
+    /** @test */
+    public function logged_in_user_return_unhautorize()
+    {
+        $middleare = app(PermissionMiddleware::class);
 
         $this->login();
 
         $this->assertEquals(
             200,
-            $this->runMiddleware($middleare, "persona.visualizza")
+            $this->runMiddleware($middleare, "popolazione.persona.visualizza")
         );
 
     }
@@ -35,7 +42,7 @@ class AbilityMiddlewareTest extends TestCase
     {
         $this->get(action([PopolazioneNomadelfiaController::class, 'index']))->assertForbidden();
 
-        $utente = Ruolo::findByName("Admin")->utenti->first();
+        $utente = Role::findByName("super-admin")->users()->first();
 
         $this->login($utente);
 

@@ -27,6 +27,7 @@
         "spatie/laravel-backup": "^6.0",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-medialibrary-pro": "^1.0.0",
+        "spatie/laravel-permission": "^5.6",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
     "require-dev": {

@@ -2,9 +2,6 @@
 
 namespace Tests;
 
-use App\Admin\Models\Risorsa;
-use App\Admin\Models\Ruolo;
-use App\Admin\Models\Sistema;
 use App\Admin\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -17,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     public function login(User $user = null): User
     {
         if (is_null($user)) {
-            $user = User::where( 'username', "=", 'Admin')->first();
+            $user = User::where('username', "=", 'Admin')->first();
         }
 
         $this->actingAs($user);

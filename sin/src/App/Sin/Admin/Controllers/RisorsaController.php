@@ -7,45 +7,50 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Admin\Models\Risorsa;
 use App\Admin\Models\Sistema;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class RisorsaController extends Controller {
+class RisorsaController extends Controller
+{
 
-    public function __construct() {
-        // $this->middleware(['auth', 'isAdmin','isMaster']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    public function __construct()
+    {
+        $this->middleware(['role:super-admin']);
     }
 
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function index() {
-        // $permissions = Risorsa::with('sistema')->get(); //Get all permissions
-        $sistemi = Sistema::with("risorse")->orderBy("nome")->get();
-        return view('admin.auth.risorse.index', compact('sistemi'));
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $permissions = Permission::with("roles")->orderBy("name")->get();
+        return view('admin.auth.risorse.index', compact('permissions'));
     }
 
     /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function create() {
-        $roles = Role::get(); //Get all roles
-
-         return view('admin.auth.risorse.create')->with('roles', $roles);
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $roles = Role::get();
+        return view('admin.auth.risorse.create')->with('roles', $roles);
     }
 
     /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function store(Request $request) {
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $this->validate($request, [
-            'name'=>'required|max:40',
-            '_belong_to_archivio'=>'required|in:biblioteca,rtn'
+            'name' => 'required|max:40',
+            '_belong_to_archivio' => 'required|in:biblioteca,rtn'
         ]);
 
         $name = $request['name'];
@@ -53,7 +58,7 @@ class RisorsaController extends Controller {
 
         $permission = new Permission();
         $permission->name = $name;
-        $permission->_belong_to_archivio  = $_belong_to_archivio;
+        $permission->_belong_to_archivio = $_belong_to_archivio;
 
         $roles = $request['roles'];
 
@@ -62,7 +67,7 @@ class RisorsaController extends Controller {
         if (!empty($request['roles'])) { //If one or more role is selected
             foreach ($roles as $role) {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
-                $permission = Risorsa::where('name', '=', $name)->first(); //Match input //permission to db record
+                $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
                 $r->givePermissionTo($permission);
             }
         }
@@ -73,54 +78,57 @@ class RisorsaController extends Controller {
     }
 
     /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function show($id) {
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
         return redirect('permissions');
     }
 
     /**
-    * Show the form for editing the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function edit($id) {
-        $risorsa = Risorsa::findOrFail($id);
-        $sistemi = Sistema::orderBy("nome")->pluck('nome', 'id');
-        return view('admin.auth.risorse.edit', compact('risorsa','sistemi'));
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $risorsa = Permission::findOrFail($id);
+        return view('admin.auth.risorse.edit', compact('risorsa'));
     }
 
     /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function update(Request $request, $id) {
-        $permission = Risorsa::findOrFail($id);
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $permission = Permission::findOrFail($id);
         $this->validate($request, [
-            'name'=>'required|max:40',
-            '_belong_to_archivio'=>'required|in:biblioteca,rtn'
+            'name' => 'required|max:40',
+            '_belong_to_archivio' => 'required|in:biblioteca,rtn'
         ]);
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso '. $permission->name.' aggiornato!');
+        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso ' . $permission->name . ' aggiornato!');
     }
 
     /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function destroy($id) {
-        $permission = Risorsa::findOrFail($id);
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $permission = Permission::findOrFail($id);
         // //Make it impossible to delete this specific permission
         // if ($permission->name == "Administer roles & permissions") {
         //     return redirect()->route('admin.auth.risorse.index')->withError("Non puoi elimiare il permesso $permission->name");

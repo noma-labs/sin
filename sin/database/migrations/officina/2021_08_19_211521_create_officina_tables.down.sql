@@ -2,7 +2,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP VIEW IF EXISTS `v_lavoratori_meccanica`;
 DROP VIEW IF EXISTS `v_clienti_meccanica`;
 
-DROP TABLE IF EXISTS `migrations`;
+-- DROP TABLE IF EXISTS `migrations`;
 
 DROP TABLE IF EXISTS `alimentazione`;
 DROP TABLE IF EXISTS `colori`;

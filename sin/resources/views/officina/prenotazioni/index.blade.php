@@ -122,8 +122,12 @@
           <td>{{ $pren->note }}</td>
           <td>
             <div class='btn-group' role='group' aria-label="Basic example">
+                @can('meccanica.prenotazione.modifica')
               <a class="btn btn-warning btn-sm" href="{{ route('officina.prenota.modifica', $pren->id) }}">Modifica</a>
+                @endcan
+                @can('meccanica.prenotazione.elimina')
              <a class="btn btn-danger btn-sm" href="{{ route('officina.prenota.delete', $pren->id) }}">Elimina</a>
+                @endcan
             </div>
           </td>
         </tr>

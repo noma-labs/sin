@@ -42,22 +42,22 @@ Route::group(['namespace' => 'App\Auth\Controllers'], function () {
 //###################################################################################
 
 Route::group(['prefix' => 'admin', 'namespace' => 'App\Admin\Controllers'], function () {
-    Route::view("/", "admin.index")->middleware('role:admin|master')->name("admin");
+    Route::view("/", "admin.index")->name("admin");
     // Authentication
-    Route::put('/users/{id}/restore', 'UserController@restore')->middleware('role:admin|master')->name("users.restore");
-    Route::resource('users', 'UserController')->middleware('role:admin|master');
-    Route::resource('roles', 'RoleController')->middleware('role:admin|master');
-    Route::resource('risorse', 'RisorsaController')->middleware('role:admin|master');
+    Route::put('/users/{id}/restore', 'UserController@restore')->name("users.restore");
+    Route::resource('users', 'UserController');
+    Route::resource('roles', 'RoleController');
+    Route::resource('risorse', 'RisorsaController');
     // Backup
-    Route::get('backup', 'BackupController@index')->middleware('role:admin|master')->name("admin.backup");
+    Route::get('backup', 'BackupController@index')->name("admin.backup");
     Route::get('backup/create',
-        'BackupController@create')->middleware('role:admin|master')->name("admin.backup.create");
+        'BackupController@create')->name("admin.backup.create");
     Route::get('backup/download/{file_name}',
-        'BackupController@download')->middleware('role:admin|master')->name("admin.backup.download");
+        'BackupController@download')->name("admin.backup.download");
     Route::get('backup/delete/{file_name}',
-        'BackupController@delete')->middleware('role:admin|master')->name("admin.backup.delete");
+        'BackupController@delete')->name("admin.backup.delete");
     //Logs activity
-    Route::get('logs', 'LogsActivityController@index')->middleware('role:admin|master')->name("admin.logs");
+    Route::get('logs', 'LogsActivityController@index')->name("admin.logs");
 });
 
 // Home view
@@ -68,31 +68,31 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function () {
-    Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('ability:persona.visualizza')->name('nomadelfia');
+    Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
 
     // PERSONA
-    Route::get('persone',  [PersoneController::class,'index'])->name('nomadelfia.persone');
+    Route::get('persone', [PersoneController::class, 'index'])->name('nomadelfia.persone');
 
-    Route::get('persone/inserimento/initial',  [PersoneController::class,'insertInitialView'])->name("nomadelfia.persone.inserimento");
-    Route::post('persone/inserimento/initial',  [PersoneController::class,'insertInitial'])->name("nomadelfia.persone.inserimento.initial");
+    Route::get('persone/inserimento/initial', [PersoneController::class, 'insertInitialView'])->middleware('can:popolazione.persona.inserisci')->name("nomadelfia.persone.inserimento");
+    Route::post('persone/inserimento/initial', [PersoneController::class, 'insertInitial'])->name("nomadelfia.persone.inserimento.initial");
 
-    Route::get('persone/inserimento/anagrafici',  [PersoneController::class, 'insertDatiAnagraficiView'])->name("nomadelfia.persone.inserimento.anagrafici");
-    Route::post('persone/inserimento/anagrafici',[PersoneController::class, 'insertDatiAnagrafici'])->name("nomadelfia.persone.inserimento.anagrafici.confirm");
+    Route::get('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagraficiView'])->name("nomadelfia.persone.inserimento.anagrafici");
+    Route::post('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagrafici'])->name("nomadelfia.persone.inserimento.anagrafici.confirm");
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta',  [PersoneController::class,'insertPersonaInternaView'])->name("nomadelfia.persone.inserimento.entrata.scelta.view");
+    Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name("nomadelfia.persone.inserimento.entrata.scelta.view");
     Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name("nomadelfia.persone.inserimento.entrata.scelta");
 
-    Route::post('persone/{idPersona}/decesso',  [PersoneController::class,'decesso'])->name("nomadelfia.persone.decesso");
-    Route::post('persone/{idPersona}/uscita',  [PersoneController::class,'uscita'])->name("nomadelfia.persone.uscita");
+    Route::post('persone/{idPersona}/decesso', [PersoneController::class, 'decesso'])->name("nomadelfia.persone.decesso");
+    Route::post('persone/{idPersona}/uscita', [PersoneController::class, 'uscita'])->name("nomadelfia.persone.uscita");
 
     Route::get('persone/ricerca/test',
-         [PersoneController::class,'search'])->name("nomadelfia.persone.ricerca"); //->middleware('permission:cliente-visualizza')
+        [PersoneController::class, 'search'])->name("nomadelfia.persone.ricerca"); //->middleware('permission:cliente-visualizza')
     Route::get('persone/ricerca/submit',
-         [PersoneController::class,'searchPersonaSubmit'])->name("nomadelfia.persone.ricerca.submit");
+        [PersoneController::class, 'searchPersonaSubmit'])->name("nomadelfia.persone.ricerca.submit");
 
-    Route::get('persone/{idPersona}',  [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('ability:persona.visualizza');
-    Route::delete('persone/{idPersona}',  [PersoneController::class,'rimuovi'])->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
+    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->name("nomadelfia.persone.dettaglio")->middleware('can:popolazione.persona.visualizza');
+    Route::delete('persone/{idPersona}', [PersoneController::class, 'rimuovi'])->name("nomadelfia.persone.rimuovi"); //middleware('permission:cliente-visualizza')
 
     Route::get('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'modificaDatiAnagrafici'])->name("nomadelfia.persone.anagrafica.modifica.view");
@@ -103,70 +103,70 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'assegnaNumeroElencoConfirm'])->name('nomadelfia.persone.numelenco.confirm');
     Route::get('persone/{idPersona}/nominativo/modifica',
-         [PersoneController::class,'modificaNominativo'])->name("nomadelfia.persone.nominativo.modifica.view");
+        [PersoneController::class, 'modificaNominativo'])->name("nomadelfia.persone.nominativo.modifica.view");
     Route::post('persone/{idPersona}/nominativo/modifica',
-         [PersoneController::class,'modificaNominativoConfirm'])->name("nomadelfia.persone.nominativo.modifica");
+        [PersoneController::class, 'modificaNominativoConfirm'])->name("nomadelfia.persone.nominativo.modifica");
     Route::post('persone/{idPersona}/nominativo/assegna',
-         [PersoneController::class,'assegnaNominativoConfirm'])->name("nomadelfia.persone.nominativo.assegna");
+        [PersoneController::class, 'assegnaNominativoConfirm'])->name("nomadelfia.persone.nominativo.assegna");
 
     Route::post('persone/{idPersona}/status',
-         [PersoneController::class,'modficaStatus'])->name("nomadelfia.persone.status.modifica");
+        [PersoneController::class, 'modficaStatus'])->name("nomadelfia.persone.status.modifica");
 
     Route::post('persone/{idPersona}/stato/assegna',
-         [PersoneController::class,'assegnaStato'])->name("nomadelfia.persone.stato.assegna");
-    Route::get('persone/{idPersona}/stato',  [PersoneController::class,'stato'])->name("nomadelfia.persone.stato");
+        [PersoneController::class, 'assegnaStato'])->name("nomadelfia.persone.stato.assegna");
+    Route::get('persone/{idPersona}/stato', [PersoneController::class, 'stato'])->name("nomadelfia.persone.stato");
     Route::post('persone/{idPersona}/stato/{id}/modifica',
-         [PersoneController::class,'modificaStato'])->name("nomadelfia.persone.stato.modifica");
+        [PersoneController::class, 'modificaStato'])->name("nomadelfia.persone.stato.modifica");
 
-    Route::get('persone/{idPersona}/posizione',  [PersoneController::class,'posizione'])->name("nomadelfia.persone.posizione");
+    Route::get('persone/{idPersona}/posizione', [PersoneController::class, 'posizione'])->name("nomadelfia.persone.posizione");
     Route::post('persone/{idPersona}/posizione/assegna',
-         [PersoneController::class,'assegnaPosizione'])->name("nomadelfia.persone.posizione.assegna");
+        [PersoneController::class, 'assegnaPosizione'])->name("nomadelfia.persone.posizione.assegna");
     Route::post('persone/{idPersona}/posizione/{id}/modifica',
-         [PersoneController::class,'modificaDataInizioPosizione'])->name("nomadelfia.persone.posizione.modifica");
+        [PersoneController::class, 'modificaDataInizioPosizione'])->name("nomadelfia.persone.posizione.modifica");
     Route::delete('persone/{idPersona}/posizione/{id}',
-         [PersoneController::class,'eliminaPosizione'])->name("nomadelfia.persone.posizione.elimina");
+        [PersoneController::class, 'eliminaPosizione'])->name("nomadelfia.persone.posizione.elimina");
     Route::put('persone/{idPersona}/posizione/{id}/concludi',
-         [PersoneController::class,'concludiPosizione'])->name("nomadelfia.persone.posizione.concludi");
+        [PersoneController::class, 'concludiPosizione'])->name("nomadelfia.persone.posizione.concludi");
 
     // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
     Route::post('persone/{idPersona}/entrata/modifica',
-         [PersoneController::class,'updateDataEntrataNomadelfia'])->name("nomadelfia.persone.dataentrata.modifica");
+        [PersoneController::class, 'updateDataEntrataNomadelfia'])->name("nomadelfia.persone.dataentrata.modifica");
 
     Route::get('persone/{idPersona}/gruppofamiliare',
-         [PersoneController::class,'gruppofamiliare'])->name("nomadelfia.persone.gruppofamiliare");
+        [PersoneController::class, 'gruppofamiliare'])->name("nomadelfia.persone.gruppofamiliare");
     Route::post('persone/{idPersona}/gruppofamiliare/assegna',
-         [PersoneController::class,'assegnaGruppofamiliare'])->name("nomadelfia.persone.gruppo.assegna");
+        [PersoneController::class, 'assegnaGruppofamiliare'])->name("nomadelfia.persone.gruppo.assegna");
 
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/modifica',
-         [PersoneController::class,'modificaGruppofamiliare'])->name("nomadelfia.persone.gruppo.modifica");
+        [PersoneController::class, 'modificaGruppofamiliare'])->name("nomadelfia.persone.gruppo.modifica");
 
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}',
-         [PersoneController::class,'eliminaGruppofamiliare'])->name("nomadelfia.persone.gruppo.elimina");
+        [PersoneController::class, 'eliminaGruppofamiliare'])->name("nomadelfia.persone.gruppo.elimina");
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi',
-         [PersoneController::class,'concludiGruppofamiliare'])->name("nomadelfia.persone.gruppo.concludi");
+        [PersoneController::class, 'concludiGruppofamiliare'])->name("nomadelfia.persone.gruppo.concludi");
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta',
-         [PersoneController::class,'spostaNuovoGruppofamiliare'])->name("nomadelfia.persone.gruppo.sposta");
+        [PersoneController::class, 'spostaNuovoGruppofamiliare'])->name("nomadelfia.persone.gruppo.sposta");
 
-    Route::get('persone/{idPersona}/aziende',  [PersoneController::class,'aziende'])->name("nomadelfia.persone.aziende");
+    Route::get('persone/{idPersona}/aziende', [PersoneController::class, 'aziende'])->name("nomadelfia.persone.aziende");
     Route::post('persone/{idPersona}/aziende/assegna',
-         [PersoneController::class,'assegnaAzienda'])->name("nomadelfia.persone.aziende.assegna");
+        [PersoneController::class, 'assegnaAzienda'])->name("nomadelfia.persone.aziende.assegna");
     Route::post('persone/{idPersona}/aziende/{id}/modifica',
-         [PersoneController::class,'modificaAzienda'])->name("nomadelfia.persone.aziende.modifica");
+        [PersoneController::class, 'modificaAzienda'])->name("nomadelfia.persone.aziende.modifica");
 
     Route::post('incarichi', [IncarichiController::class, 'insert'])->name("nomadelfia.incarichi.aggiungi");
     Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name("nomadelfia.incarichi.delete");
     Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name("nomadelfia.incarichi.assegna");
     Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name("nomadelfia.incarichi.persone.elimina");
 
-    Route::post('persone/{idPersona}/incarichi/assegna',  [PersoneController::class,'assegnaIncarico'])->name("nomadelfia.persone.incarichi.assegna");
-    Route::post('persone/{idPersona}/incarichi/{id}/modifica',   [PersoneController::class,'modificaIncarico'])->name("nomadelfia.persone.incarichi.modifica");
+    Route::post('persone/{idPersona}/incarichi/assegna', [PersoneController::class, 'assegnaIncarico'])->name("nomadelfia.persone.incarichi.assegna");
+    Route::post('persone/{idPersona}/incarichi/{id}/modifica', [PersoneController::class, 'modificaIncarico'])->name("nomadelfia.persone.incarichi.modifica");
 
 
-    Route::get('persone/{idPersona}/famiglie', [PersoneController::class,'famiglie'])->name("nomadelfia.persone.famiglie");
+    Route::get('persone/{idPersona}/famiglie', [PersoneController::class, 'famiglie'])->name("nomadelfia.persone.famiglie");
     Route::post('persona/{idPersona}/famiglie/create',
-         [PersoneController::class,'createAndAssignFamiglia'])->name("nomadelfia.personae.famiglie.create"); //->middleware('permission:cliente-visualizza')
+        [PersoneController::class, 'createAndAssignFamiglia'])->name("nomadelfia.personae.famiglie.create"); //->middleware('permission:cliente-visualizza')
     Route::post('persona/{idPersona}/famiglie/sposta',
-         [PersoneController::class,'spostaInNuovaFamiglia'])->name("nomadelfia.personae.famiglie.sposta"); //->middleware('permission:cliente-visualizza')
+        [PersoneController::class, 'spostaInNuovaFamiglia'])->name("nomadelfia.personae.famiglie.sposta"); //->middleware('permission:cliente-visualizza')
 
 
     //AZIENDE
@@ -176,7 +176,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     // INcarichi
     Route::get('incarichi',
         [IncarichiController::class, 'view'])->name("nomadelfia.incarichi.index"); //->middleware('permission:cliente-visualizza')
-    Route::get('incarichi/edit/{id}',  [IncarichiController::class, 'edit'])->name("nomadelfia.incarichi.edit");
+    Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name("nomadelfia.incarichi.edit");
 
 
     //GRUPPI FAMILIARI
@@ -188,25 +188,25 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [GruppifamiliariController::class, 'assegnaCapogruppo'])->name("nomadelfia.gruppifamiliari.capogruppo"); //->middleware('permission:cliente-visualizza')
 
     // FAMIGLIE
-    Route::get('famiglie', [FamiglieController::class,'view'])->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie', [FamiglieController::class, 'view'])->name("nomadelfia.famiglie"); //->middleware('permission:cliente-visualizza')
     Route::get('famiglie/create',
-        [FamiglieController::class,'create'])->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
+        [FamiglieController::class, 'create'])->name("nomadelfia.famiglie.create"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/create',
-        [FamiglieController::class,'createConfirm'])->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
+        [FamiglieController::class, 'createConfirm'])->name("nomadelfia.famiglie.create.confirm"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/{id}/uscita',
-        [FamiglieController::class,'uscita'])->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
-    Route::get('famiglie/{id}', [FamiglieController::class,'show'])->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
+        [FamiglieController::class, 'uscita'])->name("nomadelfia.famiglie.uscita"); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name("nomadelfia.famiglia.dettaglio"); //->middleware('permission:cliente-visualizza')
     Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna',
-        [FamiglieController::class,'spostaInGruppoFamiliare'])->name("nomadelfia.famiglie.gruppo.sposta");
+        [FamiglieController::class, 'spostaInGruppoFamiliare'])->name("nomadelfia.famiglie.gruppo.sposta");
     Route::delete('famiglie/{id}/gruppo/{idGruppo}',
-        [FamiglieController::class,'eliminaGruppoFamiliare'])->name("nomadelfia.famiglie.gruppo.elimina");
+        [FamiglieController::class, 'eliminaGruppoFamiliare'])->name("nomadelfia.famiglie.gruppo.elimina");
 
-    Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class,'update'])->name("nomadelfia.famiglia.aggiorna");
+    Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name("nomadelfia.famiglia.aggiorna");
 
     Route::post('famiglie/{id}/componente/assegna',
-        [FamiglieController::class,'assegnaComponente'])->name("nomadelfia.famiglie.componente.assegna");
+        [FamiglieController::class, 'assegnaComponente'])->name("nomadelfia.famiglie.componente.assegna");
     Route::post('famiglie/{id}/componente/aggiorna',
-        [FamiglieController::class,'aggiornaComponente'])->name("nomadelfia.famiglie.componente.aggiorna");
+        [FamiglieController::class, 'aggiornaComponente'])->name("nomadelfia.famiglie.componente.aggiorna");
 
     //stampa elenchi
     Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name("nomadelfia.popolazione.stampa");
@@ -266,10 +266,10 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('scuola.anno.aggiungi');
     Route::post('/anno/{id}/students', [ScuolaController::class, 'importStudentsFromOtherAnnoScolastico'])->name('scuola.anno.import');
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('scuola.anno.classe.aggiungi');
-    Route::post('stampa',  [ScuolaController::class, 'print'])->name('scuola.stampa');
-    Route::get('/anno/{anno_id}/classi',  [ClassiController::class, 'index'])->name('scuola.classi');
+    Route::post('stampa', [ScuolaController::class, 'print'])->name('scuola.stampa');
+    Route::get('/anno/{anno_id}/classi', [ClassiController::class, 'index'])->name('scuola.classi');
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('scuola.classi.show');
-    Route::delete('classi/{id}', [ClassiController::class,'delete'])->name('scuola.classi.rimuovi');
+    Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('scuola.classi.rimuovi');
     Route::post('classi/{id}/assegna/coordinatore', 'ClassiController@aggiungiCoordinatore')->name('scuola.classi.coordinatore.assegna');
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('scuola.classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
@@ -294,74 +294,72 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::get('libri/{idLibro}/media', 'LibriMediaController@view')->name('libri.media');
     Route::post('libri/{idLibro}/media', 'LibriMediaController@store')->name('libri.media.store');
     Route::delete('libri/{idLibro}/media/{mediaId}',
-        'LibriMediaController@destroy')->middleware('ability:libro.elimina')->name('libri.media.destroy');
+        'LibriMediaController@destroy')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy');
     Route::delete('libri/{idLibro}/media',
-        'LibriMediaController@destroyAll')->middleware('ability:libro.elimina')->name('libri.media.destroy_all');
+        'LibriMediaController@destroyAll')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy_all');
     // LIBRI: cambio collocazione
     Route::get('libri/{idLibro}/collocazione',
-        'LibriController@showEditCollocazioneForm')->middleware('ability:libro.visualizza')->name("libro.collocazione");
+        'LibriController@showEditCollocazioneForm')->middleware('can:biblioteca.libro.visualizza')->name("libro.collocazione");
     Route::post('libri/{idLibro}/collocazione/update',
-        'LibriController@updateCollocazione')->middleware('ability:libro.modifica')->name("libro.collocazione.update");
+        'LibriController@updateCollocazione')->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update");
     Route::post('libri/{idLibro}/confirm',
-        'LibriController@confirmCollocazione')->middleware('ability:libro.modifica')->name("libro.collocazione.update.confirm");
+        'LibriController@confirmCollocazione')->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update.confirm");
     // LIBRI: inserimento
     Route::get('libri/inserimento',
-        'LibriController@showInsertLibroForm')->middleware('ability:libro.inserisci')->name('libri.inserisci');
+        'LibriController@showInsertLibroForm')->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci');
     Route::post('libri/inserimento',
-        'LibriController@insertConfirm')->middleware('ability:libro.inserisci')->name('libri.inserisci.Confirm');
+        'LibriController@insertConfirm')->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci.Confirm');
     // PRESTITI
-    Route::get("libri/prestiti", [LibriPrestitiController::class, 'view'])->middleware('ability:libro.prenota')->name("libri.prestiti");
+    Route::get("libri/prestiti", [LibriPrestitiController::class, 'view'])->middleware('can:biblioteca.libro.prenota')->name("libri.prestiti");
     Route::get("libri/prestiti/ricerca",
-        "LibriPrestitiController@search")->middleware('ability:libro.visualizza')->name('libri.prestiti.ricerca');
+        "LibriPrestitiController@search")->middleware('can:biblioteca.libro.visualizza')->name('libri.prestiti.ricerca');
     Route::get('libri/prestiti/{idPrestito}',
-        'LibriPrestitiController@show')->middleware('ability:libro.visualizza')->name('libri.prestito');
+        'LibriPrestitiController@show')->middleware('can:biblioteca.libro.visualizza')->name('libri.prestito');
     Route::get('libri/prestiti/{idPrestito}/modifica',
-        'LibriPrestitiController@edit')->middleware('ability:libro.modifica')->name('libri.prestito.modifica'); //->middleware('can:edit,App\Libro')->
+        'LibriPrestitiController@edit')->middleware('can:biblioteca.libro.modifica')->name('libri.prestito.modifica'); //->middleware('can:edit,App\Libro')->
     Route::post('libri/prestiti/{idPrestito}/modifica',
-        'LibriPrestitiController@editConfirm')->middleware('ability:libro.modifica');//->name('libri.prestito.modificaConfirm');
+        'LibriPrestitiController@editConfirm')->middleware('can:biblioteca.libro.modifica');//->name('libri.prestito.modificaConfirm');
     Route::post('libri/prestiti/{idPrestito}/concludi',
-        'LibriPrestitiController@conclude')->middleware('ability:libro.prenota')->name('libri.prestito.concludi');
+        'LibriPrestitiController@conclude')->middleware('can:biblioteca.libro.prenota')->name('libri.prestito.concludi');
     // LIBRI: dettaglio, modifica, elimina, prenota
     Route::get('libri/eliminati', 'LibriController@showDeleted')->name("libri.eliminati");
-    Route::get('libri/{idLibro}', 'LibriController@show')->middleware('ability:libro.prenota')->name('libro.dettaglio');
+    Route::get('libri/{idLibro}', 'LibriController@show')->middleware('can:biblioteca.libro.prenota')->name('libro.dettaglio');
     Route::get('libri/{idLibro}/modifica',
-        'LibriController@edit')->middleware('ability:libro.modifica')->name("libro.modifica");
-    Route::post('libri/{idLibro}/modifica', 'LibriController@editConfirm')->middleware('ability:libro.modifica');
+        'LibriController@edit')->middleware('can:biblioteca.libro.modifica')->name("libro.modifica");
+    Route::post('libri/{idLibro}/modifica', 'LibriController@editConfirm')->middleware('can:biblioteca.libro.modifica');
     Route::get('libri/{idLibro}/elimina',
-        'LibriController@delete')->middleware('ability:libro.elimina')->name("libro.elimina");
-    Route::post('libri/{idLibro}/elimina', 'LibriController@deleteConfirm')->middleware('ability:libro.elimina');
+        'LibriController@delete')->middleware('can:biblioteca.libro.elimina')->name("libro.elimina");
+    Route::post('libri/{idLibro}/elimina', 'LibriController@deleteConfirm')->middleware('can:biblioteca.libro.elimina');
     Route::get('libri/{idLibro}/prenota',
-        'LibriController@book')->middleware('ability:libro.prenota')->name('libri.prenota');
-    Route::post('libri/{idLibro}/prenota', 'LibriController@bookConfirm')->middleware('ability:libro.prenota');
+        'LibriController@book')->middleware('can:biblioteca.libro.prenota')->name('libri.prenota');
+    Route::post('libri/{idLibro}/prenota', 'LibriController@bookConfirm')->middleware('can:biblioteca.libro.prenota');
     Route::post('libri/{idLibro}/ripristina',
-        'LibriController@restore')->middleware('ability:libro.elimina')->name('libri.ripristina');
+        'LibriController@restore')->middleware('can:biblioteca.libro.elimina')->name('libri.ripristina');
     Route::get('libri/{idLibro}/etichetta',
-        'LibriController@stampaEtichetta')->middleware('ability:libro.esporta')->name('libri.stampaetichetta');
+        'LibriController@stampaEtichetta')->middleware('can:biblioteca.libro.esporta')->name('libri.stampaetichetta');
 
     // ETICHETTE, aggiungi, rimuovi, preview, stampa
     Route::get('etichette',
-        'EtichetteController@view')->middleware('ability:etichetta.visualizza')->name("libri.etichette");
+        'EtichetteController@view')->middleware('can:biblioteca.etichetta.visualizza')->name("libri.etichette");
     Route::post('etichette',
-        'EtichetteController@etichetteFromToCollocazione')->middleware('ability:etichetta.visualizza')->name("libri.etichette.aggiungi");
+        'EtichetteController@etichetteFromToCollocazione')->middleware('can:biblioteca.etichetta.visualizza')->name("libri.etichette.aggiungi");
     Route::post('etichette/add/{idLibro}',
-        'EtichetteController@addLibro')->middleware('ability:etichetta.inserisci')->name('libri.etichette.aggiungi.libro');
+        'EtichetteController@addLibro')->middleware('can:biblioteca.etichetta.inserisci')->name('libri.etichette.aggiungi.libro');
     Route::post('etichette/remove',
-        'EtichetteController@removeAll')->middleware('ability:etichetta.elimina')->name('libri.etichette.rimuovi');
+        'EtichetteController@removeAll')->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi');
     Route::post('etichette/remove/{idLibro}',
-        'EtichetteController@removeLibro')->middleware('ability:etichetta.elimina')->name('libri.etichette.rimuovi.libro');
+        'EtichetteController@removeLibro')->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
     Route::get('etichette/preview',
-        'EtichetteController@preview')->middleware('ability:etichetta.visualizza')->name("libri.etichette.preview");
+        'EtichetteController@preview')->middleware('can:biblioteca.etichetta.visualizza')->name("libri.etichette.preview");
     Route::get('etichette/print',
-        'EtichetteController@printToPdf')->middleware('ability:etichetta.visualizza')->name("libri.etichette.stampa");
+        'EtichetteController@printToPdf')->middleware('can:biblioteca.etichetta.visualizza')->name("libri.etichette.stampa");
     Route::get('etichette/excel',
-        'EtichetteController@downloadExcel')->middleware('ability:etichetta.esporta')->name('libri.etichette.excel');
+        'EtichetteController@downloadExcel')->middleware('can:biblioteca.etichetta.esporta')->name('libri.etichette.excel');
     //AUTORI biblioteca
     Route::group([
         'middleware' => [
-            'ability:autore.inserisci',
-            'ability:autore.visualizza',
-            'ability:autore.modifica',
-            'ability:autore.elimina'
+            'can:biblioteca.autore.inserisci',
+            'can:biblioteca.autore.visualizza'
         ]
     ], function () {
         Route::get('autori/search', 'AutoriController@search')->name('autori.ricerca');
@@ -370,17 +368,15 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     //EDITORI biblioteca
     Route::group([
         'middleware' => [
-            'ability:autore.visualizza',
-            'ability:autore.inserisci',
-            'ability:autore.inserisci',
-            'ability:autore.elimina'
+            'can:biblioteca.autore.visualizza',
+            'can:biblioteca.autore.inserisci',
         ]
     ], function () {
         Route::get('editori/search', 'EditoriController@search')->name('editori.ricerca');
         Route::resource('editori', 'EditoriController');
     });
     // CLASSIFICAZIONE: visualizza, modifica, elimina, cerca
-    Route::group(['middleware' => ['ability:libro.visualizza']], function () {
+    Route::group(['middleware' => ['can:biblioteca.libro.visualizza']], function () {
         Route::resource('classificazioni', 'ClassificazioniController');
     });
     //  VIDEO biblioteca
@@ -393,48 +389,48 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
 //##################################################################
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     // PRENOTAZIONI add, delete, update, search
-    Route::post("/",[PrenotazioniController::class, 'prenotazioniSucc'])->middleware('ability:veicolo.prenota')->name('officina.prenota');
+    Route::post("/", [PrenotazioniController::class, 'prenotazioniSucc'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
 
     Route::get("delete/{id}/",
-        'PrenotazioniController@delete')->middleware('ability:veicolo.elimina')->name('officina.prenota.delete');
+        'PrenotazioniController@delete')->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
     Route::get("modifica/{id}/",
-        'PrenotazioniController@modifica')->middleware('ability:veicolo.modifica')->name('officina.prenota.modifica');;
+        'PrenotazioniController@modifica')->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');;
     Route::post("modifica/{id}/",
-        'PrenotazioniController@update')->middleware('ability:veicolo.modifica')->name('officina.prenota.update');
-    Route::get("all/", 'PrenotazioniController@all')->middleware('ability:veicolo.visualizza')->name('officina.all');
+        'PrenotazioniController@update')->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
+    Route::get("all/", 'PrenotazioniController@all')->middleware('can:meccanica.prenotazione.visualizza')->name('officina.all');
     Route::get('prenotazioni',
-        'PrenotazioniController@searchView')->middleware('ability:veicolo.visualizza')->name('officina.ricerca');
+        'PrenotazioniController@searchView')->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
     Route::get('prenotazioni/search',
-        'PrenotazioniController@search')->middleware('ability:veicolo.visualizza')->name('officina.ricerca.submit');
+        'PrenotazioniController@search')->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca.submit');
     // VEICOLI add, update
-    Route::get('veicoli', 'VeicoliController@index')->middleware('ability:veicolo.visualizza')->name('veicoli.index');
-    Route::get('veicoli/demoliti', 'VeicoliController@veicoliDemoliti')->middleware('ability:veicolo.visualizza')->name('veicoli.demoliti');
-    Route::post('veicoli/riabilita', 'VeicoliController@veicoloRiabilita')->middleware('ability:veicolo.modifica')->name('veicolo.riabilita');
-    Route::delete('veicoli/elimina-definitivamente', 'VeicoliController@veicoloEliminaDefinitivamente')->middleware('ability:veicolo.modifica')->name('veicoli.elimina.definitivamente');
+    Route::get('veicoli', 'VeicoliController@index')->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
+    Route::get('veicoli/demoliti', 'VeicoliController@veicoliDemoliti')->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
+    Route::post('veicoli/riabilita', 'VeicoliController@veicoloRiabilita')->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');
+    Route::delete('veicoli/elimina-definitivamente', 'VeicoliController@veicoloEliminaDefinitivamente')->middleware('can:meccanica.veicolo.modifica')->name('veicoli.elimina.definitivamente');
     Route::get('veicoli/nuovo',
-        'VeicoliController@viewCreate')->middleware('ability:veicolo.inserisci')->name('veicoli.nuovo');
+        'VeicoliController@viewCreate')->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.nuovo');
     Route::post('veicoli/nuovo',
-        'VeicoliController@create')->middleware('ability:veicolo.inserisci')->name('veicoli.create');
+        'VeicoliController@create')->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
     Route::get('veicoli/{id}',
-        'VeicoliController@show')->middleware('ability:veicolo.visualizza')->name('veicoli.dettaglio');
+        'VeicoliController@show')->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
     Route::get('veicoli/modifica/{id}',
-        'VeicoliController@edit')->middleware('ability:veicolo.modifica')->name('veicoli.modifica');
+        'VeicoliController@edit')->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
     Route::post('veicoli/modifica/{id}',
-        'VeicoliController@editConfirm')->middleware('ability:veicolo.modifica')->name('veicoli.modifica.confirm');
+        'VeicoliController@editConfirm')->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica.confirm');
     Route::delete('demolisci/veicolo',
-        'VeicoliController@demolisci')->middleware('ability:veicolo.modifica')->name('veicoli.demolisci');
+        'VeicoliController@demolisci')->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
     // Filtri
     Route::post('filtro/aggiungi',
-        'VeicoliController@aggiungiFiltro')->middleware('ability:veicolo.modifica')->name('filtri.aggiungi');
-    Route::view('filtri', 'officina.gestione.filtri')->middleware('ability:veicolo.modifica')->name('filtri');
+        'VeicoliController@aggiungiFiltro')->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
+    Route::view('filtri', 'officina.gestione.filtri')->middleware('can:meccanica.veicolo.modifica')->name('filtri');
     // Olio motore
     Route::post('olio/aggiungi',
-        'VeicoliController@aggiungiOlio')->middleware('ability:veicolo.modifica')->name('olio.aggiungi');
+        'VeicoliController@aggiungiOlio')->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
     //Patenti
-    Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('ability:veicolo.visualizza')->name('officina.patenti');
+    Route::get("/patenti", [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 
     // PRENOTAZIONI
-    Route::get("/", [PrenotazioniController::class, 'prenotazioni'])->middleware('ability:veicolo.prenota')->name('officina.index');
+    Route::get("/", [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
 });
 
 //#################################################################
@@ -451,35 +447,35 @@ Route::group(['prefix' => 'rtn', 'namespace' => 'App\Rtn\Controllers'], function
 //#################################################################
 
 Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], function () {
-    Route::get("/", 'PatenteController@scadenze')->middleware('ability:patente.visualizza')->name('patente.scadenze');
+    Route::get("/", 'PatenteController@scadenze')->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
     Route::get("/ricerca",
-        'PatenteController@patente')->middleware('ability:patente.visualizza')->name('patente.ricerca');
+        'PatenteController@patente')->middleware('can:scuolaguida.patente.visualizza')->name('patente.ricerca');
     Route::get("/elenchi",
-        'PatenteController@elenchi')->middleware('ability:patente.visualizza')->name('patente.elenchi');
+        'PatenteController@elenchi')->middleware('can:scuolaguida.patente.visualizza')->name('patente.elenchi');
     // esposta elenchi
     Route::get("/elenchi/stampa",
-        'PatenteController@stampaAutorizzati')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
-    Route::get("/elenchi/preview", [PatenteController::class ,'stampaAutorizzatiPreview'])->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
+        'PatenteController@stampaAutorizzati')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
+    Route::get("/elenchi/preview", [PatenteController::class, 'stampaAutorizzatiPreview'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
     Route::get("/elenchi/esporta/excel",
-        'PatenteController@autorizzatiEsportaExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
+        'PatenteController@autorizzatiEsportaExcel')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get("/elenchi/patenti/pdf",
-        'PatenteController@esportaPatentiPdf')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
+        'PatenteController@esportaPatentiPdf')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
     Route::get("/elenchi/patenti/excel",
-        'PatenteController@esportaPatentiExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
+        'PatenteController@esportaPatentiExcel')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
     Route::get("/elenchi/cqc/excel",
-        'PatenteController@esportaCQCExcel')->middleware('ability:patente.esporta')->name('patente.elenchi.cqc.esporta.excel');
+        'PatenteController@esportaCQCExcel')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.cqc.esporta.excel');
 
     Route::get("/search", 'PatenteController@ricerca')->name('patente.ricerca.conferma');
     Route::get('modifica/{id}',
-        'PatenteController@modifica')->middleware('ability:patente.modifica')->name('patente.modifica');
+        'PatenteController@modifica')->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica');
     Route::get('elimina/{id}',
-        'PatenteController@elimina')->middleware('ability:patente.elimina')->name('patente.elimina');
+        'PatenteController@elimina')->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
     Route::post('modifica/{id}',
-        'PatenteController@confermaModifica')->middleware('ability:patente.modifica')->name('patente.modifica.conferma');
+        'PatenteController@confermaModifica')->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica.conferma');
     Route::get('inserimento',
-        'PatenteController@inserimento')->middleware('ability:patente.inserisci')->name('patente.inserimento');
+        'PatenteController@inserimento')->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento');
     Route::post('inserimento',
-        'PatenteController@confermaInserimento')->middleware('ability:patente.inserisci')->name('patente.inserimento.conferma');
+        'PatenteController@confermaInserimento')->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento.conferma');
 });
 
 

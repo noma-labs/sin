@@ -1,15 +1,4 @@
 <?php return array (
-  'barryvdh/laravel-dompdf' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'PDF' => 'Barryvdh\\DomPDF\\Facade',
-    ),
-  ),
   'barryvdh/laravel-snappy' => 
   array (
     'providers' => 
@@ -140,6 +129,13 @@
     'providers' => 
     array (
       0 => 'Spatie\\MediaLibraryPro\\MediaLibraryProServiceProvider',
+    ),
+  ),
+  'spatie/laravel-permission' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
   ),
 );

@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Gate;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use App;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,22 +26,29 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Gate $gate)
+    public function boot()
     {
         // Gate for checking if an user is authorized to perform an ability (risorsa.operation)
         // An ability is a string of the form  "RISORSA.OPERAZIONE"
-        $gate::before(function ($user, string $ability) {  //ability = <RISORSA>.<OPERAZIONE> e.g. "libro.select"
-            $risorsa_operazione = explode('.', $ability);
-            try {
-                if (method_exists($user, 'hasPermissionTo')) {
-                    $risorsa = $risorsa_operazione[0];
-                    $operazione = $risorsa_operazione[1];
-                    return $user->hasPermissionTo($risorsa, $operazione) ?: null;
-                }
-            } catch (RisorsaDoesNotExist $e) {
-                throw $e;
-            }
+//        Gate::before(function ($user, string $ability) {  //ability = <RISORSA>.<OPERAZIONE> e.g. "libro.select"
+//            $risorsa_operazione = explode('.', $ability);
+//            try {
+//                if (method_exists($user, 'hasPermissionTo')) {
+//                    $risorsa = $risorsa_operazione[0];
+//                    $operazione = $risorsa_operazione[1];
+//                    return $user->hasPermissionTo($risorsa, $operazione) ?: null;
+//                }
+//            } catch (RisorsaDoesNotExist $e) {
+//                throw $e;
+//            }
+//        });
+
+        $this->registerPolicies();
+
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super-admin') ? true : null;
         });
-        $this->registerPolicies($gate);
     }
 }

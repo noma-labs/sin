@@ -1,6 +1,6 @@
 --
 -- Index vonvention
---     <prefix>_<column_name>_<column_name>…
+--     <prefix>_<table_name>_<column_name>…
 -- The prefix indicates the index type. In MySQL, I prefer:
 --     idx_  regular index
 --     unq_  UNIQUE

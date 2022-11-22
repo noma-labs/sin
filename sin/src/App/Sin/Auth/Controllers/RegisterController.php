@@ -2,7 +2,6 @@
 namespace App\Auth\Controllers;
 
 use App\Admin\Models\User as User;
-// use App\Http\Controllers\Controller;
 
 use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Support\Facades\Validator;

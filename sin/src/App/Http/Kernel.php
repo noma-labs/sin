@@ -58,10 +58,10 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'isAdmin' => \App\Http\Middleware\AdminMiddleware::class,
 
-        // third part middleware 
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
-        'ability' => \App\Http\Middleware\AbilityMiddleware::class,
+        // third party middlewares
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

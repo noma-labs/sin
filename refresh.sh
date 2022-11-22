@@ -20,7 +20,6 @@ cd sin
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
 ./vendor/bin/sail artisan migrate:refresh --path="database/migrations/patente" --database=db_patente
 ./vendor/bin/sail artisan migrate:refresh --path="database/migrations/officina" --database=db_officina
-./vendor/bin/sail artisan migrate # migrate the migrations outside the folder (like the activity_log)
 
 # import dump of a db_nomadelfia
 DB_CONTAINER=$(docker compose ps -q mysql)

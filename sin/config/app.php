@@ -184,7 +184,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
@@ -240,6 +240,7 @@ return [
 
         'SnappyPdf' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
 ];

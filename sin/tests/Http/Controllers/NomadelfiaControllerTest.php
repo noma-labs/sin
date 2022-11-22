@@ -2,10 +2,6 @@
 
 namespace Tests\Http\Controllers;
 
-use App\Admin\Models\Risorsa;
-use App\Admin\Models\Ruolo;
-use App\Admin\Models\Sistema;
-use App\Admin\Models\User;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
@@ -53,7 +49,7 @@ class NomadelfiaControllerTest extends TestCase
             ->assertSee("Gestione Gruppi Familiari");
     }
 
-      /** @test */
+    /** @test */
     public function show_incarichi_index()
     {
         $this->withExceptionHandling();
@@ -102,7 +98,7 @@ class NomadelfiaControllerTest extends TestCase
         $data_entrata = Carbon::now();
         $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
-        $action = new EntrataMaggiorenneSingleAction( new SaveEntrataInNomadelfiaAction());
+        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
         $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
         $this

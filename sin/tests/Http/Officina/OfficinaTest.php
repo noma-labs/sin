@@ -2,6 +2,7 @@
 
 namespace Tests\Http\Officina;
 
+use App\Admin\Models\User;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Controllers\PrenotazioniController;
@@ -11,6 +12,7 @@ use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
 use Composer\CaBundle\CaBundle;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\Models\Role;
 use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
@@ -20,7 +22,7 @@ class OfficinaTest extends TestCase
 {
 
     /** @test */
-    public function admin_can_create_prenotazione()
+    public function administrator_can_create_prenotazione()
     {
         $v = Veicolo::factory()->create();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -29,7 +31,11 @@ class OfficinaTest extends TestCase
         $u = Uso::all()->random();
         $this->assertNotEmpty($u);
 
-        $this->login();
+        $meccanicaAmm = User::create(['username' => 'meccanica-admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
+        $meccanicaAmmRole = Role::findByName("meccanica-amm");
+        $meccanicaAmm->assignRole($meccanicaAmmRole);
+
+        $this->login($meccanicaAmm);
         $now = Carbon::now();
         $this->post(action([PrenotazioniController::class, 'prenotazioniSucc'], [
             'nome' => $p->id,
@@ -50,6 +56,18 @@ class OfficinaTest extends TestCase
         $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
             ->assertSuccessful();
 
+    }
+
+    /** @test */
+    public function other_users_cannot_create_prenotazioni()
+    {
+        $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
+        $biblioAmm = Role::findByName("biblioteca-amm");
+        $operator->assignRole($biblioAmm);
+
+        $this->login($operator);
+
+        $this->get(route('officina.ricerca'))->assertForbidden();
     }
 
 //    /** @test */

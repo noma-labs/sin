@@ -1,5 +1,5 @@
 
-CREATE TABLE `categorie` (
+CREATE TABLE IF NOT EXISTS  `categorie`(
     `id` int(1) NOT NULL,
     `categoria` varchar(200) NOT NULL,
     `descrizione` varchar(150) NOT NULL,
