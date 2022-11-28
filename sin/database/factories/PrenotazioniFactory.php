@@ -2,7 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Admin\Models\User;
 use App\Officina\Models\Prenotazioni;
+use App\Officina\Models\Uso;
+use App\Officina\Models\Veicolo;
+use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,14 +18,10 @@ class PrenotazioniFactory extends Factory
     public function definition()
     {
         return [
-//            'cliente_id' => $cliente->id,
-//            'veicolo_id' => $veicolo->id,
-//            'meccanico_id' => $meccanico->id,
-//            'data_partenza' => $this->faker->date('yy-mm-dd'),
-//            'ora_partenza' =>  $ora_partenza,
-//            'data_arrivo' => $this->faker->date('yy-mm-dd'),
-//            'uso_id' => $uso->ofus_iden,
-//            'ora_arrivo' => $ora_arrivo,
+            'cliente_id' => User::all()->first(),
+            'veicolo_id' => Veicolo::factory(),
+            'meccanico_id' => ViewMeccanici::all()->first(),
+            'uso_id' => Uso::all()->first(),
             'note' => $this->faker->text,
             'destinazione' => $this->faker->title
         ];

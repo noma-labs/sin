@@ -155,7 +155,7 @@ class AuthTablesSeeder extends Seeder
 
         $agrariaAmmRole->givePermissionTo("agraria.*");
 
-//        $userAdmin = User::create(['username' => 'Admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
-//        $userAdmin->assignRole($superAdmin);
+        $userAdmin = User::create(['username' => 'Admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
+        $userAdmin->assignRole($superAdmin);
     }
 }

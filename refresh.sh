@@ -13,7 +13,7 @@ cd sin
 
 
 # THE ORDER IS IMPORTANT
-./vendor/bin/sail artisan migrate:fresh --path="database/migrations/admsys" --database=db_auth
+./vendor/bin/sail artisan migrate:refresh --path="database/migrations/admsys" --database=db_auth
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/angrafe" --database=db_anagrafe
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
@@ -25,6 +25,7 @@ cd sin
 DB_CONTAINER=$(docker compose ps -q mysql)
 docker exec -i  $DB_CONTAINER sh -c 'exec mysql -uroot -proot db_nomadelfia' < ../sql/db_nomadelfia.sql
 echo "import succesfully"
+
 
 # seed tables
 ./vendor/bin/sail artisan db:seed --class=AuthTablesSeeder

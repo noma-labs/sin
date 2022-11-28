@@ -61,6 +61,7 @@ class Prenotazioni extends Model
         return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }
 
+
     /**
      * ritorna la data e l'ora di partenza
      * @return Carbon

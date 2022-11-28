@@ -121,11 +121,11 @@ class PrenotazioniController extends CoreBaseController
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
-        $now =  Carbon::now();
+        $now = Carbon::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day == "oggi") {
-            $query= Prenotazioni::where('data_partenza','=', $now->toDateString())
-                                 ->orWhere('data_arrivo', '=', $now->toDateString());
+            $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
+                ->orWhere('data_arrivo', '=', $now->toDateString());
         } else {
             if ($day == "ieri") {
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
@@ -135,12 +135,12 @@ class PrenotazioniController extends CoreBaseController
 //                            2) prenotazioni a cavallo di oggi
 //                            3) prenotazioni che si concludono oggi
                 $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
-                                    ->orWhere(function($query) use ($now) {
-                                        // prenotazioni a cavallo di oggi
-                                        $query->where('data_partenza', '<', $now->toDateString())
-                                            ->where('data_arrivo', '>',  $now->toDateString());
-                                    })
-                                    ->orWhere('data_arrivo', '=', $now->toDateString());
+                    ->orWhere(function ($query) use ($now) {
+                        // prenotazioni a cavallo di oggi
+                        $query->where('data_partenza', '<', $now->toDateString())
+                            ->where('data_arrivo', '>', $now->toDateString());
+                    })
+                    ->orWhere('data_arrivo', '=', $now->toDateString());
             }
         }
         $prenotazioni = $query->orderBy('data_partenza', 'asc')
@@ -149,7 +149,6 @@ class PrenotazioniController extends CoreBaseController
             ->orderBy('ora_partenza', 'desc')
             ->orderBy('ora_arrivo', 'asc')
             ->get();
-//        dd($prenotazioni);
         return view("officina.prenotazioni.index", compact('clienti',
             'usi',
             'meccanici',
@@ -171,6 +170,7 @@ class PrenotazioniController extends CoreBaseController
             'destinazione' => 'required'
         ]);
 
+
         $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input) {
             return $input->data_par == $input->data_arr;
         });
@@ -188,7 +188,7 @@ class PrenotazioniController extends CoreBaseController
             $request->get('ora_arr'),
             Uso::findOrFail($request->get('uso')),
             $request->get('note', ''),
-            $request->input('destinazione','')
+            $request->input('destinazione', '')
         );
         return redirect(route('officina.prenota'))->withSuccess('Prenotazione eseguita.');
 
