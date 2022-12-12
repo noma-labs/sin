@@ -40,13 +40,13 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8','charset' => 'utf8','charset' => 'utf8','charset' => 'utf8',
+            'charset' => 'utf8', 'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_nomadelfia' => [
             'driver' => 'mysql',
@@ -56,13 +56,13 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-            'collation' => 'utf8_unicode_ci','collation' => 'utf8_unicode_ci','collation' => 'utf8_unicode_ci','collation' => 'utf8_unicode_ci',
+            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_nomadelfia_test' => [
             'driver' => 'mysql',
@@ -78,8 +78,8 @@ return [
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_biblioteca' => [
             'driver' => 'mysql',
@@ -94,8 +94,8 @@ return [
             'strict' => false,
             'engine' => 'InnoDB',
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_rtn' => [
             'driver' => 'mysql',
@@ -110,8 +110,8 @@ return [
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_anagrafe' => [
             'driver' => 'mysql',
@@ -126,8 +126,8 @@ return [
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_officina' => [
             'driver' => 'mysql',
@@ -142,8 +142,8 @@ return [
             'engine' => null,
             'strict' => false,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
             // 'modes' => [
             //       //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column
             //       'STRICT_TRANS_TABLES',
@@ -167,8 +167,8 @@ return [
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'archivio_documenti' => [
             'driver' => 'mysql',
@@ -183,8 +183,8 @@ return [
             'strict' => true,
             'engine' => null,
             'dump' => [
-               'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
-             ]
+                'setDumpBinaryPath' => 'C:\xampp\mysql\bin'
+            ]
         ],
         'db_scuola' => [
             'driver' => 'mysql',

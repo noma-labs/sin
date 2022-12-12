@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
@@ -10,6 +11,7 @@ use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Traits\SortableTrait;
@@ -41,18 +43,17 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         $figli = PopolazioneNomadelfia::byPosizione("FIGL");
 
-        $gruppi =  GruppoFamiliare::countComponenti();
+        $gruppi = GruppoFamiliare::countComponenti();
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         $famiglieNumerose = Famiglia::famiglieNumerose();
 
 
-        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia','famiglieNumerose', 'stats'));
+        return view("nomadelfia.summary", compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia', 'famiglieNumerose', 'stats'));
     }
 
-    public function show(Request $request)
+    public function show()
     {
-        $popolazione = PopolazioneNomadelfia::popolazione();
-        return view("nomadelfia.popolazione.show", compact('popolazione'));
+        return view("nomadelfia.popolazione.show");
     }
 
     public function maggiorenni(Request $request)
@@ -86,7 +87,7 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $sacerdoti = PopolazioneNomadelfia::sacerdoti();
         return view("nomadelfia.popolazione.sacerdoti", compact('sacerdoti'));
     }
-  
+
     public function mammeVocazione(Request $request)
     {
         $mvocazione = PopolazioneNomadelfia::mammeVocazione();
@@ -110,8 +111,8 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
         return view("nomadelfia.popolazione.figliminorenni", compact('minorenni'));
     }
-  
-  
+
+
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);

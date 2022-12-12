@@ -2,7 +2,7 @@
 
 use SqlMigrations\SqlMigration;
 
-class CreateViewPopolazioneAll extends SqlMigration
+class CreateViewPopolazioneAttuale extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

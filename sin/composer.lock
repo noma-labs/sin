@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fcc30a64ba9cb20572ccc8771f89dfc1",
+    "content-hash": "a41b8af1e31264ca6748156b3a76766e",
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -2635,16 +2635,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.10.4",
+            "version": "v2.10.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "2d68c61a8edf338534fdd8e2b2750dca2e741439"
+                "reference": "fa0441bf82f1674beecb3a8ad8a4ae428736ed18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/2d68c61a8edf338534fdd8e2b2750dca2e741439",
-                "reference": "2d68c61a8edf338534fdd8e2b2750dca2e741439",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/fa0441bf82f1674beecb3a8ad8a4ae428736ed18",
+                "reference": "fa0441bf82f1674beecb3a8ad8a4ae428736ed18",
                 "shasum": ""
             },
             "require": {
@@ -2696,7 +2696,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.10.4"
+                "source": "https://github.com/livewire/livewire/tree/v2.10.7"
             },
             "funding": [
                 {
@@ -2704,7 +2704,86 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-18T22:35:27+00:00"
+            "time": "2022-08-08T13:52:53+00:00"
+        },
+        {
+            "name": "maatwebsite/excel",
+            "version": "3.1.44",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
+                "reference": "289c3320982510dacfe0dd00de68061a2b7f4a43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/289c3320982510dacfe0dd00de68061a2b7f4a43",
+                "reference": "289c3320982510dacfe0dd00de68061a2b7f4a43",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "5.8.*|^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.0|^8.0",
+                "phpoffice/phpspreadsheet": "^1.18",
+                "psr/simple-cache": "^1.0|^2.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0",
+                "predis/predis": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maatwebsite\\Excel\\ExcelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maatwebsite\\Excel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Brouwers",
+                    "email": "patrick@spartner.nl"
+                }
+            ],
+            "description": "Supercharged Excel exports and imports in Laravel",
+            "keywords": [
+                "PHPExcel",
+                "batch",
+                "csv",
+                "excel",
+                "export",
+                "import",
+                "laravel",
+                "php",
+                "phpspreadsheet"
+            ],
+            "support": {
+                "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.44"
+            },
+            "funding": [
+                {
+                    "url": "https://laravel-excel.com/commercial-support",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/patrickbrouwers",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-10-14T20:01:10+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -4876,6 +4955,77 @@
             "time": "2022-11-05T23:03:38+00:00"
         },
         {
+            "name": "rappasoft/laravel-livewire-tables",
+            "version": "v2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rappasoft/laravel-livewire-tables.git",
+                "reference": "e6069cd0fac4b7f8a5d492388a735a3b7351bc80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rappasoft/laravel-livewire-tables/zipball/e6069cd0fac4b7f8a5d492388a735a3b7351bc80",
+                "reference": "e6069cd0fac4b7f8a5d492388a735a3b7351bc80",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0",
+                "livewire/livewire": "^2.6",
+                "php": "^7.4|^8.0",
+                "spatie/laravel-package-tools": "^1.4.3"
+            },
+            "require-dev": {
+                "ext-sqlite3": "*",
+                "orchestra/testbench": "^6.13|^7.0",
+                "phpunit/phpunit": "^9.3",
+                "spatie/laravel-ray": "^1.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rappasoft\\LaravelLivewireTables\\LaravelLivewireTablesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Rappasoft\\LaravelLivewireTables\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Rappa",
+                    "email": "rappa819@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A dynamic table component for Laravel Livewire",
+            "homepage": "https://github.com/rappasoft/laravel-livewire-tables",
+            "keywords": [
+                "datatables",
+                "laravel",
+                "livewire",
+                "rappasoft",
+                "tables"
+            ],
+            "support": {
+                "issues": "https://github.com/rappasoft/laravel-livewire-tables/issues",
+                "source": "https://github.com/rappasoft/laravel-livewire-tables/tree/v2.8.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rappasoft",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-07-25T00:44:21+00:00"
+        },
+        {
             "name": "sentry/sdk",
             "version": "3.3.0",
             "source": {
@@ -5680,6 +5830,65 @@
                 "issues": "https://github.com/spatie/laravel-medialibrary-pro/issues"
             },
             "time": "2022-02-23T19:37:30+00:00"
+        },
+        {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "09f80fa240d44fafb1c70657c74ee44ffa929357"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/09f80fa240d44fafb1c70657c74ee44ffa929357",
+                "reference": "09f80fa240d44fafb1c70657c74ee44ffa929357",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^7.0|^8.0|^9.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^5.0|^6.23|^7.0",
+                "phpunit/phpunit": "^9.4",
+                "spatie/test-time": "^1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.12.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-28T14:29:26+00:00"
         },
         {
             "name": "spatie/laravel-permission",

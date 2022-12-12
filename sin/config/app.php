@@ -185,6 +185,7 @@ return [
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
