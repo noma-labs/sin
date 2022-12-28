@@ -64,7 +64,7 @@ class ExportPopolazioneData
         $this->incarichi = Incarico::all();
         $anno = Anno::getLastAnno();
         $this->annoScolasticoAlunni = Studente::InAnnoScolastico($anno)->count();
-        $this->classi = $anno->classi()->with('tipo')->get()->sortByDesc('tipo.ord');
+        $this->classi = $anno->classi()->with('tipo')->get()->sortBy('tipo.ord');
 
     }
 
