@@ -4,6 +4,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -61,7 +62,9 @@ class ExportPopolazioneData
         $this->gruppiFamiliari = GruppoFamiliare::orderby('nome')->get();
         $this->aziende = Azienda::aziende()->get();
         $this->incarichi = Incarico::all();
-        $this->annoScolastico = Anno::getLastAnno();
+        $anno = Anno::getLastAnno();
+        $this->annoScolasticoAlunni = Studente::InAnnoScolastico($anno)->count();
+        $this->classi = $anno->classi()->with('tipo')->get()->sortByDesc('tipo.ord');
 
     }
 

@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 class GruppoFamiliare extends Model
 {
     use HasFactory;
+
     protected $connection = 'db_nomadelfia';
     protected $table = 'gruppi_familiari';
     protected $primaryKey = "id";
@@ -82,10 +83,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (!$persona->isEffettivo()){
+            if (!$persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (!$persona->isMaschio()){
+            if (!$persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();
@@ -174,7 +175,7 @@ class GruppoFamiliare extends Model
           AND gruppi_persone.stato = '1' 
           AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
           AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-      ORDER BY  persone.data_nascita ASC"), array('gruppo' => $this->id));
+      ORDER BY  famiglie.nome_famiglia, famiglie_persone.posizione_famiglia ASC, persone.data_nascita ASC"), array('gruppo' => $this->id));
 
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
         return $famiglie;
@@ -204,7 +205,7 @@ class GruppoFamiliare extends Model
     }
 
 
-    public function isCentroDiSpirito() : bool
+    public function isCentroDiSpirito(): bool
     {
         return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
     }

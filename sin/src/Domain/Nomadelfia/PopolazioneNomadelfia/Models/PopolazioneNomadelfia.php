@@ -42,7 +42,6 @@ class PopolazioneNomadelfia extends Model
     }
 
 
-
     /*
     *  Ritorna il totale della popolazione attuale
     *  Una persona fa parte della popolazione se e solo se
@@ -85,7 +84,7 @@ class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    public static function daEta(int $eta, string $orderBy = 'nominativo', string $order ="ASC")
+    public static function daEta(int $eta, string $orderBy = 'nominativo', string $order = "ASC")
     {
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
@@ -93,18 +92,18 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNull("popolazione.data_uscita")
             ->where("persone.data_nascita", "<=", Carbon::now()->subYears($eta))
-            ->orderByRaw("persone." . strval($orderBy) . " ". $order)
+            ->orderByRaw("persone." . strval($orderBy) . " " . $order)
             ->get();
         return $magg;
     }
 
     public static function fraEta(
-        int $fromEta,
-        int $toEta = null,
+        int    $fromEta,
+        int    $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year = null,
-        $withInYear = false,
-        string $order ='ASC'
+        int    $travel_to_year = null,
+               $withInYear = false,
+        string $order = 'ASC'
     )
     {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
@@ -137,6 +136,7 @@ class PopolazioneNomadelfia extends Model
         return $magg;
 
     }
+
     /*
     *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
     *
@@ -300,7 +300,7 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna le persone con una certa posizione.
     *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
     */
-    public static function byPosizione(string $posizione, $ordeby="nominativo")
+    public static function byPosizione(string $posizione, $ordeby = "nominativo")
     {  // "persone_posizioni.data_inizio ASC, persone.nominativo"
 
         $posizioni = DB::connection('db_nomadelfia')
@@ -321,7 +321,7 @@ class PopolazioneNomadelfia extends Model
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
-    public static function byStati(string $stato, $orderby="nominativo")
+    public static function byStati(string $stato, $orderby = "nominativo")
     {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
@@ -379,22 +379,22 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(
-        int $fromEta,
-        int $toEta = null,
+        int    $fromEta,
+        int    $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year=null,
-        $withInYear=false
+        int    $travel_to_year = null,
+               $withInYear = false
     )
     {
-        $date = ($travel_to_year==null ? Carbon::now(): Carbon::now()->setYear($travel_to_year));
+        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
 
         $posizione = Posizione::perNome("figlio");
-        $end =$date->copy()->subYears($fromEta);
-        if ($withInYear){
+        $end = $date->copy()->subYears($fromEta);
+        if ($withInYear) {
             $end = $end->endOfYear();
         }
         $start = $date->copy()->subYears($toEta);
-        if ($withInYear){
+        if ($withInYear) {
             $start = $start->endOfYear();
         }
 
@@ -406,10 +406,10 @@ class PopolazioneNomadelfia extends Model
             ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
             ->whereNull("popolazione.data_uscita")
             ->where("persone_posizioni.stato", "=", "1")
-            ->where("persone.data_nascita", "<=",$end)
+            ->where("persone.data_nascita", "<=", $end)
             ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
             ->orderByRaw($orderBy);
-        if ($toEta != null){
+        if ($toEta != null) {
             $q->where("persone.data_nascita", ">=", $start);
         }
         return $q->get();
@@ -431,7 +431,7 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
+                ORDER BY famiglie.nome_famiglia ASC, famiglie_persone.posizione_famiglia ASC,  persone.data_nascita ASC"
             )
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');

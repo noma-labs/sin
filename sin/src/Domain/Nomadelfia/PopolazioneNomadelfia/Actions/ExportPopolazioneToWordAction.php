@@ -189,7 +189,7 @@ class ExportPopolazioneToWordAction
             // $gruppiSect = $phpWord->addSection();
             // $gruppiSect->addTitle('Gruppi Familiari ', 1);
 
-            foreach ($data->gruppiFamiliari  as $gruppo) {
+            foreach ($data->gruppiFamiliari as $gruppo) {
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
                 $gruppiSect->addTitle($gruppo->nome . ' ' . $gruppo->personeAttuale()->count(), 2);
 
@@ -240,10 +240,10 @@ class ExportPopolazioneToWordAction
         }
         if ($elenchi->contains('scuola')) {
             $sc = $phpWord->addSection();
-            $sc->addTitle('Scuola ' . count($data->annoScolastico->alunni()), 1);
+            $sc->addTitle('Scuola ' . $data->annoScolasticoAlunni, 1);
 
             $classeSect = $phpWord->addSection($colStyle4NCont);
-            foreach ($data->annoScolastico->classi()->get() as $classe) {
+            foreach ($data->classi as $classe) {
                 $alunni = $classe->alunni();
                 if ($alunni->count() > 0) {
                     $classeSect->addTextBreak(1);
