@@ -11,6 +11,7 @@ use App\Traits\SortableTrait;
 use App\Traits\Enums;
 
 
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 use App\Biblioteca\Models\Autore as Autore;
@@ -32,29 +33,27 @@ class Libro extends Model implements HasMedia
     use LogsActivity;
     use HasFactory;
 
-
-    // log the changed attributes in the list for all these events
-    protected static $logAttributes = [
-        'titolo',
-        'collocazione',
-        'classificazione_id',
-        'critica',
-        'categoria',
-        'dimensione',
-        'data_pubblicazione',
-        'isbn',
-        'note'
-    ];
-    // these attributes  don't need to trigger an activity being logged
-    protected static $ignoreChangedAttributes = ['deleted_note', 'tobe_printed'];
-    // logs only attributes that has actually changed after the update
-    protected static $logOnlyDirty = true;
-
     protected $connection = 'db_biblioteca';
     protected $table = 'libro';
     protected $primaryKey = "id";
     protected $dates = ['deleted_at'];
     protected $guarded = []; // all the fields are mass assignabe
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['titolo',
+                'collocazione',
+                'classificazione_id',
+                'critica',
+                'categoria',
+                'dimensione',
+                'data_pubblicazione',
+                'isbn',
+                'note'])
+            ->dontLogIfAttributesChangedOnly(['deleted_note', 'tobe_printed'])
+            ->logOnlyDirty();
+    }
 
     protected $enumCategoria = [
         'piccoli',
@@ -142,5 +141,6 @@ class Libro extends Model implements HasMedia
     {
         return $query->select("autore")->groupBy("autore"); //->orderBY("AUTORE");
     }
+
 
 }

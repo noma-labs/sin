@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Biblioteca\Models\Libro as Libro;
 use Illuminate\Database\Eloquent\Builder;
 
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Editore extends Model
@@ -13,13 +14,6 @@ class Editore extends Model
   use LogsActivity;
   protected $connection = 'db_biblioteca';
   protected $table = 'editore';
-  protected $primaryKey = "id";
-
-  protected static $logAttributes = ['editore'];
-  // these attributes  don't need to trigger an activity being logged
-  protected static $ignoreChangedAttributes = ['tipedi'];
-  // logs only attributes that has actually changed after the update
-  protected static $logOnlyDirty = true;
 
   protected $guarded = []; // all the fields are mass assignabe
 
@@ -43,4 +37,12 @@ class Editore extends Model
    }
    // SELECT * FROM editore WHERE tipedi='S'
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['editore'])
+            ->dontLogIfAttributesChangedOnly(['tipedi'])
+            ->logOnlyDirty();
+
+    }
 }
