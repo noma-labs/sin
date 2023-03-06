@@ -8,6 +8,7 @@ use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PrenotazioniFactory extends Factory
@@ -18,9 +19,9 @@ class PrenotazioniFactory extends Factory
     public function definition()
     {
         return [
-            'cliente_id' => User::all()->first(),
+            'cliente_id' => Persona::factory(),
             'veicolo_id' => Veicolo::factory(),
-            'meccanico_id' => ViewMeccanici::all()->first(),
+            'meccanico_id' => Persona::factory(),
             'uso_id' => Uso::all()->first(),
             'note' => $this->faker->text,
             'destinazione' => $this->faker->title

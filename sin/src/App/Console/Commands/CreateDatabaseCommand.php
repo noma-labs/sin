@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\DB;
 class CreateDatabaseCommand extends Command
 {
 
-    protected $signature = 'make:database {dbname} {connection?}';
+    protected $signature = 'make:database';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a Database name with a given connection name';
+    protected $description = 'Create the database listed int config database file.';
 
     /**
      * Create a new command instance.
@@ -36,17 +36,18 @@ class CreateDatabaseCommand extends Command
     public function handle()
     {
         try{
-            $dbname = $this->argument('dbname');
-            $connection = 'information_schema';
-            $hasDb = DB::connection($connection)->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = "."'".$dbname."'");
+            $connections = collect(config("database.connections"))
+                            ->except(['information_schema'])
+                            ->keys();
 
-            if(empty($hasDb)) {
-                DB::connection($connection)->select('CREATE DATABASE IF NOT EXISTS '. $dbname);
-                $this->info("Database '$dbname' created for '$connection' connection");
+            foreach($connections as $connection){
+                $dbName = config("database.connections.{$connection}.database");
+                # to create database we have to connect to existing fb ?
+                # use the `information_schema` database as base connection because it is always created by mysql
+                DB::connection('information_schema')->unprepared("CREATE DATABASE IF NOT EXISTS `{$dbName}`");
+                $this->info("Created  database '$dbName' for '$connection' connection");
             }
-            else {
-                $this->info("Database $dbname already exists for $connection connection");
-            }
+
         }
         catch (\Exception $e){
             $this->error($e->getMessage());
