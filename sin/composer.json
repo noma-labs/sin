@@ -28,7 +28,6 @@
         "spatie/laravel-activitylog": "^4.0",
         "spatie/laravel-backup": "^8.0",
         "spatie/laravel-medialibrary": "^10.0.0",
-        "spatie/laravel-medialibrary-pro": "dev-main",
         "spatie/laravel-permission": "^5.6",
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
     },
@@ -88,11 +87,5 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "git@github.com:noma-labs/spatie-medialibrary-pro.git"
-        }
-    ]
+    }
 }

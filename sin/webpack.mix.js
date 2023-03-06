@@ -8,8 +8,7 @@ mix.sass('resources/sass/sin-theme.scss', 'public/css');
 
 mix.override((webpackConfig) => {
   webpackConfig.resolve.modules = [
-    "node_modules",
-    __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
+    "node_modules"
   ];
 });
 

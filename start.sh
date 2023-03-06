@@ -1,20 +1,10 @@
 #!/bin/bash
 
-
-#alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 cd sin || exit
-
-docker run --rm \
--u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php81-composer:latest \
-    composer install --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
 ./vendor/bin/sail up
 
 sleep 5
-
 
 ./vendor/bin/sail artisan make:database db_admsys
 ./vendor/bin/sail artisan make:database db_nomadelfia

@@ -256,7 +256,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 // ###################### DB SCUOLA ############################
 // ################################################################
 
-Route::mediaLibrary();
+//Route::mediaLibrary();
 
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
