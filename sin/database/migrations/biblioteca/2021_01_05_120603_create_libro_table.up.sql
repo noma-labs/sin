@@ -22,3 +22,6 @@ CREATE TABLE `libro` (
   `data_pubblicazione` text COMMENT 'Mese e anno di pubblicazione del libro (e.g. Aprile 2017).'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- TODO: enable the constraint after fix the LibriController::confirmCollocazione that swaps the collocazione of two books
+-- CONSTRAINT unq_libro_collocazione UNIQUE (collocazione)
+

@@ -2,10 +2,10 @@
 
 cd sin || exit
 
-./vendor/bin/sail up
+./vendor/bin/sail up -d
 
 # give some time to start up te database
 sleep 5
 
 # create the databases (if missing)
-sail artisan make:database
+./vendor/bin/sail artisan make:database

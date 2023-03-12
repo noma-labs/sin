@@ -1,5 +1,6 @@
 <?php
 
+use App\Biblioteca\Controllers\LibriController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
@@ -288,8 +289,8 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     // Route: /biblioteca/
     Route::view('/', 'biblioteca.index')->name('biblioteca');
     // LIBRI: ricerca
-    Route::get('libri', 'LibriController@showSearchLibriForm')->name("libri.ricerca");
-    Route::get('libri/ricerca', 'LibriController@searchConfirm')->name("libri.ricerca.submit");
+    Route::get('libri', [LibriController::class, 'showSearchLibriForm'])->name("libri.ricerca");
+    Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->name("libri.ricerca.submit");
     // LIBRI: media
     Route::get('libri/{idLibro}/media', 'LibriMediaController@view')->name('libri.media');
     Route::post('libri/{idLibro}/media', 'LibriMediaController@store')->name('libri.media.store');
@@ -298,17 +299,17 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::delete('libri/{idLibro}/media',
         'LibriMediaController@destroyAll')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy_all');
     // LIBRI: cambio collocazione
-    Route::get('libri/{idLibro}/collocazione',
-        'LibriController@showEditCollocazioneForm')->middleware('can:biblioteca.libro.visualizza')->name("libro.collocazione");
-    Route::post('libri/{idLibro}/collocazione/update',
-        'LibriController@updateCollocazione')->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update");
-    Route::post('libri/{idLibro}/confirm',
-        'LibriController@confirmCollocazione')->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update.confirm");
+    Route::get('libri/{idLibro}/collocazione', [LibriController::class, 'showEditCollocazioneForm'])
+        ->middleware('can:biblioteca.libro.visualizza')->name("libro.collocazione");
+    Route::post('libri/{idLibro}/collocazione/update', [LibriController::class, 'updateCollocazione'])
+        ->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update");
+    Route::post('libri/{idLibro}/confirm', [LibriController::class, 'confirmCollocazione'])
+        ->middleware('can:biblioteca.libro.modifica')->name("libro.collocazione.update.confirm");
     // LIBRI: inserimento
-    Route::get('libri/inserimento',
-        'LibriController@showInsertLibroForm')->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci');
-    Route::post('libri/inserimento',
-        'LibriController@insertConfirm')->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci.Confirm');
+    Route::get('libri/inserimento', [LibriController::class, 'showInsertLibroForm'])
+        ->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci');
+    Route::post('libri/inserimento', [LibriController::class, 'insertConfirm'])
+        ->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci.Confirm');
     // PRESTITI
     Route::get("libri/prestiti", [LibriPrestitiController::class, 'view'])->middleware('can:biblioteca.libro.prenota')->name("libri.prestiti");
     Route::get("libri/prestiti/ricerca",
@@ -323,7 +324,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
         'LibriPrestitiController@conclude')->middleware('can:biblioteca.libro.prenota')->name('libri.prestito.concludi');
     // LIBRI: dettaglio, modifica, elimina, prenota
     Route::get('libri/eliminati', 'LibriController@showDeleted')->name("libri.eliminati");
-    Route::get('libri/{idLibro}', 'LibriController@show')->middleware('can:biblioteca.libro.prenota')->name('libro.dettaglio');
+    Route::get('libri/{idLibro}', [LibriController::class, 'show'])->middleware('can:biblioteca.libro.prenota')->name('libro.dettaglio');
     Route::get('libri/{idLibro}/modifica',
         'LibriController@edit')->middleware('can:biblioteca.libro.modifica')->name("libro.modifica");
     Route::post('libri/{idLibro}/modifica', 'LibriController@editConfirm')->middleware('can:biblioteca.libro.modifica');

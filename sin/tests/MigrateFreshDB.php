@@ -17,7 +17,7 @@ trait MigrateFreshDB
      * After the first run of setUp "migrate:fresh --seed"
      * @return void
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         if (App::environment() === 'production') {

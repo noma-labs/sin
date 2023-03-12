@@ -15,9 +15,18 @@ class LibroFactory extends Factory
     {
         return [
             'titolo' => $this->faker->text(10),
-            'collocazione' => $this->faker->text(5)."".$this->faker->numberBetween(0,100),
+            'collocazione' => $this->faker->text(5) . "" . $this->faker->numberBetween(0, 100),
             'classificazione_id' => 1
         ];
+    }
+
+    public function physicalPlacement(string $collocazione): LibroFactory
+    {
+        return $this->state(function (array $attributes) use ($collocazione) {
+            return [
+                'collocazione' => $collocazione,
+            ];
+        });
     }
 }
 

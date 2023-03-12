@@ -221,6 +221,20 @@ php artisan db:seed
 Error: duplicate entry when auto incremtn a colum. X = max number od the id
 - ```ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT```
 
+## Coding convention
+
+### Index name
+Use the following structure for the constraints definition:
+```
+    <prefix>_<table_name>_<column_name>
+ ```
+The prefix indicates the index type. In MySQL, I prefer:
+     idx_ : regular index
+     unq_ : UNIQUE
+     ftx_ : FULLTEXT
+     gis_ : SPATIAL
+```
+
 ## Front-end
 
 - `npm install --no-bin-links`    (for windows installation)

@@ -64,7 +64,6 @@ class LibriController extends CoreBaseController
 
     public function confirmCollocazione(Request $request, $idLibro)
     {
-
         $validatedData = $request->validate([
             'idTarget' => "required", //per update solito nome
         ], [
@@ -406,12 +405,15 @@ class LibriController extends CoreBaseController
         $libro->editori()->sync($idsEditori);
 
         if ($res) {
-            if ($_addanother)
+            if ($_addanother) {
                 return redirect()->route('libri.inserisci')->withSuccess("Libro inserito correttamente." . $msg_etichetta);//"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-            if ($_addonly)
+            }
+            if ($_addonly) {
                 return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess("Libro inserito correttamente." . $msg_etichetta);//" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-        } else
+            }
+        } else {
             return redirect()->route('libri.inserisci')->withError("Errore nella creazione del libro.");
+        }
     }
 
 }
