@@ -22,12 +22,8 @@ jobs:
       with:
         php-version: '8.1'
     - uses: actions/checkout@v3
-#    - uses: docker-practice/actions-setup-docker@master
-#      timeout-minutes: 12
-#    - name: test docker
-#      run: docker compose version
-    - name: Copy .env
-      run: cd sin && php -r "copy('.env.testing', '.env');"
+#    - name: Copy .env
+#      run: cd sin && php -r "copy('.env.testing', '.env');"
     - name: Install Dependencies
       run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
     - name: Clear Config
