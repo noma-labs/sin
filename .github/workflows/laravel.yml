@@ -24,6 +24,4 @@ jobs:
     - name: Generate key
       run: cd sin && php artisan key:generate
     - name: sail run
-      run: ./vendor/bin/sail up -d
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: cd sin && ./vendor/bin/pest
+      run: ./test.sh
