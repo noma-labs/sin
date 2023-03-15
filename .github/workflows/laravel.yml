@@ -27,15 +27,17 @@ jobs:
     - uses: actions/checkout@v3
     - uses: docker-practice/actions-setup-docker@master
       timeout-minutes: 12
-    - name: tes docker
+    - name: test docker
       run: docker compose version
-#    - name: Copy .env
-#      run: cd sin && php -r "copy('.env.testing', '.env');"
-#    - name: Install Dependencies
-#      run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
-#    - name: Clear Config
-#      run: cd sin && php artisan config:clear
-#    - name: Generate key
+    - name: Copy .env
+      run: cd sin && php -r "copy('.env.testing', '.env');"
+    - name: Install Dependencies
+      run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+    - name: Clear Config
+      run: cd sin && php artisan config:clear
+    - name: Test sail is installed
+      run: ./vendor/bin/sail
+#- name: Generate key
 #      run: cd sin && php artisan key:generate
 #    - name: Execute tests (Unit and Feature tests) via PHPUnit
 #      run: cd sin && ./vendor/bin/pest
