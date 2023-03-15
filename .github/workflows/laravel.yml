@@ -5,16 +5,26 @@ on: push
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
         php-version: '8.1'
     - uses: actions/checkout@v3
-    - uses: docker-practice/actions-setup-docker@master
-      timeout-minutes: 12
-    - name: test docker
-      run: docker compose version
+#    - uses: docker-practice/actions-setup-docker@master
+#      timeout-minutes: 12
+#    - name: test docker
+#      run: docker compose version
     - name: Copy .env
       run: cd sin && php -r "copy('.env.testing', '.env');"
     - name: Install Dependencies
@@ -23,5 +33,5 @@ jobs:
       run: cd sin && php artisan config:clear
     - name: Generate key
       run: cd sin && php artisan key:generate
-    - name: sail run
-      run: ./test.sh
+    - name: Run tests
+      run: cd sin && ./vendor/bin/pest
