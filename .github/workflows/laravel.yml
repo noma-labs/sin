@@ -29,4 +29,4 @@ jobs:
     - name: Clear Config
       run: cd sin && php artisan config:clear
     - name: Run tests
-      run: cd sin &&  DB_HOST=testingci ./vendor/bin/pest
+      run: cd sin &&  ./vendor/bin/pest
