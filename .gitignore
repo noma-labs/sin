@@ -1,4 +1,3 @@
 .idea/
 vendor/
 sin/.phpunit.result.cache
-sin/bootstrap/cache
