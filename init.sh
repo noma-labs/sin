@@ -10,6 +10,7 @@ docker run --rm \
     laravelsail/php81-composer:latest \
     composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
+./vendor/bin/sail up -d
 # install the frontend dependencies
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run production

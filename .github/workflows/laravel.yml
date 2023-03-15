@@ -22,13 +22,9 @@ jobs:
       with:
         php-version: '8.1'
     - uses: actions/checkout@v3
-#    - name: Copy .env
-#      run: cd sin && php -r "copy('.env.testing', '.env');"
     - name: Install Dependencies
       run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
     - name: Clear Config
       run: cd sin && php artisan config:clear
-#    - name: Generate key
-#      run: cd sin && php artisan key:generate
     - name: Run tests
-      run: cd sin && ./vendor/bin/pest
+      run: cd sin &&  APP_ENV=testingci ./vendor/bin/pest
