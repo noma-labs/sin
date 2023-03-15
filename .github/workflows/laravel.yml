@@ -16,7 +16,9 @@ jobs:
         ports:
           - 32574:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 32574
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
@@ -27,4 +29,4 @@ jobs:
     - name: Clear Config
       run: cd sin && php artisan config:clear
     - name: Run tests
-      run: cd sin &&  APP_ENV=testingci ./vendor/bin/pest
+      run: cd sin &&  DB_HOST=testingci ./vendor/bin/pest
