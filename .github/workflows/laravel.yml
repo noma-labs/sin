@@ -32,7 +32,7 @@ jobs:
     - name: Clear Config
       run: cd sin && php artisan config:clear
     - name: Test sail is installed
-      run: ./vendor/bin/sail
+      run: cd sin && ./vendor/bin/sail
 #- name: Generate key
 #      run: cd sin && php artisan key:generate
 #    - name: Execute tests (Unit and Feature tests) via PHPUnit
