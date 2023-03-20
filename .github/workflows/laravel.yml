@@ -26,14 +26,16 @@ jobs:
     - name: Install Dependencies
       run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
-    - name: Clear Config
-      run: cd sin && php artisan config:clear
+
 
     - name: Prepare Laravel Application
       run: |
         cd sin 
         cp .env.ci .env
         php artisan key:generate
+
+    - name: Clear Config
+      run: cd sin && php artisan config:clear
 
     - name: Run tests
       run: cd sin &&  ./vendor/bin/pest
