@@ -27,11 +27,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-#    - name: Cache dependencies
-#      uses: actions/cache@v3
-#      with:
-#          path: ~/.composer/cache/files
-#          key: cache-laravel-composer-${{ hashFiles('composer.json') }}
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+          path: ~/.composer/cache/files
+          key: cache-laravel-composer-${{ hashFiles('composer.json') }}
 
     - name: Install Dependencies
       run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
