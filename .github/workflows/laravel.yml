@@ -9,14 +9,14 @@ jobs:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
 
     services:
-      mariadb:
+     # NOTE: the container name is the same of the docker-compose.yml in order to
+     # have the same .env.testing file working fot both laravel Sail and github actions.
+      mysql-test:
         image: mariadb:10.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: root
-#        ports:
-#          - "3306:3306"
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
