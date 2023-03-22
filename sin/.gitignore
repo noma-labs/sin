@@ -17,3 +17,6 @@ yarn-error.log
 
 **/storage/*
 .phpunit.result.cache
+
+.devcontainer
+.vscode
