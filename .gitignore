@@ -13,7 +13,6 @@ yarn-error.log
 /public/hot
 /public/storage
 
-**/storage/*
 storage/*.key
 
 
