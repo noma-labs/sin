@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd sin
-
 # create the database if not exists
 ./vendor/bin/sail artisan make:database
 
