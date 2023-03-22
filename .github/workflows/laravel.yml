@@ -32,7 +32,6 @@ jobs:
       run: |
         cd sin 
         php artisan key:generate --env=testing
-        cat .env.testing 
 
     - name: Clear Config
       run: cd sin && php artisan config:clear
