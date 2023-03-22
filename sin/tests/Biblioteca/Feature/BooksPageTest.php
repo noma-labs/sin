@@ -74,11 +74,11 @@ it("will edit the physical location when the admin is logged in", function () {
 it("will swap the physical location of two books when the admin is logged in", function () {
 
     $book1 = Libro::factory()
-        ->physicalPlacement("AAA001")
+        ->physicalPlacement("AAA099")
         ->create();
 
     $book2 = Libro::factory()
-        ->physicalPlacement("AAA002")
+        ->physicalPlacement("AAA100")
         ->create();
 
     $sendRequest = fn() => post(action([LibriController::class, "confirmCollocazione"], $book1->id), [
@@ -102,7 +102,7 @@ it("will insert a book when the admin is logged in", function () {
         'xTitolo' => "MY title",
         'xIdAutori' => Autore::factory()->create()->id,
         'xIdEditori' => Editore::factory()->create()->id,
-        'xCollocazione' => "AAA001",
+        'xCollocazione' => "AAA005",
         'xClassificazione' => Classificazione::factory()->create()->id
     ]);
 
@@ -112,6 +112,6 @@ it("will insert a book when the admin is logged in", function () {
 
     $sendRequest()->assertOk();
 
-    expect(Libro::where("collocazione", "=", "AAA001")->get()->count())->toBe(1);
+    expect(Libro::where("collocazione", "=", "AAA005")->get()->count())->toBe(1);
 
 });

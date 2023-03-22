@@ -71,24 +71,25 @@ it("get student from year", function () {
 });
 
 it("get students from classroom types", function () {
-    $a = Anno::createAnno(1991);
+    $a = Anno::createAnno(1815);
     $t = ClasseTipo::all();
+    $now = Carbon::now();
 
     // prescuola
     $c1 = $a->aggiungiClasse($t->get(0));
-    $p1 = Studente::factory()->minorenne()->maschio()->create();
+    $p1 = Studente::factory()->minorenne()->maschio()->nato($now)->create();
     $c1->aggiungiAlunno($p1, Carbon::now());
 
     // elemenatri
     $c2 = $a->aggiungiClasse($t->get(2));
-    $p2 = Studente::factory()->minorenne()->maschio()->create();
+    $p2 = Studente::factory()->minorenne()->maschio()->nato($now->addYears(1))->create();
     $c2->aggiungiAlunno($p2, Carbon::now());
 
     // medie
     $c3 = $a->aggiungiClasse($t->get(6));
-    $p3 = Studente::factory()->minorenne()->femmina()->create();
+    $p3 = Studente::factory()->minorenne()->femmina()->nato($now->addYears(2))->create();
     $c3->aggiungiAlunno($p3, Carbon::now());
-    $p4 = Studente::factory()->minorenne()->femmina()->create();
+    $p4 = Studente::factory()->minorenne()->femmina()->nato($now->addYears(3))->create();
     $c3->aggiungiAlunno($p4, Carbon::now());
 
     $tot = Studente::InAnnoScolasticoPerCiclo($a)->get();

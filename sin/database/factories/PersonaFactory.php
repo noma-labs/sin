@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 
@@ -22,7 +23,7 @@ class PersonaFactory extends Factory
         $name = $this->faker->firstName;
         $surname = $this->faker->lastName;
         return [
-            'nominativo' => $name . " " . Str::substr($surname, 0, 1),
+            'nominativo' => $name . " " . $surname,
             'sesso' => "M",
             'nome' => $name,
             "cognome" => $surname,
