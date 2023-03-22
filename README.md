@@ -1,7 +1,7 @@
 # SIN Nomadelfia
 SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomadelfia in un unico sistema.
 
-[![Actions Status](https://github.com/noma-labs/sin/workflows/Laravel/badge.svg)](https://github.com/noma-labs/sin/actions)
+[![Actions Status](https://github.com/noma-labs/sin/workflows/tests/badge.svg)](https://github.com/noma-labs/sin/actions)
 
 ### Dipendenze
 
