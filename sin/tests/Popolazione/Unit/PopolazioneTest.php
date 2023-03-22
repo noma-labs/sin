@@ -59,11 +59,11 @@ it("manage exit of an adult", function () {
     $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
-    $azienda = Azienda::aziende()->get()->random();
+    $azienda = Azienda::factory()->create();
     $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
     $this->assertEquals(1, $persona->aziendeAttuali()->count());
     // assegna incarico
-    $incarico = Incarico::get()->random();
+    $incarico = Incarico::factory()->create();
     $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
     $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
 
