@@ -31,10 +31,10 @@ jobs:
       uses: actions/cache@v3
       with:
           path: ~/.composer/cache/files
-          key: dependencies-laravel-composer-${{ hashFiles('sin/composer.json') }}
+          key: dependencies-laravel-composer-${{ hashFiles('composer.json') }}
 
     - name: Install Dependencies
-      run: cd sin && composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+      run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
     - name: Prepare Laravel Application
       run: |
@@ -42,7 +42,7 @@ jobs:
         php artisan key:generate --env=testing
 
     - name: Clear Config
-      run: cd sin && php artisan config:clear
+      run: php artisan config:clear
 
     - name: Run tests
-      run: cd sin && ./vendor/bin/pest
+      run: ./vendor/bin/pest

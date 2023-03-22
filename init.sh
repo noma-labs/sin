@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd sin || exit
-
 # install the composer dependencies
 docker run --rm \
    -u "$(id -u):$(id -g)" \
