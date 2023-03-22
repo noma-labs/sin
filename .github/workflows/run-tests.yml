@@ -31,7 +31,7 @@ jobs:
       uses: actions/cache@v3
       with:
           path: ~/.composer/cache/files
-          key: dependencies-laravel-composer-${{ hashFiles('composer.json') }}
+          key: cache-laravel-composer-${{ hashFiles('composer.json') }}
 
     - name: Install Dependencies
       run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
