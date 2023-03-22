@@ -33,9 +33,10 @@ jobs:
         cd sin 
         cp .env.ci .env
         php artisan key:generate
+        cat .env 
 
     - name: Clear Config
       run: cd sin && php artisan config:clear
 
     - name: Run tests
-      run: cd sin &&  ./vendor/bin/pest
+      run: cd sin && ./vendor/bin/pest
