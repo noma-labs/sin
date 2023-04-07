@@ -19,13 +19,11 @@ use Tests\TestCase;
 use Carbon;
 
 
-it("throws and error on assign a component", function () {
+it("throws and invalidArgument on assign a component", function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $this->expectException(InvalidArgumentException::class);
     $famiglia->assegnaComponente($persona, "NOT EXISTING", Carbon::now()->toDatestring());
-    $this->assertEquals(3, 3);
-});
+})->throws(InvalidArgumentException::class);
 
 
 it("assign a component", function () {
@@ -34,90 +32,84 @@ it("assign a component", function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $now = Carbon::now()->toDatestring();
     $famiglia->assegnaComponente($persona, $famiglia::getCapoFamigliaEnum(), $now);
-    $this->assertEquals($now, $famiglia->capofamiglia()->pivot->data_entrata);
+    expect($famiglia->capofamiglia()->pivot->data_entrata)->toBe($now);
 
     // test assegna MOGLIE
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $now = Carbon::now()->toDatestring();
     $famiglia->assegnaComponente($persona, $famiglia::getMoglieEnum(), $now);
-    $this->assertEquals($now, $famiglia->moglie()->pivot->data_entrata);
+    expect($famiglia->moglie()->pivot->data_entrata)->toBe($now);
 });
 
-it("throws and error with capo famiglia", function () {
+it("throws and expection with bad capo famiglia", function () {
     $famiglia = Famiglia::factory()->create();
     $minorenne = Persona::factory()->minorenne()->maschio()->create();
     $now = Carbon::now()->toDatestring();
-    $this->expectException(CouldNotAssignCapoFamiglia::class);
     $famiglia->assegnaCapoFamiglia($minorenne, $now);
-});
+})->throws(CouldNotAssignCapoFamiglia::class);
 
-it("testAssegnaCapoFamigliaThrowExceptionsWithMAlreadyCapofamiglia", function () {
+it("throw exceptions  with already capo famiglia", function () {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $now = Carbon::now()->toDatestring();
     $famiglia->assegnaCapoFamiglia($capoFam, $now);
     $newCapoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $this->expectException(CouldNotAssignCapoFamiglia::class);
     $famiglia->assegnaCapoFamiglia($newCapoFam, $now);
-});
+})->throws(CouldNotAssignCapoFamiglia::class);
 
-it("testAssegnaMoglieThrowErrorWithMultipleMogli", function () {
+it("throw expection with multiple mogli", function () {
     $famiglia = Famiglia::factory()->create();
-
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
     $persona2 = Persona::factory()->maggiorenne()->femmina()->create();
-    $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona2);
-});
+})->throws(CouldNotAssignMoglie::class);
 
-it("testAssegnaMoglieThrowErrorWithMan", function () {
+it("throw expection with a man", function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona);
-});
+})->throws(CouldNotAssignMoglie::class);
 
-it("testAssegnaMoglieThrowErrorWithMinorenne", function () {
+it("throw expection with minorenne", function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();;
-    $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona);
-});
+})->throws(CouldNotAssignMoglie::class);
 
-it("testAssegnaMoglieThrowErrorWithSingle", function () {
+it("throw expection with single", function () {
     $famiglia = Famiglia::factory()->create();
 
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaSingle($persona);
 
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona);
-});
+})->throws(CouldNotAssignMoglie::class);
 
-it("testAssegnaMoglie", function () {
+it("assign a wife succesfully", function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
-    $this->assertEquals($famiglia->moglie()->id, $persona->id);
-    $this->assertEquals($famiglia->data_creazione, $famiglia->moglie()->pivot->data_entrata);
+    expect($persona->id)->toBe($famiglia->moglie()->id);
+    expect($famiglia->data_creazione)->toBe($famiglia->moglie()->pivot->data_entrata);
 
     //moglie
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $now = Carbon::now()->toDatestring();
     $famiglia->assegnaMoglie($persona, $now);
-    $this->assertEquals($famiglia->moglie()->id, $persona->id);
-    $this->assertEquals($now, $famiglia->moglie()->pivot->data_entrata);
+    expect($famiglia->moglie()->id)->toBe($persona->id);
+    expect($now)->toBe($famiglia->moglie()->pivot->data_entrata);
 });
 
 /**
  * Test se l'uscita dal nucleo familiare di un figlio.
  *
  * */
-it("testUscitaFiglioDalNucleo", function () {
+it("exit a children from family", function () {
     $now = Carbon::now()->toDatestring();
     $gruppo = GruppoFamiliare::all()->random();
 
@@ -141,20 +133,20 @@ it("testUscitaFiglioDalNucleo", function () {
     $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), Famiglia::findOrFail($famiglia->id));
 
-    $this->assertEquals(4, $famiglia->componentiAttuali()->get()->count());
+    expect($famiglia->componentiAttuali()->get()->count())->toBe(4);
 
     // toglie un figlio dal nucleo familiare
     $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(),
         "test remove from nucleo");
 
-    $this->assertEquals(3, $famiglia->componentiAttuali()->get()->count());
+    expect($famiglia->componentiAttuali()->get()->count())->toBe(3);
 });
 
 /**
  * Test se l'uscita dal nucleo familiare di un figlio.
  *
  * */
-it("testAssegnaNuovoGruppoFamiliare", function () {
+it("assign a new group succesfully", function () {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
@@ -171,13 +163,13 @@ it("testAssegnaNuovoGruppoFamiliare", function () {
 
     $nuovoGruppo = GruppoFamiliare::all()->random();
     $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->toDatestring(), $nuovoGruppo->id, Carbon::now()->toDatestring());
-    $this->assertEquals($nuovoGruppo->id, $capoFam->gruppofamiliareAttuale()->id);
-    $this->assertEquals($nuovoGruppo->id, $moglie->gruppofamiliareAttuale()->id);
-    $this->assertEquals($nuovoGruppo->id, $fnato->gruppofamiliareAttuale()->id);
+    expect($capoFam->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
+    expect($moglie->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
+    expect($fnato->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
 
 });
 
-it("testFamiglieNumerose", function () {
+it("get famiglie numerose", function () {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
@@ -211,16 +203,16 @@ it("testFamiglieNumerose", function () {
 
 
     $fanNum = Famiglia::famiglieNumerose(10);
-    $this->assertCount(0, $fanNum);
+    expect($fanNum)->toBeEmpty();
     $fanNum6 = Famiglia::famiglieNumerose(6);
-    $this->assertCount(1, $fanNum6);
-    $this->assertEquals($famiglia->id, $fanNum6[0]->id);
-    $this->assertEquals(8, $fanNum6[0]->componenti);
+    expect($fanNum6)->toHaveCount(1);
+    expect($fanNum6[0]->id)->toBe($famiglia->id);
+    expect($fanNum6[0]->componenti)->toBe(8);
 
     $figlio->uscita(Carbon::now()->toDatestring());
     $fanNum = Famiglia::famiglieNumerose(7);
-    $this->assertCount(1, $fanNum);
-    $this->assertEquals($famiglia->id, $fanNum[0]->id);
-    $this->assertEquals(7, $fanNum[0]->componenti);
+    expect($fanNum)->toHaveCount(1);
+    expect($fanNum[0]->id)->toBe($famiglia->id);
+    expect($fanNum[0]->componenti)->toBe(7);
 });
 
