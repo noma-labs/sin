@@ -2,15 +2,11 @@
 
 namespace Database\Factories;
 
-
-use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
-use App\Biblioteca\Models\Libro;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClassificazioneFactory extends Factory
 {
-
     protected $model = Classificazione::class;
 
     public function definition()

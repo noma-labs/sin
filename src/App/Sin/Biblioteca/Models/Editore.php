@@ -2,12 +2,11 @@
 
 namespace App\Biblioteca\Models;
 
+use App\Biblioteca\Models\Libro as Libro;
 use Database\Factories\EditoreFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Biblioteca\Models\Libro as Libro;
-use Illuminate\Database\Eloquent\Builder;
-
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -17,6 +16,7 @@ class Editore extends Model
     use HasFactory;
 
     protected $connection = 'db_biblioteca';
+
     protected $table = 'editore';
 
     protected $guarded = []; // all the fields are mass assignabe
@@ -36,7 +36,6 @@ class Editore extends Model
         return $this->belongsToMany(Libro::class, 'editore_libro', 'editore_id', 'libro_id');
     }
 
-
     protected static function boot()
     {
         parent::boot();
@@ -45,7 +44,6 @@ class Editore extends Model
             $builder->where('tipedi', 'S');
         });
     }
-
 
     // SELECT * FROM editore WHERE tipedi='S'
 

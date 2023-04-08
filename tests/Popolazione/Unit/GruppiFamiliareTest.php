@@ -3,20 +3,18 @@
 namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Tests\TestCase;
 use Carbon\Carbon;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 
-it("testAssegnaCapoGruppo", function () {
+it('testAssegnaCapoGruppo', function () {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
-
 
     $persona->assegnaPostulante($data_entrata);
     $persona->assegnaNomadelfoEffettivo($data_entrata);
@@ -24,7 +22,7 @@ it("testAssegnaCapoGruppo", function () {
     $this->assertEquals($persona->id, $gruppo->capogruppoAttuale()->id);
 });
 
-it("testAssegnaCapogruppoErrorsWithPostulante", function () {
+it('testAssegnaCapogruppoErrorsWithPostulante', function () {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
@@ -36,7 +34,7 @@ it("testAssegnaCapogruppoErrorsWithPostulante", function () {
     $this->assertEquals(null, $gruppo->capogruppoAttuale());
 });
 
-it("testAssegnaCapogruppoErrorsWithOspite", function () {
+it('testAssegnaCapogruppoErrorsWithOspite', function () {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
@@ -47,7 +45,7 @@ it("testAssegnaCapogruppoErrorsWithOspite", function () {
     $this->assertEquals(null, $gruppo->capogruppoAttuale());
 });
 
-it("testAssegnaCapogruppoErrorsWithWomen", function () {
+it('testAssegnaCapogruppoErrorsWithWomen', function () {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->femmina()->create();
@@ -57,4 +55,3 @@ it("testAssegnaCapogruppoErrorsWithWomen", function () {
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
     $this->assertEquals(null, $gruppo->capogruppoAttuale());
 });
-

@@ -2,8 +2,8 @@
 
 namespace Tests\Biblioteca\Feature;
 
-it("can render the homepage", function () {
+it('can render the homepage', function () {
     $this
-        ->get("/biblioteca")
-        ->assertSee("Libri");
+        ->get('/biblioteca')
+        ->assertSee('Libri');
 });

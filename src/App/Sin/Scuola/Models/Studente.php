@@ -2,17 +2,11 @@
 
 namespace App\Scuola\Models;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Scuola\QueryBuilders\PopolazioneQueryBuilder;
 use App\Scuola\QueryBuilders\StudenteQueryBuilder;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class Studente extends Persona
 {
-
     public function newEloquentBuilder($query): StudenteQueryBuilder
     {
         return new StudenteQueryBuilder($query);
@@ -22,5 +16,4 @@ class Studente extends Persona
     {
         return $this->hasMany(Classe::class, 'id', 'classe_id');
     }
-
 }

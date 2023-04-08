@@ -3,21 +3,16 @@
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
-use Composer\CaBundle\CaBundle;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
-use Tests\CreatesApplication;
-use Tests\MigrateFreshDB;
-use Tests\TestCase;
 
-it("administrator_can_create_prenotazione", function () {
+it('administrator_can_create_prenotazione', function () {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $p = Persona::find($persona->id);
@@ -26,7 +21,7 @@ it("administrator_can_create_prenotazione", function () {
     $this->assertNotEmpty($u);
 
     $meccanicaAmm = User::create(['username' => 'meccanica-admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
-    $meccanicaAmmRole = Role::findByName("meccanica-amm");
+    $meccanicaAmmRole = Role::findByName('meccanica-amm');
     $meccanicaAmm->assignRole($meccanicaAmmRole);
 
     login($meccanicaAmm);
@@ -41,11 +36,11 @@ it("administrator_can_create_prenotazione", function () {
         'data_arr' => $now->toDateString(),
         'ora_arr' => '11:00',
         'uso' => $u->ofus_iden,
-        'destinazione' => 'my-destination'
+        'destinazione' => 'my-destination',
     ]))->assertRedirect(route('officina.prenota'));
 
     $this->assertDatabaseHas('db_meccanica.prenotazioni', [
-        'destinazione' => 'my-destination'
+        'destinazione' => 'my-destination',
     ]);
 
 //        $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
@@ -53,9 +48,9 @@ it("administrator_can_create_prenotazione", function () {
 
 });
 
-it("other_users_cannot_create_prenotazioni", function () {
+it('other_users_cannot_create_prenotazioni', function () {
     $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
-    $biblioAmm = Role::findByName("biblioteca-amm");
+    $biblioAmm = Role::findByName('biblioteca-amm');
     $operator->assignRole($biblioAmm);
 
     login($operator);

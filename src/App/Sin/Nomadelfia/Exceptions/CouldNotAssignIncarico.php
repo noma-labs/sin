@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
-
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;

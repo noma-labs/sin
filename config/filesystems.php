@@ -49,19 +49,19 @@ return [
         ],
 
         'media' => [
-             'driver' => 'local',
-             'root'   => public_path('media'),
-              'url'    => env('APP_URL').'/media',
-         ],
+            'driver' => 'local',
+            'root' => public_path('media'),
+            'url' => env('APP_URL').'/media',
+        ],
         'ftp' => [
-            'driver'   => 'ftp',
-            'host'     => '192.168.11.2',
+            'driver' => 'ftp',
+            'host' => '192.168.11.2',
             'username' => 'ftpsin',
             'password' => 'Nomadelfia',
             // 'url'    => '/my-url',
-        
+
             // Optional FTP Settings...
-             'port'     => 21,
+            'port' => 21,
             //   'root'     => '/FTP/sin',
             // 'passive'  => true,
             // 'ssl'      => true,

@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
@@ -7,19 +8,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EsSpiritualiFactory extends Factory
 {
-
     protected $model = EserciziSpirituali::class;
 
     public function definition()
     {
         $resp = Persona::factory()->cinquantenne()->maschio()->create();
+
         return [
-            'turno'=>"1-turno",
-            'responsabile_id'=>$resp->id,
-            'data_inizio'=>$this->faker->date,
-            "data_fine"=>$this->faker->date,
-            "luogo"=>$this->faker->city,
-            'stato'=>'1',
+            'turno' => '1-turno',
+            'responsabile_id' => $resp->id,
+            'data_inizio' => $this->faker->date,
+            'data_fine' => $this->faker->date,
+            'luogo' => $this->faker->city,
+            'stato' => '1',
         ];
     }
 
@@ -27,7 +28,7 @@ class EsSpiritualiFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'turno' => "1-turno",
+                'turno' => '1-turno',
             ];
         });
     }
@@ -36,7 +37,7 @@ class EsSpiritualiFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'stato' => "0",
+                'stato' => '0',
             ];
         });
     }
@@ -45,7 +46,7 @@ class EsSpiritualiFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'stato' => "0",
+                'stato' => '0',
             ];
         });
     }
@@ -54,12 +55,8 @@ class EsSpiritualiFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'stato' => "1",
+                'stato' => '1',
             ];
         });
     }
-
-
 }
-
-

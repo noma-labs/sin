@@ -2,14 +2,11 @@
 
 namespace Database\Factories;
 
-
 use App\Biblioteca\Models\Autore;
-use App\Biblioteca\Models\Libro;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AutoreFactory extends Factory
 {
-
     protected $model = Autore::class;
 
     public function definition()
@@ -20,4 +17,3 @@ class AutoreFactory extends Factory
         ];
     }
 }
-

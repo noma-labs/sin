@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class PersonaHasNoGroup extends InvalidArgumentException
@@ -9,5 +11,3 @@ class PersonaHasNoGroup extends InvalidArgumentException
         return new static("La persona `{$nome}` non è assegnato/a in nessun gruppo familiare.");
     }
 }
-    
-

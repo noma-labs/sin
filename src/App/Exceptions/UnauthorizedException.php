@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -6,8 +7,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UnauthorizedException extends HttpException
 {
     private $requiredRoles = [];
+
     private $requiredPermissions = [];
-    
+
     public static function forRoles(array $roles): self
     {
         $message = 'User does not have the right roles.';
@@ -17,8 +19,10 @@ class UnauthorizedException extends HttpException
         }
         $exception = new static(401, $message, null, []);
         $exception->requiredRoles = $roles;
+
         return $exception;
     }
+
     public static function forAbilities(array $abilities): self
     {
         $message = 'User does not have the right permissions.';
@@ -28,6 +32,7 @@ class UnauthorizedException extends HttpException
         }
         $exception = new static(401, $message, null, []);
         $exception->requiredPermissions = $abilities;
+
         return $exception;
     }
 
@@ -40,6 +45,7 @@ class UnauthorizedException extends HttpException
     {
         return $this->requiredRoles;
     }
+
     public function getRequiredPermissions(): array
     {
         return $this->requiredPermissions;

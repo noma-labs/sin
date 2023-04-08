@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
 
 use InvalidArgumentException;

@@ -14,16 +14,16 @@ class AddCoordinatoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "coord_id" => "required",
-            "coord_tipo" => "required",
+            'coord_id' => 'required',
+            'coord_tipo' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            "coord_id.required" => "Coordinatore è obbligatorio",
-            "coord_tipo.required" => "La tipologia di coordinatore è obbligatoria",
+            'coord_id.required' => 'Coordinatore è obbligatorio',
+            'coord_tipo.required' => 'La tipologia di coordinatore è obbligatoria',
         ];
     }
 }

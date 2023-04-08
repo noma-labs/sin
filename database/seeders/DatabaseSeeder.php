@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-
     public function run()
     {
         if (app()->environment('local')) {

@@ -6,7 +6,6 @@ use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
 use Illuminate\Database\Seeder;
 
-
 class OfficinaMeccanicaTableSeeder extends Seeder
 {
     public function run()

@@ -2,23 +2,18 @@
 
 namespace App\Biblioteca\Models;
 
-use Database\Factories\IncaricoFactory;
+use App\Biblioteca\Models\Autore as Autore;
+use App\Biblioteca\Models\Classificazione as Classificazione;
+use App\Biblioteca\Models\Editore as Editore;
+use App\Biblioteca\Models\Prestito as Prestito;
+use App\Traits\Enums;
+use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\SortableTrait;
-use App\Traits\Enums;
-
-
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-
-use App\Biblioteca\Models\Autore as Autore;
-use App\Biblioteca\Models\Editore as Editore;
-use App\Biblioteca\Models\Prestito as Prestito;
-use App\Biblioteca\Models\Classificazione as Classificazione;
-
 // External library to associate media files a model
 
 use Spatie\MediaLibrary\HasMedia;
@@ -34,9 +29,13 @@ class Libro extends Model implements HasMedia
     use HasFactory;
 
     protected $connection = 'db_biblioteca';
+
     protected $table = 'libro';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
+
     protected $dates = ['deleted_at'];
+
     protected $guarded = []; // all the fields are mass assignabe
 
     public function getActivitylogOptions(): LogOptions
@@ -60,7 +59,7 @@ class Libro extends Model implements HasMedia
         'elementari',
         'medie',
         'superiori',
-        'adulti'
+        'adulti',
     ];
 
     protected $enumCritica = [
@@ -68,15 +67,13 @@ class Libro extends Model implements HasMedia
         2,
         3,
         4,
-        5
+        5,
     ];
-
 
     protected static function newFactory()
     {
         return LibroFactory::new();
     }
-
 
     public function getLogNameToUse(string $eventName = ''): string
     {
@@ -103,7 +100,7 @@ class Libro extends Model implements HasMedia
 
     public function classificazione()
     {
-        return $this->belongsTo(Classificazione::class, "classificazione_id");
+        return $this->belongsTo(Classificazione::class, 'classificazione_id');
     }
 
     public function editori()
@@ -118,29 +115,28 @@ class Libro extends Model implements HasMedia
 
     public function prestiti()
     {
-        return $this->hasMany(Prestito::class, "libro_id");
+        return $this->hasMany(Prestito::class, 'libro_id');
     }
 
     public function inPrestito()
     {
         $prestiti = $this->prestiti()->where('in_prestito', 1)->get();
+
         return count($prestiti) > 0;
     }
 
     public function scopeTobePrinted($query)
     {
-        return $query->where('tobe_printed', 1)->orderBy("collocazione");
+        return $query->where('tobe_printed', 1)->orderBy('collocazione');
     }
 
     public function scopeEditori($query)
     {
-        return $query->select("editore")->groupBy("editori"); //->orderBY("EDITORE");
+        return $query->select('editore')->groupBy('editori'); //->orderBY("EDITORE");
     }
 
     public function scopeAutori($query)
     {
-        return $query->select("autore")->groupBy("autore"); //->orderBY("AUTORE");
+        return $query->select('autore')->groupBy('autore'); //->orderBY("AUTORE");
     }
-
-
 }

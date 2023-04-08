@@ -40,14 +40,12 @@ class EntrataMinorenneAccoltoAction
         $dto->famiglia_posizione = Famiglia::getFiglioAccoltoEnum();
     }
 
-
     public function calcGruppoFamiliare(EntrataPersonaData $dto)
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
         $dto->gruppo_data = $dto->data_entrata;
     }
-
 
     public function calcPosizione(EntrataPersonaData $dto)
     {
@@ -64,6 +62,4 @@ class EntrataMinorenneAccoltoAction
             $dto->stato = Stato::find('NUB');
         }
     }
-
-
 }

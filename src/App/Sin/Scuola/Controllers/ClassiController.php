@@ -3,19 +3,13 @@
 namespace App\Scuola\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-
 use App\Scuola\Models\AddStudentAction;
-use App\Scuola\Models\Classe;
-use App\Scuola\Models\ClasseTipo;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\Classe;
 use App\Scuola\Requests\AddCoordinatoreRequest;
 use App\Scuola\Requests\AddStudentRequest;
-use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
-
-use App\Nomadelfia\Models\AnnoScolastico;
-use Illuminate\Support\Str;
 
 class ClassiController extends CoreBaseController
 {
@@ -23,6 +17,7 @@ class ClassiController extends CoreBaseController
     {
         $anno = Anno::firstOrFail($anno_id);
         $classi = $anno->classi()->get();
+
         return view('scuola.classi.index', compact('anno', 'classi'));
     }
 
@@ -34,14 +29,15 @@ class ClassiController extends CoreBaseController
         $coords = $classe->coordinatori();
         $possibili = $classe->alunniPossibili();
         $coordPossibili = $classe->coordinatoriPossibili();
-        return view('scuola.classi.show', compact('anno','classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
+
+        return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
     }
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
     {
         $request->validated();
         $classe = Classe::findOrFail($id);
-        $alunni = explode(',',$request->get('alunno_id'));
+        $alunni = explode(',', $request->get('alunno_id'));
         foreach ($alunni as $id) {
             $alunno = Persona::findOrFail($id);
             $addStudentAction->execute($classe, $alunno, $request->data_inizio);
@@ -54,7 +50,8 @@ class ClassiController extends CoreBaseController
     {
         $classe = Classe::findOrFail($id);
         $classe->delete();
-        return redirect()->back()->withSuccess("Calsse eliminata con successo.");
+
+        return redirect()->back()->withSuccess('Calsse eliminata con successo.');
     }
 
     public function rimuoviAlunno(Request $request, $id, $alunno_id)
@@ -62,6 +59,7 @@ class ClassiController extends CoreBaseController
         $classe = Classe::findOrFail($id);
         $alunno = Persona::findOrFail($alunno_id);
         $classe->rimuoviAlunno($alunno);
+
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 
@@ -72,6 +70,7 @@ class ClassiController extends CoreBaseController
         $coord = Persona::findOrFail($request->coord_id);
 
         $classe->aggiungiCoordinatore($coord, $request->data_inizio, $request->coord_tipo);
+
         return redirect()->back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
     }
 
@@ -80,8 +79,7 @@ class ClassiController extends CoreBaseController
         $classe = Classe::findOrFail($id);
         $coord = Persona::findOrFail($coord_id);
         $classe->rimuoviCoordinatore($coord);
+
         return redirect()->back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
-
-
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Modelli;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VeicoloFactory extends Factory
 {
-
     protected $model = Veicolo::class;
 
     public function definition()

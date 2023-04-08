@@ -2,21 +2,21 @@
 
 namespace App\Biblioteca\Models;
 
+use App\Biblioteca\Models\Libro as Libro;
 use Database\Factories\AutoreFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use App\Biblioteca\Models\Libro as Libro;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Autore extends Model
 {
     protected $connection = 'db_biblioteca';
-    protected $table = 'autore';
-    protected $primaryKey = "id";
-    use HasFactory;
 
+    protected $table = 'autore';
+
+    protected $primaryKey = 'id';
+
+    use HasFactory;
 
     protected $guarded = []; // all the fields are mass assignabe
 
@@ -34,17 +34,13 @@ class Autore extends Model
         return AutoreFactory::new();
     }
 
-
     public function setAutoreAttribute($value)
     {
         $this->attributes['autore'] = strtoupper($value);
     }
 
-
     public function libri()
     {
         return $this->belongsToMany(Libro::class, 'autore_libro', 'autore_id', 'libro_id');
     }
-
-
 }

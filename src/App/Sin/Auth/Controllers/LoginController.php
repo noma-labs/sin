@@ -4,7 +4,6 @@ namespace App\Auth\Controllers;
 
 use App\Core\Controllers\BaseController as BaseController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends BaseController
@@ -23,10 +22,10 @@ class LoginController extends BaseController
     use AuthenticatesUsers;
 
     /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -44,12 +43,12 @@ class LoginController extends BaseController
         if (Auth::user()->hasRole('admin')) {
             return route('admin.backup');
         }//"/roles";
-        elseif (Auth::user()->hasRole(['biblioteca-amm','biblioteca-ope'])) {
-            return route("biblioteca");
-        } elseif (Auth::user()->hasRole(['meccanica-amm','meccanica-ope'])) {
-            return route("officina.index");
+        elseif (Auth::user()->hasRole(['biblioteca-amm', 'biblioteca-ope'])) {
+            return route('biblioteca');
+        } elseif (Auth::user()->hasRole(['meccanica-amm', 'meccanica-ope'])) {
+            return route('officina.index');
         } else {
-            return route("home");
+            return route('home');
         }
     }
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
-
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -23,5 +21,4 @@ class CouldNotAssignCapoFamiglia extends \Exception
     {
         return new static("Il capo famiglia {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
     }
-
 }

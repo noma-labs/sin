@@ -8,16 +8,15 @@ use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
-use Tests\TestCase;
 
-it("can_list_anni_scolastici", function () {
+it('can_list_anni_scolastici', function () {
     login();
     $this->get(action([ScuolaController::class, 'summary']))
         ->assertSuccessful();
 
 });
 
-it("can_create_nuovo_anno", function () {
+it('can_create_nuovo_anno', function () {
     login();
     $this->withoutExceptionHandling();
     $this->post(action([ScuolaController::class, 'aggiungiAnnoScolastico'], [
@@ -26,11 +25,11 @@ it("can_create_nuovo_anno", function () {
     ]))->assertRedirect();
 
     $this->assertDatabaseHas('db_scuola.anno', [
-        'scolastico' => '2023/2024'
+        'scolastico' => '2023/2024',
     ]);
 });
 
-it("can_list_classi_in_anno_scolastico", function () {
+it('can_list_classi_in_anno_scolastico', function () {
     $a = Anno::createAnno(2017);
     $tipi = ClasseTipo::all();
     $c = $a->aggiungiClasse($tipi->random());
@@ -38,12 +37,12 @@ it("can_list_classi_in_anno_scolastico", function () {
     $this->assertCount(1, $c->alunni()->get());
 
     login();
-    $this->get(action([ScuolaController::class, 'index'], ["id" => $a->id]))
+    $this->get(action([ScuolaController::class, 'index'], ['id' => $a->id]))
         ->assertSuccessful();
 
 });
 
-it("can_delete_classe", function () {
+it('can_delete_classe', function () {
     $a = Anno::createAnno(2000);
     $tipi = ClasseTipo::all();
     $c = $a->aggiungiClasse($tipi->random());

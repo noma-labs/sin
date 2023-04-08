@@ -5,19 +5,16 @@ namespace Database\Seeders;
 use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
 use App\Biblioteca\Models\Libro;
-use App\Officina\Models\Impiego;
-use App\Officina\Models\Veicolo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 
 class BibliotecaTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::connection('db_biblioteca')->table('classificazione')->insert(['descrizione'=>"per tutti"]);
-        DB::connection('db_biblioteca')->table('libro')->insert(['collocazione'=>"AAA000"]);
-        DB::connection('db_biblioteca')->table('editore')->insert(['editore'=>"AAA editore"]);
+        DB::connection('db_biblioteca')->table('classificazione')->insert(['descrizione' => 'per tutti']);
+        DB::connection('db_biblioteca')->table('libro')->insert(['collocazione' => 'AAA000']);
+        DB::connection('db_biblioteca')->table('editore')->insert(['editore' => 'AAA editore']);
 
         Autore::factory()
             ->has(

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class GruppoFamiliareDoesNotExists extends InvalidArgumentException
@@ -8,7 +10,4 @@ class GruppoFamiliareDoesNotExists extends InvalidArgumentException
     {
         return new static("Il gruppo familiare `{$nome}` non esiste.");
     }
-    
 }
-
-

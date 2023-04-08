@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class SaveEntrataInNomadelfiaAction
 {
-
     public function execute(EntrataPersonaData $entrataPersonaData)
     {
         // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
@@ -55,7 +54,7 @@ class SaveEntrataInNomadelfiaAction
                         $persona_id,
                         $entrataPersonaData->famiglia_data,
                         $entrataPersonaData->famiglia_posizione,
-                        $entrataPersonaData->famiglia_data
+                        $entrataPersonaData->famiglia_data,
                     ]
                 );
             }
@@ -125,6 +124,5 @@ class SaveEntrataInNomadelfiaAction
 //            dd($e);
 //        }
 //    }
-
 
 }

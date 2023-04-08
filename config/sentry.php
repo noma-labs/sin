@@ -5,8 +5,8 @@ return [
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
     // capture release as git sha
-//    'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
-    'release' => env("SENTRY_LARAVEL_RELEASE","enable-eager-officina"),
+    //    'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
+    'release' => env('SENTRY_LARAVEL_RELEASE', 'enable-eager-officina'),
 
     // When left empty or `null` the Laravel environment will be used
     'environment' => env('SENTRY_ENVIRONMENT'),
@@ -51,7 +51,7 @@ return [
     // @see: https://docs.sentry.io/platforms/php/configuration/options/#send-default-pii
     'send_default_pii' => env('SENTRY_SEND_DEFAULT_PII', false),
 
-    'traces_sample_rate' => (float)(env('SENTRY_TRACES_SAMPLE_RATE', 0.0)),
+    'traces_sample_rate' => (float) (env('SENTRY_TRACES_SAMPLE_RATE', 0.0)),
 
     'controllers_base_namespace' => env('SENTRY_CONTROLLERS_BASE_NAMESPACE', 'App\\Http\\Controllers'),
 

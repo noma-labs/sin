@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
-use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -31,13 +31,12 @@ class Handler extends ExceptionHandler
         });
     }
 
-
     /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Exception $exception
+     * @param  \Exception  $exception
      * @return void
      */
     public function report(Throwable $exception)
@@ -48,8 +47,7 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Auth\AuthenticationException $exception
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -58,7 +56,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return redirect()->guest(route('login'))->withError("Operazione non permessa da utente ospite.");
+        return redirect()->guest(route('login'))->withError('Operazione non permessa da utente ospite.');
     }
 
     public function render($request, Throwable $e)
@@ -71,13 +69,10 @@ class Handler extends ExceptionHandler
                 ->withInput($request->except('password'))
                 ->with([
                     'status' => 'Oops! Your Validation Token has expired. Please try again',
-                    'alert' => 'danger'
+                    'alert' => 'danger',
                 ]);
         }
 
         return parent::render($request, $e);
     }
-
-
-
 }

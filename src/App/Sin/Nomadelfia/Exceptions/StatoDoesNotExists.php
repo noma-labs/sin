@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class StatoDoesNotExists extends InvalidArgumentException

@@ -31,7 +31,6 @@ class EntrataMinorenneConFamigliaAction
         $this->calcPosizione($dto);
         $this->calcFamiglia($dto);
 
-
         $this->entrataInNomadelfiaAction->execute($dto);
     }
 
@@ -41,7 +40,6 @@ class EntrataMinorenneConFamigliaAction
         $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
     }
 
-
     public function calcGruppoFamiliare(EntrataPersonaData $dto)
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
@@ -49,10 +47,9 @@ class EntrataMinorenneConFamigliaAction
         $dto->gruppo_data = $dto->data_entrata;
     }
 
-
     public function calcPosizione(EntrataPersonaData $dto)
     {
-        $dto->posizione = Posizione::find('FIGL');;
+        $dto->posizione = Posizione::find('FIGL');
         $dto->posizione_data = $dto->data_entrata;
     }
 
@@ -65,6 +62,4 @@ class EntrataMinorenneConFamigliaAction
             $dto->stato = Stato::find('NUB');
         }
     }
-
-
 }

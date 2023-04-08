@@ -3,16 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Core\Controllers\BaseController as Controller;
-use Illuminate\Http\Request;
 use Auth;
-use App\Admin\Models\Risorsa;
-use App\Admin\Models\Sistema;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RisorsaController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware(['role:super-admin']);
@@ -25,7 +22,8 @@ class RisorsaController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::with("roles")->orderBy("name")->get();
+        $permissions = Permission::with('roles')->orderBy('name')->get();
+
         return view('admin.auth.risorse.index', compact('permissions'));
     }
 
@@ -37,20 +35,20 @@ class RisorsaController extends Controller
     public function create()
     {
         $roles = Role::get();
+
         return view('admin.auth.risorse.create')->with('roles', $roles);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|max:40',
-            '_belong_to_archivio' => 'required|in:biblioteca,rtn'
+            '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);
 
         $name = $request['name'];
@@ -64,7 +62,7 @@ class RisorsaController extends Controller
 
         $permission->save();
 
-        if (!empty($request['roles'])) { //If one or more role is selected
+        if (! empty($request['roles'])) { //If one or more role is selected
             foreach ($roles as $role) {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
                 $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
@@ -74,13 +72,12 @@ class RisorsaController extends Controller
 
         return redirect()->route('admin.auth.risorse.index')->withSuccess("Permesso  $permission->name aggiunto a  $permission->archivio");
 
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -91,20 +88,20 @@ class RisorsaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $risorsa = Permission::findOrFail($id);
+
         return view('admin.auth.risorse.edit', compact('risorsa'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -112,18 +109,18 @@ class RisorsaController extends Controller
         $permission = Permission::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|max:40',
-            '_belong_to_archivio' => 'required|in:biblioteca,rtn'
+            '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso ' . $permission->name . ' aggiornato!');
+        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso '.$permission->name.' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

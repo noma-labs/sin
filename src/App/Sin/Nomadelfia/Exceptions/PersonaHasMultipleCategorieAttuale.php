@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class PersonaHasMultipleCategorieAttuale extends InvalidArgumentException
@@ -9,5 +11,3 @@ class PersonaHasMultipleCategorieAttuale extends InvalidArgumentException
         return new static("La persona `{$nome}` ha più di una categoria attuale.");
     }
 }
-    
-

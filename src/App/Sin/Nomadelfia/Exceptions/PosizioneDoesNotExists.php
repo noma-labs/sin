@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class PosizioneDoesNotExists extends InvalidArgumentException
@@ -13,5 +15,4 @@ class PosizioneDoesNotExists extends InvalidArgumentException
     {
         return new static("La posizione `{$posizionenName}` non esiste.");
     }
-
 }

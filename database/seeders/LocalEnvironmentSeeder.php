@@ -23,7 +23,6 @@ class LocalEnvironmentSeeder extends Seeder
         $this->call(ScuolaTableSeeder::class);
     }
 
-
     protected function createDefaultAdminUser(): self
     {
         // Reset cached roles and permissions
@@ -107,67 +106,66 @@ class LocalEnvironmentSeeder extends Seeder
         Permission::create(['name' => 'archivio.*']);
         Permission::create(['name' => 'archivio.visualizza']);
 
-        $presidenteAmmRole->givePermissionTo("popolazione.*");
-        $presidenteAmmRole->givePermissionTo("archivio.*");
-        $presidenteAmmRole->givePermissionTo("meccanica.visualizza");
-        $presidenteAmmRole->givePermissionTo("meccanica.veicolo.visualizza");
-        $presidenteAmmRole->givePermissionTo("biblioteca.visualizza");
-        $presidenteAmmRole->givePermissionTo("biblioteca.libro.visualizza");
-        $presidenteAmmRole->givePermissionTo("biblioteca.autore.visualizza");
-        $presidenteAmmRole->givePermissionTo("biblioteca.editore.visualizza");
-        $presidenteAmmRole->givePermissionTo("scuolaguida.visualizza");
-        $presidenteAmmRole->givePermissionTo("scuolaguida.patente.visualizza");
-        $presidenteAmmRole->givePermissionTo("rtn.visualizza");
-        $presidenteAmmRole->givePermissionTo("agraria.visualizza");
-        $presidenteAmmRole->givePermissionTo("scuola.visualzza");
+        $presidenteAmmRole->givePermissionTo('popolazione.*');
+        $presidenteAmmRole->givePermissionTo('archivio.*');
+        $presidenteAmmRole->givePermissionTo('meccanica.visualizza');
+        $presidenteAmmRole->givePermissionTo('meccanica.veicolo.visualizza');
+        $presidenteAmmRole->givePermissionTo('biblioteca.visualizza');
+        $presidenteAmmRole->givePermissionTo('biblioteca.libro.visualizza');
+        $presidenteAmmRole->givePermissionTo('biblioteca.autore.visualizza');
+        $presidenteAmmRole->givePermissionTo('biblioteca.editore.visualizza');
+        $presidenteAmmRole->givePermissionTo('scuolaguida.visualizza');
+        $presidenteAmmRole->givePermissionTo('scuolaguida.patente.visualizza');
+        $presidenteAmmRole->givePermissionTo('rtn.visualizza');
+        $presidenteAmmRole->givePermissionTo('agraria.visualizza');
+        $presidenteAmmRole->givePermissionTo('scuola.visualzza');
 
+        $presidenteOpeRole->givePermissionTo('popolazione.visualizza');
+        $presidenteOpeRole->givePermissionTo('popolazione.persona.visualizza');
+        $presidenteOpeRole->givePermissionTo('scuolaguida.visualizza');
+        $presidenteOpeRole->givePermissionTo('scuolaguida.patente.visualizza');
+        $presidenteOpeRole->givePermissionTo('scuolaguida.patente.esporta');
 
-        $presidenteOpeRole->givePermissionTo("popolazione.visualizza");
-        $presidenteOpeRole->givePermissionTo("popolazione.persona.visualizza");
-        $presidenteOpeRole->givePermissionTo("scuolaguida.visualizza");
-        $presidenteOpeRole->givePermissionTo("scuolaguida.patente.visualizza");
-        $presidenteOpeRole->givePermissionTo("scuolaguida.patente.esporta");
+        $patenteAmmRole->givePermissionTo('scuolaguida.*');
 
-        $patenteAmmRole->givePermissionTo("scuolaguida.*");
+        $meccanicaAmmRole->givePermissionTo('meccanica.*');
+        $meccanicaAmmRole->givePermissionTo('scuolaguida.*');
 
-        $meccanicaAmmRole->givePermissionTo("meccanica.*");
-        $meccanicaAmmRole->givePermissionTo("scuolaguida.*");
+        $meccanicaOpeRole->givePermissionTo('meccanica.visualizza');
+        $meccanicaOpeRole->givePermissionTo('meccanica.veicolo.visualizza');
+        $meccanicaOpeRole->givePermissionTo('meccanica.veicolo.visualizza');
+        $meccanicaOpeRole->givePermissionTo('meccanica.veicolo.inserisci');
+        $meccanicaOpeRole->givePermissionTo('meccanica.veicolo.prenota');
+        $meccanicaOpeRole->givePermissionTo('meccanica.prenotazione.visualizza');
+        $meccanicaOpeRole->givePermissionTo('meccanica.prenotazione.inserisci');
+        $meccanicaOpeRole->givePermissionTo('meccanica.prenotazione.modifica');
+        $meccanicaOpeRole->givePermissionTo('scuolaguida.patente.visualizza');
+        $meccanicaOpeRole->givePermissionTo('scuolaguida.patente.esporta');
 
-        $meccanicaOpeRole->givePermissionTo("meccanica.visualizza");
-        $meccanicaOpeRole->givePermissionTo("meccanica.veicolo.visualizza");
-        $meccanicaOpeRole->givePermissionTo("meccanica.veicolo.visualizza");
-        $meccanicaOpeRole->givePermissionTo("meccanica.veicolo.inserisci");
-        $meccanicaOpeRole->givePermissionTo("meccanica.veicolo.prenota");
-        $meccanicaOpeRole->givePermissionTo("meccanica.prenotazione.visualizza");
-        $meccanicaOpeRole->givePermissionTo("meccanica.prenotazione.inserisci");
-        $meccanicaOpeRole->givePermissionTo("meccanica.prenotazione.modifica");
-        $meccanicaOpeRole->givePermissionTo("scuolaguida.patente.visualizza");
-        $meccanicaOpeRole->givePermissionTo("scuolaguida.patente.esporta");
+        $bibliotecaAmmRole->givePermissionTo('biblioteca.*');
 
-        $bibliotecaAmmRole->givePermissionTo("biblioteca.*");
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.visualizza');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.libro.visualizza');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.libro.inserisci');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.libro.prenota');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.etichetta.visualizza');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.etichetta.inserisci');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.etichetta.esporta');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.editore.visualizza');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.editore.inserisci');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.autore.visualizza');
+        $bibliotecaOpeRole->givePermissionTo('biblioteca.autore.inserisci');
 
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.visualizza");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.libro.visualizza");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.libro.inserisci");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.libro.prenota");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.etichetta.visualizza");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.etichetta.inserisci");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.etichetta.esporta");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.editore.visualizza");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.editore.inserisci");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.autore.visualizza");
-        $bibliotecaOpeRole->givePermissionTo("biblioteca.autore.inserisci");
+        $scuolaAmmRole->givePermissionTo('scuola.*');
 
-        $scuolaAmmRole->givePermissionTo("scuola.*");
+        $rtnAmmRole->givePermissionTo('rtn.*');
+        $rtnOpeRole->givePermissionTo('rtn.visualizza');
 
-        $rtnAmmRole->givePermissionTo("rtn.*");
-        $rtnOpeRole->givePermissionTo("rtn.visualizza");
-
-        $agrariaAmmRole->givePermissionTo("agraria.*");
+        $agrariaAmmRole->givePermissionTo('agraria.*');
 
         $userAdmin = User::create(['username' => 'admin', 'email' => 'admin@email.it', 'password' => 'admin', 'persona_id' => 0]);
         $userAdmin->assignRole($superAdmin);
+
         return $this;
     }
-
 }

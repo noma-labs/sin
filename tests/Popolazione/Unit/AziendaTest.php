@@ -2,15 +2,11 @@
 
 namespace Tests\Unit;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Tests\CreatesApplication;
-use Tests\MigrateFreshDB;
-use Tests\TestCase;
-use Carbon\Carbon;
 
-
-it("assign a worker to a company", function () {
+it('assign a worker to a company', function () {
     $azienda = Azienda::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
@@ -19,7 +15,6 @@ it("assign a worker to a company", function () {
     expect($azienda->lavoratoriStorici()->count())->toBe(0);
     expect($persona->aziendeAttuali()->count())->toBe(0);
     expect($persona->aziendeStorico()->count())->toBe(0);
-
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();
     $persona->assegnaLavoratoreAzienda($azienda, $data_inizio);

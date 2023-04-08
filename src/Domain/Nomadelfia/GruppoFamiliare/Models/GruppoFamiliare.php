@@ -7,10 +7,10 @@ use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
 use Database\Factories\GruppoFamiliareFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Exception;
 use Illuminate\Support\Str;
 
 class GruppoFamiliare extends Model
@@ -18,8 +18,10 @@ class GruppoFamiliare extends Model
     use HasFactory;
 
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'gruppi_familiari';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     public $timestamps = false;
 
@@ -52,7 +54,7 @@ class GruppoFamiliare extends Model
      */
     public function capogruppiPossibili()
     {
-        $effetivo = Posizione::perNome("effettivo");
+        $effetivo = Posizione::perNome('effettivo');
         $attuale = $this->capogruppoAttuale();
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
@@ -64,12 +66,13 @@ class GruppoFamiliare extends Model
                     AND gruppi_persone.gruppo_famigliare_id = :gr AND persone.sesso = 'M' AND gruppi_persone.persona_id != :capoatt
                 ORDER BY persone.data_nascita ASC"
             ),
-            array(
+            [
                 'gr' => $this->id,
                 'effe' => $effetivo->id,
-                'capoatt' => $attuale ? $attuale->id : "",
-            )
+                'capoatt' => $attuale ? $attuale->id : '',
+            ]
         );
+
         return $res;
     }
 
@@ -83,10 +86,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (!$persona->isEffettivo()) {
+            if (! $persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (!$persona->isMaschio()) {
+            if (! $persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();
@@ -95,7 +98,7 @@ class GruppoFamiliare extends Model
                 if ($attuale) {
                     $this->capogruppi()->updateExistingPivot($attuale->id, [
                         'stato' => '0',
-                        'data_fine_incarico' => $data_inizio
+                        'data_fine_incarico' => $data_inizio,
                     ]);
                 }
                 $this->capogruppi()->attach($persona->id, ['stato' => '1', 'data_inizio_incarico' => $data_inizio]);
@@ -105,22 +108,21 @@ class GruppoFamiliare extends Model
                 throw $e;
             }
         } else {
-            throw new Exception("Bad Argument. Personae must be an id or a model.");
+            throw new Exception('Bad Argument. Personae must be an id or a model.');
         }
 
     }
 
-
     public function persone()
     {
         return $this->belongsToMany(Persona::class, 'gruppi_persone', 'gruppo_famigliare_id', 'persona_id')
-            ->withPivot("stato")
-            ->orderBy("data_nascita", 'ASC');
+            ->withPivot('stato')
+            ->orderBy('data_nascita', 'ASC');
     }
 
     public function personeAttuale()
     {
-        return $this->persone()->wherePivot("stato", "1");
+        return $this->persone()->wherePivot('stato', '1');
     }
 
     /*
@@ -139,6 +141,7 @@ class GruppoFamiliare extends Model
                 )
                 order by data_nascita")
         );
+
         return $gruppi;
     }
 
@@ -156,6 +159,7 @@ class GruppoFamiliare extends Model
                             order by gruppi_familiari.nome"
             )
         );
+
         return $gruppi;
     }
 
@@ -175,12 +179,12 @@ class GruppoFamiliare extends Model
           AND gruppi_persone.stato = '1' 
           AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
           AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-      ORDER BY  famiglie.nome_famiglia, famiglie_persone.posizione_famiglia ASC, persone.data_nascita ASC"), array('gruppo' => $this->id));
+      ORDER BY  famiglie.nome_famiglia, famiglie_persone.posizione_famiglia ASC, persone.data_nascita ASC"), ['gruppo' => $this->id]);
 
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
+
         return $famiglie;
     }
-
 
     /*
     * Ritorna famiglie SINGLE del gruppo familiare partendo dalle persone presenti.
@@ -199,15 +203,14 @@ class GruppoFamiliare extends Model
                   AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL) 
                   AND (famiglie_persone.posizione_famiglia = 'SINGLE' OR famiglie_persone.stato IS NULL)
               ORDER BY persone.sesso DESC, persone.nominativo, persone.data_nascita  ASC"),
-            array('gruppo' => $this->id)
+            ['gruppo' => $this->id]
         );
+
         return $single;
     }
-
 
     public function isCentroDiSpirito(): bool
     {
         return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
     }
-
 }

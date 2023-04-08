@@ -3,15 +3,14 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Tests\TestCase;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 
-it("entrata_minorenne_con_famiglia", function () {
+it('entrata_minorenne_con_famiglia', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
@@ -39,7 +38,7 @@ it("entrata_minorenne_con_famiglia", function () {
 
 });
 
-it("entrata_minorenne_accolto", function () {
+it('entrata_minorenne_accolto', function () {
 
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();

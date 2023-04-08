@@ -2,30 +2,25 @@
 
 namespace App\Admin\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Spatie\Activitylog\Traits\CausesActivity;
-
 use Domain\Nomadelfia\Persona\Models\Persona;
-
-use App\Admin\Models\Risorsa;
-use App\Admin\Models\Ruolo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use CausesActivity;
-
     use Notifiable;
     use SoftDeletes;
-
     use HasRoles;
 
     protected $connection = 'db_auth';
+
     protected $table = 'utenti';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     protected $dates = ['deleted_at'];
 
@@ -35,7 +30,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'persona_id'
+        'name', 'email', 'password', 'username', 'persona_id',
     ];
 
     /**
@@ -164,6 +159,5 @@ class User extends Authenticatable
 //        }
 //        return explode('|', trim($pipeString, $quoteCharacter));
 //    }
-
 
 }

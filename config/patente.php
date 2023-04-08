@@ -1,33 +1,33 @@
 <?php
 
 return [
-      /*
+    /*
     |--------------------------------------------------------------------------
     | Configurazione per il sistema patente
     |--------------------------------------------------------------------------
     |
-    | 
+    |
     */
-    
+
     /*
     |--------------------------------------------------------------------------
     |  Scadenze
     |--------------------------------------------------------------------------
     |  Imposta i giorni entro il quale visualizzare le patenti in scadenza e quelle già scadute.
-    |  Se null non 
+    |  Se null non
     */
-    'scadenze' =>[
-        'patenti'=> [
-            'inscadenza'=> 30,
-            'scadute'=> null // number:  if null tutte le patenti scadute
+    'scadenze' => [
+        'patenti' => [
+            'inscadenza' => 30,
+            'scadute' => null, // number:  if null tutte le patenti scadute
         ],
-        'commissione'=> [
-            'inscadenza'=> 90,
-            'scadute'=> null
+        'commissione' => [
+            'inscadenza' => 90,
+            'scadute' => null,
         ],
-        'cqc'=> [
-            'inscadenza'=>180,
-             'scadute'=>null
+        'cqc' => [
+            'inscadenza' => 180,
+            'scadute' => null,
         ],
     ],
 

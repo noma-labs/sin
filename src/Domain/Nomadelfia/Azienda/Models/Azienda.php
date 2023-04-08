@@ -2,9 +2,9 @@
 
 namespace Domain\Nomadelfia\Azienda\Models;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
 use Database\Factories\AziendaFactory;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +17,10 @@ class Azienda extends Model
     public $timestamps = true;
 
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'aziende';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
@@ -38,12 +40,12 @@ class Azienda extends Model
 
     public function scopeAziende($query)
     {
-        return $query->where('tipo', "=", 'azienda');
+        return $query->where('tipo', '=', 'azienda');
     }
 
     public function scopeIncarichi($query)
     {
-        return $query->where('tipo', "=", 'incarico');
+        return $query->where('tipo', '=', 'incarico');
     }
 
     public function lavoratori()
@@ -67,7 +69,7 @@ class Azienda extends Model
 
     public static function scuola()
     {
-        return static::perNome("scuola");
+        return static::perNome('scuola');
     }
 
     public static function perNome($nome)
@@ -84,6 +86,4 @@ class Azienda extends Model
     {
         return $this->tipo == 'azienda';
     }
-
-
 }

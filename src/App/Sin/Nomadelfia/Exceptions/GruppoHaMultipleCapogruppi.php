@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class GruppoHaMultipleCapogruppi extends InvalidArgumentException
@@ -9,5 +11,3 @@ class GruppoHaMultipleCapogruppi extends InvalidArgumentException
         return new static("La persona `{$nome}` risulta essere in più di un gruppo familiare.");
     }
 }
-    
-

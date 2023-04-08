@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
-
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 
@@ -17,6 +15,4 @@ class CouldNotAssignCapogruppo extends \Exception
     {
         return new static("La persona `{$persona->nominativo}` non può essere capogruppo perchè non è un maschi.`");
     }
-
-
 }

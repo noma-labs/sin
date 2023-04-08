@@ -2,7 +2,6 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
@@ -13,7 +12,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
 class ExportPopolazioneData
 {
-
     public int $totalePopolazione;
 
     public $maggiorenni;
@@ -43,9 +41,10 @@ class ExportPopolazioneData
     public $aziende;
 
     public $annoScolastico;
+
     public $scuola;
 
-    function __construct()
+    public function __construct()
     {
         $this->totalePopolazione = PopolazioneNomadelfia::totalePopolazione();
         $this->maggiorenni = PopolazioneNomadelfia::maggiorenni();
@@ -68,10 +67,10 @@ class ExportPopolazioneData
 
     }
 
-
-    function getFileName(): string
+    public function getFileName(): string
     {
         $data = Carbon::now()->toDatestring();
+
         return "popolazione-$data.docx";
     }
 }

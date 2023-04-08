@@ -4,20 +4,17 @@ namespace Domain\Nomadelfia\Famiglia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
+use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
+use App\Traits\Enums;
+use Carbon;
 use Database\Factories\FamigliaFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Exception;
 use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
-
-use Carbon;
-use App\Traits\Enums;
 use Illuminate\Support\Str;
-
-use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
+use InvalidArgumentException;
 
 class Famiglia extends Model
 {
@@ -25,8 +22,10 @@ class Famiglia extends Model
     use HasFactory;
 
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'famiglie';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
@@ -40,7 +39,7 @@ class Famiglia extends Model
         'MOGLIE',
         'FIGLIO NATO',
         'FIGLIO ACCOLTO',
-        'SINGLE'
+        'SINGLE',
     ];
 
     /**
@@ -80,15 +79,13 @@ class Famiglia extends Model
     {
         return collect(self::getEnum('Posizione'))->filter(function ($value, $key) {
             return Str::startsWith($value, 'FIGLIO');
-        });;
+        });
     }
-
 
     public function scopeOrdered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
     }
-
 
     /**
      * Returns the families with a CAPO FAMIGLIA (men or women)
@@ -104,60 +101,65 @@ class Famiglia extends Model
         );
     }
 
-
     public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
     {
-        $q = $query->select('famiglie.*', "persone.sesso", 'famiglie_persone.posizione_famiglia',
+        $q = $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull("popolazione.data_uscita")
-            ->where("posizione_famiglia", $posizione)
-            ->where("famiglie_persone.stato", $stato)
-            ->orderBy("famiglie.nome_famiglia");
+            ->whereNull('popolazione.data_uscita')
+            ->where('posizione_famiglia', $posizione)
+            ->where('famiglie_persone.stato', $stato)
+            ->orderBy('famiglie.nome_famiglia');
+
         return $q;
     }
 
     /**
      * Ritorna le famiglie che hanno come capo famiglia un maschio
+     *
      * @author Davide Neri
      **/
     public function scopeMaschio($query)
     {
-        return $query->where("sesso", "M");
+        return $query->where('sesso', 'M');
     }
 
     /**
      * Ritorna le famiglie che hanno come capo famiglia una femmina
+     *
      * @author Davide Neri
      **/
     public function scopeFemmina($query)
     {
-        return $query->where("sesso", "F");
+        return $query->where('sesso', 'F');
     }
 
     /**
      * Ritorna tutti capi famiglia delle famiglie
+     *
      * @author Davide Neri
      **/
     public static function OnlyCapofamiglia()
     {
-        return self::FamigliePerPosizioni("CAPO FAMIGLIA");
+        return self::FamigliePerPosizioni('CAPO FAMIGLIA');
     }
 
     /**
      * Ritorna tutti i single delle famiglie
+     *
      * @author Davide Neri
      **/
     public static function OnlySingle()
     {
-        return self::FamigliePerPosizioni("SINGLE", '1');
+        return self::FamigliePerPosizioni('SINGLE', '1');
     }
 
     /**
      * Uscita di una famiglia da Nomadelfia.
      * Esegure la funzione di uscita su tutti componenti ATTIVI della famiglia.
+     *
      * @author Davide Neri
      **/
     public function uscita($data_uscita)
@@ -177,9 +179,9 @@ class Famiglia extends Model
     /**
      * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA o il SINGLE della famiglia.
      * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE.
+     *
      * @author Davide Neri
      **/
-
     public function gruppoFamiliareAttuale()
     {
         $res = collect(DB::connection('db_nomadelfia')->select(
@@ -189,7 +191,7 @@ class Famiglia extends Model
             INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
             WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
                 and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1' and famiglie_persone.stato = '1'"),
-            array("famiglia_id" => $this->id)
+            ['famiglia_id' => $this->id]
         ));
         if ($res->count() == 1) {
             return $res->first();
@@ -206,11 +208,13 @@ class Famiglia extends Model
         if ($gruppo == null) {
             throw FamigliaHasNoGroup::named($this->nome_famiglia);
         }
+
         return $gruppo;
     }
 
     /**
      * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA o il SINGLE della famiglia
+     *
      * @author Davide Neri
      **/
     public function gruppiFamiliariStorico()
@@ -222,32 +226,33 @@ class Famiglia extends Model
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
       WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
        and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
-            array("famiglia_id" => $this->id)
+            ['famiglia_id' => $this->id]
         );
+
         return $res;
     }
 
     public function mycomponenti()
     {
         $res = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
+            DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
                     FROM famiglie 
                     INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
                     INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
                     WHERE famiglie.id = :famiglia
-                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia"),
-            array('famiglia' => $this->id)
+                    ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia'),
+            ['famiglia' => $this->id]
         );
+
         return $res;
     }
 
     /**
-     *
      * Aggiunge il capo famiglia alla famiglia
      *
      * @author Davide Neri
      **/
-    function assegnaCapoFamiglia($persona, string $data_entrata = null, $note = null)
+    public function assegnaCapoFamiglia($persona, string $data_entrata = null, $note = null)
     {
 
         if (is_string($persona)) {
@@ -266,6 +271,7 @@ class Famiglia extends Model
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
             $data = $data_entrata ? $data_entrata : $this->data_creazione;
+
             return $this->assegnaComponente($persona, $this->getCapoFamigliaEnum(), $data);
         } else {
             throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
@@ -273,7 +279,6 @@ class Famiglia extends Model
     }
 
     /**
-     *
      * Aggiunge la moglie alla famiglia
      *
      * @author Davide Neri
@@ -298,9 +303,10 @@ class Famiglia extends Model
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);
             }
             $data = $data ? $data : $this->data_creazione;
+
             return $this->assegnaComponente($persona, $this->getMoglieEnum(), $data);
         }
-        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
+        throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
     public function assegnaSingle($persona, $data = null, $note = null)
@@ -310,13 +316,13 @@ class Famiglia extends Model
         }
         if ($persona instanceof Persona) {
             $data = $data ? $data : Carbon::parse($this->nascita)->addYears(18)->toDateString();
+
             return $this->assegnaComponente($persona, $this->getSingleEnum(), $data);
         }
-        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
+        throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
     /**
-     *
      * Aggiunge un figlio nato nella famiglia
      *
      * @author Davide Neri
@@ -331,11 +337,10 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             return $this->assegnaComponente($persona, $this->getFiglioNatoEnum(), $persona->data_nascita);
         }
-        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
+        throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
     /**
-     *
      * Aggiunge un figlio accolto nella famiglia
      *
      * @author Davide Neri
@@ -350,19 +355,18 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             return $this->assegnaComponente($persona, $this->getFiglioAccoltoEnum(), $data_accolto);
         }
-        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
+        throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-
-    function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = "1", $note = null)
+    public function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = '1', $note = null)
     {
-        if (!in_array($posizione, $this->enumPosizione)) {
+        if (! in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
+
         return $this->componenti()->attach($persona->id,
             ['stato' => $stato, 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata, 'note' => $note]);
     }
-
 
     /**
      * Fa uscire un figlio dal nucleo familiare.
@@ -379,7 +383,7 @@ class Famiglia extends Model
             return $this->componenti()->updateExistingPivot($persona->id,
                 ['stato' => '0', 'data_uscita' => $data_uscita, 'note' => $note]);
         }
-        throw new InvalidArgumentException("Bad person as argument. It must be the id or the model of a person.");
+        throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
     /**
@@ -392,33 +396,36 @@ class Famiglia extends Model
     public function componenti()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot("stato", 'posizione_famiglia', 'data_entrata', 'data_uscita')
-            ->orderby("nominativo");
+            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->orderby('nominativo');
     }
 
     /**
      * Ritorna i componenti attuali della famiglia (padre, madre, e figli)
+     *
      * @author Davide Neri
      **/
     public function componentiAttuali()
     {
-        return $this->componenti()->where("famiglie_persone.stato", '1');
+        return $this->componenti()->where('famiglie_persone.stato', '1');
     }
 
     /**
      * Ritorna il capofamiglia della famiglia.
+     *
      * @author Davide Neri
      **/
     public function capofamiglia()
     {
         return $this->componenti()
-            ->withPivot("stato", 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
             ->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')
             ->first();
     }
 
     /**
      * Ritorna la persona single della famiglia.
+     *
      * @author Davide Neri
      **/
     public function single()
@@ -428,9 +435,9 @@ class Famiglia extends Model
             ->first();
     }
 
-
     /**
      * Ritorna la moglie della famiglia.
+     *
      * @author Davide Neri
      **/
     public function moglie()
@@ -442,28 +449,30 @@ class Famiglia extends Model
 
     /**
      * Ritorna i figli  (sia nati che accolti) della famiglia.
+     *
      * @author Davide Neri
      **/
     public function figli()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot("stato", 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
             ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO'])
             ->orderBy('data_nascita');
     }
 
     /**
      * Ritorna i figli attuali (sia nati che accolti) della famiglia.
+     *
      * @author Davide Neri
      **/
     public function figliAttuali()
     {
-        return $this->figli()->wherePivot('stato', "=", '1');
+        return $this->figli()->wherePivot('stato', '=', '1');
     }
-
 
     /**
      * Rimuove tutti i componenti della famiglia da un gruppo familiare
+     *
      * @author Davide Neri
      **/
     public function rimuoviDaGruppoFamiliare($idGruppo)
@@ -482,7 +491,7 @@ class Famiglia extends Model
                       WHERE famiglie_persone.famiglia_id = :famigliaId  AND famiglie_persone.stato = '1' #AND gruppi_persone.stato = '1'
                 )
                 AND gruppi_persone.stato = '1' "),
-            array('gruppoattuale' => $idGruppo, 'famigliaId' => $this->id)
+            ['gruppoattuale' => $idGruppo, 'famigliaId' => $this->id]
         );
     }
 
@@ -501,13 +510,13 @@ class Famiglia extends Model
                     ) select ff.*, famiglie_numerose.componenti
                     from famiglie_numerose
                     join famiglie ff on famiglie_numerose.id = ff.id
-                    order by famiglie_numerose.componenti DESC;"), array('minc' => $min_componenti)
+                    order by famiglie_numerose.componenti DESC;"), ['minc' => $min_componenti]
         );
     }
 
-
     /**
      * Assegna un nuovo gruppo familiare alla famiglia.
+     *
      * @author Davide Neri
      **/
     public function assegnaFamigliaANuovoGruppoFamiliare(
@@ -517,12 +526,12 @@ class Famiglia extends Model
         $data_entrata = null
     ) {
         $famiglia_id = $this->id;
+
         return DB::transaction(function () use (
             &$gruppo_attuale_id,
             $dataUscitaGruppoFamiliareAttuale,
             &$famiglia_id,
-            &
-            $gruppo_nuovo_id,
+            &$gruppo_nuovo_id,
             &$data_entrata
         ) {
 
@@ -542,11 +551,11 @@ class Famiglia extends Model
                 )
                     
                 AND gruppi_persone.stato = '1' "),
-                array(
+                [
                     'gruppoattuale' => $gruppo_attuale_id,
                     'famigliaId' => $famiglia_id,
-                    'data_uscita' => $dataUscitaGruppoFamiliareAttuale
-                )
+                    'data_uscita' => $dataUscitaGruppoFamiliareAttuale,
+                ]
             );
 
             // Aggiungi a tutti i componenti della famiglia nel nuovo gruppo
@@ -556,12 +565,13 @@ class Famiglia extends Model
               FROM famiglie_persone
               INNER JOIN persone ON persone.id = famiglie_persone.persona_id
               WHERE famiglie_persone.famiglia_id = :famigliaId   AND famiglie_persone.stato = '1' "),
-                array(
+                [
                     'famigliaId' => $famiglia_id,
                     'gruppo_nuovo_id' => $gruppo_nuovo_id,
-                    'data_entrata' => $data_entrata
-                )# , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
+                    'data_entrata' => $data_entrata,
+                ]// , 'data_uscita'=>$dataUscitaGruppoFamiliareAttuale)
             );
+
             return true;
         });
     }
@@ -589,8 +599,7 @@ class Famiglia extends Model
               WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
             )
         );
-        $result->push((object)["descrizione" => "Famiglie non valide", "results" => $famiglie]);
-
+        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
 
         $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
             DB::raw(
@@ -605,9 +614,9 @@ class Famiglia extends Model
             )
         );
 
-        $result->push((object)[
-            "descrizione" => "Famiglie senza componenti o con nessun componente attivo",
-            "results" => $famiglieSenzaComponenti
+        $result->push((object) [
+            'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
+            'results' => $famiglieSenzaComponenti,
         ]);
 
         $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
@@ -621,7 +630,7 @@ class Famiglia extends Model
       )
         ")
         );
-        $result->push((object)["descrizione" => "Famiglie senza un CAPO FAMIGLIA", "results" => $famiglieSenzaCapo]);
+        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
 
         $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT *
@@ -636,9 +645,9 @@ class Famiglia extends Model
                 HAVING count(*) > 1
               )")
         );
-        $result->push((object)[
-            "descrizione" => "Famiglie assegnate in più di un grupo familiare",
-            "results" => $famiglieConPiuGruppi
+        $result->push((object) [
+            'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
+            'results' => $famiglieConPiuGruppi,
         ]);
 
         return $result;
@@ -651,15 +660,16 @@ class Famiglia extends Model
     public static function personeSenzaFamiglia()
     {
         $personeSenzaFam = DB::connection('db_nomadelfia')->select(
-            DB::raw("
+            DB::raw('
         SELECT persone.id, persone.nominativo
         FROM persone
         INNER JOIN popolazione ON popolazione.persona_id = persone.id
         WHERE persone.id NOT IN (
           SELECT famiglie_persone.persona_id
           FROM famiglie_persone
-        )  AND popolazione.data_uscita IS NULL")
+        )  AND popolazione.data_uscita IS NULL')
         );
+
         return $personeSenzaFam;
     }
 }

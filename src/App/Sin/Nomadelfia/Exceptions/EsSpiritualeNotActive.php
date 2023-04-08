@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use InvalidArgumentException;
 
 class EsSpiritualeNotActive extends InvalidArgumentException
 {
