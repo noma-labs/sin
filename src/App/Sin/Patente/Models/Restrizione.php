@@ -5,7 +5,6 @@ namespace App\Patente\Models;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Restrizione extends Model
 {
   protected $connection = 'db_patente';
