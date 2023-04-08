@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Officina;
+namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -17,64 +17,54 @@ use Tests\CreatesApplication;
 use Tests\MigrateFreshDB;
 use Tests\TestCase;
 
+it("administrator_can_create_prenotazione", function () {
+    $v = Veicolo::factory()->create();
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $p = Persona::find($persona->id);
+    $m = Persona::factory()->maggiorenne()->maschio()->create();
+    $u = Uso::all()->random();
+    $this->assertNotEmpty($u);
 
-class OfficinaTest extends TestCase
-{
+    $meccanicaAmm = User::create(['username' => 'meccanica-admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
+    $meccanicaAmmRole = Role::findByName("meccanica-amm");
+    $meccanicaAmm->assignRole($meccanicaAmmRole);
 
-    /** @test */
-    public function administrator_can_create_prenotazione()
-    {
-        $v = Veicolo::factory()->create();
-        $persona = Persona::factory()->maggiorenne()->maschio()->create();
-        $p = Persona::find($persona->id);
-        $m = Persona::factory()->maggiorenne()->maschio()->create();
-        $u = Uso::all()->random();
-        $this->assertNotEmpty($u);
+    login($meccanicaAmm);
 
-        $meccanicaAmm = User::create(['username' => 'meccanica-admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
-        $meccanicaAmmRole = Role::findByName("meccanica-amm");
-        $meccanicaAmm->assignRole($meccanicaAmmRole);
+    $now = Carbon::now();
+    $this->post(action([PrenotazioniController::class, 'prenotazioniSucc'], [
+        'nome' => $p->id,
+        'veicolo' => $v->id,
+        'meccanico' => $m->id,
+        'data_par' => $now->toDateString(),
+        'ora_par' => '08:00',
+        'data_arr' => $now->toDateString(),
+        'ora_arr' => '11:00',
+        'uso' => $u->ofus_iden,
+        'destinazione' => 'my-destination'
+    ]))->assertRedirect(route('officina.prenota'));
 
-        $this->login($meccanicaAmm);
-
-        $now = Carbon::now();
-        $this->post(action([PrenotazioniController::class, 'prenotazioniSucc'], [
-            'nome' => $p->id,
-            'veicolo' => $v->id,
-            'meccanico' => $m->id,
-            'data_par' => $now->toDateString(),
-            'ora_par' => '08:00',
-            'data_arr' => $now->toDateString(),
-            'ora_arr' => '11:00',
-            'uso' => $u->ofus_iden,
-            'destinazione' => 'my-destination'
-        ]))->assertRedirect(route('officina.prenota'));
-
-        $this->assertDatabaseHas('db_meccanica.prenotazioni', [
-            'destinazione' => 'my-destination'
-        ]);
+    $this->assertDatabaseHas('db_meccanica.prenotazioni', [
+        'destinazione' => 'my-destination'
+    ]);
 
 //        $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
 //            ->assertSuccessful();
 
-    }
+});
 
-    /** @test */
-    public function other_users_cannot_create_prenotazioni()
-    {
-        $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
-        $biblioAmm = Role::findByName("biblioteca-amm");
-        $operator->assignRole($biblioAmm);
+it("other_users_cannot_create_prenotazioni", function () {
+    $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
+    $biblioAmm = Role::findByName("biblioteca-amm");
+    $operator->assignRole($biblioAmm);
 
-        $this->login($operator);
+    login($operator);
 
-        $this->get(route('officina.ricerca'))->assertForbidden();
-    }
+    $this->get(route('officina.ricerca'))->assertForbidden();
+});
 
-//    /** @test */
-//    public function show_prenotazioni_attive_oggi()
-//    {
-//        $veicolo = Veicolo::factory()->create();
+//it("show_prenotazioni_attive_oggi", function(){
+/// //        $veicolo = Veicolo::factory()->create();
 //        $veicolo2 = Veicolo::factory()->create();
 //        $persona = Persona::factory()->maggiorenne()->maschio()->create();
 //        $cliente = Persona::find($persona->id);
@@ -123,9 +113,7 @@ class OfficinaTest extends TestCase
 //        $this->assertCount(2, Prenotazioni::ActiveIn($oggi, '10:00', $oggi, '16:00')->get());
 //
 //    }
-
-    /** @test */
-//    public function show_prenotazioni_attive_ieri()
+//it("show_prenotazioni_attive_ieri", function(){
 //    {
 //        Artisan::call('migrate:fresh', ['--database' => 'db_officina', '--path' => 'database/migrations/officina']);
 //        $veicolo = Veicolo::factory()->create();
@@ -163,4 +151,3 @@ class OfficinaTest extends TestCase
 //        $this->assertCount(1, Prenotazioni::ActiveIn($yesterday, '00:00', $yesterday, '23:59')->get());
 //
 //    }
-}
