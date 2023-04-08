@@ -13,33 +13,25 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
-use Tests\TestCase;
 
-
-class NomadelfiaControllerTest extends TestCase
-{
-    /** @test */
-    public function only_admin_can_see_nomadelfia_system()
-    {
+it("only_admin_can_see_nomadelfia_system", function(){
         $this->withExceptionHandling();
 
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
             ->assertForbidden();
 
-        $this->login();
+        login();
 
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
             ->assertSuccessful();
-    }
+    });
 
-    /** @test */
-    public function show_popolazione_summary()
-    {
+it("show_popolazione_summary", function(){
         $this->withExceptionHandling();
 
-        $this->login();
+        login();
 
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
@@ -47,14 +39,12 @@ class NomadelfiaControllerTest extends TestCase
             ->assertSee("Gestione Popolazione")
             ->assertSee("Gestione Famiglie")
             ->assertSee("Gestione Gruppi Familiari");
-    }
+    });
 
-    /** @test */
-    public function show_incarichi_index()
-    {
+it("show_incarichi_index", function(){
         $this->withExceptionHandling();
 
-        $this->login();
+        login();
 
         $incarico = Incarico::factory()->create();
 
@@ -63,14 +53,12 @@ class NomadelfiaControllerTest extends TestCase
             ->assertSuccessful()
             ->assertSee($incarico->nome);
 
-    }
+    });
 
-    /** @test */
-    public function show_aziende_index()
-    {
+it("show_aziende_index", function(){
         $this->withExceptionHandling();
 
-        $this->login();
+        login();
 
         $a = Azienda::factory()->create();
 
@@ -84,15 +72,13 @@ class NomadelfiaControllerTest extends TestCase
             ->assertSuccessful()
             ->assertSee($a->nome_azienda);
 
-    }
+    });
 
 
-    /** @test */
-    public function show_gruppifamiliari_edit()
-    {
+it("show_gruppifamiliari_edit", function(){
         $this->withExceptionHandling();
 
-        $this->login();
+        login();
 
         $gruppo = GruppoFamiliare::factory()->create();
         $data_entrata = Carbon::now();
@@ -110,6 +96,4 @@ class NomadelfiaControllerTest extends TestCase
             ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
             ->assertSuccessful()
             ->assertSee($gruppo->nome);
-    }
-
-}
+    });
