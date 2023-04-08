@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
-
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -14,7 +12,7 @@ class CouldNotAssignAzienda extends \Exception
         return new static("La persona `{$persona->nominativo}` lavora già nell'azienda {$azienda->nome_azienda}`");
     }
 
-    public static function mansioneNotValid(String $mansione): self
+    public static function mansioneNotValid(string $mansione): self
     {
         return new static("La mansione  `{$mansione}` non è valida.`");
     }

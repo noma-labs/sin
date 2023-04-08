@@ -2,132 +2,139 @@
 
 namespace App\Nomadelfia\Api\Controllers;
 
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Illuminate\Http\Request;
 use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
-
+use Carbon;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 //models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-
-use Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Http\Request;
 
 class ApiController extends BaseController
 {
-    function persone(Request $request)
+    public function persone(Request $request)
     {
         $term = $request->term;
-        $persone = Persona::where("nominativo", "LIKE", "$term%")->orderBy("nominativo")->get();
-        $results = array();
+        $persone = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
+        $results = [];
         foreach ($persone as $persona) {
             $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
         }
+
         return response()->json($results);
     }
 
-    function searchPersonaInPopolazioneAttuale(Request $request)
+    public function searchPersonaInPopolazioneAttuale(Request $request)
     {
         $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($request->term)
                 ->orderBy('nominativo')
                 ->get();
 
-        $results = array();
+        $results = [];
         foreach ($persone as $persona) {
             $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
         }
+
         return response()->json($results);
     }
 
-
-
-
-    function persona(Request $request, $id)
+    public function persona(Request $request, $id)
     {
         $persona = Persona::findOrFail($id);
+
         return response()->json($persona);
     }
 
-    function gruppi(Request $request)
+    public function gruppi(Request $request)
     {
         $term = $request->term;
-        $gruppi = GruppoFamiliare::where("nome", "LIKE", "$term%")->orderBy("nome")->get();
-        $results = array();
+        $gruppi = GruppoFamiliare::where('nome', 'LIKE', "$term%")->orderBy('nome')->get();
+        $results = [];
         foreach ($gruppi as $gruppo) {
             $results[] = ['value' => $gruppo->id, 'label' => $gruppo->nome];
         }
+
         return response()->json($results);
     }
 
-    function famiglie(Request $request)
+    public function famiglie(Request $request)
     {
         $term = $request->term;
-        $famiglie = Famiglia::where("nome_famiglia", "LIKE", "$term%")->orderBy("nome_famiglia")->get();
-        $results = array();
+        $famiglie = Famiglia::where('nome_famiglia', 'LIKE', "$term%")->orderBy('nome_famiglia')->get();
+        $results = [];
         foreach ($famiglie as $famiglia) {
             $results[] = ['value' => $famiglia->id, 'label' => $famiglia->nome_famiglia];
         }
+
         return response()->json($results);
     }
 
     public function famigliaCreate(Request $request)
     {
-        return $request->input('nome') . $request->input('cognome');
+        return $request->input('nome').$request->input('cognome');
     }
 
     public function posizioniAll(Request $request)
     {
-        $id_posizioni_nuova_famiglia = array(1, 2, 7, 8);
+        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
         $posizioni = NucleoFamigliare::all();
-        $results = array();
+        $results = [];
         foreach ($posizioni as $posizion) {
             $results[] = [
                 'id' => $posizion->id,
                 'posizione' => $posizion->nucleo_famigliare,
-                "stato" => in_array($posizion->id, $id_posizioni_nuova_famiglia)
+                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
             ];
         }
+
         return response()->json($results);
     }
 
     /**
      * ritorna il json dell'azienda insieme ai lavoratori
+     *
      * @param id dell'azienda
+     *
      * @author Matteo Neri
      **/
     public function aziendaEdit($id)
     {
         $azienda = Azienda::aziende()->with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
-        $results = array(
+        $results = [
             [
                 'nome' => $azienda->nome_azienda,
                 'lavoratori' => $azienda->lavoratoriAttuali,
-                "tipo" => $azienda->tipo,
-                "lavoratoriStorici" => $azienda->lavoratoriStorici
-            ]
-        );
+                'tipo' => $azienda->tipo,
+                'lavoratoriStorici' => $azienda->lavoratoriStorici,
+            ],
+        ];
+
         return response()->json($results);
     }
 
     /**
      * ritorna il json deglin incarichi insieme ai lavoratori
+     *
      * @param id incarico
+     *
      * @author Matteo Neri
      **/
     public function incarichiEdit($id)
     {
         $azienda = Azienda::incarichi()->with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
-        $results = array(
+        $results = [
             [
                 'nome' => $azienda->nome_azienda,
                 'lavoratori' => $azienda->lavoratoriAttuali,
-                "tipo" => $azienda->tipo,
-                "lavoratoriStorici" => $azienda->lavoratoriStorici
-            ]
-        );
+                'tipo' => $azienda->tipo,
+                'lavoratoriStorici' => $azienda->lavoratoriStorici,
+            ],
+        ];
+
         return response()->json($results);
     }
 
@@ -138,7 +145,6 @@ class ApiController extends BaseController
     {
         return Enums::getPossibleEnumValues('mansione', 'db_nomadelfia.aziende_persone');
     }
-
 
     /**
      * ritorna l'array con tutti i possibili stati
@@ -160,7 +166,7 @@ class ApiController extends BaseController
             'stato' => $request->input('stato'),
             'data_inizio_azienda' => $request->input('data_inizio'),
             'mansione' => $request->input('mansione'),
-            'data_fine_azienda' => $request->input('data_fine')
+            'data_fine_azienda' => $request->input('data_fine'),
         ];
         if ($azienda->lavoratoriAttuali()->updateExistingPivot($request->input('lavoratore_id'), $attr)) {
             return [true];
@@ -173,13 +179,15 @@ class ApiController extends BaseController
      * Ritorna un array con le aziende attuali del lavoratore
      * se filtro=storico le aziende nello storico con lavoratore id
      * se filtro=possibili le aziende dove può lavorare il lavoratore id
+     *
      * @param id del lavoratore
      * @return array con i risultati
+     *
      * @author Matteo Neri
      **/
     public function aziendeLavoratore(Request $request, $id)
     {
-        $results = array();
+        $results = [];
         if ($request->has('filtro')) {
             // Aziende nello storico
             if ($request->query('filtro') == 'storico') {
@@ -207,12 +215,13 @@ class ApiController extends BaseController
                 $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
             }
         }
+
         return response()->json($results);
     }
 
     public function incarichiLavoratore(Request $request, $id)
     {
-        $results = array();
+        $results = [];
         if ($request->has('filtro')) {
             // Aziende nello storico
             if ($request->query('filtro') == 'storico') {
@@ -240,12 +249,15 @@ class ApiController extends BaseController
                 $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
             }
         }
+
         return response()->json($results);
     }
 
     /**
      * sposta un lavoratore da un'azienda ad unaltra
+     *
      * @return se l'operazione è andata a buon fine
+     *
      * @author Matteo Neri
      **/
     public function spostaLavoratore(Request $request)
@@ -263,7 +275,9 @@ class ApiController extends BaseController
 
     /**
      * sposta un lavoratore da un incarico all'altro
+     *
      * @return se l'operazione è a ndata a buon fine
+     *
      * @author Matteo Neri
      **/
     public function incarichiSpostaLavoratore(Request $request)
@@ -286,7 +300,6 @@ class ApiController extends BaseController
         $persona->assegnaLavoratoreIncarico($azienda, Carbon::parse($request->input('data')));
     }
 
-
     /**
      * Aggiunge una persona ad un'azienda
      *
@@ -300,6 +313,7 @@ class ApiController extends BaseController
 
     /**
      * ricerca i possibili nomi che hanno il valore inviato all'interno del nominativo
+     *
      * @author Matteo Neri
      **/
     public function autocompleteLavoratore(Request $request)
@@ -309,6 +323,7 @@ class ApiController extends BaseController
         $lavoratori_attivi = Persona::whereHas('aziendeAttuali', function ($query) use ($azienda_id) {
             $query->where('azienda_id', '=', $azienda_id);
         })->get();
+
         return $persone->filter(function ($value, $key) {
             return $value->id != 0;
         })->diff($lavoratori_attivi)->take(30)->toArray();

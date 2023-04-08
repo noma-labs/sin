@@ -2,23 +2,14 @@
 
 namespace Tests\Unit;
 
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon;
-
-use Tests\MigrateFreshDB;
-use Tests\CreatesApplication;
-
-
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-;
-
-it("testAssignPosizione", function () {
+it('testAssignPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
@@ -27,7 +18,7 @@ it("testAssignPosizione", function () {
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();
     $data_fine = Carbon::now()->addYears(3)->toDatestring();
-    $postulante = Posizione::perNome("postulante");
+    $postulante = Posizione::perNome('postulante');
 
     $persona->assegnaPosizione($postulante, $data_inizio, $data_fine);
 
@@ -35,7 +26,7 @@ it("testAssignPosizione", function () {
     $this->assertEquals($persona->posizioniStorico()->first()->pivot->data_fine, $data_fine);
 });
 
-it("testModificaDataPosizione", function () {
+it('testModificaDataPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
@@ -44,7 +35,7 @@ it("testModificaDataPosizione", function () {
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();
     $data_fine = Carbon::now()->addYears(3)->toDatestring();
-    $postulante = Posizione::perNome("postulante");
+    $postulante = Posizione::perNome('postulante');
 
     $persona->assegnaPosizione($postulante, $data_inizio, $data_fine);
     $new_data_inizio = Carbon::now()->addYears(6)->toDatestring();
@@ -55,4 +46,3 @@ it("testModificaDataPosizione", function () {
     $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $new_data_inizio);
     // $this->assertEquals($persona->posizioneAttuale()->pivot->data_fine, $data_fine);
 });
-

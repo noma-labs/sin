@@ -12,20 +12,20 @@ class PopolazioneQueryBuilder extends Builder
         return $this
             ->selectRaw('persone.*, popolazione.*')
             ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id')
-            ->leftJoin('persone_posizioni', 'persone_posizioni.persona_id', '=','popolazione.persona_id')
+            ->leftJoin('persone_posizioni', 'persone_posizioni.persona_id', '=', 'popolazione.persona_id')
             ->whereNull('popolazione.data_uscita')
             ->whereNull('persone.data_decesso')
-            ->where(function ($query){
+            ->where(function ($query) {
                 $query->where('persone_posizioni.stato', '=', '1')
                     ->orWhereNull('persone_posizioni.stato');
             });
     }
 
-
-    public function presenteByNomeCognomeNominativo(string $term){
+    public function presenteByNomeCognomeNominativo(string $term)
+    {
         return $this->presente()
-            ->where(function ($query) use ($term){
-            $query->where( 'nominativo', 'LIKE', "$term%")
+            ->where(function ($query) use ($term) {
+            $query->where('nominativo', 'LIKE', "$term%")
                 ->orWhere('nome', 'LIKE', "$term%")
                 ->orWhere('cognome', 'LIKE', "$term%");
 
@@ -35,12 +35,12 @@ class PopolazioneQueryBuilder extends Builder
     public function stats()
     {
         return DB::connection('db_nomadelfia')->select(
-            DB::raw("With pop_eta AS (
+            DB::raw('With pop_eta AS (
                         SELECT persone.*, p.data_entrata, TIMESTAMPDIFF(YEAR, persone.data_nascita, CURDATE()) as eta
                         FROM persone 
                         INNER join popolazione p ON p.persona_id = persone.id
                         where p.data_uscita is NULL and persone.data_decesso IS NULL and persone.id != 0
-                     ) select min(eta) as min, max(eta) as max , TRUNCATE(avg(eta),0) as avg , VARIANCE(eta) as var from pop_eta;")
+                     ) select min(eta) as min, max(eta) as max , TRUNCATE(avg(eta),0) as avg , VARIANCE(eta) as var from pop_eta;')
         )[0];
     }
 

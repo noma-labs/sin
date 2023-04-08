@@ -5,33 +5,27 @@ namespace App\Officina\Models;
 use Database\Factories\VeicoloFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Officina\Models\Modelli;
-use App\Officina\Models\Impiego;
-use App\Officina\Models\Tipologia;
-use App\Officina\Models\Alimentazioni;
-use App\Officina\Models\Prenotazioni;
-use App\Officina\Models\Documento;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class Veicolo extends Model
 {
     use SoftDeletes;
     use HasFactory;
 
-
     protected $table = 'veicolo';
+
     protected $connection = 'db_officina';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
+
     protected $guarded = [];
+
     public $timestamps = false;
 
     protected static function newFactory()
     {
         return VeicoloFactory::new();
     }
-
 
     public function impieghi()
     {

@@ -9,25 +9,23 @@ use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
+use App\Patente\Models\Patente;
+use App\Traits\SortableTrait;
+use Carbon;
+use Database\Factories\PersonaFactory;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-
-use App\Patente\Models\Patente;
-use App\Traits\SortableTrait;
-use Database\Factories\PersonaFactory;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon;
-
 
 class Persona extends Model
 {
@@ -35,19 +33,20 @@ class Persona extends Model
     use SoftDeletes;
     use HasFactory;
 
-
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'persone';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     public $timestamps = true;
+
     protected $guarded = [];
 
     protected static function newFactory()
     {
         return PersonaFactory::new();
     }
-
 
     public function setNomeAttribute($value)
     {
@@ -75,6 +74,7 @@ class Persona extends Model
     public function buildCompleteName()
     {
         $year = Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
+
         return "($this->>year) $this->nominativo ($this->nome  $this->cognome)";
     }
 
@@ -82,7 +82,6 @@ class Persona extends Model
     {
         return Str::substr($this->cognome, 0, 1);
     }
-
 
     public function anni()
     {
@@ -96,7 +95,7 @@ class Persona extends Model
 
     public function isMaschio()
     {
-        return $this->sesso == "M";
+        return $this->sesso == 'M';
     }
 
     public function scopeNumeroElencoPrefixByLetter($query, string $lettera)
@@ -110,7 +109,7 @@ class Persona extends Model
     public function proposeNumeroElenco()
     {
         if ($this->numero_elenco) {
-            throw new Exception("La persona " . $this->nominativo . " ha già un numero di elenco " . $this->numero_elenco);
+            throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
         $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
@@ -119,23 +118,27 @@ class Persona extends Model
             ->orderBy('numero', 'DESC')
             ->first();
         if ($res) {
-            $new = (int)$res->numero + 1;
-            return $res->lettera . $new;
+            $new = (int) $res->numero + 1;
+
+            return $res->lettera.$new;
         }
-        return $firstLetter . "1";
+
+        return $firstLetter.'1';
 
     }
 
     public function scopeMaggiorenni($query)
     {
         $date = Carbon::now()->subYears(18)->toDatestring();
-        return $query->where('data_nascita', "<=", $date);
+
+        return $query->where('data_nascita', '<=', $date);
     }
 
     public function scopeMinorenni($query)
     {
         $date = Carbon::now()->subYears(18)->toDatestring();
-        return $query->where('data_nascita', ">", $date);
+
+        return $query->where('data_nascita', '>', $date);
     }
 
     public function scopeDonne($query)
@@ -148,24 +151,22 @@ class Persona extends Model
         return $query->where('sesso', 'M');
     }
 
-
     /**
      * Ritorna le persone che hanno gli anni maggiori o uguali di $eta.
      *
-     * @param int $eta
      * @author Davide Neri
      **/
     public function scopeDaEta($query, int $eta, string $orderBy = 'nominativo', $travel_to_year = null)
     {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->subYears($eta);
+
         return $query->where('data_nascita', '<=', $end)->orderby($orderBy);
     }
 
     /**
      * Ritorna le persone che hanno un eta compresa tra da $frometa e $toeta.
-     * @param int $frometa
-     * @param int $toeta
+     *
      * @author Davide Neri
      **/
     public function scopeFraEta(
@@ -187,6 +188,7 @@ class Persona extends Model
         }
         $fromdata = $start->toDateString();
         $todata = $end->toDateString();
+
         return $query->whereBetween('data_nascita', [$fromdata, $todata])->orderBy($orderBy);
     }
 
@@ -194,7 +196,6 @@ class Persona extends Model
     {
         return $query->whereRaw('YEAR(data_nascita)= ?', [$anno]);
     }
-
 
     public function patenti()
     {
@@ -206,12 +207,11 @@ class Persona extends Model
         return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
     }
 
-
     // GRUPPO FAMILIARE
     public function gruppifamiliari()
     {
         return $this->belongsToMany(GruppoFamiliare::class, 'gruppi_persone', 'persona_id', 'gruppo_famigliare_id')
-            ->withPivot("data_entrata_gruppo", "data_uscita_gruppo", 'stato');
+            ->withPivot('data_entrata_gruppo', 'data_uscita_gruppo', 'stato');
     }
 
     public function gruppofamiliareAttuale()
@@ -225,7 +225,6 @@ class Persona extends Model
             throw PersonaHasMultipleGroup::named($this->nominativo);
         }
     }
-
 
     public function gruppofamiliariStorico()
     {
@@ -253,7 +252,7 @@ class Persona extends Model
                 if ($attuale) {
                     $this->gruppifamiliari()->updateExistingPivot($attuale->id, [
                         'stato' => '0',
-                        'data_uscita_gruppo' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)
+                        'data_uscita_gruppo' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio),
                     ]);
                 }
                 $this->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_inizio]);
@@ -263,7 +262,7 @@ class Persona extends Model
                 throw $e;
             }
         } else {
-            throw new Exception("Bad Argument. Gruppo familiare must be an id or a model.");
+            throw new Exception('Bad Argument. Gruppo familiare must be an id or a model.');
         }
     }
 
@@ -273,25 +272,27 @@ class Persona extends Model
             DB::raw("UPDATE gruppi_persone
                SET stato = '0', data_uscita_gruppo = :dataout
                WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain"),
-            array('persona' => $this->id, "gruppo" => $gruppo_id, "datain" => $datain, "dataout" => $dataout)
+            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'datain' => $datain, 'dataout' => $dataout]
         );
+
         return $res;
     }
 
     public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
     {
         $res = DB::connection('db_nomadelfia')->update(
-            DB::raw("UPDATE gruppi_persone
+            DB::raw('UPDATE gruppi_persone
                SET  data_entrata_gruppo = :new
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current"),
-            array('persona' => $this->id, "gruppo" => $gruppo_id, "current" => $currentDatain, "new" => $newDataIn)
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current'),
+            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
+
         return $res;
     }
 
-
     /**
      * Sposta una persona da un gruppo familiare a un altro..
+     *
      * @author Davide Neri
      **/
     public function spostaPersonaInGruppoFamiliare(
@@ -302,6 +303,7 @@ class Persona extends Model
         $datain_new
     ) {
         $persona_id = $this->id;
+
         return DB::transaction(function () use (
             &$persona_id,
             &$gruppo_id_current,
@@ -316,12 +318,12 @@ class Persona extends Model
                  SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
                  WHERE persona_id = :p  AND gruppo_famigliare_id = :g AND data_entrata_gruppo = :datain
                 "),
-                array(
+                [
                     'p' => $persona_id,
                     'g' => $gruppo_id_current,
-                    "datain" => $datain_current,
-                    'dataout' => $dataout_current
-                )
+                    'datain' => $datain_current,
+                    'dataout' => $dataout_current,
+                ]
             );
             // disabilita tutti i gruppi familiare della persona
             DB::connection('db_nomadelfia')->update(
@@ -329,14 +331,14 @@ class Persona extends Model
                 SET gruppi_persone.stato = '0'
                 WHERE persona_id = :p
                 "),
-                array('p' => $persona_id)
+                ['p' => $persona_id]
             );
 
             // assegna il nuovo gruppo alla persona
             DB::connection('db_nomadelfia')->insert(
                 DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
                 VALUES (:persona, :gruppo, '1', :datain) "),
-                array('persona' => $persona_id, 'gruppo' => $gruppo_id_new, 'datain' => $datain_new)
+                ['persona' => $persona_id, 'gruppo' => $gruppo_id_new, 'datain' => $datain_new]
             );
         });
     }
@@ -346,8 +348,8 @@ class Persona extends Model
     {
         return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
             ->withPivot('data_inizio_azienda', 'data_fine_azienda', 'mansione', 'stato')
-            ->where("tipo", "azienda")
-            ->orderby("nome_azienda");
+            ->where('tipo', 'azienda')
+            ->orderby('nome_azienda');
     }
 
     public function aziendeAttuali()
@@ -362,13 +364,12 @@ class Persona extends Model
 
     public function assegnaLavoratoreAzienda($azienda, $data_inizio)
     {
-        return $this->assegnaAzienda($azienda, $data_inizio, "LAVORATORE");
+        return $this->assegnaAzienda($azienda, $data_inizio, 'LAVORATORE');
     }
-
 
     public function assegnaResponsabileAzienda($azienda, $data_inizio)
     {
-        return $this->assegnaAzienda($azienda, $data_inizio, "RESPONSABILE AZIENDA");
+        return $this->assegnaAzienda($azienda, $data_inizio, 'RESPONSABILE AZIENDA');
     }
 
     public function assegnaAzienda($azienda, $data_inizio, $mansione)
@@ -376,24 +377,24 @@ class Persona extends Model
         if (is_string($azienda)) {
             $azienda = Azienda::findOrFail($azienda);
         }
-        if (strcasecmp($mansione, "LAVORATORE") == 0 or strcasecmp($mansione, "RESPONSABILE AZIENDA") == 0) {
+        if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
             if ($azienda instanceof Azienda) {
-                if (!$azienda->isAzienda()) {
+                if (! $azienda->isAzienda()) {
                     throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
                 }
                 if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
-                    throw  CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
+                    throw CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
                 }
                 $this->aziende()->attach($azienda->id, [
                     'stato' => 'Attivo',
                     'data_inizio_azienda' => $data_inizio,
-                    'mansione' => $mansione
+                    'mansione' => $mansione,
                 ]);
             } else {
-                throw new Exception("Bad Argument. Azienda must be the id or a model.");
+                throw new Exception('Bad Argument. Azienda must be the id or a model.');
             }
         } else {
-            throw  CouldNotAssignAzienda::mansioneNotValid($mansione);
+            throw CouldNotAssignAzienda::mansioneNotValid($mansione);
         }
     }
 
@@ -402,7 +403,7 @@ class Persona extends Model
     {
         return $this->belongsToMany(Incarico::class, 'incarichi_persone', 'persona_id', 'incarico_id')
             ->withPivot('data_inizio', 'data_fine')
-            ->orderby("nome");
+            ->orderby('nome');
     }
 
     public function incarichiAttuali()
@@ -422,9 +423,11 @@ class Persona extends Model
             return $item->id;
         });
         if ($attuali != null) {
-            $attuali = Incarico::whereNotIn("id", $multiplied)->get();
+            $attuali = Incarico::whereNotIn('id', $multiplied)->get();
+
             return $attuali;
         }
+
         return $attuali;
     }
 
@@ -438,11 +441,11 @@ class Persona extends Model
         if (is_string($incarico)) {
             $incarico = Incarico::findOrFail($incarico);
         }
-        if (!$incarico instanceof Incarico) {
-            throw new Exception("Bad Argument. Incarico must be the id or a model.");
+        if (! $incarico instanceof Incarico) {
+            throw new Exception('Bad Argument. Incarico must be the id or a model.');
         }
         if ($this->incarichiAttuali()->get()->contains($incarico->id)) { // la persona è stata già l'incarico
-            throw  CouldNotAssignIncarico::CouldNotAssignIncarico($incarico, $this);
+            throw CouldNotAssignIncarico::CouldNotAssignIncarico($incarico, $this);
         }
         $this->incarichi()->attach($incarico->id, [
             'data_inizio' => $data_inizio,
@@ -454,19 +457,18 @@ class Persona extends Model
     {
         return $this->belongsToMany(Azienda::class, 'persone_cariche', 'persona_id', 'cariche_id')
             ->withPivot('data_inizio', 'data_fine')
-            ->orderby("nome");
+            ->orderby('nome');
     }
 
     public function caricheAttuali()
     {
-        return $this->aziende()->wherePivot('data_fine', "=", null);
+        return $this->aziende()->wherePivot('data_fine', '=', null);
     }
 
     public function caricheStorico()
     {
-        return $this->aziende()->wherePivot('stato', "!=", null);
+        return $this->aziende()->wherePivot('stato', '!=', null);
     }
-
 
     // Popolazione
     public function popolazione(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -474,34 +476,36 @@ class Persona extends Model
         return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
 
-
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata)
     {
-        $affected = PopolazioneNomadelfia::query()->where("persona_id", $this->id)->where("data_entrata",
-            $old_data_entrata)->update(["data_entrata" => $data_entrata]);
+        $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
+            $old_data_entrata)->update(['data_entrata' => $data_entrata]);
         if ($affected > 0) {
             return true;
         }
+
         return false;
     }
 
     public function getDataEntrataNomadelfia()
     {
 
-        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->orderBy("data_entrata", "DESC")->get();
+        $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_entrata', 'DESC')->get();
         if (count($pop) > 0) {
             return $pop->first()->data_entrata;
         }
+
         return null;
     }
 
     public function getDataUscitaNomadelfia()
     {
 
-        $pop = PopolazioneNomadelfia::where("persona_id", $this->id)->whereNotNull("data_uscita");
+        $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->whereNotNull('data_uscita');
         if ($pop->count() > 0) {
             return $pop->first()->data_uscita;
         }
+
         return null;
 
     }
@@ -513,10 +517,11 @@ class Persona extends Model
 
     public function isPersonaInterna(): bool
     {
-        $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where("persona_id", $this->id);
+        $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where('persona_id', $this->id);
         if ($pop->count() > 0) {
             return true;
         }
+
         return false;
     }
 
@@ -538,11 +543,11 @@ class Persona extends Model
 
             // aggiorna la data di decesso
             $conn->update(
-                "UPDATE persone SET data_decesso = ?, updated_at = NOW() WHERE id = ?",
+                'UPDATE persone SET data_decesso = ?, updated_at = NOW() WHERE id = ?',
                 [$data_decesso, $this->id]
             );
 
-            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+            $conn->insert('UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL',
                 [$data_decesso, $this->id]);
 
             // aggiorna lo stato familiare  con la data di decesso
@@ -579,9 +584,8 @@ class Persona extends Model
             $conn = DB::connection('db_nomadelfia');
 
             // setta la data uscita della persona
-            $conn->insert("UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL",
+            $conn->insert('UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL',
                 [$data_uscita, $persona_id]);
-
 
             // conclude la posizione in nomadelfia della persona con la data di uscita
             $conn->insert(
@@ -602,17 +606,17 @@ class Persona extends Model
             );
 
             $conn->update(
-                "UPDATE incarichi_persone SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL",
+                'UPDATE incarichi_persone SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL',
                 [$data_uscita, $persona_id]
             );
 
             // conclude la scuola
             $conn->update(
-                "UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL",
+                'UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL',
                 [$data_uscita, $persona_id]
             );
 
-            if (!$this->isMaggiorenne() && $disable_from_family) {
+            if (! $this->isMaggiorenne() && $disable_from_family) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
@@ -676,29 +680,28 @@ class Persona extends Model
                 throw $e;
             }
         } else {
-            throw new Exception("Bad Argument. Stato must be an id or a model.");
+            throw new Exception('Bad Argument. Stato must be an id or a model.');
         }
     }
 
     public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null)
     {
-        $sacerdote = Stato::perNome("sacerdote");
+        $sacerdote = Stato::perNome('sacerdote');
         $this->assegnaStato($sacerdote, $data_inizio, $attuale_data_fine);
     }
-
 
     // FAMIGLIA
     public function famiglie()
     {
         return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
-            ->withPivot("stato");
+            ->withPivot('stato');
     }
 
     public function famigliaAttuale()
     {
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
-            ->withPivot('posizione_famiglia', 'data_entrata', "data_uscita")
+            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita')
             ->get();
         if ($famiglia->count() == 1) {
             return $famiglia[0];
@@ -713,7 +716,7 @@ class Persona extends Model
     {
         return $this->famiglie()
             ->wherePivot('stato', '0')
-            ->withPivot('posizione_famiglia', 'data_entrata', "data_uscita");
+            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita');
     }
 
     // Crea una famiglia e aggiunge la persona come componente
@@ -730,30 +733,29 @@ class Persona extends Model
                     'data_entrata' => ($data_entrata ? $data_entrata : $data_creazione),
                 ]);
             });
+
             return true;
         } catch (\Exception $e) {
             return false;
         }
     }
 
-
     /**
      * Move a person to a family.
      * If the person has already an active family, the current family is deactivate.
      *
      * @param Famiglia
-     *
      * @return $this
      */
     public function spostaNellaFamiglia($famiglia, $data_entrata, $posizione, $data_uscita = null)
     {
         if ($famiglia->single()) {
-            throw  SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
-                "La famiglia single non può avere più di un componente");
+            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
+                'La famiglia single non può avere più di un componente');
         }
         $attuale = $this->famigliaAttuale();
         try {
-            if (!$attuale) {
+            if (! $attuale) {
                 $this->famiglie()->attach($famiglia->id,
                     ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
             } else {
@@ -764,11 +766,11 @@ class Persona extends Model
                         SET  data_uscita = :uscita, stato = '0'
                         WHERE persona_id  = :persona AND famiglia_id = :famiglia "),
                         //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
-                        array(
-                            "persona" => $this->id,
+                        [
+                            'persona' => $this->id,
                             'famiglia' => $attuale->id,
-                            "uscita" => ($data_uscita ? $data_uscita : $data_entrata)
-                        )
+                            'uscita' => ($data_uscita ? $data_uscita : $data_entrata),
+                        ]
                     );
 
                     $this->famiglie()->attach($famiglia->id,
@@ -778,14 +780,15 @@ class Persona extends Model
         } catch (\Exception $e) {
             throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str(e));
         }
+
         return $this;
     }
 
-
     /**
      * Ritorna la posizione di una persona in una famiglia
-     * @param String $posizione
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function famigliaPosizione(string $posizione)
@@ -799,7 +802,9 @@ class Persona extends Model
 
     /**
      * Ritorna vero se la persona è maggiorenne
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isMaggiorenne()
@@ -807,40 +812,47 @@ class Persona extends Model
         return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
     }
 
-
     /**
      * Ritorna vero se la persona è single altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isSingle()
     {
-        return $this->famigliaPosizione("SINGLE");
+        return $this->famigliaPosizione('SINGLE');
     }
 
     /**
      * Ritorna vero se una persona è il capo famiglia altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isCapoFamiglia()
     {
-        return $this->famigliaPosizione("CAPO FAMIGLIA");
+        return $this->famigliaPosizione('CAPO FAMIGLIA');
     }
 
     /**
      * Ritorna vero se una persona è la moglie altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isMoglie()
     {
-        return $this->famigliaPosizione("MOGLIE");
+        return $this->famigliaPosizione('MOGLIE');
     }
 
     /**
      * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isFiglio()
@@ -850,22 +862,26 @@ class Persona extends Model
 
     /**
      * Ritorna vero se una persona è un figlio nato altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isFiglioNato()
     {
-        return $this->famigliaPosizione("FIGLIO NATO");
+        return $this->famigliaPosizione('FIGLIO NATO');
     }
 
     /**
      * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
-     * @return boolean
+     *
+     * @return bool
+     *
      * @author Davide Neri
      **/
     public function isFiglioAccolto()
     {
-        return $this->famigliaPosizione("FIGLIO ACCOLTO");
+        return $this->famigliaPosizione('FIGLIO ACCOLTO');
     }
 
     // POSIZIONE
@@ -893,11 +909,11 @@ class Persona extends Model
         if ($posizione) {
             return $posizione->isEffettivo();
         }
+
         return false;
     }
 
-    public
-    function posizioniStorico()
+    public function posizioniStorico()
     {
         return $this->posizioni()->wherePivot('stato', '0');
     }
@@ -909,12 +925,11 @@ class Persona extends Model
 //        if $attuale && $attuale->isPostulante){
 //            throw new Es
 //        }
-        $p = Posizione::perNome("postulante");
+        $p = Posizione::perNome('postulante');
         $this->assegnaPosizione($p, $data_inizio);
     }
 
-    public
-    function assegnaNomadelfoEffettivo(
+    public function assegnaNomadelfoEffettivo(
         Carbon\Carbon $data_inizio
     ) {
         // TODO: check that the posizione attuale è postulante
@@ -922,12 +937,11 @@ class Persona extends Model
 //        if $attuale && !$attuale->isPostulante){
 //            throw new Es
 //        }
-        $effe = Posizione::perNome("effettivo");
+        $effe = Posizione::perNome('effettivo');
         $this->assegnaPosizione($effe, $data_inizio);
     }
 
-    public
-    function assegnaPosizione(
+    public function assegnaPosizione(
         $posizione,
         string $data_inizio,
         string $attuale_data_fine = null
@@ -950,27 +964,26 @@ class Persona extends Model
                 throw $e;
             }
         } else {
-            throw new Exception("Bad Argument. Posizione must be an id or a model.");
+            throw new Exception('Bad Argument. Posizione must be an id or a model.');
         }
     }
 
-    public
-    function modificaDataInizioPosizione(
+    public function modificaDataInizioPosizione(
         $posizione_id,
         $currentDatain,
         $newDataIn
     ) {
         $res = DB::connection('db_nomadelfia')->update(
-            DB::raw("UPDATE persone_posizioni
+            DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
-               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current"),
-            array("posizone" => $posizione_id, 'persona' => $this->id, "current" => $currentDatain, "new" => $newDataIn)
+               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current'),
+            ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
+
         return $res;
     }
 
-    public
-    function concludiPosizione(
+    public function concludiPosizione(
         $posizione_id,
         $datain,
         $datafine
@@ -979,37 +992,39 @@ class Persona extends Model
             DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
                WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :datain"),
-            array("posizone" => $posizione_id, 'persona' => $this->id, "datain" => $datain, "dataout" => $datafine)
+            ['posizone' => $posizione_id, 'persona' => $this->id, 'datain' => $datain, 'dataout' => $datafine]
         );
+
         return $res;
     }
 
-
     /**
      * Ritorna le posizioni assegnabili ad una persona.
+     *
      * @return Collection Posizione
+     *
      * @author Davide Neri
      **/
-    public
-    function posizioniPossibili()
+    public function posizioniPossibili()
     {
         $pos = self::posizioneAttuale();
         $posizioni = Posizione::all();
         if ($pos != null && $pos->count() == 1) {
             $pos = $pos->first();
             $posizioni = $posizioni->except([$pos->id]);
-            if ($pos->is(Posizione::find("EFFE"))) {
-                return $posizioni->except([Posizione::find("FIGL")->id]);
+            if ($pos->is(Posizione::find('EFFE'))) {
+                return $posizioni->except([Posizione::find('FIGL')->id]);
             }
-            if ($pos->is(Posizione::find("POST"))) {
-                return $posizioni->except([Posizione::find("FIGL")->id]);
+            if ($pos->is(Posizione::find('POST'))) {
+                return $posizioni->except([Posizione::find('FIGL')->id]);
             }
-            if ($pos->is(Posizione::find("OSPP"))) {
-                return $posizioni->except([Posizione::find("EFFE")->id]);
+            if ($pos->is(Posizione::find('OSPP'))) {
+                return $posizioni->except([Posizione::find('EFFE')->id]);
             }
-            if ($pos->is(Posizione::find("FIGL"))) {
-                return $posizioni->except([Posizione::find("EFFE")->id]);
+            if ($pos->is(Posizione::find('FIGL'))) {
+                return $posizioni->except([Posizione::find('EFFE')->id]);
             }
+
             return $posizioni;
         } else {
             return $posizioni;
@@ -1020,8 +1035,7 @@ class Persona extends Model
 //                         Esercizi Spirituali
 //***************************************************************************
 
-    public
-    function eserciziSpirituali()
+    public function eserciziSpirituali()
     {
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
     }
@@ -1029,14 +1043,12 @@ class Persona extends Model
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
-     * @param int|null $gruppoFamiliareAttuale
-     * @param date $dataUscitaGruppoFamiliareAttuale
-     * @param int $gruppoFamiliareNuovo
-     * @param date $dataEntrataGruppo
-     *
+     * @param  int|null  $gruppoFamiliareAttuale
+     * @param  date  $dataUscitaGruppoFamiliareAttuale
+     * @param  int  $gruppoFamiliareNuovo
+     * @param  date  $dataEntrataGruppo
      */
-    public
-    function cambiaGruppoFamiliare(
+    public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
@@ -1048,10 +1060,9 @@ class Persona extends Model
         }
     }
 
-    public
-    function assegnaPersonaANuovoGruppoFamiliare(
+    public function assegnaPersonaANuovoGruppoFamiliare(
         $gruppoFamiliareAttuale,
-        $dataUscitaGruppoFamiliareAttuale = null,
+        $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo = null
     ) {

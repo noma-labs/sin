@@ -2,33 +2,31 @@
 
 namespace Tests\Scuola\Unit;
 
-
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 
-
-it("add responsible to school", function () {
+it('add responsible to school', function () {
     $a = Anno::createAnno(2014);
     $p = Studente::factory()->maggiorenne()->maschio()->create();
     $a->aggiungiResponsabile($p);
     $this->assertEquals($p->id, $a->responsabile->id);
 });
 
-it("build new year correctly", function () {
+it('build new year correctly', function () {
     $a = Anno::createAnno(1999);
     $this->assertEquals('1999/2000', $a->scolastico);
     $this->assertEquals('2000/2001', $a->nextAnnoScolasticoString());
 });
 
-it("add classroom", function () {
+it('add classroom', function () {
     $a = Anno::createAnno(2007);
     $this->assertNotNull($a->id);
     $tipi = ClasseTipo::all();
@@ -45,7 +43,7 @@ it("add classroom", function () {
     $this->assertCount(1, $c->alunni()->get());
 });
 
-it("get student from year", function () {
+it('get student from year', function () {
     $a = Anno::createAnno(2018);
     $t = ClasseTipo::all();
 
@@ -70,7 +68,7 @@ it("get student from year", function () {
     $this->assertFalse($p3->isDeceduto());
 });
 
-it("get students from classroom types", function () {
+it('get students from classroom types', function () {
     $a = Anno::createAnno(1815);
     $t = ClasseTipo::all();
     $now = Carbon::now();
@@ -99,7 +97,7 @@ it("get students from classroom types", function () {
     $this->assertEquals(2, $tot[2]->count);
 });
 
-it("create classroom in a year", function () {
+it('create classroom in a year', function () {
 
     $a = Anno::createAnno(2019);
 
@@ -118,12 +116,12 @@ it("create classroom in a year", function () {
     $this->assertEquals($tipo->id, $classe->tipo->id);
 });
 
-it("get prescuola type", function () {
+it('get prescuola type', function () {
     $t = ClasseTipo::findOrFail(1);
     $this->assertTrue($t->isPrescuola());
 });
 
-it("add new student", function () {
+it('add new student', function () {
     $now = Carbon::now();
     $a = Anno::createAnno(2002, $now);
     $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
@@ -134,7 +132,7 @@ it("add new student", function () {
     $c->aggiungiAlunno($p1, $now->addDays(15));
 });
 
-it("add teacher", function () {
+it('add teacher', function () {
     $now = Carbon::now();
     $a = Anno::createAnno(2199, $now);
     $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
@@ -152,7 +150,7 @@ it("add teacher", function () {
     $this->assertCount(2, $r['Prescuola']);
 });
 
-it("get next type of classroom", function () {
+it('get next type of classroom', function () {
 
     $a = Anno::createAnno(2030, '2023-12-12', true);
     $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
@@ -165,8 +163,8 @@ it("get next type of classroom", function () {
     $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
 });
 
-it("clone students from existing year", function () {
-    $a = Anno::createAnno(2050, "2023-12-12", true);
+it('clone students from existing year', function () {
+    $a = Anno::createAnno(2050, '2023-12-12', true);
     $this->assertCount(11, $a->classi()->get());
 
     $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
@@ -190,7 +188,7 @@ it("clone students from existing year", function () {
 
 });
 
-it("copy students from other classroom", function () {
+it('copy students from other classroom', function () {
     $a = Anno::createAnno(2034, '2023-12-12', true);
     $this->assertCount(11, $a->classi()->get());
 
@@ -205,7 +203,7 @@ it("copy students from other classroom", function () {
     $this->assertCount(2, $aNew->alunni());
 });
 
-it("get next classroom", function () {
+it('get next classroom', function () {
     $a = Anno::createAnno(2037, '2023-12-12', true);
     $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
     $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
@@ -217,7 +215,7 @@ it("get next classroom", function () {
     $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
 });
 
-it("first or create classroom", function () {
+it('first or create classroom', function () {
     $a = Anno::createAnno(2070, '2023-12-12');
     $this->assertCount(0, $a->classi()->get());
     $a->findOrCreateClasseByTipo(ClasseTipo::prescuola());
@@ -225,7 +223,7 @@ it("first or create classroom", function () {
 
 });
 
-it("get possible students in year", function () {
+it('get possible students in year', function () {
     $anno = 1994;
     $a = Anno::createAnno($anno, '2023-12-12', true);
     $this->assertCount(11, $a->classi()->get());
@@ -236,7 +234,7 @@ it("get possible students in year", function () {
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
-    $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
 
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());

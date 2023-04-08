@@ -7,12 +7,13 @@ use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public $search = "ad";
+    public $search = 'ad';
 
     public function render()
     {
 //        dd($this->search);
-        $popolazione = PopolazioneNomadelfia::presente()->where("nominativo", 'like', "%".$this->search."%")->get();
+        $popolazione = PopolazioneNomadelfia::presente()->where('nominativo', 'like', '%'.$this->search.'%')->get();
+
         return view('livewire.dashboard', ['popolazione' => $popolazione]);
     }
 }

@@ -2,23 +2,23 @@
 
 namespace Tests\Popolazione\Unit;
 
+use App\Scuola\Models\Anno;
+use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use App\Scuola\Models\Anno;
-use App\Scuola\Models\ClasseTipo;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 
-it("remove dead person from population", function () {
+it('remove dead person from population', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     $data_entrata = Carbon::now()->toDatestring();
@@ -51,7 +51,7 @@ it("remove dead person from population", function () {
     $this->assertEquals($tot - 1, count($pop));
 });
 
-it("manage exit of an adult", function () {
+it('manage exit of an adult', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     $data_entrata = Carbon::now()->toDatestring();
@@ -79,7 +79,7 @@ it("manage exit of an adult", function () {
     $this->assertNull($persona->posizioneAttuale());
     $last_posi = $persona->posizioniStorico()->get()->last();
     $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
-    $celibe = Stato::perNome("celibe");
+    $celibe = Stato::perNome('celibe');
     $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
     $this->assertNull($persona->gruppofamiliareAttuale());
     $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
@@ -100,7 +100,7 @@ it("manage exit of an adult", function () {
 * viene tolto da tutte le posizioni con la data di uscita
 * e viene tolto dal nucleo familiare.
 */
-it("manage exit of underage", function () {
+it('manage exit of underage', function () {
     $persona = Persona::factory()->minorenne()->maschio()->create();
 
     $gruppo = GruppoFamiliare::all()->random();
@@ -110,7 +110,7 @@ it("manage exit of underage", function () {
     $capoFam->gruppifamiliari()->attach($gruppo->id,
         ['stato' => '1', 'data_entrata_gruppo' => Carbon::now()->subYears(10)->toDatestring()]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => "CAPO FAMIGLIA", 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
 
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
@@ -134,7 +134,7 @@ it("manage exit of underage", function () {
     $last_posi = $persona->posizioniStorico()->get()->last();
     $this->assertEquals($persona->data_nascita, $last_posi->pivot->data_inizio);
     $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
-    $celibe = Stato::perNome("celibe");
+    $celibe = Stato::perNome('celibe');
     $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
 
     $this->assertNull($persona->gruppofamiliareAttuale());
@@ -152,7 +152,7 @@ it("manage exit of underage", function () {
 /*
 * Testa l'uscita di una famiglia.
 */
-it("manage exit of family", function () {
+it('manage exit of family', function () {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
     $this->assertEquals($init_tot, count($pop));
@@ -167,9 +167,9 @@ it("manage exit of family", function () {
     $fnato = Persona::factory()->minorenne()->femmina()->create();
     $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-    $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($capoFam, $now, $gruppo);
-    $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, $now);
     $famiglia->assegnaMoglie($moglie, $now);
@@ -194,7 +194,7 @@ it("manage exit of family", function () {
 * Testa l'uscita di una famiglia con alcuni componeneti fuori dal nucleo.
 * Controlla che i componenti fuori dal nucleo rimagono come persone interne.
 */
-it("manage people not part of family when it exits", function () {
+it('manage people not part of family when it exits', function () {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
     $this->assertEquals($init_tot, count($pop));
@@ -209,9 +209,9 @@ it("manage people not part of family when it exits", function () {
     $fnato = Persona::factory()->minorenne()->femmina()->create();
     $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-    $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($capoFam, $now, $gruppo);
-    $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, $now);
     $famiglia->assegnaMoglie($moglie, $now);
@@ -227,7 +227,7 @@ it("manage people not part of family when it exits", function () {
 
     // toglie un figlio dal nucleo familiare
     $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(),
-        " remove from nucleo");
+        ' remove from nucleo');
 
     $data_uscita = Carbon::now()->toDatestring();
     $famiglia->uscita($data_uscita);
@@ -240,7 +240,7 @@ it("manage people not part of family when it exits", function () {
 /*
 * Testa il conteggio dei figli minorenni nella popolazione
 */
-it("count the underages of the population", function () {
+it('count the underages of the population', function () {
     $now = Carbon::now()->toDatestring();
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
@@ -269,7 +269,7 @@ it("count the underages of the population", function () {
 /*
  * Testa quando una persona diventa postulante e nomadelfo effettivo
  */
-it("assign postulante and effettivo status", function () {
+it('assign postulante and effettivo status', function () {
     // entrata maggiorenne
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -284,7 +284,7 @@ it("assign postulante and effettivo status", function () {
     $this->assertTrue($persona->posizioneAttuale()->isEffettivo());
 });
 
-it("returns the figli between two ages", function () {
+it('returns the figli between two ages', function () {
     // store the actual figli (maybe inserted by other tests)
     $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count();
 
@@ -322,8 +322,7 @@ it("returns the figli between two ages", function () {
         count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true))); // - $actualFigli );
 });
 
-
-it("return the count of population", function () {
+it('return the count of population', function () {
     $before = PopolazioneNomadelfia::presente()->count();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 

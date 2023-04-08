@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Patente\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -16,23 +17,22 @@ use Validator;
 
 class PatenteController extends CoreBaseController
 {
-
     public function scadenze()
     {
-        $patenti = Patente::with("persona")->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
-        $patentiScadute = Patente::with("persona")->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
+        $patenti = Patente::with('persona')->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
+        $patentiScadute = Patente::with('persona')->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
 
-        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with("persona")->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with("persona")->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
 
-        $patentiCommissione = Patente::with("persona")->ConCommisione()->InScadenza(config('patente.scadenze.commissione.inscadenza'))->orderBy('data_scadenza_patente')->get();
-        $patentiCommisioneScadute = Patente::with("persona")->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
+        $patentiCommissione = Patente::with('persona')->ConCommisione()->InScadenza(config('patente.scadenze.commissione.inscadenza'))->orderBy('data_scadenza_patente')->get();
+        $patentiCommisioneScadute = Patente::with('persona')->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
 
-        $patentiAll = Patente::sortable()->NonScadute()->with("persona")->orderBy('data_scadenza_patente', 'asc')->paginate(50);
+        $patentiAll = Patente::sortable()->NonScadute()->with('persona')->orderBy('data_scadenza_patente', 'asc')->paginate(50);
 
-        return view("patente.scadenze", compact('patenti',
+        return view('patente.scadenze', compact('patenti',
             'patentiScadute',
             'patentiCQCPersone',
             'patentiCQCPersoneScadute',
@@ -46,14 +46,16 @@ class PatenteController extends CoreBaseController
 
     public function elenchi()
     {
-        return view("patente.elenchi");
+        return view('patente.elenchi');
     }
 
-    public function esportaPatentiPdf(){
-        dd("Esportazione non effettuata");
+    public function esportaPatentiPdf()
+    {
+        dd('Esportazione non effettuata');
     }
 
-    public function esportaPatentiExcel(){
+    public function esportaPatentiExcel()
+    {
         $data = Carbon::now();
         $name = "Patenti-$data.xlsx";
 
@@ -82,23 +84,23 @@ class PatenteController extends CoreBaseController
         // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
         // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
-        $spreadsheet->getActiveSheet()->getStyle("A1:I1")->applyFromArray(['font' => ["bold" => true]]);
-       
-        $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
+        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
+
+        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->cognome;
         });
 
         $patenti = $patenti->map(function ($patente, $key) {
-            return array($patente->persona->cognome, 
-                        $patente->persona->nome, 
-                        $patente->persona->data_nascita,
-                        $patente->persona->provincia_nascita,
-                        $patente->numero_patente,
-                        $patente->data_rilascio_patente,
-                        $patente->rilasciata_dal,
-                        $patente->data_scadenza_patente,
-                        $patente->categorieAsString()
-        );    // $patente->stato,
+            return [$patente->persona->cognome,
+                $patente->persona->nome,
+                $patente->persona->data_nascita,
+                $patente->persona->provincia_nascita,
+                $patente->numero_patente,
+                $patente->data_rilascio_patente,
+                $patente->rilasciata_dal,
+                $patente->data_scadenza_patente,
+                $patente->categorieAsString(),
+            ];    // $patente->stato,
                         // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
         });
 
@@ -115,20 +117,21 @@ class PatenteController extends CoreBaseController
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $name . '"');
+        header('Content-Disposition: attachment;filename="'.$name.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
         // If you're serving to IE over SSL, then the following may be needed
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
-    
-    public function esportaCQCExcel(){
+
+    public function esportaCQCExcel()
+    {
         $data = Carbon::now();
         $name = "cqc-$data.xlsx";
         $spreadsheet = new Spreadsheet();
@@ -152,26 +155,25 @@ class PatenteController extends CoreBaseController
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
 
-        $spreadsheet->getActiveSheet()->getStyle("A1:I1")->applyFromArray(['font' => ["bold" => true]]);
+        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
 
-        $cqcPersone = Patente::with("persona")->has("cqc")->get()->sortBy(function ($product) {
+        $cqcPersone = Patente::with('persona')->has('cqc')->get()->sortBy(function ($product) {
             return $product->persona->cognome;
         });
 
-
         $cqcPersone = $cqcPersone->map(function ($patente, $key) {
-            return array($patente->persona->cognome, 
-                        $patente->persona->nome, 
-                        $patente->persona->data_nascita,
-                        $patente->persona->provincia_nascita,
-                        $patente->numero_patente,
-                        // $patente->data_rilascio_patente,
-                        // $patente->rilasciata_dal,
-                        $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio:"",
-                        $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio:"",
-                        $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio:"",
-                        $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio:"",
-            );
+            return [$patente->persona->cognome,
+                $patente->persona->nome,
+                $patente->persona->data_nascita,
+                $patente->persona->provincia_nascita,
+                $patente->numero_patente,
+                // $patente->data_rilascio_patente,
+                // $patente->rilasciata_dal,
+                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
+                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
+                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
+                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
+            ];
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
@@ -188,29 +190,31 @@ class PatenteController extends CoreBaseController
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $name . '"');
+        header('Content-Disposition: attachment;filename="'.$name.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
         // If you're serving to IE over SSL, then the following may be needed
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
 
-    public function stampaAutorizzatiPreview(){
+    public function stampaAutorizzatiPreview()
+    {
         $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
             ->sortBy(function ($product) {
                 return $product->persona->nome;
             });
 
-        return view('patente.elenchi.index', ["patentiAutorizzati" => $patentiAutorizzati, "presidente"=> $presidente]);
+        return view('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
 
     }
+
     public function stampaAutorizzati()
     {
         $presidente = Cariche::GetAssociazionePresidente();
@@ -219,10 +223,11 @@ class PatenteController extends CoreBaseController
                 return $product->persona->nome;
             });
 
-        $pdf = SnappyPdf::loadView('patente.elenchi.index', ["patentiAutorizzati" => $patentiAutorizzati,"presidente"=> $presidente]);
+        $pdf = SnappyPdf::loadView('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
         $data = Carbon::now();
         // viewport-size must be set otherwise the pdf will be bad formatted
         $pdf->setOption('viewport-size', '1280x1024');
+
         return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf");
 
     }
@@ -239,7 +244,7 @@ class PatenteController extends CoreBaseController
             ->setCellValue('C1', 'DATA NASCITA')
             ->setCellValue('D1', 'CATEGORIE');
 
-        $patenti = Patente::with("persona")->has('categorie')->get()->sortBy(function ($product) {
+        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
             return $product->persona->nome;
         });
 
@@ -248,7 +253,7 @@ class PatenteController extends CoreBaseController
         //  });
 
         $patenti = $patenti->map(function ($patente, $key) {
-            return array($patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
+            return [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()];
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
@@ -259,13 +264,13 @@ class PatenteController extends CoreBaseController
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $name . '"');
+        header('Content-Disposition: attachment;filename="'.$name.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
         // If you're serving to IE over SSL, then the following may be needed
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
         header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header('Pragma: public'); // HTTP/1.0
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -275,54 +280,55 @@ class PatenteController extends CoreBaseController
 
     public function patente()
     {
-        $categorie = CategoriaPatente::orderby("categoria")->get();
-        $cqc = CQC::orderby("categoria")->get();
-        return view("patente.search", compact('categorie', 'cqc'));
+        $categorie = CategoriaPatente::orderby('categoria')->get();
+        $cqc = CQC::orderby('categoria')->get();
+
+        return view('patente.search', compact('categorie', 'cqc'));
     }
 
     public function ricerca(Request $request)
     {
         // $persona = Persona::findorfail($request->input("persona_id"));
-        if (!$request->except(['_token'])) {
+        if (! $request->except(['_token'])) {
             return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
         }
 
-        $msgSearch = " ";
-        $orderBy = "numero_patente";
+        $msgSearch = ' ';
+        $orderBy = 'numero_patente';
         $queryPatenti = Patente::where(function ($q) use ($request, &$msgSearch, &$orderBy) {
             if ($request->filled('persona_id')) {
                 $persona = $request->persona_id;
                 $q->where('persona_id', $persona);
                 $nome = Persona::findorfail($persona)->nominativo;
-                $msgSearch = $msgSearch . "Persona=" . $nome;
+                $msgSearch = $msgSearch.'Persona='.$nome;
 
             }
             if ($request->filled('numero_patente')) {
                 $numero_patente = $request->numero_patente;
                 $q->where('numero_patente', 'LIKE', "$numero_patente%");
-                $msgSearch = $msgSearch . " numero_patente=" . $numero_patente;
+                $msgSearch = $msgSearch.' numero_patente='.$numero_patente;
             }
             if ($request->filled('criterio_data_rilascio') and $request->filled('data_rilascio')) {
                 $q->where('data_rilascio_patente', $request->input('criterio_data_rilascio'), $request->input('data_rilascio'));
-                $msgSearch = $msgSearch . " Data Rilascio" . $request->input('criterio_data_rilascio') . $request->input('data_rilascio');
+                $msgSearch = $msgSearch.' Data Rilascio'.$request->input('criterio_data_rilascio').$request->input('data_rilascio');
             }
             if ($request->filled('criterio_data_scadenza') and $request->filled('data_scadenza')) {
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
-                $orderBy = "data_scadenza_patente";
-                $msgSearch = $msgSearch . " Data scadenza" . $request->input('criterio_data_scadenza') . $request->input('data_scadenza');
+                $orderBy = 'data_scadenza_patente';
+                $msgSearch = $msgSearch.' Data scadenza'.$request->input('criterio_data_scadenza').$request->input('data_scadenza');
             }
             if ($request->filled('cqc_patente')) {
                 $cqc = $request->cqc_patente;
                 $q->whereHas('cqc', function ($q) use ($cqc, &$msgSearch, $request) {
                     $q->where('id', $cqc);
                     if ($request->filled('criterio_cqc_data_scadenza') and $request->filled('cqc_data_scadenza')) {
-                        $q->where("data_scadenza", $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
-                        $msgSearch = $msgSearch . " data scadenza " . $request->input('criterio_cqc_data_scadenza') . $request->input('cqc_data_scadenza');
+                        $q->where('data_scadenza', $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
+                        $msgSearch = $msgSearch.' data scadenza '.$request->input('criterio_cqc_data_scadenza').$request->input('cqc_data_scadenza');
                     }
                 });
 
                 $nome = CQC::findorfail($cqc)->categoria;
-                $msgSearch = $msgSearch . " cqc=" . $nome;
+                $msgSearch = $msgSearch.' cqc='.$nome;
             }
             if ($request->filled('categoria_patente')) {
                 $categoria = $request->categoria_patente;
@@ -330,23 +336,24 @@ class PatenteController extends CoreBaseController
                     $q->where('id', $categoria);
                 });
                 $nome = CategoriaPatente::findorfail($categoria)->categoria;
-                $msgSearch = $msgSearch . " categoria=" . $nome;
+                $msgSearch = $msgSearch.' categoria='.$nome;
             }
         });
         //$msgSearch=$msgSearch."order by: $orderBy";
         $patenti = $queryPatenti->sortable($orderBy, 'asc')->paginate(25);
 
-        $categorie = CategoriaPatente::orderby("categoria")->get();
-        $cqc = CQC::orderby("categoria")->get();
-        return view("patente.search", compact('patenti', 'categorie', 'cqc', 'msgSearch'));
+        $categorie = CategoriaPatente::orderby('categoria')->get();
+        $cqc = CQC::orderby('categoria')->get();
+
+        return view('patente.search', compact('patenti', 'categorie', 'cqc', 'msgSearch'));
     }
 
     public function elimina($id)
     {
         if (Patente::destroy($id)) {
-            return redirect()->route('patente.scadenze')->withSuccess("Patente eliminata con successo.");
+            return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
         } else {
-            return redirect()->route('patente.scadenze')->withError("Errore: Patente non eliminata.");
+            return redirect()->route('patente.scadenze')->withError('Errore: Patente non eliminata.');
         }
 
     }
@@ -355,7 +362,8 @@ class PatenteController extends CoreBaseController
     {
         $categorie = CategoriaPatente::all();
         $patente = Patente::find($id); //->where('numero_patente', '=', $id); //->get();
-        return view("patente.modifica", compact('categorie', 'patente'));
+
+        return view('patente.modifica', compact('categorie', 'patente'));
     }
 
     private function validazioneRichiestaUpdate(Request $request)
@@ -367,6 +375,7 @@ class PatenteController extends CoreBaseController
             'data_rilascio_patente' => 'required|date',
             'data_scadenza_patente' => 'required|date|after_or_equal:data_rilascio_patente',
         ]);
+
         return $validRequest;
     }
 
@@ -401,7 +410,7 @@ class PatenteController extends CoreBaseController
             'data_scadenza_patente' => 'required|date|after_or_equal:data_rilascio_patente',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
-            'numero_patente.required' => "Il numero patente è obbligatorio.",
+            'numero_patente.required' => 'Il numero patente è obbligatorio.',
             'rilasciata_dal.required' => "L'ente he ha rilasciato è obbligatorio.",
             'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria..',
             'data_scadenza_patente.required' => 'La data di scadenza è obbligatoria.',
@@ -427,7 +436,8 @@ class PatenteController extends CoreBaseController
     {
         $categorie = CategoriaPatente::all();
         $persone = Persona::all();
-        return view("patente.inserimento", compact('categorie', 'persone'));
+
+        return view('patente.inserimento', compact('categorie', 'persone'));
     }
 
     private function creaPatente(Request $request)
@@ -455,6 +465,7 @@ class PatenteController extends CoreBaseController
             'data_rilascio_patente' => 'required|date',
             'data_scadenza_patente' => 'required|date|after_or_equal:data_rilascio_patente',
         ]);
+
         return $validRequest;
     }
 
@@ -470,7 +481,6 @@ class PatenteController extends CoreBaseController
         $categoria = CategoriaPatente::find(request('categoria_patente'));
         $patente->categorie()->attach($categoria);
         //$viewData = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
-        return redirect(route('patente.index'))->withSuccess('La patente numero:' . request('numero_patente') . ' è stata creata con successo');
+        return redirect(route('patente.index'))->withSuccess('La patente numero:'.request('numero_patente').' è stata creata con successo');
     }
-
 }

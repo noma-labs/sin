@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Admin\Exceptions;
-use InvalidArgumentException;
 
+use InvalidArgumentException;
 
 class RisorsaDoesNotExist extends InvalidArgumentException
 {

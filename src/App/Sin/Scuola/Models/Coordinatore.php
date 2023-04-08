@@ -2,8 +2,8 @@
 
 namespace App\Scuola\Models;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class Coordinatore extends Persona
 {
@@ -12,7 +12,6 @@ class Coordinatore extends Persona
     protected $enumPosizione = [
         'coordinatore',
         'responsabile',
-        'collaboratore'
+        'collaboratore',
     ];
-
 }

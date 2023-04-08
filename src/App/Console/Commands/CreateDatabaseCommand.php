@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Doctrine\DBAL\Driver\PDOConnection;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 class CreateDatabaseCommand extends Command
 {
-
     protected $signature = 'make:database';
 
     /**
@@ -35,24 +33,21 @@ class CreateDatabaseCommand extends Command
      */
     public function handle()
     {
-        try{
-            $connections = collect(config("database.connections"))
+        try {
+            $connections = collect(config('database.connections'))
                             ->except(['information_schema'])
                             ->keys();
 
-            foreach($connections as $connection){
+            foreach ($connections as $connection) {
                 $dbName = config("database.connections.{$connection}.database");
-                # to create database we have to connect to existing fb ?
-                # use the `information_schema` database as base connection because it is always created by mysql
+                // to create database we have to connect to existing fb ?
+                // use the `information_schema` database as base connection because it is always created by mysql
                 DB::connection('information_schema')->unprepared("CREATE DATABASE IF NOT EXISTS `{$dbName}`");
                 $this->info("Created  database '$dbName' for '$connection' connection");
             }
 
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
     }
 }
-
-

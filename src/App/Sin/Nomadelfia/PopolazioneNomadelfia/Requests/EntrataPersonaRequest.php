@@ -2,12 +2,10 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class EntrataPersonaRequest extends FormRequest
 {
-
     public function rules()
     {
         return [
@@ -27,5 +25,4 @@ class EntrataPersonaRequest extends FormRequest
             'gruppo_id.required_if' => 'Il gruppo familiare  è obbligatoria',
         ];
     }
-
 }

@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Auth\Controllers;
 
 use App\Admin\Models\User as User;
-
 use App\Core\Controllers\BaseController as Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -42,14 +42,13 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'username' => "required|max:20|unique:users",
+            'username' => 'required|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -58,7 +57,6 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return \App\User
      */
     protected function create(array $data)
@@ -68,7 +66,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             //'password' => bcrypt($data['password']), // define a mutator in app\User.php which would encrypt all our password fields
             'password' => $data['password'],
-            'username'=> $data['username'],
+            'username' => $data['username'],
         ]);
     }
 }

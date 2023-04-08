@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
-
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -28,5 +26,4 @@ class CouldNotAssignMoglie extends \Exception
     {
         return new static("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
     }
-
 }

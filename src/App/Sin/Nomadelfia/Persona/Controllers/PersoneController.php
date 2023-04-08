@@ -4,23 +4,19 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Validator;
 
 class PersoneController extends CoreBaseController
 {
@@ -28,9 +24,9 @@ class PersoneController extends CoreBaseController
     {
         $effettivi = PopolazioneNomadelfia::effettivi();
         $postulanti = PopolazioneNomadelfia::postulanti();
-        return view("nomadelfia.persone.effettivi", compact("effettivi", "postulanti"));
-    }
 
+        return view('nomadelfia.persone.effettivi', compact('effettivi', 'postulanti'));
+    }
 
     public function show($idPersona)
     {
@@ -38,19 +34,21 @@ class PersoneController extends CoreBaseController
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();
-        return view("nomadelfia.persone.show",
+
+        return view('nomadelfia.persone.show',
             compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale'));
     }
 
     public function decesso(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "data_decesso" => "required",
+            'data_decesso' => 'required',
         ], [
-            "data_decesso.required" => "La data del decesso è obbligatorio",
+            'data_decesso.required' => 'La data del decesso è obbligatorio',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->deceduto($request->data_decesso);
+
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
     }
@@ -58,15 +56,16 @@ class PersoneController extends CoreBaseController
     public function uscita(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "data_uscita" => "required",
+            'data_uscita' => 'required',
         ], [
-            "data_uscita.required" => "La data di uscita è obbligatoria",
+            'data_uscita.required' => 'La data di uscita è obbligatoria',
         ]);
         $persona = Persona::findOrFail($idPersona);
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $persona->uscita($request->data_uscita);
+
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
     }
@@ -74,6 +73,7 @@ class PersoneController extends CoreBaseController
     public function modificaDatiAnagrafici($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
     }
 
@@ -83,6 +83,7 @@ class PersoneController extends CoreBaseController
         $first = $persona->getInitialLetterOfCogonome();
         $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
         $propose = $persona->proposeNumeroElenco();
+
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
     }
 
@@ -99,14 +100,14 @@ class PersoneController extends CoreBaseController
             return redirect()->back()->withError("La persona $persona->nominativo ha già un numero di elenco: $persona->numero_elenco.");
         }
         $persona->update(['numero_elenco' => $ne]);
+
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
     }
 
-
     public function search()
     {
-        return view("nomadelfia.persone.search");
+        return view('nomadelfia.persone.search');
     }
 
     // Rimuove (soft delete) una persona nel sistema.
@@ -116,7 +117,8 @@ class PersoneController extends CoreBaseController
         if ($persona->delete()) {
             return redirect()->route('nomadelfia')->withSuccess("Persona $persona->nominativo eliminata caon successo");
         }
-        return view("nomadelfia")->withError("Impossibile eliminare $persona->nominativo ");
+
+        return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");
     }
 
     public function searchPersonaSubmit(Request $request)
@@ -131,33 +133,32 @@ class PersoneController extends CoreBaseController
             'xClassificazione.exists' => 'Classificazione inserita non esiste.',
         ]);
  */
-        $msgSearch = " ";
-        $orderBy = "nominativo";
+        $msgSearch = ' ';
+        $orderBy = 'nominativo';
 
-        if (!$request->except(['_token'])) {
+        if (! $request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
-
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch . "Nominativo=" . $nominativo;
-                $orderBy = "nominativo";
+                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch . " Nome=" . $nome;
-                $orderBy = "nominativo";
+                $msgSearch = $msgSearch.' Nome='.$nome;
+                $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch . " Cognome=" . $cognome;
-                $orderBy = "nome";
+                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $orderBy = 'nome';
             }
 
             $criterio_nascita = $request->input('criterio_data_nascita', null);
@@ -165,24 +166,23 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch . " Data Nascita" . $criterio_nascita . $nascita;
+                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
-        return view('nomadelfia.persone.search_results', ["persone" => $persone, "msgSearch" => $msgSearch]);
-    }
 
+        return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
+    }
 
     /**
      * Aggiorna lo stato di una persona.
-     *
      */
     public function modficaStatus(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "stato" => "required",
+            'stato' => 'required',
         ], [
-            "stato.required" => "lo stato  è obbligatorie",
+            'stato.required' => 'lo stato  è obbligatorie',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->stato = $request->stato;
@@ -198,17 +198,17 @@ class PersoneController extends CoreBaseController
     public function modificaDatiAnagraficiConfirm(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "nome" => "required",
-            "cognome" => "required",
-            "datanascita" => "required",
-//            "luogonascita" => "required",
-            "sesso" => "required",
+            'nome' => 'required',
+            'cognome' => 'required',
+            'datanascita' => 'required',
+            //            "luogonascita" => "required",
+            'sesso' => 'required',
         ], [
-            "nome.required" => "Il nome è obbligatorie",
-            "cognome.required" => "Il cognome è obbligatorio",
-            "datanascita.required" => "La data di nascita è obbligatoria",
-//            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
-            "sesso.required" => "Il sesso è obbligatorio",
+            'nome.required' => 'Il nome è obbligatorie',
+            'cognome.required' => 'Il cognome è obbligatorio',
+            'datanascita.required' => 'La data di nascita è obbligatoria',
+            //            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
+            'sesso.required' => 'Il sesso è obbligatorio',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->nome = $request->nome;
@@ -229,6 +229,7 @@ class PersoneController extends CoreBaseController
     public function modificaNominativo($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.edit_nominativo', compact('persona'));
     }
 
@@ -240,19 +241,19 @@ class PersoneController extends CoreBaseController
     public function modificaNominativoConfirm(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "nominativo" => "required|unique:db_nomadelfia.persone,nominativo",
+            'nominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
         ], [
-            "nominativo.required" => "Il nominativo è obbligatorio",
-            "nominativo.unique" => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
+            'nominativo.required' => 'Il nominativo è obbligatorio',
+            'nominativo.unique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->nominativo = $request->nominativo;
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSucces("Nominativo  aggiornato con suceesso");
+                ['idPersona' => $idPersona])->withSucces('Nominativo  aggiornato con suceesso');
         } else {
             return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError("Errore. Il nominativo non è stato aggiornato.");
+                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato aggiornato.');
         }
     }
 
@@ -264,27 +265,27 @@ class PersoneController extends CoreBaseController
     public function assegnaNominativoConfirm(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "nuovonominativo" => "required|unique:db_nomadelfia.persone,nominativo",
+            'nuovonominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
         ], [
-            "nuovonominativorequired" => "Il nominativo è obbligatorio",
-            "nuovonominativounique" => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
+            'nuovonominativorequired' => 'Il nominativo è obbligatorio',
+            'nuovonominativounique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->nominativiStorici()->create(['nominativo' => $persona->nominativo]);
         $persona->nominativo = $request->nuovonominativo;
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSucces("Nuovo nominativo aggiunto con successo.");
+                ['idPersona' => $idPersona])->withSucces('Nuovo nominativo aggiunto con successo.');
         } else {
             return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError("Errore. Il nominativo non è stato assegnato.");
+                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato assegnato.');
         }
     }
 
     // Inserimento nuova Persona
     public function insertInitialView()
     {
-        return view("nomadelfia.persone.inserimento.initial");
+        return view('nomadelfia.persone.inserimento.initial');
     }
 
     /**
@@ -297,45 +298,45 @@ class PersoneController extends CoreBaseController
     public function insertInitial(Request $request)
     {
         $validatedData = $request->validate([
-            "persona" => "required",
+            'persona' => 'required',
         ], [
-            "persona.required" => "Il cognome è obbligatorio",
+            'persona.required' => 'Il cognome è obbligatorio',
         ]);
 
         if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where("nominativo", "like", "%" . $request->persona . "%")
-                ->orWhere("nome", "like", "%" . $request->persona . "%")
-                ->orWhere("cognome", "like", "%" . $request->persona);
+            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
+                ->orWhere('nome', 'like', '%'.$request->persona.'%')
+                ->orWhere('cognome', 'like', '%'.$request->persona);
             if ($personeEsistenti->exists()) {
-                return view("nomadelfia.persone.insert_existing", compact('personeEsistenti'));
+                return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
-                return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess("Nessuna persona presente con nome e cognome inseriti.")->withInput();
+                return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
         }
     }
 
     public function insertDatiAnagraficiView()
     {
-        return view("nomadelfia.persone.inserimento.dati_anagrafici");
+        return view('nomadelfia.persone.inserimento.dati_anagrafici');
     }
 
     public function insertDatiAnagrafici(Request $request)
     {
         $validatedData = $request->validate([
-            "nominativo" => "required",
-            "nome" => "required",
-            "cognome" => "required",
-            "data_nascita" => "required|date",
-            "luogo_nascita" => "required",
-            "sesso" => "required",
+            'nominativo' => 'required',
+            'nome' => 'required',
+            'cognome' => 'required',
+            'data_nascita' => 'required|date',
+            'luogo_nascita' => 'required',
+            'sesso' => 'required',
         ], [
-            "nominativo.required" => "Il nominativo è obbligatorio",
-            'nominativo.unique' => "IL nominativo inserito esiste già.",
-            "nome.required" => "Il nome è obbligatorie",
-            "cognome.required" => "Il cognome è obbligatorio",
-            "data_nascita.required" => "La data di nascita è obbligatoria",
-            "luogo_nascita.required" => "IL luogo di nascita è obbligatorio",
-            "sesso.required" => "Il sesso della persona è obbligatorio",
+            'nominativo.required' => 'Il nominativo è obbligatorio',
+            'nominativo.unique' => 'IL nominativo inserito esiste già.',
+            'nome.required' => 'Il nome è obbligatorie',
+            'cognome.required' => 'Il cognome è obbligatorio',
+            'data_nascita.required' => 'La data di nascita è obbligatoria',
+            'luogo_nascita.required' => 'IL luogo di nascita è obbligatorio',
+            'sesso.required' => 'Il sesso della persona è obbligatorio',
         ]);
 //        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
 //        if ($existing->count() > 0) {
@@ -347,8 +348,8 @@ class PersoneController extends CoreBaseController
                 'nominativo' => $request->input('nominativo'),
                 'sesso' => $request->input('sesso'),
                 'nome' => $request->input('nome'),
-                "cognome" => $request->input('cognome'),
-                "provincia_nascita" => $request->input('luogo_nascita'),
+                'cognome' => $request->input('cognome'),
+                'provincia_nascita' => $request->input('luogo_nascita'),
                 'data_nascita' => $request->input('data_nascita'),
                 'id_arch_pietro' => 0,
                 'id_arch_enrico' => 0,
@@ -366,7 +367,8 @@ class PersoneController extends CoreBaseController
     public function insertPersonaInternaView(Request $request, $idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-        return view("nomadelfia.persone.inserimento.entrata", compact('persona'));
+
+        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
     }
 
     // Inserisci la persona come persona interna in Nomadelfia.
@@ -384,23 +386,23 @@ class PersoneController extends CoreBaseController
         }
 
         switch ($request->tipologia) {
-            case "dalla_nascita":
+            case 'dalla_nascita':
                 $action = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
                 $action->execute($persona, $famiglia);
                 break;
-            case "minorenne_accolto":
+            case 'minorenne_accolto':
                 $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
-            case "minorenne_famiglia":
+            case 'minorenne_famiglia':
                 $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
-            case "maggiorenne_single":
+            case 'maggiorenne_single':
                 $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
                 $action->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
-            case "maggiorenne_famiglia":
+            case 'maggiorenne_famiglia':
                 $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
                 $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
@@ -408,27 +410,28 @@ class PersoneController extends CoreBaseController
                 return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
 
         }
+
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess("Persona ". $persona->nominativo ."inserita correttamente.");
+            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "famiglia_id" => "required",
-            "posizione_famiglia" => "required",
+            'famiglia_id' => 'required',
+            'posizione_famiglia' => 'required',
         ], [
-            "famiglia_id.required" => "La famiglia è obbligatoria",
-            "posizione_famiglia.required" => "La posizione nella famiglia è obbligatoria",
+            'famiglia_id.required' => 'La famiglia è obbligatoria',
+            'posizione_famiglia.required' => 'La posizione nella famiglia è obbligatoria',
         ]);
         $persona = Persona::findOrFail($idPersona);
 
         $persona->famiglie()->attach($request->famiglia_id,
-            ['stato' => '1', "posizione_famiglia" => $request->posizione_famiglia]);
+            ['stato' => '1', 'posizione_famiglia' => $request->posizione_famiglia]);
+
         return redirect()->route('nomadelfia.persone.dettaglio',
             [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
     }
-
 
     /**
      * Ritorna la view per la modifica delle famiglie di una persona
@@ -441,7 +444,7 @@ class PersoneController extends CoreBaseController
         $attuale = $persona->famigliaAttuale();
         $storico = $persona->famiglieStorico;
 
-        return view("nomadelfia.persone.famiglia.show", compact('persona', 'attuale', 'storico'));
+        return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
     /**
@@ -454,7 +457,8 @@ class PersoneController extends CoreBaseController
         $persona = Persona::findOrFail($idPersona);
         $posattuale = $persona->posizioneAttuale();
         $storico = $persona->posizioniStorico;
-        return view("nomadelfia.persone.posizione.show", compact('persona', 'posattuale', "storico"));
+
+        return view('nomadelfia.persone.posizione.show', compact('persona', 'posattuale', 'storico'));
     }
 
     /**
@@ -465,16 +469,17 @@ class PersoneController extends CoreBaseController
     public function assegnaPosizione(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "posizione_id" => "required",
-            "data_inizio" => "required|date",
+            'posizione_id' => 'required',
+            'data_inizio' => 'required|date',
             //"data_fine" => "date",
         ], [
-            "posizione_id.required" => "La posizione è obbligatorio",
-            'data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
+            'posizione_id.required' => 'La posizione è obbligatorio',
+            'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
+
         return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
@@ -486,30 +491,31 @@ class PersoneController extends CoreBaseController
     public function modificaDataInizioPosizione(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "current_data_inizio" => "required",
-            "new_data_inizio" => "required|date",
+            'current_data_inizio' => 'required',
+            'new_data_inizio' => 'required|date',
         ], [
-            "new_data_inizio.date" => "La nuova data di inzio posizione non è una data valida",
-            'new_data_inizio.required' => "La nuova data di inizio della posizione è obbligatoria.",
-            'current_data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
+            'new_data_inizio.date' => 'La nuova data di inzio posizione non è una data valida',
+            'new_data_inizio.required' => 'La nuova data di inizio della posizione è obbligatoria.',
+            'current_data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
             return redirect()->back()->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
+
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
-
 
     public function updateDataEntrataNomadelfia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "data_entrata" => "date",
+            'data_entrata' => 'date',
         ], [
-            'data_entrata.date' => "La data entrata non è valida.",
+            'data_entrata.date' => 'La data entrata non è valida.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->setDataEntrataNomadelfia($request->data_entrata);
+
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }
 
@@ -537,14 +543,14 @@ class PersoneController extends CoreBaseController
     public function concludiPosizione(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "data_inizio" => "required|date",
-            "data_fine" => "required|date|after_or_equal:data_inizio"
+            'data_inizio' => 'required|date',
+            'data_fine' => 'required|date|after_or_equal:data_inizio',
         ], [
-            "data_inizio.date" => "La data di entrata non è  una data valida",
-            'data_inizio.required' => "La data di entrata è obbligatoria",
-            "data_fine.date" => "La data di uscita non è  una data valida",
-            "data_fine.required" => "La data di uscita  è obbligatoria",
-            "data_fine.after_or_equal" => "La data di fine posizione non può essere inferiore alla data di inizio",
+            'data_inizio.date' => 'La data di entrata non è  una data valida',
+            'data_inizio.required' => 'La data di entrata è obbligatoria',
+            'data_fine.date' => 'La data di uscita non è  una data valida',
+            'data_fine.required' => 'La data di uscita  è obbligatoria',
+            'data_fine.after_or_equal' => 'La data di fine posizione non può essere inferiore alla data di inizio',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
@@ -563,7 +569,8 @@ class PersoneController extends CoreBaseController
     public function stato($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-        return view("nomadelfia.persone.stato.show", compact('persona'));
+
+        return view('nomadelfia.persone.stato.show', compact('persona'));
     }
 
     /**
@@ -574,31 +581,33 @@ class PersoneController extends CoreBaseController
     public function assegnaStato(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "stato_id" => "required",
-            "data_inizio" => "required|date",
+            'stato_id' => 'required',
+            'data_inizio' => 'required|date',
         ], [
-            "stato_id.required" => "Lo stato è obbligatorio",
-            'data_inizio.required' => "La data iniziale dello stato è obbligatoria.",
+            'stato_id.required' => 'Lo stato è obbligatorio',
+            'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
+
         return redirect()->back()->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
     public function modificaStato(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "data_fine" => "date",
-            "data_inizio" => "required|date",
-            "stato" => "required"
+            'data_fine' => 'date',
+            'data_inizio' => 'required|date',
+            'stato' => 'required',
         ], [
-            "data_fine.date" => "La data fine posizione dee essere una data valida",
-            'data_inizio.required' => "La data di inizio della posizione è obbligatoria.",
-            'stato.required' => "Lo stato attuale è obbligatorio.",
+            'data_fine.date' => 'La data fine posizione dee essere una data valida',
+            'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
+            'stato.required' => 'Lo stato attuale è obbligatorio.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->stati()->updateExistingPivot($id,
-            ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, "stato" => $request->stato]);
+            ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
+
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
@@ -611,9 +620,9 @@ class PersoneController extends CoreBaseController
     {
         $persona = Persona::findOrFail($idPersona);
         $attuale = $persona->gruppofamiliareAttuale();
-        return view("nomadelfia.persone.gruppofamiliare.show", compact('persona', 'attuale'));
-    }
 
+        return view('nomadelfia.persone.gruppofamiliare.show', compact('persona', 'attuale'));
+    }
 
     /**
      * Elimina la persona da un gruppo familiare
@@ -631,7 +640,6 @@ class PersoneController extends CoreBaseController
         }
     }
 
-
     /**
      * Conclude la persona in un gruppo familiare settando la data di uscita e lo stato = 0.
      *
@@ -640,14 +648,14 @@ class PersoneController extends CoreBaseController
     public function concludiGruppofamiliare(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "data_entrata" => "required|date",
-            "data_uscita" => "required|date|after_or_equal:data_entrata",
+            'data_entrata' => 'required|date',
+            'data_uscita' => 'required|date|after_or_equal:data_entrata',
         ], [
-            "data_entrata.date" => "La data di entrata non è una data valida",
-            'data_entrata.required' => "La data di entrata è obbligatoria",
-            "data_entrata.date" => "La data di uscita non è  una data valida",
-            "data_entrata.required" => "La data di uscota non è  una data valida",
-            "data_uscita.after_or_equal" => "La data di uscita non può essere inferiore alla data di entrata",
+            'data_entrata.date' => 'La data di entrata non è una data valida',
+            'data_entrata.required' => 'La data di entrata è obbligatoria',
+            'data_entrata.date' => 'La data di uscita non è  una data valida',
+            'data_entrata.required' => 'La data di uscota non è  una data valida',
+            'data_uscita.after_or_equal' => 'La data di uscita non può essere inferiore alla data di entrata',
         ]);
 
         $persona = Persona::findOrFail($idPersona);
@@ -659,7 +667,6 @@ class PersoneController extends CoreBaseController
         }
     }
 
-
     /**
      * Assegna un nuovo gruppo familiare ad una persona
      *
@@ -668,14 +675,15 @@ class PersoneController extends CoreBaseController
     public function assegnaGruppofamiliare(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "gruppo_id" => "required",
-            "data_entrata" => "required|date",
+            'gruppo_id' => 'required',
+            'data_entrata' => 'required|date',
         ], [
-            "gruppo_id.required" => "Il nuovo gruppo è obbligatorio",
-            'data_entrata.required' => "La data di entrata nel gruppo familiare è obbligatoria.",
+            'gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
+            'data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
+
         return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -687,13 +695,13 @@ class PersoneController extends CoreBaseController
     public function spostaNuovoGruppofamiliare(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "new_gruppo_id" => "required",
-            "new_data_entrata" => "required|date", // data entrata delnuovo gruppo familiare
-            "current_data_entrata" => "required|date", // data entrata del vecchio gruppo familiare
+            'new_gruppo_id' => 'required',
+            'new_data_entrata' => 'required|date', // data entrata delnuovo gruppo familiare
+            'current_data_entrata' => 'required|date', // data entrata del vecchio gruppo familiare
         ], [
-            "new_gruppo_id.required" => "Il nuovo gruppo è obbligatorio",
-            'new_data_entrata.required' => "La data di entrata nel nuovo gruppo familiare è obbligatoria.",
-            'current_data_entrata.required' => "La data di entrata nel gruppo familiare è obbligatoria.",
+            'new_gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
+            'new_data_entrata.required' => 'La data di entrata nel nuovo gruppo familiare è obbligatoria.',
+            'current_data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
         ]);
         // se la data  di uscita del nuovo gruppo non è stata indicata, viene settata uguale all data di entrata nel nuovo gruppo
         $new_datain = $request->new_data_entrata;
@@ -702,19 +710,20 @@ class PersoneController extends CoreBaseController
 
         $persona->spostaPersonaInGruppoFamiliare($id, $request->current_data_entrata, $current_data_uscita,
             $request->new_gruppo_id, $new_datain);
+
         return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
     public function modificaGruppofamiliare(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "current_data_entrata" => "required|date",
-            "new_data_entrata" => "required|date",
+            'current_data_entrata' => 'required|date',
+            'new_data_entrata' => 'required|date',
         ], [
-            "current_data_entrata.date" => "La data corrente di entrata non è una data valida",
-            'current_data_entrata.required' => "La data corrente di entrata dal gruppo è obbligatoria.",
-            'new_data_entrata.required' => "La data corrente di entrata dal gruppo è obbligatoria.",
-            'new_data_entrata.date' => "La data corrente di entrata non è una data valida",
+            'current_data_entrata.date' => 'La data corrente di entrata non è una data valida',
+            'current_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
+            'new_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
+            'new_data_entrata.date' => 'La data corrente di entrata non è una data valida',
         ]);
         $persona = Persona::findOrFail($idPersona);
 
@@ -722,13 +731,15 @@ class PersoneController extends CoreBaseController
             $request->new_data_entrata)) {
             return redirect()->back()->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
         }
-        return redirect()->back()->withError("Impossibile aggiornare la data di nizio del gruppo familiare.");
+
+        return redirect()->back()->withError('Impossibile aggiornare la data di nizio del gruppo familiare.');
     }
 
     public function aziende(Request $request, $idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-        return view("nomadelfia.persone.aziende.show", compact('persona'));
+
+        return view('nomadelfia.persone.aziende.show', compact('persona'));
     }
 
     public function incarichi(Request $request, $idPersona)
@@ -736,44 +747,48 @@ class PersoneController extends CoreBaseController
         $persona = Persona::findOrFail($idPersona);
         $attuali = $persona->incarichiAttuali();
         $storico = $persona->incarichiStorico();
-        return view("nomadelfia.persone.incarichi.show", compact('persona', 'attuali', 'storico'));
+
+        return view('nomadelfia.persone.incarichi.show', compact('persona', 'attuali', 'storico'));
     }
 
     public function assegnaIncarico(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "azienda_id" => "required",
-            "mansione" => "required",
-            "data_inizio" => "required|date",
+            'azienda_id' => 'required',
+            'mansione' => 'required',
+            'data_inizio' => 'required|date',
         ], [
-            "azienda_id.required" => "L'azienda è obbligatoria",
+            'azienda_id.required' => "L'azienda è obbligatoria",
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
 
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::incarichi()->findOrFail($request->azienda_id);
-        if (strcasecmp($request->mansione, "lavoratore") == 0) {
+        if (strcasecmp($request->mansione, 'lavoratore') == 0) {
             $persona->assegnaLavoratoreIncarico($azienda, Carbon::parse($request->data_inizio));
+
             return redirect()->back()->withSuccess("$persona->nominativo assegnato incarico $azienda->nome_azienda come $request->mansione con successo");
         }
-        if (strcasecmp($request->mansione, "responsabile azienda") == 0) {
+        if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
             $persona->assegnaResponsabileIncarico($azienda, $request->data_inizio);
+
             return redirect()->back()->withSuccess("$persona->nominativo assegnato incarico $azienda->nome_azienda come $request->mansione con successo");
         }
+
         return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
     }
 
     public function modificaIncarico(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "mansione" => "required",
-            "data_entrata" => "required|date",
-            "stato" => "required",
+            'mansione' => 'required',
+            'data_entrata' => 'required|date',
+            'stato' => 'required',
         ], [
             'data_entrata.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
-            'stato.required' => "Lo stato è obbligatoria.",
+            'stato.required' => 'Lo stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $incarico = Azienda::incarichi()->findOrFail($id);
@@ -781,11 +796,11 @@ class PersoneController extends CoreBaseController
             'stato' => $request->stato,
             'data_inizio_azienda' => $request->data_entrata,
             'data_fine_azienda' => $request->data_uscita,
-            'mansione' => $request->mansione
+            'mansione' => $request->mansione,
         ]);
+
         return redirect()->back()->withSuccess("Incarico $incarico->nome_azienda di $persona->nominativo  modificata con successo.");
     }
-
 
     /**
      * Assegna una nuova azienda alla persona
@@ -795,38 +810,41 @@ class PersoneController extends CoreBaseController
     public function assegnaAzienda(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "azienda_id" => "required",
-            "mansione" => "required",
-            "data_inizio" => "required|date",
+            'azienda_id' => 'required',
+            'mansione' => 'required',
+            'data_inizio' => 'required|date',
         ], [
-            "azienda_id.required" => "L'azienda è obbligatoria",
+            'azienda_id.required' => "L'azienda è obbligatoria",
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
 
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($request->azienda_id);
-        if (strcasecmp($request->mansione, "lavoratore") == 0) {
+        if (strcasecmp($request->mansione, 'lavoratore') == 0) {
             $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
+
             return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
-        if (strcasecmp($request->mansione, "responsabile azienda") == 0) {
+        if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
             $persona->assegnaResponsabileAzienda($azienda, $request->data_inizio);
+
             return redirect()->back()->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
+
         return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
     }
 
     public function modificaAzienda(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([
-            "mansione" => "required",
-            "data_entrata" => "required|date",
-            "stato" => "required",
+            'mansione' => 'required',
+            'data_entrata' => 'required|date',
+            'stato' => 'required',
         ], [
             'data_entrata.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
-            'stato.required' => "Lo stato è obbligatoria.",
+            'stato.required' => 'Lo stato è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($id);
@@ -834,22 +852,23 @@ class PersoneController extends CoreBaseController
             'stato' => $request->stato,
             'data_inizio_azienda' => $request->data_entrata,
             'data_fine_azienda' => $request->data_uscita,
-            'mansione' => $request->mansione
+            'mansione' => $request->mansione,
         ]);
+
         return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 
     public function createAndAssignFamiglia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "nome" => "required|unique:db_nomadelfia.famiglie,nome_famiglia",
-            "posizione_famiglia" => "required",
-            "data_creazione" => "required|date",
+            'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
+            'posizione_famiglia' => 'required',
+            'data_creazione' => 'required|date',
         ], [
-            'nome.required' => "Il nome della famiglia è obbligatorio",
-            'nome.unique' => "Il nome della famiglia esiste già",
-            'posizione_famiglia.required' => "La posizione è obbligatoria",
-            'data_creazione.required' => "Lo data di creazione della famiglia è obbligatoria",
+            'nome.required' => 'Il nome della famiglia è obbligatorio',
+            'nome.unique' => 'Il nome della famiglia esiste già',
+            'posizione_famiglia.required' => 'La posizione è obbligatoria',
+            'data_creazione.required' => 'Lo data di creazione della famiglia è obbligatoria',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $attuale = $persona->famigliaAttuale();
@@ -868,16 +887,16 @@ class PersoneController extends CoreBaseController
     public function spostaInNuovaFamiglia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
-            "new_famiglia_id" => "required",
-            "new_posizione_famiglia" => "required",
-            "new_data_entrata" => "required",
-            "old_data_uscita" => "date",
+            'new_famiglia_id' => 'required',
+            'new_posizione_famiglia' => 'required',
+            'new_data_entrata' => 'required',
+            'old_data_uscita' => 'date',
         ], [
-            'new_famiglia_id.required' => "Il nome della famiglia è obbligatorio",
-            'new_posizione_famiglia.required' => "La posizione è obbligatoria",
-            'new_data_entrata.required' => "La data di entrata nella nuova famiglia è obbligatoria",
-            'old_data_entrata.date' => "Lo data di entrata dalla famiglia non è valida",
-            'old_data_uscita.date' => "Lo data di uscita dalla famiglia non è valida",
+            'new_famiglia_id.required' => 'Il nome della famiglia è obbligatorio',
+            'new_posizione_famiglia.required' => 'La posizione è obbligatoria',
+            'new_data_entrata.required' => 'La data di entrata nella nuova famiglia è obbligatoria',
+            'old_data_entrata.date' => 'Lo data di entrata dalla famiglia non è valida',
+            'old_data_uscita.date' => 'Lo data di uscita dalla famiglia non è valida',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $famiglia = Famiglia::findOrFail($request->new_famiglia_id);

@@ -6,15 +6,15 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 
-it("only_admin_can_see_nomadelfia_system", function(){
+it('only_admin_can_see_nomadelfia_system', function () {
         $this->withExceptionHandling();
 
         $this
@@ -28,7 +28,7 @@ it("only_admin_can_see_nomadelfia_system", function(){
             ->assertSuccessful();
     });
 
-it("show_popolazione_summary", function(){
+it('show_popolazione_summary', function () {
         $this->withExceptionHandling();
 
         login();
@@ -36,12 +36,12 @@ it("show_popolazione_summary", function(){
         $this
             ->get(action([PopolazioneNomadelfiaController::class, 'index']))
             ->assertSuccessful()
-            ->assertSee("Gestione Popolazione")
-            ->assertSee("Gestione Famiglie")
-            ->assertSee("Gestione Gruppi Familiari");
+            ->assertSee('Gestione Popolazione')
+            ->assertSee('Gestione Famiglie')
+            ->assertSee('Gestione Gruppi Familiari');
     });
 
-it("show_incarichi_index", function(){
+it('show_incarichi_index', function () {
         $this->withExceptionHandling();
 
         login();
@@ -55,7 +55,7 @@ it("show_incarichi_index", function(){
 
     });
 
-it("show_aziende_index", function(){
+it('show_aziende_index', function () {
         $this->withExceptionHandling();
 
         login();
@@ -74,8 +74,7 @@ it("show_aziende_index", function(){
 
     });
 
-
-it("show_gruppifamiliari_edit", function(){
+it('show_gruppifamiliari_edit', function () {
         $this->withExceptionHandling();
 
         login();

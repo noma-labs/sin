@@ -3,7 +3,6 @@
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Libro as Libro;
-
 use Database\Factories\ClassificazioneFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,15 +10,18 @@ use Illuminate\Database\Eloquent\Model;
 class Classificazione extends Model
 {
     protected $connection = 'db_biblioteca';
+
     protected $table = 'classificazione';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
+
     use HasFactory;
 
-    protected $guarded = ["id"];
+    protected $guarded = ['id'];
 
     public function libri()
     {
-        return $this->hasMany(Libro::class, "classificazione_id");
+        return $this->hasMany(Libro::class, 'classificazione_id');
     }
 
     public function setDescrizioneAttribute($value)
@@ -31,6 +33,4 @@ class Classificazione extends Model
     {
         return ClassificazioneFactory::new();
     }
-
-
 }

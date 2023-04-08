@@ -17,8 +17,10 @@ class Incarico extends Model
     public $timestamps = true;
 
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'incarichi';
-    protected $primaryKey = "id";
+
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
@@ -26,7 +28,7 @@ class Incarico extends Model
     {
         return IncaricoFactory::new();
     }
-    
+
     protected static function boot()
     {
         parent::boot();
@@ -61,29 +63,29 @@ class Incarico extends Model
         $ids = $current->map(function ($item) {
             return $item->id;
         });
+
         return $all->whereNotIn('id', $ids);
     }
 
     /**
      * Returns the people that have more than $minNUm incarichi.
-     * @param int $minNum
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function getBusyPeople(int $minNum = 3)
     {
         $personeCount = DB::connection('db_nomadelfia')
             ->table('incarichi_persone')
-            ->selectRaw("persone.id, max(persone.nominativo) as nominativo,  count(*)  as count")
+            ->selectRaw('persone.id, max(persone.nominativo) as nominativo,  count(*)  as count')
             ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
-            ->whereNull("incarichi_persone.data_fine")
-            ->groupBy("persone.id")
-            ->having("count", ">=", $minNum)
-            ->orderBy("count", "DESC")
+            ->whereNull('incarichi_persone.data_fine')
+            ->groupBy('persone.id')
+            ->having('count', '>=', $minNum)
+            ->orderBy('count', 'DESC')
             //->limit($limit)
             //->limit($limit)
             ->get();
+
         return $personeCount;
     }
-
-
 }

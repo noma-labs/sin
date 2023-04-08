@@ -2,18 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Admin\Models\User;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
-use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PrenotazioniFactory extends Factory
 {
-
     protected $model = Prenotazioni::class;
 
     public function definition()
@@ -24,7 +21,7 @@ class PrenotazioniFactory extends Factory
             'meccanico_id' => Persona::factory(),
             'uso_id' => Uso::all()->first(),
             'note' => $this->faker->text,
-            'destinazione' => $this->faker->title
+            'destinazione' => $this->faker->title,
         ];
     }
 
@@ -38,8 +35,7 @@ class PrenotazioniFactory extends Factory
         });
     }
 
-
-    public function rientraInGiornata(string $ora_partenza = '08:00', string $ora_arrivo = "12:00")
+    public function rientraInGiornata(string $ora_partenza = '08:00', string $ora_arrivo = '12:00')
     {
         return $this->state(function (array $attributes) use ($ora_partenza, $ora_arrivo) {
             return [
@@ -51,7 +47,7 @@ class PrenotazioniFactory extends Factory
         });
     }
 
-    public function partitaIeri(string $ora_partenza = "08:00")
+    public function partitaIeri(string $ora_partenza = '08:00')
     {
         return $this->state(function (array $attributes) use ($ora_partenza) {
             return [
@@ -71,8 +67,7 @@ class PrenotazioniFactory extends Factory
         });
     }
 
-
-    public function ritornaDomani(string $ora_arrivo = "12:00")
+    public function ritornaDomani(string $ora_arrivo = '12:00')
     {
         return $this->state(function (array $attributes) use ($ora_arrivo) {
             return [
@@ -92,4 +87,3 @@ class PrenotazioniFactory extends Factory
         });
     }
 }
-

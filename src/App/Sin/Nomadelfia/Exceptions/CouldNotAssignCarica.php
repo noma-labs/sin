@@ -1,10 +1,7 @@
 <?php
 
-
 namespace App\Nomadelfia\Exceptions;
 
-
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignCarica extends \Exception
@@ -13,5 +10,4 @@ class CouldNotAssignCarica extends \Exception
     {
         return new static("Esiste già il presidente `{$persona->nominativo}`.");
     }
-
 }

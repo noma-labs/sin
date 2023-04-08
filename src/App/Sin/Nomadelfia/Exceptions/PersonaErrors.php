@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class PersonaErrors extends InvalidArgumentException
@@ -9,5 +11,3 @@ class PersonaErrors extends InvalidArgumentException
         return new static("La persona `{$nome}` non esiste.");
     }
 }
-    
-

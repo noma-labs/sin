@@ -8,15 +8,12 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Exports\PopolazioneExport;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-use \Maatwebsite\Excel\Facades\Excel;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use Rappasoft\LaravelLivewireTables\Views\Filter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
-use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 
 class PopolazioneTable extends DataTableComponent
 {
@@ -36,10 +33,10 @@ class PopolazioneTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Num Elenco", 'numero_elenco')
+            Column::make('Num Elenco', 'numero_elenco')
                 ->sortable()
                 ->searchable(),
-            Column::make("Nominativo", 'nominativo')
+            Column::make('Nominativo', 'nominativo')
                 ->sortable()
                 ->searchable(),
             Column::make('Nome', 'nome')
@@ -48,15 +45,15 @@ class PopolazioneTable extends DataTableComponent
             Column::make('Cognome', 'cognome')
                 ->sortable()
                 ->searchable(),
-            Column::make("Data Nascita", 'data_nascita')
+            Column::make('Data Nascita', 'data_nascita')
                 ->sortable(),
             Column::make('Data Entrata', 'data_entrata')
                 ->sortable(),
             Column::make('Posizione', 'posizione')
                 ->sortable(),
-//            Column::make('Azienda', 'azienda')
-//                ->sortable()
-//                ->collapseOnMobile(),
+            //            Column::make('Azienda', 'azienda')
+            //                ->sortable()
+            //                ->collapseOnMobile(),
             Column::make('Scuola', 'scuola')
                 ->sortable(),
             Column::make('Stato', 'stato')
@@ -77,7 +74,7 @@ class PopolazioneTable extends DataTableComponent
                         ->orderBy('nome')
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn($tag) => Str::title($tag->nome))
+                        ->map(fn ($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
@@ -89,7 +86,7 @@ class PopolazioneTable extends DataTableComponent
                         ->orderBy('nome')
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn($tag) => Str::title($tag->nome))
+                        ->map(fn ($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
@@ -101,7 +98,7 @@ class PopolazioneTable extends DataTableComponent
                         ->classiTipoAttuali()
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn($tag) => Str::title($tag->nome))
+                        ->map(fn ($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
@@ -114,7 +111,7 @@ class PopolazioneTable extends DataTableComponent
             DateFilter::make('Nato Prima')
                 ->filter(function (Builder $builder, string $value) {
                     $builder->where('data_nascita', '<', $value);
-                })
+                }),
         ];
     }
 
@@ -131,6 +128,7 @@ class PopolazioneTable extends DataTableComponent
 
         $this->clearSelected();
         $now = Carbon::now()->format('Y-m-d');
+
         return (new PopolazioneExport($users))->download("popolazione-{$now}.xlsx");
     }
 }

@@ -7,14 +7,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Elaborato extends BaseMedia
 {
-    #use HasMediaTrait;
+    //use HasMediaTrait;
     use InteractsWithMedia;
 
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
-    protected $table = 'elaborati';
-    protected $primaryKey = "id";
-    protected $guarded = [];
 
+    protected $table = 'elaborati';
+
+    protected $primaryKey = 'id';
+
+    protected $guarded = [];
 }

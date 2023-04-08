@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,8 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class TipoOlio extends Model
 {
     protected $connection = 'db_officina';
+
     protected $table = 'tipo_olio';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
+
     protected $fillable = ['codice', 'note'];
 }

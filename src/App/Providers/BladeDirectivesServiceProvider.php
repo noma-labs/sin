@@ -3,10 +3,8 @@
 namespace App\Providers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Illuminate\Support\ServiceProvider;
-
 use Illuminate\Support\Facades\Blade;
-
+use Illuminate\Support\ServiceProvider;
 
 class BladeDirectivesServiceProvider extends ServiceProvider
 {
@@ -20,12 +18,13 @@ class BladeDirectivesServiceProvider extends ServiceProvider
         // Return True of the persona live in the "centro di spirito".
         Blade::if('liveRome', function ($persona) {
             if (is_string($persona)) {
-                $persona= Persona::findOrFail($persona);
+                $persona = Persona::findOrFail($persona);
             }
             $gruppoAttuale = $persona->gruppofamiliareAttuale();
-            if (! $gruppoAttuale){
+            if (! $gruppoAttuale) {
                 return false;
             }
+
             return $persona->gruppofamiliareAttuale()->isCentroDiSpirito();
         });
 

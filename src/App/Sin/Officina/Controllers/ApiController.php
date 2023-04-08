@@ -6,10 +6,9 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche;
-use App\Officina\Models\TipoGomme;
-use App\Officina\Models\TipoFiltro;
-use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Prenotazioni;
+use App\Officina\Models\TipoFiltro;
+use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
@@ -18,16 +17,15 @@ use Illuminate\Http\Request;
 
 class ApiController extends CoreBaseController
 {
-
     public function clientiMeccanica(Request $request)
     {
         $term = $request->input('term');
-        $clienti = ViewClienti::where("nominativo", "LIKE", $term . "%")->orderBy("nominativo")->take(50)->get();
-        $results = array();
+        $clienti = ViewClienti::where('nominativo', 'LIKE', $term.'%')->orderBy('nominativo')->take(50)->get();
+        $results = [];
         foreach ($clienti as $persona) {
             $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
         }
-        # "".$persona->cliente_con_patente];
+        // "".$persona->cliente_con_patente];
         return response()->json($results);
     }
 
@@ -35,15 +33,15 @@ class ApiController extends CoreBaseController
     {
         $term = $request->input('term');
         $veicoli = Veicolo::withTrashed()
-            ->where("nome", "LIKE", '%' . $term . '%')
-            ->orWhere('targa', "LIKE", '%' . $term . '%')
-            ->orderBy("nome")
+            ->where('nome', 'LIKE', '%'.$term.'%')
+            ->orWhere('targa', 'LIKE', '%'.$term.'%')
+            ->orderBy('nome')
             ->take(50)->get();
-        $results = array();
+        $results = [];
         foreach ($veicoli as $veicolo) {
             $results[] = [
                 'value' => $veicolo->id,
-                'label' => "$veicolo->nome - $veicolo->targa " . $veicolo->impiego->nome
+                'label' => "$veicolo->nome - $veicolo->targa ".$veicolo->impiego->nome,
             ];
         }
 
@@ -57,34 +55,34 @@ class ApiController extends CoreBaseController
         // lista delle prenotazioni attive tra l'ora di partenza e l'ora di arrivo
         $IDPrenotazioniAttive = collect();
         if ($request->filled(['datapartenza', 'dataarrivo', 'ora_in'])) {
-            $pieces = explode(",", $request->input('ora_in'));
+            $pieces = explode(',', $request->input('ora_in'));
             $orap = $pieces[0];
             $oraa = $pieces[1];
             $datap = $request->input('datapartenza');
             $dataa = $request->input('dataarrivo');
 
             //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
-            $IDPrenotazioniAttiveData = Prenotazioni::with(["cliente"])
+            $IDPrenotazioniAttiveData = Prenotazioni::with(['cliente'])
                 ->where('data_partenza', '<', $dataa)
                 ->where('data_arrivo', '>', $datap)
-                ->pluck("id");
+                ->pluck('id');
 
             // prenotazioni attive guardando le date e le ore
-            $IDPrenotazioniAttiveDataOra = Prenotazioni::with(["cliente"])
-                ->where('data_arrivo', "=", $datap)
-                ->where('data_partenza', "!=", $datap) // elimina partenza nello stesso giorno
-                ->where('ora_arrivo', ">", $orap)
-                ->pluck("id");
+            $IDPrenotazioniAttiveDataOra = Prenotazioni::with(['cliente'])
+                ->where('data_arrivo', '=', $datap)
+                ->where('data_partenza', '!=', $datap) // elimina partenza nello stesso giorno
+                ->where('ora_arrivo', '>', $orap)
+                ->pluck('id');
 
             //prenotazioni attive guardando le date e ore
-            $IDPrenotazioniAttiveDataOra2 = Prenotazioni::with(["cliente"])
-                ->where('data_partenza', "=", $dataa)
-                ->where('data_arrivo', "!=", $dataa) // elimina partenza nello stesso giorno
-                ->where('ora_partenza', "<", $oraa)
-                ->pluck("id");
+            $IDPrenotazioniAttiveDataOra2 = Prenotazioni::with(['cliente'])
+                ->where('data_partenza', '=', $dataa)
+                ->where('data_arrivo', '!=', $dataa) // elimina partenza nello stesso giorno
+                ->where('ora_partenza', '<', $oraa)
+                ->pluck('id');
 
             // prenotazioni attive nello stesso giorno guardando l'ora
-            $IDPrenotazioniAttiveOggi = Prenotazioni::with(["cliente"])
+            $IDPrenotazioniAttiveOggi = Prenotazioni::with(['cliente'])
                 ->where('data_partenza', '=', $datap)
                 ->where('data_arrivo', '=', $dataa)
                 ->where(function ($query) use ($orap, $oraa) {
@@ -94,10 +92,10 @@ class ApiController extends CoreBaseController
                     //       ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]])
                     //        // esclude le prenotazioni che sono a all'interno dell'ora partenza e arrivo della nuova prenotazion
                     //       ->orWhere([['ora_partenza', '>=', $orap],['ora_arrivo',"<=",$oraa]]);
-                    $query->where([['ora_partenza', '<', $oraa], ['ora_arrivo', ">", $orap]]);
+                    $query->where([['ora_partenza', '<', $oraa], ['ora_arrivo', '>', $orap]]);
 
                 })
-                ->pluck("id");
+                ->pluck('id');
 
             $IDPrenotazioniAttive = collect();
             $IDPrenotazioniAttive = $IDPrenotazioniAttive->merge($IDPrenotazioniAttiveData);
@@ -118,167 +116,167 @@ class ApiController extends CoreBaseController
 
         // grosseto -> autovettura
         $autovettura_grosseto = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->grosseto()->autovettura()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Grosseto autovettura",
-            "count" => $autovettura_grosseto->count(),
-            'veicoli' => $autovettura_grosseto->get()
+            'impiego_tipologia' => 'Grosseto autovettura',
+            'count' => $autovettura_grosseto->count(),
+            'veicoli' => $autovettura_grosseto->get(),
         ];
 
         // grosseto -> furgoni
         $furgoni_grosseto1 = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->grosseto()->furgoni()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Grosseto furgoni",
-            "count" => $furgoni_grosseto1->count(),
-            'veicoli' => $furgoni_grosseto1->get()
+            'impiego_tipologia' => 'Grosseto furgoni',
+            'count' => $furgoni_grosseto1->count(),
+            'veicoli' => $furgoni_grosseto1->get(),
         ];
 
         // grosseto -> Pulmino
         $furgoni_grosseto2 = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->grosseto()->Pulmino()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Grosseto pulmini",
-            "count" => $furgoni_grosseto2->count(),
-            'veicoli' => $furgoni_grosseto2->get()
+            'impiego_tipologia' => 'Grosseto pulmini',
+            'count' => $furgoni_grosseto2->count(),
+            'veicoli' => $furgoni_grosseto2->get(),
         ];
 
         //grosseto motocicli
         $motocicli = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->motocicli()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Motocicli",
-            "count" => $motocicli->count(),
-            'veicoli' => $motocicli->get()
+            'impiego_tipologia' => 'Motocicli',
+            'count' => $motocicli->count(),
+            'veicoli' => $motocicli->get(),
         ];
 
         // viaggi lunghi autovettura
         $autovettura_lunghi = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->viaggilunghi()->autovettura()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Viaggi lunghi autovettura",
-            "count" => $autovettura_lunghi->count(),
-            'veicoli' => $autovettura_lunghi->get()
+            'impiego_tipologia' => 'Viaggi lunghi autovettura',
+            'count' => $autovettura_lunghi->count(),
+            'veicoli' => $autovettura_lunghi->get(),
         ];
 
         // viaggi lunghi furgnoi
         $furgoni_lunghi = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->viaggilunghi()->furgoni()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Viaggi lunghi furgoni",
-            "count" => $furgoni_lunghi->count(),
-            'veicoli' => $furgoni_lunghi->get()
+            'impiego_tipologia' => 'Viaggi lunghi furgoni',
+            'count' => $furgoni_lunghi->count(),
+            'veicoli' => $furgoni_lunghi->get(),
         ];
 
         // viaggi lunghi pulmino
         $furgoni_lunghi1 = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->viaggilunghi()->Pulmino()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Viaggi lunghi pulmini",
-            "count" => $furgoni_lunghi1->count(),
-            'veicoli' => $furgoni_lunghi1->get()
+            'impiego_tipologia' => 'Viaggi lunghi pulmini',
+            'count' => $furgoni_lunghi1->count(),
+            'veicoli' => $furgoni_lunghi1->get(),
         ];
 
         //viaggi lunghi autobus
         $autobus = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->viaggilunghi()->autobus()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Viaggi lunghi Autobus",
-            "count" => $autobus->count(),
-            'veicoli' => $autobus->get()
+            'impiego_tipologia' => 'Viaggi lunghi Autobus',
+            'count' => $autobus->count(),
+            'veicoli' => $autobus->get(),
         ];
 
         // viaggi lunghi autocarri
         $autocarri = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->viaggilunghi()->autocarri()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Viaggi lunghi Autocarri",
-            "count" => $autocarri->count(),
-            'veicoli' => $autocarri->get()
+            'impiego_tipologia' => 'Viaggi lunghi Autocarri',
+            'count' => $autocarri->count(),
+            'veicoli' => $autocarri->get(),
         ];
 
         // personali
         $personali = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->personali()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Veicoli Personali",
-            "count" => $personali->count(),
-            'veicoli' => $personali->get()
+            'impiego_tipologia' => 'Veicoli Personali',
+            'count' => $personali->count(),
+            'veicoli' => $personali->get(),
         ];
 
         // roma
         $roma = Veicolo::with([
-            "prenotazioni" => function ($query) use ($IDPrenotazioniAttive) {
-                $query->whereIn("id", $IDPrenotazioniAttive);
+            'prenotazioni' => function ($query) use ($IDPrenotazioniAttive) {
+                $query->whereIn('id', $IDPrenotazioniAttive);
             },
             'prenotazioni.cliente' => function ($query) {
                 $query->select('id', 'nominativo');
-            }
+            },
         ])->prenotabili()->roma()->orderBy('nome');
         $veicoliPrenotabili[] = [
-            "impiego_tipologia" => "Veicoli Roma",
-            "count" => $roma->count(),
-            'veicoli' => $roma->get()
+            'impiego_tipologia' => 'Veicoli Roma',
+            'count' => $roma->count(),
+            'veicoli' => $roma->get(),
         ];
 
         return response()->json($veicoliPrenotabili);
@@ -287,8 +285,8 @@ class ApiController extends CoreBaseController
     public function marche(Request $request)
     {
         $term = $request->input('term');
-        $marcheWithModelli = Marche::with('modelli')->where("nome", "LIKE", "%" . $term . '%')->get();
-        $results = array();
+        $marcheWithModelli = Marche::with('modelli')->where('nome', 'LIKE', '%'.$term.'%')->get();
+        $results = [];
         foreach ($marcheWithModelli as $marca) {
             $results[] = ['value' => $marca->id, 'label' => $marca->nome, 'modelli' => $marca->modelli->all()];
         }
@@ -299,8 +297,8 @@ class ApiController extends CoreBaseController
     public function impiego(Request $request)
     {
         $term = $request->input('term');
-        $impieghi = Impiego::where("nome", "LIKE", $term . '%')->get();
-        $results = array();
+        $impieghi = Impiego::where('nome', 'LIKE', $term.'%')->get();
+        $results = [];
         foreach ($impieghi as $impiego) {
             $results[] = ['value' => $impiego->id, 'label' => $impiego->nome];
         }
@@ -312,7 +310,7 @@ class ApiController extends CoreBaseController
     {
         // $term = $request->input('term');
         $tipologie = Tipologia::all(); //where("nome","LIKE", $term.'%')->get();
-        $results = array();
+        $results = [];
         foreach ($tipologie as $tipologia) {
             $results[] = ['value' => $tipologia->id, 'label' => $tipologia->nome];
         }
@@ -323,8 +321,8 @@ class ApiController extends CoreBaseController
     public function alimentazione(Request $request)
     {
         $term = $request->input('term');
-        $alimentazioni = Alimentazioni::where("nome", "LIKE", $term . '%')->get();
-        $results = array();
+        $alimentazioni = Alimentazioni::where('nome', 'LIKE', $term.'%')->get();
+        $results = [];
         foreach ($alimentazioni as $alimentazione) {
             $results[] = ['value' => $alimentazione->id, 'label' => $alimentazione->nome];
         }
@@ -335,9 +333,9 @@ class ApiController extends CoreBaseController
     public function meccanici(Request $request)
     {
         $term = $request->input('term');
-        $meccanici = ViewMeccanici::where("nominativo", "LIKE", "%$term%")->get();
+        $meccanici = ViewMeccanici::where('nominativo', 'LIKE', "%$term%")->get();
 
-        $results = array();
+        $results = [];
         foreach ($meccanici as $meccanico) {
             $results[] = ['value' => $meccanico->persona_id, 'label' => $meccanico->nominativo];
         }
@@ -356,6 +354,7 @@ class ApiController extends CoreBaseController
         } catch (\Throwable $th) {
             return ['error'];
         }
+
         return ['success'];
     }
 
@@ -365,10 +364,11 @@ class ApiController extends CoreBaseController
     public function gomme()
     {
         $gomme = TipoGomme::all();
-        $result = array();
+        $result = [];
         foreach ($gomme as $gomma) {
-            $result[] = ['codice' => $gomma->codice . " " . $gomma->note, 'id' => $gomma->id];
+            $result[] = ['codice' => $gomma->codice.' '.$gomma->note, 'id' => $gomma->id];
         }
+
         return response()->json($result);
     }
 
@@ -377,22 +377,22 @@ class ApiController extends CoreBaseController
      */
     public function nuovaGomma(Request $request)
     {
-        if ($request->input('note') == "") {
-            $note = "";
+        if ($request->input('note') == '') {
+            $note = '';
         } else {
             $note = $request->input('note');
         }
-        if ($request->input('gomma_id') == "") {
+        if ($request->input('gomma_id') == '') {
             // salvo la nuova gomma nel db
             try {
                 $gomma = TipoGomme::create([
                     'codice' => strtoupper($request->input('nuovo_codice')),
-                    'note' => $note
+                    'note' => $note,
                 ]);
             } catch (\Throwable $th) {
                 return [
                     'status' => 'error',
-                    'msg' => "Errore: codice della gomma gia' presente " . $request->input('nuovo_codice') . ' ' . ($request->input('note') == '')
+                    'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') == ''),
                 ];
             }
         } else {
@@ -404,6 +404,7 @@ class ApiController extends CoreBaseController
         } catch (\Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
         }
+
         return ['status' => 'ok'];
     }
 
@@ -413,7 +414,7 @@ class ApiController extends CoreBaseController
     public function filtri()
     {
         $filtri = TipoFiltro::all()->sortBy('tipo');
-        $result = array();
+        $result = [];
         foreach ($filtri as $value) {
             $result[] = $value;
         }
@@ -427,6 +428,7 @@ class ApiController extends CoreBaseController
     public function tipiFiltro()
     {
         $filtri = TipoFiltro::tipo();
+
         return $filtri;
     }
 
@@ -441,6 +443,7 @@ class ApiController extends CoreBaseController
         } catch (\Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
         }
-        return ['status' => 'success', 'msg' => "Filtro eliminato"];
+
+        return ['status' => 'success', 'msg' => 'Filtro eliminato'];
     }
 }

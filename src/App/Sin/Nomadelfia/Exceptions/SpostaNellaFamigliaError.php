@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Nomadelfia\Exceptions;
+
 use InvalidArgumentException;
 
 class SpostaNellaFamigliaError extends InvalidArgumentException
 {
-
-    public static function create(string $nominativo, string $famiglia, string $msg = "")
+    public static function create(string $nominativo, string $famiglia, string $msg = '')
     {
         return new static("Impossibile spostare {$nominativo} nella famiglia  {$famiglia}. {$msg}");
     }
@@ -18,9 +19,9 @@ class SpostaNellaFamigliaError extends InvalidArgumentException
      */
     public function render($request)
     {
-     
+
         $exception = $this;
+
         return response()->view('errors.sinError', compact('exception'), 500);
     }
-
 }

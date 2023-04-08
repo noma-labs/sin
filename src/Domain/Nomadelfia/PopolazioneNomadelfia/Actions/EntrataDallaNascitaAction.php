@@ -40,14 +40,12 @@ class EntrataDallaNascitaAction
         $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
     }
 
-
     public function calcGruppoFamiliare(EntrataPersonaData $dto)
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
         $dto->gruppo_data = $dto->persona->data_nascita;
     }
-
 
     public function calcPosizione(EntrataPersonaData $dto)
     {
@@ -64,5 +62,4 @@ class EntrataDallaNascitaAction
         }
         $dto->stato_data = $dto->persona->data_nascita;
     }
-
 }

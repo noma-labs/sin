@@ -3,20 +3,16 @@
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
-
+use function Pest\Laravel\actingAs;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Tests\TestCasePest;
-use function Pest\Laravel\actingAs;
-
 
 uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys');
-
 
 function login(User $user = null): User
 {
     if (is_null($user)) {
-        $user = User::where('username', "=", 'Admin')->first();
+        $user = User::where('username', '=', 'Admin')->first();
     }
 
     actingAs($user);
@@ -24,7 +20,8 @@ function login(User $user = null): User
     return $user;
 }
 
-function runMiddleware($middleware, $permission) {
+function runMiddleware($middleware, $permission)
+{
     try {
         return $middleware->handle(
             new Request(),

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Rtn\Controllers;
 
 use App\Core\Controllers\BaseController;
@@ -10,7 +11,8 @@ use App\Core\Controllers\BaseController;
  */
 class RtnController extends BaseController
 {
-	public function index(){
-		return view('rtn.index');
-	}
+    public function index()
+    {
+        return view('rtn.index');
+    }
 }

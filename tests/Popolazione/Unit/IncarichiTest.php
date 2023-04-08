@@ -2,15 +2,11 @@
 
 namespace Tests\Unit;
 
+use Carbon;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Tests\CreatesApplication;
-use Tests\MigrateFreshDB;
-use Tests\TestCase;
-use Carbon;
 
-
-it("testIncarich", function () {
+it('testIncarich', function () {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $incarico = Incarico::factory()->create();
 
@@ -22,7 +18,6 @@ it("testIncarich", function () {
     $this->assertEquals(0, $persona->incarichiAttuali()->count());
     $this->assertEquals(0, $persona->incarichiStorico()->count());
 
-
     $data_inizio = Carbon::now()->addYears(5);
     $persona->assegnaLavoratoreIncarico($incarico, $data_inizio);
     $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
@@ -31,7 +26,7 @@ it("testIncarich", function () {
     $this->assertEquals(0, $persona->aziendeAttuali()->count());
 });
 
-it("it_get_the_most_busy_people", function () {
+it('it_get_the_most_busy_people', function () {
     $busyPeaple = Persona::factory()->cinquantenne()->maschio()->create();
 
     $num = 10;

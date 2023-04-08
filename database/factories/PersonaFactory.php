@@ -2,15 +2,12 @@
 
 namespace Database\Factories;
 
-
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class PersonaFactory extends Factory
 {
-
     protected $model = Persona::class;
 
     /**
@@ -22,15 +19,16 @@ class PersonaFactory extends Factory
     {
         $name = $this->faker->firstName;
         $surname = $this->faker->lastName;
+
         return [
-            'nominativo' => $name . " " . $surname,
-            'sesso' => "M",
+            'nominativo' => $name.' '.$surname,
+            'sesso' => 'M',
             'nome' => $name,
-            "cognome" => $surname,
-            "provincia_nascita" => "GR",
+            'cognome' => $surname,
+            'provincia_nascita' => 'GR',
             'data_nascita' => $this->faker->date,
             'id_arch_pietro' => 0,
-            'id_arch_enrico' => 0
+            'id_arch_enrico' => 0,
         ];
     }
 
@@ -38,7 +36,7 @@ class PersonaFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'sesso' => "F",
+                'sesso' => 'F',
             ];
         });
     }
@@ -47,7 +45,7 @@ class PersonaFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'sesso' => "M",
+                'sesso' => 'M',
             ];
         });
     }
@@ -97,4 +95,3 @@ class PersonaFactory extends Factory
         });
     }
 }
-

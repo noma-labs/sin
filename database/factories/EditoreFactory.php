@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EditoreFactory extends Factory
 {
-
     protected $model = Editore::class;
 
     public function definition()

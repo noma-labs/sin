@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -12,8 +13,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-
 
 class NomadelfiaTableSeeder extends Seeder
 {
@@ -27,7 +26,6 @@ class NomadelfiaTableSeeder extends Seeder
             ->createIncarichi();
 
         $this->insertFamigliaInPopolazione();
-
 
     }
 
@@ -49,6 +47,7 @@ class NomadelfiaTableSeeder extends Seeder
                 ['nome' => 'Poggetto'],
                 ['nome' => 'Giovanni Paolo II']
             )->create();
+
         return $this;
     }
 
@@ -74,30 +73,31 @@ class NomadelfiaTableSeeder extends Seeder
     {
         $data = [
             [
-                'abbreviato' => "DADE",
+                'abbreviato' => 'DADE',
                 'nome' => 'Da Definire',
                 'ordinamento' => 5,
             ],
             [
-                'abbreviato' => "EFFE",
+                'abbreviato' => 'EFFE',
                 'nome' => 'Effettivo',
                 'ordinamento' => 1,
             ],
             [
-                'abbreviato' => "FIGL",
+                'abbreviato' => 'FIGL',
                 'nome' => 'Figlio',
                 'ordinamento' => 4,
             ], [
-                'abbreviato' => "OSPP",
+                'abbreviato' => 'OSPP',
                 'nome' => 'Ospite',
                 'ordinamento' => 3,
             ],
             [
-                'abbreviato' => "POST",
+                'abbreviato' => 'POST',
                 'nome' => 'Postulante',
                 'ordinamento' => 2,
             ]];
         DB::connection('db_nomadelfia')->table('posizioni')->insert($data);
+
         return $this;
 
     }
@@ -106,47 +106,48 @@ class NomadelfiaTableSeeder extends Seeder
     {
         $data = [
             [
-                'stato' => "CDE",
+                'stato' => 'CDE',
                 'nome' => 'Celibe di elezione',
             ],
             [
-                'stato' => "CEL",
+                'stato' => 'CEL',
                 'nome' => 'Celibe',
             ],
             [
-                'stato' => "MAM",
+                'stato' => 'MAM',
                 'nome' => 'NOMADELFA MAMMA',
             ],
             [
-                'stato' => "MAV",
+                'stato' => 'MAV',
                 'nome' => 'MAMMA DI VOCAZIONE',
             ],
             [
-                'stato' => "NUB",
+                'stato' => 'NUB',
                 'nome' => 'Nubile',
             ],
             [
-                'stato' => "MAN",
+                'stato' => 'MAN',
                 'nome' => 'MAMMA NUBILE',
             ],
             [
-                'stato' => "SAC",
+                'stato' => 'SAC',
                 'nome' => 'SACERDOTE',
             ],
             [
-                'stato' => "SEP",
+                'stato' => 'SEP',
                 'nome' => 'CONIUGE SEPARATO(A)',
             ],
             [
-                'stato' => "SPO",
+                'stato' => 'SPO',
                 'nome' => 'SPOSATO/A',
             ],
             [
-                'stato' => "VED",
+                'stato' => 'VED',
                 'nome' => 'VEDOVO/A',
             ],
         ];
         DB::connection('db_nomadelfia')->table('stati')->insert($data);
+
         return $this;
     }
 
@@ -155,156 +156,157 @@ class NomadelfiaTableSeeder extends Seeder
         $data = [
             [
                 'nome' => 'Presidente',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 1
+                'ord' => 1,
             ],
             [
                 'nome' => 'Vicepresidente',  // 2 vicepresidenti
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 2,
-                'ord' => 2
+                'ord' => 2,
             ],
             [
                 'nome' => 'Economo',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 4
+                'ord' => 4,
             ],
             [
                 'nome' => 'Vice economo',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 2,
-                'ord' => 5
+                'ord' => 5,
             ],
             [
                 'nome' => 'Capogruppo',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 12,
-                'ord' => 6
+                'ord' => 6,
             ],
             [
                 'nome' => 'Capogiudice',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 7
+                'ord' => 7,
             ],
             [
                 'nome' => 'Giudici',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 2,
-                'ord' => 8
+                'ord' => 8,
             ],
             [
                 'nome' => 'Consiglio degli anziani',  // 12 persone e 1 è coordinatore
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 12,
-                'ord' => 10
+                'ord' => 10,
             ],
             [
                 'nome' => 'Consiglio degli anziani - coordinatore',  // 12 persone e 1 è coordinatore
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 11
+                'ord' => 11,
             ],
             [
                 'nome' => 'Congresso dei figli - presidente',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 12
+                'ord' => 12,
             ],
             [
                 'nome' => 'Congresso dei figli - vicepresidente',
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 1,
-                'ord' => 13
+                'ord' => 13,
             ],
             [
                 'nome' => 'Congresso dei figli - consigliere',  // 4 consiglieri
-                "org" => "associazione",
+                'org' => 'associazione',
                 'num' => 4,
-                'ord' => 14
+                'ord' => 14,
             ],
             // Solidarietà nomadelfia ODV
             [
                 'nome' => 'Presidente',
-                "org" => "solidarieta",
+                'org' => 'solidarieta',
                 'num' => 1,
-                'ord' => 1
+                'ord' => 1,
             ],
             [
                 'nome' => 'Vicepresidente',
-                "org" => "solidarieta",
+                'org' => 'solidarieta',
                 'num' => 1,
-                'ord' => 2
+                'ord' => 2,
             ],
             [
                 'nome' => 'Tesoriere',
-                "org" => "solidarieta",
+                'org' => 'solidarieta',
                 'num' => 1,
-                'ord' => 3
+                'ord' => 3,
             ],
             [
                 'nome' => 'Consiglio direttivo', // 2 persone
-                "org" => "solidarieta",
+                'org' => 'solidarieta',
                 'num' => 2,
-                'ord' => 4
+                'ord' => 4,
             ],
             // Fondazione Nomadelfia
             [
                 'nome' => 'Presidente',
-                "org" => "fondazione",
+                'org' => 'fondazione',
                 'num' => 1,
-                'ord' => 1
+                'ord' => 1,
 
             ],
             [
                 'nome' => 'Segretario',
-                "org" => "fondazione",
+                'org' => 'fondazione',
                 'num' => 1,
-                'ord' => 2
+                'ord' => 2,
             ],
             [
                 'nome' => 'Revisori Conti',
-                "org" => "fondazione",
+                'org' => 'fondazione',
                 'num' => 1,
-                'ord' => 3
+                'ord' => 3,
             ],
             // Cooperativa Agricola
             [
                 'nome' => 'Presidente',
-                "org" => "agricola",
+                'org' => 'agricola',
                 'num' => 1,
-                'ord' => 1
+                'ord' => 1,
             ],
             [
                 'nome' => 'Consigliere',  //  2 consiglieri
-                "org" => "agricola",
+                'org' => 'agricola',
                 'num' => 2,
-                'ord' => 2
+                'ord' => 2,
             ],
             [
                 'nome' => 'Responsabile Tecnico', // 6 persone
-                "org" => "agricola",
+                'org' => 'agricola',
                 'num' => 6,
-                'ord' => 3
+                'ord' => 3,
             ],
             // Cooperativa Culturale
             [
                 'nome' => 'Presidente',
-                "org" => "culturale",
+                'org' => 'culturale',
                 'num' => 1,
-                'ord' => 1
+                'ord' => 1,
             ],
             [
                 'nome' => 'Consiglieri',  // 2 consiglieri
-                "org" => "culturale",
+                'org' => 'culturale',
                 'num' => 2,
-                'ord' => 2
+                'ord' => 2,
             ],
 
         ];
         DB::connection('db_nomadelfia')->table('cariche')->insert($data);
+
         return $this;
     }
 
@@ -345,9 +347,10 @@ class NomadelfiaTableSeeder extends Seeder
             ['nome' => 'Nomadelfia internet'],
             ['nome' => 'Nomadelfia news'],
             ['nome' => ' Pubbliche relazioni'],
-            ['nome' => 'Mailing list']
+            ['nome' => 'Mailing list'],
         ];
         DB::connection('db_nomadelfia')->table('incarichi')->insert($data);
+
         return $this;
     }
 
@@ -362,9 +365,9 @@ class NomadelfiaTableSeeder extends Seeder
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+        $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($capoFam, $now, $gruppo);
-        $act = new  EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+        $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
@@ -372,6 +375,7 @@ class NomadelfiaTableSeeder extends Seeder
         $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
         $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
         $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
+
         return $this;
     }
 }

@@ -2,21 +2,21 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
+use Carbon;
 use Domain\Nomadelfia\PopolazioneNomadelfia\QueryBuilders\PopolazioneQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use \stdClass;
-use Carbon;
-
+use stdClass;
 
 class PopolazioneNomadelfia extends Model
 {
     protected $connection = 'db_nomadelfia';
+
     protected $table = 'popolazione';
 
     public $timestamps = true;
-    protected $guarded = [];
 
+    protected $guarded = [];
 
     public function newEloquentBuilder($query): PopolazioneQueryBuilder
     {
@@ -38,9 +38,9 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
                 ORDER BY nominativo")
         );
+
         return $res;
     }
-
 
     /*
     *  Ritorna il totale della popolazione attuale
@@ -52,19 +52,20 @@ class PopolazioneNomadelfia extends Model
     {
         $res = DB::connection('db_nomadelfia')->select(
             DB::raw(
-                "SELECT count(*) as popolazione
+                'SELECT count(*) as popolazione
                 FROM popolazione
                 INNER JOIN persone p ON p.id = popolazione.persona_id
-                WHERE popolazione.data_uscita IS NULL"
+                WHERE popolazione.data_uscita IS NULL'
             )
         );
+
         return $res[0]->popolazione;
     }
 
     /*
      *  Ritorna tutte e persone maggiorenni della popolazione divisi per uomini e donne
      */
-    public static function maggiorenni($orderby = 'nominativo', $order = "ASC")
+    public static function maggiorenni($orderby = 'nominativo', $order = 'ASC')
     {
 //        $magg = DB::connection('db_nomadelfia')
 //            ->table('persone')
@@ -77,35 +78,36 @@ class PopolazioneNomadelfia extends Model
         $magg = self::daEta(18, $orderby, $order);
         $result = new stdClass;
         $maggioreni = collect($magg);
-        $sesso = $maggioreni->groupBy("sesso");
+        $sesso = $maggioreni->groupBy('sesso');
         $result->total = $maggioreni->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
-    public static function daEta(int $eta, string $orderBy = 'nominativo', string $order = "ASC")
+    public static function daEta(int $eta, string $orderBy = 'nominativo', string $order = 'ASC')
     {
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, popolazione.*")
+            ->selectRaw('persone.*, popolazione.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull("popolazione.data_uscita")
-            ->where("persone.data_nascita", "<=", Carbon::now()->subYears($eta))
-            ->orderByRaw("persone." . strval($orderBy) . " " . $order)
+            ->whereNull('popolazione.data_uscita')
+            ->where('persone.data_nascita', '<=', Carbon::now()->subYears($eta))
+            ->orderByRaw('persone.'.strval($orderBy).' '.$order)
             ->get();
+
         return $magg;
     }
 
     public static function fraEta(
-        int    $fromEta,
-        int    $toEta = null,
+        int $fromEta,
+        int $toEta = null,
         string $orderBy = 'nominativo',
-        int    $travel_to_year = null,
+        int $travel_to_year = null,
                $withInYear = false,
         string $order = 'ASC'
-    )
-    {
+    ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($fromEta);
         if ($withInYear) {
@@ -129,10 +131,11 @@ class PopolazioneNomadelfia extends Model
             ->whereNull('popolazione.data_uscita')
             ->whereNull('persone.data_decesso')
             ->where('persone.data_nascita', '<=', $end)
-            ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order);
+            ->orderByRaw('persone.'.strval($orderBy).' '.$order);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
         }
+
         return $magg;
 
     }
@@ -144,11 +147,12 @@ class PopolazioneNomadelfia extends Model
     public static function effettivi()
     {
         $result = new stdClass;
-        $effettivi = collect(self::byPosizione("EFFE"));
-        $sesso = $effettivi->groupBy("sesso");
+        $effettivi = collect(self::byPosizione('EFFE'));
+        $sesso = $effettivi->groupBy('sesso');
         $result->total = $effettivi->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
@@ -158,11 +162,12 @@ class PopolazioneNomadelfia extends Model
     public static function postulanti()
     {
         $result = new stdClass;
-        $postulanti = collect(self::byPosizione("POST"));
-        $sesso = $postulanti->groupBy("sesso");
+        $postulanti = collect(self::byPosizione('POST'));
+        $sesso = $postulanti->groupBy('sesso');
         $result->total = $postulanti->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
@@ -172,11 +177,12 @@ class PopolazioneNomadelfia extends Model
     public static function ospiti()
     {
         $result = new stdClass;
-        $ospiti = collect(self::byPosizione("OSPP"));
-        $sesso = $ospiti->groupBy("sesso");
+        $ospiti = collect(self::byPosizione('OSPP'));
+        $sesso = $ospiti->groupBy('sesso');
         $result->total = $ospiti->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
@@ -185,7 +191,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function figli()
     {
-        return self::byPosizione("FIGL");
+        return self::byPosizione('FIGL');
     }
 
     /*
@@ -197,13 +203,13 @@ class PopolazioneNomadelfia extends Model
         $result = new stdClass;
         $maggioreni = collect($magg);
 
-        $sesso = $maggioreni->groupBy("sesso");
+        $sesso = $maggioreni->groupBy('sesso');
         $result->total = $maggioreni->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
-
 
     /*
     *  Ritorna i minorenni
@@ -213,10 +219,11 @@ class PopolazioneNomadelfia extends Model
         $magg = self::figliDaEta(0, 18, 'nominativo');
         $result = new stdClass;
         $maggioreni = collect($magg);
-        $sesso = $maggioreni->groupBy("sesso");
+        $sesso = $maggioreni->groupBy('sesso');
         $result->total = $maggioreni->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
@@ -238,8 +245,9 @@ class PopolazioneNomadelfia extends Model
             'anno',
             function ($item) {
                 return $item->sesso;
-            }
+            },
         ]);
+
         return $result;
     }
 
@@ -251,22 +259,24 @@ class PopolazioneNomadelfia extends Model
         $magg = self::figliDaEta(18, 21, 'nominativo');
         $result = new stdClass;
         $maggioreni = collect($magg);
-        $sesso = $maggioreni->groupBy("sesso");
+        $sesso = $maggioreni->groupBy('sesso');
         $result->total = $maggioreni->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
     public static function figliMaggiori21()
     {
-        $magg = self::figliDaEta(21, null, "nominativo");
+        $magg = self::figliDaEta(21, null, 'nominativo');
         $result = new stdClass;
         $maggioreni = collect($magg);
-        $sesso = $maggioreni->groupBy("sesso");
+        $sesso = $maggioreni->groupBy('sesso');
         $result->total = $maggioreni->count();
-        $result->uomini = $sesso->get("M", []);
-        $result->donne = $sesso->get("F", []);
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
         return $result;
     }
 
@@ -275,16 +285,15 @@ class PopolazioneNomadelfia extends Model
     */
     public static function sacerdoti()
     {
-        return self::byStati("SAC");
+        return self::byStati('SAC');
     }
-
 
     /*
     *  Ritorna le mamme di vocazione  della popolazione
     */
     public static function mammeVocazione()
     {
-        return self::byStati("MAV");
+        return self::byStati('MAV');
     }
 
     /*
@@ -292,28 +301,28 @@ class PopolazioneNomadelfia extends Model
   */
     public static function nomadelfaMamma()
     {
-        return self::byStati("MAM");
+        return self::byStati('MAM');
     }
-
 
     /*
     *  Ritorna le persone con una certa posizione.
     *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
     */
-    public static function byPosizione(string $posizione, $ordeby = "nominativo")
+    public static function byPosizione(string $posizione, $ordeby = 'nominativo')
     {  // "persone_posizioni.data_inizio ASC, persone.nominativo"
 
         $posizioni = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, persone_posizioni.*")
+            ->selectRaw('persone.*, persone_posizioni.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'posizioni.id', '=', 'persone_posizioni.posizione_id')
-            ->whereNull("popolazione.data_uscita")
-            ->where("persone_posizioni.stato", "=", '1')
-            ->where("posizioni.abbreviato", "=", $posizione)
+            ->whereNull('popolazione.data_uscita')
+            ->where('persone_posizioni.stato', '=', '1')
+            ->where('posizioni.abbreviato', '=', $posizione)
             ->orderByRaw($ordeby)
             ->get();
+
         return $posizioni;
     }
 
@@ -321,20 +330,21 @@ class PopolazioneNomadelfia extends Model
   *  Ritorna le persone con una certo stato.
   *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
   */
-    public static function byStati(string $stato, $orderby = "nominativo")
+    public static function byStati(string $stato, $orderby = 'nominativo')
     {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, persone_stati.*")
+            ->selectRaw('persone.*, persone_stati.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_stati', 'persone_stati.persona_id', '=', 'persone.id')
             ->join('stati', 'stati.id', '=', 'persone_stati.stato_id')
-            ->whereNull("popolazione.data_uscita")
-            ->where("persone_stati.stato", "=", '1')
-            ->where("stati.stato", "=", $stato)
-            ->whereRaw("persone.deleted_at IS NULL")
+            ->whereNull('popolazione.data_uscita')
+            ->where('persone_stati.stato', '=', '1')
+            ->where('stati.stato', '=', $stato)
+            ->whereRaw('persone.deleted_at IS NULL')
             ->orderByRaw($orderby)
             ->get();
+
         return $stati;
     }
 
@@ -354,6 +364,7 @@ class PopolazioneNomadelfia extends Model
                 ORDER BY posizioni.ordinamento"
             )
         );
+
         return $posizioni;
     }
 
@@ -379,16 +390,15 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(
-        int    $fromEta,
-        int    $toEta = null,
+        int $fromEta,
+        int $toEta = null,
         string $orderBy = 'nominativo',
-        int    $travel_to_year = null,
+        int $travel_to_year = null,
                $withInYear = false
-    )
-    {
+    ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
 
-        $posizione = Posizione::perNome("figlio");
+        $posizione = Posizione::perNome('figlio');
         $end = $date->copy()->subYears($fromEta);
         if ($withInYear) {
             $end = $end->endOfYear();
@@ -400,18 +410,19 @@ class PopolazioneNomadelfia extends Model
 
         $q = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw("persone.*, persone_posizioni.*")
+            ->selectRaw('persone.*, persone_posizioni.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('persone_posizioni', 'persone_posizioni.persona_id', '=', 'persone.id')
             ->join('posizioni', 'persone_posizioni.posizione_id', '=', 'posizioni.id')
-            ->whereNull("popolazione.data_uscita")
-            ->where("persone_posizioni.stato", "=", "1")
-            ->where("persone.data_nascita", "<=", $end)
-            ->where("posizioni.abbreviato", "=", $posizione->abbreviato)
+            ->whereNull('popolazione.data_uscita')
+            ->where('persone_posizioni.stato', '=', '1')
+            ->where('persone.data_nascita', '<=', $end)
+            ->where('posizioni.abbreviato', '=', $posizione->abbreviato)
             ->orderByRaw($orderBy);
         if ($toEta != null) {
-            $q->where("persone.data_nascita", ">=", $start);
+            $q->where('persone.data_nascita', '>=', $start);
         }
+
         return $q->get();
     }
 
@@ -435,9 +446,9 @@ class PopolazioneNomadelfia extends Model
             )
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
+
         return $famiglie;
     }
-
 
     /*
     *  Ritorna il numero di persone per ogni posizione nella fmaiglia (maschi e femmine)
@@ -454,6 +465,7 @@ class PopolazioneNomadelfia extends Model
               GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
             )
         );
+
         return $gruppi;
     }
 }

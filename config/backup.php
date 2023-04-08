@@ -67,7 +67,7 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-              // 'media'
+                // 'media'
                 'local',
             ],
         ],
@@ -83,12 +83,12 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['mail'], //mail
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class => ['mail'], //mail
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => ['mail'],
         ],
 
         /*
@@ -97,9 +97,9 @@ return [
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
-          'mail' => [
-               'to' => 'davideneri18@gmail.com',
-         ],
+        'mail' => [
+            'to' => 'davideneri18@gmail.com',
+        ],
 
         'slack' => [
             'webhook_url' => '',

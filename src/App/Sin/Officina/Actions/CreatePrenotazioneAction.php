@@ -2,14 +2,13 @@
 
 namespace App\Officina\Actions;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
+use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CreatePrenotazioneAction
 {
-
     public function __invoke(
         Persona $cliente,
         Veicolo $veicolo,
@@ -28,14 +27,12 @@ class CreatePrenotazioneAction
             'veicolo_id' => $veicolo->id,
             'meccanico_id' => $meccanico->id,
             'data_partenza' => $data_partenza,
-            'ora_partenza' =>  $ora_partenza,
+            'ora_partenza' => $ora_partenza,
             'data_arrivo' => $data_arrivo,
             'ora_arrivo' => $ora_arrivo,
             'uso_id' => $uso->ofus_iden,
             'note' => $note,
-            'destinazione' => $destianazione
+            'destinazione' => $destianazione,
         ]);
     }
-
-
 }

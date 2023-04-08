@@ -3,33 +3,29 @@
 namespace App\Officina\Models;
 
 use App\Officina\QueryBuilders\PrenotazioniQueryBuilders;
-use App\Scuola\Models\ClasseBuilder;
+use App\Traits\SortableTrait;
+use Carbon\Carbon;
 use Database\Factories\PrenotazioniFactory;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Officina\Models\Uso;
-use App\Officina\Models\Veicolo;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
-
-use App\Traits\SortableTrait;
 
 class Prenotazioni extends Model
 {
-
     use SoftDeletes;
     use SortableTrait;
     use HasFactory;
 
-    protected $table = "prenotazioni";
-    protected $connection = "db_officina";
-    protected $primareKey = "id";
+    protected $table = 'prenotazioni';
 
+    protected $connection = 'db_officina';
+
+    protected $primareKey = 'id';
 
     protected $guarded = [];
-    protected $dates = ['deleted_at'];
 
+    protected $dates = ['deleted_at'];
 
     public function newEloquentBuilder($query): PrenotazioniQueryBuilders
     {
@@ -61,27 +57,29 @@ class Prenotazioni extends Model
         return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }
 
-
     /**
      * ritorna la data e l'ora di partenza
+     *
      * @return Carbon
      */
     public function dataOraPartenza()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza . ' ' . $this->ora_partenza);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
 
     /**
      * ritorna la data e l'ora di arrivo
+     *
      * @return Carbon
      */
     public function dataOraArrivo()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo . ' ' . $this->ora_arrivo);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
 
     /**
      * ritorna true se la macchina è partita e non ancora arrivata
+     *
      * @return bool
      */
     public function isPartita()
@@ -90,6 +88,7 @@ class Prenotazioni extends Model
         if ($this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso) {
             return true;
         }
+
         return false;
     }
 
@@ -101,6 +100,7 @@ class Prenotazioni extends Model
         if ($this->dataOraArrivo() < Carbon::now()) {
             return true;
         }
+
         return false;
     }
 
@@ -112,6 +112,7 @@ class Prenotazioni extends Model
         if ($this->dataOraPartenza() > Carbon::now()) {
             return true;
         }
+
         return false;
     }
 }

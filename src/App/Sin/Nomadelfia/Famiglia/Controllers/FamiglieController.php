@@ -4,19 +4,16 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Exception;
-
-
-use Illuminate\Http\Request;
-
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
+use Illuminate\Http\Request;
 
 class FamiglieController extends CoreBaseController
 {
-
     /**
      * Ritorna la view di gestione delle famiglie
+     *
      * @author Davide Neri
      **/
     public function view()
@@ -29,12 +26,14 @@ class FamiglieController extends CoreBaseController
 
         $famigliaError = Famiglia::famigliaConErrore();
         $personeNoFamiglia = Famiglia::personeSenzaFamiglia();
+
         return view('nomadelfia.famiglie.index',
             compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'personeNoFamiglia'));
     }
 
     /**
      * Ritorna la view di gestione una una singola famiglia
+     *
      * @author Davide Neri
      **/
     public function show(Request $request, $id)
@@ -43,12 +42,13 @@ class FamiglieController extends CoreBaseController
         $componenti = $famiglia->mycomponenti();
         $gruppoAttuale = $famiglia->gruppoFamiliareAttuale();
         $gruppiStorici = $famiglia->gruppiFamiliariStorico();
+
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
-
     /**
      * Ritorna la view per creare una nuova famiglia
+     *
      * @author Davide Neri
      **/
     public function create(Request $request)
@@ -64,11 +64,11 @@ class FamiglieController extends CoreBaseController
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            "nome_famiglia" => "required",
-            "data_creazione" => "required|date",
+            'nome_famiglia' => 'required',
+            'data_creazione' => 'required|date',
         ], [
-            "nome_famiglia.required" => "Il nome della fmaiglia è obbligatorio.",
-            'data_creazione.required' => "La data di creazione della famiglia è obbligatoria.",
+            'nome_famiglia.required' => 'Il nome della fmaiglia è obbligatorio.',
+            'data_creazione.required' => 'La data di creazione della famiglia è obbligatoria.',
         ]);
         $famiglia = Famiglia::findorfail($id);
 
@@ -86,29 +86,31 @@ class FamiglieController extends CoreBaseController
 
     /**
      * Crea una nuova famiglia
+     *
      * @author Davide Neri
      **/
     public function createConfirm(Request $request)
     {
         $validatedData = $request->validate([
-            "nome" => "required|unique:db_nomadelfia.famiglie,nome_famiglia",
-            "data_inizio" => "required|date",
+            'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
+            'data_inizio' => 'required|date',
         ], [
-            "nome.required" => "Il nome della famiglia  è obbligatorio",
-            "nome.unique" => "Il nome della famiglia esiste già",
-            'data_inizio.required' => "La data di creazione della famiglia è obbligatoria.",
+            'nome.required' => 'Il nome della famiglia  è obbligatorio',
+            'nome.unique' => 'Il nome della famiglia esiste già',
+            'data_inizio.required' => 'La data di creazione della famiglia è obbligatoria.',
         ]);
         $fam = Famiglia::create(['nome_famiglia' => $request->nome, 'data_creazione' => $request->data_inizio]);
+
         return redirect(route('nomadelfia.famiglia.dettaglio',
             ['id' => $fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
     }
-
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
     {
         $famiglia = Famiglia::findorfail($id);
         $gruppo = GruppoFamiliare::find($idGruppo);
         $famiglia->rimuoviDaGruppoFamiliare($idGruppo);
+
         return redirect(route('nomadelfia.gruppifamiliari',
             ['id' => $idGruppo]))->withSuccess("Famiglia $famiglia->nome_famiglia eliminatada $gruppo->nome con successo");
     }
@@ -121,51 +123,52 @@ class FamiglieController extends CoreBaseController
     public function spostaInGruppoFamiliare(Request $request, $id)
     {
         $validatedData = $request->validate([
-            "nuovo_gruppo_id" => "required",
-            "data_cambiogruppo" => "required|date",
+            'nuovo_gruppo_id' => 'required',
+            'data_cambiogruppo' => 'required|date',
         ], [
-            "nuovo_gruppo_id.required" => "Il nuovo gruppo dove spostare la famiglia è obbligatorio",
-            'data_cambiogruppo.required' => "La data del cambio di gruppo è obbligatoria.",
+            'nuovo_gruppo_id.required' => 'Il nuovo gruppo dove spostare la famiglia è obbligatorio',
+            'data_cambiogruppo.required' => 'La data del cambio di gruppo è obbligatoria.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         $gruppo_corrente = $famiglia->gruppoFamiliareAttualeOrFail();
         $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente->id, $request->data_cambiogruppo,
             $request->nuovo_gruppo_id, $request->data_cambiogruppo);
+
         return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $id]))->withSuccess("Famiglia spostata nel gruppo familiare con successo");
+            ['id' => $id]))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
 
     }
 
     public function assegnaComponente(Request $request, $id)
     {
         $validatedData = $request->validate([
-            "persona_id" => "required",
-            "posizione" => "required",
-            "stato" => "required",
-            "data_entrata" => "date"
+            'persona_id' => 'required',
+            'posizione' => 'required',
+            'stato' => 'required',
+            'data_entrata' => 'date',
         ], [
-            "persona_id.required" => "La persona è obbligatoria.",
-            "stato.required" => "Lo stato della persona è obbligatoria.",
-            'posizione.required' => "La posizione nella famiglia è obbligatoria.",
-            'data_entrata.date' => "La data del cambio di gruppo non è una data corretta.",
+            'persona_id.required' => 'La persona è obbligatoria.',
+            'stato.required' => 'Lo stato della persona è obbligatoria.',
+            'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
+            'data_entrata.date' => 'La data del cambio di gruppo non è una data corretta.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         $persona = Persona::findorfail($request->persona_id);
 
         switch ($request->posizione) {
-            case "CAPO FAMIGLIA":
+            case 'CAPO FAMIGLIA':
                 $famiglia->assegnaCapoFamiglia($persona, $request->data_entrata);
                 break;
-            case "MOGLIE":
+            case 'MOGLIE':
                 $famiglia->assegnaMoglie($persona, $request->data_entrata);
                 break;
-            case "FIGLIO NATO":
+            case 'FIGLIO NATO':
                 $famiglia->assegnaFiglioNato($persona);
                 break;
-            case "FIGLIO ACCOLTO":
+            case 'FIGLIO ACCOLTO':
                 $famiglia->assegnaFiglioAccolto($persona, $request->data_entrata);
                 break;
-            case "SINGLE":
+            case 'SINGLE':
                 $famiglia->assegnaSingle($persona, $request->data_entrata);
                 break;
             default:
@@ -181,17 +184,17 @@ class FamiglieController extends CoreBaseController
     public function aggiornaComponente(Request $request, $id)
     {
         $validatedData = $request->validate([
-            "persona_id" => "required",
-            "posizione" => "required",
-            "stato" => "required",
-            "data_entrata" => "date",
-            "data_uscita" => "date"
+            'persona_id' => 'required',
+            'posizione' => 'required',
+            'stato' => 'required',
+            'data_entrata' => 'date',
+            'data_uscita' => 'date',
         ], [
-            "persona_id.required" => "La persona è obbligatoria.",
-            "stato.required" => "Lo stato della persona è obbligatoria.",
-            'posizione.required' => "La posizione nella famiglia è obbligatoria.",
-            'data_entrata.date' => "La data di entrana nella famiglia non è una data corretta.",
-            'data_uscita.date' => "La data di uscita dalla famiglia non è una data corretta.",
+            'persona_id.required' => 'La persona è obbligatoria.',
+            'stato.required' => 'Lo stato della persona è obbligatoria.',
+            'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
+            'data_entrata.date' => 'La data di entrana nella famiglia non è una data corretta.',
+            'data_uscita.date' => 'La data di uscita dalla famiglia non è una data corretta.',
 
         ]);
         $famiglia = Famiglia::findorfail($id);
@@ -201,27 +204,29 @@ class FamiglieController extends CoreBaseController
                 'posizione_famiglia' => $request->posizione,
                 'data_entrata' => $request->data_entrata,
                 'data_uscita' => $request->data_uscita,
-                'note' => $request->note
+                'note' => $request->note,
             ]);
+
             return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withSuccess("Componente aggiornato con successo");
+                ['id' => $id]))->withSuccess('Componente aggiornato con successo');
         } catch (Exception $e) {
             return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withError("Errore. Nessun componente aggiornato alla famiglia.");
+                ['id' => $id]))->withError('Errore. Nessun componente aggiornato alla famiglia.');
         }
     }
 
     public function uscita(Request $request, $id)
     {
         $validatedData = $request->validate([
-            "data_uscita" => "required|date",
+            'data_uscita' => 'required|date',
         ], [
-            "data_uscita.required" => "La data di uscita è obbligatoria.",
-            'data_uscita.date' => "La data di uscita non è una data corretta.",
+            'data_uscita.required' => 'La data di uscita è obbligatoria.',
+            'data_uscita.date' => 'La data di uscita non è una data corretta.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         $famiglia->uscita($request->data_uscita);
+
         return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $id]))->withSuccess("Famiglia uscita con successo.");
+            ['id' => $id]))->withSuccess('Famiglia uscita con successo.');
     }
 }

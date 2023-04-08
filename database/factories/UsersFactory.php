@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,6 +14,7 @@ class UsersFactory extends Factory
     public function definition()
     {
         static $password;
+
         return [
             'name' => 'Admin',
             'email' => 'archivio@nomadelfia.it',

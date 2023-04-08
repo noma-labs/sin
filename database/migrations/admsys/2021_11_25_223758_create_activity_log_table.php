@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateActivityLogTable extends Migration
 {
@@ -19,8 +19,8 @@ class CreateActivityLogTable extends Migration
             $table->string('subject_type')->nullable();
             $table->unsignedBigInteger('causer_id')->nullable();
             $table->string('causer_type')->nullable();
-            # json is not supported in Maria DB
-            #$table->json('properties')->nullable();
+            // json is not supported in Maria DB
+            //$table->json('properties')->nullable();
             $table->longText('properties')->nullable();
             $table->timestamps();
 
