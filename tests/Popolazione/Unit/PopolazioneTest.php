@@ -47,7 +47,7 @@ it('remove dead person from population', function () {
         ->and($persona->famiglieStorico()->get()->last()->pivot->data_uscita)->toBe($data_decesso);
 
     $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($tot - 1,);
+    expect(count($pop))->toBe($tot - 1);
 });
 
 it('manage exit of an adult', function () {
@@ -256,7 +256,7 @@ it('count the underages of the population', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
-    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot + 2,)
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot + 2)
         ->and(PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count())->toBe($min + 1)
         ->and(PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count())->toBe($mag + 1);
 });
