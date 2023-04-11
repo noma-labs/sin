@@ -158,9 +158,9 @@ it('assign a new group succesfully', function () {
 
     $nuovoGruppo = GruppoFamiliare::all()->random();
     $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->toDatestring(), $nuovoGruppo->id, Carbon::now()->toDatestring());
-    expect($capoFam->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
-    expect($moglie->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
-    expect($fnato->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
+    expect($capoFam->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
+        ->and($moglie->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
+        ->and($fnato->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
 
 });
 
@@ -199,13 +199,13 @@ it('get famiglie numerose', function () {
     $fanNum = Famiglia::famiglieNumerose(10);
     expect($fanNum)->toBeEmpty();
     $fanNum6 = Famiglia::famiglieNumerose(6);
-    expect($fanNum6)->toHaveCount(1);
-    expect($fanNum6[0]->id)->toBe($famiglia->id);
-    expect($fanNum6[0]->componenti)->toBe(8);
+    expect($fanNum6)->toHaveCount(1)
+        ->and($fanNum6[0]->id)->toBe($famiglia->id)
+        ->and($fanNum6[0]->componenti)->toBe(8);
 
     $figlio->uscita(Carbon::now()->toDatestring());
     $fanNum = Famiglia::famiglieNumerose(7);
-    expect($fanNum)->toHaveCount(1);
-    expect($fanNum[0]->id)->toBe($famiglia->id);
-    expect($fanNum[0]->componenti)->toBe(7);
+    expect($fanNum)->toHaveCount(1)
+        ->and($fanNum[0]->id)->toBe($famiglia->id)
+        ->and($fanNum[0]->componenti)->toBe(7);
 });

@@ -22,6 +22,6 @@ it('testAssignStatoSacerdote', function () {
 
     $persona->assegnaStato($sac, $data_inizio, $data_fine);
 
-    $this->assertEquals($persona->statoAttuale()->id, $sac->id);
-    $this->assertEquals($persona->statiStorico()->first()->pivot->data_fine, $data_fine);
+    expect($persona->statoAttuale()->id)->toBe($sac->id)
+        ->and($persona->statiStorico()->first()->pivot->data_fine)->toBe($data_fine);
 });
