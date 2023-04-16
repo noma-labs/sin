@@ -34,21 +34,20 @@ it('remove dead person from population', function () {
     $persona->deceduto($data_decesso);
 
     $persona = Persona::findOrFail($persona->id);
-    $this->assertTrue($persona->isDeceduto());
-    $this->assertFalse($persona->isPersonaInterna());
-    $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
+    expect($persona->isDeceduto())->toBeTrue()
+        ->and($persona->isPersonaInterna())->toBeFalse()
+        ->and(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());
-    $this->assertEquals($data_decesso, $persona->posizioniStorico()->get()->last()->pivot->data_fine);
+    expect($persona->posizioniStorico()->get()->last()->pivot->data_fine)->toBe($data_decesso);
     $this->assertNull($persona->statoAttuale());
-    $this->assertEquals($data_decesso, $persona->statiStorico()->get()->last()->pivot->data_fine);
+    expect($persona->statiStorico()->get()->last()->pivot->data_fine)->toBe($data_decesso);
     $this->assertNull($persona->gruppofamiliareAttuale());
-    $this->assertEquals($data_decesso,
-        $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
-    $this->assertNull($persona->famigliaAttuale());
-    $this->assertEquals($data_decesso, $persona->famiglieStorico()->get()->last()->pivot->data_uscita);
+    expect($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_decesso)
+        ->and($persona->famigliaAttuale())->toBeNull()
+        ->and($persona->famiglieStorico()->get()->last()->pivot->data_uscita)->toBe($data_decesso);
 
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot - 1, count($pop));
+    expect(count($pop))->toBe($tot - 1);
 });
 
 it('manage exit of an adult', function () {
@@ -61,37 +60,36 @@ it('manage exit of an adult', function () {
 
     $azienda = Azienda::factory()->create();
     $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
-    $this->assertEquals(1, $persona->aziendeAttuali()->count());
+    expect($persona->aziendeAttuali()->count())->toBe(1);
     // assegna incarico
     $incarico = Incarico::factory()->create();
     $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
-    $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
+    expect($incarico->lavoratoriAttuali()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot, count($pop));
+    expect(count($pop))->toBe($tot);
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
     $persona->uscita($data_uscita);
 
     $this->assertFalse($persona->isPersonaInterna());
-    $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());
     $last_posi = $persona->posizioniStorico()->get()->last();
-    $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
+    expect($last_posi->pivot->data_fine)->toBe($data_uscita);
     $celibe = Stato::perNome('celibe');
-    $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
-    $this->assertNull($persona->gruppofamiliareAttuale());
-    $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
-    $this->assertNotNull($persona->famigliaAttuale());
-
-    $this->assertEquals(0, $persona->aziendeAttuali()->count());
-    $this->assertEquals(1, $azienda->lavoratoriStorici()->count());
-    $this->assertCount(0, $incarico->lavoratoriAttuali()->get());
-    $this->assertCount(1, $incarico->lavoratoriStorici()->get());
+    expect($persona->statoAttuale()->id)->toBe($celibe->id)
+        ->and($persona->gruppofamiliareAttuale())->toBeNull()
+        ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_uscita)
+        ->and($persona->famigliaAttuale())->not->toBeNull()
+        ->and($persona->aziendeAttuali()->count())->toBe(0)
+        ->and($azienda->lavoratoriStorici()->count())->toBe(1)
+        ->and($incarico->lavoratoriAttuali()->count())->toBe(0)
+        ->and($incarico->lavoratoriStorici()->count())->toBe(1);
 
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot - 1, count($pop));
+    expect(count($pop))->toBe($tot - 1);
 
 });
 
@@ -119,34 +117,31 @@ it('manage exit of underage', function () {
     $a = Anno::createAnno(2100);
     $classe = $a->aggiungiClasse(ClasseTipo::all()->random());
     $classe->aggiungiAlunno($persona, \Carbon\Carbon::now());
-    $this->assertCount(1, $classe->alunni()->get());
+    expect($classe->alunni()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot, count($pop));
+    expect($tot)->toBe(count($pop));
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
     $persona->uscita($data_uscita, true);
 
-    $this->assertEquals($tot - 1, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());
     $last_posi = $persona->posizioniStorico()->get()->last();
-    $this->assertEquals($persona->data_nascita, $last_posi->pivot->data_inizio);
-    $this->assertEquals($data_uscita, $last_posi->pivot->data_fine);
+    expect($last_posi->pivot->data_inizio)->toBe($persona->data_nascita);
+    expect($last_posi->pivot->data_fine)->toBe($data_uscita);
     $celibe = Stato::perNome('celibe');
-    $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
-
-    $this->assertNull($persona->gruppofamiliareAttuale());
-    $this->assertEquals($data_uscita, $persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo);
-
-    $this->assertNull($persona->famigliaAttuale());
-    $this->assertEquals($data_uscita, $persona->famiglieStorico()->get()->last()->pivot->data_uscita);
-
-    $this->assertCount(0, $classe->alunni()->get());
+    expect($persona->statoAttuale()->id)->toBe($celibe->id)
+        ->and($persona->gruppofamiliareAttuale())->toBeNull()
+        ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_uscita)
+        ->and($persona->famigliaAttuale())->toBeNull()
+        ->and($persona->famiglieStorico()->get()->last()->pivot->data_uscita)->toBe($data_uscita)
+        ->and($classe->alunni()->count())->toBe(0);
 
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot - 1, count($pop));
+    expect(count($pop))->toBe($tot - 1);
 });
 
 /*
@@ -155,7 +150,7 @@ it('manage exit of underage', function () {
 it('manage exit of family', function () {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot, count($pop));
+    expect(count($pop))->toBe($init_tot);
 
     $now = Carbon::now()->toDatestring();
     $gruppo = GruppoFamiliare::all()->random();
@@ -178,16 +173,16 @@ it('manage exit of family', function () {
     $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
-    $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 4);
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot + 4, count($pop));
+    expect(count($pop))->toBe($init_tot + 4);
 
     $data_uscita = Carbon::now()->toDatestring();
     $famiglia->uscita($data_uscita);
 
-    $this->assertEquals($init_tot, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot);
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot, count($pop));
+    expect(count($pop))->toBe($init_tot);
 });
 
 /*
@@ -221,9 +216,9 @@ it('manage people not part of family when it exits', function () {
     $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
-    $this->assertEquals($init_tot + 4, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 4);
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot + 4, count($pop));
+    expect(count($pop))->toBe($init_tot + 4);
 
     // toglie un figlio dal nucleo familiare
     $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(),
@@ -232,9 +227,9 @@ it('manage people not part of family when it exits', function () {
     $data_uscita = Carbon::now()->toDatestring();
     $famiglia->uscita($data_uscita);
     // controlla che il figlio fuori dal nucleo non è uscito
-    $this->assertEquals($init_tot + 1, PopolazioneNomadelfia::totalePopolazione());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 1);
     $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot + 1, count($pop));
+    expect(count($pop))->toBe($init_tot + 1);
 });
 
 /*
@@ -254,16 +249,16 @@ it('count the underages of the population', function () {
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
-    $this->assertEquals($tot + 1, PopolazioneNomadelfia::totalePopolazione());
-    $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot + 1);
+    expect(PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count())->toBe($min + 1);
 
     $mag = PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
-    $this->assertEquals($tot + 2, PopolazioneNomadelfia::totalePopolazione());
-    $this->assertEquals($min + 1, PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count());
-    $this->assertEquals($mag + 1, PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count());
+    expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot + 2)
+        ->and(PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count())->toBe($min + 1)
+        ->and(PopolazioneNomadelfia::figliDaEta(18, null, 'nominativo', null)->count())->toBe($mag + 1);
 });
 
 /*
@@ -278,10 +273,10 @@ it('assign postulante and effettivo status', function () {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
     $now = Carbon::now()->subYears(4);
     $persona->assegnaPostulante($now);
-    $this->assertTrue($persona->posizioneAttuale()->isPostulante());
+    expect($persona->posizioneAttuale()->isPostulante())->toBeTrue();
 
     $persona->assegnaNomadelfoEffettivo($now->subYears(1));
-    $this->assertTrue($persona->posizioneAttuale()->isEffettivo());
+    expect($persona->posizioneAttuale()->isEffettivo())->toBeTrue();
 });
 
 it('returns the figli between two ages', function () {
@@ -313,13 +308,11 @@ it('returns the figli between two ages', function () {
     $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
     $act->execute($pafter, Famiglia::findOrFail($famiglia->id));
 
-    $this->assertEquals(3, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)));
-    $this->assertEquals(2, count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)));
+    expect(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)))->toBe(3)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)))->toBe(2)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false)))->toBe(4)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true)))->toBe(4);
 
-    $this->assertEquals(4,
-        count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false))); // - $actualFigli );
-    $this->assertEquals(4,
-        count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true))); // - $actualFigli );
 });
 
 it('return the count of population', function () {
@@ -332,15 +325,14 @@ it('return the count of population', function () {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $after = PopolazioneNomadelfia::presente()->count();
-    $this->assertEquals(1, $after - $before);
+    expect($after - $before)->toBe(1);
 
     $c = PopolazioneNomadelfia::presente()->where('id', '=', $persona->id)->count();
-    $this->assertEquals(1, $c);
+    expect($c)->toBe(1);
     $c = PopolazioneNomadelfia::presente()->where('nominativo', '=', $persona->nominativo)->count();
-    $this->assertEquals(1, $c);
+    expect($c)->toBe(1);
 
     $persona->uscita(Carbon::now()->toDatestring());
     $afterUscita = PopolazioneNomadelfia::presente()->count();
-//        dd(PopolazioneNomadelfia::presente()->toSql());
-    $this->assertEquals(0, $before - $afterUscita);
+    expect($before - $afterUscita)->toBe(0);
 });

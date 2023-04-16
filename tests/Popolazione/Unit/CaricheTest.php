@@ -11,8 +11,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Illuminate\Support\Facades\DB;
 
 it('check the seeded cariche', function () {
-    $this->assertEquals(12, count(Cariche::AssociazioneCariche()));
-    $this->assertEquals(4, count(Cariche::SolidarietaCariche()));
+    expect(count(Cariche::AssociazioneCariche()))->toBe(12)
+        ->and(count(Cariche::SolidarietaCariche()))->toBe(4);
 });
 
 it('can get the president of associazione', function () {
@@ -26,11 +26,11 @@ it('can get the president of associazione', function () {
     );
 
     $p = Cariche::GetAssociazionePresidente();
-    $this->assertEquals($persona->id, $p->id);
-    $this->assertEquals($persona->nome, $p->nome);
-    $this->assertEquals($persona->cognome, $p->cognome);
-    $this->assertEquals($persona->data_nascita, $p->data_nascita);
-    $this->assertEquals($persona->provincia_nascita, $p->provincia_nascita);
+    expect($persona->id, $p->id);
+    expect($persona->nome, $p->nome);
+    expect($persona->cognome, $p->cognome);
+    expect($persona->data_nascita, $p->data_nascita);
+    expect($persona->provincia_nascita, $p->provincia_nascita);
 });
 
 it('get the eligible condidates', function () {

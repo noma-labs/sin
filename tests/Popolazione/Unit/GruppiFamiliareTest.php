@@ -19,7 +19,7 @@ it('testAssegnaCapoGruppo', function () {
     $persona->assegnaPostulante($data_entrata);
     $persona->assegnaNomadelfoEffettivo($data_entrata);
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
-    $this->assertEquals($persona->id, $gruppo->capogruppoAttuale()->id);
+    expect($gruppo->capogruppoAttuale()->id)->toBe($persona->id);
 });
 
 it('testAssegnaCapogruppoErrorsWithPostulante', function () {
@@ -31,7 +31,7 @@ it('testAssegnaCapogruppoErrorsWithPostulante', function () {
     $persona->assegnaPostulante($data_entrata);
     $this->expectException(CouldNotAssignCapogruppo::class);
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
-    $this->assertEquals(null, $gruppo->capogruppoAttuale());
+    expect($gruppo->capogruppoAttuale())->toBeNull();
 });
 
 it('testAssegnaCapogruppoErrorsWithOspite', function () {
@@ -42,7 +42,7 @@ it('testAssegnaCapogruppoErrorsWithOspite', function () {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
     $this->expectException(CouldNotAssignCapogruppo::class);
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
-    $this->assertEquals(null, $gruppo->capogruppoAttuale());
+    expect($gruppo->capogruppoAttuale())->toBeNull();
 });
 
 it('testAssegnaCapogruppoErrorsWithWomen', function () {
@@ -53,5 +53,5 @@ it('testAssegnaCapogruppoErrorsWithWomen', function () {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
     $this->expectException(CouldNotAssignCapogruppo::class);
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
-    $this->assertEquals(null, $gruppo->capogruppoAttuale());
+    expect($gruppo->capogruppoAttuale())->toBeNull();
 });

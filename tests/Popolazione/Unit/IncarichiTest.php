@@ -10,20 +10,20 @@ it('testIncarich', function () {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $incarico = Incarico::factory()->create();
 
-    $this->assertEquals(0, $incarico->lavoratori()->count());
-    $this->assertEquals(0, $incarico->lavoratoriAttuali()->count());
-    $this->assertEquals(0, $incarico->lavoratoriStorici()->count());
-    $this->assertEquals(0, $persona->aziendeAttuali()->count());
-    $this->assertEquals(0, $persona->aziendeStorico()->count());
-    $this->assertEquals(0, $persona->incarichiAttuali()->count());
-    $this->assertEquals(0, $persona->incarichiStorico()->count());
+    expect($incarico->lavoratori()->count())->toBe(0)
+        ->and($incarico->lavoratoriAttuali()->count())->toBe(0)
+        ->and($incarico->lavoratoriStorici()->count())->toBe(0)
+        ->and($persona->aziendeAttuali()->count())->toBe(0)
+        ->and($persona->aziendeStorico()->count())->toBe(0)
+        ->and($persona->incarichiAttuali()->count())->toBe(0)
+        ->and($persona->incarichiStorico()->count())->toBe(0);
 
     $data_inizio = Carbon::now()->addYears(5);
     $persona->assegnaLavoratoreIncarico($incarico, $data_inizio);
-    $this->assertEquals(1, $incarico->lavoratoriAttuali()->count());
+    expect($incarico->lavoratoriAttuali()->count())->toBe(1)
+        ->and($persona->incarichiAttuali()->count())->toBe(1)
+        ->and($persona->aziendeAttuali()->count())->toBe(0);
 
-    $this->assertEquals(1, $persona->incarichiAttuali()->count());
-    $this->assertEquals(0, $persona->aziendeAttuali()->count());
 });
 
 it('it_get_the_most_busy_people', function () {
@@ -36,7 +36,7 @@ it('it_get_the_most_busy_people', function () {
     }
 
     $p = Incarico::getBusyPeople();
-    $this->assertEquals($busyPeaple->id, $p[0]->id);
-    $this->assertEquals(10, $p[0]->count);
+    expect($busyPeaple->id)->toBe($p[0]->id)
+        ->and($p[0]->count)->toBe(10);
 
 });

@@ -22,8 +22,8 @@ it('testAssignPosizione', function () {
 
     $persona->assegnaPosizione($postulante, $data_inizio, $data_fine);
 
-    $this->assertEquals($persona->posizioneAttuale()->id, $postulante->id);
-    $this->assertEquals($persona->posizioniStorico()->first()->pivot->data_fine, $data_fine);
+    expect($persona->posizioneAttuale()->id)->toBe($postulante->id)
+        ->and($persona->posizioniStorico()->first()->pivot->data_fine)->toBe($data_fine);
 });
 
 it('testModificaDataPosizione', function () {
@@ -42,7 +42,7 @@ it('testModificaDataPosizione', function () {
 
     $persona->modificaDataInizioPosizione($postulante->id, $data_inizio, $new_data_inizio);
 
-    $this->assertEquals($persona->posizioneAttuale()->id, $postulante->id);
-    $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $new_data_inizio);
-    // $this->assertEquals($persona->posizioneAttuale()->pivot->data_fine, $data_fine);
+    expect($persona->posizioneAttuale()->id)->toBe($postulante->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($new_data_inizio);
+    // expect($persona->posizioneAttuale()->pivot->data_fine, $data_fine);
 });

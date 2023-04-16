@@ -17,30 +17,30 @@ it('add responsible to school', function () {
     $a = Anno::createAnno(2014);
     $p = Studente::factory()->maggiorenne()->maschio()->create();
     $a->aggiungiResponsabile($p);
-    $this->assertEquals($p->id, $a->responsabile->id);
+    expect($a->responsabile->id)->toBe($p->id);
 });
 
 it('build new year correctly', function () {
     $a = Anno::createAnno(1999);
-    $this->assertEquals('1999/2000', $a->scolastico);
-    $this->assertEquals('2000/2001', $a->nextAnnoScolasticoString());
+    expect($a->scolastico)->toBe('1999/2000')
+        ->and($a->nextAnnoScolasticoString())->toBe('2000/2001');
 });
 
 it('add classroom', function () {
     $a = Anno::createAnno(2007);
-    $this->assertNotNull($a->id);
+    expect($a->id)->not->toBeNull();
     $tipi = ClasseTipo::all();
     $t = $tipi->random();
-    $this->assertCount(0, $a->classi()->get());
-    $this->assertEquals(count($tipi), count($a->classiTipoPossibili()));
+    expect($a->classi()->count())->toBe(0)
+        ->and(count($a->classiTipoPossibili()))->toBe(count($tipi));
     $c = $a->aggiungiClasse($t);
-    $this->assertEquals(count($tipi) - 1, count($a->classiTipoPossibili()));
-    $this->assertCount(1, $a->classi()->get());
-    $this->assertCount(0, $c->alunni()->get());
-    $this->assertEquals($a->id, $c->anno->id);
+    expect(count($a->classiTipoPossibili()))->toBe(count($tipi) - 1)
+        ->and($a->classi()->count())->toBe(1)
+        ->and($c->alunni()->count())->toBe(0)
+        ->and($c->anno->id)->toBe($a->id);
     $p1 = Studente::factory()->minorenne()->maschio()->create();
     $c->aggiungiAlunno($p1, Carbon::now());
-    $this->assertCount(1, $c->alunni()->get());
+    expect($c->alunni()->count())->toBe(1);
 });
 
 it('get student from year', function () {
@@ -60,12 +60,12 @@ it('get student from year', function () {
     $p3 = Studente::factory()->minorenne()->femmina()->create();
     $c3->aggiungiAlunno($p3, Carbon::now());
 
-    $this->assertCount(3, $a->classi()->get());
-    $this->assertEquals(3, Studente::InAnnoScolastico($a->id)->count());
-    $this->assertEquals(3, Studente::InAnnoScolastico($a)->count());
+    expect($a->classi()->count())->toBe(3)
+        ->and(Studente::InAnnoScolastico($a->id)->count())->toBe(3)
+        ->and(Studente::InAnnoScolastico($a)->count())->toBe(3)
+        ->and($c3->alunni()->where('nominativo', $p3->nominativo))->not->toBeEmpty()
+        ->and($p3->isDeceduto())->toBeFalse();
 
-    $this->assertNotEmpty($c3->alunni()->where('nominativo', $p3->nominativo));
-    $this->assertFalse($p3->isDeceduto());
 });
 
 it('get students from classroom types', function () {
@@ -91,10 +91,10 @@ it('get students from classroom types', function () {
     $c3->aggiungiAlunno($p4, Carbon::now());
 
     $tot = Studente::InAnnoScolasticoPerCiclo($a)->get();
-    $this->assertCount(3, $tot);
-    $this->assertEquals(1, $tot[0]->count);
-    $this->assertEquals(1, $tot[1]->count);
-    $this->assertEquals(2, $tot[2]->count);
+    expect(count($tot))->toBe(3)
+        ->and($tot[0]->count)->toBe(1)
+        ->and($tot[1]->count)->toBe(1)
+        ->and($tot[2]->count)->toBe(2);
 });
 
 it('create classroom in a year', function () {
@@ -110,21 +110,21 @@ it('create classroom in a year', function () {
     $this->assertNotEmpty($classe->id);
     $persona = Studente::factory()->minorenne()->maschio()->create();
 
-    $this->assertCount(0, $classe->alunni()->get());
+    expect($classe->alunni()->count())->toBe(0);
     $classe->aggiungiAlunno($persona, Carbon::now());
-    $this->assertCount(1, $classe->alunni()->get());
-    $this->assertEquals($tipo->id, $classe->tipo->id);
+    expect($classe->alunni()->count())->toBe(1);
+    expect($classe->tipo->id)->toBe($tipo->id);
 });
 
 it('get prescuola type', function () {
     $t = ClasseTipo::findOrFail(1);
-    $this->assertTrue($t->isPrescuola());
+    expect($t->isPrescuola())->toBeTrue();
 });
 
 it('add new student', function () {
     $now = Carbon::now();
     $a = Anno::createAnno(2002, $now);
-    $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
+    expect($a->data_inizio->toDateString())->toBe($now->toDateString());
     $c = $a->aggiungiClasse(ClasseTipo::all()->random());
     $p1 = Studente::factory()->minorenne()->maschio()->create();
 
@@ -135,19 +135,18 @@ it('add new student', function () {
 it('add teacher', function () {
     $now = Carbon::now();
     $a = Anno::createAnno(2199, $now);
-    $this->assertEquals($now->toDateString(), $a->data_inizio->toDateString());
     $c = $a->aggiungiClasse(ClasseTipo::all()->first());
     $p1 = Studente::factory()->maggiorenne()->maschio()->create();
 
     // Add coordinatore with a carbon
     $c->aggiungiCoordinatore($p1, $now->addDays(15));
-    $this->assertCount(1, $c->coordinatori()->get());
+    expect($c->coordinatori()->count())->toBe(1);
 
     $p1 = Studente::factory()->maggiorenne()->maschio()->create();
     $c->aggiungiCoordinatore($p1, $now->addDays(15));
 
     $r = $a->coordinatoriPrescuola();
-    $this->assertCount(2, $r['Prescuola']);
+    expect(count($r['Prescuola']))->toBe(2);
 });
 
 it('get next type of classroom', function () {
@@ -178,8 +177,8 @@ it('clone students from existing year', function () {
     $a->secondaMedia()->aggiungiAlunno(Studente::factory()->diEta(12)->maschio()->create(), Carbon::now());
     $a->terzaMedia()->aggiungiAlunno(Studente::factory()->diEta(13)->maschio()->create(), Carbon::now());
 
-    $this->assertCount(2, $a->prescuola()->alunni()->get());
-    $this->assertCount(10, $a->alunni());
+    expect($a->prescuola()->alunni()->get())->toHaveCount(2);
+    expect($a->alunni())->toHaveCount(10);
     //TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
 //        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
 //        $this->assertEquals('2024-08-01', $aNew->data inizio);
@@ -190,17 +189,17 @@ it('clone students from existing year', function () {
 
 it('copy students from other classroom', function () {
     $a = Anno::createAnno(2034, '2023-12-12', true);
-    $this->assertCount(11, $a->classi()->get());
+    expect($a->classi()->get())->toHaveCount(11);
 
     $pre = $a->prescuola();
     $pre->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
     $pre->aggiungiAlunno(Studente::factory()->diEta(3)->maschio()->create(), Carbon::now());
-    $this->assertCount(2, $pre->alunni()->get());
+    expect($pre->alunni()->get())->toHaveCount(2);
 
     $aNew = Anno::createAnno(2035, '2024-08-01', true);
     $aNew->primaElementare()->importStudentsFromOtherClasse($pre, '2024-08-01');
-    $this->assertCount(2, $aNew->primaElementare()->alunni()->get());
-    $this->assertCount(2, $aNew->alunni());
+    expect($aNew->primaElementare()->alunni()->get())->toHaveCount(2);
+    expect($aNew->alunni())->toHaveCount(2);
 });
 
 it('get next classroom', function () {
@@ -217,16 +216,16 @@ it('get next classroom', function () {
 
 it('first or create classroom', function () {
     $a = Anno::createAnno(2070, '2023-12-12');
-    $this->assertCount(0, $a->classi()->get());
+    expect($a->classi()->get())->toHaveCount(0);
     $a->findOrCreateClasseByTipo(ClasseTipo::prescuola());
-    $this->assertCount(1, $a->classi()->get());
+    expect($a->classi()->get())->toHaveCount(1);
 
 });
 
 it('get possible students in year', function () {
     $anno = 1994;
     $a = Anno::createAnno($anno, '2023-12-12', true);
-    $this->assertCount(11, $a->classi()->get());
+    expect($a->classi()->get())->toHaveCount(11);
     $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
     $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
 
@@ -244,7 +243,7 @@ it('get possible students in year', function () {
     $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
 //    $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
-    $this->assertEquals(2, $a->prescuola()->alunniPossibili()->count());
+    expect($a->prescuola()->alunniPossibili()->count())->toBe(2);
     $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
-    $this->assertEquals(1, $a->prescuola()->alunniPossibili()->count());
+    expect($a->prescuola()->alunniPossibili()->count())->toBe(1);
 });

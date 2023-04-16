@@ -24,22 +24,21 @@ it('entrata_minorenne_con_famiglia', function () {
     $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
-    $this->assertTrue($persona->isPersonaInterna());
-    $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
+    expect($persona->isPersonaInterna())->toBeTrue();
+    expect($persona->getDataEntrataNomadelfia())->tobe($data_entrata);
 //        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
-    $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
-//        $this->assertEquals($persona->statoAttuale()->id, $nubile->id);
-//        $this->assertEquals($persona->statoAttuale()->stato, $nubile->stato);
-    $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
-    $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
-    $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
-    $this->assertNotNull($persona->famigliaAttuale());
-    $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $persona->data_nascita);
+    expect($persona->posizioneAttuale()->pivot->data_inizio)->tobe($data_entrata);
+//        expect($persona->statoAttuale()->id, $nubile->id);
+//        expect($persona->statoAttuale()->stato, $nubile->stato);
+    expect($persona->statoAttuale()->pivot->data_inizio)->tobe($persona->data_nascita);
+    expect($persona->gruppofamiliareAttuale()->id)->tobe($gruppo->id);
+    expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->tobe($data_entrata);
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->pivot->data_entrata)->tobe($persona->data_nascita);
 
 });
 
 it('entrata_minorenne_accolto', function () {
-
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
@@ -53,6 +52,5 @@ it('entrata_minorenne_accolto', function () {
     $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
-    $this->assertTrue($persona->isPersonaInterna());
-
+    expect($persona->isPersonaInterna())->toBeTrue();
 });
