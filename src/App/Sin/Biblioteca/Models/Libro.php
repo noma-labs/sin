@@ -12,9 +12,6 @@ use Database\Factories\LibroFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
-
 // External library to associate media files a model
 
 use Spatie\MediaLibrary\HasMedia;

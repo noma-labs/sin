@@ -4,17 +4,14 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Illuminate\Support\Facades\DB;
-use Spatie\Activitylog\Models\Activity;
 
 class SaveEntrataInNomadelfiaAction
 {
     private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
 
-
     public function __construct(
         LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction
-    )
-    {
+    ) {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
     }
 
@@ -83,6 +80,4 @@ class SaveEntrataInNomadelfiaAction
             dd($e);
         }
     }
-
-
 }

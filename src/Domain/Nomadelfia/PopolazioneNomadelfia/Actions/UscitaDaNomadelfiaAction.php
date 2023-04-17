@@ -3,20 +3,16 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
 use Illuminate\Support\Facades\DB;
-use Spatie\Activitylog\Models\Activity;
 
 class UscitaDaNomadelfiaAction
 {
     private LogUscitaNomadelfiaAsActivityAction $logUscitaActivity;
 
-
     public function __construct(
         LogUscitaNomadelfiaAsActivityAction $logUscitaActivity
-    )
-    {
+    ) {
         $this->logUscitaActivity = $logUscitaActivity;
     }
 
@@ -32,7 +28,6 @@ class UscitaDaNomadelfiaAction
 
         $this->logUscitaActivity->execute($dto);
     }
-
 
     public function calcDataEntrata(UscitaPersonaData $dto)
     {
@@ -88,7 +83,7 @@ class UscitaDaNomadelfiaAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (!$uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
+            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
@@ -102,5 +97,4 @@ class UscitaDaNomadelfiaAction
             throw $e;
         }
     }
-
 }
