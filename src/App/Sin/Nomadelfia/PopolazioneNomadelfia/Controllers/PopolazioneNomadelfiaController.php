@@ -11,6 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
+use Spatie\Activitylog\Models\Activity;
 
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
@@ -34,7 +35,9 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         $famiglieNumerose = Famiglia::famiglieNumerose();
 
-        return view('nomadelfia.summary', compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia', 'famiglieNumerose', 'stats'));
+        $activities = Activity::inLog('nomadelfia.popolazione')->orderBy('created_at', 'DESC')->get();
+
+        return view('nomadelfia.summary', compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia', 'famiglieNumerose', 'stats', 'activities'));
     }
 
     public function show()
