@@ -12,8 +12,7 @@ class UscitaDaNomadelfiaAction
 
     public function __construct(
         LogUscitaNomadelfiaAsActivityAction $logUscitaActivity
-    )
-    {
+    ) {
         $this->logUscitaActivity = $logUscitaActivity;
     }
 
@@ -37,7 +36,7 @@ class UscitaDaNomadelfiaAction
     public function calcDataEntrata(UscitaPersonaData $dto)
     {
         // TODO: if not data entrata is set, raise an expcetion
-        $dto->data_entrata = ($dto->persona->getDataEntrataNomadelfia()) ? $dto->persona->getDataEntrataNomadelfia() : "";
+        $dto->data_entrata = ($dto->persona->getDataEntrataNomadelfia()) ? $dto->persona->getDataEntrataNomadelfia() : '';
     }
 
     public function save(UscitaPersonaData $uscitaPersonaData)
@@ -82,7 +81,7 @@ class UscitaDaNomadelfiaAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (!$uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
+            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
