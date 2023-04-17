@@ -6,7 +6,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaDa
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 
-class SaveEntrataInNomadelfiaAction
+class EntrataInNomadelfiaAction
 {
     private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
 
