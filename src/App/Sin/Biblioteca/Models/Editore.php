@@ -12,7 +12,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Editore extends Model
 {
-    use LogsActivity;
     use HasFactory;
 
     protected $connection = 'db_biblioteca';
@@ -44,15 +43,5 @@ class Editore extends Model
             $builder->where('tipedi', 'S');
         });
     }
-
-    // SELECT * FROM editore WHERE tipedi='S'
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['editore'])
-            ->dontLogIfAttributesChangedOnly(['tipedi'])
-            ->logOnlyDirty();
-
-    }
+    
 }
