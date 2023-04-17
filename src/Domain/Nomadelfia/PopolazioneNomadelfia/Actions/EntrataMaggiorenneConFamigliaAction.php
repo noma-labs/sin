@@ -14,14 +14,13 @@ class EntrataMaggiorenneConFamigliaAction
 
     public function __construct(
         EntrataInNomadelfiaAction $entrataInNomadelfiaAction
-    )
-    {
+    ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
     {
-        if (!$persona->isMaggiorenne()) {
+        if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
         $dto = new EntrataPersonaData();

@@ -4,13 +4,9 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataInNomadelfiaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 it('uscita persona maggiorenne', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -32,4 +28,3 @@ it('uscita persona maggiorenne', function () {
     expect($persona->getDataUscitaNomadelfia())->toBe($data_uscita);
 
 });
-

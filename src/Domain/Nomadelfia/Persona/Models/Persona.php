@@ -536,13 +536,14 @@ class Persona extends Model
         return $this->data_decesso != null;
     }
 
+    // TODO: move into a dedicated Action that call the UscitaDaNomdelfiaActiongst
     public function deceduto($data_decesso)
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
-            // TODO: move the deceduto function ina action
             $act = app(UscitaDaNomadelfiaAction::class);
             $act->execute($this, $data_decesso);
+
 
             $conn = DB::connection('db_nomadelfia');
 
@@ -573,7 +574,6 @@ class Persona extends Model
             throw $e;
         }
     }
-
 
     // STATO
     public function stati()
