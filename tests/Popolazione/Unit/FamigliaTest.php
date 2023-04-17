@@ -203,7 +203,6 @@ it('get famiglie numerose', function () {
         ->and($fanNum6[0]->id)->toBe($famiglia->id)
         ->and($fanNum6[0]->componenti)->toBe(8);
 
-
     $act = app(UscitaDaNomadelfiaAction::class);
     $act->execute($figlio, Carbon::now()->toDatestring());
 

@@ -345,7 +345,6 @@ it('testRientroMaggiorenneInNomadelfia', function () {
     $act = app(UscitaDaNomadelfiaAction::class);
     $act->execute($persona, $data_uscita, true);
 
-
     $this->assertFalse($persona->isPersonaInterna());
     expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring())
         ->and($persona->getDataUscitaNomadelfia())->toBe($data_uscita);
