@@ -115,17 +115,17 @@ it('exit a children from family', function () {
     $fnato = Persona::factory()->minorenne()->femmina()->create();
     $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $now, $gruppo);
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, $now);
     $famiglia->assegnaMoglie($moglie, $now);
 
-    $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataDallaNascitaAction::class);
     $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
 
-    $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), Famiglia::findOrFail($famiglia->id));
 
     expect($famiglia->componentiAttuali()->get()->count())->toBe(4);
@@ -148,9 +148,9 @@ it('assign a new group succesfully', function () {
     $fnato = Persona::factory()->minorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $now = Carbon::now()->toDatestring();
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $now, $gruppo);
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie);
@@ -170,30 +170,30 @@ it('get famiglie numerose', function () {
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $now = Carbon::now()->toDatestring();
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $now, $gruppo);
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
     $fam = Famiglia::find($famiglia->id);
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $fam);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $fam);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $fam);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $fam);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $famiglia);
     $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMinorenneConFamigliaAction::class);
     $act->execute($figlio, $now, $famiglia);
 
     $fanNum = Famiglia::famiglieNumerose(10);

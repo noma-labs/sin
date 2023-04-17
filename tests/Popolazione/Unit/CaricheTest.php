@@ -38,7 +38,7 @@ it('get the eligible condidates', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     // Sacerdote: non deve essere contato negli eleggibili
@@ -47,7 +47,7 @@ it('get the eligible condidates', function () {
     $persona->assegnaSacerdote($data_entrata);
     $gruppo = GruppoFamiliare::first();
 
-    $act = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneSingleAction::class);
     $act->execute($persona, $data_entrata->toDatestring(), $gruppo);
 
     $ele = Cariche::EleggibiliConsiglioAnziani();

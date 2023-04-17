@@ -29,7 +29,7 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $gruppo = GruppoFamiliare::all()->random();
-    $act = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneSingleAction::class);
     $act->execute($persona, $data_entrata, $gruppo);
 
     login();

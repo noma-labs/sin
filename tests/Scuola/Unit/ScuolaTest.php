@@ -233,13 +233,13 @@ it('get possible students in year', function () {
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
 
-    $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunno, Famiglia::findOrFail($famiglia->id));
 
-    $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
 //    $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());

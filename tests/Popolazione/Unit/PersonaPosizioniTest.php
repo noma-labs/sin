@@ -13,7 +13,7 @@ it('testAssignPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();
@@ -30,7 +30,7 @@ it('testModificaDataPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();

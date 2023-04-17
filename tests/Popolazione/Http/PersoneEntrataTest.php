@@ -18,7 +18,7 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $data_entrata, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
@@ -56,7 +56,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $data_entrata, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
@@ -90,7 +90,7 @@ it('entrata_persona_dalla_nascita', function () {
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, Carbon::now()->toDatestring(), $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now()->toDatestring());
 

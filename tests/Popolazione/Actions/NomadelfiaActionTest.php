@@ -9,6 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataIntoActivityTableActionAction;
 
 it('entrata_minorenne_con_famiglia', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -21,7 +22,7 @@ it('entrata_minorenne_con_famiglia', function () {
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-    $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
     expect($persona->isPersonaInterna())->toBeTrue();
@@ -49,8 +50,9 @@ it('entrata_minorenne_accolto', function () {
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-    $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMinorenneAccoltoAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
     expect($persona->isPersonaInterna())->toBeTrue();
 });
+
