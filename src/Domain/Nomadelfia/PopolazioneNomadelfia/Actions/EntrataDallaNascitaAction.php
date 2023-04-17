@@ -15,8 +15,7 @@ class EntrataDallaNascitaAction
 
     public function __construct(
         EntrataInNomadelfiaAction $entrataInNomadelfiaAction
-    )
-    {
+    ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
