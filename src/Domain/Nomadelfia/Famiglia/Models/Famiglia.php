@@ -10,6 +10,7 @@ use App\Traits\Enums;
 use Carbon;
 use Database\Factories\FamigliaFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -167,7 +168,8 @@ class Famiglia extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
-                $componente->uscita($data_uscita, false);
+                $act = app(UscitaDaNomadelfiaAction::class);
+                $act->execute($componente, $data_uscita);
             });
             DB::connection('db_nomadelfia')->commit();
         } catch (\Exception $e) {
@@ -360,7 +362,7 @@ class Famiglia extends Model
 
     public function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = '1', $note = null)
     {
-        if (! in_array($posizione, $this->enumPosizione)) {
+        if (!in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
 
@@ -524,7 +526,8 @@ class Famiglia extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppo_nuovo_id,
         $data_entrata = null
-    ) {
+    )
+    {
         $famiglia_id = $this->id;
 
         return DB::transaction(function () use (
@@ -599,7 +602,7 @@ class Famiglia extends Model
               WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
             )
         );
-        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
+        $result->push((object)['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
 
         $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
             DB::raw(
@@ -614,7 +617,7 @@ class Famiglia extends Model
             )
         );
 
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
             'results' => $famiglieSenzaComponenti,
         ]);
@@ -630,7 +633,7 @@ class Famiglia extends Model
       )
         ")
         );
-        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
+        $result->push((object)['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
 
         $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT *
@@ -645,7 +648,7 @@ class Famiglia extends Model
                 HAVING count(*) > 1
               )")
         );
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
             'results' => $famiglieConPiuGruppi,
         ]);

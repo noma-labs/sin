@@ -11,6 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -340,7 +341,11 @@ it('testRientroMaggiorenneInNomadelfia', function () {
 
     // la persona esce dalla comunità
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $persona->uscita($data_uscita);
+
+    $act = app(UscitaDaNomadelfiaAction::class);
+    $act->execute($persona, $data_uscita, true);
+
+
     $this->assertFalse($persona->isPersonaInterna());
     expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring())
         ->and($persona->getDataUscitaNomadelfia())->toBe($data_uscita);

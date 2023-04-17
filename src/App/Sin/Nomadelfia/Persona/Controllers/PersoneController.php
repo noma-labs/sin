@@ -14,6 +14,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
@@ -63,7 +64,8 @@ class PersoneController extends CoreBaseController
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
-        $persona->uscita($request->data_uscita);
+        $act = app(UscitaDaNomadelfiaAction::class);
+        $act->execute($persona, $request->data_uscita);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
@@ -135,7 +137,7 @@ class PersoneController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -143,20 +145,20 @@ class PersoneController extends CoreBaseController
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $msgSearch = $msgSearch . 'Nominativo=' . $nominativo;
                 $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch.' Nome='.$nome;
+                $msgSearch = $msgSearch . ' Nome=' . $nome;
                 $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $msgSearch = $msgSearch . ' Cognome=' . $cognome;
                 $orderBy = 'nome';
             }
 
@@ -165,7 +167,7 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
+                $msgSearch = $msgSearch . ' Data Nascita' . $criterio_nascita . $nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -303,9 +305,9 @@ class PersoneController extends CoreBaseController
         ]);
 
         if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
-                ->orWhere('nome', 'like', '%'.$request->persona.'%')
-                ->orWhere('cognome', 'like', '%'.$request->persona);
+            $personeEsistenti = Persona::where('nominativo', 'like', '%' . $request->persona . '%')
+                ->orWhere('nome', 'like', '%' . $request->persona . '%')
+                ->orWhere('cognome', 'like', '%' . $request->persona);
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
@@ -411,7 +413,7 @@ class PersoneController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)

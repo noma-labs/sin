@@ -126,7 +126,8 @@ it('manage exit of underage', function () {
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $persona->uscita($data_uscita, true);
+    $act = app(UscitaDaNomadelfiaAction::class);
+    $act->execute($persona, $data_uscita, true);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());

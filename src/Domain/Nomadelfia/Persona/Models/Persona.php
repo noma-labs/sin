@@ -17,6 +17,7 @@ use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
@@ -539,7 +540,9 @@ class Persona extends Model
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
-            $this->uscita($data_decesso);
+            // TODO: move the deceduto function ina action
+            $act = app(UscitaDaNomadelfiaAction::class);
+            $act->execute($this, $data_decesso);
 
             $conn = DB::connection('db_nomadelfia');
 
@@ -571,67 +574,6 @@ class Persona extends Model
         }
     }
 
-    /*
-    * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
-    * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
-    *
-    * @param date $name
-    * @param bool $disable_from_family
-    */
-    public function uscita($data_uscita, $disable_from_family = true)
-    {
-        $persona_id = $this->id;
-        DB::connection('db_nomadelfia')->beginTransaction();
-        try {
-            $conn = DB::connection('db_nomadelfia');
-
-            // setta la data uscita della persona
-            $conn->insert('UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL',
-                [$data_uscita, $persona_id]);
-
-            // conclude la posizione in nomadelfia della persona con la data di uscita
-            $conn->insert(
-                "UPDATE persone_posizioni SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_uscita, $persona_id]
-            );
-
-            // conclude la persona nel gruppo familiare con la data di uscita
-            $conn->insert(
-                "UPDATE gruppi_persone SET data_uscita_gruppo = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_uscita, $persona_id]
-            );
-
-            // conclude le aziende dove lavora con la data di uscita
-            $conn->update(
-                "UPDATE aziende_persone SET data_fine_azienda = ?, stato = 'Non Attivo' WHERE persona_id = ? AND stato = 'Attivo'",
-                [$data_uscita, $persona_id]
-            );
-
-            $conn->update(
-                'UPDATE incarichi_persone SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL',
-                [$data_uscita, $persona_id]
-            );
-
-            // conclude la scuola
-            $conn->update(
-                'UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL',
-                [$data_uscita, $persona_id]
-            );
-
-            if (!$this->isMaggiorenne() && $disable_from_family) {
-                // toglie la persona dal nucleo familiare
-                $conn->insert(
-                    "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                    [$data_uscita, $persona_id]
-                );
-            }
-
-            DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
-            DB::connection('db_nomadelfia')->rollback();
-            throw $e;
-        }
-    }
 
     // STATO
     public function stati()

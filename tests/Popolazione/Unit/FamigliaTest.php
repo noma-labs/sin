@@ -12,6 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use InvalidArgumentException;
 
 it('throws and invalidArgument on assign a component', function () {
@@ -202,7 +203,10 @@ it('get famiglie numerose', function () {
         ->and($fanNum6[0]->id)->toBe($famiglia->id)
         ->and($fanNum6[0]->componenti)->toBe(8);
 
-    $figlio->uscita(Carbon::now()->toDatestring());
+
+    $act = app(UscitaDaNomadelfiaAction::class);
+    $act->execute($figlio, Carbon::now()->toDatestring());
+
     $fanNum = Famiglia::famiglieNumerose(7);
     expect($fanNum)->toHaveCount(1)
         ->and($fanNum[0]->id)->toBe($famiglia->id)
