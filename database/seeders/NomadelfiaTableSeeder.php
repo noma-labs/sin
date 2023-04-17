@@ -365,15 +365,18 @@ class NomadelfiaTableSeeder extends Seeder
         $fnato = Persona::factory()->minorenne()->femmina()->create();
         $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
-        $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+        $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($capoFam, $now, $gruppo);
-        $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+        $act = app(EntrataMaggiorenneConFamigliaAction::class);
+//        $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
-        $act = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+//        $act = app( EntrataDallaNascitaAction::class);
+        $act = app(EntrataDallaNascitaAction::class);
         $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
-        $act = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+//        $act = app( EntrataMinorenneAccoltoAction::class);
+        $act = app(EntrataMinorenneAccoltoAction::class);
         $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
 
         return $this;
