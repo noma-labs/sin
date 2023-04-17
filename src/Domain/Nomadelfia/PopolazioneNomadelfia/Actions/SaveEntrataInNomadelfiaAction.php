@@ -20,6 +20,13 @@ class SaveEntrataInNomadelfiaAction
 
     public function execute(EntrataPersonaData $entrataPersonaData)
     {
+        $this->save($entrataPersonaData);
+        $this->logEntrataInNomadelfiaActivityAction->execute($entrataPersonaData);
+
+    }
+
+    public function save(EntrataPersonaData $entrataPersonaData)
+    {
         // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
         $persona = $entrataPersonaData->persona;
         if ($persona->isPersonaInterna()) {
@@ -71,14 +78,11 @@ class SaveEntrataInNomadelfiaAction
             }
             DB::connection('db_nomadelfia')->commit();
 
-            $this->logEntrataInNomadelfiaActivityAction->execute($entrataPersonaData);
-
         } catch (\Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             dd($e);
         }
-
-
     }
+
 
 }

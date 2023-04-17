@@ -15,6 +15,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -71,7 +72,8 @@ it('manage exit of an adult', function () {
     expect(count($pop))->toBe($tot);
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $persona->uscita($data_uscita);
+    $action = app(UscitaDaNomadelfiaAction::class);
+    $action->execute($persona, $data_uscita);
 
     $this->assertFalse($persona->isPersonaInterna());
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
@@ -332,7 +334,8 @@ it('return the count of population', function () {
     $c = PopolazioneNomadelfia::presente()->where('nominativo', '=', $persona->nominativo)->count();
     expect($c)->toBe(1);
 
-    $persona->uscita(Carbon::now()->toDatestring());
+    $action = app(UscitaDaNomadelfiaAction::class);
+    $action->execute($persona, Carbon::now()->toDatestring());
     $afterUscita = PopolazioneNomadelfia::presente()->count();
     expect($before - $afterUscita)->toBe(0);
 });

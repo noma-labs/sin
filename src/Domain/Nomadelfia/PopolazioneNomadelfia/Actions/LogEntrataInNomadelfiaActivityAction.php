@@ -14,6 +14,7 @@ class LogEntrataInNomadelfiaActivityAction
         activity('nomadelfia.popolazione')
             ->performedOn($entrataPersonaData->persona)
             ->withProperties([
+                    'nominativo' => $entrataPersonaData->persona->nominativo,
                     'data_entrata' => $entrataPersonaData->data_entrata,
                     'data_nascita' => $entrataPersonaData->persona->data_nascita,
                     "luogo_nascita" => $entrataPersonaData->persona->provincia_nascita,
@@ -22,7 +23,8 @@ class LogEntrataInNomadelfiaActivityAction
                     "famiglia" => ($entrataPersonaData->famiglia) ? $entrataPersonaData->famiglia->nome_famiglia : null,
                 ]
             )
-            ->log('entrata');
+            ->setEvent('entrata')
+            ->log(':properties.nominativo è entrato/a in Nomadelfia in data :properties.data_entrata');
 
     }
 

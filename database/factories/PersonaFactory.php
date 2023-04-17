@@ -21,7 +21,7 @@ class PersonaFactory extends Factory
         $surname = $this->faker->lastName;
 
         return [
-            'nominativo' => $name.' '.$surname,
+            'nominativo' => $name . ' ' . $surname,
             'sesso' => 'M',
             'nome' => $name,
             'cognome' => $surname,
@@ -88,9 +88,18 @@ class PersonaFactory extends Factory
 
     public function cinquantenne()
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
                 'data_nascita' => Carbon::now()->subYears(50)->toDateString(),
+            ];
+        });
+    }
+
+    public function numeroElenco(string $num)
+    {
+        return $this->state(function (array $attributes) use ($num) {
+            return [
+                'numero_elenco' => $num,
             ];
         });
     }
