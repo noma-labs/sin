@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ./vendor/bin/sail  php artisan config:clear
+./vendor/bin/sail  php artisan livewire:discover
 
 # create the database if not exists
 ./vendor/bin/sail artisan make:database

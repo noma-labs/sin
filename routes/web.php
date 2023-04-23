@@ -94,6 +94,10 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->name('nomadelfia.persone.dettaglio')->middleware('can:popolazione.persona.visualizza');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'rimuovi'])->name('nomadelfia.persone.rimuovi'); //middleware('permission:cliente-visualizza')
 
+    // persona popolazione
+    Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
+
+
     Route::get('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
     Route::post('persone/{idPersona}/anagrafica/modifica/confirm',
