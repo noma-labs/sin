@@ -23,12 +23,12 @@ class LibriMediaController extends CoreBaseController
     //       ->toMediaCollection('default','ftp'); //,"ftp");
 
     $libro->addMedia($request->file)
-          ->toMediaCollection('default', 'ftp');
+        ->toMediaCollection('default', 'ftp');
 
     $url = 'http://images.famigliacristiana.it/2018/5/nomadelfia-caimi_piccinni_2406463.jpg';
     $libro
-    ->addMediaFromUrl($url)
-    ->toMediaCollection('default', 'ftp');
+        ->addMediaFromUrl($url)
+        ->toMediaCollection('default', 'ftp');
 
     // Storage::disk('ftp')->put("didoprova.jpg",  $request->file);
 
@@ -49,9 +49,9 @@ class LibriMediaController extends CoreBaseController
   {
       $libro = Libro::findOrFail($idLibro);
       $libro->getMedia()
-            ->keyBy('id')
-            ->get($mediaId)
-            ->delete();
+          ->keyBy('id')
+          ->get($mediaId)
+          ->delete();
 
     return redirect()->back()->withSuccess('File digitale eliminato');
   }

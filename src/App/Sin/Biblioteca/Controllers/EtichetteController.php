@@ -64,12 +64,12 @@ class EtichetteController extends CoreBaseController
   public static function generateEtichette($etichette)
   {
     $pdf = SnappyPdf::loadView('biblioteca.libri.etichette.printsingle', ['etichette' => $etichette])
-          ->setOption('page-width', config('etichette.dimensioni.larghezza'))
-          ->setOption('page-height', config('etichette.dimensioni.altezza'))
-          ->setOption('margin-bottom', '0mm')
-          ->setOption('margin-top', '0mm')
-          ->setOption('margin-right', '0mm')
-          ->setOption('margin-left', '0mm');
+        ->setOption('page-width', config('etichette.dimensioni.larghezza'))
+        ->setOption('page-height', config('etichette.dimensioni.altezza'))
+        ->setOption('margin-bottom', '0mm')
+        ->setOption('margin-top', '0mm')
+        ->setOption('margin-right', '0mm')
+        ->setOption('margin-left', '0mm');
     $data = Carbon::now();
 
     return $pdf->setPaper('a4')->setOrientation('portrait')->download("etichette-$data.pdf");
