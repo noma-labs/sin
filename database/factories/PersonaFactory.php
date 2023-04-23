@@ -28,7 +28,6 @@ class PersonaFactory extends Factory
             'provincia_nascita' => 'GR',
             'data_nascita' => $this->faker->date,
             'id_arch_pietro' => 0,
-            'id_arch_enrico' => 0,
         ];
     }
 

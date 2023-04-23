@@ -17,7 +17,7 @@ class ViewCollocazione extends Model
   public function scopeLettere($query)
   {
     return $query->select('lettere')->whereRaw('LENGTH(lettere) = 3')
-                  ->orWhereRaw('lettere = 000')->groupBy('lettere');
+        ->orWhereRaw('lettere = 000')->groupBy('lettere');
   }
 
   public function scopeTotal($query)

@@ -35,8 +35,8 @@ class CreateDatabaseCommand extends Command
     {
         try {
             $connections = collect(config('database.connections'))
-                            ->except(['information_schema'])
-                            ->keys();
+                ->except(['information_schema'])
+                ->keys();
 
             foreach ($connections as $connection) {
                 $dbName = config("database.connections.{$connection}.database");

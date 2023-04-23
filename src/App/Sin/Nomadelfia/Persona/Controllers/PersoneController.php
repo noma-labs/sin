@@ -352,7 +352,6 @@ class PersoneController extends CoreBaseController
                 'provincia_nascita' => $request->input('luogo_nascita'),
                 'data_nascita' => $request->input('data_nascita'),
                 'id_arch_pietro' => 0,
-                'id_arch_enrico' => 0,
             ]
         );
         $res = $persona->save();
