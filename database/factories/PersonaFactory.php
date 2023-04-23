@@ -21,14 +21,13 @@ class PersonaFactory extends Factory
         $surname = $this->faker->lastName;
 
         return [
-            'nominativo' => $name.' '.$surname,
+            'nominativo' => $name . ' ' . $surname,
             'sesso' => 'M',
             'nome' => $name,
             'cognome' => $surname,
             'provincia_nascita' => 'GR',
             'data_nascita' => $this->faker->date,
-            'id_arch_pietro' => 0,
-            'id_arch_enrico' => 0,
+            'id_arch_pietro' => 0
         ];
     }
 

@@ -136,7 +136,7 @@ class PersoneController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -144,20 +144,20 @@ class PersoneController extends CoreBaseController
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $msgSearch = $msgSearch . 'Nominativo=' . $nominativo;
                 $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch.' Nome='.$nome;
+                $msgSearch = $msgSearch . ' Nome=' . $nome;
                 $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $msgSearch = $msgSearch . ' Cognome=' . $cognome;
                 $orderBy = 'nome';
             }
 
@@ -166,7 +166,7 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
+                $msgSearch = $msgSearch . ' Data Nascita' . $criterio_nascita . $nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -304,9 +304,9 @@ class PersoneController extends CoreBaseController
         ]);
 
         if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
-                ->orWhere('nome', 'like', '%'.$request->persona.'%')
-                ->orWhere('cognome', 'like', '%'.$request->persona);
+            $personeEsistenti = Persona::where('nominativo', 'like', '%' . $request->persona . '%')
+                ->orWhere('nome', 'like', '%' . $request->persona . '%')
+                ->orWhere('cognome', 'like', '%' . $request->persona);
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
@@ -352,7 +352,6 @@ class PersoneController extends CoreBaseController
                 'provincia_nascita' => $request->input('luogo_nascita'),
                 'data_nascita' => $request->input('data_nascita'),
                 'id_arch_pietro' => 0,
-                'id_arch_enrico' => 0,
             ]
         );
         $res = $persona->save();
@@ -412,7 +411,7 @@ class PersoneController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)
