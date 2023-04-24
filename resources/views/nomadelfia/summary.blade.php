@@ -144,15 +144,17 @@
         </div>
         <div class="card-body">
             <ul>
-                @foreach ($activities as $act)
+                @forelse ($activities as $act)
                 <li>
                     @include('nomadelfia.templates.persona', ['persona'=>$act->subject]) {{$act->description}}
                 </li>
-                @endforeach
+                @empty
+                <p class="font-italic">Non ci sono attività recenti</p>
+                @endforelse
             </ul>
         </div>
         <div class="card-footer">
-            <!--            <a href="{{ route('nomadelfia.aziende') }}" class="btn btn-primary">Entra</a>-->
+            <a href="{{ route('nomadelfia.activity') }}" class="btn btn-primary">Entra</a>
         </div>
     </div>
 </div> <!-- end card deck-->

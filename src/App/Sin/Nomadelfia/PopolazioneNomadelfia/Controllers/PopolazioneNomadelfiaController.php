@@ -124,4 +124,14 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         return response()->download(storage_path($file_name));
     }
+
+    public function activity()
+    {
+        $entrati = Activity::inLog('nomadelfia')->ForEvent('popolazione.entrata')->orderBy('created_at', 'DESC')->take(20)->get();
+        $usciti = Activity::inLog('nomadelfia')->ForEvent('popolazione.uscita')->orderBy('created_at', 'DESC')->take(20)->get();
+
+        return view('nomadelfia.activity.popolazione', compact('entrati', 'usciti'));
+
+
+    }
 }

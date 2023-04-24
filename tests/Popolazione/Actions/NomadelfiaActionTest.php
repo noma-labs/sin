@@ -58,7 +58,7 @@ it('entrata_minorenne_accolto', function () {
 
 it('save the new entrata in nomadelfia into the activity table', function () {
     $data_entrata = Carbon::now()->toDatestring();
-    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA42')->create();
+    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA42')->luogoNascita('grosseto')->create();
     $famiglia = Famiglia::factory()->create();
 
     $gruppo = GruppoFamiliare::first();
@@ -77,6 +77,7 @@ it('save the new entrata in nomadelfia into the activity table', function () {
         ->and($last->subject_id)->toEqual($persona->id)
         ->and($last->subject_type)->toEqual(get_class($persona))
         ->and($last->properties['data_entrata'])->toEqual($data_entrata)
+        ->and($last->properties['luogo_nascita'])->toEqual('grosseto')
         ->and($last->properties['data_nascita'])->toEqual($persona->data_nascita)
         ->and($last->properties['numero_elenco'])->toEqual($persona->numero_elenco)
         ->and($last->properties['gruppo'])->toEqual($gruppo->nome)

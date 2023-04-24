@@ -21,7 +21,7 @@ class PersonaFactory extends Factory
         $surname = $this->faker->lastName;
 
         return [
-            'nominativo' => $name.' '.$surname,
+            'nominativo' => $name . ' ' . $surname,
             'sesso' => 'M',
             'nome' => $name,
             'cognome' => $surname,
@@ -100,6 +100,15 @@ class PersonaFactory extends Factory
         return $this->state(function (array $attributes) use ($num) {
             return [
                 'numero_elenco' => $num,
+            ];
+        });
+    }
+
+    public function luogoNascita(string $luogo)
+    {
+        return $this->state(function (array $attributes) use ($luogo) {
+            return [
+                'provincia_nascita' => $luogo,
             ];
         });
     }

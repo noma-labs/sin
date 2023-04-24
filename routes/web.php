@@ -249,6 +249,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('nomadelfia.cariche.elezioni');
     Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('nomadelfia.cariche.esporta');
 
+    // atività log
+    Route::get('activity/', [PopolazioneNomadelfiaController::class, 'activity'])->name('nomadelfia.activity');
+
 });
 
 // #################################################################

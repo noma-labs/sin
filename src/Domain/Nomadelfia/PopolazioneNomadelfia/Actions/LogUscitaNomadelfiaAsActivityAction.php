@@ -12,6 +12,7 @@ class LogUscitaNomadelfiaAsActivityAction
             ->performedOn($uscitaData->persona)
             ->withProperties([
                     'nominativo' => $uscitaData->persona->nominativo,
+                    'luogo_nascita' => $uscitaData->persona->provincia_nascita,
                     'data_nascita' => $uscitaData->persona->data_nascita,
                     'data_entrata' => $uscitaData->data_entrata,
                     'data_uscita' => $uscitaData->data_uscita,
