@@ -28,7 +28,7 @@ class VeicoliController extends CoreBaseController
         $veicoli = Veicolo::orderBy('veicolo.nome', 'asc');
         if ($request->filled('marca')) {
             $veicoli->join('db_meccanica.modello', 'veicolo.modello_id', '=', 'modello.id')
-                        ->where('modello.marca_id', '=', $request->input('marca'));
+                ->where('modello.marca_id', '=', $request->input('marca'));
         }
         if ($request->filled('nome')) {
             $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');

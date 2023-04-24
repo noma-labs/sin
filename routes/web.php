@@ -97,7 +97,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     // persona popolazione
     Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
 
-
     Route::get('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
     Route::post('persone/{idPersona}/anagrafica/modifica/confirm',

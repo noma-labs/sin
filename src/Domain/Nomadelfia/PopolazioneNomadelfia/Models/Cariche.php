@@ -62,8 +62,8 @@ class Cariche extends Model
     {
         $membri = self::byOrg('associazione');
         $presidente = $membri->select('persone.*')
-                            ->where('cariche.nome', '=', 'Presidente')
-                            ->first();
+            ->where('cariche.nome', '=', 'Presidente')
+            ->first();
 
         return $presidente;
     }

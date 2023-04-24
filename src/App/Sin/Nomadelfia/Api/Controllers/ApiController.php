@@ -30,8 +30,8 @@ class ApiController extends BaseController
     public function searchPersonaInPopolazioneAttuale(Request $request)
     {
         $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($request->term)
-                ->orderBy('nominativo')
-                ->get();
+            ->orderBy('nominativo')
+            ->get();
 
         $results = [];
         foreach ($persone as $persona) {
