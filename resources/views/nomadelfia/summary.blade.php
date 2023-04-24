@@ -80,7 +80,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label>Famiglie per posizione</label>
                     <ul>
                         @foreach ($posizioniFamiglia as $posizione)
@@ -163,7 +163,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h2>Statistiche</h2>
+                <h4>Statistiche</h4>
                 <ul class="list-group list-group-flush ">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <p> Eta massima</p>
