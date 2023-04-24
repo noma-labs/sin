@@ -72,8 +72,8 @@ it('save the new entrata in nomadelfia into the activity table', function () {
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
     $last = Activity::all()->last();
-    expect($last->event)->toBe('entrata')
-        ->and($last->log_name)->toBe('nomadelfia.popolazione')
+    expect($last->event)->toBe('popolazione.entrata')
+        ->and($last->log_name)->toBe('nomadelfia')
         ->and($last->subject_id)->toEqual($persona->id)
         ->and($last->subject_type)->toEqual(get_class($persona))
         ->and($last->properties['data_entrata'])->toEqual($data_entrata)
@@ -105,8 +105,8 @@ it('save uscita event into the activity table', function () {
     $action->execute($persona, $data_uscita);
 
     $last = Activity::all()->last();
-    expect($last->event)->toBe('uscita')
-        ->and($last->log_name)->toBe('nomadelfia.popolazione')
+    expect($last->event)->toBe('popolazione.uscita')
+        ->and($last->log_name)->toBe('nomadelfia')
         ->and($last->subject_id)->toEqual($persona->id)
         ->and($last->subject_type)->toEqual(get_class($persona))
         ->and($last->properties['data_entrata'])->toEqual($data_entrata)
