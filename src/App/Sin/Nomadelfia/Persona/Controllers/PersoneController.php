@@ -14,7 +14,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
@@ -64,7 +64,8 @@ class PersoneController extends CoreBaseController
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
-        $persona->uscita($request->data_uscita);
+        $act = app(UscitaDaNomadelfiaAction::class);
+        $act->execute($persona, $request->data_uscita);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
@@ -386,23 +387,23 @@ class PersoneController extends CoreBaseController
 
         switch ($request->tipologia) {
             case 'dalla_nascita':
-                $action = new EntrataDallaNascitaAction(new SaveEntrataInNomadelfiaAction());
+                $action = app(EntrataDallaNascitaAction::class);
                 $action->execute($persona, $famiglia);
                 break;
             case 'minorenne_accolto':
-                $action = new EntrataMinorenneAccoltoAction(new SaveEntrataInNomadelfiaAction());
+                $action = app(EntrataMinorenneAccoltoAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'minorenne_famiglia':
-                $action = new EntrataMinorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+                $action = app(EntrataMinorenneConFamigliaAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'maggiorenne_single':
-                $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+                $action = app(EntrataMaggiorenneSingleAction::class);
                 $action->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             case 'maggiorenne_famiglia':
-                $act = new EntrataMaggiorenneConFamigliaAction(new SaveEntrataInNomadelfiaAction());
+                $act = app(EntrataMaggiorenneConFamigliaAction::class);
                 $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             default:
@@ -505,7 +506,7 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
 
-    public function updateDataEntrataNomadelfia(Request $request, $idPersona)
+    public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
             'data_entrata' => 'date',
@@ -513,9 +514,24 @@ class PersoneController extends CoreBaseController
             'data_entrata.date' => 'La data entrata non è valida.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->setDataEntrataNomadelfia($request->data_entrata);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
+            $entrata)->update(['data_entrata' => $request->data_entrata]);
 
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
+    }
+
+    public function updateDataUscitaNomadelfia(Request $request, $idPersona, $uscita)
+    {
+        $validatedData = $request->validate([
+            'data_uscita' => 'date',
+        ], [
+            'data_uscita.date' => 'La data uscita non è valida.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_uscita',
+            $uscita)->update(['data_uscita' => $request->data_uscita]);
+
+        return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 
     /**
@@ -906,5 +922,15 @@ class PersoneController extends CoreBaseController
         } else {
             return redirect()->back()->withError("Impossibile spostare la persona $persona->nominativo nella famiglia");
         }
+    }
+
+    public function popolazione($idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+
+        $attuale = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNull('data_uscita')->first();
+        $storico = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNotNull('data_uscita')->orderby('data_entrata')->get();
+
+        return view('nomadelfia.persone.popolazione.show', compact('persona', 'attuale', 'storico'));
     }
 }

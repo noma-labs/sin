@@ -7,12 +7,9 @@ use Database\Factories\EditoreFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Editore extends Model
 {
-    use LogsActivity;
     use HasFactory;
 
     protected $connection = 'db_biblioteca';
@@ -43,16 +40,5 @@ class Editore extends Model
         static::addGlobalScope('singoli', function (Builder $builder) {
             $builder->where('tipedi', 'S');
         });
-    }
-
-    // SELECT * FROM editore WHERE tipedi='S'
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['editore'])
-            ->dontLogIfAttributesChangedOnly(['tipedi'])
-            ->logOnlyDirty();
-
     }
 }

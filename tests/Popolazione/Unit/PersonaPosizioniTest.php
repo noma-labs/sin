@@ -6,14 +6,13 @@ use Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 it('testAssignPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();
@@ -30,7 +29,7 @@ it('testModificaDataPosizione', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
+    $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $data_inizio = Carbon::now()->addYears(5)->toDatestring();

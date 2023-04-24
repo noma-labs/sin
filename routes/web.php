@@ -94,6 +94,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->name('nomadelfia.persone.dettaglio')->middleware('can:popolazione.persona.visualizza');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'rimuovi'])->name('nomadelfia.persone.rimuovi'); //middleware('permission:cliente-visualizza')
 
+    // persona popolazione
+    Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
+
     Route::get('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
     Route::post('persone/{idPersona}/anagrafica/modifica/confirm',
@@ -128,9 +131,10 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::put('persone/{idPersona}/posizione/{id}/concludi',
         [PersoneController::class, 'concludiPosizione'])->name('nomadelfia.persone.posizione.concludi');
 
-    // TODO: fare la modifica della data di entrata in nomadelfia anche lato frontrns
-    Route::post('persone/{idPersona}/entrata/modifica',
+    Route::post('persone/{idPersona}/entrata/{entrata}/modifica',
         [PersoneController::class, 'updateDataEntrataNomadelfia'])->name('nomadelfia.persone.dataentrata.modifica');
+    Route::post('persone/{idPersona}/uscita/{uscita}/modifica',
+        [PersoneController::class, 'updateDataUscitaNomadelfia'])->name('nomadelfia.persone.datauscita.modifica');
 
     Route::get('persone/{idPersona}/gruppofamiliare',
         [PersoneController::class, 'gruppofamiliare'])->name('nomadelfia.persone.gruppofamiliare');
@@ -244,6 +248,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('cariche/', [CaricheController::class, 'index'])->name('nomadelfia.cariche.index');
     Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('nomadelfia.cariche.elezioni');
     Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('nomadelfia.cariche.esporta');
+
+    // atività log
+    Route::get('activity/', [PopolazioneNomadelfiaController::class, 'activity'])->name('nomadelfia.activity');
 
 });
 

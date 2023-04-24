@@ -12,87 +12,86 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SaveEntrataInNomadelfiaAction;
 
 it('only_admin_can_see_nomadelfia_system', function () {
-        $this->withExceptionHandling();
+    $this->withExceptionHandling();
 
-        $this
-            ->get(action([PopolazioneNomadelfiaController::class, 'index']))
-            ->assertForbidden();
+    $this
+        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->assertForbidden();
 
-        login();
+    login();
 
-        $this
-            ->get(action([PopolazioneNomadelfiaController::class, 'index']))
-            ->assertSuccessful();
-    });
+    $this
+        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->assertSuccessful();
+});
 
 it('show_popolazione_summary', function () {
-        $this->withExceptionHandling();
+    $this->withExceptionHandling();
 
-        login();
+    login();
 
-        $this
-            ->get(action([PopolazioneNomadelfiaController::class, 'index']))
-            ->assertSuccessful()
-            ->assertSee('Gestione Popolazione')
-            ->assertSee('Gestione Famiglie')
-            ->assertSee('Gestione Gruppi Familiari');
-    });
+    $this
+        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSee('Gestione Popolazione')
+        ->assertSee('Gestione Famiglie')
+        ->assertSee('Gestione Gruppi Familiari');
+});
 
 it('show_incarichi_index', function () {
-        $this->withExceptionHandling();
+    $this->withExceptionHandling();
 
-        login();
+    login();
 
-        $incarico = Incarico::factory()->create();
+    $incarico = Incarico::factory()->create();
 
-        $this
-            ->get(action([IncarichiController::class, 'view']))
-            ->assertSuccessful()
-            ->assertSee($incarico->nome);
+    $this
+        ->get(action([IncarichiController::class, 'view']))
+        ->assertSuccessful()
+        ->assertSee($incarico->nome);
 
-    });
+});
 
 it('show_aziende_index', function () {
-        $this->withExceptionHandling();
+    $this->withExceptionHandling();
 
-        login();
+    login();
 
-        $a = Azienda::factory()->create();
+    $a = Azienda::factory()->create();
 
-        $this
-            ->get(action([AziendeController::class, 'view']))
-            ->assertSuccessful()
-            ->assertSee($a->nome_azienda);
+    $this
+        ->get(action([AziendeController::class, 'view']))
+        ->assertSuccessful()
+        ->assertSee($a->nome_azienda);
 
-        $this
-            ->get(action([AziendeController::class, 'edit'], $a->id))
-            ->assertSuccessful()
-            ->assertSee($a->nome_azienda);
+    $this
+        ->get(action([AziendeController::class, 'edit'], $a->id))
+        ->assertSuccessful()
+        ->assertSee($a->nome_azienda);
 
-    });
+});
 
 it('show_gruppifamiliari_edit', function () {
-        $this->withExceptionHandling();
+    $this->withExceptionHandling();
 
-        login();
+    login();
 
-        $gruppo = GruppoFamiliare::factory()->create();
-        $data_entrata = Carbon::now();
-        $persona = Persona::factory()->cinquantenne()->maschio()->create();
+    $gruppo = GruppoFamiliare::factory()->create();
+    $data_entrata = Carbon::now();
+    $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
-        $action = new EntrataMaggiorenneSingleAction(new SaveEntrataInNomadelfiaAction());
-        $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
+    $action = app(EntrataMaggiorenneSingleAction::class);
+    $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
-        $this
-            ->get(action([GruppifamiliariController::class, 'view']))
-            ->assertSuccessful()
-            ->assertSee($gruppo->nome);
+    $this
+        ->get(action([GruppifamiliariController::class, 'view']))
+        ->assertSuccessful()
+        ->assertSee($gruppo->nome);
 
-        $this
-            ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
-            ->assertSuccessful()
-            ->assertSee($gruppo->nome);
-    });
+    $this
+        ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
+        ->assertSuccessful()
+        ->assertSee($gruppo->nome);
+});

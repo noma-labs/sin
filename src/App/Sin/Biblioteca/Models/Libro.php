@@ -12,8 +12,6 @@ use Database\Factories\LibroFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 // External library to associate media files a model
 
 use Spatie\MediaLibrary\HasMedia;
@@ -25,7 +23,6 @@ class Libro extends Model implements HasMedia
     use SortableTrait;
     use SoftDeletes;
     use Enums;
-    use LogsActivity;
     use HasFactory;
 
     protected $connection = 'db_biblioteca';
@@ -37,22 +34,6 @@ class Libro extends Model implements HasMedia
     protected $dates = ['deleted_at'];
 
     protected $guarded = []; // all the fields are mass assignabe
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['titolo',
-                'collocazione',
-                'classificazione_id',
-                'critica',
-                'categoria',
-                'dimensione',
-                'data_pubblicazione',
-                'isbn',
-                'note'])
-            ->dontLogIfAttributesChangedOnly(['deleted_note', 'tobe_printed'])
-            ->logOnlyDirty();
-    }
 
     protected $enumCategoria = [
         'piccoli',

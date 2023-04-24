@@ -14,10 +14,10 @@ use Illuminate\Support\Str;
 
 class EntrataMaggiorenneSingleAction
 {
-    private SaveEntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
 
     public function __construct(
-        SaveEntrataInNomadelfiaAction $entrataInNomadelfiaAction
+        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
     ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
