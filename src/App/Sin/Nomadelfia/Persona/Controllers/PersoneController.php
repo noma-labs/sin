@@ -507,7 +507,7 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
 
-    public function updateDataEntrataNomadelfia(Request $request, $idPersona)
+    public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
             'data_entrata' => 'date',
@@ -515,9 +515,24 @@ class PersoneController extends CoreBaseController
             'data_entrata.date' => 'La data entrata non è valida.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->setDataEntrataNomadelfia($request->data_entrata);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
+            $entrata)->update(['data_entrata' => $request->data_entrata]);
 
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
+    }
+
+    public function updateDataUscitaNomadelfia(Request $request, $idPersona, $uscita)
+    {
+        $validatedData = $request->validate([
+            'data_uscita' => 'date',
+        ], [
+            'data_uscita.date' => 'La data uscita non è valida.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_uscita',
+            $uscita)->update(['data_uscita' => $request->data_uscita]);
+
+        return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 
     /**
@@ -915,9 +930,9 @@ class PersoneController extends CoreBaseController
     {
         $persona = Persona::findOrFail($idPersona);
 
-//        $attuale = PopolazioneNomadelfia::presente()->where('popolazione.persona_id', $idPersona)->first();
+        $attuale = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNull('data_uscita')->first();
         $storico = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNotNull('data_uscita')->orderby('data_entrata')->get();
 
-        return view('nomadelfia.persone.popolazione.show', compact('persona', 'storico'));
+        return view('nomadelfia.persone.popolazione.show', compact('persona', 'attuale', 'storico'));
     }
 }

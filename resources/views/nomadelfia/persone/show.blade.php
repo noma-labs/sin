@@ -9,8 +9,10 @@
         <div class="card">
             <div class="card-body">
                 @if($persona->isPersonaInterna())
-                {{$persona->nominativo}} è <strong>presente</strong> in Nomadelfia dal
-                {{$persona->getDataEntrataNomadelfia()}}
+                <h2>Stato Attuale: <span class="badge badge-success">Presente</span></h2>
+                <p> Entrata in data <strong>{{$persona->getDataEntrataNomadelfia()}} </strong>
+                    <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
+                </p>
 
                 <my-modal modal-title="Uscita dalla comunità" button-title="Uscita"
                           button-style="btn-danger my-2">
@@ -32,9 +34,11 @@
                     </template>
                 </my-modal>
                 @else
-                {{$persona->nominativo}} è <strong>uscito</strong> dalla comunità nel
-                {{$persona->getDataUscitaNomadelfia()}} <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
-                <my-modal modal-title="Entrata nella comunità" button-title="Nuova Entrata"
+                <h2>Stato Attuale: <span class="badge badge-secondary">Uscito</span></h2>
+                <p>Uscita in data {{$persona->getDataUscitaNomadelfia()}} <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
+                </p>
+
+                <my-modal modal-title="Entrata nella comunità" button-title="Entrata"
                           button-style="btn-success my-2">
                     <template slot="modal-body-slot">
                         @include("nomadelfia.templates.entrataPersona", ['persona' => $persona])
