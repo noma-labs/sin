@@ -132,6 +132,5 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         return view('nomadelfia.activity.popolazione', compact('entrati', 'usciti'));
 
-
     }
 }
