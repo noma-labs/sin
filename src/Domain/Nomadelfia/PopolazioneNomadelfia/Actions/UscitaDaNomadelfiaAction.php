@@ -12,7 +12,8 @@ class UscitaDaNomadelfiaAction
 
     public function __construct(
         LogUscitaNomadelfiaAsActivityAction $logUscitaActivity
-    ) {
+    )
+    {
         $this->logUscitaActivity = $logUscitaActivity;
     }
 
@@ -30,7 +31,11 @@ class UscitaDaNomadelfiaAction
         $this->calcDataEntrata($dto);
         $this->save($dto);
 
-        $this->logUscitaActivity->execute($dto);
+        $this->logUscitaActivity->execute(
+            $dto->persona,
+            $dto->data_entrata,
+            $dto->data_uscita,
+        );
     }
 
     public function calcDataEntrata(UscitaPersonaData $dto)
@@ -81,7 +86,7 @@ class UscitaDaNomadelfiaAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
+            if (!$uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",

@@ -8,17 +8,32 @@ use Illuminate\Support\Facades\DB;
 class EntrataInNomadelfiaAction
 {
     private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
+    private SendEmailEntrataAction $email;
 
     public function __construct(
-        LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction
-    ) {
+        LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction,
+        SendEmailEntrataAction               $email
+    )
+    {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
+        $this->email = $email;
     }
 
     public function execute(EntrataPersonaData $entrataPersonaData)
     {
         $this->save($entrataPersonaData);
-        $this->logEntrataInNomadelfiaActivityAction->execute($entrataPersonaData);
+        $this->logEntrataInNomadelfiaActivityAction->execute(
+            $entrataPersonaData->persona,
+            $entrataPersonaData->data_entrata,
+            $entrataPersonaData->gruppoFamiliare,
+            ($entrataPersonaData->famiglia) ?: null,
+        );
+        $this->email->execute(
+            $entrataPersonaData->persona,
+            $entrataPersonaData->data_entrata,
+            $entrataPersonaData->gruppoFamiliare,
+            ($entrataPersonaData->famiglia) ?: null,
+        );
 
     }
 
