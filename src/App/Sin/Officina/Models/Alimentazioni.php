@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alimentazioni extends Model
 {
-  protected $connection = 'db_officina';
+    protected $connection = 'db_officina';
 
-  protected $table = 'alimentazione';
+    protected $table = 'alimentazione';
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 }

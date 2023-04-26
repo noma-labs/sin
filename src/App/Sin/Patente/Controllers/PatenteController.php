@@ -70,8 +70,8 @@ class PatenteController extends CoreBaseController
             ->setCellValue('G1', 'RILASCIATA DA')
             ->setCellValue('H1', 'DATA SCADENZA')
             ->setCellValue('I1', 'CATEGORIE');
-            // ->setCellValue('J1', 'STATO')
-            // ->setCellValue('K1', 'NOTE');
+        // ->setCellValue('J1', 'STATO')
+        // ->setCellValue('K1', 'NOTE');
         $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
@@ -101,7 +101,7 @@ class PatenteController extends CoreBaseController
                 $patente->data_scadenza_patente,
                 $patente->categorieAsString(),
             ];    // $patente->stato,
-                        // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
+            // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
         });
 
         $spreadsheet->getActiveSheet()->fromArray(

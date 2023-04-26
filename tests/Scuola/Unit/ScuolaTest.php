@@ -179,10 +179,10 @@ it('clone students from existing year', function () {
     expect($a->prescuola()->alunni()->get())->toHaveCount(2);
     expect($a->alunni())->toHaveCount(10);
     //TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
-//        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
-//        $this->assertEquals('2024-08-01', $aNew->data inizio);
-//        $this->assertCount(11, $aNew->classi()->get());
-//        $this->assertCount(10, $aNew->alunni());
+    //        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
+    //        $this->assertEquals('2024-08-01', $aNew->data inizio);
+    //        $this->assertCount(11, $aNew->classi()->get());
+    //        $this->assertCount(10, $aNew->alunni());
 
 });
 
@@ -241,7 +241,7 @@ it('get possible students in year', function () {
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
-//    $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
+    //    $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
     expect($a->prescuola()->alunniPossibili()->count())->toBe(2);
     $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
     expect($a->prescuola()->alunniPossibili()->count())->toBe(1);

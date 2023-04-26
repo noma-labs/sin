@@ -34,7 +34,7 @@ trait MigrateFreshDB
             Artisan::call('migrate:fresh', ['--database' => 'db_patente', '--path' => 'database/migrations/patente']);
             Artisan::call('migrate:fresh', ['--database' => 'db_officina', '--path' => 'database/migrations/officina']);
 
-//            Artisan::call('migrate');
+            //            Artisan::call('migrate');
 
             Artisan::call('db:seed', ['--class' => 'LocalEnvironmentSeeder']);
             static::$setUpHasRunOnce = true;

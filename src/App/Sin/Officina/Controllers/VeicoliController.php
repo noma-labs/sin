@@ -84,52 +84,52 @@ class VeicoliController extends CoreBaseController
 
     public function viewCreate()
     {
-      $marche = Marca::orderBy('nome', 'asc')->get();
-      $impieghi = Impiego::orderBy('nome', 'asc')->get();
-      $tipologie = Tipologia::orderBy('nome', 'asc')->get();
-      $alimentazioni = Alimentazioni::orderBy('nome', 'asc')->get();
-      $f_aria = TipoFiltro::where('tipo', '=', 'aria')->orderBy('codice', 'asc')->get();
-      $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
-      $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
-      $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
-      $enum_tipo_filtro = TipoFiltro::tipo();
+        $marche = Marca::orderBy('nome', 'asc')->get();
+        $impieghi = Impiego::orderBy('nome', 'asc')->get();
+        $tipologie = Tipologia::orderBy('nome', 'asc')->get();
+        $alimentazioni = Alimentazioni::orderBy('nome', 'asc')->get();
+        $f_aria = TipoFiltro::where('tipo', '=', 'aria')->orderBy('codice', 'asc')->get();
+        $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
+        $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
+        $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
+        $enum_tipo_filtro = TipoFiltro::tipo();
 
-      return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro'));
+        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro'));
     }
 
     public function create(Request $request)
     {
-            $request->validate([
-                'nome' => 'required',
-                'targa' => 'required',
-                'modello' => 'required',
-                'marca' => 'required',
-                'impiego' => 'required',
-                'tipologia' => 'required',
-                'alimentazione' => 'required',
-                'posti' => 'required',
-            ]);
+        $request->validate([
+            'nome' => 'required',
+            'targa' => 'required',
+            'modello' => 'required',
+            'marca' => 'required',
+            'impiego' => 'required',
+            'tipologia' => 'required',
+            'alimentazione' => 'required',
+            'posti' => 'required',
+        ]);
 
         // Retrieve Modello by name, or create it with the name and marca_id attributes...
         $modello = Modello::firstOrCreate(
             ['nome' => $request->input('modello')], ['marca_id' => $request->input('marca')]
         );
 
-      $veicolo = Veicolo::create([
-          'nome' => $request->input('nome'),
-          'targa' => $request->input('targa'),
-          'modello_id' => $modello->id,
-          'impiego_id' => $request->input('impiego'),
-          'tipologia_id' => $request->input('tipologia'),
-          'alimentazione_id' => $request->input('alimentazione'),
-          'num_posti' => $request->input('posti'),
-      ]);
+        $veicolo = Veicolo::create([
+            'nome' => $request->input('nome'),
+            'targa' => $request->input('targa'),
+            'modello_id' => $modello->id,
+            'impiego_id' => $request->input('impiego'),
+            'tipologia_id' => $request->input('tipologia'),
+            'alimentazione_id' => $request->input('alimentazione'),
+            'num_posti' => $request->input('posti'),
+        ]);
 
-    if ($request->input('_addanother')) { // salva e aggiungi un'altro7
-        return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
-    } else {
-    return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
-    }
+        if ($request->input('_addanother')) { // salva e aggiungi un'altro7
+            return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+        } else {
+            return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+        }
     }
 
     /**

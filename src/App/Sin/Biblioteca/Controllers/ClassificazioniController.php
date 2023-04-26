@@ -20,9 +20,9 @@ class ClassificazioniController extends CoreBaseController
      */
     public function index()
     {
-      $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
+        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
 
-      return view('biblioteca.libri.classificazioni.index')->with('classificazioni', $classificazioni);
+        return view('biblioteca.libri.classificazioni.index')->with('classificazioni', $classificazioni);
     }
 
     /**
@@ -86,16 +86,16 @@ class ClassificazioniController extends CoreBaseController
     {
         $term = $request->term;
         if ($term) {
-        $classificazioni = Classificazione::where('descrizione', 'LIKE', '%'.$term.'%')->orderBy('descrizione')->get();
+            $classificazioni = Classificazione::where('descrizione', 'LIKE', '%'.$term.'%')->orderBy('descrizione')->get();
         }
         if (! empty($classificazioni)) {
-          foreach ($classificazioni as $classificazione) {
-              $results[] = ['value' => $classificazione->id, 'label' => $classificazione->descrizione, 'url' => route('classificazioni.edit', [$classificazione->id])];
-          }
+            foreach ($classificazioni as $classificazione) {
+                $results[] = ['value' => $classificazione->id, 'label' => $classificazione->descrizione, 'url' => route('classificazioni.edit', [$classificazione->id])];
+            }
 
-          return response()->json($results);
+            return response()->json($results);
         } else {
-          return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
+            return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
         }
 
     }
@@ -120,9 +120,9 @@ class ClassificazioniController extends CoreBaseController
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
-        return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
+            return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
         } else {
-        redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
+            redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
         }
     }
 

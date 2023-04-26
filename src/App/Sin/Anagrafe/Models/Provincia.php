@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Provincia extends Model
 {
-  protected $connection = 'db_anagrafe';
+    protected $connection = 'db_anagrafe';
 
-  protected $table = 'provincie';
+    protected $table = 'provincie';
 }

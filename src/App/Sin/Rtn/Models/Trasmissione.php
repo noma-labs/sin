@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\DB;
  */
 class Trasmissione extends Model
 {
-  protected $connection = 'db_rtn';
+    protected $connection = 'db_rtn';
 
-  protected $table = 'trasmissioni_tv';
+    protected $table = 'trasmissioni_tv';
 
-  protected $primaryKey = 'id_trasmissioni_tv';
+    protected $primaryKey = 'id_trasmissioni_tv';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $guarded = [];
+    protected $guarded = [];
 
-  public static function serie()
-  {
-    return DB::connection('db_rtn')->table('trasmissioni_tv')->select('serie_tv')->distinct()->orderBy('serie_tv', 'asc')->get();
-  }
+    public static function serie()
+    {
+        return DB::connection('db_rtn')->table('trasmissioni_tv')->select('serie_tv')->distinct()->orderBy('serie_tv', 'asc')->get();
+    }
 }

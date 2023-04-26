@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class NucleoFamigliare extends Model
 {
-  protected $connection = 'db_nomadelfia';
+    protected $connection = 'db_nomadelfia';
 
-  protected $table = 'nuclei_famigliari';
+    protected $table = 'nuclei_famigliari';
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 }

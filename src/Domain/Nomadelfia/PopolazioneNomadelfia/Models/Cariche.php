@@ -84,7 +84,7 @@ class Cariche extends Model
                 throw CouldNotAssignCarica::presidenteAssociazioneAlreadySet($pres);
             }
 
-           return $this->assegnaMembro($persona, $data_inizio);
+            return $this->assegnaMembro($persona, $data_inizio);
         } else {
             throw new InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
         }

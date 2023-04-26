@@ -14,11 +14,11 @@ class ViewClienti extends Model
 
     public function aziende()
     {
-      return $this->belongsToMany('App\Officina\Models\AziendeNoma', 'aziende_persone', 'persona_id', 'azienda_id');
+        return $this->belongsToMany('App\Officina\Models\AziendeNoma', 'aziende_persone', 'persona_id', 'azienda_id');
     }
 
     public function prenotazioniMeccanico()
     {
-      return $this->hasMany(Prenotazioni::class, 'meccanico_id', 'id');
+        return $this->hasMany(Prenotazioni::class, 'meccanico_id', 'id');
     }
 }

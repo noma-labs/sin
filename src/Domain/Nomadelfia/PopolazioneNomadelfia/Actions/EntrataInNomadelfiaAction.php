@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 class EntrataInNomadelfiaAction
 {
     private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
+
     private SendEmailEntrataAction $email;
 
     public function __construct(
         LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction,
-        SendEmailEntrataAction               $email
-    )
-    {
+        SendEmailEntrataAction $email
+    ) {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
         $this->email = $email;
     }

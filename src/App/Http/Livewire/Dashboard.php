@@ -11,7 +11,7 @@ class Dashboard extends Component
 
     public function render()
     {
-//        dd($this->search);
+        //        dd($this->search);
         $popolazione = PopolazioneNomadelfia::presente()->where('nominativo', 'like', '%'.$this->search.'%')->get();
 
         return view('livewire.dashboard', ['popolazione' => $popolazione]);
