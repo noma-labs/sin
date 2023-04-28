@@ -2,15 +2,8 @@
 
 namespace App\Mail;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class PersonExitedMail extends Mailable
@@ -19,18 +12,16 @@ class PersonExitedMail extends Mailable
 
     public function __construct(
         public Persona $persona,
-        public string  $data_entrata,
-        public string  $data_uscita,
-    )
-    {
+        public string $data_entrata,
+        public string $data_uscita,
+    ) {
 
     }
 
     public function build(): PersonExitedMail
     {
         return $this
-            ->subject("[Aggiornamento Anagrafe] Persona uscita")
-            ->view("nomadelfia.mails.personaUscita");
+            ->subject('[Aggiornamento Anagrafe] Persona uscita')
+            ->view('nomadelfia.mails.personaUscita');
     }
-
 }

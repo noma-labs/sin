@@ -32,10 +32,10 @@ class LibroPolicy
     }
 
      /**
-     * Determine whether the user can create libros.
-     *
-     * @return mixed
-     */
+      * Determine whether the user can create libros.
+      *
+      * @return mixed
+      */
      public function insert(User $user)
      {
          if (! $user->hasPermissionTo('crea-libro')) {

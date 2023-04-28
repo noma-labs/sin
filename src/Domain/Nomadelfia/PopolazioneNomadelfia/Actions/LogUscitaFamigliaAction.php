@@ -2,14 +2,10 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
-use Spatie\Activitylog\Facades\LogBatch;
 
 class LogUscitaFamigliaAction
 {
-
     public function execute(UscitaFamigliaData $dto)
     {
         $comp = $dto->componenti->map(function ($persona, $key) {
@@ -24,13 +20,12 @@ class LogUscitaFamigliaAction
         activity('nomadelfia')
             ->performedOn($dto->famiglia)
             ->withProperties([
-                    'data_uscita' => $dto->data_uscita,
-                    'componenti' => $comp,
-                ]
+                'data_uscita' => $dto->data_uscita,
+                'componenti' => $comp,
+            ]
             )
             ->setEvent('popolazione.uscita-famiglia')
             ->log('Famiglia uscita in data :properties.data_uscita');
 
     }
-
 }

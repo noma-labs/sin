@@ -26,10 +26,10 @@ class PrestitoPolicy
     }
 
     /**
-    * Determine whether the user can view the list the single prestito
-    *
-    * @return mixed
-    */
+     * Determine whether the user can view the list the single prestito
+     *
+     * @return mixed
+     */
     public function show(User $user, Prestito $prestito)
     {
         if (! $user->hasPermissionTo('visualizza-prestito-libro')) {

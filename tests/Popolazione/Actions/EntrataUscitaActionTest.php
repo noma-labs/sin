@@ -2,21 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Mail\PersonEnteredMail;
-use App\Mail\PersonExitedMail;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
-use Illuminate\Support\Facades\Mail;
-use Spatie\Activitylog\Models\Activity;
 
 it('entrata_minorenne_con_famiglia', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -34,10 +25,10 @@ it('entrata_minorenne_con_famiglia', function () {
 
     expect($persona->isPersonaInterna())->toBeTrue();
     expect($persona->getDataEntrataNomadelfia())->tobe($data_entrata);
-//        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
+    //        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
     expect($persona->posizioneAttuale()->pivot->data_inizio)->tobe($data_entrata);
-//        expect($persona->statoAttuale()->id, $nubile->id);
-//        expect($persona->statoAttuale()->stato, $nubile->stato);
+    //        expect($persona->statoAttuale()->id, $nubile->id);
+    //        expect($persona->statoAttuale()->stato, $nubile->stato);
     expect($persona->statoAttuale()->pivot->data_inizio)->tobe($persona->data_nascita);
     expect($persona->gruppofamiliareAttuale()->id)->tobe($gruppo->id);
     expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->tobe($data_entrata);

@@ -3,21 +3,20 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
-use Illuminate\Support\Facades\DB;
 
 class UscitaPersonaAction
 {
     private LogUscitaPersonaAction $logUscitaActivity;
+
     private UscitaPersonaDBAction $uscita;
+
     private SendEmailPersonaUscitaAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction        $uscita,
-        LogUscitaPersonaAction       $logUscitaActivity,
+        UscitaPersonaDBAction $uscita,
+        LogUscitaPersonaAction $logUscitaActivity,
         SendEmailPersonaUscitaAction $email
-    )
-    {
+    ) {
         $this->uscita = $uscita;
         $this->logUscitaActivity = $logUscitaActivity;
         $this->email = $email;
@@ -52,6 +51,4 @@ class UscitaPersonaAction
         // community without having a entering date.
         return $persona->getDataEntrataNomadelfia() ?: '';
     }
-
-
 }

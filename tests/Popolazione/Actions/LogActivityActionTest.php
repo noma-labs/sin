@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Mail\PersonEnteredMail;
-use App\Mail\PersonExitedMail;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -11,20 +9,11 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataInNomadelfiaActivityAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaNomadelfiaAsActivityAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
-
 
 it('save the new entrata in nomadelfia into the activity table', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -85,7 +74,6 @@ it('save uscita event into the activity table', function () {
 
 });
 
-
 it('logs when a family exit', function () {
 
     $now = Carbon::now()->toDatestring();
@@ -111,7 +99,6 @@ it('logs when a family exit', function () {
 
     $action = app(LogUscitaFamigliaAction::class);
 
-
     $dto = new UscitaFamigliaData();
     $dto->famiglia = $famiglia;
     $dto->componenti = $famiglia->componentiAttuali()->get();
@@ -128,4 +115,3 @@ it('logs when a family exit', function () {
         ->and($last->properties['componenti'])->toHaveLength(4);
 
 });
-

@@ -5,23 +5,15 @@ namespace Tests\Unit;
 use App\Mail\PersonEnteredMail;
 use App\Mail\PersonExitedMail;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Activitylog\Models\Activity;
 
 beforeEach(function () {
     Mail::fake();
@@ -43,7 +35,6 @@ it('will send email if a person enter', function () {
         $famiglia,
     );
 
-
     Mail::assertSent(PersonEnteredMail::class);
 
 });
@@ -62,11 +53,9 @@ it('will send email if person exit', function () {
         $data_uscita,
     );
 
-
     Mail::assertSent(PersonExitedMail::class);
 
 });
-
 
 it('sends an email if a person enter', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -82,10 +71,8 @@ it('sends an email if a person enter', function () {
     $action = app(EntrataMinorenneAccoltoAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
-
     Mail::assertSent(PersonEnteredMail::class);
 });
-
 
 it('sends an email if a person exit', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
