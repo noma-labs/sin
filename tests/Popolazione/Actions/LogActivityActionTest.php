@@ -75,7 +75,6 @@ it('save uscita event into the activity table', function () {
 
 });
 
-
 it('save decesso into the activity table', function () {
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA46')->create();
     $data_entrata = Carbon::now()->toDatestring();

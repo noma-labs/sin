@@ -14,11 +14,10 @@ class DecessoPersonaAction
     private SendEmailPersonaDecessoAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction         $uscita,
-        LogDecessoPersonaAction       $logDecesso,
+        UscitaPersonaDBAction $uscita,
+        LogDecessoPersonaAction $logDecesso,
         SendEmailPersonaDecessoAction $email
-    )
-    {
+    ) {
         $this->uscita = $uscita;
         $this->logDecesso = $logDecesso;
         $this->email = $email;

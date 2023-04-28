@@ -92,7 +92,6 @@ it('sends an email if a person exit', function () {
     Mail::assertSent(PersonExitedMail::class);
 });
 
-
 it('will send email if a person die', function () {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA55')->create();
@@ -108,4 +107,3 @@ it('will send email if a person die', function () {
     Mail::assertSent(PersonDecessoMail::class);
 
 });
-
