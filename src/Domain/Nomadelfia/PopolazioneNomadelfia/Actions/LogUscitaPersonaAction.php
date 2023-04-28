@@ -5,7 +5,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
 
-class LogUscitaNomadelfiaAsActivityAction
+class LogUscitaPersonaAction
 {
     public function execute(Persona $persona, string $data_entrata, string $data_uscita)
     {
@@ -21,7 +21,7 @@ class LogUscitaNomadelfiaAsActivityAction
                 ]
             )
             ->setEvent('popolazione.uscita')
-            ->log('Uscito da Nomadelfia in data :properties.data_uscita');
+            ->log('Persona uscita in data :properties.data_uscita');
 
     }
 

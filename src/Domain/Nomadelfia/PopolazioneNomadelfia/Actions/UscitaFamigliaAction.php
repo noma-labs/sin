@@ -16,15 +16,12 @@ class UscitaFamigliaAction
 
     public function execute(Famiglia $famiglia, string $data_uscita)
     {
-
         $dto = new UscitaFamigliaData();
         $dto->famiglia = $famiglia;
         $dto->componenti = $famiglia->componentiAttuali()->get();
         $dto->data_uscita = $data_uscita;
 
-
         $this->save($dto);
-
     }
 
     public function save(UscitaFamigliaData $dto)

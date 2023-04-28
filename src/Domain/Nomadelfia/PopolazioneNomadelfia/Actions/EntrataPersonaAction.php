@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class EntrataPersonaAction
 {
-    private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
+    private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction;
     private SendEmailEntrataAction $email;
 
     public function __construct(
-        LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction,
-        SendEmailEntrataAction               $email
+        LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        SendEmailEntrataAction  $email
     )
     {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;

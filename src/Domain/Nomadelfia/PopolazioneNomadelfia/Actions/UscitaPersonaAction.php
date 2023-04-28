@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class UscitaPersonaAction
 {
-    private LogUscitaNomadelfiaAsActivityAction $logUscitaActivity;
+    private LogUscitaPersonaAction $logUscitaActivity;
     private UscitaPersonaDBAction $uscita;
     private SendEmailUscitaAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction               $uscita,
-        LogUscitaNomadelfiaAsActivityAction $logUscitaActivity,
-        SendEmailUscitaAction               $email
+        UscitaPersonaDBAction  $uscita,
+        LogUscitaPersonaAction $logUscitaActivity,
+        SendEmailUscitaAction  $email
     )
     {
         $this->uscita = $uscita;
@@ -32,7 +32,7 @@ class UscitaPersonaAction
         $this->uscita->execute($persona, $data_uscita, $disableFromFamily);
 
         $data_entrata = $this->calcDataEntrata($persona);
-        
+
         $this->logUscitaActivity->execute(
             $persona,
             $data_entrata,

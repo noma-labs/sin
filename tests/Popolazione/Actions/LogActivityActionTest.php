@@ -8,13 +8,17 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataInNomadelfiaActivityAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaNomadelfiaAsActivityAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailUscitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
 
@@ -28,7 +32,7 @@ it('save the new entrata in nomadelfia into the activity table', function () {
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
-    $action = app(LogEntrataInNomadelfiaActivityAction::class);
+    $action = app(LogEntrataPersonaAction::class);
 
     $action->execute(
         $persona,
@@ -57,7 +61,7 @@ it('save uscita event into the activity table', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $action = app(LogUscitaNomadelfiaAsActivityAction::class);
+    $action = app(LogUscitaPersonaAction::class);
 
     $action->execute(
         $persona,
@@ -75,5 +79,49 @@ it('save uscita event into the activity table', function () {
         ->and($last->properties['numero_elenco'])->toEqual($persona->numero_elenco)
         ->and($last->properties['nominativo'])->toEqual($persona->nominativo)
         ->and($last->properties['data_uscita'])->toEqual($data_uscita);
+
+});
+
+
+it('logs when a family exit', function () {
+
+    $now = Carbon::now()->toDatestring();
+    // create a family
+    $gruppo = GruppoFamiliare::all()->random();
+    $famiglia = Famiglia::factory()->create();
+    $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
+    $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+    $fnato = Persona::factory()->minorenne()->femmina()->create();
+    $faccolto = Persona::factory()->minorenne()->maschio()->create();
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
+    $act->execute($capoFam, $now, $gruppo);
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
+    $act->execute($moglie, $now, $gruppo);
+    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaMoglie($moglie, $now);
+    $act = app(EntrataDallaNascitaAction::class);
+    $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
+    $act = app(EntrataMinorenneAccoltoAction::class);
+    $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), Famiglia::findOrFail($famiglia->id));
+
+    $data_uscita = Carbon::now()->toDatestring();
+
+    $action = app(LogUscitaFamigliaAction::class);
+
+
+    $dto = new UscitaFamigliaData();
+    $dto->famiglia = $famiglia;
+    $dto->componenti = $famiglia->componentiAttuali()->get();
+    $dto->data_uscita = $data_uscita;
+
+    $action->execute($dto);
+
+    $last = Activity::ForSubject($famiglia)->first();
+    expect($last->event)->toBe('popolazione.uscita-famiglia')
+        ->and($last->log_name)->toBe('nomadelfia')
+        ->and($last->subject_id)->toEqual($famiglia->id)
+        ->and($last->subject_type)->toEqual(get_class($famiglia))
+        ->and($last->properties['data_uscita'])->toEqual($data_uscita)
+        ->and($last->properties['componenti'])->toHaveLength(4);
 
 });

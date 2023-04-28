@@ -5,42 +5,31 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
+use Spatie\Activitylog\Facades\LogBatch;
 
 class LogUscitaFamigliaAction
 {
+
     public function execute(UscitaFamigliaData $dto)
     {
-        LogBatch::startBatch();
-//        activity('nomadelfia')
-//            ->performedOn($dto->famiglia)
-//            ->withProperties([
-//                    'nominativo' => $persona->nominativo,
-//                    'luogo_nascita' => $persona->provincia_nascita,
-//                    'data_nascita' => $persona->data_nascita,
-//                    'data_entrata' => $data_entrata,
-//                    'data_uscita' => $data_uscita,
-//                    'numero_elenco' => $persona->numero_elenco,
-//                ]
-//            )
-//            ->setEvent('popolazione.uscita-famiglia')
-//            ->log('Nuova famiglia uscita da Nomadelfia in data :properties.data_uscita');
-
+        $comp = $dto->componenti->map(function ($persona, $key) {
+            return [
+                'nominativo' => $persona->nominativo,
+                'luogo_nascita' => $persona->provincia_nascita,
+                'data_nascita' => $persona->data_nascita,
+                'data_entrata' => $persona->getDataEntrataNomadelfia() ?: '',
+                'numero_elenco' => $persona->numero_elenco,
+            ];
+        });
         activity('nomadelfia')
-            ->performedOn($persona)
+            ->performedOn($dto->famiglia)
             ->withProperties([
-                    'nominativo' => $persona->nominativo,
-                    'data_entrata' => $data_entrata,
-                    'data_nascita' => $persona->data_nascita,
-                    'luogo_nascita' => $persona->provincia_nascita,
-                    'gruppo' => $gruppo->nome,
-                    'numero_elenco' => $persona->numero_elenco,
-                    'famiglia' => ($famiglia) ? $famiglia->nome_famiglia : null
+                    'data_uscita' => $dto->data_uscita,
+                    'componenti' => $comp,
                 ]
             )
-            ->setEvent('popolazione.entrata')
-            ->log('Nuova entrata in Nomadelfia in data :properties.data_entrata');
-
-        LogBatch::endBatch();
+            ->setEvent('popolazione.uscita-famiglia')
+            ->log('Famiglia uscita in data :properties.data_uscita');
 
     }
 
