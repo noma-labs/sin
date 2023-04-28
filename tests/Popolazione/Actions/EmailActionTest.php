@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Mail\PersonDecessoMail;
 use App\Mail\PersonEnteredMail;
 use App\Mail\PersonExitedMail;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaDecessoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
@@ -89,3 +91,21 @@ it('sends an email if a person exit', function () {
 
     Mail::assertSent(PersonExitedMail::class);
 });
+
+
+it('will send email if a person die', function () {
+
+    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA55')->create();
+    $data_decesso = Carbon::now()->toDatestring();
+
+    $action = app(SendEmailPersonaDecessoAction::class);
+
+    $action->execute(
+        $persona,
+        $data_decesso,
+    );
+
+    Mail::assertSent(PersonDecessoMail::class);
+
+});
+

@@ -9,6 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogDecessoPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
@@ -71,6 +72,28 @@ it('save uscita event into the activity table', function () {
         ->and($last->properties['numero_elenco'])->toEqual($persona->numero_elenco)
         ->and($last->properties['nominativo'])->toEqual($persona->nominativo)
         ->and($last->properties['data_uscita'])->toEqual($data_uscita);
+
+});
+
+
+it('save decesso into the activity table', function () {
+    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA46')->create();
+    $data_entrata = Carbon::now()->toDatestring();
+    $data_decesso = Carbon::now()->addYears(5)->toDatestring();
+
+    $action = app(LogDecessoPersonaAction::class);
+
+    $action->execute($persona, $data_decesso);
+
+    $last = Activity::all()->last();
+    expect($last->event)->toBe('popolazione.decesso')
+        ->and($last->log_name)->toBe('nomadelfia')
+        ->and($last->subject_id)->toEqual($persona->id)
+        ->and($last->subject_type)->toEqual(get_class($persona))
+        ->and($last->properties['data_nascita'])->toEqual($persona->data_nascita)
+        ->and($last->properties['numero_elenco'])->toEqual($persona->numero_elenco)
+        ->and($last->properties['nominativo'])->toEqual($persona->nominativo)
+        ->and($last->properties['data_decesso'])->toEqual($data_decesso);
 
 });
 
