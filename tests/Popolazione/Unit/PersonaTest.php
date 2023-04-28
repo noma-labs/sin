@@ -11,7 +11,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -342,7 +343,7 @@ it('testRientroMaggiorenneInNomadelfia', function () {
     // la persona esce dalla comunità
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $act = app(UscitaDaNomadelfiaAction::class);
+    $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita, true);
 
     $this->assertFalse($persona->isPersonaInterna());
@@ -378,7 +379,9 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function () {
 
     // la famiglia esce da Nomadelfia
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
+
     $this->assertFalse($figlio->isPersonaInterna());
     expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
     expect($figlio->getDataUscitaNomadelfia())->toBe($data_uscita);
@@ -418,7 +421,9 @@ it('testRientroFamigliaInNomadelfia', function () {
 
     // la famiglia esce da Nomadelfia
     $data_uscita = Carbon::now()->addYear(10)->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
+    ($data_uscita);
 
     $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_entrata, $data_uscita) {
         $this->assertFalse($componente->isPersonaInterna());

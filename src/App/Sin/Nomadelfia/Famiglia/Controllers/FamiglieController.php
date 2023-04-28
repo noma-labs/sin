@@ -6,6 +6,7 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -224,7 +225,8 @@ class FamiglieController extends CoreBaseController
             'data_uscita.date' => 'La data di uscita non è una data corretta.',
         ]);
         $famiglia = Famiglia::findorfail($id);
-        $famiglia->uscita($request->data_uscita);
+        $action = app(UscitaFamigliaAction::class);
+        $action->execute($famiglia, $request->data_uscita);
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
             ['id' => $id]))->withSuccess('Famiglia uscita con successo.');

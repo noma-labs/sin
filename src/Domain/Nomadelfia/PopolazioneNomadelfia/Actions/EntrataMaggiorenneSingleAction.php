@@ -14,17 +14,18 @@ use Illuminate\Support\Str;
 
 class EntrataMaggiorenneSingleAction
 {
-    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+    private EntrataPersonaAction $entrataInNomadelfiaAction;
 
     public function __construct(
-        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
-    ) {
+        EntrataPersonaAction $entrataInNomadelfiaAction
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
     {
-        if (! $persona->isMaggiorenne()) {
+        if (!$persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
 
@@ -43,7 +44,7 @@ class EntrataMaggiorenneSingleAction
 
     public function calcFamiglia(EntrataPersonaData $dto)
     {
-        $nome_famiglia = $dto->persona->nome.' '.Str::substr($dto->persona->cognome, 0, 2);
+        $nome_famiglia = $dto->persona->nome . ' ' . Str::substr($dto->persona->cognome, 0, 2);
         $dto->famiglia_data = Carbon::parse($dto->persona->data_nascita)->addYears(18)->toDatestring();
         $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $dto->famiglia_data]);
         $dto->famiglia_posizione = Famiglia::getSingleEnum();

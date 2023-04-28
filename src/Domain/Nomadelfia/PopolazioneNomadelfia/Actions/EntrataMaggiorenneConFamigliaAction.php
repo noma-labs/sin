@@ -10,17 +10,18 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 class EntrataMaggiorenneConFamigliaAction
 {
-    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+    private EntrataPersonaAction $entrataInNomadelfiaAction;
 
     public function __construct(
-        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
-    ) {
+        EntrataPersonaAction $entrataInNomadelfiaAction
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
     {
-        if (! $persona->isMaggiorenne()) {
+        if (!$persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
         $dto = new EntrataPersonaData();

@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 
 it('assign a worker to a company', function () {
     $azienda = Azienda::factory()->create();
@@ -27,7 +27,7 @@ it('assign a worker to a company', function () {
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $act = app(UscitaDaNomadelfiaAction::class);
+    $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita);
 
     expect($azienda->lavoratoriAttuali()->count())->toBe(1);

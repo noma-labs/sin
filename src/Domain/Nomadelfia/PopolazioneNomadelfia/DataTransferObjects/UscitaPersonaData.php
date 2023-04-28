@@ -10,7 +10,5 @@ class UscitaPersonaData
 
     public string $data_uscita;
 
-    public string $data_entrata;
-
     public bool $disableFromFamily;
 }

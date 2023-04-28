@@ -11,11 +11,12 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 class EntrataMinorenneAccoltoAction
 {
-    private EntrataInNomadelfiaAction $entrataInNomadelfiaAction;
+    private EntrataPersonaAction $entrataInNomadelfiaAction;
 
     public function __construct(
-        EntrataInNomadelfiaAction $entrataInNomadelfiaAction
-    ) {
+        EntrataPersonaAction $entrataInNomadelfiaAction
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 

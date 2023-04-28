@@ -14,7 +14,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataInNomadelfiaActivi
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaNomadelfiaAsActivityAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailUscitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
 

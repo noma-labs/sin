@@ -14,7 +14,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -71,7 +72,7 @@ it('manage exit of an adult', function () {
     expect(count($pop))->toBe($tot);
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $action = app(UscitaDaNomadelfiaAction::class);
+    $action = app(UscitaPersonaAction::class);
     $action->execute($persona, $data_uscita);
 
     $this->assertFalse($persona->isPersonaInterna());
@@ -126,7 +127,7 @@ it('manage exit of underage', function () {
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $act = app(UscitaDaNomadelfiaAction::class);
+    $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita, true);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
@@ -146,9 +147,6 @@ it('manage exit of underage', function () {
     expect(count($pop))->toBe($tot - 1);
 });
 
-/*
-* Testa l'uscita di una famiglia.
-*/
 it('manage exit of family', function () {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
@@ -180,7 +178,8 @@ it('manage exit of family', function () {
     expect(count($pop))->toBe($init_tot + 4);
 
     $data_uscita = Carbon::now()->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot);
     $pop = PopolazioneNomadelfia::popolazione();
@@ -227,7 +226,9 @@ it('manage people not part of family when it exits', function () {
         ' remove from nucleo');
 
     $data_uscita = Carbon::now()->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
+
     // controlla che il figlio fuori dal nucleo non è uscito
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 1);
     $pop = PopolazioneNomadelfia::popolazione();
@@ -334,7 +335,7 @@ it('return the count of population', function () {
     $c = PopolazioneNomadelfia::presente()->where('nominativo', '=', $persona->nominativo)->count();
     expect($c)->toBe(1);
 
-    $action = app(UscitaDaNomadelfiaAction::class);
+    $action = app(UscitaPersonaAction::class);
     $action->execute($persona, Carbon::now()->toDatestring());
     $afterUscita = PopolazioneNomadelfia::presente()->count();
     expect($before - $afterUscita)->toBe(0);

@@ -5,7 +5,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Illuminate\Support\Facades\DB;
 
-class EntrataInNomadelfiaAction
+class EntrataPersonaAction
 {
     private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
     private SendEmailEntrataAction $email;

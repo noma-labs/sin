@@ -17,7 +17,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataInNomadelfiaActivi
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaNomadelfiaAsActivityAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailUscitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Illuminate\Support\Facades\Mail;
@@ -97,7 +97,7 @@ it('sends an email if a person exit', function () {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $action = app(UscitaDaNomadelfiaAction::class);
+    $action = app(UscitaPersonaAction::class);
     $action->execute($persona, $data_uscita);
 
     Mail::assertSent(PersonExitedMail::class);
