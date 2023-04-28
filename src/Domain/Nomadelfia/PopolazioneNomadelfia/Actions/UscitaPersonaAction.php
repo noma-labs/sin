@@ -10,12 +10,12 @@ class UscitaPersonaAction
 {
     private LogUscitaPersonaAction $logUscitaActivity;
     private UscitaPersonaDBAction $uscita;
-    private SendEmailUscitaAction $email;
+    private SendEmailPersonaUscitaAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction  $uscita,
-        LogUscitaPersonaAction $logUscitaActivity,
-        SendEmailUscitaAction  $email
+        UscitaPersonaDBAction        $uscita,
+        LogUscitaPersonaAction       $logUscitaActivity,
+        SendEmailPersonaUscitaAction $email
     )
     {
         $this->uscita = $uscita;

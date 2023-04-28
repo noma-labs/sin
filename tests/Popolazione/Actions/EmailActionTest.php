@@ -15,8 +15,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailUscitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
@@ -34,7 +34,7 @@ it('will send email if a person enter', function () {
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
 
-    $action = app(SendEmailEntrataAction::class);
+    $action = app(SendEmailPersonaEntrataAction::class);
 
     $action->execute(
         $persona,
@@ -54,7 +54,7 @@ it('will send email if person exit', function () {
     $data_entrata = Carbon::now()->toDatestring();
     $data_uscita = Carbon::now()->toDatestring();
 
-    $action = app(SendEmailUscitaAction::class);
+    $action = app(SendEmailPersonaUscitaAction::class);
 
     $action->execute(
         $persona,

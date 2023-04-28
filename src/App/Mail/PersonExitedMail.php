@@ -29,7 +29,7 @@ class PersonExitedMail extends Mailable
     public function build(): PersonExitedMail
     {
         return $this
-            ->subject("[Popolazione Nomadelfia] Nuova uscita")
+            ->subject("[Aggiornamento Anagrafe] Persona uscita")
             ->view("nomadelfia.mails.personaUscita");
     }
 

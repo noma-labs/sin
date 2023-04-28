@@ -10,8 +10,16 @@ use Illuminate\Support\Facades\DB;
 class UscitaFamigliaAction
 {
 
-    public function __construct()
+    private LogUscitaFamigliaAction $logUscita;
+    private SendEmailFamigliaUscitaAction $emailUscita;
+
+    public function __construct(
+        LogUscitaFamigliaAction       $logUscita,
+        SendEmailFamigliaUscitaAction $emailUscita
+    )
     {
+        $this->logUscita = $logUscita;
+        $this->emailUscita = $emailUscita;
     }
 
     public function execute(Famiglia $famiglia, string $data_uscita)
@@ -22,6 +30,8 @@ class UscitaFamigliaAction
         $dto->data_uscita = $data_uscita;
 
         $this->save($dto);
+        $this->logUscita->execute($dto);
+        $this->emailUscita->execute($dto);
     }
 
     public function save(UscitaFamigliaData $dto)

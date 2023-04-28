@@ -15,8 +15,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailUscitaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaEntrataAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaUscitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Illuminate\Support\Facades\Mail;
