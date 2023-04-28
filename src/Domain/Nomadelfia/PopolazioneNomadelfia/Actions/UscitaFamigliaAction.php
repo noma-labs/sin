@@ -3,21 +3,19 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Illuminate\Support\Facades\DB;
 
 class UscitaFamigliaAction
 {
-
     private LogUscitaFamigliaAction $logUscita;
+
     private SendEmailFamigliaUscitaAction $emailUscita;
 
     public function __construct(
-        LogUscitaFamigliaAction       $logUscita,
+        LogUscitaFamigliaAction $logUscita,
         SendEmailFamigliaUscitaAction $emailUscita
-    )
-    {
+    ) {
         $this->logUscita = $logUscita;
         $this->emailUscita = $emailUscita;
     }

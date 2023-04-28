@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class UscitaPersonaDBAction
 {
-
     public function __construct()
     {
     }
@@ -25,7 +24,6 @@ class UscitaPersonaDBAction
         $dto->disableFromFamily = $disableFromFamily;
         $this->save($dto);
     }
-
 
     public function save(UscitaPersonaData $uscitaPersonaData)
     {
@@ -69,7 +67,7 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (!$uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
+            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
