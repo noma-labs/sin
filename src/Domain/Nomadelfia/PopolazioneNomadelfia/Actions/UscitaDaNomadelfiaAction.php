@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\DB;
 class UscitaDaNomadelfiaAction
 {
     private LogUscitaNomadelfiaAsActivityAction $logUscitaActivity;
+    private SendEmailUscitaAction $email;
 
     public function __construct(
-        LogUscitaNomadelfiaAsActivityAction $logUscitaActivity
+        LogUscitaNomadelfiaAsActivityAction $logUscitaActivity,
+        SendEmailUscitaAction               $email
     )
     {
         $this->logUscitaActivity = $logUscitaActivity;
+        $this->email = $email;
     }
 
     /*
@@ -36,6 +39,8 @@ class UscitaDaNomadelfiaAction
             $dto->data_entrata,
             $dto->data_uscita,
         );
+
+        $this->email->execute($dto->persona, $dto->data_entrata, $dto->data_uscita);
     }
 
     public function calcDataEntrata(UscitaPersonaData $dto)

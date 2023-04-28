@@ -12,4 +12,4 @@ una nuova persona è entrata nella comunità.
 
 
 Saluti,
-Steff
+Staff
