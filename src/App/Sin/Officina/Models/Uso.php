@@ -15,7 +15,7 @@ class Uso extends Model
 
     public function prenotazioniUso()
     {
-      return $this->hasMany(Prenotazioni::class, 'uso_id', 'ofus_iden');
+        return $this->hasMany(Prenotazioni::class, 'uso_id', 'ofus_iden');
     }
 
     protected static function boot()

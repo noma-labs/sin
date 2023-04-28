@@ -3,7 +3,6 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
 
 class LogUscitaPersonaAction
 {
@@ -12,17 +11,16 @@ class LogUscitaPersonaAction
         activity('nomadelfia')
             ->performedOn($persona)
             ->withProperties([
-                    'nominativo' => $persona->nominativo,
-                    'luogo_nascita' => $persona->provincia_nascita,
-                    'data_nascita' => $persona->data_nascita,
-                    'data_entrata' => $data_entrata,
-                    'data_uscita' => $data_uscita,
-                    'numero_elenco' => $persona->numero_elenco,
-                ]
+                'nominativo' => $persona->nominativo,
+                'luogo_nascita' => $persona->provincia_nascita,
+                'data_nascita' => $persona->data_nascita,
+                'data_entrata' => $data_entrata,
+                'data_uscita' => $data_uscita,
+                'numero_elenco' => $persona->numero_elenco,
+            ]
             )
             ->setEvent('popolazione.uscita')
             ->log('Persona uscita in data :properties.data_uscita');
 
     }
-
 }

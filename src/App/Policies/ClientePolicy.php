@@ -18,20 +18,20 @@ class ClientePolicy
      */
     public function view(User $user)
     {
-      if (! $user->hasPermissionTo('visualizza-cliente')) {
-      return false;
-      } else {
-      return true;
-      }
+        if (! $user->hasPermissionTo('visualizza-cliente')) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function show(User $user, Cliente $cliente)
     {
-      if (! $user->hasPermissionTo('dettaglio-cliente')) {
-      return false;
-      } else {
-      return true;
-      }
+        if (! $user->hasPermissionTo('dettaglio-cliente')) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -41,11 +41,11 @@ class ClientePolicy
      */
     public function create(User $user)
     {
-      if (! $user->hasPermissionTo('crea-cliente')) {
-      return false;
-      } else {
-      return true;
-      }
+        if (! $user->hasPermissionTo('crea-cliente')) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

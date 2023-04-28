@@ -38,7 +38,7 @@ class LibriPrestitiController extends CoreBaseController
             // return redirect()->back()->withSuccess("Prestito terminato correttamente in data $data");
             // return redirect()->back()->getTargetUrl();
             else {
-            return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
+                return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
             }
         }
 
@@ -177,9 +177,9 @@ class LibriPrestitiController extends CoreBaseController
             'cliente_id' => $persona->id,
         ]);
         if ($prestito) {
-        return redirect()->route('libri.prestiti')->withSuccess('Prestito modificato correttamente');
+            return redirect()->route('libri.prestiti')->withSuccess('Prestito modificato correttamente');
         } else {
-        return redirect()->route('libri.prestiti')->withWarning('Nessuna modifica effettuata');
+            return redirect()->route('libri.prestiti')->withWarning('Nessuna modifica effettuata');
         }
 
     }

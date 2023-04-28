@@ -43,8 +43,8 @@ it('administrator_can_create_prenotazione', function () {
         'destinazione' => 'my-destination',
     ]);
 
-//        $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
-//            ->assertSuccessful();
+    //        $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
+    //            ->assertSuccessful();
 
 });
 

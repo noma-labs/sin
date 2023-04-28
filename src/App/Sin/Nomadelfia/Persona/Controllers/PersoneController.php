@@ -339,10 +339,10 @@ class PersoneController extends CoreBaseController
             'luogo_nascita.required' => 'IL luogo di nascita è obbligatorio',
             'sesso.required' => 'Il sesso della persona è obbligatorio',
         ]);
-//        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
-//        if ($existing->count() > 0) {
-//            return redirect(route('nomadelfia.persone.inserimento'))->withError("Il nominativo inserito è già assegnato alla persona  $existing->nome $existing->cognome ($existing->data_nascita). Usare un altro nominativo.");
-//        }
+        //        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
+        //        if ($existing->count() > 0) {
+        //            return redirect(route('nomadelfia.persone.inserimento'))->withError("Il nominativo inserito è già assegnato alla persona  $existing->nome $existing->cognome ($existing->data_nascita). Usare un altro nominativo.");
+        //        }
 
         $persona = Persona::create(
             [

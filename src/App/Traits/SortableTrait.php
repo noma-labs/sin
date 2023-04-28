@@ -15,7 +15,7 @@ trait SortableTrait
         if ($column != null && $order != null) {
             return $query->orderBy($column, $order);
         } else {
-        return $query;
+            return $query;
         }
     }
 

@@ -25,11 +25,11 @@ class PopolazioneQueryBuilder extends Builder
     {
         return $this->presente()
             ->where(function ($query) use ($term) {
-            $query->where('nominativo', 'LIKE', "$term%")
-                ->orWhere('nome', 'LIKE', "$term%")
-                ->orWhere('cognome', 'LIKE', "$term%");
+                $query->where('nominativo', 'LIKE', "$term%")
+                    ->orWhere('nome', 'LIKE', "$term%")
+                    ->orWhere('cognome', 'LIKE', "$term%");
 
-        });
+            });
     }
 
     public function stats()

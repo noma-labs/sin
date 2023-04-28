@@ -171,19 +171,19 @@ class ClasseTipo extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-//            DB::connection('db_nomadelfia')->beginTransaction();
-//            try {
-//                $attuale = $this->posizioneAttuale();
-//                if ($attuale) {
-//                    $this->posizioni()->updateExistingPivot($attuale->id,
-//                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
-//                }
+            //            DB::connection('db_nomadelfia')->beginTransaction();
+            //            try {
+            //                $attuale = $this->posizioneAttuale();
+            //                if ($attuale) {
+            //                    $this->posizioni()->updateExistingPivot($attuale->id,
+            //                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
+            //                }
             $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
-//                DB::connection('db_nomadelfia')->commit();
-//            } catch (\Exception $e) {
-//                DB::connection('db_nomadelfia')->rollback();
-//                throw $e;
-//            }
+        //                DB::connection('db_nomadelfia')->commit();
+        //            } catch (\Exception $e) {
+        //                DB::connection('db_nomadelfia')->rollback();
+        //                throw $e;
+        //            }
         } else {
             throw new Exception('Bad Argument. Persona must be an id or a model.');
         }

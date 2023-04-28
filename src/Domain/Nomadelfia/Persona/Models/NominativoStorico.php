@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class NominativoStorico extends Model
 {
-  protected $connection = 'db_nomadelfia';
+    protected $connection = 'db_nomadelfia';
 
-  protected $table = 'nominativi_storici';
+    protected $table = 'nominativi_storici';
 
-  protected $primaryKey = 'persona_id';
+    protected $primaryKey = 'persona_id';
 
-  protected $guarded = [];
+    protected $guarded = [];
 }

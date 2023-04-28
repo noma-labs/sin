@@ -864,10 +864,10 @@ class Persona extends Model
     public function assegnaPostulante(Carbon\Carbon $data_inizio)
     {
         // TODO check if the person is ospite before postulante
-//        $attuale = this->posizioneAttuale();
-//        if $attuale && $attuale->isPostulante){
-//            throw new Es
-//        }
+        //        $attuale = this->posizioneAttuale();
+        //        if $attuale && $attuale->isPostulante){
+        //            throw new Es
+        //        }
         $p = Posizione::perNome('postulante');
         $this->assegnaPosizione($p, $data_inizio);
     }
@@ -877,10 +877,10 @@ class Persona extends Model
     )
     {
         // TODO: check that the posizione attuale è postulante
-//        $attuale = this->posizioneAttuale();
-//        if $attuale && !$attuale->isPostulante){
-//            throw new Es
-//        }
+        //        $attuale = this->posizioneAttuale();
+        //        if $attuale && !$attuale->isPostulante){
+        //            throw new Es
+        //        }
         $effe = Posizione::perNome('effettivo');
         $this->assegnaPosizione($effe, $data_inizio);
     }

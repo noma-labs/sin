@@ -12,6 +12,9 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataInNomadelfiaActivityAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaNomadelfiaAsActivityAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailEntrataAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
@@ -125,3 +128,4 @@ it('logs when a family exit', function () {
         ->and($last->properties['componenti'])->toHaveLength(4);
 
 });
+

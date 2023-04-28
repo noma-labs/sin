@@ -17,4 +17,3 @@ I seguenti componenti della famiglia sono usciti:
 
 
 Saluti,
-Staff
