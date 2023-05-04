@@ -10,7 +10,8 @@ class SendEmailPersonaDecessoAction
 {
     public function execute(Persona $persona, string $data_decesso)
     {
-        Mail::to('davideneri18@gmail.com')
-            ->send(new PersonDecessoMail($persona, $data_decesso));
+        $to = config('aggiornamento-anagrafe.to');
+        if (config('aggiornamento-anagrafe.enabled'))
+            Mail::to($to)->send(new PersonDecessoMail($persona, $data_decesso));
     }
 }

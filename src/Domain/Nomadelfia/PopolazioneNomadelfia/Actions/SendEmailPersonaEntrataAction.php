@@ -12,7 +12,8 @@ class SendEmailPersonaEntrataAction
 {
     public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, Famiglia|null $famiglia)
     {
-        Mail::to('davideneri18@gmail.com')
-            ->send(new PersonEnteredMail($persona, $data_entrata, $gruppo, $famiglia));
+        $to = config('aggiornamento-anagrafe.to');
+        if (config('aggiornamento-anagrafe.enabled'))
+            Mail::to($to)->send(new PersonEnteredMail($persona, $data_entrata, $gruppo, $famiglia));
     }
 }

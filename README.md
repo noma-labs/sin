@@ -30,6 +30,10 @@ Required PHP extensions
   - pdo_mysql             
   - mbstring                                      -> required by laravel sail  
 
+3rd party services
+  - Email 
+
+
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
 
@@ -126,9 +130,14 @@ Exploits the Laravel sail (https://laravel.com/docs/9.x/sail) package to run the
 - Refresh and seed the database `./refresh.sh`
 - Run unit tests `./test.sh`
 
-- open http://127.0.0.1:8080/. La password di default dell'utente `Admin` per entrare nel pannello di controllo:
+- open http://127.0.0.1:8080/. Credenziali:
   - `Username: admin`
   - `Password: admin`
+- open http://127.0.0.1:8025/  [mailpit](https://hub.docker.com/r/axllent/mailpit)  
+
+
+- Send a testing email using [mailable-test](https://github.com/spatie/laravel-mailable-test)
+    - `./vendor/bin/sail php artisan mail:send-test "PersonExitedMail" davideneri18@gmail.com`
 
 ## Importazione Database da dump.
 

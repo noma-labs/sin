@@ -12,8 +12,8 @@ class SendEmailPersonaUscitaAction
 
     public function execute(Persona $persona, string $data_entrata, string $data_uscita)
     {
-        $emails = ['davideneri18@gmail.com'];
-        Mail::to($emails)
-            ->send(new PersonExitedMail($persona, $data_entrata, $data_uscita));
+        $to = config('aggiornamento-anagrafe.to');
+        if (config('aggiornamento-anagrafe.enabled'))
+            Mail::to($to)->send(new PersonExitedMail($persona, $data_entrata, $data_uscita));
     }
 }
