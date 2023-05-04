@@ -13,8 +13,8 @@ class PersonExitedMail extends Mailable
 
     public function __construct(
         public Persona $persona,
-        public string  $data_entrata,
-        public string  $data_uscita,
+        public Carbon  $data_entrata,
+        public Carbon  $data_uscita,
     )
     {
 
@@ -24,6 +24,6 @@ class PersonExitedMail extends Mailable
     {
         return $this
             ->subject('[Aggiornamento Anagrafe] Uscita persona')
-            ->view('nomadelfia.mails.personaUscita');
+            ->markdown('nomadelfia.mails.personaUscita');
     }
 }
