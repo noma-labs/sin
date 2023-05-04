@@ -11,7 +11,8 @@ class SendEmailFamigliaUscitaAction
     public function execute(UscitaFamigliaData $dto)
     {
         $to = config('aggiornamento-anagrafe.to');
-        if (config('aggiornamento-anagrafe.enabled'))
+        if (config('aggiornamento-anagrafe.enabled')) {
             Mail::to($to)->send(new FamigliaUscitaMail($dto->famiglia, $dto->componenti, $dto->data_uscita));
+        }
     }
 }
