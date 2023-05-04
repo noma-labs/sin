@@ -42,7 +42,7 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
             'sesso' => 'M',
         ]);
     // TODO: enabling this the test explode with thousand of errors !!
-//            ->assertSee("Il nominativo inserito è già assegnato alla persona");
+    //            ->assertSee("Il nominativo inserito è già assegnato alla persona");
 });
 
 it('can_export_popolazione_into_word', function () {

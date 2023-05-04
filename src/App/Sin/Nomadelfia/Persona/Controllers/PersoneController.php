@@ -14,7 +14,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\SendEmailPersonaDecessoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,8 @@ class PersoneController extends CoreBaseController
             'data_decesso.required' => 'La data del decesso è obbligatorio',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->deceduto($request->data_decesso);
+        $action = app(SendEmailPersonaDecessoAction::class);
+        $action->execute($persona, $request->data_decesso);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("IL decesso di $persona->nominativo aggiornato correttamente.");
@@ -64,7 +66,7 @@ class PersoneController extends CoreBaseController
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
-        $act = app(UscitaDaNomadelfiaAction::class);
+        $act = app(UscitaPersonaAction::class);
         $act->execute($persona, $request->data_uscita);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
@@ -339,10 +341,10 @@ class PersoneController extends CoreBaseController
             'luogo_nascita.required' => 'IL luogo di nascita è obbligatorio',
             'sesso.required' => 'Il sesso della persona è obbligatorio',
         ]);
-//        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
-//        if ($existing->count() > 0) {
-//            return redirect(route('nomadelfia.persone.inserimento'))->withError("Il nominativo inserito è già assegnato alla persona  $existing->nome $existing->cognome ($existing->data_nascita). Usare un altro nominativo.");
-//        }
+        //        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
+        //        if ($existing->count() > 0) {
+        //            return redirect(route('nomadelfia.persone.inserimento'))->withError("Il nominativo inserito è già assegnato alla persona  $existing->nome $existing->cognome ($existing->data_nascita). Usare un altro nominativo.");
+        //        }
 
         $persona = Persona::create(
             [

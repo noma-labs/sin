@@ -38,10 +38,10 @@ class PrenotazioniQueryBuilders extends Builder
                     ->where('data_partenza', '!=', $data_to) // elimina partenza nello stesso giorno
                     ->where('ora_arrivo', '>', $ora_from);
             });
-//            ->orWhere(function($query) use ($data_to, $data_from) {
-//                $query->where('data_partenza', '<', $data_to)
-//                    ->where('data_arrivo', '>', $data_from);
-//            });
+        //            ->orWhere(function($query) use ($data_to, $data_from) {
+        //                $query->where('data_partenza', '<', $data_to)
+        //                    ->where('data_arrivo', '>', $data_from);
+        //            });
         return $prenotazioni;
     }
 }

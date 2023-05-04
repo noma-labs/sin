@@ -17,7 +17,7 @@ use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
@@ -539,7 +539,7 @@ class Persona extends Model
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
-            $act = app(UscitaDaNomadelfiaAction::class);
+            $act = app(UscitaPersonaAction::class);
             $act->execute($this, $data_decesso);
 
             $conn = DB::connection('db_nomadelfia');
@@ -862,10 +862,10 @@ class Persona extends Model
     public function assegnaPostulante(Carbon\Carbon $data_inizio)
     {
         // TODO check if the person is ospite before postulante
-//        $attuale = this->posizioneAttuale();
-//        if $attuale && $attuale->isPostulante){
-//            throw new Es
-//        }
+        //        $attuale = this->posizioneAttuale();
+        //        if $attuale && $attuale->isPostulante){
+        //            throw new Es
+        //        }
         $p = Posizione::perNome('postulante');
         $this->assegnaPosizione($p, $data_inizio);
     }
@@ -874,10 +874,10 @@ class Persona extends Model
         Carbon\Carbon $data_inizio
     ) {
         // TODO: check that the posizione attuale è postulante
-//        $attuale = this->posizioneAttuale();
-//        if $attuale && !$attuale->isPostulante){
-//            throw new Es
-//        }
+        //        $attuale = this->posizioneAttuale();
+        //        if $attuale && !$attuale->isPostulante){
+        //            throw new Es
+        //        }
         $effe = Posizione::perNome('effettivo');
         $this->assegnaPosizione($effe, $data_inizio);
     }

@@ -6,14 +6,10 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
 use Illuminate\Support\Facades\DB;
 
-class UscitaDaNomadelfiaAction
+class UscitaPersonaDBAction
 {
-    private LogUscitaNomadelfiaAsActivityAction $logUscitaActivity;
-
-    public function __construct(
-        LogUscitaNomadelfiaAsActivityAction $logUscitaActivity
-    ) {
-        $this->logUscitaActivity = $logUscitaActivity;
+    public function __construct()
+    {
     }
 
     /*
@@ -26,17 +22,7 @@ class UscitaDaNomadelfiaAction
         $dto->persona = $persona;
         $dto->data_uscita = $data_uscita;
         $dto->disableFromFamily = $disableFromFamily;
-
-        $this->calcDataEntrata($dto);
         $this->save($dto);
-
-        $this->logUscitaActivity->execute($dto);
-    }
-
-    public function calcDataEntrata(UscitaPersonaData $dto)
-    {
-        // TODO: if not data entrata is set, raise an expcetion
-        $dto->data_entrata = ($dto->persona->getDataEntrataNomadelfia()) ? $dto->persona->getDataEntrataNomadelfia() : '';
     }
 
     public function save(UscitaPersonaData $uscitaPersonaData)

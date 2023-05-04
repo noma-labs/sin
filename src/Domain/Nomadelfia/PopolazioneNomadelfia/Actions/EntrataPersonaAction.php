@@ -5,20 +5,35 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Illuminate\Support\Facades\DB;
 
-class EntrataInNomadelfiaAction
+class EntrataPersonaAction
 {
-    private LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction;
+    private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction;
+
+    private SendEmailPersonaEntrataAction $email;
 
     public function __construct(
-        LogEntrataInNomadelfiaActivityAction $logEntrataInNomadelfiaActivityAction
+        LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        SendEmailPersonaEntrataAction $email
     ) {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
+        $this->email = $email;
     }
 
     public function execute(EntrataPersonaData $entrataPersonaData)
     {
         $this->save($entrataPersonaData);
-        $this->logEntrataInNomadelfiaActivityAction->execute($entrataPersonaData);
+        $this->logEntrataInNomadelfiaActivityAction->execute(
+            $entrataPersonaData->persona,
+            $entrataPersonaData->data_entrata,
+            $entrataPersonaData->gruppoFamiliare,
+            ($entrataPersonaData->famiglia) ?: null,
+        );
+        $this->email->execute(
+            $entrataPersonaData->persona,
+            $entrataPersonaData->data_entrata,
+            $entrataPersonaData->gruppoFamiliare,
+            ($entrataPersonaData->famiglia) ?: null,
+        );
 
     }
 

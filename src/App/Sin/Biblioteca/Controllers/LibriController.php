@@ -150,7 +150,7 @@ class LibriController extends CoreBaseController
             if ($request->filled('xClassificazione')) {
                 $classificazione = (int) $request->xClassificazione;
                 if ($classificazione == 0) { // NON CLASSIFICATO
-                $q->where('classificazione_id', "$classificazione")->orWhereNull('classificazione_id');
+                    $q->where('classificazione_id', "$classificazione")->orWhereNull('classificazione_id');
                 } else {
                     $q->where('classificazione_id', "$classificazione");
                 }
@@ -177,7 +177,7 @@ class LibriController extends CoreBaseController
         if (Auth::check() and Auth::user()->hasRole('biblioteca')) {
             $libri = $queryLibri->withTrashed()->orderBy($orderBy)->paginate(50);
         } else {
-        $libri = $queryLibri->orderBy($orderBy)->paginate(50);
+            $libri = $queryLibri->orderBy($orderBy)->paginate(50);
         }
 
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
@@ -194,9 +194,9 @@ class LibriController extends CoreBaseController
         $libro = Libro::withTrashed()->find($idLibro);
         $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idLibro)->get();
         if ($libro) {
-        return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
+            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
         } else {
-        return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
+            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
         }
     }
 
@@ -289,9 +289,9 @@ class LibriController extends CoreBaseController
         $libro->editori()->sync($editoriIDs);
 
         if ($res) {
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
+            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
         } else {
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withWarning('Nessuna modifica effettuata');
+            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withWarning('Nessuna modifica effettuata');
         }
 
     }
@@ -338,7 +338,7 @@ class LibriController extends CoreBaseController
             if ($prestito) {
                 return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
             } else {
-            redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
+                redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
             }
         }
 
@@ -382,9 +382,9 @@ class LibriController extends CoreBaseController
         $_addonly = $request->input('_addonly');     // save only
 
         if ($request->xCollocazione == 'null') {
-        $collocazione = null;
+            $collocazione = null;
         } else {
-        $collocazione = $request->xCollocazione;
+            $collocazione = $request->xCollocazione;
         }
 
         $libro = new Libro;

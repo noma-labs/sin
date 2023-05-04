@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArchivioDocumento extends Model
 {
-  use SortableTrait;
+    use SortableTrait;
 
-  protected $connection = 'archivio_documenti';
+    protected $connection = 'archivio_documenti';
 
-  protected $table = 'libri';
+    protected $table = 'libri';
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
-  public $timestamps = false;
+    public $timestamps = false;
 
-  protected $guarded = ['id'];
+    protected $guarded = ['id'];
 
-  public function scopeTobePrinted($query)
-  {
-    return $query->where('stato', 1)->orderBy('foglio');
-  }
+    public function scopeTobePrinted($query)
+    {
+        return $query->where('stato', 1)->orderBy('foglio');
+    }
 }

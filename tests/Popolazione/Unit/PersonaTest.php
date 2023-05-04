@@ -11,7 +11,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -118,7 +119,7 @@ it('testEntrataMinorenneFemminaAccolto', function () {
     $famiglia->componenti()->attach($capoFam->id,
         ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
 
-//        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
+    //        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
     $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($persona, $data_entrata, $famiglia);
     /*
@@ -158,7 +159,7 @@ it('testEntrataMinorenneMaschioAccolto', function () {
 
     $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($persona, $data_entrata, $famiglia);
-//        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
+    //        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
     /*
     Persona interna (DE)
     Figlio (DE)
@@ -342,7 +343,7 @@ it('testRientroMaggiorenneInNomadelfia', function () {
     // la persona esce dalla comunità
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 
-    $act = app(UscitaDaNomadelfiaAction::class);
+    $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita, true);
 
     $this->assertFalse($persona->isPersonaInterna());
@@ -351,7 +352,7 @@ it('testRientroMaggiorenneInNomadelfia', function () {
 
     // la persona rientra in Nomadelfia da maggiorenne adulto
     $data_rientro = Carbon::now()->addYears(10)->toDatestring();
-//        $persona->entrataMaggiorenneSingle($data_rientro, ->id);
+    //        $persona->entrataMaggiorenneSingle($data_rientro, ->id);
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
     $this->assertTrue($persona->isPersonaInterna());
@@ -378,7 +379,9 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function () {
 
     // la famiglia esce da Nomadelfia
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
+
     $this->assertFalse($figlio->isPersonaInterna());
     expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
     expect($figlio->getDataUscitaNomadelfia())->toBe($data_uscita);
@@ -391,7 +394,7 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function () {
     $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
     $data_rientro = Carbon::now()->addYears(10)->toDatestring();
-//        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
+    //        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
 
     $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($figlio, $data_rientro, $famiglia_rientro);
@@ -418,7 +421,9 @@ it('testRientroFamigliaInNomadelfia', function () {
 
     // la famiglia esce da Nomadelfia
     $data_uscita = Carbon::now()->addYear(10)->toDatestring();
-    $famiglia->uscita($data_uscita);
+    $action = app(UscitaFamigliaAction::class);
+    $action->execute($famiglia, $data_uscita);
+    ($data_uscita);
 
     $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_entrata, $data_uscita) {
         $this->assertFalse($componente->isPersonaInterna());

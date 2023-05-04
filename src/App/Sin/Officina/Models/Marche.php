@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marche extends Model
 {
-  protected $connection = 'db_officina';
+    protected $connection = 'db_officina';
 
-  protected $table = 'marca';
+    protected $table = 'marca';
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
-  public function modelli()
-  {
+    public function modelli()
+    {
         return $this->hasMany(Modelli::class, 'marca_id');
     }
 }

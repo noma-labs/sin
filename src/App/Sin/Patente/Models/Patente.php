@@ -72,17 +72,17 @@ class Patente extends Model
 
     public function hasCqc()
     {
-      return $this->cqc()->count() > 0;
+        return $this->cqc()->count() > 0;
     }
 
     public function hasCqcPersone()
     {
-      return $this->cqcPersone() != null;
+        return $this->cqcPersone() != null;
     }
 
     public function hasCqcMerci()
     {
-      return $this->cqcMerci() != null;
+        return $this->cqcMerci() != null;
     }
 
     public function cqcPersone()

@@ -67,14 +67,14 @@ class PopolazioneNomadelfia extends Model
      */
     public static function maggiorenni($orderby = 'nominativo', $order = 'ASC')
     {
-//        $magg = DB::connection('db_nomadelfia')
-//            ->table('persone')
-//            ->selectRaw("persone.*, popolazione.*")
-//            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-//            ->whereNull("popolazione.data_uscita")
-//            ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
-//            ->orderByRaw("persone." . strval($orderby) . " " . $order)
-//            ->get();
+        //        $magg = DB::connection('db_nomadelfia')
+        //            ->table('persone')
+        //            ->selectRaw("persone.*, popolazione.*")
+        //            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+        //            ->whereNull("popolazione.data_uscita")
+        //            ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
+        //            ->orderByRaw("persone." . strval($orderby) . " " . $order)
+        //            ->get();
         $magg = self::daEta(18, $orderby, $order);
         $result = new stdClass;
         $maggioreni = collect($magg);
@@ -105,7 +105,7 @@ class PopolazioneNomadelfia extends Model
         int $toEta = null,
         string $orderBy = 'nominativo',
         int $travel_to_year = null,
-               $withInYear = false,
+        $withInYear = false,
         string $order = 'ASC'
     ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
@@ -394,7 +394,7 @@ class PopolazioneNomadelfia extends Model
         int $toEta = null,
         string $orderBy = 'nominativo',
         int $travel_to_year = null,
-               $withInYear = false
+        $withInYear = false
     ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
 

@@ -29,7 +29,7 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
             'data_entrata' => $data_entrata,
             'famiglia_id' => $famiglia->id,
         ]);
-//            ->assertSee("inserita correttamente.");
+    //            ->assertSee("inserita correttamente.");
 
     $persona = Persona::findOrFail($persona->id);
     $figlio = Posizione::perNome('figlio');

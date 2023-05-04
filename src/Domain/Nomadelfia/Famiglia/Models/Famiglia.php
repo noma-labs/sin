@@ -10,7 +10,7 @@ use App\Traits\Enums;
 use Carbon;
 use Database\Factories\FamigliaFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaDaNomadelfiaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -168,7 +168,7 @@ class Famiglia extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
-                $act = app(UscitaDaNomadelfiaAction::class);
+                $act = app(UscitaPersonaAction::class);
                 $act->execute($componente, $data_uscita);
             });
             DB::connection('db_nomadelfia')->commit();
