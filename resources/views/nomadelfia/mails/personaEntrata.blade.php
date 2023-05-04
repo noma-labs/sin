@@ -14,6 +14,9 @@ La seguente persona è entrata in Nomadelfia:
 <p>N° Elenco: <strong>{{$persona->numero_elenco}}</strong></p>
 </x-mail::panel>
 
+<x-mail::button :url="route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])" color="success">
+Vedi persona
+</x-mail::button>
 
 Saluti, <br>
 {{ config('app.name') }}

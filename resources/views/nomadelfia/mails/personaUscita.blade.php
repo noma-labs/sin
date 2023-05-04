@@ -15,6 +15,10 @@ La seguente persona è uscita da nomadelfia:
 </x-mail::panel>
 
 
+<x-mail::button :url="route('nomadelfia.persone.dettaglio',['idPersona'=>$persona->id])" color="success">
+Vedi persona
+</x-mail::button>
+
 
 Saluti, <br>
 {{ config('app.name') }}

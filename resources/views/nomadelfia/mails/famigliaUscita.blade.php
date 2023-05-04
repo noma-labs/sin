@@ -16,6 +16,10 @@ La famiglia {{$famiglia->nome_famiglia}} è uscita da Nomadelfia
 </x-mail::panel>
 @endforeach
 
+<x-mail::button :url="route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia->id])" color="success">
+Vedi Famiglia
+</x-mail::button>
+
 Saluti, <br>
 {{ config('app.name') }}
 </x-mail::message>
