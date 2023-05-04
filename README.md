@@ -31,7 +31,7 @@ Required PHP extensions
   - mbstring                                      -> required by laravel sail  
 
 3rd party services
-  - Email 
+  - Email: postmarkapp 
 
 
 ## Installazione
