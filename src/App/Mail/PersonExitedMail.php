@@ -13,10 +13,9 @@ class PersonExitedMail extends Mailable
 
     public function __construct(
         public Persona $persona,
-        public Carbon  $data_entrata,
-        public Carbon  $data_uscita,
-    )
-    {
+        public Carbon $data_entrata,
+        public Carbon $data_uscita,
+    ) {
 
     }
 
