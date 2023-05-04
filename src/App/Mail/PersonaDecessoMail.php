@@ -13,9 +13,8 @@ class PersonaDecessoMail extends Mailable
 
     public function __construct(
         public Persona $persona,
-        public Carbon  $data_decesso,
-    )
-    {
+        public Carbon $data_decesso,
+    ) {
 
     }
 

@@ -14,12 +14,11 @@ class PersonaEntrataMail extends Mailable
     use SerializesModels;
 
     public function __construct(
-        public Persona         $persona,
-        public Carbon          $data_entrata,
+        public Persona $persona,
+        public Carbon $data_entrata,
         public GruppoFamiliare $gruppo,
-        public Famiglia|null   $famiglia
-    )
-    {
+        public Famiglia|null $famiglia
+    ) {
 
     }
 

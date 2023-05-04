@@ -13,11 +13,10 @@ class FamigliaUscitaMail extends Mailable
     use SerializesModels;
 
     public function __construct(
-        public Famiglia   $famiglia,
+        public Famiglia $famiglia,
         public Collection $componenti,
-        public Carbon     $data_uscita,
-    )
-    {
+        public Carbon $data_uscita,
+    ) {
 
     }
 
