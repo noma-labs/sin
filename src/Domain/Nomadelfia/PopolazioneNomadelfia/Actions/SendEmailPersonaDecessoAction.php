@@ -11,7 +11,8 @@ class SendEmailPersonaDecessoAction
     public function execute(Persona $persona, string $data_decesso)
     {
         $to = config('aggiornamento-anagrafe.to');
-        if (config('aggiornamento-anagrafe.enabled'))
+        if (config('aggiornamento-anagrafe.enabled')) {
             Mail::to($to)->send(new PersonDecessoMail($persona, $data_decesso));
+        }
     }
 }

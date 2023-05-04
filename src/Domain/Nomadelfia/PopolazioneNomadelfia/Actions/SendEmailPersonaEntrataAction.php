@@ -13,7 +13,8 @@ class SendEmailPersonaEntrataAction
     public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, Famiglia|null $famiglia)
     {
         $to = config('aggiornamento-anagrafe.to');
-        if (config('aggiornamento-anagrafe.enabled'))
+        if (config('aggiornamento-anagrafe.enabled')) {
             Mail::to($to)->send(new PersonEnteredMail($persona, $data_entrata, $gruppo, $famiglia));
+        }
     }
 }

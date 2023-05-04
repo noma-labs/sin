@@ -18,7 +18,8 @@ class SendEmailPersonaUscitaAction
             $data_entrata = Carbon::parse($data_entrata);
         }
         $to = config('aggiornamento-anagrafe.to');
-        if (config('aggiornamento-anagrafe.enabled'))
+        if (config('aggiornamento-anagrafe.enabled')) {
             Mail::to($to)->send(new PersonExitedMail($persona, $data_entrata, $data_uscita));
+        }
     }
 }

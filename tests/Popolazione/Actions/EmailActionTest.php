@@ -40,6 +40,7 @@ it('will send email if a person enter', function () {
 
     Mail::assertSent(PersonEnteredMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
+
         return $mail->hasTo($to);
     });
 
@@ -59,14 +60,13 @@ it('will send email if person exit', function () {
         $data_uscita,
     );
 
-
     Mail::assertSent(PersonExitedMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
+
         return $mail->hasTo($to);
     });
 
 });
-
 
 it('sends an email if a person enter', function () {
     $data_entrata = Carbon::now()->toDatestring();
@@ -84,6 +84,7 @@ it('sends an email if a person enter', function () {
 
     Mail::assertSent(PersonEnteredMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
+
         return $mail->hasTo($to);
     });
 
@@ -104,6 +105,7 @@ it('sends an email if a person exit', function () {
 
     Mail::assertSent(PersonExitedMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
+
         return $mail->hasTo($to);
     });
 });
@@ -122,11 +124,11 @@ it('will send email if a person die', function () {
 
     Mail::assertSent(PersonDecessoMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
+
         return $mail->hasTo($to);
     });
 
 });
-
 
 it('will NOT send email if person exit', function () {
 
@@ -147,7 +149,6 @@ it('will NOT send email if person exit', function () {
     Mail::assertNotSent(PersonExitedMail::class);
 
 });
-
 
 it('will NOT send email if person enter', function () {
 

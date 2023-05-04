@@ -19,5 +19,4 @@ return [
      */
     'to' => Str::of(env('AGGIORNAMENTO_ANAGRAFE_TO', 'test@nomadelfia.it'))->split('/[\s,]+/')->toArray(),
 
-
 ];
