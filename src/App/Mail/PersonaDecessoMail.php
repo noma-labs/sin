@@ -2,25 +2,27 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PersonDecessoMail extends Mailable
+class PersonaDecessoMail extends Mailable
 {
     use SerializesModels;
 
     public function __construct(
         public Persona $persona,
-        public string $data_decesso,
-    ) {
+        public Carbon  $data_decesso,
+    )
+    {
 
     }
 
-    public function build(): PersonDecessoMail
+    public function build(): PersonaDecessoMail
     {
         return $this
             ->subject('[Aggiornamento Anagrafe] Decesso persona')
-            ->view('nomadelfia.mails.personaDeceduta');
+            ->markdown('nomadelfia.mails.personaDeceduta');
     }
 }

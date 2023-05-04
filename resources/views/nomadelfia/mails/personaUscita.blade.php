@@ -1,13 +1,20 @@
 
 <x-mail::message>
-Ciao,
-una nuova persona è uscita da Nomadelfia.
+## Aggiornamento Anagrafe {{Carbon::now()->toDateString()}}
 
-<x-mail::table>
-| Persona       | Luogo Nascita         |  Nascita  |  Entrata  | Uscita  | N°Elenco  |
-| ------------- |:-------------:| --------:|:-------------:|:-------------:|:-------------:|
-| {{ $persona->nome }} {{ $persona->cognome }}     | {{$persona->provincia_nascita}}       | {{$persona->data_nascita}}      |{{$data_entrata->toDateString()}}      | {{$data_uscita->toDateString()}}      |{{$persona->numero_elenco}}   |
-</x-mail::table>
+La seguente persona è uscita da nomadelfia:
+<x-mail::panel>
+<p>Nome: <strong>{{ $persona->nome }} </strong></p>
+<p>Cognome: <strong>{{ $persona->cognome }}</strong></p>
+<p>Luogo Nascita: <strong>{{$persona->provincia_nascita}} </strong></p>
+<p>Data Nascita: <strong>{{$persona->data_nascita}} </strong></p>
+
+<p>Data Entrata: <strong>{{$data_entrata->toDateString()}}</strong></p>
+<p>Data Uscita: <strong>{{$data_uscita->toDateString()}}</strong></p>
+<p>Numero di Elenco: <strong>{{$persona->numero_elenco}}</strong></p>
+</x-mail::panel>
+
+
 
 Saluti, <br>
 {{ config('app.name') }}

@@ -2,7 +2,7 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Mail\PersonExitedMail;
+use App\Mail\PersonaUscitaMail;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Mail;
@@ -19,7 +19,7 @@ class SendEmailPersonaUscitaAction
         }
         $to = config('aggiornamento-anagrafe.to');
         if (config('aggiornamento-anagrafe.enabled')) {
-            Mail::to($to)->send(new PersonExitedMail($persona, $data_entrata, $data_uscita));
+            Mail::to($to)->send(new PersonaUscitaMail($persona, $data_entrata, $data_uscita));
         }
     }
 }

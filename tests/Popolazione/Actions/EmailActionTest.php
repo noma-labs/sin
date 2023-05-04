@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Mail\PersonDecessoMail;
-use App\Mail\PersonEnteredMail;
-use App\Mail\PersonExitedMail;
+use App\Mail\PersonaDecessoMail;
+use App\Mail\PersonaEntrataMail;
+use App\Mail\PersonaUscitaMail;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -38,7 +38,7 @@ it('will send email if a person enter', function () {
         $famiglia,
     );
 
-    Mail::assertSent(PersonEnteredMail::class, function ($mail) {
+    Mail::assertSent(PersonaEntrataMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
 
         return $mail->hasTo($to);
@@ -60,7 +60,7 @@ it('will send email if person exit', function () {
         $data_uscita,
     );
 
-    Mail::assertSent(PersonExitedMail::class, function ($mail) {
+    Mail::assertSent(PersonaUscitaMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
 
         return $mail->hasTo($to);
@@ -82,7 +82,7 @@ it('sends an email if a person enter', function () {
     $action = app(EntrataMinorenneAccoltoAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
-    Mail::assertSent(PersonEnteredMail::class, function ($mail) {
+    Mail::assertSent(PersonaEntrataMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
 
         return $mail->hasTo($to);
@@ -103,7 +103,7 @@ it('sends an email if a person exit', function () {
     $action = app(UscitaPersonaAction::class);
     $action->execute($persona, $data_uscita);
 
-    Mail::assertSent(PersonExitedMail::class, function ($mail) {
+    Mail::assertSent(PersonaUscitaMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
 
         return $mail->hasTo($to);
@@ -122,7 +122,7 @@ it('will send email if a person die', function () {
         $data_decesso,
     );
 
-    Mail::assertSent(PersonDecessoMail::class, function ($mail) {
+    Mail::assertSent(PersonaDecessoMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
 
         return $mail->hasTo($to);
@@ -146,7 +146,7 @@ it('will NOT send email if person exit', function () {
         $data_uscita,
     );
 
-    Mail::assertNotSent(PersonExitedMail::class);
+    Mail::assertNotSent(PersonaUscitaMail::class);
 
 });
 
@@ -168,7 +168,7 @@ it('will NOT send email if person enter', function () {
         $famiglia,
     );
 
-    Mail::assertNotSent(PersonEnteredMail::class);
+    Mail::assertNotSent(PersonaEntrataMail::class);
 
 });
 
@@ -179,13 +179,13 @@ it('will NOT send email if person enter', function () {
 //    $famiglia = Famiglia::factory()->create();
 //    $gruppo = GruppoFamiliare::first();
 //
-//    $mailable = new PersonEnteredMail($persona, $data_entrata, $gruppo, $famiglia);
+//    $mailable = new PersonaEntrataMail($persona, $data_entrata, $gruppo, $famiglia);
 //    $mailable->build();
 //    $mailable->assertTo('test@nomadelfia.it');
 //
 //    $to = config('aggiornamento-anagrafe.to');
 //
-//    Mail::assertSent(PersonEnteredMail::class, function ($mail) use ($to) {
+//    Mail::assertSent(PersonaEntrataMail::class, function ($mail) use ($to) {
 //        return $mail->hasTo($to);
 //    });
 //});
@@ -197,7 +197,7 @@ it('will NOT send email if person enter', function () {
 //
 //    Config::set('aggiornamento-anagrafe.to', ["test@nomadelfia.it"]);
 //
-//    $mailable = new PersonExitedMail($persona, $data_entrata, $data_uscita);
+//    $mailable = new PersonaUscitaMail($persona, $data_entrata, $data_uscita);
 //    $mailable->build();
 //    $mailable->assertTo('test@nomadelfia.it');
 //});
@@ -207,7 +207,7 @@ it('will NOT send email if person enter', function () {
 //    $data_entrata = Carbon::now()->toDatestring();
 //    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 //
-//    $mailable = new PersonExitedMail($persona, $data_entrata, $data_uscita);
+//    $mailable = new PersonaUscitaMail($persona, $data_entrata, $data_uscita);
 //    $mailable->build();
 ////    $mailable->assertTo('test@nomadelfia.it');
 //});
@@ -216,7 +216,7 @@ it('will NOT send email if person enter', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
 //
-//    $mailable = new PersonDecessoMail($persona, $data_uscita);
+//    $mailable = new PersonaDecessoMail($persona, $data_uscita);
 //    $mailable->build();
 //    $mailable->assertTo('test@nomadelfia.it');
 //});

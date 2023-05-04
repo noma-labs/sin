@@ -7,7 +7,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PersonExitedMail extends Mailable
+class PersonaUscitaMail extends Mailable
 {
     use SerializesModels;
 
@@ -20,7 +20,7 @@ class PersonExitedMail extends Mailable
 
     }
 
-    public function build(): PersonExitedMail
+    public function build(): PersonaUscitaMail
     {
         return $this
             ->subject('[Aggiornamento Anagrafe] Uscita persona')

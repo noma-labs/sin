@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Mail\Mailable;
@@ -12,10 +13,11 @@ class FamigliaUscitaMail extends Mailable
     use SerializesModels;
 
     public function __construct(
-        public Famiglia $famiglia,
+        public Famiglia   $famiglia,
         public Collection $componenti,
-        public string $data_uscita,
-    ) {
+        public Carbon     $data_uscita,
+    )
+    {
 
     }
 
@@ -24,6 +26,6 @@ class FamigliaUscitaMail extends Mailable
 
         return $this
             ->subject('[Aggiornamento Anagrafe] Uscita famiglia')
-            ->view('nomadelfia.mails.famigliaUscita');
+            ->markdown('nomadelfia.mails.famigliaUscita');
     }
 }
