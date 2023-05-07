@@ -40,6 +40,50 @@ class PersoneController extends CoreBaseController
             compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale'));
     }
 
+    public function create()
+    {
+        return view('nomadelfia.persone.inserimento.initial');
+    }
+
+    /**
+     * Contolla che non ci sia una persona con il nome e cognome.
+     * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
+     * Se non esistono persone ritorna il form per aggiungere la persona.
+     *
+     * @author Davide Neri
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'persona' => 'required',
+        ], [
+            'persona.required' => 'Il cognome è obbligatorio',
+        ]);
+
+        if ($request->filled('persona')) {
+            $personeEsistenti = Persona::where('nominativo', 'like', '%' . $request->persona . '%')
+                ->orWhere('nome', 'like', '%' . $request->persona . '%')
+                ->orWhere('cognome', 'like', '%' . $request->persona);
+            if ($personeEsistenti->exists()) {
+                return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
+            } else {
+                return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
+            }
+        }
+    }
+
+    // Rimuove (soft delete) una persona nel sistema.
+    public function delete($idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        if ($persona->delete()) {
+            return redirect()->route('nomadelfia')->withSuccess("Persona $persona->nominativo eliminata con successo");
+        }
+
+        return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");
+    }
+
+
     public function decesso(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
@@ -113,16 +157,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.search');
     }
 
-    // Rimuove (soft delete) una persona nel sistema.
-    public function rimuovi($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        if ($persona->delete()) {
-            return redirect()->route('nomadelfia')->withSuccess("Persona $persona->nominativo eliminata caon successo");
-        }
-
-        return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");
-    }
 
     public function searchPersonaSubmit(Request $request)
     {
@@ -139,7 +173,7 @@ class PersoneController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -147,20 +181,20 @@ class PersoneController extends CoreBaseController
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $msgSearch = $msgSearch . 'Nominativo=' . $nominativo;
                 $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch.' Nome='.$nome;
+                $msgSearch = $msgSearch . ' Nome=' . $nome;
                 $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $msgSearch = $msgSearch . ' Cognome=' . $cognome;
                 $orderBy = 'nome';
             }
 
@@ -169,7 +203,7 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
+                $msgSearch = $msgSearch . ' Data Nascita' . $criterio_nascita . $nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -229,142 +263,6 @@ class PersoneController extends CoreBaseController
         }
     }
 
-    public function modificaNominativo($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-
-        return view('nomadelfia.persone.edit_nominativo', compact('persona'));
-    }
-
-    /**
-     * Modifica il nominativo esistente di una persona.
-     *
-     * @author Davide Neri
-     */
-    public function modificaNominativoConfirm(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'nominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
-        ], [
-            'nominativo.required' => 'Il nominativo è obbligatorio',
-            'nominativo.unique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->nominativo = $request->nominativo;
-        if ($persona->save()) {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSucces('Nominativo  aggiornato con suceesso');
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato aggiornato.');
-        }
-    }
-
-    /**
-     * Assegna un nuovo nominativo e salva il nominativo attuale nello storico dei nominativi.
-     *
-     * @author Davide Neri
-     */
-    public function assegnaNominativoConfirm(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'nuovonominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
-        ], [
-            'nuovonominativorequired' => 'Il nominativo è obbligatorio',
-            'nuovonominativounique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->nominativiStorici()->create(['nominativo' => $persona->nominativo]);
-        $persona->nominativo = $request->nuovonominativo;
-        if ($persona->save()) {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSucces('Nuovo nominativo aggiunto con successo.');
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato assegnato.');
-        }
-    }
-
-    // Inserimento nuova Persona
-    public function insertInitialView()
-    {
-        return view('nomadelfia.persone.inserimento.initial');
-    }
-
-    /**
-     * Contolla che non ci sia una persona con il nome e cognome.
-     * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
-     * Se non esistono persone ritorna il form per aggiungere la persona.
-     *
-     * @author Davide Neri
-     */
-    public function insertInitial(Request $request)
-    {
-        $validatedData = $request->validate([
-            'persona' => 'required',
-        ], [
-            'persona.required' => 'Il cognome è obbligatorio',
-        ]);
-
-        if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
-                ->orWhere('nome', 'like', '%'.$request->persona.'%')
-                ->orWhere('cognome', 'like', '%'.$request->persona);
-            if ($personeEsistenti->exists()) {
-                return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
-            } else {
-                return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
-            }
-        }
-    }
-
-    public function insertDatiAnagraficiView()
-    {
-        return view('nomadelfia.persone.inserimento.dati_anagrafici');
-    }
-
-    public function insertDatiAnagrafici(Request $request)
-    {
-        $validatedData = $request->validate([
-            'nominativo' => 'required',
-            'nome' => 'required',
-            'cognome' => 'required',
-            'data_nascita' => 'required|date',
-            'luogo_nascita' => 'required',
-            'sesso' => 'required',
-        ], [
-            'nominativo.required' => 'Il nominativo è obbligatorio',
-            'nominativo.unique' => 'IL nominativo inserito esiste già.',
-            'nome.required' => 'Il nome è obbligatorie',
-            'cognome.required' => 'Il cognome è obbligatorio',
-            'data_nascita.required' => 'La data di nascita è obbligatoria',
-            'luogo_nascita.required' => 'IL luogo di nascita è obbligatorio',
-            'sesso.required' => 'Il sesso della persona è obbligatorio',
-        ]);
-        //        $existing  = PopolazioneNomadelfia::presente()->where('nominativo', "", $request->input('nominativo'));
-        //        if ($existing->count() > 0) {
-        //            return redirect(route('nomadelfia.persone.inserimento'))->withError("Il nominativo inserito è già assegnato alla persona  $existing->nome $existing->cognome ($existing->data_nascita). Usare un altro nominativo.");
-        //        }
-
-        $persona = Persona::create(
-            [
-                'nominativo' => $request->input('nominativo'),
-                'sesso' => $request->input('sesso'),
-                'nome' => $request->input('nome'),
-                'cognome' => $request->input('cognome'),
-                'provincia_nascita' => $request->input('luogo_nascita'),
-                'data_nascita' => $request->input('data_nascita'),
-                'id_arch_pietro' => 0,
-            ]
-        );
-        $res = $persona->save();
-        if ($res) {
-            return redirect(route('nomadelfia.persone.inserimento.entrata.scelta',
-                ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
-        } else {
-            return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
-        }
-    }
 
     public function insertPersonaInternaView(Request $request, $idPersona)
     {
@@ -414,7 +312,7 @@ class PersoneController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)

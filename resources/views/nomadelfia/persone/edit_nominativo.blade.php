@@ -4,32 +4,11 @@
 
 @include('partials.header', ['title' => 'Modifica Nominativo'])
 <div class="row justify-content-md-center">
-    <!-- <div class="col-md-8">
-    <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >      
-    {{ csrf_field() }}
-        <div class="form-group row">
-          <label for="inputPassword" class="col-md-3 col-form-label">Nominativo Attuale:</label>
-          <div class="col-md-4">
-          <input type="text" class="form-control" name="nominativo" value="{{old('nominativo') ? old('nominativo'): $persona->nominativo}}">
-          </div>
-
-            <button type="submit" class="btn btn-success col-md-2 " name="operazione" value="modifica">Salva</button>
-        </div>
-        <div class="form-group row">
-          <label for="inputPassword" class="col-md-3 col-form-label">Nuovo Nominativo:</label>
-          <div class="col-md-4">
-          <input type="text" class="form-control" name="nuovonominativo" value="{{old('nuovonominativo')}}">
-          </div>
-             <button type="submit" class="btn btn-success col-md-2 " name="operazione" value="nuovo">Cambia</button>
-        </div>       
-      </form>
-    </div> -->
-
     <div class="col-md-4">
       <div class="card">
           <h5 class="card-header">Modifica nominativo attuale</h5>
           <div class="card-body">
-          <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >      
+          <form class="form" method="PUT" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >
             {{ csrf_field() }}
               <div class="form-group">
                 <label for="exampleInputEmail1">Nominativo attuale</label>

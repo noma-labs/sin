@@ -2,6 +2,7 @@
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleActi
 it('can_insert_persona', function () {
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersoneController::class, 'insertDatiAnagrafici']),
+    $this->post(action([PersonaAnagraficaController::class, 'store']),
         [
             'nominativo' => 'my-name',
             'nome' => 'name',
@@ -32,7 +33,7 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
     $act->execute($persona, $data_entrata, $gruppo);
 
     login();
-    $this->post(action([PersoneController::class, 'insertDatiAnagrafici']),
+    $this->post(action([PersonaAnagraficaController::class, 'store']),
         [
             'nominativo' => $persona->nominativo,
             'nome' => 'name',

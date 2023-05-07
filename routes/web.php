@@ -7,6 +7,8 @@ use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
+use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -72,12 +74,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
     // PERSONA
     Route::get('persone', [PersoneController::class, 'index'])->name('nomadelfia.persone');
+    Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento');
+    Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento.initial');
+    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.dettaglio');
+    Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('nomadelfia.persone.delete');
 
-    Route::get('persone/inserimento/initial', [PersoneController::class, 'insertInitialView'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento');
-    Route::post('persone/inserimento/initial', [PersoneController::class, 'insertInitial'])->name('nomadelfia.persone.inserimento.initial');
-
-    Route::get('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagraficiView'])->name('nomadelfia.persone.inserimento.anagrafici');
-    Route::post('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagrafici'])->name('nomadelfia.persone.inserimento.anagrafici.confirm');
+    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('nomadelfia.persone.inserimento.anagrafici');
+    Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('nomadelfia.persone.inserimento.anagrafici.confirm');
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
     Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
@@ -91,9 +94,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/submit',
         [PersoneController::class, 'searchPersonaSubmit'])->name('nomadelfia.persone.ricerca.submit');
 
-    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->name('nomadelfia.persone.dettaglio')->middleware('can:popolazione.persona.visualizza');
-    Route::delete('persone/{idPersona}', [PersoneController::class, 'rimuovi'])->name('nomadelfia.persone.rimuovi'); //middleware('permission:cliente-visualizza')
-
     // persona popolazione
     Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
 
@@ -105,12 +105,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersoneController::class, 'assegnaNumeroElenco'])->name('nomadelfia.persone.numelenco.modifica.view');
     Route::post('persone/{idPersona}/anagrafica/modifica',
         [PersoneController::class, 'assegnaNumeroElencoConfirm'])->name('nomadelfia.persone.numelenco.confirm');
-    Route::get('persone/{idPersona}/nominativo/modifica',
-        [PersoneController::class, 'modificaNominativo'])->name('nomadelfia.persone.nominativo.modifica.view');
-    Route::post('persone/{idPersona}/nominativo/modifica',
-        [PersoneController::class, 'modificaNominativoConfirm'])->name('nomadelfia.persone.nominativo.modifica');
-    Route::post('persone/{idPersona}/nominativo/assegna',
-        [PersoneController::class, 'assegnaNominativoConfirm'])->name('nomadelfia.persone.nominativo.assegna');
+
+    Route::get('persone/{idPersona}/nominativo',
+        [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.modifica.view');
+    Route::put('persone/{idPersona}/nominativo',
+        [PersonaNominativoController::class, 'update'])->name('nomadelfia.persone.nominativo.modifica');
+    Route::post('persone/{idPersona}/nominativo',
+        [PersonaNominativoController::class, 'store'])->name('nomadelfia.persone.nominativo.assegna');
 
     Route::post('persone/{idPersona}/status',
         [PersoneController::class, 'modficaStatus'])->name('nomadelfia.persone.status.modifica');
@@ -491,7 +492,7 @@ Route::group(['prefix' => 'archiviodocumenti', 'namespace' => 'App\ArchivioDocum
     Route::get('/etichette/export', 'ArchivioDocumentiController@esporta')->name('libri.etichette.esporta');
 
     Route::delete('/etichette/delete',
-        'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.rimuovi');
+        'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.delete');
     Route::post('/etichette/aggiungi',
         'ArchivioDocumentiController@aggiungi')->name('archiviodocumenti.etichette.aggiungi');
 
