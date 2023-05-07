@@ -123,7 +123,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
     }
 
-
     public function search()
     {
         return view('nomadelfia.persone.search');
