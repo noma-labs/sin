@@ -9,6 +9,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
+use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -101,17 +102,18 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
     Route::post('persone/{idPersona}/anagrafica/modifica/confirm',
         [PersoneController::class, 'modificaDatiAnagraficiConfirm'])->name('nomadelfia.persone.anagrafica.modifica.confirm');
-    Route::get('persone/{idPersona}/numelenco/assegna',
-        [PersoneController::class, 'assegnaNumeroElenco'])->name('nomadelfia.persone.numelenco.modifica.view');
-    Route::post('persone/{idPersona}/anagrafica/modifica',
-        [PersoneController::class, 'assegnaNumeroElencoConfirm'])->name('nomadelfia.persone.numelenco.confirm');
+
+    Route::get('persone/{idPersona}/numelenco',
+        [PersonaNumeroElencoController::class, 'edit'])->name('nomadelfia.persone.numelenco.modifica.view');
+    Route::put('persone/{idPersona}/numelenco',
+        [PersonaNumeroElencoController::class, 'update'])->name('nomadelfia.persone.numelenco.confirm');
 
     Route::get('persone/{idPersona}/nominativo',
         [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.modifica.view');
     Route::put('persone/{idPersona}/nominativo',
-        [PersonaNominativoController::class, 'update'])->name('nomadelfia.persone.nominativo.modifica');
+        [PersonaNominativoController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.modifica');
     Route::post('persone/{idPersona}/nominativo',
-        [PersonaNominativoController::class, 'store'])->name('nomadelfia.persone.nominativo.assegna');
+        [PersonaNominativoController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.assegna');
 
     Route::post('persone/{idPersona}/status',
         [PersoneController::class, 'modficaStatus'])->name('nomadelfia.persone.status.modifica');

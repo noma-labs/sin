@@ -8,7 +8,8 @@
       <div class="card">
           <h5 class="card-header">Modifica nominativo attuale</h5>
           <div class="card-body">
-          <form class="form" method="PUT" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >
+          <form class="form" method="POST" action="{{ route('nomadelfia.persone.nominativo.modifica', ['idPersona' =>$persona->id]) }}" >
+            @method("PUT")
             {{ csrf_field() }}
               <div class="form-group">
                 <label for="exampleInputEmail1">Nominativo attuale</label>
