@@ -3,7 +3,6 @@
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
-use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;

@@ -3,7 +3,6 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
