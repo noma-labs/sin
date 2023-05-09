@@ -70,7 +70,8 @@ AS select `db_nomadelfia`.`persone`.`id` AS `persona_id`,
            where ((`persone_patenti`.`numero_patente` is not null) and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))
        ) AS `cliente_con_patente`
 from `db_nomadelfia`.`persone`
-where `db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 180 year_month) ;
+join `db_nomadelfia`.`popolazione` on `db_nomadelfia`.`popolazione`.`persona_id` = `db_nomadelfia`.`persone`.`id`
+where `db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 180 year_month) and popolazione.data_uscita IS NULL;
 
 --
 -- Indici per le tabelle scaricate
