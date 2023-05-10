@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersoneController;
+use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -10,6 +10,13 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+
+it('can show the form to enter a person', function () {
+    login();
+    $persona = Persona::factory()->minorenne()->maschio()->create();
+    $this->get(action([PersonaEntrataController::class, 'create'], ['idPersona' => $persona->id]))
+        ->assertSuccessful();
+});
 
 it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
     $persona = Persona::factory()->minorenne()->maschio()->create();
@@ -23,13 +30,13 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
 
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'tipologia' => 'minorenne_accolto',
             'data_entrata' => $data_entrata,
             'famiglia_id' => $famiglia->id,
         ]);
-    //            ->assertSee("inserita correttamente.");
+    //            ->assertSee("inserita correttamente.");Controllers
 
     $persona = Persona::findOrFail($persona->id);
     $figlio = Posizione::perNome('figlio');
@@ -60,7 +67,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
     $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
 
     login();
-    $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'tipologia' => 'minorenne_famiglia',
             'data_entrata' => $data_entrata,
@@ -95,7 +102,7 @@ it('entrata_persona_dalla_nascita', function () {
 
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'tipologia' => 'dalla_nascita',
             'famiglia_id' => $famiglia->id,
@@ -125,7 +132,7 @@ it('entrata_maggiorenne_single', function () {
     $celibe = Stato::perNome('celibe');
 
     login();
-    $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'tipologia' => 'maggiorenne_single',
             'gruppo_id' => $gruppo->id,
@@ -156,7 +163,7 @@ it('entrata_maggiorenne_sposato', function () {
     $ospite = Posizione::perNome('ospite');
 
     login();
-    $this->post(action([PersoneController::class, 'insertPersonaInterna'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'tipologia' => 'maggiorenne_famiglia',
             'gruppo_id' => $gruppo->id,

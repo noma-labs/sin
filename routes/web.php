@@ -9,6 +9,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
+use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
@@ -88,9 +89,8 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('nomadelfia.persone.anagrafica.edit');
     Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('nomadelfia.persone.anagrafica.update');
 
-    // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
-    Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name('nomadelfia.persone.inserimento.entrata.scelta');
+    Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
+    Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('nomadelfia.persone.inserimento.entrata.scelta');
 
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('nomadelfia.persone.uscita');

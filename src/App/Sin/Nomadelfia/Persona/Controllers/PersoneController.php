@@ -60,7 +60,7 @@ class PersoneController extends CoreBaseController
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
-                return redirect(route('nomadelfia.persone.create.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
+                return redirect(route('nomadelfia.persone.anagrafica.create'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
         }
     }
@@ -154,58 +154,6 @@ class PersoneController extends CoreBaseController
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSError("Errore dureante l'aggiornamente dello stato dii $persona->nominativo.");
         }
-    }
-
-
-    public function insertPersonaInternaView(Request $request, $idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-
-        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
-    }
-
-    // Inserisci la persona come persona interna in Nomadelfia.
-    public function insertPersonaInterna(EntrataPersonaRequest $request, $idPersona)
-    {
-        $request->validated();
-
-        $persona = Persona::findOrFail($idPersona);
-        $data_entrata = $request->input('data_entrata');
-        if ($request->exists('gruppo_id')) {
-            $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-        }
-        if ($request->exists('famiglia_id')) {
-            $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-        }
-
-        switch ($request->tipologia) {
-            case 'dalla_nascita':
-                $action = app(EntrataDallaNascitaAction::class);
-                $action->execute($persona, $famiglia);
-                break;
-            case 'minorenne_accolto':
-                $action = app(EntrataMinorenneAccoltoAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
-                break;
-            case 'minorenne_famiglia':
-                $action = app(EntrataMinorenneConFamigliaAction::class);
-                $action->execute($persona, $data_entrata, $famiglia);
-                break;
-            case 'maggiorenne_single':
-                $action = app(EntrataMaggiorenneSingleAction::class);
-                $action->execute($persona, $data_entrata, $gruppoFamiliare);
-                break;
-            case 'maggiorenne_famiglia':
-                $act = app(EntrataMaggiorenneConFamigliaAction::class);
-                $act->execute($persona, $data_entrata, $gruppoFamiliare);
-                break;
-            default:
-                return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
-
-        }
-
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)
