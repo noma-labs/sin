@@ -8,6 +8,7 @@ use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
@@ -89,7 +90,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
     Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name('nomadelfia.persone.inserimento.entrata.scelta');
 
-    Route::post('persone/{idPersona}/decesso', [PersoneController::class, 'decesso'])->name('nomadelfia.persone.decesso');
+    Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersoneController::class, 'uscita'])->name('nomadelfia.persone.uscita');
 
     Route::get('persone/ricerca/test',
