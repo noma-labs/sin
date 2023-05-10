@@ -5,7 +5,6 @@ namespace Tests\Http\Controllers;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;

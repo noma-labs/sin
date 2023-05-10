@@ -2,14 +2,11 @@
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
-use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-
 
 it('stores a new decesso', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -21,7 +18,7 @@ it('stores a new decesso', function () {
 
     $this->post(action([PersonaDecessoController::class, 'store'], ['idPersona' => $persona->id]),
         [
-            'data_decesso' => $data_decesso
+            'data_decesso' => $data_decesso,
         ])
         ->assertRedirect()
         ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));

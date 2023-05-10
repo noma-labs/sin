@@ -12,13 +12,13 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Illuminate\Http\Request;
 
 class PersonaEntrataController extends CoreBaseController
 {
     public function create($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
     }
 
@@ -62,7 +62,6 @@ class PersonaEntrataController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
-
 }

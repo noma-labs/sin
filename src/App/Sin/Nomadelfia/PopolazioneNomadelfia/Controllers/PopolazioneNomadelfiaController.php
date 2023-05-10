@@ -5,8 +5,6 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
@@ -15,7 +13,6 @@ use Spatie\Activitylog\Models\Activity;
 
 class PopolazioneNomadelfiaController extends CoreBaseController
 {
-
     public function show()
     {
         return view('nomadelfia.popolazione.show');

@@ -103,7 +103,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/uscita/{uscita}/modifica',
         [PersoneController::class, 'updateDataUscitaNomadelfia'])->name('nomadelfia.persone.datauscita.modifica');
 
-
     Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('nomadelfia.persone.numelenco.modifica.view');
     Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('nomadelfia.persone.numelenco.confirm');
 
@@ -193,7 +192,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('famiglie/create', [FamiglieController::class, 'createConfirm'])->name('nomadelfia.famiglie.create.confirm');
     Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('nomadelfia.famiglia.dettaglio');
     Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name('nomadelfia.famiglia.aggiorna');
-
 
     // TODO FamigliaUscitaController@store
     Route::post('famiglie/{id}/uscita', [FamiglieController::class, 'uscita'])->name('nomadelfia.famiglie.uscita');

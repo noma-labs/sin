@@ -2,7 +2,6 @@
 
 namespace App\AdminSys\Http;
 
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Models\Role;

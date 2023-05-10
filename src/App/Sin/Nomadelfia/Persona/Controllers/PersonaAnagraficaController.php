@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class PersonaAnagraficaController extends CoreBaseController
 {
-
     public function edit($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
     }
 
@@ -93,5 +93,4 @@ class PersonaAnagraficaController extends CoreBaseController
             return redirect(route('nomadelfia.persone.create'))->withError("Errore. Persona $persona->nominativo non inserita.");
         }
     }
-
 }
