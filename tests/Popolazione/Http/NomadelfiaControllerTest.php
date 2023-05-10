@@ -6,6 +6,7 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -17,13 +18,13 @@ it('only_admin_can_see_nomadelfia_system', function () {
     $this->withExceptionHandling();
 
     $this
-        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->get(action([PopolazioneSummaryController::class, 'index']))
         ->assertForbidden();
 
     login();
 
     $this
-        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->get(action([PopolazioneSummaryController::class, 'index']))
         ->assertSuccessful();
 });
 
@@ -33,7 +34,7 @@ it('show_popolazione_summary', function () {
     login();
 
     $this
-        ->get(action([PopolazioneNomadelfiaController::class, 'index']))
+        ->get(action([PopolazioneSummaryController::class, 'index']))
         ->assertSuccessful()
         ->assertSee('Gestione Popolazione')
         ->assertSee('Gestione Famiglie')

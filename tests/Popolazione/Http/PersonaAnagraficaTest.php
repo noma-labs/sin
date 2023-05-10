@@ -2,11 +2,28 @@
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-it('can_edit_dati_anagrafici_persona', function () {
+
+it('shows form to create persona', function () {
+    login();
+    $this->get(action([PersonaAnagraficaController::class, 'create']))
+        ->assertSuccessful();
+});
+
+it('shows form to edit anagrafica', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    login();
+    $this->get(action([PersonaAnagraficaController::class, 'edit'], ['idPersona' => $persona->id]))
+        ->assertSuccessful();
+});
+
+it('can update anagrafica', function () {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    login();
 
     $newName = 'My-name';
     $newSurname = 'My-surnema';
@@ -14,8 +31,7 @@ it('can_edit_dati_anagrafici_persona', function () {
     $newLuogo = 'my-luogo';
     $newSesso = 'F';
     $newbiografia = 'Sono nato e morto';
-    login();
-    $this->post(action([PersoneController::class, 'modificaDatiAnagraficiConfirm'], ['idPersona' => $persona->id]),
+    $this->put(action([PersonaAnagraficaController::class, 'update'], ['idPersona' => $persona->id]),
         [
             'nome' => $newName,
             'cognome' => $newSurname,
@@ -34,4 +50,19 @@ it('can_edit_dati_anagrafici_persona', function () {
     $this->assertEquals($newName, $p->nome);
     $this->assertEquals($newNascita, $p->data_nascita);
     $this->assertEquals($newbiografia, $p->biografia);
+});
+
+it('can insert a persona', function () {
+    login();
+    $this->withoutExceptionHandling();
+    $this->post(action([PersonaAnagraficaController::class, 'store']),
+        [
+            'nominativo' => 'my-name',
+            'nome' => 'name',
+            'cognome' => 'my-surname',
+            'data_nascita' => '2022-10-10',
+            'luogo_nascita' => 'Grosseto',
+            'sesso' => 'M',
+        ])
+        ->assertRedirect();
 });

@@ -1,4 +1,4 @@
-<form class="form" method="POST" action="{{ route('nomadelfia.persone.inserimento.entrata.scelta', ['idPersona' =>$persona->id])}}">
+<form class="form" method="POST" action="{{ route('nomadelfia.persone.create.entrata.scelta', ['idPersona' =>$persona->id])}}">
     {{ csrf_field() }}
     <persona-entrata
             api-nomadelfia-famiglie="{{route('api.nomadeflia.famiglie')}}"

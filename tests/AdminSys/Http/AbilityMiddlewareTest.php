@@ -3,6 +3,7 @@
 namespace App\AdminSys\Http;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Models\Role;
 
@@ -28,11 +29,11 @@ it('logged_in_user_return_unhautorize', function () {
 });
 
 it('loged_in_user_can_view_index', function () {
-    $this->get(action([PopolazioneNomadelfiaController::class, 'index']))->assertForbidden();
+    $this->get(action([PopolazioneSummaryController::class, 'index']))->assertForbidden();
 
     $utente = Role::findByName('super-admin')->users()->first();
 
     login($utente);
 
-    $this->get(action([PopolazioneNomadelfiaController::class, 'index']))->assertSuccessful();
+    $this->get(action([PopolazioneSummaryController::class, 'index']))->assertSuccessful();
 });

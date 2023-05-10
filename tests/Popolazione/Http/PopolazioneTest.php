@@ -4,24 +4,17 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
-it('can_insert_persona', function () {
+
+it('show index of nomadelfia', function () {
     login();
-    $this->withoutExceptionHandling();
-    $this->post(action([PersonaAnagraficaController::class, 'store']),
-        [
-            'nominativo' => 'my-name',
-            'nome' => 'name',
-            'cognome' => 'my-surname',
-            'data_nascita' => '2022-10-10',
-            'luogo_nascita' => 'Grosseto',
-            'sesso' => 'M',
-        ])
-        ->assertRedirect();
+    $this->get(action([PopolazioneSummaryController::class, 'index']))
+        ->assertSuccessful();
 });
 
 it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function () {

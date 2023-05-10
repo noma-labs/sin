@@ -8,7 +8,7 @@
   <!-- Dati anagrafici -->
   <div class="col-md-4 offset-md-4">
     <h4>Dati Anagrafici</h4>
-    <form method="POST" action="{{route('nomadelfia.persone.inserimento.anagrafici.confirm')}}">
+    <form method="POST" action="{{route('nomadelfia.persone.anagrafica.store')}}">
       {{ csrf_field() }}
       <div class="form-group row">
         <label for="fornominativo" class="col-sm-6 col-form-label">Nominativo:</label>

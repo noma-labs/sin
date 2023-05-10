@@ -13,6 +13,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
@@ -71,17 +72,18 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function () {
-    Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
+    Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
 
     // PERSONA
-    Route::get('persone', [PersoneController::class, 'index'])->name('nomadelfia.persone');
-    Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento');
-    Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento.initial');
+    Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.create');
+    Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.store');
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.dettaglio');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('nomadelfia.persone.delete');
 
-    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('nomadelfia.persone.inserimento.anagrafici');
-    Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('nomadelfia.persone.inserimento.anagrafici.confirm');
+    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('nomadelfia.persone.anagrafica.create');
+    Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('nomadelfia.persone.anagrafica.store');
+    Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('nomadelfia.persone.anagrafica.edit');
+    Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('nomadelfia.persone.anagrafica.update');
 
     // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
     Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
@@ -98,10 +100,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     // persona popolazione
     Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
 
-    Route::get('persone/{idPersona}/anagrafica/modifica',
-        [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
-    Route::post('persone/{idPersona}/anagrafica/modifica/confirm',
-        [PersoneController::class, 'modificaDatiAnagraficiConfirm'])->name('nomadelfia.persone.anagrafica.modifica.confirm');
 
     Route::get('persone/{idPersona}/numelenco',
         [PersonaNumeroElencoController::class, 'edit'])->name('nomadelfia.persone.numelenco.modifica.view');

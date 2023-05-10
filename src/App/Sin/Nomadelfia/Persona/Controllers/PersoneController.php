@@ -21,13 +21,6 @@ use Illuminate\Http\Request;
 
 class PersoneController extends CoreBaseController
 {
-    public function index()
-    {
-        $effettivi = PopolazioneNomadelfia::effettivi();
-        $postulanti = PopolazioneNomadelfia::postulanti();
-
-        return view('nomadelfia.persone.effettivi', compact('effettivi', 'postulanti'));
-    }
 
     public function show($idPersona)
     {
@@ -61,13 +54,13 @@ class PersoneController extends CoreBaseController
         ]);
 
         if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
-                ->orWhere('nome', 'like', '%'.$request->persona.'%')
-                ->orWhere('cognome', 'like', '%'.$request->persona);
+            $personeEsistenti = Persona::where('nominativo', 'like', '%' . $request->persona . '%')
+                ->orWhere('nome', 'like', '%' . $request->persona . '%')
+                ->orWhere('cognome', 'like', '%' . $request->persona);
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
-                return redirect(route('nomadelfia.persone.inserimento.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
+                return redirect(route('nomadelfia.persone.create.anagrafici'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
         }
     }
@@ -116,12 +109,6 @@ class PersoneController extends CoreBaseController
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
     }
 
-    public function modificaDatiAnagrafici($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-
-        return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
-    }
 
     public function search()
     {
@@ -143,7 +130,7 @@ class PersoneController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -151,20 +138,20 @@ class PersoneController extends CoreBaseController
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $msgSearch = $msgSearch . 'Nominativo=' . $nominativo;
                 $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch.' Nome='.$nome;
+                $msgSearch = $msgSearch . ' Nome=' . $nome;
                 $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $msgSearch = $msgSearch . ' Cognome=' . $cognome;
                 $orderBy = 'nome';
             }
 
@@ -173,7 +160,7 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
+                $msgSearch = $msgSearch . ' Data Nascita' . $criterio_nascita . $nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -202,36 +189,6 @@ class PersoneController extends CoreBaseController
         }
     }
 
-    public function modificaDatiAnagraficiConfirm(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'nome' => 'required',
-            'cognome' => 'required',
-            'datanascita' => 'required',
-            //            "luogonascita" => "required",
-            'sesso' => 'required',
-        ], [
-            'nome.required' => 'Il nome è obbligatorie',
-            'cognome.required' => 'Il cognome è obbligatorio',
-            'datanascita.required' => 'La data di nascita è obbligatoria',
-            //            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
-            'sesso.required' => 'Il sesso è obbligatorio',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->nome = $request->nome;
-        $persona->cognome = $request->cognome;
-        $persona->data_nascita = $request->datanascita;
-        $persona->provincia_nascita = $request->luogonascita;
-        $persona->sesso = $request->sesso;
-        $persona->biografia = $request->get('biografia', $persona->biografia);
-        if ($persona->save()) {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
-        }
-    }
 
     public function insertPersonaInternaView(Request $request, $idPersona)
     {
@@ -281,7 +238,7 @@ class PersoneController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function insertFamiglia(Request $request, $idPersona)

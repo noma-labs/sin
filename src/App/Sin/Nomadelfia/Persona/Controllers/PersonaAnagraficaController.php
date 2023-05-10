@@ -8,6 +8,44 @@ use Illuminate\Http\Request;
 
 class PersonaAnagraficaController extends CoreBaseController
 {
+
+    public function edit($idPersona)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
+    }
+
+    public function update(Request $request, $idPersona)
+    {
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'cognome' => 'required',
+            'datanascita' => 'required',
+            //            "luogonascita" => "required",
+            'sesso' => 'required',
+        ], [
+            'nome.required' => 'Il nome è obbligatorie',
+            'cognome.required' => 'Il cognome è obbligatorio',
+            'datanascita.required' => 'La data di nascita è obbligatoria',
+            //            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
+            'sesso.required' => 'Il sesso è obbligatorio',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $persona->nome = $request->nome;
+        $persona->cognome = $request->cognome;
+        $persona->data_nascita = $request->datanascita;
+        $persona->provincia_nascita = $request->luogonascita;
+        $persona->sesso = $request->sesso;
+        $persona->biografia = $request->get('biografia', $persona->biografia);
+        if ($persona->save()) {
+            return redirect()->route('nomadelfia.persone.dettaglio',
+                ['idPersona' => $idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+        } else {
+            return redirect()->route('nomadelfia.persone.dettaglio',
+                ['idPersona' => $idPersona])->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+        }
+    }
+
     public function create()
     {
         return view('nomadelfia.persone.inserimento.dati_anagrafici');
@@ -52,7 +90,8 @@ class PersonaAnagraficaController extends CoreBaseController
             return redirect(route('nomadelfia.persone.inserimento.entrata.scelta',
                 ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
         } else {
-            return redirect(route('nomadelfia.persone.inserimento'))->withError("Errore. Persona $persona->nominativo non inserita.");
+            return redirect(route('nomadelfia.persone.create'))->withError("Errore. Persona $persona->nominativo non inserita.");
         }
     }
+
 }
