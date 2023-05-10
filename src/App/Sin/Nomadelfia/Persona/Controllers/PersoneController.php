@@ -134,28 +134,7 @@ class PersoneController extends CoreBaseController
 
         return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
     }
-
-    /**
-     * Aggiorna lo stato di una persona.
-     */
-    public function modficaStatus(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'stato' => 'required',
-        ], [
-            'stato.required' => 'lo stato  è obbligatorie',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->stato = $request->stato;
-        if ($persona->save()) {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSuccess("Stato di $persona->nominativo aggiornato correttamente. ");
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withSError("Errore dureante l'aggiornamente dello stato dii $persona->nominativo.");
-        }
-    }
-
+    
     public function insertFamiglia(Request $request, $idPersona)
     {
         $validatedData = $request->validate([

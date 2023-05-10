@@ -116,9 +116,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/nominativo',
         [PersonaNominativoController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.assegna');
 
-    Route::post('persone/{idPersona}/status',
-        [PersoneController::class, 'modficaStatus'])->name('nomadelfia.persone.status.modifica');
-
     Route::post('persone/{idPersona}/stato/assegna',
         [PersoneController::class, 'assegnaStato'])->name('nomadelfia.persone.stato.assegna');
     Route::get('persone/{idPersona}/stato', [PersoneController::class, 'stato'])->name('nomadelfia.persone.stato');
