@@ -11,6 +11,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
+use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -76,6 +77,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
 
     // PERSONA
+    // TODO: move 'create' and 'store' action into a dedicated controller because they perfrom different actions and not create and store nee pperson
     Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.create');
     Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.store');
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.dettaglio');
@@ -91,7 +93,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name('nomadelfia.persone.inserimento.entrata.scelta');
 
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
-    Route::post('persone/{idPersona}/uscita', [PersoneController::class, 'uscita'])->name('nomadelfia.persone.uscita');
+    Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('nomadelfia.persone.uscita');
 
     Route::get('persone/ricerca/test',
         [PersoneController::class, 'search'])->name('nomadelfia.persone.ricerca'); //->middleware('permission:cliente-visualizza')
