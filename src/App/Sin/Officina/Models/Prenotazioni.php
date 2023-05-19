@@ -49,7 +49,7 @@ class Prenotazioni extends Model
 
     public function cliente()
     {
-        return $this->hasOne(ViewClienti::class, 'id', 'cliente_id');
+        return $this->hasOne(Persona::class, 'id', 'cliente_id');
     }
 
     public function veicolo()

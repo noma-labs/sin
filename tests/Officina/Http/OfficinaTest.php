@@ -12,6 +12,13 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 
+it('shows the booked veichiles', function () {
+    login();
+    $this->withoutExceptionHandling();
+    $this->get(action([PrenotazioniController::class, 'prenotazioni']))
+        ->assertSuccessful();
+});
+
 it('administrator_can_create_prenotazione', function () {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
