@@ -64,7 +64,7 @@ class Prenotazioni extends Model
      */
     public function dataOraPartenza()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza . ' ' . $this->ora_partenza);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
 
     /**
@@ -74,7 +74,7 @@ class Prenotazioni extends Model
      */
     public function dataOraArrivo()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo . ' ' . $this->ora_arrivo);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
 
     /**

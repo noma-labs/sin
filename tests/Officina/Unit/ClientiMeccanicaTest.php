@@ -2,7 +2,6 @@
 
 namespace Tests\Officina\Unit;
 
-
 use App\Officina\Models\ViewClienti;
 
 it("includes 'altro cliente' in the clients", function () {
