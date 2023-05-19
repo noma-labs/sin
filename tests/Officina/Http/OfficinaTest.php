@@ -26,7 +26,6 @@ it('shows the search view of prenotazioni', function () {
         ->assertSuccessful();
 });
 
-
 it('administrator_can_create_prenotazione', function () {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
