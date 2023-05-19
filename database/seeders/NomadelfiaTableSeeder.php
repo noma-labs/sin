@@ -357,7 +357,7 @@ class NomadelfiaTableSeeder extends Seeder
 
     protected function insertAltroCliente(): self
     {
-        $nominativo = "Altro Cliente";
+        $nominativo = 'Altro Cliente';
         DB::connection('db_nomadelfia')->table('persone')->insert(
             [
                 'nominativo' => $nominativo,
@@ -366,7 +366,7 @@ class NomadelfiaTableSeeder extends Seeder
                 'cognome' => 'Cliente',
                 'provincia_nascita' => 'Grosseto',
                 'data_nascita' => '1900-01-01',
-                'id_arch_pietro' => 0
+                'id_arch_pietro' => 0,
             ]
         );
 

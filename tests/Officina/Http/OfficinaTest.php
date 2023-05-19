@@ -3,7 +3,6 @@
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
-use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
