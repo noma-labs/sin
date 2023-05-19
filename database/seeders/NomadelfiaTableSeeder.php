@@ -17,6 +17,8 @@ class NomadelfiaTableSeeder extends Seeder
 {
     public function run()
     {
+        $this->insertAltroCliente();
+
         $this->createGruppiFamiliari()
             ->createAziende()
             ->createPosizioni()
@@ -349,6 +351,29 @@ class NomadelfiaTableSeeder extends Seeder
             ['nome' => 'Mailing list'],
         ];
         DB::connection('db_nomadelfia')->table('incarichi')->insert($data);
+
+        return $this;
+    }
+
+    protected function insertAltroCliente(): self
+    {
+        $nominativo = "Altro Cliente";
+        DB::connection('db_nomadelfia')->table('persone')->insert(
+            [
+                'nominativo' => $nominativo,
+                'sesso' => 'M',
+                'nome' => 'Altro',
+                'cognome' => 'Cliente',
+                'provincia_nascita' => 'Grosseto',
+                'data_nascita' => '1900-01-01',
+                'id_arch_pietro' => 0
+            ]
+        );
+
+        // By convention "Altro Cliente" has 0 as id and it is used to when the person is not present into the system.
+        $flight = Persona::where('nominativo', $nominativo)->first();
+        $flight->id = 0;
+        $flight->save();
 
         return $this;
     }
