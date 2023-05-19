@@ -24,17 +24,16 @@ class PrenotazioniController extends CoreBaseController
     public function searchView()
     {
         $usi = Uso::all();
-
-        return view('officina.prenotazioni.search', compact('usi'));
+        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
+        return view('officina.prenotazioni.search', compact('clienti', 'usi'));
     }
 
     public function search(Request $request)
     {
-        // return $request->all();
         $msgSearch = ' ';
         // $orderBy = "titolo";
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return Redirect::back()->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -42,26 +41,26 @@ class PrenotazioniController extends CoreBaseController
             if ($request->filled('cliente_id')) {
                 $cliente = ViewClienti::findOrFail($request->input('cliente_id'));
                 $q->where('cliente_id', $cliente->id);
-                $msgSearch = $msgSearch.' Cliente='.$cliente->nominativo;
+                $msgSearch = $msgSearch . ' Cliente=' . $cliente->nominativo;
                 // $orderBy = "titolo";
             }
             if ($request->filled('veicolo_id')) {
                 $veicolo = Veicolo::withTrashed()->findOrFail($request->input('veicolo_id'));
                 $q->where('veicolo_id', $veicolo->id);
-                $msgSearch = $msgSearch.' Veicolo='.$veicolo->nome;
+                $msgSearch = $msgSearch . ' Veicolo=' . $veicolo->nome;
                 $orderBy = 'titolo';
             }
             if ($request->filled('meccanico_id')) {
                 $meccanico = ViewMeccanici::findorFail($request->input('meccanico_id'));
                 $q->where('meccanico_id', $meccanico->persona_id);
-                $msgSearch = $msgSearch.' Meccanico='.$meccanico->nominativo;
+                $msgSearch = $msgSearch . ' Meccanico=' . $meccanico->nominativo;
                 $orderBy = 'titolo';
             }
 
             if ($request->filled('uso_id')) {
                 $uso = Uso::findOrFail($request->input('uso_id'));
                 $q->where('uso_id', $uso->ofus_iden);
-                $msgSearch = $msgSearch.' Uso='.$uso->ofus_nome;
+                $msgSearch = $msgSearch . ' Uso=' . $uso->ofus_nome;
                 // $orderBy = "titolo";
             }
             $cdp = $request->input('criterio_data_partenza', null);
@@ -73,15 +72,15 @@ class PrenotazioniController extends CoreBaseController
             if ($ds) { // ricerca tutte le prenotazione che contengono in singolo giorno
                 $q->where('data_arrivo', '>=', $ds);
                 $q->where('data_partenza', '<=', $ds);
-                $msgSearch = $msgSearch." Data Partenza  <= $ds  <=  Data arrivo";
+                $msgSearch = $msgSearch . " Data Partenza  <= $ds  <=  Data arrivo";
             } else {
                 if ($cdp and $dp) {
                     $q->where('data_partenza', $cdp, $dp);
-                    $msgSearch = $msgSearch.' Data Partenza'.$cdp.$dp;
+                    $msgSearch = $msgSearch . ' Data Partenza' . $cdp . $dp;
                 }
                 if ($cda and $da) {
                     $q->where('data_arrivo', $cda, $da);
-                    $msgSearch = $msgSearch.' Data Partenza'.$cda.$da;
+                    $msgSearch = $msgSearch . ' Data Partenza' . $cda . $da;
                 }
             }
 
@@ -94,8 +93,8 @@ class PrenotazioniController extends CoreBaseController
             //   $msgSearch= $msgSearch." Data Partenza".$request->input('criterio_data_arrivo').$request->input('data_arrivo');
             // }
             if ($request->filled('note')) {
-                $q->where('note', 'LIKE', '%'.$request->note.'%');
-                $msgSearch = $msgSearch.' Note='.$request->note;
+                $q->where('note', 'LIKE', '%' . $request->note . '%');
+                $msgSearch = $msgSearch . ' Note=' . $request->note;
             }
         });
 
@@ -105,8 +104,9 @@ class PrenotazioniController extends CoreBaseController
             ->orderBy('ora_arrivo', 'asc')
             ->paginate(10);
         $usi = Uso::all();
+        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
 
-        return view('officina.prenotazioni.search_results', compact('usi', 'prenotazioni', 'msgSearch'));
+        return view('officina.prenotazioni.search_results', compact('clienti', 'usi', 'prenotazioni', 'msgSearch'));
     }
 
     public function prenotazioni(Request $request)

@@ -3,7 +3,11 @@
   <div class="row">
       <div class="col-md-3">
          <label class="control-label">Cliente </label>
-          <autocomplete placeholder="Inserisci nominativo..." name="cliente_id" url="{{route('api.officina.clienti')}}"></autocomplete>
+          <select class="form-control" id="cliente" name="cliente_id">
+           @foreach ($clienti as $cliente)
+             <option value="{{ $cliente->id }}"  @if (old('cliente_id') == $cliente->id) selected @endif > {{ $cliente->nominativo }} </option>
+           @endforeach
+         </select>
       </div>
 
     <div class="col-md-3">
