@@ -19,6 +19,13 @@ it('shows the booked veichiles', function () {
         ->assertSuccessful();
 });
 
+it('shows the search view of prenotazioni', function () {
+    login();
+    $this->withoutExceptionHandling();
+    $this->get(action([PrenotazioniController::class, 'searchView']))
+        ->assertSuccessful();
+});
+
 it('administrator_can_create_prenotazione', function () {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
