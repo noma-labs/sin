@@ -3,6 +3,7 @@
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
+use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
@@ -11,6 +12,13 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
+
+it('shows the booked veichiles', function () {
+    login();
+    $this->withoutExceptionHandling();
+    $this->get(action([PrenotazioniController::class, 'prenotazioni']))
+        ->assertSuccessful();
+});
 
 it('administrator_can_create_prenotazione', function () {
     $v = Veicolo::factory()->create();
