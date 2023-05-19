@@ -363,7 +363,7 @@ class ApiController extends CoreBaseController
      */
     public function gomme()
     {
-        $gomme = TipoGomme::all();
+        $gomme = TipoGomme::orderBy('codice')->get();
         $result = [];
         foreach ($gomme as $gomma) {
             $result[] = ['codice' => $gomma->codice.' '.$gomma->note, 'id' => $gomma->id];

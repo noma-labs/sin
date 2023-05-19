@@ -24,13 +24,13 @@ class PrenotazioniController extends CoreBaseController
     public function searchView()
     {
         $usi = Uso::all();
+        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
 
-        return view('officina.prenotazioni.search', compact('usi'));
+        return view('officina.prenotazioni.search', compact('clienti', 'usi'));
     }
 
     public function search(Request $request)
     {
-        // return $request->all();
         $msgSearch = ' ';
         // $orderBy = "titolo";
 
@@ -105,15 +105,16 @@ class PrenotazioniController extends CoreBaseController
             ->orderBy('ora_arrivo', 'asc')
             ->paginate(10);
         $usi = Uso::all();
+        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
 
-        return view('officina.prenotazioni.search_results', compact('usi', 'prenotazioni', 'msgSearch'));
+        return view('officina.prenotazioni.search_results', compact('clienti', 'usi', 'prenotazioni', 'msgSearch'));
     }
 
     public function prenotazioni(Request $request)
     {
         $day = $request->get('day', 'oggi');
 
-        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get(); // select from view client order by nominativo asc;
+        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
