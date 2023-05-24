@@ -157,7 +157,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/aziende/{id}/modifica',
         [PersonaAziendeController::class, 'update'])->name('nomadelfia.persone.aziende.modifica');
 
-
     Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.persone.famiglie');
     Route::post('persona/{idPersona}/famiglie', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.personae.famiglie.create');
     Route::post('persona/{idPersona}/famiglie/sposta', [PersonaFamigliaController::class, 'spostaInNuovaFamiglia'])->name('nomadelfia.personae.famiglie.sposta');

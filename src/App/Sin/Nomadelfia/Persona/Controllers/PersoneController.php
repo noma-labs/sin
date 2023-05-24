@@ -3,8 +3,6 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
@@ -199,5 +197,4 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
-
 }
