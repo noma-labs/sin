@@ -2,22 +2,16 @@
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use App\Nomadelfia\Persona\Controllers\PersoneController;
 
 it('can render the gruppofamiliare index page', function () {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $this->get(action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id]))
+    $this->get(action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
@@ -32,12 +26,12 @@ it('can update the date of a gruppo familiare', function () {
 
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->put(action([PersonaGruppoFamiliareController::class, 'update'], ["idPersona" => $persona->id, "id" => $gruppo->id]),
+    $this->put(action([PersonaGruppoFamiliareController::class, 'update'], ['idPersona' => $persona->id, 'id' => $gruppo->id]),
         [
             'current_data_entrata' => $data_entrata,
             'new_data_entrata' => $new_data_entrata,
         ])
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ["idPersona" => $persona->id]));
+        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
 it('can assign a persona to a gruppo familiare', function () {

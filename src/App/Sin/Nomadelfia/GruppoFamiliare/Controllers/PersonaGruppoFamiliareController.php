@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Http\Request;
 
 class PersonaGruppoFamiliareController
@@ -13,6 +11,7 @@ class PersonaGruppoFamiliareController
     {
         $persona = Persona::findOrFail($idPersona);
         $attuale = $persona->gruppofamiliareAttuale();
+
         return view('nomadelfia.persone.gruppofamiliare.show', compact('persona', 'attuale'));
     }
 
@@ -31,9 +30,10 @@ class PersonaGruppoFamiliareController
 
         if ($persona->updateDataInizioGruppoFamiliare($id, $request->current_data_entrata, $request->new_data_entrata)) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id])
+                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
+
         return redirect()->back()->withError('Impossibile aggiornare la data di inizio del gruppo familiare.');
     }
 
