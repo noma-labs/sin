@@ -4,7 +4,6 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
 class PersoneController extends CoreBaseController
@@ -119,7 +118,4 @@ class PersoneController extends CoreBaseController
 
         return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
     }
-
-
-
 }

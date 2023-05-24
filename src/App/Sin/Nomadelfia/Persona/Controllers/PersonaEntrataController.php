@@ -67,7 +67,6 @@ class PersonaEntrataController extends CoreBaseController
             [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
-
     public function update(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
