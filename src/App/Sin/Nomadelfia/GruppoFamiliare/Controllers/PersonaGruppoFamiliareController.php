@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nomadelfia\Persona\Controllers;
+namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -36,4 +36,35 @@ class PersonaGruppoFamiliareController
         }
         return redirect()->back()->withError('Impossibile aggiornare la data di inizio del gruppo familiare.');
     }
+
+    public function store(Request $request, $idPersona)
+    {
+        $validatedData = $request->validate([
+            'gruppo_id' => 'required',
+            'data_entrata' => 'required|date',
+        ], [
+            'gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
+            'data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
+
+        return redirect()
+            ->action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id])
+            ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
+    }
+
+    public function delete($idPersona, $id)
+    {
+        $persona = Persona::findOrFail($idPersona);
+        $res = $persona->gruppifamiliari()->detach($id);
+        if ($res) {
+            return redirect()
+                ->action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id])
+                ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
+        } else {
+            return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+        }
+    }
+
 }

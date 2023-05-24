@@ -336,21 +336,6 @@ class PersoneController extends CoreBaseController
     }
 
 
-    /**
-     * Elimina la persona da un gruppo familiare
-     *
-     * @author Davide Neri
-     */
-    public function eliminaGruppofamiliare(Request $request, $idPersona, $id)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->gruppifamiliari()->detach($id);
-        if ($res) {
-            return redirect()->back()->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
-        } else {
-            return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
-        }
-    }
 
     /**
      * Conclude la persona in un gruppo familiare settando la data di uscita e lo stato = 0.

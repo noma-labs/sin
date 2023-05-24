@@ -243,7 +243,7 @@ class Persona extends Model
         /*if ($this->isCapoFamiglia()){
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
         }*/
-        if (is_string($gruppo)) {
+        if (is_string($gruppo) || is_int($gruppo)) {
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
         }
         if ($gruppo instanceof GruppoFamiliare) {

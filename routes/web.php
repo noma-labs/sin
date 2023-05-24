@@ -17,7 +17,7 @@ use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
-use App\Nomadelfia\Persona\Controllers\PersonaGruppoFamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
@@ -139,12 +139,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     // TODO PersonaGruppoFamiliare@index|store|update|delete| concludi, sposta => ??|
     Route::get('persone/{idPersona}/gruppofamiliare',
         [PersonaGruppoFamiliareController::class, 'index'])->name('nomadelfia.persone.gruppofamiliare');
-    Route::post('persone/{idPersona}/gruppofamiliare/assegna',
-        [PersoneController::class, 'assegnaGruppofamiliare'])->name('nomadelfia.persone.gruppo.assegna');
-    Route::put('persone/{idPersona}/gruppofamiliare/{id}/modifica',
+    Route::post('persone/{idPersona}/gruppofamiliare',
+        [PersonaGruppoFamiliareController::class, 'store'])->name('nomadelfia.persone.gruppo.assegna');
+    Route::put('persone/{idPersona}/gruppofamiliare/{id}',
         [PersonaGruppoFamiliareController::class, 'update'])->name('nomadelfia.persone.gruppo.modifica');
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}',
-        [PersoneController::class, 'eliminaGruppofamiliare'])->name('nomadelfia.persone.gruppo.elimina');
+        [PersonaGruppoFamiliareController::class, 'delete'])->name('nomadelfia.persone.gruppo.elimina');
+
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi',
         [PersoneController::class, 'concludiGruppofamiliare'])->name('nomadelfia.persone.gruppo.concludi');
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta',
