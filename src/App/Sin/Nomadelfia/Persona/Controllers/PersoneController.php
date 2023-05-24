@@ -156,7 +156,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
-
     public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
