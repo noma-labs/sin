@@ -2,15 +2,10 @@
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 it('can render the posizioni index page of a person', function () {
@@ -25,10 +20,10 @@ it('add new posizione to a person', function () {
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data = Carbon::now()->toDateString();
     $this->post(action([PersonaPosizioneController::class, 'store'], ['idPersona' => $persona->id]),
-    [
-        'posizione_id' => Posizione::all()->random()->id,
-        'data_inizio' => $data,
-    ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
+        [
+            'posizione_id' => Posizione::all()->random()->id,
+            'data_inizio' => $data,
+        ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 
 });
 
@@ -40,10 +35,10 @@ it('update posizione of a person', function () {
     $data_fine = Carbon::now()->toDateString();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->put(action([PersonaPosizioneController::class, 'update'], ['idPersona' => $persona->id, "id"=>$posizione->id]),
+    $this->put(action([PersonaPosizioneController::class, 'update'], ['idPersona' => $persona->id, 'id' => $posizione->id]),
         [
             'current_data_inizio' => $data_inizio,
-            'new_data_inizio' => Carbon::now()->addDay()->toDateString()
+            'new_data_inizio' => Carbon::now()->addDay()->toDateString(),
         ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 
 });
@@ -56,7 +51,7 @@ it('deletes a posizione of a person', function () {
     $data_fine = Carbon::now()->toDateString();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->delete(action([PersonaPosizioneController::class, 'delete'], ['idPersona' => $persona->id, "id"=>$posizione->id]))
+    $this->delete(action([PersonaPosizioneController::class, 'delete'], ['idPersona' => $persona->id, 'id' => $posizione->id]))
         ->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 
 });
@@ -69,11 +64,10 @@ it('concludes a posizione of a person', function () {
     $data_fine = Carbon::now()->toDateString();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->post(action([PersonaPosizioneConcludiController::class, 'store'], ['idPersona' => $persona->id, "id"=>$posizione->id]),
-    [
-        'data_inizio' => $data_inizio,
-        'data_fine' => $data_fine,
-    ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
+    $this->post(action([PersonaPosizioneConcludiController::class, 'store'], ['idPersona' => $persona->id, 'id' => $posizione->id]),
+        [
+            'data_inizio' => $data_inizio,
+            'data_fine' => $data_fine,
+        ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 
 });
-

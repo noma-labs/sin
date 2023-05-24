@@ -156,7 +156,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
-
     public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
@@ -184,8 +183,6 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
-
-
 
     /**
      * Ritorna la view per la modifica dello stato assegnato ad una persona

@@ -3,9 +3,7 @@
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Http\Request;
 
 class PersonaPosizioneConcludiController extends CoreBaseController
@@ -32,5 +30,4 @@ class PersonaPosizioneConcludiController extends CoreBaseController
             return redirect()->back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
         }
     }
-
 }
