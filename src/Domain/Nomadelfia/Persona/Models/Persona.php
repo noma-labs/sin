@@ -603,7 +603,7 @@ class Persona extends Model
     */
     public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null)
     {
-        if (is_string($stato)) {
+        if (is_string($stato) | is_int($stato)) {
             $stato = Stato::findOrFail($stato);
         }
         if ($stato instanceof Stato) {

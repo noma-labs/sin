@@ -19,6 +19,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
+use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
@@ -125,11 +126,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}/popolazione', [PersonaPopolazioneController::class, 'index'])->name('nomadelfia.persone.popolazione');
 
     // TODO: PersonaStatoController@store|edit|update
-    Route::post('persone/{idPersona}/stato/assegna',
-        [PersoneController::class, 'assegnaStato'])->name('nomadelfia.persone.stato.assegna');
-    Route::get('persone/{idPersona}/stato', [PersoneController::class, 'stato'])->name('nomadelfia.persone.stato');
-    Route::post('persone/{idPersona}/stato/{id}/modifica',
-        [PersoneController::class, 'modificaStato'])->name('nomadelfia.persone.stato.modifica');
+    Route::get('persone/{idPersona}/stato', [PersonaStatoController::class, 'index'])->name('nomadelfia.persone.stato');
+    Route::post('persone/{idPersona}/stato',[PersonaStatoController::class, 'store'])->name('nomadelfia.persone.stato.assegna');
+    Route::put('persone/{idPersona}/stato/{id}', [PersonaStatoController::class, 'update'])->name('nomadelfia.persone.stato.modifica');
 
     Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('nomadelfia.persone.posizione');
     Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('nomadelfia.persone.posizione.assegna');

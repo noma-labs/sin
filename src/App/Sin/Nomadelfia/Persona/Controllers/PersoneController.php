@@ -148,53 +148,5 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 
-    /**
-     * Ritorna la view per la modifica dello stato assegnato ad una persona
-     *
-     * @author Davide Neri
-     */
-    public function stato($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.stato.show', compact('persona'));
-    }
-
-    /**
-     * Assegna un nuovo stato ad una persona.
-     *
-     * @author Davide Neri
-     */
-    public function assegnaStato(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'stato_id' => 'required',
-            'data_inizio' => 'required|date',
-        ], [
-            'stato_id.required' => 'Lo stato è obbligatorio',
-            'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
-
-        return redirect()->back()->withSuccess("Stato assegnato a $persona->nominativo con successo");
-    }
-
-    public function modificaStato(Request $request, $idPersona, $id)
-    {
-        $validatedData = $request->validate([
-            'data_fine' => 'date',
-            'data_inizio' => 'required|date',
-            'stato' => 'required',
-        ], [
-            'data_fine.date' => 'La data fine posizione dee essere una data valida',
-            'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
-            'stato.required' => 'Lo stato attuale è obbligatorio.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->stati()->updateExistingPivot($id,
-            ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
-
-        return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
-    }
 }

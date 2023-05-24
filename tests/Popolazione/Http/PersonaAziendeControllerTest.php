@@ -31,16 +31,15 @@ it('can assign a person to a azienda', function () {
 it('can edit an azienda of a person', function () {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $data_inizio = Carbon::now()->addDay()->toDatestring();
+    $data_inizio = Carbon::now()->toDatestring();
     $azienda = Azienda::all()->random();
     $persona->assegnaLavoratoreAzienda($azienda->id, $data_inizio);
 
     $this->post(action([PersonaAziendeController::class, 'update'], ['idPersona' => $persona->id, 'id' => $azienda->id]),
         [
             'mansione' => 'LAVORATORE',
-            'data_entrata' => Carbon::now()->addDay()->toDatestring(),
+            'data_entrata' => $data_inizio,
             'stato' => 1,
-
         ])
         ->assertRedirect(route('nomadelfia.persone.aziende', ['idPersona' => $persona->id]));
 });

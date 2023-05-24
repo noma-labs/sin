@@ -27,6 +27,7 @@
                 <my-modal modal-title="Modifica Stato attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
                     <form class="form" method="POST"  id="formPersonaStatoModifica" action="{{ route('nomadelfia.persone.stato.modifica', ['idPersona' =>$persona->id, 'id'=>$persona->statoAttuale()->id]) }}" >      
+                        @method("PUT")
                         {{ csrf_field() }}
                         <div class="form-group row">
                           <label for="staticEmail" class="col-sm-6 col-form-label">Stato attuale</label>
