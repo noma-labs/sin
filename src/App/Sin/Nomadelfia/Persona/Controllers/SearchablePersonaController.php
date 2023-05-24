@@ -4,8 +4,6 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
 class SearchablePersonaController extends CoreBaseController
@@ -14,7 +12,6 @@ class SearchablePersonaController extends CoreBaseController
     {
         return view('nomadelfia.persone.search');
     }
-
 
     public function show(Request $request)
     {

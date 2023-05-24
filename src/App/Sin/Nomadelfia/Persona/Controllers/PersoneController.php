@@ -60,5 +60,4 @@ class PersoneController extends CoreBaseController
 
         return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");
     }
-
 }
