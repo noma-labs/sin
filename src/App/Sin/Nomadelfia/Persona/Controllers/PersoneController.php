@@ -120,33 +120,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
     }
 
-    public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
-    {
-        $validatedData = $request->validate([
-            'data_entrata' => 'date',
-        ], [
-            'data_entrata.date' => 'La data entrata non è valida.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
-            $entrata)->update(['data_entrata' => $request->data_entrata]);
-
-        return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
-    }
-
-    public function updateDataUscitaNomadelfia(Request $request, $idPersona, $uscita)
-    {
-        $validatedData = $request->validate([
-            'data_uscita' => 'date',
-        ], [
-            'data_uscita.date' => 'La data uscita non è valida.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_uscita',
-            $uscita)->update(['data_uscita' => $request->data_uscita]);
-
-        return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
-    }
 
 
 }

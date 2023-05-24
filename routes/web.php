@@ -101,16 +101,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
     Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('nomadelfia.persone.inserimento.entrata.scelta');
 
-    // TODO: PersonaEntrataController@update
     Route::post('persone/{idPersona}/entrata/{entrata}/modifica',
-        [PersoneController::class, 'updateDataEntrataNomadelfia'])->name('nomadelfia.persone.dataentrata.modifica');
+        [PersonaEntrataController::class, 'update'])->name('nomadelfia.persone.dataentrata.modifica');
 
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('nomadelfia.persone.uscita');
 
-    // TODO: PersonaUscitaController@update
-    Route::post('persone/{idPersona}/uscita/{uscita}/modifica',
-        [PersoneController::class, 'updateDataUscitaNomadelfia'])->name('nomadelfia.persone.datauscita.modifica');
+    Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('nomadelfia.persone.datauscita.modifica');
 
     Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('nomadelfia.persone.numelenco.modifica.view');
     Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('nomadelfia.persone.numelenco.confirm');

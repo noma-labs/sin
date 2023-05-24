@@ -5,6 +5,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
 class PersonaUscitaController extends CoreBaseController
@@ -26,5 +27,18 @@ class PersonaUscitaController extends CoreBaseController
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
 
+    }
+    public function update(Request $request, $idPersona, $uscita)
+    {
+        $validatedData = $request->validate([
+            'data_uscita' => 'date',
+        ], [
+            'data_uscita.date' => 'La data uscita non è valida.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_uscita',
+            $uscita)->update(['data_uscita' => $request->data_uscita]);
+
+        return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 }

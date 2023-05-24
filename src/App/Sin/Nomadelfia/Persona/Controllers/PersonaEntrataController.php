@@ -12,6 +12,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Http\Request;
 
 class PersonaEntrataController extends CoreBaseController
 {
@@ -63,5 +65,20 @@ class PersonaEntrataController extends CoreBaseController
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+    }
+
+
+    public function update(Request $request, $idPersona, $entrata)
+    {
+        $validatedData = $request->validate([
+            'data_entrata' => 'date',
+        ], [
+            'data_entrata.date' => 'La data entrata non è valida.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
+            $entrata)->update(['data_entrata' => $request->data_entrata]);
+
+        return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }
 }
