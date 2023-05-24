@@ -147,6 +147,4 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
-
-
 }
