@@ -3,6 +3,7 @@
 use App\Biblioteca\Controllers\LibriController;
 use App\Biblioteca\Controllers\LibriPrestitiController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
+use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
@@ -151,7 +152,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('nomadelfia.persone.gruppo.sposta');
 
     // TODO PersonaAzienda@index|store|update
-    Route::get('persone/{idPersona}/aziende', [PersoneController::class, 'aziende'])->name('nomadelfia.persone.aziende');
+    Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('nomadelfia.persone.aziende');
     Route::post('persone/{idPersona}/aziende/assegna',
         [PersoneController::class, 'assegnaAzienda'])->name('nomadelfia.persone.aziende.assegna');
     Route::post('persone/{idPersona}/aziende/{id}/modifica',

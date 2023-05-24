@@ -200,12 +200,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-    public function aziende(Request $request, $idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-
-        return view('nomadelfia.persone.aziende.show', compact('persona'));
-    }
 
     public function incarichi(Request $request, $idPersona)
     {
