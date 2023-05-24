@@ -44,9 +44,9 @@ class PersoneController extends CoreBaseController
         ]);
 
         if ($request->filled('persona')) {
-            $personeEsistenti = Persona::where('nominativo', 'like', '%'.$request->persona.'%')
-                ->orWhere('nome', 'like', '%'.$request->persona.'%')
-                ->orWhere('cognome', 'like', '%'.$request->persona);
+            $personeEsistenti = Persona::where('nominativo', 'like', '%' . $request->persona . '%')
+                ->orWhere('nome', 'like', '%' . $request->persona . '%')
+                ->orWhere('cognome', 'like', '%' . $request->persona);
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
             } else {
@@ -86,7 +86,7 @@ class PersoneController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -94,20 +94,20 @@ class PersoneController extends CoreBaseController
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");
-                $msgSearch = $msgSearch.'Nominativo='.$nominativo;
+                $msgSearch = $msgSearch . 'Nominativo=' . $nominativo;
                 $orderBy = 'nominativo';
             }
             if ($request->nome) {
                 $nome = $request->nome;
                 $q->where('nome', 'like', "$nome%");
-                $msgSearch = $msgSearch.' Nome='.$nome;
+                $msgSearch = $msgSearch . ' Nome=' . $nome;
                 $orderBy = 'nominativo';
             }
 
             if ($request->filled('cognome')) {
                 $cognome = $request->cognome;
                 $q->where('cognome', 'like', "$cognome%");
-                $msgSearch = $msgSearch.' Cognome='.$cognome;
+                $msgSearch = $msgSearch . ' Cognome=' . $cognome;
                 $orderBy = 'nome';
             }
 
@@ -116,7 +116,7 @@ class PersoneController extends CoreBaseController
 
             if ($criterio_nascita and $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
-                $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
+                $msgSearch = $msgSearch . ' Data Nascita' . $criterio_nascita . $nascita;
             }
         });
         $persone = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -335,18 +335,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-    /**
-     * Ritorna la view per la modifica del gruppo familiare di una persona
-     *
-     * @author Davide Neri
-     */
-    public function gruppoFamiliare($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        $attuale = $persona->gruppofamiliareAttuale();
-
-        return view('nomadelfia.persone.gruppofamiliare.show', compact('persona', 'attuale'));
-    }
 
     /**
      * Elimina la persona da un gruppo familiare
@@ -438,26 +426,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
-    public function modificaGruppofamiliare(Request $request, $idPersona, $id)
-    {
-        $validatedData = $request->validate([
-            'current_data_entrata' => 'required|date',
-            'new_data_entrata' => 'required|date',
-        ], [
-            'current_data_entrata.date' => 'La data corrente di entrata non è una data valida',
-            'current_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
-            'new_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
-            'new_data_entrata.date' => 'La data corrente di entrata non è una data valida',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-
-        if ($persona->updateDataInizioGruppoFamiliare($id, $request->current_data_entrata,
-            $request->new_data_entrata)) {
-            return redirect()->back()->withSuccess("Gruppo familiare $persona->nominativo  modificato con successo.");
-        }
-
-        return redirect()->back()->withError('Impossibile aggiornare la data di nizio del gruppo familiare.');
-    }
 
     public function aziende(Request $request, $idPersona)
     {
