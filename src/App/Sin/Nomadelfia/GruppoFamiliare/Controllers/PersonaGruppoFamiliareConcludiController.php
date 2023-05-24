@@ -30,6 +30,4 @@ class PersonaGruppoFamiliareConcludiController
             return redirect()->back()->withError("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
         }
     }
-
-
 }

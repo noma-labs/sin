@@ -335,8 +335,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-
-
     /**
      * Assegna un nuovo gruppo familiare ad una persona
      *
@@ -356,7 +354,6 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
-
 
     public function aziende(Request $request, $idPersona)
     {
