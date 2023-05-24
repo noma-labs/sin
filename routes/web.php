@@ -21,6 +21,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Officina\Controllers\PatentiController;
@@ -120,8 +121,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('persone/ricerca/test', [PersoneController::class, 'search'])->name('nomadelfia.persone.ricerca');
     Route::get('persone/ricerca/submit', [PersoneController::class, 'searchPersonaSubmit'])->name('nomadelfia.persone.ricerca.submit');
 
-    // TODO: PersonaPopolazioneController@index
-    Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
+    Route::get('persone/{idPersona}/popolazione', [PersonaPopolazioneController::class, 'index'])->name('nomadelfia.persone.popolazione');
 
     // TODO: PersonaStatoController@store|edit|update
     Route::post('persone/{idPersona}/stato/assegna',

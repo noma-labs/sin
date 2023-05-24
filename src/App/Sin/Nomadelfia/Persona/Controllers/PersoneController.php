@@ -122,24 +122,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.search_results', ['persone' => $persone, 'msgSearch' => $msgSearch]);
     }
 
-    public function insertFamiglia(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'famiglia_id' => 'required',
-            'posizione_famiglia' => 'required',
-        ], [
-            'famiglia_id.required' => 'La famiglia è obbligatoria',
-            'posizione_famiglia.required' => 'La posizione nella famiglia è obbligatoria',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-
-        $persona->famiglie()->attach($request->famiglia_id,
-            ['stato' => '1', 'posizione_famiglia' => $request->posizione_famiglia]);
-
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess("Persona $persona->nominativo inserita correttamente.");
-    }
-
     public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
         $validatedData = $request->validate([
@@ -341,13 +323,5 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 
-    public function popolazione($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
 
-        $attuale = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNull('data_uscita')->first();
-        $storico = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNotNull('data_uscita')->orderby('data_entrata')->get();
-
-        return view('nomadelfia.persone.popolazione.show', compact('persona', 'attuale', 'storico'));
-    }
 }
