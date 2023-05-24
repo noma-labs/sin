@@ -11,6 +11,7 @@ class PersonaStatoController extends CoreBaseController
     public function index($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.stato.show', compact('persona'));
     }
 
@@ -30,7 +31,6 @@ class PersonaStatoController extends CoreBaseController
             ->action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
-
 
     public function update(Request $request, $idPersona, $id)
     {
