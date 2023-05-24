@@ -322,6 +322,4 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
-
-
 }
