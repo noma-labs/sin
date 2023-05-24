@@ -44,14 +44,13 @@ it('can assign a persona to a gruppo familiare', function () {
 
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->post(action([PersonaGruppoFamiliareController::class, 'store'], ["idPersona" => $persona->id]),
+    $this->post(action([PersonaGruppoFamiliareController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'gruppo_id' => GruppoFamiliare::all()->random()->id,
             'data_entrata' => $new_data_entrata,
         ])
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ["idPersona" => $persona->id]));
+        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
-
 
 it('can delete a persona from a gruppo familiare', function () {
     login();
@@ -61,7 +60,6 @@ it('can delete a persona from a gruppo familiare', function () {
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, $gruppo);
 
-
-    $this->delete(action([PersonaGruppoFamiliareController::class, 'delete'], ["idPersona" => $persona->id,  "id" => $gruppo->id]))
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ["idPersona" => $persona->id]));
+    $this->delete(action([PersonaGruppoFamiliareController::class, 'delete'], ['idPersona' => $persona->id,  'id' => $gruppo->id]))
+        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });

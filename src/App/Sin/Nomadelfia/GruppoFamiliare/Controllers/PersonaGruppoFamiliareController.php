@@ -50,7 +50,7 @@ class PersonaGruppoFamiliareController
         $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id])
+            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -60,11 +60,10 @@ class PersonaGruppoFamiliareController
         $res = $persona->gruppifamiliari()->detach($id);
         if ($res) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ["idPersona" => $persona->id])
+                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         } else {
             return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
         }
     }
-
 }

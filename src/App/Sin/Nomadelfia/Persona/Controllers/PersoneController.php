@@ -335,7 +335,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-
     /**
      * Conclude la persona in un gruppo familiare settando la data di uscita e lo stato = 0.
      *
