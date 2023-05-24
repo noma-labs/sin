@@ -185,8 +185,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 
-
-
     /**
      * Ritorna la view per la modifica dello stato assegnato ad una persona
      *
@@ -237,25 +235,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-    /**
-     * Assegna un nuovo gruppo familiare ad una persona
-     *
-     * @author Davide Neri
-     */
-    public function assegnaGruppofamiliare(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'gruppo_id' => 'required',
-            'data_entrata' => 'required|date',
-        ], [
-            'gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
-            'data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
-
-        return redirect()->back()->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
-    }
 
     public function aziende(Request $request, $idPersona)
     {

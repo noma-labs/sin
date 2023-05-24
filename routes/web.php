@@ -129,7 +129,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/stato/{id}/modifica',
         [PersoneController::class, 'modificaStato'])->name('nomadelfia.persone.stato.modifica');
 
-    // TODO: PersonaPosizioneController@index|store|update|delete|concludi => ??
     Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('nomadelfia.persone.posizione');
     Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('nomadelfia.persone.posizione.assegna');
     Route::put('persone/{idPersona}/posizione/{id}',[PersonaPosizioneController::class, 'update'])->name('nomadelfia.persone.posizione.modifica');
