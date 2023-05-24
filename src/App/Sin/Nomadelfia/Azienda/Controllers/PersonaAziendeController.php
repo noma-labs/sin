@@ -3,6 +3,8 @@
 namespace App\Nomadelfia\Azienda\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
+use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
@@ -15,4 +17,60 @@ class PersonaAziendeController extends CoreBaseController
         return view('nomadelfia.persone.aziende.show', compact('persona'));
     }
 
+    public function store(Request $request, $idPersona)
+    {
+        $validatedData = $request->validate([
+            'azienda_id' => 'required',
+            'mansione' => 'required',
+            'data_inizio' => 'required|date',
+        ], [
+            'azienda_id.required' => "L'azienda è obbligatoria",
+            'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
+            'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
+
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $azienda = Azienda::findOrFail($request->azienda_id);
+        if (strcasecmp($request->mansione, 'lavoratore') == 0) {
+            $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
+            return redirect()
+                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+        }
+        if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
+            $persona->assegnaResponsabileAzienda($azienda, $request->data_inizio);
+
+            return redirect()
+                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
+        }
+
+        return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
+    }
+
+
+    public function update(Request $request, $idPersona, $id)
+    {
+        $validatedData = $request->validate([
+            'mansione' => 'required',
+            'data_entrata' => 'required|date',
+            'stato' => 'required',
+        ], [
+            'data_entrata.required' => "La data di inizio dell'azienda è obbligatoria.",
+            'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
+            'stato.required' => 'Lo stato è obbligatoria.',
+        ]);
+        $persona = Persona::findOrFail($idPersona);
+        $azienda = Azienda::findOrFail($id);
+        $persona->aziende()->updateExistingPivot($id, [
+            'stato' => $request->stato,
+            'data_inizio_azienda' => $request->data_entrata,
+            'data_fine_azienda' => $request->data_uscita,
+            'mansione' => $request->mansione,
+        ]);
+
+        return redirect()
+            ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+            ->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
+    }
 }

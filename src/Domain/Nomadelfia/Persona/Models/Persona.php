@@ -375,7 +375,7 @@ class Persona extends Model
 
     public function assegnaAzienda($azienda, $data_inizio, $mansione)
     {
-        if (is_string($azienda)) {
+        if (is_string($azienda) || is_int($azienda)) {
             $azienda = Azienda::findOrFail($azienda);
         }
         if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
