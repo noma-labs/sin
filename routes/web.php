@@ -157,14 +157,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/aziende/{id}/modifica',
         [PersonaAziendeController::class, 'update'])->name('nomadelfia.persone.aziende.modifica');
 
-    Route::post('incarichi', [IncarichiController::class, 'insert'])->name('nomadelfia.incarichi.aggiungi');
-    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name('nomadelfia.incarichi.delete');
-    Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('nomadelfia.incarichi.assegna');
-    Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('nomadelfia.incarichi.persone.elimina');
-
-    // TODO PersonaIncarichi@store|update
-    Route::post('persone/{idPersona}/incarichi/assegna', [PersoneController::class, 'assegnaIncarico'])->name('nomadelfia.persone.incarichi.assegna');
-    Route::post('persone/{idPersona}/incarichi/{id}/modifica', [PersoneController::class, 'modificaIncarico'])->name('nomadelfia.persone.incarichi.modifica');
 
     Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.persone.famiglie');
     Route::post('persona/{idPersona}/famiglie', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.personae.famiglie.create');
@@ -174,9 +166,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('aziende', [AziendeController::class, 'view'])->name('nomadelfia.aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('nomadelfia.aziende.edit');
 
-    // INcarichi
+    // Incarichi
     Route::get('incarichi', [IncarichiController::class, 'view'])->name('nomadelfia.incarichi.index');
     Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('nomadelfia.incarichi.edit');
+    Route::post('incarichi', [IncarichiController::class, 'insert'])->name('nomadelfia.incarichi.aggiungi');
+    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name('nomadelfia.incarichi.delete');
+    Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('nomadelfia.incarichi.assegna');
+    Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('nomadelfia.incarichi.persone.elimina');
 
     //GRUPPI FAMILIARI
     Route::get('gruppifamiliari', [GruppifamiliariController::class, 'view'])->name('nomadelfia.gruppifamiliari');
