@@ -3,11 +3,9 @@
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
-use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 it('can render the aziende index page of a person', function () {
     login();
@@ -23,7 +21,7 @@ it('can assign a person to a azienda', function () {
     $this->post(action([PersonaAziendeController::class, 'store'], ['idPersona' => $persona->id]),
         [
             'azienda_id' => Azienda::all()->random()->id,
-            'mansione' => "LAVORATORE",
+            'mansione' => 'LAVORATORE',
             'data_inizio' => $data_entrata,
 
         ])
@@ -37,7 +35,7 @@ it('can edit an azienda of a person', function () {
     $azienda = Azienda::all()->random();
     $persona->assegnaLavoratoreAzienda($azienda->id, $data_inizio);
 
-    $this->post(action([PersonaAziendeController::class, 'update'], ['idPersona' => $persona->id, "id"=>$azienda->id]),
+    $this->post(action([PersonaAziendeController::class, 'update'], ['idPersona' => $persona->id, 'id' => $azienda->id]),
         [
             'mansione' => 'LAVORATORE',
             'data_entrata' => Carbon::now()->addDay()->toDatestring(),

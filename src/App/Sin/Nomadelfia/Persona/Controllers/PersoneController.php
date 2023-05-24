@@ -200,7 +200,6 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Stato di  $persona->nominativo  modificato con successo.");
     }
 
-
     public function incarichi(Request $request, $idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
@@ -260,6 +259,4 @@ class PersoneController extends CoreBaseController
 
         return redirect()->back()->withSuccess("Incarico $incarico->nome_azienda di $persona->nominativo  modificata con successo.");
     }
-
-
 }

@@ -3,9 +3,7 @@
 namespace App\Nomadelfia\Azienda\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -14,6 +12,7 @@ class PersonaAziendeController extends CoreBaseController
     public function index($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
+
         return view('nomadelfia.persone.aziende.show', compact('persona'));
     }
 
@@ -33,6 +32,7 @@ class PersonaAziendeController extends CoreBaseController
         $azienda = Azienda::findOrFail($request->azienda_id);
         if (strcasecmp($request->mansione, 'lavoratore') == 0) {
             $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
+
             return redirect()
                 ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
@@ -47,7 +47,6 @@ class PersonaAziendeController extends CoreBaseController
 
         return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
     }
-
 
     public function update(Request $request, $idPersona, $id)
     {
