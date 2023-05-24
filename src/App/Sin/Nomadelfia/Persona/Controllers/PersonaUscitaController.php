@@ -28,6 +28,7 @@ class PersonaUscitaController extends CoreBaseController
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
 
     }
+
     public function update(Request $request, $idPersona, $uscita)
     {
         $validatedData = $request->validate([
