@@ -719,7 +719,7 @@ class Persona extends Model
                 });
             }
         } catch (\Exception $e) {
-            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str(e));
+            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str($e));
         }
 
         return $this;

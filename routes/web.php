@@ -5,6 +5,7 @@ use App\Biblioteca\Controllers\LibriPrestitiController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
+use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
@@ -165,12 +166,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::post('persone/{idPersona}/incarichi/assegna', [PersoneController::class, 'assegnaIncarico'])->name('nomadelfia.persone.incarichi.assegna');
     Route::post('persone/{idPersona}/incarichi/{id}/modifica', [PersoneController::class, 'modificaIncarico'])->name('nomadelfia.persone.incarichi.modifica');
 
-    // TODO PersonaFamiglia@index|store|update
-    Route::get('persone/{idPersona}/famiglie', [PersoneController::class, 'famiglie'])->name('nomadelfia.persone.famiglie');
-    Route::post('persona/{idPersona}/famiglie/create',
-        [PersoneController::class, 'createAndAssignFamiglia'])->name('nomadelfia.personae.famiglie.create');
-    Route::post('persona/{idPersona}/famiglie/sposta',
-        [PersoneController::class, 'spostaInNuovaFamiglia'])->name('nomadelfia.personae.famiglie.sposta');
+    Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.persone.famiglie');
+    Route::post('persona/{idPersona}/famiglie', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.personae.famiglie.create');
+    Route::post('persona/{idPersona}/famiglie/sposta', [PersonaFamigliaController::class, 'spostaInNuovaFamiglia'])->name('nomadelfia.personae.famiglie.sposta');
 
     //AZIENDE
     Route::get('aziende', [AziendeController::class, 'view'])->name('nomadelfia.aziende');
