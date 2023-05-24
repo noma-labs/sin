@@ -3,17 +3,12 @@
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
-use Exception;
 use Illuminate\Http\Request;
 
 class PersonaFamigliaController extends CoreBaseController
 {
-
     public function index($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
@@ -76,5 +71,4 @@ class PersonaFamigliaController extends CoreBaseController
             return redirect()->back()->withError("Impossibile spostare la persona $persona->nominativo nella famiglia");
         }
     }
-
 }
