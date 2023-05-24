@@ -15,6 +15,8 @@ use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
 use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
+use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
+use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
@@ -128,17 +130,12 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersoneController::class, 'modificaStato'])->name('nomadelfia.persone.stato.modifica');
 
     // TODO: PersonaPosizioneController@index|store|update|delete|concludi => ??
-    Route::get('persone/{idPersona}/posizione', [PersoneController::class, 'posizione'])->name('nomadelfia.persone.posizione');
-    Route::post('persone/{idPersona}/posizione/assegna',
-        [PersoneController::class, 'assegnaPosizione'])->name('nomadelfia.persone.posizione.assegna');
-    Route::post('persone/{idPersona}/posizione/{id}/modifica',
-        [PersoneController::class, 'modificaDataInizioPosizione'])->name('nomadelfia.persone.posizione.modifica');
-    Route::delete('persone/{idPersona}/posizione/{id}',
-        [PersoneController::class, 'eliminaPosizione'])->name('nomadelfia.persone.posizione.elimina');
-    Route::put('persone/{idPersona}/posizione/{id}/concludi',
-        [PersoneController::class, 'concludiPosizione'])->name('nomadelfia.persone.posizione.concludi');
+    Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('nomadelfia.persone.posizione');
+    Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('nomadelfia.persone.posizione.assegna');
+    Route::put('persone/{idPersona}/posizione/{id}',[PersonaPosizioneController::class, 'update'])->name('nomadelfia.persone.posizione.modifica');
+    Route::delete('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'delete'])->name('nomadelfia.persone.posizione.elimina');
+    Route::post('persone/{idPersona}/posizione/{id}/concludi',[PersonaPosizioneConcludiController::class, 'store'])->name('nomadelfia.persone.posizione.concludi');
 
-    // TODO PersonaGruppoFamiliare@index|store|update|delete| concludi, sposta => ??|
     Route::get('persone/{idPersona}/gruppofamiliare',
         [PersonaGruppoFamiliareController::class, 'index'])->name('nomadelfia.persone.gruppofamiliare');
     Route::post('persone/{idPersona}/gruppofamiliare',

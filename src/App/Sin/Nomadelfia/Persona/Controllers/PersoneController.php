@@ -156,64 +156,6 @@ class PersoneController extends CoreBaseController
         return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
-    /**
-     * Ritorna la view per la modifica della posizione assegnata ad una persona
-     *
-     * @author Davide Neri
-     */
-    public function posizione($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        $posattuale = $persona->posizioneAttuale();
-        $storico = $persona->posizioniStorico;
-
-        return view('nomadelfia.persone.posizione.show', compact('persona', 'posattuale', 'storico'));
-    }
-
-    /**
-     * Assegna una nuova posizione ad una persona.
-     *
-     * @author Davide Neri
-     */
-    public function assegnaPosizione(Request $request, $idPersona)
-    {
-        $validatedData = $request->validate([
-            'posizione_id' => 'required',
-            'data_inizio' => 'required|date',
-            //"data_fine" => "date",
-        ], [
-            'posizione_id.required' => 'La posizione è obbligatorio',
-            'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
-            // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
-
-        return redirect()->back()->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
-    }
-
-    /**
-     * Modifica la posizione di una persona.
-     *
-     * @author Davide Neri
-     */
-    public function modificaDataInizioPosizione(Request $request, $idPersona, $id)
-    {
-        $validatedData = $request->validate([
-            'current_data_inizio' => 'required',
-            'new_data_inizio' => 'required|date',
-        ], [
-            'new_data_inizio.date' => 'La nuova data di inzio posizione non è una data valida',
-            'new_data_inizio.required' => 'La nuova data di inizio della posizione è obbligatoria.',
-            'current_data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
-            return redirect()->back()->withSuccess("Posizione modificata di $persona->nominativo con successo");
-        }
-
-        return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
-    }
 
     public function updateDataEntrataNomadelfia(Request $request, $idPersona, $entrata)
     {
@@ -243,47 +185,7 @@ class PersoneController extends CoreBaseController
         return redirect()->back()->withSuccess("Data uscita di $persona->nominativo modificata con successo.");
     }
 
-    /**
-     * Elimina una posizione assegnata ad una persona
-     *
-     * @author Davide Neri
-     */
-    public function eliminaPosizione(Request $request, $idPersona, $id)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->posizioni()->detach($id);
-        if ($res) {
-            return redirect()->back()->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
-        } else {
-            return redirect()->back()->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
-        }
-    }
 
-    /**
-     * Conclude una posizione assegnata ad una persona
-     *
-     * @author Davide Neri
-     */
-    public function concludiPosizione(Request $request, $idPersona, $id)
-    {
-        $validatedData = $request->validate([
-            'data_inizio' => 'required|date',
-            'data_fine' => 'required|date|after_or_equal:data_inizio',
-        ], [
-            'data_inizio.date' => 'La data di entrata non è  una data valida',
-            'data_inizio.required' => 'La data di entrata è obbligatoria',
-            'data_fine.date' => 'La data di uscita non è  una data valida',
-            'data_fine.required' => 'La data di uscita  è obbligatoria',
-            'data_fine.after_or_equal' => 'La data di fine posizione non può essere inferiore alla data di inizio',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
-        if ($res) {
-            return redirect()->back()->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
-        } else {
-            return redirect()->back()->withErro("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
-        }
-    }
 
     /**
      * Ritorna la view per la modifica dello stato assegnato ad una persona

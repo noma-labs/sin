@@ -887,7 +887,7 @@ class Persona extends Model
         string $data_inizio,
         string $attuale_data_fine = null
     ) {
-        if (is_string($posizione)) {
+        if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
         if ($posizione instanceof Posizione) {

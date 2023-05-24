@@ -1,6 +1,7 @@
 <my-modal modal-title="Modifica Posizione attuale" button-title="Modifica" button-style="btn-warning my-2">
     <template slot="modal-body-slot">
     <form class="form" method="POST"  id="formPersonaPosizioneModifica{{$persona->id}}" action="{{ route('nomadelfia.persone.posizione.modifica', ['idPersona' =>$persona->id, 'id'=>$id]) }}" >      
+            @method("PUT")
             {{ csrf_field() }}
             <input type="hidden" name="current_data_inizio"  value="{{$data_inizio}}"  />
             <div class="form-group row">
