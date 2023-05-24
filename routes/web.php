@@ -6,6 +6,9 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
@@ -17,7 +20,6 @@ use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
@@ -147,9 +149,9 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersonaGruppoFamiliareController::class, 'delete'])->name('nomadelfia.persone.gruppo.elimina');
 
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi',
-        [PersoneController::class, 'concludiGruppofamiliare'])->name('nomadelfia.persone.gruppo.concludi');
+        [PersonaGruppoFamiliareConcludiController::class, 'store'])->name('nomadelfia.persone.gruppo.concludi');
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta',
-        [PersoneController::class, 'spostaNuovoGruppofamiliare'])->name('nomadelfia.persone.gruppo.sposta');
+        [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('nomadelfia.persone.gruppo.sposta');
 
     // TODO PersonaAzienda@index|store|update
     Route::get('persone/{idPersona}/aziende', [PersoneController::class, 'aziende'])->name('nomadelfia.persone.aziende');
