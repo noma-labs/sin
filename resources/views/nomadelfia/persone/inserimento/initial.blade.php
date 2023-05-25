@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-md-6 offset-md-3">
-  <form method="POST" action="{{route('nomadelfia.persone.inserimento.initial')}}">
+  <form method="POST" action="{{route('nomadelfia.persone.store')}}">
     {{ csrf_field() }}
     <div class="row">
       <div class="col-md-6">

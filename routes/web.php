@@ -3,13 +3,30 @@
 use App\Biblioteca\Controllers\LibriController;
 use App\Biblioteca\Controllers\LibriPrestitiController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
+use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
+use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
+use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
+use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
+use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
+use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
+use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
+use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
+use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
+use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
+use App\Nomadelfia\Persona\Controllers\SearchablePersonaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
@@ -68,154 +85,124 @@ Route::view('/home', 'home')->name('home');
 // ################################################################
 
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controllers'], function () {
-    Route::get('/', [PopolazioneNomadelfiaController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
+    Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia');
 
     // PERSONA
-    Route::get('persone', [PersoneController::class, 'index'])->name('nomadelfia.persone');
+    // TODO: move 'create' and 'store' action into a dedicated controller because they perfrom different actions and not create and store nee pperson
+    Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.create');
+    Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.store');
+    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.dettaglio');
+    Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('nomadelfia.persone.delete');
 
-    Route::get('persone/inserimento/initial', [PersoneController::class, 'insertInitialView'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.inserimento');
-    Route::post('persone/inserimento/initial', [PersoneController::class, 'insertInitial'])->name('nomadelfia.persone.inserimento.initial');
+    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('nomadelfia.persone.anagrafica.create');
+    Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('nomadelfia.persone.anagrafica.store');
+    Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('nomadelfia.persone.anagrafica.edit');
+    Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('nomadelfia.persone.anagrafica.update');
 
-    Route::get('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagraficiView'])->name('nomadelfia.persone.inserimento.anagrafici');
-    Route::post('persone/inserimento/anagrafici', [PersoneController::class, 'insertDatiAnagrafici'])->name('nomadelfia.persone.inserimento.anagrafici.confirm');
-
-    // view per selezionare la tipologia di entrata in nomadelfia (dalla nascita oppure no)
-    Route::get('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInternaView'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
-    Route::post('persone/{idPersona}/entrata/scelta', [PersoneController::class, 'insertPersonaInterna'])->name('nomadelfia.persone.inserimento.entrata.scelta');
-
-    Route::post('persone/{idPersona}/decesso', [PersoneController::class, 'decesso'])->name('nomadelfia.persone.decesso');
-    Route::post('persone/{idPersona}/uscita', [PersoneController::class, 'uscita'])->name('nomadelfia.persone.uscita');
-
-    Route::get('persone/ricerca/test',
-        [PersoneController::class, 'search'])->name('nomadelfia.persone.ricerca'); //->middleware('permission:cliente-visualizza')
-    Route::get('persone/ricerca/submit',
-        [PersoneController::class, 'searchPersonaSubmit'])->name('nomadelfia.persone.ricerca.submit');
-
-    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->name('nomadelfia.persone.dettaglio')->middleware('can:popolazione.persona.visualizza');
-    Route::delete('persone/{idPersona}', [PersoneController::class, 'rimuovi'])->name('nomadelfia.persone.rimuovi'); //middleware('permission:cliente-visualizza')
-
-    // persona popolazione
-    Route::get('persone/{idPersona}/popolazione', [PersoneController::class, 'popolazione'])->name('nomadelfia.persone.popolazione');
-
-    Route::get('persone/{idPersona}/anagrafica/modifica',
-        [PersoneController::class, 'modificaDatiAnagrafici'])->name('nomadelfia.persone.anagrafica.modifica.view');
-    Route::post('persone/{idPersona}/anagrafica/modifica/confirm',
-        [PersoneController::class, 'modificaDatiAnagraficiConfirm'])->name('nomadelfia.persone.anagrafica.modifica.confirm');
-    Route::get('persone/{idPersona}/numelenco/assegna',
-        [PersoneController::class, 'assegnaNumeroElenco'])->name('nomadelfia.persone.numelenco.modifica.view');
-    Route::post('persone/{idPersona}/anagrafica/modifica',
-        [PersoneController::class, 'assegnaNumeroElencoConfirm'])->name('nomadelfia.persone.numelenco.confirm');
-    Route::get('persone/{idPersona}/nominativo/modifica',
-        [PersoneController::class, 'modificaNominativo'])->name('nomadelfia.persone.nominativo.modifica.view');
-    Route::post('persone/{idPersona}/nominativo/modifica',
-        [PersoneController::class, 'modificaNominativoConfirm'])->name('nomadelfia.persone.nominativo.modifica');
-    Route::post('persone/{idPersona}/nominativo/assegna',
-        [PersoneController::class, 'assegnaNominativoConfirm'])->name('nomadelfia.persone.nominativo.assegna');
-
-    Route::post('persone/{idPersona}/status',
-        [PersoneController::class, 'modficaStatus'])->name('nomadelfia.persone.status.modifica');
-
-    Route::post('persone/{idPersona}/stato/assegna',
-        [PersoneController::class, 'assegnaStato'])->name('nomadelfia.persone.stato.assegna');
-    Route::get('persone/{idPersona}/stato', [PersoneController::class, 'stato'])->name('nomadelfia.persone.stato');
-    Route::post('persone/{idPersona}/stato/{id}/modifica',
-        [PersoneController::class, 'modificaStato'])->name('nomadelfia.persone.stato.modifica');
-
-    Route::get('persone/{idPersona}/posizione', [PersoneController::class, 'posizione'])->name('nomadelfia.persone.posizione');
-    Route::post('persone/{idPersona}/posizione/assegna',
-        [PersoneController::class, 'assegnaPosizione'])->name('nomadelfia.persone.posizione.assegna');
-    Route::post('persone/{idPersona}/posizione/{id}/modifica',
-        [PersoneController::class, 'modificaDataInizioPosizione'])->name('nomadelfia.persone.posizione.modifica');
-    Route::delete('persone/{idPersona}/posizione/{id}',
-        [PersoneController::class, 'eliminaPosizione'])->name('nomadelfia.persone.posizione.elimina');
-    Route::put('persone/{idPersona}/posizione/{id}/concludi',
-        [PersoneController::class, 'concludiPosizione'])->name('nomadelfia.persone.posizione.concludi');
+    Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('nomadelfia.persone.inserimento.entrata.scelta.view');
+    Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('nomadelfia.persone.inserimento.entrata.scelta');
 
     Route::post('persone/{idPersona}/entrata/{entrata}/modifica',
-        [PersoneController::class, 'updateDataEntrataNomadelfia'])->name('nomadelfia.persone.dataentrata.modifica');
-    Route::post('persone/{idPersona}/uscita/{uscita}/modifica',
-        [PersoneController::class, 'updateDataUscitaNomadelfia'])->name('nomadelfia.persone.datauscita.modifica');
+        [PersonaEntrataController::class, 'update'])->name('nomadelfia.persone.dataentrata.modifica');
+
+    Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
+    Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('nomadelfia.persone.uscita');
+
+    Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('nomadelfia.persone.datauscita.modifica');
+
+    Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('nomadelfia.persone.numelenco.modifica.view');
+    Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('nomadelfia.persone.numelenco.confirm');
+
+    Route::get('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.modifica.view');
+    Route::put('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.modifica');
+    Route::post('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.persone.nominativo.assegna');
+
+    Route::get('persone/ricerca/test', [SearchablePersonaController::class, 'index'])->name('nomadelfia.persone.ricerca');
+    Route::get('persone/ricerca/submit', [SearchablePersonaController::class, 'show'])->name('nomadelfia.persone.ricerca.submit');
+
+    Route::get('persone/{idPersona}/popolazione', [PersonaPopolazioneController::class, 'index'])->name('nomadelfia.persone.popolazione');
+
+    Route::get('persone/{idPersona}/stato', [PersonaStatoController::class, 'index'])->name('nomadelfia.persone.stato');
+    Route::post('persone/{idPersona}/stato', [PersonaStatoController::class, 'store'])->name('nomadelfia.persone.stato.assegna');
+    Route::put('persone/{idPersona}/stato/{id}', [PersonaStatoController::class, 'update'])->name('nomadelfia.persone.stato.modifica');
+
+    Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('nomadelfia.persone.posizione');
+    Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('nomadelfia.persone.posizione.assegna');
+    Route::put('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'update'])->name('nomadelfia.persone.posizione.modifica');
+    Route::delete('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'delete'])->name('nomadelfia.persone.posizione.elimina');
+    Route::post('persone/{idPersona}/posizione/{id}/concludi', [PersonaPosizioneConcludiController::class, 'store'])->name('nomadelfia.persone.posizione.concludi');
 
     Route::get('persone/{idPersona}/gruppofamiliare',
-        [PersoneController::class, 'gruppofamiliare'])->name('nomadelfia.persone.gruppofamiliare');
-    Route::post('persone/{idPersona}/gruppofamiliare/assegna',
-        [PersoneController::class, 'assegnaGruppofamiliare'])->name('nomadelfia.persone.gruppo.assegna');
-
-    Route::post('persone/{idPersona}/gruppofamiliare/{id}/modifica',
-        [PersoneController::class, 'modificaGruppofamiliare'])->name('nomadelfia.persone.gruppo.modifica');
-
+        [PersonaGruppoFamiliareController::class, 'index'])->name('nomadelfia.persone.gruppofamiliare');
+    Route::post('persone/{idPersona}/gruppofamiliare',
+        [PersonaGruppoFamiliareController::class, 'store'])->name('nomadelfia.persone.gruppo.assegna');
+    Route::put('persone/{idPersona}/gruppofamiliare/{id}',
+        [PersonaGruppoFamiliareController::class, 'update'])->name('nomadelfia.persone.gruppo.modifica');
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}',
-        [PersoneController::class, 'eliminaGruppofamiliare'])->name('nomadelfia.persone.gruppo.elimina');
+        [PersonaGruppoFamiliareController::class, 'delete'])->name('nomadelfia.persone.gruppo.elimina');
+
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi',
-        [PersoneController::class, 'concludiGruppofamiliare'])->name('nomadelfia.persone.gruppo.concludi');
+        [PersonaGruppoFamiliareConcludiController::class, 'store'])->name('nomadelfia.persone.gruppo.concludi');
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta',
-        [PersoneController::class, 'spostaNuovoGruppofamiliare'])->name('nomadelfia.persone.gruppo.sposta');
+        [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('nomadelfia.persone.gruppo.sposta');
 
-    Route::get('persone/{idPersona}/aziende', [PersoneController::class, 'aziende'])->name('nomadelfia.persone.aziende');
-    Route::post('persone/{idPersona}/aziende/assegna',
-        [PersoneController::class, 'assegnaAzienda'])->name('nomadelfia.persone.aziende.assegna');
+    Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('nomadelfia.persone.aziende');
+    Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('nomadelfia.persone.aziende.assegna');
     Route::post('persone/{idPersona}/aziende/{id}/modifica',
-        [PersoneController::class, 'modificaAzienda'])->name('nomadelfia.persone.aziende.modifica');
+        [PersonaAziendeController::class, 'update'])->name('nomadelfia.persone.aziende.modifica');
 
+    Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.persone.famiglie');
+    Route::post('persona/{idPersona}/famiglie', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.personae.famiglie.create');
+    Route::post('persona/{idPersona}/famiglie/sposta', [PersonaFamigliaController::class, 'spostaInNuovaFamiglia'])->name('nomadelfia.personae.famiglie.sposta');
+
+    //AZIENDE
+    Route::get('aziende', [AziendeController::class, 'view'])->name('nomadelfia.aziende');
+    Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('nomadelfia.aziende.edit');
+
+    // Incarichi
+    Route::get('incarichi', [IncarichiController::class, 'view'])->name('nomadelfia.incarichi.index');
+    Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('nomadelfia.incarichi.edit');
     Route::post('incarichi', [IncarichiController::class, 'insert'])->name('nomadelfia.incarichi.aggiungi');
     Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name('nomadelfia.incarichi.delete');
     Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('nomadelfia.incarichi.assegna');
     Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('nomadelfia.incarichi.persone.elimina');
 
-    Route::post('persone/{idPersona}/incarichi/assegna', [PersoneController::class, 'assegnaIncarico'])->name('nomadelfia.persone.incarichi.assegna');
-    Route::post('persone/{idPersona}/incarichi/{id}/modifica', [PersoneController::class, 'modificaIncarico'])->name('nomadelfia.persone.incarichi.modifica');
-
-    Route::get('persone/{idPersona}/famiglie', [PersoneController::class, 'famiglie'])->name('nomadelfia.persone.famiglie');
-    Route::post('persona/{idPersona}/famiglie/create',
-        [PersoneController::class, 'createAndAssignFamiglia'])->name('nomadelfia.personae.famiglie.create'); //->middleware('permission:cliente-visualizza')
-    Route::post('persona/{idPersona}/famiglie/sposta',
-        [PersoneController::class, 'spostaInNuovaFamiglia'])->name('nomadelfia.personae.famiglie.sposta'); //->middleware('permission:cliente-visualizza')
-
-    //AZIENDE
-    Route::get('aziende', [AziendeController::class, 'view'])->name('nomadelfia.aziende'); //->middleware('permission:cliente-visualizza')
-    Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('nomadelfia.aziende.edit');
-
-    // INcarichi
-    Route::get('incarichi',
-        [IncarichiController::class, 'view'])->name('nomadelfia.incarichi.index'); //->middleware('permission:cliente-visualizza')
-    Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('nomadelfia.incarichi.edit');
-
     //GRUPPI FAMILIARI
-    Route::get('gruppifamiliari',
-        [GruppifamiliariController::class, 'view'])->name('nomadelfia.gruppifamiliari'); //->middleware('permission:cliente-visualizza')
-    Route::get('gruppifamiliari/{id}',
-        [GruppifamiliariController::class, 'edit'])->name('nomadelfia.gruppifamiliari.dettaglio'); //->middleware('permission:cliente-visualizza')
-    Route::post('gruppifamiliari/{id}/capogruppo',
-        [GruppifamiliariController::class, 'assegnaCapogruppo'])->name('nomadelfia.gruppifamiliari.capogruppo'); //->middleware('permission:cliente-visualizza')
+    Route::get('gruppifamiliari', [GruppifamiliariController::class, 'view'])->name('nomadelfia.gruppifamiliari');
+    Route::get('gruppifamiliari/{id}', [GruppifamiliariController::class, 'edit'])->name('nomadelfia.gruppifamiliari.dettaglio');
+    // TODO: GruppoFamilireCapogruppo@store
+    Route::post('gruppifamiliari/{id}/capogruppo', [GruppifamiliariController::class, 'assegnaCapogruppo'])->name('nomadelfia.gruppifamiliari.capogruppo');
 
     // FAMIGLIE
-    Route::get('famiglie', [FamiglieController::class, 'view'])->name('nomadelfia.famiglie'); //->middleware('permission:cliente-visualizza')
-    Route::get('famiglie/create',
-        [FamiglieController::class, 'create'])->name('nomadelfia.famiglie.create'); //->middleware('permission:cliente-visualizza')
-    Route::post('famiglie/create',
-        [FamiglieController::class, 'createConfirm'])->name('nomadelfia.famiglie.create.confirm'); //->middleware('permission:cliente-visualizza')
-    Route::post('famiglie/{id}/uscita',
-        [FamiglieController::class, 'uscita'])->name('nomadelfia.famiglie.uscita'); //->middleware('permission:cliente-visualizza')
-    Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('nomadelfia.famiglia.dettaglio'); //->middleware('permission:cliente-visualizza')
+    Route::get('famiglie', [FamiglieController::class, 'view'])->name('nomadelfia.famiglie');
+    Route::get('famiglie/create', [FamiglieController::class, 'create'])->name('nomadelfia.famiglie.create');
+    Route::post('famiglie/create', [FamiglieController::class, 'createConfirm'])->name('nomadelfia.famiglie.create.confirm');
+    Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('nomadelfia.famiglia.dettaglio');
+    Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name('nomadelfia.famiglia.aggiorna');
+
+    // TODO FamigliaUscitaController@store
+    Route::post('famiglie/{id}/uscita', [FamiglieController::class, 'uscita'])->name('nomadelfia.famiglie.uscita');
+    // TODO FamigliaGruppoFamiliareController@store|delete
     Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna',
         [FamiglieController::class, 'spostaInGruppoFamiliare'])->name('nomadelfia.famiglie.gruppo.sposta');
     Route::delete('famiglie/{id}/gruppo/{idGruppo}',
         [FamiglieController::class, 'eliminaGruppoFamiliare'])->name('nomadelfia.famiglie.gruppo.elimina');
 
-    Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name('nomadelfia.famiglia.aggiorna');
-
+    // TODO FamigliaComponenteController@store|update
     Route::post('famiglie/{id}/componente/assegna',
         [FamiglieController::class, 'assegnaComponente'])->name('nomadelfia.famiglie.componente.assegna');
     Route::post('famiglie/{id}/componente/aggiorna',
         [FamiglieController::class, 'aggiornaComponente'])->name('nomadelfia.famiglie.componente.aggiorna');
 
     //stampa elenchi
+    // TODO PrintablePopolazioneController@store
     Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name('nomadelfia.popolazione.stampa');
     Route::get('popolazione/stampa/preview',
         [PopolazioneNomadelfiaController::class, 'preview'])->name('nomadelfia.popolazione.anteprima');
 
     // POPOLAZIONE
     Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'show'])->name('nomadelfia.popolazione');
+    // TODO PopolazionePo
     Route::get('popolazione/posizione/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('nomadelfia.popolazione.maggiorenni');
     Route::get('popolazione/posizione/effettivi',
         [PopolazioneNomadelfiaController::class, 'effettivi'])->name('nomadelfia.popolazione.posizione.effettivi');
@@ -491,7 +478,7 @@ Route::group(['prefix' => 'archiviodocumenti', 'namespace' => 'App\ArchivioDocum
     Route::get('/etichette/export', 'ArchivioDocumentiController@esporta')->name('libri.etichette.esporta');
 
     Route::delete('/etichette/delete',
-        'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.rimuovi');
+        'ArchivioDocumentiController@elimina')->name('archiviodocumenti.etichette.delete');
     Route::post('/etichette/aggiungi',
         'ArchivioDocumentiController@aggiungi')->name('archiviodocumenti.etichette.aggiungi');
 

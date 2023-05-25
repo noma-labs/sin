@@ -44,7 +44,7 @@
   
   <div class="row">
     <div class="col-md-12">
-      <a role='button' class="btn btn-warning pull-right" href="{{ route('nomadelfia.persone.inserimento.anagrafici') }}">Aggiungi nuova persona </a>
+      <a role='button' class="btn btn-warning pull-right" href="{{ route('nomadelfia.persone.anagrafica.create') }}">Aggiungi nuova persona </a>
     </div>
   </div>
 

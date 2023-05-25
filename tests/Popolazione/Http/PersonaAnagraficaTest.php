@@ -1,0 +1,66 @@
+<?php
+
+namespace Tests\Http\Nomadelfia;
+
+use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use Domain\Nomadelfia\Persona\Models\Persona;
+
+it('shows form to create persona', function () {
+    login();
+    $this->get(action([PersonaAnagraficaController::class, 'create']))
+        ->assertSuccessful();
+});
+
+it('shows form to edit anagrafica', function () {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    login();
+    $this->get(action([PersonaAnagraficaController::class, 'edit'], ['idPersona' => $persona->id]))
+        ->assertSuccessful();
+});
+
+it('can update anagrafica', function () {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
+    login();
+
+    $newName = 'My-name';
+    $newSurname = 'My-surnema';
+    $newNascita = '2022-12-12';
+    $newLuogo = 'my-luogo';
+    $newSesso = 'F';
+    $newbiografia = 'Sono nato e morto';
+    $this->put(action([PersonaAnagraficaController::class, 'update'], ['idPersona' => $persona->id]),
+        [
+            'nome' => $newName,
+            'cognome' => $newSurname,
+            'datanascita' => $newNascita,
+            'luogonascita' => $newLuogo,
+            'sesso' => $newSesso,
+            'biografia' => $newbiografia,
+        ])
+        ->assertRedirect()
+        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+
+    $p = Persona::findOrFail($persona->id);
+    $this->assertEquals($newSurname, $p->cognome);
+    $this->assertEquals($newSesso, $p->sesso);
+    $this->assertEquals($newLuogo, $p->provincia_nascita);
+    $this->assertEquals($newName, $p->nome);
+    $this->assertEquals($newNascita, $p->data_nascita);
+    $this->assertEquals($newbiografia, $p->biografia);
+});
+
+it('can insert a persona', function () {
+    login();
+    $this->withoutExceptionHandling();
+    $this->post(action([PersonaAnagraficaController::class, 'store']),
+        [
+            'nominativo' => 'my-name',
+            'nome' => 'name',
+            'cognome' => 'my-surname',
+            'data_nascita' => '2022-10-10',
+            'luogo_nascita' => 'Grosseto',
+            'sesso' => 'M',
+        ])
+        ->assertRedirect();
+});

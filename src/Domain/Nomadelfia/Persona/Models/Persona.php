@@ -243,7 +243,7 @@ class Persona extends Model
         /*if ($this->isCapoFamiglia()){
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
         }*/
-        if (is_string($gruppo)) {
+        if (is_string($gruppo) || is_int($gruppo)) {
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
         }
         if ($gruppo instanceof GruppoFamiliare) {
@@ -375,7 +375,7 @@ class Persona extends Model
 
     public function assegnaAzienda($azienda, $data_inizio, $mansione)
     {
-        if (is_string($azienda)) {
+        if (is_string($azienda) || is_int($azienda)) {
             $azienda = Azienda::findOrFail($azienda);
         }
         if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
@@ -603,7 +603,7 @@ class Persona extends Model
     */
     public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null)
     {
-        if (is_string($stato)) {
+        if (is_string($stato) | is_int($stato)) {
             $stato = Stato::findOrFail($stato);
         }
         if ($stato instanceof Stato) {
@@ -719,7 +719,7 @@ class Persona extends Model
                 });
             }
         } catch (\Exception $e) {
-            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str(e));
+            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str($e));
         }
 
         return $this;
@@ -887,7 +887,7 @@ class Persona extends Model
         string $data_inizio,
         string $attuale_data_fine = null
     ) {
-        if (is_string($posizione)) {
+        if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
         if ($posizione instanceof Posizione) {

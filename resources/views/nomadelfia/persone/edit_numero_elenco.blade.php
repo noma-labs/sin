@@ -10,6 +10,7 @@
             <div class="card-body">
                 <form class="form" id="assegnaNumeroElenco" method="POST"
                       action="{{ route('nomadelfia.persone.numelenco.confirm', ['idPersona' =>$persona->id]) }}">
+                     @method("PUT")
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-9">

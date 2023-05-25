@@ -33,7 +33,6 @@
                     <template slot="modal-body-slot">
                         <form class="form" method="POST"  id="formConcludiPosizione{{$posattuale->id}}" action="{{ route('nomadelfia.persone.posizione.concludi', ['idPersona' =>$persona->id, 'id'=>$posattuale->id]) }}" >      
                             {{ csrf_field() }}
-                            @method('PUT')
                             <input type="hidden" name="data_inizio"  value="{{$posattuale->pivot->data_inizio }}"  />
                             <div class="form-group row">
                               <label for="staticEmail" class="col-sm-6 col-form-label">posizione familiare attuale</label>

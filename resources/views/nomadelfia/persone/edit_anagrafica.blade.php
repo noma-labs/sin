@@ -6,7 +6,8 @@
 
 <div class="row justify-content-center">
     <div class="col-4">
-      <form class="form" method="POST" action="{{ route('nomadelfia.persone.anagrafica.modifica.confirm', ['idPersona' =>$persona->id]) }}" >
+      <form class="form" method="POST" action="{{ route('nomadelfia.persone.anagrafica.update', ['idPersona' =>$persona->id]) }}" >
+      @method("PUT")
       {{ csrf_field() }}
         <div class="form-group">
           <label for="xNome">Nome</label>

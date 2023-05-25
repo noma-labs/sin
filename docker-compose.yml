@@ -24,7 +24,6 @@ services:
             - sail
         depends_on:
             - mysql
-            - meilisearch
     mysql:
         image: mariadb:10.4
         container_name: db
@@ -63,20 +62,20 @@ services:
             - PMA_PASSWORD=root
         networks:
             - sail
-    meilisearch:
-        image: 'getmeili/meilisearch:v0.29.1'
-        ports:
-            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
-#        environment:
-#            - MEILI_MASTER_KEY='secret'
-        volumes:
-            - 'sail-meilisearch:/data.ms'
-        networks:
-            - sail
-        healthcheck:
-            test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
-            retries: 3
-            timeout: 5s
+#    meilisearch:
+#        image: 'getmeili/meilisearch:v0.29.1'
+#        ports:
+#            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+##        environment:
+##            - MEILI_MASTER_KEY='secret'
+#        volumes:
+#            - 'sail-meilisearch:/data.ms'
+#        networks:
+#            - sail
+#        healthcheck:
+#            test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
+#            retries: 3
+#            timeout: 5s
     mailpit:
         image: 'axllent/mailpit:latest'
         ports:

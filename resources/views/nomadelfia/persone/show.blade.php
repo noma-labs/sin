@@ -148,7 +148,7 @@
 
                     </ul>
                     <a class="btn btn-warning my-2"
-                       href="{{route('nomadelfia.persone.anagrafica.modifica.view', $persona->id)}}" role="button">Modifica</a>
+                       href="{{route('nomadelfia.persone.anagrafica.edit', $persona->id)}}" role="button">Modifica</a>
                     @if (! $persona->isDeceduta())
                     <my-modal modal-title="Decesso di persona" button-title="Decesso"
                               button-style="btn-danger my-2">

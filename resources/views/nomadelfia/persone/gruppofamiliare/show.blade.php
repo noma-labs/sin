@@ -30,6 +30,7 @@
                 <my-modal modal-title="Modifica Gruppo familiare attuale" button-title="Modifica" button-style="btn-warning my-2">
                   <template slot="modal-body-slot">
                     <form class="form" method="POST"  id="formPersonaGruppoModifica{{$attuale->id}}" action="{{ route('nomadelfia.persone.gruppo.modifica', ['idPersona' =>$persona->id, 'id'=>$attuale->id]) }}" >      
+                        @method("PUT")
                         {{ csrf_field() }}
                         <input type="hidden" name="current_data_entrata"  value="{{$attuale->pivot->data_entrata_gruppo }}"  />
                         <div class="form-group row">
