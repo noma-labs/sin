@@ -4,6 +4,7 @@
       <div class="col-md-3">
          <label class="control-label">Cliente </label>
           <select class="form-control" id="cliente" name="cliente_id">
+          <option disabled selected value> --Seleziona-- </option>
            @foreach ($clienti as $cliente)
              <option value="{{ $cliente->id }}"  @if (old('cliente_id') == $cliente->id) selected @endif > {{ $cliente->nominativo }} </option>
            @endforeach
