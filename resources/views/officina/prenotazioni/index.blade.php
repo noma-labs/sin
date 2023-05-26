@@ -19,9 +19,9 @@
     <div class="col-md-3">
           <label class="control-label">Cliente </label>
                 <select class="form-control" id="cliente" name="nome">
-                <option disabled selected value> --Seleziona-- </option>
+                <option selected value> --Seleziona-- </option>
                   @foreach ($clienti as $cliente)
-                    <option value="{{ $cliente->id }}"  @if (old('nome') == $cliente->id) selected @endif > {{ $cliente->nominativo }} </option>
+                    <option value="{{ $cliente->id }}"  @if (old('nome') !== null && old('nome') == $cliente->id)  selected @endif > {{ $cliente->nominativo }}</option>
                   @endforeach
                 </select>
         </div>
