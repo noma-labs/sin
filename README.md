@@ -46,7 +46,7 @@ Required PHP extensions
 5. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
     ```
     cd  C:/xampp/htdocs
-    git clone https://github.com/noma-labs/sistema-informativo-nomadelfia.git
+    git clone https://github.com/noma-labs/sin.git
     ```
 4.1. Open the `php.ini` file and enable the php extensions (delete the ; char at the begin of the row): `gd`
 
