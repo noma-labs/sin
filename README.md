@@ -62,7 +62,8 @@ Required PHP extensions
     ```
 7. Install frontend dependencies
    ```
-    npm run prod
+    npm install mix
+    npm run production
    ```
 8. Copia il file `.env-example`in un file `.env ` e modifica le variabili d'ambiente
 
