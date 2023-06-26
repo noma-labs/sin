@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Core\Controllers\BaseController as Controller;
-use Auth;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
