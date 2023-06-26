@@ -60,23 +60,21 @@ Required PHP extensions
     ```
     npm install --no-bin-links    (for windows installation)
     ```
+7. Install frontend dependencies
+   ```
+    npm run prod
+   ```
+8. Copia il file `.env-example`in un file `.env ` e modifica le variabili d'ambiente
 
-7. Copia il file `.env-example`in un file `.env ` e modifica le variabili d'ambiente
-
-8. Genera una chiave di sicurezza che laravel utilizza per crittografare la comunicazione.
+9. Genera una chiave di sicurezza che laravel utilizza per crittografare la comunicazione.
     
     ```
-    cd C:/xampp/htdocs/sistema-informativo-nomadelfia
-    
     php artisan key:generate
     ```
 
-9. Importa il dump dei database
+10. Importa il dump dei database
 
-10. Install frontend dependencies
-```
-npm run prod
-```
+
 
 ### Start server
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.
