@@ -41,7 +41,7 @@ Required PHP extensions
 
 2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
 
-3. Scarica e install [`node.js`](https://nodejs.org/it/download/) (include node `v16.17.*` and `npm 8.15.x`)
+3. Scarica e install [`node.js`](https://nodejs.org/it/download/)
 
 5. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
     ```
