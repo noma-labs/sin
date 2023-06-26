@@ -23,6 +23,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
 use App\Nomadelfia\Persona\Controllers\SearchablePersonaController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -237,7 +238,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
     Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('nomadelfia.cariche.esporta');
 
     // atività log
-    Route::get('activity/', [PopolazioneNomadelfiaController::class, 'activity'])->name('nomadelfia.activity');
+    Route::get('activity/', [AggiornamentoAnagrafeController::class, 'index'])->name('nomadelfia.activity');
 
 });
 
