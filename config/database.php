@@ -41,7 +41,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8', 'charset' => 'utf8',
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -57,6 +57,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'strict' => false,
@@ -90,7 +91,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => false,
             'engine' => 'InnoDB',
@@ -106,7 +107,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'engine' => null,
             'strict' => false,
@@ -131,7 +132,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -147,7 +148,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -163,7 +164,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -179,7 +180,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -192,7 +193,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -208,7 +209,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
@@ -224,7 +225,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
-
+            'charset' => 'utf8',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
