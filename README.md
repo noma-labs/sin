@@ -73,8 +73,20 @@ Required PHP extensions
     php artisan key:generate
     ```
 
-10. Importa il dump dei database
-
+10. Create the databases.
+  ```
+CREATE DATABASE IF NOT EXISTS  archivio_biblioteca;
+CREATE DATABASE IF NOT EXISTS  archivio_nomadelfia;
+CREATE DATABASE IF NOT EXISTS  db_admsys;
+CREATE DATABASE IF NOT EXISTS  db_agraria;
+CREATE DATABASE IF NOT EXISTS  db_foto;
+CREATE DATABASE IF NOT EXISTS  db_meccanica;
+CREATE DATABASE IF NOT EXISTS  db_nomadelfia;
+CREATE DATABASE IF NOT EXISTS  db_noma_iot;
+CREATE DATABASE IF NOT EXISTS  db_patente;
+CREATE DATABASE IF NOT EXISTS  db_scuola;
+```
+11. Import the dumps
 
 
 ### Start server
