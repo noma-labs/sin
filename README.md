@@ -48,10 +48,11 @@ Required PHP extensions
     cd  C:/xampp/htdocs
     git clone https://github.com/noma-labs/sistema-informativo-nomadelfia.git
     ```
+4.1. Open the `php.ini` file and enable the php extensions (delete the ; char at the begin of the row): `gd`
 
-5. Entra nella cartella ` C:/xampp/htdocs/sistema-informativo-nomadelfia` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer-lock.json_):
+5. Entra nella cartella ` C:/xampp/htdocs/sin` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer-lock.json_):
     ```
-    cd C:/xampp/htdocs/sistema-informativo-nomadelfia
+    cd C:/xampp/htdocs/sin
     composer install
     ```
 
