@@ -7,7 +7,6 @@ use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use App\Patente\Models\ViewClientiConSenzaPatente;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 class ApiController extends CoreBaseController

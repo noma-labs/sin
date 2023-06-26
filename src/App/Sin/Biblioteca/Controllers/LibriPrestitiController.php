@@ -2,7 +2,6 @@
 
 namespace App\Biblioteca\Controllers;
 
-use App\Admin\Models\User as User;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\ViewClientiBiblioteca;
