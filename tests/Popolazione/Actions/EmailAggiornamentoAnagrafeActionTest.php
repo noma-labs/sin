@@ -46,7 +46,7 @@ it('will send email if a person enter', function () {
             $mail->hasCC("cc2@com");
     });
 
-})->only();
+});
 
 it('will send email if person exit', function () {
 

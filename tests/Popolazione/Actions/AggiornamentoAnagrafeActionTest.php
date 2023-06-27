@@ -73,7 +73,6 @@ it('save death into the activity table', function () {
 
     $action->execute($persona, $data_decesso);
 
-
     $last = AggiornamentoAnagrafe::Death()->get()->last();
     expect($last->subject_id)->toEqual($persona->id)
         ->and($last->subject_type)->toEqual(get_class($persona))

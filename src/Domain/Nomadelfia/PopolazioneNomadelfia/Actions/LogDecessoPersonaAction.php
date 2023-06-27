@@ -12,8 +12,8 @@ class LogDecessoPersonaAction
         activity(AggiornamentoAnagrafe::LOG_NAME)
             ->performedOn($persona)
             ->withProperties([
-                    'data_decesso' => $data_deceso,
-                ]
+                'data_decesso' => $data_deceso,
+            ]
             )
             ->setEvent(AggiornamentoAnagrafe::EVENT_POPOLAZIONE_DEATH)
             ->log('Persona deceduta in data :properties.data_decesso');
