@@ -30,7 +30,7 @@ it('will send email if a person enter', function () {
     $gruppo = GruppoFamiliare::first();
 
     //Config::set('aggiornamento-anagrafe.to', "rec1@email.com,rec2@email.com,rec3@email.com");
-    Config::set('aggiornamento-anagrafe.cc', "arawer,ciaso@gmail");
+    Config::set('aggiornamento-anagrafe.cc', 'arawer,ciaso@gmail');
 
     $action = app(SendEmailPersonaEntrataAction::class);
 
@@ -44,6 +44,7 @@ it('will send email if a person enter', function () {
     Mail::assertSent(PersonaEntrataMail::class, function ($mail) {
         $to = config('aggiornamento-anagrafe.to');
         $cc = config('aggiornamento-anagrafe.cc');
+
         return $mail->hasTo($to); // &&  $mail->hasCc('test@email');
     });
 

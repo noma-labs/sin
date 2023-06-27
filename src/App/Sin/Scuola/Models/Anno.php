@@ -241,7 +241,7 @@ class Anno extends Model
         return $this->classi()->create(['anno_id' => $this->id, 'tipo_id' => $tipo->id]);
     }
 
-//    @deprecated use the Studente::InAnnoScolastico()
+    //    @deprecated use the Studente::InAnnoScolastico()
     public function alunni()
     {
         $res = DB::connection('db_scuola')->select(

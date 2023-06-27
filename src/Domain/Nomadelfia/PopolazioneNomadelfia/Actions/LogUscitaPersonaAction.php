@@ -12,9 +12,9 @@ class LogUscitaPersonaAction
         activity(AggiornamentoAnagrafe::LOG_NAME)
             ->performedOn($persona)
             ->withProperties([
-                    'data_entrata' => $data_entrata,
-                    'data_uscita' => $data_uscita,
-                ]
+                'data_entrata' => $data_entrata,
+                'data_uscita' => $data_uscita,
+            ]
             )
             ->setEvent(AggiornamentoAnagrafe::EVENT_POPOLAZIONE_EXIT)
             ->log('Persona uscita in data :properties.data_uscita');

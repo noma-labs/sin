@@ -8,8 +8,11 @@ use Spatie\Activitylog\Models\Activity;
 class AggiornamentoAnagrafe extends Activity
 {
     const LOG_NAME = 'nomadelfia';
+
     const EVENT_POPOLAZIONE_ENTER = 'popolazione.entrata';
+
     const EVENT_POPOLAZIONE_EXIT = 'popolazione.uscita';
+
     const EVENT_POPOLAZIONE_DEATH = 'popolazione.decesso';
 
     protected static function booted(): void
@@ -33,5 +36,4 @@ class AggiornamentoAnagrafe extends Activity
     {
         $query->where('event', 'popolazione.decesso');
     }
-
 }
