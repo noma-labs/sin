@@ -8,24 +8,9 @@ class LogUscitaFamigliaAction
 {
     public function execute(UscitaFamigliaData $dto)
     {
-        $comp = $dto->componenti->map(function ($persona, $key) {
-            return [
-                'nominativo' => $persona->nominativo,
-                'luogo_nascita' => $persona->provincia_nascita,
-                'data_nascita' => $persona->data_nascita,
-                'data_entrata' => $persona->getDataEntrataNomadelfia() ?: '',
-                'numero_elenco' => $persona->numero_elenco,
-            ];
+        $dto->componenti->each(function ($persona, $key) use ($dto) {
+            $action = app(LogUscitaPersonaAction::class);
+            $action->execute($persona, $persona->getDataEntrataNomadelfia() ?: '', $dto->data_uscita);
         });
-        activity('nomadelfia')
-            ->performedOn($dto->famiglia)
-            ->withProperties([
-                'data_uscita' => $dto->data_uscita,
-                'componenti' => $comp,
-            ]
-            )
-            ->setEvent('popolazione.uscita-famiglia')
-            ->log('Famiglia uscita in data :properties.data_uscita');
-
     }
 }
