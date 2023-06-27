@@ -34,6 +34,7 @@ class PersonaAnagraficaController extends CoreBaseController
         $persona->nome = $request->nome;
         $persona->cognome = $request->cognome;
         $persona->data_nascita = $request->datanascita;
+        $persona->cf = $request->codicefiscale;
         $persona->provincia_nascita = $request->luogonascita;
         $persona->sesso = $request->sesso;
         $persona->biografia = $request->get('biografia', $persona->biografia);
