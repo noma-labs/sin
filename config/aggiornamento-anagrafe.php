@@ -15,13 +15,13 @@ return [
     'default_mailer' => 'default',
 
     /*
-     * List of recipients that receive the aggiornamento anagrafe emails (separated by comma)
+     * Main recipients that receive the aggiornamento anagrafe emails
      */
-    'to' => Str::of(env('AGGIORNAMENTO_ANAGRAFE_TO', 'test@nomadelfia.it'))->split('/[\s,]+/')->toArray(),
+    'to' => env('AGGIORNAMENTO_ANAGRAFE_TO', 'test@nomadelfia.it'),
 
     /*
      * List of CC recipients that receive the aggiornamento anagrafe emails (separated by comma)
      */
-    'cc' => Str::of(env('AGGIORNAMENTO_ANAGRAFE_CC', ''))->split('/[\s,]+/')->toArray(),
+    'cc' => Str::of(env('AGGIORNAMENTO_ANAGRAFE_CC'))->split('/[\s,]+/', -1, PREG_SPLIT_NO_EMPTY)->toArray(),
 
 ];

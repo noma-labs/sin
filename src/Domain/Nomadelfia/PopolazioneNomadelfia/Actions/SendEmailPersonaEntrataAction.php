@@ -19,11 +19,7 @@ class SendEmailPersonaEntrataAction
         $to = config('aggiornamento-anagrafe.to');
         $cc = config('aggiornamento-anagrafe.cc');
         if (config('aggiornamento-anagrafe.enabled')) {
-            $m = Mail::to($to);
-            //if ($cc) {
-            //   $m->cc($cc);
-            //}
-            $m->send(new PersonaEntrataMail($persona, $data_entrata, $gruppo, $famiglia));
+            Mail::to($to)->cc($cc)->send(new PersonaEntrataMail($persona, $data_entrata, $gruppo, $famiglia));
         }
     }
 }
