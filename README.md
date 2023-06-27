@@ -37,21 +37,22 @@ Required PHP extensions
 ## Installazione
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per precauzione copiare la cartella prima di procedere con l'installazione di xampp.
 
-1. Scarica ed installa [`xampp 7.1.10`](https://www.apachefriends.org/it/index.html) (include Apache 2.4.28, MariaDB 10.1.28, PHP 7.1.10, phpMyAdmin 4.7.4).
+1. Scarica ed installa [`xampp`](https://www.apachefriends.org/it/index.html) 
 
-2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). (Composer 1.8.5 2019-04-09) Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
+2. Scarica ed installa [`Composer`](https://getcomposer.org/download/). Composer è un tool a linea di comando che la gestione delle dipendenze PHP.
 
-3. Scarica e instalal [`node.js v16.x`](https://nodejs.org/it/download/) (include `npm 8.15.x`)
+3. Scarica e install [`node.js`](https://nodejs.org/it/download/)
 
-4. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
+5. Apri una shell (e.g. PowerShell o cmd) entra nella cartella `C:/xampp/htdocs`  e scarica la repository.
     ```
     cd  C:/xampp/htdocs
-    git clone https://github.com/noma-labs/sistema-informativo-nomadelfia.git
+    git clone https://github.com/noma-labs/sin.git
     ```
+4.1. Open the `php.ini` file and enable the php extensions (delete the ; char at the begin of the row): `gd`
 
-5. Entra nella cartella ` C:/xampp/htdocs/sistema-informativo-nomadelfia` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer-lock.json_):
+5. Entra nella cartella ` C:/xampp/htdocs/sin` e installa le dipendeze php con `composer` (installa le librerie leggendo il file _composer-lock.json_):
     ```
-    cd C:/xampp/htdocs/sistema-informativo-nomadelfia
+    cd C:/xampp/htdocs/sin
     composer install
     ```
 
@@ -59,23 +60,34 @@ Required PHP extensions
     ```
     npm install --no-bin-links    (for windows installation)
     ```
+7. Install frontend dependencies
+   ```
+    npm install mix
+    npm run production
+   ```
+8. Copia il file `.env-example`in un file `.env ` e modifica le variabili d'ambiente
 
-7. Copia il file `.env-example`in un file `.env ` e modifica le variabili d'ambiente
-
-8. Genera una chiave di sicurezza che laravel utilizza per crittografare la comunicazione.
+9. Genera una chiave di sicurezza che laravel utilizza per crittografare la comunicazione.
     
     ```
-    cd C:/xampp/htdocs/sistema-informativo-nomadelfia
-    
     php artisan key:generate
     ```
 
-9. Importa il dump dei database
+10. Create the databases.
+  ```
+CREATE DATABASE IF NOT EXISTS  archivio_biblioteca;
+CREATE DATABASE IF NOT EXISTS  archivio_nomadelfia;
+CREATE DATABASE IF NOT EXISTS  db_admsys;
+CREATE DATABASE IF NOT EXISTS  db_agraria;
+CREATE DATABASE IF NOT EXISTS  db_foto;
+CREATE DATABASE IF NOT EXISTS  db_meccanica;
+CREATE DATABASE IF NOT EXISTS  db_nomadelfia;
+CREATE DATABASE IF NOT EXISTS  db_noma_iot;
+CREATE DATABASE IF NOT EXISTS  db_patente;
+CREATE DATABASE IF NOT EXISTS  db_scuola;
+```
+11. Import the dumps
 
-10. Install frontend dependencies
-```
-npm run prod
-```
 
 ### Start server
 Prima di configurare il server apache, prova ad eseguire il seguente comando per testare se l'installazione è andata a buon fine.

@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\AggiornamentoAnagrafe\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+
 use Spatie\Activitylog\Models\Activity;
 
 class AggiornamentoAnagrafe extends Activity
@@ -35,5 +36,6 @@ class AggiornamentoAnagrafe extends Activity
     public function scopeDeath(Builder $query): void
     {
         $query->where('event', 'popolazione.decesso');
+
     }
 }
