@@ -15,8 +15,9 @@ class SendEmailPersonaDecessoAction
             $data_decesso = Carbon::parse($data_decesso);
         }
         $to = config('aggiornamento-anagrafe.to');
+        $cc = config('aggiornamento-anagrafe.cc');
         if (config('aggiornamento-anagrafe.enabled')) {
-            Mail::to($to)->send(new PersonaDecessoMail($persona, $data_decesso));
+            Mail::to($to)->cc($cc)->send(new PersonaDecessoMail($persona, $data_decesso));
         }
     }
 }

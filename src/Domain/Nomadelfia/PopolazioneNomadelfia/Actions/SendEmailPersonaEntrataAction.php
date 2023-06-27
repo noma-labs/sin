@@ -17,8 +17,9 @@ class SendEmailPersonaEntrataAction
             $data_entrata = Carbon::parse($data_entrata);
         }
         $to = config('aggiornamento-anagrafe.to');
+        $cc = config('aggiornamento-anagrafe.cc');
         if (config('aggiornamento-anagrafe.enabled')) {
-            Mail::to($to)->send(new PersonaEntrataMail($persona, $data_entrata, $gruppo, $famiglia));
+            Mail::to($to)->cc($cc)->send(new PersonaEntrataMail($persona, $data_entrata, $gruppo, $famiglia));
         }
     }
 }
