@@ -44,7 +44,7 @@ Route::get('/browsershot', function () {
     //    Browsershot::url('https://google.com')
     Browsershot::url('http://localhost/biblioteca/etichette/preview/')
         ->noSandbox()
-        //->paperSize(32, 64)
+        ->paperSize(30, 62)
         ->timeout(2000)
         ->savePdf('google.pdf');
 });
