@@ -10,6 +10,7 @@ class AggiornamentoAnagrafeController extends CoreBaseController
     public function index()
     {
         $activity = AggiornamentoAnagrafe::orderBy('created_at', 'DESC')->take(20)->get();
+
         return view('nomadelfia.aggiornamento-anagrafe.index', compact('activity'));
     }
 }

@@ -31,4 +31,3 @@ it('show aggiornamento anagrafe index', function () {
         ->assertSuccessful()
         ->assertSee($persona->nominativo);
 });
-
