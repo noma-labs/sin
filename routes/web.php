@@ -70,7 +70,6 @@ Route::group(['namespace' => 'App\Auth\Controllers'], function () {
     // Route::post('password/reset', 'ResetPasswordController@reset')->name("password.request");
 });
 
-
 //###################################################################################
 //##############  ADMIN (Authentication, Authorization, Backups, Logs) ##############
 //###################################################################################
