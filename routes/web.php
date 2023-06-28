@@ -34,10 +34,25 @@ use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
+use Spatie\Browsershot\Browsershot;
 
 Route::get('/debug-sentry', function () {
     throw new Exception('My Second Sentry error!');
 });
+
+Route::get('/browsershot', function () {
+    Browsershot::url('https://google.com')
+//    Browsershot::url('http://localhost/biblioteca/etichette/preview/')
+        ->noSandbox()
+        //->paperSize(32, 64)
+        ->timeout(2000)
+        ->savePdf('google.pdf');
+});
+
+// apt-get install ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
+// npm install
+
+// PUPPETEER_CACHE_DIR=/home/sail/.cache PATH=$PATH:/usr/local/bin:/opt/homebrew/bin NODE_PATH=`npm root -g`  node '/var/www/html/vendor/spatie/browsershot/bin/browser.cjs' '{"url":"https:\/\/google.com","action":"pdf","options":{"path":"example.pdf","args":["--no-sandbox"],"viewport":{"width":30,"height":62},"timeout":20000}}'
 
 Route::view('/', 'welcome');
 
@@ -54,6 +69,7 @@ Route::group(['namespace' => 'App\Auth\Controllers'], function () {
     // Route::post('password/email', 'ResetPasswordController@sendResetLinkEmail')->name('password.email');
     // Route::post('password/reset', 'ResetPasswordController@reset')->name("password.request");
 });
+
 
 //###################################################################################
 //##############  ADMIN (Authentication, Authorization, Backups, Logs) ##############
@@ -340,7 +356,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::post('etichette/remove/{idLibro}',
         'EtichetteController@removeLibro')->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
     Route::get('etichette/preview',
-        'EtichetteController@preview')->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.preview');
+        'EtichetteController@preview')->name('libri.etichette.preview'); //->middleware('can:biblioteca.etichetta.visualizza')
     Route::get('etichette/print',
         'EtichetteController@printToPdf')->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
     Route::get('etichette/excel',

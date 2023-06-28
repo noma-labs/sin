@@ -15,7 +15,7 @@ class EtichetteController extends CoreBaseController
     public function __construct()
     {
         //  $this->middleware('auth',['only'=>['edit','editConfirm','insert','insertConfirm']]);
-        $this->middleware('auth');
+        //$this->middleware('auth');
 
     }
 
