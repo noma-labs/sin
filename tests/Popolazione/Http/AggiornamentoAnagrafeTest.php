@@ -11,7 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 
 it('show aggiornamento anagrafe index', function () {
     $data_entrata = Carbon::now()->toDatestring();
-    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA42')->luogoNascita('grosseto')->create();
+    $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA43')->luogoNascita('grosseto')->create();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
