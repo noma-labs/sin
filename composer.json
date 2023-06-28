@@ -25,6 +25,7 @@
         "pmatseykanets/laravel-sql-migrations": "^1.0.0",
         "rappasoft/laravel-livewire-tables": "^2.8",
         "sentry/sentry-laravel": "^3.1",
+        "spatie/browsershot": "^3.57",
         "spatie/laravel-activitylog": "^4.0",
         "spatie/laravel-backup": "^8.0",
         "spatie/laravel-mailable-test": "^2.3",
