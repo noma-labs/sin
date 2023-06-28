@@ -4,7 +4,6 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
-use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -98,12 +97,4 @@ class PopolazioneNomadelfiaController extends CoreBaseController
         return response()->download(storage_path($file_name));
     }
 
-    public function activity()
-    {
-        $entrati = AggiornamentoAnagrafe::Enter()->orderBy('created_at', 'DESC')->take(20)->get();
-        $usciti = AggiornamentoAnagrafe::Exit()->orderBy('created_at', 'DESC')->take(20)->get();
-
-        return view('nomadelfia.aggiornamento-anagrafe.popolazione', compact('entrati', 'usciti'));
-
-    }
 }
