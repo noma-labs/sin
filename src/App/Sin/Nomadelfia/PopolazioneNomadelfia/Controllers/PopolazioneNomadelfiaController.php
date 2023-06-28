@@ -96,5 +96,4 @@ class PopolazioneNomadelfiaController extends CoreBaseController
 
         return response()->download(storage_path($file_name));
     }
-
 }
