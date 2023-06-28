@@ -12,6 +12,7 @@ it('exit a persona', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($persona, Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+
     login();
 
     $data_uscita = Carbon::now()->toDateString();

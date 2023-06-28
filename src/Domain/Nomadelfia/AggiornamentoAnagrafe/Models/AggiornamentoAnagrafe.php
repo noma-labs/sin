@@ -24,17 +24,33 @@ class AggiornamentoAnagrafe extends Activity
 
     public function scopeEnter(Builder $query): void
     {
-        $query->where('event', 'popolazione.entrata');
+        $query->where('event', self::EVENT_POPOLAZIONE_ENTER);
     }
 
     public function scopeExit(Builder $query): void
     {
-        $query->where('event', 'popolazione.uscita');
+        $query->where('event', self::EVENT_POPOLAZIONE_EXIT);
     }
 
     public function scopeDeath(Builder $query): void
     {
-        $query->where('event', 'popolazione.decesso');
+        $query->where('event', self::EVENT_POPOLAZIONE_DEATH);
 
+    }
+
+    public function isEnterEvent(): string
+    {
+        return $this->event === self::EVENT_POPOLAZIONE_ENTER;
+    }
+
+    public function isExitEvent(): string
+    {
+        return $this->event === self::EVENT_POPOLAZIONE_EXIT;
+
+    }
+
+    public function isDeathEvent(): string
+    {
+        return $this->event === self::EVENT_POPOLAZIONE_DEATH;
     }
 }
