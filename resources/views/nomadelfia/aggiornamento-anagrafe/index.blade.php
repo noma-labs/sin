@@ -29,8 +29,7 @@
             @if ($a->isDeathEvent())
             <span class="badge badge-dark">Decesso</span>
             @endif
-            <span class="badge badge-info"> @diffHumans($a->created_at)</span>
-            
+
         </td>
         <td> @include('nomadelfia.templates.persona', ['persona'=>$a->subject])</td>
         <td>{{$a->properties}}</td>

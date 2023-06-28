@@ -3,10 +3,10 @@
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Spatie\Activitylog\Models\Activity;
 
 class PopolazioneSummaryController extends CoreBaseController
 {
@@ -30,7 +30,7 @@ class PopolazioneSummaryController extends CoreBaseController
         $posizioniFamiglia = PopolazioneNomadelfia::posizioneFamigliaCount();
         $famiglieNumerose = Famiglia::famiglieNumerose();
 
-        $activities = Activity::inLog('nomadelfia')->orderBy('created_at', 'DESC')->take(20)->get();
+        $activities = AggiornamentoAnagrafe::orderBy('created_at', 'DESC')->take(20)->get();
 
         return view('nomadelfia.summary', compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia', 'famiglieNumerose', 'stats', 'activities'));
     }

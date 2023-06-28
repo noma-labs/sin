@@ -146,7 +146,17 @@
             <ul>
                 @forelse ($activities as $act)
                 <li>
-                    @include('nomadelfia.templates.persona', ['persona'=>$act->subject]) {{$act->description}}
+
+                    @if ($act->isEnterEvent())
+                    <span class="badge badge-success">Entrata</span>
+                    @endif
+                    @if ($act->isExitEvent())
+                    <span class="badge badge-danger">Uscita</span>
+                    @endif
+                    @if ($act->isDeathEvent())
+                    <span class="badge badge-dark">Decesso</span>
+                    @endif
+                    @include('nomadelfia.templates.persona', ['persona'=>$act->subject])
                 </li>
                 @empty
                 <p class="font-italic">Non ci sono attività recenti</p>
