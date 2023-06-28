@@ -41,7 +41,7 @@ Route::get('/debug-sentry', function () {
 });
 
 Route::get('/browsershot', function () {
-//    Browsershot::url('https://google.com')
+    //    Browsershot::url('https://google.com')
     Browsershot::url('http://localhost/biblioteca/etichette/preview/')
         ->noSandbox()
         //->paperSize(32, 64)
