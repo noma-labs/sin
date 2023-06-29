@@ -179,7 +179,6 @@ return [
         /*
          * Third Party Service Providers...
         */
-        // Barryvdh\DomPDF\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
