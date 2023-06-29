@@ -18,7 +18,7 @@ it('download the etichette pfd of multiple books', function () {
         ->assertSuccessful()
         ->assertDownload();
 
-})->only();
+});
 
 it('download the etichette pfd of a single book', function () {
 
@@ -33,4 +33,5 @@ it('download the etichette pfd of a single book', function () {
         ->assertSuccessful()
         ->assertDownload();
 
-})->only();
+});
+
