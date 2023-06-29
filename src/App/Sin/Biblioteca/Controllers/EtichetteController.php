@@ -55,8 +55,8 @@ class EtichetteController extends CoreBaseController
 
     public function printToPdf(Request $request)
     {
-        $date = Carbon::now();
-        $file_name = public_path("etichette-$date.pdf");
+        $date = Carbon::now()->format('Y-m-d_H-i-s');
+        $file_name = storage_path("etichette-$date.pdf");
 
         Browsershot::url(route('libri.etichette.preview', ['idLibro' => $request->get('idLibro')]))
             ->noSandbox()
