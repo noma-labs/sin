@@ -34,4 +34,3 @@ it('download the etichette pfd of a single book', function () {
         ->assertDownload();
 
 });
-
