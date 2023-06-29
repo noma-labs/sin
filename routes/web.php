@@ -443,7 +443,7 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     // esposta elenchi
     Route::get('/elenchi/stampa',
         'PatenteController@stampaAutorizzati')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
-    Route::get('/elenchi/preview', [PatenteController::class, 'stampaAutorizzatiPreview'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
+    Route::get('/elenchi/preview', [PatenteController::class, 'stampaAutorizzatiPreview'])->name('patente.elenchi.autorizzati.esporta.preview'); // ->middleware('can:scuolaguida.patente.esporta')
     Route::get('/elenchi/esporta/excel',
         'PatenteController@autorizzatiEsportaExcel')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get('/elenchi/patenti/pdf',
