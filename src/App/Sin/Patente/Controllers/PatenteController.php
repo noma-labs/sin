@@ -229,19 +229,6 @@ class PatenteController extends CoreBaseController
 
         return response()->download($file_name)->deleteFileAfterSend();
 
-        /*$presidente = Cariche::GetAssociazionePresidente();
-        $patentiAutorizzati = Patente::has('categorie')->get()
-            ->sortBy(function ($product) {
-                return $product->persona->nome;
-            });
-
-        $pdf = SnappyPdf::loadView('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
-        $data = Carbon::now();
-        // viewport-size must be set otherwise the pdf will be bad formatted
-        $pdf->setOption('viewport-size', '1280x1024');
-
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf");*/
-
     }
 
     public function autorizzatiEsportaExcel()

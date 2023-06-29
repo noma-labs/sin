@@ -4,9 +4,8 @@ namespace App\ArchivioDocumenti\Controllers;
 
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use SnappyPdf;
+
 
 class ArchivioDocumentiController extends CoreBaseController
 {
@@ -47,18 +46,20 @@ class ArchivioDocumentiController extends CoreBaseController
 
     public function esporta()
     {
-        $etichette = ArchivioDocumento::TobePrinted()->get();
-        // return view("biblioteca.libri.etichette.view",["libriTobePrinted"=>$libriTobePrinted]);
-        $pdf = SnappyPdf::loadView('archiviodocumenti.etichette.printsingle', ['etichette' => $etichette])
-            ->setOption('page-width', config('etichette.dimensioni.larghezza'))
-            ->setOption('page-height', config('etichette.dimensioni.altezza'))
-            ->setOption('margin-bottom', '0mm')
-            ->setOption('margin-top', '0mm')
-            ->setOption('margin-right', '0mm')
-            ->setOption('margin-left', '0mm');
-        $data = Carbon::now();
+        // TODO use browsershot to generate pdf
+        /* $etichette = ArchivioDocumento::TobePrinted()->get();
+         // return view("biblioteca.libri.etichette.view",["libriTobePrinted"=>$libriTobePrinted]);
+         $pdf = SnappyPdf::loadView('archiviodocumenti.etichette.printsingle', ['etichette' => $etichette])
+             ->setOption('page-width', config('etichette.dimensioni.larghezza'))
+             ->setOption('page-height', config('etichette.dimensioni.altezza'))
+             ->setOption('margin-bottom', '0mm')
+             ->setOption('margin-top', '0mm')
+             ->setOption('margin-right', '0mm')
+             ->setOption('margin-left', '0mm');
+         $data = Carbon::now();
 
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
+         return $pdf->setPap*/
+        er('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
 
     }
 
@@ -94,7 +95,7 @@ class ArchivioDocumentiController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'titolo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('archiviodocumenti')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -102,29 +103,29 @@ class ArchivioDocumentiController extends CoreBaseController
             if ($request->titolo) {
                 $titolo = $request->titolo;
                 $q->where('titolo', 'like', "%$titolo%");
-                $msgSearch = $msgSearch.'Titolo='.$titolo;
+                $msgSearch = $msgSearch . 'Titolo=' . $titolo;
                 $orderBy = 'titolo';
             }
             if ($request->collocazione) {
                 $collocazione = $request->collocazione;
                 if ($collocazione == 'null') {
                     $q->where('foglio', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
+                    $msgSearch = $msgSearch . ' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('foglio', 'like', "%$collocazione%");
-                    $msgSearch = $msgSearch.' Collocazione='.$collocazione;
+                    $msgSearch = $msgSearch . ' Collocazione=' . $collocazione;
                 }
                 $orderBy = 'foglio';
             }
             if ($request->filled('editore')) {
                 $ed = $request->editore;
-                $msgSearch = $msgSearch." Editore= $ed";
+                $msgSearch = $msgSearch . " Editore= $ed";
                 $q->where('editore', 'like', "%$ed%");
                 $orderBy = 'editore';
             }
             if ($request->filled('autore')) {
                 $au = $request->autore;
-                $msgSearch = $msgSearch." Autore= $au";
+                $msgSearch = $msgSearch . " Autore= $au";
                 $q->where('autore', 'like', "%$au%");
                 $orderBy = 'autore';
             }
