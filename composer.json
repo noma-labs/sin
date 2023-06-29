@@ -9,7 +9,6 @@
     "type": "project",
     "require": {
         "php": ">=8.0",
-        "barryvdh/laravel-snappy": "1.0.0",
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^7.0.1",
         "h4cc/wkhtmltopdf-amd64": "^0.12.4",
