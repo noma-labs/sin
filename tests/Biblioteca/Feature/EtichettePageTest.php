@@ -20,7 +20,6 @@ it('download the etichette pfd of multiple books', function () {
 
 })->only();
 
-
 it('download the etichette pfd of a single book', function () {
 
     $libro = Libro::factory()
@@ -30,9 +29,8 @@ it('download the etichette pfd of a single book', function () {
     login();
 
     $this
-        ->get(route('libri.etichette.stampa', ["idLibro" => $libro->id]))
+        ->get(route('libri.etichette.stampa', ['idLibro' => $libro->id]))
         ->assertSuccessful()
         ->assertDownload();
 
 })->only();
-

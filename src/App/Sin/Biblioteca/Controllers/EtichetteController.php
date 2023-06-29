@@ -49,6 +49,7 @@ class EtichetteController extends CoreBaseController
         } else {
             $libri = Libro::TobePrinted()->get();
         }
+
         return view('biblioteca.libri.etichette.printsingle', ['libri' => $libri]);
     }
 
@@ -57,11 +58,12 @@ class EtichetteController extends CoreBaseController
         $date = Carbon::now();
         $file_name = storage_path("etichette-$date.pdf");
 
-        Browsershot::url(route('libri.etichette.preview', ["idLibro" => $request->get('idLibro')]))
+        Browsershot::url(route('libri.etichette.preview', ['idLibro' => $request->get('idLibro')]))
             ->noSandbox()
             ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
             ->timeout(2000)
             ->savePdf($file_name);
+
         return response()->download($file_name)->deleteFileAfterSend();
     }
 
