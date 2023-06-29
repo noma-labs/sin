@@ -71,12 +71,12 @@
         </tr>
         <tr>
             <td class="my-table-collocazione">
-                {{$libro->titolo}}
+                {{$libro->collocazione}}
             </td>
         </tr>
         <tr>
             <td class="my-table-titolo" height={{config('etichette.titolo.height')}}>
-                {{$libro->collocazione}}
+                {{$libro->titolo}}
             </td>
         </tr>
     </table>
