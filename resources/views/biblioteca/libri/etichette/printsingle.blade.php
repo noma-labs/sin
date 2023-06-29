@@ -45,57 +45,24 @@
 
         .my-table .my-table-collocazione {
             border-color: inherit;
-
-        font-size: {
-
-        {
-        config
-        (
-        'etichette.collocazione.font-size'
-        )
+            font-size: 16px;
+            text-align: center;
+            vertical-align: top;
+            max-height: 100px;
         }
-        }
-        ;
-        text-align:center
 
-        ;
-        vertical-align:top
-
-        ;
-        max-height:
-
-        100
-        px
-
-        }
         .my-table .my-table-titolo {
             border-color: inherit;
-
-        font-size: {
-
-        {
-        config
-        (
-        'etichette.titolo.font-size'
-        )
-        }
-        }
-        ;
-        text-align:center
-
-        ;
-        vertical-align:middle
-
-        ;
-        word-break:break-word
-
-        ;
+            font-size: 10px;
+            text-align: center;
+            vertical-align: middle;
+            word-break: break-word;
         }
     </style>
 </head>
 <body class="my-body">
 
-@foreach ($etichette as $etichetta)
+@foreach ($libri as $libro)
 <div class="etichetta">
     <table class="my-table">
         <tr>
@@ -104,12 +71,12 @@
         </tr>
         <tr>
             <td class="my-table-collocazione">
-                {{$etichetta->collocazione}}
+                {{$libro->titolo}}
             </td>
         </tr>
         <tr>
             <td class="my-table-titolo" height={{config('etichette.titolo.height')}}>
-                {{$etichetta->titolo}}
+                {{$libro->collocazione}}
             </td>
         </tr>
     </table>

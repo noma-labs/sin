@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use SnappyPdf;
+use Spatie\Browsershot\Browsershot;
 
 class EtichetteController extends CoreBaseController
 {
@@ -42,37 +42,27 @@ class EtichetteController extends CoreBaseController
         return view('biblioteca.libri.etichette.view', ['libriTobePrinted' => $libriTobePrinted]);
     }
 
-    public function preview()
+    public function preview(Request $request)
     {
-        $etichette = $libriTobePrinted = Libro::TobePrinted()->get();
-
-        return view('biblioteca.libri.etichette.printsingle', ['etichette' => $etichette]);
+        if ($request->has('idLibro')) {
+            $libri = Libro::where('id', $request->idLibro)->get();
+        } else {
+            $libri = Libro::TobePrinted()->get();
+        }
+        return view('biblioteca.libri.etichette.printsingle', ['libri' => $libri]);
     }
 
-    public function printToPdf()
+    public function printToPdf(Request $request)
     {
-        $etichette = Libro::TobePrinted()->get();
+        $date = Carbon::now();
+        $file_name = storage_path("etichette-$date.pdf");
 
-        return $this->generateEtichette($etichette);
-    }
-
-    public static function stampaSingle(Libro $libro)
-    {
-        return self::generateEtichette(collect([$libro]));
-    }
-
-    public static function generateEtichette($etichette)
-    {
-        $pdf = SnappyPdf::loadView('biblioteca.libri.etichette.printsingle', ['etichette' => $etichette])
-            ->setOption('page-width', config('etichette.dimensioni.larghezza'))
-            ->setOption('page-height', config('etichette.dimensioni.altezza'))
-            ->setOption('margin-bottom', '0mm')
-            ->setOption('margin-top', '0mm')
-            ->setOption('margin-right', '0mm')
-            ->setOption('margin-left', '0mm');
-        $data = Carbon::now();
-
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("etichette-$data.pdf");
+        Browsershot::url(route('libri.etichette.preview', ["idLibro" => $request->get('idLibro')]))
+            ->noSandbox()
+            ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
+            ->timeout(2000)
+            ->savePdf($file_name);
+        return response()->download($file_name)->deleteFileAfterSend();
     }
 
     public function addLibro($idLibro)

@@ -34,25 +34,11 @@ use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
-use Spatie\Browsershot\Browsershot;
 
 Route::get('/debug-sentry', function () {
     throw new Exception('My Second Sentry error!');
 });
 
-Route::get('/browsershot', function () {
-    //    Browsershot::url('https://google.com')
-    Browsershot::url('http://localhost/biblioteca/etichette/preview/')
-        ->noSandbox()
-        ->paperSize(30, 62)
-        ->timeout(2000)
-        ->savePdf('google.pdf');
-});
-
-// apt-get install ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
-// npm install
-
-// PUPPETEER_CACHE_DIR=/home/sail/.cache PATH=$PATH:/usr/local/bin:/opt/homebrew/bin NODE_PATH=`npm root -g`  node '/var/www/html/vendor/spatie/browsershot/bin/browser.cjs' '{"url":"https:\/\/google.com","action":"pdf","options":{"path":"example.pdf","args":["--no-sandbox"],"viewport":{"width":30,"height":62},"timeout":20000}}'
 
 Route::view('/', 'welcome');
 
@@ -340,8 +326,6 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::post('libri/{idLibro}/prenota', 'LibriController@bookConfirm')->middleware('can:biblioteca.libro.prenota');
     Route::post('libri/{idLibro}/ripristina',
         'LibriController@restore')->middleware('can:biblioteca.libro.elimina')->name('libri.ripristina');
-    Route::get('libri/{idLibro}/etichetta',
-        'LibriController@stampaEtichetta')->middleware('can:biblioteca.libro.esporta')->name('libri.stampaetichetta');
 
     // ETICHETTE, aggiungi, rimuovi, preview, stampa
     Route::get('etichette',
