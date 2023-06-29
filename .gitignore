@@ -20,5 +20,5 @@ storage/*.docx
 .vscode
 .idea/
 .vagrant/
-
+.cache/
 
