@@ -8,10 +8,11 @@ return [
     |
     */
     'dimensioni' => [
-        'larghezza' => 50,
-        'altezza' => 60,
+        'larghezza' => 29,
+        'altezza' => 62,
     ],
     'titolo' => [
-        'height' => '135',     // altezza del div contenente il titolo
+        'height' => '150',     // altezza del div contenente il titolo
     ],
+
 ];
