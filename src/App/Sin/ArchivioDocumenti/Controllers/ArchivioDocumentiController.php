@@ -4,9 +4,7 @@ namespace App\ArchivioDocumenti\Controllers;
 
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use SnappyPdf;
 
 class ArchivioDocumentiController extends CoreBaseController
 {
@@ -47,18 +45,20 @@ class ArchivioDocumentiController extends CoreBaseController
 
     public function esporta()
     {
-        $etichette = ArchivioDocumento::TobePrinted()->get();
-        // return view("biblioteca.libri.etichette.view",["libriTobePrinted"=>$libriTobePrinted]);
-        $pdf = SnappyPdf::loadView('archiviodocumenti.etichette.printsingle', ['etichette' => $etichette])
-            ->setOption('page-width', config('etichette.dimensioni.larghezza'))
-            ->setOption('page-height', config('etichette.dimensioni.altezza'))
-            ->setOption('margin-bottom', '0mm')
-            ->setOption('margin-top', '0mm')
-            ->setOption('margin-right', '0mm')
-            ->setOption('margin-left', '0mm');
-        $data = Carbon::now();
+        // TODO use browsershot to generate pdf
+        /* $etichette = ArchivioDocumento::TobePrinted()->get();
+         // return view("biblioteca.libri.etichette.view",["libriTobePrinted"=>$libriTobePrinted]);
+         $pdf = SnappyPdf::loadView('archiviodocumenti.etichette.printsingle', ['etichette' => $etichette])
+             ->setOption('page-width', config('etichette.dimensioni.larghezza'))
+             ->setOption('page-height', config('etichette.dimensioni.altezza'))
+             ->setOption('margin-bottom', '0mm')
+             ->setOption('margin-top', '0mm')
+             ->setOption('margin-right', '0mm')
+             ->setOption('margin-left', '0mm');
+         $data = Carbon::now();
 
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
+         return $pdf->setPap*/
+        er('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
 
     }
 

@@ -107,9 +107,8 @@
                 @endif
             </div>
             <div class="col-md-6">
-                <form action="{{route('libri.stampaetichetta', ['idLibro' => $libro->id])}}" id="printEtichetta">
-                </form>
-                <button class="btn btn-warning" form="printEtichetta" type="submit">Genera etichetta</button>
+                <a class="btn btn-warning"
+                   href="{{route('libri.etichette.stampa', ['idLibro' => $libro->id])}}">Genera Etichetta</a>
                 @endif
                 <a class="btn btn-info" href="#" onclick="window.history.back(); return false;">Torna indietro</a>
             </div>

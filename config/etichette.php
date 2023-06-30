@@ -3,28 +3,16 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Configurazione della stampa delle etichette
+    | Configurazione esportazione in pdf delle etichette dei libri della biblioteca
     |--------------------------------------------------------------------------
     |
-    |
     */
-    // dimesioni (in mm) della etichetta in pdf
     'dimensioni' => [
-        'larghezza' => '30mm',
-        'altezza' => '62mm',
-    ],
-
-    /*
-        |--------------------------------------------------------------------------
-        |  Collocazione
-        |--------------------------------------------------------------------------
-        |  imposta il font-size della collocaionze dell'etichetta
-        */
-    'collocazione' => [
-        'font-size' => '22px',
+        'larghezza' => 29,
+        'altezza' => 62,
     ],
     'titolo' => [
-        'font-size' => '18px',
-        'height' => '193', // altezza del div contenente il titolo
+        'height' => '150',     // altezza del div contenente il titolo
     ],
+
 ];

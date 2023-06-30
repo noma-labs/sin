@@ -179,10 +179,8 @@ return [
         /*
          * Third Party Service Providers...
         */
-        // Barryvdh\DomPDF\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
@@ -238,8 +236,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
-        'SnappyPdf' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ],
 

@@ -325,8 +325,6 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::post('libri/{idLibro}/prenota', 'LibriController@bookConfirm')->middleware('can:biblioteca.libro.prenota');
     Route::post('libri/{idLibro}/ripristina',
         'LibriController@restore')->middleware('can:biblioteca.libro.elimina')->name('libri.ripristina');
-    Route::get('libri/{idLibro}/etichetta',
-        'LibriController@stampaEtichetta')->middleware('can:biblioteca.libro.esporta')->name('libri.stampaetichetta');
 
     // ETICHETTE, aggiungi, rimuovi, preview, stampa
     Route::get('etichette',
@@ -340,7 +338,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::post('etichette/remove/{idLibro}',
         'EtichetteController@removeLibro')->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
     Route::get('etichette/preview',
-        'EtichetteController@preview')->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.preview');
+        'EtichetteController@preview')->name('libri.etichette.preview'); //->middleware('can:biblioteca.etichetta.visualizza')
     Route::get('etichette/print',
         'EtichetteController@printToPdf')->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
     Route::get('etichette/excel',
@@ -445,7 +443,7 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     // esposta elenchi
     Route::get('/elenchi/stampa',
         'PatenteController@stampaAutorizzati')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
-    Route::get('/elenchi/preview', [PatenteController::class, 'stampaAutorizzatiPreview'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.preview');
+    Route::get('/elenchi/preview', [PatenteController::class, 'stampaAutorizzatiPreview'])->name('patente.elenchi.autorizzati.esporta.preview'); // ->middleware('can:scuolaguida.patente.esporta')
     Route::get('/elenchi/esporta/excel',
         'PatenteController@autorizzatiEsportaExcel')->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get('/elenchi/patenti/pdf',

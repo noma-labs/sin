@@ -4,13 +4,13 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
 
     services:
-     # NOTE: the container name is the same of the docker-compose.yml in order to
-     # have the same .env.testing file working fot both laravel Sail and github actions.
+      # NOTE: the container name is the same of the docker-compose.yml in order to
+      # have the same .env.testing file working fot both laravel Sail and github actions.
       mysql-test:
         image: mariadb:10.4
         env:
@@ -20,27 +20,35 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.1'
+      #            - name: Install additional PHP extensions
+      #              run: apt-get update && apt-get install -y fonts-liberation libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
 
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
+      #      - name: Setup NodeJS
+      #        uses: actions/setup-node@v3
+      #        with:
+      #          node-version: 18
+      #          cache: 'npm'
+      #          cache-dependency-path: 'package-lock.json'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
           path: ~/.composer/cache/files
           key: cache-laravel-composer-${{ hashFiles('composer.json') }}
 
-    - name: Install Dependencies
-      run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+      - name: Install composer deps
+        run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
-    - name: Prepare Laravel Application
-      run:  php artisan key:generate --env=testing
+      #      - name: Install npm deps
+      #        run: npm install
 
-    - name: Clear Config
-      run: php artisan config:clear
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
 
-    - name: Run tests
-      run: ./vendor/bin/pest
+      - name: Run tests
+        run: ./vendor/bin/pest

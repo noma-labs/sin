@@ -12,7 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use SnappyPdf;
+use Spatie\Browsershot\Browsershot;
 use Validator;
 
 class PatenteController extends CoreBaseController
@@ -217,18 +217,17 @@ class PatenteController extends CoreBaseController
 
     public function stampaAutorizzati()
     {
-        $presidente = Cariche::GetAssociazionePresidente();
-        $patentiAutorizzati = Patente::has('categorie')->get()
-            ->sortBy(function ($product) {
-                return $product->persona->nome;
-            });
+        $date = Carbon::now()->format('Y-m-d_H-i-s');
+        $file_name = storage_path("autorizzati-$date.pdf");
 
-        $pdf = SnappyPdf::loadView('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
-        $data = Carbon::now();
-        // viewport-size must be set otherwise the pdf will be bad formatted
-        $pdf->setOption('viewport-size', '1280x1024');
+        Browsershot::url(route('patente.elenchi.autorizzati.esporta.preview'))
+            ->noSandbox()
+            ->format('A4')
+            ->timeout(2000)
+            ->margins(10, 20, 30, 40)
+            ->savePdf($file_name);
 
-        return $pdf->setPaper('a4')->setOrientation('portrait')->download("autorizzati-$data.pdf");
+        return response()->download($file_name)->deleteFileAfterSend();
 
     }
 

@@ -353,13 +353,6 @@ class LibriController extends CoreBaseController
         return view('biblioteca.libri.insert', compact('classificazioni')); //,$editori,$autori);
     }
 
-    public function stampaEtichetta(Request $request, $idLibro)
-    {
-        $libro = Libro::findorFail($idLibro);
-        // return EtichetteController::generateEtichette(collect([$libro]));
-        return EtichetteController::stampaSingle($libro);
-    }
-
     public function insertConfirm(Request $request)
     {
         $validatedData = $request->validate([
