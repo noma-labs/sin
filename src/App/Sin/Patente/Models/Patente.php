@@ -37,7 +37,7 @@ class Patente extends Model
     protected static function booted()
     {
         static::addGlobalScope('InNomadelfia', function (Builder $builder) {
-            $builder->select('db_nomadelfia.persone.*', "persone_patenti.*")
+            $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
                 ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
                 ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
                 ->whereNull('db_nomadelfia.popolazione.data_uscita')
@@ -60,18 +60,16 @@ class Patente extends Model
         return $query->where('stato', 'commissione');
     }
 
-
-//    public function scopeInNomadelfia($query)
-//    {
-//        return $query->select('db_nomadelfia.persone.*', "persone_patenti.*")
-//            ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
-//            ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
-//            ->whereNull('db_nomadelfia.popolazione.data_uscita')
-//            ->orderBy('db_nomadelfia.persone.nominativo');
-//
-//
-//    }
-
+    //    public function scopeInNomadelfia($query)
+    //    {
+    //        return $query->select('db_nomadelfia.persone.*', "persone_patenti.*")
+    //            ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
+    //            ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
+    //            ->whereNull('db_nomadelfia.popolazione.data_uscita')
+    //            ->orderBy('db_nomadelfia.persone.nominativo');
+    //
+    //
+    //    }
 
     /**
      * Ritorna tutte le occorrenze distinte del campo "rilasciata_dal" .
@@ -127,7 +125,7 @@ class Patente extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param int $giorni : numero di giorni entro il quale le patenti scadono.
+     * @param  int  $giorni : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -156,7 +154,7 @@ class Patente extends Model
      * Ritorna le patenti che sono scadute da un numero di $giorni da oggi.
      * Se $day ==null ritorna tutte le patenti scadute da oggi.
      *
-     * @param int $giorni : numero di giorni di scadenza
+     * @param  int  $giorni : numero di giorni di scadenza
      *
      * @author Davide Neri
      */
@@ -175,8 +173,8 @@ class Patente extends Model
 
     /** Return TRUE if the patente has the commissione, FALSE otherwise
      * @return bool
-     * @author Davide Neri
      *
+     * @author Davide Neri
      */
     public function hasCommissione()
     {
