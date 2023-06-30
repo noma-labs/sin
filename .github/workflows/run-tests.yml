@@ -50,8 +50,5 @@ jobs:
           cp .env.ci .env
           php artisan key:generate
 
-      #      - name: Clear Config
-      #        run: php artisan config:clear
-
       - name: Run tests
         run: ./vendor/bin/pest
