@@ -9,6 +9,7 @@ use App\Patente\Models\Patente;
 use Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -205,6 +206,7 @@ class PatenteController extends CoreBaseController
 
     public function stampaAutorizzatiPreview()
     {
+        $persone = PopolazioneNomadelfia::take('id');
         $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
             ->sortBy(function ($product) {
