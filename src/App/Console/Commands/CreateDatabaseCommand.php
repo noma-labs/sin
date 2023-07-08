@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -46,7 +47,7 @@ class CreateDatabaseCommand extends Command
                 $this->info("Created  database '$dbName' for '$connection' connection");
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error($e->getMessage());
         }
     }
