@@ -30,9 +30,9 @@ class CategoriaPatente extends Model
     /**
      * Scope a query to only include categorie of a given name (A,B,C,D,DE,...)
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  Builder  $query
      * @param  mixed  $type
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeDalNome($query, $categoria)
     {

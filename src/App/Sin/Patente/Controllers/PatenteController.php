@@ -13,6 +13,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Spatie\Browsershot\Browsershot;
 use Validator;
 
@@ -112,7 +113,7 @@ class PatenteController extends CoreBaseController
             // true
         );
         $spreadsheet->getActiveSheet()->getPageSetup()
-            ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
         $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
         $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
@@ -185,7 +186,7 @@ class PatenteController extends CoreBaseController
         );
 
         $spreadsheet->getActiveSheet()->getPageSetup()
-            ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
         $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
         $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
@@ -299,7 +300,7 @@ class PatenteController extends CoreBaseController
         $queryPatenti = Patente::where(function ($q) use ($request, &$msgSearch, &$orderBy) {
             if ($request->filled('persona_id')) {
                 $persona = $request->persona_id;
-                $q->where('persona_id', $persona);
+                $q->where('persone_patenti.persona_id', $persona);
                 $nome = Persona::findorfail($persona)->nominativo;
                 $msgSearch = $msgSearch.'Persona='.$nome;
 
