@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -17,7 +18,7 @@ class RisorsaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,7 +30,7 @@ class RisorsaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -41,7 +42,7 @@ class RisorsaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -61,7 +62,7 @@ class RisorsaController extends Controller
 
         $permission->save();
 
-        if (! empty($request['roles'])) { //If one or more role is selected
+        if (!empty($request['roles'])) { //If one or more role is selected
             foreach ($roles as $role) {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
                 $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
@@ -76,8 +77,8 @@ class RisorsaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -87,8 +88,8 @@ class RisorsaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -100,8 +101,8 @@ class RisorsaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -113,14 +114,14 @@ class RisorsaController extends Controller
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso '.$permission->name.' aggiornato!');
+        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso ' . $permission->name . ' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

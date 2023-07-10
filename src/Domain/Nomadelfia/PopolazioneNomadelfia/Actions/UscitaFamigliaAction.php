@@ -4,6 +4,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class UscitaFamigliaAction
@@ -13,9 +14,10 @@ class UscitaFamigliaAction
     private SendEmailFamigliaUscitaAction $emailUscita;
 
     public function __construct(
-        LogUscitaFamigliaAction $logUscita,
+        LogUscitaFamigliaAction       $logUscita,
         SendEmailFamigliaUscitaAction $emailUscita
-    ) {
+    )
+    {
         $this->logUscita = $logUscita;
         $this->emailUscita = $emailUscita;
     }
@@ -43,7 +45,7 @@ class UscitaFamigliaAction
                 $act->execute($persona, $uscita);
             });
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

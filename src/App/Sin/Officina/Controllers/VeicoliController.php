@@ -12,6 +12,7 @@ use App\Officina\Models\Tipologia;
 use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
+use Throwable;
 
 class VeicoliController extends CoreBaseController
 {
@@ -31,10 +32,10 @@ class VeicoliController extends CoreBaseController
                 ->where('modello.marca_id', '=', $request->input('marca'));
         }
         if ($request->filled('nome')) {
-            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
+            $veicoli->where('veicolo.nome', 'like', $request->input('nome') . '%');
         }
         if ($request->filled('targa')) {
-            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
+            $veicoli->where('veicolo.targa', 'like', '%' . $request->input('targa') . '%');
         }
         if ($request->filled('modello')) {
             $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));
@@ -153,7 +154,7 @@ class VeicoliController extends CoreBaseController
                 'tipo' => $request->input('tipo'),
                 'note' => $note,
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError('Errore durante il salvataggio del filtro: filtro già esistente');
         }
 
@@ -180,7 +181,7 @@ class VeicoliController extends CoreBaseController
                 'codice' => strtoupper($request->input('codice')),
                 'note' => $note,
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio: olio già esistente");
         }
 
@@ -199,7 +200,7 @@ class VeicoliController extends CoreBaseController
         $veicolo = Veicolo::find($r->input('v_id'));
         try {
             $veicolo->delete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return redirect(route('veicoli.modifica', ['id' => $r->input('v_id')]))->withError('Errore nella demolizione del veicolo');
         }
 
@@ -217,10 +218,10 @@ class VeicoliController extends CoreBaseController
                 ->where('modello.marca_id', '=', $request->input('marca'));
         }
         if ($request->filled('nome')) {
-            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
+            $veicoli->where('veicolo.nome', 'like', $request->input('nome') . '%');
         }
         if ($request->filled('targa')) {
-            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
+            $veicoli->where('veicolo.targa', 'like', '%' . $request->input('targa') . '%');
         }
         if ($request->filled('modello')) {
             $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));
@@ -235,7 +236,7 @@ class VeicoliController extends CoreBaseController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->forceDelete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella eliminazione del veicolo');
         }
 
@@ -247,7 +248,7 @@ class VeicoliController extends CoreBaseController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->restore();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella riabilitazione del veicolo');
         }
 

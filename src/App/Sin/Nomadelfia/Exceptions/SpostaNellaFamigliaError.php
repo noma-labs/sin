@@ -2,6 +2,8 @@
 
 namespace App\Nomadelfia\Exceptions;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use InvalidArgumentException;
 
 class SpostaNellaFamigliaError extends InvalidArgumentException
@@ -14,8 +16,8 @@ class SpostaNellaFamigliaError extends InvalidArgumentException
     /**
      * Render the exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function render($request)
     {

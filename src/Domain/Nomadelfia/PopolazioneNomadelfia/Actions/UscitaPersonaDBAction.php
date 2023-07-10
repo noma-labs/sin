@@ -4,6 +4,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class UscitaPersonaDBAction
@@ -67,7 +68,7 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
+            if (!$uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
                 // toglie la persona dal nucleo familiare
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
@@ -76,7 +77,7 @@ class UscitaPersonaDBAction
             }
 
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

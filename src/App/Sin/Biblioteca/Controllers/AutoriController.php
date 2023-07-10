@@ -5,6 +5,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Autore as Autore;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 
 class AutoriController extends CoreBaseController
@@ -17,7 +18,7 @@ class AutoriController extends CoreBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,7 +30,7 @@ class AutoriController extends CoreBaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,7 +44,7 @@ class AutoriController extends CoreBaseController
     /**
      * Create a new Autore. return True if succefly
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
 
     // public function apiCreate(Request $request)
@@ -53,16 +54,16 @@ class AutoriController extends CoreBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
             'autore' => 'required|unique:db_biblioteca.autore,autore',
         ], [
-            'autore.required' => "L'autore non può essere vuoto.",
-            'autore.unique' => "L'autore $request->autore esistente già.",
-        ]
+                'autore.required' => "L'autore non può essere vuoto.",
+                'autore.unique' => "L'autore $request->autore esistente già.",
+            ]
         );
         $autore = new Autore;
         $autore->autore = $request->autore;
@@ -78,8 +79,8 @@ class AutoriController extends CoreBaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -91,8 +92,8 @@ class AutoriController extends CoreBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -113,24 +114,24 @@ class AutoriController extends CoreBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
         // return $id;
         $autore = Autore::findOrFail($id); //Get role with the given id
         $this->validate($request, [
-            'autore' => 'required|unique:db_biblioteca.autore,autore,'.$id.',id',
+            'autore' => 'required|unique:db_biblioteca.autore,autore,' . $id . ',id',
         ], [
-            'autore.required' => "L'autore non può essere vuoto.",
-            'autore.unique' => "L'autore $request->autore esistente già.",
-        ]
+                'autore.required' => "L'autore non può essere vuoto.",
+                'autore.unique' => "L'autore $request->autore esistente già.",
+            ]
         );
 
         $autore->fill(['autore' => $request->autore]);
         if ($autore->save()) {
-            return redirect()->route('autori.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
+            return redirect()->route('autori.index')->withSuccess('Autore ' . $autore->autore . ' aggiornato!');
         } else {
             redirect()->route('autori.index')->withErroe("Errore durante l'operaizone di aggiornamento");
         }
@@ -139,8 +140,8 @@ class AutoriController extends CoreBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

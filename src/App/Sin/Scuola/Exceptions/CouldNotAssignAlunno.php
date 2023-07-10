@@ -2,7 +2,9 @@
 
 namespace App\Scuola\Exceptions;
 
-class CouldNotAssignAlunno extends \Exception
+use Exception;
+
+class CouldNotAssignAlunno extends Exception
 {
     public static function isNotValidAnno(string $anno): self
     {

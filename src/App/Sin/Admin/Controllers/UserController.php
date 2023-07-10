@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Models\User;
 use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -84,8 +85,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

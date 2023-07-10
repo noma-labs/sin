@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ConvertExifCommand;
 use App\Console\Commands\CreateDatabaseCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CreateDatabaseCommand::class,
+        ConvertExifCommand::class,
     ];
 
     /**

@@ -1,5 +1,14 @@
 <?php
 
+use Spatie\Backup\Notifications\Notifiable;
+use Spatie\Backup\Notifications\Notifications\BackupHasFailed;
+use Spatie\Backup\Notifications\Notifications\BackupWasSuccessful;
+use Spatie\Backup\Notifications\Notifications\CleanupHasFailed;
+use Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful;
+use Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound;
+use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound;
+use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
+
 return [
 
     'backup' => [
@@ -83,19 +92,19 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class => ['mail'], //mail
-            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class => ['mail'],
+            BackupHasFailed::class => ['mail'], //mail
+            UnhealthyBackupWasFound::class => ['mail'],
+            CleanupHasFailed::class => ['mail'],
+            BackupWasSuccessful::class => ['mail'],
+            HealthyBackupWasFound::class => ['mail'],
+            CleanupWasSuccessful::class => ['mail'],
         ],
 
         /*
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+        'notifiable' => Notifiable::class,
 
         'mail' => [
             'to' => 'davideneri18@gmail.com',
@@ -144,7 +153,7 @@ return [
          * No matter how you configure it the default strategy will never
          * delete the newest backup.
          */
-        'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
+        'strategy' => DefaultStrategy::class,
 
         'defaultStrategy' => [
 

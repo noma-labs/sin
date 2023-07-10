@@ -4,8 +4,9 @@ namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 
-class CouldNotAssignIncarico extends \Exception
+class CouldNotAssignIncarico extends Exception
 {
     public static function hasAlreadyIncarico(Azienda $incarico, Persona $persona): self
     {
