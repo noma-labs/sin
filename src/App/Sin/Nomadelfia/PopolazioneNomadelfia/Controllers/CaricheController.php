@@ -5,6 +5,8 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 
 class CaricheController extends CoreBaseController
 {
@@ -40,7 +42,7 @@ class CaricheController extends CoreBaseController
     {
         $anz = Cariche::EleggibiliConsiglioAnziani();
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         // define styles
         $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
@@ -51,19 +53,19 @@ class CaricheController extends CoreBaseController
 
         // Consiglio degli anziani eleggibili
         $section = $phpWord->addSection();
-        $section->addTitle('Consiglio degli anziani '.$anz->total, 1);
+        $section->addTitle('Consiglio degli anziani ' . $anz->total, 1);
 
         $sectAnzUomini = $phpWord->addSection($colStyle4NCont);
-        $sectAnzUomini->addTitle('Uomini '.count($anz->uomini), 2);
+        $sectAnzUomini->addTitle('Uomini ' . count($anz->uomini), 2);
         foreach ($anz->uomini as $value) {
             $sectAnzUomini->addText($value->nominativo);
         }
         $maggDonne = $phpWord->addSection($colStyle4Next);
-        $maggDonne->addTitle('Donne '.count($anz->donne), 2);
+        $maggDonne->addTitle('Donne ' . count($anz->donne), 2);
         foreach ($anz->donne as $value) {
             $maggDonne->addText($value->nominativo);
         }
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
         $file_name = "elezioni-$data.docx";
         $objWriter->save(storage_path($file_name));

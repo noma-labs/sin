@@ -96,10 +96,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (! $persona->isEffettivo()) {
+            if (!$persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (! $persona->isMaschio()) {
+            if (!$persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();
@@ -113,7 +113,7 @@ class GruppoFamiliare extends Model
                 }
                 $this->capogruppi()->attach($persona->id, ['stato' => '1', 'data_inizio_incarico' => $data_inizio]);
                 DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 DB::connection('db_nomadelfia')->rollback();
                 throw $e;
             }

@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class EntrataPersonaAction
@@ -12,9 +13,10 @@ class EntrataPersonaAction
     private SendEmailPersonaEntrataAction $email;
 
     public function __construct(
-        LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        LogEntrataPersonaAction       $logEntrataInNomadelfiaActivityAction,
         SendEmailPersonaEntrataAction $email
-    ) {
+    )
+    {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
         $this->email = $email;
     }
@@ -42,7 +44,7 @@ class EntrataPersonaAction
         // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
         $persona = $entrataPersonaData->persona;
         if ($persona->isPersonaInterna()) {
-            throw new \Exception("Impossibile inserire `{$persona->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
+            throw new Exception("Impossibile inserire `{$persona->nominativo}` come prima volta nella comunita. Risulta essere già stata inserita.");
         }
 
         $persona_id = $persona->id;
@@ -88,7 +90,7 @@ class EntrataPersonaAction
             }
             DB::connection('db_nomadelfia')->commit();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             dd($e);
         }

@@ -116,7 +116,7 @@ it('manage exit of underage', function () {
     // assegna minorenne in una classe
     $a = Anno::createAnno(2100);
     $classe = $a->aggiungiClasse(ClasseTipo::all()->random());
-    $classe->aggiungiAlunno($persona, \Carbon\Carbon::now());
+    $classe->aggiungiAlunno($persona, Carbon::now());
     expect($classe->alunni()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();

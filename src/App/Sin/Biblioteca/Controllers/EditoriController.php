@@ -5,6 +5,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 
 class EditoriController extends CoreBaseController
@@ -17,7 +18,7 @@ class EditoriController extends CoreBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,7 +30,7 @@ class EditoriController extends CoreBaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,16 +44,16 @@ class EditoriController extends CoreBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
             'editore' => 'required|unique:db_biblioteca.editore,Editore',
         ], [
-            'editore.required' => "L'editore non può essere vuoto.",
-            'editore.unique' => "L'editore $request->editore esistente già.",
-        ]
+                'editore.required' => "L'editore non può essere vuoto.",
+                'editore.unique' => "L'editore $request->editore esistente già.",
+            ]
         );
         $editore = new Editore;
         $editore->editore = $request->editore;
@@ -77,8 +78,8 @@ class EditoriController extends CoreBaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Editore  $editore
-     * @return \Illuminate\Http\Response
+     * @param \App\Editore $editore
+     * @return Response
      */
     public function show($id)
     {
@@ -90,8 +91,8 @@ class EditoriController extends CoreBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Editore  $editore
-     * @return \Illuminate\Http\Response
+     * @param \App\Editore $editore
+     * @return Response
      */
     public function edit($id)
     {
@@ -104,32 +105,32 @@ class EditoriController extends CoreBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Editore  $editore
-     * @return \Illuminate\Http\Response
+     * @param \App\Editore $editore
+     * @return Response
      */
     public function update(Request $request, $id)
     {
         $editore = Editore::findOrFail($id);
 
         $this->validate($request, [
-            'editore' => 'required|unique:db_biblioteca.editore,editore,'.$id.',id',
+            'editore' => 'required|unique:db_biblioteca.editore,editore,' . $id . ',id',
             // 'autore'=>'required|unique:db_biblioteca.autore,Autore,'.$id.",ID_AUTORE",
         ], [
-            'editore.required' => "L'editore non può essere vuoto.",
-            'editore.unique' => "L'editore $request->editore esistente già.",
-        ]
+                'editore.required' => "L'editore non può essere vuoto.",
+                'editore.unique' => "L'editore $request->editore esistente già.",
+            ]
         );
 
         $editore->fill(['editore' => $request->editore])->save();
 
-        return redirect()->route('editori.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
+        return redirect()->route('editori.index')->withSuccess('Editore ' . $editore->editore . ' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Editore  $editore
-     * @return \Illuminate\Http\Response
+     * @param \App\Editore $editore
+     * @return Response
      */
     public function destroy(Editore $editore)
     {

@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class DecessoPersonaAction
@@ -14,10 +15,11 @@ class DecessoPersonaAction
     private SendEmailPersonaDecessoAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction $uscita,
-        LogDecessoPersonaAction $logDecesso,
+        UscitaPersonaDBAction         $uscita,
+        LogDecessoPersonaAction       $logDecesso,
         SendEmailPersonaDecessoAction $email
-    ) {
+    )
+    {
         $this->uscita = $uscita;
         $this->logDecesso = $logDecesso;
         $this->email = $email;
@@ -63,7 +65,7 @@ class DecessoPersonaAction
             );
 
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

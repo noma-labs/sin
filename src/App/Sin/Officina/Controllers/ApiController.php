@@ -14,13 +14,14 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ApiController extends CoreBaseController
 {
     public function clientiMeccanica(Request $request)
     {
         $term = $request->input('term');
-        $clienti = ViewClienti::where('nominativo', 'LIKE', $term.'%')->orderBy('nominativo')->take(50)->get();
+        $clienti = ViewClienti::where('nominativo', 'LIKE', $term . '%')->orderBy('nominativo')->take(50)->get();
         $results = [];
         foreach ($clienti as $persona) {
             $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
@@ -34,15 +35,15 @@ class ApiController extends CoreBaseController
     {
         $term = $request->input('term');
         $veicoli = Veicolo::withTrashed()
-            ->where('nome', 'LIKE', '%'.$term.'%')
-            ->orWhere('targa', 'LIKE', '%'.$term.'%')
+            ->where('nome', 'LIKE', '%' . $term . '%')
+            ->orWhere('targa', 'LIKE', '%' . $term . '%')
             ->orderBy('nome')
             ->take(50)->get();
         $results = [];
         foreach ($veicoli as $veicolo) {
             $results[] = [
                 'value' => $veicolo->id,
-                'label' => "$veicolo->nome - $veicolo->targa ".$veicolo->impiego->nome,
+                'label' => "$veicolo->nome - $veicolo->targa " . $veicolo->impiego->nome,
             ];
         }
 
@@ -286,7 +287,7 @@ class ApiController extends CoreBaseController
     public function marche(Request $request)
     {
         $term = $request->input('term');
-        $marcheWithModelli = Marche::with('modelli')->where('nome', 'LIKE', '%'.$term.'%')->get();
+        $marcheWithModelli = Marche::with('modelli')->where('nome', 'LIKE', '%' . $term . '%')->get();
         $results = [];
         foreach ($marcheWithModelli as $marca) {
             $results[] = ['value' => $marca->id, 'label' => $marca->nome, 'modelli' => $marca->modelli->all()];
@@ -298,7 +299,7 @@ class ApiController extends CoreBaseController
     public function impiego(Request $request)
     {
         $term = $request->input('term');
-        $impieghi = Impiego::where('nome', 'LIKE', $term.'%')->get();
+        $impieghi = Impiego::where('nome', 'LIKE', $term . '%')->get();
         $results = [];
         foreach ($impieghi as $impiego) {
             $results[] = ['value' => $impiego->id, 'label' => $impiego->nome];
@@ -322,7 +323,7 @@ class ApiController extends CoreBaseController
     public function alimentazione(Request $request)
     {
         $term = $request->input('term');
-        $alimentazioni = Alimentazioni::where('nome', 'LIKE', $term.'%')->get();
+        $alimentazioni = Alimentazioni::where('nome', 'LIKE', $term . '%')->get();
         $results = [];
         foreach ($alimentazioni as $alimentazione) {
             $results[] = ['value' => $alimentazione->id, 'label' => $alimentazione->nome];
@@ -352,7 +353,7 @@ class ApiController extends CoreBaseController
         $veicolo = Veicolo::find($request->input('veicolo'));
         try {
             $veicolo->gomme()->detach($request->input('gomma'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['error'];
         }
 
@@ -367,7 +368,7 @@ class ApiController extends CoreBaseController
         $gomme = TipoGomme::orderBy('codice')->get();
         $result = [];
         foreach ($gomme as $gomma) {
-            $result[] = ['codice' => $gomma->codice.' '.$gomma->note, 'id' => $gomma->id];
+            $result[] = ['codice' => $gomma->codice . ' ' . $gomma->note, 'id' => $gomma->id];
         }
 
         return response()->json($result);
@@ -390,10 +391,10 @@ class ApiController extends CoreBaseController
                     'codice' => strtoupper($request->input('nuovo_codice')),
                     'note' => $note,
                 ]);
-            } catch (\Throwable $th) {
+            } catch (Throwable $th) {
                 return [
                     'status' => 'error',
-                    'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') == ''),
+                    'msg' => "Errore: codice della gomma gia' presente " . $request->input('nuovo_codice') . ' ' . ($request->input('note') == ''),
                 ];
             }
         } else {
@@ -402,7 +403,7 @@ class ApiController extends CoreBaseController
         $veicolo = Veicolo::find($request->input('veicolo_id'));
         try {
             $veicolo->gomme()->attach($gomma->id);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
         }
 
@@ -441,7 +442,7 @@ class ApiController extends CoreBaseController
         $filtro = TipoFiltro::find($request->input('filtro'));
         try {
             $filtro->delete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
         }
 
