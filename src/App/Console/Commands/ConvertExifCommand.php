@@ -36,8 +36,8 @@ class ConvertExifCommand extends Command
         $raw = collect([]);
         foreach ($photos as $photo) {
             $exif = new ExifData();
-            if (! isset($photo['ImageDataHash'])) {
-                $this->error('ImageDataHash cannot be empty. '.json_encode($photo));
+            if (!isset($photo['ImageDataHash'])) {
+                $this->error('ImageDataHash cannot be empty. ' . json_encode($photo));
                 exit();
             }
             $exif->sha = $photo['ImageDataHash'];
@@ -50,8 +50,12 @@ class ConvertExifCommand extends Command
             $exif->fileType = $photo['FileType'];
             $exif->fileName = $photo['FileName'];
             $exif->fileExtension = $photo['FileTypeExtension'];
-            $exif->imageWidth = $photo['ImageWidth'];
-            $exif->imageHeight = $photo['ImageHeight'];
+            if (isset($photo['ImageWidth'])) {
+                $exif->imageWidth = $photo['ImageWidth'];
+            }
+            if (isset($photo['ImageHeight'])) {
+                $exif->imageHeight = $photo['ImageHeight'];
+            }
 
             // TODO: if taken at is missing ?
             // TODO: manage the timezone
