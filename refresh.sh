@@ -14,6 +14,7 @@
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/patente" --database=db_patente
 ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/officina" --database=db_officina
+./vendor/bin/sail artisan migrate:fresh --path="database/migrations/foto" --database=db_foto
 
 # seed tables
 ./vendor/bin/sail artisan db:seed
