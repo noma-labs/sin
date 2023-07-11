@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Domain\Photo\Models\ExifData;
+use Domain\Photo\Models\Photo;
 use Illuminate\Console\Command;
 
 
@@ -30,7 +31,7 @@ class ConvertExifCommand extends Command
      */
     public function handle()
     {
-        $photos = json_decode(file_get_contents(storage_path() . "/exif-photos-all.json"), true);
+        $photos = json_decode(file_get_contents(storage_path() . "/json2022.json"), true);
 
         $raw = collect([]);
         foreach ($photos as $photo) {
@@ -38,28 +39,40 @@ class ConvertExifCommand extends Command
             $exif->sha = $photo['ImageDataHash'];
             $exif->sourceFile = $photo['SourceFile'];
             $exif->fileName = $photo['FileName'];
+            $exif->directory = $photo['Directory'];
             $exif->fileType = $photo['FileType'];
+
+
             // TODO: if taken at is missing ?
-            // manage the timezone
+            // TODO: manage the timezone
             if (isset($photo['CreateDate'])) {
                 $exif->takenAt = Carbon::parse($photo['CreateDate']);
             }
             if (isset($photo['Subject'])) {
                 $exif->subjects = $photo['Subject'];
             }
+            if (isset($photo['RegionInfo'])) {
+                $exif->regionInfo = json_encode($photo['RegionInfo']);
+            }
+            //dd($exif);
             $raw->push($exif);
         }
-        $chunks = $raw->chunk(100);
-        var attrs = array([]);
+        $chunks = $raw->chunk(500);
         foreach ($chunks as $chunk) {
-            array_push(attrs, [
-                "sha"=>$chunk->sha,
-                "source_file" => $chunk->sourceFile
-            ]);
-            query = "INSERT INTO photos (sha, source_file, subjects)"
+            $attrs = array();
+            foreach ($chunk as $r) {
+                array_push($attrs, [
+                    "sha" => $r->sha,
+                    "source_file" => $r->sourceFile,
+                    "subject" => join(',', $r->subjects),
+                    "taken_at" => $r->takenAt,
+                    "file_name" => $r->fileName,
+                    "directory" => $r->directory,
+                ]);
+            }
+            Photo::insert($attrs);
         }
 
-        dd($raw->take(10)->toArray());
 
         return Command::SUCCESS;
 
