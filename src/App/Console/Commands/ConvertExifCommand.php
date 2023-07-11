@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Domain\Photo\Models\ExifData;
 use Domain\Photo\Models\Photo;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class ConvertExifCommand extends Command
 {
@@ -30,7 +31,7 @@ class ConvertExifCommand extends Command
      */
     public function handle()
     {
-        $photos = json_decode(file_get_contents(storage_path().'/json2022.json'), true);
+        $photos = json_decode(file_get_contents(storage_path() . '/json2022.json'), true);
 
         $raw = collect([]);
         foreach ($photos as $photo) {
@@ -42,8 +43,15 @@ class ConvertExifCommand extends Command
             $exif->sha = $photo['ImageDataHash'];
             $exif->sourceFile = $photo['SourceFile'];
             $exif->fileName = $photo['FileName'];
-            $exif->directory = $photo['Directory'];
+            $exif->fileSize = $photo['FileSize'];
             $exif->fileType = $photo['FileType'];
+            $exif->directory = $photo['Directory'];
+            $exif->folderTitle = Str::of($exif->directory)->basename();
+            $exif->fileType = $photo['FileType'];
+            $exif->fileName = $photo['FileName'];
+            $exif->fileExtension = $photo['FileTypeExtension'];
+            $exif->imageWidth = $photo['ImageWidth'];
+            $exif->imageHeight = $photo['ImageHeight'];
 
             // TODO: if taken at is missing ?
             // TODO: manage the timezone
@@ -56,7 +64,6 @@ class ConvertExifCommand extends Command
             if (isset($photo['RegionInfo'])) {
                 $exif->regionInfo = json_encode($photo['RegionInfo']);
             }
-            //dd($exif);
             $raw->push($exif);
         }
         $chunks = $raw->chunk(500);
@@ -64,12 +71,20 @@ class ConvertExifCommand extends Command
             $attrs = [];
             foreach ($chunk as $r) {
                 array_push($attrs, [
+                    'uid' => uniqid(),
                     'sha' => $r->sha,
                     'source_file' => $r->sourceFile,
                     'subject' => implode(',', $r->subjects),
-                    'taken_at' => $r->takenAt,
+                    'folder_title' => $r->folderTitle,
+                    'file_size' => $r->fileSize,
                     'file_name' => $r->fileName,
+                    'file_type' => $r->fileType,
+                    'file_type_extension' => $r->fileExtension,
+                    'image_height' => $r->imageHeight,
+                    'image_width' => $r->imageWidth,
+                    'taken_at' => $r->takenAt,
                     'directory' => $r->directory,
+                    'region_info' => $exif->regionInfo,
                 ]);
             }
             Photo::insert($attrs);
