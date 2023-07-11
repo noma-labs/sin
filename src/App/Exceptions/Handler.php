@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param Exception $exception
+     * @param  Exception  $exception
      * @return void
      */
     public function report(Throwable $exception)
@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

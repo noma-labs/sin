@@ -16,7 +16,7 @@ class SpostaNellaFamigliaError extends InvalidArgumentException
     /**
      * Render the exception into an HTTP response.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function render($request)

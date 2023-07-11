@@ -91,12 +91,12 @@ class EsSpiritualiController extends CoreBaseController
             $section->addTitle($esercizio->turno, 1);
             $persone = $esercizio->personeOk();
             $uomini = $phpWord->addSection($colStyle2Cont);
-            $uomini->addTitle('Uomini ' . count($persone->uomini), 2);
+            $uomini->addTitle('Uomini '.count($persone->uomini), 2);
             foreach ($persone->uomini as $value) {
                 $uomini->addText(ucwords(strtolower($value->nominativo)));
             }
             $donne = $phpWord->addSection($colStyle2Next);
-            $donne->addTitle('Donne ' . count($persone->donne), 2);
+            $donne->addTitle('Donne '.count($persone->donne), 2);
             foreach ($persone->donne as $value) {
                 $donne->addText(ucfirst(strtolower($value->nominativo)));
             }
@@ -106,12 +106,12 @@ class EsSpiritualiController extends CoreBaseController
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
         $uomini = $phpWord->addSection($colStyle2Cont);
         $uomini->addTitle('Senza esercizi Spirituali', 1);
-        $uomini->addTitle('Uomini ' . count($noEsercizi->uomini), 2);
+        $uomini->addTitle('Uomini '.count($noEsercizi->uomini), 2);
         foreach ($noEsercizi->uomini as $value) {
             $uomini->addText(ucwords(strtolower($value->nominativo)));
         }
         $donne = $phpWord->addSection($colStyle2Next);
-        $donne->addTitle('Donne ' . count($noEsercizi->donne), 2);
+        $donne->addTitle('Donne '.count($noEsercizi->donne), 2);
         foreach ($noEsercizi->donne as $value) {
             $donne->addText(ucfirst(strtolower($value->nominativo)));
         }

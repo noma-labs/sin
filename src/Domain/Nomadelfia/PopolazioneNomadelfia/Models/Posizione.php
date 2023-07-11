@@ -55,8 +55,8 @@ class Posizione extends Model
     /**
      * Find a Posizione by its name
      *
-     * @param string $name abbreviato
-     * @param string|null $guardName
+     * @param  string  $name abbreviato
+     * @param  string|null  $guardName
      * @return  Posizione;
      *
      * @throws PosizioneDoesNotExists
@@ -64,7 +64,7 @@ class Posizione extends Model
     public static function find(string $name): Posizione
     {
         $posizione = Posizione::where('abbreviato', $name)->first();
-        if (!$posizione) {
+        if (! $posizione) {
             throw PosizioneDoesNotExists::named($name);
         }
 
