@@ -31,7 +31,7 @@ class ConvertExifCommand extends Command
      */
     public function handle()
     {
-        $photos = json_decode(file_get_contents(storage_path() . '/json2022.json'), true);
+        $photos = json_decode(file_get_contents(storage_path().'/json2022.json'), true);
 
         $raw = collect([]);
         foreach ($photos as $photo) {
