@@ -5,6 +5,7 @@ LABEL maintainer="Taylor Otwell"
 ARG WWWGROUP
 ARG NODE_VERSION=18
 ARG POSTGRES_VERSION=15
+ARG EXIFTOOL_VERSION=12.64
 
 WORKDIR /var/www/html
 
@@ -45,6 +46,15 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# install exiftool
+RUN  cd /tmp && \
+    wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz && \
+    tar -xzvf Image-ExifTool-*.tar.gz && \
+    rm -rf Image-ExifTool-*.tar.gz && \
+    cd Image-ExifTool-* && \
+    perl Makefile.PL && \
+    make install
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.1
 
