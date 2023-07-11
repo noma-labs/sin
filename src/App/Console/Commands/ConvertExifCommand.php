@@ -35,6 +35,10 @@ class ConvertExifCommand extends Command
         $raw = collect([]);
         foreach ($photos as $photo) {
             $exif = new ExifData();
+            if (!isset($photo['ImageDataHash'])) {
+                $this->error('ImageDataHash cannot be empty. ' . json_encode($photo));
+                exit();
+            }
             $exif->sha = $photo['ImageDataHash'];
             $exif->sourceFile = $photo['SourceFile'];
             $exif->fileName = $photo['FileName'];
