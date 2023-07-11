@@ -7,7 +7,6 @@ use Domain\Photo\Models\ExifData;
 use Domain\Photo\Models\Photo;
 use Illuminate\Console\Command;
 
-
 class ConvertExifCommand extends Command
 {
     /**
@@ -31,7 +30,7 @@ class ConvertExifCommand extends Command
      */
     public function handle()
     {
-        $photos = json_decode(file_get_contents(storage_path() . "/json2022.json"), true);
+        $photos = json_decode(file_get_contents(storage_path().'/json2022.json'), true);
 
         $raw = collect([]);
         foreach ($photos as $photo) {
@@ -41,7 +40,6 @@ class ConvertExifCommand extends Command
             $exif->fileName = $photo['FileName'];
             $exif->directory = $photo['Directory'];
             $exif->fileType = $photo['FileType'];
-
 
             // TODO: if taken at is missing ?
             // TODO: manage the timezone
@@ -59,23 +57,21 @@ class ConvertExifCommand extends Command
         }
         $chunks = $raw->chunk(500);
         foreach ($chunks as $chunk) {
-            $attrs = array();
+            $attrs = [];
             foreach ($chunk as $r) {
                 array_push($attrs, [
-                    "sha" => $r->sha,
-                    "source_file" => $r->sourceFile,
-                    "subject" => join(',', $r->subjects),
-                    "taken_at" => $r->takenAt,
-                    "file_name" => $r->fileName,
-                    "directory" => $r->directory,
+                    'sha' => $r->sha,
+                    'source_file' => $r->sourceFile,
+                    'subject' => implode(',', $r->subjects),
+                    'taken_at' => $r->takenAt,
+                    'file_name' => $r->fileName,
+                    'directory' => $r->directory,
                 ]);
             }
             Photo::insert($attrs);
         }
 
-
         return Command::SUCCESS;
-
 
     }
 }

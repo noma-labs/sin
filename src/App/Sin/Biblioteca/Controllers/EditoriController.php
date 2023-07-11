@@ -51,9 +51,9 @@ class EditoriController extends CoreBaseController
         $this->validate($request, [
             'editore' => 'required|unique:db_biblioteca.editore,Editore',
         ], [
-                'editore.required' => "L'editore non può essere vuoto.",
-                'editore.unique' => "L'editore $request->editore esistente già.",
-            ]
+            'editore.required' => "L'editore non può essere vuoto.",
+            'editore.unique' => "L'editore $request->editore esistente già.",
+        ]
         );
         $editore = new Editore;
         $editore->editore = $request->editore;
@@ -78,7 +78,7 @@ class EditoriController extends CoreBaseController
     /**
      * Display the specified resource.
      *
-     * @param \App\Editore $editore
+     * @param  \App\Editore  $editore
      * @return Response
      */
     public function show($id)
@@ -91,7 +91,7 @@ class EditoriController extends CoreBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Editore $editore
+     * @param  \App\Editore  $editore
      * @return Response
      */
     public function edit($id)
@@ -105,7 +105,7 @@ class EditoriController extends CoreBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Editore $editore
+     * @param  \App\Editore  $editore
      * @return Response
      */
     public function update(Request $request, $id)
@@ -113,23 +113,23 @@ class EditoriController extends CoreBaseController
         $editore = Editore::findOrFail($id);
 
         $this->validate($request, [
-            'editore' => 'required|unique:db_biblioteca.editore,editore,' . $id . ',id',
+            'editore' => 'required|unique:db_biblioteca.editore,editore,'.$id.',id',
             // 'autore'=>'required|unique:db_biblioteca.autore,Autore,'.$id.",ID_AUTORE",
         ], [
-                'editore.required' => "L'editore non può essere vuoto.",
-                'editore.unique' => "L'editore $request->editore esistente già.",
-            ]
+            'editore.required' => "L'editore non può essere vuoto.",
+            'editore.unique' => "L'editore $request->editore esistente già.",
+        ]
         );
 
         $editore->fill(['editore' => $request->editore])->save();
 
-        return redirect()->route('editori.index')->withSuccess('Editore ' . $editore->editore . ' aggiornato!');
+        return redirect()->route('editori.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Editore $editore
+     * @param  \App\Editore  $editore
      * @return Response
      */
     public function destroy(Editore $editore)

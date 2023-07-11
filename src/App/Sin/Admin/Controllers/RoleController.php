@@ -32,9 +32,9 @@ class RoleController extends Controller
     {
         //Validate name and permissions field
         $this->validate($request, [
-                'nome' => 'required|unique:ruoli|max:20',
-                'descrizione' => 'required|max:100',
-            ]
+            'nome' => 'required|unique:ruoli|max:20',
+            'descrizione' => 'required|max:100',
+        ]
         );
 
         $role = Role::create(['name' => $request['nome']]);
@@ -44,7 +44,7 @@ class RoleController extends Controller
             $role->risorse()->save(Risorsa::find($idRisorsa), $risorse);
         }
 
-        return redirect()->route('roles.index')->withSuccess('Ruolo ' . $role->nome . ' aggiunto!');
+        return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiunto!');
 
     }
 
@@ -63,7 +63,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -76,13 +76,13 @@ class RoleController extends Controller
         });
         $role->risorse()->sync($only_with_ones);
 
-        return redirect()->route('roles.index')->withSuccess('Ruolo ' . $role->nome . ' aggiornato!');
+        return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)

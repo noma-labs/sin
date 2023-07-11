@@ -23,13 +23,13 @@ class EtichettaPolicy
     /**
      * Determine whether the user can view the list of prestiti
      *
-     * @param Prestito $prestito
+     * @param  Prestito  $prestito
      * @return mixed
      */
     public function view(User $user)
     {
 
-        if (!$user->hasPermissionTo('visualizza-etichetta')) {
+        if (! $user->hasPermissionTo('visualizza-etichetta')) {
             return false;
         } else {
             return true;
@@ -38,7 +38,7 @@ class EtichettaPolicy
 
     public function preview(User $user)
     {
-        if (!$user->hasPermissionTo('preview-etichetta')) {
+        if (! $user->hasPermissionTo('preview-etichetta')) {
             return false;
         } else {
             return true;
@@ -47,7 +47,7 @@ class EtichettaPolicy
 
     public function printpdf(User $user)
     {
-        if (!$user->hasPermissionTo('print-etichetta')) {
+        if (! $user->hasPermissionTo('print-etichetta')) {
             return false;
         } else {
             return true;
@@ -56,7 +56,7 @@ class EtichettaPolicy
 
     public function add(User $user)
     {
-        if (!$user->hasPermissionTo('add-etichetta')) {
+        if (! $user->hasPermissionTo('add-etichetta')) {
             return false;
         } else {
             return true;
@@ -65,7 +65,7 @@ class EtichettaPolicy
 
     public function remove(User $user)
     {
-        if (!$user->hasPermissionTo('remove-etichetta')) {
+        if (! $user->hasPermissionTo('remove-etichetta')) {
             return false;
         } else {
             return true;

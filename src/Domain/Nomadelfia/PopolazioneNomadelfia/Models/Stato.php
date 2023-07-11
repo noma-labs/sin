@@ -57,7 +57,7 @@ class Stato extends Model
     /**
      * Find a STATO by its abbreviato
      *
-     * @param string|null $guardName
+     * @param  string|null  $guardName
      * @return  Posizione;
      *
      * @throws PosizioneDoesNotExist
@@ -65,7 +65,7 @@ class Stato extends Model
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();
-        if (!$stato) {
+        if (! $stato) {
             throw StatoDoesNotExists::create($name);
         }
 

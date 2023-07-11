@@ -32,10 +32,10 @@ class VeicoliController extends CoreBaseController
                 ->where('modello.marca_id', '=', $request->input('marca'));
         }
         if ($request->filled('nome')) {
-            $veicoli->where('veicolo.nome', 'like', $request->input('nome') . '%');
+            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
         }
         if ($request->filled('targa')) {
-            $veicoli->where('veicolo.targa', 'like', '%' . $request->input('targa') . '%');
+            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
         }
         if ($request->filled('modello')) {
             $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));
@@ -218,10 +218,10 @@ class VeicoliController extends CoreBaseController
                 ->where('modello.marca_id', '=', $request->input('marca'));
         }
         if ($request->filled('nome')) {
-            $veicoli->where('veicolo.nome', 'like', $request->input('nome') . '%');
+            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
         }
         if ($request->filled('targa')) {
-            $veicoli->where('veicolo.targa', 'like', '%' . $request->input('targa') . '%');
+            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
         }
         if ($request->filled('modello')) {
             $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));

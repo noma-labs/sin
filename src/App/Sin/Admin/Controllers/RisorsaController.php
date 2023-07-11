@@ -62,7 +62,7 @@ class RisorsaController extends Controller
 
         $permission->save();
 
-        if (!empty($request['roles'])) { //If one or more role is selected
+        if (! empty($request['roles'])) { //If one or more role is selected
             foreach ($roles as $role) {
                 $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
                 $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
@@ -77,7 +77,7 @@ class RisorsaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -88,7 +88,7 @@ class RisorsaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function edit($id)
@@ -101,7 +101,7 @@ class RisorsaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -114,13 +114,13 @@ class RisorsaController extends Controller
         $input = $request->all();
         $permission->fill($input)->save();
 
-        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso ' . $permission->name . ' aggiornato!');
+        return redirect()->route('admin.auth.risorse.index')->withSuccess('Permesso '.$permission->name.' aggiornato!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)

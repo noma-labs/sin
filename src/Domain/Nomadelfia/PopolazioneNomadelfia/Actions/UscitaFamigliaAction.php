@@ -14,10 +14,9 @@ class UscitaFamigliaAction
     private SendEmailFamigliaUscitaAction $emailUscita;
 
     public function __construct(
-        LogUscitaFamigliaAction       $logUscita,
+        LogUscitaFamigliaAction $logUscita,
         SendEmailFamigliaUscitaAction $emailUscita
-    )
-    {
+    ) {
         $this->logUscita = $logUscita;
         $this->emailUscita = $emailUscita;
     }

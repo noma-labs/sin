@@ -138,12 +138,12 @@ class ScuolaController extends CoreBaseController
             ['align' => TextAlignment::CENTER]);
         $firstPage->addTextBreak(2);
         $r = is_null($anno->responsabile) ? 'non asseganto' : $anno->responsabile->nominativo;
-        $firstPage->addText('Responsabile: ' . $r, ['bold' => true, 'italic' => false, 'size' => 10],
+        $firstPage->addText('Responsabile: '.$r, ['bold' => true, 'italic' => false, 'size' => 10],
             ['align' => TextAlignment::CENTER]);
 
         if ($elenchi->contains('studenti')) {
             $sc = $phpWord->addSection();
-            $sc->addTitle('Studenti ' . Studente::InAnnoScolastico($anno)->count(), 1);
+            $sc->addTitle('Studenti '.Studente::InAnnoScolastico($anno)->count(), 1);
 
             //            $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
 
@@ -160,7 +160,7 @@ class ScuolaController extends CoreBaseController
             foreach ($elemenatari as $el) {
                 $alunni = $el->alunni;
                 $classeSect->addTextBreak(1);
-                $classeSect->addTitle($el->tipo->nome . '  ' . count($alunni), 2);
+                $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
                     $classeSect->addText($alunno->nominativo);
                 }
@@ -172,7 +172,7 @@ class ScuolaController extends CoreBaseController
             foreach ($medie as $el) {
                 $alunni = $el->alunni;
                 $classeSect->addTextBreak(1);
-                $classeSect->addTitle($el->tipo->nome . '  ' . count($alunni), 2);
+                $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
                     $classeSect->addText($alunno->nominativo);
                 }
@@ -184,7 +184,7 @@ class ScuolaController extends CoreBaseController
             foreach ($superiori as $el) {
                 $alunni = $el->alunni;
                 $classeSect->addTextBreak(1);
-                $classeSect->addTitle($el->tipo->nome . '  ' . count($alunni), 2);
+                $classeSect->addTitle($el->tipo->nome.'  '.count($alunni), 2);
                 foreach ($alunni as $alunno) {
                     $classeSect->addText($alunno->nominativo);
                 }
@@ -193,7 +193,7 @@ class ScuolaController extends CoreBaseController
 
         if ($elenchi->contains('coordinatori')) {
             $coordinatori = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
-            $coordinatori->addText('Responsabili dei cicli ed ambiti scolastici a.s. ' . $anno->scolastico,
+            $coordinatori->addText('Responsabili dei cicli ed ambiti scolastici a.s. '.$anno->scolastico,
                 ['bold' => true, 'italic' => false, 'size' => 14]);
 
             $prescuola = $phpWord->addSection($colStyle4Next);

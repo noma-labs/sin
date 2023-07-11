@@ -13,12 +13,12 @@ class ClientePolicy
     /**
      * Determine whether the user can view the cliente.
      *
-     * @param Cliente $cliente
+     * @param  Cliente  $cliente
      * @return mixed
      */
     public function view(User $user)
     {
-        if (!$user->hasPermissionTo('visualizza-cliente')) {
+        if (! $user->hasPermissionTo('visualizza-cliente')) {
             return false;
         } else {
             return true;
@@ -27,7 +27,7 @@ class ClientePolicy
 
     public function show(User $user, Cliente $cliente)
     {
-        if (!$user->hasPermissionTo('dettaglio-cliente')) {
+        if (! $user->hasPermissionTo('dettaglio-cliente')) {
             return false;
         } else {
             return true;
@@ -41,7 +41,7 @@ class ClientePolicy
      */
     public function create(User $user)
     {
-        if (!$user->hasPermissionTo('crea-cliente')) {
+        if (! $user->hasPermissionTo('crea-cliente')) {
             return false;
         } else {
             return true;
