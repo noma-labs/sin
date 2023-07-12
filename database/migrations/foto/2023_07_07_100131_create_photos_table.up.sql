@@ -20,6 +20,10 @@ CREATE TABLE `photos`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+CREATE view v_folders AS
+select folder_title AS folders, count(0) AS c
+from photos
+group by folder_title;
 
 -- CREATE TABLE `photos_albums` (
 --  `photo_uid` varbinary(42) NOT NULL,
@@ -31,11 +35,6 @@ CREATE TABLE `photos`
 -- ALTER TABLE `photos_albums`
 --     ADD PRIMARY KEY (`photo_uid`,`album_uid`),
 --   ADD KEY `idx_photos_albums_album_uid` (`album_uid`);
-
-#
-# CREATE VIEW v_directory AS SELECT directory, count(*)
-#                            FROM `photos`
-#                            group by directory;
 
 --
 -- Indexes for table `photos`
@@ -69,3 +68,23 @@ CREATE TABLE `photos`
 -- FROM `foto_enrico`
 -- WHERE datnum like '%ZZZAY%'
 -- ORDER BY `data` , datnum DESC;
+
+SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
+       SUBSTRING_INDEX(folders, ' ', 2)                           as argomento,
+       TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as a,
+       folders
+from v_folders;
+
+WITH albums AS (SELECT id, data, datnum, argomento, nfo
+                FROM `foto_enrico`
+                WHERE datnum = 'ZZZAR'
+                ORDER BY `data`, datnum DESC),
+     folders AS (SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
+                        SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
+                        TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as argomento,
+                        folders
+                 from v_folders)
+Select *
+from folders
+         join albums a on a.data = folders.data and a.datnum = folders.datnum and a.argomento = folders.argomento

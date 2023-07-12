@@ -29,9 +29,10 @@ class ConvertExifCommand extends Command
      *
      * @return int
      */
+    // exiftool -r -n -a -struct -progress1000 -G1 -file:all  -exif:all -iptc:all -ImageDataHash -json>2000.json 2000
     public function handle()
     {
-        $photos = json_decode(file_get_contents(storage_path().'/json2022.json'), true);
+        $photos = json_decode(file_get_contents(storage_path() . '/json2022.json'), true);
 
         $raw = collect([]);
         foreach ($photos as $photo) {

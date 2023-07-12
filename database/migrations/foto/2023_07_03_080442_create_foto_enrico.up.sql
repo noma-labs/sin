@@ -74,3 +74,4 @@ INSERT INTO `tipo` (`NR`, `FI`, `TP`, `DESCRIZ`) VALUES
 --   ADD KEY `descrizione` (`descrizione`),
 --   ADD KEY `anum` (`anum`);
 -- COMMIT;
+
