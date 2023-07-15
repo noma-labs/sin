@@ -31,7 +31,7 @@ class ExifData
     /** @var string[] */
     public array $subjects = [];
 
-    public ?string $regionInfo = '';
+    public ?string $regionInfo = '{}';
 
     // TODO: exif tool export keywords in two types: string, and array of string.
     public string $keywords = '';
