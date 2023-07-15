@@ -69,22 +69,54 @@ group by folder_title;
 -- WHERE datnum like '%ZZZAY%'
 -- ORDER BY `data` , datnum DESC;
 
-SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
-       SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
-       SUBSTRING_INDEX(folders, ' ', 2)                           as argomento,
-       TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as a,
-       folders
-from v_folders;
+# SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
+#        SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
+#        SUBSTRING_INDEX(folders, ' ', 2)                           as argomento,
+#        TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as a,
+#        folders
+# from v_folders;
+#
+# WITH albums AS (SELECT id, data, datnum, argomento, nfo
+#                 FROM `foto_enrico`
+#                 WHERE datnum = 'ZZZAR'
+#                 ORDER BY `data`, datnum DESC),
+#      folders AS (SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
+#                         SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
+#                         TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as argomento,
+#                         folders
+#                  from v_folders)
+# Select *
+# from folders
+#          join albums a on a.data = folders.data and a.datnum = folders.datnum and a.argomento = folders.argomento
 
-WITH albums AS (SELECT id, data, datnum, argomento, nfo
-                FROM `foto_enrico`
-                WHERE datnum = 'ZZZAR'
-                ORDER BY `data`, datnum DESC),
-     folders AS (SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,
-                        SUBSTRING_INDEX(SUBSTRING_INDEX(folders, ' ', 2), ' ', -1) as datnum,
-                        TRIM(TRIM(SUBSTRING_INDEX(folders, ' ', 2)) FROM folders)  as argomento,
-                        folders
-                 from v_folders)
-Select *
-from folders
-         join albums a on a.data = folders.data and a.datnum = folders.datnum and a.argomento = folders.argomento
+#
+# with dup AS (SELECT sha, count(*) as c
+#              FROM `photos`
+#              group by sha
+#              having c > 1),
+#      info AS (SELECT sha, directory, source_file
+#               from photos
+#               where sha IN (SELECT sha from dup)
+#               order by source_file, sha)
+# SELECT directory, COUNT(*) as files
+# from info
+# GROUP by directory;
+#
+#
+# with dup AS (SELECT sha, count(*) as c
+#              FROM `photos`
+#              group by sha
+#              having c > 1),
+#      info AS (SELECT sha, directory, source_file
+#               from photos
+#               where sha IN (SELECT sha from dup)
+#               order by source_file, sha
+#               limit 100)
+# SELECT info.source_file, i2.source_file
+# from info
+#          join info i2 on i2.sha = info.sha
+# where i2.source_file != info.source_file
+# order by i2.source_file;
+
+
+
