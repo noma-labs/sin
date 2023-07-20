@@ -35,7 +35,7 @@ class UscitaPersonaAction
         $this->logUscitaActivity->execute(
             $persona,
             $data_entrata,
-            $data_uscita,
+            $data_uscita
         );
 
         $this->email->execute(
@@ -47,7 +47,7 @@ class UscitaPersonaAction
 
     public function calcDataEntrata(Persona $persona)
     {
-        // TODO: if there is not data entrat raise an expcetion becuae it is not possibel that a person is leaving the
+        // TODO: if there is not data_entrata raise an exception because it is not possible that a person is leaving the
         // community without having a entering date.
         return $persona->getDataEntrataNomadelfia() ?: '';
     }

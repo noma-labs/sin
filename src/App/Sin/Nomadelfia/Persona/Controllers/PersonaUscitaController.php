@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 
 class PersonaUscitaController extends CoreBaseController
 {
+    public function create($idPersona){
+        $persona = Persona::findOrFail($idPersona);
+        $first = $persona->getInitialLetterOfCogonome();
+        $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
+        $propose = $persona->getOrCreateNumeroElenco();
+        return view('nomadelfia.persone.popolazione.uscita', compact('persona', 'first', 'assegnati', 'propose'));
+    }
+
     public function store(Request $request, $idPersona)
     {
         $validatedData = $request->validate([
             'data_uscita' => 'required',
+            'numero_elenco' => 'required',
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria',
+            'numero_elenco.required' => 'Il numero di elenco è obbligatorio',
         ]);
         $persona = Persona::findOrFail($idPersona);
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {

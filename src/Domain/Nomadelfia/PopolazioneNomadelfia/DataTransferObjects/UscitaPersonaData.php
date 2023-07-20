@@ -10,5 +10,7 @@ class UscitaPersonaData
 
     public string $data_uscita;
 
+    public string $numero_elenco;
+
     public bool $disableFromFamily;
 }

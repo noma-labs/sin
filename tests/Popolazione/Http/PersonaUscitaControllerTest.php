@@ -8,6 +8,18 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 
+it('show form to exit a persona', function () {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    $act = app(EntrataMaggiorenneConFamigliaAction::class);
+    $act->execute($persona, Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+    login();
+
+    $this->get(action([PersonaUscitaController::class, 'create'], ['idPersona' => $persona->id]))
+           ->assertSuccessful();
+
+});
+
+
 it('exit a persona', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);

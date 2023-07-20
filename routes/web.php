@@ -106,6 +106,7 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
         [PersonaEntrataController::class, 'update'])->name('nomadelfia.persone.dataentrata.modifica');
 
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('nomadelfia.persone.decesso');
+    Route::get('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'create'])->name('nomadelfia.persone.uscita.create');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('nomadelfia.persone.uscita');
 
     Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('nomadelfia.persone.datauscita.modifica');

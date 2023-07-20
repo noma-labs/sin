@@ -455,7 +455,7 @@ it('get_persone_from_eta', function () {
     expect(Persona::NatiInAnno(1791)->count())->toBe(3);
 });
 
-it('build_numero_elenco_per_persona', function () {
+it('build numero elenco', function () {
     Persona::factory()->create(['numero_elenco' => 'A1']);
     Persona::factory()->create(['numero_elenco' => 'A9']);
     $pLast = Persona::factory()->create(['cognome' => 'Aminoacido']);
@@ -464,7 +464,12 @@ it('build_numero_elenco_per_persona', function () {
     expect($res->numero)->toBe(9);
     expect($res->lettera)->toBe('A');
 
-    $n = $pLast->proposeNumeroElenco();
+    $n = $pLast->getOrCreateNumeroElenco();
     expect($n)->toBe('A10');
+});
 
+it('get numero elenco with already assigned numero elenco', function () {
+    $pLast = Persona::factory()->create(['cognome' => 'Aminoacido', 'numero_elenco'=>'B1']);
+    $n = $pLast->getOrCreateNumeroElenco();
+    expect($n)->toBe('B1');
 });

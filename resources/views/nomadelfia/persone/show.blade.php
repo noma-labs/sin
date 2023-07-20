@@ -13,7 +13,8 @@
                 <p> Entrata in data <strong>{{$persona->getDataEntrataNomadelfia()}} </strong>
                     <span class="badge badge-info"> @diffHumans($persona->getDataUscitaNomadelfia()) </span>
                 </p>
-
+                <a class="btn btn-warning"
+                                   href="{{route('nomadelfia.persone.uscita.create', ['idPersona'=>$persona->id])}}">Uscita</a>
                 <my-modal modal-title="Uscita dalla comunità" button-title="Uscita"
                           button-style="btn-danger my-2">
                     <template slot="modal-body-slot">
