@@ -469,7 +469,7 @@ it('build numero elenco', function () {
 });
 
 it('get numero elenco with already assigned numero elenco', function () {
-    $pLast = Persona::factory()->create(['cognome' => 'Aminoacido', 'numero_elenco'=>'B1']);
+    $pLast = Persona::factory()->create(['cognome' => 'Aminoacido', 'numero_elenco' => 'B1']);
     $n = $pLast->getOrCreateNumeroElenco();
     expect($n)->toBe('B1');
 });

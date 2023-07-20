@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 
 class PersonaUscitaController extends CoreBaseController
 {
-    public function create($idPersona){
+    public function create($idPersona)
+    {
         $persona = Persona::findOrFail($idPersona);
         $first = $persona->getInitialLetterOfCogonome();
         $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
         $propose = $persona->getOrCreateNumeroElenco();
+
         return view('nomadelfia.persone.popolazione.uscita', compact('persona', 'first', 'assegnati', 'propose'));
     }
 

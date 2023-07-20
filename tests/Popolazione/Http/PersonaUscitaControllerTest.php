@@ -15,10 +15,9 @@ it('show form to exit a persona', function () {
     login();
 
     $this->get(action([PersonaUscitaController::class, 'create'], ['idPersona' => $persona->id]))
-           ->assertSuccessful();
+        ->assertSuccessful();
 
 });
-
 
 it('exit a persona', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

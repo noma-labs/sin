@@ -107,7 +107,6 @@ class Persona extends Model
             ->orderBy('numero', 'DESC');
     }
 
-
     public function getOrCreateNumeroElenco()
     {
         if ($this->numero_elenco) {
@@ -117,8 +116,10 @@ class Persona extends Model
         $res = Persona::NumeroElencoPrefixByLetter($firstLetter)->first();
         if ($res) {
             $new = (int) $res->numero + 1;
+
             return $res->lettera.$new;
         }
+
         return $firstLetter.'1';
     }
 
@@ -966,9 +967,9 @@ class Persona extends Model
         }
     }
 
-//***************************************************************************
-//                         Esercizi Spirituali
-//***************************************************************************
+    //***************************************************************************
+    //                         Esercizi Spirituali
+    //***************************************************************************
 
     public function eserciziSpirituali()
     {
