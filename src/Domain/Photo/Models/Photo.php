@@ -2,6 +2,7 @@
 
 namespace Domain\Photo\Models;
 
+use Database\Factories\PhotoFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,11 +17,17 @@ class Photo extends Model
 
     protected $table = 'photos';
 
-    protected $primaryKey = 'sha';
+    protected $primaryKey = 'uid';
 
     protected $guarded = [];
 
     protected $casts = [
-        'TakenAt' => 'datetime',
+        'taken_at' => 'datetime',
     ];
+
+    protected static function newFactory()
+    {
+        return PhotoFactory::new();
+    }
+
 }

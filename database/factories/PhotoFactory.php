@@ -13,13 +13,38 @@ class PhotoFactory extends Factory
     public function definition(): array
     {
         return [
-            'Sha' => $this->faker->word(),
-            'SourceFile' => $this->faker->word(),
-            'FileName' => $this->faker->name(),
-            'TakenAt' => Carbon::now(),
-            'Subjects' => $this->faker->word(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'uid' => uniqid(),
+            'sha' => $this->faker->sha1(),
+            'source_file' => $this->faker->filePath(),
+            'subject' => $this->faker->words(5)->join(',')-,
+            'folder_title' => $this->fakenamer->word(), // 2022-05-23 XXXMQ Argomento foto
+            'file_size' => $this->faker->numberBetween(200, 4000),
+            'file_name' => $this->faker->word(),
+            'file_type' => $this->faker->fileExtension(),
+            'file_type_extension' => $this->faker->fileExtension(),
+            'image_height' => $this->faker->biasedNumberBetween(10, 3000),
+            'image_width' => $this->faker->biasedNumberBetween(0.6000),
+            'taken_at' => Carbon::now(),
+            //'Subjects' => $this->faker->word()
         ];
+    }
+
+    public function inFolder(string $name)
+    {
+        return $this->state(function (array $attributes) use ($name) {
+            // build a folder tilte like: 2022-05-23 XXXMQ Argomento foto
+            return [
+                'folder_title' => $name
+            ];
+        });
+    }
+
+    public function takenAt(Carbon $date)
+    {
+        return $this->state(function (array $attributes) use ($date) {
+            return [
+                'taken_at' => $date->toDateString()
+            ];
+        });
     }
 }

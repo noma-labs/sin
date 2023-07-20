@@ -7,7 +7,7 @@ use function Pest\Laravel\actingAs;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Tests\TestCasePest;
 
-uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys');
+uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo');
 
 function login(User $user = null): User
 {
