@@ -19,4 +19,16 @@ abstract class TestCasePest extends BaseTestCase
 
         return Request::createFromBase($symfonyRequest);
     }
+
+    protected function emptyTempDirectory(string $tempDirPath)
+    {
+
+        $files = scandir($tempDirPath);
+
+        foreach ($files as $file) {
+            if (!in_array($file, ['.', '..', '.gitignore'])) {
+                unlink("{$tempDirPath}/{$file}");
+            }
+        }
+    }
 }

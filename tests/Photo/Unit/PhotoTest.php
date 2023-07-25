@@ -10,4 +10,4 @@ it('add photos to db', function () {
         ->create();
 
     $this->assertDatabaseCount('photos', 5, 'db_foto');
-})->only();
+});
