@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Install exiftool
         run: |
-          apt-get install -y wget make \
+          apt-get install -y wget make && \
           cd /tmp && \
           wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && \  
           tar -xzvf Image-ExifTool-*.tar.gz && \
