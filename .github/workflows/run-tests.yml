@@ -23,6 +23,17 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Install exiftool
+        run: |
+          apt-get install -y wget make \
+          cd /tmp && \
+          wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && \  
+          tar -xzvf Image-ExifTool-*.tar.gz && \
+          rm -rf Image-ExifTool-*.tar.gz && \
+          cd Image-ExifTool-* && \
+          perl Makefile.PL && \
+          make install
+
       - name: Install Task
         uses: arduino/setup-task@v1
         with:
