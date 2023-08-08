@@ -29,11 +29,11 @@ jobs:
           apt-get install -y wget make && \
           cd /tmp && \
           wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && \  
-          tar -xzvf Image-ExifTool-12.64.tar.gz && \
-          rm -rf Image-ExifTool-12.64.tar.gz && \
+          tar -xzvf Image-ExifTool-*.tar.gz && \
           cd Image-ExifTool-* && \
           perl Makefile.PL && \
           make install
+       #   rm -rf Image-ExifTool-*.tar.gz && \
 
       - name: Install Task
         uses: arduino/setup-task@v1
