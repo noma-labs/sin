@@ -2,7 +2,6 @@
 
 namespace Domain\Photo\Exif;
 
-use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\Process\Process;
 
 class ExifReader
@@ -31,9 +30,6 @@ class ExifReader
     }
 
 
-    /**
-     * @param string $exifToolPath
-     */
     public function __construct()
     {
         $this->timeout = 10;
@@ -102,13 +98,13 @@ class ExifReader
         return $this;
     }
 
-    public function setCSV(string $targetPath): static
+    public function exportToCSV(string $targetPath): static
     {
         $this->additionalOptions[] = $targetPath ? "-csv>" . $targetPath : '-csv';
         return $this;
     }
 
-    public function setJSON(string $targetPath): static
+    public function exportToJSON(string $targetPath): static
     {
         $this->additionalOptions[] = $targetPath ? "-json>" . $targetPath : '-json';
         return $this;
@@ -123,7 +119,7 @@ class ExifReader
 
     public function saveCsv(string $targetPath)
     {
-        $this->setCSV($targetPath);
+        $this->exportToCSV($targetPath);
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
@@ -140,7 +136,7 @@ class ExifReader
 
         // TODO: use a safer join path function
         $fullName = $this->targetBasePath . "/" . $name;
-        $this->setJSON($fullName);
+        $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
 

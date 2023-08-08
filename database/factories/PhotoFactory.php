@@ -16,8 +16,8 @@ class PhotoFactory extends Factory
             'uid' => uniqid(),
             'sha' => $this->faker->sha1(),
             'source_file' => $this->faker->filePath(),
-            'subject' => $this->faker->words(5)->join(',')-,
-            'folder_title' => $this->fakenamer->word(), // 2022-05-23 XXXMQ Argomento foto
+            'subject' => collect($this->faker->words(5))->join(', '),
+            'folder_title' => $this->faker->word(), // 2022-05-23 XXXMQ Argomento foto
             'file_size' => $this->faker->numberBetween(200, 4000),
             'file_name' => $this->faker->word(),
             'file_type' => $this->faker->fileExtension(),

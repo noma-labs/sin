@@ -1,9 +1,6 @@
 <?php
 
-
 use Domain\Photo\Exif\ExifReader;
-use Domain\Photo\Models\Photo;
-use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function () {
     $tempDirPath = __DIR__ . '/temp';
@@ -11,11 +8,11 @@ beforeEach(function () {
 });
 
 it('can create exiftool command', function () {
-    $commad = ExifReader::file('test.png')
+    $command = ExifReader::file('test.png')
         ->enableStructuredInformation()
         ->createExifToolCommand();
 
-    expect($commad)->toBe([
+    expect($command)->toBe([
         'file' => 'test.png',
         'options' => [
             '-struct',
@@ -23,23 +20,23 @@ it('can create exiftool command', function () {
     ]);
 });
 
-it('can extract xmp tags', function () {
-    $commad = ExifReader::file('test.png')
+it('can create command with xmp options', function () {
+    $command = ExifReader::file('test.png')
         ->extractXMPInformation()
         ->createExifToolCommand();
 
-    expect($commad)->toBe([
+    expect($command)->toBe([
         'file' => 'test.png',
         'options' => [
             '-xmp:all'
         ],
     ]);
 
-    $commad = ExifReader::file('test.png')
+    $command = ExifReader::file('test.png')
         ->extractXMPInformation('createDate')
         ->createExifToolCommand();
 
-    expect($commad)->toBe([
+    expect($command)->toBe([
         'file' => 'test.png',
         'options' => [
             '-xmp:createDate'
@@ -47,7 +44,7 @@ it('can extract xmp tags', function () {
     ]);
 });
 
-it('can get image data hash', function () {
+it('can create command with imageDataHash', function () {
     $commad = ExifReader::file('test.png')
         ->extractHashOfTheImage()
         ->createExifToolCommand();
@@ -60,7 +57,7 @@ it('can get image data hash', function () {
     ]);
 });
 
-it('can allow duplicate', function () {
+it('can create command wit allow duplicate', function () {
     $commad = ExifReader::file('test.png')
         ->allowDuplicates()
         ->createExifToolCommand();
@@ -74,7 +71,7 @@ it('can allow duplicate', function () {
 });
 
 
-it('can disable printo conversion', function () {
+it('can create command with no Print conversion', function () {
     $commad = ExifReader::file('test.png')
         ->disablePrintConversion()
         ->createExifToolCommand();
@@ -87,9 +84,9 @@ it('can disable printo conversion', function () {
     ]);
 });
 
-it('can set csv output', function () {
+it('can can create command with csv format', function () {
     $commad = ExifReader::file('test.png')
-        ->setCSV("test.csv")
+        ->exportToCSV("test.csv")
         ->createExifToolCommand();
 
     expect($commad)->toBe([
@@ -101,9 +98,9 @@ it('can set csv output', function () {
 });
 
 
-it('can set json output', function () {
+it('can create command with json output', function () {
     $commad = ExifReader::file('test.png')
-        ->setJSON("test.json")
+        ->exportToJSON("test.json")
         ->createExifToolCommand();
 
     expect($commad)->toBe([
@@ -114,7 +111,7 @@ it('can set json output', function () {
     ]);
 });
 
-it('can set recursively', function () {
+it('can create command with recursive', function () {
     $commad = ExifReader::file('test.png')
         ->recursively()
         ->createExifToolCommand();
@@ -127,7 +124,7 @@ it('can set recursively', function () {
     ]);
 });
 
-it('can save metadata to CSV file', function () {
+it('can save exif data into CSV file', function () {
     $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
     $targetPath = __DIR__ . '/temp/BlueSquare.csv';
 
@@ -139,7 +136,7 @@ it('can save metadata to CSV file', function () {
 
 });
 
-it('can save metadata to JSON file', function () {
+it('can save exif data into JSON file', function () {
     $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
     $targetPath = __DIR__ . '/temp/BlueSquare.json';
 
@@ -148,10 +145,9 @@ it('can save metadata to JSON file', function () {
         ->saveJSON($targetPath);
 
     expect($targetPath)->toBeFile();
-
 });
 
-it('can scan dir recursively save json', function () {
+it('can scan a directory and save exif data into json', function () {
     $dirPath = __DIR__ . '/testfile/testdir';
 
     ExifReader::folder($dirPath)
@@ -163,7 +159,7 @@ it('can scan dir recursively save json', function () {
 //        ->json()
 //        ->toHaveCount(2);
 
-})->only();
+});
 
 
 it('can scan dir recursively save csv', function () {
