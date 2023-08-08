@@ -26,12 +26,13 @@ jobs:
       - name: Install exiftool
         # TODO: the exif tool version is hardcoded 12.64. Make it as the same version of the EXIFTOOL_VERSION=12.64 in the dockerfile
         run: |
+          apt-get update && \
           apt-get install -y wget make && \
-          cd /tmp && \
+          cd \tmp && \
           wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && \  
           tar -xzvf Image-ExifTool-*.tar.gz && \
-          cd Image-ExifTool-* && \
-          perl Makefile.PL && \
+          cd Image-ExifTool-12.64  &&\
+          perl Makefile.PL &&\
           make install
        #   rm -rf Image-ExifTool-*.tar.gz && \
 
