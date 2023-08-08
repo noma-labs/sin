@@ -3,7 +3,7 @@
 use Domain\Photo\Exif\ExifReader;
 
 beforeEach(function () {
-    $tempDirPath = __DIR__ . '/temp';
+    $tempDirPath = __DIR__.'/temp';
     $this->emptyTempDirectory($tempDirPath);
 });
 
@@ -28,7 +28,7 @@ it('can create command with xmp options', function () {
     expect($command)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-xmp:all'
+            '-xmp:all',
         ],
     ]);
 
@@ -39,7 +39,7 @@ it('can create command with xmp options', function () {
     expect($command)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-xmp:createDate'
+            '-xmp:createDate',
         ],
     ]);
 });
@@ -52,7 +52,7 @@ it('can create command with imageDataHash', function () {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-ImageDataHash'
+            '-ImageDataHash',
         ],
     ]);
 });
@@ -65,11 +65,10 @@ it('can create command wit allow duplicate', function () {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-a'
+            '-a',
         ],
     ]);
 });
-
 
 it('can create command with no Print conversion', function () {
     $commad = ExifReader::file('test.png')
@@ -79,34 +78,33 @@ it('can create command with no Print conversion', function () {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-n'
+            '-n',
         ],
     ]);
 });
 
 it('can can create command with csv format', function () {
     $commad = ExifReader::file('test.png')
-        ->exportToCSV("test.csv")
+        ->exportToCSV('test.csv')
         ->createExifToolCommand();
 
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-csv>test.csv'
+            '-csv>test.csv',
         ],
     ]);
 });
 
-
 it('can create command with json output', function () {
     $commad = ExifReader::file('test.png')
-        ->exportToJSON("test.json")
+        ->exportToJSON('test.json')
         ->createExifToolCommand();
 
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-json>test.json'
+            '-json>test.json',
         ],
     ]);
 });
@@ -119,14 +117,14 @@ it('can create command with recursive', function () {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-r'
+            '-r',
         ],
     ]);
 });
 
 it('can save exif data into CSV file', function () {
-    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__ . '/temp/BlueSquare.csv';
+    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+    $targetPath = __DIR__.'/temp/BlueSquare.csv';
 
     ExifReader::file($filePath)
         ->extractXMPInformation()
@@ -137,8 +135,8 @@ it('can save exif data into CSV file', function () {
 });
 
 it('can save exif data into JSON file', function () {
-    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__ . '/temp/BlueSquare.json';
+    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+    $targetPath = __DIR__.'/temp/BlueSquare.json';
 
     ExifReader::file($filePath)
         ->extractXMPInformation()
@@ -148,23 +146,22 @@ it('can save exif data into JSON file', function () {
 });
 
 it('can scan a directory and save exif data into json', function () {
-    $dirPath = __DIR__ . '/testfile/testdir';
+    $dirPath = __DIR__.'/testfile/testdir';
 
     ExifReader::folder($dirPath)
-        ->setTargetBasePath(__DIR__ . '/temp')
+        ->setTargetBasePath(__DIR__.'/temp')
         ->extractXMPInformation()
         ->saveJSON();
 
-    expect(__DIR__ . '/temp/testdir.json')->toBeFile();
-//        ->json()
-//        ->toHaveCount(2);
+    expect(__DIR__.'/temp/testdir.json')->toBeFile();
+    //        ->json()
+    //        ->toHaveCount(2);
 
 });
 
-
 it('can scan dir recursively save csv', function () {
-    $dirPath = __DIR__ . '/testfile/testdir';
-    $targetPath = __DIR__ . '/temp/dir.csv';
+    $dirPath = __DIR__.'/testfile/testdir';
+    $targetPath = __DIR__.'/temp/dir.csv';
 
     ExifReader::folder($dirPath)
         ->extractXMPInformation()

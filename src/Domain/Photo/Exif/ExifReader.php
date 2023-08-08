@@ -7,7 +7,9 @@ use Symfony\Component\Process\Process;
 class ExifReader
 {
     protected $exifToolBinary = null;
+
     protected $sourcePath = null;
+
     protected $targetBasePath = null;
 
     public int $timeout;
@@ -15,9 +17,7 @@ class ExifReader
     protected $additionalOptions = [];
 
     /**
-     * @param string $filePath
-     *
-     * @return static
+     * @param  string  $filePath
      */
     public static function file(string $file): static
     {
@@ -29,40 +29,33 @@ class ExifReader
         return (new static())->setSourcePath($folder)->recursively();
     }
 
-
     public function __construct()
     {
         $this->timeout = 10;
     }
 
-
     /**
-     * @param null $sourcePath
+     * @param  null  $sourcePath
      */
     public function setSourcePath($sourcePath): static
     {
         $this->sourcePath = $sourcePath;
+
         return $this;
     }
 
     public function setTargetBasePath($targetBasePath): static
     {
         $this->targetBasePath = $targetBasePath;
+
         return $this;
     }
 
-
-    /**
-     * @param string|null $exifToolBinary
-     */
     public function setExifToolBinary(?string $exifToolBinary): void
     {
         $this->exifToolBinary = $exifToolBinary;
     }
 
-    /**
-     * @param int $timeout
-     */
     public function setTimeout(int $timeout): void
     {
         $this->timeout = $timeout;
@@ -71,42 +64,49 @@ class ExifReader
     public function enableStructuredInformation(): static
     {
         $this->additionalOptions[] = '-struct';
+
         return $this;
     }
 
     public function extractHashOfTheImage(): static
     {
         $this->additionalOptions[] = '-ImageDataHash';
+
         return $this;
     }
 
     public function allowDuplicates(): static
     {
         $this->additionalOptions[] = '-a';
+
         return $this;
     }
 
     public function disablePrintConversion(): static
     {
         $this->additionalOptions[] = '-n';
+
         return $this;
     }
 
     public function extractXMPInformation(string $subtag = null): static
     {
-        $this->additionalOptions[] = $subtag ? "-xmp:" . $subtag : '-xmp:all';
+        $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
+
         return $this;
     }
 
     public function exportToCSV(string $targetPath): static
     {
-        $this->additionalOptions[] = $targetPath ? "-csv>" . $targetPath : '-csv';
+        $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
+
         return $this;
     }
 
     public function exportToJSON(string $targetPath): static
     {
-        $this->additionalOptions[] = $targetPath ? "-json>" . $targetPath : '-json';
+        $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
+
         return $this;
     }
 
@@ -125,33 +125,32 @@ class ExifReader
 
         $output = $this->callExifTool($command);
 
-        echo($output);
+        echo $output;
     }
 
     public function saveJSON(string $fileName = null)
     {
 
         // if not given, it use the name of the source file
-        $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME) . '.json';
+        $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
 
         // TODO: use a safer join path function
-        $fullName = $this->targetBasePath . "/" . $name;
+        $fullName = $this->targetBasePath.'/'.$name;
         $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
         $output = $this->callExifTool($command);
 
-        echo($output);
+        echo $output;
     }
-
 
     public function createExifToolCommand($targetPath = null): array
     {
-        return array(
-            "file" => $this->sourcePath,
-            "options" => $this->additionalOptions
-        );
+        return [
+            'file' => $this->sourcePath,
+            'options' => $this->additionalOptions,
+        ];
     }
 
     protected function callExifTool(array $command): string
@@ -176,16 +175,14 @@ class ExifReader
         $optionsCommand = $this->getOptionsCommand($command);
         $targetFile = $command['file'];
 
-        return $exifTool . " "
-            . $optionsCommand . " "
-            . $targetFile;
+        return $exifTool.' '
+            .$optionsCommand.' '
+            .$targetFile;
 
     }
 
     protected function getOptionsCommand(array $command): string
     {
-        return implode(" ", $command['options']);
+        return implode(' ', $command['options']);
     }
-
-
 }

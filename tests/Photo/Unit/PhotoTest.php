@@ -1,8 +1,6 @@
 <?php
 
-
 use Domain\Photo\Models\Photo;
-use function Pest\Laravel\assertDatabaseHas;
 
 it('add photos to db', function () {
     Photo::factory(5)

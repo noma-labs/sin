@@ -34,7 +34,7 @@ class PhotoFactory extends Factory
         return $this->state(function (array $attributes) use ($name) {
             // build a folder tilte like: 2022-05-23 XXXMQ Argomento foto
             return [
-                'folder_title' => $name
+                'folder_title' => $name,
             ];
         });
     }
@@ -43,7 +43,7 @@ class PhotoFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($date) {
             return [
-                'taken_at' => $date->toDateString()
+                'taken_at' => $date->toDateString(),
             ];
         });
     }

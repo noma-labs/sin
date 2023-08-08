@@ -29,5 +29,4 @@ class Photo extends Model
     {
         return PhotoFactory::new();
     }
-
 }
