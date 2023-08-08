@@ -22,11 +22,13 @@ abstract class TestCasePest extends BaseTestCase
 
     protected function emptyTempDirectory(string $tempDirPath)
     {
-
+        if (!is_dir($tempDirPath)) {
+            mkdir($tempDirPath);
+        }
         $files = scandir($tempDirPath);
 
         foreach ($files as $file) {
-            if (! in_array($file, ['.', '..', '.gitignore'])) {
+            if (!in_array($file, ['.', '..', '.gitignore'])) {
                 unlink("{$tempDirPath}/{$file}");
             }
         }
