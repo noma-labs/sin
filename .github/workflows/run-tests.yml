@@ -28,10 +28,9 @@ jobs:
         run: |
           apt-get update && \
           apt-get install -y wget make && \
-          wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && \  
-          tar -xzvf Image-ExifTool-*.tar.gz && \
-          cd Image-ExifTool-12.64  &&\
-          perl Makefile.PL &&\
+          wget https://exiftool.org/Image-ExifTool-12.64.tar.gz && tar -xzvf Image-ExifTool-12.64.tar.gz && \
+          cd Image-ExifTool-12.64  && \
+          perl Makefile.PL && \
           make install && \
           exiftool -ver
 
