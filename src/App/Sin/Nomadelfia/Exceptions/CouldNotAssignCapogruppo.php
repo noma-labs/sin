@@ -21,5 +21,4 @@ class CouldNotAssignCapogruppo extends \Exception
     {
         return new static("Il gruppo familiare `{$gruppo->nome}` non può avere più capogruppi.`");
     }
-
 }
