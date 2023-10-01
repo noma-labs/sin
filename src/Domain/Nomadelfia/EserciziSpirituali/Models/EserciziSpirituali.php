@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
+use Exception;
 
 class EserciziSpirituali extends Model
 {
@@ -68,7 +69,7 @@ class EserciziSpirituali extends Model
 
     public function aggiungiPersona($persona)
     {
-        if (! $this->isAttivo()) {
+        if (!$this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
@@ -77,12 +78,12 @@ class EserciziSpirituali extends Model
         if ($persona instanceof Persona) {
             return $this->persone()->attach($persona->id);
         }
-        throw Exception('Bad person as arguemnt. It must be the id or the model of a person.');
+        throw new Exception('Bad person as arguemnt. It must be the id or the model of a person.');
     }
 
     public function eliminaPersona($persona)
     {
-        if (! $this->isAttivo()) {
+        if (!$this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
@@ -91,7 +92,7 @@ class EserciziSpirituali extends Model
         if ($persona instanceof Persona) {
             return $this->persone()->detach($persona->id);
         }
-        throw Exception('Bad person as arguemnt. It must be the id or the model of a person.');
+        throw new Exception('Bad person as arguemnt. It must be the id or the model of a person.');
     }
 
     public function responsabile()
