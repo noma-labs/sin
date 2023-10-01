@@ -5,11 +5,11 @@ namespace Domain\Nomadelfia\EserciziSpirituali\Models;
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
 use Database\Factories\EsSpiritualiFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
-use Exception;
 
 class EserciziSpirituali extends Model
 {
@@ -69,7 +69,7 @@ class EserciziSpirituali extends Model
 
     public function aggiungiPersona($persona)
     {
-        if (!$this->isAttivo()) {
+        if (! $this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
@@ -83,7 +83,7 @@ class EserciziSpirituali extends Model
 
     public function eliminaPersona($persona)
     {
-        if (!$this->isAttivo()) {
+        if (! $this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
