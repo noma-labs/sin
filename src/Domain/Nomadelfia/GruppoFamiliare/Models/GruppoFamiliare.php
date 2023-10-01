@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\GruppoFamiliare\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
+use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
 use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
 use Database\Factories\GruppoFamiliareFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -45,7 +46,7 @@ class GruppoFamiliare extends Model
         } elseif ($cp->count() == 0) {
             return null;
         } else {
-            throw GruppoHasMultipleCapogruppi::named($this);
+            throw GruppoHaMultipleCapogruppi::named($this);
         }
     }
 
@@ -86,10 +87,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (! $persona->isEffettivo()) {
+            if (!$persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (! $persona->isMaschio()) {
+            if (!$persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();

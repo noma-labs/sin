@@ -40,9 +40,11 @@ class ExportPopolazioneData
 
     public $aziende;
 
-    public $annoScolastico;
+    public $annoScolasticoAlunni;
 
     public $scuola;
+    
+    public $classi;
 
     public function __construct()
     {
