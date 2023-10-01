@@ -43,7 +43,7 @@ class ExportPopolazioneData
     public $annoScolasticoAlunni;
 
     public $scuola;
-    
+
     public $classi;
 
     public function __construct()
