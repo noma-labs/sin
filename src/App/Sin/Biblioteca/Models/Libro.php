@@ -19,11 +19,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Libro extends Model implements HasMedia
 {
-    use InteractsWithMedia;
-    use SortableTrait;
-    use SoftDeletes;
     use Enums;
     use HasFactory;
+    use InteractsWithMedia;
+    use SoftDeletes;
+    use SortableTrait;
 
     protected $connection = 'db_biblioteca';
 

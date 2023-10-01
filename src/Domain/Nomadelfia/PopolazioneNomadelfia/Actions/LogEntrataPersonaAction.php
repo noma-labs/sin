@@ -9,7 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class LogEntrataPersonaAction
 {
-    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, Famiglia|null $famiglia)
+    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia)
     {
         activity(AggiornamentoAnagrafe::LOG_NAME)
             ->performedOn($persona)

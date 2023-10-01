@@ -237,6 +237,7 @@ class LibriController extends CoreBaseController
     public function showDeleted()
     {
         $libriEliminati = Libro::onlyTrashed()->paginate(50);
+
         // dd($libriEliminati);
         return view('biblioteca.libri.deleted', compact('libriEliminati'));
     }

@@ -12,9 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use CausesActivity;
+    use HasRoles;
     use Notifiable;
     use SoftDeletes;
-    use HasRoles;
 
     protected $connection = 'db_auth';
 

@@ -22,7 +22,7 @@ class PersonaUscitaController extends CoreBaseController
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $act = app(UscitaPersonaAction::class);
-        $act->execute($persona, $request->data_uscita);
+        $act->execute($persona, $request->data_uscita, true);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");

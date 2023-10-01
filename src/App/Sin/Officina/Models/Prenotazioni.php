@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prenotazioni extends Model
 {
+    use HasFactory;
     use SoftDeletes;
     use SortableTrait;
-    use HasFactory;
 
     protected $table = 'prenotazioni';
 

@@ -24,7 +24,7 @@ class UscitaPersonaAction
 
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
-    * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
+    * Se disable_from_family=True e se è un figlio, la persona viene anche messa fuori dal nucleo familiare.
     */
     public function execute(Persona $persona, string $data_uscita, bool $disableFromFamily = false)
     {
@@ -47,7 +47,7 @@ class UscitaPersonaAction
 
     public function calcDataEntrata(Persona $persona)
     {
-        // TODO: if there is not data entrat raise an expcetion becuae it is not possibel that a person is leaving the
+        // TODO: if there is not data entrata raise an exception because it is not possible that a person is leaving the
         // community without having a entering date.
         return $persona->getDataEntrataNomadelfia() ?: '';
     }

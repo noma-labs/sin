@@ -30,9 +30,9 @@ use Illuminate\Support\Str;
 
 class Persona extends Model
 {
-    use SortableTrait;
-    use SoftDeletes;
     use HasFactory;
+    use SoftDeletes;
+    use SortableTrait;
 
     protected $connection = 'db_nomadelfia';
 

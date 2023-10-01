@@ -92,7 +92,6 @@ it('manage exit of an adult', function () {
 
     $pop = PopolazioneNomadelfia::popolazione();
     expect(count($pop))->toBe($tot - 1);
-
 });
 
 /*
