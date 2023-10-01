@@ -482,6 +482,7 @@ class PatenteController extends CoreBaseController
         $patente = Patente::find(request('numero_patente'));
         $categoria = CategoriaPatente::find(request('categoria_patente'));
         $patente->categorie()->attach($categoria);
+
         //$viewData = Patente::with(['persone', 'categorie'])->orderBy("persona_id")->paginate(10);
         return redirect(route('patente.index'))->withSuccess('La patente numero:'.request('numero_patente').' è stata creata con successo');
     }

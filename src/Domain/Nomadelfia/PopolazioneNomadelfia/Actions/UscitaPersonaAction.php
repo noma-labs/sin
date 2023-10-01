@@ -13,11 +13,10 @@ class UscitaPersonaAction
     private SendEmailPersonaUscitaAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction        $uscita,
-        LogUscitaPersonaAction       $logUscitaActivity,
+        UscitaPersonaDBAction $uscita,
+        LogUscitaPersonaAction $logUscitaActivity,
         SendEmailPersonaUscitaAction $email
-    )
-    {
+    ) {
         $this->uscita = $uscita;
         $this->logUscitaActivity = $logUscitaActivity;
         $this->email = $email;

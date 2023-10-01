@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailPersonaEntrataAction
 {
-    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, Famiglia|null $famiglia)
+    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia)
     {
         if (is_string($data_entrata)) {
             $data_entrata = Carbon::parse($data_entrata);

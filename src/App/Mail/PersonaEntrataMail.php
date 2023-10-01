@@ -17,7 +17,7 @@ class PersonaEntrataMail extends Mailable
         public Persona $persona,
         public Carbon $data_entrata,
         public GruppoFamiliare $gruppo,
-        public Famiglia|null $famiglia
+        public ?Famiglia $famiglia
     ) {
 
     }
