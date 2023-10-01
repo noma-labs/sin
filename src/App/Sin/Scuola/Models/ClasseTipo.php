@@ -2,7 +2,10 @@
 
 namespace App\Scuola\Models;
 
+use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
+use Exception;
 
 class ClasseTipo extends Model
 {
@@ -165,7 +168,7 @@ class ClasseTipo extends Model
         return $this->ciclo === 'universita';
     }
 
-    public function assegnaAlunno($persona, Carbon\Carbon $data_inizio)
+    public function assegnaAlunno($persona, Carbon $data_inizio)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
