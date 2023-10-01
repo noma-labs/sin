@@ -67,8 +67,9 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-            if (! $uscitaPersonaData->persona->isMaggiorenne() && $uscitaPersonaData->disableFromFamily) {
-                // toglie la persona dal nucleo familiare
+            if ($uscitaPersonaData->persona->isFiglio() && $uscitaPersonaData->disableFromFamily) {
+                // caso: un figlio che esce dalla comunità da solo, deve essere tolto dal nucleo familiare.
+                //       Invece, un figlio che esce con la famiglia deve rimanere nel nucleo familiare d'origine.
                 $conn->insert(
                     "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
                     [$uscitaPersonaData->data_uscita, $persona_id]
