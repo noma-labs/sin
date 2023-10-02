@@ -57,9 +57,8 @@ class ArchivioDocumentiController extends CoreBaseController
              ->setOption('margin-left', '0mm');
          $data = Carbon::now();
 
-         return $pdf->setPap*/
-        er('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
-
+         return $pdf->setPapper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
+        */
     }
 
     public function aggiungi(Request $request)

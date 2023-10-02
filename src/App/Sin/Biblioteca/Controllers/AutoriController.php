@@ -131,9 +131,10 @@ class AutoriController extends CoreBaseController
         $autore->fill(['autore' => $request->autore]);
         if ($autore->save()) {
             return redirect()->route('autori.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
-        } else {
-            redirect()->route('autori.index')->withErroe("Errore durante l'operaizone di aggiornamento");
         }
+
+        return redirect()->route('autori.index')->withErroe("Errore durante l'operaizone di aggiornamento");
+
     }
 
     /**

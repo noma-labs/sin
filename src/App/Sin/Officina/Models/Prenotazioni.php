@@ -9,6 +9,7 @@ use Database\Factories\PrenotazioniFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prenotazioni extends Model
@@ -32,7 +33,7 @@ class Prenotazioni extends Model
         return new PrenotazioniQueryBuilders($query);
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): PrenotazioniFactory
     {
         return PrenotazioniFactory::new();
     }
@@ -42,17 +43,17 @@ class Prenotazioni extends Model
         return $this->hasOne(Uso::class, 'ofus_iden', 'uso_id');
     }
 
-    public function meccanico()
+    public function meccanico(): HasOne
     {
         return $this->hasOne(Persona::class, 'id', 'meccanico_id');
     }
 
-    public function cliente()
+    public function cliente(): HasOne
     {
         return $this->hasOne(Persona::class, 'id', 'cliente_id');
     }
 
-    public function veicolo()
+    public function veicolo(): HasOne
     {
         return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }

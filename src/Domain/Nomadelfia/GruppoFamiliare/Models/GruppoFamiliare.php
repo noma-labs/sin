@@ -3,7 +3,7 @@
 namespace Domain\Nomadelfia\GruppoFamiliare\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
-use App\Nomadelfia\Exceptions\GruppoHasMultipleCapogruppi;
+use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
 use Database\Factories\GruppoFamiliareFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -45,7 +45,7 @@ class GruppoFamiliare extends Model
         } elseif ($cp->count() == 0) {
             return null;
         } else {
-            throw GruppoHasMultipleCapogruppi::named($this);
+            throw GruppoHaMultipleCapogruppi::named($this);
         }
     }
 

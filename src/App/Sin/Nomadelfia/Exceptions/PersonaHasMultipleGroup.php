@@ -7,8 +7,8 @@ use InvalidArgumentException;
 
 class PersonaHasMultipleGroup extends InvalidArgumentException
 {
-    public static function named(GruppoFamiliare $gruppo)
+    public static function named(GruppoFamiliare $gruppo): PersonaHasMultipleGroup
     {
-        return new static("Il gruppo `{$gruppo->nome}` ha più di un capogruppo.");
+        return new self("Il gruppo `{$gruppo->nome}` ha più di un capogruppo.");
     }
 }

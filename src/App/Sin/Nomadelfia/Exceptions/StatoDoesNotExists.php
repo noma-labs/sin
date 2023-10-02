@@ -6,17 +6,13 @@ use InvalidArgumentException;
 
 class StatoDoesNotExists extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(string $nome): StatoDoesNotExists
     {
-        return new static("Lo stato `{$nome}` non esiste.");
+        return new self("Lo stato `{$nome}` non esiste.");
     }
 
-    public static function create(string $name)
+    public static function create(string $name): StatoDoesNotExists
     {
-        return new static("o stato `{$name}` non esiste.");
+        return new self("Lo stato `{$name}` non esiste.");
     }
-    // public static function withId(int $roleId)
-    // {
-    //     return new static("There is no role with id `{$roleId}`.");
-    // }
 }

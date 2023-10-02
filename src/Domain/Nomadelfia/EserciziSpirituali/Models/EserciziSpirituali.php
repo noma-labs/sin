@@ -5,6 +5,7 @@ namespace Domain\Nomadelfia\EserciziSpirituali\Models;
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
 use Database\Factories\EsSpiritualiFactory;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +78,7 @@ class EserciziSpirituali extends Model
         if ($persona instanceof Persona) {
             return $this->persone()->attach($persona->id);
         }
-        throw Exception('Bad person as arguemnt. It must be the id or the model of a person.');
+        throw new Exception('Bad person as arguemnt. It must be the id or the model of a person.');
     }
 
     public function eliminaPersona($persona)
@@ -91,7 +92,7 @@ class EserciziSpirituali extends Model
         if ($persona instanceof Persona) {
             return $this->persone()->detach($persona->id);
         }
-        throw Exception('Bad person as arguemnt. It must be the id or the model of a person.');
+        throw new Exception('Bad person as arguemnt. It must be the id or the model of a person.');
     }
 
     public function responsabile()

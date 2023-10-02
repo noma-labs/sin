@@ -7,18 +7,18 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignCapoFamiglia extends \Exception
 {
-    public static function hasAlreadyCapoFamiglia(Famiglia $famiglia, Persona $capofamiglia): self
+    public static function hasAlreadyCapoFamiglia(Famiglia $famiglia, Persona $capofamiglia): CouldNotAssignCapoFamiglia
     {
-        return new static("Il capo famiglia `{$capofamiglia->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè esiste già un capo famiglia.");
+        return new self("Il capo famiglia `{$capofamiglia->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè esiste già un capo famiglia.");
     }
 
-    public static function beacuseIsMinorenne(Famiglia $famiglia, Persona $persona): self
+    public static function beacuseIsMinorenne(Famiglia $famiglia, Persona $persona): CouldNotAssignCapoFamiglia
     {
-        return new static("Il capo famiglia {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè minorenne.");
+        return new self("Il capo famiglia {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè minorenne.");
     }
 
-    public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): self
+    public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): CouldNotAssignCapoFamiglia
     {
-        return new static("Il capo famiglia {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
+        return new self("Il capo famiglia {$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
     }
 }

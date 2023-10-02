@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Core\Controllers\BaseController as Controller;
-use Artisan;
 use Log;
 use Mail;
 use Storage;
@@ -47,18 +46,13 @@ class BackupController extends Controller
     public function create()
     {
         ini_set('max_execution_time', 300); // aumenta il numero di tempo per eseguire la query
-        try {
-            // start the backup process
-            $exitCode = Artisan::call('backup:run');
-            $output = Artisan::output();
-            // log the results
-            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n".$output);
+        // start the backup process
+        $exitCode = \Illuminate\Support\Facades\Artisan::call('backup:run');
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n".$output);
 
-            // return the results as a response to the ajax call
-            return redirect()->back()->withSuccess('Backup creato con successo.');
-        } catch (Exception $e) {
-            return redirect()->back()->withError($e->getMessage());
-        }
+        // return the results as a response to the ajax call
+        return redirect()->back()->withSuccess('Backup creato con successo.');
     }
 
     /**

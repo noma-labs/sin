@@ -86,7 +86,7 @@ class Cariche extends Model
 
             return $this->assegnaMembro($persona, $data_inizio);
         } else {
-            throw new InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
+            throw new \InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
         }
     }
 

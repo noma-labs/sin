@@ -4,6 +4,7 @@ namespace App\Nomadelfia\Azienda\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 class AziendeController extends CoreBaseController

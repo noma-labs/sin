@@ -17,7 +17,7 @@ trait Enums
      */
     public static function getEnum(string $field)
     {
-        $instance = new static;
+        $instance = new self;
         if ($instance->hasEnumProperty($field)) {
             $property = $instance->getEnumProperty($field);
 

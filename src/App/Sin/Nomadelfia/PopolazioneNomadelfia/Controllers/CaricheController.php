@@ -66,10 +66,7 @@ class CaricheController extends CoreBaseController
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
         $file_name = "elezioni-$data.docx";
-        try {
-            $objWriter->save(storage_path($file_name));
-        } catch (Exception $e) {
-        }
+        $objWriter->save(storage_path($file_name));
 
         return response()->download(storage_path($file_name));
     }

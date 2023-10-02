@@ -19,6 +19,7 @@ class ApiController extends CoreBaseController
         $term = $request->term;
         $libri = Libro::where('titolo', 'like', "%$term%")->orWhere('collocaione', 'like', "$term%");
         if ($libri->count() > 0) {
+            $results = [];
             foreach ($libri as $libro) {
                 $results[] = ['value' => $libro->id, 'label' => $libro->collocazione];
             }

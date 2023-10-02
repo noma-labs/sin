@@ -8,6 +8,8 @@ use DateTimeInterface;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Patente extends Model
 {
@@ -46,7 +48,7 @@ class Patente extends Model
         });
     }
 
-    public function persona()
+    public function persona(): BelongsTo
     {
         return $this->belongsTo(Persona::class, 'persona_id', 'id');
     }
@@ -82,28 +84,28 @@ class Patente extends Model
         return $query->select('rilasciata_dal')->distinct();
     }
 
-    public function categorie()
+    public function categorie(): BelongsToMany
     {
         return $this->belongsToMany(CategoriaPatente::class, 'patenti_categorie', 'numero_patente', 'categoria_patente_id');
     }
 
-    public function cqc()
+    public function cqc(): BelongsToMany
     {
         return $this->belongsToMany(CQC::class, 'patenti_categorie', 'numero_patente', 'categoria_patente_id')
             ->withPivot('data_rilascio', 'data_scadenza');
     }
 
-    public function hasCqc()
+    public function hasCqc(): bool
     {
         return $this->cqc()->count() > 0;
     }
 
-    public function hasCqcPersone()
+    public function hasCqcPersone(): bool
     {
         return $this->cqcPersone() != null;
     }
 
-    public function hasCqcMerci()
+    public function hasCqcMerci(): bool
     {
         return $this->cqcMerci() != null;
     }

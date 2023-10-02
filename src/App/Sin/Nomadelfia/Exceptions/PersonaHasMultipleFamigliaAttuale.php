@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 class PersonaHasMultipleFamigliaAttuale extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(string $nome): PersonaHasMultipleFamigliaAttuale
     {
-        return new static("La persona `{$nome}` ha più di uno stato familiare attuale.");
+        return new self("La persona `{$nome}` ha più di uno stato familiare attuale.");
     }
 }

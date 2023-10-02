@@ -5,6 +5,7 @@ namespace App\Patente\Models;
 use Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CategoriaPatente extends Model
 {
@@ -39,7 +40,7 @@ class CategoriaPatente extends Model
         return $query->where('categoria', $categoria)->first();
     }
 
-    public function patenti()
+    public function patenti(): BelongsToMany
     {
         return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente');
     }

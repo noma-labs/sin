@@ -5,6 +5,10 @@ namespace App\Officina\Models;
 use Database\Factories\VeicoloFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Veicolo extends Model
@@ -27,62 +31,62 @@ class Veicolo extends Model
         return VeicoloFactory::new();
     }
 
-    public function impieghi()
+    public function impieghi(): BelongsTo
     {
         return $this->belongsTo('App\Officina\Models\Impiego');
     }
 
-    public function modello()
+    public function modello(): HasOne
     {
         return $this->hasOne(Modelli::class, 'id', 'modello_id');
     }
 
-    public function impiego()
+    public function impiego(): HasOne
     {
         return $this->hasOne(Impiego::class, 'id', 'impiego_id');
     }
 
-    public function tipologia()
+    public function tipologia(): HasOne
     {
         return $this->hasOne(Tipologia::class, 'id', 'tipologia_id');
     }
 
-    public function alimentazione()
+    public function alimentazione(): HasOne
     {
         return $this->hasOne(Alimentazioni::class, 'id', 'alimentazione_id');
     }
 
-    public function prenotazioni()
+    public function prenotazioni(): HasMany
     {
         return $this->hasMany(Prenotazioni::class, 'veicolo_id');
     }
 
     // codice del filtro dell'aria del veicolo
-    public function filtroAria()
+    public function filtroAria(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria');
     }
 
     // codice del filtro del gasolio del veicolo
-    public function filtroGasolio()
+    public function filtroGasolio(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_gasolio');
     }
 
     // codice del filtro dell'olio del veicolo
-    public function filtroOlio()
+    public function filtroOlio(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_olio');
     }
 
     // codice del filtro dell'aria condizionata del veicolo
-    public function filtroAriaCondizionata()
+    public function filtroAriaCondizionata(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria_condizionata');
     }
 
     // codice del tipo di olio motore del veicolo
-    public function olioMotore()
+    public function olioMotore(): HasOne
     {
         return $this->hasOne(TipoOlio::class, 'id', 'olio_id');
     }
@@ -90,7 +94,7 @@ class Veicolo extends Model
     /**
      * ritorna tutti le gomme del veicolo
      */
-    public function gomme()
+    public function gomme(): BelongsToMany
     {
         return $this->belongsToMany(TipoGomme::class, 'gomme_veicolo', 'veicolo_id', 'gomme_id');
     }
@@ -155,13 +159,5 @@ class Veicolo extends Model
     public function scopeMotocicli($query)
     {
         return $query->where('tipologia_id', 10);
-    }
-
-    /**
-     * cambia la classe di media_model
-     */
-    public function media()
-    {
-        return $this->morphMany(Documento::class, 'model');
     }
 }

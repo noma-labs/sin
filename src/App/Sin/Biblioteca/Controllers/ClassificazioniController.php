@@ -121,9 +121,9 @@ class ClassificazioniController extends CoreBaseController
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
             return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
-        } else {
-            redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
         }
+
+        return redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Nomadelfia\Api\Controllers;
 
+use App\Anagrafe\Models\NucleoFamigliare;
 use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
