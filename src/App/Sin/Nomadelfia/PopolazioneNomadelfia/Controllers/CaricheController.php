@@ -51,15 +51,15 @@ class CaricheController extends CoreBaseController
 
         // Consiglio degli anziani eleggibili
         $section = $phpWord->addSection();
-        $section->addTitle('Consiglio degli anziani ' . $anz->total, 1);
+        $section->addTitle('Consiglio degli anziani '.$anz->total, 1);
 
         $sectAnzUomini = $phpWord->addSection($colStyle4NCont);
-        $sectAnzUomini->addTitle('Uomini ' . count($anz->uomini), 2);
+        $sectAnzUomini->addTitle('Uomini '.count($anz->uomini), 2);
         foreach ($anz->uomini as $value) {
             $sectAnzUomini->addText($value->nominativo);
         }
         $maggDonne = $phpWord->addSection($colStyle4Next);
-        $maggDonne->addTitle('Donne ' . count($anz->donne), 2);
+        $maggDonne->addTitle('Donne '.count($anz->donne), 2);
         foreach ($anz->donne as $value) {
             $maggDonne->addText($value->nominativo);
         }

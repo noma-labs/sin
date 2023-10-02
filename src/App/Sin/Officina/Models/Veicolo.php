@@ -160,5 +160,4 @@ class Veicolo extends Model
     {
         return $query->where('tipologia_id', 10);
     }
-
 }
