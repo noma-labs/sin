@@ -128,7 +128,7 @@ class Patente extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param int $giorni : numero di giorni entro il quale le patenti scadono.
+     * @param  int  $giorni : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -157,7 +157,7 @@ class Patente extends Model
      * Ritorna le patenti che sono scadute da un numero di $giorni da oggi.
      * Se $day ==null ritorna tutte le patenti scadute da oggi.
      *
-     * @param int $giorni : numero di giorni di scadenza
+     * @param  int  $giorni : numero di giorni di scadenza
      *
      * @author Davide Neri
      */

@@ -4,8 +4,8 @@ namespace App\Scuola\Models;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Illuminate\Database\Eloquent\Model;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class ClasseTipo extends Model
 {
