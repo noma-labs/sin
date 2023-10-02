@@ -42,7 +42,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeCQCPersone($query)
+    public function scopeCQCPersone($query): self
     {
         return $query->where('id', 16)->first();
     }
@@ -52,7 +52,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeCQCMerci($query)
+    public function scopeCQCMerci($query): self
     {
         return $query->where('id', 17)->first();
     }
@@ -60,7 +60,7 @@ class CQC extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param  int  $days :numero di giorni entro il quale le patenti scadono.
+     * @param int $days :numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -77,7 +77,7 @@ class CQC extends Model
     /**
      * Ritorna le patenti con C.Q.C che non sono in scadenza da $days giorni in poi.
      *
-     * @param  int  $giorni : numero di giorni entro il quale le patenti scadono.
+     * @param int $giorni : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -95,7 +95,7 @@ class CQC extends Model
      * Ritorna le patenti con C.Q.C scadeute.
      * Se $days è null ritorna tutte le patenti scadute, altimenti solo quelle scadute d $days giorni.
      *
-     * @param  int  $days : numero di giorni | null
+     * @param int $days : numero di giorni | null
      *
      * @author Davide Neri
      */

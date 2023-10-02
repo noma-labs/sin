@@ -5,6 +5,7 @@ namespace App\Patente\Models;
 use Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CategoriaPatente extends Model
 {
@@ -30,8 +31,8 @@ class CategoriaPatente extends Model
     /**
      * Scope a query to only include categorie of a given name (A,B,C,D,DE,...)
      *
-     * @param  Builder  $query
-     * @param  mixed  $type
+     * @param Builder $query
+     * @param mixed $type
      * @return Builder
      */
     public function scopeDalNome($query, $categoria)
@@ -39,7 +40,7 @@ class CategoriaPatente extends Model
         return $query->where('categoria', $categoria)->first();
     }
 
-    public function patenti()
+    public function patenti(): BelongsToMany
     {
         return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente');
     }
@@ -67,7 +68,7 @@ class CategoriaPatente extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param  int  $days :numero di giorni entro il quale le patenti scadono.
+     * @param int $days :numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
