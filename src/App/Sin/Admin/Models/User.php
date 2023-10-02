@@ -3,10 +3,13 @@
 namespace App\Admin\Models;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -48,7 +51,7 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function persona()
+    public function persona(): HasOne
     {
         return $this->hasOne(Persona::class, 'id', 'persona_id');
     }
@@ -56,10 +59,10 @@ class User extends Authenticatable
     /**
      * An user may have multiple roles.
      */
-    public function ruoli()
+    public function ruoli(): BelongsToMany
     {
         return $this->belongsToMany(
-            Ruolo::class,
+            Role::class,
             'utenti_ruoli',
             'utente_id',
             'ruolo_id'

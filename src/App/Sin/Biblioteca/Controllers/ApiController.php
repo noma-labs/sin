@@ -19,10 +19,10 @@ class ApiController extends CoreBaseController
         $term = $request->term;
         $libri = Libro::where('titolo', 'like', "%$term%")->orWhere('collocaione', 'like', "$term%");
         if ($libri->count() > 0) {
+            $results = array();
             foreach ($libri as $libro) {
                 $results[] = ['value' => $libro->id, 'label' => $libro->collocazione];
             }
-
             return response()->json($results);
         } else {
             return response()->json(['value' => '', 'label' => 'libro non trovato']);
@@ -56,7 +56,7 @@ class ApiController extends CoreBaseController
         // ?lettere=XXX&soloassegnati=true => return only the numbers assigned for the letters
         if ($request->has('term')) {
             $CollocazioneLettere = ViewCollocazione::lettere()
-                ->where('lettere', 'LIKE', $request->input('term').'%')
+                ->where('lettere', 'LIKE', $request->input('term') . '%')
                 ->get();
             $results[] = ['value' => 'null', 'label' => 'SENZA COLLOCAZIONE'];
             foreach ($CollocazioneLettere as $lettere) {
@@ -86,7 +86,7 @@ class ApiController extends CoreBaseController
     public function autocompleteAutori(Request $request)
     {
         $term = $request->input('term');
-        $autori = Autore::where('autore', 'LIKE', '%'.$term.'%')->orderBy('autore')->take(50)->get();
+        $autori = Autore::where('autore', 'LIKE', '%' . $term . '%')->orderBy('autore')->take(50)->get();
         $results = [];
         foreach ($autori as $autore) {
             $results[] = ['value' => $autore->id, 'label' => $autore->autore];
@@ -98,7 +98,7 @@ class ApiController extends CoreBaseController
     public function autocompleteEditori(Request $request)
     {
         $term = $request->input('term');
-        $editori = Editore::where('Editore', 'LIKE', '%'.$term.'%')->orderBy('editore')->take(50)->get();
+        $editori = Editore::where('Editore', 'LIKE', '%' . $term . '%')->orderBy('editore')->take(50)->get();
         $results = [];
         foreach ($editori as $editore) {
             $results[] = ['value' => $editore->id, 'label' => $editore->editore];
@@ -111,7 +111,7 @@ class ApiController extends CoreBaseController
     {
         $term = $request->input('term');
         $libri = Libro::withTrashed()->select('titolo')->where('titolo', 'LIKE',
-            $term.'%')->groupBy('titolo')->take(50)->get();
+            $term . '%')->groupBy('titolo')->take(50)->get();
         $results = [];
         foreach ($libri as $libro) {
             $results[] = ['value' => $libro->titolo, 'label' => $libro->titolo];
@@ -139,7 +139,7 @@ class ApiController extends CoreBaseController
         if ($request->filled('nome')) {
             $nome = $request->input('nome');
             $autore = Autore::where('autore', $nome)->first();
-            if (! $autore) {
+            if (!$autore) {
                 $autore = Autore::create(['autore' => $nome]);
                 $msg = "Autore $autore->autore inserito correttamente";
 
@@ -180,7 +180,7 @@ class ApiController extends CoreBaseController
         if ($request->filled('nome')) {
             $nome = $request->input('nome');
             $editore = Editore::where('editore', $nome)->first();
-            if (! $editore) {
+            if (!$editore) {
                 $editore = Editore::create(['editore' => $nome]);
                 $msg = "Editore $editore->editore inserito correttamente";
 

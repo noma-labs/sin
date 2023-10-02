@@ -57,9 +57,8 @@ class ArchivioDocumentiController extends CoreBaseController
              ->setOption('margin-left', '0mm');
          $data = Carbon::now();
 
-         return $pdf->setPap*/
-        er('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
-
+         return $pdf->setPapper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
+        */
     }
 
     public function aggiungi(Request $request)
@@ -94,7 +93,7 @@ class ArchivioDocumentiController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'titolo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('archiviodocumenti')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
@@ -102,29 +101,29 @@ class ArchivioDocumentiController extends CoreBaseController
             if ($request->titolo) {
                 $titolo = $request->titolo;
                 $q->where('titolo', 'like', "%$titolo%");
-                $msgSearch = $msgSearch.'Titolo='.$titolo;
+                $msgSearch = $msgSearch . 'Titolo=' . $titolo;
                 $orderBy = 'titolo';
             }
             if ($request->collocazione) {
                 $collocazione = $request->collocazione;
                 if ($collocazione == 'null') {
                     $q->where('foglio', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
+                    $msgSearch = $msgSearch . ' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('foglio', 'like', "%$collocazione%");
-                    $msgSearch = $msgSearch.' Collocazione='.$collocazione;
+                    $msgSearch = $msgSearch . ' Collocazione=' . $collocazione;
                 }
                 $orderBy = 'foglio';
             }
             if ($request->filled('editore')) {
                 $ed = $request->editore;
-                $msgSearch = $msgSearch." Editore= $ed";
+                $msgSearch = $msgSearch . " Editore= $ed";
                 $q->where('editore', 'like', "%$ed%");
                 $orderBy = 'editore';
             }
             if ($request->filled('autore')) {
                 $au = $request->autore;
-                $msgSearch = $msgSearch." Autore= $au";
+                $msgSearch = $msgSearch . " Autore= $au";
                 $q->where('autore', 'like', "%$au%");
                 $orderBy = 'autore';
             }

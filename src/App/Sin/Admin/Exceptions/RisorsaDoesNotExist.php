@@ -6,13 +6,13 @@ use InvalidArgumentException;
 
 class RisorsaDoesNotExist extends InvalidArgumentException
 {
-    public static function create(string $permissionName)
+    public static function create(string $permissionName): RisorsaDoesNotExist
     {
-        return new static("There is no permission named `{$permissionName}` ");
+        return new self("There is no permission named `{$permissionName}` ");
     }
 
-    public static function withId(int $permissionId)
+    public static function withId(int $permissionId): RisorsaDoesNotExist
     {
-        return new static("There is no [permission] with id `{$permissionId}`.");
+        return new self("There is no [permission] with id `{$permissionId}`.");
     }
 }
