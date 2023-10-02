@@ -4,6 +4,7 @@ namespace App\Patente\Models;
 
 use App\Traits\SortableTrait;
 use Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,11 +39,21 @@ class CQC extends Model
     }
 
     /**
+     * Get all of the persona that belong to the CQC.
+     *
+     * @return BelongsToMany<Persona>
+     */
+    public function persona(): BelongsToMany
+    {
+        return parent::persona()->using(Patente::class);
+    }
+
+    /**
      * Ritorna il C.Q:C persone
      *
      * @author Davide Neri
      */
-    public function scopeCQCPersone($query): self
+    public function scopeCQCPersone($query)
     {
         return $query->where('id', 16)->first();
     }
@@ -52,7 +63,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeCQCMerci($query): self
+    public function scopeCQCMerci($query)
     {
         return $query->where('id', 17)->first();
     }

@@ -15,8 +15,8 @@ class PersonaGruppoFamiliareConcludiController
         ], [
             'data_entrata.date' => 'La data di entrata non è una data valida',
             'data_entrata.required' => 'La data di entrata è obbligatoria',
-            'data_entrata.date' => 'La data di uscita non è  una data valida',
-            'data_entrata.required' => 'La data di uscota non è  una data valida',
+            'data_uscita.date' => 'La data di uscita non è  una data valida',
+            'data_uscita.required' => 'La data di uscota non è  una data valida',
             'data_uscita.after_or_equal' => 'La data di uscita non può essere inferiore alla data di entrata',
         ]);
 

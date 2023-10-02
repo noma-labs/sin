@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 class PersonaHasNoGroup extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(string $nome): PersonaHasNoGroup
     {
-        return new static("La persona `{$nome}` non è assegnato/a in nessun gruppo familiare.");
+        return new self("La persona `{$nome}` non è assegnato/a in nessun gruppo familiare.");
     }
 }

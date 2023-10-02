@@ -3,6 +3,7 @@
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Marche extends Model
 {
@@ -12,7 +13,7 @@ class Marche extends Model
 
     protected $primaryKey = 'id';
 
-    public function modelli()
+    public function modelli(): HasMany
     {
         return $this->hasMany(Modelli::class, 'marca_id');
     }
