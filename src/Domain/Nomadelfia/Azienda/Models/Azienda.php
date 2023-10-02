@@ -8,6 +8,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Azienda extends Model
 {
@@ -48,20 +49,20 @@ class Azienda extends Model
         return $query->where('tipo', '=', 'incarico');
     }
 
-    public function lavoratori()
+    public function lavoratori(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'aziende_persone', 'azienda_id', 'persona_id')->withPivot('stato',
             'data_inizio_azienda')->orderBy('mansione', 'asc')->orderBy('persone.nominativo');
     }
 
-    public function lavoratoriAttuali()
+    public function lavoratoriAttuali(): BelongsToMany
     {
         return $this->lavoratori()->wherePivotIn('stato', ['Attivo', 'Sospeso'])->withPivot('data_inizio_azienda',
             'mansione',
             'stato');
     }
 
-    public function lavoratoriStorici()
+    public function lavoratoriStorici(): BelongsToMany
     {
         return $this->lavoratori()->wherePivot('stato',
             '=', 'Non Attivo')->withPivot('data_fine_azienda', 'stato');

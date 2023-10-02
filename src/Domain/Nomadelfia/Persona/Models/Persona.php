@@ -25,6 +25,9 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -111,7 +114,7 @@ class Persona extends Model
     public function proposeNumeroElenco()
     {
         if ($this->numero_elenco) {
-            throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
+            throw new Exception('La persona ' . $this->nominativo . ' ha già un numero di elenco ' . $this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
         $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
@@ -120,12 +123,12 @@ class Persona extends Model
             ->orderBy('numero', 'DESC')
             ->first();
         if ($res) {
-            $new = (int) $res->numero + 1;
+            $new = (int)$res->numero + 1;
 
-            return $res->lettera.$new;
+            return $res->lettera . $new;
         }
 
-        return $firstLetter.'1';
+        return $firstLetter . '1';
 
     }
 
@@ -178,7 +181,8 @@ class Persona extends Model
         string $orderBy = 'nominativo',
         $travel_to_year = null,
         $withInYear = false
-    ) {
+    )
+    {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($frometa);
         if ($withInYear) {
@@ -199,18 +203,18 @@ class Persona extends Model
         return $query->whereRaw('YEAR(data_nascita)= ?', [$anno]);
     }
 
-    public function patenti()
+    public function patenti(): HasMany
     {
         return $this->hasMany(Patente::class, 'persona_id', 'id');
     }
 
-    public function nominativiStorici()
+    public function nominativiStorici(): HasOne
     {
         return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
     }
 
     // GRUPPO FAMILIARE
-    public function gruppifamiliari()
+    public function gruppifamiliari(): BelongsToMany
     {
         return $this->belongsToMany(GruppoFamiliare::class, 'gruppi_persone', 'persona_id', 'gruppo_famigliare_id')
             ->withPivot('data_entrata_gruppo', 'data_uscita_gruppo', 'stato');
@@ -228,7 +232,7 @@ class Persona extends Model
         }
     }
 
-    public function gruppofamiliariStorico()
+    public function gruppofamiliariStorico(): BelongsToMany
     {
         return $this->gruppifamiliari()->wherePivot('stato', '0');
     }
@@ -303,7 +307,8 @@ class Persona extends Model
         $dataout_current,
         $gruppo_id_new,
         $datain_new
-    ) {
+    )
+    {
         $persona_id = $this->id;
 
         DB::transaction(function () use (
@@ -346,7 +351,7 @@ class Persona extends Model
     }
 
     // AZIENDE
-    public function aziende()
+    public function aziende(): BelongsToMany
     {
         return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
             ->withPivot('data_inizio_azienda', 'data_fine_azienda', 'mansione', 'stato')
@@ -354,12 +359,12 @@ class Persona extends Model
             ->orderby('nome_azienda');
     }
 
-    public function aziendeAttuali()
+    public function aziendeAttuali(): BelongsToMany
     {
         return $this->aziende()->wherePivotIn('stato', ['Attivo', 'Sospeso']);
     }
 
-    public function aziendeStorico()
+    public function aziendeStorico(): BelongsToMany
     {
         return $this->aziende()->wherePivot('stato', 'Non attivo');
     }
@@ -381,7 +386,7 @@ class Persona extends Model
         }
         if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
             if ($azienda instanceof Azienda) {
-                if (! $azienda->isAzienda()) {
+                if (!$azienda->isAzienda()) {
                     throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
                 }
                 if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
@@ -401,19 +406,19 @@ class Persona extends Model
     }
 
     // Incarichi
-    public function incarichi()
+    public function incarichi(): BelongsToMany
     {
         return $this->belongsToMany(Incarico::class, 'incarichi_persone', 'persona_id', 'incarico_id')
             ->withPivot('data_inizio', 'data_fine')
             ->orderby('nome');
     }
 
-    public function incarichiAttuali()
+    public function incarichiAttuali(): BelongsToMany
     {
         return $this->incarichi()->wherePivot('data_fine', null);
     }
 
-    public function incarichiStorico()
+    public function incarichiStorico(): BelongsToMany
     {
         return $this->incarichi()->wherePivot('data_fine', 'Non attivo');
     }
@@ -438,15 +443,19 @@ class Persona extends Model
         return $this->assegnaIncarico($azienda, $data_inizio);
     }
 
-    public function assegnaIncarico($incarico, Carbon\Carbon $data_inizio)
+    /**
+     * @throws CouldNotAssignIncarico
+     * @throws Exception
+     */
+    public function assegnaIncarico(Incarico $incarico, Carbon\Carbon $data_inizio)
     {
         if (is_string($incarico)) {
             $incarico = Incarico::findOrFail($incarico);
         }
-        if (! $incarico instanceof Incarico) {
+        if (!$incarico instanceof Incarico) {
             throw new Exception('Bad Argument. Incarico must be the id or a model.');
         }
-        if ($this->incarichiAttuali()->get()->contains($incarico->id)) { // la persona è stata già l'incarico
+        if ($this->incarichiAttuali()->where('id', $incarico->id)->exists()) { // la persona è stata già l'incarico
             throw CouldNotAssignIncarico::hasAlreadyIncarico($incarico, $this);
         }
         $this->incarichi()->attach($incarico->id, [
@@ -455,25 +464,25 @@ class Persona extends Model
     }
 
     // CARICHCE
-    public function cariche()
+    public function cariche(): BelongsToMany
     {
         return $this->belongsToMany(Azienda::class, 'persone_cariche', 'persona_id', 'cariche_id')
             ->withPivot('data_inizio', 'data_fine')
             ->orderby('nome');
     }
 
-    public function caricheAttuali()
+    public function caricheAttuali(): BelongsToMany
     {
         return $this->aziende()->wherePivot('data_fine', '=', null);
     }
 
-    public function caricheStorico()
+    public function caricheStorico(): BelongsToMany
     {
         return $this->aziende()->wherePivot('stato', '!=', null);
     }
 
     // Popolazione
-    public function popolazione(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function popolazione(): HasMany
     {
         return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
@@ -574,7 +583,7 @@ class Persona extends Model
     }
 
     // STATO
-    public function stati()
+    public function stati(): BelongsToMany
     {
         return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')
             ->withPivot('stato', 'data_inizio', 'data_fine');
@@ -592,7 +601,7 @@ class Persona extends Model
         }
     }
 
-    public function statiStorico()
+    public function statiStorico(): BelongsToMany
     {
         return $this->stati()->wherePivot('stato', '0')
             ->orderby('data_fine', 'desc');
@@ -633,7 +642,7 @@ class Persona extends Model
     }
 
     // FAMIGLIA
-    public function famiglie()
+    public function famiglie(): BelongsToMany
     {
         return $this->belongsToMany(Famiglia::class, 'famiglie_persone', 'persona_id', 'famiglia_id')
             ->withPivot('stato');
@@ -654,7 +663,7 @@ class Persona extends Model
         }
     }
 
-    public function famiglieStorico()
+    public function famiglieStorico(): BelongsToMany
     {
         return $this->famiglie()
             ->wherePivot('stato', '0')
@@ -697,7 +706,7 @@ class Persona extends Model
         }
         $attuale = $this->famigliaAttuale();
         try {
-            if (! $attuale) {
+            if (!$attuale) {
                 $this->famiglie()->attach($famiglia->id,
                     ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
             } else {
@@ -827,7 +836,7 @@ class Persona extends Model
     }
 
     // POSIZIONE
-    public function posizioni()
+    public function posizioni(): BelongsToMany
     {
         return $this->belongsToMany(Posizione::class, 'persone_posizioni', 'persona_id', 'posizione_id')
             ->withPivot('stato', 'data_inizio', 'data_fine');
@@ -855,7 +864,7 @@ class Persona extends Model
         return false;
     }
 
-    public function posizioniStorico()
+    public function posizioniStorico(): BelongsToMany
     {
         return $this->posizioni()->wherePivot('stato', '0');
     }
@@ -873,7 +882,8 @@ class Persona extends Model
 
     public function assegnaNomadelfoEffettivo(
         Carbon\Carbon $data_inizio
-    ) {
+    )
+    {
         // TODO: check that the posizione attuale è postulante
         //        $attuale = this->posizioneAttuale();
         //        if $attuale && !$attuale->isPostulante){
@@ -887,7 +897,8 @@ class Persona extends Model
         $posizione,
         string $data_inizio,
         string $attuale_data_fine = null
-    ) {
+    )
+    {
         if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
@@ -914,7 +925,8 @@ class Persona extends Model
         $posizione_id,
         $currentDatain,
         $newDataIn
-    ) {
+    )
+    {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
@@ -929,7 +941,8 @@ class Persona extends Model
         $posizione_id,
         $datain,
         $datafine
-    ) {
+    )
+    {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
@@ -977,7 +990,7 @@ class Persona extends Model
     //                         Esercizi Spirituali
     //***************************************************************************
 
-    public function eserciziSpirituali()
+    public function eserciziSpirituali(): BelongsToMany
     {
         return $this->belongsToMany(EserciziSpirituali::class, 'persone_esercizi', 'persona_id', 'esercizi_id');
     }
@@ -985,17 +998,18 @@ class Persona extends Model
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
-     * @param  int|null  $gruppoFamiliareAttuale
-     * @param  date  $dataUscitaGruppoFamiliareAttuale
-     * @param  int  $gruppoFamiliareNuovo
-     * @param  date  $dataEntrataGruppo
+     * @param int|null $gruppoFamiliareAttuale
+     * @param date $dataUscitaGruppoFamiliareAttuale
+     * @param int $gruppoFamiliareNuovo
+     * @param date $dataEntrataGruppo
      */
     public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo
-    ) {
+    )
+    {
         if ($this->isCapoFamiglia() or $this->isSingle()) {
             $this->famigliaAttuale()->assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale,
                 $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
@@ -1007,7 +1021,8 @@ class Persona extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo = null
-    ) {
+    )
+    {
         try {
             $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,
                 ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);

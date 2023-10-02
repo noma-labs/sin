@@ -46,8 +46,9 @@ class IncarichiController extends CoreBaseController
         $incarico = Incarico::findOrFail($id);
         $persona = Persona::findOrFail($request->persona_id);
         $d = $request->input('data_inizio', Carbon::now());
-        $attr = ['data_inizio' => $d];
-        $incarico->lavoratori()->attach($persona->id, $attr);
+//        $attr = ['data_inizio' => $d];assegnaIncarico
+//        $incarico->lavoratori()->attach($persona->id, $attr);
+        $persona->assegnaIncarico($incarico, $d);
 
         return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
