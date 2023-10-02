@@ -60,9 +60,9 @@ class AutoriController extends CoreBaseController
         $this->validate($request, [
             'autore' => 'required|unique:db_biblioteca.autore,autore',
         ], [
-                'autore.required' => "L'autore non può essere vuoto.",
-                'autore.unique' => "L'autore $request->autore esistente già.",
-            ]
+            'autore.required' => "L'autore non può essere vuoto.",
+            'autore.unique' => "L'autore $request->autore esistente già.",
+        ]
         );
         $autore = new Autore;
         $autore->autore = $request->autore;
@@ -78,7 +78,7 @@ class AutoriController extends CoreBaseController
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -91,7 +91,7 @@ class AutoriController extends CoreBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -113,7 +113,7 @@ class AutoriController extends CoreBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -121,17 +121,18 @@ class AutoriController extends CoreBaseController
         // return $id;
         $autore = Autore::findOrFail($id); //Get role with the given id
         $this->validate($request, [
-            'autore' => 'required|unique:db_biblioteca.autore,autore,' . $id . ',id',
+            'autore' => 'required|unique:db_biblioteca.autore,autore,'.$id.',id',
         ], [
-                'autore.required' => "L'autore non può essere vuoto.",
-                'autore.unique' => "L'autore $request->autore esistente già.",
-            ]
+            'autore.required' => "L'autore non può essere vuoto.",
+            'autore.unique' => "L'autore $request->autore esistente già.",
+        ]
         );
 
         $autore->fill(['autore' => $request->autore]);
         if ($autore->save()) {
-            return redirect()->route('autori.index')->withSuccess('Autore ' . $autore->autore . ' aggiornato!');
+            return redirect()->route('autori.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
         }
+
         return redirect()->route('autori.index')->withErroe("Errore durante l'operaizone di aggiornamento");
 
     }
@@ -139,7 +140,7 @@ class AutoriController extends CoreBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

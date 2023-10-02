@@ -45,23 +45,23 @@ class ClassificazioniController extends CoreBaseController
         $this->validate($request, [
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione',
         ], [
-                'descrizione.required' => 'La classificazione non può essere vuoto.',
-                'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
-            ]
+            'descrizione.required' => 'La classificazione non può essere vuoto.',
+            'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
+        ]
         );
         // $classificazione = new Classificazione;
         // $classificazione->descrizione = $request->classificazione;
         // $classificazione->save();
         $classificazione = Classificazione::create($request->only('descrizione'));
 
-        return redirect()->route('classificazioni.index')->withSuccess('Classificazione ' . $classificazione->descrizione . ' aggiunto!');
+        return redirect()->route('classificazioni.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -72,7 +72,7 @@ class ClassificazioniController extends CoreBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,9 +86,9 @@ class ClassificazioniController extends CoreBaseController
     {
         $term = $request->term;
         if ($term) {
-            $classificazioni = Classificazione::where('descrizione', 'LIKE', '%' . $term . '%')->orderBy('descrizione')->get();
+            $classificazioni = Classificazione::where('descrizione', 'LIKE', '%'.$term.'%')->orderBy('descrizione')->get();
         }
-        if (!empty($classificazioni)) {
+        if (! empty($classificazioni)) {
             foreach ($classificazioni as $classificazione) {
                 $results[] = ['value' => $classificazione->id, 'label' => $classificazione->descrizione, 'url' => route('classificazioni.edit', [$classificazione->id])];
             }
@@ -103,18 +103,18 @@ class ClassificazioniController extends CoreBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         // return $id;
         $this->validate($request, [
-            'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,' . $id . ',id',
+            'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,'.$id.',id',
         ], [
-                'descrizione.required' => 'La classificazione non può essere vuoto.',
-                'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
-            ]
+            'descrizione.required' => 'La classificazione non può essere vuoto.',
+            'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
+        ]
         );
         $classificazione = Classificazione::findOrFail($id); //Get role with the given id
         $vecchiaDescrizionee = $classificazione->descrizione;
@@ -122,13 +122,14 @@ class ClassificazioniController extends CoreBaseController
         if ($classificazione->save()) {
             return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
         }
+
         return redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
