@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 class GruppoFamiliareDoesNotExists extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(string $nome): GruppoFamiliareDoesNotExists
     {
-        return new static("Il gruppo familiare `{$nome}` non esiste.");
+        return new self("Il gruppo familiare `{$nome}` non esiste.");
     }
 }

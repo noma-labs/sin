@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 class PersonaErrors extends InvalidArgumentException
 {
-    public static function named(string $nome)
+    public static function named(string $nome): PersonaErrors
     {
-        return new static("La persona `{$nome}` non esiste.");
+        return new self("La persona `{$nome}` non esiste.");
     }
 }

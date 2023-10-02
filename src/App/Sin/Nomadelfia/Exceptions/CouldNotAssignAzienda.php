@@ -7,18 +7,18 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignAzienda extends \Exception
 {
-    public static function isAlreadyWorkingIntozienda(Azienda $azienda, Persona $persona): self
+    public static function isAlreadyWorkingIntozienda(Azienda $azienda, Persona $persona): CouldNotAssignAzienda
     {
-        return new static("La persona `{$persona->nominativo}` lavora già nell'azienda {$azienda->nome_azienda}`");
+        return new self("La persona `{$persona->nominativo}` lavora già nell'azienda {$azienda->nome_azienda}`");
     }
 
-    public static function mansioneNotValid(string $mansione): self
+    public static function mansioneNotValid(string $mansione): CouldNotAssignAzienda
     {
-        return new static("La mansione  `{$mansione}` non è valida.`");
+        return new self("La mansione  `{$mansione}` non è valida.`");
     }
 
-    public static function isNotValidAzienda(Azienda $azienda): self
+    public static function isNotValidAzienda(Azienda $azienda): CouldNotAssignAzienda
     {
-        return new static("L'azienda  `{$azienda->nome_azienda}` non è valida.`");
+        return new self("L'azienda  `{$azienda->nome_azienda}` non è valida.`");
     }
 }

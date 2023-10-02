@@ -7,8 +7,8 @@ use InvalidArgumentException;
 
 class EsSpiritualeNotActive extends InvalidArgumentException
 {
-    public static function named(EserciziSpirituali $es)
+    public static function named(EserciziSpirituali $es): EsSpiritualeNotActive
     {
-        return new static("Esercizi spirituale `{$es->turno}` non attivo.");
+        return new self("Esercizi spirituale `{$es->turno}` non attivo.");
     }
 }

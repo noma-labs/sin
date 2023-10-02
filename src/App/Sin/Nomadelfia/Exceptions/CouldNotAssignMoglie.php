@@ -7,23 +7,23 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class CouldNotAssignMoglie extends \Exception
 {
-    public static function hasAlreadyMoglie(Famiglia $famiglia, Persona $persona): self
+    public static function hasAlreadyMoglie(Famiglia $famiglia, Persona $persona): CouldNotAssignMoglie
     {
-        return new static("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè esiste già una moglie.");
+        return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè esiste già una moglie.");
     }
 
-    public static function beacuseIsMan(Famiglia $famiglia, Persona $persona): self
+    public static function beacuseIsMan(Famiglia $famiglia, Persona $persona): CouldNotAssignMoglie
     {
-        return new static("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè è un maschio.");
+        return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè è un maschio.");
     }
 
-    public static function beacuseIsMinorenne(Famiglia $famiglia, Persona $persona): self
+    public static function beacuseIsMinorenne(Famiglia $famiglia, Persona $persona): CouldNotAssignMoglie
     {
-        return new static("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè minorenne.");
+        return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè minorenne.");
     }
 
-    public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): self
+    public static function beacuseIsSingle(Famiglia $famiglia, Persona $persona): CouldNotAssignMoglie
     {
-        return new static("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
+        return new self("La moglie `{$persona->nominativo}` non può essere aggiunto alla famiglia `{$famiglia->nome_famiglia}` perchè la famiglia è single.");
     }
 }
