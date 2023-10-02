@@ -6,6 +6,6 @@ class CouldNotAssignAlunno extends \Exception
 {
     public static function isNotValidAnno(string $anno): self
     {
-        return new static("L'anno scolastico `{$anno}` non è valido.`");
+        return new self("L'anno scolastico `{$anno}` non è valido.`");
     }
 }

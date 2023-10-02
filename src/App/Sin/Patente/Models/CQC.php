@@ -81,7 +81,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeNonInScadenza($query, int $days)
+    public function scopeNonInScadenza($query, int $days): BelongsToMany
     {
         $data = Carbon::now()->addDays($days)->toDateString();
 
@@ -99,11 +99,10 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scadute($days = null)
+    public function scadute($days = null): BelongsToMany
     {
         if ($days != null) {
             $data = Carbon::now()->subDays($days)->toDateString();
-
             return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
                 ->withPivot('data_rilascio', 'data_scadenza')
                 ->wherePivot('data_scadenza', '>=', $data)
