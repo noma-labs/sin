@@ -103,6 +103,7 @@ class CQC extends Model
     {
         if ($days != null) {
             $data = Carbon::now()->subDays($days)->toDateString();
+
             return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
                 ->withPivot('data_rilascio', 'data_scadenza')
                 ->wherePivot('data_scadenza', '>=', $data)
