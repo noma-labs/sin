@@ -445,7 +445,7 @@ class Persona extends Model
      * @throws CouldNotAssignIncarico
      * @throws Exception
      */
-    public function assegnaIncarico(Incarico $incarico, Carbon\Carbon $data_inizio)
+    public function assegnaIncarico(Incarico $incarico, $data_inizio)
     {
         if (is_string($incarico)) {
             $incarico = Incarico::findOrFail($incarico);
