@@ -96,6 +96,13 @@ class ExifReader
         return $this;
     }
 
+    public function extractFileGroup(string $subtag = null): static
+    {
+        $this->additionalOptions[] = $subtag ? '-file:' . $subtag : '-file:all';
+
+        return $this;
+    }
+
     public function extractXMPInformation(string $subtag = null): static
     {
         $this->additionalOptions[] = $subtag ? '-xmp:' . $subtag : '-xmp:all';

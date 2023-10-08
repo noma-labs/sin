@@ -47,16 +47,16 @@ class ExifData
             $exif->fileName = $info['FileName'];
         }
         if (isset($info['Directory'])) {
-            $exif->imageWidth = $info['Directory'];
+            $exif->directory = $info['Directory'];
         }
         if (isset($info['FileSize'])) {
-            $exif->imageWidth = $info['FileSize'];
+            $exif->fileSize = $info['FileSize'];
         }
-        if (isset($info['FileType'])) {
+        if (isset($info['FileType']) || isset($photo['File:FileType'])) {
             $exif->fileType = $info['FileType'];
         }
-        if (isset($info['FileTypeExtension'])) {
-            $exif->fileType = $info['FileTypeExtension'];
+        if (isset($info['FileTypeExtension']) || isset($photo['File:FileTypeExtension'])) {
+            $exif->fileExtension = $info['FileTypeExtension'];
         }
         if (isset($info['ImageWidth'])) {
             $exif->imageWidth = $info['ImageWidth'];

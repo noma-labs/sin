@@ -192,9 +192,12 @@ it('can build exifData from exif', function () {
     $info = ExifReader::file($filePath)
         ->extractXMPInformation()
         ->extractHashOfTheImage()
+        ->extractFileGroup()
+        ->disablePrintConversion()
         ->savePhpArray();
 
     $data = ExifData::fromArray($info[0]);
     expect($data->sourceFile)->toContain('BlueSquare.jpg');
+    expect($data->fileSize)->toBe(24205);
 
 })->only();
