@@ -97,7 +97,7 @@ class ExifReader
 
     public function extractFileGroup(string $subtag = null): static
     {
-        $this->additionalOptions[] = $subtag ? '-file:' . $subtag : '-file:all';
+        $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
 
         return $this;
     }
