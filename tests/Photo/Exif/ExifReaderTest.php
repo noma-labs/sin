@@ -4,7 +4,7 @@ use Domain\Photo\Exif\ExifReader;
 use Domain\Photo\Models\ExifData;
 
 beforeEach(function () {
-    $tempDirPath = __DIR__.'/temp';
+    $tempDirPath = __DIR__ . '/temp';
     $this->emptyTempDirectory($tempDirPath);
 });
 
@@ -124,8 +124,8 @@ it('can create command with recursive', function () {
 });
 
 it('can save exif data into CSV file', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__.'/temp/BlueSquare.csv';
+    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
+    $targetPath = __DIR__ . '/temp/BlueSquare.csv';
 
     ExifReader::file($filePath)
         ->extractXMPInformation()
@@ -136,8 +136,8 @@ it('can save exif data into CSV file', function () {
 });
 
 it('can save exif data into JSON file', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__.'/temp/BlueSquare.json';
+    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
+    $targetPath = __DIR__ . '/temp/BlueSquare.json';
 
     ExifReader::file($filePath)
         ->extractXMPInformation()
@@ -147,22 +147,22 @@ it('can save exif data into JSON file', function () {
 });
 
 it('can scan a directory and save exif data into json', function () {
-    $dirPath = __DIR__.'/testfile/testdir';
+    $dirPath = __DIR__ . '/testfile/testdir';
 
     ExifReader::folder($dirPath)
-        ->setTargetBasePath(__DIR__.'/temp')
+        ->setTargetBasePath(__DIR__ . '/temp')
         ->extractXMPInformation()
         ->saveJSON();
 
-    expect(__DIR__.'/temp/testdir.json')->toBeFile();
+    expect(__DIR__ . '/temp/testdir.json')->toBeFile();
     //        ->json()
     //        ->toHaveCount(2);
 
 });
 
 it('can scan dir recursively save csv', function () {
-    $dirPath = __DIR__.'/testfile/testdir';
-    $targetPath = __DIR__.'/temp/dir.csv';
+    $dirPath = __DIR__ . '/testfile/testdir';
+    $targetPath = __DIR__ . '/temp/dir.csv';
 
     ExifReader::folder($dirPath)
         ->extractXMPInformation()
@@ -173,20 +173,20 @@ it('can scan dir recursively save csv', function () {
 });
 
 it('can save to php', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
 
     $a = ExifReader::file($filePath)
         ->extractXMPInformation()
         ->savePhpArray();
 
     expect(count($a))->toBe(1);
-    $info = $a->first();
+    $info = $a[0];
     expect($info['Format'])->toBe('image/jpeg');
 
 });
 
 it('can build exifData from exif', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+    $filePath = __DIR__ . '/testfile/BlueSquare.jpg';
 
     $info = ExifReader::file($filePath)
         ->extractXMPInformation()
@@ -199,4 +199,4 @@ it('can build exifData from exif', function () {
     expect($data->sourceFile)->toContain('BlueSquare.jpg');
     expect($data->fileSize)->toBe(24205);
 
-})->only();
+});
