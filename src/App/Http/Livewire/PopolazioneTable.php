@@ -51,11 +51,13 @@ class PopolazioneTable extends DataTableComponent
                 ->sortable(),
             Column::make('Posizione', 'posizione')
                 ->sortable(),
+            Column::make('Gruppo', 'gruppo')
+                ->sortable(),
             //            Column::make('Azienda', 'azienda')
             //                ->sortable()
             //                ->collapseOnMobile(),
-            Column::make('Scuola', 'scuola')
-                ->sortable(),
+            //            Column::make('Scuola', 'scuola')
+            //                ->sortable(),
             Column::make('Stato', 'stato')
                 ->sortable()
                 ->collapseOnMobile(),
