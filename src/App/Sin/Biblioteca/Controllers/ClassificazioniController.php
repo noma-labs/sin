@@ -89,6 +89,7 @@ class ClassificazioniController extends CoreBaseController
             $classificazioni = Classificazione::where('descrizione', 'LIKE', '%'.$term.'%')->orderBy('descrizione')->get();
         }
         if (! empty($classificazioni)) {
+            $results = [];
             foreach ($classificazioni as $classificazione) {
                 $results[] = ['value' => $classificazione->id, 'label' => $classificazione->descrizione, 'url' => route('classificazioni.edit', [$classificazione->id])];
             }

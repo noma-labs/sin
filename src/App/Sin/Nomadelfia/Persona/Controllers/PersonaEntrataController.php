@@ -30,31 +30,30 @@ class PersonaEntrataController extends CoreBaseController
 
         $persona = Persona::findOrFail($idPersona);
         $data_entrata = $request->input('data_entrata');
-        if ($request->exists('gruppo_id')) {
-            $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-        }
-        if ($request->exists('famiglia_id')) {
-            $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-        }
 
         switch ($request->tipologia) {
             case 'dalla_nascita':
+                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
                 $action = app(EntrataDallaNascitaAction::class);
                 $action->execute($persona, $famiglia);
                 break;
             case 'minorenne_accolto':
+                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
                 $action = app(EntrataMinorenneAccoltoAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'minorenne_famiglia':
+                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
                 $action = app(EntrataMinorenneConFamigliaAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
             case 'maggiorenne_single':
+                $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
                 $action = app(EntrataMaggiorenneSingleAction::class);
                 $action->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             case 'maggiorenne_famiglia':
+                $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
                 $act = app(EntrataMaggiorenneConFamigliaAction::class);
                 $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;

@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
+/**
+ * @property string $nome_famiglia.
+ * @property string $data_creazione.
+ */
 class Famiglia extends Model
 {
     use Enums;
@@ -317,7 +321,7 @@ class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $data = $data ? $data : Carbon::parse($this->nascita)->addYears(18)->toDateString();
+            $data = $data ? $data : Carbon::parse($persona->nascita)->addYears(18)->toDateString();
 
             return $this->assegnaComponente($persona, $this->getSingleEnum(), $data);
         }

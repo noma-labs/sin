@@ -7,6 +7,9 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $abbreviato
+ */
 class Posizione extends Model
 {
     protected $connection = 'db_nomadelfia';

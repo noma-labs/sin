@@ -7,6 +7,11 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $nome
+ * @property string $ciclo
+ * @property int $ord
+ */
 class ClasseTipo extends Model
 {
     const PRIMA_MEDIA = '1a media';

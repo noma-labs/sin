@@ -6,6 +6,9 @@ use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $stato
+ */
 class Stato extends Model
 {
     protected $connection = 'db_nomadelfia';

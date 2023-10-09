@@ -35,9 +35,14 @@ class ApiController extends CoreBaseController
     {
         $term = $request->term;
         if ($term) {
-            $persone = ViewClientiBiblioteca::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
+            $query = ViewClientiBiblioteca::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo');
+        } else {
+            $query = ViewClientiBiblioteca::orderBy('nominativo');
         }
+
+        $persone = $query->get();
         if ($persone->count() > 0) {
+            $results = [];
             foreach ($persone as $persona) {
                 $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
                 $results[] = ['value' => $persona->id, 'label' => "$persona->nominativo ($year)"];

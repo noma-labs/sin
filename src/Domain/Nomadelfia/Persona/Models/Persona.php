@@ -32,6 +32,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * @property string $data_decesso
+ * @property string $data_nascita
+ * @property string $cognome
+ * @property string $nome
+ * @property string $sesso
+ * @property string $numero_elenco
+ */
 class Persona extends Model
 {
     use HasFactory;

@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $data_partenza
+ * @property string $ora_partenza
+ * @property string $data_arrivo
+ * @property string $ora_arrivo
+ */
 class Prenotazioni extends Model
 {
     use HasFactory;

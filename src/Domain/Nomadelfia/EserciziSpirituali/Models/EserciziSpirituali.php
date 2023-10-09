@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
+/**
+ * @property string $stato.
+ */
 class EserciziSpirituali extends Model
 {
     use HasFactory;

@@ -341,8 +341,6 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
         'EtichetteController@preview')->name('libri.etichette.preview'); //->middleware('can:biblioteca.etichetta.visualizza')
     Route::get('etichette/print',
         'EtichetteController@printToPdf')->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
-    Route::get('etichette/excel',
-        'EtichetteController@downloadExcel')->middleware('can:biblioteca.etichetta.esporta')->name('libri.etichette.excel');
     //AUTORI biblioteca
     Route::group([
         'middleware' => [

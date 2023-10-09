@@ -1,3 +1,3 @@
 
 analyse:
-	./vendor/bin/phpstan analyse -l 0
+	./vendor/bin/phpstan analyse -l 1

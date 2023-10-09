@@ -45,7 +45,7 @@ class CQC extends Model
      */
     public function persona(): BelongsToMany
     {
-        return parent::persona()->using(Patente::class);
+        return $this->persona()->using(Patente::class);
     }
 
     /**

@@ -5,9 +5,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
-use Excel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Spatie\Browsershot\Browsershot;
 
 class EtichetteController extends CoreBaseController
@@ -15,22 +13,6 @@ class EtichetteController extends CoreBaseController
     public function __construct()
     {
         //  $this->middleware('auth',['only'=>['edit','editConfirm','insert','insertConfirm']]);
-    }
-
-    public function downloadExcel()
-    {
-        $data = Carbon::now();
-        Excel::create("etichette-$data", function ($excel) {
-            $excel->sheet('Etichette', function ($sheet) {
-                $collocazioni = Libro::TobePrinted()->pluck('collocazione')->map(function ($item, $key) {
-                    return Collection::wrap($item);
-                });
-                $sheet->fromArray($collocazioni->toArray(), null, 'A4');
-            });
-
-        })->download('csv');
-
-        return redirect()->route('libri.etichette')->withSuccess('Csv scricato correttamente');
     }
 
     public function view()

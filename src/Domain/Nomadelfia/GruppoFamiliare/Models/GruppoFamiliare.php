@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * @property string $nome
+ */
 class GruppoFamiliare extends Model
 {
     use HasFactory;

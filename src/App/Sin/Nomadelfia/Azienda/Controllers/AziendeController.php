@@ -52,10 +52,15 @@ class AziendeController extends CoreBaseController
     {
         $term = $request->term;
         if ($term) {
-            $persone = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
+            $query = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo');
+        } else {
+            $query = Persona::orderBy('nominativo');
         }
 
+        $persone = $query->get();
+
         if ($persone->count() > 0) {
+            $results = [];
             foreach ($persone as $persona) {
                 $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
             }
