@@ -51,11 +51,13 @@ class PopolazioneTable extends DataTableComponent
                 ->sortable(),
             Column::make('Posizione', 'posizione')
                 ->sortable(),
+            Column::make('Gruppo', 'gruppo')
+                ->sortable(),
             //            Column::make('Azienda', 'azienda')
             //                ->sortable()
             //                ->collapseOnMobile(),
-            Column::make('Scuola', 'scuola')
-                ->sortable(),
+//            Column::make('Scuola', 'scuola')
+//                ->sortable(),
             Column::make('Stato', 'stato')
                 ->sortable()
                 ->collapseOnMobile(),
@@ -74,7 +76,7 @@ class PopolazioneTable extends DataTableComponent
                         ->orderBy('nome')
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn ($tag) => Str::title($tag->nome))
+                        ->map(fn($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
@@ -86,7 +88,7 @@ class PopolazioneTable extends DataTableComponent
                         ->orderBy('nome')
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn ($tag) => Str::title($tag->nome))
+                        ->map(fn($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
@@ -98,7 +100,7 @@ class PopolazioneTable extends DataTableComponent
                         ->classiTipoAttuali()
                         ->get()
                         ->keyBy('nome')
-                        ->map(fn ($tag) => Str::title($tag->nome))
+                        ->map(fn($tag) => Str::title($tag->nome))
                         ->toArray()
                 )
                 ->filter(function (Builder $builder, array $values) {
