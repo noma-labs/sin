@@ -60,7 +60,7 @@ class Stato extends Model
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();
-        if (! $stato) {
+        if (!$stato) {
             throw StatoDoesNotExists::create($name);
         }
 
