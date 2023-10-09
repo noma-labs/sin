@@ -55,11 +55,10 @@ class Posizione extends Model
     /**
      * Find a Posizione by its name
      *
-     * @param  string  $name abbreviato
-     * @param  string|null  $guardName
+     * @param string $name abbreviato
      * @return  Posizione;
      *
-     * @throws PosizioneDoesNotExists
+     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExists
      */
     public static function find(string $name): Posizione
     {

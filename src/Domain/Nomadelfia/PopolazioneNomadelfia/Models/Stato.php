@@ -57,14 +57,6 @@ class Stato extends Model
         return $this->stato == $this->mapNamesToDB['nubile'];
     }
 
-    /**
-     * Find a STATO by its abbreviato
-     *
-     * @param  string|null  $guardName
-     * @return  Posizione;
-     *
-     * @throws PosizioneDoesNotExist
-     */
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();
