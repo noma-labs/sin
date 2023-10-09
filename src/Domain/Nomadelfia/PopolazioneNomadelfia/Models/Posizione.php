@@ -55,7 +55,7 @@ class Posizione extends Model
     /**
      * Find a Posizione by its name
      *
-     * @param string $name abbreviato
+     * @param  string  $name abbreviato
      * @return  Posizione;
      *
      * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExists
@@ -63,7 +63,7 @@ class Posizione extends Model
     public static function find(string $name): Posizione
     {
         $posizione = Posizione::where('abbreviato', $name)->first();
-        if (! $posizione) {
+        if (!$posizione) {
             throw PosizioneDoesNotExists::named($name);
         }
 
