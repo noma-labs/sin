@@ -5,9 +5,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
-use Excel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Spatie\Browsershot\Browsershot;
 
 class EtichetteController extends CoreBaseController

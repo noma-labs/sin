@@ -63,7 +63,7 @@ class PersonaEntrataController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
     public function update(Request $request, $idPersona, $entrata)
