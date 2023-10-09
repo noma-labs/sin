@@ -8,7 +8,11 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $ord
+ */
 class Classe extends Model
 {
     public $timestamps = true;
@@ -38,12 +42,12 @@ class Classe extends Model
             'coordinatore_id')->whereNull('data_fine')->withPivot('data_inizio', 'tipo')->orderBy('nominativo');
     }
 
-    public function anno()
+    public function anno(): BelongsTo
     {
         return $this->belongsTo(Anno::class, 'anno_id', 'id');
     }
 
-    public function tipo()
+    public function tipo(): BelongsTo
     {
         return $this->belongsTo(ClasseTipo::class, 'tipo_id', 'id');
     }
@@ -51,7 +55,7 @@ class Classe extends Model
     public function aggiungiAlunno($alunno, $data_inizio)
     {
         if (is_null($data_inizio)) {
-            $data_inizio = $this->anno->data_inizio;
+            $data_inizio = $this->anno()->get()->data_inizio;
         }
         if (is_string($data_inizio)) {
             $data_inizio = Carbon::parse($data_inizio);
@@ -82,7 +86,7 @@ class Classe extends Model
     public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo = null)
     {
         if (is_null($data_inizio)) {
-            $data_inizio = $this->anno->data_inizio;
+            $data_inizio = $this->anno()->get()->data_inizio;
         }
         if (is_string($data_inizio)) {
             $data_inizio = Carbon::parse($data_inizio);
@@ -92,7 +96,7 @@ class Classe extends Model
         }
         if ($persona instanceof Persona) {
             $attr = ['data_inizio' => $data_inizio];
-            if (! is_null($tipo)) {
+            if (!is_null($tipo)) {
                 $attr['tipo'] = $tipo;
             }
             $this->coordinatori()->attach($persona->id, $attr);
@@ -115,7 +119,8 @@ class Classe extends Model
 
     public function rimuoviCoordinatore(
         $coord
-    ) {
+    )
+    {
         if (is_int($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -128,7 +133,8 @@ class Classe extends Model
 
     public function rimuoviAlunno(
         $alunno
-    ) {
+    )
+    {
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
@@ -141,8 +147,8 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
-        $as = $this->anno->annoSolareInizio();
-        $tipo = $this->tipo;
+        $as = $this->anno()->first()->annoSolareInizio();
+        $tipo = $this->tipo()->first();
         if ($tipo->isPrescuola()) {
             $all = PopolazioneNomadelfia::fraEta(3, 6, 'nominativo', $as, true)->get();
         } elseif ($tipo->IsUniversita()) {

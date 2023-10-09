@@ -6,6 +6,9 @@ use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $stato
+ */
 class Stato extends Model
 {
     protected $connection = 'db_nomadelfia';
@@ -56,7 +59,7 @@ class Stato extends Model
     /**
      * Find a STATO by its abbreviato
      *
-     * @param  string|null  $guardName
+     * @param string|null $guardName
      * @return  \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
      *
      * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
@@ -64,7 +67,7 @@ class Stato extends Model
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();
-        if (! $stato) {
+        if (!$stato) {
             throw StatoDoesNotExists::create($name);
         }
 

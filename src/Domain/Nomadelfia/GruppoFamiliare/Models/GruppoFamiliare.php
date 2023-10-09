@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * @property string $nome
+ */
 class GruppoFamiliare extends Model
 {
     use HasFactory;
@@ -86,10 +89,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (! $persona->isEffettivo()) {
+            if (!$persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (! $persona->isMaschio()) {
+            if (!$persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();

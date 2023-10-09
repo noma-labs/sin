@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $data_partenza
+ * @property string $ora_partenza
+ * @property string $data_arrivo
+ * @property string $ora_arrivo
+ */
 class Prenotazioni extends Model
 {
     use HasFactory;
@@ -65,7 +71,7 @@ class Prenotazioni extends Model
      */
     public function dataOraPartenza()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza . ' ' . $this->ora_partenza);
     }
 
     /**
@@ -75,7 +81,7 @@ class Prenotazioni extends Model
      */
     public function dataOraArrivo()
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
+        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo . ' ' . $this->ora_arrivo);
     }
 
     /**

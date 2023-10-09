@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
+/**
+ * @property string $stato.
+ */
 class EserciziSpirituali extends Model
 {
     use HasFactory;
@@ -69,7 +72,7 @@ class EserciziSpirituali extends Model
 
     public function aggiungiPersona($persona)
     {
-        if (! $this->isAttivo()) {
+        if (!$this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
@@ -83,7 +86,7 @@ class EserciziSpirituali extends Model
 
     public function eliminaPersona($persona)
     {
-        if (! $this->isAttivo()) {
+        if (!$this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {

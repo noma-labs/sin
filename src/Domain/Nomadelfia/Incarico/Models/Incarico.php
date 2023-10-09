@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property string $abbreviato
+ */
 class Incarico extends Model
 {
     use HasFactory;
@@ -59,7 +62,7 @@ class Incarico extends Model
     {
         $all = PopolazioneNomadelfia::daEta(18);
 
-        $current = collect($this->lavoratoriAttuali);
+        $current = collect($this->lavoratoriAttuali()->get());
         $ids = $current->map(function ($item) {
             return $item->id;
         });

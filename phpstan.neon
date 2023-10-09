@@ -9,6 +9,9 @@ parameters:
     # Level 9 is the highest level
     level: 6
 
+#    checkUnusedViews: true
+
+
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
 #
