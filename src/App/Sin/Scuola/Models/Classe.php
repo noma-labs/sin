@@ -97,7 +97,7 @@ class Classe extends Model
         }
         if ($persona instanceof Persona) {
             $attr = ['data_inizio' => $data_inizio];
-            if (!is_null($tipo)) {
+            if (! is_null($tipo)) {
                 $attr['tipo'] = $tipo;
             }
             $this->coordinatori()->attach($persona->id, $attr);
@@ -120,8 +120,7 @@ class Classe extends Model
 
     public function rimuoviCoordinatore(
         $coord
-    )
-    {
+    ) {
         if (is_int($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -134,8 +133,7 @@ class Classe extends Model
 
     public function rimuoviAlunno(
         $alunno
-    )
-    {
+    ) {
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
