@@ -442,6 +442,7 @@ class Persona extends Model
         });
         if ($attuali != null) {
             $attuali = Incarico::whereNotIn('id', $multiplied)->get();
+
             return $attuali;
         }
 

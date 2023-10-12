@@ -120,8 +120,7 @@ class Classe extends Model
 
     public function rimuoviCoordinatore(
         $coord
-    )
-    {
+    ) {
         if (is_int($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -134,8 +133,7 @@ class Classe extends Model
 
     public function rimuoviAlunno(
         $alunno
-    )
-    {
+    ) {
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }

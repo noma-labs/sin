@@ -132,6 +132,7 @@ class Cariche extends Model
             ->where('cariche.org', '=', $org)
             ->whereNull('persone_cariche.data_fine')
             ->orderByRaw('cariche.ord');
+
         return $membri;
     }
 
