@@ -73,7 +73,7 @@ class EserciziSpirituali extends Model
 
     public function aggiungiPersona($persona)
     {
-        if (!$this->isAttivo()) {
+        if (! $this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {
@@ -87,7 +87,7 @@ class EserciziSpirituali extends Model
 
     public function eliminaPersona($persona)
     {
-        if (!$this->isAttivo()) {
+        if (! $this->isAttivo()) {
             throw EsSpiritualeNotActive::named($this);
         }
         if (is_string($persona)) {

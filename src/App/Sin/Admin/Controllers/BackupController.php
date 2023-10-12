@@ -31,7 +31,7 @@ class BackupController extends Controller
             if (substr($f, -4) == '.zip' && $disk->exists($f)) {
                 $backups[] = [
                     'file_path' => $f,
-                    'file_name' => str_replace(config('backup.backup.name') . '/', '', $f),
+                    'file_name' => str_replace(config('backup.backup.name').'/', '', $f),
                     'file_size' => $disk->size($f),
                     'last_modified' => $disk->lastModified($f),
                 ];
@@ -49,7 +49,7 @@ class BackupController extends Controller
         // start the backup process
         $exitCode = Artisan::call('backup:run');
         $output = Artisan::output();
-        Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
+        Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n".$output);
 
         // return the results as a response to the ajax call
         return redirect()->back()->withSuccess('Backup creato con successo.');
@@ -62,7 +62,7 @@ class BackupController extends Controller
      */
     public function download($file_name)
     {
-        $file = config('backup.backup.name') . '/' . $file_name;
+        $file = config('backup.backup.name').'/'.$file_name;
         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
         if ($disk->exists($file)) {
             $fs = Storage::disk(config('backup.backup.destination.disks')[0])->getDriver();
@@ -73,7 +73,7 @@ class BackupController extends Controller
             }, 200, [
                 'Content-Type' => Storage::mimeType($file),
                 'Content-Length' => Storage::size($file),
-                'Content-disposition' => 'attachment; filename="' . basename($file) . '"',
+                'Content-disposition' => 'attachment; filename="'.basename($file).'"',
             ]);
         } else {
             abort(404, 'Il file di backup non esiste.');
@@ -87,8 +87,8 @@ class BackupController extends Controller
     {
         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
         // dd(config('backup.backup.name') . '/' . $file_name);
-        if ($disk->exists(config('backup.backup.name') . '\\' . $file_name)) {
-            $disk->delete(config('backup.backup.name') . '\\' . $file_name);
+        if ($disk->exists(config('backup.backup.name').'\\'.$file_name)) {
+            $disk->delete(config('backup.backup.name').'\\'.$file_name);
 
             return redirect()->back()->withSuccess("Backup $file_name eliminato");
         } else {

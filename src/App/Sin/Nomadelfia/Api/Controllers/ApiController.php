@@ -7,7 +7,6 @@ use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
-
 //models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -77,29 +76,29 @@ class ApiController extends BaseController
 
     public function famigliaCreate(Request $request)
     {
-        return $request->input('nome') . $request->input('cognome');
+        return $request->input('nome').$request->input('cognome');
     }
 
-//    public function posizioniAll(Request $request)
-//    {
-//        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
-//        $posizioni = NucleoFamigliare::all();
-//        $results = [];
-//        foreach ($posizioni as $posizion) {
-//            $results[] = [
-//                'id' => $posizion->id,
-//                'posizione' => $posizion->nucleo_famigliare,
-//                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
-//            ];
-//        }
-//
-//        return response()->json($results);
-//    }
+    //    public function posizioniAll(Request $request)
+    //    {
+    //        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
+    //        $posizioni = NucleoFamigliare::all();
+    //        $results = [];
+    //        foreach ($posizioni as $posizion) {
+    //            $results[] = [
+    //                'id' => $posizion->id,
+    //                'posizione' => $posizion->nucleo_famigliare,
+    //                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
+    //            ];
+    //        }
+    //
+    //        return response()->json($results);
+    //    }
 
     /**
      * ritorna il json dell'azienda insieme ai lavoratori
      *
-     * @param string $id
+     * @param  string  $id
      *
      * @author Matteo Neri
      **/
@@ -121,7 +120,7 @@ class ApiController extends BaseController
     /**
      * ritorna il json deglin incarichi insieme ai lavoratori
      *
-     * @param string $id
+     * @param  string  $id
      *
      * @author Matteo Neri
      **/
@@ -182,7 +181,7 @@ class ApiController extends BaseController
      * se filtro=storico le aziende nello storico con lavoratore id
      * se filtro=possibili le aziende dove può lavorare il lavoratore id
      *
-     * @param string $id
+     * @param  string  $id
      **/
     public function aziendeLavoratore(Request $request, $id)
     {

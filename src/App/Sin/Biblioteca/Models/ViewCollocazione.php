@@ -4,10 +4,9 @@ namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * @property string $lettere
- * @property double $numeri
+ * @property float $numeri
  */
 class ViewCollocazione extends Model
 {

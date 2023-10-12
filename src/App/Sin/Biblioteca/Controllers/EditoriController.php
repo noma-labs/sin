@@ -120,5 +120,4 @@ class EditoriController extends CoreBaseController
     {
         return redirect()->route('editori.index')->withError("Impossibile eliminare l'editore");
     }
-
 }

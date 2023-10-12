@@ -87,7 +87,6 @@ class ScuolaController extends CoreBaseController
 
     }
 
-
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $nominativo
  * @property string $data_nascita
- * @property double $eta
+ * @property float $eta
  */
 class ViewClientiBiblioteca extends Model
 {
