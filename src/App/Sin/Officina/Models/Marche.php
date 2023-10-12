@@ -5,6 +5,10 @@ namespace App\Officina\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $nome
+ */
 class Marche extends Model
 {
     protected $connection = 'db_officina';

@@ -4,6 +4,12 @@ namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $nominativo
+ * @property string $data_nascita
+ * @property string $cliente_con_patente
+ */
 class ViewClienti extends Model
 {
     protected $table = 'v_clienti_meccanica';

@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property int $id
  * @property string $nome
- * @property string $targe
- * @property int $prenotanile
+ * @property string $targa
+ * @property int $prenotabile
  */
 class Veicolo extends Model
 {
