@@ -66,7 +66,7 @@ class Incarico extends Model
         $all = PopolazioneNomadelfia::daEta(18);
 
         $current = collect($this->lavoratoriAttuali()->get());
-        $ids = $current->map(function ($item) {
+        $ids = $current->map(function (Persona $item) {
             return $item->id;
         });
 

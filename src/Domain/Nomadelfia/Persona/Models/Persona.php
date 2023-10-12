@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
+ * @property int $id
  * @property string $data_decesso
  * @property string $data_nascita
  * @property string $cognome
