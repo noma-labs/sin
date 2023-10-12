@@ -14,7 +14,7 @@ class ApiController extends CoreBaseController
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
-     * @param  string  $numero della patente
+     * @param string $numero della patente
      * @return string $Patente
      * {
      * "persona_id": number,
@@ -101,7 +101,7 @@ class ApiController extends CoreBaseController
      * Ritorna solo le categorie associate a una patente.
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
-     * @param  string  $numero numeor della patente
+     * @param string $numero numeor della patente
      * @return array  $Patente
      *
      * @author Davide Neri
@@ -187,7 +187,7 @@ class ApiController extends CoreBaseController
             ->take(50)
             ->get();
         $persone->map(function ($persona) {
-            $persona['value'] = $persona->nome.' '.$persona->cognome;
+            $persona['value'] = $persona->nome . ' ' . $persona->cognome;
 
             return $persona;
         });
@@ -198,7 +198,7 @@ class ApiController extends CoreBaseController
     /**
      * Aggiorna i dati di una patente
      *
-     * @param  string  $numero : numero della patente
+     * @param string $numero : numero della patente
      * {
      *  persona_id: null,
      *  numero_patente: null,
@@ -301,7 +301,6 @@ class ApiController extends CoreBaseController
      *  ...
      *  ]
      * }
-     *
      * @return string
      *      {
      *        'err': 0 | 1,

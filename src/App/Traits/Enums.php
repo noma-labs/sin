@@ -31,8 +31,8 @@ trait Enums
      * Check for the presence of a property that starts
      *     with enum for the provided attribute
      *
-     * @param  string  $field
-     * @param  mixed  $value
+     * @param string $field
+     * @param mixed $value
      * @return $this
      *
      * @throws InvalidEnumException
@@ -40,8 +40,8 @@ trait Enums
     public function setAttribute($field, $value)
     {
         if ($this->hasEnumProperty($field)) {
-            if (! $this->isValidEnum($field, $value)) {
-                throw new InvalidEnumException('Invalid value for '.static::class."::$field ($value)");
+            if (!$this->isValidEnum($field, $value)) {
+                throw new InvalidEnumException('Invalid value for ' . static::class . "::$field ($value)");
             }
             if ($this->isKeyedEnum($field, $value)) {
                 $value = $this->getKeyedEnum($field, $value);
@@ -59,14 +59,14 @@ trait Enums
     protected function getEnumProperty(string $field)
     {
         // return 'enum' . Str::plural(Str::studly($field));
-        return 'enum'.Str::studly($field);
+        return 'enum' . Str::studly($field);
 
     }
 
     /**
      * Gets the enum value by key
      *
-     * @param  mixed  $key
+     * @param mixed $key
      * @return mixed
      */
     protected function getKeyedEnum(string $field, $key)
@@ -89,7 +89,7 @@ trait Enums
     /**
      * Is the provided value a key in the enum
      *
-     * @param  mixed  $key
+     * @param mixed $key
      * @return bool
      */
     protected function isKeyedEnum(string $field, $key)
@@ -100,7 +100,7 @@ trait Enums
     /**
      * Is the value a valid enum in any way
      *
-     * @param  mixed  $value
+     * @param mixed $value
      * @return bool
      */
     protected function isValidEnum(string $field, $value)
@@ -112,7 +112,7 @@ trait Enums
     /**
      * Is the provided value in the enum
      *
-     * @param  mixed  $value
+     * @param mixed $value
      * @return bool
      */
     protected function isValueEnum(string $field, $value)
@@ -122,7 +122,7 @@ trait Enums
 
     public static function getPossibleEnumValues($name, $table)
     {
-        $type = DB::select(DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"'))[0]->Type;
+        $type = DB::select(DB::raw('SHOW COLUMNS FROM ' . $table . ' WHERE Field = "' . $name . '"'))[0]->Type;
         preg_match('/^enum\((.*)\)$/', $type, $matches);
         $enum = [];
         foreach (explode(',', $matches[1]) as $value) {

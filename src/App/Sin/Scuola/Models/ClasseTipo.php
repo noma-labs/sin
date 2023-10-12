@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $ord
  * @property int $next
  * @method static Prescuola()
- */
+ * */
 class ClasseTipo extends Model
 {
     const PRESCUOLA_3ANNI = '3 anni';
