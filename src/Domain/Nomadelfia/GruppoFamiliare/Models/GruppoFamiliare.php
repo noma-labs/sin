@@ -182,7 +182,7 @@ class GruppoFamiliare extends Model
           AND gruppi_persone.stato = '1' 
           AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
           AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-      ORDER BY  famiglie.nome_famiglia, famiglie_persone.posizione_famiglia ASC, persone.data_nascita ASC"), ['gruppo' => $this->id]);
+      ORDER BY  famiglie.nome_famiglia, persone.data_nascita ASC"), ['gruppo' => $this->id]);
 
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
 
