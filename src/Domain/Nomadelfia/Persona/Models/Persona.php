@@ -39,6 +39,8 @@ use Illuminate\Support\Str;
  * @property string $nome
  * @property string $sesso
  * @property string $numero_elenco
+ * @property string $nominativo
+ * @property string $provincia_nascita
  */
 class Persona extends Model
 {
@@ -119,6 +121,9 @@ class Persona extends Model
             ->orderBy('numero', 'DESC');
     }
 
+    /**
+     * @throws Exception
+     */
     public function proposeNumeroElenco()
     {
         if ($this->numero_elenco) {
@@ -439,7 +444,6 @@ class Persona extends Model
         });
         if ($attuali != null) {
             $attuali = Incarico::whereNotIn('id', $multiplied)->get();
-
             return $attuali;
         }
 

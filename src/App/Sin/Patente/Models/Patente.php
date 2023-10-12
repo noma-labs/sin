@@ -13,6 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string $stato
+ * @property int $persona_id
+ * @property string $data_rilascio_patente
+ * @property string $rilasciata_dal
+ * @property string $data_scadenza_patente
+ * @property string $note
  */
 class Patente extends Model
 {
@@ -131,7 +136,7 @@ class Patente extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param  int  $giorni : numero di giorni entro il quale le patenti scadono.
+     * @param int $days : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -160,7 +165,7 @@ class Patente extends Model
      * Ritorna le patenti che sono scadute da un numero di $giorni da oggi.
      * Se $day ==null ritorna tutte le patenti scadute da oggi.
      *
-     * @param  int  $giorni : numero di giorni di scadenza
+     * @param int $days : numero di giorni di scadenza
      *
      * @author Davide Neri
      */

@@ -6,12 +6,15 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
+ * @property int $id
  * @property string $nome
  * @property string $ciclo
  * @property int $ord
  * @property int $next
+ * @method static Prescuola()
  */
 class ClasseTipo extends Model
 {
@@ -45,13 +48,13 @@ class ClasseTipo extends Model
 
     protected $primaryKey = 'id';
 
-    public function alunni()
+    public function alunni(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'persona_classi', 'classe_id',
             'persona_id')->withPivot('data_inizio');
     }
 
-    public function alunniAttuali()
+    public function alunniAttuali(): BelongsToMany
     {
         return $this->alunni()->where('data_fine', '=', null);
     }
@@ -67,7 +70,7 @@ class ClasseTipo extends Model
         //        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
     }
 
-    public function scopePrescuola($query)
+    public function scopePrescuola($query): ClasseTipo
     {
         return $query->where('ciclo', '=', 'prescuola')->first();
     }

@@ -4,6 +4,12 @@ namespace App\Patente\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $cliente_con_patente.
+ * @property string $cognome
+ * @property string $nome
+ * @property string $data_nascita
+ */
 class ViewClientiConSenzaPatente extends Model
 {
     protected $table = 'v_clienti_patente';

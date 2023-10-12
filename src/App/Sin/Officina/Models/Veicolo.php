@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property string $nome
+ * @property string $targe
+ * @property int $prenotanile
+ */
 class Veicolo extends Model
 {
     use HasFactory;

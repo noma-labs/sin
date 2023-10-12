@@ -5,7 +5,9 @@ namespace App\Officina\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *  Model per la tabella tipo_olio
+ * @property int $id
+ * @property string $codice
+ * @property string $note
  */
 class TipoOlio extends Model
 {
