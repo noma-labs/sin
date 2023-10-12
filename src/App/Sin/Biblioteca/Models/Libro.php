@@ -11,12 +11,27 @@ use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 // External library to associate media files a model
 
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+
+/**
+ * @property string $titolo
+ * @property string $collocazione
+ * @property string $deleted_note
+ * @property string $note
+ * @property int $classificazione_id
+ * @property int $tobe_printed
+ * @property int $ID_EDITORE
+ * @property int $ID_AUTORE
+ */
 class Libro extends Model implements HasMedia
 {
     use Enums;
@@ -79,27 +94,27 @@ class Libro extends Model implements HasMedia
     //             ->sharpen(10);
     //   }
 
-    public function classificazione()
+    public function classificazione(): BelongsTo
     {
         return $this->belongsTo(Classificazione::class, 'classificazione_id');
     }
 
-    public function editori()
+    public function editori(): BelongsToMany
     {
         return $this->belongsToMany(Editore::class, 'editore_libro', 'libro_id', 'editore_id');
     }
 
-    public function autori()
+    public function autori(): BelongsToMany
     {
         return $this->belongsToMany(Autore::class, 'autore_libro', 'libro_id', 'autore_id');
     }
 
-    public function prestiti()
+    public function prestiti(): HasMany
     {
         return $this->hasMany(Prestito::class, 'libro_id');
     }
 
-    public function inPrestito()
+    public function inPrestito(): bool
     {
         $prestiti = $this->prestiti()->where('in_prestito', 1)->get();
 

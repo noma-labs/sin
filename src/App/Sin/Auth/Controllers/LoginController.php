@@ -33,11 +33,7 @@ class LoginController extends BaseController
 
     /**
      * Where to redirect users after login.
-     *
-     * @var string
      */
-    //  protected $redirectTo = '/home';
-
     public function redirectPath()
     {
         if (Auth::user()->hasRole('admin')) {

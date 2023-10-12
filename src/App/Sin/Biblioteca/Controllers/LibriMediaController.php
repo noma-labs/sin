@@ -61,7 +61,7 @@ class LibriMediaController extends CoreBaseController
         $libro = Libro::findOrFail($idLibro);
         $libro->clearMediaCollection();
 
-        return redirect()->back()->withSuccess("Tutti i file digitali del libro $libro->TITOLO  sono stati eliminati");
+        return redirect()->back()->withSuccess("Tutti i file digitali del libro $libro->titolo  sono stati eliminati");
 
     }
 }

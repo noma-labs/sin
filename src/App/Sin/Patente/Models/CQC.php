@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @method static CQCPersone()
+ * @property  string $categoria
+ * @method static scadute($days = null)
  */
 class CQC extends Model
 {
@@ -72,7 +73,7 @@ class CQC extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param  int  $days :numero di giorni entro il quale le patenti scadono.
+     * @param int $days :numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -89,7 +90,7 @@ class CQC extends Model
     /**
      * Ritorna le patenti con C.Q.C che non sono in scadenza da $days giorni in poi.
      *
-     * @param  int  $days : numero di giorni entro il quale le patenti scadono.
+     * @param int $days : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
@@ -107,7 +108,7 @@ class CQC extends Model
      * Ritorna le patenti con C.Q.C scadeute.
      * Se $days è null ritorna tutte le patenti scadute, altimenti solo quelle scadute d $days giorni.
      *
-     * @param  int  $days : numero di giorni | null
+     * @param int $days : numero di giorni | null
      *
      * @author Davide Neri
      */

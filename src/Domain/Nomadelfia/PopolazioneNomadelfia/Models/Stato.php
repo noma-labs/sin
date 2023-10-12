@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $stato
+ * @property string $nome
  */
 class Stato extends Model
 {
@@ -60,7 +61,7 @@ class Stato extends Model
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();
-        if (! $stato) {
+        if (!$stato) {
             throw StatoDoesNotExists::create($name);
         }
 

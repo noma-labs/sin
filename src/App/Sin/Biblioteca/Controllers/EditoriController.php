@@ -18,7 +18,7 @@ class EditoriController extends CoreBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -29,8 +29,6 @@ class EditoriController extends CoreBaseController
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function create()
     {
@@ -43,8 +41,6 @@ class EditoriController extends CoreBaseController
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return Response
      */
     public function store(Request $request)
     {
@@ -77,9 +73,6 @@ class EditoriController extends CoreBaseController
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Editore  $editore
-     * @return Response
      */
     public function show($id)
     {
@@ -90,9 +83,6 @@ class EditoriController extends CoreBaseController
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Editore  $editore
-     * @return Response
      */
     public function edit($id)
     {
@@ -104,9 +94,6 @@ class EditoriController extends CoreBaseController
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Editore  $editore
-     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -128,21 +115,10 @@ class EditoriController extends CoreBaseController
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Editore  $editore
-     * @return Response
      */
     public function destroy(Editore $editore)
     {
         return redirect()->route('editori.index')->withError("Impossibile eliminare l'editore");
     }
 
-    // public function searchEditore(Request $request){
-    //     $term = $request->term;
-    //     $editori = Editore::where("Editore", "LIKE", '%'.$term.'%')->orderBy("Editore")->get();
-    //     $results = array();
-    //     foreach ($editori as $editore)
-    //         $results[] = ['value'=>$editore->id, 'label'=>$editore->editore, 'url'=>  route('editori.edit', array($editore->id))];
-    //     return response()->json($results);
-    // }
 }

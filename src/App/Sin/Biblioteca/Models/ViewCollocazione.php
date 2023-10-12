@@ -4,10 +4,11 @@ namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/*
-select `archivio_biblioteca`.`libro`.`collocazione` AS `COLLOCAZIONE`,substr(`archivio_biblioteca`.`libro`.`collocazione`,1,3)
-AS `lettere`,cast(substr(`archivio_biblioteca`.`libro`.`collocazione`,4,3) as unsigned) AS `numeri` from `archivio_biblioteca`.`libro`
-*/
+
+/**
+ * @property string $lettere
+ * @property double $numeri
+ */
 class ViewCollocazione extends Model
 {
     protected $connection = 'db_biblioteca';
@@ -30,7 +31,7 @@ class ViewCollocazione extends Model
         return $query->select('numeri')->where('lettere', $lettere)->orderBy('numeri');
     }
 
-    public function scopeMaxForLettere($query, $lettere)
+    public function scopeMaxForLettere($query, $lettere): float
     {
         // return the max number for the lettere (e.g. App\ViewCollocazione::MaxForLettere("AAA"))
         return $query->numeri($lettere)->get()->max()->numeri;

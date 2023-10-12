@@ -38,24 +38,24 @@ class VideoController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'cassetta';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('video')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         $queryVideo = Video::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
             if ($request->cassetta) {
                 $q->where('cassetta', 'like', "%$request->cassetta%");
-                $msgSearch = $msgSearch.'cassetta='.$request->cassetta;
+                $msgSearch = $msgSearch . 'cassetta=' . $request->cassetta;
                 $orderBy = 'cassetta';
             }
             if ($request->data_registrazione) {
                 $q->where('data_registrazione', $request->data_registrazione);
-                $msgSearch = $msgSearch." data registrazione=$request->data_registrazione";
+                $msgSearch = $msgSearch . " data registrazione=$request->data_registrazione";
                 $orderBy = 'data_registrazione';
             }
             if ($request->descrizione) {
                 $q->where('descrizione', 'like', "%$request->descrizione%");
-                $msgSearch = $msgSearch." descrizione=$request->descrizione";
+                $msgSearch = $msgSearch . " descrizione=$request->descrizione";
             }
         });
 
@@ -77,12 +77,12 @@ class VideoController extends CoreBaseController
 
     public function show($idVideo)
     {
-        $libro = Video::findOrFail($idVideo);
-        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idVideo)->get();
-        if ($libro) {
-            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
-        } else {
-            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
-        }
+//        $libro = Video::findOrFail($idVideo);
+//        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idVideo)->get();
+//        if ($libro) {
+//            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
+//        } else {
+//            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
+//        }
     }
 }

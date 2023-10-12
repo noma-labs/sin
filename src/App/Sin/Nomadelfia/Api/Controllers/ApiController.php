@@ -7,6 +7,7 @@ use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
+
 //models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -76,29 +77,29 @@ class ApiController extends BaseController
 
     public function famigliaCreate(Request $request)
     {
-        return $request->input('nome').$request->input('cognome');
+        return $request->input('nome') . $request->input('cognome');
     }
 
-    public function posizioniAll(Request $request)
-    {
-        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
-        $posizioni = NucleoFamigliare::all();
-        $results = [];
-        foreach ($posizioni as $posizion) {
-            $results[] = [
-                'id' => $posizion->id,
-                'posizione' => $posizion->nucleo_famigliare,
-                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
-            ];
-        }
-
-        return response()->json($results);
-    }
+//    public function posizioniAll(Request $request)
+//    {
+//        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
+//        $posizioni = NucleoFamigliare::all();
+//        $results = [];
+//        foreach ($posizioni as $posizion) {
+//            $results[] = [
+//                'id' => $posizion->id,
+//                'posizione' => $posizion->nucleo_famigliare,
+//                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
+//            ];
+//        }
+//
+//        return response()->json($results);
+//    }
 
     /**
      * ritorna il json dell'azienda insieme ai lavoratori
      *
-     * @param id dell'azienda
+     * @param string $id
      *
      * @author Matteo Neri
      **/
@@ -120,7 +121,7 @@ class ApiController extends BaseController
     /**
      * ritorna il json deglin incarichi insieme ai lavoratori
      *
-     * @param id incarico
+     * @param string $id
      *
      * @author Matteo Neri
      **/
@@ -181,10 +182,7 @@ class ApiController extends BaseController
      * se filtro=storico le aziende nello storico con lavoratore id
      * se filtro=possibili le aziende dove può lavorare il lavoratore id
      *
-     * @param id del lavoratore
-     * @return array con i risultati
-     *
-     * @author Matteo Neri
+     * @param string $id
      **/
     public function aziendeLavoratore(Request $request, $id)
     {
@@ -257,8 +255,6 @@ class ApiController extends BaseController
     /**
      * sposta un lavoratore da un'azienda ad unaltra
      *
-     * @return se l'operazione è andata a buon fine
-     *
      * @author Matteo Neri
      **/
     public function spostaLavoratore(Request $request)
@@ -268,16 +264,14 @@ class ApiController extends BaseController
 
         $result1 = $azienda->lavoratoriAttuali()->updateExistingPivot($request->input('id_lavoratore'),
             ['stato' => 'Non Attivo', 'data_fine_azienda' => $request->input('data')]);
-        $result2 = $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'),
+        $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'),
             ['data_inizio_azienda' => $request->input('data')]);
 
-        return [$result1 && $result2];
+        return [$result1];
     }
 
     /**
      * sposta un lavoratore da un incarico all'altro
-     *
-     * @return se l'operazione è a ndata a buon fine
      *
      * @author Matteo Neri
      **/
@@ -288,10 +282,10 @@ class ApiController extends BaseController
 
         $result1 = $azienda->lavoratoriAttuali()->updateExistingPivot($request->input('id_lavoratore'),
             ['stato' => 'Non Attivo', 'data_fine_azienda' => $request->input('data')]);
-        $result2 = $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'),
+        $nuova_azienda->lavoratori()->attach($request->input('id_lavoratore'),
             ['data_inizio_azienda' => $request->input('data')]);
 
-        return [$result1 && $result2];
+        return [$result1];
     }
 
     public function incarichiAggiungiNuovoLavoratore(Request $request)

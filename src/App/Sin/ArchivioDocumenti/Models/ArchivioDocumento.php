@@ -5,6 +5,10 @@ namespace App\ArchivioDocumenti\Models;
 use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $foglio
+ * @property string $titolo
+ */
 class ArchivioDocumento extends Model
 {
     use SortableTrait;

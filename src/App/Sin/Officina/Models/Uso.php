@@ -5,6 +5,10 @@ namespace App\Officina\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $ofus_nome
+ * @property string $ofus_abbr
+ */
 class Uso extends Model
 {
     protected $table = 'usi';

@@ -7,6 +7,9 @@ use Database\Factories\ClassificazioneFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $descrizione
+ */
 class Classificazione extends Model
 {
     protected $connection = 'db_biblioteca';

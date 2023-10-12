@@ -105,13 +105,13 @@ class LibriController extends CoreBaseController
         $msgSearch = ' ';
         $orderBy = 'titolo';
 
-        if (! $request->except(['_token'])) {
+        if (!$request->except(['_token'])) {
             return redirect()->route('libri.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         if ($request->filled('xIdEditore')) {
             $editore = Editore::findOrFail($request->xIdEditore);
-            $msgSearch = $msgSearch." Editore= $editore->Editore;";
+            $msgSearch = $msgSearch . " Editore= $editore->editore;";
             $idEditore = $request->xIdEditore;
             $queryLibri = Editore::find($editore->id)->libri();
             $orderBy = 'collocazione';
@@ -120,23 +120,23 @@ class LibriController extends CoreBaseController
             if ($request->xTitolo) {
                 $titolo = $request->xTitolo;
                 $q->where('titolo', 'like', "%$titolo%");
-                $msgSearch = $msgSearch.'Titolo='.$titolo;
+                $msgSearch = $msgSearch . 'Titolo=' . $titolo;
                 $orderBy = 'titolo';
             }
             if ($request->xCollocazione) {
                 $collocazione = $request->xCollocazione;
                 if ($collocazione == 'null') {
                     $q->where('collocazione', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
+                    $msgSearch = $msgSearch . ' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('collocazione', 'like', "%$collocazione%");
-                    $msgSearch = $msgSearch.' Collocazione='.$collocazione;
+                    $msgSearch = $msgSearch . ' Collocazione=' . $collocazione;
                 }
                 $orderBy = 'collocazione';
             }
             if ($request->filled('xIdEditore')) {
                 $editore = Editore::findOrFail($request->xIdEditore);
-                $msgSearch = $msgSearch." Editore= $editore->Editore;";
+                $msgSearch = $msgSearch . " Editore= $editore->editore;";
                 $idEditore = $request->xIdEditore;
                 $q->where('ID_EDITORE', $idEditore);
                 $orderBy = 'collocazione';
@@ -144,28 +144,28 @@ class LibriController extends CoreBaseController
             if ($request->filled('xIdAutore')) {
                 $idAutore = $request->xIdAutore;
                 $q->where('ID_AUTORE', $idAutore);
-                $autore = Autore::findOrFail($idAutore)->Autore;
-                $msgSearch = $msgSearch." Autore=$autore";
+                $autore = Autore::findOrFail($idAutore)->autore;
+                $msgSearch = $msgSearch . " Autore=$autore";
             }
             if ($request->filled('xClassificazione')) {
-                $classificazione = (int) $request->xClassificazione;
+                $classificazione = (int)$request->xClassificazione;
                 if ($classificazione == 0) { // NON CLASSIFICATO
                     $q->where('classificazione_id', "$classificazione")->orWhereNull('classificazione_id');
                 } else {
                     $q->where('classificazione_id', "$classificazione");
                 }
                 $class = Classificazione::findOrFail($classificazione)->descrizione;
-                $msgSearch = $msgSearch.' Classificazione='.$class;
+                $msgSearch = $msgSearch . ' Classificazione=' . $class;
             }
             if ($request->xNote) {
                 $note = $request->xNote;
                 $q->where('note', 'like', "%$note%");
-                $msgSearch = $msgSearch.' Note='.$note;
+                $msgSearch = $msgSearch . ' Note=' . $note;
             }
             if ($request->xCategoria) {
                 $categoria = $request->xCategoria;
                 $q->where('categoria', $categoria);
-                $msgSearch = $msgSearch.' Categoria='.$categoria;
+                $msgSearch = $msgSearch . ' Categoria=' . $categoria;
             }
         });
 
@@ -283,10 +283,10 @@ class LibriController extends CoreBaseController
 
         $res = $libro->save();
 
-        $integerIDs = json_decode('['.$request->xIdAutori.']', true); // list of idAutore (e.g., 26,275,292)
+        $integerIDs = json_decode('[' . $request->xIdAutori . ']', true); // list of idAutore (e.g., 26,275,292)
         $libro->autori()->sync($integerIDs);
 
-        $editoriIDs = json_decode('['.$request->xIdEditori.']', true); // list of idAutore (e.g., 26,275,292)
+        $editoriIDs = json_decode('[' . $request->xIdEditori . ']', true); // list of idAutore (e.g., 26,275,292)
         $libro->editori()->sync($editoriIDs);
 
         if ($res) {
@@ -337,7 +337,7 @@ class LibriController extends CoreBaseController
             //dd($persona);
             ///$prestito->cliente()->associate($persona)->save();
             if ($prestito) {
-                return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
+                return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: ' . $prestito->libro->titolo . ', Cliente:' . $prestito->cliente->nominativo . ', Bibliotecario:' . $prestito->bibliotecario->nominativo);
             } else {
                 redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
             }
@@ -406,18 +406,18 @@ class LibriController extends CoreBaseController
         }
         $res = $libro->save();
 
-        $idsAutori = json_decode('['.$request->xIdAutori.']', true); // receive a list of idAutori (e.g., [26,275,292[])
+        $idsAutori = json_decode('[' . $request->xIdAutori . ']', true); // receive a list of idAutori (e.g., [26,275,292[])
         $libro->autori()->sync($idsAutori);
 
-        $idsEditori = json_decode('['.$request->xIdEditori.']', true); // receive a list of idEditori (e.g., [26,275,292[])
+        $idsEditori = json_decode('[' . $request->xIdEditori . ']', true); // receive a list of idEditori (e.g., [26,275,292[])
         $libro->editori()->sync($idsEditori);
 
         if ($res) {
             if ($_addanother) {
-                return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+                return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.' . $msg_etichetta); //"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
             }
             if ($_addonly) {
-                return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+                return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.' . $msg_etichetta); //" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
             }
         } else {
             return redirect()->route('libri.inserisci')->withError('Errore nella creazione del libro.');

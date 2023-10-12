@@ -4,6 +4,11 @@ namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $nominativo
+ * @property string $data_nascita
+ * @property double $eta
+ */
 class ViewClientiBiblioteca extends Model
 {
     protected $connection = 'db_biblioteca';
