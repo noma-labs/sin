@@ -6,7 +6,6 @@ use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * @property string $nominativo
  * @property string $mansione
