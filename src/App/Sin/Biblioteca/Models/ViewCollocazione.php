@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $lettere
  * @property float $numeri
+ *
+ * @method MaxForLettere()
  */
 class ViewCollocazione extends Model
 {
