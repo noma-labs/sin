@@ -86,7 +86,7 @@ class AuthTablesSeeder extends Seeder
         Permission::create(['name' => 'biblioteca.editore.inserisci']);
 
         Permission::create(['name' => 'scuola.*']);
-        Permission::create(['name' => 'scuola.visualzza']);
+        Permission::create(['name' => 'scuola.visualizza']);
 
         Permission::create(['name' => 'agraria.*']);
         Permission::create(['name' => 'agraria.visualizza']);
@@ -109,7 +109,7 @@ class AuthTablesSeeder extends Seeder
         $presidenteAmmRole->givePermissionTo('scuolaguida.patente.visualizza');
         $presidenteAmmRole->givePermissionTo('rtn.visualizza');
         $presidenteAmmRole->givePermissionTo('agraria.visualizza');
-        $presidenteAmmRole->givePermissionTo('scuola.visualzza');
+        $presidenteAmmRole->givePermissionTo('scuola.visualizza');
 
         $presidenteOpeRole->givePermissionTo('popolazione.visualizza');
         $presidenteOpeRole->givePermissionTo('popolazione.persona.visualizza');
