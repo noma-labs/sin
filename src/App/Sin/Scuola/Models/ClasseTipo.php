@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nome
  * @property string $ciclo
  * @property int $ord
+ * @property int $next
  */
 class ClasseTipo extends Model
 {
@@ -62,6 +63,8 @@ class ClasseTipo extends Model
             ->orWhere(function ($query) {
                 $query->where('ord', '>', $this->ord);
             })->orderBY('ord', 'asc')->first();
+
+//        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
     }
 
     public function scopePrescuola($query)
