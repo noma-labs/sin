@@ -94,20 +94,21 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNull('popolazione.data_uscita')
             ->where('persone.data_nascita', '<=', Carbon::now()->subYears($eta))
-            ->orderByRaw('persone.'.strval($orderBy).' '.$order)
+            ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order)
             ->get();
 
         return $magg;
     }
 
     public static function fraEta(
-        int $fromEta,
-        int $toEta = null,
+        int    $fromEta,
+        int    $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year = null,
-        $withInYear = false,
+        int    $travel_to_year = null,
+               $withInYear = false,
         string $order = 'ASC'
-    ) {
+    )
+    {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($fromEta);
         if ($withInYear) {
@@ -131,7 +132,7 @@ class PopolazioneNomadelfia extends Model
             ->whereNull('popolazione.data_uscita')
             ->whereNull('persone.data_decesso')
             ->where('persone.data_nascita', '<=', $end)
-            ->orderByRaw('persone.'.strval($orderBy).' '.$order);
+            ->orderByRaw('persone.' . strval($orderBy) . ' ' . $order);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
         }
@@ -390,12 +391,13 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)
     */
     public static function figliDaEta(
-        int $fromEta,
-        int $toEta = null,
+        int    $fromEta,
+        int    $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year = null,
-        $withInYear = false
-    ) {
+        int    $travel_to_year = null,
+               $withInYear = false
+    )
+    {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
 
         $posizione = Posizione::perNome('figlio');
@@ -442,7 +444,7 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-                ORDER BY famiglie.nome_famiglia ASC, famiglie_persone.posizione_famiglia ASC,  persone.data_nascita ASC"
+                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
             )
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');
