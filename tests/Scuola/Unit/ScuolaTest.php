@@ -134,24 +134,24 @@ it('add new student', function () {
 it('add teacher', function () {
     $now = Carbon::now();
     $a = Anno::createAnno(2199, $now);
-    $c = $a->aggiungiClasse(ClasseTipo::all()->first());
-    $p1 = Studente::factory()->maggiorenne()->maschio()->create();
 
-    // Add coordinatore with a carbon
-    $c->aggiungiCoordinatore($p1, $now->addDays(15));
+    $prescuola = ClasseTipo::prescuola()->first();
+    $c = $a->aggiungiClasse($prescuola);
+
+    $c->aggiungiCoordinatore(Persona::factory()->maggiorenne()->maschio()->create(), $now->addDays(15));
     expect($c->coordinatori()->count())->toBe(1);
-
-    $p1 = Studente::factory()->maggiorenne()->maschio()->create();
-    $c->aggiungiCoordinatore($p1, $now->addDays(15));
+    $c->aggiungiCoordinatore(Persona::factory()->maggiorenne()->maschio()->create(), $now->addDays(15));
 
     $r = $a->coordinatoriPrescuola();
-    expect(count($r['Prescuola']))->toBe(2);
+    expect(count($r[ClasseTipo::PRESCUOLA_3ANNI]))->toBe(2);
 });
 
 it('get next type of classroom', function () {
 
     $a = Anno::createAnno(2030, '2023-12-12', true);
-    $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
+    $this->assertEquals($a->prescuola3Anni()->nextClasseTipo(), ClasseTipo::Anni4Prescuola());
+    $this->assertEquals($a->prescuola4Anni()->nextClasseTipo(), ClasseTipo::Anni5Prescuola());
+    $this->assertEquals($a->prescuola5Anni()->nextClasseTipo(), ClasseTipo::PrimaElem());
     $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
     $this->assertEquals($a->secondaElementare()->nextClasseTipo(), ClasseTipo::TerzaElem());
     $this->assertEquals($a->terzaElementare()->nextClasseTipo(), ClasseTipo::QuartaElem());
@@ -163,7 +163,7 @@ it('get next type of classroom', function () {
 
 it('clone students from existing year', function () {
     $a = Anno::createAnno(2050, '2023-12-12', true);
-    $this->assertCount(11, $a->classi()->get());
+    $this->assertCount(12, $a->classi()->get());
 
     $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
     $a->prescuola()->aggiungiAlunno(Studente::factory()->diEta(3)->maschio()->create(), Carbon::now());
@@ -188,7 +188,7 @@ it('clone students from existing year', function () {
 
 it('copy students from other classroom', function () {
     $a = Anno::createAnno(2034, '2023-12-12', true);
-    expect($a->classi()->get())->toHaveCount(11);
+    expect($a->classi()->get())->toHaveCount(12);
 
     $pre = $a->prescuola();
     $pre->aggiungiAlunno(Studente::factory()->diEta(5)->maschio()->create(), Carbon::now());
@@ -203,7 +203,7 @@ it('copy students from other classroom', function () {
 
 it('get next classroom', function () {
     $a = Anno::createAnno(2037, '2023-12-12', true);
-    $this->assertEquals($a->prescuola()->nextClasseTipo(), ClasseTipo::PrimaElem());
+    $this->assertEquals($a->prescuola5Anni()->nextClasseTipo(), ClasseTipo::PrimaElem());
     $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
     $this->assertEquals($a->secondaElementare()->nextClasseTipo(), ClasseTipo::TerzaElem());
     $this->assertEquals($a->terzaElementare()->nextClasseTipo(), ClasseTipo::QuartaElem());
@@ -224,7 +224,7 @@ it('first or create classroom', function () {
 it('get possible students in year', function () {
     $anno = 1994;
     $a = Anno::createAnno($anno, '2023-12-12', true);
-    expect($a->classi()->get())->toHaveCount(11);
+    expect($a->classi()->get())->toHaveCount(12);
     $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
     $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
 

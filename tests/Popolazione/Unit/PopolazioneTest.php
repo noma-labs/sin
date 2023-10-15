@@ -283,7 +283,8 @@ it('assign postulante and effettivo status', function () {
 
 it('returns the figli between two ages', function () {
     // store the actual figli (maybe inserted by other tests)
-    $actualFigli = PopolazioneNomadelfia::figliDaEta(0, 18, 'nominativo', null)->count();
+    $before3 = PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null)->count();
+    $before24 = PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null)->count();
 
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
@@ -296,24 +297,15 @@ it('returns the figli between two ages', function () {
 
     $pafter = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(2)->startOfYear()]);   // 2019-01-01 00:00:00
 
-    //        $p0->entrataNatoInNomadelfia($famiglia->id);
-    //        $p1->entrataNatoInNomadelfia($famiglia->id);
-    //        $p2->entrataNatoInNomadelfia($famiglia->id);
-    //        $pafter->entrataNatoInNomadelfia($famiglia->id);
+    app(EntrataDallaNascitaAction::class)->execute($p0, $famiglia);
+    app(EntrataDallaNascitaAction::class)->execute($p1, $famiglia);
+    app(EntrataDallaNascitaAction::class)->execute($p2, $famiglia);
+    app(EntrataDallaNascitaAction::class)->execute($pafter, $famiglia);
 
-    $act = app(EntrataDallaNascitaAction::class);
-    $act->execute($p0, Famiglia::findOrFail($famiglia->id));
-    $act = app(EntrataDallaNascitaAction::class);
-    $act->execute($p1, Famiglia::findOrFail($famiglia->id));
-    $act = app(EntrataDallaNascitaAction::class);
-    $act->execute($p2, Famiglia::findOrFail($famiglia->id));
-    $act = app(EntrataDallaNascitaAction::class);
-    $act->execute($pafter, Famiglia::findOrFail($famiglia->id));
-
-    expect(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)))->toBe(3)
-        ->and(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)))->toBe(2)
-        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false)))->toBe(4)
-        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true)))->toBe(4);
+    expect(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, true)))->toBe($before3 + 3)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null, false)))->toBe($before3 + 2)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, false)))->toBe($before24 + 4)
+        ->and(count(PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null, true)))->toBe($before24 + 4);
 
 });
 

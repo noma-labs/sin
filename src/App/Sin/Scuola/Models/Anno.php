@@ -80,7 +80,7 @@ class Anno extends Model
             if ($with_classi) {
                 $t = ClasseTipo::all();
                 foreach ($t as $tipo) {
-                    if (! $tipo->isSuperiori()) {
+                    if (!$tipo->isSuperiori()) {
                         $a->aggiungiClasse($tipo);
                     }
                 }
@@ -127,7 +127,7 @@ class Anno extends Model
     public function findOrCreateClasseByTipo(ClasseTipo $t): Classe
     {
         $c = $this->classi()->where('tipo_id', '=', $t->id)->first();
-        if (! $c) {
+        if (!$c) {
             $c = $this->aggiungiClasse($t);
         }
 
@@ -137,6 +137,27 @@ class Anno extends Model
     public function prescuola()
     {
         $p = ClasseTipo::Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function prescuola3Anni()
+    {
+        $p = ClasseTipo::Anni3Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function prescuola4Anni()
+    {
+        $p = ClasseTipo::Anni4Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function prescuola5Anni()
+    {
+        $p = ClasseTipo::Anni5Prescuola();
 
         return $this->classi()->where('tipo_id', '=', $p->id)->first();
     }
