@@ -57,7 +57,6 @@ class ScuolaTableSeeder extends Seeder
             ['id' => 30, 'nome' => '1 L. SU.E.S.', 'ciclo' => 'superiori', 'ord' => 51, 'next' => null],
             ['id' => 31, 'nome' => 'Universita', 'ciclo' => 'universita', 'ord' => 70, 'next' => null],
 
-
         ];
         DB::connection('db_scuola')->table('tipo')->insert($data);
 
@@ -69,7 +68,7 @@ class ScuolaTableSeeder extends Seeder
         $anno = Anno::createAnno(2021);
         $t = ClasseTipo::all();
         foreach ($t as $tipo) {
-            if (!$tipo->isSuperiori()) {
+            if (! $tipo->isSuperiori()) {
                 $classe = $anno->aggiungiClasse($tipo);
                 $alunni = [];
                 if ($tipo->Is3AnniPrescuola()) {

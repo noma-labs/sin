@@ -15,13 +15,21 @@ use Illuminate\Database\Eloquent\Model;
 class ClasseTipo extends Model
 {
     const PRESCUOLA_3ANNI = '3 anni';
+
     const PRESCUOLA_4ANNI = '4 anni';
+
     const PRESCUOLA_5ANNI = '5 anni';
+
     const PRIMA_ELEMENTARE = '1a Elementare';
+
     const SECONDA_ELEMENTARE = '2a Elementare';
+
     const TERZA_ELEMENTARE = '3a Elementare';
+
     const QUARTA_ELEMENTARE = '4a Elementare';
+
     const QUINTA_ELEMENTARE = '5a Elementare';
+
     const PRIMA_MEDIA = '1a media';
 
     const SECONDA_MEDIA = '2a media';
