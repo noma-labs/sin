@@ -64,7 +64,7 @@ class ClasseTipo extends Model
                 $query->where('ord', '>', $this->ord);
             })->orderBY('ord', 'asc')->first();
 
-//        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
+        //        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
     }
 
     public function scopePrescuola($query)
