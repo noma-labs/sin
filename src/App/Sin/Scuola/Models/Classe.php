@@ -55,7 +55,7 @@ class Classe extends Model
     public function aggiungiAlunno($alunno, $data_inizio)
     {
         if (is_null($data_inizio)) {
-            $data_inizio = $this->anno()->get()->data_inizio;
+            $data_inizio = $this->anno()->first()->data_inizio;
         }
         if (is_string($data_inizio)) {
             $data_inizio = Carbon::parse($data_inizio);
@@ -86,7 +86,7 @@ class Classe extends Model
     public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo = null)
     {
         if (is_null($data_inizio)) {
-            $data_inizio = $this->anno()->get()->data_inizio;
+            $data_inizio = $this->anno()->first()->data_inizio;
         }
         if (is_string($data_inizio)) {
             $data_inizio = Carbon::parse($data_inizio);
@@ -96,7 +96,7 @@ class Classe extends Model
         }
         if ($persona instanceof Persona) {
             $attr = ['data_inizio' => $data_inizio];
-            if (! is_null($tipo)) {
+            if (!is_null($tipo)) {
                 $attr['tipo'] = $tipo;
             }
             $this->coordinatori()->attach($persona->id, $attr);
@@ -119,7 +119,8 @@ class Classe extends Model
 
     public function rimuoviCoordinatore(
         $coord
-    ) {
+    )
+    {
         if (is_int($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -132,7 +133,8 @@ class Classe extends Model
 
     public function rimuoviAlunno(
         $alunno
-    ) {
+    )
+    {
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }
