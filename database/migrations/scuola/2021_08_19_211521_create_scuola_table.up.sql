@@ -61,8 +61,8 @@ CREATE TABLE `coordinatori_classi`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-ALTER TABLE `alunni_classi`
-    ADD FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+# ALTER TABLE `alunni_classi`
+#     ADD FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `alunni_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -73,11 +73,11 @@ ALTER TABLE `classi`
 ALTER TABLE `classi`
     ADD FOREIGN KEY (`anno_id`) REFERENCES `anno` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE `anno`
-    ADD FOREIGN KEY (`responsabile_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+# ALTER TABLE `anno`
+#     ADD FOREIGN KEY (`responsabile_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE `coordinatori_classi`
-    ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+# ALTER TABLE `coordinatori_classi`
+#     ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
