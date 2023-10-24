@@ -24,7 +24,7 @@ trait MigrateFreshDB
             exit();
         }
 
-        if (! static::$setUpHasRunOnce) {
+        if (!static::$setUpHasRunOnce) {
             Artisan::call('make:database');
 
             Artisan::call('migrate:fresh', ['--database' => 'db_auth', '--path' => 'database/migrations/admsys']);
@@ -33,6 +33,7 @@ trait MigrateFreshDB
             Artisan::call('migrate:fresh', ['--database' => 'db_biblioteca', '--path' => 'database/migrations/biblioteca']);
             Artisan::call('migrate:fresh', ['--database' => 'db_patente', '--path' => 'database/migrations/patente']);
             Artisan::call('migrate:fresh', ['--database' => 'db_officina', '--path' => 'database/migrations/officina']);
+            Artisan::call('migrate:fresh', ['--database' => 'db_scuola', '--path' => 'database/migrations/common']);
 
             //            Artisan::call('migrate');
 
