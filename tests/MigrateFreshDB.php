@@ -24,7 +24,7 @@ trait MigrateFreshDB
             exit();
         }
 
-        if (!static::$setUpHasRunOnce) {
+        if (! static::$setUpHasRunOnce) {
             Artisan::call('make:database');
 
             Artisan::call('migrate:fresh', ['--database' => 'db_auth', '--path' => 'database/migrations/admsys']);
