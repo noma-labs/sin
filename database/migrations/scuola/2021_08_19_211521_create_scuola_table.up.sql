@@ -73,10 +73,8 @@ ALTER TABLE `classi`
 ALTER TABLE `classi`
     ADD FOREIGN KEY (`anno_id`) REFERENCES `anno` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-
 ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
 
 CREATE INDEX classi_anni_idx ON classi (anno_id);
 CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
