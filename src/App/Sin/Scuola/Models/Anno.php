@@ -141,6 +141,27 @@ class Anno extends Model
         return $this->classi()->where('tipo_id', '=', $p->id)->first();
     }
 
+    public function prescuola3Anni()
+    {
+        $p = ClasseTipo::Anni3Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function prescuola4Anni()
+    {
+        $p = ClasseTipo::Anni4Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
+    public function prescuola5Anni()
+    {
+        $p = ClasseTipo::Anni5Prescuola();
+
+        return $this->classi()->where('tipo_id', '=', $p->id)->first();
+    }
+
     public function elementari()
     {
         $p = ClasseTipo::Elementari()->get();

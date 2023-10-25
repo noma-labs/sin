@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
+ * @property int $id.
  * @property string $nome_famiglia.
  * @property string $data_creazione.
  */

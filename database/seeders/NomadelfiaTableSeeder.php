@@ -386,22 +386,23 @@ class NomadelfiaTableSeeder extends Seeder
 
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $moglie = Persona::factory()->maggiorenne()->femmina()->create();
-        $fnato = Persona::factory()->minorenne()->femmina()->create();
-        $faccolto = Persona::factory()->minorenne()->maschio()->create();
 
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($capoFam, $now, $gruppo);
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
-        //        $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam, $now);
         $famiglia->assegnaMoglie($moglie, $now);
-        //        $act = app( EntrataDallaNascitaAction::class);
-        $act = app(EntrataDallaNascitaAction::class);
-        $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
-        //        $act = app( EntrataMinorenneAccoltoAction::class);
-        $act = app(EntrataMinorenneAccoltoAction::class);
-        $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(3)->femmina()->create(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(4)->maschio()->create(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(5)->maschio()->create(), Carbon::now()->addYears(4)->toDatestring(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(5)->femmina()->create(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(6)->maschio()->create(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(7)->maschio()->create(), Carbon::now()->addYears(1)->toDatestring(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(7)->maschio()->create(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(8)->femmina()->create(), Carbon::now()->addYears(10)->toDatestring(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(9)->maschio()->create(), Carbon::now()->addYears(5)->toDatestring(), $famiglia);
+        app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(10)->femmina()->create(), $famiglia);
 
         return $this;
     }

@@ -442,7 +442,7 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-                ORDER BY famiglie.nome_famiglia ASC, famiglie_persone.posizione_famiglia ASC,  persone.data_nascita ASC"
+                ORDER BY famiglie.nome_famiglia ASC, persone.data_nascita ASC"
             )
         );
         $famiglie = collect($famiglie)->groupBy('famiglia_id');

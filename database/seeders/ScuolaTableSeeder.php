@@ -25,15 +25,20 @@ class ScuolaTableSeeder extends Seeder
     protected function createClasseTipo()
     {
         $data = [
-            ['id' => 1, 'nome' => 'Prescuola', 'ciclo' => 'prescuola', 'ord' => 1, 'next' => 2],
-            ['id' => 2, 'nome' => '1a Elementare', 'ciclo' => 'elementari', 'ord' => 10, 'next' => 3],
-            ['id' => 3, 'nome' => '2a Elementare', 'ciclo' => 'elementari', 'ord' => 11, 'next' => 4],
-            ['id' => 4, 'nome' => '3a Elementare', 'ciclo' => 'elementari', 'ord' => 12, 'next' => 5],
-            ['id' => 5, 'nome' => '4a Elementare', 'ciclo' => 'elementari', 'ord' => 13, 'next' => 6],
-            ['id' => 6, 'nome' => '5a Elementare', 'ciclo' => 'elementari', 'ord' => 14, 'next' => 7],
-            ['id' => 7, 'nome' => '1a Media', 'ciclo' => 'medie', 'ord' => 20, 'next' => 8],
-            ['id' => 8, 'nome' => '2a Media', 'ciclo' => 'medie', 'ord' => 21, 'next' => 9],
-            ['id' => 9, 'nome' => '3a Media', 'ciclo' => 'medie', 'ord' => 22, 'next' => 33],
+            ['id' => 1, 'nome' => ClasseTipo::PRESCUOLA_3ANNI, 'ciclo' => 'prescuola', 'ord' => 1, 'next' => 34],
+            ['id' => 34, 'nome' => ClasseTipo::PRESCUOLA_4ANNI, 'ciclo' => 'prescuola', 'ord' => 2, 'next' => 35],
+            ['id' => 35, 'nome' => ClasseTipo::PRESCUOLA_5ANNI, 'ciclo' => 'prescuola', 'ord' => 3, 'next' => 2],
+
+            ['id' => 2, 'nome' => ClasseTipo::PRIMA_ELEMENTARE, 'ciclo' => 'elementari', 'ord' => 10, 'next' => 3],
+            ['id' => 3, 'nome' => ClasseTipo::SECONDA_ELEMENTARE, 'ciclo' => 'elementari', 'ord' => 11, 'next' => 4],
+            ['id' => 4, 'nome' => ClasseTipo::TERZA_ELEMENTARE, 'ciclo' => 'elementari', 'ord' => 12, 'next' => 5],
+            ['id' => 5, 'nome' => ClasseTipo::QUARTA_ELEMENTARE, 'ciclo' => 'elementari', 'ord' => 13, 'next' => 6],
+            ['id' => 6, 'nome' => ClasseTipo::QUINTA_ELEMENTARE, 'ciclo' => 'elementari', 'ord' => 14, 'next' => 7],
+            ['id' => 7, 'nome' => ClasseTipo::PRIMA_MEDIA, 'ciclo' => 'medie', 'ord' => 20, 'next' => 8],
+            ['id' => 8, 'nome' => ClasseTipo::SECONDA_MEDIA, 'ciclo' => 'medie', 'ord' => 21, 'next' => 9],
+            ['id' => 9, 'nome' => ClasseTipo::TERZA_MEDIA, 'ciclo' => 'medie', 'ord' => 22, 'next' => 33],
+
+            ['id' => 33, 'nome' => '1 superiore', 'ciclo' => 'superiori', 'ord' => 30, 'next' => null],
             ['id' => 10, 'nome' => '1 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 31, 'next' => 11],
             ['id' => 11, 'nome' => '2 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 32, 'next' => 12],
             ['id' => 12, 'nome' => '3 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 33, 'next' => 13],
@@ -51,8 +56,7 @@ class ScuolaTableSeeder extends Seeder
             ['id' => 24, 'nome' => '5 L. Scienze Umane', 'ciclo' => 'superiori', 'ord' => 45, 'next' => null],
             ['id' => 30, 'nome' => '1 L. SU.E.S.', 'ciclo' => 'superiori', 'ord' => 51, 'next' => null],
             ['id' => 31, 'nome' => 'Universita', 'ciclo' => 'universita', 'ord' => 70, 'next' => null],
-            ['id' => 32, 'nome' => '1a Classe', 'ciclo' => 'elementari', 'ord' => 46, 'next' => null],
-            ['id' => 33, 'nome' => '1 superiore', 'ciclo' => 'superiori', 'ord' => 30, 'next' => null],
+
         ];
         DB::connection('db_scuola')->table('tipo')->insert($data);
 
@@ -66,8 +70,13 @@ class ScuolaTableSeeder extends Seeder
         foreach ($t as $tipo) {
             if (! $tipo->isSuperiori()) {
                 $classe = $anno->aggiungiClasse($tipo);
-                if ($tipo->IsPrescuola()) {
-                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 7, 'data_nascita', null, true);
+                $alunni = [];
+                if ($tipo->Is3AnniPrescuola()) {
+                    $alunni = PopolazioneNomadelfia::figliDaEta(3, 4, 'data_nascita', null, true);
+                } elseif ($tipo->Is4AnniPrescuola()) {
+                    $alunni = PopolazioneNomadelfia::figliDaEta(4, 5, 'data_nascita', null, true);
+                } elseif ($tipo->Is5AnniPrescuola()) {
+                    $alunni = PopolazioneNomadelfia::figliDaEta(5, 6, 'data_nascita', null, true);
                 } elseif ($tipo->IsPrimaEl()) {
                     $alunni = PopolazioneNomadelfia::figliDaEta(6, 7, 'data_nascita', null, true);
                 } elseif ($tipo->IsSecondaEl()) {
@@ -84,8 +93,6 @@ class ScuolaTableSeeder extends Seeder
                     $alunni = PopolazioneNomadelfia::figliDaEta(12, 13, 'data_nascita', null, true);
                 } elseif ($tipo->IsTerzaMed()) {
                     $alunni = PopolazioneNomadelfia::figliDaEta(13, 14, 'data_nascita', null, true);
-                } else {
-                    $alunni = [];
                 }
                 foreach ($alunni as $a) {
                     $classe->aggiungiAlunno($a->id, Carbon::now());

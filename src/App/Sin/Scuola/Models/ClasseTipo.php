@@ -11,9 +11,26 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nome
  * @property string $ciclo
  * @property int $ord
+ * @property int $next
  */
 class ClasseTipo extends Model
 {
+    const PRESCUOLA_3ANNI = '3 anni';
+
+    const PRESCUOLA_4ANNI = '4 anni';
+
+    const PRESCUOLA_5ANNI = '5 anni';
+
+    const PRIMA_ELEMENTARE = '1a Elementare';
+
+    const SECONDA_ELEMENTARE = '2a Elementare';
+
+    const TERZA_ELEMENTARE = '3a Elementare';
+
+    const QUARTA_ELEMENTARE = '4a Elementare';
+
+    const QUINTA_ELEMENTARE = '5a Elementare';
+
     const PRIMA_MEDIA = '1a media';
 
     const SECONDA_MEDIA = '2a media';
@@ -46,6 +63,8 @@ class ClasseTipo extends Model
             ->orWhere(function ($query) {
                 $query->where('ord', '>', $this->ord);
             })->orderBY('ord', 'asc')->first();
+
+        //        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
     }
 
     public function scopePrescuola($query)
@@ -58,29 +77,44 @@ class ClasseTipo extends Model
         return $query->where('ciclo', '=', 'elementari');
     }
 
+    public function scopeAnni3Prescuola($query)
+    {
+        return $query->where('nome', '=', self::PRESCUOLA_3ANNI)->first();
+    }
+
+    public function scopeAnni4Prescuola($query)
+    {
+        return $query->where('nome', '=', self::PRESCUOLA_4ANNI)->first();
+    }
+
+    public function scopeAnni5Prescuola($query)
+    {
+        return $query->where('nome', '=', self::PRESCUOLA_5ANNI)->first();
+    }
+
     public function scopePrimaElem($query)
     {
-        return $query->where('nome', '=', '1a Elementare')->first();
+        return $query->where('nome', '=', self::PRIMA_ELEMENTARE)->first();
     }
 
     public function scopeSecondaElem($query)
     {
-        return $query->where('nome', '=', '2a Elementare')->first();
+        return $query->where('nome', '=', self::SECONDA_ELEMENTARE)->first();
     }
 
     public function scopeTerzaElem($query)
     {
-        return $query->where('nome', '=', '3a Elementare')->first();
+        return $query->where('nome', '=', self::TERZA_ELEMENTARE)->first();
     }
 
     public function scopeQuartaElem($query)
     {
-        return $query->where('nome', '=', '4a Elementare')->first();
+        return $query->where('nome', '=', self::QUARTA_ELEMENTARE)->first();
     }
 
     public function scopeQuintaElem($query)
     {
-        return $query->where('nome', '=', '5a Elementare')->first();
+        return $query->where('nome', '=', self::QUINTA_ELEMENTARE)->first();
     }
 
     public function scopeMedie($query)
@@ -128,29 +162,44 @@ class ClasseTipo extends Model
         return $this->ciclo === 'superiori';
     }
 
+    public function scopeIs3AnniPrescuola($query)
+    {
+        return $this->nome == self::PRESCUOLA_3ANNI;
+    }
+
+    public function scopeIs4AnniPrescuola($query)
+    {
+        return $this->nome == self::PRESCUOLA_4ANNI;
+    }
+
+    public function scopeIs5AnniPrescuola($query)
+    {
+        return $this->nome == self::PRESCUOLA_5ANNI;
+    }
+
     public function scopeIsPrimaEl()
     {
-        return $this->nome == '1a Elementare';
+        return $this->nome == self::PRIMA_ELEMENTARE;
     }
 
     public function scopeIsSecondaEl()
     {
-        return $this->nome == '2a Elementare';
+        return $this->nome == self::SECONDA_ELEMENTARE;
     }
 
     public function scopeIsTerzaEl()
     {
-        return $this->nome == '3a Elementare';
+        return $this->nome == self::TERZA_ELEMENTARE;
     }
 
     public function scopeIsQuartaEl()
     {
-        return $this->nome == '4a Elementare';
+        return $this->nome == self::QUARTA_ELEMENTARE;
     }
 
     public function scopeIsQuintaEl()
     {
-        return $this->nome == '5a Elementare';
+        return $this->nome == self::QUINTA_ELEMENTARE;
     }
 
     public function IsPrimaMed()

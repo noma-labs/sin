@@ -170,44 +170,25 @@ it('get famiglie numerose', function () {
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $now = Carbon::now()->toDatestring();
-    $act = app(EntrataMaggiorenneConFamigliaAction::class);
-    $act->execute($capoFam, $now, $gruppo);
-    $act = app(EntrataMaggiorenneConFamigliaAction::class);
-    $act->execute($moglie, $now, $gruppo);
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($capoFam, $now, $gruppo);
+    app(EntrataMaggiorenneConFamigliaAction::class)->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $fam = Famiglia::find($famiglia->id);
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $fam);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $fam);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $fam);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $fam);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $famiglia);
-    $figlio = Persona::factory()->minorenne()->femmina()->create();
-    $act = app(EntrataMinorenneConFamigliaAction::class);
-    $act->execute($figlio, $now, $famiglia);
 
-    $fanNum = Famiglia::famiglieNumerose(10);
-    expect($fanNum)->toBeEmpty();
-    $fanNum6 = Famiglia::famiglieNumerose(6);
-    expect($fanNum6)->toHaveCount(1)
-        ->and($fanNum6[0]->id)->toBe($famiglia->id)
-        ->and($fanNum6[0]->componenti)->toBe(8);
+    $beforeFanNum = Famiglia::famiglieNumerose(8);
+    $figlio = Persona::factory()->minorenne()->femmina()->create();
+    app(EntrataMinorenneConFamigliaAction::class)->execute($figlio, $now, $famiglia);
+    app(EntrataMinorenneConFamigliaAction::class)->execute(Persona::factory()->minorenne()->femmina()->create(), $now, $famiglia);
+    app(EntrataMinorenneConFamigliaAction::class)->execute(Persona::factory()->minorenne()->femmina()->create(), $now, $famiglia);
+    app(EntrataMinorenneConFamigliaAction::class)->execute(Persona::factory()->minorenne()->femmina()->create(), $now, $famiglia);
+    app(EntrataMinorenneConFamigliaAction::class)->execute(Persona::factory()->minorenne()->femmina()->create(), $now, $famiglia);
+    app(EntrataMinorenneConFamigliaAction::class)->execute(Persona::factory()->minorenne()->femmina()->create(), $now, $famiglia);
 
-    $act = app(UscitaPersonaAction::class);
-    $act->execute($figlio, Carbon::now()->toDatestring());
+    $fanNum6 = Famiglia::famiglieNumerose(8);
+    expect($fanNum6)->toHaveCount(count($beforeFanNum) + 1);
 
-    $fanNum = Famiglia::famiglieNumerose(7);
-    expect($fanNum)->toHaveCount(1)
-        ->and($fanNum[0]->id)->toBe($famiglia->id)
-        ->and($fanNum[0]->componenti)->toBe(7);
+    app(UscitaPersonaAction::class)->execute($figlio, Carbon::now()->toDatestring());
+
+    $fanNum = Famiglia::famiglieNumerose(8);
+    expect($fanNum)->toHaveCount(count($beforeFanNum));
 });
