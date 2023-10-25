@@ -61,8 +61,8 @@ CREATE TABLE `coordinatori_classi`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-ALTER TABLE `alunni_classi`
-    ADD FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+# NOTE: since there is a circular dependencies (popolazione_attuale.scuola -> scuola.alunni AND db_scuola.xx -> db_nomadelfia.persone)
+# the foreign key of the db_scuola referencing the db_nomadelfia have been moved into the common folder
 
 ALTER TABLE `alunni_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
@@ -73,14 +73,8 @@ ALTER TABLE `classi`
 ALTER TABLE `classi`
     ADD FOREIGN KEY (`anno_id`) REFERENCES `anno` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE `anno`
-    ADD FOREIGN KEY (`responsabile_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE `coordinatori_classi`
-    ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`classe_id`) REFERENCES `classi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
-
 
 CREATE INDEX classi_anni_idx ON classi (anno_id);
 CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
