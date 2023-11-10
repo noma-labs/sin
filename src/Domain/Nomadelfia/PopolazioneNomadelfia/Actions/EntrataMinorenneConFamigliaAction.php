@@ -15,7 +15,8 @@ class EntrataMinorenneConFamigliaAction
 
     public function __construct(
         EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
@@ -36,7 +37,6 @@ class EntrataMinorenneConFamigliaAction
 
     public function calcFamiglia(EntrataPersonaData $dto)
     {
-        $dto->famiglia_data = $dto->persona->data_nascita; // la data di entrata nella famiglia è uguale alla data di nascita
         $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
     }
 

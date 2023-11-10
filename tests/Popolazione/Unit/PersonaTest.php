@@ -57,7 +57,7 @@ it('testEntrataMaschioDallaNascita', function () {  /*
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
@@ -72,7 +72,7 @@ it('testEntrataMaschioDallaNascita', function () {  /*
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($persona->data_nascita)
         ->and($persona->famigliaAttuale())->not->toBeNull()
-        ->and($persona->famigliaAttuale()->pivot->data_entrata)->toBe($persona->data_nascita);
+        ->and($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataFemminaDallaNascita', function () {
@@ -87,7 +87,7 @@ it('testEntrataFemminaDallaNascita', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
@@ -102,7 +102,7 @@ it('testEntrataFemminaDallaNascita', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($persona->data_nascita);
     $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->toBe($persona->data_nascita);
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataMinorenneFemminaAccolto', function () {
@@ -117,7 +117,7 @@ it('testEntrataMinorenneFemminaAccolto', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     //        $persona->entrataMinorenneAccolto($data_entrata, $famiglia->id);
     $act = app(EntrataMinorenneAccoltoAction::class);
@@ -140,7 +140,7 @@ it('testEntrataMinorenneFemminaAccolto', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->toBe($data_entrata);
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataMinorenneMaschioAccolto', function () {
@@ -155,7 +155,7 @@ it('testEntrataMinorenneMaschioAccolto', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($persona, $data_entrata, $famiglia);
@@ -178,7 +178,7 @@ it('testEntrataMinorenneMaschioAccolto', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->toBe($data_entrata);
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataMinorenneFemminaConFamiglia', function () {
@@ -193,7 +193,7 @@ it('testEntrataMinorenneFemminaConFamiglia', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
@@ -215,7 +215,7 @@ it('testEntrataMinorenneFemminaConFamiglia', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->toBe($persona->data_nascita);
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataMinorenneMaschioConFamiglia', function () {
@@ -230,7 +230,7 @@ it('testEntrataMinorenneMaschioConFamiglia', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
@@ -252,7 +252,7 @@ it('testEntrataMinorenneMaschioConFamiglia', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->toBe($persona->data_nascita);
+    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
 });
 
 it('testEntrataMaggiorenneMaschioSingle', function () {
@@ -331,7 +331,7 @@ it('testRientroMaggiorenneInNomadelfia', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     // la persona nasce in Nomadelfia
     $act = app(EntrataDallaNascitaAction::class);
@@ -385,6 +385,7 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function () {
     $this->assertFalse($figlio->isPersonaInterna());
     expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
     expect($figlio->getDataUscitaNomadelfia())->toBe($data_uscita);
+
 
     // la persona rientra in Nomadelfia in una nuova famiglia
     $famiglia_rientro = Famiglia::factory()->create();

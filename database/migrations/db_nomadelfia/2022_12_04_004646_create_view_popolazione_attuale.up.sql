@@ -26,12 +26,12 @@ CREATE VIEW IF NOT EXISTS v_popolazione_attuale AS
     GROUP by gruppi_persone.persona_id
     ORDER BY gruppi_persone.data_entrata_gruppo DESC
 ), famiglia AS (
-    SELECT famiglie_persone.persona_id, max(famiglie_persone.data_entrata) as famiglia_inizio, famiglie.nome_famiglia as famiglia, famiglie_persone.posizione_famiglia
+    SELECT famiglie_persone.persona_id, famiglie.data_creazione as famiglia_inizio, famiglie.nome_famiglia as famiglia, famiglie_persone.posizione_famiglia
     FROM famiglie_persone
     JOIN famiglie ON famiglie.id = famiglie_persone.famiglia_id
     WHERE famiglie_persone.persona_id IN (SELECT id from pop)
     GROUP BY famiglie_persone.persona_id
-    ORDER BY famiglie_persone.data_entrata DESC
+    ORDER BY famiglie.data_creazione DESC
 ), azienda AS (
     SELECT aziende_persone.persona_id, max(aziende_persone.data_inizio_azienda) as azienda_inizio, aziende.nome_azienda as azienda
     FROM aziende_persone

@@ -44,6 +44,7 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
+
             // conclude la persona nel gruppo familiare con la data di uscita
             $conn->insert(
                 "UPDATE gruppi_persone SET data_uscita_gruppo = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
@@ -67,12 +68,13 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
+
             if ($uscitaPersonaData->persona->isFiglio() && $uscitaPersonaData->disableFromFamily) {
                 // caso: un figlio che esce dalla comunità da solo, deve essere tolto dal nucleo familiare.
                 //       Invece, un figlio che esce con la famiglia deve rimanere nel nucleo familiare d'origine.
                 $conn->insert(
-                    "UPDATE famiglie_persone  SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                    [$uscitaPersonaData->data_uscita, $persona_id]
+                    "UPDATE famiglie_persone  SET stato = '0' WHERE persona_id = ? AND stato = '1'",
+                    [$persona_id]
                 );
             }
 
@@ -81,5 +83,6 @@ class UscitaPersonaDBAction
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }
+
     }
 }

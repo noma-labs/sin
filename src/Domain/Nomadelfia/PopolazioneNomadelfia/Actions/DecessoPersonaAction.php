@@ -14,10 +14,11 @@ class DecessoPersonaAction
     private SendEmailPersonaDecessoAction $email;
 
     public function __construct(
-        UscitaPersonaDBAction $uscita,
-        LogDecessoPersonaAction $logDecesso,
+        UscitaPersonaDBAction         $uscita,
+        LogDecessoPersonaAction       $logDecesso,
         SendEmailPersonaDecessoAction $email
-    ) {
+    )
+    {
         $this->uscita = $uscita;
         $this->logDecesso = $logDecesso;
         $this->email = $email;
@@ -59,8 +60,7 @@ class DecessoPersonaAction
 
             // aggiorna la data di uscita dalla famiglia con la data di decesso
             $conn->insert(
-                "UPDATE famiglie_persone SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_decesso, $persona->id]
+                "UPDATE famiglie_persone SET stato = '0' WHERE persona_id = ? AND stato = '1'", [$persona->id]
             );
 
             DB::connection('db_nomadelfia')->commit();

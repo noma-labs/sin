@@ -13,9 +13,10 @@ class UscitaFamigliaAction
     private SendEmailFamigliaUscitaAction $emailUscita;
 
     public function __construct(
-        LogUscitaFamigliaAction $logUscita,
+        LogUscitaFamigliaAction       $logUscita,
         SendEmailFamigliaUscitaAction $emailUscita
-    ) {
+    )
+    {
         $this->logUscita = $logUscita;
         $this->emailUscita = $emailUscita;
     }
@@ -24,7 +25,7 @@ class UscitaFamigliaAction
     {
         $dto = new UscitaFamigliaData();
         $dto->famiglia = $famiglia;
-        $dto->componenti = $famiglia->componentiAttuali()->orderBy('data_entrata')->get();
+        $dto->componenti = $famiglia->componentiAttuali()->get();
         $dto->data_uscita = $data_uscita;
 
         $this->save($dto);

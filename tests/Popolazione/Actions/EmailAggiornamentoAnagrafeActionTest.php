@@ -79,7 +79,7 @@ it('sends an email if a person enter', function () {
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(EntrataMinorenneAccoltoAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));

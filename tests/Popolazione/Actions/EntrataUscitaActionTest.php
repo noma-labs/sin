@@ -18,7 +18,7 @@ it('entrata_minorenne_con_famiglia', function () {
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
@@ -33,7 +33,6 @@ it('entrata_minorenne_con_famiglia', function () {
     expect($persona->gruppofamiliareAttuale()->id)->tobe($gruppo->id);
     expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->tobe($data_entrata);
     expect($persona->famigliaAttuale())->not->toBeNull();
-    expect($persona->famigliaAttuale()->pivot->data_entrata)->tobe($persona->data_nascita);
 
 });
 
@@ -46,7 +45,7 @@ it('entrata_minorenne_accolto', function () {
 
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(EntrataMinorenneAccoltoAction::class);
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));

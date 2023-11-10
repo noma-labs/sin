@@ -231,7 +231,7 @@ it('get possible students in year', function () {
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
 

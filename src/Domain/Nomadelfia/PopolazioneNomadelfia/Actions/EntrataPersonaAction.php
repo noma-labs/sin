@@ -12,9 +12,10 @@ class EntrataPersonaAction
     private SendEmailPersonaEntrataAction $email;
 
     public function __construct(
-        LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        LogEntrataPersonaAction       $logEntrataInNomadelfiaActivityAction,
         SendEmailPersonaEntrataAction $email
-    ) {
+    )
+    {
         $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
         $this->email = $email;
     }
@@ -78,13 +79,11 @@ class EntrataPersonaAction
             // inserisce la persona nella famiglia con una posizione
             if ($entrataPersonaData->famiglia) {
                 // NOTE: se la persone è già nella famiglia (è duplicato) si aggiorna lo stato a 1 con la nuova data
-                $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, data_entrata, posizione_famiglia, stato) VALUES (?, ?, ?, ?, '1')  ON DUPLICATE KEY UPDATE stato='1', data_entrata=?, data_uscita=NULL",
+                $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1')  ON DUPLICATE KEY UPDATE stato='1'",
                     [
                         $entrataPersonaData->famiglia->id,
                         $persona_id,
-                        $entrataPersonaData->famiglia_data,
                         $entrataPersonaData->famiglia_posizione,
-                        $entrataPersonaData->famiglia_data,
                     ]
                 );
             }

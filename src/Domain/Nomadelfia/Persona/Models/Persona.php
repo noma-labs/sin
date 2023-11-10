@@ -122,7 +122,7 @@ class Persona extends Model
     public function proposeNumeroElenco()
     {
         if ($this->numero_elenco) {
-            throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
+            throw new Exception('La persona ' . $this->nominativo . ' ha già un numero di elenco ' . $this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
         $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
@@ -131,12 +131,12 @@ class Persona extends Model
             ->orderBy('numero', 'DESC')
             ->first();
         if ($res) {
-            $new = (int) $res->numero + 1;
+            $new = (int)$res->numero + 1;
 
-            return $res->lettera.$new;
+            return $res->lettera . $new;
         }
 
-        return $firstLetter.'1';
+        return $firstLetter . '1';
 
     }
 
@@ -189,7 +189,8 @@ class Persona extends Model
         string $orderBy = 'nominativo',
         $travel_to_year = null,
         $withInYear = false
-    ) {
+    )
+    {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($frometa);
         if ($withInYear) {
@@ -314,7 +315,8 @@ class Persona extends Model
         $dataout_current,
         $gruppo_id_new,
         $datain_new
-    ) {
+    )
+    {
         $persona_id = $this->id;
 
         DB::transaction(function () use (
@@ -392,7 +394,7 @@ class Persona extends Model
         }
         if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
             if ($azienda instanceof Azienda) {
-                if (! $azienda->isAzienda()) {
+                if (!$azienda->isAzienda()) {
                     throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
                 }
                 if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
@@ -458,7 +460,7 @@ class Persona extends Model
         if (is_string($incarico)) {
             $incarico = Incarico::findOrFail($incarico);
         }
-        if (! $incarico instanceof Incarico) {
+        if (!$incarico instanceof Incarico) {
             throw new Exception('Bad Argument. Incarico must be the id or a model.');
         }
         if ($this->incarichiAttuali()->where('id', $incarico->id)->exists()) { // la persona è stata già l'incarico
@@ -577,8 +579,8 @@ class Persona extends Model
 
             // aggiorna la data di uscita dalla famiglia con la data di decesso
             $conn->insert(
-                "UPDATE famiglie_persone SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_decesso, $this->id]
+                "UPDATE famiglie_persone SET stato = '0' WHERE persona_id = ? AND stato = '1'",
+                [$this->id]
             );
 
             DB::connection('db_nomadelfia')->commit();
@@ -658,7 +660,7 @@ class Persona extends Model
     {
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
-            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('posizione_famiglia')
             ->get();
         if ($famiglia->count() == 1) {
             return $famiglia[0];
@@ -673,21 +675,19 @@ class Persona extends Model
     {
         return $this->famiglie()
             ->wherePivot('stato', '0')
-            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita');
+            ->withPivot('posizione_famiglia');
     }
 
     // Crea una famiglia e aggiunge la persona come componente
-    // Se la data_entrata è null (default) viene settata uguale alla data di creazione della famiglia
-    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione, $data_entrata = null)
+    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione)
     {
         try {
-            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione, &$data_entrata) {
+            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione) {
                 $famiglia = Famiglia::create(['nome_famiglia' => $nome, 'data_creazione' => $data_creazione]);
 
                 $famiglia->componenti()->attach($persona_id, [
                     'stato' => '1',
                     'posizione_famiglia' => $posizione,
-                    'data_entrata' => ($data_entrata ? $data_entrata : $data_creazione),
                 ]);
             });
 
@@ -704,7 +704,7 @@ class Persona extends Model
      * @param Famiglia
      * @return $this
      */
-    public function spostaNellaFamiglia($famiglia, $data_entrata, $posizione, $data_uscita = null)
+    public function spostaNellaFamiglia($famiglia, $posizione)
     {
         if ($famiglia->single()) {
             throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
@@ -712,26 +712,24 @@ class Persona extends Model
         }
         $attuale = $this->famigliaAttuale();
         try {
-            if (! $attuale) {
+            if (!$attuale) {
                 $this->famiglie()->attach($famiglia->id,
-                    ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
+                    ['stato' => '1', 'posizione_famiglia' => $posizione]);
             } else {
                 // TODO; check se la persona può essere asseganta alla nuova famiglia
-                DB::transaction(function () use (&$attuale, &$famiglia, &$data_uscita, &$data_entrata, &$posizione) {
+                DB::transaction(function () use (&$attuale, &$famiglia, &$posizione) {
                     DB::connection('db_nomadelfia')->update(
                         DB::raw("UPDATE famiglie_persone
-                        SET  data_uscita = :uscita, stato = '0'
+                        SET stato = '0'
                         WHERE persona_id  = :persona AND famiglia_id = :famiglia "),
-                        //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
                         [
                             'persona' => $this->id,
                             'famiglia' => $attuale->id,
-                            'uscita' => ($data_uscita ? $data_uscita : $data_entrata),
                         ]
                     );
 
                     $this->famiglie()->attach($famiglia->id,
-                        ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
+                        ['stato' => '1', 'posizione_famiglia' => $posizione]);
                 });
             }
         } catch (\Exception $e) {
@@ -888,7 +886,8 @@ class Persona extends Model
 
     public function assegnaNomadelfoEffettivo(
         Carbon\Carbon $data_inizio
-    ) {
+    )
+    {
         // TODO: check that the posizione attuale è postulante
         //        $attuale = this->posizioneAttuale();
         //        if $attuale && !$attuale->isPostulante){
@@ -902,7 +901,8 @@ class Persona extends Model
         $posizione,
         string $data_inizio,
         string $attuale_data_fine = null
-    ) {
+    )
+    {
         if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
@@ -929,7 +929,8 @@ class Persona extends Model
         $posizione_id,
         $currentDatain,
         $newDataIn
-    ) {
+    )
+    {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
@@ -944,7 +945,8 @@ class Persona extends Model
         $posizione_id,
         $datain,
         $datafine
-    ) {
+    )
+    {
         $res = DB::connection('db_nomadelfia')->update(
             DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
@@ -1000,17 +1002,18 @@ class Persona extends Model
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
-     * @param  int|null  $gruppoFamiliareAttuale
-     * @param  date  $dataUscitaGruppoFamiliareAttuale
-     * @param  int  $gruppoFamiliareNuovo
-     * @param  date  $dataEntrataGruppo
+     * @param int|null $gruppoFamiliareAttuale
+     * @param date $dataUscitaGruppoFamiliareAttuale
+     * @param int $gruppoFamiliareNuovo
+     * @param date $dataEntrataGruppo
      */
     public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo
-    ) {
+    )
+    {
         if ($this->isCapoFamiglia() or $this->isSingle()) {
             $this->famigliaAttuale()->assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale,
                 $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
@@ -1022,7 +1025,8 @@ class Persona extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo = null
-    ) {
+    )
+    {
         try {
             $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,
                 ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);

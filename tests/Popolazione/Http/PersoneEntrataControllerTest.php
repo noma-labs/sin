@@ -26,7 +26,7 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $data_entrata, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     login();
     $this->withoutExceptionHandling();
@@ -51,7 +51,6 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_entrata);
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioAccoltoEnum());
 });
 
@@ -64,7 +63,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $data_entrata, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     login();
     $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
@@ -86,7 +85,6 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
-    $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_nascita->toDateString());
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioNatoEnum());
 });
 
@@ -98,7 +96,7 @@ it('entrata_persona_dalla_nascita', function () {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, Carbon::now()->toDatestring(), $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now()->toDatestring());
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     login();
     $this->withoutExceptionHandling();
@@ -120,7 +118,6 @@ it('entrata_persona_dalla_nascita', function () {
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_nascita->toDatestring());
     $this->assertNotNull($persona->famigliaAttuale());
-    $this->assertEquals($persona->famigliaAttuale()->pivot->data_entrata, $data_nascita->toDatestring());
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioNatoEnum());
 });
 
