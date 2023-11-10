@@ -1,4 +1,4 @@
-name: PHP linting (Pint)
+name: run_linter
 
 on:
   push:
