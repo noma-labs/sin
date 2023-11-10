@@ -386,7 +386,6 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function () {
     expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
     expect($figlio->getDataUscitaNomadelfia())->toBe($data_uscita);
 
-
     // la persona rientra in Nomadelfia in una nuova famiglia
     $famiglia_rientro = Famiglia::factory()->create();
     $cp = Persona::factory()->maggiorenne()->create();

@@ -417,6 +417,7 @@ class NomadelfiaTableSeeder extends Seeder
             Carbon::now()->toDatestring(),
             GruppoFamiliare::all()->random()
         );
+
         return $this;
     }
 }

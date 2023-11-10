@@ -44,7 +44,6 @@ class UscitaPersonaDBAction
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
 
-
             // conclude la persona nel gruppo familiare con la data di uscita
             $conn->insert(
                 "UPDATE gruppi_persone SET data_uscita_gruppo = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
@@ -67,7 +66,6 @@ class UscitaPersonaDBAction
                 'UPDATE db_scuola.alunni_classi SET data_fine = ?  WHERE persona_id = ? AND data_fine IS NULL',
                 [$uscitaPersonaData->data_uscita, $persona_id]
             );
-
 
             if ($uscitaPersonaData->persona->isFiglio() && $uscitaPersonaData->disableFromFamily) {
                 // caso: un figlio che esce dalla comunità da solo, deve essere tolto dal nucleo familiare.
