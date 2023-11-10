@@ -44,8 +44,7 @@ it('remove dead person from population', function () {
     expect($persona->statiStorico()->get()->last()->pivot->data_fine)->toBe($data_decesso);
     $this->assertNull($persona->gruppofamiliareAttuale());
     expect($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_decesso)
-        ->and($persona->famigliaAttuale())->toBeNull()
-        ->and($persona->famiglieStorico()->get()->last()->pivot->data_uscita)->toBe($data_decesso);
+        ->and($persona->famigliaAttuale())->toBeNull();
 
     $pop = PopolazioneNomadelfia::popolazione();
     expect(count($pop))->toBe($tot - 1);
@@ -109,7 +108,7 @@ it('manage exit of underage', function () {
     $capoFam->gruppifamiliari()->attach($gruppo->id,
         ['stato' => '1', 'data_entrata_gruppo' => Carbon::now()->subYears(10)->toDatestring()]);
     $famiglia->componenti()->attach($capoFam->id,
-        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA', 'data_entrata' => Carbon::now()->toDatestring()]);
+        ['stato' => '1', 'posizione_famiglia' => 'CAPO FAMIGLIA']);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
@@ -139,7 +138,7 @@ it('manage exit of underage', function () {
         ->and($persona->gruppofamiliareAttuale())->toBeNull()
         ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_uscita)
         ->and($persona->famigliaAttuale())->toBeNull()
-        ->and($persona->famiglieStorico()->get()->last()->pivot->data_uscita)->toBe($data_uscita)
+        ->and($persona->famiglieStorico()->get()->last()->id)->toBe($famiglia->id)
         ->and($classe->alunni()->count())->toBe(0);
 
     $pop = PopolazioneNomadelfia::popolazione();
@@ -165,7 +164,7 @@ it('manage exit of family', function () {
     $act->execute($capoFam, $now, $gruppo);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie, $now);
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
@@ -208,7 +207,7 @@ it('manage people not part of family when it exits', function () {
     $act->execute($capoFam, $now, $gruppo);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie, $now);
 
     $act = app(EntrataDallaNascitaAction::class);
@@ -241,7 +240,7 @@ it('count the underages of the population', function () {
     $now = Carbon::now()->toDatestring();
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $gruppo = GruppoFamiliare::all()->random();
     $capoFam->assegnaGruppoFamiliare($gruppo, $now);
 
@@ -288,7 +287,7 @@ it('returns the figli between two ages', function () {
 
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaCapoFamiglia($capoFam, Carbon::now());
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $capoFam->assegnaGruppoFamiliare(GruppoFamiliare::all()->random(), Carbon::now());
 
     $p1 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()]); // 2018-01-01 00:00:00

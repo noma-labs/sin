@@ -23,7 +23,7 @@ it('save enter event into activity table', function () {
     $gruppo = GruppoFamiliare::first();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(LogEntrataPersonaAction::class);
 
@@ -94,7 +94,7 @@ it('save family exit into activity table', function () {
     $act->execute($capoFam, $now, $gruppo);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie, $now);
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($fnato, Famiglia::findOrFail($famiglia->id));

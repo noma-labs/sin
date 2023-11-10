@@ -259,7 +259,7 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function assegnaCapoFamiglia($persona, string $data_entrata = null, $note = null)
+    public function assegnaCapoFamiglia($persona, $note = null)
     {
 
         if (is_string($persona)) {
@@ -277,9 +277,8 @@ class Famiglia extends Model
             if ($persona->isMaggiorenne() != true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
-            $data = $data_entrata ? $data_entrata : $this->data_creazione;
 
-            return $this->assegnaComponente($persona, $this->getCapoFamigliaEnum(), $data);
+            return $this->assegnaComponente($persona, $this->getCapoFamigliaEnum());
         } else {
             throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
         }
@@ -311,7 +310,7 @@ class Famiglia extends Model
             }
             $data = $data ? $data : $this->data_creazione;
 
-            return $this->assegnaComponente($persona, $this->getMoglieEnum(), $data);
+            return $this->assegnaComponente($persona, $this->getMoglieEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -324,7 +323,7 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             $data = $data ? $data : Carbon::parse($persona->nascita)->addYears(18)->toDateString();
 
-            return $this->assegnaComponente($persona, $this->getSingleEnum(), $data);
+            return $this->assegnaComponente($persona, $this->getSingleEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -342,7 +341,7 @@ class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, $this->getFiglioNatoEnum(), $persona->data_nascita);
+            return $this->assegnaComponente($persona, $this->getFiglioNatoEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -360,19 +359,19 @@ class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, $this->getFiglioAccoltoEnum(), $data_accolto);
+            return $this->assegnaComponente($persona, $this->getFiglioAccoltoEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    public function assegnaComponente($persona, string $posizione, string $data_entrata, string $stato = '1', $note = null)
+    public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null)
     {
         if (! in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
 
         return $this->componenti()->attach($persona->id,
-            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata, 'note' => $note]);
+            ['stato' => $stato, 'posizione_famiglia' => $posizione, 'note' => $note]);
     }
 
     /**
@@ -388,7 +387,7 @@ class Famiglia extends Model
         }
         if ($persona instanceof Persona) {
             return $this->componenti()->updateExistingPivot($persona->id,
-                ['stato' => '0', 'data_uscita' => $data_uscita, 'note' => $note]);
+                ['stato' => '0', 'note' => $note]);
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -403,7 +402,7 @@ class Famiglia extends Model
     public function componenti()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('stato', 'posizione_famiglia')
             ->orderby('nominativo');
     }
 
@@ -425,7 +424,7 @@ class Famiglia extends Model
     public function capofamiglia()
     {
         return $this->componenti()
-            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('stato', 'posizione_famiglia')
             ->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')
             ->first();
     }
@@ -462,7 +461,7 @@ class Famiglia extends Model
     public function figli()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
-            ->withPivot('stato', 'posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('stato', 'posizione_famiglia')
             ->wherePivotIn('posizione_famiglia', ['FIGLIO NATO', 'FIGLIO ACCOLTO'])
             ->orderBy('data_nascita');
     }

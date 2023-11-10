@@ -24,7 +24,7 @@ class UscitaFamigliaAction
     {
         $dto = new UscitaFamigliaData();
         $dto->famiglia = $famiglia;
-        $dto->componenti = $famiglia->componentiAttuali()->orderBy('data_entrata')->get();
+        $dto->componenti = $famiglia->componentiAttuali()->get();
         $dto->data_uscita = $data_uscita;
 
         $this->save($dto);

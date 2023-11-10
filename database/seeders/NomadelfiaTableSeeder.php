@@ -9,6 +9,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,7 @@ class NomadelfiaTableSeeder extends Seeder
             ->createIncarichi();
 
         $this->insertFamigliaInPopolazione();
+        $this->insertSingleInPopolazione();
 
     }
 
@@ -391,7 +393,7 @@ class NomadelfiaTableSeeder extends Seeder
         $act->execute($capoFam, $now, $gruppo);
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
-        $famiglia->assegnaCapoFamiglia($capoFam, $now);
+        $famiglia->assegnaCapoFamiglia($capoFam);
         $famiglia->assegnaMoglie($moglie, $now);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(3)->femmina()->create(), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(4)->maschio()->create(), $famiglia);
@@ -403,6 +405,18 @@ class NomadelfiaTableSeeder extends Seeder
         app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(8)->femmina()->create(), Carbon::now()->addYears(10)->toDatestring(), $famiglia);
         app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(9)->maschio()->create(), Carbon::now()->addYears(5)->toDatestring(), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(10)->femmina()->create(), $famiglia);
+
+        return $this;
+    }
+
+    protected function insertSingleInPopolazione(): self
+    {
+        $act = app(EntrataMaggiorenneSingleAction::class);
+        $act->execute(
+            Persona::factory()->maggiorenne()->femmina()->create(),
+            Carbon::now()->toDatestring(),
+            GruppoFamiliare::all()->random()
+        );
 
         return $this;
     }

@@ -36,7 +36,6 @@ class EntrataDallaNascitaAction
 
     public function calcFamiglia(EntrataPersonaData $dto)
     {
-        $dto->famiglia_data = $dto->persona->data_nascita;
         $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
     }
 

@@ -44,8 +44,8 @@ class EntrataMaggiorenneSingleAction
     public function calcFamiglia(EntrataPersonaData $dto)
     {
         $nome_famiglia = $dto->persona->nome.' '.Str::substr($dto->persona->cognome, 0, 2);
-        $dto->famiglia_data = Carbon::parse($dto->persona->data_nascita)->addYears(18)->toDatestring();
-        $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $dto->famiglia_data]);
+        $data_famiglia = Carbon::parse($dto->persona->data_nascita)->addYears(18);
+        $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $data_famiglia->toDateString()]);
         $dto->famiglia_posizione = Famiglia::getSingleEnum();
     }
 

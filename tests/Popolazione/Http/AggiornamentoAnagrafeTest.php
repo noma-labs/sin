@@ -16,7 +16,7 @@ it('show aggiornamento anagrafe index', function () {
     $gruppo = GruppoFamiliare::first();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
-    $famiglia->assegnaCapoFamiglia($capoFam, $data_entrata);
+    $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(LogEntrataPersonaAction::class);
 

@@ -236,11 +236,11 @@ class ClasseTipo extends Model
             //                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
             //                }
             $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
-            //                DB::connection('db_nomadelfia')->commit();
-            //            } catch (\Exception $e) {
-            //                DB::connection('db_nomadelfia')->rollback();
-            //                throw $e;
-            //            }
+        //                DB::connection('db_nomadelfia')->commit();
+        //            } catch (\Exception $e) {
+        //                DB::connection('db_nomadelfia')->rollback();
+        //                throw $e;
+        //            }
         } else {
             throw new Exception('Bad Argument. Persona must be an id or a model.');
         }

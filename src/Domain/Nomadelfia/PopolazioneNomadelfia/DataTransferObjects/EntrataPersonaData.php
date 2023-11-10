@@ -29,6 +29,4 @@ class EntrataPersonaData
     public ?Famiglia $famiglia = null;
 
     public ?string $famiglia_posizione;
-
-    public ?string $famiglia_data;
 }

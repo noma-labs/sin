@@ -18,7 +18,7 @@ use InvalidArgumentException;
 it('throws and invalidArgument on assign a component', function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaComponente($persona, 'NOT EXISTING', Carbon::now()->toDatestring());
+    $famiglia->assegnaComponente($persona, 'NOT EXISTING');
 })->throws(InvalidArgumentException::class);
 
 it('assign a component', function () {
@@ -26,31 +26,29 @@ it('assign a component', function () {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $now = Carbon::now()->toDatestring();
-    $famiglia->assegnaComponente($persona, $famiglia::getCapoFamigliaEnum(), $now);
-    expect($famiglia->capofamiglia()->pivot->data_entrata)->toBe($now);
+    $famiglia->assegnaComponente($persona, $famiglia::getCapoFamigliaEnum());
+    expect($famiglia->capofamiglia()->id)->toBe($persona->id);
 
     // test assegna MOGLIE
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $now = Carbon::now()->toDatestring();
-    $famiglia->assegnaComponente($persona, $famiglia::getMoglieEnum(), $now);
-    expect($famiglia->moglie()->pivot->data_entrata)->toBe($now);
+    $famiglia->assegnaComponente($persona, $famiglia::getMoglieEnum());
+    expect($famiglia->moglie()->id)->toBe($persona->id);
 });
 
 it('throws and expection with bad capo famiglia', function () {
     $famiglia = Famiglia::factory()->create();
     $minorenne = Persona::factory()->minorenne()->maschio()->create();
-    $now = Carbon::now()->toDatestring();
-    $famiglia->assegnaCapoFamiglia($minorenne, $now);
+    $famiglia->assegnaCapoFamiglia($minorenne);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
 it('throw exceptions  with already capo famiglia', function () {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $now = Carbon::now()->toDatestring();
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $newCapoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaCapoFamiglia($newCapoFam, $now);
+    $famiglia->assegnaCapoFamiglia($newCapoFam);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
 it('throw expection with multiple mogli', function () {
@@ -89,7 +87,6 @@ it('assign a wife succesfully', function () {
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
     expect($persona->id)->toBe($famiglia->moglie()->id);
-    expect($famiglia->data_creazione)->toBe($famiglia->moglie()->pivot->data_entrata);
 
     //moglie
     $famiglia = Famiglia::factory()->create();
@@ -97,7 +94,6 @@ it('assign a wife succesfully', function () {
     $now = Carbon::now()->toDatestring();
     $famiglia->assegnaMoglie($persona, $now);
     expect($famiglia->moglie()->id)->toBe($persona->id);
-    expect($now)->toBe($famiglia->moglie()->pivot->data_entrata);
 });
 
 /**
@@ -119,7 +115,7 @@ it('exit a children from family', function () {
     $act->execute($capoFam, $now, $gruppo);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
-    $famiglia->assegnaCapoFamiglia($capoFam, $now);
+    $famiglia->assegnaCapoFamiglia($capoFam);
     $famiglia->assegnaMoglie($moglie, $now);
 
     $act = app(EntrataDallaNascitaAction::class);

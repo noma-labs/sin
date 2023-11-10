@@ -577,8 +577,8 @@ class Persona extends Model
 
             // aggiorna la data di uscita dalla famiglia con la data di decesso
             $conn->insert(
-                "UPDATE famiglie_persone SET data_uscita = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_decesso, $this->id]
+                "UPDATE famiglie_persone SET stato = '0' WHERE persona_id = ? AND stato = '1'",
+                [$this->id]
             );
 
             DB::connection('db_nomadelfia')->commit();
@@ -658,7 +658,7 @@ class Persona extends Model
     {
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
-            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita')
+            ->withPivot('posizione_famiglia')
             ->get();
         if ($famiglia->count() == 1) {
             return $famiglia[0];
@@ -673,21 +673,19 @@ class Persona extends Model
     {
         return $this->famiglie()
             ->wherePivot('stato', '0')
-            ->withPivot('posizione_famiglia', 'data_entrata', 'data_uscita');
+            ->withPivot('posizione_famiglia');
     }
 
     // Crea una famiglia e aggiunge la persona come componente
-    // Se la data_entrata è null (default) viene settata uguale alla data di creazione della famiglia
-    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione, $data_entrata = null)
+    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione)
     {
         try {
-            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione, &$data_entrata) {
+            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione) {
                 $famiglia = Famiglia::create(['nome_famiglia' => $nome, 'data_creazione' => $data_creazione]);
 
                 $famiglia->componenti()->attach($persona_id, [
                     'stato' => '1',
                     'posizione_famiglia' => $posizione,
-                    'data_entrata' => ($data_entrata ? $data_entrata : $data_creazione),
                 ]);
             });
 
@@ -704,7 +702,7 @@ class Persona extends Model
      * @param Famiglia
      * @return $this
      */
-    public function spostaNellaFamiglia($famiglia, $data_entrata, $posizione, $data_uscita = null)
+    public function spostaNellaFamiglia($famiglia, $posizione)
     {
         if ($famiglia->single()) {
             throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
@@ -714,24 +712,22 @@ class Persona extends Model
         try {
             if (! $attuale) {
                 $this->famiglie()->attach($famiglia->id,
-                    ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
+                    ['stato' => '1', 'posizione_famiglia' => $posizione]);
             } else {
                 // TODO; check se la persona può essere asseganta alla nuova famiglia
-                DB::transaction(function () use (&$attuale, &$famiglia, &$data_uscita, &$data_entrata, &$posizione) {
+                DB::transaction(function () use (&$attuale, &$famiglia, &$posizione) {
                     DB::connection('db_nomadelfia')->update(
                         DB::raw("UPDATE famiglie_persone
-                        SET  data_uscita = :uscita, stato = '0'
+                        SET stato = '0'
                         WHERE persona_id  = :persona AND famiglia_id = :famiglia "),
-                        //  AND data_entrata = :entrata"), # TODO: mettere nella chiave primaria la data entrata ?
                         [
                             'persona' => $this->id,
                             'famiglia' => $attuale->id,
-                            'uscita' => ($data_uscita ? $data_uscita : $data_entrata),
                         ]
                     );
 
                     $this->famiglie()->attach($famiglia->id,
-                        ['stato' => '1', 'posizione_famiglia' => $posizione, 'data_entrata' => $data_entrata]);
+                        ['stato' => '1', 'posizione_famiglia' => $posizione]);
                 });
             }
         } catch (\Exception $e) {

@@ -146,31 +146,29 @@ class FamiglieController extends CoreBaseController
             'persona_id' => 'required',
             'posizione' => 'required',
             'stato' => 'required',
-            'data_entrata' => 'date',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',
             'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
-            'data_entrata.date' => 'La data del cambio di gruppo non è una data corretta.',
         ]);
         $famiglia = Famiglia::findorfail($id);
         $persona = Persona::findorfail($request->persona_id);
 
         switch ($request->posizione) {
             case 'CAPO FAMIGLIA':
-                $famiglia->assegnaCapoFamiglia($persona, $request->data_entrata);
+                $famiglia->assegnaCapoFamiglia($persona);
                 break;
             case 'MOGLIE':
-                $famiglia->assegnaMoglie($persona, $request->data_entrata);
+                $famiglia->assegnaMoglie($persona);
                 break;
             case 'FIGLIO NATO':
                 $famiglia->assegnaFiglioNato($persona);
                 break;
             case 'FIGLIO ACCOLTO':
-                $famiglia->assegnaFiglioAccolto($persona, $request->data_entrata);
+                $famiglia->assegnaFiglioAccolto($persona);
                 break;
             case 'SINGLE':
-                $famiglia->assegnaSingle($persona, $request->data_entrata);
+                $famiglia->assegnaSingle($persona);
                 break;
             default:
                 return redirect(route('nomadelfia.famiglia.dettaglio',
@@ -188,23 +186,16 @@ class FamiglieController extends CoreBaseController
             'persona_id' => 'required',
             'posizione' => 'required',
             'stato' => 'required',
-            'data_entrata' => 'date',
-            'data_uscita' => 'date',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',
             'posizione.required' => 'La posizione nella famiglia è obbligatoria.',
-            'data_entrata.date' => 'La data di entrana nella famiglia non è una data corretta.',
-            'data_uscita.date' => 'La data di uscita dalla famiglia non è una data corretta.',
-
         ]);
         $famiglia = Famiglia::findorfail($id);
         try {
             $famiglia->componenti()->updateExistingPivot($request->persona_id, [
                 'stato' => $request->stato,
                 'posizione_famiglia' => $request->posizione,
-                'data_entrata' => $request->data_entrata,
-                'data_uscita' => $request->data_uscita,
                 'note' => $request->note,
             ]);
 
