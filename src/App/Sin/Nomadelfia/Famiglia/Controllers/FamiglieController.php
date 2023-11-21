@@ -22,14 +22,13 @@ class FamiglieController extends CoreBaseController
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
         $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
 
-        $singleMaschio = Famiglia::onlySingle()->maschio();
-        $singleFemmine = Famiglia::onlySingle()->femmina();
+        $singleMaschio = Famiglia::single()->maschio();
+        $singleFemmine = Famiglia::single()->femmina();
 
         $famigliaError = Famiglia::famigliaConErrore();
-        $personeNoFamiglia = Famiglia::personeSenzaFamiglia();
 
         return view('nomadelfia.famiglie.index',
-            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'personeNoFamiglia'));
+            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
     }
 
     /**

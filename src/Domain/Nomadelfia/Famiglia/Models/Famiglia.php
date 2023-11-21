@@ -9,6 +9,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Traits\Enums;
 use Carbon;
 use Database\Factories\FamigliaFactory;
+use Domain\Nomadelfia\Famiglia\QueryBuilders\FamigliaQueryBuilder;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,12 +42,18 @@ class Famiglia extends Model
     }
 
     protected $enumPosizione = [
+        // TODO: sostiture  CAPO FAMIGLIA con 'marito' e aggiungere una nuova colonna `capo_famiglia` per identificare chi è il capo famiglia
+        // il nome della famiglia è uguale al nome del capo famiglia.
         'CAPO FAMIGLIA',
         'MOGLIE',
         'FIGLIO NATO',
         'FIGLIO ACCOLTO',
-        'SINGLE',
     ];
+
+    public function newEloquentBuilder($query): FamigliaQueryBuilder
+    {
+        return new FamigliaQueryBuilder($query);
+    }
 
     /**
      * Set the nome in uppercase when a new famiglia is insereted.
@@ -270,10 +277,6 @@ class Famiglia extends Model
             if ($capo != null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
-            $single = $this->single();
-            if ($single != null) {
-                throw CouldNotAssignCapoFamiglia::beacuseIsSingle($this, $single);
-            }
             if ($persona->isMaggiorenne() != true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
@@ -297,10 +300,6 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             if ($this->moglie() != null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
-            }
-            $single = $this->single();
-            if ($single != null) {
-                throw CouldNotAssignMoglie::beacuseIsSingle($this, $persona);
             }
             if ($persona->isMaggiorenne() == false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
@@ -366,7 +365,7 @@ class Famiglia extends Model
 
     public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null)
     {
-        if (! in_array($posizione, $this->enumPosizione)) {
+        if (!in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
 
@@ -429,17 +428,6 @@ class Famiglia extends Model
             ->first();
     }
 
-    /**
-     * Ritorna la persona single della famiglia.
-     *
-     * @author Davide Neri
-     **/
-    public function single()
-    {
-        return $this->componenti()
-            ->wherePivot('posizione_famiglia', 'SINGLE')
-            ->first();
-    }
 
     /**
      * Ritorna la moglie della famiglia.
@@ -530,7 +518,8 @@ class Famiglia extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppo_nuovo_id,
         $data_entrata = null
-    ) {
+    )
+    {
         $famiglia_id = $this->id;
 
         return DB::transaction(function () use (
@@ -605,7 +594,7 @@ class Famiglia extends Model
               WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
             )
         );
-        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
+        $result->push((object)['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
 
         $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
             DB::raw(
@@ -620,7 +609,7 @@ class Famiglia extends Model
             )
         );
 
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
             'results' => $famiglieSenzaComponenti,
         ]);
@@ -636,7 +625,7 @@ class Famiglia extends Model
       )
         ")
         );
-        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
+        $result->push((object)['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
 
         $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT *
@@ -651,7 +640,7 @@ class Famiglia extends Model
                 HAVING count(*) > 1
               )")
         );
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
             'results' => $famiglieConPiuGruppi,
         ]);

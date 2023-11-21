@@ -18,13 +18,14 @@ class EntrataMaggiorenneSingleAction
 
     public function __construct(
         EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
     {
-        if (! $persona->isMaggiorenne()) {
+        if (!$persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
 
@@ -36,14 +37,14 @@ class EntrataMaggiorenneSingleAction
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
-        $this->calcFamiglia($dto);
+//        $this->calcFamiglia($dto);
 
         $this->entrataInNomadelfiaAction->execute($dto);
     }
 
     public function calcFamiglia(EntrataPersonaData $dto)
     {
-        $nome_famiglia = $dto->persona->nome.' '.Str::substr($dto->persona->cognome, 0, 2);
+        $nome_famiglia = $dto->persona->nome . ' ' . Str::substr($dto->persona->cognome, 0, 2);
         $data_famiglia = Carbon::parse($dto->persona->data_nascita)->addYears(18);
         $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $data_famiglia->toDateString()]);
         $dto->famiglia_posizione = Famiglia::getSingleEnum();
