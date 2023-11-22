@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class NewMatrimonioAction
 {
-
     public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio)
     {
         $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'data_creazione' => $data_matrimonio]);

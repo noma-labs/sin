@@ -46,7 +46,6 @@ class FamiglieController extends CoreBaseController
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
-
     /**
      * Aggiorna il nome e la data di creazione della famiglia
      *
@@ -74,7 +73,6 @@ class FamiglieController extends CoreBaseController
                 ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
         }
     }
-
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
     {
