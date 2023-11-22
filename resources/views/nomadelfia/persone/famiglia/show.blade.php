@@ -15,7 +15,6 @@
                 @if($attuale)
                 <div class="row">
                     <p class="col-md-3 font-weight-bold"> Nome Famigla </p>
-                    <p class="col-md-3 font-weight-bold"> Data Entrata</p>
                     <p class="col-md-3 font-weight-bold"> Posizione Famiglia</p>
                     <p class="col-md-3 font-weight-bold"> Operazioni</p>
                 </div>
@@ -23,18 +22,12 @@
                     <p class="col-md-3"><a
                                 href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$attuale->id])}}">{{$attuale->nome_famiglia}} </a>
                     </p>
-                    <p class="col-md-3">{{$attuale->pivot->data_entrata }} </p>
                     <p class="col-md-3">{{$attuale->pivot->posizione_famiglia }} </p>
-                    <div class="col-md-3"><a class="btn btn-warning"
-                                             href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$attuale->id])}}"
-                                             role="button">Dettaglio</a>
-                    </div>
                     @else
                     <p class="text-danger">Nessuna famiglia</p>
                     @endif
 
-                    <my-modal modal-title="Sposta in una nuova Famiglia" button-title="Sposta"
-                              button-style="btn-success  my-2">
+                    <my-modal modal-title="Sposta in una nuova Famiglia" button-title="Sposta" button-style="btn-success">
                         <template slot="modal-body-slot">
                             <form class="form" method="POST" id="formFamigliaSposta"
                                   action="{{ route('nomadelfia.personae.famiglie.sposta', ['idPersona' =>$persona->id]) }}">
@@ -91,13 +84,15 @@
                         <template slot="modal-button">
                             <button class="btn btn-success" form="formFamigliaSposta">Salva</button>
                         </template>
-                    </my-modal> <!--end modal aggiungi categoria-->
+                    </my-modal>
 
                     @if($persona->isMaggiorenne() && !$attuale)
                         @include('nomadelfia.templates.nuovoMatrimonio')
                     @endif
                 </div>  <!--end card body-->
-            </div> <!--end card -->
+            </div>
+            </div>
+
             <div class="card my-3">
                 <div class="card-header">
                     Storico famiglie
@@ -105,22 +100,14 @@
                 <div class="card-body">
                     <div class="row">
                         <p class="col-md-3 font-weight-bold"> Nome famiglia</p>
-                        <p class="col-md-3 font-weight-bold"> Data inizio</p>
-                        <p class="col-md-3 font-weight-bold"> Data fine </p>
-                        <p class="col-md-3 font-weight-bold"> Durata </p>
+                        <p class="col-md-3 font-weight-bold"> Posizione</p>
                     </div>
 
                     @forelse($storico as $famigliaStorico)
 
                     <div class="row">
                         <p class="col-md-3"> {{$famigliaStorico->nome_famiglia}}</p>
-                        <p class="col-md-3">{{$famigliaStorico->pivot->data_entrata }} </p>
-                        <p class="col-md-3">{{$famigliaStorico->pivot->data_uscita }} </p>
-
-                        <div class="col-md-3">
-            <span class="badge badge-info"> 
-            {{Carbon::parse($famigliaStorico->pivot->data_uscita)->diffForHumans(Carbon::parse($famigliaStorico->pivot->data_entrata), ['short' => true])}}</span>
-                        </div>
+                         <p class="col-md-3">{{$famigliaStorico->pivot->posizione_famiglia }} </p>
                     </div>
 
                     @empty
@@ -129,7 +116,6 @@
                 </div>  <!--end card body-->
             </div> <!--end card -->
 
-        </div> <!--end card -->
     </div> <!--end col -md-6 -->
 </div> <!--end row justify-->
 

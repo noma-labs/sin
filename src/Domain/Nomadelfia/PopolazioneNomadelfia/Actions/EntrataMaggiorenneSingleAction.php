@@ -37,17 +37,8 @@ class EntrataMaggiorenneSingleAction
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
-//        $this->calcFamiglia($dto);
 
         $this->entrataInNomadelfiaAction->execute($dto);
-    }
-
-    public function calcFamiglia(EntrataPersonaData $dto)
-    {
-        $nome_famiglia = $dto->persona->nome . ' ' . Str::substr($dto->persona->cognome, 0, 2);
-        $data_famiglia = Carbon::parse($dto->persona->data_nascita)->addYears(18);
-        $dto->famiglia = Famiglia::firstOrCreate(['nome_famiglia' => $nome_famiglia], ['data_creazione' => $data_famiglia->toDateString()]);
-        $dto->famiglia_posizione = Famiglia::getSingleEnum();
     }
 
     public function calcGruppoFamiliare(EntrataPersonaData $dto)

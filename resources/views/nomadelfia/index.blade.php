@@ -41,7 +41,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarFamiglie">
             <a class="dropdown-item" href="{{ route('nomadelfia.famiglie') }}">Gestione famiglie</a>
-            <a class="dropdown-item" href="{{route('nomadelfia.famiglie.create')}}">Inserisci Famiglia</a>
+            <a class="dropdown-item" href="{{route('nomadelfia.matrimonio.create')}}">Nuovo Matrimonio</a>
         </div>
     </li>
     <li class="nav-item">

@@ -6,6 +6,7 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
+use App\Nomadelfia\Famiglia\Controllers\MatrimonioController;
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
@@ -176,10 +177,13 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 
     // FAMIGLIE
     Route::get('famiglie', [FamiglieController::class, 'view'])->name('nomadelfia.famiglie');
-    Route::get('famiglie/create', [FamiglieController::class, 'create'])->name('nomadelfia.famiglie.create');
     Route::post('famiglie/create', [FamiglieController::class, 'createConfirm'])->name('nomadelfia.famiglie.create.confirm');
     Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('nomadelfia.famiglia.dettaglio');
     Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name('nomadelfia.famiglia.aggiorna');
+
+    // matrimonio
+    Route::get('matrimonio/create', [MatrimonioController::class, 'create'])->name('nomadelfia.matrimonio.create');
+    Route::post('matrimonio/store', [MatrimonioController::class, 'store'])->name('nomadelfia.matrimonio.store');
 
     // TODO FamigliaUscitaController@store
     Route::post('famiglie/{id}/uscita', [FamiglieController::class, 'uscita'])->name('nomadelfia.famiglie.uscita');

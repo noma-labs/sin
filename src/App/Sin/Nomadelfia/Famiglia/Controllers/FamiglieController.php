@@ -46,15 +46,6 @@ class FamiglieController extends CoreBaseController
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
-    /**
-     * Ritorna la view per creare una nuova famiglia
-     *
-     * @author Davide Neri
-     **/
-    public function create(Request $request)
-    {
-        return view('nomadelfia.famiglie.create');
-    }
 
     /**
      * Aggiorna il nome e la data di creazione della famiglia
@@ -84,26 +75,6 @@ class FamiglieController extends CoreBaseController
         }
     }
 
-    /**
-     * Crea una nuova famiglia
-     *
-     * @author Davide Neri
-     **/
-    public function createConfirm(Request $request)
-    {
-        $validatedData = $request->validate([
-            'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
-            'data_inizio' => 'required|date',
-        ], [
-            'nome.required' => 'Il nome della famiglia  è obbligatorio',
-            'nome.unique' => 'Il nome della famiglia esiste già',
-            'data_inizio.required' => 'La data di creazione della famiglia è obbligatoria.',
-        ]);
-        $fam = Famiglia::create(['nome_famiglia' => $request->nome, 'data_creazione' => $request->data_inizio]);
-
-        return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
-    }
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
     {
