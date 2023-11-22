@@ -6,7 +6,6 @@
 
 <div class="row justify-content-center">
     <div class="col-md-6">
-
         <div class="card">
             <div class="card-header">
                 Famiglia Attuale
@@ -23,9 +22,6 @@
                                 href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$attuale->id])}}">{{$attuale->nome_famiglia}} </a>
                     </p>
                     <p class="col-md-3">{{$attuale->pivot->posizione_famiglia }} </p>
-                    @else
-                    <p class="text-danger">Nessuna famiglia</p>
-                    @endif
 
                     <my-modal modal-title="Sposta in una nuova Famiglia" button-title="Sposta" button-style="btn-success">
                         <template slot="modal-body-slot">
@@ -85,38 +81,38 @@
                             <button class="btn btn-success" form="formFamigliaSposta">Salva</button>
                         </template>
                     </my-modal>
-
-                    @if($persona->isMaggiorenne() && !$attuale)
-                        @include('nomadelfia.templates.nuovoMatrimonio')
-                    @endif
-                </div>  <!--end card body-->
-            </div>
-            </div>
-
-            <div class="card my-3">
-                <div class="card-header">
-                    Storico famiglie
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <p class="col-md-3 font-weight-bold"> Nome famiglia</p>
-                        <p class="col-md-3 font-weight-bold"> Posizione</p>
-                    </div>
+              @else
+                 <div class="row">
+                <p class="text-danger">Nessuna famiglia</p>
+                </div>
+                @endif
+            </div>
+        </div>
 
-                    @forelse($storico as $famigliaStorico)
+        <div class="card my-3">
+            <div class="card-header">
+                Storico famiglie
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <p class="col-md-3 font-weight-bold"> Nome famiglia</p>
+                    <p class="col-md-3 font-weight-bold"> Posizione</p>
+                </div>
 
-                    <div class="row">
-                        <p class="col-md-3"> {{$famigliaStorico->nome_famiglia}}</p>
-                         <p class="col-md-3">{{$famigliaStorico->pivot->posizione_famiglia }} </p>
-                    </div>
+                @forelse($storico as $famigliaStorico)
 
-                    @empty
-                    <p class="text-danger">Nessuna famiglia nello storico</p>
-                    @endforelse
-                </div>  <!--end card body-->
-            </div> <!--end card -->
+                <div class="row">
+                    <p class="col-md-3"> {{$famigliaStorico->nome_famiglia}}</p>
+                     <p class="col-md-3">{{$famigliaStorico->pivot->posizione_famiglia }} </p>
+                </div>
 
-    </div> <!--end col -md-6 -->
-</div> <!--end row justify-->
+                @empty
+                <p class="text-danger">Nessuna famiglia nello storico</p>
+                @endforelse
+            </div>  <!--end card body-->
+        </div>
+   </div>
+</div>
 
 @endsection
