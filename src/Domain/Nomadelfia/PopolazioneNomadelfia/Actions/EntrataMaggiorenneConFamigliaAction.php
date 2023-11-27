@@ -15,14 +15,13 @@ class EntrataMaggiorenneConFamigliaAction
 
     public function __construct(
         EntrataPersonaAction $entrataInNomadelfiaAction
-    )
-    {
+    ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo, Persona $capo_famiglia)
     {
-        if (!$persona->isMaggiorenne()) {
+        if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
         $dto = new EntrataPersonaData();
@@ -48,11 +47,13 @@ class EntrataMaggiorenneConFamigliaAction
         $dto->famiglia = $famiglia;
         if ($dto->persona->id == $capo_famiglia->id) {
             $dto->famiglia_posizione = Famiglia::getCapoFamigliaEnum();
+
             return;
         }
 
-        if (!$dto->persona->isMaschio() and $dto->persona->isMaggiorenne()) {
+        if (! $dto->persona->isMaschio() and $dto->persona->isMaggiorenne()) {
             $dto->famiglia_posizione = Famiglia::getMoglieEnum();
+
             return;
         }
         // a "wrong" assumption: a son of a family coming from outside is always "FIGLIO NATO".
