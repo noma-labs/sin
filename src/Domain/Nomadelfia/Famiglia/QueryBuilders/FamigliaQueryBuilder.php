@@ -24,6 +24,7 @@ class FamigliaQueryBuilder extends Builder
 
     }
 
+    // TODO: move into a new Single models with its dedicated QueryBUilder
     public function single(): FamigliaQueryBuilder
     {
 

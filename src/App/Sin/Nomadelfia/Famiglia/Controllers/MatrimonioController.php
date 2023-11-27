@@ -4,7 +4,7 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Actions\NewMatrimonioAction;
+use Domain\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Faker\Provider\Person;
@@ -32,10 +32,10 @@ class MatrimonioController extends CoreBaseController
         ]);
         $husband = Persona::findOrFail($request->husband);
         $wife = Persona::findOrFail($request->wife);
-        $act = app(NewMatrimonioAction::class);
-        $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
+        $act = app(CreateMarriageAction::class);
+        $fam = $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
+            ['id' => $fam->id]))->withSuccess("Matrionio creato con successo");
     }
 }

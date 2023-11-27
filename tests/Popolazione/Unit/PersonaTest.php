@@ -274,10 +274,7 @@ it('testEntrataMaggiorenneMaschioSingle', function () {
     expect($persona->gruppofamiliareAttuale()->id, $gruppo->id);
     expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
 
-    $this->assertNotNull($persona->famigliaAttuale());
-    // check that the date creation of the family is when the person is 18 years old.
-    expect($persona->famigliaAttuale()->data_creazione,
-        Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
+    expect($persona->famigliaAttuale())->toBeNull();
 });
 
 it('testEntrataMaggiorenneFemminaSingle', function () {
@@ -299,9 +296,7 @@ it('testEntrataMaggiorenneFemminaSingle', function () {
         ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
         ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
 
-    $this->assertNotNull($persona->famigliaAttuale());
-    // check that the date creation of the family is when the person is 18 years old.
-    expect($persona->famigliaAttuale()->data_creazione)->toBe(Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
+    expect($persona->famigliaAttuale())->toBeNull();
 });
 
 it('testEntrataMaggiorenneSposato', function () {

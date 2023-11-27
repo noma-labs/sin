@@ -72,15 +72,6 @@ it('throw expection with minorenne', function () {
     $famiglia->assegnaMoglie($persona);
 })->throws(CouldNotAssignMoglie::class);
 
-it('throw expection with single', function () {
-    $famiglia = Famiglia::factory()->create();
-
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $famiglia->assegnaSingle($persona);
-
-    $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $famiglia->assegnaMoglie($persona);
-})->throws(CouldNotAssignMoglie::class);
 
 it('assign a wife succesfully', function () {
     $famiglia = Famiglia::factory()->create();
