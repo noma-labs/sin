@@ -38,6 +38,7 @@ class CreateMarriageAction
             DB::connection('db_nomadelfia')->rollback();
             dd($e);
         }
+
         return $fam;
     }
 }

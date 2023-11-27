@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 /**
  * @property string $nome
- * @property integer $id
+ * @property int $id
  */
 class GruppoFamiliare extends Model
 {
@@ -96,10 +96,10 @@ class GruppoFamiliare extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if (!$persona->isEffettivo()) {
+            if (! $persona->isEffettivo()) {
                 throw CouldNotAssignCapogruppo::isNotEffetivo($persona);
             }
-            if (!$persona->isMaschio()) {
+            if (! $persona->isMaschio()) {
                 throw CouldNotAssignCapogruppo::isNotAMan($persona);
             }
             DB::connection('db_nomadelfia')->beginTransaction();
@@ -177,24 +177,24 @@ class GruppoFamiliare extends Model
     * Ricostruisce le famiglie del gruppo familiare partendo dalle persone presenti.
     *
     */
-//    public function Famiglie()
-//    {
-//        $famiglie = DB::connection('db_nomadelfia')->select(
-//            DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita
-//      FROM gruppi_persone
-//      LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id
-//      LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
-//      INNER JOIN persone ON gruppi_persone.persona_id = persone.id
-//      WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
-//          AND gruppi_persone.stato = '1'
-//          AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
-//          AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-//      ORDER BY  famiglie.nome_famiglia, persone.data_nascita ASC"), ['gruppo' => $this->id]);
-//
-//        $famiglie = collect($famiglie)->groupBy('famiglia_id');
-//
-//        return $famiglie;
-//    }
+    //    public function Famiglie()
+    //    {
+    //        $famiglie = DB::connection('db_nomadelfia')->select(
+    //            DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita
+    //      FROM gruppi_persone
+    //      LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id
+    //      LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
+    //      INNER JOIN persone ON gruppi_persone.persona_id = persone.id
+    //      WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
+    //          AND gruppi_persone.stato = '1'
+    //          AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
+    //          AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
+    //      ORDER BY  famiglie.nome_famiglia, persone.data_nascita ASC"), ['gruppo' => $this->id]);
+    //
+    //        $famiglie = collect($famiglie)->groupBy('famiglia_id');
+    //
+    //        return $famiglie;
+    //    }
 
     public function isCentroDiSpirito(): bool
     {

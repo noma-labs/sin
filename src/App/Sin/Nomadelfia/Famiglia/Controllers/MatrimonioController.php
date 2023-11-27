@@ -36,6 +36,6 @@ class MatrimonioController extends CoreBaseController
         $fam = $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $fam->id]))->withSuccess("Matrionio creato con successo");
+            ['id' => $fam->id]))->withSuccess('Matrionio creato con successo');
     }
 }
