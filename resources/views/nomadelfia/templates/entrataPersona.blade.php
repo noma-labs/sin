@@ -2,6 +2,7 @@
     {{ csrf_field() }}
     <persona-entrata
             api-nomadelfia-famiglie="{{route('api.nomadeflia.famiglie')}}"
+            api-nomadelfia-persone="{{route('api.nomadeflia.persone.search')}}"
             api-nomadelfia-persona="{{route('api.nomadelfia.persona', ['id'=>$persona->id])}}"
             api-nomadelfia-gruppi="{{route('api.nomadeflia.gruppi')}}"
     >

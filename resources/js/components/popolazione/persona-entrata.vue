@@ -77,6 +77,15 @@
                 <autocomplete placeholder="Inserisci Gruppo Familiare..." name="gruppo_id" :url="this.apiNomadelfiaGruppi"></autocomplete>
             </div>
         </div>
+
+        <div v-if="isMaggiorenneConFamiglia" class="form-group row">
+          <label  class="col-form-label col-sm-6" for="gruppo">Indicare il capo famiglia:
+          <small id="emailHelp" class="form-text text-muted">Indicare la stessa persona se è lei stessa il capo famiglia.</small>
+          </label>
+          <div class="col-sm-6">
+            <autocomplete placeholder="Inserisci il capo famiglia..." name="capo_famiglia_id" :url="this.apiNomadelfiaPersone"></autocomplete>
+          </div>
+        </div>
 </div>
 </template>
 
@@ -87,6 +96,7 @@ export default {
 	components: {vSelect},
     props: [
 		'apiNomadelfiaFamiglie',
+		'apiNomadelfiaPersone',
         'apiNomadelfiaPersona',
         'apiNomadelfiaGruppi'
 	],

@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
+use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
@@ -14,13 +15,14 @@ class EntrataMaggiorenneConFamigliaAction
 
     public function __construct(
         EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
+    )
+    {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
+    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo, Persona $capo_famiglia)
     {
-        if (! $persona->isMaggiorenne()) {
+        if (!$persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
         $dto = new EntrataPersonaData();
@@ -31,15 +33,31 @@ class EntrataMaggiorenneConFamigliaAction
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
-        $this->calcFamiglia($dto);
+        $this->calcFamiglia($dto, $capo_famiglia);
 
         $this->entrataInNomadelfiaAction->execute($dto);
 
     }
 
-    public function calcFamiglia(EntrataPersonaData $dto)
+    public function calcFamiglia(EntrataPersonaData $dto, Persona $capo_famiglia)
     {
-        $dto->famiglia_posizione = '';
+        $famiglia = $capo_famiglia->famigliaAttuale();
+        if ($famiglia == null) {
+            $famiglia = Famiglia::create(['nome_famiglia' => $capo_famiglia->nominativo]);
+        }
+        $dto->famiglia = $famiglia;
+        if ($dto->persona->id == $capo_famiglia->id) {
+            $dto->famiglia_posizione = Famiglia::getCapoFamigliaEnum();
+            return;
+        }
+
+        if (!$dto->persona->isMaschio() and $dto->persona->isMaggiorenne()) {
+            $dto->famiglia_posizione = Famiglia::getMoglieEnum();
+            return;
+        }
+        // a "wrong" assumption: a son of a family coming from outside is always "FIGLIO NATO".
+        $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
+
     }
 
     public function calcPosizione(EntrataPersonaData $dto)

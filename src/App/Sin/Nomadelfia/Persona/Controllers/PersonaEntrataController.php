@@ -54,8 +54,9 @@ class PersonaEntrataController extends CoreBaseController
                 break;
             case 'maggiorenne_famiglia':
                 $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
+                $capo_famiglia = Persona::findorfail($request->input('capo_famiglia_id'));
                 $act = app(EntrataMaggiorenneConFamigliaAction::class);
-                $act->execute($persona, $data_entrata, $gruppoFamiliare);
+                $act->execute($persona, $data_entrata, $gruppoFamiliare, $capo_famiglia);
                 break;
             default:
                 return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
@@ -63,7 +64,7 @@ class PersonaEntrataController extends CoreBaseController
         }
 
         return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+            [$persona->id])->withSuccess('Persona ' . $persona->nominativo . 'inserita correttamente.');
     }
 
     public function update(Request $request, $idPersona, $entrata)
