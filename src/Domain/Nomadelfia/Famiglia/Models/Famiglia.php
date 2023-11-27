@@ -83,11 +83,6 @@ class Famiglia extends Model
         return self::getEnum('Posizione')[3];
     }
 
-    public static function getSingleEnum()
-    {
-        return self::getEnum('Posizione')[4];
-    }
-
     public static function figliEnums()
     {
         return collect(self::getEnum('Posizione'))->filter(function ($value, $key) {
@@ -159,15 +154,6 @@ class Famiglia extends Model
         return self::FamigliePerPosizioni('CAPO FAMIGLIA');
     }
 
-    /**
-     * Ritorna tutti i single delle famiglie
-     *
-     * @author Davide Neri
-     **/
-    public static function OnlySingle()
-    {
-        return self::FamigliePerPosizioni('SINGLE', '1');
-    }
 
     /**
      * Uscita di una famiglia da Nomadelfia.
@@ -191,8 +177,8 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA o il SINGLE della famiglia.
-     * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE.
+     * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA
+     * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA
      *
      * @author Davide Neri
      **/
@@ -203,7 +189,7 @@ class Famiglia extends Model
             FROM famiglie_persone
             INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
             INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-            WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+            WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
                 and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1' and famiglie_persone.stato = '1'"),
             ['famiglia_id' => $this->id]
         ));
@@ -227,7 +213,7 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA o il SINGLE della famiglia
+     * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA della famiglia
      *
      * @author Davide Neri
      **/
@@ -238,7 +224,7 @@ class Famiglia extends Model
       FROM famiglie_persone
       INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
        and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
             ['famiglia_id' => $this->id]
         );
@@ -335,7 +321,6 @@ class Famiglia extends Model
     public function assegnaFiglioNato($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
-        // TODO: check that the family is not a SINGLE
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
@@ -350,10 +335,9 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function assegnaFiglioAccolto($persona, $data_accolto, $note = null)
+    public function assegnaFiglioAccolto($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
-        // TODO: check that the family is not a SINLGE
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
@@ -365,7 +349,7 @@ class Famiglia extends Model
 
     public function assegnaComponente($persona, string $posizione, string $stato = '1', $note = null)
     {
-        if (! in_array($posizione, $this->enumPosizione)) {
+        if (!in_array($posizione, $this->enumPosizione)) {
             throw new InvalidArgumentException("La posizione `{$posizione}` è invalida");
         }
 
@@ -517,7 +501,8 @@ class Famiglia extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppo_nuovo_id,
         $data_entrata = null
-    ) {
+    )
+    {
         $famiglia_id = $this->id;
 
         return DB::transaction(function () use (
@@ -571,7 +556,6 @@ class Famiglia extends Model
 
     /*
     *  Ritorna le famiglie che hanno un errore nei loro componenti
-    *   1) ci soono più di un SINGLE nella famiglia
     *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
     *   3) ci sono più di una MOGLIE nella famiglia
     * Ritonra le famiglie senza componenti
@@ -589,10 +573,10 @@ class Famiglia extends Model
                   GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
               ) AS g 
               INNER JOIN famiglie ON famiglie.id = g.famiglia_id
-              WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
+              WHERE (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
             )
         );
-        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
+        $result->push((object)['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
 
         $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
             DB::raw(
@@ -607,7 +591,7 @@ class Famiglia extends Model
             )
         );
 
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
             'results' => $famiglieSenzaComponenti,
         ]);
@@ -619,11 +603,11 @@ class Famiglia extends Model
       WHERE famiglie.id NOT IN (
            SELECT famiglie_persone.famiglia_id
            FROM famiglie_persone
-           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' OR famiglie_persone.posizione_famiglia = 'SINGLE')
+           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
       )
         ")
         );
-        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
+        $result->push((object)['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
 
         $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
             DB::raw("SELECT *
@@ -633,12 +617,12 @@ class Famiglia extends Model
                 FROM famiglie_persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
                 INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-                WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
+                WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
                 GROUP BY famiglie_persone.famiglia_id
                 HAVING count(*) > 1
               )")
         );
-        $result->push((object) [
+        $result->push((object)[
             'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
             'results' => $famiglieConPiuGruppi,
         ]);

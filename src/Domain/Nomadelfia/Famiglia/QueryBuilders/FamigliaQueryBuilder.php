@@ -24,7 +24,6 @@ class FamigliaQueryBuilder extends Builder
 
     }
 
-    // TODO: move into a new Single models with its dedicated QueryBUilder
     public function single(): FamigliaQueryBuilder
     {
 
@@ -33,7 +32,8 @@ class FamigliaQueryBuilder extends Builder
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNotIn('persone.id', function ($query) {
                 $query->select('famiglie_persone.persona_id')
-                    ->from('famiglie_persone');
+                    ->from('famiglie_persone')
+                    ->where('famiglie_persone.stato', '=', '1');
             })
             ->whereNull('popolazione.data_uscita')
             ->orderBy('persone.nominativo');

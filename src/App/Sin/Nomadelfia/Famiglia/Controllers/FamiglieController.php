@@ -135,9 +135,6 @@ class FamiglieController extends CoreBaseController
             case 'FIGLIO ACCOLTO':
                 $famiglia->assegnaFiglioAccolto($persona);
                 break;
-            case 'SINGLE':
-                $famiglia->assegnaSingle($persona);
-                break;
             default:
                 return redirect(route('nomadelfia.famiglia.dettaglio',
                     ['id' => $id]))->withErrors("Posizione `{$request->posizione}` non riconosciuta");
