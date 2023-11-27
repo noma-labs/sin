@@ -3,14 +3,11 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
-use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Illuminate\Support\Str;
 
 class EntrataMaggiorenneSingleAction
 {
@@ -18,14 +15,13 @@ class EntrataMaggiorenneSingleAction
 
     public function __construct(
         EntrataPersonaAction $entrataInNomadelfiaAction
-    )
-    {
+    ) {
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
     {
-        if (!$persona->isMaggiorenne()) {
+        if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
 

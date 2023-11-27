@@ -53,6 +53,7 @@ class FamigliaQueryBuilder extends Builder
     public function maggiorenni(): FamigliaQueryBuilder
     {
         $data = Carbon::now()->subYears(18)->toDatestring();
+
         return $this->where('persone.data_nascita', '<', $data);
     }
 }

@@ -7,7 +7,6 @@ use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
-
 //models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -77,7 +76,7 @@ class ApiController extends BaseController
 
     public function famigliaCreate(Request $request)
     {
-        return $request->input('nome') . $request->input('cognome');
+        return $request->input('nome').$request->input('cognome');
     }
 
     public function posizioniAll(Request $request)

@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Faker\Provider\Person;
 use Illuminate\Http\Request;
 
 class MatrimonioController extends CoreBaseController
@@ -16,6 +15,7 @@ class MatrimonioController extends CoreBaseController
     {
         $singleMale = Famiglia::notAlreadyMarried()->male()->maggiorenni()->get();
         $singleFemale = Famiglia::notAlreadyMarried()->female()->maggiorenni()->get();
+
         return view('nomadelfia.famiglie.create', compact('singleMale', 'singleFemale'));
     }
 

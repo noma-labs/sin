@@ -414,18 +414,19 @@ class NomadelfiaTableSeeder extends Seeder
         $act = app(EntrataMaggiorenneSingleAction::class);
         $act->execute(Persona::factory()->maggiorenne()->maschio()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
         $act->execute(Persona::factory()->maggiorenne()->femmina()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+
         return $this;
     }
 
-//    protected function insertSingleInPopolazione(): self
-//    {
-//        $act = app(EntrataMaggiorenneSingleAction::class);
-//        $act->execute(
-//            Persona::factory()->maggiorenne()->femmina()->create(),
-//            Carbon::now()->toDatestring(),
-//            GruppoFamiliare::all()->random()
-//        );
-//
-//        return $this;
-//    }
+    //    protected function insertSingleInPopolazione(): self
+    //    {
+    //        $act = app(EntrataMaggiorenneSingleAction::class);
+    //        $act->execute(
+    //            Persona::factory()->maggiorenne()->femmina()->create(),
+    //            Carbon::now()->toDatestring(),
+    //            GruppoFamiliare::all()->random()
+    //        );
+    //
+    //        return $this;
+    //    }
 }
