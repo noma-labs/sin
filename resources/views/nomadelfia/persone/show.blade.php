@@ -261,7 +261,7 @@
                                 <div class="col-sm-6">
                                     @if ($gruppoAttuale)
                                     <a href="{{route('nomadelfia.gruppifamiliari.dettaglio', [$gruppoAttuale->id])}}">{{
-                                        $gruppoAttuale->nome }} </a>
+                                            $gruppoAttuale->nome }} </a>
                                     @else
                                     <span class="text-danger">Nessun gruppo</span>
                                     @endif
@@ -279,7 +279,7 @@
                                     @forelse ($persona->aziendeAttuali()->get() as $azienda)
                                     <p>
                                         <a href="{{route('nomadelfia.aziende.edit', [$azienda->id])}}">{{
-                                            $azienda->nome_azienda }} </a>
+                                                $azienda->nome_azienda }} </a>
                                         ({{ $azienda->pivot->mansione }})</p>
                                     @empty
                                     <span class="text-danger">Nessuna azienda</span>
@@ -298,7 +298,7 @@
                                     @forelse ($persona->incarichiAttuali()->get() as $incarico)
                                     <p>
                                         <a href="{{route('nomadelfia.incarichi.edit', [$incarico->id])}}">{{
-                                            $incarico->nome }} </a>
+                                                $incarico->nome }} </a>
                                         (@diffHumans($incarico->pivot->data_inizio))</p>
                                     @empty
                                     <span class="text-danger">Nessun incarico</span>
@@ -349,9 +349,9 @@
                         @else
                         <li class="list-group-item">
                             <div class="row">
-                                <label class="col-sm-4 font-weight-bold">Nome Famiglia:</label>
+                                <label class="col-sm-4 font-weight-bold">Tipo:</label>
                                 <div class="col-sm-8">
-                                    <span class="text-danger">Nessuna famiglia</span>
+                                    <span>Single</span>
                                 </div>
                             </div>
                         </li>

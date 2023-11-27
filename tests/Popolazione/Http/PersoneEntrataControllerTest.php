@@ -136,20 +136,15 @@ it('entrata_maggiorenne_single', function () {
             'data_entrata' => $data_entrata,
         ]);
 
-    $this->assertTrue($persona->isPersonaInterna());
-    $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
-    $this->assertEquals($persona->posizioneAttuale()->id, $ospite->id);
-    $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
-    $this->assertEquals($persona->statoAttuale()->id, $celibe->id);
-    $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
-    $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
-    $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
-
-    $this->assertNotNull($persona->famigliaAttuale());
-    // check that the date creation of the family is when the person is 18 years old.
-    $this->assertEquals($persona->famigliaAttuale()->data_creazione,
-        Carbon::parse($persona->data_nascita)->addYears(18)->toDatestring());
-    $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getSingleEnum());
+    expect($persona->isPersonaInterna())->toBeTrue()
+        ->and($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
+        ->and($persona->posizioneAttuale()->id)->toBe($ospite->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
+        ->and($persona->statoAttuale()->id)->toBe($celibe->id)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata)
+        ->and($persona->famigliaAttuale())->toBeNull();
 }
 );
 

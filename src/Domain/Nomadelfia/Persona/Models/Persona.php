@@ -660,13 +660,14 @@ class Persona extends Model
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
             ->get();
+        if ($famiglia->count() == 0) {
+            // IF null; the person has no a family so it is a single
+            return null;
+        }
         if ($famiglia->count() == 1) {
             return $famiglia[0];
-        } elseif ($famiglia->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
         }
+        throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
     }
 
     public function famiglieStorico(): BelongsToMany

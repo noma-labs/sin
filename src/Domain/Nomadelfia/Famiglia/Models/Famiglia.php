@@ -9,6 +9,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Traits\Enums;
 use Carbon;
 use Database\Factories\FamigliaFactory;
+use Domain\Nomadelfia\Famiglia\QueryBuilders\FamigliaQueryBuilder;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,12 +42,18 @@ class Famiglia extends Model
     }
 
     protected $enumPosizione = [
+        // TODO: sostiture  CAPO FAMIGLIA con 'marito' e aggiungere una nuova colonna `capo_famiglia` per identificare chi è il capo famiglia
+        // il nome della famiglia è uguale al nome del capo famiglia.
         'CAPO FAMIGLIA',
         'MOGLIE',
         'FIGLIO NATO',
         'FIGLIO ACCOLTO',
-        'SINGLE',
     ];
+
+    public function newEloquentBuilder($query): FamigliaQueryBuilder
+    {
+        return new FamigliaQueryBuilder($query);
+    }
 
     /**
      * Set the nome in uppercase when a new famiglia is insereted.
@@ -74,11 +81,6 @@ class Famiglia extends Model
     public static function getFiglioAccoltoEnum()
     {
         return self::getEnum('Posizione')[3];
-    }
-
-    public static function getSingleEnum()
-    {
-        return self::getEnum('Posizione')[4];
     }
 
     public static function figliEnums()
@@ -153,16 +155,6 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna tutti i single delle famiglie
-     *
-     * @author Davide Neri
-     **/
-    public static function OnlySingle()
-    {
-        return self::FamigliePerPosizioni('SINGLE', '1');
-    }
-
-    /**
      * Uscita di una famiglia da Nomadelfia.
      * Esegure la funzione di uscita su tutti componenti ATTIVI della famiglia.
      *
@@ -184,8 +176,8 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA o il SINGLE della famiglia.
-     * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA o SINGLE.
+     * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA
+     * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA
      *
      * @author Davide Neri
      **/
@@ -196,7 +188,7 @@ class Famiglia extends Model
             FROM famiglie_persone
             INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
             INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-            WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+            WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
                 and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '1' and famiglie_persone.stato = '1'"),
             ['famiglia_id' => $this->id]
         ));
@@ -220,7 +212,7 @@ class Famiglia extends Model
     }
 
     /**
-     * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA o il SINGLE della famiglia
+     * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA della famiglia
      *
      * @author Davide Neri
      **/
@@ -231,7 +223,7 @@ class Famiglia extends Model
       FROM famiglie_persone
       INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')
+      WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
        and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'"),
             ['famiglia_id' => $this->id]
         );
@@ -270,10 +262,6 @@ class Famiglia extends Model
             if ($capo != null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
-            $single = $this->single();
-            if ($single != null) {
-                throw CouldNotAssignCapoFamiglia::beacuseIsSingle($this, $single);
-            }
             if ($persona->isMaggiorenne() != true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
@@ -297,10 +285,6 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             if ($this->moglie() != null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
-            }
-            $single = $this->single();
-            if ($single != null) {
-                throw CouldNotAssignMoglie::beacuseIsSingle($this, $persona);
             }
             if ($persona->isMaggiorenne() == false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
@@ -336,7 +320,6 @@ class Famiglia extends Model
     public function assegnaFiglioNato($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
-        // TODO: check that the family is not a SINGLE
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
@@ -351,10 +334,9 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function assegnaFiglioAccolto($persona, $data_accolto, $note = null)
+    public function assegnaFiglioAccolto($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
-        // TODO: check that the family is not a SINLGE
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
@@ -426,18 +408,6 @@ class Famiglia extends Model
         return $this->componenti()
             ->withPivot('stato', 'posizione_famiglia')
             ->wherePivot('posizione_famiglia', 'CAPO FAMIGLIA')
-            ->first();
-    }
-
-    /**
-     * Ritorna la persona single della famiglia.
-     *
-     * @author Davide Neri
-     **/
-    public function single()
-    {
-        return $this->componenti()
-            ->wherePivot('posizione_famiglia', 'SINGLE')
             ->first();
     }
 
@@ -584,7 +554,6 @@ class Famiglia extends Model
 
     /*
     *  Ritorna le famiglie che hanno un errore nei loro componenti
-    *   1) ci soono più di un SINGLE nella famiglia
     *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
     *   3) ci sono più di una MOGLIE nella famiglia
     * Ritonra le famiglie senza componenti
@@ -602,7 +571,7 @@ class Famiglia extends Model
                   GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
               ) AS g 
               INNER JOIN famiglie ON famiglie.id = g.famiglia_id
-              WHERE (g.posizione_famiglia = 'SINGLE' AND g.count>1) OR   (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
+              WHERE (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
             )
         );
         $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
@@ -632,7 +601,7 @@ class Famiglia extends Model
       WHERE famiglie.id NOT IN (
            SELECT famiglie_persone.famiglia_id
            FROM famiglie_persone
-           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' OR famiglie_persone.posizione_famiglia = 'SINGLE')
+           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
       )
         ")
         );
@@ -646,7 +615,7 @@ class Famiglia extends Model
                 FROM famiglie_persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
                 INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-                WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA' or famiglie_persone.posizione_famiglia = 'SINGLE')  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
+                WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
                 GROUP BY famiglie_persone.famiglia_id
                 HAVING count(*) > 1
               )")

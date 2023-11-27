@@ -22,14 +22,13 @@ class FamiglieController extends CoreBaseController
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
         $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
 
-        $singleMaschio = Famiglia::onlySingle()->maschio();
-        $singleFemmine = Famiglia::onlySingle()->femmina();
+        $singleMaschio = Famiglia::single()->maschio();
+        $singleFemmine = Famiglia::single()->femmina();
 
         $famigliaError = Famiglia::famigliaConErrore();
-        $personeNoFamiglia = Famiglia::personeSenzaFamiglia();
 
         return view('nomadelfia.famiglie.index',
-            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError', 'personeNoFamiglia'));
+            compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
     }
 
     /**
@@ -45,16 +44,6 @@ class FamiglieController extends CoreBaseController
         $gruppiStorici = $famiglia->gruppiFamiliariStorico();
 
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
-    }
-
-    /**
-     * Ritorna la view per creare una nuova famiglia
-     *
-     * @author Davide Neri
-     **/
-    public function create(Request $request)
-    {
-        return view('nomadelfia.famiglie.create');
     }
 
     /**
@@ -83,27 +72,6 @@ class FamiglieController extends CoreBaseController
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
         }
-    }
-
-    /**
-     * Crea una nuova famiglia
-     *
-     * @author Davide Neri
-     **/
-    public function createConfirm(Request $request)
-    {
-        $validatedData = $request->validate([
-            'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
-            'data_inizio' => 'required|date',
-        ], [
-            'nome.required' => 'Il nome della famiglia  è obbligatorio',
-            'nome.unique' => 'Il nome della famiglia esiste già',
-            'data_inizio.required' => 'La data di creazione della famiglia è obbligatoria.',
-        ]);
-        $fam = Famiglia::create(['nome_famiglia' => $request->nome, 'data_creazione' => $request->data_inizio]);
-
-        return redirect(route('nomadelfia.famiglia.dettaglio',
-            ['id' => $fam->id]))->withSuccess("Famiglia $fam->nome_famiglia creata con successo");
     }
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
@@ -166,9 +134,6 @@ class FamiglieController extends CoreBaseController
                 break;
             case 'FIGLIO ACCOLTO':
                 $famiglia->assegnaFiglioAccolto($persona);
-                break;
-            case 'SINGLE':
-                $famiglia->assegnaSingle($persona);
                 break;
             default:
                 return redirect(route('nomadelfia.famiglia.dettaglio',

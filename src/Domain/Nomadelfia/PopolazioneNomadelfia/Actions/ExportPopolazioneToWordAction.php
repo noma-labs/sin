@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Carbon\Carbon;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -193,10 +194,10 @@ class ExportPopolazioneToWordAction
                 $gruppiSect = $phpWord->addSection($colStyle4Next);
                 $gruppiSect->addTitle($gruppo->nome.' '.$gruppo->personeAttuale()->count(), 2);
 
-                foreach ($gruppo->Single() as $single) {
+                foreach (GruppoFamiliare::single($gruppo)->get() as $single) {
                     $gruppiSect->addTitle($single->nominativo, 3);
                 }
-                foreach ($gruppo->Famiglie() as $famiglia_id => $componenti) {
+                foreach (collect(GruppoFamiliare::families($gruppo)->get())->groupBy('famiglia_id') as $famiglia_id => $componenti) {
                     $gruppiSect->addTextBreak(1);
                     foreach ($componenti as $componente) {
                         if (! Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {

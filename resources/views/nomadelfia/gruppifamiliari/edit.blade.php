@@ -63,11 +63,11 @@
                     <template slot="modal-button">
                         <button class="btn btn-success" form="formPersonaGruppoModifica{{$gruppo->id}}" >Salva</button>
                     </template>
-                    </my-modal> <!--end modal modifica posizione-->
-                </div> <!--end col dati statistici -->
-            </div>  <!--end row -->           
-         </div> <!--end card body -->
-       </div>  <!--end card -->
+                    </my-modal>
+                </div>
+            </div>
+         </div>
+       </div>
     </div> 
 </div>
 
@@ -78,23 +78,18 @@
                 <h4 class="card-title">Persone divise per famiglie</h4>
                 <ul class="list-group list-group-flush">
                   
-                    @foreach($single as $famiglia_single)
+                    @foreach($single as $persona)
                     <li class="list-group-item">
                         <div class="row">
-                            @if ($famiglia_single->famiglia_id === "")
-                                <p class="text-danger">Persone senza famiglia </p>
-                            @else
+<!--                        TODO: order by sesso, nominativo-->
                             <div class="col-md-6">
                                 <div class="font-weight-bold mt-2">
-                                        <a href="{{route('nomadelfia.famiglia.dettaglio',['id'=>$famiglia_single->famiglia_id])}}">
-                                                {{$famiglia_single->nominativo}}
-                                        </a>
-                                </div> 
+                                        @include("nomadelfia.templates.persona", ['persona' => $persona])
+                                </div>
                             </div>
                             <div class="col-md-4 offset-md-2">
-                                    @include('nomadelfia.templates.spostaFamigliaNuovoGruppo', ['famiglia_id'=>$famiglia_single->famiglia_id, 'componenti'=>[], "gruppo_id"=>$gruppo->id])
+<!--                            TODO: sposta singolo in nuovo gruppo-->
                             </div>
-                            @endif
                         </div>
                         
                     </li>

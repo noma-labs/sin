@@ -27,8 +27,8 @@ class NomadelfiaTableSeeder extends Seeder
             ->createCaricheCostituzionali()
             ->createIncarichi();
 
-        $this->insertFamigliaInPopolazione();
-        $this->insertSingleInPopolazione();
+        $this->insertFamigliaInPopolazione()
+            ->insertPersoneSinglePopolazione();
 
     }
 
@@ -409,15 +409,24 @@ class NomadelfiaTableSeeder extends Seeder
         return $this;
     }
 
-    protected function insertSingleInPopolazione(): self
+    protected function insertPersoneSinglePopolazione(): self
     {
         $act = app(EntrataMaggiorenneSingleAction::class);
-        $act->execute(
-            Persona::factory()->maggiorenne()->femmina()->create(),
-            Carbon::now()->toDatestring(),
-            GruppoFamiliare::all()->random()
-        );
+        $act->execute(Persona::factory()->maggiorenne()->maschio()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+        $act->execute(Persona::factory()->maggiorenne()->femmina()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
 
         return $this;
     }
+
+    //    protected function insertSingleInPopolazione(): self
+    //    {
+    //        $act = app(EntrataMaggiorenneSingleAction::class);
+    //        $act->execute(
+    //            Persona::factory()->maggiorenne()->femmina()->create(),
+    //            Carbon::now()->toDatestring(),
+    //            GruppoFamiliare::all()->random()
+    //        );
+    //
+    //        return $this;
+    //    }
 }

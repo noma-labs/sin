@@ -83,7 +83,7 @@ it('manage exit of an adult', function () {
     expect($persona->statoAttuale()->id)->toBe($celibe->id)
         ->and($persona->gruppofamiliareAttuale())->toBeNull()
         ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_uscita)
-        ->and($persona->famigliaAttuale())->not->toBeNull()
+        ->and($persona->famigliaAttuale())->toBeNull()
         ->and($persona->aziendeAttuali()->count())->toBe(0)
         ->and($azienda->lavoratoriStorici()->count())->toBe(1)
         ->and($incarico->lavoratoriAttuali()->count())->toBe(0)
