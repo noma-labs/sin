@@ -43,7 +43,6 @@ tasks:
 
   lint:check:
     cmds:
-#      - docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint --test
       - ./vendor/bin/pint --test
 
   analyse:
