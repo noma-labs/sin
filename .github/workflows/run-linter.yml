@@ -1,13 +1,16 @@
 name: run_linter
 
-on:
-  push:
-    paths:
-      - '**.php'
+on: [push, pull_request]
+#on:
+#  push:
+#    paths:
+#      - '**.php'
 
 jobs:
   phplint:
     runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
 
     steps:
       - name: Install Task
