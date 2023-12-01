@@ -37,6 +37,10 @@ tasks:
     cmds:
       - ./vendor/bin/sail  test --stop-on-error "$@"
 
+  test:ci:
+    cmds:
+      - ./vendor/bin/pest
+
   lint:
     cmds:
       - docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint

@@ -1,6 +1,9 @@
 name: run_tests
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   test:
@@ -43,4 +46,4 @@ jobs:
           php artisan key:generate
 
       - name: Run tests
-        run: task test
+        run: task test:ci
