@@ -23,7 +23,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - run: task lint:check
+      - name: Install composer deps
+        run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+
+      - run: task analyse
 
 
 #      - name: "laravel-pint"
