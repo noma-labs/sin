@@ -26,7 +26,7 @@ jobs:
       - name: Install composer deps
         run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
-      - run: task analyse
+      - run: task lint:check
 
 
 #      - name: "laravel-pint"
