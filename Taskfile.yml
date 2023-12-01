@@ -44,19 +44,3 @@ tasks:
   analyse:
     cmds:
       - ./vendor/bin/phpstan analyse -l 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
