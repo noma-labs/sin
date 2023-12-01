@@ -20,7 +20,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - run: task build:dependencies
+      - run: task lint:check
 
 
 #      - name: "laravel-pint"
