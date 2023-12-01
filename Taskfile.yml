@@ -37,6 +37,10 @@ tasks:
     cmds:
       - ./vendor/bin/sail  test --stop-on-error "$@"
 
+  test:ci:
+    cmds:
+      - ./vendor/bin/pest
+
   lint:
     cmds:
       - docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint
@@ -60,3 +64,12 @@ tasks:
 
 
 
+=======
+  lint:check:
+    cmds:
+      - ./vendor/bin/pint --test
+
+  analyse:
+    cmds:
+      - ./vendor/bin/phpstan analyse -l 1
+>>>>>>> 504715df177d73351c55f78fd74301f87e5ca8d6

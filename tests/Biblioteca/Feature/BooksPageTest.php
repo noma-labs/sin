@@ -7,7 +7,6 @@ use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
 use App\Biblioteca\Models\Editore;
 use App\Biblioteca\Models\Libro;
-
 use function Pest\Laravel\post;
 
 it('will search books by location', function () {
