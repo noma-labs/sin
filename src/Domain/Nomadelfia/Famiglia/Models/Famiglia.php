@@ -151,6 +151,7 @@ class Famiglia extends Model
      **/
     public static function OnlyCapofamiglia()
     {
+        /** @phpstan-ignore-next-line */
         return self::FamigliePerPosizioni('CAPO FAMIGLIA');
     }
 
@@ -307,6 +308,7 @@ class Famiglia extends Model
         if ($persona instanceof Persona) {
             $data = $data ? $data : Carbon::parse($persona->nascita)->addYears(18)->toDateString();
 
+            /** @phpstan-ignore-next-line */
             return $this->assegnaComponente($persona, $this->getSingleEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');

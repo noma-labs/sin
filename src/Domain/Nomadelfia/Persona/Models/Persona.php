@@ -643,6 +643,7 @@ class Persona extends Model
 
     public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null)
     {
+
         $sacerdote = Stato::perNome('sacerdote');
         $this->assegnaStato($sacerdote, $data_inizio, $attuale_data_fine);
     }
@@ -656,6 +657,7 @@ class Persona extends Model
 
     public function famigliaAttuale()
     {
+
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')

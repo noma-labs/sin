@@ -4,21 +4,28 @@ on:
   push:
     paths:
       - '**.php'
+  pull_request:
 
 jobs:
   phplint:
     runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
 
     steps:
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
 
-      - name: "laravel-pint"
-        uses: aglipanci/laravel-pint-action@2.2.0
+      - name: Install composer deps
+        run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Fix styling with Laravel Pint
+      - run: task lint:check
+
+      - run: task analyse

@@ -3,10 +3,9 @@
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function Pest\Laravel\actingAs;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Tests\TestCasePest;
-
-use function Pest\Laravel\actingAs;
 
 uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys');
 
