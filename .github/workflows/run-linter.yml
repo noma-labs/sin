@@ -1,10 +1,9 @@
 name: run_linter
 
-on: [push, pull_request]
-#on:
-#  push:
-#    paths:
-#      - '**.php'
+on:
+  push:
+    paths:
+      - '**.php'
 
 jobs:
   phplint:
