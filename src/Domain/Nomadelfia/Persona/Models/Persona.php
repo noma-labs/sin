@@ -660,6 +660,7 @@ class Persona extends Model
     public function famigliaAttuale()
     {
 
+
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
