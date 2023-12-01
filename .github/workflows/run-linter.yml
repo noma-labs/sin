@@ -10,15 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
 
-      - name: "laravel-pint"
-        uses: aglipanci/laravel-pint-action@2.2.0
+      - run: task build:dependencies
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Fix styling with Laravel Pint
+
+#      - name: "laravel-pint"
+#        uses: aglipanci/laravel-pint-action@2.2.0
+
+#      - name: Commit changes
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: Fix styling with Laravel Pint
