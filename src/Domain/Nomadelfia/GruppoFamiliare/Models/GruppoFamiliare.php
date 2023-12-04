@@ -113,7 +113,7 @@ class GruppoFamiliare extends Model
                 }
                 $this->capogruppi()->attach($persona->id, ['stato' => '1', 'data_inizio_incarico' => $data_inizio]);
                 DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 DB::connection('db_nomadelfia')->rollback();
                 throw $e;
             }

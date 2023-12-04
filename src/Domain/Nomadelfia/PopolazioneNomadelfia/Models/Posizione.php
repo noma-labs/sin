@@ -57,9 +57,9 @@ class Posizione extends Model
      *
      * @param  string  $name abbreviato
      * @param  string|null  $guardName
-     * @return  \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+     * @return  Posizione;
      *
-     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExists
+     * @throws PosizioneDoesNotExists
      */
     public static function find(string $name): Posizione
     {

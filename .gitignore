@@ -16,6 +16,7 @@ yarn-error.log
 storage/*.key
 storage/*.docx
 storage/*.pdf
+storage/*.json
 
 .phpunit.result.cache
 .devcontainer

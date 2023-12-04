@@ -21,6 +21,9 @@
     <testsuite name="AdminSys">
       <directory suffix="Test.php">./tests/AdminSys</directory>
     </testsuite>
+    <testsuite name="Photo">
+      <directory suffix="Test.php">./tests/Photo</directory>
+    </testsuite>
   </testsuites>
   <php>
     <env name="APP_ENV" value="testing"/>

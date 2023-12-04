@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\CreateDatabaseCommand;
+use App\Console\Commands\ExifExtractCommand;
+use App\Console\Commands\ExifImportCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,6 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CreateDatabaseCommand::class,
+        ExifExtractCommand::class,
+        ExifImportCommand::class,
     ];
 
     /**

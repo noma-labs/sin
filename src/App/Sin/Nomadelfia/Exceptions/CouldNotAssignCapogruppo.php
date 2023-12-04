@@ -4,8 +4,9 @@ namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 
-class CouldNotAssignCapogruppo extends \Exception
+class CouldNotAssignCapogruppo extends Exception
 {
     public static function isNotEffetivo(Persona $persona): CouldNotAssignCapogruppo
     {

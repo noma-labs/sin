@@ -7,6 +7,11 @@ use Carbon;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 class EsSpiritualiController extends CoreBaseController
 {
@@ -51,7 +56,7 @@ class EsSpiritualiController extends CoreBaseController
 
     public function stampa()
     {
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         // define styles
         $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => false], ['spaceAfter' => 240]);
@@ -67,17 +72,17 @@ class EsSpiritualiController extends CoreBaseController
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
-            'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2),
+            'spaceAfter' => Converter::pointToTwip(2),
             'spacing' => 4,
         ]);
 
         // main page
-        $section = $phpWord->addSection(['vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER]);
+        $section = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
         $section->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
         $section->addText('Esercizi Spirituali ', ['bold' => true, 'italic' => false, 'size' => 14],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
 
         $esercizi = EserciziSpirituali::attivi()->get();
@@ -111,7 +116,7 @@ class EsSpiritualiController extends CoreBaseController
             $donne->addText(ucfirst(strtolower($value->nominativo)));
         }
 
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
         $file_name = "es-spirituali-$data.docx";
         $objWriter->save(storage_path($file_name));

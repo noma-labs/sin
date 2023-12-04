@@ -2,6 +2,7 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
+use App\Nomadelfia\Exceptions\PosizioneDoesNotExist;
 use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
@@ -60,9 +61,9 @@ class Stato extends Model
      * Find a STATO by its abbreviato
      *
      * @param  string|null  $guardName
-     * @return  \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+     * @return  Posizione;
      *
-     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExist
+     * @throws PosizioneDoesNotExist
      */
     public static function find(string $name): Stato
     {

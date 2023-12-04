@@ -14,6 +14,7 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ApiController extends CoreBaseController
 {
@@ -352,7 +353,7 @@ class ApiController extends CoreBaseController
         $veicolo = Veicolo::find($request->input('veicolo'));
         try {
             $veicolo->gomme()->detach($request->input('gomma'));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['error'];
         }
 
@@ -390,7 +391,7 @@ class ApiController extends CoreBaseController
                     'codice' => strtoupper($request->input('nuovo_codice')),
                     'note' => $note,
                 ]);
-            } catch (\Throwable $th) {
+            } catch (Throwable $th) {
                 return [
                     'status' => 'error',
                     'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') == ''),
@@ -402,7 +403,7 @@ class ApiController extends CoreBaseController
         $veicolo = Veicolo::find($request->input('veicolo_id'));
         try {
             $veicolo->gomme()->attach($gomma->id);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
         }
 
@@ -441,7 +442,7 @@ class ApiController extends CoreBaseController
         $filtro = TipoFiltro::find($request->input('filtro'));
         try {
             $filtro->delete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
         }
 

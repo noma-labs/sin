@@ -8,6 +8,9 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazion
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 class ExportPopolazioneToWordAction
 {
@@ -28,21 +31,21 @@ class ExportPopolazioneToWordAction
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
-            'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2),
+            'spaceAfter' => Converter::pointToTwip(2),
             'spacing' => 4,
         ]);
 
         // main page
-        $section = $phpWord->addSection(['vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER]);
+        $section = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
         $section->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
         $section->addText('POPOLAZIONE DI NOMADELFIA', ['bold' => true, 'italic' => false, 'size' => 14],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
         $section->addText('Totale '.$data->totalePopolazione,
             ['bold' => true, 'italic' => false, 'size' => 12],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
 
         // Add TOC #1
         $section = $phpWord->addSection();

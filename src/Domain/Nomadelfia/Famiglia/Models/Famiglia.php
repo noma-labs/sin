@@ -12,6 +12,7 @@ use Database\Factories\FamigliaFactory;
 use Domain\Nomadelfia\Famiglia\QueryBuilders\FamigliaQueryBuilder;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -170,7 +171,7 @@ class Famiglia extends Model
                 $act->execute($componente, $data_uscita);
             });
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

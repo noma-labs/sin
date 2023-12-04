@@ -88,7 +88,7 @@ class Anno extends Model
             \DB::commit();
 
             return $a;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \DB::rollback();
             throw $e;
         }

@@ -3,6 +3,7 @@
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class DecessoPersonaAction
@@ -63,7 +64,7 @@ class DecessoPersonaAction
             );
 
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

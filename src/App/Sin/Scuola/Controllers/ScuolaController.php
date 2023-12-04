@@ -7,7 +7,13 @@ use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 class ScuolaController extends CoreBaseController
 {
@@ -103,7 +109,7 @@ class ScuolaController extends CoreBaseController
     {
         $elenchi = collect($request->elenchi);
 
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord = new PhpWord();
         // define styles
         $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
@@ -118,22 +124,22 @@ class ScuolaController extends CoreBaseController
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
-            'spaceAfter' => \PhpOffice\PhpWord\Shared\Converter::pointToTwip(2),
+            'spaceAfter' => Converter::pointToTwip(2),
             'spacing' => 4,
         ]);
 
         // main page
         $anno = Anno::getLastAnno();
 
-        $firstPage = $phpWord->addSection(['vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER]);
+        $firstPage = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
         $firstPage->addText('Scuola Familiare di Nomadelfia', ['bold' => true, 'italic' => false, 'size' => 14]);
 
         $firstPage->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 10],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
         $firstPage->addTextBreak(2);
         $r = is_null($anno->responsabile) ? 'non asseganto' : $anno->responsabile->nominativo;
         $firstPage->addText('Responsabile: '.$r, ['bold' => true, 'italic' => false, 'size' => 10],
-            ['align' => \PhpOffice\PhpWord\SimpleType\TextAlignment::CENTER]);
+            ['align' => TextAlignment::CENTER]);
 
         if ($elenchi->contains('studenti')) {
             $sc = $phpWord->addSection();
@@ -186,7 +192,7 @@ class ScuolaController extends CoreBaseController
         }
 
         if ($elenchi->contains('coordinatori')) {
-            $coordinatori = $phpWord->addSection(['vAlign' => \PhpOffice\PhpWord\SimpleType\VerticalJc::CENTER]);
+            $coordinatori = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
             $coordinatori->addText('Responsabili dei cicli ed ambiti scolastici a.s. '.$anno->scolastico,
                 ['bold' => true, 'italic' => false, 'size' => 14]);
 
@@ -236,12 +242,12 @@ class ScuolaController extends CoreBaseController
 
         }
 
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
         $file_name = "scuola-familiare-$data.docx";
         try {
             $objWriter->save(storage_path($file_name));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         return response()->download(storage_path($file_name));
