@@ -16,42 +16,39 @@ final class ExifReader
 
     protected $additionalOptions = [];
 
-    /**
-     * @param  string  $filePath
-     */
-    public static function file(string $file): static
+    public function __construct()
+    {
+        $this->timeout = 180;
+    }
+
+    public static function file(string $file): ExifReader
     {
         return (new ExifReader())->setSourcePath($file);
     }
 
-    public static function folder(string $folder): static
+    public static function folder(string $folder): ExifReader
     {
         return (new ExifReader())->setSourcePath($folder)->recursively();
-    }
-
-    public function __construct()
-    {
-        $this->timeout = 10;
     }
 
     /**
      * @param  null  $sourcePath
      */
-    public function setSourcePath($sourcePath): static
+    public function setSourcePath($sourcePath): ExifReader
     {
         $this->sourcePath = $sourcePath;
 
         return $this;
     }
 
-    public function setTargetBasePath($targetBasePath): static
+    public function setTargetBasePath($targetBasePath): ExifReader
     {
         $this->targetBasePath = $targetBasePath;
 
         return $this;
     }
 
-    public function moveFileWithinFolder(): static
+    public function moveFileWithinFolder(): ExifReader
     {
         //  exiftool -d %Y/%m "-directory<filemodifydate" "-directory<createdate" "-directory<datetimeoriginal" /media/dido/LUMIX/DCIM/111_PANA
         $this->additionalOptions[] = '-d %Y/%m'; //  move into file structure with YYYY and month 01,02,04,..., 12
@@ -69,70 +66,70 @@ final class ExifReader
         $this->timeout = $timeout;
     }
 
-    public function enableStructuredInformation(): static
+    public function enableStructuredInformation(): ExifReader
     {
         $this->additionalOptions[] = '-struct';
 
         return $this;
     }
 
-    public function extractHashOfTheImage(): static
+    public function extractHashOfTheImage(): ExifReader
     {
         $this->additionalOptions[] = '-ImageDataHash';
 
         return $this;
     }
 
-    public function allowDuplicates(): static
+    public function allowDuplicates(): ExifReader
     {
         $this->additionalOptions[] = '-a';
 
         return $this;
     }
 
-    public function disablePrintConversion(): static
+    public function disablePrintConversion(): ExifReader
     {
         $this->additionalOptions[] = '-n';
 
         return $this;
     }
 
-    public function extractFileGroup(string $subtag = null): static
+    public function extractFileInformation(string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
 
         return $this;
     }
 
-    public function extractXMPInformation(string $subtag = null): static
+    public function extractXMPInformation(string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
 
         return $this;
     }
 
-    public function exportToCSV(string $targetPath): static
+    public function exportToCSV(string $targetPath): ExifReader
     {
         $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
 
         return $this;
     }
 
-    public function exportToJSON(string $targetPath): static
+    public function exportToJSON(string $targetPath): ExifReader
     {
         $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
 
         return $this;
     }
 
-    public function exportToPhp(): static
+    public function exportToPhp(): ExifReader
     {
         $this->additionalOptions[] = '-php';
 
         return $this;
     }
 
-    public function recursively(): static
+    public function recursively(): ExifReader
     {
         $this->additionalOptions[] = '-r';
 
@@ -150,21 +147,22 @@ final class ExifReader
         echo $output;
     }
 
-    public function saveJSON(string $fileName = null)
+    public function saveJSON(string $fileName = null): string
     {
-
         // if not given, it use the name of the source file
         $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
 
-        // TODO: use a safer join path function
-        $fullName = $this->targetBasePath.'/'.$name;
+//         TODO: use a safer join pa'2023.json'th function
+//        $fullName = $this->targetBasePath . '/' . $name;
+        $fullName = storage_path($name);
         $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
         $output = $this->callExifTool($command);
 
-        echo $output;
+//        echo $output;
+        return $fullName;
     }
 
     public function savePhpArray(): array

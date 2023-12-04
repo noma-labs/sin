@@ -42,6 +42,7 @@ class ExifData
         $exif = new self();
 
         $exif->sourceFile = $info['SourceFile'];
+
         if (isset($info['FileName'])) {
             $exif->fileName = $info['FileName'];
         }

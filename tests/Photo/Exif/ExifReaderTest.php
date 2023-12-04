@@ -191,7 +191,7 @@ it('can build exifData from exif', function () {
     $info = ExifReader::file($filePath)
         ->extractXMPInformation()
         ->extractHashOfTheImage()
-        ->extractFileGroup()
+        ->extractFileInformation()
         ->disablePrintConversion()
         ->savePhpArray();
 
