@@ -51,10 +51,10 @@ class ExifData
         if (isset($info['FileSize'])) {
             $exif->fileSize = $info['FileSize'];
         }
-        if (isset($info['FileType']) || isset($photo['File:FileType'])) {
+        if (isset($info['FileType']) || isset($info['File:FileType'])) {
             $exif->fileType = $info['FileType'];
         }
-        if (isset($info['FileTypeExtension']) || isset($photo['File:FileTypeExtension'])) {
+        if (isset($info['FileTypeExtension']) || isset($info['File:FileTypeExtension'])) {
             $exif->fileExtension = $info['FileTypeExtension'];
         }
         if (isset($info['ImageWidth'])) {
@@ -65,7 +65,7 @@ class ExifData
         }
         $exif->folderTitle = Str::of($exif->directory)->basename();
 
-        if (! isset($info['ImageDataHash'])) {
+        if (!isset($info['ImageDataHash'])) {
             $exif->sha = $info['ImageDataHash'];
         }
 
