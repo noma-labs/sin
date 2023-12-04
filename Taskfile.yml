@@ -34,6 +34,7 @@ tasks:
       - ./vendor/bin/sail  php artisan route:clear
 
   test:
+    deps: [start]
     cmds:
       - ./vendor/bin/sail  test --stop-on-error "$@"
 
