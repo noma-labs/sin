@@ -4,6 +4,11 @@ namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $marca_id
+ * @property string $nome
+ */
 class Modelli extends Model
 {
     protected $connection = 'db_officina';

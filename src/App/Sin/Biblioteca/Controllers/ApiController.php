@@ -2,7 +2,6 @@
 
 namespace App\Biblioteca\Controllers;
 
-//use Illuminate\Support\Facades\Request;
 use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
@@ -129,8 +128,7 @@ class ApiController extends CoreBaseController
     /**
      * Inserisce un nuovo autore.
      *
-     * @param string nome: nome e cognome dell'autore.
-     * @return json
+     * @return string
      *            {
      *            "err": 0|1, // 1 if there are errors, 0 otherwise
      *            "data": {
@@ -170,8 +168,7 @@ class ApiController extends CoreBaseController
     /**
      * Inserisce un nuovo editore.
      *
-     * @param string nome: nome dell'editore.
-     * @return json
+     * @return string
      * {
      * "err": 0|1,            // 1 if there are errors, 0 otherwise
      * "data": {

@@ -111,7 +111,7 @@ class LibriController extends CoreBaseController
 
         if ($request->filled('xIdEditore')) {
             $editore = Editore::findOrFail($request->xIdEditore);
-            $msgSearch = $msgSearch." Editore= $editore->Editore;";
+            $msgSearch = $msgSearch." Editore= $editore->editore;";
             $idEditore = $request->xIdEditore;
             $queryLibri = Editore::find($editore->id)->libri();
             $orderBy = 'collocazione';
@@ -136,7 +136,7 @@ class LibriController extends CoreBaseController
             }
             if ($request->filled('xIdEditore')) {
                 $editore = Editore::findOrFail($request->xIdEditore);
-                $msgSearch = $msgSearch." Editore= $editore->Editore;";
+                $msgSearch = $msgSearch." Editore= $editore->editore;";
                 $idEditore = $request->xIdEditore;
                 $q->where('ID_EDITORE', $idEditore);
                 $orderBy = 'collocazione';
@@ -144,7 +144,7 @@ class LibriController extends CoreBaseController
             if ($request->filled('xIdAutore')) {
                 $idAutore = $request->xIdAutore;
                 $q->where('ID_AUTORE', $idAutore);
-                $autore = Autore::findOrFail($idAutore)->Autore;
+                $autore = Autore::findOrFail($idAutore)->autore;
                 $msgSearch = $msgSearch." Autore=$autore";
             }
             if ($request->filled('xClassificazione')) {
@@ -414,10 +414,10 @@ class LibriController extends CoreBaseController
 
         if ($res) {
             if ($_addanother) {
-                return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+                return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
             }
             if ($_addonly) {
-                return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->Autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
+                return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
             }
         } else {
             return redirect()->route('libri.inserisci')->withError('Errore nella creazione del libro.');

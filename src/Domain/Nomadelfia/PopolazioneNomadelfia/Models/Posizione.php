@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $abbreviato
+ * @property string $nome
  */
 class Posizione extends Model
 {
@@ -56,10 +57,9 @@ class Posizione extends Model
      * Find a Posizione by its name
      *
      * @param  string  $name abbreviato
-     * @param  string|null  $guardName
-     * @return  Posizione;
+     * @return  \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
      *
-     * @throws PosizioneDoesNotExists
+     * @throws \App\Nomadelfia\Exceptions\PosizioneDoesNotExists
      */
     public static function find(string $name): Posizione
     {

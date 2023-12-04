@@ -12,6 +12,9 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property string $username
+ */
 class User extends Authenticatable
 {
     use CausesActivity;

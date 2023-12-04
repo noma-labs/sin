@@ -3,9 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Core\Controllers\BaseController as Controller;
-use Log;
-use Mail;
-use Storage;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BackupController extends Controller
 {
@@ -47,8 +47,8 @@ class BackupController extends Controller
     {
         ini_set('max_execution_time', 300); // aumenta il numero di tempo per eseguire la query
         // start the backup process
-        $exitCode = \Illuminate\Support\Facades\Artisan::call('backup:run');
-        $output = \Illuminate\Support\Facades\Artisan::output();
+        $exitCode = Artisan::call('backup:run');
+        $output = Artisan::output();
         Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n".$output);
 
         // return the results as a response to the ajax call
@@ -68,11 +68,11 @@ class BackupController extends Controller
             $fs = Storage::disk(config('backup.backup.destination.disks')[0])->getDriver();
             $stream = $fs->readStream($file);
 
-            return \Response::stream(function () use ($stream) {
+            return Response(function () use ($stream) {
                 fpassthru($stream);
             }, 200, [
-                'Content-Type' => $fs->getMimetype($file),
-                'Content-Length' => $fs->getSize($file),
+                'Content-Type' => Storage::mimeType($file),
+                'Content-Length' => Storage::size($file),
                 'Content-disposition' => 'attachment; filename="'.basename($file).'"',
             ]);
         } else {

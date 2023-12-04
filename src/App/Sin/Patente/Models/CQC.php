@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property  string $categoria
+ *
+ * @method static scadute($days = null)
+ */
 class CQC extends Model
 {
     use SortableTrait;
@@ -32,7 +37,7 @@ class CQC extends Model
         });
     }
 
-    public function patenti()
+    public function patenti(): BelongsToMany
     {
         return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
             ->withPivot('data_rilascio', 'data_scadenza');
@@ -40,8 +45,6 @@ class CQC extends Model
 
     /**
      * Get all of the persona that belong to the CQC.
-     *
-     * @return BelongsToMany<Persona>
      */
     public function persona(): BelongsToMany
     {
@@ -53,7 +56,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeCQCPersone($query)
+    public function scopeCQCPersone($query): CQC
     {
         return $query->where('id', 16)->first();
     }
@@ -63,7 +66,7 @@ class CQC extends Model
      *
      * @author Davide Neri
      */
-    public function scopeCQCMerci($query)
+    public function scopeCQCMerci($query): CQC
     {
         return $query->where('id', 17)->first();
     }
@@ -88,7 +91,7 @@ class CQC extends Model
     /**
      * Ritorna le patenti con C.Q.C che non sono in scadenza da $days giorni in poi.
      *
-     * @param  int  $giorni : numero di giorni entro il quale le patenti scadono.
+     * @param  int  $days : numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */

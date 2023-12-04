@@ -8,11 +8,13 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @property string $abbreviato
+ * @property string $descrizione
+ * @property string $nome
  */
 class Incarico extends Model
 {
@@ -42,14 +44,14 @@ class Incarico extends Model
         });
     }
 
-    public function lavoratori()
+    public function lavoratori(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'incarichi_persone', 'incarico_id', 'persona_id')
             ->withPivot('data_inizio')
             ->orderBy('persone.nominativo');
     }
 
-    public function lavoratoriAttuali()
+    public function lavoratoriAttuali(): BelongsToMany
     {
         return $this->lavoratori()->wherePivot('data_fine', null)->withPivot('data_inizio');
     }
@@ -64,7 +66,7 @@ class Incarico extends Model
         $all = PopolazioneNomadelfia::daEta(18);
 
         $current = collect($this->lavoratoriAttuali()->get());
-        $ids = $current->map(function ($item) {
+        $ids = $current->map(function (Persona $item) {
             return $item->id;
         });
 

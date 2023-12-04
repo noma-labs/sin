@@ -24,8 +24,6 @@ class AziendeController extends CoreBaseController
     /**
      * ritorna la view per editare una azienda
      *
-     * @param id dell'azienda da editare
-     *
      * @author Matteo Neri
      **/
     public function edit($id)

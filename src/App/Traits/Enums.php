@@ -120,14 +120,6 @@ trait Enums
         return in_array($value, static::getEnum($field));
     }
 
-    /**
-     * ritorna i possibili valori di un enum
-     *
-     * @param nome colonna enum
-     * @param nome tabella nel db
-     *
-     * @author Matteo Neri
-     **/
     public static function getPossibleEnumValues($name, $table)
     {
         $type = DB::select(DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"'))[0]->Type;

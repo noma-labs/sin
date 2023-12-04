@@ -16,7 +16,7 @@ class CouldNotAssignIncarico extends Exception
 
     public static function isNotValidIncarico(Azienda $incarico): CouldNotAssignIncarico
     {
-        return new self("L'incarico `{$incarico->nome}` non è valido.`");
+        return new self("L'incarico `{$incarico->nome_azienda}` non è valido.`");
     }
 
     public static function mansioneNotValid(string $mansione): CouldNotAssignIncarico

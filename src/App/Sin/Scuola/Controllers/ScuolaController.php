@@ -87,24 +87,6 @@ class ScuolaController extends CoreBaseController
 
     }
 
-    public function importStudentsFromOtherAnnoScolastico(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'anno_from' => 'required',
-        ], [
-            'anno_from.required' => 'Anno scolastico di partenza è obbligatorio.',
-        ]);
-
-        $a = Anno::findOrFail($id);
-        $a_from = Anno::findOrFail($request->get('anno_from'));
-        $a->importStudentsFromExistingAnno($a_from);
-        $count = Studente::InAnnoScolastico($a_from)->count();
-        $counta = Studente::InAnnoScolastico($a)->count();
-
-        return redirect()->back()->withSuccess(" $count Studenti dall'anno $a_from->scolastico importati con successo ($counta).");
-
-    }
-
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);

@@ -14,8 +14,8 @@ class ApiController extends CoreBaseController
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
-     * @param  string  $numero  della patente
-     * @return json $Patente
+     * @param  string  $numero della patente
+     * @return string $Patente
      * {
      * "persona_id": number,
      * "numero_patente": string,
@@ -50,8 +50,7 @@ class ApiController extends CoreBaseController
     /**
      * Ritorna tutte le categorie (eccetto i CQC)
      *
-     *
-     * @return json $CategoriaPatente
+     * @return string $CategoriaPatente
      *
      * @author Davide Neri
      */
@@ -66,7 +65,7 @@ class ApiController extends CoreBaseController
      * Ritorna cqc merci e c.q.c persone
      *
      *
-     * @return json
+     * @return string
      * {[
      *  id: 16,
      *   categoria: "C.Q.C. PERSONE",
@@ -87,7 +86,7 @@ class ApiController extends CoreBaseController
      * Ritorna tutte le restrizioni
      *
      *
-     * @return json $Restrizione
+     * @return string $Restrizione
      *
      * @author Davide Neri
      */
@@ -102,10 +101,8 @@ class ApiController extends CoreBaseController
      * Ritorna solo le categorie associate a una patente.
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
-     * @param  string  $numero  numeor della patente
-
+     * @param  string  $numero numeor della patente
      * @return array  $Patente
-
      *
      * @author Davide Neri
      **/
@@ -125,9 +122,6 @@ class ApiController extends CoreBaseController
     /**
      * Ritorna tutte le persone siano che hanno la patente sia che non la hanno.
      *
-     * @param  string  $term: Nome, cognome  della persona
-     *
-     * @author Davide Neri
      **/
     public function persone(Request $request)
     {
@@ -135,7 +129,7 @@ class ApiController extends CoreBaseController
         $persone = ViewClientiConSenzaPatente::where('nome', 'LIKE', "$term%")
             ->orwhere('cognome', 'LIKE', "$term%")
             ->orWhere('nominativo', 'LIKE', "$term%")
-        // ->orderBy("cliente_con_patente")
+            // ->orderBy("cliente_con_patente")
             ->take(50)
             ->get();
 
@@ -155,9 +149,6 @@ class ApiController extends CoreBaseController
     /**
      * Ritorna le persone che non hanno la patente.
      *
-     * @param  string  $term: Nome, cognome o nominativo della persona
-     *
-     * @author Davide Neri
      **/
     public function personeSenzaPatente(Request $request)
     {
@@ -182,9 +173,6 @@ class ApiController extends CoreBaseController
     /**
      * Ritorna le persone che hanno almeno una patente
      *
-     * @param  string  $term: Nome, cognome
-     *
-     * @author Davide Neri
      **/
     public function personeConPatente(Request $request)
     {
@@ -210,8 +198,7 @@ class ApiController extends CoreBaseController
     /**
      * Aggiorna i dati di una patente
      *
-     * @param  string  $numero: numero della patente
-     * @param  Json  $patente: patente con i dati aggiornati
+     * @param  string  $numero : numero della patente
      * {
      *  persona_id: null,
      *  numero_patente: null,
@@ -291,7 +278,6 @@ class ApiController extends CoreBaseController
     /**
      * Crea una nuova patente
      *
-     * @param  Json  $patente: patente con i dati aggiornati
      * {
      *  "persona_id":int ,
      *  "data_rilascio_patente":YYYY-MM-GG
@@ -315,7 +301,8 @@ class ApiController extends CoreBaseController
      *  ...
      *  ]
      * }
-     * @return json
+     *
+     * @return string
      *      {
      *        'err': 0 | 1,
      *        "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server

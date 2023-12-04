@@ -33,7 +33,7 @@ class PersonaFamigliaController extends CoreBaseController
         $persona = Persona::findOrFail($idPersona);
         $attuale = $persona->famigliaAttuale();
         if ($attuale) {
-            return redirect()->back()->withError("La persona $persona->nomativo è già assegnata alla famiglia $attuale->nome.");
+            return redirect()->back()->withError("La persona $persona->nominativo è già assegnata alla famiglia $attuale->nome.");
         }
         $res = $persona->createAndAssignFamiglia($idPersona, $request->posizione_famiglia, $request->nome,
             $request->data_creazione, $request->data_entrata);

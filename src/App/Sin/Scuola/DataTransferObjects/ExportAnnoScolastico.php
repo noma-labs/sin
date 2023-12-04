@@ -21,7 +21,8 @@ class ExportAnnoScolastico
 
     public function __construct(Anno $anno)
     {
-        $this->responsabile = is_null($anno->responsabile) ? 'non asseganto' : $anno->responsabile->nominativo;
+        $resp = $anno->responsabile()->first();
+        $this->responsabile = is_null($resp) ? 'non asseganto' : $resp->nominativo;
         $this->totaleAlunni = Studente::InAnnoScolastico($anno)->count();
         $this->prescuola = $anno->prescuola()->alunni('data_nascita', 'DESC')->get();
         $this->elementari = $anno->prescuola()->alunni('data_nascita', 'DESC')->get();

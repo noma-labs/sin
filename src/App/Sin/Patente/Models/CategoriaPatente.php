@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property string $categoria
+ */
 class CategoriaPatente extends Model
 {
     protected $connection = 'db_patente';
@@ -32,7 +35,7 @@ class CategoriaPatente extends Model
      * Scope a query to only include categorie of a given name (A,B,C,D,DE,...)
      *
      * @param  Builder  $query
-     * @param  mixed  $type
+     * @param  string  $categoria
      * @return Builder
      */
     public function scopeDalNome($query, $categoria)

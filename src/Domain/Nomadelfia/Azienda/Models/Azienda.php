@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property string $tipo.
+ * @property string $tipo
+ * @property string $nome_azienda.
  */
 class Azienda extends Model
 {

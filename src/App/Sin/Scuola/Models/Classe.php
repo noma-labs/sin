@@ -55,7 +55,8 @@ class Classe extends Model
     public function aggiungiAlunno($alunno, $data_inizio)
     {
         if (is_null($data_inizio)) {
-            $data_inizio = $this->anno()->first()->data_inizio;
+            $a = $this->anno()->first();
+            $data_inizio = $a->data_inizio;
         }
         if (is_string($data_inizio)) {
             $data_inizio = Carbon::parse($data_inizio);

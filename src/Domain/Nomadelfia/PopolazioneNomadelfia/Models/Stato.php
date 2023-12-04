@@ -2,13 +2,13 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
-use App\Nomadelfia\Exceptions\PosizioneDoesNotExist;
 use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $stato
+ * @property string $nome
  */
 class Stato extends Model
 {
@@ -57,14 +57,6 @@ class Stato extends Model
         return $this->stato == $this->mapNamesToDB['nubile'];
     }
 
-    /**
-     * Find a STATO by its abbreviato
-     *
-     * @param  string|null  $guardName
-     * @return  Posizione;
-     *
-     * @throws PosizioneDoesNotExist
-     */
     public static function find(string $name): Stato
     {
         $stato = Stato::where('stato', $name)->first();

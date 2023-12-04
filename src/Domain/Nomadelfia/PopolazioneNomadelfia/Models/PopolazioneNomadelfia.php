@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
+/**
+ * @property int $persona_id
+ * @property string $data_entrata
+ * @property string $data_uscita
+ */
 class PopolazioneNomadelfia extends Model
 {
     protected $connection = 'db_nomadelfia';

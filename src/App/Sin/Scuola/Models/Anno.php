@@ -7,10 +7,12 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
+ * @property string $data_inizio
  * @property string $scolastico
  */
 class Anno extends Model
@@ -34,7 +36,7 @@ class Anno extends Model
         });
     }
 
-    public function responsabile()
+    public function responsabile(): BelongsTo
     {
         return $this->belongsTo(Persona::class, 'responsabile_id', 'id');
     }

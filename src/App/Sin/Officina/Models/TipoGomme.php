@@ -5,7 +5,8 @@ namespace App\Officina\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Model per la tabella tipo_gomme
+ * @property string $codice
+ * @property string $note
  */
 class TipoGomme extends Model
 {

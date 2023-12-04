@@ -135,8 +135,6 @@ class VeicoliController extends CoreBaseController
 
     /**
      * Aggiunge un nuovo tipo di filtro alla tabella tipo_filtro
-     *
-     * @return redirect to veicoli/modifica
      */
     public function aggiungiFiltro(Request $request)
     {

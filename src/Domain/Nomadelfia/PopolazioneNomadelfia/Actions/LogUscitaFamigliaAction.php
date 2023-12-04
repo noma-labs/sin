@@ -2,13 +2,14 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 
 class LogUscitaFamigliaAction
 {
     public function execute(UscitaFamigliaData $dto)
     {
-        $dto->componenti->each(function ($persona, $key) use ($dto) {
+        $dto->componenti->each(function (Persona $persona, $key) use ($dto) {
             $action = app(LogUscitaPersonaAction::class);
             $action->execute($persona, $persona->getDataEntrataNomadelfia() ?: '', $dto->data_uscita);
         });

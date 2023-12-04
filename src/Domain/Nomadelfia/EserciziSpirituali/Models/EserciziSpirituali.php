@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 use stdClass;
 
 /**
- * @property string $stato.
+ * @property string $stato
+ * @property string $turno
  */
 class EserciziSpirituali extends Model
 {

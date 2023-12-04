@@ -2,7 +2,7 @@
 
 namespace App\Auth\Controllers;
 
-use App\Admin\Models\User as User;
+use App\Admin\Models\User;
 use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
@@ -56,10 +56,8 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
         return User::create([
             'name' => $data['name'],

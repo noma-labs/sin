@@ -307,7 +307,7 @@ class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $data = $data ? $data : Carbon::parse($persona->nascita)->addYears(18)->toDateString();
+            $data = $data ?: Carbon::parse($persona->data_nascita)->addYears(18)->toDateString();
 
             /** @phpstan-ignore-next-line */
             return $this->assegnaComponente($persona, $this->getSingleEnum());

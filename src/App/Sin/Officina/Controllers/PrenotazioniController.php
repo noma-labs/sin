@@ -253,7 +253,7 @@ class PrenotazioniController extends CoreBaseController
     public function all()
     {
         // $prenotazioni = Prenotazioni::where('data_partenza', '>=' , Carbon::now()->toDateString())->orderBy('ora_partenza', 'asc')->get();
-        $prenotazioni = Prenotazioni::where('data_arrivo', '<=', Carbon::now()->subWeekday(7)->toDateString())
+        $prenotazioni = Prenotazioni::where('data_arrivo', '<=', Carbon::now()->subWeekday()->toDateString())
             ->orderBy('data_partenza', 'desc')
             ->orderBy('ora_partenza', 'desc')
             ->orderBy('data_arrivo', 'desc')

@@ -77,12 +77,12 @@ class VideoController extends CoreBaseController
 
     public function show($idVideo)
     {
-        $libro = Video::findOrFail($idVideo);
-        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idVideo)->get();
-        if ($libro) {
-            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
-        } else {
-            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
-        }
+        //        $libro = Video::findOrFail($idVideo);
+        //        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idVideo)->get();
+        //        if ($libro) {
+        //            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
+        //        } else {
+        //            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
+        //        }
     }
 }

@@ -33,12 +33,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
+ * @property int $id
  * @property string $data_decesso
  * @property string $data_nascita
  * @property string $cognome
  * @property string $nome
+ * @property string $nominativo
  * @property string $sesso
  * @property string $numero_elenco
+ * @property string $provincia_nascita
+ * @property string $cf
+ * @property string $biografia
  */
 class Persona extends Model
 {
@@ -119,6 +124,9 @@ class Persona extends Model
             ->orderBy('numero', 'DESC');
     }
 
+    /**
+     * @throws Exception
+     */
     public function proposeNumeroElenco()
     {
         if ($this->numero_elenco) {
@@ -432,7 +440,7 @@ class Persona extends Model
     public function incarichiPossibili()
     {
         $attuali = collect($this->incarichiAttuali()->get());
-        $multiplied = $attuali->map(function ($item) {
+        $multiplied = $attuali->map(function (Incarico $item) {
             return $item->id;
         });
         if ($attuali != null) {
@@ -701,9 +709,6 @@ class Persona extends Model
     /**
      * Move a person to a family.
      * If the person has already an active family, the current family is deactivate.
-     *
-     * @param Famiglia
-     * @return $this
      */
     public function spostaNellaFamiglia($famiglia, $posizione)
     {
@@ -957,9 +962,6 @@ class Persona extends Model
     /**
      * Ritorna le posizioni assegnabili ad una persona.
      *
-     * @return Collection Posizione
-     *
-     * @author Davide Neri
      **/
     public function posizioniPossibili()
     {
@@ -1000,9 +1002,9 @@ class Persona extends Model
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
      * @param  int|null  $gruppoFamiliareAttuale
-     * @param  date  $dataUscitaGruppoFamiliareAttuale
+     * @param  Carbon\Carbon  $dataUscitaGruppoFamiliareAttuale
      * @param  int  $gruppoFamiliareNuovo
-     * @param  date  $dataEntrataGruppo
+     * @param  Carbon\Carbon  $dataEntrataGruppo
      */
     public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
