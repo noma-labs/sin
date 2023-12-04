@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $ciclo
  * @property int $ord
  * @property int $next
+ *
  * @method Prescuola()
  * */
 class ClasseTipo extends Model

@@ -2,7 +2,6 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
-use App\Nomadelfia\Exceptions\PosizioneDoesNotExist;
 use App\Nomadelfia\Exceptions\StatoDoesNotExists;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
