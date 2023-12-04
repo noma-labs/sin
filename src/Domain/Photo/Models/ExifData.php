@@ -65,7 +65,7 @@ class ExifData
         }
         $exif->folderTitle = Str::of($exif->directory)->basename();
 
-        if (!isset($info['ImageDataHash'])) {
+        if (! isset($info['ImageDataHash'])) {
             $exif->sha = $info['ImageDataHash'];
         }
 
