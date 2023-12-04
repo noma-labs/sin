@@ -1,0 +1,2611 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined static method Domain\\\\Photo\\\\Models\\\\Photo\\:\\:insert\\(\\)\\.$#"
+			count: 1
+			path: src/App/Console/Commands/ExifImportCommand.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Exceptions/Handler.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presente\\(\\)\\.$#"
+			count: 1
+			path: src/App/Http/Livewire/Dashboard.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Http/Middleware/SentryContext.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$username\\.$#"
+			count: 1
+			path: src/App/Http/Middleware/SentryContext.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Providers/BladeDirectivesServiceProvider.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:getDriver\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/BackupController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Admin/Controllers/BackupController.php
+
+		-
+			message: "#^Call to an undefined static method Spatie\\\\Activitylog\\\\Models\\\\Activity\\:\\:latest\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/LogsActivityController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:withTrashed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:restore\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Admin\\\\Models\\\\User\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Admin\\\\Models\\\\User\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Call to an undefined static method Spatie\\\\Permission\\\\Models\\\\Role\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Admin/Controllers/UserController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$autore\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$collocazione\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$editore\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$titolo\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:TobePrinted\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:toBePrinted\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\ArchivioDocumenti\\\\Models\\\\ArchivioDocumento\\:\\:whereBetween\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasRole\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Auth/Controllers/LoginController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Admin\\\\Models\\\\User\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Auth/Controllers/RegisterController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:numeri\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Static call to instance method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$autore\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErroe\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$descrizione\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErroe\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$editore\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$idLibro\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 5
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:TobePrinted\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:toBePrinted\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:whereBetween\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$idTarget\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCancellazioneNote\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCategoria\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xClassificazione\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDataFine\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDatainizio\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdAutore\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdAutori\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdEditore\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdEditori\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xNote\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xTitolo\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasRole\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:withWarning\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 5
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 9
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:orderBy\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 10
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Cannot call method restore\\(\\) on array\\<Illuminate\\\\Database\\\\Eloquent\\\\Builder\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$file\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriMediaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSucces\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriMediaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriMediaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/LibriMediaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$_concludi\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$collocazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$note\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$titolo\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDataPrenotazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDataRestituzione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xFinePrestito\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdBibliotecario\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xInizioPrestito\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xSegnoFinePrestito\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xSegnoInizioPrestito\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:findOrFail\\(\\)\\.$#"
+			count: 5
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:leftJoin\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewLavoratoriBiblioteca\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewLavoratoriBiblioteca\\:\\:orderby\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cassetta\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/VideoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_registrazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/VideoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$descrizione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/VideoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/VideoController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Video\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/VideoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Models/Libro.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\:\\:withTrashed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Models/Prestito.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:aziende\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:incarichi\\(\\)\\.$#"
+			count: 7
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:whereHas\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presenteByNomeCognomeNominativo\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:aziende\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$azienda_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_inizio\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_uscita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$mansione\\.$#"
+			count: 6
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$stato\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Azienda/Controllers/PersonaAziendeController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\EserciziSpirituali\\\\Models\\\\EserciziSpirituali\\:\\:attivi\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\EserciziSpirituali\\\\Models\\\\EserciziSpirituali\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_cambiogruppo\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_creazione\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_uscita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome_famiglia\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$note\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nuovo_gruppo_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$posizione\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$stato\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 6
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:findorfail\\(\\)\\.$#"
+			count: 7
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:single\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findorfail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/FamiglieController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_matrimonio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$husband\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$wife\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:notAlreadyMarried\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_creazione\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_famiglia_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_posizione_famiglia\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$old_data_uscita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$posizione_famiglia\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nuovo\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:families\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:single\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/GruppifamiliariController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareConcludiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_uscita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareConcludiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareConcludiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareConcludiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareConcludiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$current_data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$gruppo_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErro\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$current_data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareSpostaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareSpostaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_gruppo_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareSpostaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareSpostaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareSpostaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$name\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Incarico/Controllers/IncarichiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$codicefiscale\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cognome\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$datanascita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$luogonascita\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$sesso\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaAnagraficaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_decesso\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaDecessoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaDecessoController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaDecessoController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Requests\\\\EntrataPersonaRequest\\:\\:\\$tipologia\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErrore\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaEntrataController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nominativo\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNominativoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nuovonominativo\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNominativoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNominativoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSucces\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNominativoController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNominativoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNumeroElencoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNumeroElencoController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:NumeroElencoPrefixByLetter\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNumeroElencoController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaNumeroElencoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_fine\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$current_data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_fine\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$posizione_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErro\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaPosizioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_fine\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_inizio\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$stato\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$stato_id\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaStatoController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_uscita\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaUscitaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaUscitaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaUscitaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersonaUscitaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona\\.$#"
+			count: 3
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/PersoneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cognome\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/SearchablePersonaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/SearchablePersonaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nominativo\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/SearchablePersonaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/SearchablePersonaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Persona/Controllers/SearchablePersonaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\AggiornamentoAnagrafe\\\\Models\\\\AggiornamentoAnagrafe\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/AggiornamentoAnagrafeController.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/CaricheController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PersonaPopolazioneController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PersonaPopolazioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$elenchi\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\EserciziSpirituali\\\\Models\\\\EserciziSpirituali\\:\\:attivi\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\AggiornamentoAnagrafe\\\\Models\\\\AggiornamentoAnagrafe\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:stats\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Officina\\\\Models\\\\Uso\\:\\:\\$ofus_iden\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Actions/CreatePrenotazioneAction.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Prenotazioni\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Actions/CreatePrenotazioneAction.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$modelli\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$nome\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:prenotabili\\(\\)\\.$#"
+			count: 11
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Alimentazioni\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Impiego\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewClienti\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewMeccanici\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$note\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Prenotazioni\\:\\:find\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Prenotazioni\\:\\:where\\(\\)\\.$#"
+			count: 5
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Uso\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewClienti\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewClienti\\:\\:orderBy\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewMeccanici\\:\\:findorFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewMeccanici\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Validator\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Cannot access property \\$id on array\\<Illuminate\\\\Database\\\\Eloquent\\\\Builder\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Cannot access property \\$nome on array\\<Illuminate\\\\Database\\\\Eloquent\\\\Builder\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withError\\(\\)\\.$#"
+			count: 7
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 7
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Alimentazioni\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Impiego\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Marche\\:\\:orderBy\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Modelli\\:\\:firstOrCreate\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Modelli\\:\\:orderBy\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:where\\(\\)\\.$#"
+			count: 8
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoOlio\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Tipologia\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Cannot access property \\$codice on array\\|float\\|int\\|string\\|false\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasOne\\:\\:withTrashed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Models/Prenotazioni.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Prenotazioni\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/QueryBuilders/PrenotazioniQueryBuilders.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Patente\\\\Models\\\\Patente\\:\\:\\$numero_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 3
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:orderby\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:whereDoesntHave\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:select\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\ViewClientiConSenzaPatente\\:\\:ConPatente\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\ViewClientiConSenzaPatente\\:\\:SenzaPatente\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\ViewClientiConSenzaPatente\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$data_rilascio_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$data_scadenza_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$numero_patente\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$persona\\.$#"
+			count: 14
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$rilasciata_dal\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$categoria_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cqc_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$numero_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:ConCommisione\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:SenzaCommisione\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:categorieAsString\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:cqcMerci\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:cqcPersone\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withErroe\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:CQCMerci\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:CQCPersone\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:findorfail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:orderby\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:findorfail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:orderby\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:has\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findorfail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:take\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Validator\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 6
+			path: src/App/Sin/Patente/Models/CQC.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Models/CategoriaPatente.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:count\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Models/Patente.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 6
+			path: src/App/Sin/Patente/Models/Patente.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ApiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_id\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_tipo\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddStudentRequest\\:\\:\\$data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 5
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:firstOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
+			count: 6
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$responsabile\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolasticoPerCiclo\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$responsabile\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$elenchi\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$tipo\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:FindOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolastico\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolasticoPerCiclo\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\:\\:first\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/DataTransferObjects/ExportAnnoScolastico.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolastico\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/DataTransferObjects/ExportAnnoScolastico.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Classe\\:\\:\\$anno\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/AddStudentAction.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/AddStudentAction.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$id\\.$#"
+			count: 3
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:isSuperiori\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:create\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Anno\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Anni3Prescuola\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Anni4Prescuola\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Anni5Prescuola\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Elementari\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Medie\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:PrimaElem\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:PrimaMed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:QuartaElem\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:QuintaElem\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:SecondaElem\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:SecondaMed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Superiori\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:TerzaElem\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:TerzaMed\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:whereIn\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to static method beginTransaction\\(\\) on an unknown class DB\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to static method commit\\(\\) on an unknown class DB\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Call to static method rollback\\(\\) on an unknown class DB\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Static call to instance method App\\\\Scuola\\\\Models\\\\ClasseTipo\\:\\:Prescuola\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Anno.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Classe\\:\\:\\$anno\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Classe\\:\\:\\$tipo\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\:\\:first\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:whereNull\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolastico\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/ClasseTipo.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/ClasseTipo.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/QueryBuilders/StudenteQueryBuilder.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\EserciziSpirituali\\\\Models\\\\EserciziSpirituali\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/Domain/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/Actions/CreateMarriageAction.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 6
+			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Incarico/Models/Incarico.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:\\$id\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:\\$id\\.$#"
+			count: 3
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:\\$aziendeAttuali\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\:\\:\\$id\\.$#"
+			count: 5
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:select\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
+			count: 3
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:whereNotIn\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:where\\(\\)\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:whereNull\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 8
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataDallaNascitaAction.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneAccoltoAction.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataMinorenneConFamigliaAction.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataPersonaAction.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataPersonaAction.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:families\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/ExportPopolazioneToWordAction.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:single\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/ExportPopolazioneToWordAction.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolastico\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:aziende\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneAttuale\\:\\:whereIn\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Exports/PopolazioneExport.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
+			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
+			count: 5
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
+
+		-
+			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Posizione.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Posizione.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Posizione.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
+
+		-
+			message: "#^Call to an undefined static method static\\(Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\)\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
