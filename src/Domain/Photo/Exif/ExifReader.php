@@ -32,7 +32,7 @@ final class ExifReader
     }
 
     /**
-     * @param null $sourcePath
+     * @param  null  $sourcePath
      */
     public function setSourcePath($sourcePath): ExifReader
     {
@@ -96,28 +96,28 @@ final class ExifReader
 
     public function extractFileInformation(string $subtag = null): ExifReader
     {
-        $this->additionalOptions[] = $subtag ? '-file:' . $subtag : '-file:all';
+        $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
 
         return $this;
     }
 
     public function extractXMPInformation(string $subtag = null): ExifReader
     {
-        $this->additionalOptions[] = $subtag ? '-xmp:' . $subtag : '-xmp:all';
+        $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
 
         return $this;
     }
 
     public function exportToCSV(string $targetPath): ExifReader
     {
-        $this->additionalOptions[] = $targetPath ? '-csv>' . $targetPath : '-csv';
+        $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
 
         return $this;
     }
 
     public function exportToJSON(string $targetPath): ExifReader
     {
-        $this->additionalOptions[] = $targetPath ? '-json>' . $targetPath : '-json';
+        $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
 
         return $this;
     }
@@ -150,10 +150,10 @@ final class ExifReader
     public function saveJSON(string $fileName = null): string
     {
         // if not given, it use the name of the source file
-        $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME) . '.json';
+        $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
 
 //         TODO: use a safer join pa'2023.json'th function
-        $fullName = $this->targetBasePath . '/' . $name;
+        $fullName = $this->targetBasePath.'/'.$name;
         $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
@@ -172,7 +172,7 @@ final class ExifReader
 
         $output = $this->callExifTool($command);
 
-        return eval('return ' . $output);
+        return eval('return '.$output);
     }
 
     public function createExifToolCommand($targetPath = null): array
@@ -205,9 +205,9 @@ final class ExifReader
         $optionsCommand = $this->getOptionsCommand($command);
         $targetFile = $command['file'];
 
-        return $exifTool . ' '
-            . $optionsCommand . ' '
-            . $targetFile;
+        return $exifTool.' '
+            .$optionsCommand.' '
+            .$targetFile;
 
     }
 
