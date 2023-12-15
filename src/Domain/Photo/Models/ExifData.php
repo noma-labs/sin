@@ -37,6 +37,11 @@ class ExifData
     // TODO: exif tool export keywords in two types: string, and array of string.
     public string $keywords = '';
 
+    public function getSubjects(): string
+    {
+        return implode(',', $this->subjects);
+    }
+
     public static function fromArray(array $info): self
     {
         $exif = new self();
@@ -66,7 +71,7 @@ class ExifData
         }
         $exif->folderTitle = Str::of($exif->directory)->basename();
 
-        if (! isset($info['ImageDataHash'])) {
+        if (isset($info['ImageDataHash'])) {
             $exif->sha = $info['ImageDataHash'];
         }
 

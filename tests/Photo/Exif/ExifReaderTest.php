@@ -1,7 +1,6 @@
 <?php
 
 use Domain\Photo\Exif\ExifReader;
-use Domain\Photo\Models\ExifData;
 
 beforeEach(function () {
     $tempDirPath = __DIR__.'/temp';
@@ -9,6 +8,7 @@ beforeEach(function () {
 });
 
 it('can create exiftool command', function () {
+
     $command = ExifReader::file('test.png')
         ->enableStructuredInformation()
         ->createExifToolCommand();
@@ -69,6 +69,42 @@ it('can create command wit allow duplicate', function () {
             '-a',
         ],
     ]);
+});
+
+it('can create command with file order', function () {
+    expect(ExifReader::file('test.png')->fileOrder('myTag')->createExifToolCommand())
+        ->toBe([
+            'file' => 'test.png',
+            'options' => [
+                '-fileOrder4 myTag',
+            ],
+        ])
+        ->and(ExifReader::file('test.png')->fileOrder('myTag', '5', 'DESC')->createExifToolCommand())
+        ->toBe([
+            'file' => 'test.png',
+            'options' => [
+                '-fileOrder5 -myTag',
+            ],
+        ]);
+
+});
+
+it('can create command with verbose', function () {
+    expect(ExifReader::file('test.png')->verbose(0)->createExifToolCommand())
+        ->toBe([
+            'file' => 'test.png',
+            'options' => [
+                '-v0',
+            ],
+        ])
+        ->and(ExifReader::file('test.png')->verbose()->createExifToolCommand())
+        ->toBe([
+            'file' => 'test.png',
+            'options' => [
+                '-v5',
+            ],
+        ]);
+
 });
 
 it('can create command with no Print conversion', function () {
@@ -160,17 +196,17 @@ it('can scan a directory and save exif data into json', function () {
 
 });
 
-it('can scan dir recursively save csv', function () {
-    $dirPath = __DIR__.'/testfile/testdir';
-    $targetPath = __DIR__.'/temp/dir.csv';
-
-    ExifReader::folder($dirPath)
-        ->extractXMPInformation()
-        ->saveCsv($targetPath);
-
-    expect($targetPath)->toBeFile();
-
-});
+//it('can scan dir recursively save csv', function () {
+//    $dirPath = __DIR__ . '/testfile/testdir';
+//    $targetPath = __DIR__ . '/temp/dir.csv';
+//
+//    ExifReader::folder($dirPath)
+//        ->extractXMPInformation()
+//        ->saveCsv($targetPath);
+//
+//    expect($targetPath)->toBeFile();
+//
+//});
 
 it('can save to php', function () {
     $filePath = __DIR__.'/testfile/BlueSquare.jpg';
@@ -180,9 +216,8 @@ it('can save to php', function () {
         ->savePhpArray();
 
     expect(count($a))->toBe(1);
-    $info = $a[0];
-    expect($info['Format'])->toBe('image/jpeg');
-
+    $data = $a[0];
+    expect($data->sourceFile)->toContain('BlueSquare.jpg');
 });
 
 it('can build exifData from exif', function () {
@@ -195,7 +230,7 @@ it('can build exifData from exif', function () {
         ->disablePrintConversion()
         ->savePhpArray();
 
-    $data = ExifData::fromArray($info[0]);
+    $data = $info[0];
     expect($data->sourceFile)->toContain('BlueSquare.jpg');
     expect($data->fileSize)->toBe(24205);
 

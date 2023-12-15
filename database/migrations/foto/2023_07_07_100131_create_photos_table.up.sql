@@ -16,7 +16,8 @@ CREATE TABLE `photos`
     `subject`             text                  DEFAULT NULL,
     `taken_at`            datetime              DEFAULT NULL COMMENT 'the create date of the photo set by the camera',
     `created_at`          datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    `updated_at`          datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP()
+    `updated_at`          datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    `deleted_at`          datetime(6)   DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
