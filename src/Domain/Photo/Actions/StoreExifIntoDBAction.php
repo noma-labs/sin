@@ -3,6 +3,7 @@
 namespace Domain\Photo\Actions;
 
 use Domain\Photo\Models\Photo;
+use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
@@ -29,7 +30,8 @@ class StoreExifIntoDBAction
                     'region_info' => $r->regionInfo,
                 ];
             }
-            Photo::insert($attrs);
+            DB::connection('db_foto')->table('photos')->insert($attrs);
+//            Photo::insert($attrs);
         }
     }
 }
