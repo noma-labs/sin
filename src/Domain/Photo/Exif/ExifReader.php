@@ -2,6 +2,9 @@
 
 namespace Domain\Photo\Exif;
 
+use Domain\Photo\Models\ExifData;
+use Illuminate\Support\Collection;
+use MongoDB\BSON\Iterator;
 use Symfony\Component\Process\Process;
 
 final class ExifReader
@@ -94,6 +97,13 @@ final class ExifReader
         return $this;
     }
 
+    public function verbose(int $level = 5): ExifReader
+    {
+        $this->additionalOptions[] = '-v'.$level;
+
+        return $this;
+    }
+
     public function extractFileInformation(string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
@@ -104,6 +114,22 @@ final class ExifReader
     public function extractXMPInformation(string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
+
+        return $this;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function fileOrder(string $tag, string $num = '4', string $order = 'ASC'): ExifReader
+    {
+        if (! in_array($order, ['ASC', 'DESC'])) {
+            throw new \Exception('Order must be ASC or DESC');
+        }
+        if ($order === 'DESC') {
+            $tag = '-'.$tag;
+        }
+        $this->additionalOptions[] = '-fileOrder'.$num.' '.$tag;
 
         return $this;
     }
@@ -151,20 +177,17 @@ final class ExifReader
     {
         // if not given, it use the name of the source file
         $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
-
-//         TODO: use a safer join pa'2023.json'th function
-        $fullName = $this->targetBasePath.'/'.$name;
+        $fullName = $this->targetBasePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
         $output = $this->callExifTool($command);
 
-//        echo $output;
         return $fullName;
     }
 
-    public function savePhpArray(): array
+    public function savePhpArray(): Collection
     {
         $this->exportToPhp();
 
@@ -172,7 +195,23 @@ final class ExifReader
 
         $output = $this->callExifTool($command);
 
-        return eval('return '.$output);
+        $a = eval('return '.$output);
+
+        return collect($a)->map(fn ($photo) => ExifData::fromArray($photo));
+    }
+
+    // TODO: the return iterator losse some row information
+    public function run(): \Generator
+    {
+        $this->exportToPhp();
+
+        $command = $this->createExifToolCommand($this->sourcePath);
+
+        foreach (($this->callExifTool($command)) as $line) {
+            yield $line;
+        }
+
+        return '';
     }
 
     public function createExifToolCommand($targetPath = null): array
@@ -189,8 +228,27 @@ final class ExifReader
         $fullCommand = $this->getFullCommand($command);
 
         $process = Process::fromShellCommandline($fullCommand)->setTimeout($this->timeout);
-
         $process->run();
+//        foreach ($process->getIterator() as $out) {
+//            dd($out);
+//        }
+//        $process->wait(function (string $code, string $data) {
+//            if ($code == Process::OUT) {
+////                $data = str($data)
+////                    ->replaceFirst("Array(Array(", "Array(");
+////                    ->replaceFirst("))", ")")
+//
+////                dd(str($data)->remove("\n"));
+////                $data = str($data)
+////                    ->replaceFirst("Array(Array(", "Array(");
+//////                    ->replaceFirst("))", ")")
+////                $a = eval('return ' . $data);
+////                dd($a);
+////                $d = ExifData::fromArray($a);
+////                dd($code, $d);
+//            yield $data;
+//        });
+
         if ($process->isSuccessful()) {
             return rtrim($process->getOutput());
         }

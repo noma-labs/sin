@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined static method Domain\\\\Photo\\\\Models\\\\Photo\\:\\:insert\\(\\)\\.$#"
-			count: 1
-			path: src/App/Console/Commands/ExifImportCommand.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
 			count: 1
 			path: src/App/Exceptions/Handler.php

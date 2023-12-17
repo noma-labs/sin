@@ -12,9 +12,13 @@ tasks:
       - ./vendor/bin/sail artisan make:database
       - ./vendor/bin/sail  php artisan livewire:discover
 
-  start:
+  up:
     cmds:
       - ./vendor/bin/sail up -d
+
+  down:
+    cmds:
+      - ./vendor/bin/sail down
 
   refresh:
     cmds:
@@ -35,7 +39,7 @@ tasks:
       - ./vendor/bin/sail  php artisan route:clear
 
   test:
-    deps: [start]
+    deps: [up]
     cmds:
       - ./vendor/bin/sail  test --stop-on-error "$@"
 
