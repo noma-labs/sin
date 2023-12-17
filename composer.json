@@ -1,10 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "name": "noma-labs/sin",
+    "description": "Sistema Informativo Nomadelfia",
+    "keywords": [   ],
     "license": "MIT",
     "type": "project",
     "require": {
