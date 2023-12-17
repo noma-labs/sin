@@ -270,7 +270,7 @@ class Anno extends Model
     //    @deprecated use the Studente::InAnnoScolastico()
     public function alunni()
     {
-        $expression =  DB::raw('SELECT p.*
+        $expression = DB::raw('SELECT p.*
                 FROM alunni_classi as ac
                 INNER JOIN classi ON classi.id = ac.classe_id
                 INNER JOIN anno ON anno.id = classi.anno_id
@@ -278,7 +278,7 @@ class Anno extends Model
                 WHERE ac.data_fine IS NULL AND anno.id = :aid
                 ORDER BY p.data_nascita');
         $res = DB::connection('db_scuola')->select(
-           $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id]
         );
 
@@ -307,7 +307,7 @@ class Anno extends Model
 
     public function coordinatoriPerClassi(string $ciclo)
     {
-        $expression =   DB::raw('SELECT tipo.nome as classe, p.id as persona_id,  p.nominativo
+        $expression = DB::raw('SELECT tipo.nome as classe, p.id as persona_id,  p.nominativo
                         FROM `coordinatori_classi`
                         INNER JOIN classi On classi.id = coordinatori_classi.classe_id
                         INNER JOIN tipo ON classi.tipo_id = tipo.id
@@ -315,7 +315,7 @@ class Anno extends Model
                         where coordinatori_classi.data_fine IS NULL AND classi.anno_id = :aid and tipo.ciclo = :ciclo
                         order by tipo.ord;');
         $res = DB::connection('db_scuola')->select(
-          $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id, 'ciclo' => $ciclo]
         );
         $cc = collect($res)->groupBy('classe');

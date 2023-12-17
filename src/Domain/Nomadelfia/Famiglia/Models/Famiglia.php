@@ -101,13 +101,14 @@ class Famiglia extends Model
      */
     public static function conCapofamiglia()
     {
-        $expression =  DB::raw("SELECT famiglie.*
+        $expression = DB::raw("SELECT famiglie.*
               FROM `famiglie` 
               INNER JOIN famiglie_persone on famiglie_persone.famiglia_id = famiglie.id
               WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
               ORDER BY famiglie.nome_famiglia");
+
         return DB::connection('db_nomadelfia')->select(
-           $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
     }
 
@@ -238,14 +239,14 @@ class Famiglia extends Model
 
     public function mycomponenti()
     {
-        $expresson =  DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
+        $expresson = DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
                     FROM famiglie 
                     INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
                     INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
                     WHERE famiglie.id = :famiglia
                     ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia');
         $res = DB::connection('db_nomadelfia')->select(
-           $expresson->getValue(DB::connection()->getQueryGrammar()),
+            $expresson->getValue(DB::connection()->getQueryGrammar()),
             ['famiglia' => $this->id]
         );
 
@@ -460,7 +461,7 @@ class Famiglia extends Model
      **/
     public function rimuoviDaGruppoFamiliare($idGruppo)
     {
-        $expression =    DB::raw("UPDATE gruppi_persone
+        $expression = DB::raw("UPDATE gruppi_persone
               SET
                   gruppi_persone.stato = '0'
               WHERE
@@ -474,7 +475,7 @@ class Famiglia extends Model
                 )
                 AND gruppi_persone.stato = '1' ");
         DB::connection('db_nomadelfia')->update(
-         $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['gruppoattuale' => $idGruppo, 'famigliaId' => $this->id]
         );
     }
@@ -497,7 +498,7 @@ class Famiglia extends Model
 
         return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
-             ['minc' => $min_componenti]
+            ['minc' => $min_componenti]
         );
     }
 
@@ -548,7 +549,7 @@ class Famiglia extends Model
             );
 
             // Aggiungi a tutti i componenti della famiglia nel nuovo gruppo
-            $expr =  DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
+            $expr = DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
               SELECT persone.id, :gruppo_nuovo_id, '1', :data_entrata
               FROM famiglie_persone
               INNER JOIN persone ON persone.id = famiglie_persone.persona_id
@@ -575,7 +576,7 @@ class Famiglia extends Model
     public static function famigliaConErrore()
     {
         $result = collect();
-        $expression =  DB::raw(
+        $expression = DB::raw(
             "SELECT famiglie.id, famiglie.nome_famiglia
               from (
                   SELECT famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia, count(*) as count
@@ -591,7 +592,7 @@ class Famiglia extends Model
         );
         $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
 
-        $expression =  DB::raw(
+        $expression = DB::raw(
             "SELECT *
               FROM famiglie
               WHERE famiglie.id NOT IN (
@@ -609,7 +610,7 @@ class Famiglia extends Model
             'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
             'results' => $famiglieSenzaComponenti,
         ]);
-        $expression =  DB::raw("
+        $expression = DB::raw("
       SELECT famiglie.*
       FROM  famiglie 
       WHERE famiglie.id NOT IN (
@@ -624,7 +625,7 @@ class Famiglia extends Model
         );
         $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
 
-        $expression =   DB::raw("SELECT *
+        $expression = DB::raw("SELECT *
               from famiglie
               WHERE famiglie.id IN (
                 SELECT famiglie_persone.famiglia_id
@@ -652,7 +653,7 @@ class Famiglia extends Model
     */
     public static function personeSenzaFamiglia()
     {
-        $expression =  DB::raw('
+        $expression = DB::raw('
         SELECT persone.id, persone.nominativo
         FROM persone
         INNER JOIN popolazione ON popolazione.persona_id = persone.id

@@ -66,7 +66,7 @@ class GruppoFamiliare extends Model
     {
         $effetivo = Posizione::perNome('effettivo');
         $attuale = $this->capogruppoAttuale();
-        $expression =     DB::raw(
+        $expression = DB::raw(
             "SELECT * 
                 FROM persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
@@ -141,7 +141,7 @@ class GruppoFamiliare extends Model
     */
     public function componenti()
     {
-        $expression =    DB::raw("Select *
+        $expression = DB::raw("Select *
                 from persone
                 where persone.id IN (
                     SELECT gruppi_persone.persona_id
@@ -151,7 +151,7 @@ class GruppoFamiliare extends Model
                 )
                 order by data_nascita");
         $gruppi = DB::connection('db_nomadelfia')->select(
-         $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
 
         return $gruppi;
@@ -162,7 +162,7 @@ class GruppoFamiliare extends Model
    */
     public static function countComponenti()
     {
-        $expression =  DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
+        $expression = DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
                             from gruppi_persone
                             left join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
                             where gruppi_persone.stato = '1'
@@ -170,7 +170,7 @@ class GruppoFamiliare extends Model
                             order by gruppi_familiari.nome"
         );
         $gruppi = DB::connection('db_nomadelfia')->select(
-          $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
 
         return $gruppi;

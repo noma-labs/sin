@@ -33,7 +33,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function popolazione()
     {
-        $expression =   DB::raw("SELECT popolazione.*, persone.*,  persone_posizioni.*, posizioni.nome as posizione
+        $expression = DB::raw("SELECT popolazione.*, persone.*,  persone_posizioni.*, posizioni.nome as posizione
                 FROM popolazione
                 LEFT JOIN persone p on popolazione.persona_id = p.id
                 LEFT JOIN persone ON persone.id = popolazione.persona_id
@@ -42,7 +42,7 @@ class PopolazioneNomadelfia extends Model
                 WHERE popolazione.data_uscita IS NULL AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
                 ORDER BY nominativo");
         $res = DB::connection('db_nomadelfia')->select(
-         $expression->getValue(DB::connection()->getQueryGrammar())
+            $expression->getValue(DB::connection()->getQueryGrammar())
         );
 
         return $res;
@@ -108,9 +108,9 @@ class PopolazioneNomadelfia extends Model
 
     public static function fraEta(
         int $fromEta,
-        int $toEta = null,
+        ?int $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year = null,
+        ?int $travel_to_year = null,
         $withInYear = false,
         string $order = 'ASC'
     ) {
@@ -359,7 +359,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function perPosizioni()
     {
-        $expression =   DB::raw(
+        $expression = DB::raw(
             "SELECT posizioni.nome, count(*) as count
                 FROM persone
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
@@ -369,7 +369,7 @@ class PopolazioneNomadelfia extends Model
                 ORDER BY posizioni.ordinamento"
         );
         $posizioni = DB::connection('db_nomadelfia')->select(
-          $expression->getValue(DB::connection()->getQueryGrammar())
+            $expression->getValue(DB::connection()->getQueryGrammar())
         );
 
         return $posizioni;
@@ -398,9 +398,9 @@ class PopolazioneNomadelfia extends Model
     */
     public static function figliDaEta(
         int $fromEta,
-        int $toEta = null,
+        ?int $toEta = null,
         string $orderBy = 'nominativo',
-        int $travel_to_year = null,
+        ?int $travel_to_year = null,
         $withInYear = false
     ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
@@ -439,7 +439,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function famiglie()
     {
-        $expression =  DB::raw(
+        $expression = DB::raw(
             "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
                 FROM persone 
                 INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id 
@@ -463,7 +463,7 @@ class PopolazioneNomadelfia extends Model
     */
     public static function posizioneFamigliaCount()
     {
-        $expression =   DB::raw(
+        $expression = DB::raw(
             "SELECT famiglie_persone.posizione_famiglia, persone.sesso, count(*) as count
               FROM famiglie_persone
               INNER JOIN persone ON famiglie_persone.persona_id = persone.id
@@ -472,7 +472,7 @@ class PopolazioneNomadelfia extends Model
               GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
         );
         $gruppi = DB::connection('db_nomadelfia')->select(
-          $expression->getValue(DB::connection()->getQueryGrammar())
+            $expression->getValue(DB::connection()->getQueryGrammar())
         );
 
         return $gruppi;

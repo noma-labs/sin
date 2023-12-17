@@ -104,14 +104,14 @@ final class ExifReader
         return $this;
     }
 
-    public function extractFileInformation(string $subtag = null): ExifReader
+    public function extractFileInformation(?string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
 
         return $this;
     }
 
-    public function extractXMPInformation(string $subtag = null): ExifReader
+    public function extractXMPInformation(?string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
 
@@ -173,7 +173,7 @@ final class ExifReader
         echo $output;
     }
 
-    public function saveJSON(string $fileName = null): string
+    public function saveJSON(?string $fileName = null): string
     {
         // if not given, it use the name of the source file
         $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
@@ -229,25 +229,25 @@ final class ExifReader
 
         $process = Process::fromShellCommandline($fullCommand)->setTimeout($this->timeout);
         $process->run();
-//        foreach ($process->getIterator() as $out) {
-//            dd($out);
-//        }
-//        $process->wait(function (string $code, string $data) {
-//            if ($code == Process::OUT) {
-////                $data = str($data)
-////                    ->replaceFirst("Array(Array(", "Array(");
-////                    ->replaceFirst("))", ")")
-//
-////                dd(str($data)->remove("\n"));
-////                $data = str($data)
-////                    ->replaceFirst("Array(Array(", "Array(");
-//////                    ->replaceFirst("))", ")")
-////                $a = eval('return ' . $data);
-////                dd($a);
-////                $d = ExifData::fromArray($a);
-////                dd($code, $d);
-//            yield $data;
-//        });
+        //        foreach ($process->getIterator() as $out) {
+        //            dd($out);
+        //        }
+        //        $process->wait(function (string $code, string $data) {
+        //            if ($code == Process::OUT) {
+        ////                $data = str($data)
+        ////                    ->replaceFirst("Array(Array(", "Array(");
+        ////                    ->replaceFirst("))", ")")
+        //
+        ////                dd(str($data)->remove("\n"));
+        ////                $data = str($data)
+        ////                    ->replaceFirst("Array(Array(", "Array(");
+        //////                    ->replaceFirst("))", ")")
+        ////                $a = eval('return ' . $data);
+        ////                dd($a);
+        ////                $d = ExifData::fromArray($a);
+        ////                dd($code, $d);
+        //            yield $data;
+        //        });
 
         if ($process->isSuccessful()) {
             return rtrim($process->getOutput());

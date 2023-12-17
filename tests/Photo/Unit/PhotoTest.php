@@ -1,6 +1,7 @@
 <?php
 
 use Domain\Photo\Models\Photo;
+
 use function PHPUnit\Framework\assertEquals;
 
 it('add photos to db', function () {

@@ -19,7 +19,7 @@ class EntrataMinorenneConFamigliaAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, $data_entrata, Famiglia $famiglia = null)
+    public function execute(Persona $persona, $data_entrata, ?Famiglia $famiglia = null)
     {
         $dto = new EntrataPersonaData();
         $dto->persona = $persona;
