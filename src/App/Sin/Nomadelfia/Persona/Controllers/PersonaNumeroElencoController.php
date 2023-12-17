@@ -12,7 +12,7 @@ class PersonaNumeroElencoController extends CoreBaseController
     {
         $persona = Persona::findOrFail($idPersona);
         $first = $persona->getInitialLetterOfCogonome();
-        $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
+        $assegnati = Persona::NumeroElencoPrefixByLetter($first);
         $propose = $persona->proposeNumeroElenco();
 
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
