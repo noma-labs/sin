@@ -21,7 +21,8 @@ class ScuolaController extends CoreBaseController
     {
         $lastAnno = Anno::getLastAnno();
         $alunni = Studente::InAnnoScolastico($lastAnno)->count();
-        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($lastAnno)->get();
+$cicloAlunni = Studente::InAnnoScolasticoPerCiclo($lastAnno)->get();
+
         $resp = $lastAnno->responsabile;
 
         return view('scuola.summary', compact('lastAnno', 'alunni', 'cicloAlunni', 'resp'));

@@ -18,9 +18,10 @@ it('can get the president of associazione', function () {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
     $carica = Cariche::associazione()->presidente()->first();
+
+    $expression =  DB::raw('INSERT INTO persone_cariche (persona_id, cariche_id, data_inizio) VALUES (:persona, :carica, :datain) ');
     DB::connection('db_nomadelfia')->insert(
-        DB::raw('INSERT INTO persone_cariche (persona_id, cariche_id, data_inizio)
-                VALUES (:persona, :carica, :datain) '),
+        $expression->getValue(DB::connection()->getQueryGrammar()),
         ['persona' => $persona->id, 'carica' => $carica->id, 'datain' => Carbon\Carbon::now()]
     );
 

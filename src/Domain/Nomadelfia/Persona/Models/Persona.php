@@ -116,12 +116,20 @@ class Persona extends Model
         return $this->sesso == 'M';
     }
 
-    public function scopeNumeroElencoPrefixByLetter($query, string $lettera)
+    public  static function NumeroElencoPrefixByLetter(string $lettera):array
     {
-        $query->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
-                ['^[a-zA-Z].*[0-9]$', $lettera])
-            ->orderBy('numero', 'DESC');
+
+        $expression = DB::raw("select persone.* , left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer) as numero from persone where numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null order by numero desc limit 1");
+        $res = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+            ["regex"=> '^[a-zA-Z].*[0-9]$', "letter" =>$lettera]
+        );
+        return $res;
+
+//        $query->select("*", "CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero") //$expression->getValue(DB::connection()->getQueryGrammar()))
+//            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
+//                ['^[a-zA-Z].*[0-9]$', $lettera])
+//            ->orderBy('numero', 'DESC');
     }
 
     /**
@@ -133,7 +141,8 @@ class Persona extends Model
             throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
-        $res = $this->select(DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
+        $expression = DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero');
+        $res = $this->select($expression->getValue(DB::connection()->getQueryGrammar()))
             ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
                 ['^[a-zA-Z].*[0-9]$', $firstLetter])
             ->orderBy('numero', 'DESC')
@@ -289,10 +298,11 @@ class Persona extends Model
 
     public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)
     {
-        $res = DB::connection('db_nomadelfia')->update(
-            DB::raw("UPDATE gruppi_persone
+        $expression =  DB::raw("UPDATE gruppi_persone
                SET stato = '0', data_uscita_gruppo = :dataout
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain"),
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain");
+        $res = DB::connection('db_nomadelfia')->update(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['persona' => $this->id, 'gruppo' => $gruppo_id, 'datain' => $datain, 'dataout' => $dataout]
         );
 
@@ -301,10 +311,11 @@ class Persona extends Model
 
     public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
     {
-        $res = DB::connection('db_nomadelfia')->update(
-            DB::raw('UPDATE gruppi_persone
+        $expression =  DB::raw('UPDATE gruppi_persone
                SET  data_entrata_gruppo = :new
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current'),
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
+        $res = DB::connection('db_nomadelfia')->update(
+              $expression->getValue(DB::connection()->getQueryGrammar()),
             ['persona' => $this->id, 'gruppo' => $gruppo_id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
 
@@ -334,11 +345,12 @@ class Persona extends Model
             &$datain_new
         ) {
             // disabilita il gruppo attuale
-            DB::connection('db_nomadelfia')->update(
-                DB::raw("UPDATE gruppi_persone
+            $expression =   DB::raw("UPDATE gruppi_persone
                  SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
                  WHERE persona_id = :p  AND gruppo_famigliare_id = :g AND data_entrata_gruppo = :datain
-                "),
+                ");
+            DB::connection('db_nomadelfia')->update(
+                $expression->getValue(DB::connection()->getQueryGrammar()),
                 [
                     'p' => $persona_id,
                     'g' => $gruppo_id_current,
@@ -347,18 +359,20 @@ class Persona extends Model
                 ]
             );
             // disabilita tutti i gruppi familiare della persona
-            DB::connection('db_nomadelfia')->update(
-                DB::raw("UPDATE gruppi_persone
+            $expression =    DB::raw("UPDATE gruppi_persone
                 SET gruppi_persone.stato = '0'
                 WHERE persona_id = :p
-                "),
+                ");
+            DB::connection('db_nomadelfia')->update(
+                $expression->getValue(DB::connection()->getQueryGrammar()),
                 ['p' => $persona_id]
             );
 
             // assegna il nuovo gruppo alla persona
+            $expression = DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
+                VALUES (:persona, :gruppo, '1', :datain) ");
             DB::connection('db_nomadelfia')->insert(
-                DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
-                VALUES (:persona, :gruppo, '1', :datain) "),
+                $expression->getValue(DB::connection()->getQueryGrammar()),
                 ['persona' => $persona_id, 'gruppo' => $gruppo_id_new, 'datain' => $datain_new]
             );
         });
@@ -724,10 +738,11 @@ class Persona extends Model
             } else {
                 // TODO; check se la persona può essere asseganta alla nuova famiglia
                 DB::transaction(function () use (&$attuale, &$famiglia, &$posizione) {
-                    DB::connection('db_nomadelfia')->update(
-                        DB::raw("UPDATE famiglie_persone
+                    $expression =   DB::raw("UPDATE famiglie_persone
                         SET stato = '0'
-                        WHERE persona_id  = :persona AND famiglia_id = :famiglia "),
+                        WHERE persona_id  = :persona AND famiglia_id = :famiglia ");
+                    DB::connection('db_nomadelfia')->update(
+                        $expression->getValue(DB::connection()->getQueryGrammar()),
                         [
                             'persona' => $this->id,
                             'famiglia' => $attuale->id,
@@ -934,10 +949,11 @@ class Persona extends Model
         $currentDatain,
         $newDataIn
     ) {
-        $res = DB::connection('db_nomadelfia')->update(
-            DB::raw('UPDATE persone_posizioni
+        $expression =  DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
-               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current'),
+               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current');
+        $res = DB::connection('db_nomadelfia')->update(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
 
@@ -949,10 +965,11 @@ class Persona extends Model
         $datain,
         $datafine
     ) {
-        $res = DB::connection('db_nomadelfia')->update(
-            DB::raw("UPDATE persone_posizioni
+        $expression =  DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
-               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :datain"),
+               WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :datain");
+        $res = DB::connection('db_nomadelfia')->update(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['posizone' => $posizione_id, 'persona' => $this->id, 'datain' => $datain, 'dataout' => $datafine]
         );
 

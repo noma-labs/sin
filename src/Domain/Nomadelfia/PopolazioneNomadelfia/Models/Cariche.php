@@ -140,9 +140,9 @@ class Cariche extends Model
     {
         $effetivo = Posizione::perNome('effettivo');
         $sacerdote = Stato::perNome('sacerdote');
-        $res = DB::connection('db_nomadelfia')->select(
-            DB::raw(
-                'SELECT * 
+
+        $expression = DB::raw(
+            'SELECT * 
                 FROM persone
                 INNER JOIN popolazione ON popolazione.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
@@ -151,7 +151,9 @@ class Cariche extends Model
                 AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
                 AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac
                 ORDER BY persone.nominativo ASC'
-            ),
+        );
+        $res = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             [
                 'effe' => $effetivo->id,
                 'sac' => $sacerdote->id,

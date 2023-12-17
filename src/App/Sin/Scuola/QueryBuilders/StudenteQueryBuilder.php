@@ -27,8 +27,9 @@ class StudenteQueryBuilder extends Builder
 
     public function InAnnoScolasticoPerCiclo($anno)
     {
+        $expression =
         $cicloAlunni = $this->InAnnoScolastico($anno)
-            ->select('db_scuola.tipo.ciclo', DB::raw('count(*) as count'))
+            ->select('db_scuola.tipo.ciclo', DB::raw('count(*) as count')) // $expression->getValue(DB::connection()->getQueryGrammar()))
             ->groupBy('db_scuola.tipo.ciclo');
 
         return $cicloAlunni;
