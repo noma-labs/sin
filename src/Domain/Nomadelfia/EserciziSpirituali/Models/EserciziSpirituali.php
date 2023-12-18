@@ -52,13 +52,14 @@ class EserciziSpirituali extends Model
 
     public function personeOk($orderby = 'data_nascita')
     {
-        $persone = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
+        $expression =   DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
               FROM persone
               INNER JOIN persone_esercizi ON persone_esercizi.persona_id = persone.id
               INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
               WHERE esercizi_spirituali.stato = '1' AND esercizi_spirituali.id =:id
-              ORDER BY persone.nominativo"),
+              ORDER BY persone.nominativo");
+        $persone = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             ['id' => $this->id]
         );
         $result = new stdClass;
@@ -122,8 +123,7 @@ class EserciziSpirituali extends Model
     */
     public static function personeNoEsercizi()
     {
-        $persone = DB::connection('db_nomadelfia')->select(
-            DB::raw("
+        $expression  = DB::raw("
             SELECT persone.*
             FROM persone
             INNER JOIN popolazione ON popolazione.persona_id = persone.id
@@ -133,7 +133,9 @@ class EserciziSpirituali extends Model
                       INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
                       where esercizi_spirituali.stato = '1'
             )  AND popolazione.data_uscita IS NULL  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
-            ORDER BY persone.nominativo")
+            ORDER BY persone.nominativo");
+        $persone = DB::connection('db_nomadelfia')->select(
+           $expression->getValue(DB::connection()->getQueryGrammar()),
         );
         $result = new stdClass;
         $per = collect($persone);
