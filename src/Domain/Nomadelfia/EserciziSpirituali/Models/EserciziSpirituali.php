@@ -52,7 +52,7 @@ class EserciziSpirituali extends Model
 
     public function personeOk($orderby = 'data_nascita')
     {
-        $expression =   DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
+        $expression = DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
               FROM persone
               INNER JOIN persone_esercizi ON persone_esercizi.persona_id = persone.id
               INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
@@ -123,7 +123,7 @@ class EserciziSpirituali extends Model
     */
     public static function personeNoEsercizi()
     {
-        $expression  = DB::raw("
+        $expression = DB::raw("
             SELECT persone.*
             FROM persone
             INNER JOIN popolazione ON popolazione.persona_id = persone.id
@@ -135,7 +135,7 @@ class EserciziSpirituali extends Model
             )  AND popolazione.data_uscita IS NULL  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
             ORDER BY persone.nominativo");
         $persone = DB::connection('db_nomadelfia')->select(
-           $expression->getValue(DB::connection()->getQueryGrammar()),
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
         $result = new stdClass;
         $per = collect($persone);
