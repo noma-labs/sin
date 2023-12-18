@@ -169,7 +169,7 @@ class Patente extends Model
      *
      * @author Davide Neri
      */
-    public function scopeScadute($query, int $days = null)
+    public function scopeScadute($query, ?int $days = null)
     {
 
         if ($days != null) {

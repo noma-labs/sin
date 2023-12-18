@@ -31,7 +31,7 @@ class StoreExifIntoDBAction
                 ];
             }
             DB::connection('db_foto')->table('photos')->insert($attrs);
-//            Photo::insert($attrs);
+            //            Photo::insert($attrs);
         }
     }
 }

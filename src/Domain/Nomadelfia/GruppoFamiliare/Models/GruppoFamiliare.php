@@ -66,16 +66,17 @@ class GruppoFamiliare extends Model
     {
         $effetivo = Posizione::perNome('effettivo');
         $attuale = $this->capogruppoAttuale();
-        $res = DB::connection('db_nomadelfia')->select(
-            DB::raw(
-                "SELECT * 
+        $expression = DB::raw(
+            "SELECT * 
                 FROM persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 WHERE gruppi_persone.stato = '1' AND persone_posizioni.stato = '1'  AND persone_posizioni.posizione_id = :effe
                     AND gruppi_persone.gruppo_famigliare_id = :gr AND persone.sesso = 'M' AND gruppi_persone.persona_id != :capoatt
                 ORDER BY persone.data_nascita ASC"
-            ),
+        );
+        $res = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
             [
                 'gr' => $this->id,
                 'effe' => $effetivo->id,
@@ -140,8 +141,7 @@ class GruppoFamiliare extends Model
     */
     public function componenti()
     {
-        $gruppi = DB::connection('db_nomadelfia')->select(
-            DB::raw("Select *
+        $expression = DB::raw("Select *
                 from persone
                 where persone.id IN (
                     SELECT gruppi_persone.persona_id
@@ -149,7 +149,9 @@ class GruppoFamiliare extends Model
                     where gruppi_persone.stato = '1'
                       AND gruppi_persone.gruppo_famigliare_id = 9
                 )
-                order by data_nascita")
+                order by data_nascita");
+        $gruppi = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
 
         return $gruppi;
@@ -160,14 +162,15 @@ class GruppoFamiliare extends Model
    */
     public static function countComponenti()
     {
-        $gruppi = DB::connection('db_nomadelfia')->select(
-            DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
+        $expression = DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
                             from gruppi_persone
                             left join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
                             where gruppi_persone.stato = '1'
                             group by gruppi_persone.gruppo_famigliare_id
                             order by gruppi_familiari.nome"
-            )
+        );
+        $gruppi = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
         );
 
         return $gruppi;

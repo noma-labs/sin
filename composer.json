@@ -1,26 +1,23 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "name": "noma-labs/sin",
+    "description": "Sistema Informativo Nomadelfia",
+    "keywords": [   ],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=8.0",
-        "doctrine/dbal": "^2.6",
+        "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laracasts/utilities": "^3.0",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "laravel/tinker": "~2.0",
-        "laravel/ui": "^3.0",
+        "laravel/ui": "^4.0",
         "laravelcollective/html": "^6.0",
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.7",
         "phpoffice/phpword": "0.18.3",
-        "pmatseykanets/laravel-sql-migrations": "^1.0.0",
+        "pmatseykanets/laravel-sql-migrations": "dev-laravel10",
         "rappasoft/laravel-livewire-tables": "^2.8",
         "sentry/sentry-laravel": "^3.1",
         "spatie/browsershot": "^3.57",
@@ -39,10 +36,10 @@
         "laravel/pint": "^1.8",
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.4.1",
-        "nunomaduro/larastan": "^2.0",
-        "pestphp/pest": "^1.22",
-        "pestphp/pest-plugin-laravel": "^1.4",
-        "phpunit/phpunit": "^9.0"
+        "larastan/larastan": "^2.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
@@ -94,5 +91,12 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "name": "noma-labs/laravel-sql-migrations",
+            "url": "https://github.com/noma-labs/laravel-sql-migrations"
+        }
+    ]
 }
