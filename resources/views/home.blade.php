@@ -2,6 +2,8 @@
 
 @section('archivio')
 <div class="container">
+        <livewire:counter />
+
     <div class="row">
         @if (Auth::guest())
         <div class="col-md-4">

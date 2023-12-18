@@ -26,6 +26,7 @@
         <div class="col-md-12">
           <div class="form-group">
               <label> Cliente</label>
+
               <autocomplete
                 :selected="{{$prestito->cliente()->pluck('nominativo','id')}}"
                 placeholder="Inserisci nominativo..."
