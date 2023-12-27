@@ -16,6 +16,7 @@ class ExtractExifAction
             ->enableStructuredInformation()
             ->flatGroup1Tag()
             ->extractFileInformation()
+            ->extractXMPInformation()
             ->extractExifInformation()
             ->extractIPTCInformation()
             ->extractHashOfTheImage()
