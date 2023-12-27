@@ -4,12 +4,13 @@ namespace Domain\Photo\Actions;
 
 use Domain\Photo\Models\ExifData;
 use Domain\Photo\Models\Photo;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
     /**
-     * @param array{ExifData} $args
+     * @param array $exifs
      */
     public function execute(array $exifs): void
     {

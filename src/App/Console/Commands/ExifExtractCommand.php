@@ -44,10 +44,10 @@ class ExifExtractCommand extends Command
 
         $raw_metadata = json_decode(file_get_contents($fileName), true);
 
-        $photos = collect();
+        $photos = array();
         foreach ($raw_metadata as $metadata) {
             $data = ExifData::fromArray($metadata);
-            $photos->push($data);
+            $photos[] = $data;
         }
         if ($saveToDb) {
             (new StoreExifIntoDBAction())->execute($photos);
