@@ -2,13 +2,18 @@
 
 namespace Domain\Photo\Actions;
 
+use Domain\Photo\Models\ExifData;
 use Domain\Photo\Models\Photo;
 use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
+    /**
+     * @param array{ExifData} $args
+     */
     public function execute(array $exifs): void
     {
+
         $chunks = collect($exifs)->chunk(100);
         foreach ($chunks as $chunk) {
             $attrs = [];

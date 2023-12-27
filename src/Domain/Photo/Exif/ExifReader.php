@@ -111,9 +111,30 @@ final class ExifReader
         return $this;
     }
 
+    public function flatGroup1Tag(): ExifReader
+    {
+        // produce the tag group name in the key. Like  "File:ImageDataHash"
+        $this->additionalOptions[] = '-G1';
+        return $this;
+    }
+
     public function extractXMPInformation(?string $subtag = null): ExifReader
     {
         $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
+
+        return $this;
+    }
+
+    public function extractExifInformation(?string $subtag = null): ExifReader
+    {
+        $this->additionalOptions[] = $subtag ? '-exif:'.$subtag : '-exif:all';
+
+        return $this;
+    }
+
+    public function extractIPTCInformation(?string $subtag = null): ExifReader
+    {
+        $this->additionalOptions[] = $subtag ? '-iptc:'.$subtag : '-iptc:all';
 
         return $this;
     }
@@ -177,7 +198,7 @@ final class ExifReader
     {
         // if not given, it use the name of the source file
         $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
-        $fullName = $this->targetBasePath.DIRECTORY_SEPARATOR.$name;
+        $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 
         $command = $this->createExifToolCommand($this->sourcePath);
@@ -254,7 +275,7 @@ final class ExifReader
         }
         $process->clearOutput();
         $exitCode = $process->getExitCode();
-        throw new \Exception($process->getErrorOutput());
+        return $process->getErrorOutput();
     }
 
     protected function getFullCommand(array $command): string

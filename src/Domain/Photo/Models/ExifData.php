@@ -47,6 +47,7 @@ class ExifData
         $exif = new self();
 
         $exif->sourceFile = $info['SourceFile'];
+        // TODO the date of the data pf the photo ??
 
         if (isset($info['FileName'])) {
             $exif->fileName = $info['FileName'];
@@ -57,10 +58,10 @@ class ExifData
         if (isset($info['FileSize'])) {
             $exif->fileSize = $info['FileSize'];
         }
-        if (isset($info['FileType']) || isset($info['File:FileType'])) {
+        if (isset($info['FileType'])) {
             $exif->fileType = $info['FileType'];
         }
-        if (isset($info['FileTypeExtension']) || isset($info['File:FileTypeExtension'])) {
+        if (isset($info['FileTypeExtension'])) {
             $exif->fileExtension = $info['FileTypeExtension'];
         }
         if (isset($info['ImageWidth'])) {
@@ -69,16 +70,8 @@ class ExifData
         if (isset($info['ImageHeight'])) {
             $exif->imageHeight = $info['ImageHeight'];
         }
-        $exif->folderTitle = Str::of($exif->directory)->basename();
-
         if (isset($info['ImageDataHash'])) {
             $exif->sha = $info['ImageDataHash'];
-        }
-
-        // TODO: if taken at is missing ?
-        // TODO: manage the timezone
-        if (isset($info['CreateDate'])) {
-            $exif->takenAt = Carbon::parse($info['CreateDate']);
         }
         if (isset($info['Subject'])) {
             $exif->subjects = $info['Subject'];
@@ -86,6 +79,41 @@ class ExifData
         if (isset($info['RegionInfo'])) {
             $exif->regionInfo = json_encode($info['RegionInfo']);
         }
+
+
+        // GROUP-based name (using G1 option)
+        if (isset($info['System:FileName'])) {
+            $exif->fileName = $info['System:FileName'];
+        }
+        if (isset($info['System:Directory'])) {
+            $exif->directory = $info['System:Directory'];
+        }
+        if (isset($info['System:FileSize'])) {
+            $exif->fileSize = $info['System:FileSize'];
+        }
+        if (isset($info['File:FileType'])) {
+            $exif->fileType = $info['File:FileType'];
+        }
+        if (isset($info['File:FileTypeExtension'])) {
+            $exif->fileExtension = $info['File:FileTypeExtension'];
+        }
+        if (isset($info['File:ImageWidth'])) {
+            $exif->imageWidth = $info['File:ImageWidth'];
+        }
+        if (isset($info['File:ImageHeight'])) {
+            $exif->imageHeight = $info['File:ImageHeight'];
+        }
+        if (isset($info['File:ImageDataHash'])) {
+            $exif->sha = $info['File:ImageDataHash'];
+        }
+        if (isset($info['XMP-dc:Subject'])) {
+            $exif->subjects = $info['XMP-dc:Subject'];
+        }
+        if (isset($info['XMP-mwg-rs:RegionInfo'])) {
+            $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
+        }
+
+        $exif->folderTitle = Str::of($exif->directory)->basename();
 
         return $exif;
     }
