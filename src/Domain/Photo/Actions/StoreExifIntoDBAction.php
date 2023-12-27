@@ -7,40 +7,25 @@ use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
-    public function execute(string $jsonFile): array
+    public function execute(string $jsonFile): int
     {
-        $raw_metadata = json_decode(file_get_contents($jsonFile), true);
+        $num  = 0;
 
-        $photos = [];
-        foreach ($raw_metadata as $metadata) {
-            $data = ExifData::fromArray($metadata);
-            $photos[] = $data;
-        }
-        $chunks = collect($photos)->chunk(100);
-
-        foreach ($chunks as $chunk) {
-            $attrs = [];
-            foreach ($chunk as $r) {
-                $attrs[] = [
-                    'uid' => uniqid(),
-                    'sha' => $r->sha,
-                    'source_file' => $r->sourceFile,
-                    'subject' => implode(',', $r->subjects),
-                    'folder_title' => $r->folderTitle,
-                    'file_size' => $r->fileSize,
-                    'file_name' => $r->fileName,
-                    'file_type' => $r->fileType,
-                    'file_type_extension' => $r->fileExtension,
-                    'image_height' => $r->imageHeight,
-                    'image_width' => $r->imageWidth,
-                    'taken_at' => $r->takenAt,
-                    'directory' => $r->directory,
-                    'region_info' => $r->regionInfo,
-                ];
-            }
+        $stream = fopen($jsonFile, 'r');
+        $listener = new \JsonStreamingParser\Listener\SimpleObjectQueueListener(function ($item) use (&$num): void {
+            $data = ExifData::fromArray($item);
+            $attrs = $data->toModelAttrs();
             DB::connection('db_foto')->table('photos')->insert($attrs);
+            $num += 1;
+        });
+        try {
+            $parser = new \JsonStreamingParser\Parser($stream, $listener);
+            $parser->parse();
+            fclose($stream);
+        } catch (Exception $e) {
+            fclose($stream);
+            throw $e;
         }
-
-        return $photos;
+        return $num;
     }
 }

@@ -4,6 +4,7 @@ namespace Domain\Photo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Exception;
 
 class ExifData
 {
@@ -46,6 +47,10 @@ class ExifData
     {
         $exif = new self();
 
+        if (!isset($info['SourceFile'])) {
+            $t = join(',', $info);
+            throw new Exception("'SourceFile' not found in:".$t);
+        }
         $exif->sourceFile = $info['SourceFile'];
         // TODO the date of the data pf the photo ??
 
@@ -115,5 +120,25 @@ class ExifData
         $exif->folderTitle = Str::of($exif->directory)->basename();
 
         return $exif;
+    }
+
+    function toModelAttrs(): array
+    {
+        return [
+            'uid' => uniqid(),
+            'sha' => $this->sha,
+            'source_file' => $this->sourceFile,
+            'subject' => implode(',', $this->subjects),
+            'folder_title' => $this->folderTitle,
+            'file_size' => $this->fileSize,
+            'file_name' => $this->fileName,
+            'file_type' => $this->fileType,
+            'file_type_extension' => $this->fileExtension,
+            'image_height' => $this->imageHeight,
+            'image_width' => $this->imageWidth,
+            'taken_at' => $this->takenAt,
+            'directory' => $this->directory,
+            'region_info' => $this->regionInfo,
+        ];
     }
 }

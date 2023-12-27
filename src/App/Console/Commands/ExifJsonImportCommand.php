@@ -36,14 +36,15 @@ class ExifJsonImportCommand extends Command
 
         $this->info("Reading $file");
 
-        $photos = (new StoreExifIntoDBAction())->execute($file);
+        $num = (new StoreExifIntoDBAction())->execute($file);
 
-        $this->table(
-            ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-            collect($photos)
-                ->take($limit)
-                ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
-        );
+        $this->info("Inserted $num phots");
+//        $this->table(
+//            ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
+//            collect($photos)
+//                ->take($limit)
+//                ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
+//        );
 
         return Command::SUCCESS;
 
