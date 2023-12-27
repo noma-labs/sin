@@ -15,7 +15,7 @@ final class ExifReader
 
     protected $targetBasePath = null;
 
-    public int $timeout;
+    public int|null $timeout;
 
     protected $additionalOptions = [];
 
