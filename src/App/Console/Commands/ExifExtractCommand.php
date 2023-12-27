@@ -42,23 +42,16 @@ class ExifExtractCommand extends Command
 
         $this->info("Saving into $fileName");
 
-        $raw_metadata = json_decode(file_get_contents($fileName), true);
-
-        $photos = array();
-        foreach ($raw_metadata as $metadata) {
-            $data = ExifData::fromArray($metadata);
-            $photos[] = $data;
-        }
         if ($saveToDb) {
-            (new StoreExifIntoDBAction())->execute($photos);
-        }
+            $photos = (new StoreExifIntoDBAction())->execute($fileName);
 
-        $this->table(
-            ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-            collect($photos)
-                ->take($limit)
-                ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
-        );
+            $this->table(
+                ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
+                collect($photos)
+                    ->take($limit)
+                    ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
+            );
+        }
 
         return Command::SUCCESS;
 

@@ -3,19 +3,24 @@
 namespace Domain\Photo\Actions;
 
 use Domain\Photo\Models\ExifData;
-use Domain\Photo\Models\Photo;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
     /**
-     * @param array $exifs
+     * @param string $jsonFile
      */
-    public function execute(array $exifs): void
+    public function execute(string $jsonFile): array
     {
+        $raw_metadata = json_decode(file_get_contents($jsonFile), true);
 
-        $chunks = collect($exifs)->chunk(100);
+        $photos = array();
+        foreach ($raw_metadata as $metadata) {
+            $data = ExifData::fromArray($metadata);
+            $photos[] = $data;
+        }
+        $chunks = collect($photos)->chunk(100);
+
         foreach ($chunks as $chunk) {
             $attrs = [];
             foreach ($chunk as $r) {
@@ -37,7 +42,7 @@ class StoreExifIntoDBAction
                 ];
             }
             DB::connection('db_foto')->table('photos')->insert($attrs);
-            //            Photo::insert($attrs);
         }
+        return $photos;
     }
 }
