@@ -19,6 +19,7 @@ class ExtractExifAction
             ->extractExifInformation()
             ->extractIPTCInformation()
             ->extractHashOfTheImage()
+            ->setTimeout(null)
             ->saveJSON();
     }
 }

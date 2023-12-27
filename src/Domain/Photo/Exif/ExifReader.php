@@ -64,9 +64,10 @@ final class ExifReader
         $this->exifToolBinary = $exifToolBinary;
     }
 
-    public function setTimeout(int $timeout): void
+    public function setTimeout(int|null $timeout): ExifReader
     {
         $this->timeout = $timeout;
+        return $this;
     }
 
     public function enableStructuredInformation(): ExifReader
