@@ -7,14 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
-    /**
-     * @param string $jsonFile
-     */
     public function execute(string $jsonFile): array
     {
         $raw_metadata = json_decode(file_get_contents($jsonFile), true);
 
-        $photos = array();
+        $photos = [];
         foreach ($raw_metadata as $metadata) {
             $data = ExifData::fromArray($metadata);
             $photos[] = $data;
@@ -43,6 +40,7 @@ class StoreExifIntoDBAction
             }
             DB::connection('db_foto')->table('photos')->insert($attrs);
         }
+
         return $photos;
     }
 }

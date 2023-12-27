@@ -4,9 +4,7 @@ namespace App\Console\Commands;
 
 use Domain\Photo\Actions\ExtractExifAction;
 use Domain\Photo\Actions\StoreExifIntoDBAction;
-use Domain\Photo\Models\ExifData;
 use Illuminate\Console\Command;
-use Illuminate\Support\Benchmark;
 
 class ExifExtractCommand extends Command
 {

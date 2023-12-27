@@ -15,7 +15,7 @@ final class ExifReader
 
     protected $targetBasePath = null;
 
-    public int|null $timeout;
+    public ?int $timeout;
 
     protected $additionalOptions = [];
 
@@ -64,9 +64,10 @@ final class ExifReader
         $this->exifToolBinary = $exifToolBinary;
     }
 
-    public function setTimeout(int|null $timeout): ExifReader
+    public function setTimeout(?int $timeout): ExifReader
     {
         $this->timeout = $timeout;
+
         return $this;
     }
 
@@ -116,6 +117,7 @@ final class ExifReader
     {
         // produce the tag group name in the key. Like  "File:ImageDataHash"
         $this->additionalOptions[] = '-G1';
+
         return $this;
     }
 
@@ -206,7 +208,7 @@ final class ExifReader
 
         $output = $this->callExifTool($command);
 
-        echo ($output);
+        echo $output;
 
         return $fullName;
     }
@@ -278,6 +280,7 @@ final class ExifReader
         }
         $process->clearOutput();
         $exitCode = $process->getExitCode();
+
         return $process->getErrorOutput();
     }
 

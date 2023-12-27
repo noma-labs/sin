@@ -3,7 +3,6 @@
 namespace Domain\Photo\Actions;
 
 use Domain\Photo\Exif\ExifReader;
-use Domain\Photo\Models\ExifData;
 
 class ExtractExifAction
 {

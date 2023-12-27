@@ -80,7 +80,6 @@ class ExifData
             $exif->regionInfo = json_encode($info['RegionInfo']);
         }
 
-
         // GROUP-based name (using G1 option)
         if (isset($info['System:FileName'])) {
             $exif->fileName = $info['System:FileName'];
