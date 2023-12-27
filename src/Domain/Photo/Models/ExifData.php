@@ -128,7 +128,7 @@ class ExifData
             'uid' => uniqid(),
             'sha' => $this->sha,
             'source_file' => $this->sourceFile,
-            'subject' => implode(',', $this->subjects),
+            'subject' => join(',', $this->subjects),
             'folder_title' => $this->folderTitle,
             'file_size' => $this->fileSize,
             'file_name' => $this->fileName,

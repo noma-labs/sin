@@ -19,7 +19,6 @@
         "phpoffice/phpword": "0.18.3",
         "pmatseykanets/laravel-sql-migrations": "dev-laravel10",
         "rappasoft/laravel-livewire-tables": "^2.8",
-        "salsify/json-streaming-parser": "^8.3",
         "sentry/sentry-laravel": "^3.1",
         "spatie/browsershot": "^3.57",
         "spatie/laravel-activitylog": "^4.0",
