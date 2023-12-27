@@ -32,19 +32,12 @@ class ExifJsonImportCommand extends Command
     public function handle()
     {
         $file = $this->argument('file');
-        $limit = $this->option('limit');
 
         $this->info("Reading $file");
 
         $num = (new StoreExifIntoDBAction())->execute($file);
 
         $this->info("Inserted $num phots");
-//        $this->table(
-//            ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-//            collect($photos)
-//                ->take($limit)
-//                ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
-//        );
 
         return Command::SUCCESS;
 

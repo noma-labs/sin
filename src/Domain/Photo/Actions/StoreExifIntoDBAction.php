@@ -11,12 +11,22 @@ class StoreExifIntoDBAction
     public function execute(string $jsonFile): int
     {
         $num  = 0;
+        $buffer = [];
         foreach (new JsonParser($jsonFile) as $key => $value) {
             $data = ExifData::fromArray($value);
-            $attrs = $data->toModelAttrs();
-            DB::connection('db_foto')->table('photos')->insert($attrs);
+            $buffer[] = $data;
+            if (count($buffer) >= 100) {
+                $this->insertBuffer($buffer);
+                $buffer = [];
+            }
             $num += 1;
         }
         return $num;
+    }
+
+    private function insertBuffer(array $buffer): void
+    {
+        $attrs = array_map(fn ($d) => $d->toModelAttrs(), $buffer);
+        DB::connection('db_foto')->table('photos')->insert($attrs);
     }
 }
