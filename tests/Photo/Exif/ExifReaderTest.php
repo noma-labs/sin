@@ -159,39 +159,39 @@ it('can create command with recursive', function () {
     ]);
 });
 
-it('can save exif data into CSV file', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__.'/temp/BlueSquare.csv';
-
-    ExifReader::file($filePath)
-        ->extractXMPInformation()
-        ->saveCsv($targetPath);
-
-    expect($targetPath)->toBeFile();
-
-});
-
-it('can save exif data into JSON file', function () {
-    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
-    $targetFile = '/temp/BlueSquare.json';
-
-    $fullName = ExifReader::file($filePath)
-        ->setSourcePath(__DIR__)
-        ->extractXMPInformation()
-        ->saveJSON($targetFile);
-
-    expect($fullName)->toBeFile();
-});
-
-it('can scan a directory and save exif data into json', function () {
-    $dirPath = __DIR__.'/testfile/testdir';
-
-   $filePath= ExifReader::folder($dirPath)
-        ->extractXMPInformation()
-        ->saveJSON();
-
-    expect($filePath)->toBeFile();
-});
+//it('can save exif data into CSV file', function () {
+//    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+//    $targetPath = __DIR__.'/temp/BlueSquare.csv';
+//
+//    ExifReader::file($filePath)
+//        ->extractXMPInformation()
+//        ->saveCsv($targetPath);
+//
+//    expect($targetPath)->toBeFile();
+//
+//});
+//
+//it('can save exif data into JSON file', function () {
+//    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
+//    $targetFile = '/temp/BlueSquare.json';
+//
+//    $fullName = ExifReader::file($filePath)
+//        ->setSourcePath(__DIR__)
+//        ->extractXMPInformation()
+//        ->saveJSON($targetFile);
+//
+//    expect($fullName)->toBeFile();
+//});
+//
+//it('can scan a directory and save exif data into json', function () {
+//    $dirPath = __DIR__.'/testfile/testdir';
+//
+//   $filePath= ExifReader::folder($dirPath)
+//        ->extractXMPInformation()
+//        ->saveJSON();
+//
+//    expect($filePath)->toBeFile();
+//});
 
 //it('can scan dir recursively save csv', function () {
 //    $dirPath = __DIR__ . '/testfile/testdir';

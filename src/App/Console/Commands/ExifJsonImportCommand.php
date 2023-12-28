@@ -36,7 +36,7 @@ class ExifJsonImportCommand extends Command
 
         $num = (new StoreExifIntoDBAction())->execute($file);
 
-        $this->info("Inserted $num phots");
+        $this->info("Inserted $num phots") ;
 
         return Command::SUCCESS;
 

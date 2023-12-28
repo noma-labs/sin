@@ -25,17 +25,7 @@ class PhotoFactory extends Factory
             'image_height' => $this->faker->biasedNumberBetween(10, 3000),
             'image_width' => $this->faker->biasedNumberBetween(0.6000),
             'taken_at' => Carbon::now(),
-            'subjects' => $this->randomSubjects(),
         ];
-    }
-
-    public function randomSubjects()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'subject' => collect($this->faker->words(rand(0, 5)))->join(', '),
-            ];
-        });
     }
 
     public function inFolder(string $name)
