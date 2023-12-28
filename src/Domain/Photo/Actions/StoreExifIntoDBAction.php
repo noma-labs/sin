@@ -10,7 +10,7 @@ class StoreExifIntoDBAction
 {
     public function execute(string $jsonFile): int
     {
-        $num  = 0;
+        $num = 0;
         $buffer = [];
         foreach (new JsonParser($jsonFile) as $key => $value) {
             $data = ExifData::fromArray($value);
@@ -21,6 +21,7 @@ class StoreExifIntoDBAction
             }
             $num += 1;
         }
+
         return $num;
     }
 

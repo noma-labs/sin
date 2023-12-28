@@ -3,8 +3,8 @@
 namespace Domain\Photo\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Support\Str;
 
 class ExifData
 {
@@ -47,8 +47,8 @@ class ExifData
     {
         $exif = new self();
 
-        if (!isset($info['SourceFile'])) {
-            $t = join(',', $info);
+        if (! isset($info['SourceFile'])) {
+            $t = implode(',', $info);
             throw new Exception("'SourceFile' not found in:".$t);
         }
         $exif->sourceFile = $info['SourceFile'];
@@ -122,13 +122,13 @@ class ExifData
         return $exif;
     }
 
-    function toModelAttrs(): array
+    public function toModelAttrs(): array
     {
         return [
             'uid' => uniqid(),
             'sha' => $this->sha,
             'source_file' => $this->sourceFile,
-            'subject' => join(',', $this->subjects),
+            'subject' => implode(',', $this->subjects),
             'folder_title' => $this->folderTitle,
             'file_size' => $this->fileSize,
             'file_name' => $this->fileName,

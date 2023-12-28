@@ -173,27 +173,24 @@ it('can save exif data into CSV file', function () {
 
 it('can save exif data into JSON file', function () {
     $filePath = __DIR__.'/testfile/BlueSquare.jpg';
-    $targetPath = __DIR__.'/temp/BlueSquare.json';
+    $targetFile = '/temp/BlueSquare.json';
 
-    ExifReader::file($filePath)
+    $fullName = ExifReader::file($filePath)
+        ->setSourcePath(__DIR__)
         ->extractXMPInformation()
-        ->saveJSON($targetPath);
+        ->saveJSON($targetFile);
 
-    expect($targetPath)->toBeFile();
+    expect($fullName)->toBeFile();
 });
 
 it('can scan a directory and save exif data into json', function () {
     $dirPath = __DIR__.'/testfile/testdir';
 
-    ExifReader::folder($dirPath)
-        ->setTargetBasePath(__DIR__.'/temp')
+   $filePath= ExifReader::folder($dirPath)
         ->extractXMPInformation()
         ->saveJSON();
 
-    expect(__DIR__.'/temp/testdir.json')->toBeFile();
-    //        ->json()
-    //        ->toHaveCount(2);
-
+    expect($filePath)->toBeFile();
 });
 
 //it('can scan dir recursively save csv', function () {

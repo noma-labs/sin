@@ -208,8 +208,6 @@ final class ExifReader
 
         $output = $this->callExifTool($command);
 
-        echo $output;
-
         return $fullName;
     }
 

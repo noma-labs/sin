@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Domain\Photo\Actions\ExtractExifAction;
 use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 
