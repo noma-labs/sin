@@ -31,16 +31,26 @@ class StoreExifIntoDBAction
 
     private function insertBuffer(array $buffer): void
     {
-        foreach ($buffer as $photo) {
-            $attrs = $photo->toModelAttrs();
-            Photo::create($attrs);
-            if (count($photo->subjects) > 0) {
-                $attrs = array_map(fn($d) => ["photo_id"=>$attrs['uid'], "persona_nome" =>$d], $photo->subjects);
-                DB::connection('db_foto')->table('foto_persone')->insert($attrs);
+//        foreach ($buffer as $photo) {
+//            $photoAttrs = $photo->toModelAttrs();
+//            $photoAttrs[] =
+//            Photo::create($photoAttrs);
+//            if (count($photo->subjects) > 0) {
+//                $photoAttrs = array_map(fn($d) => ["photo_id"=>$photoAttrs['uid'], "persona_nome" =>$d], $photo->subjects);
+//                DB::connection('db_foto')->table('foto_persone')->insert($photoAttrs);
+//            }
+//        }
+
+        $photoAttrs = array_map(fn ($d) => $d->toModelAttrs(), $buffer);
+        DB::connection('db_foto')->table('photos')->insert($photoAttrs);
+
+        $photoPersone = array();
+        foreach ($photoAttrs as $attrs){
+            if (count($attrs->subjects) > 0) {
+                $photoAttrs = array_map(fn($name) => ["photo_id"=>$attrs['uid'], "persona_nome" =>$name], $attrs->subjects);
+                $photoPersone =  $photoPersone + $photoAttrs;
             }
         }
-
-//        $attrs = array_map(fn ($d) => $d->toModelAttrs(), $buffer);
-//        DB::connection('db_foto')->table('photos')->insert($attrs);
+        DB::connection('db_foto')->table('foto_persone')->insert($photoPersone);
     }
 }
