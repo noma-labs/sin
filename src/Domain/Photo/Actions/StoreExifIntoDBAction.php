@@ -17,40 +17,32 @@ class StoreExifIntoDBAction
             $data = ExifData::fromArray($value);
             $buffer[] = $data;
             if (count($buffer) >= 1000) {
-                $this->insertBuffer($buffer);
+                $this->insertBatch($buffer);
                 $buffer = [];
             }
             $num += 1;
         }
         if (count($buffer) >0) {
-            $this->insertBuffer($buffer);
+            $this->insertBatch($buffer);
         }
-
         return $num;
     }
 
-    private function insertBuffer(array $buffer): void
+    private function insertBatch(array $exifsData): void
     {
-//        foreach ($buffer as $photo) {
-//            $photoAttrs = $photo->toModelAttrs();
-//            $photoAttrs[] =
-//            Photo::create($photoAttrs);
-//            if (count($photo->subjects) > 0) {
-//                $photoAttrs = array_map(fn($d) => ["photo_id"=>$photoAttrs['uid'], "persona_nome" =>$d], $photo->subjects);
-//                DB::connection('db_foto')->table('foto_persone')->insert($photoAttrs);
-//            }
-//        }
+        $photoAttrs = collect();
+        $photoPeopleAttrs = collect();
 
-        $photoAttrs = array_map(fn ($d) => $d->toModelAttrs(), $buffer);
-        DB::connection('db_foto')->table('photos')->insert($photoAttrs);
-
-        $photoPersone = array();
-        foreach ($photoAttrs as $attrs){
-            if (count($attrs->subjects) > 0) {
-                $photoAttrs = array_map(fn($name) => ["photo_id"=>$attrs['uid'], "persona_nome" =>$name], $attrs->subjects);
-                $photoPersone =  $photoPersone + $photoAttrs;
+        foreach ($exifsData as $b) {
+            $attrs = $b->toModelAttrs();
+            $photoAttrs->add($attrs);
+            if (count($b->subjects) > 0) {
+                $persons = array_map(fn($name) => ["photo_id"=>$attrs['uid'], "persona_nome" =>$name], $b->subjects);
+                $photoPeopleAttrs->push(...$persons);
             }
         }
-        DB::connection('db_foto')->table('foto_persone')->insert($photoPersone);
+
+        DB::connection('db_foto')->table('photos')->insert($photoAttrs->toArray());
+        DB::connection('db_foto')->table('foto_persone')->insert($photoPeopleAttrs->toArray());
     }
 }
