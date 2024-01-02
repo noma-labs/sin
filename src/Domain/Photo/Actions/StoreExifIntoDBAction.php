@@ -4,7 +4,6 @@ namespace Domain\Photo\Actions;
 
 use Cerbero\JsonParser\JsonParser;
 use Domain\Photo\Models\ExifData;
-use Domain\Photo\Models\Photo;
 use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
@@ -22,9 +21,10 @@ class StoreExifIntoDBAction
             }
             $num += 1;
         }
-        if (count($buffer) >0) {
+        if (count($buffer) > 0) {
             $this->insertBatch($buffer);
         }
+
         return $num;
     }
 
@@ -37,7 +37,7 @@ class StoreExifIntoDBAction
             $attrs = $b->toModelAttrs();
             $photoAttrs->add($attrs);
             if (count($b->subjects) > 0) {
-                $persons = array_map(fn($name) => ["photo_id"=>$attrs['uid'], "persona_nome" =>$name], $b->subjects);
+                $persons = array_map(fn ($name) => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
                 $photoPeopleAttrs->push(...$persons);
             }
         }

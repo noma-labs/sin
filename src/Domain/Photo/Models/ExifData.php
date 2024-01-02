@@ -33,7 +33,7 @@ class ExifData
     /** @var string[] */
     public array $subjects = [];
 
-    public ?string $regionInfo = '{}';
+//    public ?string $regionInfo = '{}';
 
     // TODO: exif tool export keywords in two types: string, and array of string.
     public string $keywords = '';
@@ -81,9 +81,9 @@ class ExifData
         if (isset($info['Subject'])) {
             $exif->subjects = $info['Subject'];
         }
-        if (isset($info['RegionInfo'])) {
-            $exif->regionInfo = json_encode($info['RegionInfo']);
-        }
+//        if (isset($info['RegionInfo'])) {
+//            $exif->regionInfo = json_encode($info['RegionInfo']);
+//        }
 
         // GROUP-based name (using G1 option)
         if (isset($info['System:FileName'])) {
@@ -113,9 +113,9 @@ class ExifData
         if (isset($info['XMP-dc:Subject'])) {
             $exif->subjects = $info['XMP-dc:Subject'];
         }
-        if (isset($info['XMP-mwg-rs:RegionInfo'])) {
-            $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
-        }
+//        if (isset($info['XMP-mwg-rs:RegionInfo'])) {
+//            $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
+//        }
 
         $exif->folderTitle = Str::of($exif->directory)->basename();
 
@@ -138,7 +138,7 @@ class ExifData
             'image_width' => $this->imageWidth,
             'taken_at' => $this->takenAt,
             'directory' => $this->directory,
-            'region_info' => $this->regionInfo,
+//            'region_info' => $this->regionInfo,
         ];
     }
 }
