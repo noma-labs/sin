@@ -22,59 +22,17 @@
 
 <div class="row">
   <div class="col-md-8 offset-md-2">
-  <h4>Assegna le risorsa al nuovo ruolo specificando i permessi</strong></h4>
-@foreach ($risorse_per_sistema as $sistema)
-<p class="text-secondary">Risorse associate al sistema: <b>{{$sistema->nome}}</b></p>
-<table class='table table-bordered table-hover table-sm'>
-      <thead class='thead-inverse'>
-        <tr>
-          <th>Risorsa</th>
-          <th>Visualizza</th>
-          <th>Inserisci</th>
-          <th>Elimina</th>
-          <th>Modifica</th>
-          <th>Prenota</th>
-          <th>Esporta</th>
-          <th>Svuota</th>
-        </tr>
-      </thead>
+  <h4>Associa i permessi</strong></h4>
+    <table class='table table-bordered table-hover table-sm'>
       <tbody>
-        @foreach ($sistema->risorse as $risorsa)
-            <tr> 
-            <td>{{$risorsa->nome}}</td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[visualizza]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[visualizza]" value='1' />
-            </td>       
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[inserisci]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[inserisci]" value='1' />
-            </td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[elimina]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[elimina]" value='1'/></td>
-            </td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[modifica]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[modifica]" value='1'/>
-            </td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[prenota]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[prenota]" value='1'/>
-            </td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[esporta]" value='0' />
-              <input type='checkbox' name="{{$risorsa->id}}[esporta]" value='1'/>
-            </td>
-            <td>
-              <input type='hidden' name="{{$risorsa->id}}[svuota]" value='0'/>
-              <input type='checkbox' name="{{$risorsa->id}}[svuota]" value='1'/>            
-            </td> 
-          </tr>
+       @foreach ($permissions as $permission)
+            <tr>
+                <input type="checkbox" id="{{$permission->id}}" name="{{$permission->name}}" value="{{$permission->id}}">
+                <label for="{{$permission->id}}">{{$permission->name}}</label><br>
+            </tr>
         @endforeach
       </tbody>
     </table>
-  @endforeach
  {{ Form::submit('Aggiungi', array('class' => 'btn btn-primary')) }}
  </div>
 </div>
