@@ -25,7 +25,6 @@ class PhotoFactory extends Factory
             'image_height' => $this->faker->biasedNumberBetween(10, 3000),
             'image_width' => $this->faker->biasedNumberBetween(0.6000),
             'taken_at' => Carbon::now(),
-            //'Subjects' => $this->faker->word()
         ];
     }
 

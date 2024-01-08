@@ -26,6 +26,20 @@ select folder_title AS folders, count(0) AS c
 from photos
 group by folder_title;
 
+CREATE TABLE `foto_persone` (
+    `photo_id` varchar(255) NOT NULL,
+    `persona_id` bigint(10) DEFAULT NULL,
+    `persona_nome` varchar(255)  DEFAULT NULL,
+    `created_at` datetime DEFAULT CURRENT_TIMESTAMP(),
+    `updated_at` datetime DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=InnoDB;
+
+ALTER TABLE `foto_persone`
+    ADD UNIQUE KEY (`photo_id`,`persona_id`);
+
+-- ALTER TABLE `foto_persone`
+--     ADD CONSTRAINT `foto_persone_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`uid`);
+
 -- CREATE TABLE `photos_albums` (
 --  `photo_uid` varbinary(42) NOT NULL,
 --  `album_uid` varbinary(42) NOT NULL,

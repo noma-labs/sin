@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Domain\Photo\Actions\ExtractExifAction;
 use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
-use Illuminate\Support\Benchmark;
 
 class ExifExtractCommand extends Command
 {
@@ -37,22 +36,20 @@ class ExifExtractCommand extends Command
         $saveToDb = $this->option('save');
         $limit = $this->option('limit');
 
-        $took = Benchmark::measure(function () use ($path, $saveToDb, $limit) {
+        $fileName = (new ExtractExifAction())->execute($path);
 
-            $action = new (ExtractExifAction::class);
-            $res = $action->execute(app()->basePath($path));
+        $this->info("Saving into $fileName");
 
-            if ($saveToDb) {
-                $save = new (StoreExifIntoDBAction::class);
-                $save->execute($res);
-            }
+        if ($saveToDb) {
+            $photos = (new StoreExifIntoDBAction())->execute($fileName);
 
             $this->table(
-                ['Folder', 'FileName', 'Sha', 'Subjects', 'TakenAt'],
-                collect($res)->take($limit)->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
+                ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
+                collect($photos)
+                    ->take($limit)
+                    ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
             );
-        });
-        $this->info('Path: '.$path.' Took: '.$took);
+        }
 
         return Command::SUCCESS;
 

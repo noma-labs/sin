@@ -2,36 +2,47 @@
 
 namespace Domain\Photo\Actions;
 
-use Domain\Photo\Models\Photo;
+use Cerbero\JsonParser\JsonParser;
+use Domain\Photo\Models\ExifData;
 use Illuminate\Support\Facades\DB;
 
 class StoreExifIntoDBAction
 {
-    public function execute(array $exifs): void
+    public function execute(string $jsonFile): int
     {
-        $chunks = collect($exifs)->chunk(100);
-        foreach ($chunks as $chunk) {
-            $attrs = [];
-            foreach ($chunk as $r) {
-                $attrs[] = [
-                    'uid' => uniqid(),
-                    'sha' => $r->sha,
-                    'source_file' => $r->sourceFile,
-                    'subject' => implode(',', $r->subjects),
-                    'folder_title' => $r->folderTitle,
-                    'file_size' => $r->fileSize,
-                    'file_name' => $r->fileName,
-                    'file_type' => $r->fileType,
-                    'file_type_extension' => $r->fileExtension,
-                    'image_height' => $r->imageHeight,
-                    'image_width' => $r->imageWidth,
-                    'taken_at' => $r->takenAt,
-                    'directory' => $r->directory,
-                    'region_info' => $r->regionInfo,
-                ];
+        $num = 0;
+        $buffer = [];
+        foreach (new JsonParser($jsonFile) as $key => $value) {
+            $data = ExifData::fromArray($value);
+            $buffer[] = $data;
+            if (count($buffer) >= 1000) {
+                $this->insertBatch($buffer);
+                $buffer = [];
             }
-            DB::connection('db_foto')->table('photos')->insert($attrs);
-            //            Photo::insert($attrs);
+            $num += 1;
         }
+        if (count($buffer) > 0) {
+            $this->insertBatch($buffer);
+        }
+
+        return $num;
+    }
+
+    private function insertBatch(array $exifsData): void
+    {
+        $photoAttrs = collect();
+        $photoPeopleAttrs = collect();
+
+        foreach ($exifsData as $b) {
+            $attrs = $b->toModelAttrs();
+            $photoAttrs->add($attrs);
+            if (count($b->subjects) > 0) {
+                $persons = array_map(fn ($name) => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
+                $photoPeopleAttrs->push(...$persons);
+            }
+        }
+
+        DB::connection('db_foto')->table('photos')->insert($photoAttrs->toArray());
+        DB::connection('db_foto')->table('foto_persone')->insert($photoPeopleAttrs->toArray());
     }
 }

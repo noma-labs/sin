@@ -21,6 +21,7 @@ class LocalEnvironmentSeeder extends Seeder
         $this->call(OfficinaMeccanicaTableSeeder::class);
         $this->call(BibliotecaTableSeeder::class);
         $this->call(ScuolaTableSeeder::class);
+        $this->call(PhotoTableSeeder::class);
     }
 
     protected function createDefaultAdminUser(): self
