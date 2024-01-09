@@ -16,7 +16,6 @@
     </div>
 </li>
 
-<li class="nav-item"><a class="nav-link" href="{{ route('admin.backup') }}">Gestione Backup</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ route('admin.logs') }}">Gestione attività</a></li>
 @endsection
 
