@@ -67,14 +67,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Admin\Controllers'], func
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     Route::resource('risorse', 'RisorsaController');
-    // Backup
-    Route::get('backup', 'BackupController@index')->name('admin.backup');
-    Route::get('backup/create',
-        'BackupController@create')->name('admin.backup.create');
-    Route::get('backup/download/{file_name}',
-        'BackupController@download')->name('admin.backup.download');
-    Route::get('backup/delete/{file_name}',
-        'BackupController@delete')->name('admin.backup.delete');
+
     //Logs activity
     Route::get('logs', 'LogsActivityController@index')->name('admin.logs');
 });
