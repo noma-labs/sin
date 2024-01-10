@@ -45,9 +45,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_nomadelfia' => [
             'driver' => 'mysql',
@@ -62,9 +59,6 @@ return [
             'prefix' => '',
             'strict' => false,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_nomadelfia_test' => [
             'driver' => 'mysql',
@@ -79,9 +73,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_biblioteca' => [
             'driver' => 'mysql',
@@ -95,9 +86,6 @@ return [
             'prefix' => '',
             'strict' => false,
             'engine' => 'InnoDB',
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_officina' => [
             'driver' => 'mysql',
@@ -111,18 +99,6 @@ return [
             'prefix' => '',
             'engine' => null,
             'strict' => false,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
-            // 'modes' => [
-            //       //'ONLY_FULL_GROUP_BY', // Disable this to allow grouping by one column
-            //       'STRICT_TRANS_TABLES',
-            //       'NO_ZERO_IN_DATE',
-            //       'NO_ZERO_DATE',
-            //       'ERROR_FOR_DIVISION_BY_ZERO',
-            //       'NO_AUTO_CREATE_USER',
-            //       'NO_ENGINE_SUBSTITUTION'
-            // ],
         ],
         'db_patente' => [
             'driver' => 'mysql',
@@ -136,9 +112,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'archivio_documenti' => [
             'driver' => 'mysql',
@@ -152,9 +125,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_scuola' => [
             'driver' => 'mysql',
@@ -168,9 +138,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'information_schema' => [
             'driver' => 'mysql',
@@ -197,9 +164,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_foto' => [
             'driver' => 'mysql',
@@ -213,9 +177,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
         'db_noma_iot' => [
             'driver' => 'mysql',
@@ -229,9 +190,6 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'dump' => [
-                'setDumpBinaryPath' => 'C:\xampp\mysql\bin',
-            ],
         ],
 
     ],
