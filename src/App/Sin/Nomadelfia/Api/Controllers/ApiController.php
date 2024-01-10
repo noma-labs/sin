@@ -2,12 +2,10 @@
 
 namespace App\Nomadelfia\Api\Controllers;
 
-use App\Anagrafe\Models\NucleoFamigliare;
 use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
-//models
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -78,22 +76,6 @@ class ApiController extends BaseController
     {
         return $request->input('nome').$request->input('cognome');
     }
-
-    //    public function posizioniAll(Request $request)
-    //    {
-    //        $id_posizioni_nuova_famiglia = [1, 2, 7, 8];
-    //        $posizioni = NucleoFamigliare::all();
-    //        $results = [];
-    //        foreach ($posizioni as $posizion) {
-    //            $results[] = [
-    //                'id' => $posizion->id,
-    //                'posizione' => $posizion->nucleo_famigliare,
-    //                'stato' => in_array($posizion->id, $id_posizioni_nuova_famiglia),
-    //            ];
-    //        }
-    //
-    //        return response()->json($results);
-    //    }
 
     /**
      * ritorna il json dell'azienda insieme ai lavoratori
