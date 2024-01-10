@@ -17,8 +17,6 @@
   <div class="col-md-8">
     <div class="row">
       <div class="col-md-12 my-2">
-        <!-- <div class="btn-toolbar "> -->
-          <!-- <a class="btn btn-primary" name="type" valu="csv"  href="{{route('libri.etichette.excel')}}"  role="button">Scarica (.csv) </a> -->
           <a class="btn btn-info"   href="{{route('libri.etichette.preview')}}"  role="button">Anteprima </a>
           <a class="btn btn-success"   href="{{route('libri.etichette.stampa')}}"  role="button">Esporta etichette </a>
           <form  class="float-right" id="formRemoveAll" action="{{route('libri.etichette.rimuovi')}}" method="post">
