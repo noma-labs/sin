@@ -13,11 +13,6 @@ class ClassificazioniController extends CoreBaseController
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
@@ -25,21 +20,11 @@ class ClassificazioniController extends CoreBaseController
         return view('biblioteca.libri.classificazioni.index')->with('classificazioni', $classificazioni);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('biblioteca.libri.classificazioni.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -49,32 +34,17 @@ class ClassificazioniController extends CoreBaseController
             'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
         ]
         );
-        // $classificazione = new Classificazione;
-        // $classificazione->descrizione = $request->classificazione;
-        // $classificazione->save();
         $classificazione = Classificazione::create($request->only('descrizione'));
 
         return redirect()->route('classificazioni.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         return redirect('classificazioni');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $classificazione = Classificazione::findOrFail($id);
@@ -101,15 +71,8 @@ class ClassificazioniController extends CoreBaseController
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        // return $id;
         $this->validate($request, [
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,'.$id.',id',
         ], [
@@ -127,12 +90,6 @@ class ClassificazioniController extends CoreBaseController
         return redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         return redirect()->route('classificazioni.index')->withError("Impossibile eliminare l'autore");

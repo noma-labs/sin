@@ -31,7 +31,6 @@ class LibriController extends CoreBaseController
 
     public function updateCollocazione(Request $request, $idLibro)
     {
-        // return $request->all();
         $validatedData = $request->validate([
             'xCollocazione' => 'required', //per update solito nome
         ], [

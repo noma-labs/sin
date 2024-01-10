@@ -5,12 +5,9 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Video as Video;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-// class LibriController extends Controller{
 class VideoController extends CoreBaseController
 {
-    // all the request for the resosurce libri must be authenticated aprt the search and serch confirm method
     public function __construct()
     {
         $this->middleware('auth')->except('search', 'searchConfirm');
@@ -21,20 +18,8 @@ class VideoController extends CoreBaseController
         return view('biblioteca.video.search');
     }
 
-    public function searchConfirm(Request $request) // SearchLibriRequest
+    public function searchConfirm(Request $request)
     {
-        $validatedData = $request->validate([
-            // 'descri'=>"exists:db_biblioteca.editore,id",
-            // 'xIdAutore'=>"exists:db_biblioteca.autore,id",
-            // 'xClassificazione'=>"exists:db_biblioteca.classificazione,id",
-            //
-            // ],[
-            //   'xIdEditore.exists' => 'Editore inserito non esiste.',
-            //   'xIdAutore.exists' => 'Autore inserito non esiste.',
-            //   'xClassificazione.exists' => 'Classificazione inserita non esiste.',
-
-        ]);
-
         $msgSearch = ' ';
         $orderBy = 'cassetta';
 
@@ -63,26 +48,11 @@ class VideoController extends CoreBaseController
         $query = str_replace(['?'], ['\'%s\''], $queryVideo->toSql());
         $query = vsprintf($query, $queryVideo->getBindings());
 
-        // show also the libri delted only if the authneticated user has role bibioteca
-        // if(Auth::check() and Auth::user()->hasRole('biblioteca'))
-        //     $videos = $queryVideo->withTrashed()->orderBy($orderBy)->paginate(50);
-        // else
         $videos = $queryVideo->orderBy($orderBy)->paginate(50);
 
         return view('biblioteca.video.search_results', ['videos' => $videos,
             'msgSearch' => $msgSearch,
             'query' => $query,
         ]);
-    }
-
-    public function show($idVideo)
-    {
-        //        $libro = Video::findOrFail($idVideo);
-        //        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idVideo)->get();
-        //        if ($libro) {
-        //            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
-        //        } else {
-        //            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
-        //        }
     }
 }

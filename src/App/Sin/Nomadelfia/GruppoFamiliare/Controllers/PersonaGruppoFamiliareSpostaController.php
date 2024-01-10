@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class PersonaGruppoFamiliareSpostaController
 {
-    /**
-     * Sposta una persona da un gruppo familiare ad un  nuovo gruppo familiare settando al data di entrata e uscita
-     *
-     * @author Davide Neri
-     */
     public function store(Request $request, $idPersona, $id)
     {
         $validatedData = $request->validate([

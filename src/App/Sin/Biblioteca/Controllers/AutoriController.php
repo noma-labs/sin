@@ -14,23 +14,13 @@ class AutoriController extends CoreBaseController
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $autori = Autore::orderBy('Autore')->paginate(150); //Get all roles
+        $autori = Autore::orderBy('Autore')->paginate(150);
 
         return view('biblioteca.autori.index')->with('autori', $autori);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if (Session::has('insertLibroUrl')) { // contains the url of the detail of the utente
@@ -40,21 +30,6 @@ class AutoriController extends CoreBaseController
         return view('biblioteca.autori.create');
     }
 
-    /**
-     * Create a new Autore. return True if succefly
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    // public function apiCreate(Request $request)
-    // {
-    //    $request
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -72,15 +47,8 @@ class AutoriController extends CoreBaseController
         } else {
             return redirect()->route('autori.index')->withSuccess("Autore $autore->autore  aggiunto correttamente.");
         }
-        // return redirect()->back()->withSuccess("Autore $autore->autore  aggiunto correttamente.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $autore = Autore::findOrFail($id);
@@ -88,12 +56,6 @@ class AutoriController extends CoreBaseController
         return view('biblioteca.autori.show')->with('autore', $autore);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $autore = Autore::findOrFail($id);
@@ -110,12 +72,6 @@ class AutoriController extends CoreBaseController
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         // return $id;
@@ -137,12 +93,6 @@ class AutoriController extends CoreBaseController
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         return redirect()->route('autori.index')->withError("Impossibile eliminare l'autore");

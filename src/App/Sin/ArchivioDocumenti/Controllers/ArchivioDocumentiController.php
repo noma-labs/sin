@@ -46,19 +46,6 @@ class ArchivioDocumentiController extends CoreBaseController
     public function esporta()
     {
         // TODO use browsershot to generate pdf
-        /* $etichette = ArchivioDocumento::TobePrinted()->get();
-         // return view("biblioteca.libri.etichette.view",["libriTobePrinted"=>$libriTobePrinted]);
-         $pdf = SnappyPdf::loadView('archiviodocumenti.etichette.printsingle', ['etichette' => $etichette])
-             ->setOption('page-width', config('etichette.dimensioni.larghezza'))
-             ->setOption('page-height', config('etichette.dimensioni.altezza'))
-             ->setOption('margin-bottom', '0mm')
-             ->setOption('margin-top', '0mm')
-             ->setOption('margin-right', '0mm')
-             ->setOption('margin-left', '0mm');
-         $data = Carbon::now();
-
-         return $pdf->setPapper('a4')->setOrientation('portrait')->download("archivio-documenti-$data.pdf");
-        */
     }
 
     public function aggiungi(Request $request)
@@ -132,10 +119,5 @@ class ArchivioDocumentiController extends CoreBaseController
         $libri = $queryLibri->orderBy($orderBy)->paginate(50);
 
         return view('archiviodocumenti.libri.search', compact('libri', 'msgSearch'));
-        // return view('biblioteca.libri.search_results',["libri"=>$libri,
-        //                                                 "classificazioni"=>$classificazioni,
-        //                                                 "msgSearch"=> $msgSearch,
-        //                                                 "query"=>$query,
-        //                                               ]);
     }
 }

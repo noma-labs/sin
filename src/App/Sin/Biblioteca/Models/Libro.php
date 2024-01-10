@@ -15,10 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-// External library to associate media files a model
-
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property string $titolo
@@ -30,11 +26,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $ID_EDITORE
  * @property int $ID_AUTORE
  */
-class Libro extends Model implements HasMedia
+class Libro extends Model
 {
     use Enums;
     use HasFactory;
-    use InteractsWithMedia;
     use SoftDeletes;
     use SortableTrait;
 
@@ -83,14 +78,6 @@ class Libro extends Model implements HasMedia
     {
         $this->attributes['note'] = strtoupper($value);
     }
-
-    // public function registerMediaConversions(Media $media = null)
-    //   {
-    //       $this->addMediaConversion('thumb')
-    //             ->width(368)
-    //             ->height(232)
-    //             ->sharpen(10);
-    //   }
 
     public function classificazione(): BelongsTo
     {

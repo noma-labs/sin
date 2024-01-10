@@ -182,7 +182,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -234,7 +233,6 @@ return [
         'Carbon' => 'Carbon\Carbon',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
     ],

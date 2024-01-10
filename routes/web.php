@@ -33,7 +33,6 @@ use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
-use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
 
 Route::get('/debug-sentry', function () {
@@ -243,8 +242,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 // ###################### DB SCUOLA ############################
 // ################################################################
 
-//Route::mediaLibrary();
-
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
     Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('scuola.anno.storico');
@@ -261,10 +258,6 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiController::class, 'rimuoviCoordinatore'])->name('scuola.classi.coordinatore.rimuovi');
 
-    // elaborati
-    Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
-    Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert.view');
-    Route::post('elaborati/insert', [ElaboratiController::class, 'insertConfirm'])->name('scuola.elaborati.insert');
 });
 
 //################################################################
@@ -276,13 +269,6 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     // LIBRI: ricerca
     Route::get('libri', [LibriController::class, 'showSearchLibriForm'])->name('libri.ricerca');
     Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->name('libri.ricerca.submit');
-    // LIBRI: media
-    Route::get('libri/{idLibro}/media', 'LibriMediaController@view')->name('libri.media');
-    Route::post('libri/{idLibro}/media', 'LibriMediaController@store')->name('libri.media.store');
-    Route::delete('libri/{idLibro}/media/{mediaId}',
-        'LibriMediaController@destroy')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy');
-    Route::delete('libri/{idLibro}/media',
-        'LibriMediaController@destroyAll')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy_all');
     // LIBRI: cambio collocazione
     Route::get('libri/{idLibro}/collocazione', [LibriController::class, 'showEditCollocazioneForm'])
         ->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
@@ -415,14 +401,6 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::get('/', [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
 });
 
-//#################################################################
-//######################   RTN  ###################################
-//#################################################################
-
-Route::group(['prefix' => 'rtn', 'namespace' => 'App\Rtn\Controllers'], function () {
-    Route::get('index', 'RtnController@index')->name('rtn.index');
-    Route::get('film/search', 'FilmController@search')->name('film.search');
-});
 
 //#################################################################
 //######################   PATENTE  ###################################

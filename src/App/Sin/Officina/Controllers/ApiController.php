@@ -27,7 +27,6 @@ class ApiController extends CoreBaseController
             $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
         }
 
-        // "".$persona->cliente_con_patente];
         return response()->json($results);
     }
 

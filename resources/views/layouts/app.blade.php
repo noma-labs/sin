@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="{{ URL::asset('css/vendor/basic.min.css') }}"/>
 
     @livewireStyles
-    <!--   Needed by laravel-medialibary-pro UI component -->
-    <!--    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script> -->
     <!-- Needed by https://github.com/rappasoft/laravel-livewire-tables -->
     <script defer src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js"></script>
 

@@ -17,16 +17,8 @@ class ViewClientiBiblioteca extends Model
 
     protected $primaryKey = 'id';
 
-    /**
-     * ritorna tutti i presiti del cliente
-     */
     public function prestiti()
     {
         return $this->hasMany(Prestito::class, 'cliente_id', 'id');
     }
-
-    //  public function setNominativoAttribute($value) {
-    //       $this->attributes['nominativo'] = strtoupper($value);
-    //  }
-
 }

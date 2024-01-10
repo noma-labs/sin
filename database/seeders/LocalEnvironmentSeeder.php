@@ -38,8 +38,6 @@ class LocalEnvironmentSeeder extends Seeder
         $bibliotecaOpeRole = Role::create(['name' => 'biblioteca-ope']);
         $patenteAmmRole = Role::create(['name' => 'patente-amm']);
         $scuolaAmmRole = Role::create(['name' => 'scuola-amm']);
-        $rtnAmmRole = Role::create(['name' => 'rtn-amm']);
-        $rtnOpeRole = Role::create(['name' => 'rtn-ope']);
         $agrariaAmmRole = Role::create(['name' => 'agraria-amm']);
 
         Permission::create(['name' => 'popolazione.*']);
@@ -101,9 +99,6 @@ class LocalEnvironmentSeeder extends Seeder
         Permission::create(['name' => 'agraria.*']);
         Permission::create(['name' => 'agraria.visualizza']);
 
-        Permission::create(['name' => 'rtn.*']);
-        Permission::create(['name' => 'rtn.visualizza']);
-
         Permission::create(['name' => 'archivio.*']);
         Permission::create(['name' => 'archivio.visualizza']);
 
@@ -117,7 +112,6 @@ class LocalEnvironmentSeeder extends Seeder
         $presidenteAmmRole->givePermissionTo('biblioteca.editore.visualizza');
         $presidenteAmmRole->givePermissionTo('scuolaguida.visualizza');
         $presidenteAmmRole->givePermissionTo('scuolaguida.patente.visualizza');
-        $presidenteAmmRole->givePermissionTo('rtn.visualizza');
         $presidenteAmmRole->givePermissionTo('agraria.visualizza');
         $presidenteAmmRole->givePermissionTo('scuola.visualizza');
 
@@ -158,9 +152,6 @@ class LocalEnvironmentSeeder extends Seeder
         $bibliotecaOpeRole->givePermissionTo('biblioteca.autore.inserisci');
 
         $scuolaAmmRole->givePermissionTo('scuola.*');
-
-        $rtnAmmRole->givePermissionTo('rtn.*');
-        $rtnOpeRole->givePermissionTo('rtn.visualizza');
 
         $agrariaAmmRole->givePermissionTo('agraria.*');
 

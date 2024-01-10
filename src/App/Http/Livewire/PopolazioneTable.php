@@ -3,8 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Scuola\Models\Anno;
-use Carbon\Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Exports\PopolazioneExport;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
@@ -129,8 +127,8 @@ class PopolazioneTable extends DataTableComponent
         $users = $this->getSelected();
 
         $this->clearSelected();
-        $now = Carbon::now()->format('Y-m-d');
 
-        return (new PopolazioneExport($users))->download("popolazione-{$now}.xlsx");
+        // TODO: use  PhpOffice\PhpSpreadsheet to export to Excel
+        throw new \Exception('Not implemented yet');
     }
 }
