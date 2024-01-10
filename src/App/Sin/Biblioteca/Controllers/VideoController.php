@@ -5,7 +5,6 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Video as Video;
 use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class VideoController extends CoreBaseController
 {
@@ -56,5 +55,4 @@ class VideoController extends CoreBaseController
             'query' => $query,
         ]);
     }
-
 }
