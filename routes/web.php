@@ -33,7 +33,6 @@ use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
 use App\Scuola\Controllers\ClassiController;
-use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ScuolaController;
 
 Route::get('/debug-sentry', function () {
