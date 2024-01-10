@@ -21,6 +21,4 @@ class ViewClientiBiblioteca extends Model
     {
         return $this->hasMany(Prestito::class, 'cliente_id', 'id');
     }
-
-
 }

@@ -16,7 +16,6 @@ use Throwable;
 
 class VeicoliController extends CoreBaseController
 {
-
     public function index(Request $request)
     {
         $marche = Marca::orderBy('nome', 'asc')->get();
