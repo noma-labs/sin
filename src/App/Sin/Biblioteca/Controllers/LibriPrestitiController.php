@@ -34,8 +34,6 @@ class LibriPrestitiController extends CoreBaseController
                     ? redirect()->to($url)->withSuccess("Prestito terminato correttamente in data $data")
                     : redirect()->route('libri.prestiti')->withSuccess("Prestito terminato correttamente in data $data");
             }
-            // return redirect()->back()->withSuccess("Prestito terminato correttamente in data $data");
-            // return redirect()->back()->getTargetUrl();
             else {
                 return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
             }
