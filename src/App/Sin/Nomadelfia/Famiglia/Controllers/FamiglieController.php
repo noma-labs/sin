@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 
 class FamiglieController extends CoreBaseController
 {
-    /**
-     * Ritorna la view di gestione delle famiglie
-     *
-     * @author Davide Neri
-     **/
     public function view()
     {
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
@@ -31,11 +26,6 @@ class FamiglieController extends CoreBaseController
             compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
     }
 
-    /**
-     * Ritorna la view di gestione una una singola famiglia
-     *
-     * @author Davide Neri
-     **/
     public function show(Request $request, $id)
     {
         $famiglia = Famiglia::findorfail($id);
@@ -46,11 +36,6 @@ class FamiglieController extends CoreBaseController
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
-    /**
-     * Aggiorna il nome e la data di creazione della famiglia
-     *
-     * @author Davide Neri
-     **/
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([

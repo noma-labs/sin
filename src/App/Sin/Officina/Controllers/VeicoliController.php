@@ -16,10 +16,6 @@ use Throwable;
 
 class VeicoliController extends CoreBaseController
 {
-    public function __construct()
-    {
-        // $this->middleware('permission:veicoli-prenotazione');
-    }
 
     public function index(Request $request)
     {

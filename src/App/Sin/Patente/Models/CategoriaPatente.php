@@ -22,7 +22,7 @@ class CategoriaPatente extends Model
 
     protected $guarded = [];
 
-    // la fuznion boot elimina i CQC (persone e merci) dalla liste delle categorie.
+    // Remove CQC (persone e merci) from the categories
     protected static function boot()
     {
         parent::boot();

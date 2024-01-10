@@ -18,12 +18,4 @@ class ViewMeccanici extends Model
 
     protected $primaryKey = 'persona_id';
 
-    // public function lavoratori(){
-    //   return $this->hasOne(Persona::class,'persona_id');
-    // }
-
-    // public function azienda(){
-    //   return $this->hasOne(Azienda::class,'azienda_id');
-    // }
-
 }

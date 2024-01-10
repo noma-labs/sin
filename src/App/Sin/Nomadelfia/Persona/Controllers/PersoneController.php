@@ -25,9 +25,9 @@ class PersoneController extends CoreBaseController
     }
 
     /**
-     * Contolla che non ci sia una persona con il nome e cognome.
-     * Ritorna la lista delle persone che hanno o il nome o cognome inserito.
-     * Se non esistono persone ritorna il form per aggiungere la persona.
+     * Check that there is no person with the given first and last name.
+     *  Return the list of individuals who have either the entered first name or last name.
+     *  If there are no matching individuals, return the form to add a new person.
      *
      * @author Davide Neri
      */
