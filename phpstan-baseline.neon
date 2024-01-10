@@ -6,11 +6,6 @@ parameters:
 			path: src/App/Exceptions/Handler.php
 
 		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presente\\(\\)\\.$#"
-			count: 1
-			path: src/App/Http/Livewire/Dashboard.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$id\\.$#"
 			count: 1
 			path: src/App/Http/Middleware/SentryContext.php

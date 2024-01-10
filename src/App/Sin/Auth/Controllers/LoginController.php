@@ -38,8 +38,7 @@ class LoginController extends BaseController
     {
         if (Auth::user()->hasRole('admin')) {
             return route('admin.backup');
-        }//"/roles";
-        elseif (Auth::user()->hasRole(['biblioteca-amm', 'biblioteca-ope'])) {
+        } elseif (Auth::user()->hasRole(['biblioteca-amm', 'biblioteca-ope'])) {
             return route('biblioteca');
         } elseif (Auth::user()->hasRole(['meccanica-amm', 'meccanica-ope'])) {
             return route('officina.index');
