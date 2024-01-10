@@ -60,19 +60,6 @@
         </div>
         @endcan
 
-        @can('rtn.visualizza')
-        <div class="col-md-4">
-            <div class="card text-center border-success mb-3">
-                <div class="card-header">
-                    Archivio RTN
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Gestione archivio Rtn</p>
-                    <a href="{{ route('rtn.index')}} " class="btn btn-primary">Accedi</a>
-                </div>
-            </div>
-        </div>
-        @endcan
 
         @can('meccanica.visualizza')
         <div class="col-md-4">

@@ -401,14 +401,6 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::get('/', [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
 });
 
-//#################################################################
-//######################   RTN  ###################################
-//#################################################################
-
-Route::group(['prefix' => 'rtn', 'namespace' => 'App\Rtn\Controllers'], function () {
-    Route::get('index', 'RtnController@index')->name('rtn.index');
-    Route::get('film/search', 'FilmController@search')->name('film.search');
-});
 
 //#################################################################
 //######################   PATENTE  ###################################
