@@ -181,7 +181,7 @@ return [
         */
         Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

@@ -55,14 +55,12 @@ return [
         ],
         'ftp' => [
             'driver' => 'ftp',
-            'host' => '192.168.11.2',
-            'username' => 'ftpsin',
-            'password' => 'Nomadelfia',
-            // 'url'    => '/my-url',
+            'host' => '',
+            'username' => '',
+            'password' => '',
 
             // Optional FTP Settings...
             'port' => 21,
-            //   'root'     => '/FTP/sin',
             // 'passive'  => true,
             // 'ssl'      => true,
             // 'timeout'  => 30,
