@@ -259,10 +259,6 @@ Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], fu
     Route::post('classi/{id}/rimuovi/{alunno_id}', 'ClassiController@rimuoviAlunno')->name('scuola.classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiController::class, 'rimuoviCoordinatore'])->name('scuola.classi.coordinatore.rimuovi');
 
-    // elaborati
-    Route::get('elaborati', [ElaboratiController::class, 'index'])->name('scuola.elaborati');
-    Route::get('elaborati/insert', [ElaboratiController::class, 'insert'])->name('scuola.elaborati.insert.view');
-    Route::post('elaborati/insert', [ElaboratiController::class, 'insertConfirm'])->name('scuola.elaborati.insert');
 });
 
 //################################################################
