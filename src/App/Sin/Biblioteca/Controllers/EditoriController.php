@@ -14,11 +14,6 @@ class EditoriController extends CoreBaseController
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $editori = Editore::orderBy('Editore')->paginate(150); //Get all roles
@@ -26,9 +21,6 @@ class EditoriController extends CoreBaseController
         return view('biblioteca.editori.index')->with('editori', $editori);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         if (Session::has('insertLibroUrl')) { // contains the url of the detail of the utente
@@ -38,9 +30,6 @@ class EditoriController extends CoreBaseController
         return view('biblioteca.editori.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -70,9 +59,6 @@ class EditoriController extends CoreBaseController
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $editore = Editore::findOrFail($id);
@@ -80,9 +66,6 @@ class EditoriController extends CoreBaseController
         return view('biblioteca.editori.show')->with('editore', $editore);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $editore = Editore::findOrFail($id);
@@ -91,9 +74,6 @@ class EditoriController extends CoreBaseController
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $editore = Editore::findOrFail($id);
@@ -112,9 +92,6 @@ class EditoriController extends CoreBaseController
         return redirect()->route('editori.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Editore $editore)
     {
         return redirect()->route('editori.index')->withError("Impossibile eliminare l'editore");

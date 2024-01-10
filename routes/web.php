@@ -243,8 +243,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Controlle
 // ###################### DB SCUOLA ############################
 // ################################################################
 
-//Route::mediaLibrary();
-
 Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
     Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('scuola.anno.storico');
@@ -276,13 +274,6 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     // LIBRI: ricerca
     Route::get('libri', [LibriController::class, 'showSearchLibriForm'])->name('libri.ricerca');
     Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->name('libri.ricerca.submit');
-    // LIBRI: media
-    Route::get('libri/{idLibro}/media', 'LibriMediaController@view')->name('libri.media');
-    Route::post('libri/{idLibro}/media', 'LibriMediaController@store')->name('libri.media.store');
-    Route::delete('libri/{idLibro}/media/{mediaId}',
-        'LibriMediaController@destroy')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy');
-    Route::delete('libri/{idLibro}/media',
-        'LibriMediaController@destroyAll')->middleware('can:biblioteca.libro.elimina')->name('libri.media.destroy_all');
     // LIBRI: cambio collocazione
     Route::get('libri/{idLibro}/collocazione', [LibriController::class, 'showEditCollocazioneForm'])
         ->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
