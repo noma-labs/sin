@@ -28,14 +28,15 @@ group by folder_title;
 
 CREATE TABLE `foto_persone` (
     `photo_id` varchar(255) NOT NULL,
-    `persona_id` bigint(10) DEFAULT NULL,
     `persona_nome` varchar(255)  DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP(),
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB;
 
 ALTER TABLE `foto_persone`
-    ADD UNIQUE KEY (`photo_id`,`persona_id`);
+    ADD UNIQUE KEY (`photo_id`,`persona_nome`);
+
+CREATE INDEX idx_photos_people_nome ON foto_persone (persona_nome);
 
 -- ALTER TABLE `foto_persone`
 --     ADD CONSTRAINT `foto_persone_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`uid`);
