@@ -401,7 +401,6 @@ Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers']
     Route::get('/', [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
 });
 
-
 //#################################################################
 //######################   PATENTE  ###################################
 //#################################################################
