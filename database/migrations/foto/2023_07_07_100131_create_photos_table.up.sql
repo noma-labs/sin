@@ -38,6 +38,13 @@ ALTER TABLE `foto_persone`
 
 CREATE INDEX idx_photos_people_nome ON foto_persone (persona_nome);
 
+CREATE TABLE `persona_alias` (
+    `persona_id` int(10) NOT NULL,
+    `alias` varchar(255)  DEFAULT NULL,
+    `created_at` datetime DEFAULT CURRENT_TIMESTAMP(),
+    `updated_at` datetime DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=InnoDB;
+
 -- ALTER TABLE `foto_persone`
 --     ADD CONSTRAINT `foto_persone_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`uid`);
 

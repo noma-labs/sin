@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Photo\Actions\ExtractSubjectsFromPhotoAction;
 use Domain\Photo\Models\Photo;
 use Illuminate\Database\Seeder;
 
 class PhotoTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        Photo::factory()
-            ->has(Persona::factory()->count(3), 'persone')
-            ->create();
+        Photo::factory(10)->create();
 
+        $act = (new ExtractSubjectsFromPhotoAction());
+        $act->execute();
     }
 }

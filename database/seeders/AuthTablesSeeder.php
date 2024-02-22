@@ -29,6 +29,7 @@ class AuthTablesSeeder extends Seeder
         $patenteAmmRole = Role::create(['name' => 'patente-amm']);
         $scuolaAmmRole = Role::create(['name' => 'scuola-amm']);
         $agrariaAmmRole = Role::create(['name' => 'agraria-amm']);
+        $fotoAmmRole = Role::create(['name' => 'foto-amm']);
 
         Permission::create(['name' => 'popolazione.*']);
         Permission::create(['name' => 'popolazione.visualizza']);
@@ -92,6 +93,9 @@ class AuthTablesSeeder extends Seeder
         Permission::create(['name' => 'archivio.*']);
         Permission::create(['name' => 'archivio.visualizza']);
 
+        Permission::create(['name' => 'foto.*']);
+        Permission::create(['name' => 'foto.visualizza']);
+
         $presidenteAmmRole->givePermissionTo('popolazione.*');
         $presidenteAmmRole->givePermissionTo('archivio.*');
         $presidenteAmmRole->givePermissionTo('meccanica.visualizza');
@@ -104,6 +108,7 @@ class AuthTablesSeeder extends Seeder
         $presidenteAmmRole->givePermissionTo('scuolaguida.patente.visualizza');
         $presidenteAmmRole->givePermissionTo('agraria.visualizza');
         $presidenteAmmRole->givePermissionTo('scuola.visualizza');
+        $presidenteAmmRole->givePermissionTo('foto.visualizza');
 
         $presidenteOpeRole->givePermissionTo('popolazione.visualizza');
         $presidenteOpeRole->givePermissionTo('popolazione.persona.visualizza');
@@ -144,6 +149,8 @@ class AuthTablesSeeder extends Seeder
         $scuolaAmmRole->givePermissionTo('scuola.*');
 
         $agrariaAmmRole->givePermissionTo('agraria.*');
+
+        $fotoAmmRole->givePermissionTo('foto.*');
 
         $userAdmin = User::create(['username' => 'Admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
         $userAdmin->assignRole($superAdmin);

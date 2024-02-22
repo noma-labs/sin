@@ -31,18 +31,10 @@ class StoreExifIntoDBAction
     private function insertBatch(array $exifsData): void
     {
         $photoAttrs = collect();
-        $photoPeopleAttrs = collect();
-
         foreach ($exifsData as $b) {
             $attrs = $b->toModelAttrs();
             $photoAttrs->add($attrs);
-            if (count($b->subjects) > 0) {
-                $persons = array_map(fn ($name) => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
-                $photoPeopleAttrs->push(...$persons);
-            }
         }
-
         DB::connection('db_foto')->table('photos')->insert($photoAttrs->toArray());
-        DB::connection('db_foto')->table('foto_persone')->insert($photoPeopleAttrs->toArray());
     }
 }

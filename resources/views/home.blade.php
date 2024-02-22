@@ -146,6 +146,20 @@
         </div>
         @endcan
 
+        @can("foto.visualizza")
+        <div class="col-md-4">
+            <div class="card text-center border-info mb-3">
+                <div class="card-header">
+                    Foto
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Gestione foto analogiche e digitali</p>
+                    <a href="{{ url('/biblioteca')}} " class="btn btn-primary">Accedi</a>
+                </div>
+            </div>
+        </div>
+        @endcan
+
     </div>
 
 </div>
