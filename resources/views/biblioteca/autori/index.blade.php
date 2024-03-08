@@ -71,6 +71,9 @@
 
 
 
+
+
+
          <tr>
            <td>Nessun autore presente</td>
            <td></td>
