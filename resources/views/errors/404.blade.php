@@ -1,5 +1,5 @@
-@extends('errors::layout')
+@extends("errors::layout")
 
-@section('title', 'Error')
+@section("title", "Error")
 
-@section('message', 'Not found (codice errore HTTP 404)')
+@section("message", "Not found (codice errore HTTP 404)")

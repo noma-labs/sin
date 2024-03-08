@@ -1,5 +1,5 @@
-@extends('errors::layout')
+@extends("errors::layout")
 
-@section('title', 'Error')
+@section("title", "Error")
 
-@section('message', 'Accesso negato (codice errore HTTP 403)')
+@section("message", "Accesso negato (codice errore HTTP 403)")

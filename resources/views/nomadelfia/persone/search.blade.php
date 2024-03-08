@@ -1,8 +1,8 @@
-@extends('nomadelfia.index')
+@extends("nomadelfia.index")
 
-@section('title', 'Persone')
+@section("title", "Persone")
 
-@section('archivio')
-  @include('partials.header', ['title' => 'Ricerca Persone'])
-  @include('nomadelfia.persone.search_form')
+@section("archivio")
+    @include("partials.header", ["title" => "Ricerca Persone"])
+    @include("nomadelfia.persone.search_form")
 @endsection
