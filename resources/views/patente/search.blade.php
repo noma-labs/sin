@@ -175,7 +175,7 @@
                                 App\Traits\SortableTrait::link_to_sorting_action(
                                     "numero_patente",
                                     "Data
-                                                                                                                                                                                                                                                                                                                                                Scadenza",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Scadenza",
                                 )
                             }}
                         </th>
