@@ -172,11 +172,7 @@
                         </th>
                         <th style="width: 10%">
                             {{
-                                App\Traits\SortableTrait::link_to_sorting_action(
-                                    "numero_patente",
-                                    "Data
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Scadenza",
-                                )
+                                App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "Data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Scadenza")
                             }}
                         </th>
                         <th style="width: 20%">Categorie</th>
@@ -276,8 +272,6 @@
         </div>
     @endif
 
-    <!-- Modal -->
-
     <div
         class="modal fade"
         id="eliminaModal"
@@ -301,7 +295,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">Vuo davvero eliminare la patente ?</div>
+                <div class="modal-body">
+                    Vuoi davvero eliminare la patente ?
+                </div>
                 <div class="modal-footer">
                     <button
                         type="button"
