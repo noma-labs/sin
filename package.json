@@ -6,7 +6,8 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "production": "mix --production",
-        "format": "npx prettier --write resources/"
+        "format:check": "npx prettier --check resources",
+        "format:write": "npx prettier --write resources"
     },
     "devDependencies": {
         "axios": "^0.16.2",
