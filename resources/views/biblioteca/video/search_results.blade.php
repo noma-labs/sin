@@ -1,39 +1,47 @@
-@extends('biblioteca.video.index')
+@extends("biblioteca.video.index")
 
-@section('archivio')
-  @include('biblioteca.video.search_partial')
-  <div id="results" class="alert alert-success"> Numero di video Trovati: <strong> {{ $videos->total() }} </strong></div>
+@section("archivio")
+    @include("biblioteca.video.search_partial")
+    <div id="results" class="alert alert-success">
+        Numero di video Trovati:
+        <strong>{{ $videos->total() }}</strong>
+    </div>
 
-  @if ($videos->total() > 0)
-     <table  id="table" class='table table-bordered'>
-       <thead class='thead-inverse'>
-       <tr>
-         <th style="width:10%"  style="font-size:10px" > {{ App\Traits\SortableTrait::link_to_sorting_action('CASSETTA') }} </th>
-         <th style="width:30%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('DATA_REGISTRAZIONE') }}</th>
-         <th style="width:10%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('DESCRIZIONE') }}</th>
-         </tr>
-       </thead>
-       <tbody>
-       @forelse ($videos as $video)
-            <tr>
-             <td> {{ $video->cassetta }}</td>
-             <td>{{ $video->data_registrazione }} </td>
-             <td>{{ $video->descrizione }}</td>
-           </tr>
-       @empty
-           <div class="alert alert-danger">
-               <strong>Nessun risultato ottenuto</strong>
-           </div>
-       @endforelse
-     </tbody>
-     </table>
+    @if ($videos->total() > 0)
+        <table id="table" class="table table-bordered">
+            <thead class="thead-inverse">
+                <tr>
+                    <th style="width: 10%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("CASSETTA") }}
+                    </th>
+                    <th style="width: 30%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("DATA_REGISTRAZIONE") }}
+                    </th>
+                    <th style="width: 10%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("DESCRIZIONE") }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($videos as $video)
+                    <tr>
+                        <td>{{ $video->cassetta }}</td>
+                        <td>{{ $video->data_registrazione }}</td>
+                        <td>{{ $video->descrizione }}</td>
+                    </tr>
+                @empty
+                    <div class="alert alert-danger">
+                        <strong>Nessun risultato ottenuto</strong>
+                    </div>
+                @endforelse
+            </tbody>
+        </table>
 
-     {{ $videos->appends(request()->except('page'))->links() }}
-   @endif
-
+        {{ $videos->appends(request()->except("page"))->links() }}
+    @endif
 @endsection
 
- <!-- #results anchor -->
+<!-- #results anchor -->
 <script>
-  window.location.hash = "results";
+    window.location.hash = 'results';
 </script>

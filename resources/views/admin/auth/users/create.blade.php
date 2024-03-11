@@ -1,51 +1,52 @@
-@extends('admin.index')
-@section('title', '| Add User')
+@extends("admin.index")
+@section("title", "| Add User")
 
-@section('archivio')
+@section("archivio")
+    @include("partials.header", ["title" => "Aggiungi utente"])
+    <div class="col-lg-4 offset-md-3">
+        {{ Form::open(["method" => "POST", "route" => "users.store"]) }}
+        <div class="form-group">
+            {{ Form::label("name", "Nominativo (Persona anagrafe)(*)") }}
+            <autocomplete
+                placeholder="Inserisci nominativo..."
+                name="persona_id"
+                url="{{ route("api.nomadeflia.popolazione.search") }}"
+            ></autocomplete>
+        </div>
 
-@include('partials.header', ['title' => 'Aggiungi utente'])
-<div class='col-lg-4  offset-md-3'>
-    {{ Form::open(array('method'=>'POST','route' => 'users.store')) }}
-    <div class="form-group">
-      {{ Form::label('name', 'Nominativo (Persona anagrafe)(*)') }}
-        <autocomplete placeholder="Inserisci nominativo..." name="persona_id" url={{route('api.nomadeflia.popolazione.search')}}></autocomplete>
-    </div>
+        <div class="form-group">
+            {{ Form::label("username", "Username(*)") }}
+            {{ Form::text("username", "", ["class" => "form-control"]) }}
+        </div>
 
-    <div class="form-group">
-        {{ Form::label('username', 'Username(*)') }}
-        {{ Form::text('username', '', array('class' => 'form-control')) }}
-    </div>
-
-    <!-- <div class="form-group">
-        {{ Form::label('email', 'Email') }}
-        {{ Form::email('email', '', array('class' => 'form-control')) }}
+        <!-- <div class="form-group">
+        {{ Form::label("email", "Email") }}
+        {{ Form::email("email", "", ["class" => "form-control"]) }}
     </div> -->
 
-    <div class='form-group'>
-    <h5><b>Assegna i ruoli all'utente</b></h5>
-        @foreach ($roles as $role)
-            {{ Form::checkbox('roles[]',  $role->id ) }}
-            {{ Form::label($role->name, ucfirst($role->nome)) }}<br>
+        <div class="form-group">
+            <h5><b>Assegna i ruoli all'utente</b></h5>
+            @foreach ($roles as $role)
+                {{ Form::checkbox("roles[]", $role->id) }}
+                {{ Form::label($role->name, ucfirst($role->nome)) }}
+                <br />
+            @endforeach
+        </div>
 
-        @endforeach
+        <div class="form-group">
+            {{ Form::label("password", "Password(*)") }}
+            <br />
+            {{ Form::password("password", ["class" => "form-control"]) }}
+        </div>
+
+        <div class="form-group">
+            {{ Form::label("password", "Conferma Password(*)") }}
+            <br />
+            {{ Form::password("password_confirmation", ["class" => "form-control"]) }}
+        </div>
+        <p class="text-danger">(*) campi obbligatori</p>
+        {{ Form::submit("Aggiungi", ["class" => "btn btn-primary"]) }}
+
+        {{ Form::close() }}
     </div>
-
-    <div class="form-group">
-        {{ Form::label('password', 'Password(*)') }}<br>
-        {{ Form::password('password', array('class' => 'form-control')) }}
-
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('password', 'Conferma Password(*)') }}<br>
-        {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
-
-    </div>
-    <p class="text-danger">(*) campi obbligatori</p>
-    {{ Form::submit('Aggiungi', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}
-
-</div>
-
 @endsection

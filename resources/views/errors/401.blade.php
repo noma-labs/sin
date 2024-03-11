@@ -1,5 +1,5 @@
-@extends('errors::layout')
+@extends("errors::layout")
 
-@section('title', 'Error')
+@section("title", "Error")
 
-@section('message', 'Autorizzazione negata (codice errore HTTP 401)')
+@section("message", "Autorizzazione negata (codice errore HTTP 401)")

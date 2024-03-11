@@ -1,1 +1,1 @@
-<h1> Scuola </h1>
+<h1>Scuola</h1>

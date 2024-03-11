@@ -1,97 +1,118 @@
-@extends('biblioteca.libri.index')
+@extends("biblioteca.libri.index")
 
-@section('archivio')
-     @include('biblioteca.libri.search_partial')
+@section("archivio")
+    @include("biblioteca.libri.search_partial")
 
-      <div class="alert alert-warning alert-dismissible fade show" role="alert" >Ricerca effettuata:<strong> {{$msgSearch}}</strong>
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-       </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Ricerca effettuata:
+        <strong>{{ $msgSearch }}</strong>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">
+            &times;
+        </a>
+    </div>
 
-       <!-- <div class="alert alert-info alert-dismissable fade in"><strong> {{$query}}</strong>
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-       </div> -->
+    <div id="results" class="alert alert-success">
+        Numero di libri Trovati:
+        <strong>{{ $libri->total() }}</strong>
+    </div>
 
-       <div id="results" class="alert alert-success"> Numero di libri Trovati: <strong> {{ $libri->total() }} </strong></div>
+    @if ($libri->total() > 0)
+        <table id="table" class="table table-bordered table-hover table-sm">
+            <thead class="thead-inverse">
+                <tr>
+                    <th style="width: 10%" style="font-size: 10px">STATO</th>
+                    <th style="width: 10%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("COLLOCAZIONE", "COLLOC") }}
+                    </th>
+                    <th style="width: 30%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("TITOLO") }}
+                    </th>
+                    <th style="width: 10%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("AUTORE") }}
+                    </th>
+                    <th style="width: 12%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("EDITORE") }}
+                    </th>
+                    <th style="width: 18%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("CLASSIFICAZIONE") }}
+                    </th>
+                    <th style="width: 20%" style="font-size: 10px">
+                        {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($libri as $libro)
+                    <tr>
+                        <td>
+                            @if ($libro->trashed())
+                                {{ $libro->deleted_note }}
+                            @endif
 
+                            @if ($libro->inPrestito())
+                                <span class="badge badge-danger">
+                                    In prestito
+                                </span>
+                            @endif
 
-  @if ($libri->total() > 0)
-     <table  id="table" class='table table-bordered table-hover table-sm'>
-       <thead class='thead-inverse'>
-       <tr>
-         <th style="width:10%"  style="font-size:10px" >STATO</th>
-         <th style="width:10%"  style="font-size:10px" > {{ App\Traits\SortableTrait::link_to_sorting_action('COLLOCAZIONE',"COLLOC") }} </th>
-         <th style="width:30%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('TITOLO') }}</th>
-         <th style="width:10%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('AUTORE') }}</th>
-         <th style="width:12%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('EDITORE') }}</th>
-         <th style="width:18%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('CLASSIFICAZIONE') }}</th>
-         <th style="width:20%"  style="font-size:10px" >{{ App\Traits\SortableTrait::link_to_sorting_action('NOTE') }}</th>
-         </tr>
-       </thead>
-       <tbody>
+                            @if ($libro->tobe_printed == 1 and ! $libro->trashed())
+                                <span class="badge badge-warning">
+                                    In stampa
+                                </span>
+                            @endif
+                        </td>
+                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                            {{ $libro->collocazione }}
+                        </td>
+                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                            {{ $libro->titolo }}
+                        </td>
 
-       @forelse ($libri as $libro)
-          @if($libro->trashed())
-            <tr class="bg-danger">
-          @else
-            <tr >
-           @endif
-              <td>
-                @if($libro->trashed())
-                  {{$libro->deleted_note}}
-                @endif
-                 @if ($libro->inPrestito())
-                 <span  class="badge badge-danger">In prestito</span>
-                @endif
-                 @if($libro->tobe_printed ==1 and !$libro->trashed())
-                   <span class="badge badge-warning">In stampa</span>
-                @endif
-              </td>
-             <td onclick="gotoLibroDetails({{$libro->id}})" >{{ $libro->collocazione }} </td>
-             <td onclick="gotoLibroDetails({{$libro->id}})" >{{ $libro->titolo }}</td>
+                        @if ($libro->autori->count() > 0)
+                            <td>
+                                @foreach ($libro->autori as $autore)
+                                        {{ $autore->autore }},
+                                @endforeach
+                            </td>
+                        @else
+                            <td>{{ $libro->autore }}</td>
+                        @endif
 
-              @if ($libro->autori->count()> 0)
-                  <td>
-                    @foreach ($libro->autori as $autore)
-                     {{ $autore->autore }},
-                    @endforeach
-                  </td>
-              @else
-                   <td> {{ $libro->autore}} </td>
-              @endif
+                        @if ($libro->editori->count() > 0)
+                            <td>
+                                @foreach ($libro->editori as $editore)
+                                        {{ $editore->editore }},
+                                @endforeach
+                            </td>
+                        @else
+                            <td>{{ $libro->editore }}</td>
+                        @endif
 
-              @if ($libro->editori->count()>0)
-                <td>
-                   @foreach ($libro->editori as $editore)
-                    {{ $editore->editore }},
-                   @endforeach
-                </td>
-              @else
-                   <td> {{ $libro->editore}} </td>
-              @endif
-
-             <td onclick="gotoLibroDetails({{$libro->id}})" >
-               @if($libro->classificazione)
-               {{ $libro->classificazione->descrizione }}
-               @endif
-             </td>
-             <td onclick="gotoLibroDetails({{$libro->id}})" O>{{ $libro->note }}</td>
-           </tr>
-       @empty
-           <div class="alert alert-danger">
-               <strong>Nessun risultato ottenuto</strong>
-           </div>
-       @endforelse
-     </tbody>
-     </table>
-     <div class="row">
-       <div class="col-md-6 offset-md-4">
-         {{ $libri->appends(request()->except('page'))->links('vendor.pagination.bootstrap-4') }}
-       </div>
-     </div>
-   @endif
+                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                            @if ($libro->classificazione)
+                                {{ $libro->classificazione->descrizione }}
+                            @endif
+                        </td>
+                        <td onclick="gotoLibroDetails({{ $libro->id }})" O>
+                            {{ $libro->note }}
+                        </td>
+                    </tr>
+                @empty
+                    <div class="alert alert-danger">
+                        <strong>Nessun risultato ottenuto</strong>
+                    </div>
+                @endforelse
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-6 offset-md-4">
+                {{ $libri->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
+            </div>
+        </div>
+    @endif
 @endsection
 
- <!-- #results anchor -->
+<!-- #results anchor -->
 <script>
-  window.location.hash = "results";
+    window.location.hash = 'results';
 </script>

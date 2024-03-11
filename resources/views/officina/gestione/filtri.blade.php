@@ -1,8 +1,8 @@
-@extends('officina.index')
+@extends("officina.index")
 
-@section('title', 'Filtri')
+@section("title", "Filtri")
 
 @section("archivio")
-@include('partials.header', ['title' => 'Gestione Filtri'])
+    @include("partials.header", ["title" => "Gestione Filtri"])
     <gestione-filtri></gestione-filtri>
 @endsection

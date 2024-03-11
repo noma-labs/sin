@@ -1,8 +1,7 @@
-@extends('officina.index')
+@extends("officina.index")
 
-@section('archivio')
+@section("archivio")
+    @include("partials.header", ["title" => "Patenti"])
 
-@include('partials.header', ['title' => 'Patenti'])
-
-@include('patente.elenchi.percategoria')
+    @include("patente.elenchi.percategoria")
 @endsection
