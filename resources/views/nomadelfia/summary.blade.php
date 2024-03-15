@@ -3,6 +3,7 @@
 @section("title", "Gestione Nomadelfia")
 
 @section("archivio")
+    <livewire:hello-world />
     <div class="card-deck">
         <div class="card">
             <div class="card-header">Gestione Popolazione</div>
