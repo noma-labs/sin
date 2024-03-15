@@ -1,5 +1,5 @@
-@extends('errors::layout')
+@extends("errors::layout")
 
-@section('title', 'Error')
+@section("title", "Error")
 
-@section('message', 'Server in manutenzione!!')
+@section("message", "Server in manutenzione!!")

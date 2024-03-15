@@ -3,13 +3,15 @@
     <div class="row">
         @foreach ($chunk as $azienda)
             <div class="col-md-4">
-            <p class="font-weight-bold"> {{ $azienda->nome_azienda }} {{$azienda->lavoratoriAttuali()->count()}}</p>
-            
-            @foreach($azienda->lavoratoriAttuali as $persona)
-                <div>{{$persona->nominativo}}</div>
-            @endforeach
-            
+                <p class="font-weight-bold">
+                    {{ $azienda->nome_azienda }}
+                    {{ $azienda->lavoratoriAttuali()->count() }}
+                </p>
+
+                @foreach ($azienda->lavoratoriAttuali as $persona)
+                    <div>{{ $persona->nominativo }}</div>
+                @endforeach
             </div>
         @endforeach
     </div>
- @endforeach
+@endforeach

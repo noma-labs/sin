@@ -1,5 +1,5 @@
-@extends('biblioteca.video.index')
+@extends("biblioteca.video.index")
 
-@section('archivio')
-  @include('biblioteca.video.search_partial')
+@section("archivio")
+    @include("biblioteca.video.search_partial")
 @endsection

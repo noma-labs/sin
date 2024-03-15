@@ -2,27 +2,38 @@
 <template id="modal-template">
   <span>
     <transition name="modal">
-        <div class="modal-mask" @click="close" v-show="showModal">
-            <div class="modal-container" @click.stop>
-                <div class="modal-header">
-                    <h3>{{ modalTitle }}</h3>
-					<button type="button" class="btn btn-danger btn-close" aria-label="Close" @click="close()">
-            			<span aria-hidden="true">&times;</span>
-        			</button>
-                </div>
-                <div class="modal-body">
-                  <slot name="modal-body-slot">
-					<!-- slot for modal body -->
-				  </slot>
-                </div>
-                <div class="modal-footer text-right">
-                  <!-- <button class="btn btn-danger" type="button" @click="close()">Chiudi</button> -->
-                  <slot name="modal-button"> <!-- slot additional button --> </slot>
-                </div>
-            </div>
+      <div class="modal-mask" @click="close" v-show="showModal">
+        <div class="modal-container" @click.stop>
+          <div class="modal-header">
+            <h3>{{ modalTitle }}</h3>
+            <button
+              type="button"
+              class="btn btn-danger btn-close"
+              aria-label="Close"
+              @click="close()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <slot name="modal-body-slot">
+              <!-- slot for modal body -->
+            </slot>
+          </div>
+          <div class="modal-footer text-right">
+            <!-- <button class="btn btn-danger" type="button" @click="close()">Chiudi</button> -->
+            <slot name="modal-button"> <!-- slot additional button --> </slot>
+          </div>
         </div>
+      </div>
     </transition>
-    <button v-bind:class="['btn', buttonStyle]" type="button" @click="showModal=true">{{ buttonTitle }}</button>
+    <button
+      v-bind:class="['btn', buttonStyle]"
+      type="button"
+      @click="showModal = true"
+    >
+      {{ buttonTitle }}
+    </button>
   </span>
 </template>
 
@@ -33,21 +44,21 @@ export default {
     buttonTitle: String,
     buttonStyle: {
       type: String,
-      default: "btn-primary"
-    }
+      default: "btn-primary",
+    },
   },
   data() {
     return {
       showModal: false,
       // buttonStyle: 'btn-primary',
-    }
+    };
   },
   methods: {
     close: function () {
       this.showModal = false;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -62,27 +73,27 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  transition: opacity .3s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
 }
 
 .modal-container {
   width: 700px;
   margin: 40px auto 0;
   background-color: #fff;
-  color: #1D70B8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  color: #1d70b8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-header {
-  background: #1D70B8;
+  background: #1d70b8;
   border-radius: 0;
 }
 
 .modal-footer {
-  background: #1D70B8;
+  background: #1d70b8;
   border-radius: 0;
 }
 
@@ -149,5 +160,3 @@ div .form-group {
   transform: scale(1.1);
 }
 </style>
-
-
