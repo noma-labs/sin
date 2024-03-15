@@ -32,6 +32,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Patente\Controllers\PatenteController;
+use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ScuolaController;
 
@@ -461,3 +462,11 @@ Route::group(['prefix' => 'archiviodocumenti', 'namespace' => 'App\ArchivioDocum
 //#################################################################
 
 Route::view('/meteo', 'stazionemeteo.index')->name('stazionemeteo');
+
+//#################################################################
+//######################   RTN ######################
+//#################################################################
+
+Route::group(['prefix' => 'rtn', 'namespace' => 'App\ArchivioDocumenti\Controllers'], function () {
+    Route::get('/create', [RtnVideoController::class, 'create'])->name('rtn.video.create');
+});

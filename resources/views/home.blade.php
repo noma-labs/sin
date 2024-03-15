@@ -43,6 +43,21 @@
                 </div>
             </div>
 
+            <div class="col-md-4">
+                <div class="card text-center border-info mb-3">
+                    <div class="card-header">RTN</div>
+                    <div class="card-body">
+                        <p class="card-text">Gestione video storico di RTN.</p>
+                        <a
+                            href="{{ route("rtn.video.create") }}"
+                            class="btn btn-primary"
+                        >
+                            Accedi
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             @can("biblioteca.visualizza")
                 <div class="col-md-4">
                     <div class="card text-center border-info mb-3">
