@@ -43,6 +43,7 @@
                 </div>
             </div>
 
+            @hasrole("super-admin")
             <div class="col-md-4">
                 <div class="card text-center border-info mb-3">
                     <div class="card-header">RTN</div>
@@ -57,6 +58,7 @@
                     </div>
                 </div>
             </div>
+            @endhasrole
 
             @can("biblioteca.visualizza")
                 <div class="col-md-4">
