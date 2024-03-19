@@ -12,11 +12,12 @@ class SearchPersona extends Component
 
     public $people = [];
 
+    public $selected = [];
 
-    public function mount()
-    {
-  // get the data from db and set the propoerties
-    }
+    public function mount() {
+        // $this->people = Persona::orderBy('nominativo')->limit(10)->get();
+        // setup component: get the data from db and set the properties
+     }
 
     public function render()
     {
@@ -27,12 +28,16 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
         $this->reset('people');
-        $term = $value;
-        $persone = Persona::where('nominativo', 'LIKE', "$term%")
-                    ->orderBy('nominativo')
-                    ->get();
-        foreach ($persone as $persona) {
-            $this->people[] = ['id' => $persona->id, 'nominativo' => $persona->nominativo];
-        }
+        $this->people = Persona::where('nominativo', 'LIKE', "$value%") ->orderBy('nominativo') ->get();
+    }
+
+    public function add($personID){
+        $this->selected[] = Persona::find($personID);
+    }
+
+    public function remove($personID){
+        $this->selected = array_filter($this->selected, function($persona) use ($personID) {
+            return $persona->id !== $personID;
+        });
     }
 }

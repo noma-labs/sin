@@ -3,7 +3,6 @@
 @section("title", "Gestione Nomadelfia")
 
 @section("archivio")
-    <livewire:search-persona />
     <div class="card-deck">
         <div class="card">
             <div class="card-header">Gestione Popolazione</div>
