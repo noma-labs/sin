@@ -4,12 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require("./bootstrap");
-
-// include vue library
 import Vue from "vue";
-// livewire-vue is needed to use livewire with vue - https://github.com/livewire/vue
-// require('livewire-vue')
-
 window.Vue = Vue; //this is important! Do not use require('vue')
 Vue.config.devtools = true;
 

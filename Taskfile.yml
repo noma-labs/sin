@@ -50,6 +50,7 @@ tasks:
   lint:
     cmds:
       - docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint
+      - sail npm run format:write
 
   lint:check:
     cmds:

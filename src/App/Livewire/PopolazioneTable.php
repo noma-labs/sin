@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Scuola\Models\Anno;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;

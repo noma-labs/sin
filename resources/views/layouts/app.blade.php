@@ -23,13 +23,6 @@
             href="{{ URL::asset("css/vendor/basic.min.css") }}"
         />
 
-        @livewireStyles
-        <!-- Needed by https://github.com/rappasoft/laravel-livewire-tables -->
-        <script
-            defer
-            src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js"
-        ></script>
-
         <!--    sentry for user feedback form  -->
         <script
             src="https://browser.sentry-cdn.com/7.11.1/bundle.min.js"
@@ -152,27 +145,6 @@
                 @yield("archivio")
             </div>
         </div>
-
-        {{--
-            <footer class="page-footer font-small blue">
-        --}}
-        {{--
-            <div class="footer-copyright text-center py-3">© 2022 Copyright:
-        --}}
-        {{-- <a href="https://nomadelfia.it/"> Nomadelfia</a> --}}
-        {{--
-            </div>
-        --}}
-        {{--
-            <div class="footer-copyright text-center py-3">php version {{ phpversion() }}.
-        --}}
-        {{--
-            </div>
-        --}}
-        {{--
-            </footer>
-        --}}
-        @livewireScripts
 
         <!-- JS compiled with Laravel-mix -->
         <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
