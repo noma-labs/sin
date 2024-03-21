@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-3">
                 <label class="control-label">Cliente</label>
-                <livewire:search-persona/>
+                <livewire:search-persona />
             </div>
             <div class="col-md-3">
                 <div class="form-group">

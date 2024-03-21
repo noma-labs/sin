@@ -15,7 +15,7 @@ class SearchPersona extends Component
 
     public ViewClienti $selected;
 
-    public string $inputName = "nome";
+    public string $inputName = 'nome';
 
     public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
