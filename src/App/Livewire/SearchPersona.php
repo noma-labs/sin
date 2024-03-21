@@ -2,23 +2,28 @@
 
 namespace App\Livewire;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Officina\Models\ViewClienti;
 use Livewire\Component;
 
 class SearchPersona extends Component
 {
-    public $searchTerm = '';
+    public string $searchTerm;
 
-    public $placehodler = '<inserisci nominativo>';
+    public string $placeholder;
 
     public $people = [];
 
-    public $selected = [];
+    public ViewClienti $selected;
 
-    public function mount()
+    public string $inputName = 'nome';
+
+    public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
-        // $this->people = Persona::orderBy('nominativo')->limit(10)->get();
-        // setup component: get the data from db and set the properties
+        $this->placeholder = $placeholder;
+
+        if (old($this->inputName) != null) {
+            $this->selected = ViewClienti::query()->findOrFail(old($this->inputName));
+        }
     }
 
     public function render()
@@ -29,18 +34,17 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
         $this->reset('people');
-        $this->people = Persona::where('nominativo', 'LIKE', "$value%")->orderBy('nominativo')->get();
+        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$value%")->orderBy('nominativo', 'asc')->get();
     }
 
-    public function add($personID)
+    public function select($personID)
     {
-        $this->selected[] = Persona::find($personID);
+        $this->selected = ViewClienti::query()->find($personID);
+        $this->reset('people');
     }
 
-    public function remove($personID)
+    public function clear()
     {
-        $this->selected = array_filter($this->selected, function ($persona) use ($personID) {
-            return $persona->id !== $personID;
-        });
+        $this->reset('searchTerm', 'selected', 'people');
     }
 }
