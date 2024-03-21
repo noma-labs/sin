@@ -19,10 +19,10 @@ class SearchPersona extends Component
 
     public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
-        $this->placeholder = $placeholder ?? $this->placeholder;
+        $this->placeholder = $placeholder;
 
         if (old($this->inputName) != null) {
-            $this->selected = ViewClienti::findOrFail(old($this->inputName));
+            $this->selected = ViewClienti::query()->findOrFail(old($this->inputName));
         }
     }
 
@@ -34,12 +34,12 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
         $this->reset('people');
-        $this->people = ViewClienti::where('nominativo', 'LIKE', "$value%")->orderBy('nominativo', 'asc')->get();
+        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$value%")->orderBy('nominativo', 'asc')->get();
     }
 
     public function select($personID)
     {
-        $this->selected = ViewClienti::find($personID);
+        $this->selected = ViewClienti::query()->find($personID);
         $this->reset('people');
     }
 
