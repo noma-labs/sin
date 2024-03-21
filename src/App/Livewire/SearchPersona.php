@@ -7,18 +7,24 @@ use Livewire\Component;
 
 class SearchPersona extends Component
 {
-    public $searchTerm = '';
+    public string $searchTerm;
 
-    public $placehodler = '<inserisci nominativo>';
+    public string $placeholder;
 
     public $people = [];
 
-    public $selected = [];
+    public Persona $selected ;
 
-    public function mount()
+    public string $inputName;
+
+    public function mount(string $name= "persona_id", string $placeholder = "--Inserisci Nominativo--")
     {
-        // $this->people = Persona::orderBy('nominativo')->limit(10)->get();
-        // setup component: get the data from db and set the properties
+        $this->inputName = $name;
+        $this->placeholder = $placeholder ?? $this->placeholder;
+
+        if (old($this->inputName) != null) {
+            $this->selected = Persona::findOrFail(old($this->inputName));
+        }
     }
 
     public function render()
@@ -32,15 +38,14 @@ class SearchPersona extends Component
         $this->people = Persona::where('nominativo', 'LIKE', "$value%")->orderBy('nominativo')->get();
     }
 
-    public function add($personID)
+    public function select($personID)
     {
-        $this->selected[] = Persona::find($personID);
+        $this->selected = Persona::find($personID);
+        $this->reset('people');
     }
 
-    public function remove($personID)
+    public function clear()
     {
-        $this->selected = array_filter($this->selected, function ($persona) use ($personID) {
-            return $persona->id !== $personID;
-        });
+       $this->reset('searchTerm', 'selected', 'people');
     }
 }

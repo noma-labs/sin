@@ -10,7 +10,6 @@ tasks:
       - ./vendor/bin/sail npm install
       - ./vendor/bin/sail npm run production
       - ./vendor/bin/sail artisan make:database
-      - ./vendor/bin/sail  php artisan livewire:discover
 
   up:
     cmds:
