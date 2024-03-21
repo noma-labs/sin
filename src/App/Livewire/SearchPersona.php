@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Officina\Models\ViewClienti;
 use Livewire\Component;
 
 class SearchPersona extends Component
@@ -13,17 +13,16 @@ class SearchPersona extends Component
 
     public $people = [];
 
-    public Persona $selected;
+    public ViewClienti $selected;
 
-    public string $inputName;
+    public string $inputName = "nome";
 
-    public function mount(string $name = 'persona_id', string $placeholder = '--Inserisci Nominativo--')
+    public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
-        $this->inputName = $name;
         $this->placeholder = $placeholder ?? $this->placeholder;
 
         if (old($this->inputName) != null) {
-            $this->selected = Persona::findOrFail(old($this->inputName));
+            $this->selected = ViewClienti::findOrFail(old($this->inputName));
         }
     }
 
@@ -35,12 +34,12 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
         $this->reset('people');
-        $this->people = Persona::where('nominativo', 'LIKE', "$value%")->orderBy('nominativo')->get();
+        $this->people = ViewClienti::where('nominativo', 'LIKE', "$value%")->orderBy('nominativo', 'asc')->get();
     }
 
     public function select($personID)
     {
-        $this->selected = Persona::find($personID);
+        $this->selected = ViewClienti::find($personID);
         $this->reset('people');
     }
 
