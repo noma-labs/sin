@@ -13,11 +13,11 @@ class SearchPersona extends Component
 
     public $people = [];
 
-    public Persona $selected ;
+    public Persona $selected;
 
     public string $inputName;
 
-    public function mount(string $name= "persona_id", string $placeholder = "--Inserisci Nominativo--")
+    public function mount(string $name = 'persona_id', string $placeholder = '--Inserisci Nominativo--')
     {
         $this->inputName = $name;
         $this->placeholder = $placeholder ?? $this->placeholder;
@@ -46,6 +46,6 @@ class SearchPersona extends Component
 
     public function clear()
     {
-       $this->reset('searchTerm', 'selected', 'people');
+        $this->reset('searchTerm', 'selected', 'people');
     }
 }
