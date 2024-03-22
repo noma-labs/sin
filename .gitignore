@@ -8,10 +8,10 @@ yarn-error.log
 
 /public/uploads
 /public/js/app.js
-/public/css/app.css
-/public/css/sin-theme.css
+/public/css/*.css
 /public/hot
 /public/storage
+
 
 storage/*.key
 storage/*.docx
@@ -24,4 +24,3 @@ storage/*.json
 .idea/
 .vagrant/
 .cache/
-
