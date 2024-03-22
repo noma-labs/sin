@@ -36,7 +36,8 @@ class SearchPersona extends Component
         $this->search($value);
     }
 
-    public function search(string $term){
+    public function search(string $term)
+    {
         $this->reset('people');
         $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
     }
