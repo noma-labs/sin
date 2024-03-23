@@ -12,6 +12,7 @@ class PrenotazioniQueryBuilders extends Builder
     {
         $startOfDay = Carbon::yesterday()->startOfDay();
         $endOfDay = Carbon::yesterday()->endOfDay();
+
         return $this->activeIn($startOfDay, $endOfDay);
     }
 
@@ -19,16 +20,17 @@ class PrenotazioniQueryBuilders extends Builder
     {
         $startOfDay = Carbon::today()->startOfDay();
         $endOfDay = Carbon::today()->endOfDay();
+
         return $this->activeIn($startOfDay, $endOfDay);
     }
 
     public function activeIn(Carbon $data_from, Carbon $data_to): Builder
     {
         // prenotazioni attive nello stesso giorno guardando l'ora
-        $prenotazioni = Prenotazioni:: where('data_partenza', '=', $data_from->toDateString())
+        $prenotazioni = Prenotazioni::where('data_partenza', '=', $data_from->toDateString())
             ->where('data_arrivo', '=', $data_to->toDateString())
             ->where(function ($query) use ($data_from, $data_to) {
-                $query->where([['ora_partenza', '<', $data_to->format('H:i') ], ['ora_arrivo', '>', $data_from->format('H:i')]]);
+                $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
             })
             ->orWhere(function ($query) use ($data_to, $data_from) {
                 // prenotazione che partono nei giorni precedenti e finiscono il giorno della partenza

@@ -46,8 +46,6 @@ class PrenotazioniFactory extends Factory
         });
     }
 
-
-
     public function prenotataDalCliente(Persona $cliente)
     {
         return $this->state(function (array $attributes) use ($cliente) {

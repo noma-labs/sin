@@ -9,7 +9,6 @@ use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 
 it('shows the booked veichiles', function () {

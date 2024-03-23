@@ -2,19 +2,19 @@
 
 namespace Tests\Officina\Unit;
 
-use Carbon\Carbon;
+use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
-use App\Officina\Models\Prenotazioni;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Spatie\PestPluginTestTime\TestTime;
+
 use function Spatie\PestPluginTestTime\testTime;
 
 beforeEach(function () {
     Prenotazioni::truncate();
 });
 
-it("show the active booking of today", function(){
+it('show the active booking of today', function () {
     testTime()->freeze('2024-03-23 12:00:00');
 
     Prenotazioni::factory()->prenotata(Carbon::parse('2024-03-23 08:00'), Carbon::parse('2024-03-23 12:00'))->create();
@@ -33,8 +33,7 @@ it("show the active booking of today", function(){
     expect(Prenotazioni::ActiveIn(Carbon::parse('2024-03-23 17:00'), Carbon::parse('2024-03-23 18:00'))->count())->toBe(0);
     expect(Prenotazioni::ActiveIn(Carbon::parse('2024-03-23 18:00'), Carbon::parse('2024-03-23 19:00'))->count())->toBe(0);
 
-   });
-
+});
 
 //it("show_prenotazioni_attive_ieri", function(){
 //    {
