@@ -274,6 +274,7 @@ class ApiController extends CoreBaseController
                 $query->select('id', 'nominativo');
             },
         ])->prenotabili()->roma()->orderBy('nome');
+
         $veicoliPrenotabili[] = [
             'impiego_tipologia' => 'Veicoli Roma',
             'count' => $roma->count(),

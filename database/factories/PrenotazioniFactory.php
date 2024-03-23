@@ -25,6 +25,38 @@ class PrenotazioniFactory extends Factory
         ];
     }
 
+    public function delVeicolo(Veicolo $veicolo)
+    {
+        return $this->state(function (array $attributes) use ($veicolo) {
+            return [
+                'veicolo_id' => $veicolo->id,
+            ];
+        });
+    }
+
+    public function prenotata(Carbon $partenza, Carbon $arrivo)
+    {
+        return $this->state(function (array $attributes) use ($partenza, $arrivo) {
+            return [
+                'data_partenza' => $partenza->toDateString(),
+                'ora_partenza' => $partenza->format('H:i'),
+                'data_arrivo' => $arrivo->toDateString(),
+                'ora_arrivo' => $arrivo->format('H:i'),
+            ];
+        });
+    }
+
+
+
+    public function prenotataDalCliente(Persona $cliente)
+    {
+        return $this->state(function (array $attributes) use ($cliente) {
+            return [
+                'cliente_id' => $cliente->id,
+            ];
+        });
+    }
+
     public function partita(Carbon $data_partenza, string $ora_partenza = '08:00')
     {
         return $this->state(function (array $attributes) use ($ora_partenza, $data_partenza) {
