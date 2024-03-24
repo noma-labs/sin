@@ -54,7 +54,7 @@
                         text-align: center;
                     "
                 >
-                    {{$noResultsMessage}}
+                    {{ $noResultsMessage }}
                 </li>
             @endif
         @endforelse
