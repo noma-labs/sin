@@ -36,7 +36,7 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
 
-        if (strlen($value) < 2) { // start searching only of the teram is more than 2 char
+        if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
             $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
 
             return $this->reset('people');
