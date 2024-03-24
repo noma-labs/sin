@@ -37,7 +37,8 @@ class SearchPersona extends Component
     {
 
         if (strlen($value) < 2) { // start searching only of the teram is more than 2 char
-            $this->noResultsMessage = "--Inserisci almeno 2 caratteri--";
+            $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
+
             return $this->reset('people');
         }
         $this->search($value);
