@@ -3,7 +3,7 @@
         class="form-control"
         style="display: flex; justify-content: space-between"
     >
-        <div>
+        <div wire:click="clear">
             @if ($selected)
                 <span>{{ $selected->nominativo }}</span>
                 <input
@@ -54,7 +54,7 @@
                         text-align: center;
                     "
                 >
-                    Nessun risultato
+                    {{ $noResultsMessage }}
                 </li>
             @endif
         @endforelse

@@ -17,6 +17,8 @@ class SearchPersona extends Component
 
     public string $inputName = 'nome';
 
+    public string $noResultsMessage = 'Nessun risultato trovato';
+
     public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
         $this->placeholder = $placeholder;
@@ -33,8 +35,19 @@ class SearchPersona extends Component
 
     public function updatedSearchTerm($value)
     {
+
+        if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
+            $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
+
+            return $this->reset('people');
+        }
+        $this->search($value);
+    }
+
+    public function search(string $term)
+    {
         $this->reset('people');
-        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$value%")->orderBy('nominativo', 'asc')->get();
+        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
     }
 
     public function select($personID)
