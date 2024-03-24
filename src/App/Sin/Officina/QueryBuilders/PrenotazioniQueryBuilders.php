@@ -38,12 +38,26 @@ class PrenotazioniQueryBuilders extends Builder
                 $query->where('data_arrivo', '=', $data_to->toDateString())
                     ->where('data_partenza', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
                     ->where('ora_arrivo', '>', $data_from->format('H:i'));
+            })
+            ->orWhere(function ($query) use ($data_to) {
+                $query->where('data_partenza', '=', $data_to->toDateString())
+                    ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
+                    ->where('ora_partenza', '<', $data_to->format('H:i'));
+            })
+            ->orWhere(function ($query) use ($data_from, $data_to) {
+                $query->where('data_partenza', '=', $data_from->toDateString())
+                    ->where('data_arrivo', '=', $data_to->toDateString())
+                    ->where(function ($query) use ($data_from, $data_to) {
+                        // esclude le prenotazioni che sono a cavallo dell'ora di partenza della nuova prenotazione
+                        // $query->where([['ora_partenza', '<=', $orap],['ora_arrivo',">",$orap]])
+                        //        // esclude le prenotazioni che sono a cavallo dell'ora di arrivo della nuova prenotazion
+                        //       ->orWhere([['ora_partenza', '<', $oraa],['ora_arrivo',">=",$oraa]])
+                        //        // esclude le prenotazioni che sono a all'interno dell'ora partenza e arrivo della nuova prenotazion
+                        //       ->orWhere([['ora_partenza', '>=', $orap],['ora_arrivo',"<=",$oraa]]);
+                        $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
+                    });
             });
 
-        //            ->orWhere(function($query) use ($data_to, $data_from) {
-        //                $query->where('data_partenza', '<', $data_to)
-        //                    ->where('data_arrivo', '>', $data_from);
-        //            });
         return $prenotazioni;
     }
 
