@@ -54,7 +54,7 @@
                         text-align: center;
                     "
                 >
-                    Nessun risultato
+                    {{$noResultsMessage}}
                 </li>
             @endif
         @endforelse
