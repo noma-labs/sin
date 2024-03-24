@@ -123,16 +123,18 @@ class PrenotazioniController extends CoreBaseController
         $now = Carbon::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day == 'oggi') {
-            $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
-                ->orWhere('data_arrivo', '=', $now->toDateString());
+            $query =Prenotazioni::today();
+            // $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
+            //     ->orWhere('data_arrivo', '=', $now->toDateString());
         } else {
             if ($day == 'ieri') {
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
             if ($day == 'all') {
-                // include: 1) prenotazioni che partono dopo oggi (o uguale)
-                //                            2) prenotazioni a cavallo di oggi
-                //                            3) prenotazioni che si concludono oggi
+                // include:
+                //   1) prenotazioni che partono dopo oggi (o uguale)
+                //   2) prenotazioni a cavallo di oggi
+                //   3) prenotazioni che si concludono oggi
                 $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
                         // prenotazioni a cavallo di oggi
@@ -161,7 +163,7 @@ class PrenotazioniController extends CoreBaseController
         $validRequest = Validator::make($request->all(), [
             'nome' => 'required',
             'veicolo' => 'required',
-            'meccanico' => 'required',
+            // 'meccanico' => 'required',
             'data_par' => 'required|date',
             'ora_par' => 'required',
             'data_arr' => 'required|date|after_or_equal:data_par',
@@ -180,7 +182,7 @@ class PrenotazioniController extends CoreBaseController
         (new CreatePrenotazioneAction)(
             Persona::findOrFail($request->get('nome')),
             Veicolo::findOrFail($request->get('veicolo')),
-            Persona::findOrFail($request->get('meccanico')),
+            Persona::findOrFail($request->get('nome')),
             $request->get('data_par'),
             $request->get('data_arr'),
             $request->get('ora_par'),
