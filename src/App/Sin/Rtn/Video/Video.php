@@ -5,6 +5,9 @@ namespace App\Rtn\Video;
 use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static VideoQueryBuilder byYear()
+ **/
 class Video extends Model
 {
     use SortableTrait;
