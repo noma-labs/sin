@@ -25,6 +25,9 @@ jobs:
       - name: Install composer deps
         run: composer install  --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
 
+      - name: Install npm deps
+        run: npm install
+
       - run: task lint:check
 
       - run: task analyse
