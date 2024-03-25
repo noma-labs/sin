@@ -8,6 +8,15 @@ class VideoController extends CoreBaseController
 {
     public function create()
     {
-        return view('rtn.video.create');
+        $countByYear = Video::byYear()->get();
+
+        // all: [
+        //     App\Rtn\Video\Video {#8004
+        //       year: 2023,
+        //       month: "August",
+        //       count(*): 2,
+        //     },
+        //   ],
+        return view('rtn.video.create', compact('countByYear'));
     }
 }

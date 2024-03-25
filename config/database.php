@@ -201,7 +201,7 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8',
             'prefix' => '',
-            'strict' => true,
+            'strict' => false, // SQLSTATE[42000]: Syntax error or access violation: 1055 'db_rtn.arch_prof.Datareg' isn't in GROUP BY (Connection: db_rtn, SQL: select YEAR(Datareg) as year, MONTHNAME(Datareg) as month, count(*) from `arch_prof` group by YEAR(Datareg), MONTH(Datareg)).
             'engine' => null,
         ],
 
