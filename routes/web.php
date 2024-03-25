@@ -469,4 +469,5 @@ Route::view('/meteo', 'stazionemeteo.index')->name('stazionemeteo');
 
 Route::group(['prefix' => 'rtn', 'namespace' => 'App\ArchivioDocumenti\Controllers'], function () {
     Route::get('/create', [RtnVideoController::class, 'create'])->name('rtn.video.create');
+    Route::get('/', [RtnVideoController::class, 'index'])->name('rtn.video.index');
 });

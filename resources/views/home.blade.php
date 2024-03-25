@@ -52,7 +52,7 @@
                                 Gestione video storico di RTN.
                             </p>
                             <a
-                                href="{{ route("rtn.video.create") }}"
+                                href="{{ route("rtn.video.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi
