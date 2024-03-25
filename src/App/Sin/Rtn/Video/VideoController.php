@@ -10,6 +10,7 @@ class VideoController extends CoreBaseController
     public function index()
     {
         $countByYear = Video::byYear()->get();
+
         return view('rtn.video.create', compact('countByYear'));
     }
 
