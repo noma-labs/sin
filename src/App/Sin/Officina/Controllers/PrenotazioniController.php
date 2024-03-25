@@ -123,11 +123,12 @@ class PrenotazioniController extends CoreBaseController
         $now = Carbon::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day == 'oggi') {
-            $query =Prenotazioni::today();
-            // $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
-            //     ->orWhere('data_arrivo', '=', $now->toDateString());
+            // $query = Prenotazioni::today();
+            $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
+                ->orWhere('data_arrivo', '=', $now->toDateString());
         } else {
             if ($day == 'ieri') {
+                // $query = Prenotazioni::yesterday();
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
             if ($day == 'all') {
