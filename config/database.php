@@ -191,6 +191,19 @@ return [
             'strict' => true,
             'engine' => null,
         ],
+        'db_rtn' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'db_rtn'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'root'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'strict' => false, // SQLSTATE[42000]: Syntax error or access violation: 1055 'db_rtn.arch_prof.Datareg' isn't in GROUP BY (Connection: db_rtn, SQL: select YEAR(Datareg) as year, MONTHNAME(Datareg) as month, count(*) from `arch_prof` group by YEAR(Datareg), MONTH(Datareg)).
+            'engine' => null,
+        ],
 
     ],
 
