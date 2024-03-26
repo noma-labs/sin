@@ -24,7 +24,17 @@
         <div class="row">
             <div class="col-md-3">
                 <label class="control-label">Cliente</label>
-                <livewire:search-persona />
+                <select class="form-control" id="cliente" name="nome">
+                    <option selected value>--Seleziona--</option>
+                    @foreach ($clienti as $cliente)
+                        <option
+                            value="{{ $cliente->id }}"
+                            @if (old('nome') !== null && old('nome') == $cliente->id)  selected @endif
+                        >
+                            {{ $cliente->nominativo }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
