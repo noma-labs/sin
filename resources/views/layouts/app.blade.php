@@ -131,11 +131,6 @@
 
         <!-- JS compiled with Laravel-mix -->
         <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
-
-        <!-- Script Archivio -->
-        <script
-            type="text/javascript"
-            src="{{ asset("js/archivio/archivio.js") }}"
-        ></script>
+        <script type="text/javascript" src="{{ asset("js/archivio.js") }}"></script>
     </body>
 </html>
