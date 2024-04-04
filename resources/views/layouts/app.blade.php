@@ -135,10 +135,6 @@
         <!-- Script Archivio -->
         <script
             type="text/javascript"
-            src="{{ asset("js/archivio/httpMethodLinks.js") }}"
-        ></script>
-        <script
-            type="text/javascript"
             src="{{ asset("js/archivio/archivio.js") }}"
         ></script>
 
