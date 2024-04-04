@@ -12,7 +12,6 @@
         <!-- CSS style (boostrap, jquery-ui) compiled with "npm run prod"  -->
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" />
-
     </head>
     <body>
         <div id="app">
