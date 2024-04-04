@@ -13,16 +13,6 @@
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" />
 
-        <!-- CSS dropzone -->
-        <link
-            rel="stylesheet"
-            href="{{ URL::asset("css/vendor/dropzone.min.css") }}"
-        />
-        <link
-            rel="stylesheet"
-            href="{{ URL::asset("css/vendor/basic.min.css") }}"
-        />
-
         <!--    sentry for user feedback form  -->
         <script
             src="https://browser.sentry-cdn.com/7.11.1/bundle.min.js"

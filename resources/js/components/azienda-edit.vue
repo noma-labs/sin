@@ -41,7 +41,7 @@
                   class="btn btn-sm btn-warning"
                   v-on:click="spostaLavoratore(lavoratori.indexOf(lavoratore))"
                 >
-                 Sposta
+                  Sposta
                 </button>
               </td>
             </tr>
