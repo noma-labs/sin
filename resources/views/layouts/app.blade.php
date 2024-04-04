@@ -137,11 +137,5 @@
             type="text/javascript"
             src="{{ asset("js/archivio/archivio.js") }}"
         ></script>
-
-        <!-- CSS archivio -->
-        <link
-            rel="stylesheet"
-            href="{{ asset("css/archivio/archivio.css") }}"
-        />
     </body>
 </html>
