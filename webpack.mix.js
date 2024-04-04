@@ -14,6 +14,12 @@ mix.override((webpackConfig) => {
   ];
 });
 
+mix.options({
+    terser: {
+      extractComments: false, // disable the creation of app.js.LICENSE.txt
+    }
+  });
+
 module.exports = {
   plugins: [
     new webpack.DefinePlugin({
