@@ -160,7 +160,7 @@ Prerequisiti:
 
 Installazione in locale
 - clone the repo `git clone git@github.com:noma-labs/sin.git`
-- `task init` to install backedn and frontend dependecies and initialize db
+- `task init` to install backend and frontend dependencies and initialize db
 - `task up` to start the local development
 - open the `http://127.0.0.1:8080/`
 - insert username: `admin` password: `admin`
