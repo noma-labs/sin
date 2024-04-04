@@ -7,10 +7,11 @@ yarn-error.log
 .env
 
 /public/uploads
-/public/js/app.js
+/public/js/*.js
 /public/css/*.css
 /public/hot
 /public/storage
+/public/mix-manifest.json
 
 
 storage/*.key

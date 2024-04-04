@@ -20,9 +20,7 @@
                 type="button"
                 @click="eliminaGomma(i, g.id)"
                 class="btn btn-danger btn-sm"
-              >
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </button>
+              ></button>
             </div>
           </div>
         </li>

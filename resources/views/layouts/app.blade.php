@@ -3,32 +3,15 @@
     <head>
         <meta charset="utf-8" />
         <title>@yield("title")</title>
-        <link rel="icon" href="/images/noma.png" type="image/png" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <!-- CSS style (boostrap, jquery-ui) compiled with "npm run prod"  -->
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" />
-
-        <!-- CSS dropzone -->
-        <link
-            rel="stylesheet"
-            href="{{ URL::asset("css/vendor/dropzone.min.css") }}"
-        />
-        <link
-            rel="stylesheet"
-            href="{{ URL::asset("css/vendor/basic.min.css") }}"
-        />
-
-        <!--    sentry for user feedback form  -->
-        <script
-            src="https://browser.sentry-cdn.com/7.11.1/bundle.min.js"
-            integrity="sha384-qcYSo5+/E8hEkPmHFa79GRDsGT84SRhBJHRw3+dbQyh0UwueiFP1jCsRBClEREcs"
-            crossorigin="anonymous"
-        ></script>
     </head>
     <body>
         <div id="app">
@@ -148,21 +131,9 @@
 
         <!-- JS compiled with Laravel-mix -->
         <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
-
-        <!-- Script Archivio -->
         <script
             type="text/javascript"
-            src="{{ asset("js/archivio/httpMethodLinks.js") }}"
+            src="{{ asset("js/archivio.js") }}"
         ></script>
-        <script
-            type="text/javascript"
-            src="{{ asset("js/archivio/archivio.js") }}"
-        ></script>
-
-        <!-- CSS archivio -->
-        <link
-            rel="stylesheet"
-            href="{{ asset("css/archivio/archivio.css") }}"
-        />
     </body>
 </html>
