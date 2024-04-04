@@ -35,13 +35,13 @@
                     modificaLavoratore(lavoratori.indexOf(lavoratore))
                   "
                 >
-                  <i class="fa fa-edit"></i> Modifica
+                  Modifica
                 </button>
                 <button
                   class="btn btn-sm btn-warning"
                   v-on:click="spostaLavoratore(lavoratori.indexOf(lavoratore))"
                 >
-                  <i class="fa fa-exchange"></i> Sposta
+                 Sposta
                 </button>
               </td>
             </tr>
