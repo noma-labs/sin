@@ -4,6 +4,8 @@ SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomad
 
 [![Actions Status](https://github.com/noma-labs/sin/workflows/tests/badge.svg)](https://github.com/noma-labs/sin/actions)
 
+
+
 ### Dipendenze
 
 Linguaggi:
@@ -38,7 +40,7 @@ Required PHP extensions
 
 - Email: postmarkapp
 
-## Installazione
+## Installazione in produzione
 
 **ATTENZIONE**: l'installazione di xampp elimina tutti i database e i siti nella cartella `C:/xampp/htdocs`. Per
 precauzione copiare la cartella prima di procedere con l'installazione di xampp.
@@ -151,34 +153,24 @@ Da `300ms` a `30ms`.
 
 ## Local Dev with Docker
 
-Exploits the Laravel sail (https://laravel.com/docs/9.x/sail) package to run the app into docker containers
-
-- Clone the repo: `git clone git@github.com:noma-labs/sistema-informativo-nomadelfia.git`
-- Init the local dev: `./init.sh`
-- Start the containers`./start.sh`
-- Refresh and seed the database `./refresh.sh`
-- Run unit tests `./test.sh`
-
-- open http://127.0.0.1:8080/. Credenziali:
-    - `Username: admin`
-    - `Password: admin`
-- open http://127.0.0.1:8025/  [mailpit](https://hub.docker.com/r/axllent/mailpit)
+Prerequisiti:
+- [Docker](https://docs.docker.com/engine/install/)
+- [Taskfile](https://taskfile.dev/)
 
 
-- Send a testing email using [mailable-test](https://github.com/spatie/laravel-mailable-test)
-    - `./vendor/bin/sail php artisan mail:send-test "PersonExitedMail" davideneri18@gmail.com`
+Installazione in locale
+- clone the repo `git clone git@github.com:noma-labs/sin.git`
+- `task init` to install backend and frontend dependencies and initialize db
+- `task up` to start the local development
+- open the `http://127.0.0.1:8080/`
+- insert username: `admin` password: `admin`
 
-## Importazione Database da dump.
+Altri comandi utili
+- `task test` to execute tests
+- `task down` to stop the docker contaneis
+- `task refresh` to seed the databases with summy data
+- `task lint` to run linters (both on php and html/blade)
 
-L'importazione deve seguire il seguente ordine di importazione dei database:
-
-1. db_nomadelfia
-2. db_admsys
-3. db_anagrafe
-4. db_patente
-5. db_meccanica
-6. archivio_biblioteca
-7. archivio_nomadelfia
 
 ## Database migration
 
@@ -218,11 +210,9 @@ Where, the prefix indicates the index type:
 - On windows, if the html-to-pdf executable throws an error:
   ```
   C:/xampp/htdocs/sistema-informativo-nomadelfia/sin/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/
-  .exe: 
+  .exe:
   error while loading shared libraries: MSVCR120.dll: cannot open shared object file: No such file or directory
   ```
   [solution]: Install the visual studio c++ 2013 [here](https://www.microsoft.com/it-it/download/details.aspx?id=40784)
 - Error: duplicate entry when auto incrementing a column. where `X` = max number of the id
   ```ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT```
-
-
