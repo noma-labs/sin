@@ -10,16 +10,16 @@
         "format:write": "npx prettier --write resources"
     },
     "devDependencies": {
-        "laravel-mix": "^6.0.6",
         "prettier": "^3.2.5",
-        "prettier-plugin-blade": "^2.1.6",
+        "prettier-plugin-blade": "^2.1.6"
+    },
+    "dependencies": {
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.74.1",
         "sass-loader": "^12.6.0",
         "vue-loader": "^15.9.7",
-        "vue-template-compiler": "^2.6.14"
-    },
-    "dependencies": {
+        "vue-template-compiler": "^2.6.14",
+        "laravel-mix": "^6.0.6",
         "axios": "^0.16.2",
         "bootstrap": "^4.0.0",
         "jquery": "^3.3.1",
