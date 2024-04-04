@@ -340,10 +340,6 @@
                                         class="file-label btn btn-warning"
                                     >
                                         Scegli File
-                                        <i
-                                            class="fa fa-upload"
-                                            aria-hidden="true"
-                                        ></i>
                                     </label>
                                 </form>
                             </template>

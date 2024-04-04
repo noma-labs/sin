@@ -5,10 +5,7 @@
 
 @section("archivio")
     <div class="col-lg-4 col-lg-offset-4">
-        <h1>
-            <i class="fa fa-key"></i>
-            Aggiungi Permesso
-        </h1>
+        <h1>Aggiungi Permesso</h1>
         <br />
 
         {{ Form::open(["url" => "risorse"]) }}

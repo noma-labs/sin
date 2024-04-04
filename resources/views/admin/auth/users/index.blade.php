@@ -7,7 +7,6 @@
         href="{{ route("users.create") }}"
         class="btn btn-success float-right my-2"
     >
-        <i class="fa fa-user-plus"></i>
         Aggiungi Utente
     </a>
     <div class="table-responsive">
