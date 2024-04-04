@@ -11,6 +11,7 @@ yarn-error.log
 /public/css/*.css
 /public/hot
 /public/storage
+/public/mix-manifest.json
 
 
 storage/*.key
