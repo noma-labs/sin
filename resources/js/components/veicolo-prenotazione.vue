@@ -161,7 +161,6 @@ export default {
     },
   },
   mounted: function () {
-    console.log("calling for prenotazioni");
     axios
       .get(this.urlVeicoliPrenotazioni, {
         params: {
