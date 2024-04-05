@@ -83,10 +83,5 @@
         </div>
         <!-- JS compiled with Laravel-mix -->
         <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
-        <!-- CSS archivio -->
-        <link
-            rel="stylesheet"
-            href="{{ asset("css/archivio/archivio.css") }}"
-        />
     </body>
 </html>

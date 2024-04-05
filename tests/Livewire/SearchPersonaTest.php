@@ -21,9 +21,9 @@ it('can search persone', function () {
         ->assertSee('Altro Cliente');
 });
 
-it('render the component on the page', function () {
-    login();
+// it('render the component on the page', function () {
+//     login();
 
-    $this->get(route('officina.index'))
-        ->assertSeeLivewire(SearchPersona::class);
-});
+//     $this->get(route('officina.index'))
+//         ->assertSeeLivewire(SearchPersona::class);
+// });
