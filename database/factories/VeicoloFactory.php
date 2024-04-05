@@ -25,4 +25,22 @@ class VeicoloFactory extends Factory
             'alimentazione_id' => Alimentazioni::all()->random(),
         ];
     }
+
+    public function impiegoGrosseto()
+    {
+        return $this->state(function()  {
+            return [
+                'impiego_id' =>  Impiego::where('nome', 'Grosseto')->first()
+            ];
+        });
+    }
+
+    public function tipologiaMacchina()
+    {
+        return $this->state(function()  {
+            return [
+                'tipologia_id' =>  Tipologia::where('nome', 'Autovettura')->first()
+            ];
+        });
+    }
 }

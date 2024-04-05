@@ -356,6 +356,7 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
 //##################################################################
 //######################## OFFICINA ################################
 //##################################################################
+
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     // PRENOTAZIONI add, delete, update, search
     Route::post('/', [PrenotazioniController::class, 'prenotazioniSucc'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
