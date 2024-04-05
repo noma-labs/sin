@@ -20,7 +20,9 @@ class PrenotazioneVeicoli extends Component
     public function mount()
     {
 
-        $this->veicoli = Veicolo::selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni.id as prenotazione_id, concat(prenotazioni.data_partenza, ":",  prenotazioni.ora_partenza) as partenza, concat(prenotazioni.data_arrivo, ":", prenotazioni.ora_arrivo) as arrivo')
+        $this->veicoli = DB::connection('db_officina')
+            ->table('veicolo')
+            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni.id as prenotazione_id, concat(prenotazioni.data_partenza, ":",  prenotazioni.ora_partenza) as partenza, concat(prenotazioni.data_arrivo, ":", prenotazioni.ora_arrivo) as arrivo')
             ->leftJoin('prenotazioni', 'prenotazioni.veicolo_id', '=', 'veicolo.id')
             ->leftJoin('db_nomadelfia.persone', 'prenotazioni.cliente_id', '=', 'persone.id')
             ->leftJoin('impiego', 'impiego.id', '=', 'veicolo.impiego_id')

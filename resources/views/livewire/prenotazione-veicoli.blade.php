@@ -62,7 +62,6 @@
                 @foreach ($tipologie as $tipologia => $veicoli)
                     <optgroup label="{{ $impiego }} - {{ $tipologia }}">
                         @foreach ($veicoli as $veicolo)
-
                             <option  @disabled(!is_null($veicolo->prenotazione_id)) value="{{$veicolo->id}}">
                                 {{ $veicolo->nome }}
                                 @isset($veicolo->prenotazione_id)
