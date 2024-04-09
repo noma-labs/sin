@@ -3,6 +3,7 @@
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
+use App\Livewire\PrenotazioneVeicoli;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
@@ -69,4 +70,12 @@ it('other_users_cannot_create_prenotazioni', function () {
     login($operator);
 
     $this->get(route('officina.ricerca'))->assertForbidden();
+});
+
+
+it('render the <prenotazioni-veicoli> on the page', function () {
+    login();
+
+    $this->get(route('officina.index'))
+        ->assertSeeLivewire(PrenotazioneVeicoli::class);
 });

@@ -24,10 +24,17 @@ class PrenotazioniFactory extends Factory
             'destinazione' => $this->faker->title,
         ];
     }
-
+    public function cliente(Persona $persona)
+    {
+        return $this->state(function () use ($persona) {
+            return [
+                'cliente_id' => $persona,
+            ];
+        });
+    }
     public function veicolo(Veicolo $veicolo)
     {
-        return $this->state(function() use ($veicolo) {
+        return $this->state(function () use ($veicolo) {
             return [
                 'veicolo_id' => $veicolo,
             ];
@@ -36,7 +43,7 @@ class PrenotazioniFactory extends Factory
 
     public function prenotata(Carbon $partenza, Carbon $arrivo)
     {
-        return $this->state(function() use ($partenza, $arrivo) {
+        return $this->state(function () use ($partenza, $arrivo) {
             return [
                 'data_partenza' => $partenza->toDateString(),
                 'ora_partenza' => $partenza->format('H:i'),

@@ -16,9 +16,19 @@ class OfficinaMeccanicaTableSeeder extends Seeder
             ->tipologiaMacchina()
             ->create();
 
+        $personale = Veicolo::factory(2)
+            ->impiegoPersonale()
+            ->tipologiaMacchina()
+            ->create();
+
         Prenotazioni::factory()
             ->prenotata(Carbon::now(), Carbon::now()->addHour(2))
             ->veicolo($veicoli->random())
+            ->create();
+
+        Prenotazioni::factory()
+            ->prenotata(Carbon::now(), Carbon::now()->addHour(2))
+            ->veicolo($personale->random())
             ->create();
     }
 }

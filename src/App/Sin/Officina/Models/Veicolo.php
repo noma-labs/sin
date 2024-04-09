@@ -2,6 +2,7 @@
 
 namespace App\Officina\Models;
 
+use Carbon\Carbon;
 use Database\Factories\VeicoloFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int $id
@@ -35,6 +38,47 @@ class Veicolo extends Model
     protected static function newFactory()
     {
         return VeicoloFactory::new();
+    }
+
+    /**
+     * Get all vehicles with bookings within a specified date range.
+     *
+     * @param  Carbon  $data_from The start date of the date range.
+     * @param  Carbon  $data_to The end date of the date range.
+     * @return Builder The query builder instance.
+     */
+    public static function withBookingsIn(Carbon $data_from, Carbon $data_to): Builder
+    {
+        return DB::connection('db_officina')
+            ->table('veicolo')
+            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni.id as prenotazione_id, concat(prenotazioni.data_partenza, ":",  prenotazioni.ora_partenza) as partenza, concat(prenotazioni.data_arrivo, ":", prenotazioni.ora_arrivo) as arrivo')
+            ->leftJoin('prenotazioni', 'prenotazioni.veicolo_id', '=', 'veicolo.id')
+            ->leftJoin('db_nomadelfia.persone', 'prenotazioni.cliente_id', '=', 'persone.id')
+            ->leftJoin('impiego', 'impiego.id', '=', 'veicolo.impiego_id')
+            ->leftJoin('tipologia', 'tipologia.id', '=', 'veicolo.tipologia_id')
+            ->where('data_partenza', '=', $data_from->toDateString())->where('data_arrivo', '=', $data_to->toDateString())
+            ->where(function ($query) use ($data_from, $data_to) {
+                $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
+            })
+            ->orWhere(function ($query) use ($data_to, $data_from) {
+                // prenotazione che partono nei giorni precedenti e finiscono il giorno della partenza
+                // con ora di arrivo maggiore dell' ora di inizio prenotazione
+                $query->where('data_arrivo', '=', $data_to->toDateString())
+                    ->where('data_partenza', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
+                    ->where('ora_arrivo', '>', $data_from->format('H:i'));
+            })
+            ->orWhere(function ($query) use ($data_to) {
+                $query->where('data_partenza', '=', $data_to->toDateString())
+                    ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
+                    ->where('ora_partenza', '<', $data_to->format('H:i'));
+            })
+            //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
+            ->orWhere(function ($query) use ($data_from, $data_to) {
+                $query->where('data_partenza', '<', $data_to->toDateString())
+                    ->where('data_arrivo', '>', $data_from->toDateString());
+            })
+            ->where('veicolo.prenotabile', 1)
+            ->orWhereNull('prenotazioni.id'); // add also veicoli without a booking
     }
 
     public function impieghi(): BelongsTo

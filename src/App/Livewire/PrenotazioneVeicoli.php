@@ -2,47 +2,80 @@
 
 namespace App\Livewire;
 
-use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class PrenotazioneVeicoli extends Component
 {
+    public string $dataPartenza;
+
+    public string $dataArrivo;
+
+    public string $oraPartenza;
+
+    public string $oraArrivo;
+
     public $veicoli = [];
 
-    public $dataPartenza;
-    public $dataArrivo;
-    public $oraPartenza;
-    public $oraArrivo;
+    public string $message = '--seleziona veicolo--';
 
     public function mount()
     {
 
-        $this->veicoli = DB::connection('db_officina')
-            ->table('veicolo')
-            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni.id as prenotazione_id, concat(prenotazioni.data_partenza, ":",  prenotazioni.ora_partenza) as partenza, concat(prenotazioni.data_arrivo, ":", prenotazioni.ora_arrivo) as arrivo')
-            ->leftJoin('prenotazioni', 'prenotazioni.veicolo_id', '=', 'veicolo.id')
-            ->leftJoin('db_nomadelfia.persone', 'prenotazioni.cliente_id', '=', 'persone.id')
-            ->leftJoin('impiego', 'impiego.id', '=', 'veicolo.impiego_id')
-            ->leftJoin('tipologia', 'tipologia.id', '=', 'veicolo.tipologia_id')
-            ->where('veicolo.prenotabile', 1)
-            ->get()
-            ->groupBy(['impiego_nome','tipologia_nome']);
+        $this->dataPartenza = Carbon::now()->toDateString();
+        $this->dataArrivo = Carbon::now()->toDateString();
+
+        if (old('data_par')) {
+            $this->dataPartenza = old('data_par');
+        }
+
+        if (old('data_arr')) {
+            $this->dataArrivo = old('data_arr');
+        }
+
+        if (old('ora_par')) {
+            $this->oraPartenza = old('ora_par');
+        }
+        if (old('ora_arr')) {
+            $this->oraArrivo = old('ora_arr');
+        }
+
+        $this->refreshVeicoli();
     }
 
-    public function render()
+    public function updatedDataPartenza()
     {
-        return view('livewire.prenotazione-veicoli');
+
+        $this->refreshVeicoli();
     }
 
-    public function search()
+    public function updatedOraPartenza()
     {
-        Prenotazioni::today()->with(['cliente', 'veicolo.tipologia'])->get();
+        $this->refreshVeicoli();
+    }
 
-        Veicolo::prenotabili()->with(['impiego','tipologia'])->get()->groupBy(['impiego.nome','tipologia.nome']);
+    public function updatedDataArrivo()
+    {
+        $this->refreshVeicoli();
+    }
 
-       dd($this->dataPartenza);
+    public function updatedOraArrivo()
+    {
+        $this->refreshVeicoli();
+
+    }
+
+    public function refreshVeicoli()
+    {
+        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
+            $data_from = Carbon::parse($this->dataPartenza.' '.$this->oraPartenza);
+            $data_to = Carbon::parse($this->dataArrivo.' '.$this->oraArrivo);
+            $this->veicoli = Veicolo::withBookingsIn($data_from, $data_to)->get()->groupBy(['impiego_nome', 'tipologia_nome']);
+            $this->reset('message');
+        } else {
+            $this->message = '--orari di partenza e arrivo non validi--';
+        }
+
     }
 }

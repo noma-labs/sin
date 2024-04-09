@@ -2,7 +2,6 @@
 
 namespace App\Officina\Models;
 
-use App\Officina\QueryBuilders\PrenotazioniQueryBuilders;
 use App\Traits\SortableTrait;
 use Carbon\Carbon;
 use Database\Factories\PrenotazioniFactory;
@@ -33,11 +32,6 @@ class Prenotazioni extends Model
     protected $guarded = [];
 
     protected $dates = ['deleted_at'];
-
-    public function newEloquentBuilder($query): PrenotazioniQueryBuilders
-    {
-        return new PrenotazioniQueryBuilders($query);
-    }
 
     protected static function newFactory(): PrenotazioniFactory
     {
