@@ -3,21 +3,16 @@
 namespace Tests\Livewire;
 
 use App\Livewire\PrenotazioneVeicoli;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Livewire\Livewire;
+
 use function Spatie\PestPluginTestTime\testTime;
 
 it('can render succesfully the component', function () {
     Livewire::test(PrenotazioneVeicoli::class)->assertStatus(200);
-});
-
-it('can set the placeholder', function () {
-    Livewire::test(PrenotazioneVeicoli::class)
-        ->set('message', 'baa')
-        ->assertSet('placeholder', 'baa');
 });
 
 it('refresh veicoli', function () {

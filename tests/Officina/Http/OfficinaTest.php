@@ -72,7 +72,6 @@ it('other_users_cannot_create_prenotazioni', function () {
     $this->get(route('officina.ricerca'))->assertForbidden();
 });
 
-
 it('render the <prenotazioni-veicoli> on the page', function () {
     login();
 

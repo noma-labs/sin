@@ -24,6 +24,7 @@ class PrenotazioniFactory extends Factory
             'destinazione' => $this->faker->title,
         ];
     }
+
     public function cliente(Persona $persona)
     {
         return $this->state(function () use ($persona) {
@@ -32,6 +33,7 @@ class PrenotazioniFactory extends Factory
             ];
         });
     }
+
     public function veicolo(Veicolo $veicolo)
     {
         return $this->state(function () use ($veicolo) {
