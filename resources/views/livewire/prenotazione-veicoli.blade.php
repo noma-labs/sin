@@ -70,9 +70,7 @@
                                         {{ $veicolo->nome }}
                                         @isset($veicolo->prenotazione_id)
                                             <span>
-                                                {{ $veicolo->nominativo }}
-                                                ({{ $veicolo->partenza }}
-                                                {{ $veicolo->arrivo }})
+                                                {{ $veicolo->nominativo }}({{ $veicolo->partenza }} {{ $veicolo->arrivo }})
                                             </span>
                                         @endisset
                                     </option>
