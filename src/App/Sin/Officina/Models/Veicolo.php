@@ -42,7 +42,7 @@ class Veicolo extends Model
     }
 
     /**
-     * Return vehicles with or wihout bookings within the time range.
+     * Return vehicles with or without bookings within a time range.
      *
      * @param  Carbon  $data_from The start date of the date range.
      * @param  Carbon  $data_to The end date of the date range.
@@ -50,12 +50,10 @@ class Veicolo extends Model
      */
     public static function withBookingsIn(Carbon $data_from, Carbon $data_to): Builder
     {
-
         $bookingsInTimeRange = Prenotazioni::inTimeRange($data_from, $data_to);
-        // dd($bookingsInTimeRange->toRawSql());
 
-        // FIXME: the query returns multiple row for the same vechicle if multiple bookings for the same vehicle are present in the timernage
-        // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle
+        // FIXME: if multiple bookings for the same vechickles are present in the timerange the query returns multiple rows for the same vechicle.
+        // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle.
         return DB::connection('db_officina')
             ->table('veicolo')
             ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')
