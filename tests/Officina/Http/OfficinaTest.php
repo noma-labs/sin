@@ -79,6 +79,6 @@ it('render the livewire <prenotazioni-veicoli> on the edit page', function () {
 
     login();
 
-    $this->get(route('officina.prenota.modifica',["id"=>$prenotazione->id]))
+    $this->get(route('officina.prenota.modifica', ['id' => $prenotazione->id]))
         ->assertSeeLivewire(PrenotazioneVeicoli::class);
 });
