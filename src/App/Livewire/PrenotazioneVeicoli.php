@@ -18,7 +18,7 @@ class PrenotazioneVeicoli extends Component
 
     public $veicoli = [];
 
-    public int $selectedVeicolo; // this is the veicolo under modification
+    public int $selectedVeicolo;
 
     public string $message = '--seleziona veicolo--';
 
