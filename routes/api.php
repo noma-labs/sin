@@ -21,7 +21,6 @@ use Illuminate\Http\Request;
 // API route: /api/officina/
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
     Route::get('/veicoli/search', 'ApiController@searchVeicoli')->name('api.officina.veicoli.search');
-    Route::get('/veicoli/prenotazioni', 'ApiController@veicoliPrenotazioni')->name('api.officina.veicoli.prenotazioni');
     Route::get('tipologia', 'ApiController@tipologia')->name('api.officina.tipologia');
     Route::get('alimentazione', 'ApiController@alimentazione')->name('api.officina.alimentazione');
     Route::get('impiego', 'ApiController@impiego')->name('api.officina.impiego');

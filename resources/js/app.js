@@ -39,10 +39,6 @@ Vue.component(
   require("./components/veicolo-create-form.vue").default,
 );
 Vue.component(
-  "veicolo-prenotazione",
-  require("./components/veicolo-prenotazione.vue").default,
-);
-Vue.component(
   "gomme-veicolo",
   require("./components/officina/gomme-veicolo.vue").default,
 );
