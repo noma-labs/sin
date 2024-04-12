@@ -130,9 +130,10 @@ class PrenotazioniController extends CoreBaseController
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
             if ($day == 'all') {
-                // include: 1) prenotazioni che partono dopo oggi (o uguale)
-                //                            2) prenotazioni a cavallo di oggi
-                //                            3) prenotazioni che si concludono oggi
+                // include:
+                //   1) prenotazioni che partono dopo oggi (o uguale)
+                //   2) prenotazioni a cavallo di oggi
+                //   3) prenotazioni che si concludono oggi
                 $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
                         // prenotazioni a cavallo di oggi
