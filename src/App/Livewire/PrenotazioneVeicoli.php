@@ -27,19 +27,19 @@ class PrenotazioneVeicoli extends Component
         $this->dataPartenza = Carbon::now()->toDateString();
         $this->dataArrivo = Carbon::now()->toDateString();
 
-        if ($dataPartenza){
+        if ($dataPartenza) {
             $this->dataPartenza = $dataPartenza;
         }
-        if ($oraPartenza){
+        if ($oraPartenza) {
             $this->oraPartenza = $oraPartenza;
         }
-        if ($dataArrivo){
+        if ($dataArrivo) {
             $this->dataArrivo = $dataArrivo;
         }
-        if ($oraArrivo){
+        if ($oraArrivo) {
             $this->oraArrivo = $oraArrivo;
         }
-        if ($selectedVeicolo){
+        if ($selectedVeicolo) {
             $this->selectedVeicolo = $selectedVeicolo;
         }
 
@@ -81,10 +81,10 @@ class PrenotazioneVeicoli extends Component
 
     public function refreshVeicoli()
     {
-        if (!empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
+        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
             $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
-                            ->get()
-                            ->groupBy(['impiego_nome', 'tipologia_nome']);
+                ->get()
+                ->groupBy(['impiego_nome', 'tipologia_nome']);
             $this->reset('message');
         } else {
             $this->message = '--orari di partenza e arrivo non validi--';

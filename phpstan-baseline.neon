@@ -1801,11 +1801,6 @@ parameters:
 			path: src/App/Sin/Officina/Models/Prenotazioni.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Prenotazioni\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Officina/QueryBuilders/PrenotazioniQueryBuilders.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Patente\\\\Models\\\\Patente\\:\\:\\$numero_patente\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/ApiController.php
