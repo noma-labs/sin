@@ -13,14 +13,15 @@
     >
         {{ csrf_field() }}
 
-        <veicolo-prenotazione
+        <!-- <veicolo-prenotazione
             data-partenza="{{ old("data_par") != "" ? old("data_par") : Carbon::now()->toDateString() }}"
             data-arrivo="{{ old("data_arr") != "" ? old("data_arr") : Carbon::now()->toDateString() }}"
             ora-partenza="{{ old("ora_par") }}"
             ora-arrivo="{{ old("ora_arr") }}"
             url-veicoli-prenotazioni="{{ route("api.officina.veicoli.prenotazioni") }}"
-        ></veicolo-prenotazione>
+        ></veicolo-prenotazione> -->
 
+        <livewire:prenotazione-veicoli />
         <div class="row">
             <div class="col-md-3">
                 <label class="control-label">Cliente</label>
