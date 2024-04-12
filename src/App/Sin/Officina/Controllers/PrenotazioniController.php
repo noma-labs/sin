@@ -164,7 +164,7 @@ class PrenotazioniController extends CoreBaseController
         $validRequest = Validator::make($request->all(), [
             'nome' => 'required',
             'veicolo' => 'required',
-            // 'meccanico' => 'required',
+            'meccanico' => 'required',
             'data_par' => 'required|date',
             'ora_par' => 'required',
             'data_arr' => 'required|date|after_or_equal:data_par',
@@ -183,7 +183,7 @@ class PrenotazioniController extends CoreBaseController
         (new CreatePrenotazioneAction)(
             Persona::findOrFail($request->get('nome')),
             Veicolo::findOrFail($request->get('veicolo')),
-            Persona::findOrFail($request->get('nome')),
+            Persona::findOrFail($request->get('meccanico')),
             $request->get('data_par'),
             $request->get('data_arr'),
             $request->get('ora_par'),

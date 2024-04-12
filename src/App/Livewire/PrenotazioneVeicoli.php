@@ -18,22 +18,37 @@ class PrenotazioneVeicoli extends Component
 
     public $veicoli = [];
 
+    public int $veicoloUnderModification;
+
     public string $message = '--seleziona veicolo--';
 
-    public function mount()
+    public function mount($dataPartenza = null, $oraPartenza = null, $dataArrivo = null, $oraArrivo = null, $selectedVeicolo = null)
     {
-
         $this->dataPartenza = Carbon::now()->toDateString();
         $this->dataArrivo = Carbon::now()->toDateString();
+
+        if ($dataPartenza){
+            $this->dataPartenza = $dataArrivo;
+        }
+        if ($oraPartenza){
+            $this->oraPartenza = $oraPartenza;
+        }
+        if ($dataArrivo){
+            $this->dataArrivo = $dataArrivo;
+        }
+        if ($oraArrivo){
+            $this->oraArrivo = $oraArrivo;
+        }
+        if ($selectedVeicolo){
+            $this->veicoloUnderModification = $selectedVeicolo;
+        }
 
         if (old('data_par')) {
             $this->dataPartenza = old('data_par');
         }
-
         if (old('data_arr')) {
             $this->dataArrivo = old('data_arr');
         }
-
         if (old('ora_par')) {
             $this->oraPartenza = old('ora_par');
         }
@@ -46,7 +61,6 @@ class PrenotazioneVeicoli extends Component
 
     public function updatedDataPartenza()
     {
-
         $this->refreshVeicoli();
     }
 
@@ -63,15 +77,14 @@ class PrenotazioneVeicoli extends Component
     public function updatedOraArrivo()
     {
         $this->refreshVeicoli();
-
     }
 
     public function refreshVeicoli()
     {
-        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
-            $data_from = Carbon::parse($this->dataPartenza.' '.$this->oraPartenza);
-            $data_to = Carbon::parse($this->dataArrivo.' '.$this->oraArrivo);
-            $this->veicoli = Veicolo::withBookingsIn($data_from, $data_to)->get()->groupBy(['impiego_nome', 'tipologia_nome']);
+        if (!empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
+            $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
+                            ->get()
+                            ->groupBy(['impiego_nome', 'tipologia_nome']);
             $this->reset('message');
         } else {
             $this->message = '--orari di partenza e arrivo non validi--';

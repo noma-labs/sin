@@ -63,16 +63,19 @@
                             >
                                 @foreach ($veicoli as $veicolo)
                                     <option
-                                        @disabled(! is_null($veicolo->prenotazione_id))
                                         value="{{ $veicolo->id }}"
-                                        @isset($veicolo->prenotazione_id) class="text-danger"  @endisset
+                                        @if(!is_null($veicolo->prenotazione_id) && $veicolo->id != $veicoloUnderModification)
+                                            class="text-danger"
+                                            disabled
+                                        @endif
+                                        @selected($veicolo->id == $veicoloUnderModification)
                                     >
                                         {{ $veicolo->nome }}
-                                        @isset($veicolo->prenotazione_id)
+                                        @if(!is_null($veicolo->prenotazione_id) && $veicolo->id != $veicoloUnderModification)
                                             <span>
-                                                {{ $veicolo->nominativo }}({{ $veicolo->partenza }} {{ $veicolo->arrivo }})
+                                                {{ $veicolo->nominativo }} ({{ $veicolo->partenza }} {{ $veicolo->arrivo }})
                                             </span>
-                                        @endisset
+                                        @endif
                                     </option>
                                 @endforeach
                             </optgroup>
