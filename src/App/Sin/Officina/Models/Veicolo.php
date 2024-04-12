@@ -2,7 +2,9 @@
 
 namespace App\Officina\Models;
 
+use Carbon\Carbon;
 use Database\Factories\VeicoloFactory;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * @property int $id
@@ -35,6 +38,32 @@ class Veicolo extends Model
     protected static function newFactory()
     {
         return VeicoloFactory::new();
+    }
+
+    /**
+     * Return vehicles with or without bookings within a time range.
+     *
+     * @param  Carbon  $data_from The start date of the date range.
+     * @param  Carbon  $data_to The end date of the date range.
+     * @return Builder The query builder instance.
+     */
+    public static function withBookingsIn(Carbon $data_from, Carbon $data_to): Builder
+    {
+        $bookingsInTimeRange = Prenotazioni::inTimeRange($data_from, $data_to);
+
+        // FIXME: if multiple bookings for the same vechickles are present in the timerange the query returns multiple rows for the same vechicle.
+        // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle.
+        return DB::connection('db_officina')
+            ->table('veicolo')
+            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')
+            ->leftJoinSub($bookingsInTimeRange, 'prenotazioni_in', function (JoinClause $join) {
+                $join->on('veicolo.id', '=', 'prenotazioni_in.veicolo_id');
+            })
+            ->leftJoin('db_nomadelfia.persone', 'prenotazioni_in.cliente_id', '=', 'persone.id')
+            ->leftJoin('impiego', 'impiego.id', '=', 'veicolo.impiego_id')
+            ->leftJoin('tipologia', 'tipologia.id', '=', 'veicolo.tipologia_id')
+            ->where('veicolo.prenotabile', 1)
+            ->orderBy('impiego.ord');
     }
 
     public function impieghi(): BelongsTo
