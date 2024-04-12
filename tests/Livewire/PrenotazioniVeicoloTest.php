@@ -31,8 +31,8 @@ it('refresh veicoli', function () {
         ->set('oraPartenza', '07:00')
         ->set('oraArrivo', '16:00')
         ->call('refreshVeicoli')
-        ->assertSee("2024-04-09:08:00")
-        ->assertSee("2024-04-09:15:00")
-        ->assertDontSee("--orari di partenza e arrivo non validi--")
-        ->assertSee("--seleziona veicolo--");
+        ->assertSee('2024-04-09:08:00')
+        ->assertSee('2024-04-09:15:00')
+        ->assertDontSee('--orari di partenza e arrivo non validi--')
+        ->assertSee('--seleziona veicolo--');
 });

@@ -18,7 +18,7 @@ class PrenotazioneVeicoli extends Component
 
     public $veicoli = [];
 
-    public int $veicoloUnderModification;
+    public int $selectedVeicolo; // this is the veicolo under modification
 
     public string $message = '--seleziona veicolo--';
 
@@ -28,7 +28,7 @@ class PrenotazioneVeicoli extends Component
         $this->dataArrivo = Carbon::now()->toDateString();
 
         if ($dataPartenza){
-            $this->dataPartenza = $dataArrivo;
+            $this->dataPartenza = $dataPartenza;
         }
         if ($oraPartenza){
             $this->oraPartenza = $oraPartenza;
@@ -40,7 +40,7 @@ class PrenotazioneVeicoli extends Component
             $this->oraArrivo = $oraArrivo;
         }
         if ($selectedVeicolo){
-            $this->veicoloUnderModification = $selectedVeicolo;
+            $this->selectedVeicolo = $selectedVeicolo;
         }
 
         if (old('data_par')) {

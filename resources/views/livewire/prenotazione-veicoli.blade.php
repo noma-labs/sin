@@ -64,16 +64,18 @@
                                 @foreach ($veicoli as $veicolo)
                                     <option
                                         value="{{ $veicolo->id }}"
-                                        @if(!is_null($veicolo->prenotazione_id) && $veicolo->id != $veicoloUnderModification)
+                                        @if (! is_null($veicolo->prenotazione_id) && $veicolo->id != $selectedVeicolo)
                                             class="text-danger"
                                             disabled
                                         @endif
-                                        @selected($veicolo->id == $veicoloUnderModification)
+                                        @selected($veicolo->id == $selectedVeicolo)
                                     >
                                         {{ $veicolo->nome }}
-                                        @if(!is_null($veicolo->prenotazione_id) && $veicolo->id != $veicoloUnderModification)
+                                        @if (! is_null($veicolo->prenotazione_id) && $veicolo->id != $selectedVeicolo)
                                             <span>
-                                                {{ $veicolo->nominativo }} ({{ $veicolo->partenza }} {{ $veicolo->arrivo }})
+                                                {{ $veicolo->nominativo }}
+                                                ({{ $veicolo->partenza }}
+                                                {{ $veicolo->arrivo }})
                                             </span>
                                         @endif
                                     </option>

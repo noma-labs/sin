@@ -54,8 +54,8 @@ class Veicolo extends Model
         $bookingsInTimeRange = Prenotazioni::inTimeRange($data_from, $data_to);
         // dd($bookingsInTimeRange->toRawSql());
 
-         // FIXME: the query returns multiple row for the same vechicle if multiple bookings for the same vehicle are present in the timernage
-         // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle
+        // FIXME: the query returns multiple row for the same vechicle if multiple bookings for the same vehicle are present in the timernage
+        // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle
         return DB::connection('db_officina')
             ->table('veicolo')
             ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')

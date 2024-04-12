@@ -21,7 +21,13 @@
             url-veicoli-prenotazioni="{{ route("api.officina.veicoli.prenotazioni") }}"
         ></veicolo-prenotazione>
 
-        <livewire:prenotazione-veicoli :dataArrivo="$pren->data_arrivo"  :oraPartenza="$pren->ora_partenza"  :dataArrivo="$pren->data_arrivo"  :oraArrivo="$pren->ora_arrivo" :selectedVeicolo="$pren->veicolo_id" />
+        <livewire:prenotazione-veicoli
+            :dataPartenza="$pren->data_partenza"
+            :oraPartenza="$pren->ora_partenza"
+            :dataArrivo="$pren->data_arrivo"
+            :oraArrivo="$pren->ora_arrivo"
+            :selectedVeicolo="$pren->veicolo_id"
+        />
 
         <div class="row">
             <div class="col-md-3">
