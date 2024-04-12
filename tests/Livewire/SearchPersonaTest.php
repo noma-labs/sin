@@ -20,10 +20,3 @@ it('can search persone', function () {
         ->call('search', 'Altr') // search for "Altro Cliente"
         ->assertSee('Altro Cliente');
 });
-
-// it('render the component on the page', function () {
-//     login();
-
-//     $this->get(route('officina.index'))
-//         ->assertSeeLivewire(SearchPersona::class);
-// });
