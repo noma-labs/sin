@@ -64,7 +64,9 @@ class Veicolo extends Model
             ->leftJoin('impiego', 'impiego.id', '=', 'veicolo.impiego_id')
             ->leftJoin('tipologia', 'tipologia.id', '=', 'veicolo.tipologia_id')
             ->where('veicolo.prenotabile', 1)
-            ->orderBy('impiego.ord');
+            ->whereNull('veicolo.deleted_at')
+            ->orderBy('impiego.ord')
+            ->orderBy('veicolo.nome');
     }
 
     public function impieghi(): BelongsTo

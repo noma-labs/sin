@@ -59,7 +59,7 @@
                     @foreach ($veicoli as $impiego => $tipologie)
                         @foreach ($tipologie as $tipologia => $veicoli)
                             <optgroup
-                                label="{{ $impiego }} - {{ $tipologia }}"
+                                label="{{ucfirst($impiego) }} {{ $tipologia }}"
                             >
                                 @foreach ($veicoli as $veicolo)
                                     <option
