@@ -52,17 +52,18 @@ CREATE TABLE IF NOT EXISTS `gomme_veicolo` (
 
 CREATE TABLE IF NOT EXISTS `impiego` (
     `id` int(10) NOT NULL,
-    `nome` varchar(100) NOT NULL
+    `nome` varchar(100) NOT NULL,
+    `ord` int(10) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `impiego` (`id`, `nome`) VALUES
-    (1, 'interno'),
-    (2, 'grosseto'),
-    (3, 'Viaggi Lunghi'),
-    (4, 'personale'),
-    (5, 'roma'),
-    (6, 'Autobus');
+INSERT INTO `impiego` (`id`, `nome`,`ord`) VALUES
+    (1, 'grosseto', 1),
+    (3, 'Viaggi Lunghi', 2),
+    (4, 'personale', 3),
+    (5, 'roma', 4),
+    (2, 'interno', 5),
+    (6, 'Autobus',6);
 
 
 CREATE TABLE IF NOT EXISTS `incidenti` (
@@ -776,4 +777,3 @@ ALTER TABLE `veicolo`
   ADD CONSTRAINT `veicolo_ibfk_1` FOREIGN KEY (`alimentazione_id`) REFERENCES `alimentazione` (`id`),
   ADD CONSTRAINT `veicolo_olio_id_foreign` FOREIGN KEY (`olio_id`) REFERENCES `tipo_olio` (`id`) ON DELETE SET NULL;
 COMMIT;
-
