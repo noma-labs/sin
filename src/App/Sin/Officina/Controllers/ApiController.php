@@ -6,7 +6,6 @@ use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche;
-use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\TipoFiltro;
 use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
