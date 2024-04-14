@@ -72,9 +72,13 @@ it('other_users_cannot_create_prenotazioni', function () {
     $this->get(route('officina.ricerca'))->assertForbidden();
 });
 
-it('render the <prenotazioni-veicoli> on the page', function () {
+it('render the livewire <prenotazioni-veicoli> on the edit page', function () {
+    $prenotazione = Prenotazioni::factory()
+        ->prenotata(Carbon::parse('2024-04-10 08:00'), Carbon::parse('2024-04-10 12:00'))
+        ->create();
+
     login();
 
-    $this->get(route('officina.index'))
+    $this->get(route('officina.prenota.modifica', ['id' => $prenotazione->id]))
         ->assertSeeLivewire(PrenotazioneVeicoli::class);
 });

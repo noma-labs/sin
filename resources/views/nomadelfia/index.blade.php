@@ -18,9 +18,6 @@
         Popolazione
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarPopolazione">
-        <a class="dropdown-item" href="{{ route("nomadelfia.popolazione") }}">
-            Popolazione
-        </a>
         <a
             class="dropdown-item"
             href="{{ route("nomadelfia.popolazione.maggiorenni") }}"

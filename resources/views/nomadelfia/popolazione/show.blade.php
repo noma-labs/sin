@@ -2,5 +2,5 @@
 
 @section("archivio")
     @include("partials.header", ["title" => "Gestione Popolazione "])
-    <livewire:popolazione-table></livewire:popolazione-table>
+    <h1>TODO: mostrare tabella popolazione</h1>
 @endsection

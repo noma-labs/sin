@@ -13,7 +13,6 @@
     >
         {{ csrf_field() }}
         <livewire:prenotazione-veicoli/>
-
         <div class="row">
             <div class="col-md-3">
                 <label class="control-label">Cliente</label>

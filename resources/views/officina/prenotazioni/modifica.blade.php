@@ -11,7 +11,8 @@
         action="{{ route("officina.prenota.update", $pren->id) }}"
     >
         {{ csrf_field() }}
-           <livewire:prenotazione-veicoli
+
+        <livewire:prenotazione-veicoli
             :dataPartenza="$pren->data_partenza"
             :oraPartenza="$pren->ora_partenza"
             :dataArrivo="$pren->data_arrivo"
