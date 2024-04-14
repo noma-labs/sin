@@ -73,7 +73,7 @@
                 </label>
                 <div class="col-sm-10">
                     <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         id="inputInizioMinuti"
                         placeholder="--inserisci categoriaevento"
@@ -86,7 +86,7 @@
                 </label>
                 <div class="col-sm-10">
                     <input
-                        type="text"
+                        type="number"
                         class="form-control"
                         id="inputFineMinuti"
                         placeholder="--inserisci categoria--"
@@ -102,7 +102,7 @@
                 </label>
                 <div class="col-sm-10">
                     <input
-                        type="text"
+                        type="date"
                         class="form-control"
                         id="inputInizioMinuti"
                         placeholder="--inserisci categoriaevento"
@@ -115,7 +115,7 @@
                 </label>
                 <div class="col-sm-10">
                     <input
-                        type="text"
+                        type="date"
                         class="form-control"
                         id="inputFineMinuti"
                         placeholder="--inserisci categoria--"
