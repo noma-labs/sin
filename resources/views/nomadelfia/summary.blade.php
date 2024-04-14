@@ -11,7 +11,7 @@
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center"
                     >
-                        <a href="{{ route("nomadelfia.popolazione") }}">
+                        <a>
                             Popolazione Nomadelfia
                         </a>
                         <span class="badge badge-primary badge-pill">
