@@ -5,6 +5,19 @@
 @section("archivio")
     @include("partials.header", ["title" => "Aggiungi Video Archivio Professionale"])
     <form>
+        <div class="form-group">
+            <label for="inputPersona" class="col-sm-2 col-form-label">
+                Persona
+            </label>
+            <div class="col-sm-10">
+                <livewire:search-persona
+                    inputName="persona_id"
+                    placeholder="Cerca persona"
+                    noResultsMessage="Nessun risultato"
+                />
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputDispositivo" class="col-sm-2 col-form-label">
@@ -166,18 +179,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="inputPersona" class="col-sm-2 col-form-label">
-                Persona
-            </label>
-            <div class="col-sm-10">
-                <livewire:search-persona
-                    inputName="persona_id"
-                    placeholder="Cerca persona"
-                    noResultsMessage="Nessun risultato"
-                />
-            </div>
-        </div>
+
 
         <div class="form-group">
             <div class="col-sm-10">

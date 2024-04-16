@@ -3,23 +3,24 @@
         class="form-control"
         style="display: flex; justify-content: space-between"
     >
-        <div wire:click="clear">
-            @if ($selected)
-                <span>{{ $selected->nominativo }}</span>
+        <div>
+            @foreach($selected as $persona)
+                <span>{{ $persona->nominativo }}</span>
                 <input
                     id="cliente"
                     type="hidden"
                     name="{{ $inputName }}"
-                    value="{{ $selected->id }}"
+                    value="{{ $persona->id }}"
                 />
-            @else
+                <span wire:click="deselect({{ $persona->id }})"">x</span>
+            @endforeach
                 <input
                     style="border: none; outline: none"
                     class="search"
                     wire:model.live.debounce.100ms="searchTerm"
                     placeholder="{{ $placeholder }}"
                 />
-            @endif
+
         </div>
         <div>
             @if ($selected)
@@ -37,7 +38,7 @@
             overflow-y: scroll;
         "
     >
-        @forelse ($people as $person)
+        @forelse ($options as $person)
             <li
                 style="list-style-type: none; margin: 10px"
                 wire:key="{{ $person->id }}"

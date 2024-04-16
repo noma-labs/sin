@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Officina\Models\ViewClienti;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Livewire\Component;
 
 class SearchPersona extends Component
@@ -11,9 +12,9 @@ class SearchPersona extends Component
 
     public string $placeholder;
 
-    public $people = [];
+    public $options = [];
 
-    public ViewClienti $selected;
+    public $selected = []; // array of persone selected
 
     public string $inputName = 'nome';
 
@@ -24,7 +25,7 @@ class SearchPersona extends Component
         $this->placeholder = $placeholder;
 
         if (old($this->inputName) != null) {
-            $this->selected = ViewClienti::query()->findOrFail(old($this->inputName));
+            $this->selected = Persona::query()->findOrFail(old($this->inputName));
         }
     }
 
@@ -36,28 +37,47 @@ class SearchPersona extends Component
     public function updatedSearchTerm($value)
     {
 
-        if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
-            $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
+        // if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
+        //     $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
 
-            return $this->reset('people');
-        }
+        //     return $this->reset('options');
+        // }
         $this->search($value);
     }
 
     public function search(string $term)
     {
-        $this->reset('people');
-        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
+        $this->reset('options');
+        $this->options = Persona::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
     }
 
     public function select($personID)
     {
-        $this->selected = ViewClienti::query()->find($personID);
-        $this->reset('people');
+        // if (in_array($personID, array_map(function($person) { return $person->id; }, $this->selected))) {
+        //     $this->selected = array_filter($this->selected, function ($person) use ($personID) {
+        //         return $person->id != $personID;
+        //     });
+        // }
+        $contained = collect($this->selected)->contains(function (Persona $value, int $key) use ($personID) {
+            return $value->id == $personID;
+        });
+
+        if (!$contained) {
+            $this->selected[] = Persona::query()->find($personID);
+        }
+        $this->reset('options', 'searchTerm');
+
     }
 
     public function clear()
     {
-        $this->reset('searchTerm', 'selected', 'people');
+        $this->reset('searchTerm', 'selected', 'options');
+    }
+
+    public function deselect(int $personID)
+    {
+        $this->selected = array_filter($this->selected, function ($person) use ($personID) {
+            return $person->id != $personID;
+        });
     }
 }
