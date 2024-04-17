@@ -4,7 +4,7 @@
 
 @section("archivio")
     @include("partials.header", ["title" => "Aggiungi Video Archivio Professionale"])
-    <form>
+    <form method="post" action="{{ route("rtn.video.store") }}">
         <div class="form-group">
             <label for="inputPersona" class="col-sm-2 col-form-label">
                 Persona
@@ -178,8 +178,6 @@
                 />
             </div>
         </div>
-
-
 
         <div class="form-group">
             <div class="col-sm-10">

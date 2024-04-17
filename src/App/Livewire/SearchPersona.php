@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Officina\Models\ViewClienti;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Livewire\Component;
 
@@ -48,30 +47,20 @@ class SearchPersona extends Component
     public function search(string $term)
     {
         $this->reset('options');
-        $this->options = Persona::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
+        $this->options = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
     }
 
     public function select($personID)
     {
-        // if (in_array($personID, array_map(function($person) { return $person->id; }, $this->selected))) {
-        //     $this->selected = array_filter($this->selected, function ($person) use ($personID) {
-        //         return $person->id != $personID;
-        //     });
-        // }
         $contained = collect($this->selected)->contains(function (Persona $value, int $key) use ($personID) {
             return $value->id == $personID;
         });
 
-        if (!$contained) {
+        if (! $contained) {
             $this->selected[] = Persona::query()->find($personID);
         }
         $this->reset('options', 'searchTerm');
 
-    }
-
-    public function clear()
-    {
-        $this->reset('searchTerm', 'selected', 'options');
     }
 
     public function deselect(int $personID)
@@ -79,5 +68,10 @@ class SearchPersona extends Component
         $this->selected = array_filter($this->selected, function ($person) use ($personID) {
             return $person->id != $personID;
         });
+    }
+
+    public function clear()
+    {
+        $this->reset('searchTerm', 'selected', 'options');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Rtn\Video;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
+use Composer\DependencyResolver\Request;
 use Exception;
 
 class VideoController extends CoreBaseController
@@ -17,5 +18,11 @@ class VideoController extends CoreBaseController
     public function create()
     {
         throw new Exception('not implemented yet');
+    }
+
+    public function store(Request $request)
+    {
+        dd("DSAD");
+       dd($request->all());
     }
 }
