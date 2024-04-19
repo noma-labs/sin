@@ -3,8 +3,8 @@
 namespace App\Rtn\Video;
 
 use App\Core\Controllers\BaseController as CoreBaseController;
-use Composer\DependencyResolver\Request;
 use Exception;
+use Illuminate\Http\Request;
 
 class VideoController extends CoreBaseController
 {
@@ -22,7 +22,6 @@ class VideoController extends CoreBaseController
 
     public function store(Request $request)
     {
-        dd("DSAD");
        dd($request->all());
     }
 }
