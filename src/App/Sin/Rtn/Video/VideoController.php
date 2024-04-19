@@ -22,6 +22,6 @@ class VideoController extends CoreBaseController
 
     public function store(Request $request)
     {
-        dd("Not implemented yet");
+        dd('Not implemented yet');
     }
 }
