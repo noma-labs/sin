@@ -18,7 +18,7 @@ class Alias extends Model
 
     public static function startWith(string $term): Builder
     {
-        return self::select('persone.id', 'persone.nominativo', 'persone.data_nascita', 'persone_alias.alias')
+        return self::select('persone.id', 'persone.nominativo','persone.nome', 'persone.cognome', 'persone.data_nascita', 'persone_alias.alias')
                     ->join('db_nomadelfia.persone', 'persone.id', '=', 'persone_alias.persona_id')
                     ->where('alias', 'like', $term.'%');
     }

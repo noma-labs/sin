@@ -38,12 +38,13 @@
         style="display: flex; justify-content: space-between"
     >
         <div>
-            @foreach ($selected as $persona)
+            @foreach ($selected as $alias)
                 <span class="selected-option">
-                    {{ $persona->nominativo }}
+                    {{ $alias }}
                     <span
                         style="font-size: 1.25em"
-                        wire:click="deselect({{ $persona->id }})"
+                        wire:key="{{ $alias }}"
+                        wire:click="deselect('{{ $alias }}')"
                     >
                         &times;
                     </span>
@@ -51,8 +52,8 @@
                     <input
                         id="cliente"
                         type="hidden"
-                        name="test[]"
-                        value="{{ $persona->id }}"
+                        name="aliases[]"
+                        value="{{ $alias }}"
                     />
                 </span>
             @endforeach
@@ -72,23 +73,22 @@
     </div>
 
     <ul class="my-dropdown-menu">
-        @forelse ($options as $person)
+        @forelse ($options as $p)
             <li
                 class="available-option"
-                wire:key="{{ $person->id }}"
-                wire:click="select({{ $person->id }})"
+                wire:key="{{ $p->alias }}"
+                wire:click="select('{{ $p->alias != "" ?  $p->alias : $p->nominativo }}')"
             >
-                {{ $person->nominativo }}
+            @if ($p->alias != "")
+                {{ $p->alias }}
+            @else
+                {{ $p->nominativo }}
+            @endif
+             ({{ $p->nome }} {{ $p->cognome }} {{ $p->data_nascita }})
             </li>
         @empty
-            @if ($selected == null && $searchTerm)
-                <li
-                    style="
-                        list-style-type: none;
-                        margin: 10px;
-                        text-align: center;
-                    "
-                >
+            @if ($searchTerm)
+                <li class="available-option">
                     {{ $noResultsMessage }}
                 </li>
             @endif

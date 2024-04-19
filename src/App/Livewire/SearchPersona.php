@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class SearchPersona extends Component
@@ -11,62 +12,28 @@ class SearchPersona extends Component
 
     public string $placeholder;
 
-    public $options = [];
+    public $options = []; // array of persone
 
-    public $selected = []; // array of persone selected
-
-    public string $inputName = 'nome';
+    public Collection $selected;
 
     public string $noResultsMessage = 'Nessun risultato trovato';
 
     public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
         $this->placeholder = $placeholder;
-
-        if (old($this->inputName) != null) {
-            $this->selected = Persona::query()->findOrFail(old($this->inputName));
-        }
+        $this->selected = collect();
     }
 
-    public function render()
+    public function select(string $alias)
     {
-        return view('livewire.search-persona');
+       $this->selected =  $this->selected->push($alias)->unique();
+       $this->reset('options', 'searchTerm');
     }
 
-    public function updatedSearchTerm($value)
+    public function deselect(string $alias)
     {
-
-        // if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
-        //     $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
-
-        //     return $this->reset('options');
-        // }
-        $this->search($value);
-    }
-
-    public function search(string $term)
-    {
-        $this->reset('options');
-        $this->options = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
-    }
-
-    public function select($personID)
-    {
-        $contained = collect($this->selected)->contains(function (Persona $value, int $key) use ($personID) {
-            return $value->id == $personID;
-        });
-
-        if (! $contained) {
-            $this->selected[] = Persona::query()->find($personID);
-        }
-        $this->reset('options', 'searchTerm');
-
-    }
-
-    public function deselect(int $personID)
-    {
-        $this->selected = array_filter($this->selected, function ($person) use ($personID) {
-            return $person->id != $personID;
+        $this->selected = $this->selected->reject(function ($selectedAlias) use ($alias) {
+            return $selectedAlias == $alias;
         });
     }
 
@@ -74,4 +41,26 @@ class SearchPersona extends Component
     {
         $this->reset('searchTerm', 'selected', 'options');
     }
+
+    public function updatedSearchTerm($value)
+    {
+        $this->search($value);
+    }
+
+    public function search(string $term)
+    {
+        $this->reset('options');
+        $this->options = Persona::select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome','persone.data_nascita', 'persone_alias.alias')
+                            ->leftjoin('db_rtn.persone_alias', 'persona_id', '=', 'id')
+                            ->where('nominativo', 'LIKE', "$term%")
+                            ->orderBy('nominativo', 'asc')
+                            ->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.search-persona');
+    }
+
+
 }
