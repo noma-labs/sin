@@ -78,7 +78,6 @@
             </div>
         </div>
 
-
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputFineMinuti">Località</label>
@@ -100,15 +99,13 @@
             </div>
         </div>
 
-
-
         <div class="form-group row">
             <div class="form-group col-md-12">
-            <label for="inputPersona">           Persone </label>
-            <livewire:search-persona
-                placeholder="Cerca persona"
-                noResultsMessage="Nessun risultato"
-            />
+                <label for="inputPersona">Persone</label>
+                <livewire:search-persona
+                    placeholder="Cerca persona"
+                    noResultsMessage="Nessun risultato"
+                />
             </div>
         </div>
 
