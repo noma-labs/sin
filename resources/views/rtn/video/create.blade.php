@@ -78,42 +78,37 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label for="colFormLabel" class="col-sm-2 col-form-label">
-                Località
-            </label>
-            <div class="col-sm-10">
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputFineMinuti">Località</label>
                 <input
-                    type="email"
+                    type="number"
                     class="form-control"
-                    id="colFormLabel"
-                    placeholder="col-form-label"
+                    id="inputFineMinuti"
+                    placeholder="--inserisci Località"
                 />
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="colFormLabel" class="col-sm-2 col-form-label">
-                Argomento
-            </label>
-            <div class="col-sm-10">
+            <div class="form-group col-md-6">
+                <label for="forDataRegistrazione">Argomento</label>
                 <input
-                    type="email"
+                    type="date"
                     class="form-control"
-                    id="colFormLabel"
-                    placeholder="col-form-label"
+                    id="forDataRegistrazione"
+                    placeholder="--inserisci Argomento"
                 />
             </div>
         </div>
 
+
+
         <div class="form-group row">
-            <label for="inputPersona" class="col-sm-2 col-form-label">
-                Persona
-            </label>
-            <div class="col-sm-10">
-                <livewire:search-persona
-                    placeholder="Cerca persona"
-                    noResultsMessage="Nessun risultato"
-                />
+            <div class="form-group col-md-12">
+            <label for="inputPersona">           Persone </label>
+            <livewire:search-persona
+                placeholder="Cerca persona"
+                noResultsMessage="Nessun risultato"
+            />
             </div>
         </div>
 

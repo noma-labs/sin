@@ -39,7 +39,8 @@ class SearchPersona extends Component
 
     public function clear()
     {
-        $this->reset('searchTerm', 'selected', 'options');
+        $this->selected = collect();
+        $this->reset('options', 'searchTerm');
     }
 
     public function updatedSearchTerm($value)
