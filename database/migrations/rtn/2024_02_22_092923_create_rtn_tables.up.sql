@@ -462,3 +462,14 @@ INSERT INTO `visione` VALUES ('8', 'NonVisionato');
 INSERT INTO `visione` VALUES ('5', 'Superiori');
 INSERT INTO `visione` VALUES ('1', 'Tutti');
 
+
+
+CREATE TABLE IF NOT EXISTS `persone_alias` (
+  `persona_id` int(10) NOT NULL,
+  `alias` varchar(100) NOT NULL,
+  PRIMARY KEY (`persona_id`, `alias`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `persone_alias`
+  ADD CONSTRAINT `fk_persone_alias_persona_id` FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`);

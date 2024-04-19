@@ -2,7 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Officina\Models\ViewClienti;
+use Domain\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class SearchPersona extends Component
@@ -11,53 +12,55 @@ class SearchPersona extends Component
 
     public string $placeholder;
 
-    public $people = [];
+    public $options = []; // array of persone
 
-    public ViewClienti $selected;
-
-    public string $inputName = 'nome';
+    public Collection $selected;
 
     public string $noResultsMessage = 'Nessun risultato trovato';
 
     public function mount(string $placeholder = '--Inserisci Nominativo--')
     {
         $this->placeholder = $placeholder;
-
-        if (old($this->inputName) != null) {
-            $this->selected = ViewClienti::query()->findOrFail(old($this->inputName));
-        }
+        $this->selected = collect();
     }
 
-    public function render()
+    public function select(string $alias)
     {
-        return view('livewire.search-persona');
+        $this->selected = $this->selected->push($alias)->unique();
+        $this->reset('options', 'searchTerm');
+    }
+
+    public function deselect(string $alias)
+    {
+        $this->selected = $this->selected->reject(function ($selectedAlias) use ($alias) {
+            return $selectedAlias == $alias;
+        });
+    }
+
+    public function clear()
+    {
+        $this->selected = collect();
+        $this->reset('options', 'searchTerm');
     }
 
     public function updatedSearchTerm($value)
     {
-
-        if (strlen($value) <= 2) { // start searching only of the term is more than 2 chars
-            $this->noResultsMessage = '--Inserisci almeno 2 caratteri--';
-
-            return $this->reset('people');
-        }
         $this->search($value);
     }
 
     public function search(string $term)
     {
-        $this->reset('people');
-        $this->people = ViewClienti::query()->where('nominativo', 'LIKE', "$term%")->orderBy('nominativo', 'asc')->get();
+        $this->reset('options');
+        $this->options = Persona::query()
+            ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'persone_alias.alias')
+            ->leftjoin('db_rtn.persone_alias', 'persona_id', '=', 'id')
+            ->where('nominativo', 'LIKE', "$term%")
+            ->orderBy('nominativo', 'asc')
+            ->get();
     }
 
-    public function select($personID)
+    public function render()
     {
-        $this->selected = ViewClienti::query()->find($personID);
-        $this->reset('people');
-    }
-
-    public function clear()
-    {
-        $this->reset('searchTerm', 'selected', 'people');
+        return view('livewire.search-persona');
     }
 }
