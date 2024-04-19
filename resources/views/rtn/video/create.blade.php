@@ -5,8 +5,107 @@
 @section("archivio")
     @include("partials.header", ["title" => "Aggiungi Video Archivio Professionale"])
     <form method="post" action="{{ route("rtn.video.store") }}">
-        {{csrf_field()}}
-        <div class="form-group">
+        {{ csrf_field() }}
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="forDispositivo">Dispositivo</label>
+                <select
+                    class="form-control"
+                    id="validatedInputGroupSelect"
+                    required
+                >
+                    <option value="">Choose...</option>
+                    <option value="1">Hard-disk</option>
+                    <option value="2">Altro</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="forCategoria">Categoria</label>
+                <input type="password" class="form-control" id="forCategoria" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="forCategoriaEvento">Categoria Evento</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="forCategoriaEvento"
+                />
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="forRecord">Record</label>
+                <input type="number" class="form-control" id="forRecord" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputInizioMinuti">Inizio Minuti</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="inputInizioMinuti"
+                    placeholder="--inserisci minuti"
+                />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputFineMinuti">Fine Minuti</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="inputFineMinuti"
+                    placeholder="--inserisci minuti"
+                />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="forDataRegistrazione">Data Registrazione</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="forDataRegistrazione"
+                    placeholder="--inserisci categoria--"
+                />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="forDataTrasmission">Data Ultima trasmissione</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="forDataTrasmission"
+                    placeholder="--inserisci categoria--"
+                />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="colFormLabel" class="col-sm-2 col-form-label">
+                Località
+            </label>
+            <div class="col-sm-10">
+                <input
+                    type="email"
+                    class="form-control"
+                    id="colFormLabel"
+                    placeholder="col-form-label"
+                />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="colFormLabel" class="col-sm-2 col-form-label">
+                Argomento
+            </label>
+            <div class="col-sm-10">
+                <input
+                    type="email"
+                    class="form-control"
+                    id="colFormLabel"
+                    placeholder="col-form-label"
+                />
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label for="inputPersona" class="col-sm-2 col-form-label">
                 Persona
             </label>
@@ -14,167 +113,6 @@
                 <livewire:search-persona
                     placeholder="Cerca persona"
                     noResultsMessage="Nessun risultato"
-                />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputDispositivo" class="col-sm-2 col-form-label">
-                    Dispositivo
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="inputDispositivo"
-                        placeholder="--inserisci dispositivo--"
-                    />
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputCategoria" class="col-sm-2 col-form-label">
-                    Categoria
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="inputCategoria"
-                        placeholder="--inserisci categoria--"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label
-                    for="inputCategoriaEvento"
-                    class="col-sm-2 col-form-label"
-                >
-                    CategoriaEvento
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="inputCategoriaEvento"
-                        placeholder="--inserisci categoriaevento"
-                    />
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputRecord" class="col-sm-2 col-form-label">
-                    Record
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="inputRecord"
-                        placeholder="--inserisci categoria--"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputInizioMinuti" class="col-sm-2 col-form-label">
-                    Inizio Minuti
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="number"
-                        class="form-control"
-                        id="inputInizioMinuti"
-                        placeholder="--inserisci categoriaevento"
-                    />
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputFineMinuti" class="col-sm-2 col-form-label">
-                    Fine Minuti
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="number"
-                        class="form-control"
-                        id="inputFineMinuti"
-                        placeholder="--inserisci categoria--"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputInizioMinuti" class="col-sm-2 col-form-label">
-                    Data Registrazione
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="date"
-                        class="form-control"
-                        id="inputInizioMinuti"
-                        placeholder="--inserisci categoriaevento"
-                    />
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputFineMinuti" class="col-sm-2 col-form-label">
-                    Data Ultima trasmissione
-                </label>
-                <div class="col-sm-10">
-                    <input
-                        type="date"
-                        class="form-control"
-                        id="inputFineMinuti"
-                        placeholder="--inserisci categoria--"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="inputPersona" class="col-sm-2 col-form-label">
-                Località
-            </label>
-            <div class="col-sm-10">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="inputFineMinuti"
-                    placeholder="--inserisci categoria--"
-                />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="inputPersona" class="col-sm-2 col-form-label">
-                Nome Cartella
-            </label>
-            <div class="col-sm-10">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="inputFineMinuti"
-                    placeholder="--inserisci categoria--"
-                />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="inputPersona" class="col-sm-2 col-form-label">
-                Argomento
-            </label>
-            <div class="col-sm-10">
-                <input
-                    type="text"
-                    class="form-control"
-                    id="inputFineMinuti"
-                    placeholder="--inserisci categoria--"
                 />
             </div>
         </div>

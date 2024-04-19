@@ -26,8 +26,8 @@ class SearchPersona extends Component
 
     public function select(string $alias)
     {
-       $this->selected =  $this->selected->push($alias)->unique();
-       $this->reset('options', 'searchTerm');
+        $this->selected = $this->selected->push($alias)->unique();
+        $this->reset('options', 'searchTerm');
     }
 
     public function deselect(string $alias)
@@ -50,17 +50,15 @@ class SearchPersona extends Component
     public function search(string $term)
     {
         $this->reset('options');
-        $this->options = Persona::select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome','persone.data_nascita', 'persone_alias.alias')
-                            ->leftjoin('db_rtn.persone_alias', 'persona_id', '=', 'id')
-                            ->where('nominativo', 'LIKE', "$term%")
-                            ->orderBy('nominativo', 'asc')
-                            ->get();
+        $this->options = Persona::select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'persone_alias.alias')
+            ->leftjoin('db_rtn.persone_alias', 'persona_id', '=', 'id')
+            ->where('nominativo', 'LIKE', "$term%")
+            ->orderBy('nominativo', 'asc')
+            ->get();
     }
 
     public function render()
     {
         return view('livewire.search-persona');
     }
-
-
 }

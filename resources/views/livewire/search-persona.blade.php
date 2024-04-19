@@ -77,14 +77,14 @@
             <li
                 class="available-option"
                 wire:key="{{ $p->alias }}"
-                wire:click="select('{{ $p->alias != "" ?  $p->alias : $p->nominativo }}')"
+                wire:click="select('{{ $p->alias != "" ? $p->alias : $p->nominativo }}')"
             >
-            @if ($p->alias != "")
-                {{ $p->alias }}
-            @else
-                {{ $p->nominativo }}
-            @endif
-             ({{ $p->nome }} {{ $p->cognome }} {{ $p->data_nascita }})
+                @if ($p->alias != "")
+                    {{ $p->alias }}
+                @else
+                    {{ $p->nominativo }}
+                @endif
+                ({{ $p->nome }} {{ $p->cognome }} {{ $p->data_nascita }})
             </li>
         @empty
             @if ($searchTerm)
