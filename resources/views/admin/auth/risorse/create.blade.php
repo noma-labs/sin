@@ -3,7 +3,7 @@
 
 @section("title", "| Aggiungi Permisso")
 
-@section("archivio")
+@section("content")
     <div class="col-lg-4 col-lg-offset-4">
         <h1>Aggiungi Permesso</h1>
         <br />

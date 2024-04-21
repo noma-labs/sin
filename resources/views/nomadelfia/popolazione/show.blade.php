@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Popolazione "])
     <h1>TODO: mostrare tabella popolazione</h1>
 @endsection

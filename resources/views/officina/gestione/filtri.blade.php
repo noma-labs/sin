@@ -2,7 +2,7 @@
 
 @section("title", "Filtri")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Filtri"])
     <gestione-filtri></gestione-filtri>
 @endsection

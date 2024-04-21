@@ -1,6 +1,6 @@
 @extends("scuola.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Classe"])
 
     <div class="row justify-content-md-center">

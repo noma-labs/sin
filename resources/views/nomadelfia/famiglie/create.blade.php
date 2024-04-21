@@ -1,6 +1,6 @@
 @extends("nomadelfia.persone.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Nuovo Matrimonio"])
 
     <div class="row">

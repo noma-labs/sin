@@ -1,6 +1,6 @@
 @extends("scuola.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiungi elaborato"])
     <form method="POST" action="{{ route("scuola.elaborati.insert") }}">
         @csrf

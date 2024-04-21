@@ -1,6 +1,6 @@
 @extends("officina.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Modifica Veicolo"])
     <form
         method="POST"

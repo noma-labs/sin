@@ -1,6 +1,6 @@
 @extends("layouts.app")
 
-@section("archivio")
+@section("content")
     <div class="container">
         <div class="row">
             @if (Auth::guest())

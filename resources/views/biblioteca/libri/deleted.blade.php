@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     <div id="results" class="alert alert-success">
         Numero di libri Trovati:
         <strong>{{ $libriEliminati->total() }}</strong>

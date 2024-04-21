@@ -1,5 +1,5 @@
 @extends("biblioteca.libri.index")
-@section("archivio")
+@section("content")
     <div class="row">
         <div class="pull-right">
             <h4>

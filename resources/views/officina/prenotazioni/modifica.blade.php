@@ -2,7 +2,7 @@
 
 @section("title", "Officina Meccanica")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Modifica Prenotazione"])
     <form
         class="container-fluid"

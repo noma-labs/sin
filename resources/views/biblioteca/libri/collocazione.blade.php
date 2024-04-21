@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Modifica collocazione"])
     <form
         method="POST"

@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => $persona->nome . " " . $persona->cognome])
     <div class="row justify-content-md-center">
         <div class="col-md-6">

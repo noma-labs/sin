@@ -3,7 +3,7 @@
 
 @section("title", "| Roles")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione ruoli"])
 
     <a

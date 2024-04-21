@@ -1,7 +1,7 @@
 @extends("biblioteca.libri.index")
 @section("title", "Aggiungi Autore")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiungi Autore"])
     <div class="container">
         <div class="row">

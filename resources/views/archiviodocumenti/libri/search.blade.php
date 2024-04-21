@@ -1,6 +1,6 @@
 @extends("archiviodocumenti.index")
 
-@section("archivio")
+@section("content")
     <sin-header title="Ricerca Archivio Libri">
         Numero totale di libri:
         {{ App\ArchivioDocumenti\Models\ArchivioDocumento::count() }}

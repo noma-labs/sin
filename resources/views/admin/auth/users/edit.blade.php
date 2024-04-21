@@ -2,7 +2,7 @@
 
 @section("title", "| Edit User")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Modifica utente"])
 
     {{ Form::model($user, ["route" => ["users.update", $user->id], "method" => "PUT"]) }}

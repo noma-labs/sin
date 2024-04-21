@@ -1,5 +1,5 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     @include("biblioteca.libri.search_partial")
 @endsection

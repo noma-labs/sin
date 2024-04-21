@@ -125,7 +125,7 @@
             <div id="archivio" class="container-fluid">
                 @include("partials.flash")
                 @include("partials.errors")
-                @yield("archivio")
+                @yield("content")
             </div>
         </div>
 

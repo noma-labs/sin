@@ -1,7 +1,7 @@
 @extends("admin.index")
 @section("title", "| Utenti")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione utenti"])
     <a
         href="{{ route("users.create") }}"

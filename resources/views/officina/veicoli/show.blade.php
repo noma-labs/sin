@@ -1,6 +1,6 @@
 @extends("officina.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Dettaglio Veicolo"])
     <div class="row">
         <div class="col-md-9">

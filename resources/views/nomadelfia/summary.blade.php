@@ -2,7 +2,7 @@
 
 @section("title", "Gestione Nomadelfia")
 
-@section("archivio")
+@section("content")
     <div class="card-deck">
         <div class="card">
             <div class="card-header">Gestione Popolazione</div>

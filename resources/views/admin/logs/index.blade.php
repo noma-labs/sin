@@ -1,6 +1,6 @@
 @extends("admin.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Amministrazione attività"])
     <div class="row">
         <div class="col-md-12">

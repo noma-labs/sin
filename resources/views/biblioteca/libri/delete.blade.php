@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Eliminazione libro"])
     <div class="row">
         <div class="col-md-6">

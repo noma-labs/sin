@@ -1,6 +1,6 @@
 @extends("archiviodocumenti.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Stampa Etichette"])
 
     <div class="row">

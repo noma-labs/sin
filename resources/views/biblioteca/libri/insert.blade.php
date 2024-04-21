@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiungi Libro"])
 
     <form method="POST" action="{{ route("libri.inserisci.Confirm") }}">

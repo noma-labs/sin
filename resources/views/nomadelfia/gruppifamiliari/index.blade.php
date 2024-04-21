@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Gruppi Familiari"])
 
     @foreach (collect($g)->chunk(3) as $chunk)

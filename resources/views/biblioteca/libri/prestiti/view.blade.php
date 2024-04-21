@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     <div class="my-page-title">
         <div class="d-flex justify-content-end">
             <div class="mr-auto p-2">
