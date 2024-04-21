@@ -1596,11 +1596,6 @@ parameters:
 			path: src/App/Sin/Officina/Controllers/ApiController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:prenotabili\\(\\)\\.$#"
-			count: 11
-			path: src/App/Sin/Officina/Controllers/ApiController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Alimentazioni\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Officina/Controllers/ApiController.php
