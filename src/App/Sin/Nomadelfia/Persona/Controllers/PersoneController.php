@@ -2,11 +2,10 @@
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersoneController extends CoreBaseController
+class PersoneController
 {
     public function show($idPersona)
     {
@@ -55,7 +54,7 @@ class PersoneController extends CoreBaseController
     {
         $persona = Persona::findOrFail($idPersona);
         if ($persona->delete()) {
-            return redirect()->route('nomadelfia')->withSuccess("Persona $persona->nominativo eliminata con successo");
+            return redirect()->route('nomadelfia.index')->withSuccess("Persona $persona->nominativo eliminata con successo");
         }
 
         return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");

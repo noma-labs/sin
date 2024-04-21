@@ -9,19 +9,12 @@ use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class LibriController extends CoreBaseController
+class LibriController
 {
-    // all the request for the resosurce libri must be authenticated excpet for searching
-    public function __construct()
-    {
-        $this->middleware('auth')->except('showSearchLibriForm', 'searchConfirm');
-    }
-
     public function showEditCollocazioneForm($idLibro)
     {
         $libro = Libro::findOrFail($idLibro);

@@ -2,13 +2,12 @@
 
 namespace App\Scuola\Controllers;
 
-use App\Core\Controllers\BaseController;
 use App\Scuola\Models\Classe;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class ApiController extends BaseController
+class ApiController
 {
     public function alunni(Request $request)
     {

@@ -2,14 +2,13 @@
 
 namespace App\Patente\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use App\Patente\Models\ViewClientiConSenzaPatente;
 use Illuminate\Http\Request;
 
-class ApiController extends CoreBaseController
+class ApiController
 {
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate

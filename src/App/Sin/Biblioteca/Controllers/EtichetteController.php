@@ -3,12 +3,11 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Libro as Libro;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Browsershot\Browsershot;
 
-class EtichetteController extends CoreBaseController
+class EtichetteController
 {
     public function view()
     {

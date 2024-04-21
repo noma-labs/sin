@@ -10,6 +10,11 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
+it('forbids access to guests', function () {
+    $this->get(action([PopolazioneSummaryController::class, 'index']))
+        ->assertRedirect(route('login'));
+});
+
 it('show index of nomadelfia', function () {
     login();
     $this->get(action([PopolazioneSummaryController::class, 'index']))

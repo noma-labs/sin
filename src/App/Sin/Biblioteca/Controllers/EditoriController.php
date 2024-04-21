@@ -3,17 +3,11 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Editore as Editore;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class EditoriController extends CoreBaseController
+class EditoriController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $editori = Editore::orderBy('Editore')->paginate(150); //Get all roles

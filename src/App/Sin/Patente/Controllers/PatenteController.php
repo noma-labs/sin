@@ -2,7 +2,6 @@
 
 namespace App\Patente\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
@@ -17,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Spatie\Browsershot\Browsershot;
 use Validator;
 
-class PatenteController extends CoreBaseController
+class PatenteController
 {
     public function scadenze()
     {

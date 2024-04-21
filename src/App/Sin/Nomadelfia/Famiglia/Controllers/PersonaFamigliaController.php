@@ -2,12 +2,11 @@
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaFamigliaController extends CoreBaseController
+class PersonaFamigliaController
 {
     public function index($idPersona)
     {

@@ -2,7 +2,6 @@
 
 namespace App\Officina\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche as Marca;
@@ -14,7 +13,7 @@ use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 use Throwable;
 
-class VeicoliController extends CoreBaseController
+class VeicoliController
 {
     public function index(Request $request)
     {

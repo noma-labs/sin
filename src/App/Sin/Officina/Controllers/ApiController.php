@@ -2,7 +2,6 @@
 
 namespace App\Officina\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Models\Alimentazioni;
 use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche;
@@ -15,7 +14,7 @@ use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
 use Throwable;
 
-class ApiController extends CoreBaseController
+class ApiController
 {
     public function clientiMeccanica(Request $request)
     {

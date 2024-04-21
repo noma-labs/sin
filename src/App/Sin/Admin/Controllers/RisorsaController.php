@@ -2,18 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RisorsaController extends Controller
+class RisorsaController
 {
-    public function __construct()
-    {
-        $this->middleware(['role:super-admin']);
-    }
-
     /**
      * Display a listing of the resource.
      *

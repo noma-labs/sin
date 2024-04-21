@@ -2,13 +2,12 @@
 
 namespace App\Nomadelfia\Incarico\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class IncarichiController extends CoreBaseController
+class IncarichiController
 {
     public function view()
     {

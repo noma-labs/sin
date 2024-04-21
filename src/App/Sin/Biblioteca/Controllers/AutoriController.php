@@ -3,17 +3,11 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class AutoriController extends CoreBaseController
+class AutoriController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $autori = Autore::orderBy('Autore')->paginate(150);

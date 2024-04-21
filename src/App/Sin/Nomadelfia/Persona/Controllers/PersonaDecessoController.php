@@ -2,12 +2,11 @@
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Illuminate\Http\Request;
 
-class PersonaDecessoController extends CoreBaseController
+class PersonaDecessoController
 {
     public function store(Request $request, $idPersona)
     {

@@ -2,9 +2,7 @@
 
 namespace App\Officina\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
-
-class PatentiController extends CoreBaseController
+class PatentiController
 {
     public function patenti()
     {

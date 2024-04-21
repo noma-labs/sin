@@ -2,18 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
+class RoleController
 {
-    public function __construct()
-    {
-        $this->middleware(['role:super-admin']);
-    }
-
     public function index()
     {
         $roles = Role::with('permissions')->get();

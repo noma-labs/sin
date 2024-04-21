@@ -2,7 +2,6 @@
 
 namespace App\Scuola\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -15,7 +14,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class ScuolaController extends CoreBaseController
+class ScuolaController
 {
     public function summary()
     {

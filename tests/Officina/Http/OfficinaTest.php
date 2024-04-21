@@ -12,7 +12,13 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Spatie\Permission\Models\Role;
 
-it('shows the booked veichiles', function () {
+it('forbids access to guests', function () {
+    $this
+        ->get(action([PrenotazioniController::class, 'prenotazioni']))
+        ->assertRedirect(route('login'));
+});
+
+it('shows the booked veichles', function () {
     login();
     $this->withoutExceptionHandling();
     $this->get(action([PrenotazioniController::class, 'prenotazioni']))

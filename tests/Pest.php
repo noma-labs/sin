@@ -8,7 +8,7 @@ use Tests\TestCasePest;
 
 use function Pest\Laravel\actingAs;
 
-uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire');
+uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
 
 function login(?User $user = null): User
 {

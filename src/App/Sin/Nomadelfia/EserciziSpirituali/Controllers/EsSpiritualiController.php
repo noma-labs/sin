@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -13,7 +12,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class EsSpiritualiController extends CoreBaseController
+class EsSpiritualiController
 {
     public function index(Request $request)
     {

@@ -2,13 +2,12 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 
-class CaricheController extends CoreBaseController
+class CaricheController
 {
     /**
      * view della pagina index per la gestion delle cariche costituzionali

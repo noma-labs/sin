@@ -88,10 +88,10 @@
             @if (Route::has("login"))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url("/home") }}">Entra nell'archivio</a>
+                        <a href="{{ url("/home") }}">Entra</a>
                     @else
                         <a href="{{ route("login") }}">Autenticati</a>
-                        <a href="{{ route("home") }}">Entra come ospite</a>
+                        <a href="{{ route("home") }}">Sessione ospite</a>
                     @endauth
                 </div>
             @endif

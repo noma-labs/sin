@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
@@ -10,7 +9,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 
-class PopolazioneNomadelfiaController extends CoreBaseController
+class PopolazioneNomadelfiaController
 {
     public function show()
     {

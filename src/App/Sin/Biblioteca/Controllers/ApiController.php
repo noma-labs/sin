@@ -7,11 +7,10 @@ use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon;
 use Illuminate\Http\Request;
 
-class ApiController extends CoreBaseController
+class ApiController
 {
     public function autocompleteLibro(Request $request)
     {
