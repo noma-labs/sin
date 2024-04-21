@@ -25,7 +25,7 @@ class UserController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'persona_id' => 'required',
             'username' => 'required|max:20|unique:utenti',
             'password' => 'required|min:6|confirmed',
@@ -57,7 +57,7 @@ class UserController
     {
         $user = User::findOrFail($id);
 
-        $this->validate($request, [
+        $request->validate([
             'persona_id' => 'required',
             'password' => 'required|min:6|confirmed',
         ]);

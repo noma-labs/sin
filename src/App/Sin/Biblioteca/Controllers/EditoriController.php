@@ -26,7 +26,7 @@ class EditoriController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'editore' => 'required|unique:db_biblioteca.editore,Editore',
         ], [
             'editore.required' => "L'editore non può essere vuoto.",
@@ -72,7 +72,7 @@ class EditoriController
     {
         $editore = Editore::findOrFail($id);
 
-        $this->validate($request, [
+        $request->validate([
             'editore' => 'required|unique:db_biblioteca.editore,editore,'.$id.',id',
             // 'autore'=>'required|unique:db_biblioteca.autore,Autore,'.$id.",ID_AUTORE",
         ], [

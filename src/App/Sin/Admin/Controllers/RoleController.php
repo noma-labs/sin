@@ -24,7 +24,7 @@ class RoleController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'nome' => 'required|unique:roles,name|max:20',
         ]
         );

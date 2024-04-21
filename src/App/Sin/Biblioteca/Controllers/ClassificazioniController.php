@@ -21,7 +21,7 @@ class ClassificazioniController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione',
         ], [
             'descrizione.required' => 'La classificazione non può essere vuoto.',
@@ -67,7 +67,7 @@ class ClassificazioniController
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,'.$id.',id',
         ], [
             'descrizione.required' => 'La classificazione non può essere vuoto.',

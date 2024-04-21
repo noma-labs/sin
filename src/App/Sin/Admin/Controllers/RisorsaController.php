@@ -39,7 +39,7 @@ class RisorsaController
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|max:40',
             '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);
@@ -100,7 +100,7 @@ class RisorsaController
     public function update(Request $request, $id)
     {
         $permission = Permission::findOrFail($id);
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|max:40',
             '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);

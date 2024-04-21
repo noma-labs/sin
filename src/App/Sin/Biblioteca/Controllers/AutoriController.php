@@ -26,7 +26,7 @@ class AutoriController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'autore' => 'required|unique:db_biblioteca.autore,autore',
         ], [
             'autore.required' => "L'autore non può essere vuoto.",
@@ -70,7 +70,7 @@ class AutoriController
     {
         // return $id;
         $autore = Autore::findOrFail($id); //Get role with the given id
-        $this->validate($request, [
+        $request->validate([
             'autore' => 'required|unique:db_biblioteca.autore,autore,'.$id.',id',
         ], [
             'autore.required' => "L'autore non può essere vuoto.",
