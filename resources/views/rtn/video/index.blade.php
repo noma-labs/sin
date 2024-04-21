@@ -2,7 +2,7 @@
 
 @section("title", "Gestione Video Professionale")
 
-@section("archivio")
+@section("content")
     <h1>Archivio professionale</h1>
     <ul>
         @foreach ($countByYear as $c)

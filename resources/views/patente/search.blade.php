@@ -1,6 +1,6 @@
 @extends("patente.index")
 
-@section("archivio")
+@section("content")
     <sin-header title="Ricerca Patenti">
         Numero patenti: {{ App\Patente\Models\Patente::count() }}
     </sin-header>

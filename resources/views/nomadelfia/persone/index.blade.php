@@ -1,5 +1,5 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Popolazione Nomadelfia"])
 @endsection

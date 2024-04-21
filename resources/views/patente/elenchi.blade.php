@@ -1,6 +1,6 @@
 @extends("patente.index")
 
-@section("archivio")
+@section("content")
     <sin-header title="Elenchi Patente"></sin-header>
 
     @include("patente.elenchi.percategoria")

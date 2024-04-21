@@ -1,6 +1,6 @@
 @extends("patente.index")
 
-@section("archivio")
+@section("content")
     <sin-header title="Inserisci nuova Patente"></sin-header>
 
     <patente-inserimento

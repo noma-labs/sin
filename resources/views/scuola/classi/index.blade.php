@@ -1,6 +1,6 @@
 @extends("scuola.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Classi A.S. " . $anno->scolastico])
 
     @include("scuola.templates.aggiungiClasse", ["anno" => $anno])

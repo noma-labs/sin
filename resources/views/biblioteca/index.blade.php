@@ -8,7 +8,7 @@
     </li>
 @endsection
 
-@section("archivio")
+@section("content")
     <div class="row">
         <div class="col-md-4 offset-md-2">
             <div class="card" style="width: 17rem">

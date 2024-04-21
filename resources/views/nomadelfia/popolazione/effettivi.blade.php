@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Nomadelfi Effettivi "])
 
     <div class="row justify-content-md-center">

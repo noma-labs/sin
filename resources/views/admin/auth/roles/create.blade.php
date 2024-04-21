@@ -1,7 +1,7 @@
 @extends("admin.index")
 @section("title", "| Aggiungi Ruolo")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiugni ruolo"])
 
     <form method="post" action="{{ route("roles.store") }}">

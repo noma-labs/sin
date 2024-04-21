@@ -1,6 +1,6 @@
 @extends("patente.index")
 
-@section("archivio")
+@section("content")
     <sin-header title="Modifica Patente"></sin-header>
     <patente-modfica
         api-patente="{{ route("api.patente", ["numero" => $patente->numero_patente]) }}"

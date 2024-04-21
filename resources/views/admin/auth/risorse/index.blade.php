@@ -1,7 +1,7 @@
 @extends("admin.index")
 @section("title", "| Risorse")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Permessi"])
 
     <div class="table-responsive col-md-8 offset-md-2">

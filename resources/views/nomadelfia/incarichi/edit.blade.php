@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     <sin-header
         title="{{ "Modifica Incarico: " . $incarico->nome }}"
     ></sin-header>

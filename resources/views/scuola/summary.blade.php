@@ -2,7 +2,7 @@
 
 @section("title", "Gestione Scuola")
 
-@section("archivio")
+@section("content")
     <div class="row justify-content-md-center">
         <div class="col-md-6">
             <div class="card">

@@ -1,7 +1,7 @@
 @extends("admin.index")
 @section("title", "| Add User")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiungi utente"])
     <div class="col-lg-4 offset-md-3">
         {{ Form::open(["method" => "POST", "route" => "users.store"]) }}

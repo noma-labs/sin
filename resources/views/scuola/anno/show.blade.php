@@ -2,7 +2,7 @@
 
 @section("title", "Gestione Scuola")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Anno scolastico " . $anno->scolastico])
 
     <div class="row">

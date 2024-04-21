@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Famiglie"])
     <div class="row">
         <div class="col-md-4">

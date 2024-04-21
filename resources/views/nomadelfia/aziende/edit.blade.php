@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     <sin-header
         title="{{ "Modifica azienda: " . $azienda->nome_azienda }}"
     ></sin-header>

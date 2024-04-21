@@ -1,6 +1,6 @@
 @extends("biblioteca.libri.index")
 
-@section("archivio")
+@section("content")
     @include("biblioteca.libri.search_partial")
 
     <div class="alert alert-warning alert-dismissible fade show" role="alert">

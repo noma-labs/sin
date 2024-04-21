@@ -2,7 +2,7 @@
 
 @section("title", "Prenotazioni")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Ricerca Prenotazioni"])
     @include("officina.prenotazioni.search_form")
 @endsection

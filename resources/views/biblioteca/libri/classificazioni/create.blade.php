@@ -1,7 +1,7 @@
 @extends("biblioteca.libri.index")
 @section("title", "Aggiungi Classificazione")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Aggiungi Classificazione"])
 
     <div class="row">

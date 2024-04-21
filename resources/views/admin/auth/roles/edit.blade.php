@@ -1,7 +1,7 @@
 @extends("admin.index")
 @section("title", "| Modifica ruolo")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Modifica ruolo"])
 
     <form method="POST" action="{{ route("roles.update", $ruolo->id) }}">

@@ -1,6 +1,6 @@
 @extends("nomadelfia.index")
 
-@section("archivio")
+@section("content")
     @include("partials.header", ["title" => "Gestione Elezioni Cariche costituzionali"])
     <div class="row">
         <div class="col-md-3 card-deck">

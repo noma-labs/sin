@@ -1,6 +1,6 @@
 @extends("layouts.app")
 
-@section("archivio")
+@section("content")
     @section("navbar-link")
         <li class="nav-item dropdown">
             <a
