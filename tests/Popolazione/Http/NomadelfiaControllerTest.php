@@ -18,7 +18,7 @@ it('only_admin_can_see_nomadelfia_system', function () {
 
     $this
         ->get(action([PopolazioneSummaryController::class, 'index']))
-        ->assertForbidden();
+        ->assertRedirect(route('login'));
 
     login();
 

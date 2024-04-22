@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Exceptions\InvalidEnumException;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -35,13 +35,13 @@ trait Enums
      * @param  mixed  $value
      * @return $this
      *
-     * @throws InvalidEnumException
+     * @throws Exception
      */
     public function setAttribute($field, $value)
     {
         if ($this->hasEnumProperty($field)) {
             if (! $this->isValidEnum($field, $value)) {
-                throw new InvalidEnumException('Invalid value for '.static::class."::$field ($value)");
+                throw new Exception('Invalid value for '.static::class."::$field ($value)");
             }
             if ($this->isKeyedEnum($field, $value)) {
                 $value = $this->getKeyedEnum($field, $value);

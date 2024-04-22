@@ -176,11 +176,6 @@ parameters:
 			path: src/App/Sin/Auth/Controllers/LoginController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Admin\\\\Models\\\\User\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Auth/Controllers/RegisterController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
 			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php

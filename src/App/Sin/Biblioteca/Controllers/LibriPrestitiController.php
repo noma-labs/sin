@@ -6,19 +6,13 @@ use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewLavoratoriBiblioteca;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class LibriPrestitiController extends CoreBaseController
+class LibriPrestitiController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function conclude(Request $request, $idPrestito)
     {
         $prestito = Prestito::findOrFail($idPrestito);

@@ -4,7 +4,7 @@
 
 @section("navbar-link")
 <li class="nav-item">
-    <a class="nav-link" href="{{ route("nomadelfia") }}">Nomadelfia</a>
+    <a class="nav-link" href="{{ route("nomadelfia.index") }}">Nomadelfia</a>
 </li>
 <li class="nav-item dropdown">
     <a

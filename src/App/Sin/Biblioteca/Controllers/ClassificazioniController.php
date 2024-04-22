@@ -3,16 +3,10 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Classificazione as Classificazione;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 
-class ClassificazioniController extends CoreBaseController
+class ClassificazioniController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
@@ -27,7 +21,7 @@ class ClassificazioniController extends CoreBaseController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione',
         ], [
             'descrizione.required' => 'La classificazione non può essere vuoto.',
@@ -73,7 +67,7 @@ class ClassificazioniController extends CoreBaseController
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,'.$id.',id',
         ], [
             'descrizione.required' => 'La classificazione non può essere vuoto.',

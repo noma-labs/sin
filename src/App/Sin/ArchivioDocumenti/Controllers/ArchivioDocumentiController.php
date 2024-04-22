@@ -3,10 +3,9 @@
 namespace App\ArchivioDocumenti\Controllers;
 
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 
-class ArchivioDocumentiController extends CoreBaseController
+class ArchivioDocumentiController
 {
     public function index()
     {

@@ -2,11 +2,10 @@
 
 namespace App\Rtn\Video;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Exception;
 use Illuminate\Http\Request;
 
-class VideoController extends CoreBaseController
+class VideoController
 {
     public function index()
     {

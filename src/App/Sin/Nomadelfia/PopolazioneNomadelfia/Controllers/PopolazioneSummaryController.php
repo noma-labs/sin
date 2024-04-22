@@ -2,13 +2,12 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
-class PopolazioneSummaryController extends CoreBaseController
+class PopolazioneSummaryController
 {
     public function index()
     {

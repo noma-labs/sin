@@ -2,11 +2,10 @@
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaAnagraficaController extends CoreBaseController
+class PersonaAnagraficaController
 {
     public function edit($idPersona)
     {

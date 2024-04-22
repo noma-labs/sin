@@ -2,7 +2,6 @@
 
 namespace App\Officina\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso as Uso;
@@ -15,13 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
 
-class PrenotazioniController extends CoreBaseController
+class PrenotazioniController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function searchView()
     {
         $usi = Uso::all();

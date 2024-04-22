@@ -2,7 +2,6 @@
 
 namespace App\Scuola\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Classe;
@@ -11,7 +10,7 @@ use App\Scuola\Requests\AddStudentRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class ClassiController extends CoreBaseController
+class ClassiController
 {
     public function index(int $anno_id)
     {

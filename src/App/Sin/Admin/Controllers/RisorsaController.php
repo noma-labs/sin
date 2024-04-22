@@ -2,18 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RisorsaController extends Controller
+class RisorsaController
 {
-    public function __construct()
-    {
-        $this->middleware(['role:super-admin']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +39,7 @@ class RisorsaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|max:40',
             '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);
@@ -106,7 +100,7 @@ class RisorsaController extends Controller
     public function update(Request $request, $id)
     {
         $permission = Permission::findOrFail($id);
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|max:40',
             '_belong_to_archivio' => 'required|in:biblioteca,rtn',
         ]);

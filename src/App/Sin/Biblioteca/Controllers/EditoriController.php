@@ -3,17 +3,11 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Editore as Editore;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class EditoriController extends CoreBaseController
+class EditoriController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $editori = Editore::orderBy('Editore')->paginate(150); //Get all roles
@@ -32,7 +26,7 @@ class EditoriController extends CoreBaseController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'editore' => 'required|unique:db_biblioteca.editore,Editore',
         ], [
             'editore.required' => "L'editore non può essere vuoto.",
@@ -78,7 +72,7 @@ class EditoriController extends CoreBaseController
     {
         $editore = Editore::findOrFail($id);
 
-        $this->validate($request, [
+        $request->validate([
             'editore' => 'required|unique:db_biblioteca.editore,editore,'.$id.',id',
             // 'autore'=>'required|unique:db_biblioteca.autore,Autore,'.$id.",ID_AUTORE",
         ], [

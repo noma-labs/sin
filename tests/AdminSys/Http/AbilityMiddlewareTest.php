@@ -6,29 +6,29 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Models\Role;
 
-it('no_logged_in_user_return_unhautorize', function () {
-    $middleare = app(PermissionMiddleware::class);
+it('forbids guests user', function () {
+    $middleware = app(PermissionMiddleware::class);
 
     $this->assertEquals(
         403,
-        runMiddleware($middleare, 'popolazione.persona.visualizza')
+        runMiddleware($middleware, 'popolazione.persona.visualizza')
     );
 });
 
-it('logged_in_user_return_unhautorize', function () {
-    $middleare = app(PermissionMiddleware::class);
+it('allows logged in user', function () {
+    $middleware = app(PermissionMiddleware::class);
 
     login();
 
     $this->assertEquals(
         200,
-        runMiddleware($middleare, 'popolazione.persona.visualizza')
+        runMiddleware($middleware, 'popolazione.persona.visualizza')
     );
 
 });
 
-it('loged_in_user_can_view_index', function () {
-    $this->get(action([PopolazioneSummaryController::class, 'index']))->assertForbidden();
+it('allows super-admin user to see', function () {
+    $this->get(action([PopolazioneSummaryController::class, 'index']))->assertRedirect(route('login'));
 
     $utente = Role::findByName('super-admin')->users()->first();
 

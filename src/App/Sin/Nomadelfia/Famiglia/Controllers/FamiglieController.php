@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -10,7 +9,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Exception;
 use Illuminate\Http\Request;
 
-class FamiglieController extends CoreBaseController
+class FamiglieController
 {
     public function view()
     {

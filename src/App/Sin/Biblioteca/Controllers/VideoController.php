@@ -3,16 +3,10 @@
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Video as Video;
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Illuminate\Http\Request;
 
-class VideoController extends CoreBaseController
+class VideoController
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except('search', 'searchConfirm');
-    }
-
     public function showSearchVideoForm()
     {
         return view('biblioteca.video.search');

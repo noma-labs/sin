@@ -3,18 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
-use App\Core\Controllers\BaseController as Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class UserController
 {
-    public function __construct()
-    {
-        $this->middleware(['role:super-admin']);
-    }
-
     public function index()
     {
         $users = User::with('persona', 'roles')->withTrashed()->get();
@@ -31,7 +25,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'persona_id' => 'required',
             'username' => 'required|max:20|unique:utenti',
             'password' => 'required|min:6|confirmed',
@@ -63,7 +57,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $this->validate($request, [
+        $request->validate([
             'persona_id' => 'required',
             'password' => 'required|min:6|confirmed',
         ]);

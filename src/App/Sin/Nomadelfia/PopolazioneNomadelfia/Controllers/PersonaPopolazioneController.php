@@ -2,11 +2,10 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
-class PersonaPopolazioneController extends CoreBaseController
+class PersonaPopolazioneController
 {
     public function index($idPersona)
     {

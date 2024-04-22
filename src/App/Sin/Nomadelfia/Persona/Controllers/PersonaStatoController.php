@@ -2,11 +2,10 @@
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaStatoController extends CoreBaseController
+class PersonaStatoController
 {
     public function index($idPersona)
     {

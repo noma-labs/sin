@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\Api\Controllers;
 
-use App\Core\Controllers\BaseController;
 use App\Traits\Enums;
 use Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
@@ -12,7 +11,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-class ApiController extends BaseController
+class ApiController
 {
     public function persone(Request $request)
     {

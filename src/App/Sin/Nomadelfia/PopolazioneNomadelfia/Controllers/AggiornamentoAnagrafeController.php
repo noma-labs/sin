@@ -2,10 +2,9 @@
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 
-class AggiornamentoAnagrafeController extends CoreBaseController
+class AggiornamentoAnagrafeController
 {
     public function index()
     {

@@ -2,12 +2,11 @@
 
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class GruppifamiliariController extends CoreBaseController
+class GruppifamiliariController
 {
     public function view()
     {

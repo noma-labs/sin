@@ -2,14 +2,13 @@
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class MatrimonioController extends CoreBaseController
+class MatrimonioController
 {
     public function create()
     {

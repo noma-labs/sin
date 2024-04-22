@@ -130,7 +130,7 @@
                                 familiari, Famiglie
                             </p>
                             <a
-                                href="{{ route("nomadelfia") }}"
+                                href="{{ route("nomadelfia.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi

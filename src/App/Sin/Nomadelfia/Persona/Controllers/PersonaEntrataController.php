@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Core\Controllers\BaseController as CoreBaseController;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -15,7 +14,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-class PersonaEntrataController extends CoreBaseController
+class PersonaEntrataController
 {
     public function create($idPersona)
     {
