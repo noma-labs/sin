@@ -44,8 +44,8 @@ class Veicolo extends Model
     /**
      * Return vehicles with or without bookings within a time range.
      *
-     * @param  Carbon  $data_from The start date of the date range.
-     * @param  Carbon  $data_to The end date of the date range.
+     * @param  Carbon  $data_from  The start date of the date range.
+     * @param  Carbon  $data_to  The end date of the date range.
      * @return Builder The query builder instance.
      */
     public static function withBookingsIn(Carbon $data_from, Carbon $data_to): Builder

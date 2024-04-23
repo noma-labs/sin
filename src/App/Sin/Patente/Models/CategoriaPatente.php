@@ -71,7 +71,7 @@ class CategoriaPatente extends Model
     /**
      * Ritorna le patenti che scadono entro $days giorni
      *
-     * @param  int  $days :numero di giorni entro il quale le patenti scadono.
+     * @param  int  $days  :numero di giorni entro il quale le patenti scadono.
      *
      * @author Davide Neri
      */
