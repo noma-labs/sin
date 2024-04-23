@@ -13,29 +13,29 @@ class ApiController
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
-     * @param  string  $numero della patente
+     * @param  string  $numero  della patente
      * @return string $Patente
-     * {
-     * "persona_id": number,
-     * "numero_patente": string,
-     * "rilasciata_dal": string,
-     * "data_rilascio_patente": date  "GG-MM-YYYY",
-     * "data_scadenza_patente":date "GG-MM-YYYY",
-     * "stato": enum ('commissione',NULL),
-     * "note": string,
-     * "categorie":[
-     *      {"id": number,
-     *       "categoria": string,
-     *       "descrizione": string,
-     *       "note":"string,
-     *       "pivot":{
-     *              "numero_patente": string,
-     *              "categoria_patente_id":string,
-     *              "data_rilascio":date ("2016-01-07")
-     *              "data_scadenza": date ("2021-01-05)
-     *        }
-     *       }
-     * ]}
+     *                {
+     *                "persona_id": number,
+     *                "numero_patente": string,
+     *                "rilasciata_dal": string,
+     *                "data_rilascio_patente": date  "GG-MM-YYYY",
+     *                "data_scadenza_patente":date "GG-MM-YYYY",
+     *                "stato": enum ('commissione',NULL),
+     *                "note": string,
+     *                "categorie":[
+     *                {"id": number,
+     *                "categoria": string,
+     *                "descrizione": string,
+     *                "note":"string,
+     *                "pivot":{
+     *                "numero_patente": string,
+     *                "categoria_patente_id":string,
+     *                "data_rilascio":date ("2016-01-07")
+     *                "data_scadenza": date ("2021-01-05)
+     *                }
+     *                }
+     *                ]}
      *
      * @author Davide Neri
      */
@@ -65,12 +65,12 @@ class ApiController
      *
      *
      * @return string
-     * {[
-     *  id: 16,
-     *   categoria: "C.Q.C. PERSONE",
-     *  descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
-     *  note: ""]
-     * }
+     *                {[
+     *                id: 16,
+     *                categoria: "C.Q.C. PERSONE",
+     *                descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
+     *                note: ""]
+     *                }
      *
      * @author Davide Neri
      */
@@ -100,8 +100,8 @@ class ApiController
      * Ritorna solo le categorie associate a una patente.
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
-     * @param  string  $numero numeor della patente
-     * @return array  $Patente
+     * @param  string  $numero  numeor della patente
+     * @return array $Patente
      *
      * @author Davide Neri
      **/
@@ -197,34 +197,34 @@ class ApiController
     /**
      * Aggiorna i dati di una patente
      *
-     * @param  string  $numero : numero della patente
-     * {
-     *  persona_id: null,
-     *  numero_patente: null,
-     *  rilasciata_dal :null,
-     *  data_rilascio_patente : null,
-     *  data_scadenza_patente : null,
-     *  note : null,
-     *  stato: enum ('commisione', null)
-     *  categorie: [  // array delle nuove categorie assegnate alla patente
-     *      {
-     *         categoria:"A"
-     *         id:4
-     *         pivot:{
-     *               data_rilascio:"2018-10-03"
-     *               data_scadenza:"2018-10-10"
-     *           }
-     *        },
-     *     ....
-     *  ],
-     * 'cqc' :[
-     *        { 'id': int,
-     *          pivot : {'data_rilascio': date
-     *                  'data_scadenza': date
-     *          }
-     *      }
-     *   ]
-     *               },
+     * @param  string  $numero  : numero della patente
+     *                          {
+     *                          persona_id: null,
+     *                          numero_patente: null,
+     *                          rilasciata_dal :null,
+     *                          data_rilascio_patente : null,
+     *                          data_scadenza_patente : null,
+     *                          note : null,
+     *                          stato: enum ('commisione', null)
+     *                          categorie: [  // array delle nuove categorie assegnate alla patente
+     *                          {
+     *                          categoria:"A"
+     *                          id:4
+     *                          pivot:{
+     *                          data_rilascio:"2018-10-03"
+     *                          data_scadenza:"2018-10-10"
+     *                          }
+     *                          },
+     *                          ....
+     *                          ],
+     *                          'cqc' :[
+     *                          { 'id': int,
+     *                          pivot : {'data_rilascio': date
+     *                          'data_scadenza': date
+     *                          }
+     *                          }
+     *                          ]
+     *                          },
      *
      * @author Davide Neri
      **/
@@ -302,11 +302,11 @@ class ApiController
      * }
      *
      * @return string
-     *      {
-     *        'err': 0 | 1,
-     *        "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server
-     *        "data": Object   // ot er data
-     *        }
+     *                {
+     *                'err': 0 | 1,
+     *                "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server
+     *                "data": Object   // ot er data
+     *                }
      *
      * @author Davide Neri
      **/
