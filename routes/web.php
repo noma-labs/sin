@@ -196,6 +196,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::view('/', 'biblioteca.index')->withoutMiddleware('auth')->name('biblioteca');
     Route::get('libri', [LibriController::class, 'showSearchLibriForm'])->withoutMiddleware('auth')->name('libri.ricerca');
     Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->withoutMiddleware('auth')->name('libri.ricerca.submit');
+    Route::get('etichette/preview', [EtichetteController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
+
     Route::get('libri/{idLibro}/collocazione', [LibriController::class, 'showEditCollocazioneForm'])->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
     Route::post('libri/{idLibro}/collocazione/update', [LibriController::class, 'updateCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update');
     Route::post('libri/{idLibro}/confirm', [LibriController::class, 'confirmCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update.confirm');
@@ -224,7 +226,6 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::post('etichette/add/{idLibro}', [EtichetteController::class, 'addLibro'])->middleware('can:biblioteca.etichetta.inserisci')->name('libri.etichette.aggiungi.libro');
     Route::post('etichette/remove', [EtichetteController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi');
     Route::post('etichette/remove/{idLibro}', [EtichetteController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
-    Route::get('etichette/preview', [EtichetteController::class, 'preview'])->name('libri.etichette.preview'); //->middleware('can:biblioteca.etichetta.visualizza')
     Route::get('etichette/print', [EtichetteController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
 
     Route::group([
