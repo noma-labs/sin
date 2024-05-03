@@ -116,21 +116,13 @@ class Persona extends Model
         return $this->sesso == 'M';
     }
 
-    public static function NumeroElencoPrefixByLetter(string $lettera): array
+    public static function NumeroElencoPrefixByLetter(string $lettera)
     {
-
-        $expression = DB::raw('select persone.* , left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer) as numero from persone where numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null order by numero desc limit 1');
-        $res = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera]
-        );
-
-        return $res;
-
-        //        $query->select("*", "CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero") //$expression->getValue(DB::connection()->getQueryGrammar()))
-        //            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
-        //                ['^[a-zA-Z].*[0-9]$', $lettera])
-        //            ->orderBy('numero', 'DESC');
+        return DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->select(DB::raw('persone.nome, persone.cognome, persone.numero_elenco'))
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera])
+            ->orderBy('numero_elenco', 'DESC');
     }
 
     /**

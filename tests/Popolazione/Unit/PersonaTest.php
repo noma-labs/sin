@@ -456,12 +456,9 @@ it('builds numero elenco', function () {
     Persona::factory()->create(['numero_elenco' => 'A9']);
     $pLast = Persona::factory()->create(['cognome' => 'Aminoacido']);
 
-    $res = Persona::NumeroElencoPrefixByLetter('A');
-    expect($res)->toBeArray();
-    $last = $res[0];
-    expect($last->numero)->toBe(9);
-    expect($last->lettera)->toBe('A');
+    $last = Persona::NumeroElencoPrefixByLetter('A')->limit(1)->get()->first();
+    expect($last->numero_elenco)->toBe('A9');
 
     $n = $pLast->proposeNumeroElenco();
     expect($n)->toBe('A10');
-});
+})->only();

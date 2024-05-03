@@ -11,7 +11,7 @@ class PersonaNumeroElencoController
     {
         $persona = Persona::findOrFail($idPersona);
         $first = $persona->getInitialLetterOfCogonome();
-        $assegnati = Persona::NumeroElencoPrefixByLetter($first);
+        $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
         $propose = $persona->proposeNumeroElenco();
 
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
