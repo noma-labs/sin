@@ -118,11 +118,11 @@ class Persona extends Model
 
     public static function NumeroElencoPrefixByLetter(string $lettera)
     {
-        return  DB::connection('db_nomadelfia')
-                ->table('persone')
-                ->select(DB::raw('persone.nome, persone.cognome, persone.numero_elenco'))
-                ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera] )
-                ->orderBy('numero_elenco', 'DESC');
+        return DB::connection('db_nomadelfia')
+            ->table('persone')
+            ->select(DB::raw('persone.nome, persone.cognome, persone.numero_elenco'))
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera])
+            ->orderBy('numero_elenco', 'DESC');
     }
 
     /**
