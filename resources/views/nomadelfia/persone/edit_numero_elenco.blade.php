@@ -24,7 +24,7 @@
                                 @if (count($assegnati) > 0)
                                     <select class="form-control">
                                         @foreach ($assegnati as $p)
-                                            <option value="{{ $p }}">
+                                            <option>
                                                 {{ $p->numero_elenco }}
                                                 {{ $p->nome }}
                                                 {{ $p->cognome }}
