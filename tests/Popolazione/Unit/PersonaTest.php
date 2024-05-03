@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
+use Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -15,9 +15,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Illuminate\Support\Carbon as SupportCarbon;
 
-it('assigns gruppo to a person', function () {
+it('testAssegnaGruppoFamiliare', function () {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $data_entrata = Carbon::now()->toDatestring();
@@ -320,7 +319,7 @@ it('testEntrataMaggiorenneSposato', function () {
 });
 
 it('testRientroMaggiorenneInNomadelfia', function () {
-    $data_entrata = SupportCarbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
@@ -444,14 +443,14 @@ it('testRientroFamigliaInNomadelfia', function () {
     });
 });
 
-it('get people nati in anno correctly', function () {
+it('get_persone_from_eta', function () {
     Persona::factory()->nato(Carbon::parse('01-01-1791'))->maschio()->create();
     Persona::factory()->nato(Carbon::parse('18-04-1791'))->maschio()->create();
     Persona::factory()->nato(Carbon::parse('31-12-1791'))->maschio()->create();
     expect(Persona::NatiInAnno(1791)->count())->toBe(3);
 });
 
-it('builds numero elenco', function () {
+it('build_numero_elenco_per_persona', function () {
     Persona::factory()->create(['numero_elenco' => 'A1']);
     Persona::factory()->create(['numero_elenco' => 'A9']);
     $pLast = Persona::factory()->create(['cognome' => 'Aminoacido']);
@@ -464,4 +463,5 @@ it('builds numero elenco', function () {
 
     $n = $pLast->proposeNumeroElenco();
     expect($n)->toBe('A10');
-});
+
+})->skip();

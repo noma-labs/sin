@@ -142,8 +142,10 @@ class Persona extends Model
             throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
         }
         $firstLetter = Str::substr($this->cognome, 0, 1);
-        $res = $this->select( DB::raw('left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',['^[a-zA-Z].*[0-9]$', $firstLetter])
+        $expression = DB::raw('persone.*, left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero');
+        $res = $this->select($expression->getValue(DB::connection()->getQueryGrammar()))
+            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?',
+                ['^[a-zA-Z].*[0-9]$', $firstLetter])
             ->orderBy('numero', 'DESC')
             ->first();
         if ($res) {
