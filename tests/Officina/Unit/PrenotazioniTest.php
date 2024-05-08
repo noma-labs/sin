@@ -116,7 +116,6 @@ it('return correct bookings', function () {
     expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-10 08:00'), Carbon::parse('2024-04-12 08:00'))->get())->toHaveCount(1);
 });
 
-
 it('allow booking a vehicle with a deleted booking', function () {
     testTime()->freeze('2024-04-11 12:00:00');
 
