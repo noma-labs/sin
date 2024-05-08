@@ -461,4 +461,4 @@ it('builds numero elenco', function () {
 
     $n = $pLast->proposeNumeroElenco();
     expect($n)->toBe('A10');
-})->only();
+});
