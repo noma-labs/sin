@@ -65,6 +65,7 @@ class Prenotazioni extends Model
         return DB::connection('db_officina')
             ->table('prenotazioni')
             ->select('*')
+            ->whereNull('deleted_at')
             ->where('data_partenza', '=', $data_from->toDateString())
             ->where('data_arrivo', '=', $data_to->toDateString())
             ->where(function ($query) use ($data_from, $data_to) {
