@@ -1956,11 +1956,6 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:findorfail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
@@ -1971,13 +1966,8 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
-			count: 4
+			count: 2
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
@@ -2003,11 +1993,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:take\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
-			message: "#^Call to static method make\\(\\) on an unknown class Validator\\.$#"
-			count: 2
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-

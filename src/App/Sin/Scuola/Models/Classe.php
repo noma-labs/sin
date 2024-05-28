@@ -84,7 +84,7 @@ class Classe extends Model
         return $this->tipo->classeSuccessiva();
     }
 
-    public function aggiungiCoordinatore(Persona $persona, $data_inizio, $tipo = null)
+    public function aggiungiCoordinatore(Persona|int $persona, $data_inizio, $tipo = null)
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno()->first()->data_inizio;

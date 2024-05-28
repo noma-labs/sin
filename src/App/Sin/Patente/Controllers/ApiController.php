@@ -319,7 +319,7 @@ class ApiController
         $patente->numero_patente = $body['numero_patente'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->rilasciata_dal = $body['rilasciata_dal'];
+        $patente->rilasciata_dal = "test";
         $patente->note = $body['note'];
         $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
 

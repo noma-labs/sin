@@ -298,9 +298,7 @@ Route::prefix('patente')->middleware('auth')->group(function () {
     Route::get('/search', [PatenteController::class, 'ricerca'])->name('patente.ricerca.conferma');
     Route::get('modifica/{id}', [PatenteController::class, 'modifica'])->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica');
     Route::get('elimina/{id}', [PatenteController::class, 'elimina'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
-    Route::post('modifica/{id}', [PatenteController::class, 'confermaModifica'])->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica.conferma');
     Route::get('inserimento', [PatenteController::class, 'inserimento'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento');
-    Route::post('inserimento', [PatenteController::class, 'confermaInserimento'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento.conferma');
 });
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
