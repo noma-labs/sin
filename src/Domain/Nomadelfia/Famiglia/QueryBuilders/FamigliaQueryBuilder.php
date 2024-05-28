@@ -3,11 +3,12 @@
 namespace Domain\Nomadelfia\Famiglia\QueryBuilders;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 class FamigliaQueryBuilder extends Builder
 {
-    public function notAlreadyMarried(): Illuminate\Database\Query\Builder
+    public function notAlreadyMarried(): QueryBuilder
     {
 
         return $this->select('persone.nominativo as nome_famiglia', 'persone.*')
@@ -24,7 +25,7 @@ class FamigliaQueryBuilder extends Builder
 
     }
 
-    public function single(): FamigliaQueryBuilder
+    public function single(): QueryBuilder
     {
 
         return $this->select('persone.nominativo as nome_famiglia', 'persone.*')
@@ -40,17 +41,17 @@ class FamigliaQueryBuilder extends Builder
 
     }
 
-    public function male(): FamigliaQueryBuilder
+    public function male(): QueryBuilder
     {
         return $this->where('persone.sesso', 'M');
     }
 
-    public function female(): FamigliaQueryBuilder
+    public function female(): QueryBuilder
     {
         return $this->where('persone.sesso', 'F');
     }
 
-    public function maggiorenni(): FamigliaQueryBuilder
+    public function maggiorenni(): QueryBuilder
     {
         $data = Carbon::now()->subYears(18)->toDatestring();
 
