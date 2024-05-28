@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FamigliaQueryBuilder extends Builder
 {
-    public function notAlreadyMarried(): FamigliaQueryBuilder
+    public function notAlreadyMarried(): Illuminate\Database\Query\Builder
     {
 
         return $this->select('persone.nominativo as nome_famiglia', 'persone.*')

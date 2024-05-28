@@ -6,6 +6,7 @@ use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use App\Patente\Models\ViewClientiConSenzaPatente;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ApiController
@@ -101,7 +102,7 @@ class ApiController
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
      * @param  string  $numero  numeor della patente
-     * @return array $Patente
+     * @return JsonResponse
      *
      * @author Davide Neri
      **/
