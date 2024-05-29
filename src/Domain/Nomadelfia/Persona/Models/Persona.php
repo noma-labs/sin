@@ -243,7 +243,7 @@ class Persona extends Model
         } elseif ($gruppo->count() == 0) {
             return null;
         } else {
-            throw PersonaHasMultipleGroup::named($this->nominativo);
+            throw PersonaHasMultipleGroup::named($this);
         }
     }
 
@@ -444,17 +444,13 @@ class Persona extends Model
 
     public function incarichiPossibili()
     {
-        $attuali = collect($this->incarichiAttuali()->get());
-        $multiplied = $attuali->map(function (Incarico $item) {
-            return $item->id;
-        });
-        if ($attuali != null) {
+        $multiplied = $this->incarichiAttuali()->get()->pluck('id');
+        if ($multiplied != null) {
             $attuali = Incarico::whereNotIn('id', $multiplied)->get();
-
             return $attuali;
         }
 
-        return $attuali;
+        return $multiplied;
     }
 
     public function assegnaLavoratoreIncarico($azienda, Carbon\Carbon $data_inizio)

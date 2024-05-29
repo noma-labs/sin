@@ -2,13 +2,13 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use InvalidArgumentException;
 
 class PersonaHasMultipleGroup extends InvalidArgumentException
 {
-    public static function named(GruppoFamiliare $gruppo): PersonaHasMultipleGroup
+    public static function named(Persona $persona): PersonaHasMultipleGroup
     {
-        return new self("Il gruppo `{$gruppo->nome}` ha più di un capogruppo.");
+        return new self("La persona `{$persona->nominativo}` ha più di un gruppp familiare associato.");
     }
 }

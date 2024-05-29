@@ -4,6 +4,7 @@ namespace Domain\Nomadelfia\Famiglia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
+use App\Nomadelfia\Exceptions\FamigliaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Traits\Enums;
@@ -102,7 +103,7 @@ class Famiglia extends Model
     public static function conCapofamiglia()
     {
         $expression = DB::raw("SELECT famiglie.*
-              FROM `famiglie` 
+              FROM `famiglie`
               INNER JOIN famiglie_persone on famiglie_persone.famiglia_id = famiglie.id
               WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'
               ORDER BY famiglie.nome_famiglia");
@@ -202,7 +203,7 @@ class Famiglia extends Model
         } elseif ($res->count() == 0) {
             return null;
         } else {
-            throw PersonaHasMultipleGroup::named($this->nome_famiglia);
+            throw FamigliaHasMultipleGroup::named($this);
         }
     }
 
@@ -239,10 +240,10 @@ class Famiglia extends Model
 
     public function mycomponenti()
     {
-        $expresson = DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita  
-                    FROM famiglie 
-                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id 
-                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id 
+        $expresson = DB::raw('SELECT famiglie.id, famiglie_persone.*, persone.id, persone.nominativo, persone.data_nascita
+                    FROM famiglie
+                    INNER JOIN famiglie_persone ON famiglie_persone.famiglia_id = famiglie.id
+                    INNER JOIN persone ON persone.id = famiglie_persone.persona_id
                     WHERE famiglie.id = :famiglia
                     ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia');
         $res = DB::connection('db_nomadelfia')->select(
@@ -489,7 +490,7 @@ class Famiglia extends Model
                              INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
                              WHERE fp.stato = '1' and pop.data_uscita is NULL
                              GROUP BY f.id
-                             HAVING componenti >= :minc 
+                             HAVING componenti >= :minc
                              ORDER BY componenti DESC
                     ) select ff.*, famiglie_numerose.componenti
                     from famiglie_numerose
@@ -536,7 +537,7 @@ class Famiglia extends Model
                       #INNER join gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
                       WHERE famiglie_persone.famiglia_id = :famigliaId  AND famiglie_persone.stato = '1' #AND gruppi_persone.stato = '1'
                 )
-                    
+
                 AND gruppi_persone.stato = '1' ");
 
             DB::connection('db_nomadelfia')->update(
@@ -583,7 +584,7 @@ class Famiglia extends Model
                   FROM famiglie_persone
                   WHERE famiglie_persone.stato = '1'
                   GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
-              ) AS g 
+              ) AS g
               INNER JOIN famiglie ON famiglie.id = g.famiglia_id
               WHERE (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
         );
@@ -612,7 +613,7 @@ class Famiglia extends Model
         ]);
         $expression = DB::raw("
       SELECT famiglie.*
-      FROM  famiglie 
+      FROM  famiglie
       WHERE famiglie.id NOT IN (
            SELECT famiglie_persone.famiglia_id
            FROM famiglie_persone

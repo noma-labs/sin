@@ -35,9 +35,9 @@ final class ExifReader
     }
 
     /**
-     * @param  null  $sourcePath
+     * @param  string  $sourcePath
      */
-    public function setSourcePath($sourcePath): ExifReader
+    public function setSourcePath(string $sourcePath): ExifReader
     {
         $this->sourcePath = $sourcePath;
 
