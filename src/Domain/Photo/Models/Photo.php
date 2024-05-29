@@ -27,7 +27,7 @@ class Photo extends Model
         'taken_at' => 'datetime',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): PhotoFactory
     {
         return PhotoFactory::new();
     }
