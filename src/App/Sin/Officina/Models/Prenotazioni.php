@@ -66,27 +66,29 @@ class Prenotazioni extends Model
             ->table('prenotazioni')
             ->select('*')
             ->whereNull('deleted_at')
-            ->where('data_partenza', '=', $data_from->toDateString())
-            ->where('data_arrivo', '=', $data_to->toDateString())
             ->where(function ($query) use ($data_from, $data_to) {
-                $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
-            })
-            ->orWhere(function ($query) use ($data_to, $data_from) {
-                // prenotazione che partono nei giorni precedenti e finiscono il giorno della partenza
-                // con ora di arrivo maggiore dell' ora di inizio prenotazione
-                $query->where('data_arrivo', '=', $data_to->toDateString())
-                    ->where('data_partenza', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
-                    ->where('ora_arrivo', '>', $data_from->format('H:i'));
-            })
-            ->orWhere(function ($query) use ($data_to) {
-                $query->where('data_partenza', '=', $data_to->toDateString())
-                    ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
-                    ->where('ora_partenza', '<', $data_to->format('H:i'));
-            })
-                //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
-            ->orWhere(function ($query) use ($data_from, $data_to) {
-                $query->where('data_partenza', '<', $data_to->toDateString())
-                    ->where('data_arrivo', '>', $data_from->toDateString());
+                $query->where('data_partenza', '=', $data_from->toDateString())
+                    ->where('data_arrivo', '=', $data_to->toDateString())
+                    ->where(function ($query) use ($data_from, $data_to) {
+                        $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
+                    })
+                    ->orWhere(function ($query) use ($data_to, $data_from) {
+                        // prenotazione che partono nei giorni precedenti e finiscono il giorno della partenza
+                        // con ora di arrivo maggiore dell' ora di inizio prenotazione
+                        $query->where('data_arrivo', '=', $data_to->toDateString())
+                            ->where('data_partenza', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
+                            ->where('ora_arrivo', '>', $data_from->format('H:i'));
+                    })
+                    ->orWhere(function ($query) use ($data_to) {
+                        $query->where('data_partenza', '=', $data_to->toDateString())
+                            ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
+                            ->where('ora_partenza', '<', $data_to->format('H:i'));
+                    })
+                    //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
+                    ->orWhere(function ($query) use ($data_from, $data_to) {
+                        $query->where('data_partenza', '<', $data_to->toDateString())
+                            ->where('data_arrivo', '>', $data_from->toDateString());
+                    });
             });
     }
 
