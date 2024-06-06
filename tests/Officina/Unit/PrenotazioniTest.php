@@ -132,3 +132,21 @@ it('allow booking a vehicle with a deleted booking', function () {
 
     expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-11 07:00'), Carbon::parse('2024-04-11 09:00'))->get())->toHaveCount(0);
 });
+
+
+it('allow booking a vehicle with a deleted booking spanning multiple days', function () {
+    testTime()->freeze('2024-04-11 12:00:00');
+
+    $veicolo = Veicolo::factory()->create();
+
+    $booking = Prenotazioni::factory()
+        ->veicolo($veicolo)
+        ->prenotata(Carbon::parse('2024-04-10 08:00'), Carbon::parse('2024-04-20 09:00'))
+        ->create();
+
+    expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-11 07:00'), Carbon::parse('2024-04-11 09:00'))->get())->toHaveCount(1);
+
+    $booking->delete();
+
+    expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-11 07:00'), Carbon::parse('2024-04-11 09:00'))->get())->toHaveCount(0);
+});
