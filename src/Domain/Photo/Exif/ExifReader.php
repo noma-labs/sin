@@ -34,9 +34,6 @@ final class ExifReader
         return (new ExifReader())->setSourcePath($folder)->recursively();
     }
 
-    /**
-     * @param  string  $sourcePath
-     */
     public function setSourcePath(string $sourcePath): ExifReader
     {
         $this->sourcePath = $sourcePath;

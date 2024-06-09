@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Domain\Photo\Actions\ExtractExifAction;
 use Domain\Photo\Actions\StoreExifIntoDBAction;
-use Domain\Photo\Models\Photo;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +35,7 @@ class ExifExtractCommand extends Command
     {
         $path = $this->argument('path');
         $saveToDb = $this->option('save');
-        $limit = (int)$this->option('limit');
+        $limit = (int) $this->option('limit');
 
         $fileName = (new ExtractExifAction())->execute($path);
 

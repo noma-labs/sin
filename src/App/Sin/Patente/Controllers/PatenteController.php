@@ -14,7 +14,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Spatie\Browsershot\Browsershot;
-use Validator;
 
 class PatenteController
 {
@@ -406,5 +405,4 @@ class PatenteController
 
         return view('patente.inserimento', compact('categorie', 'persone'));
     }
-
 }

@@ -6,7 +6,6 @@ use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\FamigliaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
-use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Traits\Enums;
 use Carbon;
 use Database\Factories\FamigliaFactory;

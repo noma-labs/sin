@@ -8,7 +8,6 @@ class EventServiceProvider extends ServiceProvider
 {
     /**
      * The event listener mappings for the application.
-     *
      */
     protected $listen = [
         'App\Events\Event' => [

@@ -447,6 +447,7 @@ class Persona extends Model
         $multiplied = $this->incarichiAttuali()->get()->pluck('id');
         if ($multiplied != null) {
             $attuali = Incarico::whereNotIn('id', $multiplied)->get();
+
             return $attuali;
         }
 

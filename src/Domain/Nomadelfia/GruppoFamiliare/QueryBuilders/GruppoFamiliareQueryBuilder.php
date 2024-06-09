@@ -4,11 +4,10 @@ namespace Domain\Nomadelfia\GruppoFamiliare\QueryBuilders;
 
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class GruppoFamiliareQueryBuilder extends Builder
 {
-    public function single(GruppoFamiliare $gruppo): QueryBuilder
+    public function single(GruppoFamiliare $gruppo): GruppoFamiliareQueryBuilder
     {
         return $this->select('persone.*')
             ->from('persone')
@@ -25,7 +24,7 @@ class GruppoFamiliareQueryBuilder extends Builder
             ->orderBy('persone.nominativo');
     }
 
-    public function families(GruppoFamiliare $gruppo): QueryBuilder
+    public function families(GruppoFamiliare $gruppo): GruppoFamiliareQueryBuilder
     {
         return $this->select('famiglie_persone.famiglia_id', 'famiglie.nome_famiglia', 'persone.id as persona_id', 'persone.nominativo', 'famiglie_persone.posizione_famiglia', 'persone.data_nascita')
             ->from('gruppi_persone')

@@ -50,7 +50,7 @@ class Anno extends Model
     {
         $as = Str::of($this->scolastico)->explode('/');
 
-        return $this->buildAsString((int)$as[1]);
+        return $this->buildAsString((int) $as[1]);
     }
 
     public function annoSolareInizio()
