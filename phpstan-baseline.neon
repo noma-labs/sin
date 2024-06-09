@@ -2021,6 +2021,11 @@ parameters:
 			path: src/App/Sin/Patente/Models/Patente.php
 
 		-
+			message: "#^Method App\\\\Rtn\\\\Video\\\\VideoQueryBuilder\\:\\:byYear\\(\\) should return App\\\\Rtn\\\\Video\\\\VideoQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/App/Sin/Rtn/Video/VideoQueryBuilder.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Controllers/ApiController.php
@@ -2356,6 +2361,16 @@ parameters:
 			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder\\:\\:notAlreadyMarried\\(\\) should return Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder\\:\\:single\\(\\) should return Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
@@ -2364,6 +2379,16 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder\\:\\:families\\(\\) should return Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/QueryBuilders/GruppoFamiliareQueryBuilder.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder\\:\\:single\\(\\) should return Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/QueryBuilders/GruppoFamiliareQueryBuilder.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
