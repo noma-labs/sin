@@ -38,18 +38,18 @@ class AggiornamentoAnagrafe extends Activity
 
     }
 
-    public function isEnterEvent(): string
+    public function isEnterEvent(): bool
     {
         return $this->event === self::EVENT_POPOLAZIONE_ENTER;
     }
 
-    public function isExitEvent(): string
+    public function isExitEvent(): bool
     {
         return $this->event === self::EVENT_POPOLAZIONE_EXIT;
 
     }
 
-    public function isDeathEvent(): string
+    public function isDeathEvent(): bool
     {
         return $this->event === self::EVENT_POPOLAZIONE_DEATH;
     }

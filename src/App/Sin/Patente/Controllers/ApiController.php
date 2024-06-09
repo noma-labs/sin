@@ -6,6 +6,7 @@ use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use App\Patente\Models\ViewClientiConSenzaPatente;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ApiController
@@ -101,7 +102,7 @@ class ApiController
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
      * @param  string  $numero  numeor della patente
-     * @return array $Patente
+     * @return JsonResponse
      *
      * @author Davide Neri
      **/
@@ -318,7 +319,7 @@ class ApiController
         $patente->numero_patente = $body['numero_patente'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->rilasciata_dal = $body['rilasciata_dal'];
+        $patente->rilasciata_dal = 'test';
         $patente->note = $body['note'];
         $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
 

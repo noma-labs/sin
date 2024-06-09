@@ -34,10 +34,7 @@ final class ExifReader
         return (new ExifReader())->setSourcePath($folder)->recursively();
     }
 
-    /**
-     * @param  null  $sourcePath
-     */
-    public function setSourcePath($sourcePath): ExifReader
+    public function setSourcePath(string $sourcePath): ExifReader
     {
         $this->sourcePath = $sourcePath;
 
@@ -231,11 +228,12 @@ final class ExifReader
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
-        foreach (($this->callExifTool($command)) as $line) {
-            yield $line;
-        }
+        yield $this->callExifTool($command);
+        // foreach (($this->callExifTool($command)) as $line) {
+        //     yield $line;
+        // }
 
-        return '';
+        // return '';
     }
 
     public function createExifToolCommand($targetPath = null): array

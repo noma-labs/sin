@@ -16,11 +16,6 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * A list of the exception types that should not be reported.
-     *
-     * @var array
-     */
     protected $dontReport = [
         AuthenticationException::class,
         AuthorizationException::class,
@@ -56,7 +51,6 @@ class Handler extends ExceptionHandler
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param  Request  $request
-     * @return Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {

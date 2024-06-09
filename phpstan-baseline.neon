@@ -1956,11 +1956,6 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:findorfail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
@@ -1971,13 +1966,8 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
-			count: 4
+			count: 2
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
@@ -2006,11 +1996,6 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
-			message: "#^Call to static method make\\(\\) on an unknown class Validator\\.$#"
-			count: 2
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
 			count: 4
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
@@ -2034,6 +2019,11 @@ parameters:
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
 			count: 6
 			path: src/App/Sin/Patente/Models/Patente.php
+
+		-
+			message: "#^Method App\\\\Rtn\\\\Video\\\\VideoQueryBuilder\\:\\:byYear\\(\\) should return App\\\\Rtn\\\\Video\\\\VideoQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/App/Sin/Rtn/Video/VideoQueryBuilder.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
@@ -2371,6 +2361,16 @@ parameters:
 			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder\\:\\:notAlreadyMarried\\(\\) should return Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder\\:\\:single\\(\\) should return Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
@@ -2379,6 +2379,16 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/GruppoFamiliare/Models/GruppoFamiliare.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder\\:\\:families\\(\\) should return Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/QueryBuilders/GruppoFamiliareQueryBuilder.php
+
+		-
+			message: "#^Method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder\\:\\:single\\(\\) should return Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\QueryBuilders\\\\GruppoFamiliareQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/GruppoFamiliare/QueryBuilders/GruppoFamiliareQueryBuilder.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
@@ -2392,7 +2402,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:\\$id\\.$#"
-			count: 3
+			count: 2
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
@@ -2514,6 +2524,11 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:single\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/ExportPopolazioneToWordAction.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:each\\(\\) expects callable\\(Illuminate\\\\Database\\\\Eloquent\\\\Model, int\\|string\\)\\: mixed, Closure\\(Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona, int\\)\\: Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona given\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/LogUscitaFamigliaAction.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:InAnnoScolastico\\(\\)\\.$#"

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Domain\Photo\Actions\ExtractExifAction;
 use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ExifExtractCommand extends Command
 {
@@ -13,8 +14,8 @@ class ExifExtractCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'exif:extract 
-                                    {path : The path (sub folder of the base app path) where the photos are} 
+    protected $signature = 'exif:extract
+                                    {path : The path (sub folder of the base app path) where the photos are}
                                     {--save : Save the result into the database}}
                                     { --limit=10}';
 
@@ -34,7 +35,7 @@ class ExifExtractCommand extends Command
     {
         $path = $this->argument('path');
         $saveToDb = $this->option('save');
-        $limit = $this->option('limit');
+        $limit = (int) $this->option('limit');
 
         $fileName = (new ExtractExifAction())->execute($path);
 
@@ -43,11 +44,10 @@ class ExifExtractCommand extends Command
         if ($saveToDb) {
             $photos = (new StoreExifIntoDBAction())->execute($fileName);
 
+            $photos = DB::connection('db_foto')->table('photos')->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')->limit($limit)->orderby('created_at', 'DESC')->get();
             $this->table(
                 ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-                collect($photos)
-                    ->take($limit)
-                    ->map(fn ($r) => [$r->folderTitle, $r->fileName, $r->sha, $r->getSubjects(), $r->takenAt])->toArray()
+                $photos->toArray()
             );
         }
 
