@@ -528,7 +528,7 @@ class Persona extends Model
     public function getDataUscitaNomadelfia()
     {
 
-        $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->whereNotNull('data_uscita');
+        $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_uscita', 'DESC')->whereNotNull('data_uscita');
         if ($pop->count() > 0) {
             return $pop->first()->data_uscita;
         }
