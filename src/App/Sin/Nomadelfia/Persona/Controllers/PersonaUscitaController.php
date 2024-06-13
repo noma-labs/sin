@@ -11,13 +11,13 @@ class PersonaUscitaController
 {
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_uscita' => 'required',
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        if ($persona->isMoglie() or $persona->isCapofamiglia()) {
+        if ($persona->isMoglie() || $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $act = app(UscitaPersonaAction::class);
@@ -30,7 +30,7 @@ class PersonaUscitaController
 
     public function update(Request $request, $idPersona, $uscita)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_uscita' => 'date',
         ], [
             'data_uscita.date' => 'La data uscita non è valida.',

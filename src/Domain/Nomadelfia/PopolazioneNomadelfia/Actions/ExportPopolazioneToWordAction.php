@@ -176,7 +176,7 @@ class ExportPopolazioneToWordAction
             $famiglieSect = $phpWord->addSection($colStyle4NCont);
             $famiglieSect->addPageBreak();
             $famiglieSect->addTitle('Famiglie '.count($data->famiglie), 1);
-            foreach ($data->famiglie as $id => $componenti) {
+            foreach ($data->famiglie as $componenti) {
                 $famiglieSect->addTextBreak(1);
                 foreach ($componenti as $componente) {
                     if (! Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
@@ -200,7 +200,7 @@ class ExportPopolazioneToWordAction
                 foreach (GruppoFamiliare::single($gruppo)->get() as $single) {
                     $gruppiSect->addTitle($single->nominativo, 3);
                 }
-                foreach (collect(GruppoFamiliare::families($gruppo)->get())->groupBy('famiglia_id') as $famiglia_id => $componenti) {
+                foreach (collect(GruppoFamiliare::families($gruppo)->get())->groupBy('famiglia_id') as $componenti) {
                     $gruppiSect->addTextBreak(1);
                     foreach ($componenti as $componente) {
                         if (! Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {

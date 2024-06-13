@@ -67,7 +67,7 @@ class EntrataPersonaAction
                 [$entrataPersonaData->gruppoFamiliare->id, $persona_id, $entrataPersonaData->gruppo_data]
             );
 
-            if ($entrataPersonaData->stato) {
+            if ($entrataPersonaData->stato instanceof \Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato) {
                 // inserisce lo stato familiare di Celibe o Nubile
                 // NOTE: ignora perchè lo stato di celibe o nubile rimane
                 $conn->insert(
@@ -77,7 +77,7 @@ class EntrataPersonaAction
             }
 
             // inserisce la persona nella famiglia con una posizione
-            if ($entrataPersonaData->famiglia) {
+            if ($entrataPersonaData->famiglia instanceof \Domain\Nomadelfia\Famiglia\Models\Famiglia) {
                 // NOTE: se la persone è già nella famiglia (è duplicato) si aggiorna lo stato a 1 con la nuova data
                 $conn->insert("INSERT INTO famiglie_persone (famiglia_id, persona_id, posizione_famiglia, stato) VALUES (?, ?, ?, '1')  ON DUPLICATE KEY UPDATE stato='1'",
                     [

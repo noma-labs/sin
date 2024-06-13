@@ -21,7 +21,7 @@ class PrenotazioniController
         $usi = Uso::all();
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
 
-        return view('officina.prenotazioni.search', compact('clienti', 'usi'));
+        return view('officina.prenotazioni.search', ['clienti' => $clienti, 'usi' => $usi]);
     }
 
     public function search(Request $request)
@@ -68,13 +68,13 @@ class PrenotazioniController
             if ($ds) { // ricerca tutte le prenotazione che contengono in singolo giorno
                 $q->where('data_arrivo', '>=', $ds);
                 $q->where('data_partenza', '<=', $ds);
-                $msgSearch = $msgSearch." Data Partenza  <= $ds  <=  Data arrivo";
+                $msgSearch .= " Data Partenza  <= $ds  <=  Data arrivo";
             } else {
-                if ($cdp and $dp) {
+                if ($cdp && $dp) {
                     $q->where('data_partenza', $cdp, $dp);
                     $msgSearch = $msgSearch.' Data Partenza'.$cdp.$dp;
                 }
-                if ($cda and $da) {
+                if ($cda && $da) {
                     $q->where('data_arrivo', $cda, $da);
                     $msgSearch = $msgSearch.' Data Partenza'.$cda.$da;
                 }
@@ -102,7 +102,7 @@ class PrenotazioniController
         $usi = Uso::all();
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
 
-        return view('officina.prenotazioni.search_results', compact('clienti', 'usi', 'prenotazioni', 'msgSearch'));
+        return view('officina.prenotazioni.search_results', ['clienti' => $clienti, 'usi' => $usi, 'prenotazioni' => $prenotazioni, 'msgSearch' => $msgSearch]);
     }
 
     public function prenotazioni(Request $request)
@@ -146,11 +146,7 @@ class PrenotazioniController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        return view('officina.prenotazioni.index', compact('clienti',
-            'usi',
-            'meccanici',
-            'prenotazioni',
-            'day'));
+        return view('officina.prenotazioni.index', ['clienti' => $clienti, 'usi' => $usi, 'meccanici' => $meccanici, 'prenotazioni' => $prenotazioni, 'day' => $day]);
     }
 
     public function prenotazioniSucc(Request $request)
@@ -206,7 +202,7 @@ class PrenotazioniController
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
-        return view('officina.prenotazioni.modifica', compact('pren', 'clienti', 'usi', 'meccanici'));
+        return view('officina.prenotazioni.modifica', ['pren' => $pren, 'clienti' => $clienti, 'usi' => $usi, 'meccanici' => $meccanici]);
     }
 
     public function update(Request $request, $id)
@@ -257,6 +253,6 @@ class PrenotazioniController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        return view('officina.prenotazioni.all', compact('prenotazioni'));
+        return view('officina.prenotazioni.all', ['prenotazioni' => $prenotazioni]);
     }
 }

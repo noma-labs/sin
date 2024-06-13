@@ -246,15 +246,15 @@ class ApiController
         // from  [ {categoria:"A", id: 4, pivot: { data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }}, ...]
         // to    [ id => ['data_rilascio =>date, 'data_scadenza'=>date], id2=>[] ]
         $categorie_cqc = collect();
-        foreach ($categorie as $key => $value) {
+        foreach ($categorie as $value) {
             $categorie_cqc->put($value['id'], []);
             // , array('data_rilascio'=> $value['pivot']['data_rilascio'],
             // 'data_scadenza'=> $value['pivot']['data_scadenza']));
         }
 
         $cqc = $body['cqc'];
-        $cqc_formatted = collect();
-        foreach ($cqc as $key => $value) {
+        collect();
+        foreach ($cqc as $value) {
             $categorie_cqc->put($value['id'], ['data_rilascio' => $value['pivot']['data_rilascio'],
                 'data_scadenza' => $value['pivot']['data_scadenza']]);
         }

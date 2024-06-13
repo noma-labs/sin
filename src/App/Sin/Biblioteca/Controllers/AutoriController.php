@@ -64,6 +64,7 @@ class AutoriController
 
             return redirect()->action('AutoriController@show', ['id' => $autore->id]);
         }
+        return null;
     }
 
     public function update(Request $request, $id)

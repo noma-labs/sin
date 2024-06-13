@@ -10,6 +10,6 @@ class AggiornamentoAnagrafeController
     {
         $activity = AggiornamentoAnagrafe::orderBy('created_at', 'DESC')->take(50)->get();
 
-        return view('nomadelfia.aggiornamento-anagrafe.index', compact('activity'));
+        return view('nomadelfia.aggiornamento-anagrafe.index', ['activity' => $activity]);
     }
 }

@@ -14,12 +14,12 @@ class PersonaNumeroElencoController
         $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
         $propose = $persona->proposeNumeroElenco();
 
-        return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
+        return view('nomadelfia.persone.edit_numero_elenco', ['persona' => $persona, 'first' => $first, 'assegnati' => $assegnati, 'propose' => $propose]);
     }
 
     public function update(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'numero_elenco' => 'required',
         ], [
             'numero_elenco.required' => 'Il numero di elenco è obbligatorio',

@@ -31,6 +31,7 @@ class LibriPrestitiController
                 return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
             }
         }
+        return null;
 
     }
 
@@ -57,13 +58,13 @@ class LibriPrestitiController
     {
         $msgSearch = ' ';
         // se sto cecando il prestito di una persona  redirect sul dettaglio della persona.
-        if ($request->has('persona_id') and ! $request->has('note')) {
+        if ($request->has('persona_id') && ! $request->has('note')) {
             Session::flash('clientePrestitiUrl', $request->fullUrl());
             $cliente = ViewClientiBiblioteca::findOrFail($request->input('persona_id'));
             $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); //Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
             $prestitiRestituiti = $cliente->prestiti()->where('in_prestito', 0)->orderBy('data_fine_prestito')->get(); //Prestito::Restituiti()->where(["CLIENTE"=>$idCliente])->get();
 
-            return view('biblioteca.libri.prestiti.cliente', compact('cliente', 'prestitiAttivi', 'prestitiRestituiti'));
+            return view('biblioteca.libri.prestiti.cliente', ['cliente' => $cliente, 'prestitiAttivi' => $prestitiAttivi, 'prestitiRestituiti' => $prestitiRestituiti]);
         }
 
         $queryPrestiti = Prestito::where(function ($q) use ($request, &$msgSearch) {
@@ -82,7 +83,7 @@ class LibriPrestitiController
             if ($request->has('titolo')) {
                 $idLibri = Libro::withTrashed()->where('titolo', $request->titolo)->pluck('id')->toArray();
                 $q->whereIn('libro_id', $idLibri);
-                $msgSearch = $msgSearch." Titolo = $request->titolo";
+                $msgSearch .= " Titolo = $request->titolo";
             }
             if ($request->has('persona_id')) {
                 $utente = $request->input('persona_id');
@@ -94,19 +95,19 @@ class LibriPrestitiController
                 $inizioPrestito = $request->xInizioPrestito;
                 $segnoPrestito = $request->xSegnoInizioPrestito;
                 $q->where('data_inizio_prestito', $segnoPrestito, $inizioPrestito);
-                $msgSearch = $msgSearch." Data Prestito $segnoPrestito $inizioPrestito";
+                $msgSearch .= " Data Prestito $segnoPrestito $inizioPrestito";
             }
             if ($request->xSegnoFinePrestito) {
                 $fineprestito = $request->xFinePrestito;
                 $segnoFinePrestito = $request->xSegnoFinePrestito;
                 $q->where('data_fine_prestito', $segnoFinePrestito, $fineprestito);
-                $msgSearch = $msgSearch." Data restituzione $segnoFinePrestito $fineprestito";
+                $msgSearch .= " Data restituzione $segnoFinePrestito $fineprestito";
             }
             if ($request->xIdBibliotecario) {
                 $idBibliotecario = $request->xIdBibliotecario;
                 $q->where('bibliotecario_id', $idBibliotecario);
                 $bibliotecario = ViewLavoratoriBiblioteca::findOrFail($idBibliotecario)->nominativo;
-                $msgSearch = $msgSearch." Bibliotecario: $bibliotecario ";
+                $msgSearch .= " Bibliotecario: $bibliotecario ";
             }
         });
 
@@ -141,7 +142,7 @@ class LibriPrestitiController
 
     public function editConfirm(Request $request, $idPrestito)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',
         ], [
             'xDataRestituzione.after_or_equal' => 'La data di restituzione prestito deve essere maggiore o uguale alla data di inizio prestito',

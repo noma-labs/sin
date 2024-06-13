@@ -19,7 +19,7 @@ class RoleController
     {
         $permissions = Permission::all();
 
-        return view('admin.auth.roles.create', compact('permissions'));
+        return view('admin.auth.roles.create', ['permissions' => $permissions]);
     }
 
     public function store(Request $request)
@@ -32,7 +32,7 @@ class RoleController
         $role = Role::create(['name' => $request['nome']]);
 
         $permissions = $request->except(['_token', 'nome', 'descrizione']);
-        foreach ($permissions as $id => $permission) {
+        foreach ($permissions as $permission) {
             $role->givePermissionTo($permission);
         }
 
@@ -49,7 +49,7 @@ class RoleController
     {
         $ruolo = Role::with(['permissions'])->find($id);
 
-        return view('admin.auth.roles.edit', compact('ruolo'));
+        return view('admin.auth.roles.edit', ['ruolo' => $ruolo]);
     }
 
     /**

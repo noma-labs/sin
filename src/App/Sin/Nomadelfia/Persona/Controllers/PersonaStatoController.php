@@ -11,12 +11,12 @@ class PersonaStatoController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.stato.show', compact('persona'));
+        return view('nomadelfia.persone.stato.show', ['persona' => $persona]);
     }
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'stato_id' => 'required',
             'data_inizio' => 'required|date',
         ], [
@@ -27,13 +27,15 @@ class PersonaStatoController
         $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function ($idPersona) {
+                return (new \App\Nomadelfia\Persona\Controllers\PersonaStatoController())->index($idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_fine' => 'date',
             'data_inizio' => 'required|date',
             'stato' => 'required',
@@ -47,7 +49,9 @@ class PersonaStatoController
             ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
 
         return redirect()
-            ->action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function ($idPersona) {
+                return (new \App\Nomadelfia\Persona\Controllers\PersonaStatoController())->index($idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("Stato di $persona->nominativo  modificato con successo.");
     }
 }

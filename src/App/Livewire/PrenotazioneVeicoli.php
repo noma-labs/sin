@@ -81,7 +81,7 @@ class PrenotazioneVeicoli extends Component
 
     public function refreshVeicoli()
     {
-        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
+        if (isset($this->dataArrivo) && ($this->dataArrivo !== '' && $this->dataArrivo !== '0') && (isset($this->dataPartenza) && ($this->dataPartenza !== '' && $this->dataPartenza !== '0')) && (isset($this->oraArrivo) && ($this->oraArrivo !== '' && $this->oraArrivo !== '0')) && (isset($this->oraPartenza) && ($this->oraPartenza !== '' && $this->oraPartenza !== '0'))) {
             $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
                 ->get()
                 ->groupBy(['impiego_nome', 'tipologia_nome']);

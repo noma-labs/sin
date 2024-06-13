@@ -20,7 +20,7 @@ class PersonaEntrataController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
+        return view('nomadelfia.persone.inserimento.entrata', ['persona' => $persona]);
     }
 
     public function store(EntrataPersonaRequest $request, $idPersona)
@@ -67,7 +67,7 @@ class PersonaEntrataController
 
     public function update(Request $request, $idPersona, $entrata)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_entrata' => 'date',
         ], [
             'data_entrata.date' => 'La data entrata non è valida.',

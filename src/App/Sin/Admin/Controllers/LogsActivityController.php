@@ -10,6 +10,6 @@ class LogsActivityController
     {
         $activities = Activity::latest()->get();
 
-        return view('admin.logs.index')->with(compact('activities'));
+        return view('admin.logs.index')->with(['activities' => $activities]);
     }
 }

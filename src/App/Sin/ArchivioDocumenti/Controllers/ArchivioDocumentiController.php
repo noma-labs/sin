@@ -11,7 +11,7 @@ class ArchivioDocumentiController
     {
         $libri = ArchivioDocumento::orderby('foglio')->paginate(100);
 
-        return view('archiviodocumenti.libri.search', compact('libri'));
+        return view('archiviodocumenti.libri.search', ['libri' => $libri]);
     }
 
     public function elimina()
@@ -39,7 +39,7 @@ class ArchivioDocumentiController
     {
         $libriTobePrinted = ArchivioDocumento::TobePrinted()->get();
 
-        return view('archiviodocumenti.etichette.view', compact('libriTobePrinted'));
+        return view('archiviodocumenti.etichette.view', ['libriTobePrinted' => $libriTobePrinted]);
     }
 
     public function esporta()
@@ -94,7 +94,7 @@ class ArchivioDocumentiController
                 $collocazione = $request->collocazione;
                 if ($collocazione == 'null') {
                     $q->where('foglio', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
+                    $msgSearch .= ' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('foglio', 'like', "%$collocazione%");
                     $msgSearch = $msgSearch.' Collocazione='.$collocazione;
@@ -103,13 +103,13 @@ class ArchivioDocumentiController
             }
             if ($request->filled('editore')) {
                 $ed = $request->editore;
-                $msgSearch = $msgSearch." Editore= $ed";
+                $msgSearch .= " Editore= $ed";
                 $q->where('editore', 'like', "%$ed%");
                 $orderBy = 'editore';
             }
             if ($request->filled('autore')) {
                 $au = $request->autore;
-                $msgSearch = $msgSearch." Autore= $au";
+                $msgSearch .= " Autore= $au";
                 $q->where('autore', 'like', "%$au%");
                 $orderBy = 'autore';
             }
@@ -117,6 +117,6 @@ class ArchivioDocumentiController
 
         $libri = $queryLibri->orderBy($orderBy)->paginate(50);
 
-        return view('archiviodocumenti.libri.search', compact('libri', 'msgSearch'));
+        return view('archiviodocumenti.libri.search', ['libri' => $libri, 'msgSearch' => $msgSearch]);
     }
 }

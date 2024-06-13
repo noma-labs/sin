@@ -114,7 +114,7 @@ class Famiglia extends Model
 
     public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
     {
-        $q = $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
+        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
             ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
             ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
@@ -123,8 +123,6 @@ class Famiglia extends Model
             ->where('posizione_famiglia', $posizione)
             ->where('famiglie_persone.stato', $stato)
             ->orderBy('famiglie.nome_famiglia');
-
-        return $q;
     }
 
     /**
@@ -229,12 +227,11 @@ class Famiglia extends Model
       INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
       WHERE (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
        and famiglie_persone.famiglia_id = :famiglia_id and gruppi_persone.stato = '0'");
-        $res = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['famiglia_id' => $this->id]
         );
-
-        return $res;
     }
 
     public function mycomponenti()
@@ -245,12 +242,11 @@ class Famiglia extends Model
                     INNER JOIN persone ON persone.id = famiglie_persone.persona_id
                     WHERE famiglie.id = :famiglia
                     ORDER BY persone.data_nascita, famiglie_persone.posizione_famiglia');
-        $res = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expresson->getValue(DB::connection()->getQueryGrammar()),
             ['famiglia' => $this->id]
         );
-
-        return $res;
     }
 
     /**
@@ -661,10 +657,9 @@ class Famiglia extends Model
           SELECT famiglie_persone.persona_id
           FROM famiglie_persone
         )  AND popolazione.data_uscita IS NULL');
-        $personeSenzaFam = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-
-        return $personeSenzaFam;
     }
 }

@@ -24,14 +24,14 @@ class ScuolaController
 
         $resp = $lastAnno->responsabile;
 
-        return view('scuola.summary', compact('lastAnno', 'alunni', 'cicloAlunni', 'resp'));
+        return view('scuola.summary', ['lastAnno' => $lastAnno, 'alunni' => $alunni, 'cicloAlunni' => $cicloAlunni, 'resp' => $resp]);
     }
 
     public function storico()
     {
         $anni = Anno::orderBy('scolastico', 'DESC')->get();
 
-        return view('scuola.anno.storico', compact('anni'));
+        return view('scuola.anno.storico', ['anni' => $anni]);
     }
 
     public function index(Request $request, $id)
@@ -42,12 +42,12 @@ class ScuolaController
         $resp = $anno->responsabile;
         $classi = $anno->classi()->with('tipo')->get()->sortBy('tipo.ord');
 
-        return view('scuola.anno.show', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
+        return view('scuola.anno.show', ['anno' => $anno, 'cicloAlunni' => $cicloAlunni, 'alunni' => $alunni, 'resp' => $resp, 'classi' => $classi]);
     }
 
     public function aggiungiClasse(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'tipo' => 'required',
         ], [
             'tipo.required' => 'Il tipo di classe da aggiungere è obbligatorio.',
@@ -60,7 +60,7 @@ class ScuolaController
 
     public function cloneAnnoScolastico(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'anno_inizio' => 'required',
         ], [
             'anno_inizio.date' => 'La data di inizio non è una data valida.',
@@ -75,7 +75,7 @@ class ScuolaController
 
     public function aggiungiAnnoScolastico(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_inizio' => 'required',
         ], [
             'data_inizio.required' => 'La data di inizio anno è obbligatoria',
@@ -92,16 +92,12 @@ class ScuolaController
         $elenchi = collect($request->elenchi);
 
         $phpWord = new PhpWord();
-        // define styles
-        $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
         $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie
 
         $colStyle4Next = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn'];
-        $colStyle4NCont = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'continuous'];
-
-        $section = $phpWord->addSection(['breakType' => 'continuous', 'colsNum' => 2]);
+        $phpWord->addSection(['breakType' => 'continuous', 'colsNum' => 2]);
 
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);

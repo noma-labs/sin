@@ -71,11 +71,7 @@ class Anno extends Model
     {
         $as = self::buildAsString($year);
 
-        if ($datainizo === null) {
-            $d = Carbon::now();
-        } else {
-            $d = Carbon::parse($datainizo);
-        }
+        $d = $datainizo === null ? Carbon::now() : Carbon::parse($datainizo);
         try {
             \DB::beginTransaction();
             $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
@@ -277,12 +273,11 @@ class Anno extends Model
                 INNER JOIN db_nomadelfia.persone as p ON p.id = ac.persona_id
                 WHERE ac.data_fine IS NULL AND anno.id = :aid
                 ORDER BY p.data_nascita');
-        $res = DB::connection('db_scuola')->select(
+
+        return DB::connection('db_scuola')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id]
         );
-
-        return $res;
     }
 
     public function coordinatoriPrescuola()
@@ -318,8 +313,7 @@ class Anno extends Model
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id, 'ciclo' => $ciclo]
         );
-        $cc = collect($res)->groupBy('classe');
 
-        return $cc;
+        return collect($res)->groupBy('classe');
     }
 }

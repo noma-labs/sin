@@ -9,7 +9,7 @@ class PersonaPosizioneConcludiController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_inizio' => 'required|date',
             'data_fine' => 'required|date|after_or_equal:data_inizio',
         ], [
@@ -23,7 +23,9 @@ class PersonaPosizioneConcludiController
         $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
         if ($res) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Persona\Controllers\PersonaPosizioneController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
         } else {
             return redirect()->back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");

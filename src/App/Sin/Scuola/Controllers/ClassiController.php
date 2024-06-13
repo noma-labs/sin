@@ -17,7 +17,7 @@ class ClassiController
         $anno = Anno::firstOrFail($anno_id);
         $classi = $anno->classi()->get();
 
-        return view('scuola.classi.index', compact('anno', 'classi'));
+        return view('scuola.classi.index', ['anno' => $anno, 'classi' => $classi]);
     }
 
     public function show($id)
@@ -29,7 +29,7 @@ class ClassiController
         $possibili = $classe->alunniPossibili();
         $coordPossibili = $classe->coordinatoriPossibili();
 
-        return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
+        return view('scuola.classi.show', ['anno' => $anno, 'classe' => $classe, 'alunni' => $alunni, 'coords' => $coords, 'possibili' => $possibili, 'coordPossibili' => $coordPossibili]);
     }
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)

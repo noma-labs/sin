@@ -14,6 +14,6 @@ class PersonaPopolazioneController
         $attuale = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNull('data_uscita')->first();
         $storico = PopolazioneNomadelfia::where('persona_id', $idPersona)->whereNotNull('data_uscita')->orderby('data_entrata')->get();
 
-        return view('nomadelfia.persone.popolazione.show', compact('persona', 'attuale', 'storico'));
+        return view('nomadelfia.persone.popolazione.show', ['persona' => $persona, 'attuale' => $attuale, 'storico' => $storico]);
     }
 }

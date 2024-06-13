@@ -11,12 +11,12 @@ class PersonaNominativoController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.edit_nominativo', compact('persona'));
+        return view('nomadelfia.persone.edit_nominativo', ['persona' => $persona]);
     }
 
     public function update(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
         ], [
             'nominativo.required' => 'Il nominativo è obbligatorio',
@@ -40,7 +40,7 @@ class PersonaNominativoController
      */
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nuovonominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
         ], [
             'nuovonominativorequired' => 'Il nominativo è obbligatorio',

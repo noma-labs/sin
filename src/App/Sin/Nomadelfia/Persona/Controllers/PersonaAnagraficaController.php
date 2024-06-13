@@ -11,12 +11,12 @@ class PersonaAnagraficaController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.edit_anagrafica', compact('persona'));
+        return view('nomadelfia.persone.edit_anagrafica', ['persona' => $persona]);
     }
 
     public function update(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nome' => 'required',
             'cognome' => 'required',
             'datanascita' => 'required',
@@ -53,7 +53,7 @@ class PersonaAnagraficaController
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nominativo' => 'required',
             'nome' => 'required',
             'cognome' => 'required',

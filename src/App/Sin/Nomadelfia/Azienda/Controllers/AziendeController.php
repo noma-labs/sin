@@ -17,7 +17,7 @@ class AziendeController
     {
         $aziende = Azienda::aziende()->orderBy('nome_azienda')->with('lavoratoriAttuali')->get();
 
-        return view('nomadelfia.aziende.index', compact('aziende'));
+        return view('nomadelfia.aziende.index', ['aziende' => $aziende]);
     }
 
     /**
@@ -29,7 +29,7 @@ class AziendeController
     {
         $azienda = Azienda::findOrFail($id);
 
-        return view('nomadelfia.aziende.edit', compact('azienda'));
+        return view('nomadelfia.aziende.edit', ['azienda' => $azienda]);
 
     }
 

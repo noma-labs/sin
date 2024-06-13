@@ -9,7 +9,7 @@ class PersonaGruppoFamiliareSpostaController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'new_gruppo_id' => 'required',
             'new_data_entrata' => 'required|date', // data entrata delnuovo gruppo familiare
             'current_data_entrata' => 'required|date', // data entrata del vecchio gruppo familiare
@@ -27,7 +27,9 @@ class PersonaGruppoFamiliareSpostaController
             $request->new_gruppo_id, $new_datain);
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function (\Illuminate\Http\Request $request, $idPersona) {
+                return (new \App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController())->index($request, $idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 }

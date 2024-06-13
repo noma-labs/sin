@@ -13,12 +13,12 @@ class PersonaPosizioneController
         $posattuale = $persona->posizioneAttuale();
         $storico = $persona->posizioniStorico;
 
-        return view('nomadelfia.persone.posizione.show', compact('persona', 'posattuale', 'storico'));
+        return view('nomadelfia.persone.posizione.show', ['persona' => $persona, 'posattuale' => $posattuale, 'storico' => $storico]);
     }
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'posizione_id' => 'required',
             'data_inizio' => 'required|date',
             //"data_fine" => "date",
@@ -31,13 +31,15 @@ class PersonaPosizioneController
         $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function ($idPersona) {
+                return (new \App\Nomadelfia\Persona\Controllers\PersonaPosizioneController())->index($idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'current_data_inizio' => 'required',
             'new_data_inizio' => 'required|date',
         ], [
@@ -48,7 +50,9 @@ class PersonaPosizioneController
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Persona\Controllers\PersonaPosizioneController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
 
@@ -61,7 +65,9 @@ class PersonaPosizioneController
         $res = $persona->posizioni()->detach($id);
         if ($res) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Persona\Controllers\PersonaPosizioneController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
         } else {
             return redirect()->back()->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");

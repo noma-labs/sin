@@ -36,14 +36,14 @@ class VeicoliController
         }
         $veicoli = $veicoli->get();
 
-        return view('officina.veicoli.index', compact('veicoli', 'marche', 'modelli'));
+        return view('officina.veicoli.index', ['veicoli' => $veicoli, 'marche' => $marche, 'modelli' => $modelli]);
     }
 
     public function show($id)
     {
         $veicolo = Veicolo::withTrashed()->findOrFail($id);
 
-        return view('officina.veicoli.show', compact('veicolo'));
+        return view('officina.veicoli.show', ['veicolo' => $veicolo]);
     }
 
     public function edit($id)
@@ -61,7 +61,7 @@ class VeicoliController
         $enum_tipo_filtro = TipoFiltro::tipo();
         $olio_motore = TipoOlio::all();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro', 'olio_motore'));
+        return view('officina.veicoli.edit', ['veicolo' => $veicolo, 'marche' => $marche, 'impieghi' => $impieghi, 'modelli' => $modelli, 'tipologie' => $tipologie, 'alimentazioni' => $alimentazioni, 'f_aria' => $f_aria, 'f_olio' => $f_olio, 'f_gasolio' => $f_gasolio, 'f_ac' => $f_ac, 'enum_tipo_filtro' => $enum_tipo_filtro, 'olio_motore' => $olio_motore]);
     }
 
     public function editConfirm(Request $request, $id)
@@ -89,7 +89,7 @@ class VeicoliController
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
         $enum_tipo_filtro = TipoFiltro::tipo();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro'));
+        return view('officina.veicoli.create', ['marche' => $marche, 'impieghi' => $impieghi, 'tipologie' => $tipologie, 'alimentazioni' => $alimentazioni, 'f_aria' => $f_aria, 'f_olio' => $f_olio, 'f_gasolio' => $f_gasolio, 'f_ac' => $f_ac, 'enum_tipo_filtro' => $enum_tipo_filtro]);
     }
 
     public function create(Request $request)
@@ -220,7 +220,7 @@ class VeicoliController
         }
         $veicoli = $veicoli->get();
 
-        return view('officina.veicoli.show-demoliti', compact('veicoli', 'marche', 'modelli'));
+        return view('officina.veicoli.show-demoliti', ['veicoli' => $veicoli, 'marche' => $marche, 'modelli' => $modelli]);
     }
 
     public function veicoloEliminaDefinitivamente(Request $request)

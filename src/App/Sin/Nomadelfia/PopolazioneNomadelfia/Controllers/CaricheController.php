@@ -22,7 +22,7 @@ class CaricheController
         $agr = Cariche::AgricolaCariche();
         $cul = Cariche::CulturaleCariche();
 
-        return view('nomadelfia.cariche.index', compact('ass', 'sol', 'fon', 'agr', 'cul'));
+        return view('nomadelfia.cariche.index', ['ass' => $ass, 'sol' => $sol, 'fon' => $fon, 'agr' => $agr, 'cul' => $cul]);
     }
 
     /**
@@ -34,7 +34,7 @@ class CaricheController
     {
         $anz = Cariche::EleggibiliConsiglioAnziani();
 
-        return view('nomadelfia.cariche.elezioni', compact('anz'));
+        return view('nomadelfia.cariche.elezioni', ['anz' => $anz]);
     }
 
     public function esporta()
@@ -42,8 +42,6 @@ class CaricheController
         $anz = Cariche::EleggibiliConsiglioAnziani();
 
         $phpWord = new PhpWord();
-        // define styles
-        $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
         $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie

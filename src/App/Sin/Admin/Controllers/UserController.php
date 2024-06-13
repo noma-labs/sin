@@ -49,7 +49,7 @@ class UserController
         $user = User::findOrFail($id);
         $roles = Role::get();
 
-        return view('admin.auth.users.edit', compact('user', 'roles')); //pass user and roles data to view
+        return view('admin.auth.users.edit', ['user' => $user, 'roles' => $roles]); //pass user and roles data to view
 
     }
 

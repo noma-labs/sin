@@ -12,12 +12,12 @@ class PersonaAziendeController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.aziende.show', compact('persona'));
+        return view('nomadelfia.persone.aziende.show', ['persona' => $persona]);
     }
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'azienda_id' => 'required',
             'mansione' => 'required',
             'data_inizio' => 'required|date',
@@ -33,14 +33,18 @@ class PersonaAziendeController
             $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
 
             return redirect()
-                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Azienda\Controllers\PersonaAziendeController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
         if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
             $persona->assegnaResponsabileAzienda($azienda, $request->data_inizio);
 
             return redirect()
-                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Azienda\Controllers\PersonaAziendeController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
 
@@ -49,7 +53,7 @@ class PersonaAziendeController
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'mansione' => 'required',
             'data_entrata' => 'required|date',
             'stato' => 'required',
@@ -68,7 +72,9 @@ class PersonaAziendeController
         ]);
 
         return redirect()
-            ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function ($idPersona) {
+                return (new \App\Nomadelfia\Azienda\Controllers\PersonaAziendeController())->index($idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 }

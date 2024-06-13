@@ -45,7 +45,7 @@ class SearchablePersonaController
             $criterio_nascita = $request->input('criterio_data_nascita', null);
             $nascita = $request->input('data_nascita', null);
 
-            if ($criterio_nascita and $nascita) {
+            if ($criterio_nascita && $nascita) {
                 $q->where('data_nascita', $criterio_nascita, $nascita);
                 $msgSearch = $msgSearch.' Data Nascita'.$criterio_nascita.$nascita;
             }

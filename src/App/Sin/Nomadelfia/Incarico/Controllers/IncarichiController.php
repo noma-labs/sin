@@ -15,7 +15,7 @@ class IncarichiController
         $min = 4;
         $busy = Incarico::getBusyPeople($min);
 
-        return view('nomadelfia.incarichi.index', compact('incarichi', 'busy', 'min'));
+        return view('nomadelfia.incarichi.index', ['incarichi' => $incarichi, 'busy' => $busy, 'min' => $min]);
     }
 
     public function delete($id)
@@ -31,13 +31,13 @@ class IncarichiController
         $lavoratori = $incarico->lavoratoriAttuali;
         $possibili = $incarico->lavoratoriPossibili();
 
-        return view('nomadelfia.incarichi.edit', compact('incarico', 'lavoratori', 'possibili'));
+        return view('nomadelfia.incarichi.edit', ['incarico' => $incarico, 'lavoratori' => $lavoratori, 'possibili' => $possibili]);
 
     }
 
     public function assegnaPersona(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
@@ -60,7 +60,7 @@ class IncarichiController
 
     public function insert(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|unique:db_nomadelfia.incarichi,nome',
         ], [
             'name.required' => "Il nome dell'incarico  è obbligatorio.",

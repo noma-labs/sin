@@ -12,14 +12,14 @@ class GruppifamiliariController
     {
         $g = GruppoFamiliare::countComponenti();
 
-        return view('nomadelfia.gruppifamiliari.index', compact('g'));
+        return view('nomadelfia.gruppifamiliari.index', ['g' => $g]);
     }
 
     public function show($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.gruppifamiliari.show', compact('persona'));
+        return view('nomadelfia.gruppifamiliari.show', ['persona' => $persona]);
     }
 
     public function edit($id)
@@ -30,12 +30,12 @@ class GruppifamiliariController
         $fams = GruppoFamiliare::families($gruppo)->get();
         $famiglie = collect($fams)->groupBy('famiglia_id');
 
-        return view('nomadelfia.gruppifamiliari.edit', compact('gruppo', 'single', 'famiglie'));
+        return view('nomadelfia.gruppifamiliari.edit', ['gruppo' => $gruppo, 'single' => $single, 'famiglie' => $famiglie]);
     }
 
     public function assegnaCapogruppo(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nuovo' => 'required',
             'inizio' => 'required',
         ], [

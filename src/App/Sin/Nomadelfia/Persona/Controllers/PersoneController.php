@@ -15,7 +15,7 @@ class PersoneController
         $famigliaAttuale = $persona->famigliaAttuale();
 
         return view('nomadelfia.persone.show',
-            compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale'));
+            ['persona' => $persona, 'posizioneAttuale' => $posizioneAttuale, 'gruppoAttuale' => $gruppoAttuale, 'famigliaAttuale' => $famigliaAttuale]);
     }
 
     public function create()
@@ -32,7 +32,7 @@ class PersoneController
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona' => 'required',
         ], [
             'persona.required' => 'Il cognome è obbligatorio',
@@ -43,11 +43,12 @@ class PersoneController
                 ->orWhere('nome', 'like', '%'.$request->persona.'%')
                 ->orWhere('cognome', 'like', '%'.$request->persona);
             if ($personeEsistenti->exists()) {
-                return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
+                return view('nomadelfia.persone.insert_existing', ['personeEsistenti' => $personeEsistenti]);
             } else {
                 return redirect(route('nomadelfia.persone.anagrafica.create'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
         }
+        return null;
     }
 
     public function delete($idPersona)

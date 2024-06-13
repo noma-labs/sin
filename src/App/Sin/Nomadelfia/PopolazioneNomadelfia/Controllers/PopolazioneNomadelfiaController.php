@@ -22,63 +22,63 @@ class PopolazioneNomadelfiaController
         // TODO: togliere da qui. messo solo per urgenza di creare es spirituali
         $esercizi = EserciziSpirituali::attivi()->get();
 
-        return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni', 'esercizi'));
+        return view('nomadelfia.popolazione.maggiorenni', ['maggiorenni' => $maggiorenni, 'esercizi' => $esercizi]);
     }
 
     public function effettivi(Request $request)
     {
         $effettivi = PopolazioneNomadelfia::effettivi();
 
-        return view('nomadelfia.popolazione.effettivi', compact('effettivi'));
+        return view('nomadelfia.popolazione.effettivi', ['effettivi' => $effettivi]);
     }
 
     public function postulanti(Request $request)
     {
         $postulanti = PopolazioneNomadelfia::postulanti();
 
-        return view('nomadelfia.popolazione.postulanti', compact('postulanti'));
+        return view('nomadelfia.popolazione.postulanti', ['postulanti' => $postulanti]);
     }
 
     public function ospiti(Request $request)
     {
         $ospiti = PopolazioneNomadelfia::ospiti();
 
-        return view('nomadelfia.popolazione.ospiti', compact('ospiti'));
+        return view('nomadelfia.popolazione.ospiti', ['ospiti' => $ospiti]);
     }
 
     public function sacerdoti(Request $request)
     {
         $sacerdoti = PopolazioneNomadelfia::sacerdoti();
 
-        return view('nomadelfia.popolazione.sacerdoti', compact('sacerdoti'));
+        return view('nomadelfia.popolazione.sacerdoti', ['sacerdoti' => $sacerdoti]);
     }
 
     public function mammeVocazione(Request $request)
     {
         $mvocazione = PopolazioneNomadelfia::mammeVocazione();
 
-        return view('nomadelfia.popolazione.mammevocazione', compact('mvocazione'));
+        return view('nomadelfia.popolazione.mammevocazione', ['mvocazione' => $mvocazione]);
     }
 
     public function nomadelfaMamma(Request $request)
     {
         $nmamma = PopolazioneNomadelfia::nomadelfaMamma();
 
-        return view('nomadelfia.popolazione.nomadelfamamma', compact('nmamma'));
+        return view('nomadelfia.popolazione.nomadelfamamma', ['nmamma' => $nmamma]);
     }
 
     public function figliMaggiorenni(Request $request)
     {
         $maggiorenni = PopolazioneNomadelfia::figliMaggiorenni();
 
-        return view('nomadelfia.popolazione.figlimaggiorenni', compact('maggiorenni'));
+        return view('nomadelfia.popolazione.figlimaggiorenni', ['maggiorenni' => $maggiorenni]);
     }
 
     public function figliMinorenni(Request $request)
     {
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
 
-        return view('nomadelfia.popolazione.figliminorenni', compact('minorenni'));
+        return view('nomadelfia.popolazione.figliminorenni', ['minorenni' => $minorenni]);
     }
 
     public function print(Request $request)

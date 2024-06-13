@@ -9,20 +9,15 @@ use Symfony\Component\Process\Process;
 
 final class ExifReader
 {
-    protected $exifToolBinary = null;
+    protected $exifToolBinary;
 
-    protected $sourcePath = null;
+    protected $sourcePath;
 
-    protected $targetBasePath = null;
+    protected $targetBasePath;
 
-    public ?int $timeout;
+    public ?int $timeout = 180;
 
     protected $additionalOptions = [];
-
-    public function __construct()
-    {
-        $this->timeout = 180;
-    }
 
     public static function file(string $file): ExifReader
     {
@@ -157,14 +152,14 @@ final class ExifReader
 
     public function exportToCSV(string $targetPath): ExifReader
     {
-        $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
+        $this->additionalOptions[] = $targetPath !== '' && $targetPath !== '0' ? '-csv>'.$targetPath : '-csv';
 
         return $this;
     }
 
     public function exportToJSON(string $targetPath): ExifReader
     {
-        $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
+        $this->additionalOptions[] = $targetPath !== '' && $targetPath !== '0' ? '-json>'.$targetPath : '-json';
 
         return $this;
     }
@@ -203,7 +198,7 @@ final class ExifReader
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
-        $output = $this->callExifTool($command);
+        $this->callExifTool($command);
 
         return $fullName;
     }
@@ -275,7 +270,7 @@ final class ExifReader
             return rtrim($process->getOutput());
         }
         $process->clearOutput();
-        $exitCode = $process->getExitCode();
+        $process->getExitCode();
 
         return $process->getErrorOutput();
     }

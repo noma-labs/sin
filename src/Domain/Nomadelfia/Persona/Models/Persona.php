@@ -91,7 +91,7 @@ class Persona extends Model
 
     public function buildCompleteName()
     {
-        $year = Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
+        Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
 
         return "($this->>year) $this->nominativo ($this->nome  $this->cognome)";
     }
@@ -292,12 +292,11 @@ class Persona extends Model
         $expression = DB::raw("UPDATE gruppi_persone
                SET stato = '0', data_uscita_gruppo = :dataout
                WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain");
-        $res = DB::connection('db_nomadelfia')->update(
+
+        return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['persona' => $this->id, 'gruppo' => $gruppo_id, 'datain' => $datain, 'dataout' => $dataout]
         );
-
-        return $res;
     }
 
     public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
@@ -305,12 +304,11 @@ class Persona extends Model
         $expression = DB::raw('UPDATE gruppi_persone
                SET  data_entrata_gruppo = :new
                WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
-        $res = DB::connection('db_nomadelfia')->update(
+
+        return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['persona' => $this->id, 'gruppo' => $gruppo_id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
-
-        return $res;
     }
 
     /**
@@ -403,7 +401,7 @@ class Persona extends Model
         if (is_string($azienda) || is_int($azienda)) {
             $azienda = Azienda::findOrFail($azienda);
         }
-        if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
+        if (strcasecmp($mansione, 'LAVORATORE') == 0 || strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
             if ($azienda instanceof Azienda) {
                 if (! $azienda->isAzienda()) {
                     throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
@@ -446,9 +444,7 @@ class Persona extends Model
     {
         $multiplied = $this->incarichiAttuali()->get()->pluck('id');
         if ($multiplied != null) {
-            $attuali = Incarico::whereNotIn('id', $multiplied)->get();
-
-            return $attuali;
+            return Incarico::whereNotIn('id', $multiplied)->get();
         }
 
         return $multiplied;
@@ -507,11 +503,7 @@ class Persona extends Model
     {
         $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
             $old_data_entrata)->update(['data_entrata' => $data_entrata]);
-        if ($affected > 0) {
-            return true;
-        }
-
-        return false;
+        return $affected > 0;
     }
 
     public function getDataEntrataNomadelfia()
@@ -545,11 +537,7 @@ class Persona extends Model
     public function isPersonaInterna(): bool
     {
         $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where('persona_id', $this->id);
-        if ($pop->count() > 0) {
-            return true;
-        }
-
-        return false;
+        return $pop->count() > 0;
     }
 
     /*
@@ -629,7 +617,7 @@ class Persona extends Model
     */
     public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null)
     {
-        if (is_string($stato) | is_int($stato)) {
+        if ((is_string($stato) | is_int($stato)) !== 0) {
             $stato = Stato::findOrFail($stato);
         }
         if ($stato instanceof Stato) {
@@ -821,7 +809,7 @@ class Persona extends Model
      **/
     public function isFiglio()
     {
-        return $this->isFiglioNato() or $this->isFiglioAccolto();
+        return $this->isFiglioNato() || $this->isFiglioAccolto();
     }
 
     /**
@@ -940,12 +928,11 @@ class Persona extends Model
         $expression = DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
                WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :current');
-        $res = DB::connection('db_nomadelfia')->update(
+
+        return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain, 'new' => $newDataIn]
         );
-
-        return $res;
     }
 
     public function concludiPosizione(
@@ -956,12 +943,11 @@ class Persona extends Model
         $expression = DB::raw("UPDATE persone_posizioni
                SET stato = '0', data_fine = :dataout
                WHERE posizione_id  = :posizone AND persona_id = :persona AND data_inizio = :datain");
-        $res = DB::connection('db_nomadelfia')->update(
+
+        return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['posizone' => $posizione_id, 'persona' => $this->id, 'datain' => $datain, 'dataout' => $datafine]
         );
-
-        return $res;
     }
 
     /**
@@ -1017,25 +1003,17 @@ class Persona extends Model
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo
     ) {
-        if ($this->isCapoFamiglia() or $this->isSingle()) {
+        if ($this->isCapoFamiglia() || $this->isSingle()) {
             $this->famigliaAttuale()->assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale,
                 $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
         }
     }
 
-    public function assegnaPersonaANuovoGruppoFamiliare(
-        $gruppoFamiliareAttuale,
-        $dataUscitaGruppoFamiliareAttuale,
-        $gruppoFamiliareNuovo,
-        $dataEntrataGruppo = null
-    ) {
-        try {
-            $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,
-                ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);
-            $this->gruppifamiliari()->attach($gruppoFamiliareNuovo,
-                ['stato' => '1', 'data_entrata_gruppo' => $dataEntrataGruppo]);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+    public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo = null)
+    {
+        $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,
+            ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);
+        $this->gruppifamiliari()->attach($gruppoFamiliareNuovo,
+            ['stato' => '1', 'data_entrata_gruppo' => $dataEntrataGruppo]);
     }
 }

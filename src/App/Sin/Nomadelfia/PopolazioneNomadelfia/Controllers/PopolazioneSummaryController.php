@@ -31,6 +31,6 @@ class PopolazioneSummaryController
 
         $activities = AggiornamentoAnagrafe::orderBy('created_at', 'DESC')->take(20)->get();
 
-        return view('nomadelfia.summary', compact('totale', 'maggiorenni', 'effettivi', 'postulanti', 'ospiti', 'sacerdoti', 'mvocazione', 'nomanamma', 'figliMaggiorenni', 'minorenni', 'figli', 'gruppi', 'posizioniFamiglia', 'famiglieNumerose', 'stats', 'activities'));
+        return view('nomadelfia.summary', ['totale' => $totale, 'maggiorenni' => $maggiorenni, 'effettivi' => $effettivi, 'postulanti' => $postulanti, 'ospiti' => $ospiti, 'sacerdoti' => $sacerdoti, 'mvocazione' => $mvocazione, 'nomanamma' => $nomanamma, 'figliMaggiorenni' => $figliMaggiorenni, 'minorenni' => $minorenni, 'figli' => $figli, 'gruppi' => $gruppi, 'posizioniFamiglia' => $posizioniFamiglia, 'famiglieNumerose' => $famiglieNumerose, 'stats' => $stats, 'activities' => $activities]);
     }
 }

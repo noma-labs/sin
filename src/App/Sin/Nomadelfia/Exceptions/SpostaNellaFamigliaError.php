@@ -24,6 +24,6 @@ class SpostaNellaFamigliaError extends InvalidArgumentException
 
         $exception = $this;
 
-        return response()->view('errors.sinError', compact('exception'), 500);
+        return response()->view('errors.sinError', ['exception' => $exception], 500);
     }
 }

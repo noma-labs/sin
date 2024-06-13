@@ -19,7 +19,7 @@ class EsSpiritualiController
         $esercizi = EserciziSpirituali::attivi()->get();
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
 
-        return view('nomadelfia.esercizi.index', compact('esercizi', 'noEsercizi'));
+        return view('nomadelfia.esercizi.index', ['esercizi' => $esercizi, 'noEsercizi' => $noEsercizi]);
     }
 
     public function show(Request $request, $id)
@@ -27,12 +27,12 @@ class EsSpiritualiController
         $esercizio = EserciziSpirituali::findOrFail($id);
         $persone = $esercizio->personeOk();
 
-        return view('nomadelfia.esercizi.show', compact('esercizio', 'persone'));
+        return view('nomadelfia.esercizi.show', ['esercizio' => $esercizio, 'persone' => $persone]);
     }
 
     public function assegnaPersona(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
         ], [
             'persona_id.required' => 'Persona è obbligatoria',
@@ -56,17 +56,12 @@ class EsSpiritualiController
     public function stampa()
     {
         $phpWord = new PhpWord();
-        // define styles
-        $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => false], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true], ['spaceBefore' => 240]);
         $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]);
 
         $colStyle2Next = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'nextColumn'];
         $colStyle2Cont = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'continuous'];
-
-        $colStyle4Next = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn'];
-        $colStyle4NCont = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'continuous'];
 
         //$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
@@ -101,7 +96,7 @@ class EsSpiritualiController
             }
         }
         // persone senza esercizi spirituali
-        $section = $phpWord->addSection();
+        $phpWord->addSection();
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
         $uomini = $phpWord->addSection($colStyle2Cont);
         $uomini->addTitle('Senza esercizi Spirituali', 1);

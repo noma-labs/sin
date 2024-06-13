@@ -29,12 +29,12 @@ class VideoController
             }
             if ($request->data_registrazione) {
                 $q->where('data_registrazione', $request->data_registrazione);
-                $msgSearch = $msgSearch." data registrazione=$request->data_registrazione";
+                $msgSearch .= " data registrazione=$request->data_registrazione";
                 $orderBy = 'data_registrazione';
             }
             if ($request->descrizione) {
                 $q->where('descrizione', 'like', "%$request->descrizione%");
-                $msgSearch = $msgSearch." descrizione=$request->descrizione";
+                $msgSearch .= " descrizione=$request->descrizione";
             }
         });
 

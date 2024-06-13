@@ -120,11 +120,7 @@ class Prenotazioni extends Model
     public function isPartita()
     {
         $adesso = Carbon::now();
-        if ($this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso) {
-            return true;
-        }
-
-        return false;
+        return $this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso;
     }
 
     /**
@@ -132,11 +128,7 @@ class Prenotazioni extends Model
      */
     public function isArrivata()
     {
-        if ($this->dataOraArrivo() < Carbon::now()) {
-            return true;
-        }
-
-        return false;
+        return $this->dataOraArrivo() < Carbon::now();
     }
 
     /**
@@ -144,10 +136,6 @@ class Prenotazioni extends Model
      */
     public function deveAncoraPartire()
     {
-        if ($this->dataOraPartenza() > Carbon::now()) {
-            return true;
-        }
-
-        return false;
+        return $this->dataOraPartenza() > Carbon::now();
     }
 }

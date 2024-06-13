@@ -14,12 +14,12 @@ class PersonaFamigliaController
         $attuale = $persona->famigliaAttuale();
         $storico = $persona->famiglieStorico;
 
-        return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
+        return view('nomadelfia.persone.famiglia.show', ['persona' => $persona, 'attuale' => $attuale, 'storico' => $storico]);
     }
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
             'posizione_famiglia' => 'required',
             'data_creazione' => 'required|date',
@@ -38,7 +38,9 @@ class PersonaFamigliaController
             $request->data_creazione, $request->data_entrata);
         if ($res) {
             return redirect()
-                ->action([PersonaFamigliaController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function ($idPersona) {
+                    return (new \App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController())->index($idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("Persona $persona->nominativo e famiglia $request->nome creata con successo");
         } else {
             return redirect()->back()->withError("Impossibile creare la famiglia $request->nome");
@@ -48,7 +50,7 @@ class PersonaFamigliaController
     // TODO: move into a dedicated controller
     public function spostaInNuovaFamiglia(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'new_famiglia_id' => 'required',
             'new_posizione_famiglia' => 'required',
             'new_data_entrata' => 'required',

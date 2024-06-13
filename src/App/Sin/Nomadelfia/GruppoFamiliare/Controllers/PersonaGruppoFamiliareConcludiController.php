@@ -9,7 +9,7 @@ class PersonaGruppoFamiliareConcludiController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_entrata' => 'required|date',
             'data_uscita' => 'required|date|after_or_equal:data_entrata',
         ], [
@@ -24,7 +24,9 @@ class PersonaGruppoFamiliareConcludiController
         $res = $persona->concludiGruppoFamiliare($id, $request->data_entrata, $request->data_uscita);
         if ($res) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function (\Illuminate\Http\Request $request, $idPersona) {
+                    return (new \App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController())->index($request, $idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         } else {
             return redirect()->back()->withError("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");

@@ -11,7 +11,7 @@ class VideoController
     {
         $countByYear = Video::byYear()->get();
 
-        return view('rtn.video.create', compact('countByYear'));
+        return view('rtn.video.create', ['countByYear' => $countByYear]);
     }
 
     public function create()

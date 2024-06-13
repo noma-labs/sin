@@ -15,7 +15,7 @@ class RisorsaController
     {
         $permissions = Permission::with('roles')->orderBy('name')->get();
 
-        return view('admin.auth.risorse.index', compact('permissions'));
+        return view('admin.auth.risorse.index', ['permissions' => $permissions]);
     }
 
     /**
@@ -80,7 +80,7 @@ class RisorsaController
     {
         $risorsa = Permission::findOrFail($id);
 
-        return view('admin.auth.risorse.edit', compact('risorsa'));
+        return view('admin.auth.risorse.edit', ['risorsa' => $risorsa]);
     }
 
     /**

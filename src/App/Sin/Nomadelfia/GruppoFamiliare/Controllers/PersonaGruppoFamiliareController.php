@@ -12,12 +12,12 @@ class PersonaGruppoFamiliareController
         $persona = Persona::findOrFail($idPersona);
         $attuale = $persona->gruppofamiliareAttuale();
 
-        return view('nomadelfia.persone.gruppofamiliare.show', compact('persona', 'attuale'));
+        return view('nomadelfia.persone.gruppofamiliare.show', ['persona' => $persona, 'attuale' => $attuale]);
     }
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'current_data_entrata' => 'required|date',
             'new_data_entrata' => 'required|date',
         ], [
@@ -30,7 +30,9 @@ class PersonaGruppoFamiliareController
 
         if ($persona->updateDataInizioGruppoFamiliare($id, $request->current_data_entrata, $request->new_data_entrata)) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function (\Illuminate\Http\Request $request, $idPersona) {
+                    return (new \App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController())->index($request, $idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
 
@@ -39,7 +41,7 @@ class PersonaGruppoFamiliareController
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'gruppo_id' => 'required',
             'data_entrata' => 'required|date',
         ], [
@@ -50,7 +52,9 @@ class PersonaGruppoFamiliareController
         $persona->assegnaGruppoFamiliare($request->gruppo_id, $request->data_entrata);
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+            ->action(function (\Illuminate\Http\Request $request, $idPersona) {
+                return (new \App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController())->index($request, $idPersona);
+            }, ['idPersona' => $persona->id])
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -60,7 +64,9 @@ class PersonaGruppoFamiliareController
         $res = $persona->gruppifamiliari()->detach($id);
         if ($res) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+                ->action(function (\Illuminate\Http\Request $request, $idPersona) {
+                    return (new \App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController())->index($request, $idPersona);
+                }, ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         } else {
             return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");

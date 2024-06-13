@@ -142,11 +142,7 @@ class ApiController
      */
     public function nuovaGomma(Request $request)
     {
-        if ($request->input('note') == '') {
-            $note = '';
-        } else {
-            $note = $request->input('note');
-        }
+        $note = $request->input('note') == '' ? '' : $request->input('note');
         if ($request->input('gomma_id') == '') {
             // salvo la nuova gomma nel db
             try {
@@ -192,9 +188,7 @@ class ApiController
      */
     public function tipiFiltro()
     {
-        $filtri = TipoFiltro::tipo();
-
-        return $filtri;
+        return TipoFiltro::tipo();
     }
 
     /**

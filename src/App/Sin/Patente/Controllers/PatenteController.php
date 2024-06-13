@@ -32,16 +32,7 @@ class PatenteController
 
         $patentiAll = Patente::sortable()->NonScadute()->with('persona')->orderBy('data_scadenza_patente', 'asc')->paginate(50);
 
-        return view('patente.scadenze', compact('patenti',
-            'patentiScadute',
-            'patentiCQCPersone',
-            'patentiCQCPersoneScadute',
-            'patentiCQCMerci',
-            'patentiCQCMerciScadute',
-            'patentiCommissione',
-            'patentiCommisioneScadute',
-            'patentiAll'
-        ));
+        return view('patente.scadenze', ['patenti' => $patenti, 'patentiScadute' => $patentiScadute, 'patentiCQCPersone' => $patentiCQCPersone, 'patentiCQCPersoneScadute' => $patentiCQCPersoneScadute, 'patentiCQCMerci' => $patentiCQCMerci, 'patentiCQCMerciScadute' => $patentiCQCMerciScadute, 'patentiCommissione' => $patentiCommissione, 'patentiCommisioneScadute' => $patentiCommisioneScadute, 'patentiAll' => $patentiAll]);
     }
 
     public function elenchi()
@@ -205,7 +196,7 @@ class PatenteController
 
     public function stampaAutorizzatiPreview()
     {
-        $persone = PopolazioneNomadelfia::take('id');
+        PopolazioneNomadelfia::take('id');
         $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
             ->sortBy(function ($product) {
@@ -283,7 +274,7 @@ class PatenteController
         $categorie = CategoriaPatente::orderby('categoria')->get();
         $cqc = CQC::orderby('categoria')->get();
 
-        return view('patente.search', compact('categorie', 'cqc'));
+        return view('patente.search', ['categorie' => $categorie, 'cqc' => $cqc]);
     }
 
     public function ricerca(Request $request)
@@ -308,11 +299,11 @@ class PatenteController
                 $q->where('numero_patente', 'LIKE', "$numero_patente%");
                 $msgSearch = $msgSearch.' numero_patente='.$numero_patente;
             }
-            if ($request->filled('criterio_data_rilascio') and $request->filled('data_rilascio')) {
+            if ($request->filled('criterio_data_rilascio') && $request->filled('data_rilascio')) {
                 $q->where('data_rilascio_patente', $request->input('criterio_data_rilascio'), $request->input('data_rilascio'));
                 $msgSearch = $msgSearch.' Data Rilascio'.$request->input('criterio_data_rilascio').$request->input('data_rilascio');
             }
-            if ($request->filled('criterio_data_scadenza') and $request->filled('data_scadenza')) {
+            if ($request->filled('criterio_data_scadenza') && $request->filled('data_scadenza')) {
                 $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
                 $orderBy = 'data_scadenza_patente';
                 $msgSearch = $msgSearch.' Data scadenza'.$request->input('criterio_data_scadenza').$request->input('data_scadenza');
@@ -321,7 +312,7 @@ class PatenteController
                 $cqc = $request->cqc_patente;
                 $q->whereHas('cqc', function ($q) use ($cqc, &$msgSearch, $request) {
                     $q->where('id', $cqc);
-                    if ($request->filled('criterio_cqc_data_scadenza') and $request->filled('cqc_data_scadenza')) {
+                    if ($request->filled('criterio_cqc_data_scadenza') && $request->filled('cqc_data_scadenza')) {
                         $q->where('data_scadenza', $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
                         $msgSearch = $msgSearch.' data scadenza '.$request->input('criterio_cqc_data_scadenza').$request->input('cqc_data_scadenza');
                     }
@@ -345,7 +336,7 @@ class PatenteController
         $categorie = CategoriaPatente::orderby('categoria')->get();
         $cqc = CQC::orderby('categoria')->get();
 
-        return view('patente.search', compact('patenti', 'categorie', 'cqc', 'msgSearch'));
+        return view('patente.search', ['patenti' => $patenti, 'categorie' => $categorie, 'cqc' => $cqc, 'msgSearch' => $msgSearch]);
     }
 
     public function elimina($id)
@@ -363,12 +354,12 @@ class PatenteController
         $categorie = CategoriaPatente::all();
         $patente = Patente::find($id); //->where('numero_patente', '=', $id); //->get();
 
-        return view('patente.modifica', compact('categorie', 'patente'));
+        return view('patente.modifica', ['categorie' => $categorie, 'patente' => $patente]);
     }
 
     public function confermaModifica(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
             'numero_patente' => 'required',
             'rilasciata_dal' => 'required',
@@ -403,6 +394,6 @@ class PatenteController
         $categorie = CategoriaPatente::all();
         $persone = Persona::all();
 
-        return view('patente.inserimento', compact('categorie', 'persone'));
+        return view('patente.inserimento', ['categorie' => $categorie, 'persone' => $persone]);
     }
 }

@@ -15,12 +15,12 @@ class MatrimonioController
         $singleMale = Famiglia::notAlreadyMarried()->male()->maggiorenni()->get();
         $singleFemale = Famiglia::notAlreadyMarried()->female()->maggiorenni()->get();
 
-        return view('nomadelfia.famiglie.create', compact('singleMale', 'singleFemale'));
+        return view('nomadelfia.famiglie.create', ['singleMale' => $singleMale, 'singleFemale' => $singleFemale]);
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'husband' => 'required',
             'wife' => 'required',
             'data_matrimonio' => 'required|date',

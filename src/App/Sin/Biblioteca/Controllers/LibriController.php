@@ -19,12 +19,12 @@ class LibriController
     {
         $libro = Libro::findOrFail($idLibro);
 
-        return view('biblioteca.libri.collocazione', compact('libro'));
+        return view('biblioteca.libri.collocazione', ['libro' => $libro]);
     }
 
     public function updateCollocazione(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xCollocazione' => 'required', //per update solito nome
         ], [
             'xCollocazione.required' => 'La collocazione nuova non è stata selezionata.',
@@ -36,7 +36,7 @@ class LibriController
         if ($xCollocazioneNuova != 'null') {
             $libroTarget = Libro::where('collocazione', $xCollocazioneNuova)->first();
             if ($libroTarget) {
-                return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'))->withWarning('Stai cambiando la collocazione');
+                return view('biblioteca.libri.collocazione_confirm', ['libro' => $libro, 'libroTarget' => $libroTarget])->withWarning('Stai cambiando la collocazione');
             } else {
                 $libro->collocazione = $xCollocazioneNuova;
                 $res = $libro->save();
@@ -54,7 +54,7 @@ class LibriController
 
     public function confirmCollocazione(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'idTarget' => 'required', //per update solito nome
         ], [
             'idTarget.required' => 'IL libro a cui prelevare la collocazione è obbligatorio.',
@@ -84,7 +84,7 @@ class LibriController
 
     public function searchConfirm(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xIdEditore' => 'exists:db_biblioteca.editore,id',
             'xIdAutore' => 'exists:db_biblioteca.autore,id',
             'xClassificazione' => 'exists:db_biblioteca.classificazione,id',
@@ -103,7 +103,7 @@ class LibriController
 
         if ($request->filled('xIdEditore')) {
             $editore = Editore::findOrFail($request->xIdEditore);
-            $msgSearch = $msgSearch." Editore= $editore->editore;";
+            $msgSearch .= " Editore= $editore->editore;";
             $idEditore = $request->xIdEditore;
             $queryLibri = Editore::find($editore->id)->libri();
             $orderBy = 'collocazione';
@@ -119,7 +119,7 @@ class LibriController
                 $collocazione = $request->xCollocazione;
                 if ($collocazione == 'null') {
                     $q->where('collocazione', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
+                    $msgSearch .= ' Collocazione=SENZA collocazione';
                 } else {
                     $q->where('collocazione', 'like', "%$collocazione%");
                     $msgSearch = $msgSearch.' Collocazione='.$collocazione;
@@ -128,7 +128,7 @@ class LibriController
             }
             if ($request->filled('xIdEditore')) {
                 $editore = Editore::findOrFail($request->xIdEditore);
-                $msgSearch = $msgSearch." Editore= $editore->editore;";
+                $msgSearch .= " Editore= $editore->editore;";
                 $idEditore = $request->xIdEditore;
                 $q->where('ID_EDITORE', $idEditore);
                 $orderBy = 'collocazione';
@@ -137,7 +137,7 @@ class LibriController
                 $idAutore = $request->xIdAutore;
                 $q->where('ID_AUTORE', $idAutore);
                 $autore = Autore::findOrFail($idAutore)->autore;
-                $msgSearch = $msgSearch." Autore=$autore";
+                $msgSearch .= " Autore=$autore";
             }
             if ($request->filled('xClassificazione')) {
                 $classificazione = (int) $request->xClassificazione;
@@ -166,7 +166,7 @@ class LibriController
         $query = vsprintf($query, $queryLibri->getBindings());
 
         // show also the libri delted only if the authneticated user has role bibioteca
-        if (Auth::check() and Auth::user()->hasRole('biblioteca')) {
+        if (Auth::check() && Auth::user()->hasRole('biblioteca')) {
             $libri = $queryLibri->withTrashed()->orderBy($orderBy)->paginate(50);
         } else {
             $libri = $queryLibri->orderBy($orderBy)->paginate(50);
@@ -209,7 +209,7 @@ class LibriController
 
     public function deleteConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xCancellazioneNote' => 'required', //per update solito nome
         ], [
             'xCancellazioneNote.required' => 'La motivazione della cancellazione del libro è obbligatoria.',
@@ -231,7 +231,7 @@ class LibriController
         $libriEliminati = Libro::onlyTrashed()->paginate(50);
 
         // dd($libriEliminati);
-        return view('biblioteca.libri.deleted', compact('libriEliminati'));
+        return view('biblioteca.libri.deleted', ['libriEliminati' => $libriEliminati]);
     }
 
     public function edit($idLibro)
@@ -245,7 +245,7 @@ class LibriController
 
     public function editConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xTitolo' => 'required',
             // 'xCollocazione'=>"required|unique:db_biblioteca.libro,collocazione,".$idLibro.",ID_libro", //per update solito nome
             'xIdEditore' => 'exists:db_biblioteca.editore,id',
@@ -301,7 +301,7 @@ class LibriController
 
     public function bookConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xDatainizio' => 'date',
             'persona_id' => 'required',
             // 'xIdBibliotecario'=> 'exists:db_ayth.cliente,id'
@@ -334,6 +334,7 @@ class LibriController
                 redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
             }
         }
+        return null;
 
     }
 
@@ -343,12 +344,12 @@ class LibriController
         // flash the url of the insert libro in order to come back after new editore or autore is inserted
         Session::put('insertLibroUrl', $request->fullUrl());
 
-        return view('biblioteca.libri.insert', compact('classificazioni')); //,$editori,$autori);
+        return view('biblioteca.libri.insert', ['classificazioni' => $classificazioni]); //,$editori,$autori);
     }
 
     public function insertConfirm(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xTitolo' => 'required',
             'xIdAutori' => 'required',
             'xIdEditori' => 'required',
@@ -367,11 +368,7 @@ class LibriController
         $_addanother = $request->input('_addanother');  // save and add another libro
         $_addonly = $request->input('_addonly');     // save only
 
-        if ($request->xCollocazione == 'null') {
-            $collocazione = null;
-        } else {
-            $collocazione = $request->xCollocazione;
-        }
+        $collocazione = $request->xCollocazione == 'null' ? null : $request->xCollocazione;
 
         $libro = new Libro;
         $libro->titolo = $request->xTitolo;
@@ -414,5 +411,6 @@ class LibriController
         } else {
             return redirect()->route('libri.inserisci')->withError('Errore nella creazione del libro.');
         }
+        return null;
     }
 }

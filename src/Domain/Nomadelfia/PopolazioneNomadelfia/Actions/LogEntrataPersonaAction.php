@@ -16,7 +16,7 @@ class LogEntrataPersonaAction
             ->withProperties([
                 'data_entrata' => $data_entrata,
                 'gruppo' => $gruppo->nome,
-                'famiglia' => ($famiglia) ? $famiglia->nome_famiglia : null,
+                'famiglia' => ($famiglia instanceof \Domain\Nomadelfia\Famiglia\Models\Famiglia) ? $famiglia->nome_famiglia : null,
             ]
             )
             ->setEvent(AggiornamentoAnagrafe::EVENT_POPOLAZIONE_ENTER)
