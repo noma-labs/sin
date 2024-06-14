@@ -26,8 +26,6 @@ class User extends Authenticatable
 
     protected $primaryKey = 'id';
 
-    protected $dates = ['deleted_at'];
-
     protected $fillable = [
         'name', 'email', 'password', 'username', 'persona_id',
     ];
@@ -35,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $casts = ['deleted_at' => 'datetime'];
 
     public function setPasswordAttribute($password)// mutator that encrypt all the password of the users
     {

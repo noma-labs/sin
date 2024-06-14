@@ -33,7 +33,7 @@ class Prenotazioni extends Model
 
     protected $guarded = [];
 
-    protected $dates = ['deleted_at'];
+    protected $casts = ['deleted_at' => 'datetime'];
 
     protected static function newFactory(): PrenotazioniFactory
     {

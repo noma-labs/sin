@@ -39,8 +39,6 @@ class Libro extends Model
 
     protected $primaryKey = 'id';
 
-    protected $dates = ['deleted_at'];
-
     protected $guarded = []; // all the fields are mass assignabe
 
     protected $enumCategoria = [
@@ -58,6 +56,7 @@ class Libro extends Model
         4,
         5,
     ];
+    protected $casts = ['deleted_at' => 'datetime'];
 
     protected static function newFactory()
     {
