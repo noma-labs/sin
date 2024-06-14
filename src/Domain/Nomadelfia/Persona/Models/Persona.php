@@ -503,6 +503,7 @@ class Persona extends Model
     {
         $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
             $old_data_entrata)->update(['data_entrata' => $data_entrata]);
+
         return $affected > 0;
     }
 
@@ -537,6 +538,7 @@ class Persona extends Model
     public function isPersonaInterna(): bool
     {
         $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where('persona_id', $this->id);
+
         return $pop->count() > 0;
     }
 
