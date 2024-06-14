@@ -31,6 +31,7 @@ class LibriPrestitiController
                 return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
             }
         }
+
         return null;
 
     }

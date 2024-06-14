@@ -120,6 +120,7 @@ class Prenotazioni extends Model
     public function isPartita()
     {
         $adesso = Carbon::now();
+
         return $this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso;
     }
 

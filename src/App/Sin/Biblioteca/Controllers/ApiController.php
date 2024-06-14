@@ -85,6 +85,7 @@ class ApiController
 
             return response()->json($result);
         }
+
         return null;
     }
 

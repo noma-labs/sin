@@ -334,6 +334,7 @@ class LibriController
                 redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
             }
         }
+
         return null;
 
     }
@@ -411,6 +412,7 @@ class LibriController
         } else {
             return redirect()->route('libri.inserisci')->withError('Errore nella creazione del libro.');
         }
+
         return null;
     }
 }

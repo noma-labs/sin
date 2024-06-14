@@ -48,6 +48,7 @@ class PersoneController
                 return redirect(route('nomadelfia.persone.anagrafica.create'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
         }
+
         return null;
     }
 

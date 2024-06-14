@@ -51,6 +51,7 @@ class EditoriController
 
             return redirect()->route('editori.show', ['id' => $editore->id]);
         }
+
         return null;
     }
 

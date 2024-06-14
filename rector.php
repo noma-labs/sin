@@ -8,7 +8,7 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRec
 return RectorConfig::configure()
     // register single rule
     ->withRules([
-        TypedPropertyFromStrictConstructorRector::class
+        TypedPropertyFromStrictConstructorRector::class,
     ])
     // here we can define, what prepared sets of rules will be applied
     ->withPreparedSets(
