@@ -141,7 +141,7 @@ class LibriPrestitiController
 
     public function editConfirm(Request $request, $idPrestito)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',
         ], [
             'xDataRestituzione.after_or_equal' => 'La data di restituzione prestito deve essere maggiore o uguale alla data di inizio prestito',

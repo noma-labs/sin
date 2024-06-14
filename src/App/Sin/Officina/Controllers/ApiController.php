@@ -192,9 +192,7 @@ class ApiController
      */
     public function tipiFiltro()
     {
-        $filtri = TipoFiltro::tipo();
-
-        return $filtri;
+        return TipoFiltro::tipo();
     }
 
     /**

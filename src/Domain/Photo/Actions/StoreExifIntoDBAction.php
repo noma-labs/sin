@@ -12,7 +12,7 @@ class StoreExifIntoDBAction
     {
         $num = 0;
         $buffer = [];
-        foreach (new JsonParser($jsonFile) as $key => $value) {
+        foreach (new JsonParser($jsonFile) as $value) {
             $data = ExifData::fromArray($value);
             $buffer[] = $data;
             if (count($buffer) >= 1000) {

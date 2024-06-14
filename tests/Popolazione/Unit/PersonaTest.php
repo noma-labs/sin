@@ -419,7 +419,6 @@ it('testRientroFamigliaInNomadelfia', function () {
     $data_uscita = Carbon::now()->addYear(10)->toDatestring();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
-    ($data_uscita);
 
     $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_entrata, $data_uscita) {
         $this->assertFalse($componente->isPersonaInterna());

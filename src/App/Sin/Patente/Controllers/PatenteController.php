@@ -205,7 +205,7 @@ class PatenteController
 
     public function stampaAutorizzatiPreview()
     {
-        $persone = PopolazioneNomadelfia::take('id');
+        PopolazioneNomadelfia::take('id');
         $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
             ->sortBy(function ($product) {
@@ -368,7 +368,7 @@ class PatenteController
 
     public function confermaModifica(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
             'numero_patente' => 'required',
             'rilasciata_dal' => 'required',

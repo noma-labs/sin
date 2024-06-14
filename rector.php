@@ -1,14 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ])
+    ->withPreparedSets(deadCode: true)
     ->withSets([
-        LaravelSetList::LARAVEL_100
+        LaravelSetList::LARAVEL_90,
+        LaravelSetList::LARAVEL_100,
     ]);

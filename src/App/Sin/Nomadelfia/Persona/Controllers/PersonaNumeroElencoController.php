@@ -19,7 +19,7 @@ class PersonaNumeroElencoController
 
     public function update(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'numero_elenco' => 'required',
         ], [
             'numero_elenco.required' => 'Il numero di elenco è obbligatorio',

@@ -37,7 +37,7 @@ class FamiglieController
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nome_famiglia' => 'required',
             'data_creazione' => 'required|date',
         ], [
@@ -75,7 +75,7 @@ class FamiglieController
      **/
     public function spostaInGruppoFamiliare(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nuovo_gruppo_id' => 'required',
             'data_cambiogruppo' => 'required|date',
         ], [
@@ -94,7 +94,7 @@ class FamiglieController
 
     public function assegnaComponente(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
             'posizione' => 'required',
             'stato' => 'required',
@@ -131,7 +131,7 @@ class FamiglieController
 
     public function aggiornaComponente(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
             'posizione' => 'required',
             'stato' => 'required',
@@ -158,7 +158,7 @@ class FamiglieController
 
     public function uscita(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_uscita' => 'required|date',
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria.',

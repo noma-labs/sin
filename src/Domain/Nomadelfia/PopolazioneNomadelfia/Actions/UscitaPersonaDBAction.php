@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class UscitaPersonaDBAction
 {
-    public function __construct()
-    {
-    }
-
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
     * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.

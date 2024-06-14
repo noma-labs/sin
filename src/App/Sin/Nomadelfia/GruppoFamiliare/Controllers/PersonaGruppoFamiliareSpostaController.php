@@ -9,7 +9,7 @@ class PersonaGruppoFamiliareSpostaController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'new_gruppo_id' => 'required',
             'new_data_entrata' => 'required|date', // data entrata delnuovo gruppo familiare
             'current_data_entrata' => 'required|date', // data entrata del vecchio gruppo familiare

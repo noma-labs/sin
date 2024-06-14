@@ -10,7 +10,7 @@ class PersonaDecessoController
 {
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_decesso' => 'required',
         ], [
             'data_decesso.required' => 'La data del decesso è obbligatorio',

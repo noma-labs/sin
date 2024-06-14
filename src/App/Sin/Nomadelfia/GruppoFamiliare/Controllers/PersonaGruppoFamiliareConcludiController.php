@@ -9,7 +9,7 @@ class PersonaGruppoFamiliareConcludiController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_entrata' => 'required|date',
             'data_uscita' => 'required|date|after_or_equal:data_entrata',
         ], [

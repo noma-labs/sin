@@ -37,7 +37,7 @@ class IncarichiController
 
     public function assegnaPersona(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'persona_id' => 'required',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
@@ -60,7 +60,7 @@ class IncarichiController
 
     public function insert(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|unique:db_nomadelfia.incarichi,nome',
         ], [
             'name.required' => "Il nome dell'incarico  è obbligatorio.",

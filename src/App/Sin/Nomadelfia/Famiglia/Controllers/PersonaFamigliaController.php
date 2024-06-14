@@ -19,7 +19,7 @@ class PersonaFamigliaController
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nome' => 'required|unique:db_nomadelfia.famiglie,nome_famiglia',
             'posizione_famiglia' => 'required',
             'data_creazione' => 'required|date',
@@ -48,7 +48,7 @@ class PersonaFamigliaController
     // TODO: move into a dedicated controller
     public function spostaInNuovaFamiglia(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'new_famiglia_id' => 'required',
             'new_posizione_famiglia' => 'required',
             'new_data_entrata' => 'required',

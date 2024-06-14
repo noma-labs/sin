@@ -35,7 +35,7 @@ class GruppifamiliariController
 
     public function assegnaCapogruppo(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nuovo' => 'required',
             'inizio' => 'required',
         ], [

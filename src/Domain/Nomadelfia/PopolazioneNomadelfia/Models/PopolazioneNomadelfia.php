@@ -41,11 +41,10 @@ class PopolazioneNomadelfia extends Model
                 LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
                 WHERE popolazione.data_uscita IS NULL AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
                 ORDER BY nominativo");
-        $res = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-
-        return $res;
     }
 
     /*
@@ -94,7 +93,7 @@ class PopolazioneNomadelfia extends Model
 
     public static function daEta(int $eta, string $orderBy = 'nominativo', string $order = 'ASC')
     {
-        $magg = DB::connection('db_nomadelfia')
+        return DB::connection('db_nomadelfia')
             ->table('persone')
             ->selectRaw('persone.*, popolazione.*')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
@@ -102,8 +101,6 @@ class PopolazioneNomadelfia extends Model
             ->where('persone.data_nascita', '<=', Carbon::now()->subYears($eta))
             ->orderByRaw('persone.'.strval($orderBy).' '.$order)
             ->get();
-
-        return $magg;
     }
 
     public static function fraEta(
@@ -368,11 +365,10 @@ class PopolazioneNomadelfia extends Model
                 group by posizioni.nome
                 ORDER BY posizioni.ordinamento"
         );
-        $posizioni = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-
-        return $posizioni;
     }
 
     /*
@@ -453,9 +449,8 @@ class PopolazioneNomadelfia extends Model
         $famiglie = DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-        $famiglie = collect($famiglie)->groupBy('famiglia_id');
 
-        return $famiglie;
+        return collect($famiglie)->groupBy('famiglia_id');
     }
 
     /*
@@ -471,10 +466,9 @@ class PopolazioneNomadelfia extends Model
               WHERE famiglie_persone.stato = '1'
               GROUP BY famiglie_persone.posizione_famiglia,  persone.sesso"
         );
-        $gruppi = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-
-        return $gruppi;
     }
 }

@@ -56,6 +56,7 @@ class Libro extends Model
         4,
         5,
     ];
+
     protected $casts = ['deleted_at' => 'datetime'];
 
     protected static function newFactory()

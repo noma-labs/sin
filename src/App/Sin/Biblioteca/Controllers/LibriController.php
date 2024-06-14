@@ -54,7 +54,7 @@ class LibriController
 
     public function confirmCollocazione(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'idTarget' => 'required', //per update solito nome
         ], [
             'idTarget.required' => 'IL libro a cui prelevare la collocazione è obbligatorio.',
@@ -84,7 +84,7 @@ class LibriController
 
     public function searchConfirm(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xIdEditore' => 'exists:db_biblioteca.editore,id',
             'xIdAutore' => 'exists:db_biblioteca.autore,id',
             'xClassificazione' => 'exists:db_biblioteca.classificazione,id',
@@ -209,7 +209,7 @@ class LibriController
 
     public function deleteConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xCancellazioneNote' => 'required', //per update solito nome
         ], [
             'xCancellazioneNote.required' => 'La motivazione della cancellazione del libro è obbligatoria.',
@@ -245,7 +245,7 @@ class LibriController
 
     public function editConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xTitolo' => 'required',
             // 'xCollocazione'=>"required|unique:db_biblioteca.libro,collocazione,".$idLibro.",ID_libro", //per update solito nome
             'xIdEditore' => 'exists:db_biblioteca.editore,id',
@@ -301,7 +301,7 @@ class LibriController
 
     public function bookConfirm(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xDatainizio' => 'date',
             'persona_id' => 'required',
             // 'xIdBibliotecario'=> 'exists:db_ayth.cliente,id'
@@ -348,7 +348,7 @@ class LibriController
 
     public function insertConfirm(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xTitolo' => 'required',
             'xIdAutori' => 'required',
             'xIdEditori' => 'required',
