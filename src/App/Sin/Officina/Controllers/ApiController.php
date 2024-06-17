@@ -192,7 +192,7 @@ class ApiController
     /**
      * ritorna tutti i tipi di filtro
      */
-    public function tipiFiltro()
+    public function tipiFiltro(): array
     {
         return TipoFiltro::tipo();
     }
