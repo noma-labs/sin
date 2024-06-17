@@ -26,7 +26,7 @@ class TipoFiltro extends Model
     /**
      * ritorna i possibili valori dell'enum tipo
      */
-    public static function tipo()
+    public static function tipo(): array
     {
         return Enums::getPossibleEnumValues('tipo', 'db_meccanica.tipo_filtro');
     }
