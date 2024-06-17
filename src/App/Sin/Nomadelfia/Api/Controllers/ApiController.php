@@ -123,7 +123,7 @@ class ApiController
     /**
      * ritorna l'array con tutte le possibili mansioni
      **/
-    public function mansioni()
+    public function mansioni(): array
     {
         return Enums::getPossibleEnumValues('mansione', 'db_nomadelfia.aziende_persone');
     }
@@ -131,7 +131,7 @@ class ApiController
     /**
      * ritorna l'array con tutti i possibili stati
      **/
-    public function stati()
+    public function stati(): array
     {
         return Enums::getPossibleEnumValues('stato', 'db_nomadelfia.aziende_persone');
     }
