@@ -12,20 +12,20 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 
-it('add responsible to school', function () {
+it('add responsible to school', function (): void {
     $a = Anno::createAnno(2014);
     $p = Studente::factory()->maggiorenne()->maschio()->create();
     $a->aggiungiResponsabile($p);
     expect($a->responsabile->id)->toBe($p->id);
 });
 
-it('build new year correctly', function () {
+it('build new year correctly', function (): void {
     $a = Anno::createAnno(1999);
     expect($a->scolastico)->toBe('1999/2000')
         ->and($a->nextAnnoScolasticoString())->toBe('2000/2001');
 });
 
-it('add classroom', function () {
+it('add classroom', function (): void {
     $a = Anno::createAnno(2007);
     expect($a->id)->not->toBeNull();
     $tipi = ClasseTipo::all();
@@ -42,7 +42,7 @@ it('add classroom', function () {
     expect($c->alunni()->count())->toBe(1);
 });
 
-it('get student from year', function () {
+it('get student from year', function (): void {
     $a = Anno::createAnno(2018);
     $t = ClasseTipo::all();
 
@@ -67,7 +67,7 @@ it('get student from year', function () {
 
 });
 
-it('get students from classroom types', function () {
+it('get students from classroom types', function (): void {
     $a = Anno::createAnno(1815);
     $t = ClasseTipo::all();
     $now = Carbon::now();
@@ -96,7 +96,7 @@ it('get students from classroom types', function () {
         ->and($tot[2]->count)->toBe(2);
 });
 
-it('create classroom in a year', function () {
+it('create classroom in a year', function (): void {
 
     $a = Anno::createAnno(2019);
 
@@ -115,12 +115,12 @@ it('create classroom in a year', function () {
     expect($classe->tipo->id)->toBe($tipo->id);
 });
 
-it('get prescuola type', function () {
+it('get prescuola type', function (): void {
     $t = ClasseTipo::findOrFail(1);
     expect($t->isPrescuola())->toBeTrue();
 });
 
-it('add new student', function () {
+it('add new student', function (): void {
     $now = Carbon::now();
     $a = Anno::createAnno(2002, $now);
     expect($a->data_inizio->toDateString())->toBe($now->toDateString());
@@ -131,7 +131,7 @@ it('add new student', function () {
     $c->aggiungiAlunno($p1, $now->addDays(15));
 });
 
-it('add teacher', function () {
+it('add teacher', function (): void {
     $now = Carbon::now();
     $a = Anno::createAnno(2199, $now);
 
@@ -146,7 +146,7 @@ it('add teacher', function () {
     expect(count($r[ClasseTipo::PRESCUOLA_3ANNI]))->toBe(2);
 });
 
-it('get next type of classroom', function () {
+it('get next type of classroom', function (): void {
 
     $a = Anno::createAnno(2030, '2023-12-12', true);
     $this->assertEquals($a->prescuola3Anni()->nextClasseTipo(), ClasseTipo::Anni4Prescuola());
@@ -161,7 +161,7 @@ it('get next type of classroom', function () {
     $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
 });
 
-it('clone students from existing year', function () {
+it('clone students from existing year', function (): void {
     $a = Anno::createAnno(2050, '2023-12-12', true);
     $this->assertCount(12, $a->classi()->get());
 
@@ -186,7 +186,7 @@ it('clone students from existing year', function () {
 
 });
 
-it('copy students from other classroom', function () {
+it('copy students from other classroom', function (): void {
     $a = Anno::createAnno(2034, '2023-12-12', true);
     expect($a->classi()->get())->toHaveCount(12);
 
@@ -201,7 +201,7 @@ it('copy students from other classroom', function () {
     expect($aNew->alunni())->toHaveCount(2);
 });
 
-it('get next classroom', function () {
+it('get next classroom', function (): void {
     $a = Anno::createAnno(2037, '2023-12-12', true);
     $this->assertEquals($a->prescuola5Anni()->nextClasseTipo(), ClasseTipo::PrimaElem());
     $this->assertEquals($a->primaElementare()->nextClasseTipo(), ClasseTipo::SecondaElem());
@@ -213,7 +213,7 @@ it('get next classroom', function () {
     $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
 });
 
-it('first or create classroom', function () {
+it('first or create classroom', function (): void {
     $a = Anno::createAnno(2070, '2023-12-12');
     expect($a->classi()->get())->toHaveCount(0);
     $a->findOrCreateClasseByTipo(ClasseTipo::prescuola());
@@ -221,7 +221,7 @@ it('first or create classroom', function () {
 
 });
 
-it('get possible students in year', function () {
+it('get possible students in year', function (): void {
     $anno = 1994;
     $a = Anno::createAnno($anno, '2023-12-12', true);
     expect($a->classi()->get())->toHaveCount(12);

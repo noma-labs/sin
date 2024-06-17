@@ -9,11 +9,11 @@ use Symfony\Component\Process\Process;
 
 final class ExifReader
 {
-    protected $exifToolBinary = null;
+    protected $exifToolBinary;
 
-    protected $sourcePath = null;
+    protected $sourcePath;
 
-    protected $targetBasePath = null;
+    protected $targetBasePath;
 
     public ?int $timeout;
 
@@ -183,7 +183,7 @@ final class ExifReader
         return $this;
     }
 
-    public function saveCsv(string $targetPath)
+    public function saveCsv(string $targetPath): void
     {
         $this->exportToCSV($targetPath);
 
@@ -203,7 +203,7 @@ final class ExifReader
 
         $command = $this->createExifToolCommand($this->sourcePath);
 
-        $output = $this->callExifTool($command);
+        $this->callExifTool($command);
 
         return $fullName;
     }
@@ -218,7 +218,7 @@ final class ExifReader
 
         $a = eval('return '.$output);
 
-        return collect($a)->map(fn ($photo) => ExifData::fromArray($photo));
+        return collect($a)->map(fn ($photo): \Domain\Photo\Models\ExifData => ExifData::fromArray($photo));
     }
 
     // TODO: the return iterator losse some row information
@@ -275,7 +275,7 @@ final class ExifReader
             return rtrim($process->getOutput());
         }
         $process->clearOutput();
-        $exitCode = $process->getExitCode();
+        $process->getExitCode();
 
         return $process->getErrorOutput();
     }

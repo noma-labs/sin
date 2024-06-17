@@ -8,7 +8,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
-it('testAssegnaCapoGruppo', function () {
+it('testAssegnaCapoGruppo', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
@@ -21,7 +21,7 @@ it('testAssegnaCapoGruppo', function () {
     expect($gruppo->capogruppoAttuale()->id)->toBe($persona->id);
 });
 
-it('testAssegnaCapogruppoErrorsWithPostulante', function () {
+it('testAssegnaCapogruppoErrorsWithPostulante', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
@@ -33,7 +33,7 @@ it('testAssegnaCapogruppoErrorsWithPostulante', function () {
     expect($gruppo->capogruppoAttuale())->toBeNull();
 });
 
-it('testAssegnaCapogruppoErrorsWithOspite', function () {
+it('testAssegnaCapogruppoErrorsWithOspite', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
@@ -44,7 +44,7 @@ it('testAssegnaCapogruppoErrorsWithOspite', function () {
     expect($gruppo->capogruppoAttuale())->toBeNull();
 });
 
-it('testAssegnaCapogruppoErrorsWithWomen', function () {
+it('testAssegnaCapogruppoErrorsWithWomen', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->femmina()->create();

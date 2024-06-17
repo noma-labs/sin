@@ -18,37 +18,37 @@ class SearchPersona extends Component
 
     public string $noResultsMessage = 'Nessun risultato trovato';
 
-    public function mount(string $placeholder = '--Inserisci Nominativo--')
+    public function mount(string $placeholder = '--Inserisci Nominativo--'): void
     {
         $this->placeholder = $placeholder;
         $this->selected = collect();
     }
 
-    public function select(string $alias)
+    public function select(string $alias): void
     {
         $this->selected = $this->selected->push($alias)->unique();
         $this->reset('options', 'searchTerm');
     }
 
-    public function deselect(string $alias)
+    public function deselect(string $alias): void
     {
-        $this->selected = $this->selected->reject(function ($selectedAlias) use ($alias) {
+        $this->selected = $this->selected->reject(function ($selectedAlias) use ($alias): bool {
             return $selectedAlias == $alias;
         });
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->selected = collect();
         $this->reset('options', 'searchTerm');
     }
 
-    public function updatedSearchTerm($value)
+    public function updatedSearchTerm(string $value): void
     {
         $this->search($value);
     }
 
-    public function search(string $term)
+    public function search(string $term): void
     {
         $this->reset('options');
         $this->options = Persona::query()

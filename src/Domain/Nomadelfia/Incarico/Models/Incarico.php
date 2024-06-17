@@ -39,7 +39,7 @@ class Incarico extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('nome');
         });
     }
@@ -77,7 +77,7 @@ class Incarico extends Model
      */
     public static function getBusyPeople(int $minNum = 3)
     {
-        $personeCount = DB::connection('db_nomadelfia')
+        return DB::connection('db_nomadelfia')
             ->table('incarichi_persone')
             ->selectRaw('persone.id, max(persone.nominativo) as nominativo,  count(*)  as count')
             ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
@@ -88,7 +88,5 @@ class Incarico extends Model
             //->limit($limit)
             //->limit($limit)
             ->get();
-
-        return $personeCount;
     }
 }

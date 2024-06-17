@@ -18,7 +18,7 @@ class EntrataMaggiorenneConFamigliaAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo)
+    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo): void
     {
         if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
@@ -37,23 +37,23 @@ class EntrataMaggiorenneConFamigliaAction
 
     }
 
-    public function calcFamiglia(EntrataPersonaData $dto)
+    public function calcFamiglia(EntrataPersonaData $dto): void
     {
         $dto->famiglia_posizione = '';
     }
 
-    public function calcPosizione(EntrataPersonaData $dto)
+    public function calcPosizione(EntrataPersonaData $dto): void
     {
         $dto->posizione = Posizione::find('OSPP');
         $dto->posizione_data = $dto->data_entrata;
     }
 
-    public function calcStato(EntrataPersonaData $dto)
+    public function calcStato(EntrataPersonaData $dto): void
     {
         $dto->stato_data = $dto->persona->data_nascita;
     }
 
-    public function calcGruppoFamiliare(EntrataPersonaData $dto)
+    public function calcGruppoFamiliare(EntrataPersonaData $dto): void
     {
         $dto->gruppo_data = $dto->data_entrata;
     }

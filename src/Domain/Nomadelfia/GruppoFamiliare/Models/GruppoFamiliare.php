@@ -75,7 +75,8 @@ class GruppoFamiliare extends Model
                     AND gruppi_persone.gruppo_famigliare_id = :gr AND persone.sesso = 'M' AND gruppi_persone.persona_id != :capoatt
                 ORDER BY persone.data_nascita ASC"
         );
-        $res = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             [
                 'gr' => $this->id,
@@ -83,14 +84,12 @@ class GruppoFamiliare extends Model
                 'capoatt' => $attuale ? $attuale->id : '',
             ]
         );
-
-        return $res;
     }
 
     /**
      *  Assegna un nuovo capogruppo
      */
-    public function assegnaCapogruppo($persona, $data_inizio)
+    public function assegnaCapogruppo($persona, $data_inizio): void
     {
         // TODO: controllare che la persona sia un mascho e nomadeflo effettivo
         if (is_string($persona)) {
@@ -150,11 +149,10 @@ class GruppoFamiliare extends Model
                       AND gruppi_persone.gruppo_famigliare_id = 9
                 )
                 order by data_nascita");
-        $gruppi = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
         );
-
-        return $gruppi;
     }
 
     /*
@@ -169,11 +167,10 @@ class GruppoFamiliare extends Model
                             group by gruppi_persone.gruppo_famigliare_id
                             order by gruppi_familiari.nome"
         );
-        $gruppi = DB::connection('db_nomadelfia')->select(
+
+        return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
         );
-
-        return $gruppi;
     }
 
     /*

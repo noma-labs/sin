@@ -7,7 +7,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class LogUscitaPersonaAction
 {
-    public function execute(Persona $persona, string $data_entrata, string $data_uscita)
+    public function execute(Persona $persona, string $data_entrata, string $data_uscita): void
     {
         activity(AggiornamentoAnagrafe::LOG_NAME)
             ->performedOn($persona)

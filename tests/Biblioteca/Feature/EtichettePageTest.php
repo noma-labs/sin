@@ -4,7 +4,7 @@ namespace Tests\Biblioteca\Feature;
 
 use App\Biblioteca\Models\Libro;
 
-it('download the etichette pfd of multiple books', function () {
+it('download the etichette pfd of multiple books', function (): void {
 
     Libro::factory()
         ->toBePrinted()
@@ -20,7 +20,7 @@ it('download the etichette pfd of multiple books', function () {
 
 })->skip('action has problem with puppeteer');
 
-it('download the etichette pfd of a single book', function () {
+it('download the etichette pfd of a single book', function (): void {
 
     $libro = Libro::factory()
         ->toBePrinted()

@@ -9,20 +9,20 @@ use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 
-it('forbids access to guests', function () {
+it('forbids access to guests', function (): void {
     $this->get(action([ScuolaController::class, 'summary']))
         ->assertRedirect(route('login'));
 
 });
 
-it('can list anni scolastici', function () {
+it('can list anni scolastici', function (): void {
     login();
     $this->get(action([ScuolaController::class, 'summary']))
         ->assertSuccessful();
 
 });
 
-it('can create nuovo anno', function () {
+it('can create nuovo anno', function (): void {
     login();
     $this->withoutExceptionHandling();
     $this->post(action([ScuolaController::class, 'aggiungiAnnoScolastico'], [
@@ -35,7 +35,7 @@ it('can create nuovo anno', function () {
     ]);
 });
 
-it('can list classi in anno scolastico', function () {
+it('can list classi in anno scolastico', function (): void {
     $a = Anno::createAnno(2017);
     $tipi = ClasseTipo::all();
     $c = $a->aggiungiClasse($tipi->random());
@@ -48,7 +48,7 @@ it('can list classi in anno scolastico', function () {
 
 });
 
-it('can delete classe', function () {
+it('can delete classe', function (): void {
     $a = Anno::createAnno(2000);
     $tipi = ClasseTipo::all();
     $c = $a->aggiungiClasse($tipi->random());

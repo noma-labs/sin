@@ -68,7 +68,7 @@ class EditoriController
 
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $editore = Editore::findOrFail($id);
 

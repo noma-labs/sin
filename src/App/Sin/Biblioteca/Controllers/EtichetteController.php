@@ -27,7 +27,7 @@ class EtichetteController
         return view('biblioteca.libri.etichette.printsingle', ['libri' => $libri]);
     }
 
-    public function printToPdf(Request $request)
+    public function printToPdf(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("etichette-$date.pdf");

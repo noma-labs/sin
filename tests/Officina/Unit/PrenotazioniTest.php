@@ -8,11 +8,11 @@ use Carbon\Carbon;
 
 use function Spatie\PestPluginTestTime\testTime;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Prenotazioni::truncate();
 });
 
-it('show the bookings active today', function () {
+it('show the bookings active today', function (): void {
     testTime()->freeze('2024-03-23 12:00:00');
 
     $startOfDay = Carbon::parse('2024-03-23')->startOfDay();
@@ -34,7 +34,7 @@ it('show the bookings active today', function () {
     expect(Veicolo::withBookingsIn($startOfDay, $endOfDay)->get()->whereNotNull('prenotazione_id')->count())->toBe(4);
 });
 
-it('show the bookings active yesterday', function () {
+it('show the bookings active yesterday', function (): void {
     testTime()->freeze('2024-03-23 12:00:00');
 
     $startOfDay = Carbon::yesterday()->startOfDay();
@@ -56,7 +56,7 @@ it('show the bookings active yesterday', function () {
     expect(Veicolo::withBookingsIn($startOfDay, $endOfDay)->get()->whereNotNull('prenotazione_id')->count())->toBe(4);
 });
 
-it('returns vehicle with  multiple booking in time range', function () {
+it('returns vehicle with  multiple booking in time range', function (): void {
     testTime()->freeze('2024-04-10 12:00:00');
 
     $veicolo = Veicolo::factory()->create();
@@ -73,7 +73,7 @@ it('returns vehicle with  multiple booking in time range', function () {
         ->toBe(2);
 });
 
-it('return all vechicles with a booking outside of the selected timerange', function () {
+it('return all vechicles with a booking outside of the selected timerange', function (): void {
     testTime()->freeze('2024-04-10 12:00:00');
 
     $veicolo = Veicolo::factory()->create();
@@ -86,7 +86,7 @@ it('return all vechicles with a booking outside of the selected timerange', func
 
 });
 
-it('return correct bookings', function () {
+it('return correct bookings', function (): void {
     testTime()->freeze('2024-04-11 12:00:00');
 
     $veicolo = Veicolo::factory()->create();
@@ -116,7 +116,7 @@ it('return correct bookings', function () {
     expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-10 08:00'), Carbon::parse('2024-04-12 08:00'))->get())->toHaveCount(1);
 });
 
-it('allow booking a vehicle with a deleted booking', function () {
+it('allow booking a vehicle with a deleted booking', function (): void {
     testTime()->freeze('2024-04-11 12:00:00');
 
     $veicolo = Veicolo::factory()->create();
@@ -133,7 +133,7 @@ it('allow booking a vehicle with a deleted booking', function () {
     expect(Prenotazioni::inTimeRange(Carbon::parse('2024-04-11 07:00'), Carbon::parse('2024-04-11 09:00'))->get())->toHaveCount(0);
 });
 
-it('allow booking a vehicle with a deleted booking spanning multiple days', function () {
+it('allow booking a vehicle with a deleted booking spanning multiple days', function (): void {
     testTime()->freeze('2024-04-11 12:00:00');
 
     $veicolo = Veicolo::factory()->create();

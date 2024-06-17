@@ -18,11 +18,11 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 });
 
-it('will send email if a person enter', function () {
+it('will send email if a person enter', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA44')->create();
     $data_entrata = Carbon::now()->toDatestring();
@@ -40,7 +40,7 @@ it('will send email if a person enter', function () {
         $famiglia,
     );
 
-    Mail::assertSent(PersonaEntrataMail::class, function (PersonaEntrataMail $mail) {
+    Mail::assertSent(PersonaEntrataMail::class, function (PersonaEntrataMail $mail): bool {
         return $mail->hasTo('rec1@email.com') &&
             $mail->hasCc('cc@email.com') &&
             $mail->hasCC('cc2@com');
@@ -48,7 +48,7 @@ it('will send email if a person enter', function () {
 
 });
 
-it('will send email if person exit', function () {
+it('will send email if person exit', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA45')->create();
     $data_entrata = Carbon::now()->toDatestring();
@@ -70,7 +70,7 @@ it('will send email if person exit', function () {
 
 });
 
-it('sends an email if a person enter', function () {
+it('sends an email if a person enter', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
@@ -92,7 +92,7 @@ it('sends an email if a person enter', function () {
 
 });
 
-it('sends an email if a person exit', function () {
+it('sends an email if a person exit', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     $data_entrata = Carbon::now()->toDatestring();
@@ -112,7 +112,7 @@ it('sends an email if a person exit', function () {
     });
 });
 
-it('will send email if a person die', function () {
+it('will send email if a person die', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA55')->create();
     $data_decesso = Carbon::now()->toDatestring();
@@ -132,7 +132,7 @@ it('will send email if a person die', function () {
 
 });
 
-it('will NOT send email if person exit', function () {
+it('will NOT send email if person exit', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA72')->create();
     $data_entrata = Carbon::now()->toDatestring();
@@ -152,7 +152,7 @@ it('will NOT send email if person exit', function () {
 
 });
 
-it('will NOT send email if person enter', function () {
+it('will NOT send email if person enter', function (): void {
 
     Config::set('aggiornamento-anagrafe.enabled', false);
 

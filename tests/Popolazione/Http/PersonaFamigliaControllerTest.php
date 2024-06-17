@@ -7,14 +7,14 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-it('can render the famiglia index page of a person', function () {
+it('can render the famiglia index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaFamigliaController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('can create family and assign a person to it', function () {
+it('can create family and assign a person to it', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data_entrata = Carbon::now()->addDay()->toDatestring();

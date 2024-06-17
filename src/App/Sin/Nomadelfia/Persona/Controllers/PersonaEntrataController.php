@@ -67,7 +67,7 @@ class PersonaEntrataController
 
     public function update(Request $request, $idPersona, $entrata)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_entrata' => 'date',
         ], [
             'data_entrata.date' => 'La data entrata non è valida.',

@@ -111,7 +111,7 @@ class ApiController
     /**
      * elimina una tipo di gomma da un veicolo
      */
-    public function eliminaGomma(Request $request)
+    public function eliminaGomma(Request $request): array
     {
         $veicolo = Veicolo::find($request->input('veicolo'));
         try {
@@ -140,7 +140,7 @@ class ApiController
     /**
      * salva una nuova gomma e la lega ad un veicolo
      */
-    public function nuovaGomma(Request $request)
+    public function nuovaGomma(Request $request): array
     {
         if ($request->input('note') == '') {
             $note = '';
@@ -175,8 +175,10 @@ class ApiController
 
     /**
      * ritorna tutti i filtri nel db
+     *
+     * @return mixed[]
      */
-    public function filtri()
+    public function filtri(): array
     {
         $filtri = TipoFiltro::all()->sortBy('tipo');
         $result = [];
@@ -190,17 +192,15 @@ class ApiController
     /**
      * ritorna tutti i tipi di filtro
      */
-    public function tipiFiltro()
+    public function tipiFiltro(): array
     {
-        $filtri = TipoFiltro::tipo();
-
-        return $filtri;
+        return TipoFiltro::tipo();
     }
 
     /**
      * elimina un filtro dal db
      */
-    public function eliminaFiltro(Request $request)
+    public function eliminaFiltro(Request $request): array
     {
         $filtro = TipoFiltro::find($request->input('filtro'));
         try {

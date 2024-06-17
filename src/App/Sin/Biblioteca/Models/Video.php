@@ -15,5 +15,5 @@ class Video extends Model
 
     protected $primaryKey = 'id';
 
-    protected $dates = ['data_registrazione'];
+    protected $casts = ['data_registrazione' => 'datetime'];
 }

@@ -27,7 +27,7 @@ class Autore extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('tipaut', function (Builder $builder) {
+        static::addGlobalScope('tipaut', function (Builder $builder): void {
             $builder->where('tipaut', 'S');
         });
     }
@@ -37,7 +37,7 @@ class Autore extends Model
         return AutoreFactory::new();
     }
 
-    public function setAutoreAttribute($value)
+    public function setAutoreAttribute($value): void
     {
         $this->attributes['autore'] = strtoupper($value);
     }

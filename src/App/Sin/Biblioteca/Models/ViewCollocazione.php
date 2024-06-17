@@ -38,7 +38,7 @@ class ViewCollocazione extends Model
         return $query->numeri($lettere)->get()->max()->numeri;
     }
 
-    public function scopeNumeriMancanti($query, $lettere)
+    public function scopeNumeriMancanti($query, $lettere): array
     {
         $numeri = $query->numeri($lettere)->get()->toArray();
         $max = $query->numeri($lettere)->get()->max()->numeri;

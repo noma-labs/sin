@@ -109,7 +109,7 @@ class ApiController
     public function patenteCategorie(Request $request, $numero)
     {
         if ($request->input('filtro') == 'possibili') {
-            $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero) {
+            $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero): void {
                 $query->where('patenti_categorie.numero_patente', '=', $numero);
             })->get();
         } else {
@@ -133,7 +133,7 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function ($persona) {
+        $persone->map(function (array $persona): array {
             if ($persona->cliente_con_patente != null) {
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.')';
             } else {
@@ -154,7 +154,7 @@ class ApiController
     {
         $term = $request->term;
         $persone = ViewClientiConSenzaPatente::SenzaPatente()
-            ->where(function ($query) use ($term) {
+            ->where(function ($query) use ($term): void {
                 $query->where('nome', 'LIKE', "$term%")
                     ->orWhere('cognome', 'LIKE', "$term%")
                     ->orWhere('nominativo', 'LIKE', "$term%");
@@ -163,7 +163,7 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function ($persona) {
+        $persone->map(function (array $persona): void {
             $persona['value'] = "($persona->data_nascita) $persona->nome  $persona->cognome";
         });
 
@@ -178,7 +178,7 @@ class ApiController
     {
         $term = $request->term;
         $persone = ViewClientiConSenzaPatente::ConPatente()
-            ->where(function ($query) use ($term) {
+            ->where(function ($query) use ($term): void {
                 $query->where('nome', 'LIKE', "$term%")
                     ->orWhere('cognome', 'LIKE', "$term%")
                     ->orWhere('nominativo', 'LIKE', "$term%");
@@ -186,7 +186,7 @@ class ApiController
             })
             ->take(50)
             ->get();
-        $persone->map(function ($persona) {
+        $persone->map(function (array $persona): array {
             $persona['value'] = $persona->nome.' '.$persona->cognome;
 
             return $persona;
@@ -246,15 +246,15 @@ class ApiController
         // from  [ {categoria:"A", id: 4, pivot: { data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }}, ...]
         // to    [ id => ['data_rilascio =>date, 'data_scadenza'=>date], id2=>[] ]
         $categorie_cqc = collect();
-        foreach ($categorie as $key => $value) {
+        foreach ($categorie as $value) {
             $categorie_cqc->put($value['id'], []);
             // , array('data_rilascio'=> $value['pivot']['data_rilascio'],
             // 'data_scadenza'=> $value['pivot']['data_scadenza']));
         }
 
         $cqc = $body['cqc'];
-        $cqc_formatted = collect();
-        foreach ($cqc as $key => $value) {
+        collect();
+        foreach ($cqc as $value) {
             $categorie_cqc->put($value['id'], ['data_rilascio' => $value['pivot']['data_rilascio'],
                 'data_scadenza' => $value['pivot']['data_scadenza']]);
         }

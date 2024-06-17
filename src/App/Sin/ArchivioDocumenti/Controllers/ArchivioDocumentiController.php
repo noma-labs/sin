@@ -42,7 +42,7 @@ class ArchivioDocumentiController
         return view('archiviodocumenti.etichette.view', compact('libriTobePrinted'));
     }
 
-    public function esporta()
+    public function esporta(): void
     {
         // TODO use browsershot to generate pdf
     }
@@ -83,7 +83,7 @@ class ArchivioDocumentiController
             return redirect()->route('archiviodocumenti')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
-        $queryLibri = ArchivioDocumento::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryLibri = ArchivioDocumento::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->titolo) {
                 $titolo = $request->titolo;
                 $q->where('titolo', 'like', "%$titolo%");

@@ -10,18 +10,18 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
-it('forbids access to guests', function () {
+it('forbids access to guests', function (): void {
     $this->get(action([PopolazioneSummaryController::class, 'index']))
         ->assertRedirect(route('login'));
 });
 
-it('show index of nomadelfia', function () {
+it('show index of nomadelfia', function (): void {
     login();
     $this->get(action([PopolazioneSummaryController::class, 'index']))
         ->assertSuccessful();
 });
 
-it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function () {
+it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $data_entrata = Carbon::now()->toDatestring();
     $gruppo = GruppoFamiliare::all()->random();
@@ -42,7 +42,7 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
     //            ->assertSee("Il nominativo inserito è già assegnato alla persona");
 });
 
-it('can_export_popolazione_into_word', function () {
+it('can_export_popolazione_into_word', function (): void {
     login();
     $this->withoutExceptionHandling();
     $this->post(action([PopolazioneNomadelfiaController::class, 'print']),

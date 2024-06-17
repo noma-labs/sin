@@ -28,7 +28,7 @@ class Modelli extends Model
     }
 
     // mette il nome in maiuscolo quando un nuovo modello viene creato o modificato.
-    public function setNomeAttribute($value)
+    public function setNomeAttribute($value): void
     {
         $this->attributes['nome'] = strtoupper($value);
     }

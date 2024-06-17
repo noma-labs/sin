@@ -26,7 +26,7 @@ class Uso extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('ordinamento', function (Builder $builder) {
+        static::addGlobalScope('ordinamento', function (Builder $builder): void {
             $builder->orderBy('ordinamento');
         });
     }

@@ -9,11 +9,9 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailPersonaDecessoAction
 {
-    public function execute(Persona $persona, string $data_decesso)
+    public function execute(Persona $persona, string $data_decesso): void
     {
-        if (is_string($data_decesso)) {
-            $data_decesso = Carbon::parse($data_decesso);
-        }
+        $data_decesso = Carbon::parse($data_decesso);
         $to = config('aggiornamento-anagrafe.to');
         $cc = config('aggiornamento-anagrafe.cc');
         if (config('aggiornamento-anagrafe.enabled')) {

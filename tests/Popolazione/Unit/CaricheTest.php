@@ -9,12 +9,12 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleActi
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Illuminate\Support\Facades\DB;
 
-it('check the seeded cariche', function () {
+it('check the seeded cariche', function (): void {
     expect(count(Cariche::AssociazioneCariche()))->toBe(12)
         ->and(count(Cariche::SolidarietaCariche()))->toBe(4);
 });
 
-it('can get the president of associazione', function () {
+it('can get the president of associazione', function (): void {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
 
     $carica = Cariche::associazione()->presidente()->first();
@@ -33,7 +33,7 @@ it('can get the president of associazione', function () {
     expect($persona->provincia_nascita, $p->provincia_nascita);
 });
 
-it('get the eligible condidates', function () {
+it('get the eligible condidates', function (): void {
     // entrata maggiorenne maschio
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();

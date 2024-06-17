@@ -9,7 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 
-it('entrata_minorenne_con_famiglia', function () {
+it('entrata_minorenne_con_famiglia', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
@@ -36,7 +36,7 @@ it('entrata_minorenne_con_famiglia', function () {
 
 });
 
-it('entrata_minorenne_accolto', function () {
+it('entrata_minorenne_accolto', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();

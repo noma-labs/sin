@@ -33,7 +33,7 @@ class Azienda extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('nome_azienda');
         });
     }
@@ -82,12 +82,12 @@ class Azienda extends Model
         return static::where('nome_azienda', $nome)->first();
     }
 
-    public function isIncarico()
+    public function isIncarico(): bool
     {
         return $this->tipo == 'incarico';
     }
 
-    public function isAzienda()
+    public function isAzienda(): bool
     {
         return $this->tipo == 'azienda';
     }

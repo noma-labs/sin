@@ -17,7 +17,7 @@ class PersonaGruppoFamiliareController
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'current_data_entrata' => 'required|date',
             'new_data_entrata' => 'required|date',
         ], [
@@ -39,7 +39,7 @@ class PersonaGruppoFamiliareController
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'gruppo_id' => 'required',
             'data_entrata' => 'required|date',
         ], [

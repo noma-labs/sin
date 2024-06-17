@@ -19,7 +19,7 @@ class VideoController
         throw new Exception('not implemented yet');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         dd('Not implemented yet');
     }

@@ -17,7 +17,7 @@ class PersonaAziendeController
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'azienda_id' => 'required',
             'mansione' => 'required',
             'data_inizio' => 'required|date',
@@ -49,7 +49,7 @@ class PersonaAziendeController
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'mansione' => 'required',
             'data_entrata' => 'required|date',
             'stato' => 'required',

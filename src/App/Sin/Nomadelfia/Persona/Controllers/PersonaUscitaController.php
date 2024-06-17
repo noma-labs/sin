@@ -11,7 +11,7 @@ class PersonaUscitaController
 {
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_uscita' => 'required',
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria',
@@ -30,7 +30,7 @@ class PersonaUscitaController
 
     public function update(Request $request, $idPersona, $uscita)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_uscita' => 'date',
         ], [
             'data_uscita.date' => 'La data uscita non è valida.',

@@ -9,7 +9,7 @@ use App\Admin\Controllers\UserController;
 use App\Admin\Models\User;
 use Spatie\Permission\Models\Role;
 
-it('forbids not super-admin user to see admin dashboards', function () {
+it('forbids not super-admin user to see admin dashboards', function (): void {
     $notSuperAdmin = User::create(['username' => 'not-super-admin', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
     $meccanicaAmm = Role::findByName('meccanica-amm');
     $notSuperAdmin->assignRole($meccanicaAmm);

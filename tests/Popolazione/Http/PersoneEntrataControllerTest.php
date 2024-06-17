@@ -11,14 +11,14 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-it('can show the form to enter a person', function () {
+it('can show the form to enter a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaEntrataController::class, 'create'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
+it('it_can_insert_minorenne_accolto_nella_popolazione', function (): void {
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::all()->random();
     $data_entrata = Carbon::now()->toDatestring();
@@ -54,7 +54,7 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function () {
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioAccoltoEnum());
 });
 
-it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
+it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function (): void {
     $data_nascita = Carbon::now();
     $persona = Persona::factory()->minorenne()->nato($data_nascita)->maschio()->create();
     $data_entrata = Carbon::now()->toDatestring();
@@ -88,7 +88,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function () {
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioNatoEnum());
 });
 
-it('entrata_persona_dalla_nascita', function () {
+it('entrata_persona_dalla_nascita', function (): void {
     $data_nascita = Carbon::now();
     $persona = Persona::factory()->minorenne()->nato($data_nascita)->femmina()->create();
     $famiglia = Famiglia::factory()->create();
@@ -121,7 +121,7 @@ it('entrata_persona_dalla_nascita', function () {
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioNatoEnum());
 });
 
-it('entrata_maggiorenne_single', function () {
+it('entrata_maggiorenne_single', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
@@ -148,7 +148,7 @@ it('entrata_maggiorenne_single', function () {
 }
 );
 
-it('entrata_maggiorenne_sposato', function () {
+it('entrata_maggiorenne_sposato', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->create();
     $gruppo = GruppoFamiliare::first();

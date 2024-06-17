@@ -19,7 +19,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-it('remove dead person from population', function () {
+it('remove dead person from population', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     $data_entrata = Carbon::now()->toDatestring();
@@ -50,7 +50,7 @@ it('remove dead person from population', function () {
     expect(count($pop))->toBe($tot - 1);
 });
 
-it('manage exit of an adult', function () {
+it('manage exit of an adult', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     $data_entrata = Carbon::now()->toDatestring();
@@ -98,7 +98,7 @@ it('manage exit of an adult', function () {
 * viene tolto da tutte le posizioni con la data di uscita
 * e viene tolto dal nucleo familiare.
 */
-it('manage exit of underage', function () {
+it('manage exit of underage', function (): void {
     $persona = Persona::factory()->minorenne()->maschio()->create();
 
     $gruppo = GruppoFamiliare::all()->random();
@@ -145,7 +145,7 @@ it('manage exit of underage', function () {
     expect(count($pop))->toBe($tot - 1);
 });
 
-it('manage exit of family', function () {
+it('manage exit of family', function (): void {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
     expect(count($pop))->toBe($init_tot);
@@ -188,7 +188,7 @@ it('manage exit of family', function () {
 * Testa l'uscita di una famiglia con alcuni componeneti fuori dal nucleo.
 * Controlla che i componenti fuori dal nucleo rimagono come persone interne.
 */
-it('manage people not part of family when it exits', function () {
+it('manage people not part of family when it exits', function (): void {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
     $pop = PopolazioneNomadelfia::popolazione();
     $this->assertEquals($init_tot, count($pop));
@@ -236,7 +236,7 @@ it('manage people not part of family when it exits', function () {
 /*
 * Testa il conteggio dei figli minorenni nella popolazione
 */
-it('count the underages of the population', function () {
+it('count the underages of the population', function (): void {
     $now = Carbon::now()->toDatestring();
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
@@ -265,7 +265,7 @@ it('count the underages of the population', function () {
 /*
  * Testa quando una persona diventa postulante e nomadelfo effettivo
  */
-it('assign postulante and effettivo status', function () {
+it('assign postulante and effettivo status', function (): void {
     // entrata maggiorenne
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -280,7 +280,7 @@ it('assign postulante and effettivo status', function () {
     expect($persona->posizioneAttuale()->isEffettivo())->toBeTrue();
 });
 
-it('returns the figli between two ages', function () {
+it('returns the figli between two ages', function (): void {
     // store the actual figli (maybe inserted by other tests)
     $before3 = PopolazioneNomadelfia::figliDaEta(3, 4, 'nominativo', null)->count();
     $before24 = PopolazioneNomadelfia::figliDaEta(2, 4, 'nominativo', null)->count();
@@ -308,7 +308,7 @@ it('returns the figli between two ages', function () {
 
 });
 
-it('return the count of population', function () {
+it('return the count of population', function (): void {
     $before = PopolazioneNomadelfia::presente()->count();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 

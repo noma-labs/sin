@@ -47,7 +47,7 @@ class Patente extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('InNomadelfia', function (Builder $builder) {
+        static::addGlobalScope('InNomadelfia', function (Builder $builder): void {
             $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
                 ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
                 ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
@@ -183,11 +183,10 @@ class Patente extends Model
     }
 
     /** Return TRUE if the patente has the commissione, FALSE otherwise
-     * @return bool
      *
      * @author Davide Neri
      */
-    public function hasCommissione()
+    public function hasCommissione(): bool
     {
         return $this->stato == 'commissione';
     }

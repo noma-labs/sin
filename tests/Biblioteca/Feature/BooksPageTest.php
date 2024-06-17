@@ -10,7 +10,7 @@ use App\Biblioteca\Models\Libro;
 
 use function Pest\Laravel\post;
 
-it('will search books by location', function () {
+it('will search books by location', function (): void {
 
     $book = Libro::factory()
         ->physicalPlacement('AAA001')
@@ -25,7 +25,7 @@ it('will search books by location', function () {
         ->assertSee($book->collocazione);
 });
 
-it('will update book when the admin is logged in', function () {
+it('will update book when the admin is logged in', function (): void {
 
     $book = Libro::factory()
         ->has(Editore::factory(), 'editori')
@@ -49,7 +49,7 @@ it('will update book when the admin is logged in', function () {
     expect(Libro::find($book->id)->titolo)->toBe(strtoupper($title));
 });
 
-it('will edit the physical location when the admin is logged in', function () {
+it('will edit the physical location when the admin is logged in', function (): void {
 
     $book = Libro::factory()
         ->physicalPlacement('AAA001')
@@ -69,7 +69,7 @@ it('will edit the physical location when the admin is logged in', function () {
     expect(Libro::find($book->id)->collocazione)->toBe($new);
 });
 
-it('will swap the physical location of two books when the admin is logged in', function () {
+it('will swap the physical location of two books when the admin is logged in', function (): void {
 
     $book1 = Libro::factory()
         ->physicalPlacement('AAA099')
@@ -93,7 +93,7 @@ it('will swap the physical location of two books when the admin is logged in', f
     expect(Libro::find($book2->id)->collocazione)->toBe($book1->collocazione);
 });
 
-it('will insert a book when the admin is logged in', function () {
+it('will insert a book when the admin is logged in', function (): void {
 
     $sendRequest = fn () => post(action([LibriController::class, 'insertConfirm']), [
         'xTitolo' => 'MY title',

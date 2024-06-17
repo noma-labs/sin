@@ -45,7 +45,7 @@ class Cariche extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('org');
         });
     }
@@ -53,19 +53,17 @@ class Cariche extends Model
     public static function AssociazioneCariche()
     {
         $membri = self::byOrg('associazione');
-        $cariche = $membri->get()->groupBy('nome');
 
-        return $cariche;
+        return $membri->get()->groupBy('nome');
     }
 
     public static function GetAssociazionePresidente()
     {
         $membri = self::byOrg('associazione');
-        $presidente = $membri->select('persone.*')
+
+        return $membri->select('persone.*')
             ->where('cariche.nome', '=', 'Presidente')
             ->first();
-
-        return $presidente;
     }
 
     /**
@@ -93,38 +91,34 @@ class Cariche extends Model
     public static function SolidarietaCariche()
     {
         $membri = self::byOrg('solidarieta');
-        $cariche = $membri->get()->groupBy('nome');
 
-        return $cariche;
+        return $membri->get()->groupBy('nome');
     }
 
     public static function FondazioneCariche()
     {
         $membri = self::byOrg('fondazione');
-        $cariche = $membri->get()->groupBy('nome');
 
-        return $cariche;
+        return $membri->get()->groupBy('nome');
     }
 
     public static function AgricolaCariche()
     {
         $membri = self::byOrg('agricola');
-        $cariche = $membri->get()->groupBy('nome');
 
-        return $cariche;
+        return $membri->get()->groupBy('nome');
     }
 
     public static function CulturaleCariche()
     {
         $membri = self::byOrg('culturale');
-        $cariche = $membri->get()->groupBy('nome');
 
-        return $cariche;
+        return $membri->get()->groupBy('nome');
     }
 
     public static function byOrg(string $org)
     {
-        $membri = DB::connection('db_nomadelfia')
+        return DB::connection('db_nomadelfia')
             ->table('cariche')
             ->selectRaw('cariche.*,persone_cariche.*,persone.nominativo, persone.id as persona_id')
             ->leftJoin('persone_cariche', 'cariche.id', '=', 'persone_cariche.cariche_id')
@@ -132,11 +126,9 @@ class Cariche extends Model
             ->where('cariche.org', '=', $org)
             ->whereNull('persone_cariche.data_fine')
             ->orderByRaw('cariche.ord');
-
-        return $membri;
     }
 
-    public static function EleggibiliConsiglioAnziani()
+    public static function EleggibiliConsiglioAnziani(): \stdClass
     {
         $effetivo = Posizione::perNome('effettivo');
         $sacerdote = Stato::perNome('sacerdote');
@@ -178,7 +170,7 @@ class Cariche extends Model
             'persona_id')->withPivot('data_inizio', 'data_fine');
     }
 
-    public function assegnaMembro($persona, $data_inizio)
+    public function assegnaMembro($persona, $data_inizio): void
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);

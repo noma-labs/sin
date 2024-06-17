@@ -10,14 +10,14 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
-it('can render the gruppofamiliare index page', function () {
+it('can render the gruppofamiliare index page', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('can update the date of a gruppo familiare', function () {
+it('can update the date of a gruppo familiare', function (): void {
     login();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -36,7 +36,7 @@ it('can update the date of a gruppo familiare', function () {
         ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
-it('can assign a persona to a gruppo familiare', function () {
+it('can assign a persona to a gruppo familiare', function (): void {
     login();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -54,7 +54,7 @@ it('can assign a persona to a gruppo familiare', function () {
         ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
-it('can delete a persona from a gruppo familiare', function () {
+it('can delete a persona from a gruppo familiare', function (): void {
     login();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -66,7 +66,7 @@ it('can delete a persona from a gruppo familiare', function () {
         ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
-it('can concludes a persona from a gruppo familiare', function () {
+it('can concludes a persona from a gruppo familiare', function (): void {
     login();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -83,7 +83,7 @@ it('can concludes a persona from a gruppo familiare', function () {
         ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
-it('can move a persona from another gruppo familiare', function () {
+it('can move a persona from another gruppo familiare', function (): void {
     login();
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

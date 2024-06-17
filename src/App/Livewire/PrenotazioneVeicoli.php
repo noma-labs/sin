@@ -22,7 +22,7 @@ class PrenotazioneVeicoli extends Component
 
     public string $message = '--seleziona veicolo--';
 
-    public function mount($dataPartenza = null, $oraPartenza = null, $dataArrivo = null, $oraArrivo = null, $selectedVeicolo = null)
+    public function mount($dataPartenza = null, $oraPartenza = null, $dataArrivo = null, $oraArrivo = null, $selectedVeicolo = null): void
     {
         $this->dataPartenza = Carbon::now()->toDateString();
         $this->dataArrivo = Carbon::now()->toDateString();
@@ -59,27 +59,27 @@ class PrenotazioneVeicoli extends Component
         $this->refreshVeicoli();
     }
 
-    public function updatedDataPartenza()
+    public function updatedDataPartenza(): void
     {
         $this->refreshVeicoli();
     }
 
-    public function updatedOraPartenza()
+    public function updatedOraPartenza(): void
     {
         $this->refreshVeicoli();
     }
 
-    public function updatedDataArrivo()
+    public function updatedDataArrivo(): void
     {
         $this->refreshVeicoli();
     }
 
-    public function updatedOraArrivo()
+    public function updatedOraArrivo(): void
     {
         $this->refreshVeicoli();
     }
 
-    public function refreshVeicoli()
+    public function refreshVeicoli(): void
     {
         if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
             $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))

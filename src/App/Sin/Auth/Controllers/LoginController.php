@@ -28,7 +28,7 @@ class LoginController
     // By default, Laravel uses the email field for authentication.
     // If you would like to customize this, you may define a username method on your LoginController:
     //
-    public function username()
+    public function username(): string
     {
         return 'username';
     }

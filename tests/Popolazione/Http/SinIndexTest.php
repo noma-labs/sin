@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Nomadelfia;
 
-it('unauthenticated_user_dont_see_all_systems', function () {
+it('unauthenticated_user_dont_see_all_systems', function (): void {
     // laravel will not wrap the error in 500 http response, but return the raw error
     $this->withExceptionHandling();
 

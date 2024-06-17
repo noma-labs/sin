@@ -53,10 +53,8 @@ trait Enums
 
     /**
      * Gets the expected enum property
-     *
-     * @return string
      */
-    protected function getEnumProperty(string $field)
+    protected function getEnumProperty(string $field): string
     {
         // return 'enum' . Str::plural(Str::studly($field));
         return 'enum'.Str::studly($field);
@@ -76,10 +74,8 @@ trait Enums
 
     /**
      * Is an enum property defined for the provided field
-     *
-     * @return bool
      */
-    protected function hasEnumProperty(string $field)
+    protected function hasEnumProperty(string $field): bool
     {
         $property = $this->getEnumProperty($field);
 
@@ -90,9 +86,8 @@ trait Enums
      * Is the provided value a key in the enum
      *
      * @param  mixed  $key
-     * @return bool
      */
-    protected function isKeyedEnum(string $field, $key)
+    protected function isKeyedEnum(string $field, $key): bool
     {
         return in_array($key, array_keys(static::getEnum($field)), true);
     }
@@ -101,9 +96,8 @@ trait Enums
      * Is the value a valid enum in any way
      *
      * @param  mixed  $value
-     * @return bool
      */
-    protected function isValidEnum(string $field, $value)
+    protected function isValidEnum(string $field, $value): bool
     {
         return $this->isValueEnum($field, $value) ||
             $this->isKeyedEnum($field, $value);
@@ -113,14 +107,13 @@ trait Enums
      * Is the provided value in the enum
      *
      * @param  mixed  $value
-     * @return bool
      */
-    protected function isValueEnum(string $field, $value)
+    protected function isValueEnum(string $field, $value): bool
     {
         return in_array($value, static::getEnum($field));
     }
 
-    public static function getPossibleEnumValues($name, $table)
+    public static function getPossibleEnumValues(string $name, string $table): array
     {
         $expression = DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"');
 

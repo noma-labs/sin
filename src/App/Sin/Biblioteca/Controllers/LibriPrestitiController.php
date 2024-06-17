@@ -66,7 +66,7 @@ class LibriPrestitiController
             return view('biblioteca.libri.prestiti.cliente', compact('cliente', 'prestitiAttivi', 'prestitiRestituiti'));
         }
 
-        $queryPrestiti = Prestito::where(function ($q) use ($request, &$msgSearch) {
+        $queryPrestiti = Prestito::where(function ($q) use ($request, &$msgSearch): void {
             if ($request->has('collocazione')) {
                 $collocazione = $request->collocazione;
                 $idLibri = Libro::where('collocazione', 'like', "$collocazione%")->pluck('id')->toArray();
@@ -141,7 +141,7 @@ class LibriPrestitiController
 
     public function editConfirm(Request $request, $idPrestito)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',
         ], [
             'xDataRestituzione.after_or_equal' => 'La data di restituzione prestito deve essere maggiore o uguale alla data di inizio prestito',

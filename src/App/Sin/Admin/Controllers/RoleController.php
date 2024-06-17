@@ -32,7 +32,7 @@ class RoleController
         $role = Role::create(['name' => $request['nome']]);
 
         $permissions = $request->except(['_token', 'nome', 'descrizione']);
-        foreach ($permissions as $id => $permission) {
+        foreach ($permissions as $permission) {
             $role->givePermissionTo($permission);
         }
 

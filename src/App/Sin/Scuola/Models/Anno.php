@@ -31,7 +31,7 @@ class Anno extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('data_inizio');
         });
     }
@@ -46,7 +46,7 @@ class Anno extends Model
         return $this->responsabile()->associate($persona);
     }
 
-    public function nextAnnoScolasticoString()
+    public function nextAnnoScolasticoString(): string
     {
         $as = Str::of($this->scolastico)->explode('/');
 
@@ -277,12 +277,11 @@ class Anno extends Model
                 INNER JOIN db_nomadelfia.persone as p ON p.id = ac.persona_id
                 WHERE ac.data_fine IS NULL AND anno.id = :aid
                 ORDER BY p.data_nascita');
-        $res = DB::connection('db_scuola')->select(
+
+        return DB::connection('db_scuola')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id]
         );
-
-        return $res;
     }
 
     public function coordinatoriPrescuola()
@@ -318,8 +317,7 @@ class Anno extends Model
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['aid' => $this->id, 'ciclo' => $ciclo]
         );
-        $cc = collect($res)->groupBy('classe');
 
-        return $cc;
+        return collect($res)->groupBy('classe');
     }
 }

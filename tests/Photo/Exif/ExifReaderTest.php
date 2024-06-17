@@ -2,12 +2,12 @@
 
 use Domain\Photo\Exif\ExifReader;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $tempDirPath = __DIR__.'/temp';
     $this->emptyTempDirectory($tempDirPath);
 });
 
-it('can create exiftool command', function () {
+it('can create exiftool command', function (): void {
 
     $command = ExifReader::file('test.png')
         ->enableStructuredInformation()
@@ -21,7 +21,7 @@ it('can create exiftool command', function () {
     ]);
 });
 
-it('can create command with xmp options', function () {
+it('can create command with xmp options', function (): void {
     $command = ExifReader::file('test.png')
         ->extractXMPInformation()
         ->createExifToolCommand();
@@ -45,7 +45,7 @@ it('can create command with xmp options', function () {
     ]);
 });
 
-it('can create command with imageDataHash', function () {
+it('can create command with imageDataHash', function (): void {
     $commad = ExifReader::file('test.png')
         ->extractHashOfTheImage()
         ->createExifToolCommand();
@@ -58,7 +58,7 @@ it('can create command with imageDataHash', function () {
     ]);
 });
 
-it('can create command wit allow duplicate', function () {
+it('can create command wit allow duplicate', function (): void {
     $commad = ExifReader::file('test.png')
         ->allowDuplicates()
         ->createExifToolCommand();
@@ -71,7 +71,7 @@ it('can create command wit allow duplicate', function () {
     ]);
 });
 
-it('can create command with file order', function () {
+it('can create command with file order', function (): void {
     expect(ExifReader::file('test.png')->fileOrder('myTag')->createExifToolCommand())
         ->toBe([
             'file' => 'test.png',
@@ -89,7 +89,7 @@ it('can create command with file order', function () {
 
 });
 
-it('can create command with verbose', function () {
+it('can create command with verbose', function (): void {
     expect(ExifReader::file('test.png')->verbose(0)->createExifToolCommand())
         ->toBe([
             'file' => 'test.png',
@@ -107,7 +107,7 @@ it('can create command with verbose', function () {
 
 });
 
-it('can create command with no Print conversion', function () {
+it('can create command with no Print conversion', function (): void {
     $commad = ExifReader::file('test.png')
         ->disablePrintConversion()
         ->createExifToolCommand();
@@ -120,7 +120,7 @@ it('can create command with no Print conversion', function () {
     ]);
 });
 
-it('can can create command with csv format', function () {
+it('can can create command with csv format', function (): void {
     $commad = ExifReader::file('test.png')
         ->exportToCSV('test.csv')
         ->createExifToolCommand();
@@ -133,7 +133,7 @@ it('can can create command with csv format', function () {
     ]);
 });
 
-it('can create command with json output', function () {
+it('can create command with json output', function (): void {
     $commad = ExifReader::file('test.png')
         ->exportToJSON('test.json')
         ->createExifToolCommand();
@@ -146,7 +146,7 @@ it('can create command with json output', function () {
     ]);
 });
 
-it('can create command with recursive', function () {
+it('can create command with recursive', function (): void {
     $commad = ExifReader::file('test.png')
         ->recursively()
         ->createExifToolCommand();
@@ -205,7 +205,7 @@ it('can create command with recursive', function () {
 //
 //});
 
-it('can save to php', function () {
+it('can save to php', function (): void {
     $filePath = __DIR__.'/testfile/BlueSquare.jpg';
 
     $a = ExifReader::file($filePath)
@@ -217,7 +217,7 @@ it('can save to php', function () {
     expect($data->sourceFile)->toContain('BlueSquare.jpg');
 });
 
-it('can build exifData from exif', function () {
+it('can build exifData from exif', function (): void {
     $filePath = __DIR__.'/testfile/BlueSquare.jpg';
 
     $info = ExifReader::file($filePath)

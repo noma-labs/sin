@@ -33,7 +33,7 @@ class PrenotazioniController
             return Redirect::back()->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
-        $queryPrenotazioni = Prenotazioni::where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryPrenotazioni = Prenotazioni::where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->filled('cliente_id')) {
                 $cliente = ViewClienti::findOrFail($request->input('cliente_id'));
                 $q->where('cliente_id', $cliente->id);
@@ -131,7 +131,7 @@ class PrenotazioniController
                 //   2) prenotazioni a cavallo di oggi
                 //   3) prenotazioni che si concludono oggi
                 $query = Prenotazioni::where('data_partenza', '>=', $now->toDateString())
-                    ->orWhere(function ($query) use ($now) {
+                    ->orWhere(function ($query) use ($now): void {
                         // prenotazioni a cavallo di oggi
                         $query->where('data_partenza', '<', $now->toDateString())
                             ->where('data_arrivo', '>', $now->toDateString());
@@ -167,7 +167,7 @@ class PrenotazioniController
             'destinazione' => 'required',
         ]);
 
-        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input) {
+        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
             return $input->data_par == $input->data_arr;
         });
 
@@ -223,7 +223,7 @@ class PrenotazioniController
             'destinazione' => 'required',
         ]);
 
-        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input) {
+        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
             return $input->data_par == $input->data_arr;
         });
 

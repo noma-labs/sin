@@ -9,7 +9,7 @@ class PersonaPosizioneConcludiController
 {
     public function store(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_inizio' => 'required|date',
             'data_fine' => 'required|date|after_or_equal:data_inizio',
         ], [

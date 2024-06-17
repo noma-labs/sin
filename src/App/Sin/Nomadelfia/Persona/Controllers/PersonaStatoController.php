@@ -16,7 +16,7 @@ class PersonaStatoController
 
     public function store(Request $request, $idPersona)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'stato_id' => 'required',
             'data_inizio' => 'required|date',
         ], [
@@ -33,7 +33,7 @@ class PersonaStatoController
 
     public function update(Request $request, $idPersona, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data_fine' => 'date',
             'data_inizio' => 'required|date',
             'stato' => 'required',

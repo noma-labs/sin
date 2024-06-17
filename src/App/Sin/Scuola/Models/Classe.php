@@ -52,7 +52,7 @@ class Classe extends Model
         return $this->belongsTo(ClasseTipo::class, 'tipo_id', 'id');
     }
 
-    public function aggiungiAlunno($alunno, $data_inizio)
+    public function aggiungiAlunno($alunno, $data_inizio): void
     {
         if (is_null($data_inizio)) {
             $a = $this->anno()->first();
@@ -73,7 +73,7 @@ class Classe extends Model
         }
     }
 
-    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio)
+    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio): void
     {
         $a = $classe_from->alunni()->get();
         $this->alunni()->attach($a, ['data_inizio' => $data_inizio]);
@@ -84,7 +84,7 @@ class Classe extends Model
         return $this->tipo->classeSuccessiva();
     }
 
-    public function aggiungiCoordinatore(Persona|int $persona, $data_inizio, $tipo = null)
+    public function aggiungiCoordinatore(Persona|int $persona, $data_inizio, $tipo = null): void
     {
         if (is_null($data_inizio)) {
             $data_inizio = $this->anno()->first()->data_inizio;
@@ -120,7 +120,7 @@ class Classe extends Model
 
     public function rimuoviCoordinatore(
         $coord
-    ) {
+    ): void {
         if (is_int($coord)) {
             $coord = Persona::findOrFail($coord);
         }
@@ -133,7 +133,7 @@ class Classe extends Model
 
     public function rimuoviAlunno(
         $alunno
-    ) {
+    ): void {
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
         }

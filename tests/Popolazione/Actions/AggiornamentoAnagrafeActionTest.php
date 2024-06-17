@@ -16,7 +16,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 
-it('save enter event into activity table', function () {
+it('save enter event into activity table', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA42')->luogoNascita('grosseto')->create();
     $famiglia = Famiglia::factory()->create();
@@ -43,7 +43,7 @@ it('save enter event into activity table', function () {
 
 });
 
-it('save uscita event into the activity table', function () {
+it('save uscita event into the activity table', function (): void {
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA43')->create();
     $data_entrata = Carbon::now()->toDatestring();
     $data_uscita = Carbon::now()->addYears(5)->toDatestring();
@@ -64,7 +64,7 @@ it('save uscita event into the activity table', function () {
 
 });
 
-it('save death into the activity table', function () {
+it('save death into the activity table', function (): void {
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA46')->create();
     $data_entrata = Carbon::now()->toDatestring();
     $data_decesso = Carbon::now()->addYears(5)->toDatestring();
@@ -80,7 +80,7 @@ it('save death into the activity table', function () {
 
 });
 
-it('save family exit into activity table', function () {
+it('save family exit into activity table', function (): void {
 
     $now = Carbon::now()->toDatestring();
     // create a family

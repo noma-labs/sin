@@ -14,22 +14,43 @@ class ExportPopolazioneData
 {
     public int $totalePopolazione;
 
+    /**
+     * @var \stdClass
+     */
     public $maggiorenni;
 
+    /**
+     * @var \stdClass
+     */
     public $figliMinorenni;
 
+    /**
+     * @var \stdClass
+     */
     public $effettivi;
 
+    /**
+     * @var \stdClass
+     */
     public $postulanti;
 
+    /**
+     * @var \stdClass
+     */
     public $ospiti;
 
     public $sacerdoti;
 
     public $mammeVocazione;
 
+    /**
+     * @var \stdClass
+     */
     public $figliMaggiori21;
 
+    /**
+     * @var \stdClass
+     */
     public $figliFra18e21;
 
     public $famiglie;

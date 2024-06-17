@@ -13,7 +13,7 @@ use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
-it('only_admin_can_see_nomadelfia_system', function () {
+it('only_admin_can_see_nomadelfia_system', function (): void {
     $this->withExceptionHandling();
 
     $this
@@ -27,7 +27,7 @@ it('only_admin_can_see_nomadelfia_system', function () {
         ->assertSuccessful();
 });
 
-it('show_popolazione_summary', function () {
+it('show_popolazione_summary', function (): void {
     $this->withExceptionHandling();
 
     login();
@@ -40,7 +40,7 @@ it('show_popolazione_summary', function () {
         ->assertSee('Gestione Gruppi Familiari');
 });
 
-it('show_incarichi_index', function () {
+it('show_incarichi_index', function (): void {
     $this->withExceptionHandling();
 
     login();
@@ -54,7 +54,7 @@ it('show_incarichi_index', function () {
 
 });
 
-it('show_aziende_index', function () {
+it('show_aziende_index', function (): void {
     $this->withExceptionHandling();
 
     login();
@@ -73,7 +73,7 @@ it('show_aziende_index', function () {
 
 });
 
-it('show_gruppifamiliari_edit', function () {
+it('show_gruppifamiliari_edit', function (): void {
     $this->withExceptionHandling();
 
     login();

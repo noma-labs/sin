@@ -20,7 +20,7 @@ class MatrimonioController
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'husband' => 'required',
             'wife' => 'required',
             'data_matrimonio' => 'required|date',

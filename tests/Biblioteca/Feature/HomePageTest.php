@@ -2,7 +2,7 @@
 
 namespace Tests\Biblioteca\Feature;
 
-it('can render the homepage', function () {
+it('can render the homepage', function (): void {
     $this
         ->get('/biblioteca')
         ->assertSee('Libri');

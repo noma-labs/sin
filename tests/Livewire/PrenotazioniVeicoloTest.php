@@ -11,11 +11,11 @@ use Livewire\Livewire;
 
 use function Spatie\PestPluginTestTime\testTime;
 
-it('can render succesfully the component', function () {
+it('can render succesfully the component', function (): void {
     Livewire::test(PrenotazioneVeicoli::class)->assertStatus(200);
 });
 
-it('refresh veicoli', function () {
+it('refresh veicoli', function (): void {
     Prenotazioni::truncate();
     testTime()->freeze('2024-04-09 12:00:00');
 

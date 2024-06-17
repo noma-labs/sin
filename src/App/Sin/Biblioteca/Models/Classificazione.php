@@ -27,7 +27,7 @@ class Classificazione extends Model
         return $this->hasMany(Libro::class, 'classificazione_id');
     }
 
-    public function setDescrizioneAttribute($value)
+    public function setDescrizioneAttribute($value): void
     {
         $this->attributes['descrizione'] = strtoupper($value);
     }

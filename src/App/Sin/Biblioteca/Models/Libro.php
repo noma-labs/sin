@@ -39,8 +39,6 @@ class Libro extends Model
 
     protected $primaryKey = 'id';
 
-    protected $dates = ['deleted_at'];
-
     protected $guarded = []; // all the fields are mass assignabe
 
     protected $enumCategoria = [
@@ -59,6 +57,8 @@ class Libro extends Model
         5,
     ];
 
+    protected $casts = ['deleted_at' => 'datetime'];
+
     protected static function newFactory()
     {
         return LibroFactory::new();
@@ -69,12 +69,12 @@ class Libro extends Model
         return 'biblioteca';
     }
 
-    public function setTitoloAttribute($value)
+    public function setTitoloAttribute($value): void
     {
         $this->attributes['titolo'] = strtoupper($value);
     }
 
-    public function setNoteAttribute($value)
+    public function setNoteAttribute($value): void
     {
         $this->attributes['note'] = strtoupper($value);
     }

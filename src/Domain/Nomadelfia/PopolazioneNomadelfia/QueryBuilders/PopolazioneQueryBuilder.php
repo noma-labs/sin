@@ -15,7 +15,7 @@ class PopolazioneQueryBuilder extends Builder
             ->leftJoin('persone_posizioni', 'persone_posizioni.persona_id', '=', 'popolazione.persona_id')
             ->whereNull('popolazione.data_uscita')
             ->whereNull('persone.data_decesso')
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query->where('persone_posizioni.stato', '=', '1')
                     ->orWhereNull('persone_posizioni.stato');
             });
@@ -24,7 +24,7 @@ class PopolazioneQueryBuilder extends Builder
     public function presenteByNomeCognomeNominativo(string $term)
     {
         return $this->presente()
-            ->where(function ($query) use ($term) {
+            ->where(function ($query) use ($term): void {
                 $query->where('nominativo', 'LIKE', "$term%")
                     ->orWhere('nome', 'LIKE', "$term%")
                     ->orWhere('cognome', 'LIKE', "$term%");

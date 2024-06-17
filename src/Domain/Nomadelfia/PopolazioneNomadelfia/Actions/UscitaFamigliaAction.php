@@ -21,7 +21,7 @@ class UscitaFamigliaAction
         $this->emailUscita = $emailUscita;
     }
 
-    public function execute(Famiglia $famiglia, string $data_uscita)
+    public function execute(Famiglia $famiglia, string $data_uscita): void
     {
         $dto = new UscitaFamigliaData();
         $dto->famiglia = $famiglia;
@@ -33,13 +33,13 @@ class UscitaFamigliaAction
         $this->emailUscita->execute($dto);
     }
 
-    public function save(UscitaFamigliaData $dto)
+    public function save(UscitaFamigliaData $dto): void
     {
 
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $uscita = $dto->data_uscita;
-            $dto->componenti->each(function ($persona) use ($uscita) {
+            $dto->componenti->each(function ($persona) use ($uscita): void {
                 $act = app(UscitaPersonaDBAction::class);
                 $act->execute($persona, $uscita);
             });
