@@ -4,12 +4,12 @@ namespace Tests\Http\Patente;
 
 use App\Patente\Controllers\PatenteController;
 
-it('forbids access to guests', function () {
+it('forbids access to guests', function (): void {
     $this->get(action([PatenteController::class, 'scadenze']))
         ->assertRedirect(route('login'));
 });
 
-it('shows patenti to logged users', function () {
+it('shows patenti to logged users', function (): void {
     login();
     $this->get(action([PatenteController::class, 'scadenze']))
         ->assertOk();

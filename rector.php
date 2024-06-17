@@ -10,7 +10,7 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    ->withPreparedSets(deadCode: true)
+    ->withPreparedSets(deadCode: true, typeDeclarations: true)
     ->withSets([
         LaravelSetList::LARAVEL_90,
         LaravelSetList::LARAVEL_100,

@@ -12,7 +12,7 @@ class UscitaPersonaDBAction
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
     * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
     */
-    public function execute(Persona $persona, string $data_uscita, bool $disableFromFamily = false)
+    public function execute(Persona $persona, string $data_uscita, bool $disableFromFamily = false): void
     {
         $dto = new UscitaPersonaData();
         $dto->persona = $persona;
@@ -21,7 +21,7 @@ class UscitaPersonaDBAction
         $this->save($dto);
     }
 
-    public function save(UscitaPersonaData $uscitaPersonaData)
+    public function save(UscitaPersonaData $uscitaPersonaData): void
     {
         // TODO: if the persona is not in the popolazione, fail with an expcetion
         $persona_id = $uscitaPersonaData->persona->id;

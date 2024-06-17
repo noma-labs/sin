@@ -20,7 +20,7 @@ class EntrataPersonaAction
         $this->email = $email;
     }
 
-    public function execute(EntrataPersonaData $entrataPersonaData)
+    public function execute(EntrataPersonaData $entrataPersonaData): void
     {
         $this->save($entrataPersonaData);
         $this->logEntrataInNomadelfiaActivityAction->execute(
@@ -38,7 +38,7 @@ class EntrataPersonaAction
 
     }
 
-    public function save(EntrataPersonaData $entrataPersonaData)
+    public function save(EntrataPersonaData $entrataPersonaData): void
     {
         // TODO: se la persona esiste già nella tabella popolazione e la data di fine a null, allora fail
         $persona = $entrataPersonaData->persona;

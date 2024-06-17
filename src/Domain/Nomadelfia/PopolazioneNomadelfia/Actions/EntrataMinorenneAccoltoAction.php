@@ -19,7 +19,7 @@ class EntrataMinorenneAccoltoAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, $data_entrata, Famiglia $famiglia)
+    public function execute(Persona $persona, $data_entrata, Famiglia $famiglia): void
     {
         $dto = new EntrataPersonaData();
         $dto->persona = $persona;
@@ -34,25 +34,25 @@ class EntrataMinorenneAccoltoAction
         $this->entrataInNomadelfiaAction->execute($dto);
     }
 
-    public function calcFamiglia(EntrataPersonaData $dto)
+    public function calcFamiglia(EntrataPersonaData $dto): void
     {
         $dto->famiglia_posizione = Famiglia::getFiglioAccoltoEnum();
     }
 
-    public function calcGruppoFamiliare(EntrataPersonaData $dto)
+    public function calcGruppoFamiliare(EntrataPersonaData $dto): void
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
         $dto->gruppo_data = $dto->data_entrata;
     }
 
-    public function calcPosizione(EntrataPersonaData $dto)
+    public function calcPosizione(EntrataPersonaData $dto): void
     {
         $dto->posizione = Posizione::find('FIGL');
         $dto->posizione_data = $dto->data_entrata;
     }
 
-    public function calcStato(EntrataPersonaData $dto)
+    public function calcStato(EntrataPersonaData $dto): void
     {
         $dto->stato_data = $dto->persona->data_nascita;
         if ($dto->persona->isMaschio()) {

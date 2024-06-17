@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     protected $casts = ['deleted_at' => 'datetime'];
 
-    public function setPasswordAttribute($password)// mutator that encrypt all the password of the users
+    public function setPasswordAttribute($password): void// mutator that encrypt all the password of the users
     {
 
         $this->attributes['password'] = bcrypt($password);

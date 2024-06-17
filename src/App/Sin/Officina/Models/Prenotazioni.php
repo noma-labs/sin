@@ -66,26 +66,26 @@ class Prenotazioni extends Model
             ->table('prenotazioni')
             ->select('*')
             ->whereNull('deleted_at')
-            ->where(function ($query) use ($data_from, $data_to) {
+            ->where(function ($query) use ($data_from, $data_to): void {
                 $query->where('data_partenza', '=', $data_from->toDateString())
                     ->where('data_arrivo', '=', $data_to->toDateString())
-                    ->where(function ($query) use ($data_from, $data_to) {
+                    ->where(function ($query) use ($data_from, $data_to): void {
                         $query->where([['ora_partenza', '<', $data_to->format('H:i')], ['ora_arrivo', '>', $data_from->format('H:i')]]);
                     })
-                    ->orWhere(function ($query) use ($data_to, $data_from) {
+                    ->orWhere(function ($query) use ($data_to, $data_from): void {
                         // prenotazione che partono nei giorni precedenti e finiscono il giorno della partenza
                         // con ora di arrivo maggiore dell' ora di inizio prenotazione
                         $query->where('data_arrivo', '=', $data_to->toDateString())
                             ->where('data_partenza', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
                             ->where('ora_arrivo', '>', $data_from->format('H:i'));
                     })
-                    ->orWhere(function ($query) use ($data_to) {
+                    ->orWhere(function ($query) use ($data_to): void {
                         $query->where('data_partenza', '=', $data_to->toDateString())
                             ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
                             ->where('ora_partenza', '<', $data_to->format('H:i'));
                     })
                     //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
-                    ->orWhere(function ($query) use ($data_from, $data_to) {
+                    ->orWhere(function ($query) use ($data_from, $data_to): void {
                         $query->where('data_partenza', '<', $data_to->toDateString())
                             ->where('data_arrivo', '>', $data_from->toDateString());
                     });
@@ -114,10 +114,8 @@ class Prenotazioni extends Model
 
     /**
      * ritorna true se la macchina è partita e non ancora arrivata
-     *
-     * @return bool
      */
-    public function isPartita()
+    public function isPartita(): bool
     {
         $adesso = Carbon::now();
         if ($this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso) {
@@ -130,7 +128,7 @@ class Prenotazioni extends Model
     /**
      * ritorna true se la macchina è arrivata
      */
-    public function isArrivata()
+    public function isArrivata(): bool
     {
         if ($this->dataOraArrivo() < Carbon::now()) {
             return true;
@@ -142,7 +140,7 @@ class Prenotazioni extends Model
     /**
      * ritorna true se la macchina deve ancora partire
      */
-    public function deveAncoraPartire()
+    public function deveAncoraPartire(): bool
     {
         if ($this->dataOraPartenza() > Carbon::now()) {
             return true;

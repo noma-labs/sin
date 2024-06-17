@@ -24,7 +24,7 @@ class DecessoPersonaAction
         $this->email = $email;
     }
 
-    public function execute(Persona $persona, string $data_decesso)
+    public function execute(Persona $persona, string $data_decesso): void
     {
         $this->uscita->execute($persona, $data_decesso);
         $this->deceduto($persona, $data_decesso);
@@ -40,7 +40,7 @@ class DecessoPersonaAction
         );
     }
 
-    public function deceduto(Persona $persona, $data_decesso)
+    public function deceduto(Persona $persona, $data_decesso): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {

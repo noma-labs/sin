@@ -7,9 +7,9 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaDa
 
 class LogUscitaFamigliaAction
 {
-    public function execute(UscitaFamigliaData $dto)
+    public function execute(UscitaFamigliaData $dto): void
     {
-        $dto->componenti->each(function (Persona $persona, int $key) use ($dto) {
+        $dto->componenti->each(function (Persona $persona, int $key) use ($dto): Persona {
             $action = app(LogUscitaPersonaAction::class);
             $action->execute($persona, $persona->getDataEntrataNomadelfia() ?: '', $dto->data_uscita);
 

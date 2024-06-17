@@ -6,7 +6,7 @@ use Carbon;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-it('testIncarich', function () {
+it('testIncarich', function (): void {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $incarico = Incarico::factory()->create();
 
@@ -26,7 +26,7 @@ it('testIncarich', function () {
 
 });
 
-it('it_get_the_most_busy_people', function () {
+it('it_get_the_most_busy_people', function (): void {
     $busyPeaple = Persona::factory()->cinquantenne()->maschio()->create();
 
     $num = 10;

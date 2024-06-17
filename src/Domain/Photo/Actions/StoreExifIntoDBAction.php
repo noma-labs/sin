@@ -37,7 +37,7 @@ class StoreExifIntoDBAction
             $attrs = $b->toModelAttrs();
             $photoAttrs->add($attrs);
             if (count($b->subjects) > 0) {
-                $persons = array_map(fn ($name) => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
+                $persons = array_map(fn ($name): array => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
                 $photoPeopleAttrs->push(...$persons);
             }
         }

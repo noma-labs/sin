@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailFamigliaUscitaAction
 {
-    public function execute(UscitaFamigliaData $dto)
+    public function execute(UscitaFamigliaData $dto): void
     {
         $data_uscita = Carbon::parse($dto->data_uscita);
         $to = config('aggiornamento-anagrafe.to');

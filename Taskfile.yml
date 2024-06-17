@@ -60,3 +60,7 @@ tasks:
   analyse:
     cmds:
       - ./vendor/bin/phpstan analyse  -l 5 --generate-baseline
+
+  rector:
+    cmds:
+      - ./vendor/bin/rector process src --dry-run

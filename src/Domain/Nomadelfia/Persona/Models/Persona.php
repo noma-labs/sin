@@ -66,12 +66,12 @@ class Persona extends Model
         return PersonaFactory::new();
     }
 
-    public function setNomeAttribute($value)
+    public function setNomeAttribute($value): void
     {
         $this->attributes['nome'] = ucwords(strtolower($value));
     }
 
-    public function setCognomeAttribute($value)
+    public function setCognomeAttribute($value): void
     {
         $this->attributes['cognome'] = ucwords(strtolower($value));
     }
@@ -79,7 +79,7 @@ class Persona extends Model
     /**
      * Set the nominativo in uppercase when a new persona is insereted.
      */
-    public function setNominativoAttribute($value)
+    public function setNominativoAttribute($value): void
     {
         $this->attributes['nominativo'] = ucwords(strtolower($value));
     }
@@ -258,7 +258,7 @@ class Persona extends Model
     * la data di inizio se la data di attuale_data_fine è null.
     *
     */
-    public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine = null)
+    public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine = null): void
     {
         /*if ($this->isCapoFamiglia()){
             $gruppo = GruppoFamiliare::findOrFail($gruppo);
@@ -322,7 +322,7 @@ class Persona extends Model
         $dataout_current,
         $gruppo_id_new,
         $datain_new
-    ) {
+    ): void {
         $persona_id = $this->id;
 
         DB::transaction(function () use (
@@ -332,7 +332,7 @@ class Persona extends Model
             &$dataout_current,
             &$gruppo_id_new,
             &$datain_new
-        ) {
+        ): void {
             // disabilita il gruppo attuale
             $expression = DB::raw("UPDATE gruppi_persone
                  SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
@@ -396,7 +396,7 @@ class Persona extends Model
         return $this->assegnaAzienda($azienda, $data_inizio, 'RESPONSABILE AZIENDA');
     }
 
-    public function assegnaAzienda($azienda, $data_inizio, $mansione)
+    public function assegnaAzienda($azienda, $data_inizio, $mansione): void
     {
         if (is_string($azienda) || is_int($azienda)) {
             $azienda = Azienda::findOrFail($azienda);
@@ -450,7 +450,7 @@ class Persona extends Model
         return $multiplied;
     }
 
-    public function assegnaLavoratoreIncarico($azienda, Carbon\Carbon $data_inizio)
+    public function assegnaLavoratoreIncarico(\Domain\Nomadelfia\Incarico\Models\Incarico|string $azienda, Carbon\Carbon $data_inizio)
     {
         return $this->assegnaIncarico($azienda, $data_inizio);
     }
@@ -459,7 +459,7 @@ class Persona extends Model
      * @throws CouldNotAssignIncarico
      * @throws Exception
      */
-    public function assegnaIncarico(Incarico|string $incarico, $data_inizio)
+    public function assegnaIncarico(Incarico|string $incarico, $data_inizio): void
     {
         if (is_string($incarico)) {
             $incarico = Incarico::findOrFail($incarico);
@@ -557,7 +557,7 @@ class Persona extends Model
     }
 
     // TODO: move into a dedicated Action that call the UscitaDaNomdelfiaActiongst
-    public function deceduto($data_decesso)
+    public function deceduto($data_decesso): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
@@ -623,7 +623,7 @@ class Persona extends Model
     * Assegna un nuovo stato alla persona.
     * Se la persona ha uno stato attuale viene concluso con la data di inizio del nuovo stato.
     */
-    public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null)
+    public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null): void
     {
         if (is_string($stato) | is_int($stato)) {
             $stato = Stato::findOrFail($stato);
@@ -647,7 +647,7 @@ class Persona extends Model
         }
     }
 
-    public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null)
+    public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null): void
     {
 
         $sacerdote = Stato::perNome('sacerdote');
@@ -689,7 +689,7 @@ class Persona extends Model
     public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione)
     {
         try {
-            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione) {
+            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione): void {
                 $famiglia = Famiglia::create(['nome_famiglia' => $nome, 'data_creazione' => $data_creazione]);
 
                 $famiglia->componenti()->attach($persona_id, [
@@ -721,7 +721,7 @@ class Persona extends Model
                     ['stato' => '1', 'posizione_famiglia' => $posizione]);
             } else {
                 // TODO; check se la persona può essere asseganta alla nuova famiglia
-                DB::transaction(function () use (&$attuale, &$famiglia, &$posizione) {
+                DB::transaction(function () use (&$attuale, &$famiglia, &$posizione): void {
                     $expression = DB::raw("UPDATE famiglie_persone
                         SET stato = '0'
                         WHERE persona_id  = :persona AND famiglia_id = :famiglia ");
@@ -878,7 +878,7 @@ class Persona extends Model
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-    public function assegnaPostulante(Carbon\Carbon $data_inizio)
+    public function assegnaPostulante(Carbon\Carbon $data_inizio): void
     {
         // TODO check if the person is ospite before postulante
         //        $attuale = this->posizioneAttuale();
@@ -891,7 +891,7 @@ class Persona extends Model
 
     public function assegnaNomadelfoEffettivo(
         Carbon\Carbon $data_inizio
-    ) {
+    ): void {
         // TODO: check that the posizione attuale è postulante
         //        $attuale = this->posizioneAttuale();
         //        if $attuale && !$attuale->isPostulante){
@@ -905,7 +905,7 @@ class Persona extends Model
         $posizione,
         string $data_inizio,
         ?string $attuale_data_fine = null
-    ) {
+    ): void {
         if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
         }
@@ -1010,14 +1010,14 @@ class Persona extends Model
         $dataUscitaGruppoFamiliareAttuale,
         $gruppoFamiliareNuovo,
         $dataEntrataGruppo
-    ) {
+    ): void {
         if ($this->isCapoFamiglia() or $this->isSingle()) {
             $this->famigliaAttuale()->assegnaFamigliaANuovoGruppoFamiliare($gruppoFamiliareAttuale,
                 $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo);
         }
     }
 
-    public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo = null)
+    public function assegnaPersonaANuovoGruppoFamiliare($gruppoFamiliareAttuale, $dataUscitaGruppoFamiliareAttuale, $gruppoFamiliareNuovo, $dataEntrataGruppo = null): void
     {
         $this->gruppifamiliari()->updateExistingPivot($gruppoFamiliareAttuale,
             ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);

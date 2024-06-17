@@ -7,14 +7,14 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-it('can render the aziende index page of a person', function () {
+it('can render the aziende index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('can assign a person to a azienda', function () {
+it('can assign a person to a azienda', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data_entrata = Carbon::now()->addDay()->toDatestring();
@@ -28,7 +28,7 @@ it('can assign a person to a azienda', function () {
         ->assertRedirect(route('nomadelfia.persone.aziende', ['idPersona' => $persona->id]));
 });
 
-it('can edit an azienda of a person', function () {
+it('can edit an azienda of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data_inizio = Carbon::now()->toDatestring();

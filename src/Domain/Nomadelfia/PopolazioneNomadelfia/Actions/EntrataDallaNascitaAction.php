@@ -19,7 +19,7 @@ class EntrataDallaNascitaAction
         $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
     }
 
-    public function execute(Persona $persona, Famiglia $famiglia)
+    public function execute(Persona $persona, Famiglia $famiglia): void
     {
         $dto = new EntrataPersonaData();
         $dto->famiglia = $famiglia;
@@ -34,25 +34,25 @@ class EntrataDallaNascitaAction
         $this->entrataInNomadelfiaAction->execute($dto);
     }
 
-    public function calcFamiglia(EntrataPersonaData $dto)
+    public function calcFamiglia(EntrataPersonaData $dto): void
     {
         $dto->famiglia_posizione = Famiglia::getFiglioNatoEnum();
     }
 
-    public function calcGruppoFamiliare(EntrataPersonaData $dto)
+    public function calcGruppoFamiliare(EntrataPersonaData $dto): void
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
         $dto->gruppo_data = $dto->persona->data_nascita;
     }
 
-    public function calcPosizione(EntrataPersonaData $dto)
+    public function calcPosizione(EntrataPersonaData $dto): void
     {
         $dto->posizione = Posizione::find('FIGL');
         $dto->posizione_data = $dto->persona->data_nascita;
     }
 
-    public function calcStato(EntrataPersonaData $dto)
+    public function calcStato(EntrataPersonaData $dto): void
     {
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');

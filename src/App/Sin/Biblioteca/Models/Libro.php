@@ -69,12 +69,12 @@ class Libro extends Model
         return 'biblioteca';
     }
 
-    public function setTitoloAttribute($value)
+    public function setTitoloAttribute($value): void
     {
         $this->attributes['titolo'] = strtoupper($value);
     }
 
-    public function setNoteAttribute($value)
+    public function setNoteAttribute($value): void
     {
         $this->attributes['note'] = strtoupper($value);
     }

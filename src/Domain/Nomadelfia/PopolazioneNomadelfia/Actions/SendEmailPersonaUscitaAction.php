@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailPersonaUscitaAction
 {
-    public function execute(Persona $persona, string $data_entrata, string $data_uscita)
+    public function execute(Persona $persona, string $data_entrata, string $data_uscita): void
     {
         $data_uscita = Carbon::parse($data_uscita);
         $data_entrata = Carbon::parse($data_entrata);

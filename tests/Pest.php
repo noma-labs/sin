@@ -26,7 +26,7 @@ function runMiddleware($middleware, $permission)
     try {
         return $middleware->handle(
             new Request(),
-            function () {
+            function (): \Illuminate\Http\Response {
                 return (new Response())->setContent('<html></html>');
             },
             $permission

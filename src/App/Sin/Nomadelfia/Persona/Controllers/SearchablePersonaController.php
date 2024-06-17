@@ -21,7 +21,7 @@ class SearchablePersonaController
             return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
-        $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->nominativo) {
                 $nominativo = $request->nominativo;
                 $q->where('nominativo', 'like', "$nominativo%");

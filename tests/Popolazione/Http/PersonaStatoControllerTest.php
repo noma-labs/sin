@@ -10,14 +10,14 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-it('can render the stato index page of a person', function () {
+it('can render the stato index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('add new stato to a person', function () {
+it('add new stato to a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data = Carbon::now()->toDateString();
@@ -29,7 +29,7 @@ it('add new stato to a person', function () {
 
 });
 
-it('update stato of a person', function () {
+it('update stato of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $stato = Stato::all()->random();

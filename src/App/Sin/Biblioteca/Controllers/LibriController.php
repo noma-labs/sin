@@ -108,7 +108,7 @@ class LibriController
             $queryLibri = Editore::find($editore->id)->libri();
             $orderBy = 'collocazione';
         }
-        $queryLibri = Libro::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryLibri = Libro::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->xTitolo) {
                 $titolo = $request->xTitolo;
                 $q->where('titolo', 'like', "%$titolo%");

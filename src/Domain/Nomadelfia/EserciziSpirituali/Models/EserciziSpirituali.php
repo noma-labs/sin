@@ -40,7 +40,7 @@ class EserciziSpirituali extends Model
         return $query->where('stato', '=', '1');
     }
 
-    public function isAttivo()
+    public function isAttivo(): bool
     {
         return $this->stato == '1';
     }
@@ -50,7 +50,7 @@ class EserciziSpirituali extends Model
         return $this->belongsToMany(Persona::class, 'persone_esercizi', 'esercizi_id', 'persona_id');
     }
 
-    public function personeOk($orderby = 'data_nascita')
+    public function personeOk($orderby = 'data_nascita'): \stdClass
     {
         $expression = DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
               FROM persone
@@ -121,7 +121,7 @@ class EserciziSpirituali extends Model
     *  Ritorna le personemaggiorenne interne che nono sono in nessun es spirituale
     *
     */
-    public static function personeNoEsercizi()
+    public static function personeNoEsercizi(): \stdClass
     {
         $expression = DB::raw("
             SELECT persone.*

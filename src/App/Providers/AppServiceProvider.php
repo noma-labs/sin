@@ -10,17 +10,15 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // laravel 8: requires this in order to use boostrap as default paginator (and not tailwind)
         // https://laravel.com/docs/8.x/upgrade#pagination-defaults
         Paginator::useBootstrap();
 
         //salva la collocazione nelle note ogni volta che viene cancellato il libro
-        Libro::deleted(function ($libro) {
+        Libro::deleted(function ($libro): void {
             //Salva la collocazione vecchia nelle note
             $libro->deleted_note = "$libro->collocazione - $libro->deleted_note";
             $libro->collocazione = '';

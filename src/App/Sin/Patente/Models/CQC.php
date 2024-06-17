@@ -32,7 +32,7 @@ class CQC extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope('id', function (Builder $builder) {
+        static::addGlobalScope('id', function (Builder $builder): void {
             $builder->where('id', 16)->orWhere('id', 17);
         });
     }

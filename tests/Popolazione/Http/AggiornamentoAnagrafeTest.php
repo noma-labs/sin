@@ -9,7 +9,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 
-it('show aggiornamento anagrafe index', function () {
+it('show aggiornamento anagrafe index', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA53')->luogoNascita('grosseto')->create();
     $famiglia = Famiglia::factory()->create();

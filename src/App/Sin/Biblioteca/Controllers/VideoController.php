@@ -21,7 +21,7 @@ class VideoController
             return redirect()->route('video')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
-        $queryVideo = Video::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryVideo = Video::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->cassetta) {
                 $q->where('cassetta', 'like', "%$request->cassetta%");
                 $msgSearch = $msgSearch.'cassetta='.$request->cassetta;

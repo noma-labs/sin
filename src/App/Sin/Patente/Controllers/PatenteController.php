@@ -49,12 +49,12 @@ class PatenteController
         return view('patente.elenchi');
     }
 
-    public function esportaPatentiPdf()
+    public function esportaPatentiPdf(): void
     {
         dd('Esportazione non effettuata');
     }
 
-    public function esportaPatentiExcel()
+    public function esportaPatentiExcel(): void
     {
         $data = Carbon::now();
         $name = "Patenti-$data.xlsx";
@@ -90,7 +90,7 @@ class PatenteController
             return $product->persona->cognome;
         });
 
-        $patenti = $patenti->map(function ($patente, $key) {
+        $patenti = $patenti->map(function ($patente, $key): array {
             return [$patente->persona->cognome,
                 $patente->persona->nome,
                 $patente->persona->data_nascita,
@@ -130,7 +130,7 @@ class PatenteController
         $writer->save('php://output');
     }
 
-    public function esportaCQCExcel()
+    public function esportaCQCExcel(): void
     {
         $data = Carbon::now();
         $name = "cqc-$data.xlsx";
@@ -161,7 +161,7 @@ class PatenteController
             return $product->persona->cognome;
         });
 
-        $cqcPersone = $cqcPersone->map(function ($patente, $key) {
+        $cqcPersone = $cqcPersone->map(function ($patente, $key): array {
             return [$patente->persona->cognome,
                 $patente->persona->nome,
                 $patente->persona->data_nascita,
@@ -216,7 +216,7 @@ class PatenteController
 
     }
 
-    public function stampaAutorizzati()
+    public function stampaAutorizzati(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("autorizzati-$date.pdf");
@@ -232,7 +232,7 @@ class PatenteController
 
     }
 
-    public function autorizzatiEsportaExcel()
+    public function autorizzatiEsportaExcel(): void
     {
         $data = Carbon::now();
         $name = "Conducenti autorizzati $data.xlsx";
@@ -252,7 +252,7 @@ class PatenteController
         //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
         //  });
 
-        $patenti = $patenti->map(function ($patente, $key) {
+        $patenti = $patenti->map(function ($patente, $key): array {
             return [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()];
         });
 
@@ -295,7 +295,7 @@ class PatenteController
 
         $msgSearch = ' ';
         $orderBy = 'numero_patente';
-        $queryPatenti = Patente::where(function ($q) use ($request, &$msgSearch, &$orderBy) {
+        $queryPatenti = Patente::where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
             if ($request->filled('persona_id')) {
                 $persona = $request->persona_id;
                 $q->where('persone_patenti.persona_id', $persona);
@@ -319,7 +319,7 @@ class PatenteController
             }
             if ($request->filled('cqc_patente')) {
                 $cqc = $request->cqc_patente;
-                $q->whereHas('cqc', function ($q) use ($cqc, &$msgSearch, $request) {
+                $q->whereHas('cqc', function ($q) use ($cqc, &$msgSearch, $request): void {
                     $q->where('id', $cqc);
                     if ($request->filled('criterio_cqc_data_scadenza') and $request->filled('cqc_data_scadenza')) {
                         $q->where('data_scadenza', $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
@@ -332,7 +332,7 @@ class PatenteController
             }
             if ($request->filled('categoria_patente')) {
                 $categoria = $request->categoria_patente;
-                $q->whereHas('categorie', function ($q) use ($categoria) {
+                $q->whereHas('categorie', function ($q) use ($categoria): void {
                     $q->where('id', $categoria);
                 });
                 $nome = CategoriaPatente::findorfail($categoria)->categoria;

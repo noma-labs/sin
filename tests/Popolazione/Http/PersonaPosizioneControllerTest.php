@@ -8,14 +8,14 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-it('can render the posizioni index page of a person', function () {
+it('can render the posizioni index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $this->get(action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('add new posizione to a person', function () {
+it('add new posizione to a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data = Carbon::now()->toDateString();
@@ -27,7 +27,7 @@ it('add new posizione to a person', function () {
 
 });
 
-it('update posizione of a person', function () {
+it('update posizione of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $posizione = Posizione::all()->random();
@@ -43,7 +43,7 @@ it('update posizione of a person', function () {
 
 });
 
-it('deletes a posizione of a person', function () {
+it('deletes a posizione of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $posizione = Posizione::all()->random();
@@ -56,7 +56,7 @@ it('deletes a posizione of a person', function () {
 
 });
 
-it('concludes a posizione of a person', function () {
+it('concludes a posizione of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $posizione = Posizione::all()->random();

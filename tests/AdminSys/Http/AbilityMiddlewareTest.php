@@ -6,7 +6,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Models\Role;
 
-it('forbids guests user', function () {
+it('forbids guests user', function (): void {
     $middleware = app(PermissionMiddleware::class);
 
     $this->assertEquals(
@@ -15,7 +15,7 @@ it('forbids guests user', function () {
     );
 });
 
-it('allows logged in user', function () {
+it('allows logged in user', function (): void {
     $middleware = app(PermissionMiddleware::class);
 
     login();
@@ -27,7 +27,7 @@ it('allows logged in user', function () {
 
 });
 
-it('allows super-admin user to see', function () {
+it('allows super-admin user to see', function (): void {
     $this->get(action([PopolazioneSummaryController::class, 'index']))->assertRedirect(route('login'));
 
     $utente = Role::findByName('super-admin')->users()->first();

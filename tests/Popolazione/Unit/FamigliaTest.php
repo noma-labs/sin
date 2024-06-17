@@ -15,13 +15,13 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use InvalidArgumentException;
 
-it('throws and invalidArgument on assign a component', function () {
+it('throws and invalidArgument on assign a component', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaComponente($persona, 'NOT EXISTING');
 })->throws(InvalidArgumentException::class);
 
-it('assign a component', function () {
+it('assign a component', function (): void {
     // assegna capo famiglia
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -37,13 +37,13 @@ it('assign a component', function () {
     expect($famiglia->moglie()->id)->toBe($persona->id);
 });
 
-it('throws and expection with bad capo famiglia', function () {
+it('throws and expection with bad capo famiglia', function (): void {
     $famiglia = Famiglia::factory()->create();
     $minorenne = Persona::factory()->minorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($minorenne);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
-it('throw exceptions  with already capo famiglia', function () {
+it('throw exceptions  with already capo famiglia', function (): void {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam);
@@ -51,7 +51,7 @@ it('throw exceptions  with already capo famiglia', function () {
     $famiglia->assegnaCapoFamiglia($newCapoFam);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
-it('throw expection with multiple mogli', function () {
+it('throw expection with multiple mogli', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
@@ -59,20 +59,20 @@ it('throw expection with multiple mogli', function () {
     $famiglia->assegnaMoglie($persona2);
 })->throws(CouldNotAssignMoglie::class);
 
-it('throw expection with a man', function () {
+it('throw expection with a man', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona);
 })->throws(CouldNotAssignMoglie::class);
 
-it('throw expection with minorenne', function () {
+it('throw expection with minorenne', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaMoglie($persona);
 })->throws(CouldNotAssignMoglie::class);
 
-it('assign a wife succesfully', function () {
+it('assign a wife succesfully', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
@@ -90,7 +90,7 @@ it('assign a wife succesfully', function () {
  * Test se l'uscita dal nucleo familiare di un figlio.
  *
  * */
-it('exit a children from family', function () {
+it('exit a children from family', function (): void {
     $now = Carbon::now()->toDatestring();
     $gruppo = GruppoFamiliare::all()->random();
 
@@ -127,7 +127,7 @@ it('exit a children from family', function () {
  * Test se l'uscita dal nucleo familiare di un figlio.
  *
  * */
-it('assign a new group succesfully', function () {
+it('assign a new group succesfully', function (): void {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
@@ -150,7 +150,7 @@ it('assign a new group succesfully', function () {
 
 });
 
-it('get famiglie numerose', function () {
+it('get famiglie numerose', function (): void {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();

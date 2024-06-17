@@ -45,7 +45,7 @@ class Cariche extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('org');
         });
     }
@@ -128,7 +128,7 @@ class Cariche extends Model
             ->orderByRaw('cariche.ord');
     }
 
-    public static function EleggibiliConsiglioAnziani()
+    public static function EleggibiliConsiglioAnziani(): \stdClass
     {
         $effetivo = Posizione::perNome('effettivo');
         $sacerdote = Stato::perNome('sacerdote');
@@ -170,7 +170,7 @@ class Cariche extends Model
             'persona_id')->withPivot('data_inizio', 'data_fine');
     }
 
-    public function assegnaMembro($persona, $data_inizio)
+    public function assegnaMembro($persona, $data_inizio): void
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);

@@ -57,7 +57,7 @@ class Veicolo extends Model
         return DB::connection('db_officina')
             ->table('veicolo')
             ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')
-            ->leftJoinSub($bookingsInTimeRange, 'prenotazioni_in', function (JoinClause $join) {
+            ->leftJoinSub($bookingsInTimeRange, 'prenotazioni_in', function (JoinClause $join): void {
                 $join->on('veicolo.id', '=', 'prenotazioni_in.veicolo_id');
             })
             ->leftJoin('db_nomadelfia.persone', 'prenotazioni_in.cliente_id', '=', 'persone.id')

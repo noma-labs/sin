@@ -11,10 +11,8 @@ class BladeDirectivesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // Return True of the persona live in the "centro di spirito".
         Blade::if('liveRome', function ($persona) {
@@ -29,49 +27,49 @@ class BladeDirectivesServiceProvider extends ServiceProvider
             return $persona->gruppofamiliareAttuale()->isCentroDiSpirito();
         });
 
-        Blade::if('maggiorenne', function ($persona) {
+        Blade::if('maggiorenne', function ($persona): bool {
             return Carbon::now()->subYears(18)->toDatestring() > $persona->data_nascita;
         });
 
         // which should be an instance of DateTime
-        Blade::directive('year', function ($date) {
+        Blade::directive('year', function ($date): string {
             return "<?php echo Carbon::parse($date)->year ?>";
         });
 
         // Directoves that return the number of days from the $date.
-        Blade::directive('diffdays', function ($date) {
+        Blade::directive('diffdays', function ($date): string {
             return "<?php echo Carbon::now()->diffInDays(Carbon::parse($date)) ?>";
         });
 
         // Directoves that return the number of days from the $date.
-        Blade::directive('diffYears', function ($date) {
+        Blade::directive('diffYears', function ($date): string {
             return "<?php echo Carbon::now()->diffInYears(Carbon::parse($date)) ?>";
         });
 
-        Blade::directive('diffHumans', function ($date) {
+        Blade::directive('diffHumans', function ($date): string {
             return "<?php echo Carbon::parse($date)->diffForHumans(['parts' => 3, 'join' => true]) ?>";
         });
 
-        Blade::directive('role', function ($role) {
+        Blade::directive('role', function ($role): string {
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
 
-        Blade::directive('endrole', function () {
+        Blade::directive('endrole', function (): string {
             return '<?php endif; ?>';
         });
 
-        Blade::directive('hasrole', function ($role) {
+        Blade::directive('hasrole', function ($role): string {
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
 
-        Blade::directive('endhasrole', function () {
+        Blade::directive('endhasrole', function (): string {
             return '<?php endif; ?>';
         });
 
-        Blade::directive('hasanyrole', function ($arguments) {
+        Blade::directive('hasanyrole', function ($arguments): string {
             return "<?php if(auth()->check() && auth()->user()->hasAnyRole({$arguments})): ?>";
         });
-        Blade::directive('endhasanyrole', function () {
+        Blade::directive('endhasanyrole', function (): string {
             return '<?php endif; ?>';
         });
     }

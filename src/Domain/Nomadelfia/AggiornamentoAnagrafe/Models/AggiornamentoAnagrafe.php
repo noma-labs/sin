@@ -17,7 +17,7 @@ class AggiornamentoAnagrafe extends Activity
 
     protected static function booted(): void
     {
-        static::addGlobalScope('nomadelfia', function (Builder $builder) {
+        static::addGlobalScope('nomadelfia', function (Builder $builder): void {
             $builder->where('log_name', self::LOG_NAME);
         });
     }

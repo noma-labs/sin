@@ -39,7 +39,7 @@ class Incarico extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('nome');
         });
     }

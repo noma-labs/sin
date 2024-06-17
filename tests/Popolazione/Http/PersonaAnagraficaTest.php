@@ -5,20 +5,20 @@ namespace Tests\Http\Nomadelfia;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-it('shows form to create persona', function () {
+it('shows form to create persona', function (): void {
     login();
     $this->get(action([PersonaAnagraficaController::class, 'create']))
         ->assertSuccessful();
 });
 
-it('shows form to edit anagrafica', function () {
+it('shows form to edit anagrafica', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     login();
     $this->get(action([PersonaAnagraficaController::class, 'edit'], ['idPersona' => $persona->id]))
         ->assertSuccessful();
 });
 
-it('can update anagrafica', function () {
+it('can update anagrafica', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
     login();
@@ -50,7 +50,7 @@ it('can update anagrafica', function () {
     $this->assertEquals($newbiografia, $p->biografia);
 });
 
-it('can insert a persona', function () {
+it('can insert a persona', function (): void {
     login();
     $this->withoutExceptionHandling();
     $this->post(action([PersonaAnagraficaController::class, 'store']),

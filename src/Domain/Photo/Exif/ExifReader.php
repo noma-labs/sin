@@ -183,7 +183,7 @@ final class ExifReader
         return $this;
     }
 
-    public function saveCsv(string $targetPath)
+    public function saveCsv(string $targetPath): void
     {
         $this->exportToCSV($targetPath);
 
@@ -218,7 +218,7 @@ final class ExifReader
 
         $a = eval('return '.$output);
 
-        return collect($a)->map(fn ($photo) => ExifData::fromArray($photo));
+        return collect($a)->map(fn ($photo): \Domain\Photo\Models\ExifData => ExifData::fromArray($photo));
     }
 
     // TODO: the return iterator losse some row information

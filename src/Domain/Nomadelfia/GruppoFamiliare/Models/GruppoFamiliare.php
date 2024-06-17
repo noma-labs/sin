@@ -89,7 +89,7 @@ class GruppoFamiliare extends Model
     /**
      *  Assegna un nuovo capogruppo
      */
-    public function assegnaCapogruppo($persona, $data_inizio)
+    public function assegnaCapogruppo($persona, $data_inizio): void
     {
         // TODO: controllare che la persona sia un mascho e nomadeflo effettivo
         if (is_string($persona)) {

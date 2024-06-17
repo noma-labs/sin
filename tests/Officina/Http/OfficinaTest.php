@@ -12,27 +12,27 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Spatie\Permission\Models\Role;
 
-it('forbids access to guests', function () {
+it('forbids access to guests', function (): void {
     $this
         ->get(action([PrenotazioniController::class, 'prenotazioni']))
         ->assertRedirect(route('login'));
 });
 
-it('shows the booked veichles', function () {
+it('shows the booked veichles', function (): void {
     login();
     $this->withoutExceptionHandling();
     $this->get(action([PrenotazioniController::class, 'prenotazioni']))
         ->assertSuccessful();
 });
 
-it('shows the search view of prenotazioni', function () {
+it('shows the search view of prenotazioni', function (): void {
     login();
     $this->withoutExceptionHandling();
     $this->get(action([PrenotazioniController::class, 'searchView']))
         ->assertSuccessful();
 });
 
-it('administrator_can_create_prenotazione', function () {
+it('administrator_can_create_prenotazione', function (): void {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $p = Persona::find($persona->id);
@@ -68,7 +68,7 @@ it('administrator_can_create_prenotazione', function () {
 
 });
 
-it('other_users_cannot_create_prenotazioni', function () {
+it('other_users_cannot_create_prenotazioni', function (): void {
     $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
     $biblioAmm = Role::findByName('biblioteca-amm');
     $operator->assignRole($biblioAmm);
@@ -78,7 +78,7 @@ it('other_users_cannot_create_prenotazioni', function () {
     $this->get(route('officina.ricerca'))->assertForbidden();
 });
 
-it('render the livewire <prenotazioni-veicoli> on the edit page', function () {
+it('render the livewire <prenotazioni-veicoli> on the edit page', function (): void {
     $prenotazione = Prenotazioni::factory()
         ->prenotata(Carbon::parse('2024-04-10 08:00'), Carbon::parse('2024-04-10 12:00'))
         ->create();

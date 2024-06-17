@@ -8,7 +8,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-it('testAssignPosizione', function () {
+it('testAssignPosizione', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
@@ -25,7 +25,7 @@ it('testAssignPosizione', function () {
         ->and($persona->posizioniStorico()->first()->pivot->data_fine)->toBe($data_fine);
 });
 
-it('testModificaDataPosizione', function () {
+it('testModificaDataPosizione', function (): void {
     $data_entrata = Carbon::now()->toDatestring();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();

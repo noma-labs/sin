@@ -36,7 +36,7 @@ class Posizione extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('ordinamento', function (Builder $builder) {
+        static::addGlobalScope('ordinamento', function (Builder $builder): void {
             $builder->orderBy('ordinamento');
         });
     }
@@ -81,12 +81,12 @@ class Posizione extends Model
         return static::where('abbreviato', self::$mapNamesToDB[$nome])->first();
     }
 
-    public function isPostulante()
+    public function isPostulante(): bool
     {
         return $this->abbreviato == self::$mapNamesToDB['postulante'];
     }
 
-    public function isEffettivo()
+    public function isEffettivo(): bool
     {
         return $this->abbreviato == self::$mapNamesToDB['effettivo'];
     }

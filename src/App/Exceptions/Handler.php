@@ -25,9 +25,9 @@ class Handler extends ExceptionHandler
         ValidationException::class,
     ];
 
-    public function register()
+    public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function (Throwable $e): void {
             if (app()->bound('sentry')) {
                 app('sentry')->captureException($e);
             }
@@ -40,9 +40,8 @@ class Handler extends ExceptionHandler
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param  Exception  $exception
-     * @return void
      */
-    public function report(Throwable $exception)
+    public function report(Throwable $exception): void
     {
         parent::report($exception);
     }

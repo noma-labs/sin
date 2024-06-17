@@ -8,7 +8,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 
-it('stores a new decesso', function () {
+it('stores a new decesso', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($persona, Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());

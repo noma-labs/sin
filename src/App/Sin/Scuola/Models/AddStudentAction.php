@@ -23,7 +23,7 @@ class AddStudentAction
         return $alunno;
     }
 
-    private function addStudent(Classe $classe, Persona $alunno, $data_inizio)
+    private function addStudent(Classe $classe, Persona $alunno, $data_inizio): void
     {
         $classe->alunni()->attach($alunno->id, ['data_inizio' => $data_inizio]);
     }

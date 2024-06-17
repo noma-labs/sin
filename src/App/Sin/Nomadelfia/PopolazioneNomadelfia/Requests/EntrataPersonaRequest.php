@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EntrataPersonaRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'tipologia' => 'required',

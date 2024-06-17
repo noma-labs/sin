@@ -4,7 +4,7 @@ use Domain\Photo\Models\Photo;
 
 use function PHPUnit\Framework\assertEquals;
 
-it('add photos to db', function () {
+it('add photos to db', function (): void {
 
     Photo::factory(3)
         ->inFolder('2023-14-05 AAAXXX A beatiful moment')

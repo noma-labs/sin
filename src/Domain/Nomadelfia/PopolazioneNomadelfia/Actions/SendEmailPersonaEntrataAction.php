@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailPersonaEntrataAction
 {
-    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia)
+    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia): void
     {
         $data_entrata = Carbon::parse($data_entrata);
         $to = config('aggiornamento-anagrafe.to');

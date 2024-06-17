@@ -64,7 +64,7 @@ class ClasseTipo extends Model
     {
         // TODO: prossima classe usando il campo 'next'
         return $query->where('ciclo', '=', $this->ciclo)->where('ord', '>', $this->ord)
-            ->orWhere(function ($query) {
+            ->orWhere(function ($query): void {
                 $query->where('ord', '>', $this->ord);
             })->orderBY('ord', 'asc')->first();
 
@@ -166,57 +166,57 @@ class ClasseTipo extends Model
         return $this->ciclo === 'superiori';
     }
 
-    public function scopeIs3AnniPrescuola($query)
+    public function scopeIs3AnniPrescuola($query): bool
     {
         return $this->nome == self::PRESCUOLA_3ANNI;
     }
 
-    public function scopeIs4AnniPrescuola($query)
+    public function scopeIs4AnniPrescuola($query): bool
     {
         return $this->nome == self::PRESCUOLA_4ANNI;
     }
 
-    public function scopeIs5AnniPrescuola($query)
+    public function scopeIs5AnniPrescuola($query): bool
     {
         return $this->nome == self::PRESCUOLA_5ANNI;
     }
 
-    public function scopeIsPrimaEl()
+    public function scopeIsPrimaEl(): bool
     {
         return $this->nome == self::PRIMA_ELEMENTARE;
     }
 
-    public function scopeIsSecondaEl()
+    public function scopeIsSecondaEl(): bool
     {
         return $this->nome == self::SECONDA_ELEMENTARE;
     }
 
-    public function scopeIsTerzaEl()
+    public function scopeIsTerzaEl(): bool
     {
         return $this->nome == self::TERZA_ELEMENTARE;
     }
 
-    public function scopeIsQuartaEl()
+    public function scopeIsQuartaEl(): bool
     {
         return $this->nome == self::QUARTA_ELEMENTARE;
     }
 
-    public function scopeIsQuintaEl()
+    public function scopeIsQuintaEl(): bool
     {
         return $this->nome == self::QUINTA_ELEMENTARE;
     }
 
-    public function IsPrimaMed()
+    public function IsPrimaMed(): bool
     {
         return $this->nome == self::PRIMA_MEDIA;
     }
 
-    public function scopeIsSecondaMed()
+    public function scopeIsSecondaMed(): bool
     {
         return $this->nome == self::SECONDA_MEDIA;
     }
 
-    public function scopeIsTerzaMed()
+    public function scopeIsTerzaMed(): bool
     {
         return $this->nome == self::TERZA_MEDIA;
     }
@@ -226,7 +226,7 @@ class ClasseTipo extends Model
         return $this->ciclo === 'universita';
     }
 
-    public function assegnaAlunno($persona, Carbon $data_inizio)
+    public function assegnaAlunno($persona, Carbon $data_inizio): void
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);

@@ -59,7 +59,7 @@ class Famiglia extends Model
     /**
      * Set the nome in uppercase when a new famiglia is insereted.
      */
-    public function setNomeFamigliaAttribute($value)
+    public function setNomeFamigliaAttribute($value): void
     {
         $this->attributes['nome_famiglia'] = ucwords(strtolower($value));
     }
@@ -162,11 +162,11 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function uscita($data_uscita)
+    public function uscita($data_uscita): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
-            $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita) {
+            $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita): void {
                 $act = app(UscitaPersonaAction::class);
                 $act->execute($componente, $data_uscita);
             });
@@ -455,7 +455,7 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function rimuoviDaGruppoFamiliare($idGruppo)
+    public function rimuoviDaGruppoFamiliare($idGruppo): void
     {
         $expression = DB::raw("UPDATE gruppi_persone
               SET
@@ -517,7 +517,7 @@ class Famiglia extends Model
             &$famiglia_id,
             &$gruppo_nuovo_id,
             &$data_entrata
-        ) {
+        ): bool {
 
             // Disabilita tutti i componenti della famiglia dal vecchio gruppo (mette stato = 0)
             $expression = DB::raw("UPDATE gruppi_persone

@@ -65,7 +65,7 @@ class ClassificazioniController
 
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione,'.$id.',id',

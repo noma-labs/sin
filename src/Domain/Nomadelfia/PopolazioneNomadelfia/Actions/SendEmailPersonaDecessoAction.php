@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailPersonaDecessoAction
 {
-    public function execute(Persona $persona, string $data_decesso)
+    public function execute(Persona $persona, string $data_decesso): void
     {
         $data_decesso = Carbon::parse($data_decesso);
         $to = config('aggiornamento-anagrafe.to');

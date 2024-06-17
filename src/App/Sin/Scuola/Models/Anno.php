@@ -31,7 +31,7 @@ class Anno extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('data_inizio');
         });
     }
@@ -46,7 +46,7 @@ class Anno extends Model
         return $this->responsabile()->associate($persona);
     }
 
-    public function nextAnnoScolasticoString()
+    public function nextAnnoScolasticoString(): string
     {
         $as = Str::of($this->scolastico)->explode('/');
 

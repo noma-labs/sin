@@ -13,7 +13,7 @@ class GruppoFamiliareQueryBuilder extends Builder
             ->from('persone')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->join('gruppi_persone', 'gruppi_persone.persona_id', '=', 'persone.id')
-            ->whereNotIn('persone.id', function ($query) {
+            ->whereNotIn('persone.id', function ($query): void {
                 $query->select('famiglie_persone.persona_id')
                     ->from('famiglie_persone')
                     ->where('famiglie_persone.stato', '=', '1');

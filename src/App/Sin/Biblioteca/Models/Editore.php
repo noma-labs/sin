@@ -26,7 +26,7 @@ class Editore extends Model
         return EditoreFactory::new();
     }
 
-    public function setEditoreAttribute($value)
+    public function setEditoreAttribute($value): void
     {
         $this->attributes['editore'] = strtoupper($value);
     }
@@ -40,7 +40,7 @@ class Editore extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('singoli', function (Builder $builder) {
+        static::addGlobalScope('singoli', function (Builder $builder): void {
             $builder->where('tipedi', 'S');
         });
     }
