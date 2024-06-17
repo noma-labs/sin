@@ -175,6 +175,7 @@ class ApiController
 
     /**
      * ritorna tutti i filtri nel db
+     *
      * @return mixed[]
      */
     public function filtri(): array
