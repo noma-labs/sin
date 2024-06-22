@@ -2,19 +2,21 @@
 
 @section("content")
     @include("partials.header", ["title" => "Aggiungi elaborato"])
-    <form method="POST" action="{{ route("scuola.elaborati.insert") }}">
+    <form
+        method="POST"
+        action="{{ route("scuola.elaborati.store") }}"
+        enctype="multipart/form-data"
+    >
         @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="xTitolo" class="control-label">
-                            Titolo (*)
-                        </label>
+                        <label for="titolo" class="control-label">Titolo</label>
                         <input
                             class="form-control"
                             type="text"
-                            name="dimensione"
+                            name="titolo"
                             value="{{ old("titolo") }}"
                         />
                     </div>
@@ -54,15 +56,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="xNote" class="control-label">Note</label>
-                        <textarea
+                        <label for="xfile" class="form-label">
+                            Scegli file
+                        </label>
+                        <input
                             class="form-control"
-                            name="xNote"
-                            class="text"
-                            rows="2"
-                        >
-{{ old("xNote") }}</textarea
-                        >
+                            type="file"
+                            id="xfile"
+                            name="file"
+                        />
                     </div>
                 </div>
                 <div class="row">
@@ -76,16 +78,14 @@
                     <div class="col-md-12">
                         <button
                             class="btn btn-success"
-                            name="_addonly"
-                            value="true"
                             type="submit"
+                            value="Upload"
                         >
                             Salva
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" v-pre></div>
         </div>
     </form>
 @endsection
