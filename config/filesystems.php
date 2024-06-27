@@ -68,6 +68,10 @@ return [
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
+        'scuola' => [
+            'driver' => 'local',
+            'root' => storage_path('app/scuola'),
+        ],
     ],
 
 ];

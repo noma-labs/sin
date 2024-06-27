@@ -4,6 +4,7 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,27 +38,39 @@ class ElaboratiController
             'titolo.required' => 'Il titolo è obbligatorio.',
         ]);
 
-        if (! $request->hasFile('file')) {
-            dd('File not present');
-        }
 
-        dd("Implement store method");
+
+        $titolo = $request->input('titolo');
+        $titleSlug = Str::slug($titolo);
+
+        $annoScolastico = $request->input('anno_scolastico');
+        $as = Str::of($annoScolastico)->explode('/');
+        $year = $as[1];
+        $date = Carbon::now()->year($year)->month(6)->endOfMonth();
+        $datePath = $date->format('Y-m-d');
 
         $file = $request->file('file');
 
-        // TODO: create a file system structure with year/month/YYYY_MM_DD <title>.ext
-        $uploaded = Storage::disk('local')->put("scuola/elaborati/{$name}", $file);
+        $filePath = "{$year}/{$datePath}_{$titleSlug}";
+        $fileName = "{$datePath}_{$titleSlug}.{$file->getClientOriginalExtension()}";
+
+        $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
+
+        if (!$storagePath){
+            return redirect()->back()->withError('Errore durante il caricamento del file.');
+        }
+
 
         Elaborato::query()->create(
             attributes: [
-                'titolo' => 'test',
-                'autori' => 'davide',
-                'data' => '2024/12',
-                'collocazione' => 'ALDKA',
-                'file_name' => $file->getClientOriginalName(),
-            ]
+                'titolo' => $titolo,
+                'anno_scolastico' => $annoScolastico,
+                'classi' => implode(',',$request->input('classi')),
+                'file_path' => $storagePath,
+                'file_mime_type' => $file->getClientMimeType(),
+                'file_size' => $file->getSize(),
+                'file_hash' => hash_file('sha256', $file->getPathname()),            ]
         );
-        // https://laravel-news.com/uploading-files-laravel
 
     }
 }

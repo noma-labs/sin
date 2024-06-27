@@ -44,7 +44,7 @@
                             @foreach ($classi as $key => $value)
                               <a class="dropdown-item" href="#">
                                 <label>
-                                  <input type="checkbox" name="{{ $key }}"> {{ $value }}
+                                  <input type="checkbox" name="classi[]" value="{{$value}}"> {{ $value }}
                                 </label>
                               </a>
                             @endforeach
