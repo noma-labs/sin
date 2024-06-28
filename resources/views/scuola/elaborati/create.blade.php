@@ -37,31 +37,50 @@
                     <div class="col-md-2">
                         <label for="classe">Classe</label>
                         <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Seleziona Classi
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @foreach ($classi as $key => $value)
-                              <a class="dropdown-item" href="#">
-                                <label>
-                                  <input type="checkbox" name="classi[]" value="{{$value}}"> {{ $value }}
-                                </label>
-                              </a>
-                            @endforeach
-                          </div>
+                            <button
+                                class="btn btn-secondary dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Seleziona Classi
+                            </button>
+                            <div
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton"
+                            >
+                                @foreach ($classi as $key => $value)
+                                    <a class="dropdown-item" href="#">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="classi[]"
+                                                value="{{ $value }}"
+                                            />
+                                            {{ $value }}
+                                        </label>
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <label for="sommario_libro" class="control-label">Sommario</label>
+                        <label for="sommario_libro" class="control-label">
+                            Sommario
+                        </label>
                         <textarea
                             class="form-control"
                             id="sommario_libro"
                             name="sommario_libro"
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
-                        >{{ old("sommario_libro") }}</textarea>
+                        >
+{{ old("sommario_libro") }}</textarea
+                        >
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -77,7 +96,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </form>

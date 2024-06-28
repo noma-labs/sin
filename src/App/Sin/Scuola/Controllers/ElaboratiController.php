@@ -4,9 +4,8 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ElaboratiController
 {
@@ -38,8 +37,6 @@ class ElaboratiController
             'titolo.required' => 'Il titolo è obbligatorio.',
         ]);
 
-
-
         $titolo = $request->input('titolo');
         $titleSlug = Str::slug($titolo);
 
@@ -56,16 +53,15 @@ class ElaboratiController
 
         $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
 
-        if (!$storagePath){
+        if (! $storagePath) {
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
-
 
         Elaborato::query()->create(
             attributes: [
                 'titolo' => $titolo,
                 'anno_scolastico' => $annoScolastico,
-                'classi' => implode(',',$request->input('classi')),
+                'classi' => implode(',', $request->input('classi')),
                 'file_path' => $storagePath,
                 'file_mime_type' => $file->getClientMimeType(),
                 'file_size' => $file->getSize(),
