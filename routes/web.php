@@ -194,6 +194,9 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
     Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');
     Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
+    Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('elaborati.show');
+    Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
+    Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {

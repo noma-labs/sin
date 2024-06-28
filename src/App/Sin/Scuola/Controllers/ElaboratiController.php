@@ -5,6 +5,7 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ElaboratiController
@@ -67,6 +68,33 @@ class ElaboratiController
                 'file_size' => $file->getSize(),
                 'file_hash' => hash_file('sha256', $file->getPathname()),            ]
         );
-
     }
+
+    public function show($id)
+    {
+        $elaborato = Elaborato::query()->findOrFail($id);
+
+        $preview = asset('scuola/'. $elaborato->file_path);
+
+
+        return view('scuola.elaborati.show', [
+            'elaborato' => $elaborato,
+            'preview' => $preview,
+        ]);
+    }
+
+    public function download($id)
+    {
+        $elaborato = Elaborato::findOrFail($id);
+        $filePath = $elaborato->file_path;
+
+        if (!Storage::disk('scuola')->exists($filePath)) {
+            abort(404);
+        }
+
+        $fileName = basename($filePath); // Get the base name in case you want to customize the download file name
+
+        return Storage::disk('scuola')->download($filePath, $fileName);
+    }
+
 }

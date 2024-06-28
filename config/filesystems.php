@@ -74,4 +74,8 @@ return [
         ],
     ],
 
+    'links' => [
+        public_path('scuola') => storage_path('app/scuola'),
+    ],
+
 ];
