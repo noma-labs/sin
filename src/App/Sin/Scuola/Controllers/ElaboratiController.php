@@ -12,7 +12,11 @@ class ElaboratiController
 {
     public function index()
     {
-        return view('scuola.elaborati.index');
+        $elaborati = Elaborato::query()->latest()->get();
+
+        return view('scuola.elaborati.index', [
+            'elaborati' => $elaborati,
+        ]);
     }
 
     public function create()
@@ -68,6 +72,7 @@ class ElaboratiController
                 'file_size' => $file->getSize(),
                 'file_hash' => hash_file('sha256', $file->getPathname()),            ]
         );
+        return redirect()->route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
     }
 
     public function show($id)
