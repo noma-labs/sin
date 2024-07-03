@@ -12,7 +12,7 @@ class SearchPersona extends Component
 
     public string $placeholder;
 
-    public $options = []; // array of persone
+    public $options = [];
 
     public Collection $selected;
 
@@ -24,16 +24,16 @@ class SearchPersona extends Component
         $this->selected = collect();
     }
 
-    public function select(string $alias): void
+    public function select(string $nominativo): void
     {
-        $this->selected = $this->selected->push($alias)->unique();
+        $this->selected = $this->selected->push($nominativo)->unique();
         $this->reset('options', 'searchTerm');
     }
 
-    public function deselect(string $alias): void
+    public function deselect(string $nominativo): void
     {
-        $this->selected = $this->selected->reject(function ($selectedAlias) use ($alias): bool {
-            return $selectedAlias == $alias;
+        $this->selected = $this->selected->reject(function ($selected) use ($nominativo): bool {
+            return $selected == $nominativo;
         });
     }
 
@@ -52,8 +52,7 @@ class SearchPersona extends Component
     {
         $this->reset('options');
         $this->options = Persona::query()
-            ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita', 'persone_alias.alias')
-            ->leftjoin('db_rtn.persone_alias', 'persona_id', '=', 'id')
+            ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
             ->where('nominativo', 'LIKE', "$term%")
             ->orderBy('nominativo', 'asc')
             ->get();
