@@ -32,18 +32,23 @@ class ElaboratiController
 
     public function store(Request $request)
     {
-        $request->validate([
+
+            $request->validate([
             'file' => 'required',
             'titolo' => 'required',
             'anno_scolastico' => 'required',
+            'persone_id' => 'required'
         ], [
             'file.required' => 'Nessun file selezionato.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
+            'persone_id.required' => 'Almeno un alunno è obbligatorio.',
         ]);
 
         $titolo = $request->input('titolo');
         $titleSlug = Str::slug($titolo);
+
+        $alunni = $request->input('persone_id');
 
         $annoScolastico = $request->input('anno_scolastico');
         $as = Str::of($annoScolastico)->explode('/');
@@ -62,7 +67,7 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        Elaborato::query()->create(
+        $elaborato =  Elaborato::query()->create(
             attributes: [
                 'titolo' => $titolo,
                 'anno_scolastico' => $annoScolastico,
@@ -72,14 +77,17 @@ class ElaboratiController
                 'file_size' => $file->getSize(),
                 'file_hash' => hash_file('sha256', $file->getPathname()),            ]
         );
+        $elaborato->studenti()->sync($alunni);
+
+
         return redirect()->route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
     }
 
     public function show($id)
     {
-        $elaborato = Elaborato::query()->findOrFail($id);
+        $elaborato = Elaborato::with("studenti")->findOrFail($id);
 
-        $preview = asset('scuola/'. $elaborato->file_path);
+          $preview = asset('scuola/'. $elaborato->file_path);
 
 
         return view('scuola.elaborati.show', [

@@ -5,6 +5,37 @@ namespace App\Livewire;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\Wireable;
+
+
+class Option implements Wireable {
+
+    public int $id;
+    public string $value;
+
+    public function __construct(int $id, string $value)
+    {
+        $this->id = $id;
+        $this->value = $value;
+    }
+
+
+    public function toLivewire()
+    {
+        return [
+            'id' => $this->id,
+            'value' => $this->value,
+        ];
+    }
+
+    public static function fromLivewire($value)
+    {
+        $id = $value['id'];
+        $value = $value['value'];
+
+        return new static($id, $value);
+    }
+}
 
 class SearchPersona extends Component
 {
@@ -24,16 +55,20 @@ class SearchPersona extends Component
         $this->selected = collect();
     }
 
-    public function select(string $nominativo): void
+    public function select(string $id): void
     {
-        $this->selected = $this->selected->push($nominativo)->unique();
+         $found = collect($this->options)->first(function(Option $opt) use ($id){
+            return $opt->id == $id;
+         });
+
+        $this->selected = $this->selected->push($found)->unique();
         $this->reset('options', 'searchTerm');
     }
 
-    public function deselect(string $nominativo): void
+    public function deselect(string $id): void
     {
-        $this->selected = $this->selected->reject(function ($selected) use ($nominativo): bool {
-            return $selected == $nominativo;
+        $this->selected = $this->selected->reject(function (Option $selected) use ($id): bool {
+            return $selected->id == $id;
         });
     }
 
@@ -51,11 +86,16 @@ class SearchPersona extends Component
     public function search(string $term): void
     {
         $this->reset('options');
-        $this->options = Persona::query()
+        $persone = Persona::query()
             ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
             ->where('nominativo', 'LIKE', "$term%")
             ->orderBy('nominativo', 'asc')
             ->get();
+
+        foreach ($persone as $persona) {
+            $this->options[] = new Option($persona->id, $persona->nominativo. " (".$persona->data_nascita.")");
+        }
+
     }
 
     public function render()

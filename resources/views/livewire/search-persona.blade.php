@@ -38,13 +38,13 @@
         style="display: flex; justify-content: space-between"
     >
         <div>
-            @foreach ($selected as $nominativo)
+            @foreach ($selected as $sel)
                 <span class="selected-option">
-                    {{ $nominativo }}
+                    {{ $sel->value }}
                     <span
                         style="font-size: 1.25em"
-                        wire:key="{{ $nominativo }}"
-                        wire:click="deselect('{{ $nominativo }}')"
+                        wire:key="{{ $sel->id }}"
+                        wire:click="deselect('{{ $sel->id }}')"
                     >
                         &times;
                     </span>
@@ -52,8 +52,8 @@
                     <input
                         id="cliente"
                         type="hidden"
-                        name="nominativi[]"
-                        value="{{ $nominativo }}"
+                        name="persone_id[]"
+                        value="{{ $sel->id }}"
                     />
                 </span>
             @endforeach
@@ -76,10 +76,10 @@
         @forelse ($options as $p)
             <li
                 class="available-option"
-                wire:key="{{ $p->nominativo }}"
-                wire:click="select('{{ $p->nominativo }}')"
+                wire:key="{{ $p->id}}"
+                wire:click="select('{{ $p->id}}')"
             >
-              {{ $p->nominativo }} ({{ $p->nome }} {{ $p->cognome }} {{ $p->data_nascita }})
+              {{ $p->value }}
             </li>
         @empty
             @if ($searchTerm)

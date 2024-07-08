@@ -69,6 +69,14 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
+                        <label for="alunni" class="control-label">
+                            Alunni/o
+                        </label>
+                      <livewire:search-persona/>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
                         <label for="sommario_libro" class="control-label">
                             Sommario
                         </label>
