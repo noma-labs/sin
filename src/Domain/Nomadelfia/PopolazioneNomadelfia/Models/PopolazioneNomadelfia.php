@@ -131,7 +131,7 @@ class PopolazioneNomadelfia extends Model
 //                             ->where('popolazione.data_uscita', "<=", $end);
 //                });
 //            })
-            ->whereNull('popolazione.data_uscita')
+            // ->whereNull('popolazione.data_uscita')
             ->whereNull('persone.data_decesso')
             ->where('persone.data_nascita', '<=', $end)
             ->orderByRaw('persone.'.strval($orderBy).' '.$order);
@@ -436,11 +436,11 @@ class PopolazioneNomadelfia extends Model
     public static function famiglie()
     {
         $expression = DB::raw(
-            "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita 
-                FROM persone 
-                INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id 
+            "SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita
+                FROM persone
+                INNER JOIN famiglie_persone ON famiglie_persone.persona_id = persone.id
                 INNER JOIN popolazione on popolazione.persona_id = famiglie_persone.persona_id
-                LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id 
+                LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
                 WHERE popolazione.data_uscita IS NULL
                     AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
                     AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
