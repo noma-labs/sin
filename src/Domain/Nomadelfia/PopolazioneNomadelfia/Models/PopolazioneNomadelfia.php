@@ -118,7 +118,7 @@ class PopolazioneNomadelfia extends Model
         }
         $start = $date->copy()->subYears($toEta);
         if ($withInYear) {
-            $start = $start->endOfYear();
+            $start = $start->startOfYear();
         }
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
