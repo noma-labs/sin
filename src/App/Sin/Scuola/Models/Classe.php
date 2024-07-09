@@ -33,7 +33,7 @@ class Classe extends Model
     public function alunni($orderby = 'nominativo', $order = 'ASC')
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
-            'persona_id')->whereNull('data_fine')->withPivot('data_inizio')->orderBy($orderby, $order);
+            'persona_id')->withPivot('data_inizio')->orderBy($orderby, $order);
     }
 
     public function coordinatori()
