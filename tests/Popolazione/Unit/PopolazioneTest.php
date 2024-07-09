@@ -139,7 +139,7 @@ it('manage exit of underage', function (): void {
         ->and($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toBe($data_uscita)
         ->and($persona->famigliaAttuale())->toBeNull()
         ->and($persona->famiglieStorico()->get()->last()->id)->toBe($famiglia->id)
-        ->and($classe->alunni()->count())->toBe(0);
+        ->and($classe->alunniAttuali()->count())->toBe(0);
 
     $pop = PopolazioneNomadelfia::popolazione();
     expect(count($pop))->toBe($tot - 1);

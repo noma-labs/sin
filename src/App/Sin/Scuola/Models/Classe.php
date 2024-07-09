@@ -36,6 +36,11 @@ class Classe extends Model
             'persona_id')->withPivot('data_inizio')->orderBy($orderby, $order);
     }
 
+    public function alunniAttuali()
+    {
+        return $this->alunni()->whereNull('data_fine');
+    }
+
     public function coordinatori()
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.coordinatori_classi', 'classe_id',
