@@ -69,8 +69,7 @@ class ScuolaController
         $anno = Anno::FindOrFail($id);
         $aNew = Anno::cloneAnnoScolastico($anno, $request->get('anno_inizio'));
 
-        return redirect()->back()->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
-
+        return redirect()->route('scuola.anno.show', ['id' => $aNew->id])->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
     }
 
     public function aggiungiAnnoScolastico(Request $request)

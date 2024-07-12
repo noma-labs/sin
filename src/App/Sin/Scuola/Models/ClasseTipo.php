@@ -62,13 +62,7 @@ class ClasseTipo extends Model
 
     public function scopeClasseSuccessiva($query)
     {
-        // TODO: prossima classe usando il campo 'next'
-        return $query->where('ciclo', '=', $this->ciclo)->where('ord', '>', $this->ord)
-            ->orWhere(function ($query): void {
-                $query->where('ord', '>', $this->ord);
-            })->orderBY('ord', 'asc')->first();
-
-        //        return $query->where('ciclo', '=', $this->ciclo)->where('id', '=', $this->next)->orderBY('ord', 'asc')->first();
+        return $query->where('id', '=', $this->next);
     }
 
     public function scopePrescuola($query): ClasseTipo

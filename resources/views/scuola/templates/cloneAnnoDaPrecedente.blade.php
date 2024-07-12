@@ -1,6 +1,6 @@
 <my-modal
-    modal-title="Crea nuovo anno"
-    button-title="Crea nuovo anno"
+    modal-title="Clona anno"
+    button-title="Clona anno"
     button-style="btn-info my-2"
 >
     <template slot="modal-body-slot">

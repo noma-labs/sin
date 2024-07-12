@@ -78,12 +78,12 @@ it('get students from classroom types', function (): void {
     $c1->aggiungiAlunno($p1, Carbon::now());
 
     // elemenatri
-    $c2 = $a->aggiungiClasse($t->get(2));
+    $c2 = $a->aggiungiClasse($t->get(3));
     $p2 = Studente::factory()->minorenne()->maschio()->nato($now->addYears(1))->create();
     $c2->aggiungiAlunno($p2, Carbon::now());
 
     // medie
-    $c3 = $a->aggiungiClasse($t->get(6));
+    $c3 = $a->aggiungiClasse($t->get(10));
     $p3 = Studente::factory()->minorenne()->femmina()->nato($now->addYears(2))->create();
     $c3->aggiungiAlunno($p3, Carbon::now());
     $p4 = Studente::factory()->minorenne()->femmina()->nato($now->addYears(3))->create();

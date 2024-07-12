@@ -86,7 +86,7 @@ class Classe extends Model
 
     public function nextClasseTipo()
     {
-        return $this->tipo->classeSuccessiva();
+        return $this->tipo->classeSuccessiva()->first();
     }
 
     public function aggiungiCoordinatore(Persona|int $persona, $data_inizio, $tipo = null): void
