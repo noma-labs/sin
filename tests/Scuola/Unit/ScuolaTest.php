@@ -211,7 +211,7 @@ it('get next classroom', function (): void {
 
     $this->assertEquals($a->primaMedia()->nextClasseTipo(), ClasseTipo::SecondaMed());
     $this->assertEquals($a->secondaMedia()->nextClasseTipo(), ClasseTipo::TerzaMed());
-})->only();
+});
 
 it('first or create classroom', function (): void {
     $a = Anno::createAnno(2070, '2023-12-12');
