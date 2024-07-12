@@ -40,7 +40,7 @@ class ScuolaTableSeeder extends Seeder
 
             ['id' => 12, 'nome' => '1 superiore', 'ciclo' => 'superiori', 'ord' => 30, 'next' => null],
 
-            ['id' =>13, 'nome' => '1 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 31, 'next' => 14],
+            ['id' => 13, 'nome' => '1 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 31, 'next' => 14],
             ['id' => 14, 'nome' => '2 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 32, 'next' => 15],
             ['id' => 15, 'nome' => '3 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 33, 'next' => 16],
             ['id' => 16, 'nome' => '4 Prof. Agrario', 'ciclo' => 'superiori', 'ord' => 34, 'next' => 17],

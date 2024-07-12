@@ -62,7 +62,7 @@ class ClasseTipo extends Model
 
     public function scopeClasseSuccessiva($query)
     {
-           return $query->where('id', '=', $this->next);
+        return $query->where('id', '=', $this->next);
     }
 
     public function scopePrescuola($query): ClasseTipo
