@@ -102,7 +102,7 @@ class Anno extends Model
         $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
         $classi_from = $copy_from_as->classi()->get();
         foreach ($classi_from as $classe) {
-            $next = $classe->nextClasseTipo();
+            $next = $classe->nextClasseTipo()->first();
             if ($next) {
                 $new_classe = $a->findOrCreateClasseByTipo($next);
                 $new_classe->importStudentsFromOtherClasse($classe, $data_inizio);
