@@ -34,7 +34,7 @@ class ScuolaController
         return view('scuola.anno.storico', compact('anni'));
     }
 
-    public function index(Request $request, $id)
+    public function show(Request $request, $id)
     {
         $anno = Anno::find($id);
         $alunni = Studente::InAnnoScolastico($anno)->count();

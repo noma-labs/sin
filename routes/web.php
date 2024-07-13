@@ -178,7 +178,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('summary');
     Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('anno.storico');
-    Route::get('/anno/{id}', [ScuolaController::class, 'index'])->name('anno.show');
+    Route::get('/anno/{id}', [ScuolaController::class, 'show'])->name('anno.show');
     Route::post('/anno/{id}/clone', [ScuolaController::class, 'cloneAnnoScolastico'])->name('anno.clone');
     Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('anno.aggiungi');
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('anno.classe.aggiungi');

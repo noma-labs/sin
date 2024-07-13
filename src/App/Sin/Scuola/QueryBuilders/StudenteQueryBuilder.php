@@ -19,7 +19,6 @@ class StudenteQueryBuilder extends Builder
             ->join('db_scuola.classi', 'db_scuola.classi.id', '=', 'db_scuola.alunni_classi.classe_id')
             ->join('db_scuola.tipo', 'db_scuola.tipo.id', '=', 'db_scuola.classi.tipo_id')
             ->join('db_scuola.anno', 'db_scuola.anno.id', '=', 'db_scuola.classi.anno_id')
-            ->whereNull('db_scuola.alunni_classi.data_fine')
             ->where('db_scuola.anno.id', '=', $anno)
             ->orderBy('data_nascita');
     }
