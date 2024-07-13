@@ -66,7 +66,7 @@ it('can delete classe', function (): void {
 
     $this->delete(action([ClassiController::class, 'delete'], ['id' => $c->id]));
 
-    $this->get(action([ScuolaController::class, 'index'], ['id' => $a->id]))
+    $this->get(action([ScuolaController::class, 'show'], ['id' => $a->id]))
         ->assertSuccessful()
         ->assertDontSee($s->nominativo);
 });
