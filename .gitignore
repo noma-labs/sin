@@ -20,6 +20,7 @@ storage/*.pdf
 storage/*.json
 
 .phpunit.result.cache
+.phpunit.cache
 .devcontainer
 .vscode
 .idea/

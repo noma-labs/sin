@@ -43,7 +43,7 @@ it('can list classi in anno scolastico', function (): void {
     $this->assertCount(1, $c->alunni()->get());
 
     login();
-    $this->get(action([ScuolaController::class, 'index'], ['id' => $a->id]))
+    $this->get(action([ScuolaController::class, 'show'], ['id' => $a->id]))
         ->assertSuccessful();
 
 });
