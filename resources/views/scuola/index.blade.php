@@ -24,4 +24,9 @@
             </a>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route("scuola.elaborati.index") }}">
+            Elaborati
+        </a>
+    </li>
 @endsection
