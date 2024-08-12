@@ -24,7 +24,7 @@ class AnnoScolastico
             throw new Exception('I due anni devono essere un numero');
         }
 
-        if( $endYear != $startYear +1){
+        if ($endYear != $startYear + 1) {
             throw new Exception("La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
         }
 

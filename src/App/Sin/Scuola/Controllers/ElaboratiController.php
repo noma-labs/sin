@@ -109,10 +109,10 @@ class ElaboratiController
         $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
         $elaborato->note = $request->input('note');
         $elaborato->save();
-        return redirect()->route('scuola.elaborati.show', $elaborato->id)
-        ->with('success', 'Elaborato aggiornato con successo.');
-    }
 
+        return redirect()->route('scuola.elaborati.show', $elaborato->id)
+            ->with('success', 'Elaborato aggiornato con successo.');
+    }
 
     public function preview($id)
     {
