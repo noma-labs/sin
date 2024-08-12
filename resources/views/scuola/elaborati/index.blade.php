@@ -16,8 +16,12 @@
             @forelse ($elaborati as $elaborato)
                 <li class="list-group-item">
                     {{ $elaborato->titolo }}
-                    <span class="badge badge-primary">{{ $elaborato->collocazione }}</span>
-                    <span class="badge badge-secondary">{{ $elaborato->anno_scolastico }}</span>
+                    <span class="badge badge-primary">
+                        {{ $elaborato->collocazione }}
+                    </span>
+                    <span class="badge badge-secondary">
+                        {{ $elaborato->anno_scolastico }}
+                    </span>
 
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
