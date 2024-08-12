@@ -68,6 +68,10 @@
                 {{ $elaborato->collocazione }}
             </p>
             <p class="mb-2">
+                <strong>Dimensione:</strong>
+                {{ $elaborato->dimensione }}
+            </p>
+            <p class="mb-2">
                 <strong>Classi:</strong>
                 {{ $elaborato->classi }}
             </p>

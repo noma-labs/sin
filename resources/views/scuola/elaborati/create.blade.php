@@ -34,6 +34,7 @@
                             value="{{ old("titolo") }}"
                         />
                     </div>
+
                     <div class="col-md-2">
                         <label for="classe">Classe</label>
                         <div class="dropdown">
@@ -67,6 +68,21 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="larghezza">Larghezza (Width):</label>
+                            <input type="number" id="larghezza" name="larghezza" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="altezza">Altezza (Height):</label>
+                            <input type="number" id="altezza" name="altezza" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label for="alunni" class="control-label">

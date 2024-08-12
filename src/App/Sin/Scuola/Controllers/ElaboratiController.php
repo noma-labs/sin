@@ -3,6 +3,7 @@
 namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
+use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,21 +40,26 @@ class ElaboratiController
             'titolo' => 'required',
             'anno_scolastico' => 'required',
             'persone_id' => 'required',
+            'dimesione_larghezza' => 'numeric',
+            'dimesione_altezza' => 'numeric',
         ], [
             'file.required' => 'Nessun file selezionato.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
             'persone_id.required' => 'Almeno un alunno è obbligatorio.',
+            'dimesione_larghezza.numeric' => 'La larghezza deve essere un numero.',
+            'dimesione_altezza.numeric' => "L'altezza deve essere un numero.",
         ]);
 
         $titolo = $request->input('titolo');
         $alunni = $request->input('persone_id');
         $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
-        $file = $request->file('file');
+        $dimesione = new Dimensione($request->input('dimesione_larghezza', 0), $request->input('dimesione_altezza', 0));
 
         $titleSlug = Str::slug($titolo);
         $collocazione = $request->input('collocazione', '');
 
+        $file = $request->file('file');
         $filePath = "{$as->endYear}/{$collocazione}_{$titleSlug}";
         $fileName = "{$collocazione}_{$titleSlug}.{$file->getClientOriginalExtension()}";
 
@@ -73,7 +79,9 @@ class ElaboratiController
                     'file_path' => $storagePath,
                     'file_mime_type' => $file->getClientMimeType(),
                     'file_size' => $file->getSize(),
-                    'file_hash' => hash_file('sha256', $file->getPathname()),            ]
+                    'file_hash' => hash_file('sha256', $file->getPathname()),
+                    'dimensione' => $dimesione->toString(),
+                 ]
             );
             $elaborato->studenti()->sync($alunni);
         });
