@@ -2,6 +2,7 @@
 
 namespace App\Scuola\Controllers;
 
+use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,7 +34,6 @@ class ElaboratiController
 
     public function store(Request $request)
     {
-
         $request->validate([
             'file' => 'required',
             'titolo' => 'required',
@@ -47,20 +47,15 @@ class ElaboratiController
         ]);
 
         $titolo = $request->input('titolo');
-        $titleSlug = Str::slug($titolo);
-
         $alunni = $request->input('persone_id');
-
-        $annoScolastico = $request->input('anno_scolastico');
-        $as = Str::of($annoScolastico)->explode('/');
-        $year = $as[1];
-        $date = Carbon::now()->year($year)->month(6)->endOfMonth();
-        $datePath = $date->format('Y-m-d');
-
+        $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
         $file = $request->file('file');
 
-        $filePath = "{$year}/{$datePath}_{$titleSlug}";
-        $fileName = "{$datePath}_{$titleSlug}.{$file->getClientOriginalExtension()}";
+        $titleSlug = Str::slug($titolo);
+        $collocazione = $request->input('collocazione', '');
+
+        $filePath = "{$as->endYear}/{$collocazione}_{$titleSlug}";
+        $fileName = "{$collocazione}_{$titleSlug}.{$file->getClientOriginalExtension()}";
 
         $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
 
@@ -68,11 +63,11 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        DB::Transaction(function () use ($request, $titolo, $annoScolastico, $alunni, $storagePath, $file) {
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $storagePath, $file) {
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
-                    'anno_scolastico' => $annoScolastico,
+                    'anno_scolastico' => $as->toString(),
                     'classi' => implode(',', $request->input('classi')),
                     'note' => $request->input('note', null),
                     'file_path' => $storagePath,
