@@ -34,4 +34,4 @@ CREATE TABLE `elaborati_studenti`
 
 ALTER TABLE `elaborati_studenti` ADD PRIMARY KEY (`elaborato_id`,`studente_id`);
 
-ALTER TABLE `elaborati` ADD FOREIGN KEY (`libro_id`) REFERENCES `archivio_biblioteca`.`libro` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE `elaborati` ADD FOREIGN KEY (`libro_id`) REFERENCES `archivio_biblioteca`.`libro` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
