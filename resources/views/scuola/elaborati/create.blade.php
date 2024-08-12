@@ -72,22 +72,20 @@
                         <label for="alunni" class="control-label">
                             Alunni/o
                         </label>
-                      <livewire:search-persona/>
+                        <livewire:search-persona />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <label for="sommario_libro" class="control-label">
-                            Sommario
-                        </label>
+                        <label for="note" class="control-label">Note</label>
                         <textarea
                             class="form-control"
-                            id="sommario_libro"
-                            name="sommario_libro"
+                            id="note"
+                            name="note"
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
                         >
-{{ old("sommario_libro") }}</textarea
+{{ old("note") }}</textarea
                         >
                     </div>
                 </div>

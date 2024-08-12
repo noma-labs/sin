@@ -70,12 +70,10 @@ return [
         ],
         'scuola' => [
             'driver' => 'local',
-            'root' => storage_path('app/scuola'),
+            'root' => storage_path('app/elaborati'),
         ],
     ],
 
-    'links' => [
-        public_path('scuola') => storage_path('app/scuola'),
-    ],
+    'links' => [],
 
 ];

@@ -76,10 +76,10 @@
         @forelse ($options as $p)
             <li
                 class="available-option"
-                wire:key="{{ $p->id}}"
-                wire:click="select('{{ $p->id}}')"
+                wire:key="{{ $p->id }}"
+                wire:click="select('{{ $p->id }}')"
             >
-              {{ $p->value }}
+                {{ $p->value }}
             </li>
         @empty
             @if ($searchTerm)

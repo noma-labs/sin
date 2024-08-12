@@ -5,6 +5,7 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -26,18 +27,18 @@ class ElaboratiController
 
         return view('scuola.elaborati.create', [
             'annoScolastico' => $annoScolastico,
-            'classi' => ['prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
         ]);
     }
 
     public function store(Request $request)
     {
 
-            $request->validate([
+        $request->validate([
             'file' => 'required',
             'titolo' => 'required',
             'anno_scolastico' => 'required',
-            'persone_id' => 'required'
+            'persone_id' => 'required',
         ], [
             'file.required' => 'Nessun file selezionato.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
@@ -67,33 +68,44 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        $elaborato =  Elaborato::query()->create(
-            attributes: [
-                'titolo' => $titolo,
-                'anno_scolastico' => $annoScolastico,
-                'classi' => implode(',', $request->input('classi')),
-                'file_path' => $storagePath,
-                'file_mime_type' => $file->getClientMimeType(),
-                'file_size' => $file->getSize(),
-                'file_hash' => hash_file('sha256', $file->getPathname()),            ]
-        );
-        $elaborato->studenti()->sync($alunni);
-
+        DB::Transaction(function () use ($request, $titolo, $annoScolastico, $alunni, $storagePath, $file) {
+            $elaborato = Elaborato::query()->create(
+                attributes: [
+                    'titolo' => $titolo,
+                    'anno_scolastico' => $annoScolastico,
+                    'classi' => implode(',', $request->input('classi')),
+                    'note' => $request->input('note', null),
+                    'file_path' => $storagePath,
+                    'file_mime_type' => $file->getClientMimeType(),
+                    'file_size' => $file->getSize(),
+                    'file_hash' => hash_file('sha256', $file->getPathname()),            ]
+            );
+            $elaborato->studenti()->sync($alunni);
+        });
 
         return redirect()->route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
     }
 
     public function show($id)
     {
-        $elaborato = Elaborato::with("studenti")->findOrFail($id);
+        $elaborato = Elaborato::with('studenti')->findOrFail($id);
 
-          $preview = asset('scuola/'. $elaborato->file_path);
+        return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
+    }
 
+    public function preview($id)
+    {
+        $elaborato = Elaborato::findOrFail($id);
+        $filePath = $elaborato->file_path;
 
-        return view('scuola.elaborati.show', [
-            'elaborato' => $elaborato,
-            'preview' => $preview,
-        ]);
+        if (! Storage::disk('scuola')->exists($filePath)) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('scuola')->get($filePath);
+        $mimeType = Storage::disk('scuola')->mimeType($filePath);
+
+        return response($fileContent, 200)->header('Content-Type', $mimeType);
     }
 
     public function download($id)
@@ -101,7 +113,7 @@ class ElaboratiController
         $elaborato = Elaborato::findOrFail($id);
         $filePath = $elaborato->file_path;
 
-        if (!Storage::disk('scuola')->exists($filePath)) {
+        if (! Storage::disk('scuola')->exists($filePath)) {
             abort(404);
         }
 
@@ -109,5 +121,4 @@ class ElaboratiController
 
         return Storage::disk('scuola')->download($filePath, $fileName);
     }
-
 }

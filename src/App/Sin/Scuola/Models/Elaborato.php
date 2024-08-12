@@ -21,5 +21,4 @@ class Elaborato extends Model
     {
         return $this->belongsToMany(Studente::class, 'db_scuola.elaborati_studenti', 'studente_id', 'elaborato_id')->orderby('nominativo');
     }
-
 }

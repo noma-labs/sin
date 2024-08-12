@@ -7,10 +7,10 @@ use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\Wireable;
 
-
-class Option implements Wireable {
-
+class Option implements Wireable
+{
     public int $id;
+
     public string $value;
 
     public function __construct(int $id, string $value)
@@ -18,7 +18,6 @@ class Option implements Wireable {
         $this->id = $id;
         $this->value = $value;
     }
-
 
     public function toLivewire()
     {
@@ -57,9 +56,9 @@ class SearchPersona extends Component
 
     public function select(string $id): void
     {
-         $found = collect($this->options)->first(function(Option $opt) use ($id){
+        $found = collect($this->options)->first(function (Option $opt) use ($id) {
             return $opt->id == $id;
-         });
+        });
 
         $this->selected = $this->selected->push($found)->unique();
         $this->reset('options', 'searchTerm');
@@ -93,7 +92,7 @@ class SearchPersona extends Component
             ->get();
 
         foreach ($persone as $persona) {
-            $this->options[] = new Option($persona->id, $persona->nominativo. " (".$persona->data_nascita.")");
+            $this->options[] = new Option($persona->id, $persona->nominativo.' ('.$persona->data_nascita.')');
         }
 
     }
