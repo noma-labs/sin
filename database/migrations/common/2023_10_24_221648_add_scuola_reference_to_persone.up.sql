@@ -6,3 +6,5 @@ ALTER TABLE `anno`
 
 ALTER TABLE `coordinatori_classi`
     ADD FOREIGN KEY (`coordinatore_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `elaborati_studenti` ADD FOREIGN KEY (`studente_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

@@ -46,6 +46,8 @@ use App\Officina\Controllers\VeicoliController;
 use App\Patente\Controllers\PatenteController;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\ClassiController;
+use App\Scuola\Controllers\ElaboratiController;
+use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Support\Facades\Route;
 
@@ -190,6 +192,14 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiController::class, 'rimuoviCoordinatore'])->name('classi.coordinatore.rimuovi');
+    Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
+    Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');
+    Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
+    Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('elaborati.media.store');
+    Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('elaborati.show');
+    Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
+    Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
+
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {

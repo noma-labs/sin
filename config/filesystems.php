@@ -42,16 +42,15 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-
-        'media' => [
+        'public' => [
             'driver' => 'local',
-            'root' => public_path('media'),
-            'url' => env('APP_URL').'/media',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
         ],
         'ftp' => [
             'driver' => 'ftp',
@@ -61,18 +60,7 @@ return [
 
             // Optional FTP Settings...
             'port' => 21,
-            // 'passive'  => true,
-            // 'ssl'      => true,
-            // 'timeout'  => 30,
         ],
-
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),
@@ -80,7 +68,12 @@ return [
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
-
+        'scuola' => [
+            'driver' => 'local',
+            'root' => storage_path('app/elaborati'),
+        ],
     ],
+
+    'links' => [],
 
 ];
