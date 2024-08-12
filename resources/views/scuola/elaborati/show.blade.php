@@ -85,6 +85,9 @@
                 <strong>Note:</strong>
                 {{ $elaborato->note }}
             </p>
+            <p class="mb-3">
+                <a href="{{ route('scuola.elaborati.edit', $elaborato->id) }}" class="btn btn-secondary">Modifica</a>
+            </p>
         </div>
     </div>
 @endsection
