@@ -197,6 +197,8 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
     Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('elaborati.media.store');
     Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('elaborati.show');
+    Route::get('elaborati/{id}/edit', [ElaboratiController::class, 'edit'])->name('elaborati.edit');
+    Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('elaborati.update');
     Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
 

@@ -88,6 +88,32 @@ class ElaboratiController
         return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
     }
 
+    public function edit($id)
+    {
+        $elaborato = Elaborato::with('studenti')->findOrFail($id);
+
+        return view('scuola.elaborati.edit', ['elaborato' => $elaborato, 'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore']]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $request->validate([
+            'titolo' => 'required',
+            'anno_scolastico' => 'required',
+        ], [
+            'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
+            'titolo.required' => 'Il titolo è obbligatorio.',
+        ]);
+        $elaborato = Elaborato::findOrFail($id);
+        $elaborato->titolo = $request->input('titolo');
+        $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
+        $elaborato->note = $request->input('note');
+        $elaborato->save();
+
+        return redirect()->route('scuola.elaborati.show', $elaborato->id)
+            ->with('success', 'Elaborato aggiornato con successo.');
+    }
+
     public function preview($id)
     {
         $elaborato = Elaborato::findOrFail($id);
