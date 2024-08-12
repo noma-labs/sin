@@ -34,9 +34,6 @@ CREATE TABLE `elaborati_studenti`
 
 ALTER TABLE `elaborati_studenti` ADD PRIMARY KEY (`elaborato_id`,`studente_id`);
 
-ALTER TABLE `elaborati_studenti`
-    ADD FOREIGN KEY (`studente_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `elaborati_studenti` ADD FOREIGN KEY (`studente_id`) REFERENCES `db_nomadelfia`.`persone` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-
-ALTER TABLE `elaborati`
-    ADD FOREIGN KEY (`libro_id`) REFERENCES `archivio_biblioteca`.`libro` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `elaborati` ADD FOREIGN KEY (`libro_id`) REFERENCES `archivio_biblioteca`.`libro` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
