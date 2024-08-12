@@ -56,7 +56,7 @@ class SearchPersona extends Component
 
     public function select(string $id): void
     {
-        $found = collect($this->options)->first(function (Option $opt) use ($id) {
+        $found = collect($this->options)->first(function (Option $opt) use ($id): bool {
             return $opt->id == $id;
         });
 

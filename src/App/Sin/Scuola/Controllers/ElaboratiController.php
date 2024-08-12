@@ -63,7 +63,7 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $storagePath, $file) {
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $storagePath, $file): void {
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,

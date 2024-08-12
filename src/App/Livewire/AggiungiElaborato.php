@@ -20,7 +20,7 @@ class AggiungiElaborato extends Component
         $this->classi = ['elementari', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'];
     }
 
-    public function save()
+    public function save(): void
     {
         dd('save');
     }
