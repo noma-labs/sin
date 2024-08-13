@@ -35,13 +35,13 @@ tasks:
 
   clear:
     cmds:
-      - ./vendor/bin/sail  php artisan config:clear
-      - ./vendor/bin/sail  php artisan route:clear
+      - ./vendor/bin/sail php artisan config:clear
+      - ./vendor/bin/sail php artisan route:clear
 
   test:
     deps: [up]
     cmds:
-      - ./vendor/bin/sail  test --stop-on-error "$@"
+      - ./vendor/bin/sail pest
 
   test:ci:
     cmds:
