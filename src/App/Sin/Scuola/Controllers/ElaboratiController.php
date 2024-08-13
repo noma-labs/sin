@@ -116,7 +116,8 @@ class ElaboratiController
             $elaborato->titolo = $request->input('titolo');
             $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
             $elaborato->note = $request->input('note');
-            $elaborato->classi = implode(',', $request->input('classi'));
+
+            $elaborato->classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
             $elaborato->save();
 
             $alunni = $request->input('studenti_ids');
