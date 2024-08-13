@@ -39,21 +39,12 @@ CREATE VIEW IF NOT EXISTS v_popolazione_attuale AS
     WHERE aziende_persone.persona_id IN (SELECT id from pop)
     GROUP BY aziende_persone.persona_id
     ORDER BY aziende_persone.data_inizio_azienda DESC
-), scuola AS (
-    SELECT db_scuola.alunni_classi.persona_id, max(db_scuola.alunni_classi.data_inizio) as scuola_inizio, db_scuola.tipo.nome as scuola
-    FROM db_scuola.alunni_classi
-    JOIN db_scuola.classi ON db_scuola.classi.id = db_scuola.alunni_classi.classe_id
-    JOIN db_scuola.tipo ON db_scuola.tipo.id = db_scuola.classi.tipo_id
-    WHERE  db_scuola.alunni_classi.persona_id IN (SELECT id from pop) AND db_scuola.alunni_classi.data_fine IS NULL
-    GROUP BY db_scuola.alunni_classi.persona_id
-    ORDER BY db_scuola.alunni_classi.data_inizio DESC
 )
-SELECT pop.*, posizione.posizione, posizione.posizione_inizio, stato.stato, gruppo.gruppo, famiglia.famiglia, famiglia.posizione_famiglia, azienda.azienda, scuola.scuola
+SELECT pop.*, posizione.posizione, posizione.posizione_inizio, stato.stato, gruppo.gruppo, famiglia.famiglia, famiglia.posizione_famiglia, azienda.azienda
 FROM pop
          LEFT JOIN posizione ON posizione.persona_id = pop.id
          LEFT JOIN stato ON stato.persona_id = pop.id
          LEFT JOIN gruppo ON gruppo.persona_id = pop.id
          LEFT JOIN famiglia ON famiglia.persona_id = pop.id
          LEFT JOIN azienda ON azienda.persona_id = pop.id
-        LEFT JOIN scuola ON scuola.persona_id = pop.id
 ORDER BY pop.nominativo;

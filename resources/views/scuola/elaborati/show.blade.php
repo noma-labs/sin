@@ -111,7 +111,16 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <strong>Insegnanti:</strong>
+                    <strong>Coordinatori</strong>
+                    <ul>
+                        @forelse ($elaborato->coordinatori as $coordinatore)
+                            <li>
+                                @include("nomadelfia.templates.persona", ["persona" => $coordinatore])
+                            </li>
+                        @empty
+                            <li>Nessuno $coordinatore.</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>

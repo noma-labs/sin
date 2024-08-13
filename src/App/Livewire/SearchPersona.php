@@ -48,10 +48,13 @@ class SearchPersona extends Component
 
     public string $noResultsMessage = 'Nessun risultato trovato';
 
-    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--'): void
+    public string $nameInput = 'persone_id[]';
+
+    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--', string $name_input = 'persone_id[]'): void
     {
         $this->placeholder = $placeholder;
         $this->selected = collect();
+        $this->nameInput = $name_input;
 
         if (! empty($persone_id)) {
             $persone = Persona::query()

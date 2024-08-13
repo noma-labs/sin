@@ -119,6 +119,19 @@
                                 </label>
                                 <livewire:search-persona
                                     :persone_id="$elaborato->studenti->pluck('id')->toArray()"
+                                    name_input="studenti_ids[]"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="coordinatori" class="control-label">
+                                    Coordinatori/o
+                                </label>
+                                <livewire:search-persona
+                                    :persone_id="$elaborato->coordinatori->pluck('id')->toArray()"
+                                    name_input="coordinatori_ids[]"
                                 />
                             </div>
                         </div>

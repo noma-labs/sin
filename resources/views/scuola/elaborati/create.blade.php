@@ -72,7 +72,17 @@
                         <label for="alunni" class="control-label">
                             Alunni/o
                         </label>
-                        <livewire:search-persona />
+                        <livewire:search-persona name_input="studenti_ids[]" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label for="alunni" class="control-label">
+                            Coordinatori/o
+                        </label>
+                        <livewire:search-persona
+                            name_input="coordinatori_ids[]"
+                        />
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -85,8 +95,8 @@
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
                         >
-{{ old("note") }}</textarea
-                        >
+                        {{ old("note") }}
+                        </textarea>
                     </div>
                 </div>
                 <div class="row mt-3">
