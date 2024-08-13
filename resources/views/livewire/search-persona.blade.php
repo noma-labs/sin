@@ -49,7 +49,7 @@
                     <input
                         id="cliente"
                         type="hidden"
-                        name="persone_id[]"
+                        name="{{$nameInput}}"
                         value="{{ $sel->id }}"
                     />
                 </span>
