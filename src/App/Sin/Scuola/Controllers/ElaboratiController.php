@@ -17,7 +17,7 @@ class ElaboratiController
         $elaborati = Elaborato::query()
             ->join('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
-            ->latest()
+            ->orderBy('anno_scolastico', 'DESC')
             ->get();
 
         return view('scuola.elaborati.index', [
