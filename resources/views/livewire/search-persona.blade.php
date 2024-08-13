@@ -33,10 +33,7 @@
             /* border: 1px solid #ccc; */
         }
     </style>
-    <div
-        class="form-control"
-        style="display: flex; justify-content: space-between"
-    >
+    <div class="form-control h-auto">
         <div>
             @foreach ($selected as $sel)
                 <span class="selected-option">
@@ -64,11 +61,6 @@
                 wire:model.live.debounce.100ms="searchTerm"
                 placeholder="{{ $placeholder }}"
             />
-        </div>
-        <div>
-            @if ($selected)
-                <span wire:click="clear">&times;</span>
-            @endif
         </div>
     </div>
 
