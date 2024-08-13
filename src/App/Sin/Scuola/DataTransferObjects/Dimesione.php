@@ -3,9 +3,10 @@
 namespace App\Scuola\DataTransferObjects;
 
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Support\Str;
 
-class Dimensione
+class Dimensione implements CastsAttributes
 {
     public int $larghezza;
 

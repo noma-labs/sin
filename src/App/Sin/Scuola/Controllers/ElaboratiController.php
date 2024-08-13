@@ -108,14 +108,20 @@ class ElaboratiController
         $request->validate([
             'titolo' => 'required',
             'anno_scolastico' => 'required',
+           'dimesione_larghezza' => 'numeric',
+            'dimesione_altezza' => 'numeric',
         ], [
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
+            'dimesione_larghezza.numeric' => 'La larghezza deve essere un numero.',
+            'dimesione_altezza.numeric' => "L'altezza deve essere un numero.",
         ]);
         $elaborato = Elaborato::findOrFail($id);
         $elaborato->titolo = $request->input('titolo');
         $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
         $elaborato->note = $request->input('note');
+        $d = new Dimensione($request->input('dimesione_larghezza'), $request->input('dimesione_altezza'));
+        $elaborato->dimensione =  $d->toString();
         $elaborato->save();
 
         return redirect()->route('scuola.elaborati.show', $elaborato->id)

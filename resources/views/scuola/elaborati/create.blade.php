@@ -69,19 +69,29 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mt-3">
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="larghezza">Larghezza (Width):</label>
-                            <input type="number" id="larghezza" name="larghezza" class="form-control" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="altezza">Altezza (Height):</label>
-                            <input type="number" id="altezza" name="altezza" class="form-control" required>
+                        <label for="titolo" class="control-label">
+                            Dimensioni (cm)
+                        </label>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">larghezza</div>
+                            </div>
+                            <input type="number"  placeholder="--larghezza in cm--" id="larghezza" name="dimesione_larghezza" class="form-control" >
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-5">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">altezza</div>
+                            </div>
+                            <input type="number" placeholder="-- altezza in cm --"  id="altezza" name="dimensione_altezza" class="form-control">
+                        </div>
+                    </div>
+                  </div>
 
                 <div class="row mt-3">
                     <div class="col-md-12">
