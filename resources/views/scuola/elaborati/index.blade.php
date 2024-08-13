@@ -24,10 +24,10 @@
                     </span>
 
                     <span class="badge badge-secondary">
-                      {{   strtolower($elaborato->rilegatura) }}
+                        {{ strtolower($elaborato->rilegatura) }}
                     </span>
 
-                    {{   strtolower($elaborato->note) }}
+                    {{ strtolower($elaborato->note) }}
 
                     <span class="alert alert-warning small">
                         {{ $elaborato->autore }}
