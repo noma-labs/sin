@@ -38,16 +38,17 @@ class ElaboratiController
             'file' => 'required',
             'titolo' => 'required',
             'anno_scolastico' => 'required',
-            'persone_id' => 'required',
+            'studenti_ids' => 'required',
         ], [
             'file.required' => 'Nessun file selezionato.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
-            'persone_id.required' => 'Almeno un alunno è obbligatorio.',
+            'studenti_ids.required' => 'Almeno un alunno è obbligatorio.',
         ]);
 
         $titolo = $request->input('titolo');
-        $alunni = $request->input('persone_id');
+        $alunni = $request->input('studenti_ids');
+        $coords = $request->input('coordinatori_ids');
         $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
         $file = $request->file('file');
 
@@ -63,7 +64,7 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $storagePath, $file): void {
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file): void {
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
@@ -76,6 +77,7 @@ class ElaboratiController
                     'file_hash' => hash_file('sha256', $file->getPathname()),            ]
             );
             $elaborato->studenti()->sync($alunni);
+            $elaborato->coordinatori()->sync($coords);
         });
 
         return redirect()->route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
