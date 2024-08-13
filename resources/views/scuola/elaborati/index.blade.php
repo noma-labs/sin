@@ -15,7 +15,7 @@
         <ul class="list-group list-group-flush">
             @forelse ($elaborati as $elaborato)
                 <li class="list-group-item">
-                    {{ $elaborato->titolo }}
+                    <strong>{{ $elaborato->titolo }}</strong>
                     <span class="badge badge-primary">
                         {{ $elaborato->collocazione }}
                     </span>
@@ -23,6 +23,15 @@
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
+                    <span class="badge badge-secondary">
+                        {{ strtolower($elaborato->rilegatura) }}
+                    </span>
+
+                    {{ strtolower($elaborato->note) }}
+
+                    <span class="alert alert-warning small">
+                        {{ $elaborato->autore }}
+                    </span>
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"
