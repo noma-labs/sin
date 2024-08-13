@@ -105,10 +105,17 @@ class ElaboratiController
             'titolo.required' => 'Il titolo è obbligatorio.',
         ]);
         $elaborato = Elaborato::findOrFail($id);
-        $elaborato->titolo = $request->input('titolo');
-        $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
-        $elaborato->note = $request->input('note');
-        $elaborato->save();
+
+        DB::Transaction(function () use ($request, $elaborato): void {
+            $elaborato->titolo = $request->input('titolo');
+            $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
+            $elaborato->note = $request->input('note');
+            $elaborato->classi = implode(',', $request->input('classi'));
+            $elaborato->save();
+
+            $alunni = $request->input('persone_id');
+            $elaborato->studenti()->sync($alunni);
+        });
 
         return redirect()->route('scuola.elaborati.show', $elaborato->id)
             ->with('success', 'Elaborato aggiornato con successo.');
