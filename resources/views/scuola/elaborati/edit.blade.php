@@ -13,22 +13,22 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label
                                     for="anno_scolastico"
                                     class="control-label"
                                 >
-                                    Anno Scolastico
+                                    Collocazione
                                 </label>
                                 <input
                                     class="form-control"
                                     type="text"
-                                    id="anno_scolastico"
-                                    name="anno_scolastico"
-                                    value="{{ old("anno_scolastico") ? old("anno_scolastico") : $elaborato->anno_scolastico }}"
+                                    id="collocazione"
+                                    name="collocazione"
+                                    value="{{ old("collocazione") ? old("collocazione") : $elaborato->collocazione }}"
                                 />
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <label for="titolo" class="control-label">
                                     Titolo
                                 </label>
@@ -39,6 +39,61 @@
                                     name="titolo"
                                     value="{{ old("titolo") ? old("titolo") : $elaborato->titolo }}"
                                 />
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-2">
+                                <label
+                                    for="anno_scolastico"
+                                    class="control-label"
+                                >
+                                    A/s
+                                </label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="anno_scolastico"
+                                    name="anno_scolastico"
+                                    value="{{ old("anno_scolastico") ? old("anno_scolastico") : $elaborato->anno_scolastico }}"
+                                />
+                            </div>
+                            <div class="col-md-8">
+                                <label for="classe">Classe</label>
+                                {{ $elaborato->classi }}
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-secondary dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
+                                        Seleziona Classi
+                                    </button>
+                                    <div
+                                        class="dropdown-menu"
+                                        aria-labelledby="dropdownMenuButton"
+                                    >
+                                        @php
+                                            $selectedClassi = explode(",", $elaborato->classi);
+                                        @endphp
+
+                                        @foreach ($classi as $key => $value)
+                                            <a class="dropdown-item" href="#">
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        name="classi[]"
+                                                        value="{{ $value }}"
+                                                        @if(in_array($value, $selectedClassi)) checked @endif
+                                                    />
+                                                    {{ $value }}
+                                                </label>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -55,6 +110,16 @@
                                 >
 {{ old("note") ? old("note") : $elaborato->note }}</textarea
                                 >
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="alunni" class="control-label">
+                                    Alunni/o
+                                </label>
+                                <livewire:search-persona
+                                    :persone_id="$elaborato->studenti->pluck('id')->toArray()"
+                                />
                             </div>
                         </div>
                         <div class="row mt-3">

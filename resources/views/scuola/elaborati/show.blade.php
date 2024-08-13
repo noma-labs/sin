@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Gestione elaborato"])
 
     <div class="row">
-        <div class="col-md-7 overflow-auto" style="height: 600px">
+        <div class="col-md-6 overflow-auto" style="height: 600px">
             @if (empty($elaborato->file_path))
                 <p>Nessun file digitale</p>
                 <form
@@ -54,45 +54,66 @@
             @endif
         </div>
 
-        <div class="col-md-5">
-            <p class="mb-2">
-                <strong>Titolo</strong>
-                {{ $elaborato->titolo }}
-            </p>
-            <p class="mb-2">
-                <strong>Anno Scolastico:</strong>
-                {{ $elaborato->anno_scolastico }}
-            </p>
-            <p class="mb-2">
-                <strong>Collocazione:</strong>
-                {{ $elaborato->collocazione }}
-            </p>
-            <p class="mb-2">
-                <strong>Classi:</strong>
-                {{ $elaborato->classi }}
-            </p>
-            <p class="mb-3">
-                <strong>Studenti:</strong>
-                @forelse ($elaborato->studenti as $studente)
-                    <span>
-                        {{ $studente->nominativo }}
-                    </span>
-                @empty
-                    Nessuno studente.
-                @endforelse
-            </p>
-            <p class="mb-3">
-                <strong>Note:</strong>
-                {{ $elaborato->note }}
-            </p>
-            <p class="mb-3">
-                <a
-                    href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-                    class="btn btn-secondary"
-                >
-                    Modifica
-                </a>
-            </p>
+        <div class="col-md-6">
+            <div class="row mb-3">
+                <div class="col-md-2">
+                    <label for="collocazione" class="control-label">
+                        Collocazione
+                    </label>
+                    <p class="form-control">{{ $elaborato->collocazione }}</p>
+                </div>
+                <div class="col-md-10">
+                    <label for="titolo" class="control-label">Titolo</label>
+                    <p class="form-control">{{ $elaborato->titolo }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-2">
+                    <label for="anno_scolastico" class="control-label">
+                        Anno Scolastico
+                    </label>
+                    <p class="form-control">
+                        {{ $elaborato->anno_scolastico }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <label for="classi" class="control-label">Classi</label>
+                    <p class="form-control">{{ $elaborato->classi }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="note" class="control-label">Note</label>
+                    <p class="form-control">{{ $elaborato->note }}</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <a
+                        href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+                        class="btn btn-warning"
+                    >
+                        Modifica
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Studenti:</strong>
+                    <ul>
+                        @forelse ($elaborato->studenti as $studente)
+                            <li>
+                                @include("nomadelfia.templates.persona", ["persona" => $studente])
+                            </li>
+                        @empty
+                            <li>Nessuno studente.</li>
+                        @endforelse
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <strong>Insegnanti:</strong>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
