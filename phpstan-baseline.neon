@@ -16,6 +16,11 @@ parameters:
 			path: src/App/Http/Middleware/SentryContext.php
 
 		-
+			message: "#^Illuminate\\\\Support\\\\Collection\\<\\*NEVER\\*, \\*NEVER\\*\\> does not accept App\\\\Livewire\\\\Option\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchPersona.php
+
+		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Providers/BladeDirectivesServiceProvider.php
@@ -752,6 +757,11 @@ parameters:
 
 		-
 			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
+
+		-
+			message: "#^Method App\\\\Nomadelfia\\\\Api\\\\Controllers\\\\ApiController\\:\\:modificaLavoratore\\(\\) should return array\\<false\\> but returns array\\{true\\}\\.$#"
 			count: 1
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
@@ -1846,6 +1856,26 @@ parameters:
 			path: src/App/Sin/Patente/Controllers/ApiController.php
 
 		-
+			message: "#^Cannot access property \\$cliente_con_patente on array\\.$#"
+			count: 2
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Cannot access property \\$cognome on array\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Cannot access property \\$data_nascita on array\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
+			message: "#^Cannot access property \\$nome on array\\.$#"
+			count: 4
+			path: src/App/Sin/Patente/Controllers/ApiController.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$data_rilascio_patente\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
@@ -2081,6 +2111,61 @@ parameters:
 			path: src/App/Sin/Scuola/Controllers/ClassiController.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:download\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:mimeType\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:coordinatori\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:studenti\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Elaborato\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\DB\\:\\:Transaction\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Scuola/Controllers/ElaboratiMediaController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiMediaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Elaborato\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ElaboratiMediaController.php
+
+		-
 			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$responsabile\\.$#"
 			count: 2
 			path: src/App/Sin/Scuola/Controllers/ScuolaController.php
@@ -2281,8 +2366,13 @@ parameters:
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Models/Classe.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:whereNull\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
@@ -2309,6 +2399,11 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Models/ClasseTipo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Models/Elaborato.php
 
 		-
 			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$id\\.$#"
@@ -2491,6 +2586,21 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
+			message: "#^Expression \"\\\\Carbon\\\\Carbon\\:\\:createFromFormat\\('Y\\-m\\-d', \\$this\\-\\>data_nascita\\)\\-\\>year\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Result of method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:assegnaAzienda\\(\\) \\(void\\) is used\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: "#^Result of method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:assegnaIncarico\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/EntrataDallaNascitaAction.php
@@ -2553,6 +2663,11 @@ parameters:
 		-
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
 			count: 2
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
+			message: "#^Result of method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Cariche\\:\\:assegnaMembro\\(\\) \\(void\\) is used\\.$#"
+			count: 1
 			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
