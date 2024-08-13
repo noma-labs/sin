@@ -50,7 +50,7 @@ class SearchPersona extends Component
 
     public string $nameInput = 'persone_id[]';
 
-    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--', string $name_input='persone_id[]'): void
+    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--', string $name_input = 'persone_id[]'): void
     {
         $this->placeholder = $placeholder;
         $this->selected = collect();

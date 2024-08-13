@@ -19,7 +19,7 @@ class Elaborato extends Model
 
     public function studenti(): BelongsToMany
     {
-        return $this->belongsToMany(Studente::class, 'db_scuola.elaborati_studenti', 'elaborato_id', 'studente_id',)->orderby('nominativo');
+        return $this->belongsToMany(Studente::class, 'db_scuola.elaborati_studenti', 'elaborato_id', 'studente_id')->orderby('nominativo');
     }
 
     public function coordinatori(): BelongsToMany
