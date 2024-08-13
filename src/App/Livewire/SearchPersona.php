@@ -83,12 +83,6 @@ class SearchPersona extends Component
         });
     }
 
-    public function clear(): void
-    {
-        $this->selected = collect();
-        $this->reset('options', 'searchTerm');
-    }
-
     public function updatedSearchTerm(string $value): void
     {
         $this->search($value);
