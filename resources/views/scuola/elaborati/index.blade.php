@@ -23,6 +23,9 @@
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
+                    <span class="alert alert-warning small">
+                        {{ $elaborato->autore }}
+                    </span>
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"

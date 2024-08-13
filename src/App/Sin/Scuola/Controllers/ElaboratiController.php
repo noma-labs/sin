@@ -14,7 +14,11 @@ class ElaboratiController
 {
     public function index()
     {
-        $elaborati = Elaborato::query()->latest()->get();
+        $elaborati = Elaborato::query()
+                    ->join('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
+                    ->select('elaborati.*', 'libro.autore')
+                    ->latest()
+                    ->get();
 
         return view('scuola.elaborati.index', [
             'elaborati' => $elaborati,
