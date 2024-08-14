@@ -15,14 +15,15 @@
         <ul class="list-group list-group-flush">
             @forelse ($elaborati as $elaborato)
                 <li class="list-group-item">
-                    <strong>{{ $elaborato->titolo }}</strong>
-                    <span class="badge badge-primary">
-                        {{ $elaborato->collocazione }}
-                    </span>
-                    <span class="badge badge-secondary">
+                    <span class="badge badge-warning">
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
+                    <strong>{{ $elaborato->titolo }}</strong>
+
+                    <span class="badge badge-primary">
+                        {{ $elaborato->collocazione }}
+                    </span>
                     <span class="badge badge-secondary">
                         {{ strtolower($elaborato->rilegatura) }}
                     </span>
