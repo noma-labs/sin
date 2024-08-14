@@ -24,6 +24,11 @@
                     <span class="badge badge-primary">
                         {{ $elaborato->collocazione }}
                     </span>
+                    @if($elaborato->file_path)
+                    <span class="badge badge-danger">
+                        pdf
+                    </span>
+                    @endif
                     <span class="badge badge-secondary">
                         {{ strtolower($elaborato->rilegatura) }}
                     </span>
@@ -33,11 +38,7 @@
                     <span class="alert alert-warning small">
                         {{ $elaborato->autore }}
                     </span>
-                    @if($elaborato->file_path)
-                    <span class="badge badge-danger">
-                        pdf
-                    </span>
-                    @endif
+
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"

@@ -38,7 +38,7 @@
                     Scarica PDF
                 </a>
                 <iframe
-                    src="{{ route("scuola.elaborati.preview", $elaborato->id) }}#toolbar=0"
+                    src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
                     width="100%"
                     height="100%"
                     title="{{$elaborato->titolo}}"
