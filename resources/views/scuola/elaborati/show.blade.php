@@ -31,7 +31,7 @@
                     </div>
                 </form>
             @else
-                    <a
+                <a
                     href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
                     class="btn btn-primary"
                 >
@@ -41,7 +41,7 @@
                     src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
                     width="100%"
                     height="100%"
-                    title="{{$elaborato->titolo}}"
+                    title="{{ $elaborato->titolo }}"
                 >
                     This browser does not support PDFs. Please download the PDF
                     to view it:
@@ -85,7 +85,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="note" class="control-label">Note</label>
-                    <p class="form-control h-auto" >{{ $elaborato->note }}</p>
+                    <p class="form-control h-auto">{{ $elaborato->note }}</p>
                 </div>
             </div>
             <div class="row">
