@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Gestione elaborato"])
 
     <div class="row">
-        <div class="col-md-6 overflow-auto" style="height: 600px">
+        <div class="col-md-8">
             @if (empty($elaborato->file_path))
                 <p>Nessun file digitale</p>
                 <form
@@ -31,10 +31,17 @@
                     </div>
                 </form>
             @else
+                    <a
+                    href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
+                    class="btn btn-primary"
+                >
+                    Scarica PDF
+                </a>
                 <iframe
-                    src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
-                    style="width: 100%; height: 100%"
-                    allowfullscreen
+                    src="{{ route("scuola.elaborati.preview", $elaborato->id) }}#toolbar=0"
+                    width="100%"
+                    height="100%"
+                    title="{{$elaborato->titolo}}"
                 >
                     This browser does not support PDFs. Please download the PDF
                     to view it:
@@ -45,30 +52,24 @@
                     </a>
                     .
                 </iframe>
-                <a
-                    href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
-                    class="btn btn-primary"
-                >
-                    Scarica
-                </a>
             @endif
         </div>
 
-        <div class="col-md-6">
-            <div class="row mb-3">
-                <div class="col-md-2">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4">
                     <label for="collocazione" class="control-label">
                         Collocazione
                     </label>
                     <p class="form-control">{{ $elaborato->collocazione }}</p>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <label for="titolo" class="control-label">Titolo</label>
-                    <p class="form-control">{{ $elaborato->titolo }}</p>
+                    <p class="form-control w-auto">{{ $elaborato->titolo }}</p>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-4">
                     <label for="anno_scolastico" class="control-label">
                         Anno Scolastico
                     </label>
@@ -76,25 +77,15 @@
                         {{ $elaborato->anno_scolastico }}
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <label for="classi" class="control-label">Classi</label>
                     <p class="form-control">{{ $elaborato->classi }}</p>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row">
                 <div class="col-md-12">
                     <label for="note" class="control-label">Note</label>
-                    <p class="form-control">{{ $elaborato->note }}</p>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <a
-                        href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-                        class="btn btn-warning"
-                    >
-                        Modifica
-                    </a>
+                    <p class="form-control h-auto" >{{ $elaborato->note }}</p>
                 </div>
             </div>
             <div class="row">
@@ -121,6 +112,16 @@
                             <li>Nessuno $coordinatore.</li>
                         @endforelse
                     </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a
+                        href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+                        class="btn btn-warning"
+                    >
+                        Modifica
+                    </a>
                 </div>
             </div>
         </div>
