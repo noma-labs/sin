@@ -36,14 +36,14 @@ class ElaboratiController
             'annoScolastico' => $annoScolastico,
             'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
             'rilegature' => [
-                    'Altro',
-                    'Anelli',
-                    'Brossura (Copertina Flessibile)',
-                    'Cartonata (Copertina Rigida)',
-                    'Filo Refe',
-                    'Punto Metallico (Spillatura)',
-                    'Spirale',
-                    'Termica'
+                'Altro',
+                'Anelli',
+                'Brossura (Copertina Flessibile)',
+                'Cartonata (Copertina Rigida)',
+                'Filo Refe',
+                'Punto Metallico (Spillatura)',
+                'Spirale',
+                'Termica',
             ],
         ]);
     }
@@ -116,16 +116,16 @@ class ElaboratiController
         return view('scuola.elaborati.edit', [
             'elaborato' => $elaborato,
             'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
-            'rilegature' =>[
-                    'Altro',
-                    'Anelli',
-                    'Brossura (Copertina Flessibile)',
-                    'Cartonata (Copertina Rigida)',
-                    'Filo Refe',
-                    'Punto Metallico (Spillatura)',
-                    'Spirale',
-                    'Termica'
-            ]
+            'rilegature' => [
+                'Altro',
+                'Anelli',
+                'Brossura (Copertina Flessibile)',
+                'Cartonata (Copertina Rigida)',
+                'Filo Refe',
+                'Punto Metallico (Spillatura)',
+                'Spirale',
+                'Termica',
+            ],
         ]);
     }
 
