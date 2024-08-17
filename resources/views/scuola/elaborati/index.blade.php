@@ -34,9 +34,12 @@
 
                     {{ strtolower($elaborato->note) }}
 
-                    <span class="alert alert-warning small">
-                        {{ $elaborato->autore }}
-                    </span>
+                    <!-- TODO: autore is taken from the "old" libro table and should be removed. It is only needed to have the old info for copying it into the new one -->
+                    @if ($elaborato->autore)
+                        <span class="alert alert-warning small">
+                            {{ $elaborato->autore }}
+                        </span>
+                    @endif
 
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
