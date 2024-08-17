@@ -41,10 +41,6 @@
                         </span>
                     @endif
 
-                    @if ($elaborato->file_path)
-                        <span class="badge badge-danger">pdf</span>
-                    @endif
-
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"
