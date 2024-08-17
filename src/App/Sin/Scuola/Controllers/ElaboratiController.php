@@ -35,6 +35,16 @@ class ElaboratiController
         return view('scuola.elaborati.create', [
             'annoScolastico' => $annoScolastico,
             'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'rilegature' => [
+                'COPIA FOTOGRAFICA',
+                'FOTOCOPIATO',
+                'NESSUNO',
+                'NON RILEGATO (SFASCIATO)',
+                'PLASTIFICATO',
+                'QUADERNO',
+                'RACCOGLIOTRE',
+                'RILEGATO'
+            ],
         ]);
     }
 
@@ -83,7 +93,7 @@ class ElaboratiController
                     'file_mime_type' => $file->getClientMimeType(),
                     'file_size' => $file->getSize(),
                     'file_hash' => hash_file('sha256', $file->getPathname()),
-                          ]
+                ]
             );
             $elaborato->studenti()->sync($alunni);
             $elaborato->coordinatori()->sync($coords);

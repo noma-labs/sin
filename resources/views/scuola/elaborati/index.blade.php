@@ -31,16 +31,16 @@
                     {{ strtolower($elaborato->note) }}
 
                     <!-- TODO: autore is taken from the "old" libro table and should be removed. It is only needed to have the old info for copying it into the new one -->
-                    @if($elaborato->autore )
-                    <span class="alert alert-warning small">
-                        {{ $elaborato->autore }}
-                    </span>
+                    @if ($elaborato->autore)
+                        <span class="alert alert-warning small">
+                            {{ $elaborato->autore }}
+                        </span>
                     @endif
-                    @if($elaborato->file_path)
-                    <span class="badge badge-danger">
-                        pdf
-                    </span>
+
+                    @if ($elaborato->file_path)
+                        <span class="badge badge-danger">pdf</span>
                     @endif
+
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"

@@ -24,8 +24,9 @@ class Dimensione
             throw new Exception('Le dimensioni devono essere un numero');
         }
         $d = new self;
-        $d->larghezza = (int)$larghezza;
-        $d->altezza = (int)$altezza;
+        $d->larghezza = (int) $larghezza;
+        $d->altezza = (int) $altezza;
+
         return $d;
     }
 
