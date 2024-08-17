@@ -24,6 +24,10 @@
                     <span class="badge badge-primary">
                         {{ $elaborato->collocazione }}
                     </span>
+                    @if ($elaborato->file_path)
+                        <span class="badge badge-danger">pdf</span>
+                    @endif
+
                     <span class="badge badge-secondary">
                         {{ strtolower($elaborato->rilegatura) }}
                     </span>
