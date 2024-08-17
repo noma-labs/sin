@@ -32,7 +32,7 @@ class Option implements Wireable
         $id = $value['id'];
         $value = $value['value'];
 
-        return self($id, $value);
+        return new self($id, $value);
     }
 }
 
