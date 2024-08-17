@@ -3,6 +3,7 @@
 namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
+use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class ElaboratiController
     public function index()
     {
         $elaborati = Elaborato::query()
-            ->join('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
+            ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->orderBy('anno_scolastico', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('scuola.elaborati.index', [
@@ -74,11 +76,14 @@ class ElaboratiController
                     'titolo' => $titolo,
                     'anno_scolastico' => $as->toString(),
                     'classi' => implode(',', $request->input('classi')),
+                    'dimensione' => Dimensione::fromString($request->input('dimensione'))->toString(),
+                    'rilegatura' => $request->input('rilegatura'),
                     'note' => $request->input('note', null),
                     'file_path' => $storagePath,
                     'file_mime_type' => $file->getClientMimeType(),
                     'file_size' => $file->getSize(),
-                    'file_hash' => hash_file('sha256', $file->getPathname()),            ]
+                    'file_hash' => hash_file('sha256', $file->getPathname()),
+                          ]
             );
             $elaborato->studenti()->sync($alunni);
             $elaborato->coordinatori()->sync($coords);
@@ -116,6 +121,8 @@ class ElaboratiController
             $elaborato->titolo = $request->input('titolo');
             $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
             $elaborato->note = $request->input('note');
+            $elaborato->dimensione = Dimensione::fromString($request->input('dimensione'))->toString();
+            $elaborato->rilegatura = $request->input('rilegatura');
 
             $elaborato->classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
             $elaborato->save();

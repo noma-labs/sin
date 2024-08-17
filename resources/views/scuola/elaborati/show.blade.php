@@ -83,6 +83,20 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-4">
+                    <label for="anno_scolastico" class="control-label">
+                        Rilegatura
+                    </label>
+                    <p class="form-control">
+                        {{ $elaborato->rilegatura }}
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <label for="classi" class="control-label">Dimensioni</label>
+                    <p class="form-control">{{ $elaborato->dimensione }}</p>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <label for="note" class="control-label">Note</label>
                     <p class="form-control h-auto" >{{ $elaborato->note }}</p>

@@ -68,6 +68,38 @@
                     </div>
                 </div>
                 <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label
+                            for="rilegatura"
+                            class="control-label"
+                        >
+                          Rilegatura
+                        </label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="rilegatura"
+                            name="rilegatura"
+                            value="{{ old("rilegatura") ? old("rilegatura") : '' }}"
+                        />
+                    </div>
+                    <div class="col-md-6">
+                        <label
+                        for="dimensione"
+                        class="control-label"
+                    >
+                        Dimensioni (cm. larghezza x altezza)
+                    </label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="dimensione"
+                        name="dimensione"
+                        value="{{ old("dimensione") ? old("dimensione") : '' }}"
+                    />
+                    </div>
+                </div>
+                <div class="row mt-3">
                     <div class="col-md-12">
                         <label for="alunni" class="control-label">
                             Alunni/o
