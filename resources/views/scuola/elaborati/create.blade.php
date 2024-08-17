@@ -72,13 +72,20 @@
                         <label for="rilegatura" class="control-label">
                             Rilegatura
                         </label>
-                        <input
-                            class="form-control"
-                            type="text"
-                            id="rilegatura"
-                            name="rilegatura"
-                            value="{{ old("rilegatura") ? old("rilegatura") : "" }}"
-                        />
+                        <select
+                        id="rilegatura"
+                        name="rilegatura"
+                        class="form-control"
+                    >
+                        @foreach ($rilegature as $option)
+                            <option
+                                value="{{ $option }}"
+                                {{ (old("rilegatura") ? old("rilegatura") : "") }}
+                            >
+                                {{ $option }}
+                            </option>
+                        @endforeach
+                    </select>
                     </div>
                     <div class="col-md-6">
                         <label for="dimensione" class="control-label">
