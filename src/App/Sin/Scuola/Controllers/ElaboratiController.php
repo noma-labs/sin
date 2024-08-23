@@ -141,10 +141,12 @@ class ElaboratiController
         $elaborato = Elaborato::findOrFail($id);
 
         DB::Transaction(function () use ($request, $elaborato): void {
+            $dim = Dimensione::fromString($request->input('dimensione'));
+
             $elaborato->titolo = $request->input('titolo');
             $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
             $elaborato->note = $request->input('note');
-            $elaborato->dimensione = Dimensione::fromString($request->input('dimensione'))->toString();
+            $elaborato->dimensione = $dim ? $dim->toString() : null;
             $elaborato->rilegatura = $request->input('rilegatura');
 
             $elaborato->classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
