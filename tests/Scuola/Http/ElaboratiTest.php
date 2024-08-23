@@ -4,9 +4,9 @@ namespace Tests\Http\Scuola;
 
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Models\Elaborato;
+use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Faker\Factory as Faker;
 
 it('can show elaborati index ', function (): void {
     login();
@@ -44,7 +44,7 @@ it('can update an elaborato', function (): void {
 it('can download a pdf file', function (): void {
     Storage::fake('scuola');
     $faker = Faker::create();
-    $documentName = $faker->unique()->word . '.pdf';
+    $documentName = $faker->unique()->word.'.pdf';
 
     $file = UploadedFile::fake()->create($documentName, 100, 'application/pdf');
 
@@ -60,8 +60,7 @@ it('can download a pdf file', function (): void {
     $this->get(action([ElaboratiController::class, 'download'], $elaborato->id))
         ->assertSuccessful()
         ->assertHeader('Content-Type', 'application/pdf')
-        ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName );
+        ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName);
 
     $this->assertTrue(Storage::disk('scuola')->exists($filePath));
-
 });
