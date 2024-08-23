@@ -2,11 +2,15 @@
 
 namespace App\Scuola\Models;
 
+use Database\Factories\ElaboratoFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Elaborato extends Model
 {
+    use HasFactory;
+
     public $timestamps = true;
 
     protected $connection = 'db_scuola';
@@ -16,6 +20,11 @@ class Elaborato extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    protected static function newFactory()
+    {
+        return ElaboratoFactory::new();
+    }
 
     public function studenti(): BelongsToMany
     {

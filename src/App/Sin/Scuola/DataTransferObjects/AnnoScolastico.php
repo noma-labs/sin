@@ -11,8 +11,11 @@ class AnnoScolastico
 
     public int $endYear;
 
-    public static function fromString(string $as): AnnoScolastico
+    public static function fromString(string $as): ?AnnoScolastico
     {
+        if (is_null($as)) {
+            return null;
+        }
         $as = Str::of($as)->explode('/');
         if (count($as) < 2) {
             throw new Exception('Anno scolastico deve essere nella forma YYYY/YYYY. Per esempio: 2024/2025');

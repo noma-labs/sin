@@ -11,9 +11,12 @@ class Dimensione
 
     public int $altezza;
 
-    public static function fromString(string $dimesione): Dimensione
+    public static function fromString(?string $dimensione): ?Dimensione
     {
-        $d = Str::of($dimesione)->explode('x');
+        if (is_null($dimensione)) {
+            return null;
+        }
+        $d = Str::of($dimensione)->explode('x');
         if (count($d) < 2) {
             throw new Exception('Dimensione deve essere nella forma 123x456 espresse in centimetri. Per esempio: 21x29');
         }
@@ -30,7 +33,7 @@ class Dimensione
         return $d;
     }
 
-    public function toString(): string
+    public function toString(): ?string
     {
         return $this->larghezza.'x'.$this->altezza;
     }
