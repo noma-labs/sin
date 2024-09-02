@@ -121,10 +121,10 @@ class PopolazioneNomadelfia extends Model
             $start = $start->startOfYear();
         }
         $magg = DB::connection('db_nomadelfia')
-                        ->table('persone')
-                        ->selectRaw('persone.*')
-                        ->where('persone.data_nascita', '<=', $end)
-                        ->orderByRaw('persone.'.strval($orderBy).' '.$order);
+            ->table('persone')
+            ->selectRaw('persone.*')
+            ->where('persone.data_nascita', '<=', $end)
+            ->orderByRaw('persone.'.strval($orderBy).' '.$order);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
         }
