@@ -22,12 +22,6 @@
                         name="alunno_id"
                         url="{{ route("api.scuola.classe.alunni.possibili.search", ["id" => $classe->id]) }}"
                     ></autocomplete>
-                    {{-- <select class="form-control" name="alunno_id"> --}}
-                    {{-- <option value="" selected>---scegli alunno--</option> --}}
-                    {{-- @foreach ($possibili as $p) --}}
-                    {{-- <option value="{{ $p->id }}">@year($p->data_nascita) {{$p->nominativo}}  ({{$p->nome}} {{$p->cognome}}) </option> --}}
-                    {{-- @endforeach --}}
-                    {{-- </select> --}}
                 </div>
             </div>
             <div class="form-group row">
