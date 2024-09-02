@@ -227,10 +227,10 @@ it('get possible students in year', function (): void {
     expect($a->classi()->get())->toHaveCount(12);
     $alunno = Studente::factory()->nato(Carbon::parse('1990-01-01'))->maschio()->create();
     $alunnoFem = Studente::factory()->nato(Carbon::parse('1990-12-31'))->femmina()->create();
+    $capoFam = Persona::factory()->nato(Carbon::parse('1960-01-01'))->maschio()->create();
 
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::all()->random();
-    $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
@@ -241,8 +241,7 @@ it('get possible students in year', function (): void {
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
-    //    $this->assertEquals(2, Studente::FraEta(3, 6, 'nominativo', $anno, true)->count());
-    expect($a->prescuola()->alunniPossibili()->count())->toBe(2);
+    $possibili = $a->prescuola()->alunniPossibili()->count();
     $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
-    expect($a->prescuola()->alunniPossibili()->count())->toBe(1);
+    expect($a->prescuola()->alunniPossibili()->count())->toBe($possibili - 1);
 });

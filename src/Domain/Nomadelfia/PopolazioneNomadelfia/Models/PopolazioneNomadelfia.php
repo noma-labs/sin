@@ -122,18 +122,9 @@ class PopolazioneNomadelfia extends Model
         }
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw('persone.*, popolazione.*')
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-//            ->where(function ($query) use ($end, $start) {
-//                $query->whereNull('popolazione.data_uscita')
-//                    ->orWhere(function ($query) use ($start, $end){
-//                        $query->where('popolazione.data_entrata', ">=", $start)
-//                             ->where('popolazione.data_uscita', "<=", $end);
-//                });
-//            })
-            // ->whereNull('popolazione.data_uscita')
-            ->whereNull('persone.data_decesso')
+            ->selectRaw('persone.*')
             ->where('persone.data_nascita', '<=', $end)
+            ->whereNull('persone.data_decesso')
             ->orderByRaw('persone.'.strval($orderBy).' '.$order);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
