@@ -243,5 +243,5 @@ it('get possible students in year', function (): void {
 
     $possibili = $a->prescuola()->alunniPossibili()->count();
     $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
-    expect($a->prescuola()->alunniPossibili()->count())->toBe($possibili-1);
+    expect($a->prescuola()->alunniPossibili()->count())->toBe($possibili - 1);
 });
