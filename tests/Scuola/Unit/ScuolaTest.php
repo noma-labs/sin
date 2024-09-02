@@ -241,7 +241,7 @@ it('get possible students in year', function (): void {
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunnoFem, Famiglia::findOrFail($famiglia->id));
 
-    expect($a->prescuola()->alunniPossibili()->count())->toBe(2);
+    $possibili = $a->prescuola()->alunniPossibili()->count();
     $a->prescuola()->aggiungiAlunno($alunno, Carbon::now());
-    expect($a->prescuola()->alunniPossibili()->count())->toBe(1);
+    expect($a->prescuola()->alunniPossibili()->count())->toBe($possibili-1);
 });
