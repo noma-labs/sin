@@ -30,10 +30,10 @@ class Classe extends Model
         return new ClasseBuilder($query);
     }
 
-    public function alunni($orderby = 'nominativo', $order = 'ASC')
+    public function alunni($orderby = 'sesso  DESC, nominativo ASC')
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
-            'persona_id')->withPivot('data_inizio')->orderBy($orderby, $order);
+            'persona_id')->withPivot('data_inizio')->orderByRaw($orderby);
     }
 
     public function alunniAttuali()
@@ -154,11 +154,11 @@ class Classe extends Model
         $as = $this->anno()->first()->annoSolareInizio();
         $tipo = $this->tipo()->first();
         if ($tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita', $as, true)->get();
+            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita', $as, true, 'DESC')->get();
         } elseif ($tipo->IsUniversita()) {
-            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita', $as, true)->get();
+            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita', $as, true, 'DESC')->get();
         } else {
-            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita', $as, true)->get();
+            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita', $as, true, 'DESC')->get();
         }
 
         $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
