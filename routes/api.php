@@ -85,9 +85,3 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     Route::get('/{numero}/categorie', 'ApiController@patenteCategorie')->name('api.patente.categorie.assegnate');
     // Route::put('/{numero}/categorie', 'ApiController@patenteCategorieAggiungi')->name("api.patente.categorie.aggiungi");
 });
-
-// API route (/api/scuola)
-Route::group(['prefix' => 'scuola', 'namespace' => 'App\Scuola\Controllers'], function () {
-    Route::post('/alunni', 'ApiController@alunni')->name('api.scuola.alunni.all');
-    Route::get('/classe/{id}/alunni/possibili', 'ApiController@alunniPossibili')->name('api.scuola.classe.alunni.possibili.search');
-});
