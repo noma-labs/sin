@@ -22,7 +22,7 @@
                             id="alunno_id"
                             class="form-control"
                             multiple
-                            size="{{ $alunniPossibili->count() }}"
+                            size="{{ min($alunniPossibili->count(), 20) }}"
                         >
                             @foreach ($alunniPossibili as $alunno)
                                 <option value="{{ $alunno->id }}">
