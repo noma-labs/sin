@@ -22,6 +22,7 @@
                             id="alunno_id"
                             class="form-control"
                             multiple
+                            size="{{ $alunniPossibili->count() }}"
                         >
                             @foreach ($alunniPossibili as $alunno)
                                 <option value="{{ $alunno->id }}">
