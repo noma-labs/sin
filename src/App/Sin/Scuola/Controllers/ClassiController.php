@@ -26,17 +26,17 @@ class ClassiController
         $anno = $classe->anno()->first();
         $alunni = $classe->alunni();
         $coords = $classe->coordinatori();
-        $possibili = $classe->alunniPossibili();
+        $alunniPossibili = $classe->alunniPossibili();
         $coordPossibili = $classe->coordinatoriPossibili();
 
-        return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'possibili', 'coordPossibili'));
+        return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'alunniPossibili', 'coordPossibili'));
     }
 
     public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
     {
         $request->validated();
         $classe = Classe::findOrFail($id);
-        $alunni = explode(',', $request->get('alunno_id'));
+        $alunni = $request->get('alunno_id');
         foreach ($alunni as $id) {
             $alunno = Persona::findOrFail($id);
             $addStudentAction->execute($classe, $alunno, $request->data_inizio);

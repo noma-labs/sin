@@ -16,12 +16,22 @@
                     Alunno
                 </label>
                 <div class="col-8">
-                    <autocomplete
-                        multiple="false"
-                        placeholder="Inserisci nominativo..."
-                        name="alunno_id"
-                        url="{{ route("api.scuola.classe.alunni.possibili.search", ["id" => $classe->id]) }}"
-                    ></autocomplete>
+                    @if ($alunniPossibili->isNotEmpty())
+                        <select
+                            name="alunno_id[]"
+                            id="alunno_id"
+                            class="form-control"
+                            multiple
+                        >
+                            @foreach ($alunniPossibili as $alunno)
+                                <option value="{{ $alunno->id }}">
+                                    {{ Carbon::createFromFormat("Y-m-d", $alunno->data_nascita)->year . " " . $alunno->nome . " " . $alunno->cognome }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @else
+                        <p class="text-danger">Nessun alunno</p>
+                    @endif
                 </div>
             </div>
             <div class="form-group row">
