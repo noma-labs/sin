@@ -154,11 +154,11 @@ class Classe extends Model
         $as = $this->anno()->first()->annoSolareInizio();
         $tipo = $this->tipo()->first();
         if ($tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita', $as, true, 'DESC')->get();
+            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita ASC, nominativo ASC', $as, true)->get();
         } elseif ($tipo->IsUniversita()) {
-            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita', $as, true, 'DESC')->get();
+            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita ASC, nominativo ASC', $as, true)->get();
         } else {
-            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita', $as, true, 'DESC')->get();
+            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita ASC, nominativo ASC', $as, true)->get();
         }
 
         $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
