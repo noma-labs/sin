@@ -106,10 +106,9 @@ class PopolazioneNomadelfia extends Model
     public static function fraEta(
         int $fromEta,
         ?int $toEta = null,
-        string $orderBy = 'nominativo',
+        string $orderBy = 'nominativo ASC',
         ?int $travel_to_year = null,
         $withInYear = false,
-        string $order = 'ASC'
     ) {
         $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
         $end = $date->copy()->subYears($fromEta);
@@ -125,7 +124,7 @@ class PopolazioneNomadelfia extends Model
             ->selectRaw('persone.*')
             ->where('persone.data_nascita', '<=', $end)
             ->whereNull('persone.data_decesso')
-            ->orderByRaw('persone.'.strval($orderBy).' '.$order);
+            ->orderByRaw($orderBy);
         if ($toEta != null) {
             $magg->where('persone.data_nascita', '>=', $start);
         }
