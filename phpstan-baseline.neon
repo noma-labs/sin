@@ -2056,28 +2056,13 @@ parameters:
 			path: src/App/Sin/Rtn/Video/VideoQueryBuilder.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_id\\.$#"
-			count: 1
-			path: src/App/Sin/Scuola/Controllers/ClassiController.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_tipo\\.$#"
-			count: 1
-			path: src/App/Sin/Scuola/Controllers/ClassiController.php
-
-		-
-			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$data_inizio\\.$#"
-			count: 1
-			path: src/App/Sin/Scuola/Controllers/ClassiController.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddStudentRequest\\:\\:\\$data_inizio\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Controllers/ClassiController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 5
+			count: 3
 			path: src/App/Sin/Scuola/Controllers/ClassiController.php
 
 		-
@@ -2087,13 +2072,48 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
-			count: 6
+			count: 4
 			path: src/App/Sin/Scuola/Controllers/ClassiController.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
-			count: 4
+			count: 2
 			path: src/App/Sin/Scuola/Controllers/ClassiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_id\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$coord_tipo\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Scuola\\\\Requests\\\\AddCoordinatoreRequest\\:\\:\\$data_inizio\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/ClassiCoordinatoriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiElaboratiController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:download\\(\\)\\.$#"
@@ -2347,7 +2367,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\:\\:first\\(\\)\\.$#"
-			count: 4
+			count: 5
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-

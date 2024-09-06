@@ -5,7 +5,6 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Classe;
-use App\Scuola\Requests\AddCoordinatoreRequest;
 use App\Scuola\Requests\AddStudentRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
@@ -61,5 +60,4 @@ class ClassiController
 
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
-
 }

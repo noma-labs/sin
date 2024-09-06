@@ -103,11 +103,11 @@
                                         Dettaglio
                                     </a>
                                     <a
-                                    class="btn btn-warning"
-                                    href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
-                                >
-                                    Aggiungi Elaborato
-                                </a>
+                                        class="btn btn-warning"
+                                        href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
+                                    >
+                                        Aggiungi Elaborato
+                                    </a>
                                     <my-modal
                                         modal-title="Elimina classe"
                                         button-title="Elimina"

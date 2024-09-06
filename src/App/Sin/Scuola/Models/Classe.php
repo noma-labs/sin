@@ -3,7 +3,6 @@
 namespace App\Scuola\Models;
 
 use Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
@@ -116,6 +115,7 @@ class Classe extends Model
         $as = $this->anno()->first()->annoSolareInizio();
         $all = PopolazioneNomadelfia::fraEta(18, 100, 'nominativo ASC', $as, true)->get();
         $alreadyIn = $this->coordinatori()->pluck('id');
+
         return $all->whereNotIn('id', $alreadyIn);
     }
 
