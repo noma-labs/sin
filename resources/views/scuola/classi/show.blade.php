@@ -24,8 +24,14 @@
                                 {{ $classe->tipo->nome }}
                             </span>
                         </div>
-                        <!--end col -->
-                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <a
+                            class="btn btn-warning"
+                            href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
+                        >
+                            Aggiungi Elaborato
+                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,9 +49,11 @@
                                 {{ $alunni->count() }}
                             </span>
                         </div>
-                        <div class="col-4">
+                        <div class="col-2">
                             @include("scuola.templates.aggiungiAlunno", ["classe" => $classe])
                         </div>
+
+
                     </div>
                 </div>
                 <div class="card-body">

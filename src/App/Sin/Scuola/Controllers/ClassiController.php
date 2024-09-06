@@ -62,23 +62,4 @@ class ClassiController
         return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 
-    public function aggiungiCoordinatore(AddCoordinatoreRequest $request, $id)
-    {
-        $request->validated();
-        $classe = Classe::findOrFail($id);
-        $coord = Persona::findOrFail($request->coord_id);
-
-        $classe->aggiungiCoordinatore($coord, $request->data_inizio, $request->coord_tipo);
-
-        return redirect()->back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
-    }
-
-    public function rimuoviCoordinatore(Request $request, $id, $coord_id)
-    {
-        $classe = Classe::findOrFail($id);
-        $coord = Persona::findOrFail($coord_id);
-        $classe->rimuoviCoordinatore($coord);
-
-        return redirect()->back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
-    }
 }

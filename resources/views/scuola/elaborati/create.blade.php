@@ -10,7 +10,7 @@
     >
         @csrf
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-2">
                         <label for="anno_scolastico" class="control-label">
