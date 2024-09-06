@@ -59,7 +59,7 @@ tasks:
 
   analyse:
     cmds:
-      - ./vendor/bin/phpstan analyse  -l 5
+      - ./vendor/bin/phpstan analyse  -l 5 --generate-baseline
 
   rector:check:
     cmds:

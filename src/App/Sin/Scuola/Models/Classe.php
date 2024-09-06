@@ -3,7 +3,6 @@
 namespace App\Scuola\Models;
 
 use Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
@@ -113,14 +112,11 @@ class Classe extends Model
 
     public function coordinatoriPossibili()
     {
-        $all = Azienda::scuola()->lavoratoriAttuali()->get();
+        $as = $this->anno()->first()->annoSolareInizio();
+        $all = PopolazioneNomadelfia::fraEta(18, 100, 'nominativo ASC', $as, true)->get();
+        $alreadyIn = $this->coordinatori()->pluck('id');
 
-        $current = collect($this->coordinatori()->get());
-        $ids = $current->map(function ($item) {
-            return $item->id;
-        });
-
-        return $all->whereNotIn('id', $ids);
+        return $all->whereNotIn('id', $alreadyIn);
     }
 
     public function rimuoviCoordinatore(
@@ -161,7 +157,7 @@ class Classe extends Model
             $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita ASC, nominativo ASC', $as, true)->get();
         }
 
-        $ids = collect(Studente::InAnnoScolastico($this->anno)->get())->pluck('persona_id');
+        $ids = Studente::InAnnoScolastico($this->anno)->pluck('persona_id');
 
         return $all->whereNotIn('id', $ids);
     }
