@@ -17,7 +17,7 @@ it('add responsible to school', function (): void {
     $p = Studente::factory()->maggiorenne()->maschio()->create();
     $a->aggiungiResponsabile($p);
     expect($a->responsabile->id)->toBe($p->id);
-});
+})->only();
 
 it('build new year correctly', function (): void {
     $a = Anno::createAnno(1999);

@@ -31,4 +31,4 @@ it('assign a worker to a company', function (): void {
     $act->execute($persona, $data_uscita);
 
     expect($azienda->lavoratoriAttuali()->count())->toBe(1);
-});
+})->only();

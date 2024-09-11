@@ -41,7 +41,7 @@ tasks:
   test:
     deps: [up]
     cmds:
-      - ./vendor/bin/sail pest
+      - ./vendor/bin/sail php artisan test --parallel
 
   test:ci:
     cmds:

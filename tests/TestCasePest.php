@@ -8,7 +8,11 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 abstract class TestCasePest extends BaseTestCase
 {
-    use CreatesApplication, MigrateFreshDB;
+    use CreatesApplication; // , MigrateFreshDB;
+
+    protected $connectionsToTransact = ['db_nomadelfia', 'db_biblioteca'];
+
+
 
     public function createRequest($method, $uri): Request
     {

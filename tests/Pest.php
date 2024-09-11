@@ -5,10 +5,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Tests\TestCasePest;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\actingAs;
 
-uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
+uses(TestCasePest::class, RefreshDatabase::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
 
 function login(?User $user = null): User
 {
