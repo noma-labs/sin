@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -14,13 +16,57 @@ use Illuminate\Testing\Concerns\TestDatabases;
 // Reference: https://sarahjting.com/blog/laravel-paratest-multiple-db-connections
 class ParallelTestingExtendedServiceProvider extends ServiceProvider
 {
+    // ORDER is important
+    var $databaseMigrationMap = [
+        "db_auth" => 'database/migrations/admsys',
+        "db_nomadelfia" => 'database/migrations/db_nomadelfia',
+        "db_scuola" => 'database/migrations/scuola',
+        "db_biblioteca" => 'database/migrations/biblioteca',
+        "db_patente" => 'database/migrations/patente',
+        "db_officina" => 'database/migrations/officina',
+        "db_foto" => 'database/migrations/foto',
+        "db_rtn" => 'database/migrations/rtn',
+    ];
+
     public function boot(){
             ParallelTesting::setUpProcess(function ($token) {
-                echo "Process setup for token: $token" . PHP_EOL;
+
+                foreach ($this->databaseMigrationMap as $connection => $path) {
+                    $dbName = config("database.connections.{$connection}.database");
+
+                    $name = $dbName."_dido_".$token;
+
+                    echo "Creating database '$name' for '$connection' connection with origin name '$dbName'" . PHP_EOL;
+
+                    Schema::connection('information_schema')->dropDatabaseIfExists($name);
+                    Schema::connection('information_schema')->createDatabase($name);
+
+
+                    DB::purge();
+                    config()->set(
+                        "database.connections.{$connection}.database",
+                        $name,
+                    );
+                    Artisan::call('migrate:fresh', ['--database' => $connection, '--path' => $path]);
+
+                }
             });
 
             ParallelTesting::setUpTestCase(function ($token, $testCase) {
-                echo "SetupTest token: $token" . PHP_EOL;
+                foreach ($this->databaseMigrationMap as $connection => $path) {
+                    $dbName = config("database.connections.{$connection}.database");
+
+                    $name = $dbName."_dido_".$token;
+
+
+                    DB::purge();
+                    config()->set(
+                        "database.connections.{$connection}.database",
+                        $name,
+                    );
+                    Artisan::call('migrate:fresh', ['--database' => $connection, '--path' => $path]);
+
+                }
             });
 
             // Executed when a test database is created...
@@ -36,6 +82,52 @@ class ParallelTestingExtendedServiceProvider extends ServiceProvider
                 echo "tearDownProcess token: $token" . PHP_EOL;
 
             });
+    }
+
+    /**
+     * Runs the given callable using the given database.
+     *
+     * @param  string  $database
+     * @param  callable  $callable
+     * @return void
+     */
+    protected function usingDatabase($database, $callable)
+    {
+        $original = DB::getConfig('database');
+
+        try {
+            $this->switchToDatabase($database);
+            $callable();
+        } finally {
+            $this->switchToDatabase($original);
+        }
+    }
+
+    /**
+     * Switch to the given database.
+     *
+     * @param  string  $database
+     * @return void
+     */
+    protected function switchToDatabase($database)
+    {
+        DB::purge();
+
+        $default = config('database.default');
+
+        $url = config("database.connections.{$default}.url");
+
+        if ($url) {
+            config()->set(
+                "database.connections.{$default}.url",
+                preg_replace('/^(.*)(\/[\w-]*)(\??.*)$/', "$1/{$database}$3", $url),
+            );
+        } else {
+            config()->set(
+                "database.connections.{$default}.database",
+                $database,
+            );
+        }
     }
 
     // use TestDatabases;
