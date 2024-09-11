@@ -8,8 +8,10 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 
 it('assign a worker to a company', function (): void {
+    dd("her");
     $azienda = Azienda::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
 
     expect($azienda->lavoratori()->count())->toBe(0);
     expect($azienda->lavoratoriAttuali()->count())->toBe(0);
@@ -31,4 +33,4 @@ it('assign a worker to a company', function (): void {
     $act->execute($persona, $data_uscita);
 
     expect($azienda->lavoratoriAttuali()->count())->toBe(1);
-})->only();
+});
