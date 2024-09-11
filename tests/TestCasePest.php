@@ -10,9 +10,6 @@ abstract class TestCasePest extends BaseTestCase
 {
     use CreatesApplication; // , MigrateFreshDB;
 
-    protected $connectionsToTransact = ['db_nomadelfia', 'db_biblioteca'];
-
-
 
     public function createRequest($method, $uri): Request
     {
