@@ -17,7 +17,7 @@ Linguaggi:
 Framework:
 
 - backend
-    - *Laravel 8.x*
+    - *Laravel 10.x* (10.48.9)
 - frontend
     - *Vue.js 2.x*
     - *Bootstrap 4.x*
@@ -168,26 +168,10 @@ Installazione in locale
 Altri comandi utili
 - `task test` to execute tests
 - `task down` to stop the docker contaneis
-- `task refresh` to seed the databases with summy data
+- `task refresh` to seed the databases with dummy data
 - `task lint` to run linters (both on php and html/blade)
+- `tak analyse` to run the static analysis
 
-
-## Database migration
-
-Le migration del database vengono fatte usando il pacchetto  https://github.com/pmatseykanets/laravel-sql-migrations
-Questo permette di creare le migration in formato SQL.
-
-Create a migration:
-
-- `php artisan make:migration create_flights_table --path="database/migrations/db_nomadelfia" --sql`
-
-With sail (docker-compose)
-
-- ` sail php artisan make:migration create_flights_table --path="database/migrations/db_nomadelfia" --sql`
-
-Refresh the structure
-
-- `php artisan migrate:refresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia`
 
 ## Coding convention
 
@@ -206,13 +190,6 @@ Where, the prefix indicates the index type:
 ```
 
 ## Troubleshooting
-
-- On windows, if the html-to-pdf executable throws an error:
-  ```
-  C:/xampp/htdocs/sistema-informativo-nomadelfia/sin/vendor/wemersonjanuario/wkhtmltopdf-windows/bin/64bit/
-  .exe:
-  error while loading shared libraries: MSVCR120.dll: cannot open shared object file: No such file or directory
-  ```
-  [solution]: Install the visual studio c++ 2013 [here](https://www.microsoft.com/it-it/download/details.aspx?id=40784)
+- Create migration with [sql](https://github.com/pmatseykanets/laravel-sql-migrations)  ` sail php artisan make:migration create_flights_table --path="database/migrations/db_nomadelfia" --sql`
 - Error: duplicate entry when auto incrementing a column. where `X` = max number of the id
   ```ALTER TABLE `classificazione` AUTO_INCREMENT = X, CHANGE `ID_CLASSE` `ID_CLASSE` INT(10) NOT NULL AUTO_INCREMENT```
