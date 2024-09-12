@@ -21,7 +21,7 @@ class EntrataMinorenneAccoltoAction
 
     public function execute(Persona $persona, $data_entrata, Famiglia $famiglia): void
     {
-        $dto = new EntrataPersonaData();
+        $dto = new EntrataPersonaData;
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;
         $dto->famiglia = $famiglia;

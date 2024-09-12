@@ -45,7 +45,7 @@ class ExifData
 
     public static function fromArray(array $info): self
     {
-        $exif = new self();
+        $exif = new self;
 
         if (! isset($info['SourceFile'])) {
             $t = implode(',', $info);

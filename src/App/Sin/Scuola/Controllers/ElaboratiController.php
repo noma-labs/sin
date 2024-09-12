@@ -13,12 +13,14 @@ use Illuminate\Support\Str;
 
 class ElaboratiController
 {
-    public function index()
+    public function index(Request $request)
     {
+        $order = $request->query('order', 'anno_scolastico');
+        $by = $request->query('by', 'DESC');
         $elaborati = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
-            ->orderBy('anno_scolastico', 'DESC')
+            ->orderBy($order, $by)
             ->orderBy('created_at', 'DESC')
             ->get();
 
@@ -80,13 +82,16 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file): void {
+        $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
+        $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
+
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file, $classi, $dimensione): void {
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
                     'anno_scolastico' => $as->toString(),
-                    'classi' => implode(',', $request->input('classi')),
-                    'dimensione' => Dimensione::fromString($request->input('dimensione'))->toString(),
+                    'classi' => $classi,
+                    'dimensione' => $dimensione,
                     'rilegatura' => $request->input('rilegatura'),
                     'note' => $request->input('note', null),
                     'file_path' => $storagePath,

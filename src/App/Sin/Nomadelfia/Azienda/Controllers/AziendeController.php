@@ -33,17 +33,12 @@ class AziendeController
 
     }
 
-    public function editConfirm(Request $request, $idPersona)
-    {
-    }
+    public function editConfirm(Request $request, $idPersona) {}
 
-    public function insert()
-    {
-    }
+    public function insert() {}
 
     public function insertConfirm(Request $request) //InsertClientiRequest $request
-    {
-    }
+    {}
 
     public function searchPersona(Request $request)
     {

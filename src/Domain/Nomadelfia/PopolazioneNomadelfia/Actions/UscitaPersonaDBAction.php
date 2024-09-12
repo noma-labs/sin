@@ -14,7 +14,7 @@ class UscitaPersonaDBAction
     */
     public function execute(Persona $persona, string $data_uscita, bool $disableFromFamily = false): void
     {
-        $dto = new UscitaPersonaData();
+        $dto = new UscitaPersonaData;
         $dto->persona = $persona;
         $dto->data_uscita = $data_uscita;
         $dto->disableFromFamily = $disableFromFamily;

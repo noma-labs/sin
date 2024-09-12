@@ -28,7 +28,7 @@ class AnnoScolastico
             throw new Exception("La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
         }
 
-        $a = new self();
+        $a = new self;
         $a->startYear = (int) $startYear;
         $a->endYear = (int) $endYear;
 

@@ -16,9 +16,9 @@ class ExportPopolazioneToWordAction
 {
     public function execute(Collection $elenchi): PhpWord
     {
-        $data = new ExportPopolazioneData();
+        $data = new ExportPopolazioneData;
 
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         // define styles
         $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
