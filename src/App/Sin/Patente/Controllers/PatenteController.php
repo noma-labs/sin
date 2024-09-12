@@ -59,7 +59,7 @@ class PatenteController
         $data = Carbon::now();
         $name = "Patenti-$data.xlsx";
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $spreadsheet->setActiveSheetIndex(0)
             ->setCellValue('A1', 'COGNOME')
             ->setCellValue('B1', 'NOME')
@@ -134,7 +134,7 @@ class PatenteController
     {
         $data = Carbon::now();
         $name = "cqc-$data.xlsx";
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $spreadsheet->setActiveSheetIndex(0)
             ->setCellValue('A1', 'COGNOME')
             ->setCellValue('B1', 'NOME')
@@ -237,7 +237,7 @@ class PatenteController
         $data = Carbon::now();
         $name = "Conducenti autorizzati $data.xlsx";
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $spreadsheet->setActiveSheetIndex(0)
             ->setCellValue('A1', 'NOME')
             ->setCellValue('B1', 'COGNOME')

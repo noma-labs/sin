@@ -16,9 +16,7 @@ class FamigliaUscitaMail extends Mailable
         public Famiglia $famiglia,
         public Collection $componenti,
         public Carbon $data_uscita,
-    ) {
-
-    }
+    ) {}
 
     public function build(): FamigliaUscitaMail
     {

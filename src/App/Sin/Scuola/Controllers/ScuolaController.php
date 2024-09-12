@@ -90,7 +90,7 @@ class ScuolaController
     {
         $elenchi = collect($request->elenchi);
 
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
         $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie

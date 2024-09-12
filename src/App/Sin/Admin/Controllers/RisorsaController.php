@@ -41,7 +41,7 @@ class RisorsaController
         $name = $request['name'];
         $_belong_to_archivio = $request['_belong_to_archivio'];
 
-        $permission = new Permission();
+        $permission = new Permission;
         $permission->name = $name;
         $permission->_belong_to_archivio = $_belong_to_archivio;
 

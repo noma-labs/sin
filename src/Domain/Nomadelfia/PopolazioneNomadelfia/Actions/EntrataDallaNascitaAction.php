@@ -21,7 +21,7 @@ class EntrataDallaNascitaAction
 
     public function execute(Persona $persona, Famiglia $famiglia): void
     {
-        $dto = new EntrataPersonaData();
+        $dto = new EntrataPersonaData;
         $dto->famiglia = $famiglia;
         $dto->persona = $persona;
         $dto->data_entrata = $dto->persona->data_nascita;

@@ -26,12 +26,12 @@ final class ExifReader
 
     public static function file(string $file): ExifReader
     {
-        return (new ExifReader())->setSourcePath($file);
+        return (new ExifReader)->setSourcePath($file);
     }
 
     public static function folder(string $folder): ExifReader
     {
-        return (new ExifReader())->setSourcePath($folder)->recursively();
+        return (new ExifReader)->setSourcePath($folder)->recursively();
     }
 
     public function setSourcePath(string $sourcePath): ExifReader
@@ -187,7 +187,7 @@ final class ExifReader
     {
         $this->exportToCSV($targetPath);
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $output = $this->callExifTool($command);
 
@@ -201,7 +201,7 @@ final class ExifReader
         $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $this->callExifTool($command);
 
@@ -212,7 +212,7 @@ final class ExifReader
     {
         $this->exportToPhp();
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $output = $this->callExifTool($command);
 
@@ -226,7 +226,7 @@ final class ExifReader
     {
         $this->exportToPhp();
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         yield $this->callExifTool($command);
         // foreach (($this->callExifTool($command)) as $line) {
@@ -236,7 +236,7 @@ final class ExifReader
         // return '';
     }
 
-    public function createExifToolCommand($targetPath = null): array
+    public function createExifToolCommand(): array
     {
         return [
             'file' => $this->sourcePath,

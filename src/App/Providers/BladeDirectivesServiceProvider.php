@@ -74,8 +74,5 @@ class BladeDirectivesServiceProvider extends ServiceProvider
         });
     }
 
-    public function register()
-    {
-
-    }
+    public function register() {}
 }

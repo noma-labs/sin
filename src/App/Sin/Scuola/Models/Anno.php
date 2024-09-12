@@ -100,6 +100,7 @@ class Anno extends Model
     {
         $nextas = $copy_from_as->nextAnnoScolasticoString();
         $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
+
         $classi_from = $copy_from_as->classi()->get();
         foreach ($classi_from as $classe) {
             $next = $classe->nextClasseTipo();

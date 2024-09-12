@@ -314,7 +314,7 @@ class ApiController
     public function create(Request $request)
     {
         $body = json_decode($request->getContent(), true);
-        $patente = new Patente();
+        $patente = new Patente;
         $patente->persona_id = $body['persona_id'];
         $patente->numero_patente = $body['numero_patente'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];

@@ -32,7 +32,7 @@ class ExifJsonImportCommand extends Command
 
         $this->info("Reading $file");
 
-        $num = (new StoreExifIntoDBAction())->execute($file);
+        $num = (new StoreExifIntoDBAction)->execute($file);
 
         $this->info("Inserted $num phots");
 

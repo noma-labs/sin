@@ -10,8 +10,26 @@
         Inserisci
     </a>
 
+    <a
+        class="btn btn-secondary my-2"
+        href="{{ route("scuola.elaborati.index", ["order" => "collocazione", "by" => "ASC"]) }}"
+        role="button"
+    >
+        Ordina per Collocazione
+    </a>
+    <a
+        class="btn btn-secondary my-2"
+        href="{{ route("scuola.elaborati.index", ["order" => "anno_scolastico", "by" => "ASC"]) }}"
+        role="button"
+    >
+        Ordina per Anno
+    </a>
+
     <div class="card">
-        <div class="card-header">Lista Elaborati</div>
+        <div class="card-header">
+            Lista Elaborati
+            <span class="font-weight-bold">({{ $elaborati->count() }})</span>
+        </div>
         <ul class="list-group list-group-flush">
             @forelse ($elaborati as $elaborato)
                 <li class="list-group-item">
@@ -19,11 +37,12 @@
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
-                    <strong>{{ $elaborato->titolo }}</strong>
-
                     <span class="badge badge-primary">
                         {{ $elaborato->collocazione }}
                     </span>
+
+                    <strong>{{ $elaborato->titolo }}</strong>
+
                     @if ($elaborato->file_path)
                         <span class="badge badge-danger">pdf</span>
                     @endif

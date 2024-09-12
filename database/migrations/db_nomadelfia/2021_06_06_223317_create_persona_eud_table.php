@@ -2,6 +2,4 @@
 
 use SqlMigrations\SqlMigration;
 
-class CreatePersonaEudTable extends SqlMigration
-{
-}
+class CreatePersonaEudTable extends SqlMigration {}
