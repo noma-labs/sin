@@ -187,7 +187,7 @@ final class ExifReader
     {
         $this->exportToCSV($targetPath);
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $output = $this->callExifTool($command);
 
@@ -201,7 +201,7 @@ final class ExifReader
         $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $this->callExifTool($command);
 
@@ -212,7 +212,7 @@ final class ExifReader
     {
         $this->exportToPhp();
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         $output = $this->callExifTool($command);
 
@@ -226,7 +226,7 @@ final class ExifReader
     {
         $this->exportToPhp();
 
-        $command = $this->createExifToolCommand($this->sourcePath);
+        $command = $this->createExifToolCommand();
 
         yield $this->callExifTool($command);
         // foreach (($this->callExifTool($command)) as $line) {
