@@ -236,7 +236,7 @@ final class ExifReader
         // return '';
     }
 
-    public function createExifToolCommand($targetPath = null): array
+    public function createExifToolCommand(): array
     {
         return [
             'file' => $this->sourcePath,

@@ -84,12 +84,12 @@ class Persona extends Model
         $this->attributes['nominativo'] = ucwords(strtolower($value));
     }
 
-    public function getNominativoAttribute($value)
+    public function getNominativoAttribute($value): string
     {
         return ucwords(strtolower($value));
     }
 
-    public function buildCompleteName()
+    public function buildCompleteName(): string
     {
         Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
 
@@ -106,12 +106,12 @@ class Persona extends Model
         return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
     }
 
-    public function isDeceduta()
+    public function isDeceduta(): bool
     {
         return $this->data_decesso != null;
     }
 
-    public function isMaschio()
+    public function isMaschio(): bool
     {
         return $this->sesso == 'M';
     }
@@ -128,7 +128,7 @@ class Persona extends Model
     /**
      * @throws Exception
      */
-    public function proposeNumeroElenco()
+    public function proposeNumeroElenco(): string
     {
         if ($this->numero_elenco) {
             throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
@@ -499,7 +499,7 @@ class Persona extends Model
         return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
     }
 
-    public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata)
+    public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
     {
         $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
             $old_data_entrata)->update(['data_entrata' => $data_entrata]);
@@ -551,7 +551,7 @@ class Persona extends Model
     /*
     * Return True if the person is dead, false otherwise
     */
-    public function isDeceduto()
+    public function isDeceduto(): bool
     {
         return $this->data_decesso != null;
     }
@@ -686,7 +686,7 @@ class Persona extends Model
     }
 
     // Crea una famiglia e aggiunge la persona come componente
-    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione)
+    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione): bool
     {
         try {
             DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione): void {
@@ -708,7 +708,7 @@ class Persona extends Model
      * Move a person to a family.
      * If the person has already an active family, the current family is deactivate.
      */
-    public function spostaNellaFamiglia($famiglia, $posizione)
+    public function spostaNellaFamiglia($famiglia, $posizione): static
     {
         if ($famiglia->single()) {
             throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
@@ -763,11 +763,10 @@ class Persona extends Model
     /**
      * Ritorna vero se la persona è maggiorenne
      *
-     * @return bool
      *
      * @author Davide Neri
      **/
-    public function isMaggiorenne()
+    public function isMaggiorenne(): bool
     {
         return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
     }
