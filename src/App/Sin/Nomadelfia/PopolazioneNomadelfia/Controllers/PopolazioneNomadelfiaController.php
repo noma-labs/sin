@@ -84,7 +84,7 @@ class PopolazioneNomadelfiaController
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);
-        $action = new ExportPopolazioneToWordAction();
+        $action = new ExportPopolazioneToWordAction;
         $word = $action->execute($elenchi);
 
         $objWriter = IOFactory::createWriter($word, 'Word2007');

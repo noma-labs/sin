@@ -23,7 +23,7 @@ class EntrataMaggiorenneConFamigliaAction
         if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
-        $dto = new EntrataPersonaData();
+        $dto = new EntrataPersonaData;
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;
         $dto->gruppoFamiliare = $gruppo;

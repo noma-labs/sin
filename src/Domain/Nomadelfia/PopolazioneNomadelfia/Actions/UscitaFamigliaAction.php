@@ -23,7 +23,7 @@ class UscitaFamigliaAction
 
     public function execute(Famiglia $famiglia, string $data_uscita): void
     {
-        $dto = new UscitaFamigliaData();
+        $dto = new UscitaFamigliaData;
         $dto->famiglia = $famiglia;
         $dto->componenti = $famiglia->componentiAttuali()->get();
         $dto->data_uscita = $data_uscita;

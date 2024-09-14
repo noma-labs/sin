@@ -105,7 +105,7 @@ it('save family exit into activity table', function (): void {
 
     $action = app(LogUscitaFamigliaAction::class);
 
-    $dto = new UscitaFamigliaData();
+    $dto = new UscitaFamigliaData;
     $dto->famiglia = $famiglia;
     $dto->componenti = $famiglia->componentiAttuali()->get();
     $dto->data_uscita = $data_uscita;

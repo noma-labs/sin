@@ -35,12 +35,12 @@ class ExifExtractCommand extends Command
         $saveToDb = $this->option('save');
         $limit = (int) $this->option('limit');
 
-        $fileName = (new ExtractExifAction())->execute($path);
+        $fileName = (new ExtractExifAction)->execute($path);
 
         $this->info("Saving into $fileName");
 
         if ($saveToDb) {
-            $photos = (new StoreExifIntoDBAction())->execute($fileName);
+            $photos = (new StoreExifIntoDBAction)->execute($fileName);
 
             $photos = DB::connection('db_foto')->table('photos')->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')->limit($limit)->orderby('created_at', 'DESC')->get();
             $this->table(

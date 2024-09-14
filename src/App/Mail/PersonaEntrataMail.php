@@ -18,9 +18,7 @@ class PersonaEntrataMail extends Mailable
         public Carbon $data_entrata,
         public GruppoFamiliare $gruppo,
         public ?Famiglia $famiglia
-    ) {
-
-    }
+    ) {}
 
     public function build(): PersonaEntrataMail
     {

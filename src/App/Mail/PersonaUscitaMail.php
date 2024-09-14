@@ -15,9 +15,7 @@ class PersonaUscitaMail extends Mailable
         public Persona $persona,
         public Carbon $data_entrata,
         public Carbon $data_uscita,
-    ) {
-
-    }
+    ) {}
 
     public function build(): PersonaUscitaMail
     {

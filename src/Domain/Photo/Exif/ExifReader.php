@@ -26,12 +26,12 @@ final class ExifReader
 
     public static function file(string $file): ExifReader
     {
-        return (new ExifReader())->setSourcePath($file);
+        return (new ExifReader)->setSourcePath($file);
     }
 
     public static function folder(string $folder): ExifReader
     {
-        return (new ExifReader())->setSourcePath($folder)->recursively();
+        return (new ExifReader)->setSourcePath($folder)->recursively();
     }
 
     public function setSourcePath(string $sourcePath): ExifReader
