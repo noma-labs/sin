@@ -50,17 +50,19 @@ class SearchPersona extends Component
 
     public string $nameInput = 'persone_id[]';
 
-    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--', string $name_input = 'persone_id[]'): void
+    public string $orderBy;
+
+    public function mount(array $persone_id = [], string $placeholder = '--Inserisci Nominativo--', string $name_input = 'persone_id[]', string $orderBy = 'nominativo ASC'): void
     {
         $this->placeholder = $placeholder;
         $this->selected = collect();
         $this->nameInput = $name_input;
-
+        $this->orderBy = $orderBy;
         if (! empty($persone_id)) {
             $persone = Persona::query()
                 ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
                 ->whereIn('id', $persone_id)
-                ->orderBy('nominativo', 'asc')
+                ->orderByRaw($this->orderBy)
                 ->get();
 
             foreach ($persone as $persona) {
@@ -97,11 +99,11 @@ class SearchPersona extends Component
         $persone = Persona::query()
             ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
             ->where('nominativo', 'LIKE', "$term%")
-            ->orderBy('nominativo', 'asc')
+            ->orderByRaw($this->orderBy)
             ->get();
 
         foreach ($persone as $persona) {
-            $this->options[] = new Option($persona->id, $persona->nominativo.' ('.$persona->data_nascita.')');
+            $this->options[] = new Option($persona->id, "$persona->nome $persona->cognome ( $persona->data_nascita)");
         }
 
     }
