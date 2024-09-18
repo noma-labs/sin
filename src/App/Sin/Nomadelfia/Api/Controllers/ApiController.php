@@ -19,7 +19,8 @@ class ApiController
         $persone = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
         $results = [];
         foreach ($persone as $persona) {
-            $results[] = ['value' => $persona->id, 'label' => $persona->nominativo];
+            $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
         }
 
         return response()->json($results);

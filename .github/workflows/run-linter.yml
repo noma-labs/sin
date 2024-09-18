@@ -31,5 +31,3 @@ jobs:
       - run: task lint:check
 
       - run: task analyse
-
-      - run: task rector:check

@@ -25,13 +25,9 @@
                         <label class="form-label" for="xIdUtente">
                             Cliente
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="autore"
-                            value="{{ $prestito->cliente->nominativo }}"
-                            disabled
-                        />
+                        <p>
+                            @include("nomadelfia.templates.persona", ["persona" => $prestito->cliente])
+                        </p>
                     </div>
                 </div>
             </div>
