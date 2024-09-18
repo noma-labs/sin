@@ -7,7 +7,6 @@ use App\Biblioteca\Models\Classificazione as Classificazione;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
-use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -291,12 +290,9 @@ class LibriController
 
     public function book($idLibro)
     {
-        // Prenotazione di un libro
         $libro = Libro::findOrFail($idLibro);
-        $utenti = ViewClientiBiblioteca::orderBy('nominativo', 'ASC')->get();
 
-        return view('biblioteca.libri.book', ['libro' => $libro, 'utenti' => $utenti]);
-
+        return view('biblioteca.libri.book', ['libro' => $libro]);
     }
 
     public function bookConfirm(Request $request, $idLibro)
@@ -325,9 +321,6 @@ class LibriController
             return redirect()->back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
         } else {
             $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
-            $persona = ViewClientiBiblioteca::findOrFail($idUtente); //ViewClientiBiblioteca
-            //dd($persona);
-            ///$prestito->cliente()->associate($persona)->save();
             if ($prestito) {
                 return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
             } else {

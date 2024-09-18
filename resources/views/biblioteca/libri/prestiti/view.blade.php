@@ -30,7 +30,7 @@
                     <autocomplete
                         placeholder="Inserisci nominativo..."
                         name="persona_id"
-                        url="{{ route("api.biblioteca.clienti") }}"
+                        url="{{ route("api.nomadeflia.persone.search") }}"
                     ></autocomplete>
                 </div>
             </div>
@@ -244,7 +244,3 @@
         </table>
     @endif
 @endsection
-
-<!-- <script>
-  window.location.hash = "results";
-</script> -->

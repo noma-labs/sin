@@ -211,22 +211,17 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:numeri\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:select\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
 
@@ -531,16 +526,6 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
@@ -641,23 +626,13 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:leftJoin\\(\\)\\.$#"
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:inPrestito\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:where\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:findOrFail\\(\\)\\.$#"
-			count: 3
-			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewClientiBiblioteca\\:\\:orderBy\\(\\)\\.$#"
-			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
 
 		-
@@ -668,6 +643,11 @@ parameters:
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewLavoratoriBiblioteca\\:\\:orderby\\(\\)\\.$#"
 			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
 			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
 
 		-

@@ -2,6 +2,7 @@
 
 namespace Domain\Nomadelfia\Persona\Models;
 
+use App\Biblioteca\Models\Prestito;
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
@@ -221,6 +222,11 @@ class Persona extends Model
     public function patenti(): HasMany
     {
         return $this->hasMany(Patente::class, 'persona_id', 'id');
+    }
+
+    public function prestiti()
+    {
+        return $this->hasMany(Prestito::class, 'cliente_id', 'id');
     }
 
     public function nominativiStorici(): HasOne

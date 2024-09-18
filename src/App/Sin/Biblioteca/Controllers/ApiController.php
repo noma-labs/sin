@@ -5,9 +5,9 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
-use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
-use Carbon;
+use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 class ApiController
@@ -31,18 +31,26 @@ class ApiController
 
     public function autocompleteCliente(Request $request)
     {
-        $term = $request->term;
-        if ($term) {
-            $query = ViewClientiBiblioteca::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo');
-        } else {
-            $query = ViewClientiBiblioteca::orderBy('nominativo');
+
+        $bornBefore = Carbon::now()->subYears(6)->startOfYear();
+
+        // TODO: use a query builder of PopolazioneNomadelfia
+        $clienti = Persona::select('id', 'nominativo', 'data_nascita')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->whereNull('popolazione.data_uscita')
+            ->where('data_nascita', '<=', $bornBefore)
+            ->whereNull('data_decesso')
+            ->orderBy('nominativo');
+
+        if ($request->term) {
+            $clienti = $clienti->where('nominativo', 'LIKE', "$request->term%");
         }
 
-        $persone = $query->get();
+        $persone = $clienti->get();
         if ($persone->count() > 0) {
             $results = [];
             foreach ($persone as $persona) {
-                $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+                $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
                 $results[] = ['value' => $persona->id, 'label' => "$persona->nominativo ($year)"];
             }
 

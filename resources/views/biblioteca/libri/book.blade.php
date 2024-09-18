@@ -37,7 +37,6 @@
                                 name="persona_id"
                                 url="{{ route("api.biblioteca.clienti") }}"
                             ></autocomplete>
-                            <!-- <search-persona></search-persona> -->
                         </div>
                     </div>
                 </div>
