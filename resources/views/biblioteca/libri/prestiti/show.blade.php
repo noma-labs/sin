@@ -26,7 +26,7 @@
                             Cliente
                         </label>
                         <p>
-                        @include("nomadelfia.templates.persona", ["persona" =>$prestito->cliente])
+                            @include("nomadelfia.templates.persona", ["persona" => $prestito->cliente])
                         </p>
                     </div>
                 </div>
