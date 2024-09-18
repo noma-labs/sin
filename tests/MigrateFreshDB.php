@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\ParallelTesting;
 
 trait MigrateFreshDB
 {
@@ -23,6 +24,8 @@ trait MigrateFreshDB
         if (App::environment() === 'production') {
             exit();
         }
+        echo 'MigrateFreshDB:' .ParallelTesting::token().  ' runOnce:' . (static::$setUpHasRunOnce ? 'true' : 'false') . PHP_EOL;
+
 
         if (! static::$setUpHasRunOnce) {
             Artisan::call('make:database');

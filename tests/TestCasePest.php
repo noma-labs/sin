@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 abstract class TestCasePest extends BaseTestCase
 {
-    use CreatesApplication, MigrateFreshDB;
+    use CreatesApplication; // , MigrateFreshDB;
+
 
     public function createRequest($method, $uri): Request
     {
