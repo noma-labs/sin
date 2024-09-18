@@ -38,7 +38,7 @@ class LibriPrestitiController
     {
         $prestiti = Prestito::inPrestito()
             ->with([
-                'cliente' => function ($query) {
+                'cliente' => function ($query): void {
                     $query->orderBy('nominativo', 'asc');
                 },
                 'bibliotecario',
