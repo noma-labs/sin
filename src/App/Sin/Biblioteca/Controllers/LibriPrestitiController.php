@@ -43,11 +43,9 @@ class LibriPrestitiController
             ->orderBy('data_inizio_prestito', 'desc')
             ->orderBy('nominativo', 'asc')
             ->get();
-        $utenti = ViewClientiBiblioteca::orderBy('nominativo')->get();
         $bibliotecari = ViewLavoratoriBiblioteca::orderby('nominativo')->get();
 
         return view('biblioteca.libri.prestiti.view', ['prestiti' => $prestiti,
-            'utenti' => $utenti,
             'bibliotecari' => $bibliotecari,
             'msgSearch' => 'Tutti e prestiti attivi',
             'query' => '']);
