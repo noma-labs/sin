@@ -7,6 +7,7 @@ use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewLavoratoriBiblioteca;
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -54,7 +55,7 @@ class LibriPrestitiController
     public function search(Request $request)
     {
         $msgSearch = ' ';
-        // se sto cecando il prestito di una persona  redirect sul dettaglio della persona.
+        // se sto cercando il prestito di una persona redirect sul dettaglio della persona.
         if ($request->has('persona_id') and ! $request->has('note')) {
             Session::flash('clientePrestitiUrl', $request->fullUrl());
             $cliente = ViewClientiBiblioteca::findOrFail($request->input('persona_id'));
@@ -84,7 +85,7 @@ class LibriPrestitiController
             }
             if ($request->has('persona_id')) {
                 $utente = $request->input('persona_id');
-                $nomeUtente = ViewClientiBiblioteca::findOrFail($utente)->nominativo;
+                $nomeUtente = Persona::findOrFail($utente)->nominativo;
                 $q->where('cliente_id', $utente);
                 $msgSearch = $msgSearch.' Cliente='.$nomeUtente;
             }
@@ -131,10 +132,7 @@ class LibriPrestitiController
     public function edit($idPrestito)
     {
         $prestito = Prestito::findOrFail($idPrestito);
-        $utenti = ViewClientiBiblioteca::orderBy('nominativo')->get();
-
-        return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito,
-            'utenti' => $utenti]);
+        return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito]);
     }
 
     public function editConfirm(Request $request, $idPrestito)
@@ -151,11 +149,9 @@ class LibriPrestitiController
         $datarestituzione = $request->xDataRestituzione;
         $note = $request->input('xNote', null);
 
-        // $bibliotecario = Auth::user()->id; //$request->xIdBibliotecario;
-        $bibliotecario = Auth::user()->persona->id; //$request->xIdBibliotecario;
+        $bibliotecario = Auth::user()->persona->id;
 
-        // salva modifiche button has been clicked
-        $persona = ViewClientiBiblioteca::findOrFail($request->persona_id);
+        $persona = Persona::findOrFail($request->persona_id);
         $prestito = Prestito::findOrFail($idPrestito);
         $prestito->update([
             'bibliotecario_id' => $bibliotecario,
