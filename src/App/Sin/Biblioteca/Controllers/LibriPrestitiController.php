@@ -4,7 +4,6 @@ namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
-use App\Biblioteca\Models\ViewClientiBiblioteca;
 use App\Biblioteca\Models\ViewLavoratoriBiblioteca;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -37,12 +36,16 @@ class LibriPrestitiController
 
     public function view()
     {
-        $prestiti = Prestito::leftJoin('v_clienti_biblioteca', 'prestito.cliente_id', '=', 'v_clienti_biblioteca.id')
-            ->inPrestito()
-            ->with('cliente', 'bibliotecario', 'libro')
+        $prestiti = Prestito::inPrestito()
+            ->with([
+                'cliente' => function ($query) {
+                    $query->orderBy('nominativo', 'asc');
+                },
+                'bibliotecario',
+                'libro'
+            ])
             ->select('prestito.*')
             ->orderBy('data_inizio_prestito', 'desc')
-            ->orderBy('nominativo', 'asc')
             ->get();
         $bibliotecari = ViewLavoratoriBiblioteca::orderby('nominativo')->get();
 
@@ -58,7 +61,7 @@ class LibriPrestitiController
         // se sto cercando il prestito di una persona redirect sul dettaglio della persona.
         if ($request->has('persona_id') and ! $request->has('note')) {
             Session::flash('clientePrestitiUrl', $request->fullUrl());
-            $cliente = ViewClientiBiblioteca::findOrFail($request->input('persona_id'));
+            $cliente = Persona::findOrFail($request->input('persona_id'));
             $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); //Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
             $prestitiRestituiti = $cliente->prestiti()->where('in_prestito', 0)->orderBy('data_fine_prestito')->get(); //Prestito::Restituiti()->where(["CLIENTE"=>$idCliente])->get();
 
