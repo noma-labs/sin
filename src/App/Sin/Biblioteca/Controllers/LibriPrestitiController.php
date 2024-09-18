@@ -4,7 +4,6 @@ namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
-use App\Biblioteca\Models\ViewLavoratoriBiblioteca;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
@@ -47,10 +46,8 @@ class LibriPrestitiController
             ->select('prestito.*')
             ->orderBy('data_inizio_prestito', 'desc')
             ->get();
-        $bibliotecari = ViewLavoratoriBiblioteca::orderby('nominativo')->get();
 
         return view('biblioteca.libri.prestiti.view', ['prestiti' => $prestiti,
-            'bibliotecari' => $bibliotecari,
             'msgSearch' => 'Tutti e prestiti attivi',
             'query' => '']);
     }
@@ -107,17 +104,15 @@ class LibriPrestitiController
             if ($request->xIdBibliotecario) {
                 $idBibliotecario = $request->xIdBibliotecario;
                 $q->where('bibliotecario_id', $idBibliotecario);
-                $bibliotecario = ViewLavoratoriBiblioteca::findOrFail($idBibliotecario)->nominativo;
+                $bibliotecario = Persona::findOrFail($idBibliotecario)->nominativo;
                 $msgSearch = $msgSearch." Bibliotecario: $bibliotecario ";
             }
         });
 
         $prestiti = $queryPrestiti->orderBy('data_inizio_prestito', 'DESC')->paginate(50);
         $query = $queryPrestiti->toSql();
-        $bibliotecari = ViewLavoratoriBiblioteca::orderby('nominativo')->get();
 
         return view('biblioteca.libri.prestiti.view', ['prestiti' => $prestiti,
-            'bibliotecari' => $bibliotecari,
             'msgSearch' => $msgSearch,
             'query' => $query]);
     }

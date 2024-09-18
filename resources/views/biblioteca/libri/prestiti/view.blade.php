@@ -39,21 +39,11 @@
                     <label for="xIdBibliotecario" class="control-label">
                         Bibliotecario
                     </label>
-                    <select
-                        class="form-control"
+                    <autocomplete
+                        placeholder="Inserisci nominativo..."
                         name="xIdBibliotecario"
-                        type="text"
-                        id="xIdBibliotecario"
-                    >
-                        <option value="">
-                            --- Seleziona il bibliotecario--
-                        </option>
-                        @foreach ($bibliotecari as $bibliotecario)
-                            <option value="{{ $bibliotecario->persona_id }}">
-                                {{ $bibliotecario->nominativo }}
-                            </option>
-                        @endforeach
-                    </select>
+                        url="{{ route("api.nomadeflia.persone.search") }}"
+                    ></autocomplete>
                 </div>
             </div>
         </div>

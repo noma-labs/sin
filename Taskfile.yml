@@ -67,3 +67,8 @@ tasks:
   analyse:
     cmds:
       - ./vendor/bin/phpstan analyse  -l 5
+
+
+  analyse:baseline:
+    cmds:
+      - ./vendor/bin/phpstan analyse  -l 5 --generate-baseline
