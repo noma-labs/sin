@@ -1,12 +1,3 @@
-
-
-CREATE OR REPLACE VIEW v_clienti_biblioteca
-    AS select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,(substr(sysdate(),1,4) - substr(`db_nomadelfia`.`persone`.`data_nascita`,1,4)) AS `eta`
-    from `db_nomadelfia`.`persone`
-    where (`db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 70 year_month))
-    order by `db_nomadelfia`.`persone`.`nominativo` desc;
-
-
 CREATE OR REPLACE VIEW v_colloc_split
 AS select  `archivio_biblioteca`.`libro`.`collocazione` AS `COLLOCAZIONE`,substr(`archivio_biblioteca`.`libro`.`collocazione`,1,3) AS `lettere`,cast(substr(`archivio_biblioteca`.`libro`.`collocazione`,4,3) as unsigned) AS `numeri`
     from `archivio_biblioteca`.`libro`;
