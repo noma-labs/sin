@@ -34,7 +34,6 @@ class ApiController
 
         $bornBefore = Carbon::now()->subYears(6)->startOfYear();
 
-
         // TODO: use a query builder of PopolazioneNomadelfia
         $clienti = Persona::select('id', 'nominativo', 'data_nascita')
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
@@ -42,7 +41,6 @@ class ApiController
             ->where('data_nascita', '<=', $bornBefore)
             ->whereNull('data_decesso')
             ->orderBy('nominativo');
-
 
         if ($request->term) {
             $clienti = $clienti->where('nominativo', 'LIKE', "$request->term%");

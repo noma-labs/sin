@@ -42,7 +42,7 @@ class LibriPrestitiController
                     $query->orderBy('nominativo', 'asc');
                 },
                 'bibliotecario',
-                'libro'
+                'libro',
             ])
             ->select('prestito.*')
             ->orderBy('data_inizio_prestito', 'desc')
@@ -135,6 +135,7 @@ class LibriPrestitiController
     public function edit($idPrestito)
     {
         $prestito = Prestito::findOrFail($idPrestito);
+
         return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito]);
     }
 
