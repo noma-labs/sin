@@ -224,7 +224,7 @@ class ScuolaController
         $file_name = "scuola-familiare-$data.docx";
         try {
             $objWriter->save(storage_path($file_name));
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return response()->download(storage_path($file_name));

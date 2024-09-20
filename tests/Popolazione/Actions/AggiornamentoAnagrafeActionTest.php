@@ -36,7 +36,7 @@ it('save enter event into activity table', function (): void {
 
     $last = AggiornamentoAnagrafe::Enter()->get()->last();
     expect($last->subject_id)->toEqual($persona->id)
-        ->and($last->subject_type)->toEqual(get_class($persona))
+        ->and($last->subject_type)->toEqual($persona::class)
         ->and($last->properties['data_entrata'])->toEqual($data_entrata)
         ->and($last->properties['gruppo'])->toEqual($gruppo->nome)
         ->and($last->properties['famiglia'])->toEqual($famiglia->nome_famiglia);
@@ -58,7 +58,7 @@ it('save uscita event into the activity table', function (): void {
 
     $last = AggiornamentoAnagrafe::Exit()->get()->last();
     expect($last->subject_id)->toEqual($persona->id)
-        ->and($last->subject_type)->toEqual(get_class($persona))
+        ->and($last->subject_type)->toEqual($persona::class)
         ->and($last->properties['data_entrata'])->toEqual($data_entrata)
         ->and($last->properties['data_uscita'])->toEqual($data_uscita);
 
@@ -75,7 +75,7 @@ it('save death into the activity table', function (): void {
 
     $last = AggiornamentoAnagrafe::Death()->get()->last();
     expect($last->subject_id)->toEqual($persona->id)
-        ->and($last->subject_type)->toEqual(get_class($persona))
+        ->and($last->subject_type)->toEqual($persona::class)
         ->and($last->properties['data_decesso'])->toEqual($data_decesso);
 
 });
@@ -115,7 +115,7 @@ it('save family exit into activity table', function (): void {
     $last = AggiornamentoAnagrafe::Exit()->get()->last();
     $lastComponente = $dto->componenti->last();
     expect($last->subject_id)->toEqual($lastComponente->id)
-        ->and($last->subject_type)->toEqual(get_class($lastComponente))
+        ->and($last->subject_type)->toEqual($lastComponente::class)
         ->and($last->properties['data_uscita'])->toEqual($data_uscita)
         ->and($last->properties['data_entrata'])->toEqual($lastComponente->getDataEntrataNomadelfia() ?: '');
 

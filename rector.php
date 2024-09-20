@@ -16,4 +16,5 @@ return RectorConfig::configure()
         SetList::INSTANCEOF,
         LaravelSetList::LARAVEL_90,
         LaravelSetList::LARAVEL_100,
+        SetList::PHP_80,
     ]);
