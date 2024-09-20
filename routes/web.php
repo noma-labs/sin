@@ -110,7 +110,6 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'store'])->name('persone.gruppo.assegna');
     Route::put('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'update'])->name('persone.gruppo.modifica');
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.elimina');
-    Route::post('persone/{idPersona}/gruppofamiliare/{id}/concludi', [PersonaGruppoFamiliareConcludiController::class, 'store'])->name('persone.gruppo.concludi');
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta', [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('persone.gruppo.sposta');
     Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
     Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');

@@ -25,6 +25,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -156,18 +157,6 @@ class Persona extends Model
     public function gruppofamiliariStorico(): BelongsToMany
     {
         return $this->gruppifamiliari()->wherePivot('stato', '0');
-    }
-
-    public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)
-    {
-        $expression = DB::raw("UPDATE gruppi_persone
-               SET stato = '0', data_uscita_gruppo = :dataout
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain");
-
-        return DB::connection('db_nomadelfia')->update(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'datain' => $datain, 'dataout' => $dataout]
-        );
     }
 
     public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
