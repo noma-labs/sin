@@ -33,6 +33,7 @@ trait Enums
      *
      * @param  string  $field
      * @return $this
+     *
      * @throws Exception
      */
     public function setAttribute($field, mixed $value)

@@ -9,9 +9,7 @@ use Livewire\Wireable;
 
 class Option implements Wireable
 {
-    public function __construct(public int $id, public string $value)
-    {
-    }
+    public function __construct(public int $id, public string $value) {}
 
     public function toLivewire()
     {

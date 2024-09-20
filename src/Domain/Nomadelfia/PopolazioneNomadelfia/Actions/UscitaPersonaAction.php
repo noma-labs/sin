@@ -6,9 +6,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class UscitaPersonaAction
 {
-    public function __construct(private UscitaPersonaDBAction $uscita, private LogUscitaPersonaAction $logUscitaActivity, private SendEmailPersonaUscitaAction $email)
-    {
-    }
+    public function __construct(private UscitaPersonaDBAction $uscita, private LogUscitaPersonaAction $logUscitaActivity, private SendEmailPersonaUscitaAction $email) {}
 
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.

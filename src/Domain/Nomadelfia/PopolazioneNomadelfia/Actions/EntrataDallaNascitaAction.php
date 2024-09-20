@@ -11,9 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 class EntrataDallaNascitaAction
 {
-    public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction)
-    {
-    }
+    public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
     public function execute(Persona $persona, Famiglia $famiglia): void
     {
