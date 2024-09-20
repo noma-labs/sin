@@ -7,6 +7,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersonaGruppoFamiliareController
 {
@@ -31,7 +32,16 @@ class PersonaGruppoFamiliareController
         ]);
         $persona = Persona::findOrFail($idPersona);
 
-        if ($persona->updateDataInizioGruppoFamiliare($id, $request->current_data_entrata, $request->new_data_entrata)) {
+        $expression = DB::raw('UPDATE gruppi_persone
+               SET  data_entrata_gruppo = :new
+               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
+
+        $res =  DB::connection('db_nomadelfia')->update(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+            ['persona' => $idPersona, 'gruppo' => $id, 'current' => $request->current_data_entrata, 'new' =>  $request->new_data_entrata]
+        );
+
+        if ($res){
             return redirect()
                 ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");

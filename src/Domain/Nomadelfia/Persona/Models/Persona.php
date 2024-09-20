@@ -159,18 +159,6 @@ class Persona extends Model
         return $this->gruppifamiliari()->wherePivot('stato', '0');
     }
 
-    public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
-    {
-        $expression = DB::raw('UPDATE gruppi_persone
-               SET  data_entrata_gruppo = :new
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
-
-        return DB::connection('db_nomadelfia')->update(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'current' => $currentDatain, 'new' => $newDataIn]
-        );
-    }
-
     /**
      * Sposta una persona da un gruppo familiare a un altro..
      *
