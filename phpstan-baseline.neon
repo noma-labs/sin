@@ -1101,6 +1101,11 @@ parameters:
 			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
 
 		-
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
+
+		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 4
 			path: src/App/Sin/Nomadelfia/GruppoFamiliare/Controllers/PersonaGruppoFamiliareController.php
@@ -2473,11 +2478,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:selectRaw\\(\\)\\.$#"
 			count: 1
-			path: src/Domain/Nomadelfia/Persona/Actions/AssegnaGruppoFamiliareAction.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:selectRaw\\(\\)\\.$#"
-			count: 1
 			path: src/Domain/Nomadelfia/Persona/Actions/ProposeNumeroElencoAction.php
 
 		-
@@ -2522,11 +2522,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 

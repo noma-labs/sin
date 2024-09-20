@@ -9,8 +9,8 @@ use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -243,7 +243,7 @@ it('count the underages of the population', function (): void {
     $famiglia->assegnaCapoFamiglia($capoFam);
     $gruppo = GruppoFamiliare::all()->random();
 
-    $action= app(AssegnaGruppoFamiliareAction::class);
+    $action = app(AssegnaGruppoFamiliareAction::class);
     $action->execute($capoFam, $gruppo, Carbon::now());
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
@@ -291,9 +291,8 @@ it('returns the figli between two ages', function (): void {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam);
 
-    $action= app(AssegnaGruppoFamiliareAction::class);
+    $action = app(AssegnaGruppoFamiliareAction::class);
     $action->execute($capoFam, GruppoFamiliare::all()->random(), Carbon::now());
-
 
     $p1 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)->startOfYear()]); // 2018-01-01 00:00:00
     $p0 = Persona::factory()->create(['data_nascita' => Carbon::now()->subYears(3)]);                // 2018-now()

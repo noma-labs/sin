@@ -4,8 +4,8 @@ namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Illuminate\Http\Request;
 
 class PersonaGruppoFamiliareController
@@ -50,7 +50,7 @@ class PersonaGruppoFamiliareController
             'data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $action = new AssegnaGruppoFamiliareAction();
+        $action = new AssegnaGruppoFamiliareAction;
         $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), Carbon::parse($request->data_entrata));
 
         return redirect()
