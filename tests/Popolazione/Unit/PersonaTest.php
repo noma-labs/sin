@@ -449,7 +449,7 @@ it('get people nati in anno correctly', function (): void {
     Persona::factory()->nato(Carbon::parse('18-04-1791'))->maschio()->create();
     Persona::factory()->nato(Carbon::parse('31-12-1791'))->maschio()->create();
     expect(Persona::natiInAnno(1791)->count())->toBe(3);
-})->only();
+});
 
 it('builds numero elenco', function (): void {
     Persona::factory()->create(['numero_elenco' => 'A1']);
