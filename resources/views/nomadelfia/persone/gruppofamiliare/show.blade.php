@@ -102,8 +102,6 @@
                     @else
                         <p class="text-danger">Nessun gruppo familiare</p>
                     @endif
-
-
                 </div>
                 <!--end card body-->
             </div>

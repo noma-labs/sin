@@ -25,7 +25,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -157,62 +156,6 @@ class Persona extends Model
     public function gruppofamiliariStorico(): BelongsToMany
     {
         return $this->gruppifamiliari()->wherePivot('stato', '0');
-    }
-
-    /**
-     * Sposta una persona da un gruppo familiare a un altro..
-     *
-     * @author Davide Neri
-     **/
-    public function spostaPersonaInGruppoFamiliare(
-        $gruppo_id_current,
-        $datain_current,
-        $dataout_current,
-        $gruppo_id_new,
-        $datain_new
-    ): void {
-        $persona_id = $this->id;
-
-        DB::transaction(function () use (
-            &$persona_id,
-            &$gruppo_id_current,
-            &$datain_current,
-            &$dataout_current,
-            &$gruppo_id_new,
-            &$datain_new
-        ): void {
-            // disabilita il gruppo attuale
-            $expression = DB::raw("UPDATE gruppi_persone
-                 SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
-                 WHERE persona_id = :p  AND gruppo_famigliare_id = :g AND data_entrata_gruppo = :datain
-                ");
-            DB::connection('db_nomadelfia')->update(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                [
-                    'p' => $persona_id,
-                    'g' => $gruppo_id_current,
-                    'datain' => $datain_current,
-                    'dataout' => $dataout_current,
-                ]
-            );
-            // disabilita tutti i gruppi familiare della persona
-            $expression = DB::raw("UPDATE gruppi_persone
-                SET gruppi_persone.stato = '0'
-                WHERE persona_id = :p
-                ");
-            DB::connection('db_nomadelfia')->update(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                ['p' => $persona_id]
-            );
-
-            // assegna il nuovo gruppo alla persona
-            $expression = DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
-                VALUES (:persona, :gruppo, '1', :datain) ");
-            DB::connection('db_nomadelfia')->insert(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                ['persona' => $persona_id, 'gruppo' => $gruppo_id_new, 'datain' => $datain_new]
-            );
-        });
     }
 
     // AZIENDE

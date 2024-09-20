@@ -20,7 +20,6 @@ use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
 use App\Nomadelfia\Famiglia\Controllers\MatrimonioController;
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;

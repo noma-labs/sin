@@ -36,12 +36,12 @@ class PersonaGruppoFamiliareController
                SET  data_entrata_gruppo = :new
                WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
 
-        $res =  DB::connection('db_nomadelfia')->update(
+        $res = DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $idPersona, 'gruppo' => $id, 'current' => $request->current_data_entrata, 'new' =>  $request->new_data_entrata]
+            ['persona' => $idPersona, 'gruppo' => $id, 'current' => $request->current_data_entrata, 'new' => $request->new_data_entrata]
         );
 
-        if ($res){
+        if ($res) {
             return redirect()
                 ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");

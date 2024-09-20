@@ -13,7 +13,7 @@ class PersonaQueryBuilder extends Builder
             ->orderBy('numero', 'DESC');
     }
 
-    public function natiInAnno(int $anno)
+    public function natiInAnno(int $anno): Builder
     {
         return $this->whereRaw('YEAR(data_nascita)= ?', [$anno]);
     }
