@@ -12,4 +12,9 @@ class PersonaQueryBuilder extends Builder
             ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera])
             ->orderBy('numero', 'DESC');
     }
+
+    public function natiInAnno(int $anno)
+    {
+        return $this->whereRaw('YEAR(data_nascita)= ?', [$anno]);
+    }
 }

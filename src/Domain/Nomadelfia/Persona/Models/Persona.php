@@ -147,10 +147,6 @@ class Persona extends Model
         return $query->where('sesso', 'M');
     }
 
-    public function scopeNatiInAnno($query, int $anno)
-    {
-        return $query->whereRaw('YEAR(data_nascita)= ?', [$anno]);
-    }
 
     public function patenti(): HasMany
     {
