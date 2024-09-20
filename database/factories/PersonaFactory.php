@@ -31,6 +31,15 @@ class PersonaFactory extends Factory
         ];
     }
 
+    public function cognome(string $cognome)
+    {
+        return $this->state(function (array $attributes) use ($cognome) {
+            return [
+                'cognome' => $cognome,
+            ];
+        });
+    }
+
     public function femmina()
     {
         return $this->state(function (array $attributes) {

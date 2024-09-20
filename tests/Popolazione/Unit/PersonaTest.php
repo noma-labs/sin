@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use Domain\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
@@ -458,6 +459,8 @@ it('builds numero elenco', function (): void {
     $last = Persona::NumeroElencoPrefixByLetter('A')->limit(1)->get()->first();
     expect($last->numero_elenco)->toBe('A9');
 
-    $n = $pLast->proposeNumeroElenco();
+    $action = app(ProposeNumeroElencoAction::class);
+
+    $n = $action->execute($pLast);
     expect($n)->toBe('A10');
 });

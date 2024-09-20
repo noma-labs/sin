@@ -19,6 +19,7 @@ use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\QueryBuilders\PersonaQueryBuilder;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -61,6 +62,11 @@ class Persona extends Model
     public $timestamps = true;
 
     protected $guarded = [];
+
+    public function newEloquentBuilder($query): PersonaQueryBuilder
+    {
+        return new PersonaQueryBuilder($query);
+    }
 
     protected static function newFactory()
     {
@@ -115,38 +121,6 @@ class Persona extends Model
     public function isMaschio(): bool
     {
         return $this->sesso == 'M';
-    }
-
-    public static function NumeroElencoPrefixByLetter(string $lettera)
-    {
-        return DB::connection('db_nomadelfia')
-            ->table('persone')
-            ->select(DB::raw('persone.nome, persone.cognome, persone.numero_elenco, CAST(right(numero_elenco, length(numero_elenco)-1) as integer) as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera])
-            ->orderBy('numero', 'DESC');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function proposeNumeroElenco(): string
-    {
-        if ($this->numero_elenco) {
-            throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
-        }
-        $firstLetter = Str::substr($this->cognome, 0, 1);
-        $res = $this->select(DB::raw('left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $firstLetter])
-            ->orderBy('numero', 'DESC')
-            ->first();
-        if ($res) {
-            $new = (int) $res->numero + 1;
-
-            return $res->lettera.$new;
-        }
-
-        return $firstLetter.'1';
-
     }
 
     public function scopeMaggiorenni($query)
