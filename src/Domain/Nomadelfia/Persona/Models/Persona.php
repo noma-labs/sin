@@ -83,9 +83,6 @@ class Persona extends Model
         $this->attributes['cognome'] = ucwords(strtolower($value));
     }
 
-    /**
-     * Set the nominativo in uppercase when a new persona is insereted.
-     */
     public function setNominativoAttribute($value): void
     {
         $this->attributes['nominativo'] = ucwords(strtolower($value));
@@ -108,45 +105,10 @@ class Persona extends Model
         return Str::substr($this->cognome, 0, 1);
     }
 
-    public function anni()
-    {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
-    }
-
     public function isDeceduta(): bool
     {
         return $this->data_decesso != null;
     }
-
-    public function isMaschio(): bool
-    {
-        return $this->sesso == 'M';
-    }
-
-    public function scopeMaggiorenni($query)
-    {
-        $date = Carbon::now()->subYears(18)->toDatestring();
-
-        return $query->where('data_nascita', '<=', $date);
-    }
-
-    public function scopeMinorenni($query)
-    {
-        $date = Carbon::now()->subYears(18)->toDatestring();
-
-        return $query->where('data_nascita', '>', $date);
-    }
-
-    public function scopeDonne($query)
-    {
-        return $query->where('sesso', 'F');
-    }
-
-    public function scopeUomini($query)
-    {
-        return $query->where('sesso', 'M');
-    }
-
 
     public function patenti(): HasMany
     {
