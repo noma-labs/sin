@@ -164,34 +164,34 @@ class Persona extends Model
     * la data di inizio se la data di attuale_data_fine è null.
     *
     */
-    public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine = null): void
-    {
-        /*if ($this->isCapoFamiglia()){
-            $gruppo = GruppoFamiliare::findOrFail($gruppo);
-        }*/
-        if (is_string($gruppo) || is_int($gruppo)) {
-            $gruppo = GruppoFamiliare::findOrFail($gruppo);
-        }
-        if ($gruppo instanceof GruppoFamiliare) {
-            DB::connection('db_nomadelfia')->beginTransaction();
-            try {
-                $attuale = $this->gruppofamiliareAttuale();
-                if ($attuale) {
-                    $this->gruppifamiliari()->updateExistingPivot($attuale->id, [
-                        'stato' => '0',
-                        'data_uscita_gruppo' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio),
-                    ]);
-                }
-                $this->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_inizio]);
-                DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
-                DB::connection('db_nomadelfia')->rollback();
-                throw $e;
-            }
-        } else {
-            throw new Exception('Bad Argument. Gruppo familiare must be an id or a model.');
-        }
-    }
+    // public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine = null): void
+    // {
+    //     /*if ($this->isCapoFamiglia()){
+    //         $gruppo = GruppoFamiliare::findOrFail($gruppo);
+    //     }*/
+    //     if (is_string($gruppo) || is_int($gruppo)) {
+    //         $gruppo = GruppoFamiliare::findOrFail($gruppo);
+    //     }
+    //     if ($gruppo instanceof GruppoFamiliare) {
+    //         DB::connection('db_nomadelfia')->beginTransaction();
+    //         try {
+    //             $attuale = $this->gruppofamiliareAttuale();
+    //             if ($attuale) {
+    //                 $this->gruppifamiliari()->updateExistingPivot($attuale->id, [
+    //                     'stato' => '0',
+    //                     'data_uscita_gruppo' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio),
+    //                 ]);
+    //             }
+    //             $this->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_inizio]);
+    //             DB::connection('db_nomadelfia')->commit();
+    //         } catch (\Exception $e) {
+    //             DB::connection('db_nomadelfia')->rollback();
+    //             throw $e;
+    //         }
+    //     } else {
+    //         throw new Exception('Bad Argument. Gruppo familiare must be an id or a model.');
+    //     }
+    // }
 
     public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)
     {

@@ -7,6 +7,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -21,23 +22,26 @@ use Illuminate\Support\Carbon as SupportCarbon;
 it('assigns gruppo to a person', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
-    $data_entrata = Carbon::now()->toDatestring();
-    $persona->assegnaGruppoFamiliare($gruppo, $data_entrata);
+    $data_entrata = Carbon::now();
+    $action = app(AssegnaGruppoFamiliareAction::class);
+    $action->execute($persona, $gruppo, $data_entrata);
 
     $attuale = $persona->gruppofamiliareAttuale();
     expect($attuale->id)->toBe($gruppo->id)
-        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata);
+        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata->toDateString());
 
     // nuovo gruppo
     $newGruppo = GruppoFamiliare::all()->random();
-    $data_entrata = Carbon::now()->addYears(3)->toDatestring();
-    $persona->assegnaGruppoFamiliare($newGruppo, $data_entrata);
+    $data_entrata = Carbon::now()->addYears(3); //->toDatestring();
+    $action = app(AssegnaGruppoFamiliareAction::class);
+    $action->execute($persona, $newGruppo, $data_entrata);
+
     $attuale = $persona->gruppofamiliareAttuale();
     expect($attuale->id)->toBe($newGruppo->id)
-        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata);
+        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata->toDateString());
     $storico = $persona->gruppofamiliariStorico()->get()->last();
     expect($storico->id)->toBe($gruppo->id)
-        ->and($storico->pivot->data_uscita_gruppo)->toBe($data_entrata);
+        ->and($storico->pivot->data_uscita_gruppo)->toBe($data_entrata->toDateString());
 
 });
 
@@ -386,7 +390,8 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
     // la persona rientra in Nomadelfia in una nuova famiglia
     $famiglia_rientro = Famiglia::factory()->create();
     $cp = Persona::factory()->maggiorenne()->create();
-    $cp->assegnaGruppoFamiliare(GruppoFamiliare::first(), Carbon::now());
+    $action = app(AssegnaGruppoFamiliareAction::class);
+    $action->execute($cp, GruppoFamiliare::first(), Carbon::now());
     $famiglia_rientro->assegnaCapoFamiglia($cp);
     $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
