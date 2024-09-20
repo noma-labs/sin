@@ -93,6 +93,8 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
+    // utilities method on single person
+
     public function buildCompleteName(): string
     {
         Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
@@ -109,6 +111,13 @@ class Persona extends Model
     {
         return $this->data_decesso != null;
     }
+
+    public function isMaschio(): bool
+    {
+        return $this->sesso == 'M';
+    }
+
+    // Relationships
 
     public function patenti(): HasMany
     {
