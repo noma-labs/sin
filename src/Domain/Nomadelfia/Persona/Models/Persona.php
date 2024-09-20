@@ -148,19 +148,6 @@ class Persona extends Model
     }
 
     /**
-     * Ritorna le persone che hanno gli anni maggiori o uguali di $eta.
-     *
-     * @author Davide Neri
-     **/
-    public function scopeDaEta($query, int $eta, string $orderBy = 'nominativo', $travel_to_year = null)
-    {
-        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
-        $end = $date->subYears($eta);
-
-        return $query->where('data_nascita', '<=', $end)->orderby($orderBy);
-    }
-
-    /**
      * Ritorna le persone che hanno un eta compresa tra da $frometa e $toeta.
      *
      * @author Davide Neri
