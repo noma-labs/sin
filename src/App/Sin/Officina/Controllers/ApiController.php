@@ -116,7 +116,7 @@ class ApiController
         $veicolo = Veicolo::find($request->input('veicolo'));
         try {
             $veicolo->gomme()->detach($request->input('gomma'));
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return ['error'];
         }
 
@@ -154,7 +154,7 @@ class ApiController
                     'codice' => strtoupper($request->input('nuovo_codice')),
                     'note' => $note,
                 ]);
-            } catch (Throwable $th) {
+            } catch (Throwable) {
                 return [
                     'status' => 'error',
                     'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') == ''),
@@ -166,7 +166,7 @@ class ApiController
         $veicolo = Veicolo::find($request->input('veicolo_id'));
         try {
             $veicolo->gomme()->attach($gomma->id);
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return ['status' => 'error', 'msg' => "Errore: il veicolo ha gia' questo tipo di gomma"];
         }
 
@@ -205,7 +205,7 @@ class ApiController
         $filtro = TipoFiltro::find($request->input('filtro'));
         try {
             $filtro->delete();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return ['status' => 'error', 'msg' => "Errore nell'eliminazione del filtro"];
         }
 

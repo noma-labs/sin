@@ -10,12 +10,8 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 class EntrataMaggiorenneConFamigliaAction
 {
-    private EntrataPersonaAction $entrataInNomadelfiaAction;
-
-    public function __construct(
-        EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
-        $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
+    public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction)
+    {
     }
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo): void

@@ -9,16 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class UscitaFamigliaAction
 {
-    private LogUscitaFamigliaAction $logUscita;
-
-    private SendEmailFamigliaUscitaAction $emailUscita;
-
-    public function __construct(
-        LogUscitaFamigliaAction $logUscita,
-        SendEmailFamigliaUscitaAction $emailUscita
-    ) {
-        $this->logUscita = $logUscita;
-        $this->emailUscita = $emailUscita;
+    public function __construct(private LogUscitaFamigliaAction $logUscita, private SendEmailFamigliaUscitaAction $emailUscita)
+    {
     }
 
     public function execute(Famiglia $famiglia, string $data_uscita): void

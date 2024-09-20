@@ -8,20 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class DecessoPersonaAction
 {
-    private LogDecessoPersonaAction $logDecesso;
-
-    private UscitaPersonaDBAction $uscita;
-
-    private SendEmailPersonaDecessoAction $email;
-
-    public function __construct(
-        UscitaPersonaDBAction $uscita,
-        LogDecessoPersonaAction $logDecesso,
-        SendEmailPersonaDecessoAction $email
-    ) {
-        $this->uscita = $uscita;
-        $this->logDecesso = $logDecesso;
-        $this->email = $email;
+    public function __construct(private UscitaPersonaDBAction $uscita, private LogDecessoPersonaAction $logDecesso, private SendEmailPersonaDecessoAction $email)
+    {
     }
 
     public function execute(Persona $persona, string $data_decesso): void

@@ -9,14 +9,8 @@ use Livewire\Wireable;
 
 class Option implements Wireable
 {
-    public int $id;
-
-    public string $value;
-
-    public function __construct(int $id, string $value)
+    public function __construct(public int $id, public string $value)
     {
-        $this->id = $id;
-        $this->value = $value;
     }
 
     public function toLivewire()

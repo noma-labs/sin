@@ -705,7 +705,7 @@ class Persona extends Model
             });
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

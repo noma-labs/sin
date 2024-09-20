@@ -146,7 +146,7 @@ class VeicoliController
                 'tipo' => $request->input('tipo'),
                 'note' => $note,
             ]);
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError('Errore durante il salvataggio del filtro: filtro già esistente');
         }
 
@@ -173,7 +173,7 @@ class VeicoliController
                 'codice' => strtoupper($request->input('codice')),
                 'note' => $note,
             ]);
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio: olio già esistente");
         }
 
@@ -192,7 +192,7 @@ class VeicoliController
         $veicolo = Veicolo::find($r->input('v_id'));
         try {
             $veicolo->delete();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $r->input('v_id')]))->withError('Errore nella demolizione del veicolo');
         }
 
@@ -228,7 +228,7 @@ class VeicoliController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->forceDelete();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella eliminazione del veicolo');
         }
 
@@ -240,7 +240,7 @@ class VeicoliController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->restore();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella riabilitazione del veicolo');
         }
 

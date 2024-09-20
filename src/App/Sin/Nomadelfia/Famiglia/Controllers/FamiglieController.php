@@ -150,7 +150,7 @@ class FamiglieController
 
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withSuccess('Componente aggiornato con successo');
-        } catch (Exception $e) {
+        } catch (Exception) {
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withError('Errore. Nessun componente aggiornato alla famiglia.');
         }
