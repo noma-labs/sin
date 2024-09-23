@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class ChangeGruppoFamiliareAction
 {
-    // $gruppo_id_current,
-    // $datain_current,
-    // $dataout_current,
-    // $gruppo_id_new,
-    // $datain_new
-
     public function execute(Persona $persona, GruppoFamiliare $gruppo_from, Carbon $date_start_current, Carbon $date_end_current, GruppoFamiliare $gruppo_to, Carbon $date_start_new): void
     {
 
