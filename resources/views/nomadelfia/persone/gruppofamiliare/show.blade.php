@@ -34,7 +34,7 @@
                             <div class="col-md-5">
                                 <my-modal
                                     modal-title="Modifica Gruppo familiare attuale"
-                                    button-title="Modifica"
+                                    button-title="Modifica data"
                                     button-style="btn-warning my-2"
                                 >
                                     <template slot="modal-body-slot">
@@ -90,78 +90,17 @@
                                         </button>
                                     </template>
                                 </my-modal>
-                                <!--end modal modifica posizione-->
-
-                                <my-modal
-                                    modal-title="Concludi Gruppo familiare"
-                                    button-title="Concludi"
-                                    button-style="btn-info my-2"
-                                >
-                                    <template slot="modal-body-slot">
-                                        <form
-                                            class="form"
-                                            method="POST"
-                                            id="formConcludigruppo{{ $attuale->id }}"
-                                            action="{{ route("nomadelfia.persone.gruppo.concludi", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
-                                        >
-                                            {{ csrf_field() }}
-                                            <input
-                                                type="hidden"
-                                                name="data_entrata"
-                                                value="{{ $attuale->pivot->data_entrata_gruppo }}"
-                                            />
-                                            <div class="form-group row">
-                                                <label
-                                                    for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
-                                                >
-                                                    Gruppo familiare attuale
-                                                </label>
-                                                <div class="col-sm-6">
-                                                    <div>
-                                                        {{ $attuale->nome }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label
-                                                    class="col-sm-6 col-form-label"
-                                                >
-                                                    Data uscita gruppo
-                                                </label>
-                                                <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $attuale->pivot->data_uscita_gruppo }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_uscita"
-                                                    ></date-picker>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </template>
-                                    <template slot="modal-button">
-                                        <button
-                                            class="btn btn-success"
-                                            form="formConcludigruppo{{ $attuale->id }}"
-                                        >
-                                            Salva
-                                        </button>
-                                    </template>
-                                </my-modal>
+                                @if ($attuale)
+                                    @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
+                                @else
+                                    @include("nomadelfia.templates.assegnaPersonaNuovoGruppo", ["persona" => $persona])
+                                @endif
 
                                 @include("nomadelfia.templates.eliminaPersonaDalGruppo", ["persona" => $persona, "gruppo" => $attuale])
                             </div>
                         </div>
                     @else
                         <p class="text-danger">Nessun gruppo familiare</p>
-                    @endif
-
-                    @if ($attuale)
-                        @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
-                    @else
-                        @include("nomadelfia.templates.assegnaPersonaNuovoGruppo", ["persona" => $persona])
                     @endif
                 </div>
                 <!--end card body-->

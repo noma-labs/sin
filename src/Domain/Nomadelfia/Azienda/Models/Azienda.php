@@ -29,6 +29,10 @@ class Azienda extends Model
 
     protected $guarded = [];
 
+    public const MANSIONE_LAVORATORE = 'LAVORATORE';
+
+    public const MANSIONE_RESPONSABILE = 'RESPONSABILE AZIENDA';
+
     protected static function boot()
     {
         parent::boot();

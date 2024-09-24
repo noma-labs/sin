@@ -3,7 +3,6 @@
 namespace Domain\Nomadelfia\Persona\Models;
 
 use App\Biblioteca\Models\Prestito;
-use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
@@ -19,6 +18,7 @@ use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
+use Domain\Nomadelfia\Persona\QueryBuilders\PersonaQueryBuilder;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -62,6 +62,11 @@ class Persona extends Model
 
     protected $guarded = [];
 
+    public function newEloquentBuilder($query): PersonaQueryBuilder
+    {
+        return new PersonaQueryBuilder($query);
+    }
+
     protected static function newFactory()
     {
         return PersonaFactory::new();
@@ -77,9 +82,6 @@ class Persona extends Model
         $this->attributes['cognome'] = ucwords(strtolower($value));
     }
 
-    /**
-     * Set the nominativo in uppercase when a new persona is insereted.
-     */
     public function setNominativoAttribute($value): void
     {
         $this->attributes['nominativo'] = ucwords(strtolower($value));
@@ -89,6 +91,8 @@ class Persona extends Model
     {
         return ucwords(strtolower($value));
     }
+
+    // utilities method on single person
 
     public function buildCompleteName(): string
     {
@@ -102,11 +106,6 @@ class Persona extends Model
         return Str::substr($this->cognome, 0, 1);
     }
 
-    public function anni()
-    {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita));
-    }
-
     public function isDeceduta(): bool
     {
         return $this->data_decesso != null;
@@ -117,107 +116,7 @@ class Persona extends Model
         return $this->sesso == 'M';
     }
 
-    public static function NumeroElencoPrefixByLetter(string $lettera)
-    {
-        return DB::connection('db_nomadelfia')
-            ->table('persone')
-            ->select(DB::raw('persone.nome, persone.cognome, persone.numero_elenco, CAST(right(numero_elenco, length(numero_elenco)-1) as integer) as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP :regex and left(numero_elenco,1) = :letter and persone.deleted_at is null', ['regex' => '^[a-zA-Z].*[0-9]$', 'letter' => $lettera])
-            ->orderBy('numero', 'DESC');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function proposeNumeroElenco(): string
-    {
-        if ($this->numero_elenco) {
-            throw new Exception('La persona '.$this->nominativo.' ha già un numero di elenco '.$this->numero_elenco);
-        }
-        $firstLetter = Str::substr($this->cognome, 0, 1);
-        $res = $this->select(DB::raw('left(numero_elenco,1) as  lettera, CAST(right(numero_elenco, length(numero_elenco)-1) as integer)  as numero'))
-            ->whereRaw('numero_elenco is not null AND numero_elenco REGEXP ? and left(numero_elenco,1) = ?', ['^[a-zA-Z].*[0-9]$', $firstLetter])
-            ->orderBy('numero', 'DESC')
-            ->first();
-        if ($res) {
-            $new = (int) $res->numero + 1;
-
-            return $res->lettera.$new;
-        }
-
-        return $firstLetter.'1';
-
-    }
-
-    public function scopeMaggiorenni($query)
-    {
-        $date = Carbon::now()->subYears(18)->toDatestring();
-
-        return $query->where('data_nascita', '<=', $date);
-    }
-
-    public function scopeMinorenni($query)
-    {
-        $date = Carbon::now()->subYears(18)->toDatestring();
-
-        return $query->where('data_nascita', '>', $date);
-    }
-
-    public function scopeDonne($query)
-    {
-        return $query->where('sesso', 'F');
-    }
-
-    public function scopeUomini($query)
-    {
-        return $query->where('sesso', 'M');
-    }
-
-    /**
-     * Ritorna le persone che hanno gli anni maggiori o uguali di $eta.
-     *
-     * @author Davide Neri
-     **/
-    public function scopeDaEta($query, int $eta, string $orderBy = 'nominativo', $travel_to_year = null)
-    {
-        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
-        $end = $date->subYears($eta);
-
-        return $query->where('data_nascita', '<=', $end)->orderby($orderBy);
-    }
-
-    /**
-     * Ritorna le persone che hanno un eta compresa tra da $frometa e $toeta.
-     *
-     * @author Davide Neri
-     **/
-    public function scopeFraEta(
-        $query,
-        int $frometa,
-        int $toeta,
-        string $orderBy = 'nominativo',
-        $travel_to_year = null,
-        $withInYear = false
-    ) {
-        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
-        $end = $date->copy()->subYears($frometa);
-        if ($withInYear) {
-            $end = $end->endOfYear();
-        }
-        $start = $date->copy()->subYears($toeta);
-        if ($withInYear) {
-            $start = $start->endOfYear();
-        }
-        $fromdata = $start->toDateString();
-        $todata = $end->toDateString();
-
-        return $query->whereBetween('data_nascita', [$fromdata, $todata])->orderBy($orderBy);
-    }
-
-    public function scopeNatiInAnno($query, int $anno)
-    {
-        return $query->whereRaw('YEAR(data_nascita)= ?', [$anno]);
-    }
+    // Relationships
 
     public function patenti(): HasMany
     {
@@ -258,122 +157,6 @@ class Persona extends Model
         return $this->gruppifamiliari()->wherePivot('stato', '0');
     }
 
-    /*
-    * Assegna un nuovo gruppo familiare con la data di inzio.
-    * Se la persona vive già in un gruppo familiare questo viene concluso usando come data di fine
-    * la data di inizio se la data di attuale_data_fine è null.
-    *
-    */
-    public function assegnaGruppoFamiliare($gruppo, $data_inizio, $attuale_data_fine = null): void
-    {
-        /*if ($this->isCapoFamiglia()){
-            $gruppo = GruppoFamiliare::findOrFail($gruppo);
-        }*/
-        if (is_string($gruppo) || is_int($gruppo)) {
-            $gruppo = GruppoFamiliare::findOrFail($gruppo);
-        }
-        if ($gruppo instanceof GruppoFamiliare) {
-            DB::connection('db_nomadelfia')->beginTransaction();
-            try {
-                $attuale = $this->gruppofamiliareAttuale();
-                if ($attuale) {
-                    $this->gruppifamiliari()->updateExistingPivot($attuale->id, [
-                        'stato' => '0',
-                        'data_uscita_gruppo' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio),
-                    ]);
-                }
-                $this->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_inizio]);
-                DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
-                DB::connection('db_nomadelfia')->rollback();
-                throw $e;
-            }
-        } else {
-            throw new Exception('Bad Argument. Gruppo familiare must be an id or a model.');
-        }
-    }
-
-    public function concludiGruppoFamiliare($gruppo_id, $datain, $dataout)
-    {
-        $expression = DB::raw("UPDATE gruppi_persone
-               SET stato = '0', data_uscita_gruppo = :dataout
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :datain");
-
-        return DB::connection('db_nomadelfia')->update(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'datain' => $datain, 'dataout' => $dataout]
-        );
-    }
-
-    public function updateDataInizioGruppoFamiliare($gruppo_id, $currentDatain, $newDataIn)
-    {
-        $expression = DB::raw('UPDATE gruppi_persone
-               SET  data_entrata_gruppo = :new
-               WHERE gruppo_famigliare_id  = :gruppo AND persona_id = :persona AND data_entrata_gruppo = :current');
-
-        return DB::connection('db_nomadelfia')->update(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $this->id, 'gruppo' => $gruppo_id, 'current' => $currentDatain, 'new' => $newDataIn]
-        );
-    }
-
-    /**
-     * Sposta una persona da un gruppo familiare a un altro..
-     *
-     * @author Davide Neri
-     **/
-    public function spostaPersonaInGruppoFamiliare(
-        $gruppo_id_current,
-        $datain_current,
-        $dataout_current,
-        $gruppo_id_new,
-        $datain_new
-    ): void {
-        $persona_id = $this->id;
-
-        DB::transaction(function () use (
-            &$persona_id,
-            &$gruppo_id_current,
-            &$datain_current,
-            &$dataout_current,
-            &$gruppo_id_new,
-            &$datain_new
-        ): void {
-            // disabilita il gruppo attuale
-            $expression = DB::raw("UPDATE gruppi_persone
-                 SET gruppi_persone.stato = '0', data_uscita_gruppo = :dataout
-                 WHERE persona_id = :p  AND gruppo_famigliare_id = :g AND data_entrata_gruppo = :datain
-                ");
-            DB::connection('db_nomadelfia')->update(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                [
-                    'p' => $persona_id,
-                    'g' => $gruppo_id_current,
-                    'datain' => $datain_current,
-                    'dataout' => $dataout_current,
-                ]
-            );
-            // disabilita tutti i gruppi familiare della persona
-            $expression = DB::raw("UPDATE gruppi_persone
-                SET gruppi_persone.stato = '0'
-                WHERE persona_id = :p
-                ");
-            DB::connection('db_nomadelfia')->update(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                ['p' => $persona_id]
-            );
-
-            // assegna il nuovo gruppo alla persona
-            $expression = DB::raw("INSERT INTO gruppi_persone (persona_id, gruppo_famigliare_id, stato, data_entrata_gruppo)
-                VALUES (:persona, :gruppo, '1', :datain) ");
-            DB::connection('db_nomadelfia')->insert(
-                $expression->getValue(DB::connection()->getQueryGrammar()),
-                ['persona' => $persona_id, 'gruppo' => $gruppo_id_new, 'datain' => $datain_new]
-            );
-        });
-    }
-
-    // AZIENDE
     public function aziende(): BelongsToMany
     {
         return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
@@ -390,42 +173,6 @@ class Persona extends Model
     public function aziendeStorico(): BelongsToMany
     {
         return $this->aziende()->wherePivot('stato', 'Non attivo');
-    }
-
-    public function assegnaLavoratoreAzienda($azienda, $data_inizio)
-    {
-        return $this->assegnaAzienda($azienda, $data_inizio, 'LAVORATORE');
-    }
-
-    public function assegnaResponsabileAzienda($azienda, $data_inizio)
-    {
-        return $this->assegnaAzienda($azienda, $data_inizio, 'RESPONSABILE AZIENDA');
-    }
-
-    public function assegnaAzienda($azienda, $data_inizio, $mansione): void
-    {
-        if (is_string($azienda) || is_int($azienda)) {
-            $azienda = Azienda::findOrFail($azienda);
-        }
-        if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
-            if ($azienda instanceof Azienda) {
-                if (! $azienda->isAzienda()) {
-                    throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
-                }
-                if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
-                    throw CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
-                }
-                $this->aziende()->attach($azienda->id, [
-                    'stato' => 'Attivo',
-                    'data_inizio_azienda' => $data_inizio,
-                    'mansione' => $mansione,
-                ]);
-            } else {
-                throw new Exception('Bad Argument. Azienda must be the id or a model.');
-            }
-        } else {
-            throw CouldNotAssignAzienda::mansioneNotValid($mansione);
-        }
     }
 
     // Incarichi
