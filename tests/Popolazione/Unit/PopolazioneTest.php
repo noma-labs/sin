@@ -12,6 +12,7 @@ use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -66,7 +67,9 @@ it('manage exit of an adult', function (): void {
     expect($persona->aziendeAttuali()->count())->toBe(1);
     // assegna incarico
     $incarico = Incarico::factory()->create();
-    $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
+    $action = new AssegnaIncaricoAction;
+    $action->execute($persona, $incarico, Carbon::now());
+
     expect($incarico->lavoratoriAttuali()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();

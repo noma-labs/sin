@@ -3,7 +3,6 @@
 namespace Domain\Nomadelfia\Persona\Models;
 
 use App\Biblioteca\Models\Prestito;
-use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
@@ -201,31 +200,6 @@ class Persona extends Model
         }
 
         return $multiplied;
-    }
-
-    public function assegnaLavoratoreIncarico(\Domain\Nomadelfia\Incarico\Models\Incarico|string $azienda, Carbon\Carbon $data_inizio)
-    {
-        return $this->assegnaIncarico($azienda, $data_inizio);
-    }
-
-    /**
-     * @throws CouldNotAssignIncarico
-     * @throws Exception
-     */
-    public function assegnaIncarico(Incarico|string $incarico, $data_inizio): void
-    {
-        if (is_string($incarico)) {
-            $incarico = Incarico::findOrFail($incarico);
-        }
-        if (! $incarico instanceof Incarico) {
-            throw new Exception('Bad Argument. Incarico must be the id or a model.');
-        }
-        if ($this->incarichiAttuali()->where('id', $incarico->id)->exists()) { // la persona è stata già l'incarico
-            throw CouldNotAssignIncarico::hasAlreadyIncarico($incarico, $this);
-        }
-        $this->incarichi()->attach($incarico->id, [
-            'data_inizio' => $data_inizio,
-        ]);
     }
 
     // CARICHCE
