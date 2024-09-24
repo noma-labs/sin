@@ -132,7 +132,6 @@ class Persona extends Model
         return $this->hasOne(NominativoStorico::class, 'persona_id', 'id');
     }
 
-    // GRUPPO FAMILIARE
     public function gruppifamiliari(): BelongsToMany
     {
         return $this->belongsToMany(GruppoFamiliare::class, 'gruppi_persone', 'persona_id', 'gruppo_famigliare_id')
@@ -174,7 +173,6 @@ class Persona extends Model
         return $this->aziende()->wherePivot('stato', 'Non attivo');
     }
 
-    // Incarichi
     public function incarichi(): BelongsToMany
     {
         return $this->belongsToMany(Incarico::class, 'incarichi_persone', 'persona_id', 'incarico_id')
@@ -202,7 +200,6 @@ class Persona extends Model
         return $multiplied;
     }
 
-    // CARICHCE
     public function cariche(): BelongsToMany
     {
         return $this->belongsToMany(Azienda::class, 'persone_cariche', 'persona_id', 'cariche_id')
@@ -220,11 +217,6 @@ class Persona extends Model
         return $this->aziende()->wherePivot('stato', '!=', null);
     }
 
-    // Popolazione
-    public function popolazione(): HasMany
-    {
-        return $this->hasMany(PopolazioneNomadelfia::class, 'persona_id', 'id');
-    }
 
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
     {
@@ -260,10 +252,7 @@ class Persona extends Model
 
     }
 
-    public function getDataDecesso()
-    {
-        return $this->data_decesso;
-    }
+
 
     public function isPersonaInterna(): bool
     {
