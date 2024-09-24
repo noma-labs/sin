@@ -3,7 +3,6 @@
 namespace Domain\Nomadelfia\Persona\Models;
 
 use App\Biblioteca\Models\Prestito;
-use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;

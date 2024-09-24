@@ -35,7 +35,7 @@ it('can edit an azienda of a person', function (): void {
     $data_inizio = Carbon::now()->toDatestring();
     $azienda = Azienda::all()->random();
 
-    $action = new AssegnaAziendaAction();
+    $action = new AssegnaAziendaAction;
     $action->execute($persona, $azienda, Carbon::parse($data_inizio), Azienda::MANSIONE_LAVORATORE);
 
     $this->post(action([PersonaAziendeController::class, 'update'], ['idPersona' => $persona->id, 'id' => $azienda->id]),

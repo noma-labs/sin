@@ -19,7 +19,7 @@ it('assign a worker', function (): void {
     expect($persona->aziendeStorico()->count())->toBe(0);
 
     $data_inizio = Carbon::now()->addYears(5);
-    $action = new AssegnaAziendaAction();
+    $action = new AssegnaAziendaAction;
     $action->execute($persona, $azienda, $data_inizio, Azienda::MANSIONE_LAVORATORE);
 
     expect($azienda->lavoratoriAttuali()->count())->toBe(1);

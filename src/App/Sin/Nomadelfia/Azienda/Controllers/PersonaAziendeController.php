@@ -31,7 +31,7 @@ class PersonaAziendeController
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($request->azienda_id);
-        $action = new AssegnaAziendaAction();
+        $action = new AssegnaAziendaAction;
         if (strcasecmp($request->mansione, 'lavoratore') == 0) {
             $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
 
@@ -40,7 +40,7 @@ class PersonaAziendeController
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
         if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
-            $action->execute($persona, $azienda,Carbon::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
+            $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
 
             return redirect()
                 ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])

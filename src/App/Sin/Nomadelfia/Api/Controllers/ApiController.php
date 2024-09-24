@@ -287,7 +287,7 @@ class ApiController
     {
         $persona = Persona::findOrFail($request->input('lavoratore_id'));
         $azienda = Azienda::findOrFail($request->input('azienda_id'));
-        $action = new AssegnaAziendaAction();
+        $action = new AssegnaAziendaAction;
         $action->execute($persona, $azienda, SupportCarbon::parse($request->input('data')), $request->input('mansione'));
     }
 
