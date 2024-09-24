@@ -10,6 +10,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
@@ -60,7 +61,8 @@ it('manage exit of an adult', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $azienda = Azienda::factory()->create();
-    $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
+    // $persona->assegnaLavoratoreAzienda($azienda, $data_entrata);
+    app(AssegnaAziendaAction::class)->execute($persona, $azienda, Carbon::now(), 'LAVORATORE');
     expect($persona->aziendeAttuali()->count())->toBe(1);
     // assegna incarico
     $incarico = Incarico::factory()->create();

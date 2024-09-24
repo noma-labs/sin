@@ -6,6 +6,7 @@ use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 
 it('can render the aziende index page of a person', function (): void {
     login();
@@ -33,7 +34,9 @@ it('can edit an azienda of a person', function (): void {
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data_inizio = Carbon::now()->toDatestring();
     $azienda = Azienda::all()->random();
-    $persona->assegnaLavoratoreAzienda($azienda->id, $data_inizio);
+
+    $action = new AssegnaAziendaAction();
+    $action->execute($persona, $azienda, Carbon::parse($data_inizio), Azienda::MANSIONE_LAVORATORE);
 
     $this->post(action([PersonaAziendeController::class, 'update'], ['idPersona' => $persona->id, 'id' => $azienda->id]),
         [

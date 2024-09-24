@@ -726,11 +726,6 @@ parameters:
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
 		-
-			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
-
-		-
 			message: "#^Method App\\\\Nomadelfia\\\\Api\\\\Controllers\\\\ApiController\\:\\:modificaLavoratore\\(\\) should return array\\<false\\> but returns array\\{true\\}\\.$#"
 			count: 1
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
@@ -2461,18 +2456,8 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Actions/ProposeNumeroElencoAction.php
 
 		-
-			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:\\$id\\.$#"
-			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
 			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:\\$id\\.$#"
 			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:\\$aziendeAttuali\\.$#"
-			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
@@ -2493,11 +2478,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:where\\(\\)\\.$#"
 			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
@@ -2551,11 +2531,6 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
-			message: "#^Result of method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:assegnaAzienda\\(\\) \\(void\\) is used\\.$#"
-			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
 			message: "#^Result of method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:assegnaIncarico\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
@@ -2564,6 +2539,16 @@ parameters:
 			message: "#^Method Domain\\\\Nomadelfia\\\\Persona\\\\QueryBuilders\\\\PersonaQueryBuilder\\:\\:natiInAnno\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Builder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/QueryBuilders/PersonaQueryBuilder.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Azienda\\\\Models\\\\Azienda\\:\\:\\$id\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaAziendaAction.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:\\$aziendeAttuali\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaAziendaAction.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"

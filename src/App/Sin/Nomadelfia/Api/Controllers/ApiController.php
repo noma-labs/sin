@@ -3,13 +3,15 @@
 namespace App\Nomadelfia\Api\Controllers;
 
 use App\Traits\Enums;
-use Carbon;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon as SupportCarbon;
 
 class ApiController
 {
@@ -19,7 +21,7 @@ class ApiController
         $persone = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
         $results = [];
         foreach ($persone as $persona) {
-            $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
         }
 
@@ -34,7 +36,7 @@ class ApiController
 
         $results = [];
         foreach ($persone as $persona) {
-            $year = Carbon\Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
         }
 
@@ -285,7 +287,8 @@ class ApiController
     {
         $persona = Persona::findOrFail($request->input('lavoratore_id'));
         $azienda = Azienda::findOrFail($request->input('azienda_id'));
-        $persona->assegnaLavoratoreAzienda($azienda, $request->input('data'));
+        $action = new AssegnaAziendaAction();
+        $action->execute($persona, $azienda, SupportCarbon::parse($request->input('data')), $request->input('mansione'));
     }
 
     /**

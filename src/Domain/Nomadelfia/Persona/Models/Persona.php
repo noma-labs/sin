@@ -158,7 +158,6 @@ class Persona extends Model
         return $this->gruppifamiliari()->wherePivot('stato', '0');
     }
 
-    // AZIENDE
     public function aziende(): BelongsToMany
     {
         return $this->belongsToMany(Azienda::class, 'aziende_persone', 'persona_id', 'azienda_id')
@@ -175,42 +174,6 @@ class Persona extends Model
     public function aziendeStorico(): BelongsToMany
     {
         return $this->aziende()->wherePivot('stato', 'Non attivo');
-    }
-
-    public function assegnaLavoratoreAzienda($azienda, $data_inizio)
-    {
-        return $this->assegnaAzienda($azienda, $data_inizio, 'LAVORATORE');
-    }
-
-    public function assegnaResponsabileAzienda($azienda, $data_inizio)
-    {
-        return $this->assegnaAzienda($azienda, $data_inizio, 'RESPONSABILE AZIENDA');
-    }
-
-    public function assegnaAzienda($azienda, $data_inizio, $mansione): void
-    {
-        if (is_string($azienda) || is_int($azienda)) {
-            $azienda = Azienda::findOrFail($azienda);
-        }
-        if (strcasecmp($mansione, 'LAVORATORE') == 0 or strcasecmp($mansione, 'RESPONSABILE AZIENDA') == 0) {
-            if ($azienda instanceof Azienda) {
-                if (! $azienda->isAzienda()) {
-                    throw CouldNotAssignAzienda::isNotValidAzienda($azienda);
-                }
-                if ($this->aziendeAttuali->contains($azienda->id)) { // la persona è stata già asseganta all'azienda
-                    throw CouldNotAssignAzienda::isAlreadyWorkingIntozienda($azienda, $this);
-                }
-                $this->aziende()->attach($azienda->id, [
-                    'stato' => 'Attivo',
-                    'data_inizio_azienda' => $data_inizio,
-                    'mansione' => $mansione,
-                ]);
-            } else {
-                throw new Exception('Bad Argument. Azienda must be the id or a model.');
-            }
-        } else {
-            throw CouldNotAssignAzienda::mansioneNotValid($mansione);
-        }
     }
 
     // Incarichi
