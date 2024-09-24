@@ -252,8 +252,6 @@ class Persona extends Model
 
     }
 
-
-
     public function isPersonaInterna(): bool
     {
         $pop = PopolazioneNomadelfia::whereNull('data_uscita')->where('persona_id', $this->id);
@@ -264,53 +262,11 @@ class Persona extends Model
         return false;
     }
 
-    /*
-    * Return True if the person is dead, false otherwise
-    */
     public function isDeceduto(): bool
     {
         return $this->data_decesso != null;
     }
 
-    // TODO: move into a dedicated Action that call the UscitaDaNomdelfiaActiongst
-    public function deceduto($data_decesso): void
-    {
-        DB::connection('db_nomadelfia')->beginTransaction();
-        try {
-            $act = app(UscitaPersonaAction::class);
-            $act->execute($this, $data_decesso);
-
-            $conn = DB::connection('db_nomadelfia');
-
-            // aggiorna la data di decesso
-            $conn->update(
-                'UPDATE persone SET data_decesso = ?, updated_at = NOW() WHERE id = ?',
-                [$data_decesso, $this->id]
-            );
-
-            $conn->insert('UPDATE popolazione SET data_uscita = ? WHERE persona_id = ? AND data_uscita IS NULL',
-                [$data_decesso, $this->id]);
-
-            // aggiorna lo stato familiare  con la data di decesso
-            $conn->insert(
-                "UPDATE persone_stati SET data_fine = ?, stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$data_decesso, $this->id]
-            );
-
-            // aggiorna la data di uscita dalla famiglia con la data di decesso
-            $conn->insert(
-                "UPDATE famiglie_persone SET stato = '0' WHERE persona_id = ? AND stato = '1'",
-                [$this->id]
-            );
-
-            DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
-            DB::connection('db_nomadelfia')->rollback();
-            throw $e;
-        }
-    }
-
-    // STATO
     public function stati(): BelongsToMany
     {
         return $this->belongsToMany(Stato::class, 'persone_stati', 'persona_id', 'stato_id')

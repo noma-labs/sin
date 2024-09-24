@@ -13,6 +13,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -35,7 +36,9 @@ it('remove dead person from population', function (): void {
     $this->assertEquals($tot, count($pop));
 
     $data_decesso = Carbon::now()->addYears(5)->toDatestring();
-    $persona->deceduto($data_decesso);
+
+    $action = app(DecessoPersonaAction::class);
+    $action->execute($persona, $data_decesso);
 
     $persona = Persona::findOrFail($persona->id);
     expect($persona->isDeceduto())->toBeTrue()
