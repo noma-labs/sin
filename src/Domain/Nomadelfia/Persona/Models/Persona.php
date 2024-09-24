@@ -18,7 +18,6 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\QueryBuilders\PersonaQueryBuilder;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
@@ -91,13 +90,11 @@ class Persona extends Model
         return ucwords(strtolower($value));
     }
 
-    // utilities method on single person
-
     public function buildCompleteName(): string
     {
-        Carbon\Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
+        $year = Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
 
-        return "($this->>year) $this->nominativo ($this->nome  $this->cognome)";
+        return "($year) $this->nome  $this->cognome";
     }
 
     public function getInitialLetterOfCogonome()
@@ -105,14 +102,19 @@ class Persona extends Model
         return Str::substr($this->cognome, 0, 1);
     }
 
+    public function isMaschio(): bool
+    {
+        return $this->sesso == 'M';
+    }
+
     public function isDeceduta(): bool
     {
         return $this->data_decesso != null;
     }
 
-    public function isMaschio(): bool
+    public function isMaggiorenne(): bool
     {
-        return $this->sesso == 'M';
+        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
     }
 
     // Relationships
@@ -217,7 +219,6 @@ class Persona extends Model
         return $this->aziende()->wherePivot('stato', '!=', null);
     }
 
-
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
     {
         $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
@@ -260,11 +261,6 @@ class Persona extends Model
         }
 
         return false;
-    }
-
-    public function isDeceduto(): bool
-    {
-        return $this->data_decesso != null;
     }
 
     public function stati(): BelongsToMany
@@ -430,17 +426,6 @@ class Persona extends Model
         } else {
             return false;
         }
-    }
-
-    /**
-     * Ritorna vero se la persona è maggiorenne
-     *
-     *
-     * @author Davide Neri
-     **/
-    public function isMaggiorenne(): bool
-    {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
     }
 
     /**

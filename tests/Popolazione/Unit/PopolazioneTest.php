@@ -41,7 +41,7 @@ it('remove dead person from population', function (): void {
     $action->execute($persona, $data_decesso);
 
     $persona = Persona::findOrFail($persona->id);
-    expect($persona->isDeceduto())->toBeTrue()
+    expect($persona->isDeceduta())->toBeTrue()
         ->and($persona->isPersonaInterna())->toBeFalse()
         ->and(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());

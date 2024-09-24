@@ -2506,17 +2506,17 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
+			message: "#^Call to static method createFromFormat\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
 			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Expression \"\\\\Carbon\\\\Carbon\\:\\:createFromFormat\\('Y\\-m\\-d', \\$this\\-\\>data_nascita\\)\\-\\>year\" on a separate line does not do anything\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
