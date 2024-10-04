@@ -133,7 +133,7 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function (array $persona): array {
+        $persone->map(function (ViewClientiConSenzaPatente $persona): ViewClientiConSenzaPatente {
             if ($persona->cliente_con_patente != null) {
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.')';
             } else {
@@ -163,33 +163,8 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function (array $persona): void {
+        $persone->map(function (ViewClientiConSenzaPatente $persona): void {
             $persona['value'] = "($persona->data_nascita) $persona->nome  $persona->cognome";
-        });
-
-        return $persone;
-    }
-
-    /**
-     * Ritorna le persone che hanno almeno una patente
-     *
-     **/
-    public function personeConPatente(Request $request)
-    {
-        $term = $request->term;
-        $persone = ViewClientiConSenzaPatente::ConPatente()
-            ->where(function ($query) use ($term): void {
-                $query->where('nome', 'LIKE', "$term%")
-                    ->orWhere('cognome', 'LIKE', "$term%")
-                    ->orWhere('nominativo', 'LIKE', "$term%");
-
-            })
-            ->take(50)
-            ->get();
-        $persone->map(function (array $persona): array {
-            $persona['value'] = $persona->nome.' '.$persona->cognome;
-
-            return $persona;
         });
 
         return $persone;
