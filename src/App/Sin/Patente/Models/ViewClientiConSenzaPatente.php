@@ -21,7 +21,7 @@ class ViewClientiConSenzaPatente extends Model
     /**
      * Ritorna  clienti che hanno la patente
      *
-     * @author Davide Neri
+     * @return ViewClientiConSenzaPatente[]
      */
     public function scopeConPatente($query)
     {
@@ -31,7 +31,7 @@ class ViewClientiConSenzaPatente extends Model
     /**
      * Ritorna  clienti che hanno la patente
      *
-     * @author Davide Neri
+     * @return ViewClientiConSenzaPatente[]
      */
     public function scopeSenzaPatente($query)
     {
