@@ -170,7 +170,6 @@ class ApiController
         return $persone;
     }
 
-
     /**
      * Aggiorna i dati di una patente
      *
