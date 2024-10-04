@@ -133,7 +133,7 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function (array $persona): array {
+        $persone->map(function ($persona): array {
             if ($persona->cliente_con_patente != null) {
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.')';
             } else {
@@ -163,7 +163,7 @@ class ApiController
             ->take(50)
             ->get();
 
-        $persone->map(function (array $persona): void {
+        $persone->map(function ($persona): void {
             $persona['value'] = "($persona->data_nascita) $persona->nome  $persona->cognome";
         });
 
