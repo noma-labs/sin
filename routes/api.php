@@ -77,7 +77,6 @@ Route::group(['prefix' => 'patente', 'namespace' => 'App\Patente\Controllers'], 
     Route::get('/persone', 'ApiController@persone')->name('api.patente.persone');
     Route::get('/rilasciata', 'ApiController@rilasciata')->name('api.patente.rilascio');
     Route::get('/persone/senzapatente', 'ApiController@personeSenzaPatente')->name('api.patente.persone.senzapatente');
-    Route::get('/persone/conpatente', 'ApiController@personeConPatente')->name('api.patente.persone.conpatente');
     Route::get('/categorie', 'ApiController@categorie')->name('api.patente.categorie');
     Route::get('/cqc', 'ApiController@cqc')->name('api.patente.cqc');
     Route::get('/{numero}', 'ApiController@patente')->name('api.patente');

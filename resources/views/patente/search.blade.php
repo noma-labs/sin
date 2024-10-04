@@ -10,13 +10,11 @@
         <div class="form-row">
             <div class="form-group col-md-2 offset-md-1">
                 <label>Persona</label>
-                <autocomplete
-                    placeholder="---Inserisci nome o cognome ---"
-                    name="persona_id"
-                    label="value"
-                    index="persona_id"
-                    url="{{ route("api.patente.persone.conpatente") }}"
-                ></autocomplete>
+                <livewire:search-persona
+                    placeholder="Cerca persona"
+                    nameInput="persona_id"
+                    noResultsMessage="Nessun risultato"
+                />
             </div>
             <div class="form-group col-md-2">
                 <label for="numero_patente">Numero Patente</label>

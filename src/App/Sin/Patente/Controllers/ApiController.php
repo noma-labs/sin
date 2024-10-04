@@ -170,30 +170,6 @@ class ApiController
         return $persone;
     }
 
-    /**
-     * Ritorna le persone che hanno almeno una patente
-     *
-     **/
-    public function personeConPatente(Request $request)
-    {
-        $term = $request->term;
-        $persone = ViewClientiConSenzaPatente::ConPatente()
-            ->where(function ($query) use ($term): void {
-                $query->where('nome', 'LIKE', "$term%")
-                    ->orWhere('cognome', 'LIKE', "$term%")
-                    ->orWhere('nominativo', 'LIKE', "$term%");
-
-            })
-            ->take(50)
-            ->get();
-        $persone->map(function (array $persona): array {
-            $persona['value'] = $persona->nome.' '.$persona->cognome;
-
-            return $persona;
-        });
-
-        return $persone;
-    }
 
     /**
      * Aggiorna i dati di una patente
