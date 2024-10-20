@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class GruppoHaMultipleCapogruppi extends InvalidArgumentException
+class GruppoHaMultipleCapogruppi extends NomadelfiaException
 {
     public static function named(string $nome): GruppoHaMultipleCapogruppi
     {

@@ -3,9 +3,8 @@
 namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Exception;
 
-class CouldNotAssignCarica extends Exception
+class CouldNotAssignCarica extends NomadelfiaException
 {
     public static function presidenteAssociazioneAlreadySet(Persona $persona): CouldNotAssignCarica
     {

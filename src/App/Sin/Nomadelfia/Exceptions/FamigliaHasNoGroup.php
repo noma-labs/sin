@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class FamigliaHasNoGroup extends InvalidArgumentException
+class FamigliaHasNoGroup extends NomadelfiaException
 {
     public static function named(string $nome): FamigliaHasNoGroup
     {

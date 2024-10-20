@@ -4,9 +4,8 @@ namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Exception;
 
-class CouldNotAssignCapoFamiglia extends Exception
+class CouldNotAssignCapoFamiglia extends NomadelfiaException
 {
     public static function hasAlreadyCapoFamiglia(Famiglia $famiglia, Persona $capofamiglia): CouldNotAssignCapoFamiglia
     {

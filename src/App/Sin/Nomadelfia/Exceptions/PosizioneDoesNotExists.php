@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PosizioneDoesNotExists extends InvalidArgumentException
+class PosizioneDoesNotExists extends NomadelfiaException
 {
     public static function named(string $nome): PosizioneDoesNotExists
     {

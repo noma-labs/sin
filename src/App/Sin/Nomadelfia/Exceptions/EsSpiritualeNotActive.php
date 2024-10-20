@@ -3,9 +3,8 @@
 namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use InvalidArgumentException;
 
-class EsSpiritualeNotActive extends InvalidArgumentException
+class EsSpiritualeNotActive extends NomadelfiaException
 {
     public static function named(EserciziSpirituali $es): EsSpiritualeNotActive
     {

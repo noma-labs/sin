@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaErrors extends InvalidArgumentException
+class PersonaErrors extends NomadelfiaException
 {
     public static function named(string $nome): PersonaErrors
     {

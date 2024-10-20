@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasMultiplePosizioniAttuale extends InvalidArgumentException
+class PersonaHasMultiplePosizioniAttuale extends NomadelfiaException
 {
     public static function named(string $nome): PersonaHasMultiplePosizioniAttuale
     {
