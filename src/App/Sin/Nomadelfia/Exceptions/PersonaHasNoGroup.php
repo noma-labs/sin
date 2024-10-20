@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasNoGroup extends InvalidArgumentException
+class PersonaHasNoGroup extends NomadelfiaException
 {
     public static function named(string $nome): PersonaHasNoGroup
     {

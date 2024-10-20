@@ -4,9 +4,8 @@ namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Exception;
 
-class CouldNotAssignAzienda extends Exception
+class CouldNotAssignAzienda extends NomadelfiaException
 {
     public static function isAlreadyWorkingIntozienda(Azienda $azienda, Persona $persona): CouldNotAssignAzienda
     {

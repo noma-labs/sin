@@ -4,9 +4,8 @@ namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Exception;
 
-class CouldNotAssignMoglie extends Exception
+class CouldNotAssignMoglie extends NomadelfiaException
 {
     public static function hasAlreadyMoglie(Famiglia $famiglia, Persona $persona): CouldNotAssignMoglie
     {

@@ -3,9 +3,8 @@
 namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use InvalidArgumentException;
 
-class PersonaHasMultipleGroup extends InvalidArgumentException
+class PersonaHasMultipleGroup extends NomadelfiaException
 {
     public static function named(Persona $persona): PersonaHasMultipleGroup
     {

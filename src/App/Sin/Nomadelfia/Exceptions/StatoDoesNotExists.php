@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class StatoDoesNotExists extends InvalidArgumentException
+class StatoDoesNotExists extends NomadelfiaException
 {
     public static function named(string $nome): StatoDoesNotExists
     {

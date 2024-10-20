@@ -2,9 +2,7 @@
 
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasMultipleStatoAttuale extends InvalidArgumentException
+class PersonaHasMultipleStatoAttuale extends NomadelfiaException
 {
     public static function named(string $nome): PersonaHasMultipleStatoAttuale
     {
