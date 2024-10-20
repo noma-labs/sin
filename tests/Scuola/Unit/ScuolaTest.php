@@ -63,7 +63,7 @@ it('get student from year', function (): void {
         ->and(Studente::InAnnoScolastico($a->id)->count())->toBe(3)
         ->and(Studente::InAnnoScolastico($a)->count())->toBe(3)
         ->and($c3->alunni()->where('nominativo', $p3->nominativo))->not->toBeEmpty()
-        ->and($p3->isDeceduto())->toBeFalse();
+        ->and($p3->isDeceduta())->toBeFalse();
 
 });
 

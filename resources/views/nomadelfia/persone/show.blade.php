@@ -197,7 +197,7 @@
                                         </label>
                                         <div class="col-sm-8">
                                             <span>
-                                                {{ $persona->getDataDecesso() }}
+                                                {{ $persona->data_decesso }}
                                             </span>
                                         </div>
                                     </div>
