@@ -12,6 +12,6 @@ abstract class NomadelfiaException extends Exception
     {
         $exception = $this;
 
-        return response()->view('errors.sinError', compact('exception'), 500);
+        return response()->view('errors.sin-error', compact('exception'), 500);
     }
 }
