@@ -2,10 +2,7 @@
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
-use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +16,9 @@ class SpostaPersonaInUnaFamigliaAction
                 'La famiglia single non può avere più di un componente');
         }
         $attuale = $persona->famigliaAttuale();
-        if (!$attuale) {
+        if (! $attuale) {
             $persona->famiglie()->attach($famiglia->id, ['stato' => '1', 'posizione_famiglia' => $posizione]);
+
             return;
         }
         // TODO; check se la persona può essere asseganta alla nuova famiglia

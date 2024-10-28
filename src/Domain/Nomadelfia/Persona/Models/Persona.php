@@ -313,11 +313,9 @@ class Persona extends Model
         return $this->posizioni()->wherePivot('stato', '0');
     }
 
-
     // *************
     //  OTHER METHODS
     // *************
-
 
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
     {
@@ -362,7 +360,6 @@ class Persona extends Model
 
         return false;
     }
-
 
     /*
     * Assegna un nuovo stato alla persona.
@@ -546,7 +543,6 @@ class Persona extends Model
         return $this->famigliaPosizione('FIGLIO ACCOLTO');
     }
 
-
     public function assegnaPostulante(Carbon\Carbon $data_inizio): void
     {
         // TODO check if the person is ospite before postulante
@@ -652,7 +648,6 @@ class Persona extends Model
             return $posizioni;
         }
     }
-
 
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
