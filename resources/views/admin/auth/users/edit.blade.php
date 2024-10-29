@@ -12,7 +12,7 @@
                 {{ Form::label("name", "Nominativo(*)") }}
                 <livewire:search-popolazione
                     name_input="persona_id"
-                    :multiple=false
+                    :multiple="false"
                 />
             </div>
         </div>

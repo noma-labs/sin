@@ -105,9 +105,7 @@
                         <label for="alunni" class="control-label">
                             Alunni/o
                         </label>
-                        <livewire:search-persona
-                            name_input="studenti_ids[]"
-                        />
+                        <livewire:search-persona name_input="studenti_ids[]" />
                     </div>
                 </div>
                 <div class="row mt-3">

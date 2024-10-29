@@ -18,7 +18,7 @@
                 <div class="col-8">
                     <livewire:search-popolazione
                         name_input="persona_id"
-                        :multiple=false
+                        :multiple="false"
                         placeholder="--- Inserisci nominativo ---"
                     />
                 </div>

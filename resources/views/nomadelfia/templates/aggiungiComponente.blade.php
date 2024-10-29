@@ -18,9 +18,8 @@
                 <div class="col-8">
                     <livewire:search-popolazione
                         name_input="persona_id"
-                        :multiple=false
+                        :multiple="false"
                     />
-
                 </div>
             </div>
             <div class="form-group row">

@@ -13,10 +13,10 @@
             {{ csrf_field() }}
             <p>Seleziona Persona</p>
             <livewire:search-popolazione
-            name_input="persona_id"
-            :multiple=false
-            placeholder="--- Inserisci nominativo ---"
-        />
+                name_input="persona_id"
+                :multiple="false"
+                placeholder="--- Inserisci nominativo ---"
+            />
         </form>
     </template>
     <template slot="modal-button">
