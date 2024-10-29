@@ -19,22 +19,28 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label">Veicolo</label>
-                <autocomplete
-                    placeholder="Inserisci veicolo o targa..."
-                    name="veicolo_id"
-                    url="{{ route("api.officina.veicoli.search") }}"
-                ></autocomplete>
+                <select class="form-control" id="veicolo" name="veicolo_id">
+                    <option selected value>--Seleziona--</option>
+                    @foreach ($veicoli as $veicolo)
+                        <option value="{{ $veicolo->id }}">
+                            {{ "(" . $veicolo->targa . ") " . $veicolo->nome . " - " . $veicolo->impiego->nome }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="form-group">
                 <label class="control-label">Meccanico</label>
-                <autocomplete
-                    placeholder="Inserisci nome..."
-                    name="meccanico_id"
-                    url="{{ route("api.officina.meccanici") }}"
-                ></autocomplete>
+                <select class="form-control" id="meccanico" name="meccanico_id">
+                    <option selected value>--Seleziona--</option>
+                    @foreach ($meccanici as $meccanico)
+                        <option value="{{ $meccanico->id }}">
+                            {{ $meccanico->nome . " " . $veicolo->cognome }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 

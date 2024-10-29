@@ -28,25 +28,6 @@ class ApiController
         return response()->json($results);
     }
 
-    public function searchVeicoli(Request $request)
-    {
-        $term = $request->input('term');
-        $veicoli = Veicolo::withTrashed()
-            ->where('nome', 'LIKE', '%'.$term.'%')
-            ->orWhere('targa', 'LIKE', '%'.$term.'%')
-            ->orderBy('nome')
-            ->take(50)->get();
-        $results = [];
-        foreach ($veicoli as $veicolo) {
-            $results[] = [
-                'value' => $veicolo->id,
-                'label' => "$veicolo->nome - $veicolo->targa ".$veicolo->impiego->nome,
-            ];
-        }
-
-        return response($results);
-    }
-
     public function marche(Request $request)
     {
         $term = $request->input('term');
@@ -90,19 +71,6 @@ class ApiController
         $results = [];
         foreach ($alimentazioni as $alimentazione) {
             $results[] = ['value' => $alimentazione->id, 'label' => $alimentazione->nome];
-        }
-
-        return response()->json($results);
-    }
-
-    public function meccanici(Request $request)
-    {
-        $term = $request->input('term');
-        $meccanici = ViewMeccanici::where('nominativo', 'LIKE', "%$term%")->get();
-
-        $results = [];
-        foreach ($meccanici as $meccanico) {
-            $results[] = ['value' => $meccanico->persona_id, 'label' => $meccanico->nominativo];
         }
 
         return response()->json($results);
