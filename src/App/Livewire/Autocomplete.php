@@ -7,7 +7,7 @@ use Livewire\Wireable;
 
 class Option implements Wireable
 {
-    public function __construct(public int $id, public string $value) { }
+    public function __construct(public int $id, public string $value) {}
 
     public function toLivewire()
     {
@@ -40,16 +40,16 @@ abstract class Autocomplete extends Component
 
     public string $nameInput = 'persone_id[]';
 
+    public bool $multiple = true;
+
     /**
      * Abstract method that must be implemented by the child class.
      *
-     * @param string $term
      * @return Option[]
      */
     abstract public function searchBy(string $term): array;
 
-
-     /**
+    /**
      * Abstract method that must be implemented by the child class.
      *
      * @param []int ids
@@ -57,11 +57,11 @@ abstract class Autocomplete extends Component
      */
     abstract public function selected(array $ids): array;
 
-
-    public function mount(array $persone_id = [], string $placeholder = '-- Inserisci --', string $name_input = 'persone_id[]'): void
+    public function mount(array $persone_id = [], string $placeholder = '--- Inserisci  ---', string $name_input = 'persone_id[]', $multiple = true): void
     {
         $this->placeholder = $placeholder;
         $this->nameInput = $name_input;
+        $this->multiple = $multiple;
 
         if (! empty($persone_id)) {
             $this->selected = $this->selected($persone_id);
@@ -74,7 +74,11 @@ abstract class Autocomplete extends Component
             return $opt->id == $id;
         });
 
-        $this->selected = collect($this->selected)->push($found)->unique();
+        if ($this->multiple) {
+            $this->selected = collect($this->selected)->push($found)->unique();
+        } else {
+            $this->selected = [$found];
+        }
         $this->reset('options', 'searchTerm');
     }
 
@@ -94,15 +98,11 @@ abstract class Autocomplete extends Component
     {
         $this->reset('options');
 
-        $this->options =  $this->searchBy($term);
+        $this->options = $this->searchBy($term);
     }
-
 
     public function render()
     {
         return view('livewire.search-persona');
     }
-
-
-
 }

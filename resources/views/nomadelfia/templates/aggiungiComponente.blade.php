@@ -16,11 +16,11 @@
                     Persona
                 </label>
                 <div class="col-8">
-                    <autocomplete
-                        placeholder="Inserisci nominativo..."
-                        name="persona_id"
-                        url="{{ route("api.nomadeflia.popolazione.search") }}"
-                    ></autocomplete>
+                    <livewire:search-popolazione
+                        name_input="persona_id"
+                        :multiple=false
+                    />
+
                 </div>
             </div>
             <div class="form-group row">

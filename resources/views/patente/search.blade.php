@@ -12,7 +12,7 @@
                 <label>Persona</label>
                 <livewire:search-persona
                     placeholder="Cerca persona"
-                    nameInput="persona_id"
+                    name_input="persona_id"
                     noResultsMessage="Nessun risultato"
                 />
             </div>

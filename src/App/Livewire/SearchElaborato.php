@@ -6,8 +6,6 @@ use App\Scuola\Models\Elaborato;
 
 class SearchElaborato extends Autocomplete
 {
-
-
     public function searchBy(string $term): array
     {
 
@@ -16,7 +14,6 @@ class SearchElaborato extends Autocomplete
             ->where('collocazione', 'LIKE', "$term%")
             ->orderBy('collocazione', 'asc')
             ->get();
-
 
         $options = [];
 
@@ -39,6 +36,7 @@ class SearchElaborato extends Autocomplete
         foreach ($elaborati as $elaborato) {
             $selected[] = new Option($elaborato->id, $elaborato->collocazione.' '.$elaborato->titolo.' ');
         }
+
         return $selected;
     }
 }

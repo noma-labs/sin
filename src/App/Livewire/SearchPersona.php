@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-
 class SearchPersona extends Autocomplete
 {
     public function searchBy(string $term): array
@@ -14,7 +13,6 @@ class SearchPersona extends Autocomplete
             ->where('nominativo', 'LIKE', "$term%")
             ->orderBy('nominativo', 'asc')
             ->get();
-
 
         $options = [];
         foreach ($persone as $persona) {
@@ -36,8 +34,7 @@ class SearchPersona extends Autocomplete
         foreach ($persone as $persona) {
             $selected[] = new Option($persona->id, $persona->nominativo.' ('.$persona->data_nascita.')');
         }
+
         return $selected;
     }
-
-
 }
