@@ -52,7 +52,7 @@ abstract class Autocomplete extends Component
     /**
      * Abstract method that must be implemented by the child class.
      *
-     * @param []int ids
+     * @param int[] $ids Array of integer IDs.
      * @return Option[]
      */
     abstract public function selected(array $ids): array;

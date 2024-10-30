@@ -86,18 +86,6 @@ class ApiController
         return response()->json($results);
     }
 
-    public function autocompleteTitolo(Request $request)
-    {
-        $term = $request->input('term');
-        $libri = Libro::withTrashed()->select('titolo')->where('titolo', 'LIKE',
-            $term.'%')->groupBy('titolo')->take(50)->get();
-        $results = [];
-        foreach ($libri as $libro) {
-            $results[] = ['value' => $libro->titolo, 'label' => $libro->titolo];
-        }
-
-        return response()->json($results);
-    }
 
     /**
      * Inserisce un nuovo autore.

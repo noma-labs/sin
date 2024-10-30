@@ -8,7 +8,8 @@ class SearchEditore extends Autocomplete
 {
     public function searchBy(string $term): array
     {
-        $editori = Editore::where('Editore', 'LIKE', '%'.$term.'%')
+        $editori = Editore::query()
+            ->where('Editore', 'LIKE', '%'.$term.'%')
             ->orderBy('editore')
             ->take(50)
             ->get();
@@ -23,7 +24,8 @@ class SearchEditore extends Autocomplete
 
     public function selected(array|int $ids): array
     {
-        $editori = Editore::whereIn('id', $ids)
+        $editori = Editore::query()
+            ->whereIn('id', $ids)
             ->orderBy('editore', 'asc')
             ->get();
 

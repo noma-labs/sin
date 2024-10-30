@@ -9,7 +9,7 @@ class SearchAutore extends Autocomplete
     public function searchBy(string $term): array
     {
 
-        $autori = Autore::where('autore', 'LIKE', '%'.$term.'%')
+        $autori = Autore::query()->where('autore', 'LIKE', '%'.$term.'%')
             ->orderBy('autore')
             ->take(50)
             ->get();
@@ -23,7 +23,7 @@ class SearchAutore extends Autocomplete
 
     public function selected(array|int $ids): array
     {
-        $autori = Autore::whereIn('id', $ids)
+        $autori = Autore::query()->whereIn('id', $ids)
             ->orderBy('autore', 'asc')
             ->get();
 
