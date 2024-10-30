@@ -32,6 +32,7 @@ class SearchPopolazione extends Autocomplete
 
         $selected = [];
         foreach ($persone as $persona) {
+            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $selected[] = new Option($persona->id, "($year) $persona->nominativo ($persona->nome  $persona->cognome)");
         }
 
