@@ -27,11 +27,11 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">Cliente</label>
-                    <autocomplete
-                        placeholder="Inserisci nominativo..."
-                        name="persona_id"
-                        url="{{ route("api.nomadeflia.persone.search") }}"
-                    ></autocomplete>
+                    <livewire:search-persona
+                        name_input="persona_id"
+                        :multiple="false"
+                    />
+
                 </div>
             </div>
             <div class="col-md-6">
@@ -39,11 +39,10 @@
                     <label for="xIdBibliotecario" class="control-label">
                         Bibliotecario
                     </label>
-                    <autocomplete
-                        placeholder="Inserisci nominativo..."
-                        name="xIdBibliotecario"
-                        url="{{ route("api.nomadeflia.persone.search") }}"
-                    ></autocomplete>
+                    <livewire:search-persona
+                        name_input="xIdBibliotecario"
+                        :multiple="false"
+                    />
                 </div>
             </div>
         </div>

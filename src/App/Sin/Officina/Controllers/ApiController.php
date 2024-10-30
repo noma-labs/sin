@@ -10,7 +10,6 @@ use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
-use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
 use Throwable;
 

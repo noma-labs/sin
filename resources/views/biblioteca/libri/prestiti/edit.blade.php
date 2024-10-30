@@ -50,12 +50,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Cliente</label>
-                            <autocomplete
-                                :selected="{{ $prestito->cliente()->pluck("nominativo", "id") }}"
-                                placeholder="Inserisci nominativo..."
-                                name="persona_id"
-                                url="{{ route("api.biblioteca.clienti") }}"
-                            ></autocomplete>
+                            <livewire:search-persona
+                                :persone_id="$prestito->cliente->id"
+                                name_input="persona_id"
+                                :multiple="false"
+                            />
                         </div>
                     </div>
                 </div>

@@ -57,15 +57,18 @@ abstract class Autocomplete extends Component
      */
     abstract public function selected(array $ids): array;
 
-    public function mount(array $persone_id = [], string $placeholder = '--- Inserisci  ---', string $name_input = 'persone_id[]', bool $multiple = true): void
+    public function mount(array|int $persone_id = [], string $placeholder = '--- Inserisci  ---', string $name_input = 'persone_id[]', bool $multiple = true): void
     {
         $this->placeholder = $placeholder;
         $this->nameInput = $name_input;
         $this->multiple = $multiple;
 
-        if (! empty($persone_id)) {
+        if (is_array($persone_id)) {
             $this->selected = $this->selected($persone_id);
+        } else {
+            $this->selected = $this->selected([$persone_id]);
         }
+
     }
 
     public function select(string $id): void

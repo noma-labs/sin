@@ -24,11 +24,12 @@ class SearchPersona extends Autocomplete
 
     public function selected(array $ids): array
     {
-        $persone = Persona::query()
+        $q = Persona::query()
             ->select('persone.id', 'persone.nominativo', 'persone.nome', 'persone.cognome', 'persone.data_nascita')
             ->whereIn('id', $ids)
-            ->orderBy('nominativo', 'asc')
-            ->get();
+            ->orderBy('nominativo', 'asc');
+
+        $persone = $q->get();
 
         $selected = [];
         foreach ($persone as $persona) {

@@ -6,8 +6,6 @@ use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
-use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 class ApiController
@@ -25,38 +23,6 @@ class ApiController
             return response()->json($results);
         } else {
             return response()->json(['value' => '', 'label' => 'libro non trovato']);
-        }
-
-    }
-
-    public function autocompleteCliente(Request $request)
-    {
-
-        $bornBefore = Carbon::now()->subYears(6)->startOfYear();
-
-        // TODO: use a query builder of PopolazioneNomadelfia
-        $clienti = Persona::select('id', 'nominativo', 'data_nascita')
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull('popolazione.data_uscita')
-            ->where('data_nascita', '<=', $bornBefore)
-            ->whereNull('data_decesso')
-            ->orderBy('nominativo');
-
-        if ($request->term) {
-            $clienti = $clienti->where('nominativo', 'LIKE', "$request->term%");
-        }
-
-        $persone = $clienti->get();
-        if ($persone->count() > 0) {
-            $results = [];
-            foreach ($persone as $persona) {
-                $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
-                $results[] = ['value' => $persona->id, 'label' => "$persona->nominativo ($year)"];
-            }
-
-            return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'persona non esiste']);
         }
 
     }

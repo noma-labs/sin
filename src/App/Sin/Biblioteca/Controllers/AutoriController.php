@@ -62,7 +62,7 @@ class AutoriController
         if ($request->has('idAutore')) {
             $autore = Autore::findOrFail($request->input('idAutore'));
 
-            return redirect()->action('AutoriController@show', ['id' => $autore->id]);
+            return view('biblioteca.autori.show')->with('autore', $autore);
         }
     }
 

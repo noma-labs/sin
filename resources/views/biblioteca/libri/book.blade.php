@@ -32,11 +32,10 @@
                             <label for="xIdUtente" class="control-label">
                                 Cliente
                             </label>
-                            <autocomplete
-                                placeholder="Inserisci nominativo..."
-                                name="persona_id"
-                                url="{{ route("api.biblioteca.clienti") }}"
-                            ></autocomplete>
+                            <livewire:search-persona
+                                name_input="persona_id"
+                                :multiple="false"
+                            />
                         </div>
                     </div>
                 </div>

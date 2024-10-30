@@ -42,12 +42,10 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::get('/editore', 'ApiController@autocompleteEditori')->name('api.biblioteca.editori');
     Route::get('/collocazione', 'ApiController@autocompleteCollocazione')->name('api.biblioteca.collocazione');
     Route::get('/titolo', 'ApiController@autocompleteTitolo')->name('api.biblioteca.titolo');
-    Route::get('/cliente', 'ApiController@autocompleteCliente')->name('api.biblioteca.clienti');
 });
 
 //API route: /api/nomadelfia
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Api\Controllers'], function () {
-    Route::get('/persone', 'ApiController@persone')->name('api.nomadeflia.persone.search');
     Route::get('/persone/{id}', 'ApiController@persona')->name('api.nomadelfia.persona');
     Route::get('/famiglie', 'ApiController@famiglie')->name('api.nomadeflia.famiglie');
     Route::get('/gruppi', 'ApiController@gruppi')->name('api.nomadeflia.gruppi');

@@ -24,7 +24,7 @@ class SearchElaborato extends Autocomplete
         return $options;
     }
 
-    public function selected(array $ids): array
+    public function selected(array|int $ids): array
     {
         $elaborati = Elaborato::query()
             ->select('id', 'collocazione', 'anno_scolastico', 'titolo')

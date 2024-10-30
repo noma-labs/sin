@@ -23,7 +23,7 @@ class SearchPopolazione extends Autocomplete
         return $options;
     }
 
-    public function selected(array $ids): array
+    public function selected(array|int $ids): array
     {
         $persone = PopolazioneNomadelfia::query()
             ->whereIn('id', $ids)

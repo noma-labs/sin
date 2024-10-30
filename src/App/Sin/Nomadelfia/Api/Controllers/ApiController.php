@@ -15,19 +15,6 @@ use Illuminate\Support\Carbon as SupportCarbon;
 
 class ApiController
 {
-    public function persone(Request $request)
-    {
-        $term = $request->term;
-        $persone = Persona::where('nominativo', 'LIKE', "$term%")->orderBy('nominativo')->get();
-        $results = [];
-        foreach ($persone as $persona) {
-            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
-            $results[] = ['value' => $persona->id, 'label' => "($year) $persona->nominativo ($persona->nome  $persona->cognome)"];
-        }
-
-        return response()->json($results);
-    }
-
     public function persona(Request $request, $id)
     {
         $persona = Persona::findOrFail($id);
