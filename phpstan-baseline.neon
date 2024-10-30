@@ -21,11 +21,6 @@ parameters:
 			path: src/App/Livewire/SearchPopolazione.php
 
 		-
-			message: "#^Undefined variable\\: \\$year$#"
-			count: 1
-			path: src/App/Livewire/SearchPopolazione.php
-
-		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Providers/BladeDirectivesServiceProvider.php

@@ -24,7 +24,7 @@ class SearchPopolazione extends Autocomplete
 
     public function selected(array|int $ids): array
     {
-        $persone =  Persona::query()
+        $persone = Persona::query()
             ->whereIn('id', $ids)
             ->orderBy('nominativo')
             ->get();
