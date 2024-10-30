@@ -153,6 +153,7 @@
                                 <livewire:search-persona
                                     :persone_id="$elaborato->studenti->pluck('id')->toArray()"
                                     name_input="studenti_ids[]"
+                                    :multiple="true"
                                 />
                             </div>
                         </div>
@@ -165,6 +166,7 @@
                                 <livewire:search-persona
                                     :persone_id="$elaborato->coordinatori->pluck('id')->toArray()"
                                     name_input="coordinatori_ids[]"
+                                    :multiple="true"
                                 />
                             </div>
                         </div>

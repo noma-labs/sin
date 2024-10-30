@@ -32,10 +32,7 @@
                             <label for="xIdUtente" class="control-label">
                                 Cliente
                             </label>
-                            <livewire:search-persona
-                                name_input="persona_id"
-                                :multiple="false"
-                            />
+                            <livewire:search-persona name_input="persona_id" />
                         </div>
                     </div>
                 </div>

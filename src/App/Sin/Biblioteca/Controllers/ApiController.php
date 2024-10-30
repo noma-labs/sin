@@ -61,6 +61,7 @@ class ApiController
         }
     }
 
+    // TODO: delete me after  all vue components are deleted
     public function autocompleteAutori(Request $request)
     {
         $term = $request->input('term');

@@ -16,11 +16,7 @@
                     Persona
                 </label>
                 <div class="col-8">
-                    <livewire:search-popolazione
-                        name_input="persona_id"
-                        :multiple="false"
-                        placeholder="--- Inserisci nominativo ---"
-                    />
+                    <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
             <div class="form-group row">

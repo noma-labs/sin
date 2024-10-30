@@ -20,11 +20,7 @@
             <span>Ricerca editore:</span>
             <form action="{{ route("editori.ricerca") }}" method="get">
                 {{ csrf_field() }}
-                <autocomplete
-                    placeholder="Inserisci editore ..."
-                    name="idEditore"
-                    url="{{ route("api.biblioteca.editori") }}"
-                ></autocomplete>
+                <livewire:search-editore name_input="idEditore" />
                 <button class="btn btn-success my-2 float-right" type="submit">
                     Cerca
                 </button>

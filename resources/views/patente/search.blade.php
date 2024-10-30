@@ -10,11 +10,7 @@
         <div class="form-row">
             <div class="form-group col-md-2 offset-md-1">
                 <label>Persona</label>
-                <livewire:search-persona
-                    placeholder="Cerca persona"
-                    name_input="persona_id"
-                    noResultsMessage="Nessun risultato"
-                />
+                <livewire:search-persona name_input="persona_id" />
             </div>
             <div class="form-group col-md-2">
                 <label for="numero_patente">Numero Patente</label>

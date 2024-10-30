@@ -53,7 +53,6 @@
                             <livewire:search-persona
                                 :persone_id="$prestito->cliente->id"
                                 name_input="persona_id"
-                                :multiple="false"
                             />
                         </div>
                     </div>
