@@ -86,7 +86,6 @@ class ApiController
         return response()->json($results);
     }
 
-
     /**
      * Inserisce un nuovo autore.
      *
