@@ -55,12 +55,14 @@
                 </span>
             @endforeach
 
-            <input
-                style="border: none; outline: none"
-                class="search"
-                wire:model.live.debounce.100ms="searchTerm"
-                placeholder="{{ $placeholder }}"
-            />
+            @if ($multiple || count($selected) == 0)
+                <input
+                    style="border: none; outline: none"
+                    class="search"
+                    wire:model.live.debounce.100ms="searchTerm"
+                    placeholder="{{ $placeholder }}"
+                />
+            @endif
         </div>
     </div>
 

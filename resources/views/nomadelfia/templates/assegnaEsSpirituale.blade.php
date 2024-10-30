@@ -12,11 +12,7 @@
         >
             {{ csrf_field() }}
             <p>Seleziona Persona</p>
-            <autocomplete
-                placeholder="Inserisci nominativo..."
-                name="persona_id"
-                url="{{ route("api.nomadeflia.popolazione.search") }}"
-            ></autocomplete>
+            <livewire:search-popolazione name_input="persona_id" />
         </form>
     </template>
     <template slot="modal-button">

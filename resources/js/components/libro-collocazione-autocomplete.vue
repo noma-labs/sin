@@ -71,7 +71,7 @@ export default {
     },
     urlNumeriForLettere: {
       type: String,
-      default: "/biblioteca/search/autocomplete/collocazione",
+      default: "/biblioteca/search/task /collocazione",
       // required:true
     },
     numeriRequired: {

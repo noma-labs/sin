@@ -10,7 +10,6 @@ use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
-use App\Officina\Models\ViewMeccanici;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -26,25 +25,6 @@ class ApiController
         }
 
         return response()->json($results);
-    }
-
-    public function searchVeicoli(Request $request)
-    {
-        $term = $request->input('term');
-        $veicoli = Veicolo::withTrashed()
-            ->where('nome', 'LIKE', '%'.$term.'%')
-            ->orWhere('targa', 'LIKE', '%'.$term.'%')
-            ->orderBy('nome')
-            ->take(50)->get();
-        $results = [];
-        foreach ($veicoli as $veicolo) {
-            $results[] = [
-                'value' => $veicolo->id,
-                'label' => "$veicolo->nome - $veicolo->targa ".$veicolo->impiego->nome,
-            ];
-        }
-
-        return response($results);
     }
 
     public function marche(Request $request)
@@ -90,19 +70,6 @@ class ApiController
         $results = [];
         foreach ($alimentazioni as $alimentazione) {
             $results[] = ['value' => $alimentazione->id, 'label' => $alimentazione->nome];
-        }
-
-        return response()->json($results);
-    }
-
-    public function meccanici(Request $request)
-    {
-        $term = $request->input('term');
-        $meccanici = ViewMeccanici::where('nominativo', 'LIKE', "%$term%")->get();
-
-        $results = [];
-        foreach ($meccanici as $meccanico) {
-            $results[] = ['value' => $meccanico->persona_id, 'label' => $meccanico->nominativo];
         }
 
         return response()->json($results);

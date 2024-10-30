@@ -46,11 +46,12 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="xTitolo" class="control-label">Titolo</label>
-                    <autocomplete
-                        placeholder="Inserisci titolo ..."
+                    <input
+                        class="form-control"
+                        type="text"
                         name="xTitolo"
-                        url="{{ route("api.biblioteca.titolo") }}"
-                    ></autocomplete>
+                        id="xIdTitolo"
+                    />
                 </div>
             </div>
         </div>
@@ -61,12 +62,7 @@
                 <label for="xAutore" class="control-label">
                     Autore ({{ App\Biblioteca\Models\Autore::count() }})
                 </label>
-                <autocomplete
-                    :multiple="false"
-                    placeholder="Inserisci nome autore ..."
-                    name="xIdAutore"
-                    url="{{ route("api.biblioteca.autori") }}"
-                ></autocomplete>
+                <livewire:search-autore name_input="xIdAutore" />
             </div>
         </div>
         <div class="col-md-6">
@@ -74,11 +70,8 @@
                 <label for="xEditore" class="control-label">
                     Editore ({{ App\Biblioteca\Models\Editore::count() }})
                 </label>
-                <autocomplete
-                    placeholder="Inserisci nome editore ..."
-                    name="xIdEditore"
-                    url="{{ route("api.biblioteca.editori") }}"
-                ></autocomplete>
+
+                <livewire:search-editore name_input="xIdEditore" />
             </div>
         </div>
     </div>

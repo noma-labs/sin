@@ -20,14 +20,12 @@ use Illuminate\Http\Request;
 
 // API route: /api/officina/
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
-    Route::get('/veicoli/search', 'ApiController@searchVeicoli')->name('api.officina.veicoli.search');
     Route::get('tipologia', 'ApiController@tipologia')->name('api.officina.tipologia');
     Route::get('alimentazione', 'ApiController@alimentazione')->name('api.officina.alimentazione');
     Route::get('impiego', 'ApiController@impiego')->name('api.officina.impiego');
     Route::get('marche', 'ApiController@marche')->name('api.officina.marche');
     Route::get('clienti', 'ApiController@clientiMeccanica')->name('api.officina.clienti');
     Route::get('veicoli', 'ApiController@veicoli')->name('api.officina.veicoli');
-    Route::get('meccanici', 'ApiController@meccanici')->name('api.officina.meccanici');
     Route::post('gomme/elimina', 'ApiController@eliminaGomma')->name('api.officina.gomme.elimina');
     Route::post('gomme/nuova', 'ApiController@nuovaGomma')->name('api.officina.gomme.nuova');
     Route::get('gomme/', 'ApiController@gomme')->name('api.officina.gomme');
@@ -44,13 +42,10 @@ Route::group(['prefix' => 'biblioteca', 'namespace' => 'App\Biblioteca\Controlle
     Route::get('/editore', 'ApiController@autocompleteEditori')->name('api.biblioteca.editori');
     Route::get('/collocazione', 'ApiController@autocompleteCollocazione')->name('api.biblioteca.collocazione');
     Route::get('/titolo', 'ApiController@autocompleteTitolo')->name('api.biblioteca.titolo');
-    Route::get('/cliente', 'ApiController@autocompleteCliente')->name('api.biblioteca.clienti');
 });
 
 //API route: /api/nomadelfia
 Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Api\Controllers'], function () {
-    Route::get('/persone', 'ApiController@persone')->name('api.nomadeflia.persone.search');
-    Route::get('/popolazione', [ApiController::class, 'searchPersonaInPopolazioneAttuale'])->name('api.nomadeflia.popolazione.search');
     Route::get('/persone/{id}', 'ApiController@persona')->name('api.nomadelfia.persona');
     Route::get('/famiglie', 'ApiController@famiglie')->name('api.nomadeflia.famiglie');
     Route::get('/gruppi', 'ApiController@gruppi')->name('api.nomadeflia.gruppi');

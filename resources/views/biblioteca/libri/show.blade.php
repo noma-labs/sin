@@ -46,19 +46,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="autore">Autori</label>
-                    <autocomplete
-                        :selected="{{ $libro->autori()->pluck("autore", "id") }}"
+                    <livewire:search-autore
+                        :persone_id="$libro->autori()->pluck('id')->toArray()"
+                        name_input="xIdAutore"
                         :multiple="true"
-                        :disabled="true"
-                    ></autocomplete>
+                    />
                 </div>
                 <div class="col-md-6">
                     <label for="autore">Editori</label>
-                    <autocomplete
-                        :selected="{{ $libro->editori()->pluck("editore", "id") }}"
-                        :multiple="true"
-                        :disabled="true"
-                    ></autocomplete>
+                    <livewire:search-editore
+                        :persone_id="$libro->editori()->pluck('id')->toArray()"
+                        name_input="xIdEditore"
+                        :tmultiple="true"
+                    />
                 </div>
             </div>
             <div class="row">

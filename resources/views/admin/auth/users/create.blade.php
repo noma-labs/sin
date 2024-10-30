@@ -7,22 +7,13 @@
         {{ Form::open(["method" => "POST", "route" => "users.store"]) }}
         <div class="form-group">
             {{ Form::label("name", "Nominativo (Persona anagrafe)(*)") }}
-            <autocomplete
-                placeholder="Inserisci nominativo..."
-                name="persona_id"
-                url="{{ route("api.nomadeflia.popolazione.search") }}"
-            ></autocomplete>
+            <livewire:search-popolazione name_input="persona_id" />
         </div>
 
         <div class="form-group">
             {{ Form::label("username", "Username(*)") }}
             {{ Form::text("username", "", ["class" => "form-control"]) }}
         </div>
-
-        <!-- <div class="form-group">
-        {{ Form::label("email", "Email") }}
-        {{ Form::email("email", "", ["class" => "form-control"]) }}
-    </div> -->
 
         <div class="form-group">
             <h5><b>Assegna i ruoli all'utente</b></h5>

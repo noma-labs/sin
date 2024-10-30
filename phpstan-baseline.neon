@@ -16,9 +16,9 @@ parameters:
 			path: src/App/Http/Middleware/SentryContext.php
 
 		-
-			message: "#^Illuminate\\\\Support\\\\Collection\\<\\*NEVER\\*, \\*NEVER\\*\\> does not accept App\\\\Livewire\\\\Option\\.$#"
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presenteByNomeCognomeNominativo\\(\\)\\.$#"
 			count: 1
-			path: src/App/Livewire/SearchPersona.php
+			path: src/App/Livewire/SearchPopolazione.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
@@ -182,7 +182,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
-			count: 2
+			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
 
 		-
@@ -217,11 +217,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:numeri\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:select\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
 
@@ -677,7 +672,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
-			count: 4
+			count: 2
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
 		-
@@ -711,18 +706,13 @@ parameters:
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
 		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
-
-		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:whereHas\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presenteByNomeCognomeNominativo\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/App/Sin/Nomadelfia/Api/Controllers/ApiController.php
 
 		-
@@ -1596,11 +1586,6 @@ parameters:
 			path: src/App/Sin/Officina/Controllers/ApiController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewMeccanici\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Officina/Controllers/ApiController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$note\\.$#"
 			count: 2
 			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
@@ -1636,6 +1621,11 @@ parameters:
 			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
 
 		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
+
+		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewClienti\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
@@ -1652,7 +1642,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\ViewMeccanici\\:\\:orderBy\\(\\)\\.$#"
-			count: 2
+			count: 4
 			path: src/App/Sin/Officina/Controllers/PrenotazioniController.php
 
 		-

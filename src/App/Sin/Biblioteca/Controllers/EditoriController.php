@@ -49,7 +49,7 @@ class EditoriController
         if ($request->has('idEditore')) {
             $editore = Editore::findOrFail($request->input('idEditore'));
 
-            return redirect()->route('editori.show', ['id' => $editore->id]);
+            return redirect()->route('editori.show', ['editori' => $editore->id]);
         }
     }
 

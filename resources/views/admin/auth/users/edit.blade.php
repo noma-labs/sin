@@ -10,11 +10,7 @@
         <div class="col-md-3 offset-md-1">
             <div class="form-group">
                 {{ Form::label("name", "Nominativo(*)") }}
-                <autocomplete
-                    placeholder="Inserisci nominativo..."
-                    name="persona_id"
-                    url="{{ route("api.nomadeflia.popolazione.search") }}"
-                ></autocomplete>
+                <livewire:search-popolazione name_input="persona_id" />
             </div>
         </div>
         <div class="col-md-3">

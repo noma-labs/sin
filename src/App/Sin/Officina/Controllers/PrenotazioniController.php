@@ -20,8 +20,10 @@ class PrenotazioniController
     {
         $usi = Uso::all();
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
+        $veicoli = Veicolo::orderBy('nome')->get();
+        $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
-        return view('officina.prenotazioni.search', compact('clienti', 'usi'));
+        return view('officina.prenotazioni.search', compact('clienti', 'veicoli', 'meccanici', 'usi'));
     }
 
     public function search(Request $request)
@@ -101,8 +103,10 @@ class PrenotazioniController
             ->paginate(10);
         $usi = Uso::all();
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
+        $veicoli = Veicolo::orderBy('nome')->get();
+        $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
-        return view('officina.prenotazioni.search_results', compact('clienti', 'usi', 'prenotazioni', 'msgSearch'));
+        return view('officina.prenotazioni.search_results', compact('clienti', 'veicoli', 'meccanici', 'usi', 'prenotazioni', 'msgSearch'));
     }
 
     public function prenotazioni(Request $request)

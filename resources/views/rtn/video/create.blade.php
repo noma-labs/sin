@@ -100,10 +100,7 @@
                         Persone
                     </label>
                     <div class="col-md-8">
-                        <livewire:search-persona
-                            placeholder="Cerca persona"
-                            noResultsMessage="Nessun risultato"
-                        />
+                        <livewire:search-persona />
                     </div>
                 </div>
                 <div class="form-group">
