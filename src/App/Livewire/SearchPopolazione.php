@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Carbon\Carbon;
+use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
 class SearchPopolazione extends Autocomplete
@@ -10,9 +11,7 @@ class SearchPopolazione extends Autocomplete
     public function searchBy(string $term): array
     {
 
-        $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($term)
-            ->orderBy('nominativo')
-            ->get();
+        $persone = PopolazioneNomadelfia::presenteByNomeCognomeNominativo($term)->orderBy('nominativo')->get();
 
         $options = [];
         foreach ($persone as $persona) {
@@ -25,9 +24,9 @@ class SearchPopolazione extends Autocomplete
 
     public function selected(array|int $ids): array
     {
-        $persone = PopolazioneNomadelfia::query()
+        $persone =  Persona::query()
             ->whereIn('id', $ids)
-            ->orderBy('nominativo', 'asc')
+            ->orderBy('nominativo')
             ->get();
 
         $selected = [];
