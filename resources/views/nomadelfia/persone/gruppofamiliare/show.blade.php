@@ -90,17 +90,13 @@
                                         </button>
                                     </template>
                                 </my-modal>
-                                @if ($attuale)
-                                    @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
-                                @else
-                                    @include("nomadelfia.templates.assegnaPersonaNuovoGruppo", ["persona" => $persona])
-                                @endif
-
+                                @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
                                 @include("nomadelfia.templates.eliminaPersonaDalGruppo", ["persona" => $persona, "gruppo" => $attuale])
                             </div>
                         </div>
                     @else
                         <p class="text-danger">Nessun gruppo familiare</p>
+                        @include("nomadelfia.templates.assegnaPersonaNuovoGruppo", ["persona" => $persona])
                     @endif
                 </div>
                 <!--end card body-->
