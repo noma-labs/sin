@@ -36,7 +36,7 @@ class ElaboratiController
 
         return view('scuola.elaborati.create', [
             'annoScolastico' => $annoScolastico,
-            'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'classi' => ['personale', 'prescuola', 'medie', 'superiori', 'tutti i cicli', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
             'rilegature' => [
                 'Altro',
                 'Anelli',
@@ -120,7 +120,7 @@ class ElaboratiController
 
         return view('scuola.elaborati.edit', [
             'elaborato' => $elaborato,
-            'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'classi' => ['personale', 'prescuola', 'medie', 'superiori', 'tutti i cicli', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
             'rilegature' => [
                 'Altro',
                 'Anelli',
