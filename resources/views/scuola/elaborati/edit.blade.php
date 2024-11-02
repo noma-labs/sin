@@ -155,6 +155,10 @@
                                     name_input="studenti_ids[]"
                                     :multiple="true"
                                 />
+                                <livewire:search-alunni-by-classe
+                                name_input="studenti_ids[]"
+                                :multiple="true"
+                            />
                             </div>
                         </div>
 

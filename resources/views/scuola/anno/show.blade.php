@@ -102,12 +102,32 @@
                                     >
                                         Dettaglio
                                     </a>
-                                    <a
-                                        class="btn btn-warning"
-                                        href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
-                                    >
-                                        Aggiungi Elaborato
-                                    </a>
+
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Dropdown button
+                                      </button>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
+                                        >
+                                            Nuovo
+                                        </a>
+
+                                        <a
+                                            class="dropdown-item"
+                                            href=""
+                                        >
+                                               Esistente
+                                               <livewire:search-elaborato/>
+                                        </a>
+
+
+
+                                      </div>
+
+
+
                                     <my-modal
                                         modal-title="Elimina classe"
                                         button-title="Elimina"

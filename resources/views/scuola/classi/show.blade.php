@@ -25,6 +25,7 @@
                             </span>
                         </div>
                         <div class="col-md-4">
+
                             <a
                                 class="btn btn-warning"
                                 href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
