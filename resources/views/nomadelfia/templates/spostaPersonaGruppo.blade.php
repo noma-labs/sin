@@ -1,6 +1,6 @@
 <my-modal
     modal-title="Sposta in un nuovo Gruppo Familiare"
-    button-title="Sposta Gruppo"
+    button-title="Sposta"
     button-style="btn-success my-2"
 >
     <template slot="modal-body-slot">
