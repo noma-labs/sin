@@ -5,7 +5,6 @@ SIN (Sistema Informativo Nomadelfia) riunisce tutti i sistemi esistenti in Nomad
 [![Actions Status](https://github.com/noma-labs/sin/workflows/tests/badge.svg)](https://github.com/noma-labs/sin/actions)
 
 
-
 ### Dipendenze
 
 Linguaggi:
