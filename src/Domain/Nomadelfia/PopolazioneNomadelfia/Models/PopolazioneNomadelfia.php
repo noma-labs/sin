@@ -121,7 +121,8 @@ class PopolazioneNomadelfia extends Model
         }
         $magg = DB::connection('db_nomadelfia')
             ->table('persone')
-            ->selectRaw('persone.*')
+            ->leftJoin('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->select('persone.*', 'popolazione.data_entrata', 'popolazione.data_uscita')
             ->where('persone.data_nascita', '<=', $end)
             ->whereNull('persone.data_decesso')
             ->orderByRaw($orderBy);

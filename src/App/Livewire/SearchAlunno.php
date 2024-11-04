@@ -6,7 +6,6 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 
 class SearchAlunno extends Autocomplete
 {
-
     public function searchBy(string $term): array
     {
         $persone = Persona::query()
