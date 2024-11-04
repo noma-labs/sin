@@ -150,7 +150,7 @@
                                 <label for="alunni" class="control-label">
                                     Alunni/o
                                 </label>
-                                <livewire:search-persona
+                                <livewire:search-alunno
                                     :persone_id="$elaborato->studenti->pluck('id')->toArray()"
                                     name_input="studenti_ids[]"
                                     :multiple="true"
