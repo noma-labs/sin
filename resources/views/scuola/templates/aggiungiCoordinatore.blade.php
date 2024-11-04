@@ -22,7 +22,7 @@
                         </option>
                         @foreach ($coordPossibili as $p)
                             <option value="{{ $p->id }}">
-                                {{ $p->nominativo }}
+                                {{ "(" . Carbon::createFromFormat("Y-m-d", $p->data_nascita)->year . ") " . $p->nome . " " . $p->cognome }}
                             </option>
                         @endforeach
                     </select>
