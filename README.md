@@ -150,6 +150,10 @@ opcache.save_comments=1
 Abilitando l'estensione, il tempo di bootstrap è sceso notevolmente
 Da `300ms` a `30ms`.
 
+Open the `php.ini` file and edit the max upload size 
+- upload_max_filesize=200M
+- post_max_size=200M
+  
 ## Local Dev with Docker
 
 Prerequisiti:
