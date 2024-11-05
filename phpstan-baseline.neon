@@ -2311,7 +2311,7 @@ parameters:
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
-			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
+			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:PresentAt\\(\\)\\.$#"
 			count: 2
 			path: src/App/Sin/Scuola/Models/Classe.php
 
@@ -2587,7 +2587,7 @@ parameters:
 
 		-
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
-			count: 5
+			count: 3
 			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-

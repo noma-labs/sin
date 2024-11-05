@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class PopolazioneQueryBuilder extends Builder
 {
-    public function presentAt(Carbon $date)
+    public function presentAt(Carbon $date): Builder
     {
         return $this->where('popolazione.data_entrata', '<=', $date)
             ->where(function ($query) use ($date): void {
