@@ -2,8 +2,9 @@
 
 namespace App\Scuola\Models;
 
-use Carbon;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -112,12 +113,28 @@ class Classe extends Model
 
     public function coordinatoriPossibili()
     {
-        $as = $this->anno()->first()->annoSolareInizio();
-        $all = PopolazioneNomadelfia::fraEta(18, 100, 'nominativo ASC', $as, true)->get();
+        $anno = $this->anno()->first();
+        $as = $anno->annoSolareInizio();
+
+        $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
+                ->select('persone.id','persone.data_nascita','persone.nome', 'persone.cognome','persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+                ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+
+        $date = Carbon::now()->setYear($as);
+
+        $end = $date->copy()->subYears(18)->endOfYear();
+        $start = $date->copy()->subYears(100)->startOfYear();
+
+        $all = $q->where('persone.data_nascita', '<=', $end)
+                ->where('persone.data_nascita', '>=', $start)
+                ->orderByRaw('nominativo ASC')
+                ->get();
+
         $alreadyIn = $this->coordinatori()->pluck('id');
 
         return $all->whereNotIn('id', $alreadyIn);
     }
+
 
     public function rimuoviCoordinatore(
         $coord
@@ -147,15 +164,32 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
-        $as = $this->anno()->first()->annoSolareInizio();
+        $anno = $this->anno()->first();
+        $as = $anno->annoSolareInizio();
         $tipo = $this->tipo()->first();
+
+        $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
+                            ->select('persone.id','persone.data_nascita','persone.nome', 'persone.cognome','persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+                            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+
+        $date = Carbon::now()->setYear($as);
+
+        $end = $date->copy()->subYears(6)->endOfYear();
+        $start = $date->copy()->subYears(25)->startOfYear();
+
         if ($tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita ASC, nominativo ASC', $as, true)->get();
+            $end = $date->copy()->subYears(3)->endOfYear();
+            $start = $date->copy()->subYears(6)->startOfYear();
         } elseif ($tipo->IsUniversita()) {
-            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita ASC, nominativo ASC', $as, true)->get();
-        } else {
-            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita ASC, nominativo ASC', $as, true)->get();
+            $end = $date->copy()->subYears(17)->endOfYear();
+            $start = $date->copy()->subYears(26)->startOfYear();
         }
+
+
+        $all = $q->where('persone.data_nascita', '<=', $end)
+                ->where('persone.data_nascita', '>=', $start)
+                ->orderByRaw('data_nascita ASC, nominativo ASC')
+                ->get();
 
         $ids = Studente::InAnnoScolastico($this->anno)->pluck('persona_id');
 
