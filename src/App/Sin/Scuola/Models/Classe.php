@@ -4,7 +4,6 @@ namespace App\Scuola\Models;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -117,8 +116,8 @@ class Classe extends Model
         $as = $anno->annoSolareInizio();
 
         $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
-                ->select('persone.id','persone.data_nascita','persone.nome', 'persone.cognome','persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
-                ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+            ->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
 
         $date = Carbon::now()->setYear($as);
 
@@ -126,15 +125,14 @@ class Classe extends Model
         $start = $date->copy()->subYears(100)->startOfYear();
 
         $all = $q->where('persone.data_nascita', '<=', $end)
-                ->where('persone.data_nascita', '>=', $start)
-                ->orderByRaw('nominativo ASC')
-                ->get();
+            ->where('persone.data_nascita', '>=', $start)
+            ->orderByRaw('nominativo ASC')
+            ->get();
 
         $alreadyIn = $this->coordinatori()->pluck('id');
 
         return $all->whereNotIn('id', $alreadyIn);
     }
-
 
     public function rimuoviCoordinatore(
         $coord
@@ -169,8 +167,8 @@ class Classe extends Model
         $tipo = $this->tipo()->first();
 
         $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
-                            ->select('persone.id','persone.data_nascita','persone.nome', 'persone.cognome','persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
-                            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+            ->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
 
         $date = Carbon::now()->setYear($as);
 
@@ -185,11 +183,10 @@ class Classe extends Model
             $start = $date->copy()->subYears(26)->startOfYear();
         }
 
-
         $all = $q->where('persone.data_nascita', '<=', $end)
-                ->where('persone.data_nascita', '>=', $start)
-                ->orderByRaw('data_nascita ASC, nominativo ASC')
-                ->get();
+            ->where('persone.data_nascita', '>=', $start)
+            ->orderByRaw('data_nascita ASC, nominativo ASC')
+            ->get();
 
         $ids = Studente::InAnnoScolastico($this->anno)->pluck('persona_id');
 

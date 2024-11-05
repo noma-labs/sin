@@ -11,9 +11,9 @@ class PopolazioneQueryBuilder extends Builder
     public function presentAt(Carbon $date)
     {
         return $this->where('popolazione.data_entrata', '<=', $date)
-                    ->where(function ($query) use ($date): void {
-                    $query->whereNull('popolazione.data_uscita')->orWhere('popolazione.data_uscita', '>=', $date);
-                });
+            ->where(function ($query) use ($date): void {
+                $query->whereNull('popolazione.data_uscita')->orWhere('popolazione.data_uscita', '>=', $date);
+            });
 
     }
 
