@@ -103,38 +103,6 @@ class PopolazioneNomadelfia extends Model
             ->get();
     }
 
-    public static function fraEta(
-        int $fromEta,
-        ?int $toEta = null,
-        string $orderBy = 'nominativo ASC',
-        ?int $travel_to_year = null,
-        $withInYear = false,
-    ) {
-        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
-        $end = $date->copy()->subYears($fromEta);
-        if ($withInYear) {
-            $end = $end->endOfYear();
-        }
-        $start = $date->copy()->subYears($toEta);
-        if ($withInYear) {
-            $start = $start->startOfYear();
-        }
-        $magg = DB::connection('db_nomadelfia')
-            ->table('persone')
-            ->selectRaw('persone.*, popolazione.data_entrata, MAX(popolazione.data_uscita) as data_uscita')
-            ->leftJoin('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->where('persone.data_nascita', '<=', $end)
-            ->whereNull('persone.data_decesso')
-            ->groupBy('persone.id')
-            ->orderByRaw($orderBy);
-        if ($toEta != null) {
-            $magg->where('persone.data_nascita', '>=', $start);
-        }
-
-        return $magg;
-
-    }
-
     /*
     *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
     *

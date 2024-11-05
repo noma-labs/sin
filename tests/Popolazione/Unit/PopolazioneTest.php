@@ -335,3 +335,35 @@ it('return the count of population', function (): void {
     $afterUscita = PopolazioneNomadelfia::presente()->count();
     expect($before - $afterUscita)->toBe(0);
 });
+
+it('get the people present at a specific date', function (): void {
+    $now = Carbon::now();
+    $before = PopolazioneNomadelfia::presentAt($now)->count();
+
+    // persone enter after and exited after is NOT present
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, $now->copy()->addMonth(), GruppoFamiliare::all()->random());
+    app(UscitaPersonaAction::class)->execute($persona, $now->copy()->addMonth(2)->toDateString());
+    $after = PopolazioneNomadelfia::presentAt($now)->count();
+    expect($after - $before)->toBe(0);
+
+    // persone enter before and exited before is NOT present
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, $now->copy()->subYear(), GruppoFamiliare::all()->random());
+    app(UscitaPersonaAction::class)->execute($persona, $now->copy()->subMonth()->toDateString());
+    $after = PopolazioneNomadelfia::presentAt($now)->count();
+    expect($after - $before)->toBe(0);
+
+    // persone enter before and exited after is present
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, $now->copy()->subYear(), GruppoFamiliare::all()->random());
+    app(UscitaPersonaAction::class)->execute($persona, $now->copy()->addMonth()->toDateString());
+    $after = PopolazioneNomadelfia::presentAt($now)->count();
+    expect($after - $before)->toBe(1);
+
+    // persone never exited is present
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, $now->copy()->subMonth(), GruppoFamiliare::all()->random());
+    $after = PopolazioneNomadelfia::presentAt($now)->count();
+    expect($after - $before)->toBe(2);
+});
