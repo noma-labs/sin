@@ -37,6 +37,7 @@ class PersonaAnagraficaController
         $persona->provincia_nascita = $request->luogonascita;
         $persona->sesso = $request->sesso;
         $persona->biografia = $request->get('biografia', $persona->biografia);
+        $persona->data_decesso = $request->get('data_decesso', $persona->data_decesso);
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");

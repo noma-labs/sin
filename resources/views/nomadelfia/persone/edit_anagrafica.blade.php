@@ -62,7 +62,16 @@
                         value="{{ old("luogonascita") ? old("luogonascita") : $persona->provincia_nascita }}"
                     />
                 </div>
-
+                <div class="form-group">
+                    <label for="decesso">Data Decesso</label>
+                    <date-picker
+                        id="decesso"
+                        :bootstrap-styling="true"
+                        value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"
+                        format="yyyy-MM-dd"
+                        name="data_decesso"
+                    ></date-picker>
+                </div>
                 <div class="form-group">
                     <div class="form-check">
                         <input
