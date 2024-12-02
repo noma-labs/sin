@@ -114,7 +114,6 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
     Route::post('persone/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
     Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('persone.famiglie');
-    Route::post('persona/{idPersona}/famiglie', [PersonaFamigliaController::class, 'store'])->name('personae.famiglie.create');
 
     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');

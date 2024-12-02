@@ -242,6 +242,40 @@ class Persona extends Model
         throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
     }
 
+    public function famigliaPosizione(string $posizione): bool
+    {
+        if ($this->famigliaAttuale()) {
+            return $this->famigliaAttuale()->pivot->posizione_famiglia == $posizione;
+        }
+
+        return false;
+    }
+
+    public function isCapoFamiglia(): bool
+    {
+        return $this->famigliaPosizione('CAPO FAMIGLIA');
+    }
+
+    public function isMoglie(): bool
+    {
+        return $this->famigliaPosizione('MOGLIE');
+    }
+
+    public function isFiglio(): bool
+    {
+        return $this->isFiglioNato() or $this->isFiglioAccolto();
+    }
+
+    public function isFiglioNato(): bool
+    {
+        return $this->famigliaPosizione('FIGLIO NATO');
+    }
+
+    public function isFiglioAccolto(): bool
+    {
+        return $this->famigliaPosizione('FIGLIO ACCOLTO');
+    }
+
     public function famiglieStorico(): BelongsToMany
     {
         return $this->famiglie()
@@ -314,9 +348,9 @@ class Persona extends Model
     // *************
     //  OTHER METHODS
     // *************
+
     public function getDataEntrataNomadelfia()
     {
-
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_entrata', 'DESC')->get();
         if (count($pop) > 0) {
             return $pop->first()->data_entrata;
@@ -373,120 +407,6 @@ class Persona extends Model
         } else {
             throw new Exception('Bad Argument. Stato must be an id or a model.');
         }
-    }
-
-    public function assegnaSacerdote(Carbon\Carbon $data_inizio, $attuale_data_fine = null): void
-    {
-
-        $sacerdote = Stato::perNome('sacerdote');
-        $this->assegnaStato($sacerdote, $data_inizio, $attuale_data_fine);
-    }
-
-    // Crea una famiglia e aggiunge la persona come componente
-    public function createAndAssignFamiglia($persona_id, $posizione, $nome, $data_creazione): bool
-    {
-        try {
-            DB::transaction(function () use (&$persona_id, &$posizione, &$nome, &$data_creazione): void {
-                $famiglia = Famiglia::create(['nome_famiglia' => $nome, 'data_creazione' => $data_creazione]);
-
-                $famiglia->componenti()->attach($persona_id, [
-                    'stato' => '1',
-                    'posizione_famiglia' => $posizione,
-                ]);
-            });
-
-            return true;
-        } catch (\Exception) {
-            return false;
-        }
-    }
-
-    /**
-     * Ritorna la posizione di una persona in una famiglia
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function famigliaPosizione(string $posizione)
-    {
-        if ($this->famigliaAttuale()) {
-            return $this->famigliaAttuale()->pivot->posizione_famiglia == $posizione;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Ritorna vero se la persona è single altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isSingle()
-    {
-        return $this->famigliaPosizione('SINGLE');
-    }
-
-    /**
-     * Ritorna vero se una persona è il capo famiglia altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isCapoFamiglia()
-    {
-        return $this->famigliaPosizione('CAPO FAMIGLIA');
-    }
-
-    /**
-     * Ritorna vero se una persona è la moglie altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isMoglie()
-    {
-        return $this->famigliaPosizione('MOGLIE');
-    }
-
-    /**
-     * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isFiglio()
-    {
-        return $this->isFiglioNato() or $this->isFiglioAccolto();
-    }
-
-    /**
-     * Ritorna vero se una persona è un figlio nato altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isFiglioNato()
-    {
-        return $this->famigliaPosizione('FIGLIO NATO');
-    }
-
-    /**
-     * Ritorna vero se una persona è un figlioaccolto altrimenti ritorna falso.
-     *
-     * @return bool
-     *
-     * @author Davide Neri
-     **/
-    public function isFiglioAccolto()
-    {
-        return $this->famigliaPosizione('FIGLIO ACCOLTO');
     }
 
     public function assegnaPostulante(Carbon\Carbon $data_inizio): void

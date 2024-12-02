@@ -44,7 +44,7 @@ it('get the eligible condidates', function (): void {
     // Sacerdote: non deve essere contato negli eleggibili
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
-    $persona->assegnaSacerdote($data_entrata);
+    $persona->assegnaStato(Stato::perNome('sacerdote'), $data_inizio, $attuale_data_fine);
     $gruppo = GruppoFamiliare::first();
 
     $act = app(EntrataMaggiorenneSingleAction::class);
