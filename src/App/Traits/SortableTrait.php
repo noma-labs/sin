@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\HtmlString;
 
 trait SortableTrait
 {
@@ -29,6 +30,8 @@ trait SortableTrait
         $indicator = (Request::input('s') == $col ? (Request::input('o') === 'asc' ? '&uarr;' : '&darr;') : null);
         $parameters = array_merge(Request::input(), ['s' => $col, 'o' => (Request::input('o') === 'asc' ? 'desc' : 'asc')]);
 
-        return link_to_route(Route::currentRouteName(), "$title $indicator", $parameters);
+        $url = route(Route::currentRouteName(), $parameters);
+        return  new HtmlString("<a href=\"$url\">$title $indicator</a>");
     }
+
 }
