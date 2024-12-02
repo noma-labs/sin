@@ -20,7 +20,7 @@ trait SortableTrait
         }
     }
 
-    public static function link_to_sorting_action($col, $title = null)
+    public static function link_to_sorting_action($col, $title = null): \Illuminate\Support\HtmlString
     {
         if (is_null($title)) {
             $title = str_replace('_', ' ', $col);
