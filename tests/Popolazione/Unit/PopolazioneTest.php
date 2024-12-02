@@ -287,7 +287,7 @@ it('assign postulante and effettivo status', function (): void {
     $persona->assegnaPosizione(Posizione::perNome('postulante'), $now);
     expect($persona->posizioneAttuale()->isPostulante())->toBeTrue();
 
-    $persona->assegnaNomadelfoEffettivo($now->subYears(1));
+    $persona->assegnaPosizione(Posizione::perNome('effettivo'),$now->subYears(1));
     expect($persona->posizioneAttuale()->isEffettivo())->toBeTrue();
 });
 

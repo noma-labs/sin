@@ -409,18 +409,6 @@ class Persona extends Model
         }
     }
 
-    public function assegnaNomadelfoEffettivo(
-        Carbon\Carbon $data_inizio
-    ): void {
-        // TODO: check that the posizione attuale è postulante
-        //        $attuale = this->posizioneAttuale();
-        //        if $attuale && !$attuale->isPostulante){
-        //            throw new Es
-        //        }
-        $effe = Posizione::perNome('effettivo');
-        $this->assegnaPosizione($effe, $data_inizio);
-    }
-
     public function assegnaPosizione(
         $posizione,
         string $data_inizio,

@@ -17,7 +17,7 @@ it('assign capogruppo', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $persona->assegnaPosizione(Posizione::perNome('postulante'), $data_entrata);
-    $persona->assegnaNomadelfoEffettivo($data_entrata);
+    $persona->assegnaPosizione(Posizione::perNome('effettivo'),$data_entrata);
     $gruppo->assegnaCapogruppo($persona, $data_entrata);
     expect($gruppo->capogruppoAttuale()->id)->toBe($persona->id);
 });
