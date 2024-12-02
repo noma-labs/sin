@@ -951,28 +951,8 @@ parameters:
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_entrata\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_famiglia_id\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_posizione_famiglia\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome\\.$#"
 			count: 3
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$old_data_uscita\\.$#"
-			count: 1
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
@@ -982,22 +962,17 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
-			count: 3
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
 			count: 2
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:findOrFail\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
