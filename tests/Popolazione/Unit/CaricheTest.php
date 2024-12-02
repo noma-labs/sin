@@ -56,7 +56,7 @@ it('get the eligible condidates', function (): void {
     expect($ele->total)->toBe(0);
 
     $persona->assegnaPosizione(Posizione::perNome('postulante'), Carbon::now()->subYears(20));
-    $persona->assegnaPosizione(Posizione::perNome('effettivo'),Carbon::now()->subYears(12));
+    $persona->assegnaPosizione(Posizione::perNome('effettivo'), Carbon::now()->subYears(12));
 
     $ele = Cariche::EleggibiliConsiglioAnziani();
     expect($ele->total)->toBe(1);

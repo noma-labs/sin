@@ -47,13 +47,18 @@
                                 Modifica
                             </a>
                             @if ($user->trashed())
-                                {!! Form::open(["method" => "PUT", "route" => ["users.restore", $user->id]]) !!}
-                                {!! Form::submit("Ripristina", ["class" => "btn btn-warning"]) !!}
-                                {!! Form::close() !!}
+                                <form action="{{ route('users.restore', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-warning">Ripristina</button>
+                                </form>
+
                             @else
-                                {!! Form::open(["method" => "DELETE", "route" => ["users.destroy", $user->id]]) !!}
-                                {!! Form::submit("Disabilita", ["class" => "btn btn-danger"]) !!}
-                                {!! Form::close() !!}
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Disabilita</button>
+                                </form>
                             @endif
                         </td>
                     </tr>

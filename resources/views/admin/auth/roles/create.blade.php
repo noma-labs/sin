@@ -9,12 +9,12 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="form-group">
-                    {{ Form::label("nome", "Nome del ruolo") }}
-                    {{ Form::text("nome", null, ["class" => "form-control"]) }}
+                    <label for="nome">Nome del ruolo</label>
+                    <input type="text" name="nome" id="nome" class="form-control" />
                 </div>
                 <div class="form-group">
-                    {{ Form::label("descrizione", "Descrizione ruolo") }}
-                    {{ Form::text("descrizione", null, ["class" => "form-control"]) }}
+                    <label for="descrizione">Descrizione ruolo</label>
+                    <input type="text" name="descrizione" id="descrizione" class="form-control" />
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ Form::submit("Aggiungi", ["class" => "btn btn-primary"]) }}
+                <button type="submit" class="btn btn-primary">Aggiungi</button>
             </div>
         </div>
     </form>
