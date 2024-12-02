@@ -56,6 +56,12 @@ tasks:
     cmds:
       - ./vendor/bin/pest
 
+  lint:check:ci:
+      cmds:
+        - ./vendor/bin/pint --test
+        - npm run format:check
+        - ./vendor/bin/rector --dry-run
+
   lint:check:
     cmds:
       -  docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint --test
