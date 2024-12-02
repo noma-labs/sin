@@ -37,7 +37,7 @@
                 <div class="card-body">
                     @if ($autore->libri->count())
                         <ul>
-                            @foreach ($autore->libri()->orderBy("titolo")->get() as $libro)
+                            @foreach ($autore->libri()->orderBy("titolo")->get()as $libro)
                                 <li>
                                     <a
                                         href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"

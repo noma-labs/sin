@@ -31,7 +31,7 @@ trait SortableTrait
         $parameters = array_merge(Request::input(), ['s' => $col, 'o' => (Request::input('o') === 'asc' ? 'desc' : 'asc')]);
 
         $url = route(Route::currentRouteName(), $parameters);
-        return  new HtmlString("<a href=\"$url\">$title $indicator</a>");
-    }
 
+        return new HtmlString("<a href=\"$url\">$title $indicator</a>");
+    }
 }

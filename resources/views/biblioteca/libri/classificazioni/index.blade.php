@@ -72,10 +72,19 @@
                                         role="group"
                                         aria-label="..."
                                     >
-                                        <form action="{{ route('classificazioni.destroy', $classificazione->id) }}" method="POST" style="display:inline;">
+                                        <form
+                                            action="{{ route("classificazioni.destroy", $classificazione->id) }}"
+                                            method="POST"
+                                            style="display: inline"
+                                        >
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                            @method("DELETE")
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger"
+                                            >
+                                                Elimina
+                                            </button>
                                         </form>
                                     </div>
                                 </div>

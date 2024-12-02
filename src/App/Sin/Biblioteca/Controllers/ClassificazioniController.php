@@ -86,6 +86,6 @@ class ClassificazioniController
 
     public function destroy($id)
     {
-        return redirect()->route('classificazioni.index')->withError("Impossibile eliminare la classificazione");
+        return redirect()->route('classificazioni.index')->withError('Impossibile eliminare la classificazione');
     }
 }
