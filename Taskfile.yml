@@ -40,6 +40,13 @@ tasks:
       - ./vendor/bin/sail php artisan config:clear
       - ./vendor/bin/sail php artisan route:clear
 
+  qa:
+    cmds:
+      - task lint:check
+      - task analyse
+      - task test
+
+
   test:
     deps: [up]
     cmds:
@@ -49,13 +56,11 @@ tasks:
     cmds:
       - ./vendor/bin/pest
 
-
   lint:check:
     cmds:
-      - ./vendor/bin/pint --test
-      - npm run format:check
+      -  docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint --test
+      - ./vendor/bin/sail npm run format:write
       - ./vendor/bin/rector --dry-run
-
 
   lint:
     cmds:
@@ -63,11 +68,9 @@ tasks:
       - ./vendor/bin/sail npm run format:write
       - ./vendor/bin/rector
 
-
   analyse:
     cmds:
       - ./vendor/bin/phpstan analyse  -l 5
-
 
   analyse:baseline:
     cmds:
