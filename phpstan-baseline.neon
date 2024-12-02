@@ -931,63 +931,8 @@ parameters:
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_creazione\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$data_entrata\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_data_entrata\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_famiglia_id\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$new_posizione_famiglia\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$nome\\.$#"
-			count: 3
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$old_data_uscita\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$posizione_famiglia\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
-			count: 3
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 2
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
-
-		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
-			count: 3
+			count: 1
 			path: src/App/Sin/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
@@ -2421,11 +2366,6 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Actions/ProposeNumeroElencoAction.php
 
 		-
-			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:\\$id\\.$#"
-			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
 			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Posizione\\:\\:\\$id\\.$#"
 			count: 5
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
@@ -2436,22 +2376,17 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
+			message: "#^Call to an undefined method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:isSingle\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"
 			count: 3
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:where\\(\\)\\.$#"
-			count: 2
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Famiglia\\\\Models\\\\Famiglia\\:\\:create\\(\\)\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
@@ -2481,22 +2416,17 @@ parameters:
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
+			message: "#^Call to static method createFromFormat\\(\\) on an unknown class Carbon\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
+
+		-
 			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
 		-
 			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Expression \"\\\\Carbon\\\\Carbon\\:\\:createFromFormat\\('Y\\-m\\-d', \\$this\\-\\>data_nascita\\)\\-\\>year\" on a separate line does not do anything\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Result of method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:assegnaIncarico\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 
@@ -2514,6 +2444,16 @@ parameters:
 			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:\\$aziendeAttuali\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaAziendaAction.php
+
+		-
+			message: "#^Access to an undefined property Domain\\\\Nomadelfia\\\\Incarico\\\\Models\\\\Incarico\\:\\:\\$id\\.$#"
+			count: 2
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaIncaricoAction.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Nomadelfia/PopolazioneNomadelfia/Actions/AssegnaIncaricoAction.php
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\GruppoFamiliare\\\\Models\\\\GruppoFamiliare\\:\\:findOrFail\\(\\)\\.$#"

@@ -12,6 +12,8 @@ use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -19,6 +21,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 it('remove dead person from population', function (): void {
@@ -34,10 +37,12 @@ it('remove dead person from population', function (): void {
     $this->assertEquals($tot, count($pop));
 
     $data_decesso = Carbon::now()->addYears(5)->toDatestring();
-    $persona->deceduto($data_decesso);
+
+    $action = app(DecessoPersonaAction::class);
+    $action->execute($persona, $data_decesso);
 
     $persona = Persona::findOrFail($persona->id);
-    expect($persona->isDeceduto())->toBeTrue()
+    expect($persona->isDeceduta())->toBeTrue()
         ->and($persona->isPersonaInterna())->toBeFalse()
         ->and(PopolazioneNomadelfia::totalePopolazione())->toBe($tot - 1);
     $this->assertNull($persona->posizioneAttuale());
@@ -66,7 +71,9 @@ it('manage exit of an adult', function (): void {
     expect($persona->aziendeAttuali()->count())->toBe(1);
     // assegna incarico
     $incarico = Incarico::factory()->create();
-    $persona->assegnaLavoratoreIncarico($incarico, Carbon::now());
+    $action = new AssegnaIncaricoAction;
+    $action->execute($persona, $incarico, Carbon::now());
+
     expect($incarico->lavoratoriAttuali()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
@@ -277,10 +284,10 @@ it('assign postulante and effettivo status', function (): void {
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
     $now = Carbon::now()->subYears(4);
-    $persona->assegnaPostulante($now);
+    $persona->assegnaPosizione(Posizione::perNome('postulante'), $now);
     expect($persona->posizioneAttuale()->isPostulante())->toBeTrue();
 
-    $persona->assegnaNomadelfoEffettivo($now->subYears(1));
+    $persona->assegnaPosizione(Posizione::perNome('effettivo'),$now->subYears(1));
     expect($persona->posizioneAttuale()->isEffettivo())->toBeTrue();
 });
 
