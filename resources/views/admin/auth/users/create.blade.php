@@ -4,7 +4,7 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi utente"])
     <div class="col-lg-4 offset-md-3">
-        <form action="{{ route('users.store') }}" method="POST">
+        <form action="{{ route("users.store") }}" method="POST">
             @csrf
 
             <div class="form-group">
@@ -14,14 +14,26 @@
 
             <div class="form-group">
                 <label for="username">Username(*)</label>
-                <input type="text" name="username" id="username" class="form-control" />
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                />
             </div>
 
             <div class="form-group">
                 <h5><b>Assegna i ruoli all'utente</b></h5>
                 @foreach ($roles as $role)
-                    <input type="checkbox" name="roles[]" value="{{ $role->id }}" id="role_{{ $role->id }}" />
-                    <label for="role_{{ $role->id }}">{{ ucfirst($role->name) }}</label>
+                    <input
+                        type="checkbox"
+                        name="roles[]"
+                        value="{{ $role->id }}"
+                        id="role_{{ $role->id }}"
+                    />
+                    <label for="role_{{ $role->id }}">
+                        {{ ucfirst($role->name) }}
+                    </label>
                     <br />
                 @endforeach
             </div>
@@ -29,13 +41,23 @@
             <div class="form-group">
                 <label for="password">Password(*)</label>
                 <br />
-                <input type="password" name="password" id="password" class="form-control" />
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                />
             </div>
 
             <div class="form-group">
                 <label for="password_confirmation">Conferma Password(*)</label>
                 <br />
-                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    id="password_confirmation"
+                    class="form-control"
+                />
             </div>
 
             <p class="text-danger">(*) campi obbligatori</p>

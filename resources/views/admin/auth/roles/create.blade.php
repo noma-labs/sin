@@ -10,11 +10,21 @@
             <div class="col-md-8 offset-md-2">
                 <div class="form-group">
                     <label for="nome">Nome del ruolo</label>
-                    <input type="text" name="nome" id="nome" class="form-control" />
+                    <input
+                        type="text"
+                        name="nome"
+                        id="nome"
+                        class="form-control"
+                    />
                 </div>
                 <div class="form-group">
                     <label for="descrizione">Descrizione ruolo</label>
-                    <input type="text" name="descrizione" id="descrizione" class="form-control" />
+                    <input
+                        type="text"
+                        name="descrizione"
+                        id="descrizione"
+                        class="form-control"
+                    />
                 </div>
             </div>
         </div>

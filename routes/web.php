@@ -63,10 +63,9 @@ Route::group([], function () {
 });
 
 Route::prefix('admin')->middleware('role:super-admin')->group(function () {
-    Route::view('/', 'admin.index')->name('admin');
+    Route::get('/', [UserController::class, 'index'])->name('admin');
     Route::put('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
     Route::resource('roles', RoleController::class);
     Route::get('risorse', [RisorsaController::class, 'index']);
     Route::get('logs', [LogsActivityController::class, 'index'])->name('admin.logs');

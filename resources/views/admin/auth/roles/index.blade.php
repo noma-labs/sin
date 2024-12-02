@@ -42,9 +42,13 @@
                                 Modifica
                             </a>
 
-                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" id="delete-role-{{ $role->id }}">
+                            <form
+                                action="{{ route("roles.destroy", $role->id) }}"
+                                method="POST"
+                                id="delete-role-{{ $role->id }}"
+                            >
                                 @csrf
-                                @method('DELETE')
+                                @method("DELETE")
                                 <button
                                     type="submit"
                                     form="delete-role-{{ $role->id }}"

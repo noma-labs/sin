@@ -47,17 +47,32 @@
                                 Modifica
                             </a>
                             @if ($user->trashed())
-                                <form action="{{ route('users.restore', $user->id) }}" method="POST">
+                                <form
+                                    action="{{ route("users.restore", $user->id) }}"
+                                    method="POST"
+                                >
                                     @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-warning">Ripristina</button>
+                                    @method("PUT")
+                                    <button
+                                        type="submit"
+                                        class="btn btn-warning"
+                                    >
+                                        Ripristina
+                                    </button>
                                 </form>
-
                             @else
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                <form
+                                    action="{{ route("users.destroy", $user->id) }}"
+                                    method="POST"
+                                >
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Disabilita</button>
+                                    @method("DELETE")
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Disabilita
+                                    </button>
                                 </form>
                             @endif
                         </td>
