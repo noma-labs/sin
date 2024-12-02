@@ -2,7 +2,6 @@
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -42,32 +41,6 @@ class PersonaFamigliaController
                 ->withSuccess("Persona $persona->nominativo e famiglia $request->nome creata con successo");
         } else {
             return redirect()->back()->withError("Impossibile creare la famiglia $request->nome");
-        }
-    }
-
-    // TODO: move into a dedicated controller
-    public function spostaInNuovaFamiglia(Request $request, $idPersona)
-    {
-        $request->validate([
-            'new_famiglia_id' => 'required',
-            'new_posizione_famiglia' => 'required',
-            'new_data_entrata' => 'required',
-            'old_data_uscita' => 'date',
-        ], [
-            'new_famiglia_id.required' => 'Il nome della famiglia è obbligatorio',
-            'new_posizione_famiglia.required' => 'La posizione è obbligatoria',
-            'new_data_entrata.required' => 'La data di entrata nella nuova famiglia è obbligatoria',
-            'old_data_entrata.date' => 'Lo data di entrata dalla famiglia non è valida',
-            'old_data_uscita.date' => 'Lo data di uscita dalla famiglia non è valida',
-        ]);
-        $persona = Persona::findOrFail($idPersona);
-        $famiglia = Famiglia::findOrFail($request->new_famiglia_id);
-        $res = $persona->spostaNellaFamiglia($famiglia, $request->new_data_entrata, $request->new_posizione_famiglia,
-            $request->old_data_uscita);
-        if ($res) {
-            return redirect()->back()->withSuccess("Persona $persona->nominativo spostata nella famiglia con successo");
-        } else {
-            return redirect()->back()->withError("Impossibile spostare la persona $persona->nominativo nella famiglia");
         }
     }
 }

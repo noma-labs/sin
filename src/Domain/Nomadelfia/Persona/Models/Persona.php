@@ -7,7 +7,6 @@ use App\Nomadelfia\Exceptions\PersonaHasMultipleFamigliaAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
-use App\Nomadelfia\Exceptions\SpostaNellaFamigliaError;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
 use Carbon;
@@ -229,7 +228,6 @@ class Persona extends Model
 
     public function famigliaAttuale()
     {
-
         $famiglia = $this->famiglie()
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
@@ -319,8 +317,10 @@ class Persona extends Model
 
     public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
     {
-        $affected = PopolazioneNomadelfia::query()->where('persona_id', $this->id)->where('data_entrata',
-            $old_data_entrata)->update(['data_entrata' => $data_entrata]);
+        $affected = PopolazioneNomadelfia::query()
+            ->where('persona_id', $this->id)
+            ->where('data_entrata', $old_data_entrata)
+            ->update(['data_entrata' => $data_entrata]);
         if ($affected > 0) {
             return true;
         }
@@ -413,46 +413,6 @@ class Persona extends Model
         } catch (\Exception) {
             return false;
         }
-    }
-
-    /**
-     * Move a person to a family.
-     * If the person has already an active family, the current family is deactivate.
-     */
-    public function spostaNellaFamiglia($famiglia, $posizione): static
-    {
-        if ($famiglia->single()) {
-            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia,
-                'La famiglia single non può avere più di un componente');
-        }
-        $attuale = $this->famigliaAttuale();
-        try {
-            if (! $attuale) {
-                $this->famiglie()->attach($famiglia->id,
-                    ['stato' => '1', 'posizione_famiglia' => $posizione]);
-            } else {
-                // TODO; check se la persona può essere asseganta alla nuova famiglia
-                DB::transaction(function () use (&$attuale, &$famiglia, &$posizione): void {
-                    $expression = DB::raw("UPDATE famiglie_persone
-                        SET stato = '0'
-                        WHERE persona_id  = :persona AND famiglia_id = :famiglia ");
-                    DB::connection('db_nomadelfia')->update(
-                        $expression->getValue(DB::connection()->getQueryGrammar()),
-                        [
-                            'persona' => $this->id,
-                            'famiglia' => $attuale->id,
-                        ]
-                    );
-
-                    $this->famiglie()->attach($famiglia->id,
-                        ['stato' => '1', 'posizione_famiglia' => $posizione]);
-                });
-            }
-        } catch (\Exception $e) {
-            throw SpostaNellaFamigliaError::create($this->nominativo, $famiglia->nome_famiglia, str($e));
-        }
-
-        return $this;
     }
 
     /**

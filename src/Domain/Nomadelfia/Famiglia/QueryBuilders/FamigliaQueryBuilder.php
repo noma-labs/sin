@@ -37,7 +37,6 @@ class FamigliaQueryBuilder extends Builder
             })
             ->whereNull('popolazione.data_uscita')
             ->orderBy('persone.nominativo');
-
     }
 
     public function male(): FamigliaQueryBuilder
