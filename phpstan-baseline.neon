@@ -31,36 +31,6 @@ parameters:
 			path: src/App/Sin/Admin/Controllers/LogsActivityController.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Permission\\\\Models\\\\Permission\\:\\:\\$_belong_to_archivio\\.$#"
-			count: 1
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 3
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
-			message: "#^Call to an undefined static method Spatie\\\\Permission\\\\Models\\\\Permission\\:\\:findOrFail\\(\\)\\.$#"
-			count: 3
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
-			message: "#^Call to an undefined static method Spatie\\\\Permission\\\\Models\\\\Permission\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
-			message: "#^Call to an undefined static method Spatie\\\\Permission\\\\Models\\\\Role\\:\\:get\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
-			message: "#^Call to an undefined static method Spatie\\\\Permission\\\\Models\\\\Role\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Admin/Controllers/RisorsaController.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Admin/Controllers/RoleController.php
@@ -271,13 +241,8 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErroe\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/ClassificazioniController.php
 
 		-
