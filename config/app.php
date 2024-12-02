@@ -179,7 +179,6 @@ return [
         /*
          * Third Party Service Providers...
         */
-        Collective\Html\HtmlServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ],
@@ -231,9 +230,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Carbon' => 'Carbon\Carbon',
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
-
         Spatie\Permission\PermissionServiceProvider::class,
     ],
 
