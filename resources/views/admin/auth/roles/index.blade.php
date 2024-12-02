@@ -41,17 +41,23 @@
                             >
                                 Modifica
                             </a>
-                            <button
-                                type="submit"
-                                form="{{ $role->id }}"
-                                value="Submit"
-                                ,
-                                class="btn btn-danger m-1"
+
+                            <form
+                                action="{{ route("roles.destroy", $role->id) }}"
+                                method="POST"
+                                id="delete-role-{{ $role->id }}"
                             >
-                                Elimina
-                            </button>
-                            {!! Form::open(["method" => "DELETE", "id" => $role->id, "route" => ["roles.destroy", $role->id]]) !!}
-                            {!! Form::close() !!}
+                                @csrf
+                                @method("DELETE")
+                                <button
+                                    type="submit"
+                                    form="delete-role-{{ $role->id }}"
+                                    value="Submit"
+                                    class="btn btn-danger m-1"
+                                >
+                                    Elimina
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

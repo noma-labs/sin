@@ -12,7 +12,6 @@
         "laravel/framework": "^10.0",
         "laravel/tinker": "~2.0",
         "laravel/ui": "^4.0",
-        "laravelcollective/html": "^6.0",
         "livewire/livewire": "^3.4",
         "phpoffice/phpspreadsheet": "^1.7",
         "phpoffice/phpword": "0.18.3",

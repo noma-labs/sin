@@ -9,7 +9,6 @@
             <thead class="thead-inverse">
                 <tr>
                     <th>Permesso</th>
-                    <!--            <th>Ruolo</th>-->
                     <th>Operazioni</th>
                 </tr>
             </thead>
@@ -17,19 +16,7 @@
                 @foreach ($permissions as $permission)
                     <tr>
                         <td>{{ $permission->name }}</td>
-                        <td>
-                            <a
-                                href="{{ route("risorse.edit", $permission->id) }}"
-                                class="btn btn-info pull-left"
-                                style="margin-right: 3px"
-                            >
-                                Modifica
-                            </a>
-
-                            {!! Form::open(["method" => "DELETE", "route" => ["risorse.destroy", $permission->id]]) !!}
-                            {!! Form::submit("Cancella", ["class" => "btn btn-danger"]) !!}
-                            {!! Form::close() !!}
-                        </td>
+                        <td>---</td>
                     </tr>
                 @endforeach
             </tbody>

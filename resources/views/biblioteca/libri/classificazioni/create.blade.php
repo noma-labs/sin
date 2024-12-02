@@ -6,15 +6,28 @@
 
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            {{ Form::open(["route" => ["classificazioni.index"], "class" => "form-horizontal"]) }}
-            <div class="form-group">
-                {{ Form::label("descrizione", "Classificazione") }}
-                {{ Form::text("descrizione", null, ["class" => "form-control", "placeholder" => "Nome classificazione"]) }}
-            </div>
-            <div class="form-group">
-                {{ Form::submit("Aggiungi", ["class" => "btn btn-primary"]) }}
-                {{ Form::close() }}
-            </div>
+            <form
+                action="{{ route("classificazioni.index") }}"
+                method="POST"
+                class="form-horizontal"
+            >
+                @csrf
+                <div class="form-group">
+                    <label for="descrizione">Classificazione</label>
+                    <input
+                        type="text"
+                        name="descrizione"
+                        id="descrizione"
+                        class="form-control"
+                        placeholder="Nome classificazione"
+                    />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Aggiungi
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

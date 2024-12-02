@@ -6,15 +6,27 @@
 
     <div class="row">
         <div class="col-md-6 offset-md-4">
-            {{ Form::model($classificazione, ["route" => ["classificazioni.update", $classificazione->id], "method" => "PUT", "class" => "form-horizontal"]) }}
-            <div class="form-group">
-                {{ Form::label("descrizione", "Classificazione") }}
-                {{ Form::text("descrizione", $classificazione->descrizione, ["class" => "form-control", "name" => "descrizione"]) }}
-            </div>
-            <div class="form-group">
-                {{ Form::submit("Salva", ["class" => "btn btn-primary"]) }}
-                {{ Form::close() }}
-            </div>
+            <form
+                action="{{ route("classificazioni.update", $classificazione->id) }}"
+                method="POST"
+                class="form-horizontal"
+            >
+                @csrf
+                @method("PUT")
+                <div class="form-group">
+                    <label for="descrizione">Classificazione</label>
+                    <input
+                        type="text"
+                        name="descrizione"
+                        id="descrizione"
+                        class="form-control"
+                        value="{{ $classificazione->descrizione }}"
+                    />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Salva</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

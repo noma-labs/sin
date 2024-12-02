@@ -1,67 +1,90 @@
 @extends("admin.index")
-
 @section("title", "| Edit User")
 
 @section("content")
     @include("partials.header", ["title" => "Modifica utente"])
+    <div class="col-lg-4 offset-md-3">
+        <form action="{{ route("users.update", $user->id) }}" method="POST">
+            @csrf
+            @method("PUT")
 
-    {{ Form::model($user, ["route" => ["users.update", $user->id], "method" => "PUT"]) }}
-    <div class="row">
-        <div class="col-md-3 offset-md-1">
             <div class="form-group">
-                {{ Form::label("name", "Nominativo(*)") }}
-                <livewire:search-popolazione name_input="persona_id" />
+                <label for="persona_id">Nominativo (Persona anagrafe)(*)</label>
+                <livewire:search-popolazione
+                    name_input="persona_id"
+                    :value="$user->persona_id"
+                />
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                {{ Form::label("username", "Username(*)") }}
-                {{ Form::text("username", null, ["class" => "form-control"]) }}
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                {{ Form::label("email", "Email") }}
-                {{ Form::email("email", null, ["class" => "form-control"]) }}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-1">
-            <h5><b>Assegna i ruoli all'utente</b></h5>
-            <div class="form-group">
-                @foreach ($roles as $role)
-                    <input
-                        type="checkbox"
-                        name="roles[]"
-                        value="{{ $role->id }}"
-                        {{ $user->hasRole($role) ? "checked" : "" }}
-                    />
-                    {{ $role->name }}
-                    <br />
-                @endforeach
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                {{ Form::label("password", "Password") }}
-                <br />
-                {{ Form::password("password", ["class" => "form-control"]) }}
-            </div>
-        </div>
 
-        <div class="col-md-3">
             <div class="form-group">
-                {{ Form::label("password", "Conferma Password") }}
-                <br />
-                {{ Form::password("password_confirmation", ["class" => "form-control"]) }}
+                <label for="username">Username(*)</label>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                    value="{{ $user->username }}"
+                />
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-1">
-            {{ Form::submit("Salva", ["class" => "btn btn-primary"]) }}
-            {{ Form::close() }}
-        </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    value="{{ $user->email }}"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <br />
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">Conferma Password</label>
+                <br />
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    id="password_confirmation"
+                    class="form-control"
+                />
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h5><b>Assegna i ruoli all'utente</b></h5>
+                    <div class="form-group">
+                        @foreach ($roles as $role)
+                            <input
+                                type="checkbox"
+                                name="roles[]"
+                                value="{{ $role->id }}"
+                                {{ $user->hasRole($role) ? "checked" : "" }}
+                                id="role_{{ $role->id }}"
+                            />
+                            <label for="role_{{ $role->id }}">
+                                {{ $role->name }}
+                            </label>
+                            <br />
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 offset-md-1">
+                    <button type="submit" class="btn btn-primary">Salva</button>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
