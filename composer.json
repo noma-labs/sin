@@ -9,7 +9,6 @@
         "cerbero/json-parser": "^1.1",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laracasts/utilities": "^3.0",
         "laravel/framework": "^10.0",
         "laravel/tinker": "~2.0",
         "laravel/ui": "^4.0",
