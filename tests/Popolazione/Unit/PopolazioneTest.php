@@ -21,6 +21,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 it('remove dead person from population', function (): void {
@@ -283,7 +284,7 @@ it('assign postulante and effettivo status', function (): void {
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
     $now = Carbon::now()->subYears(4);
-    $persona->assegnaPostulante($now);
+    $persona->assegnaPosizione(Posizione::perNome('postulante'), $now);
     expect($persona->posizioneAttuale()->isPostulante())->toBeTrue();
 
     $persona->assegnaNomadelfoEffettivo($now->subYears(1));

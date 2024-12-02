@@ -7,6 +7,8 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 use Illuminate\Support\Facades\DB;
 
 it('check the seeded cariche', function (): void {
@@ -44,7 +46,7 @@ it('get the eligible condidates', function (): void {
     // Sacerdote: non deve essere contato negli eleggibili
     $data_entrata = Carbon::now();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
-    $persona->assegnaStato(Stato::perNome('sacerdote'), $data_inizio, $attuale_data_fine);
+    $persona->assegnaStato(Stato::perNome('sacerdote'), $data_entrata);
     $gruppo = GruppoFamiliare::first();
 
     $act = app(EntrataMaggiorenneSingleAction::class);
@@ -53,7 +55,7 @@ it('get the eligible condidates', function (): void {
     $ele = Cariche::EleggibiliConsiglioAnziani();
     expect($ele->total)->toBe(0);
 
-    $persona->assegnaPostulante(Carbon::now()->subYears(20));
+    $persona->assegnaPosizione(Posizione::perNome('postulante'), Carbon::now()->subYears(20));
     $persona->assegnaNomadelfoEffettivo(Carbon::now()->subYears(12));
 
     $ele = Cariche::EleggibiliConsiglioAnziani();
