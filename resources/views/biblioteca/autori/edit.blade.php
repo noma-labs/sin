@@ -6,15 +6,17 @@
 
     <div class="row">
         <div class="col-md-6 offset-md-2">
-            {{ Form::model($autore, ["route" => ["autori.update", $autore->id], "method" => "PUT", "class" => "form-horizontal"]) }}
-            <div class="form-group">
-                {{ Form::label("Autore", "Autore") }}
-                {{ Form::text("Autore", $autore->autore, ["class" => "form-control", "name" => "autore"]) }}
-            </div>
-            <div class="form-group my-2">
-                {{ Form::submit("Salva", ["class" => "btn btn-primary"]) }}
-                {{ Form::close() }}
-            </div>
+            <form action="{{ route('autori.update', $autore->id) }}" method="POST" class="form-horizontal">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="autore">Autore</label>
+                    <input type="text" name="autore" id="autore" class="form-control" value="{{ $autore->autore }}" />
+                </div>
+                <div class="form-group my-2">
+                    <button type="submit" class="btn btn-primary">Salva</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

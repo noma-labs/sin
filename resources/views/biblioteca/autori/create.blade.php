@@ -6,14 +6,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-2">
-                {{ Form::open(["url" => route("autori.store"), "class" => "form-horizontal"]) }}
-                <div class="form-group">
-                    {{ Form::label("autore", "Autore") }}
-                    {{ Form::text("autore", null, ["class" => "form-control", "placeholder" => "Es. Italo Calvino"]) }}
-                </div>
-                <div class="form-group my-3">
-                    {{ Form::submit("Aggiungi", ["class" => "btn btn-primary"]) }}
-                    {{ Form::close() }}
+                <form action="{{ route('autori.store') }}" method="POST" class="form-horizontal">
+                    @csrf
+                    <div class="form-group">
+                        <label for="autore">Autore</label>
+                        <input type="text" name="autore" id="autore" class="form-control" placeholder="Es. Italo Calvino" />
+                    </div>
+                    <div class="form-group my-3">
+                        <button type="submit" class="btn btn-primary">Aggiungi</button>
+                    </div>
+                </form>
                 </div>
             </div>
         </div>

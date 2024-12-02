@@ -81,11 +81,11 @@ class ClassificazioniController
             return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
         }
 
-        return redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
+        return redirect()->route('classificazioni.index')->withError("Errore durante l'operaizone di aggiornamento");
     }
 
     public function destroy($id)
     {
-        return redirect()->route('classificazioni.index')->withError("Impossibile eliminare l'autore");
+        return redirect()->route('classificazioni.index')->withError("Impossibile eliminare la classificazione");
     }
 }

@@ -72,9 +72,11 @@
                                         role="group"
                                         aria-label="..."
                                     >
-                                        {!! Form::open(["method" => "DELETE", "route" => ["classificazioni.destroy", $classificazione->id]]) !!}
-                                        {!! Form::submit("Elimina", ["class" => "btn btn-danger"]) !!}
-                                        {!! Form::close() !!}
+                                        <form action="{{ route('classificazioni.destroy', $classificazione->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        </form>
                                     </div>
                                 </div>
                             </td>
