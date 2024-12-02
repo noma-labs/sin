@@ -314,20 +314,6 @@ class Persona extends Model
     // *************
     //  OTHER METHODS
     // *************
-
-    public function setDataEntrataNomadelfia($old_data_entrata, $data_entrata): bool
-    {
-        $affected = PopolazioneNomadelfia::query()
-            ->where('persona_id', $this->id)
-            ->where('data_entrata', $old_data_entrata)
-            ->update(['data_entrata' => $data_entrata]);
-        if ($affected > 0) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function getDataEntrataNomadelfia()
     {
 

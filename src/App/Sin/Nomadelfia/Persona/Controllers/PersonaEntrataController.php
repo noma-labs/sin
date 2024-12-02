@@ -73,8 +73,10 @@ class PersonaEntrataController
             'data_entrata.date' => 'La data entrata non è valida.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
-            $entrata)->update(['data_entrata' => $request->data_entrata]);
+        PopolazioneNomadelfia::query()
+            ->where('persona_id', $persona->id)
+            ->where('data_entrata', $entrata)
+            ->update(['data_entrata' => $request->data_entrata]);
 
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }
