@@ -12,7 +12,7 @@
         "laravel/tinker": "~2.0",
         "laravel/ui": "^4.6",
         "livewire/livewire": "^3.4",
-        "phpoffice/phpspreadsheet": "^1.7",
+        "phpoffice/phpspreadsheet": "^3.0",
         "phpoffice/phpword": "^1.0",
         "pmatseykanets/laravel-sql-migrations": "dev-laravel10",
         "sentry/sentry-laravel": "^4.5",
