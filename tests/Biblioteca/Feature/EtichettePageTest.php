@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Biblioteca\Feature;
 
 use App\Biblioteca\Models\Libro;

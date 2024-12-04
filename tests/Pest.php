@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -8,7 +10,10 @@ use Tests\TestCasePest;
 
 use function Pest\Laravel\actingAs;
 
-uses(TestCasePest::class)->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
+uses(TestCasePest::class)
+    ->group('Popolazione')
+    ->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
+
 
 function login(?User $user = null): User
 {
@@ -26,7 +31,7 @@ function runMiddleware($middleware, $permission)
     try {
         return $middleware->handle(
             new Request,
-            function (): \Illuminate\Http\Response {
+            function (): Response {
                 return (new Response)->setContent('<html></html>');
             },
             $permission

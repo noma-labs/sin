@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Controllers;
 
 use App\Nomadelfia\Azienda\Controllers\AziendeController;

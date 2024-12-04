@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Patente;
 
 use App\Patente\Controllers\PatenteController;
