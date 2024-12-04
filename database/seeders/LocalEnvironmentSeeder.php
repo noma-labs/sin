@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Admin\Models\User;
@@ -7,7 +9,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class LocalEnvironmentSeeder extends Seeder
+final class LocalEnvironmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.

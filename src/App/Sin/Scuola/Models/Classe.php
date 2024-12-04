@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $ord
  */
-class Classe extends Model
+final class Classe extends Model
 {
     public $timestamps = true;
 
@@ -77,7 +79,7 @@ class Classe extends Model
         }
     }
 
-    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio): void
+    public function importStudentsFromOtherClasse(self $classe_from, string $data_inizio): void
     {
         $a = $classe_from->alunni()->get();
         $this->alunni()->attach($a, ['data_inizio' => $data_inizio]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
 use App\Scuola\Models\Anno;
@@ -9,33 +11,34 @@ use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use stdClass;
 
-class ExportPopolazioneData
+final class ExportPopolazioneData
 {
     public int $totalePopolazione;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $maggiorenni;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $figliMinorenni;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $effettivi;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $postulanti;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $ospiti;
 
@@ -44,12 +47,12 @@ class ExportPopolazioneData
     public $mammeVocazione;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $figliMaggiori21;
 
     /**
-     * @var \stdClass
+     * @var stdClass
      */
     public $figliFra18e21;
 

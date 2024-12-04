@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use App\Traits\Enums;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class Coordinatore extends Persona
+final class Coordinatore extends Persona
 {
     use Enums;
 

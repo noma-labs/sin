@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Biblioteca\Models\Autore;
@@ -8,7 +10,7 @@ use App\Biblioteca\Models\Libro;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BibliotecaTableSeeder extends Seeder
+final class BibliotecaTableSeeder extends Seeder
 {
     public function run()
     {

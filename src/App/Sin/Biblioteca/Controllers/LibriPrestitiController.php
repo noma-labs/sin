@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -10,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class LibriPrestitiController
+final class LibriPrestitiController
 {
     public function conclude(Request $request, $idPrestito)
     {
@@ -26,9 +28,10 @@ class LibriPrestitiController
                 return ($url = Session::get('clientePrestitiUrl'))
                     ? redirect()->to($url)->withSuccess("Prestito terminato correttamente in data $data")
                     : redirect()->route('libri.prestiti')->withSuccess("Prestito terminato correttamente in data $data");
-            } else {
-                return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
             }
+
+            return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
+
         }
 
     }
@@ -161,9 +164,9 @@ class LibriPrestitiController
         ]);
         if ($prestito) {
             return redirect()->route('libri.prestiti')->withSuccess('Prestito modificato correttamente');
-        } else {
-            return redirect()->route('libri.prestiti')->withWarning('Nessuna modifica effettuata');
         }
+
+        return redirect()->route('libri.prestiti')->withWarning('Nessuna modifica effettuata');
 
     }
 }

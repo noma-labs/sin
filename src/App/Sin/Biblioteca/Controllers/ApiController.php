@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ApiController
+final class ApiController
 {
     public function autocompleteLibro(Request $request)
     {
@@ -21,9 +24,9 @@ class ApiController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'libro non trovato']);
         }
+
+        return response()->json(['value' => '', 'label' => 'libro non trovato']);
 
     }
 
@@ -89,17 +92,17 @@ class ApiController
     /**
      * Inserisce un nuovo autore.
      *
-     * @return string
-     *                {
-     *                "err": 0|1, // 1 if there are errors, 0 otherwise
-     *                "data": {
-     *                "label": String,  // nome of the autore inserted
-     *                "value": Int,    // ID of the autore
-     *                },
-     *                "msg": String  // message  "Editore DIDO-EDITORE-2 esiste già."
-     *                }
+     * @return JsonResponse
+     *                      {
+     *                      "err": 0|1, // 1 if there are errors, 0 otherwise
+     *                      "data": {
+     *                      "label": String,  // nome of the autore inserted
+     *                      "value": Int,    // ID of the autore
+     *                      },
+     *                      "msg": String  // message  "Editore DIDO-EDITORE-2 esiste già."
+     *                      }
      */
-    public function postAutore(Request $request)
+    public function postAutore(Request $request): JsonResponse
     {
         if ($request->filled('nome')) {
             $nome = $request->input('nome');
@@ -113,33 +116,33 @@ class ApiController
                     'data' => ['label' => $autore->autore, 'value' => $autore->id],
                     'msg' => $msg,
                 ]);
-            } else {
-                $msg = "Autore $autore->autore esiste già.";
             }
+            $msg = "Autore $autore->autore esiste già.";
 
             return response()->json(['err' => 1, 'data' => [], 'msg' => $msg]);
-        } else {
-            return response()->json([
-                'err' => 1,
-                'error' => "Errore nell'inserimento dellì'autore.",
-            ], 400);
         }
+
+        return response()->json([
+            'err' => 1,
+            'error' => "Errore nell'inserimento dellì'autore.",
+        ], 400);
+
     }
 
     /**
      * Inserisce un nuovo editore.
      *
-     * @return string
-     *                {
-     *                "err": 0|1,            // 1 if there are errors, 0 otherwise
-     *                "data": {
-     *                "label": String, //nome of the editore inserted
-     *                "value": Int,    // ID of the editore
-     *                },
-     *                "msg": string
-     *                }
+     * @return JsonResponse
+     *                      {
+     *                      "err": 0|1,            // 1 if there are errors, 0 otherwise
+     *                      "data": {
+     *                      "label": String, //nome of the editore inserted
+     *                      "value": Int,    // ID of the editore
+     *                      },
+     *                      "msg": string
+     *                      }
      */
-    public function postEditore(Request $request)
+    public function postEditore(Request $request): JsonResponse
     {
         if ($request->filled('nome')) {
             $nome = $request->input('nome');
@@ -153,16 +156,16 @@ class ApiController
                     'data' => ['label' => $editore->editore, 'value' => $editore->id],
                     'msg' => $msg,
                 ]);
-            } else {
-                $msg = "Editore $editore->editore esiste già.";
             }
+            $msg = "Editore $editore->editore esiste già.";
 
             return response()->json(['err' => 1, 'data' => [], 'msg' => $msg]);
-        } else {
-            return response()->json([
-                'err' => 1,
-                'msg' => "Errore nell'inserimento dell'editore.",
-            ], 400);
         }
+
+        return response()->json([
+            'err' => 1,
+            'msg' => "Errore nell'inserimento dell'editore.",
+        ], 400);
+
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersoneController
+final class PersoneController
 {
     public function show($idPersona)
     {
@@ -44,9 +46,10 @@ class PersoneController
                 ->orWhere('cognome', 'like', '%'.$request->persona);
             if ($personeEsistenti->exists()) {
                 return view('nomadelfia.persone.insert_existing', compact('personeEsistenti'));
-            } else {
-                return redirect(route('nomadelfia.persone.anagrafica.create'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
             }
+
+            return redirect(route('nomadelfia.persone.anagrafica.create'))->withSuccess('Nessuna persona presente con nome e cognome inseriti.')->withInput();
+
         }
     }
 

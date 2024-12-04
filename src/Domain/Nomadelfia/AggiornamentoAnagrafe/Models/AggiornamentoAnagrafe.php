@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\AggiornamentoAnagrafe\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 
-class AggiornamentoAnagrafe extends Activity
+final class AggiornamentoAnagrafe extends Activity
 {
-    const LOG_NAME = 'nomadelfia';
+    public const LOG_NAME = 'nomadelfia';
 
-    const EVENT_POPOLAZIONE_ENTER = 'popolazione.entrata';
+    public const EVENT_POPOLAZIONE_ENTER = 'popolazione.entrata';
 
-    const EVENT_POPOLAZIONE_EXIT = 'popolazione.uscita';
+    public const EVENT_POPOLAZIONE_EXIT = 'popolazione.uscita';
 
-    const EVENT_POPOLAZIONE_DEATH = 'popolazione.decesso';
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('nomadelfia', function (Builder $builder): void {
-            $builder->where('log_name', self::LOG_NAME);
-        });
-    }
+    public const EVENT_POPOLAZIONE_DEATH = 'popolazione.decesso';
 
     public function scopeEnter(Builder $query): void
     {
@@ -52,5 +47,12 @@ class AggiornamentoAnagrafe extends Activity
     public function isDeathEvent(): bool
     {
         return $this->event === self::EVENT_POPOLAZIONE_DEATH;
+    }
+
+    protected static function booted(): void
+    {
+        self::addGlobalScope('nomadelfia', function (Builder $builder): void {
+            $builder->where('log_name', self::LOG_NAME);
+        });
     }
 }

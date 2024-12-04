@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Admin\Controllers\LogsActivityController;
 use App\Admin\Controllers\RisorsaController;
 use App\Admin\Controllers\RoleController;

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Scuola\Models\Elaborato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ElaboratoFactory extends Factory
+final class ElaboratoFactory extends Factory
 {
     protected $model = Elaborato::class;
 

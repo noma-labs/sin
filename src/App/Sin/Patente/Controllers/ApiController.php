@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Controllers;
 
 use App\Patente\Models\CategoriaPatente;
@@ -9,38 +11,36 @@ use App\Patente\Models\ViewClientiConSenzaPatente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ApiController
+final class ApiController
 {
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
      * @param  string  $numero  della patente
-     * @return string $Patente
-     *                {
-     *                "persona_id": number,
-     *                "numero_patente": string,
-     *                "rilasciata_dal": string,
-     *                "data_rilascio_patente": date  "GG-MM-YYYY",
-     *                "data_scadenza_patente":date "GG-MM-YYYY",
-     *                "stato": enum ('commissione',NULL),
-     *                "note": string,
-     *                "categorie":[
-     *                {"id": number,
-     *                "categoria": string,
-     *                "descrizione": string,
-     *                "note":"string,
-     *                "pivot":{
-     *                "numero_patente": string,
-     *                "categoria_patente_id":string,
-     *                "data_rilascio":date ("2016-01-07")
-     *                "data_scadenza": date ("2021-01-05)
-     *                }
-     *                }
-     *                ]}
-     *
-     * @author Davide Neri
+     * @return JsonResponse $Patente
+     *                      {
+     *                      "persona_id": number,
+     *                      "numero_patente": string,
+     *                      "rilasciata_dal": string,
+     *                      "data_rilascio_patente": date  "GG-MM-YYYY",
+     *                      "data_scadenza_patente":date "GG-MM-YYYY",
+     *                      "stato": enum ('commissione',NULL),
+     *                      "note": string,
+     *                      "categorie":[
+     *                      {"id": number,
+     *                      "categoria": string,
+     *                      "descrizione": string,
+     *                      "note":"string,
+     *                      "pivot":{
+     *                      "numero_patente": string,
+     *                      "categoria_patente_id":string,
+     *                      "data_rilascio":date ("2016-01-07")
+     *                      "data_scadenza": date ("2021-01-05)
+     *                      }
+     *                      }
+     *                      ]}
      */
-    public function patente(Request $request, $numero)
+    public function patente($numero): JsonResponse
     {
         $p = Patente::where('numero_patente', $numero)->with(['categorie', 'cqc'])->first();
 
@@ -50,11 +50,9 @@ class ApiController
     /**
      * Ritorna tutte le categorie (eccetto i CQC)
      *
-     * @return string $CategoriaPatente
-     *
-     * @author Davide Neri
+     * @return JsonResponse $CategoriaPatente
      */
-    public function categorie(Request $request)
+    public function categorie(): JsonResponse
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
 
@@ -65,17 +63,17 @@ class ApiController
      * Ritorna cqc merci e c.q.c persone
      *
      *
-     * @return string
-     *                {[
-     *                id: 16,
-     *                categoria: "C.Q.C. PERSONE",
-     *                descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
-     *                note: ""]
-     *                }
+     * @return JsonResponse
+     *                      {[
+     *                      id: 16,
+     *                      categoria: "C.Q.C. PERSONE",
+     *                      descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
+     *                      note: ""]
+     *                      }
      *
      * @author Davide Neri
      */
-    public function cqc(Request $request)
+    public function cqc(): JsonResponse
     {
         $cqc = CQC::orderby('categoria')->get();
 
@@ -84,13 +82,8 @@ class ApiController
 
     /**
      * Ritorna tutte le restrizioni
-     *
-     *
-     * @return string $Restrizione
-     *
-     * @author Davide Neri
      */
-    public function restrizioni(Request $request)
+    public function restrizioni(): JsonResponse
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
 
@@ -102,13 +95,10 @@ class ApiController
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
      * @param  string  $numero  numeor della patente
-     * @return JsonResponse
-     *
-     * @author Davide Neri
      **/
-    public function patenteCategorie(Request $request, $numero)
+    public function patenteCategorie(Request $request, $numero): JsonResponse
     {
-        if ($request->input('filtro') == 'possibili') {
+        if ($request->input('filtro') === 'possibili') {
             $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero): void {
                 $query->where('patenti_categorie.numero_patente', '=', $numero);
             })->get();
@@ -134,7 +124,7 @@ class ApiController
             ->get();
 
         $persone->map(function (ViewClientiConSenzaPatente $persona): ViewClientiConSenzaPatente {
-            if ($persona->cliente_con_patente != null) {
+            if ($persona->cliente_con_patente !== null) {
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.')';
             } else {
                 $persona['value'] = "$persona->nome  $persona->cognome";
@@ -214,8 +204,8 @@ class ApiController
         $patente->rilasciata_dal = $body['rilasciata_dal'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->note = $body['note'] == '' ? null : $body['note'];
-        $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
+        $patente->note = $body['note'] === '' ? null : $body['note'];
+        $patente->stato = $body['stato'] === 'null' ? null : $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];
         // from  [ {categoria:"A", id: 4, pivot: { data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }}, ...]
@@ -237,13 +227,13 @@ class ApiController
 
         if ($res) {
             return response()->json(['err' => 0, 'msg' => "Patente $patente->numero_patente aggiornata correttamente"]);
-        } else {
-            return response()->json(['err' => 1, 'msg' => "Errore. Patente $patente->numero_patente non aggiornata"]);
         }
+
+        return response()->json(['err' => 1, 'msg' => "Errore. Patente $patente->numero_patente non aggiornata"]);
 
     }
 
-    public function rilasciata(Request $request)
+    public function rilasciata()
     {
         $rilasciata = Patente::select('rilasciata_dal')->distinct()->get();
 
@@ -277,14 +267,13 @@ class ApiController
      *  ]
      * }
      *
-     * @return string
-     *                {
-     *                'err': 0 | 1,
-     *                "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server
-     *                "data": Object   // ot er data
-     *                }
+     * @return JsonResponse
+     *                      {
+     *                      'err': 0 | 1,
+     *                      "msg" : String   // mmessaggio riassuntivo dell'operaione effetuata dal server
+     *                      "data": Object   // ora e data
+     *                      }
      *
-     * @author Davide Neri
      **/
     public function create(Request $request)
     {
@@ -296,7 +285,7 @@ class ApiController
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = 'test';
         $patente->note = $body['note'];
-        $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
+        $patente->stato = $body['stato'] === 'null' ? null : $body['stato'];
 
         if ($patente->save()) {
             $p = Patente::find($body['numero_patente']);

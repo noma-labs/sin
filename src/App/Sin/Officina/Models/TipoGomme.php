@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,15 +10,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $codice
  * @property string $note
  */
-class TipoGomme extends Model
+final class TipoGomme extends Model
 {
+    public $timestamps = false;
+
     protected $connection = 'db_officina';
 
     protected $table = 'tipo_gomme';
 
     protected $primaryKey = 'id';
-
-    public $timestamps = false;
 
     protected $fillable = ['codice', 'note'];
 

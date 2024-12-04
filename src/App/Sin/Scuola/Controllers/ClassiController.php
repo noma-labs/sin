@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\AddStudentAction;
@@ -9,7 +11,7 @@ use App\Scuola\Requests\AddStudentRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class ClassiController
+final class ClassiController
 {
     public function index(int $anno_id)
     {

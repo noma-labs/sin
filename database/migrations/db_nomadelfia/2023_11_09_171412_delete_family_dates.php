@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class DeleteFamilyDates extends SqlMigration
+final class DeleteFamilyDates extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

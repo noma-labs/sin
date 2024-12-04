@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class PersonaFamigliaController
+final class PersonaFamigliaController
 {
     public function index($idPersona)
     {

@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Famiglia\Actions;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
-class CreateMarriageAction
+final class CreateMarriageAction
 {
     public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio)
     {
@@ -34,7 +37,7 @@ class CreateMarriageAction
 
             DB::connection('db_nomadelfia')->commit();
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             dd($e);
         }

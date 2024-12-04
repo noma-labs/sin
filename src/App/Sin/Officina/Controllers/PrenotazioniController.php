@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Controllers;
 
 use App\Officina\Actions\CreatePrenotazioneAction;
@@ -14,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
 
-class PrenotazioniController
+final class PrenotazioniController
 {
     public function searchView()
     {
@@ -120,16 +122,16 @@ class PrenotazioniController
         $query = null;
         $now = Carbon::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
-        if ($day == 'oggi') {
+        if ($day === 'oggi') {
             // $query = Prenotazioni::today();
             $query = Prenotazioni::where('data_partenza', '=', $now->toDateString())
                 ->orWhere('data_arrivo', '=', $now->toDateString());
         } else {
-            if ($day == 'ieri') {
+            if ($day === 'ieri') {
                 // $query = Prenotazioni::yesterday();
                 $query = Prenotazioni::where('data_arrivo', '=', $now->subDay()->toDateString());
             }
-            if ($day == 'all') {
+            if ($day === 'all') {
                 // include:
                 //   1) prenotazioni che partono dopo oggi (o uguale)
                 //   2) prenotazioni a cavallo di oggi
@@ -172,7 +174,7 @@ class PrenotazioniController
         ]);
 
         $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
-            return $input->data_par == $input->data_arr;
+            return $input->data_par === $input->data_arr;
         });
 
         if ($validRequest->fails()) {
@@ -228,7 +230,7 @@ class PrenotazioniController
         ]);
 
         $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
-            return $input->data_par == $input->data_arr;
+            return $input->data_par === $input->data_arr;
         });
 
         if ($validRequest->fails()) {

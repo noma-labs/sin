@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class EntrataPersonaAction
+final class EntrataPersonaAction
 {
-    public function __construct(private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction, private SendEmailPersonaEntrataAction $email) {}
+    public function __construct(
+        private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        private SendEmailPersonaEntrataAction $email
+    ) {}
 
     public function execute(EntrataPersonaData $entrataPersonaData): void
     {

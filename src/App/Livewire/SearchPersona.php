@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class SearchPersona extends Autocomplete
+final class SearchPersona extends Autocomplete
 {
     public function searchBy(string $term): array
     {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class SearchablePersonaController
+final class SearchablePersonaController
 {
     public function index()
     {

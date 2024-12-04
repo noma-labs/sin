@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FamigliaFactory extends Factory
+final class FamigliaFactory extends Factory
 {
     protected $model = Famiglia::class;
 

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Azienda\Controllers;
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class AziendeController
+final class AziendeController
 {
     /**
      * view della pagina di gestione delle aziende
@@ -33,13 +35,6 @@ class AziendeController
 
     }
 
-    public function editConfirm(Request $request, $idPersona) {}
-
-    public function insert() {}
-
-    public function insertConfirm(Request $request) //InsertClientiRequest $request
-    {}
-
     public function searchPersona(Request $request)
     {
         $term = $request->term;
@@ -58,9 +53,9 @@ class AziendeController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'persona non esiste']);
         }
+
+        return response()->json(['value' => '', 'label' => 'persona non esiste']);
 
     }
 }

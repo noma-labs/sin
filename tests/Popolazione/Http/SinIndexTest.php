@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Nomadelfia;
 
 it('unauthenticated_user_dont_see_all_systems', function (): void {

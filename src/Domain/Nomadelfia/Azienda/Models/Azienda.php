@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Azienda\Models;
 
 use App\Traits\Enums;
@@ -14,10 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $tipo
  * @property string $nome_azienda.
  */
-class Azienda extends Model
+final class Azienda extends Model
 {
     use Enums;
     use HasFactory;
+
+    public const MANSIONE_LAVORATORE = 'LAVORATORE';
+
+    public const MANSIONE_RESPONSABILE = 'RESPONSABILE AZIENDA';
 
     public $timestamps = true;
 
@@ -29,22 +35,14 @@ class Azienda extends Model
 
     protected $guarded = [];
 
-    public const MANSIONE_LAVORATORE = 'LAVORATORE';
-
-    public const MANSIONE_RESPONSABILE = 'RESPONSABILE AZIENDA';
-
-    protected static function boot()
+    public static function scuola()
     {
-        parent::boot();
-
-        static::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('nome_azienda');
-        });
+        return self::perNome('scuola');
     }
 
-    protected static function newFactory()
+    public static function perNome($nome)
     {
-        return AziendaFactory::new();
+        return self::where('nome_azienda', $nome)->first();
     }
 
     public function scopeAziende($query)
@@ -76,23 +74,27 @@ class Azienda extends Model
             '=', 'Non Attivo')->withPivot('data_fine_azienda', 'stato');
     }
 
-    public static function scuola()
-    {
-        return static::perNome('scuola');
-    }
-
-    public static function perNome($nome)
-    {
-        return static::where('nome_azienda', $nome)->first();
-    }
-
     public function isIncarico(): bool
     {
-        return $this->tipo == 'incarico';
+        return $this->tipo === 'incarico';
     }
 
     public function isAzienda(): bool
     {
-        return $this->tipo == 'azienda';
+        return $this->tipo === 'azienda';
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('nome_azienda');
+        });
+    }
+
+    protected static function newFactory()
+    {
+        return AziendaFactory::new();
     }
 }

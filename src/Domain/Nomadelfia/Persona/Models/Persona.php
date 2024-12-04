@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Persona\Models;
 
 use App\Biblioteca\Models\Prestito;
@@ -9,7 +11,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
-use Carbon;
+use Carbon\Carbon;
 use Database\Factories\PersonaFactory;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
@@ -49,13 +51,13 @@ class Persona extends Model
     use SoftDeletes;
     use SortableTrait;
 
+    public $timestamps = true;
+
     protected $connection = 'db_nomadelfia';
 
     protected $table = 'persone';
 
     protected $primaryKey = 'id';
-
-    public $timestamps = true;
 
     protected $guarded = [];
 
@@ -64,29 +66,24 @@ class Persona extends Model
         return new PersonaQueryBuilder($query);
     }
 
-    protected static function newFactory()
-    {
-        return PersonaFactory::new();
-    }
-
     public function setNomeAttribute($value): void
     {
-        $this->attributes['nome'] = ucwords(strtolower($value));
+        $this->attributes['nome'] = ucwords(mb_strtolower($value));
     }
 
     public function setCognomeAttribute($value): void
     {
-        $this->attributes['cognome'] = ucwords(strtolower($value));
+        $this->attributes['cognome'] = ucwords(mb_strtolower($value));
     }
 
     public function setNominativoAttribute($value): void
     {
-        $this->attributes['nominativo'] = ucwords(strtolower($value));
+        $this->attributes['nominativo'] = ucwords(mb_strtolower($value));
     }
 
     public function getNominativoAttribute($value): string
     {
-        return ucwords(strtolower($value));
+        return ucwords(mb_strtolower($value));
     }
 
     public function buildCompleteName(): string
@@ -103,12 +100,12 @@ class Persona extends Model
 
     public function isMaschio(): bool
     {
-        return $this->sesso == 'M';
+        return $this->sesso === 'M';
     }
 
     public function isDeceduta(): bool
     {
-        return $this->data_decesso != null;
+        return $this->data_decesso !== null;
     }
 
     public function isMaggiorenne(): bool
@@ -144,13 +141,13 @@ class Persona extends Model
     public function gruppofamiliareAttuale()
     {
         $gruppo = $this->gruppifamiliari()->wherePivot('stato', '1')->get();
-        if ($gruppo->count() == 1) {
+        if ($gruppo->count() === 1) {
             return $gruppo[0];
-        } elseif ($gruppo->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultipleGroup::named($this);
         }
+        if ($gruppo->count() === 0) {
+            return null;
+        }
+        throw PersonaHasMultipleGroup::named($this);
     }
 
     public function gruppofamiliariStorico(): BelongsToMany
@@ -196,7 +193,7 @@ class Persona extends Model
     public function incarichiPossibili()
     {
         $multiplied = $this->incarichiAttuali()->get()->pluck('id');
-        if ($multiplied != null) {
+        if ($multiplied->count() > 0) {
             return Incarico::whereNotIn('id', $multiplied)->get();
         }
 
@@ -232,11 +229,11 @@ class Persona extends Model
             ->wherePivot('stato', '1')
             ->withPivot('posizione_famiglia')
             ->get();
-        if ($famiglia->count() == 0) {
+        if ($famiglia->count() === 0) {
             // IF null; the person has no a family so it is a single
             return null;
         }
-        if ($famiglia->count() == 1) {
+        if ($famiglia->count() === 1) {
             return $famiglia[0];
         }
         throw PersonaHasMultipleFamigliaAttuale::named($this->nominativo);
@@ -245,7 +242,7 @@ class Persona extends Model
     public function famigliaPosizione(string $posizione): bool
     {
         if ($this->famigliaAttuale()) {
-            return $this->famigliaAttuale()->pivot->posizione_famiglia == $posizione;
+            return $this->famigliaAttuale()->pivot->posizione_famiglia === $posizione;
         }
 
         return false;
@@ -297,13 +294,13 @@ class Persona extends Model
     public function statoAttuale()
     {
         $stato = $this->stati()->wherePivot('stato', '1')->get();
-        if ($stato->count() == 1) {
+        if ($stato->count() === 1) {
             return $stato[0];
-        } elseif ($stato->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultipleStatoAttuale::named($this->nominativo);
         }
+        if ($stato->count() === 0) {
+            return null;
+        }
+        throw PersonaHasMultipleStatoAttuale::named($this->nominativo);
     }
 
     public function statiStorico(): BelongsToMany
@@ -321,13 +318,13 @@ class Persona extends Model
     public function posizioneAttuale()
     {
         $posizione = $this->posizioni()->wherePivot('stato', '1')->get();
-        if ($posizione->count() == 1) {
+        if ($posizione->count() === 1) {
             return $posizione[0];
-        } elseif ($posizione->count() == 0) {
-            return null;
-        } else {
-            throw PersonaHasMultiplePosizioniAttuale::named($this->nominativo);
         }
+        if ($posizione->count() === 0) {
+            return null;
+        }
+        throw PersonaHasMultiplePosizioniAttuale::named($this->nominativo);
     }
 
     public function isEffettivo(): bool
@@ -349,26 +346,25 @@ class Persona extends Model
     //  OTHER METHODS
     // *************
 
-    public function getDataEntrataNomadelfia()
+    public function getDataEntrataNomadelfia(): Carbon
     {
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_entrata', 'DESC')->get();
         if (count($pop) > 0) {
-            return $pop->first()->data_entrata;
+            return Carbon::parse($pop->first()->data_entrata);
         }
 
-        return null;
+        throw new Exception("La persona $this->nominativo non risulta essere mai entrata");
     }
 
-    public function getDataUscitaNomadelfia()
+    public function getDataUscitaNomadelfia(): ?Carbon
     {
 
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_uscita', 'DESC')->whereNotNull('data_uscita');
         if ($pop->count() > 0) {
-            return $pop->first()->data_uscita;
+            return Carbon::parse($pop->first()->data_uscita);
         }
 
         return null;
-
     }
 
     public function isPersonaInterna(): bool
@@ -400,7 +396,7 @@ class Persona extends Model
                 }
                 $this->stati()->attach($stato->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
                 DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 DB::connection('db_nomadelfia')->rollback();
                 throw $e;
             }
@@ -411,8 +407,8 @@ class Persona extends Model
 
     public function assegnaPosizione(
         $posizione,
-        string $data_inizio,
-        ?string $attuale_data_fine = null
+        Carbon $data_inizio,
+        ?Carbon $attuale_data_fine = null
     ): void {
         if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
@@ -423,11 +419,11 @@ class Persona extends Model
                 $attuale = $this->posizioneAttuale();
                 if ($attuale) {
                     $this->posizioni()->updateExistingPivot($attuale->id,
-                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
+                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine->toDateString() : $data_inizio->toDateString())]);
                 }
-                $this->posizioni()->attach($posizione->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
+                $this->posizioni()->attach($posizione->id, ['stato' => '1', 'data_inizio' => $data_inizio->toDateString()]);
                 DB::connection('db_nomadelfia')->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 DB::connection('db_nomadelfia')->rollback();
                 throw $e;
             }
@@ -438,8 +434,8 @@ class Persona extends Model
 
     public function modificaDataInizioPosizione(
         $posizione_id,
-        $currentDatain,
-        $newDataIn
+        Carbon $currentDatain,
+        Carbon $newDataIn
     ) {
         $expression = DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
@@ -447,7 +443,7 @@ class Persona extends Model
 
         return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain, 'new' => $newDataIn]
+            ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain->toDateString(), 'new' => $newDataIn->toDateString()]
         );
     }
 
@@ -470,7 +466,7 @@ class Persona extends Model
     {
         $pos = self::posizioneAttuale();
         $posizioni = Posizione::all();
-        if ($pos != null && $pos->count() == 1) {
+        if ($pos !== null && $pos->count() === 1) {
             $pos = $pos->first();
             $posizioni = $posizioni->except([$pos->id]);
             if ($pos->is(Posizione::find('EFFE'))) {
@@ -487,18 +483,19 @@ class Persona extends Model
             }
 
             return $posizioni;
-        } else {
-            return $posizioni;
         }
+
+        return $posizioni;
+
     }
 
     /**
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
      * @param  int|null  $gruppoFamiliareAttuale
-     * @param  Carbon\Carbon  $dataUscitaGruppoFamiliareAttuale
+     * @param  Carbon  $dataUscitaGruppoFamiliareAttuale
      * @param  int  $gruppoFamiliareNuovo
-     * @param  Carbon\Carbon  $dataEntrataGruppo
+     * @param  Carbon  $dataEntrataGruppo
      */
     public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,
@@ -518,5 +515,10 @@ class Persona extends Model
             ['stato' => '0', 'data_uscita_gruppo' => $dataUscitaGruppoFamiliareAttuale]);
         $this->gruppifamiliari()->attach($gruppoFamiliareNuovo,
             ['stato' => '1', 'data_entrata_gruppo' => $dataEntrataGruppo]);
+    }
+
+    protected static function newFactory()
+    {
+        return PersonaFactory::new();
     }
 }

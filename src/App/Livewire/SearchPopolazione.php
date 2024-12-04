@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
-class SearchPopolazione extends Autocomplete
+final class SearchPopolazione extends Autocomplete
 {
     public function searchBy(string $term): array
     {

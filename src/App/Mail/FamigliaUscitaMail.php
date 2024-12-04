@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Carbon\Carbon;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class FamigliaUscitaMail extends Mailable
+final class FamigliaUscitaMail extends Mailable
 {
     use SerializesModels;
 
@@ -18,7 +20,7 @@ class FamigliaUscitaMail extends Mailable
         public Carbon $data_uscita,
     ) {}
 
-    public function build(): FamigliaUscitaMail
+    public function build(): self
     {
 
         return $this

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaPosizioneConcludiController
+final class PersonaPosizioneConcludiController
 {
     public function store(Request $request, $idPersona, $id)
     {
@@ -25,8 +27,9 @@ class PersonaPosizioneConcludiController
             return redirect()
                 ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
-        } else {
-            return redirect()->back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
         }
+
+        return redirect()->back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
+
     }
 }

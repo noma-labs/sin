@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
@@ -7,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
-class UserController
+final class UserController
 {
     public function index()
     {
@@ -39,7 +41,7 @@ class UserController
         return redirect()->route('users.index')->withSuccess('Utente aggiunto correttamente');
     }
 
-    public function show($id)
+    public function show()
     {
         return redirect('users.index');
     }
@@ -87,13 +89,13 @@ class UserController
         //Find a user with a given id and delete
         $user = User::findOrFail($id);
 
-        if ($user->username == 'Admin') {
+        if ($user->username === 'Admin') {
             return redirect()->route('users.index')->withError("Non puoi elimiare l'utente $user->username");
-        } else {
-            $user->delete();
-
-            return redirect()->route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
         }
+        $user->delete();
+
+        return redirect()->route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
+
     }
 
     public function restore($id)

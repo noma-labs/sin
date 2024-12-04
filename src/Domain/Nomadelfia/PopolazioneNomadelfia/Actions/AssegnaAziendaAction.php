@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
@@ -7,7 +9,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class AssegnaAziendaAction
+final class AssegnaAziendaAction
 {
     public function execute(Persona $persona, Azienda $azienda, Carbon $date, string $mansione): void
     {

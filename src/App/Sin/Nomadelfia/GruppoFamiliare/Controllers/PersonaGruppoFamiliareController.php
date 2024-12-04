@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use Carbon\Carbon;
@@ -9,7 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PersonaGruppoFamiliareController
+final class PersonaGruppoFamiliareController
 {
     public function index(Request $request, $idPersona)
     {
@@ -43,7 +45,7 @@ class PersonaGruppoFamiliareController
 
         if ($res) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
 
@@ -64,7 +66,7 @@ class PersonaGruppoFamiliareController
         $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), Carbon::parse($request->data_entrata));
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -74,10 +76,11 @@ class PersonaGruppoFamiliareController
         $res = $persona->gruppifamiliari()->detach($id);
         if ($res) {
             return redirect()
-                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
-        } else {
-            return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
         }
+
+        return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+
     }
 }

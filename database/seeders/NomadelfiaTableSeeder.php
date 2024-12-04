@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use Carbon\Carbon;
@@ -14,7 +16,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class NomadelfiaTableSeeder extends Seeder
+final class NomadelfiaTableSeeder extends Seeder
 {
     public function run()
     {
@@ -384,7 +386,7 @@ class NomadelfiaTableSeeder extends Seeder
     {
         $gruppo = GruppoFamiliare::all()->random();
         $famiglia = Famiglia::factory()->create();
-        $now = Carbon::now()->toDatestring();
+        $now = Carbon::now();
 
         $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
         $moglie = Persona::factory()->maggiorenne()->femmina()->create();
@@ -394,16 +396,16 @@ class NomadelfiaTableSeeder extends Seeder
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
-        $famiglia->assegnaMoglie($moglie, $now);
+        $famiglia->assegnaMoglie($moglie);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(3)->femmina()->create(), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(4)->maschio()->create(), $famiglia);
-        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(5)->maschio()->create(), Carbon::now()->addYears(4)->toDatestring(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(5)->maschio()->create(), Carbon::now()->addYears(4), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(5)->femmina()->create(), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(6)->maschio()->create(), $famiglia);
-        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(7)->maschio()->create(), Carbon::now()->addYears(1)->toDatestring(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(7)->maschio()->create(), Carbon::now()->addYears(1), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(7)->maschio()->create(), $famiglia);
-        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(8)->femmina()->create(), Carbon::now()->addYears(10)->toDatestring(), $famiglia);
-        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(9)->maschio()->create(), Carbon::now()->addYears(5)->toDatestring(), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(8)->femmina()->create(), Carbon::now()->addYears(10), $famiglia);
+        app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(9)->maschio()->create(), Carbon::now()->addYears(5), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(10)->femmina()->create(), $famiglia);
 
         return $this;
@@ -412,8 +414,8 @@ class NomadelfiaTableSeeder extends Seeder
     protected function insertPersoneSinglePopolazione(): self
     {
         $act = app(EntrataMaggiorenneSingleAction::class);
-        $act->execute(Persona::factory()->maggiorenne()->maschio()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
-        $act->execute(Persona::factory()->maggiorenne()->femmina()->create(), Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+        $act->execute(Persona::factory()->maggiorenne()->maschio()->create(), Carbon::now(), GruppoFamiliare::all()->random());
+        $act->execute(Persona::factory()->maggiorenne()->femmina()->create(), Carbon::now(), GruppoFamiliare::all()->random());
 
         return $this;
     }

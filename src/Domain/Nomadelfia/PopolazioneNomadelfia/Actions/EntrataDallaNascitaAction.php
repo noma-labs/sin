@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -9,7 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaDa
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-class EntrataDallaNascitaAction
+final class EntrataDallaNascitaAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
@@ -18,7 +21,7 @@ class EntrataDallaNascitaAction
         $dto = new EntrataPersonaData;
         $dto->famiglia = $famiglia;
         $dto->persona = $persona;
-        $dto->data_entrata = $dto->persona->data_nascita;
+        $dto->data_entrata = Carbon::parse($dto->persona->data_nascita);
 
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);
@@ -37,13 +40,13 @@ class EntrataDallaNascitaAction
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
-        $dto->gruppo_data = $dto->persona->data_nascita;
+        $dto->gruppo_data = Carbon::parse($dto->persona->data_nascita);
     }
 
     public function calcPosizione(EntrataPersonaData $dto): void
     {
         $dto->posizione = Posizione::find('FIGL');
-        $dto->posizione_data = $dto->persona->data_nascita;
+        $dto->posizione_data = Carbon::parse($dto->persona->data_nascita);
     }
 
     public function calcStato(EntrataPersonaData $dto): void
@@ -53,6 +56,6 @@ class EntrataDallaNascitaAction
         } else {
             $dto->stato = Stato::find('NUB');
         }
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
     }
 }

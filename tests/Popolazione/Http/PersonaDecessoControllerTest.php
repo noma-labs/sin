@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
@@ -11,7 +13,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 it('stores a new decesso', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
-    $act->execute($persona, Carbon::now()->toDatestring(), GruppoFamiliare::all()->random());
+    $act->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
 
     $data_decesso = Carbon::now()->toDateString();
     login();
@@ -24,6 +26,6 @@ it('stores a new decesso', function (): void {
         ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
 
     $p = Persona::findOrFail($persona->id);
-    expect($p->data_decesso)->toBe($data_decesso)
+    expect($p->data_decesso)->toEqual($data_decesso)
         ->and($p->isPersonaInterna())->toBeFalse();
 });

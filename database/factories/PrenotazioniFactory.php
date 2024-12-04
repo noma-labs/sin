@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Officina\Models\Prenotazioni;
@@ -9,7 +11,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PrenotazioniFactory extends Factory
+final class PrenotazioniFactory extends Factory
 {
     protected $model = Prenotazioni::class;
 

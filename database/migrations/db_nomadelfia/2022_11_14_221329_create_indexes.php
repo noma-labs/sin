@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateIndexes extends SqlMigration
+final class CreateIndexes extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

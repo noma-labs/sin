@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateBibliotecaViews extends SqlMigration
+final class CreateBibliotecaViews extends SqlMigration
 {
     public $connection = 'db_biblioteca';
 }

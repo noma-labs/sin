@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-class SpostaNellaFamigliaError extends NomadelfiaException
+final class SpostaNellaFamigliaError extends NomadelfiaException
 {
-    public static function create(string $nominativo, string $famiglia, string $msg = ''): SpostaNellaFamigliaError
+    public static function create(string $nominativo, string $famiglia, string $msg = ''): self
     {
         return new self("Impossibile spostare {$nominativo} nella famiglia  {$famiglia}. {$msg}");
     }

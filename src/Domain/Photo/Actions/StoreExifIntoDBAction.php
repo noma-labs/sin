@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Photo\Actions;
 
 use Cerbero\JsonParser\JsonParser;
 use Domain\Photo\Models\ExifData;
 use Illuminate\Support\Facades\DB;
 
-class StoreExifIntoDBAction
+final class StoreExifIntoDBAction
 {
     public function execute(string $jsonFile): int
     {

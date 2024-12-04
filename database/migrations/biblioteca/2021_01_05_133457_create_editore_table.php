@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateEditoreTable extends SqlMigration
+final class CreateEditoreTable extends SqlMigration
 {
     public $connection = 'db_biblioteca';
 }

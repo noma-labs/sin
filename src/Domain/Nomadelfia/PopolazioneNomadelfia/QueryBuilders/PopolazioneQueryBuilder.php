@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\QueryBuilders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class PopolazioneQueryBuilder extends Builder
+final class PopolazioneQueryBuilder extends Builder
 {
     public function presentAt(Carbon $date): Builder
     {

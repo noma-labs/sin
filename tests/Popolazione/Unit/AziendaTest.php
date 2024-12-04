@@ -1,16 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 
 it('assign a worker', function (): void {
     $azienda = Azienda::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
 
     expect($azienda->lavoratori()->count())->toBe(0);
     expect($azienda->lavoratoriAttuali()->count())->toBe(0);
@@ -18,7 +23,7 @@ it('assign a worker', function (): void {
     expect($persona->aziendeAttuali()->count())->toBe(0);
     expect($persona->aziendeStorico()->count())->toBe(0);
 
-    $data_inizio = Carbon::now()->addYears(5);
+    $data_inizio = Carbon::now()->addYears(5)->startOfDay();
     $action = new AssegnaAziendaAction;
     $action->execute($persona, $azienda, $data_inizio, Azienda::MANSIONE_LAVORATORE);
 
@@ -28,7 +33,7 @@ it('assign a worker', function (): void {
     $action->execute($resp, $azienda, $data_inizio, Azienda::MANSIONE_RESPONSABILE);
     expect($azienda->lavoratoriAttuali()->count())->toBe(2);
 
-    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 
     $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita);

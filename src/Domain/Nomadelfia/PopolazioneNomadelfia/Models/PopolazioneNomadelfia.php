@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use Carbon;
@@ -13,20 +15,15 @@ use stdClass;
  * @property string $data_entrata
  * @property string $data_uscita
  */
-class PopolazioneNomadelfia extends Model
+final class PopolazioneNomadelfia extends Model
 {
+    public $timestamps = true;
+
     protected $connection = 'db_nomadelfia';
 
     protected $table = 'popolazione';
 
-    public $timestamps = true;
-
     protected $guarded = [];
-
-    public function newEloquentBuilder($query): PopolazioneQueryBuilder
-    {
-        return new PopolazioneQueryBuilder($query);
-    }
 
     /*
     *  Ritorna le persone della popolazione di Nomadelfia
@@ -70,7 +67,7 @@ class PopolazioneNomadelfia extends Model
     /*
      *  Ritorna tutte e persone maggiorenni della popolazione divisi per uomini e donne
      */
-    public static function maggiorenni(string $orderby = 'nominativo', string $order = 'ASC'): \stdClass
+    public static function maggiorenni(string $orderby = 'nominativo', string $order = 'ASC'): stdClass
     {
         //        $magg = DB::connection('db_nomadelfia')
         //            ->table('persone')
@@ -99,7 +96,7 @@ class PopolazioneNomadelfia extends Model
             ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->whereNull('popolazione.data_uscita')
             ->where('persone.data_nascita', '<=', Carbon::now()->subYears($eta))
-            ->orderByRaw('persone.'.strval($orderBy).' '.$order)
+            ->orderByRaw('persone.'.$orderBy.' '.$order)
             ->get();
     }
 
@@ -107,7 +104,7 @@ class PopolazioneNomadelfia extends Model
     *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
     *
     */
-    public static function effettivi(): \stdClass
+    public static function effettivi(): stdClass
     {
         $result = new stdClass;
         $effettivi = collect(self::byPosizione('EFFE'));
@@ -122,7 +119,7 @@ class PopolazioneNomadelfia extends Model
     /*
     *  Ritorna i postulanti  della popolazione
     */
-    public static function postulanti(): \stdClass
+    public static function postulanti(): stdClass
     {
         $result = new stdClass;
         $postulanti = collect(self::byPosizione('POST'));
@@ -137,7 +134,7 @@ class PopolazioneNomadelfia extends Model
     /*
   *  Ritorna gli ospiti  della popolazione
   */
-    public static function ospiti(): \stdClass
+    public static function ospiti(): stdClass
     {
         $result = new stdClass;
         $ospiti = collect(self::byPosizione('OSPP'));
@@ -160,7 +157,7 @@ class PopolazioneNomadelfia extends Model
     /*
   *  Ritorna i figli maggiorenni
   */
-    public static function figliMaggiorenni(string $orderby = 'nominativo'): \stdClass
+    public static function figliMaggiorenni(string $orderby = 'nominativo'): stdClass
     {
         $magg = self::figliDaEta(18, null, $orderby);
         $result = new stdClass;
@@ -177,7 +174,7 @@ class PopolazioneNomadelfia extends Model
     /*
     *  Ritorna i minorenni
     */
-    public static function figliMinorenni(): \stdClass
+    public static function figliMinorenni(): stdClass
     {
         $magg = self::figliDaEta(0, 18, 'nominativo');
         $result = new stdClass;
@@ -193,7 +190,7 @@ class PopolazioneNomadelfia extends Model
     /*
     *  Ritorna i minorenni divisi per anno di eta.
     */
-    public static function figliMinorenniPerAnno(): \stdClass
+    public static function figliMinorenniPerAnno(): stdClass
     {
         $minorenni = collect(self::figliDaEta(0, 18, 'nominativo'));
         $result = new stdClass;
@@ -217,7 +214,7 @@ class PopolazioneNomadelfia extends Model
     /*
      *  Ritorna i figlio fra 18 e 21 anni
      */
-    public static function figliFra18e21(): \stdClass
+    public static function figliFra18e21(): stdClass
     {
         $magg = self::figliDaEta(18, 21, 'nominativo');
         $result = new stdClass;
@@ -230,7 +227,7 @@ class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    public static function figliMaggiori21(): \stdClass
+    public static function figliMaggiori21(): stdClass
     {
         $magg = self::figliDaEta(21, null, 'nominativo');
         $result = new stdClass;
@@ -359,7 +356,7 @@ class PopolazioneNomadelfia extends Model
         ?int $travel_to_year = null,
         $withInYear = false
     ) {
-        $date = ($travel_to_year == null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
+        $date = ($travel_to_year === null ? Carbon::now() : Carbon::now()->setYear($travel_to_year));
 
         $posizione = Posizione::perNome('figlio');
         $end = $date->copy()->subYears($fromEta);
@@ -382,7 +379,7 @@ class PopolazioneNomadelfia extends Model
             ->where('persone.data_nascita', '<=', $end)
             ->where('posizioni.abbreviato', '=', $posizione->abbreviato)
             ->orderByRaw($orderBy);
-        if ($toEta != null) {
+        if ($toEta !== null) {
             $q->where('persone.data_nascita', '>=', $start);
         }
 
@@ -430,5 +427,10 @@ class PopolazioneNomadelfia extends Model
         return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
+    }
+
+    public function newEloquentBuilder($query): PopolazioneQueryBuilder
+    {
+        return new PopolazioneQueryBuilder($query);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Carbon\Carbon;
@@ -7,7 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class BladeDirectivesServiceProvider extends ServiceProvider
+final class BladeDirectivesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -47,7 +49,7 @@ class BladeDirectivesServiceProvider extends ServiceProvider
         });
 
         Blade::directive('diffHumans', function ($date): string {
-            return "<?php echo Carbon::parse($date)->diffForHumans(['parts' => 3, 'join' => true]) ?>";
+            return "<?php echo Carbon::parse($date)->diffForHumans(now(), Carbon\CarbonInterface::DIFF_ABSOLUTE) ?>";
         });
 
         Blade::directive('role', function ($role): string {
@@ -74,5 +76,5 @@ class BladeDirectivesServiceProvider extends ServiceProvider
         });
     }
 
-    public function register() {}
+    public function register(): void {}
 }

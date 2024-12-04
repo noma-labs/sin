@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
@@ -7,7 +9,7 @@ use App\Scuola\Models\Elaborato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ElaboratiMediaController
+final class ElaboratiMediaController
 {
     public function store(Request $request, $id)
     {

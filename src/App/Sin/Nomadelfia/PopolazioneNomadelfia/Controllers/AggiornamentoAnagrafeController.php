@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 
-class AggiornamentoAnagrafeController
+final class AggiornamentoAnagrafeController
 {
     public function index()
     {

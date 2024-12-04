@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
-class PersonaPopolazioneController
+final class PersonaPopolazioneController
 {
     public function index($idPersona)
     {

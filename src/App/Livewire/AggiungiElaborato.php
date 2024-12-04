@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
 
-class AggiungiElaborato extends Component
+final class AggiungiElaborato extends Component
 {
     public string $titolo;
 

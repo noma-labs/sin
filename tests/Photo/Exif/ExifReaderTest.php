@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Domain\Photo\Exif\ExifReader;
 
 beforeEach(function (): void {
@@ -8,7 +10,6 @@ beforeEach(function (): void {
 });
 
 it('can create exiftool command', function (): void {
-
     $command = ExifReader::file('test.png')
         ->enableStructuredInformation()
         ->createExifToolCommand();

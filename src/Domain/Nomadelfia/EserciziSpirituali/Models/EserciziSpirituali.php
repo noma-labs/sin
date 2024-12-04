@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\EserciziSpirituali\Models;
 
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
@@ -15,7 +17,7 @@ use stdClass;
  * @property string $stato
  * @property string $turno
  */
-class EserciziSpirituali extends Model
+final class EserciziSpirituali extends Model
 {
     use HasFactory;
 
@@ -27,9 +29,34 @@ class EserciziSpirituali extends Model
 
     protected $guarded = [''];
 
-    protected static function newFactory()
+    /*
+    *  Ritorna le personemaggiorenne interne che nono sono in nessun es spirituale
+    *
+    */
+    public static function personeNoEsercizi(): stdClass
     {
-        return EsSpiritualiFactory::new();
+        $expression = DB::raw("
+            SELECT persone.*
+            FROM persone
+            INNER JOIN popolazione ON popolazione.persona_id = persone.id
+            WHERE persone.id NOT IN (
+                      SELECT persone_esercizi.persona_id
+                      FROM persone_esercizi
+                      INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
+                      where esercizi_spirituali.stato = '1'
+            )  AND popolazione.data_uscita IS NULL  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
+            ORDER BY persone.nominativo");
+        $persone = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+        );
+        $result = new stdClass;
+        $per = collect($persone);
+        $sesso = $per->groupBy('sesso');
+        $result->total = $per->count();
+        $result->uomini = $sesso->get('M', []);
+        $result->donne = $sesso->get('F', []);
+
+        return $result;
     }
 
     /**
@@ -42,7 +69,7 @@ class EserciziSpirituali extends Model
 
     public function isAttivo(): bool
     {
-        return $this->stato == '1';
+        return $this->stato === '1';
     }
 
     public function persone()
@@ -50,7 +77,7 @@ class EserciziSpirituali extends Model
         return $this->belongsToMany(Persona::class, 'persone_esercizi', 'esercizi_id', 'persona_id');
     }
 
-    public function personeOk($orderby = 'data_nascita'): \stdClass
+    public function personeOk($orderby = 'data_nascita'): stdClass
     {
         $expression = DB::raw("SELECT persone.* , esercizi_spirituali.id as esercizi_id
               FROM persone
@@ -117,33 +144,8 @@ class EserciziSpirituali extends Model
         return $this->hasOne(Persona::class, 'persona_id', 'id');
     }
 
-    /*
-    *  Ritorna le personemaggiorenne interne che nono sono in nessun es spirituale
-    *
-    */
-    public static function personeNoEsercizi(): \stdClass
+    protected static function newFactory()
     {
-        $expression = DB::raw("
-            SELECT persone.*
-            FROM persone
-            INNER JOIN popolazione ON popolazione.persona_id = persone.id
-            WHERE persone.id NOT IN (
-                      SELECT persone_esercizi.persona_id
-                      FROM persone_esercizi
-                      INNER JOIN esercizi_spirituali ON esercizi_spirituali.id = persone_esercizi.esercizi_id
-                      where esercizi_spirituali.stato = '1'
-            )  AND popolazione.data_uscita IS NULL  AND persone.data_nascita <= DATE_SUB(NOW(), INTERVAL 18 YEAR)
-            ORDER BY persone.nominativo");
-        $persone = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-        );
-        $result = new stdClass;
-        $per = collect($persone);
-        $sesso = $per->groupBy('sesso');
-        $result->total = $per->count();
-        $result->uomini = $sesso->get('M', []);
-        $result->donne = $sesso->get('F', []);
-
-        return $result;
+        return EsSpiritualiFactory::new();
     }
 }

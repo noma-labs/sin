@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateStatiTable extends SqlMigration
+final class CreateStatiTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

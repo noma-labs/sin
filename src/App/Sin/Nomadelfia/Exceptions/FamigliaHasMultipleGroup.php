@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 
-class FamigliaHasMultipleGroup extends NomadelfiaException
+final class FamigliaHasMultipleGroup extends NomadelfiaException
 {
-    public static function named(Famiglia $famiglia): FamigliaHasMultipleGroup
+    public static function named(Famiglia $famiglia): self
     {
         return new self("Il capo famiglia della famiglia `{$famiglia->nome_famiglia}` ha più di un gruppp familiare associato.");
     }

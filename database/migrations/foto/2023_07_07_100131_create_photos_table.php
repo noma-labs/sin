@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreatePhotosTable extends SqlMigration
+final class CreatePhotosTable extends SqlMigration
 {
     public $connection = 'db_foto';
 }

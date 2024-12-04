@@ -1,36 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\DataTransferObjects;
 
 use Exception;
 use Illuminate\Support\Str;
 
-class AnnoScolastico
+final class AnnoScolastico
 {
     public int $startYear;
 
     public int $endYear;
 
-    public static function fromString(string $as): AnnoScolastico
+    public static function fromString(string $as): self
     {
         $as = Str::of($as)->explode('/');
         if (count($as) < 2) {
-            throw new Exception('Anno scolastico deve essere nella forma YYYY/YYYY. Per esempio: 2024/2025');
+            throw new Exception('Anno scolastico deve essere nella forma YYYY/ZZZZ. Per esempio: 2024/2025');
         }
-        $startYear = $as[0];
-        $endYear = $as[1];
 
-        if (! is_numeric($startYear) || ! is_numeric($endYear)) {
+        if (! is_numeric($as[0]) || ! is_numeric($as[1])) {
             throw new Exception('I due anni devono essere un numero');
         }
+        $startYear = (int) $as[0];
+        $endYear = (int) $as[1];
 
-        if ($endYear != $startYear + 1) {
-            throw new Exception("La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
+        if ($endYear !== $startYear + 1) {
+            throw new Exception("Anno scolastico '$as' errato. La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
         }
 
         $a = new self;
-        $a->startYear = (int) $startYear;
-        $a->endYear = (int) $endYear;
+        $a->startYear = $startYear;
+        $a->endYear = $endYear;
 
         return $a;
     }

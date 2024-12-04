@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Officina\Models\Prenotazioni;
@@ -7,7 +9,7 @@ use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
-class OfficinaMeccanicaTableSeeder extends Seeder
+final class OfficinaMeccanicaTableSeeder extends Seeder
 {
     public function run()
     {

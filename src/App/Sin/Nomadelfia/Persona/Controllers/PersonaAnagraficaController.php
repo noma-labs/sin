@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaAnagraficaController
+final class PersonaAnagraficaController
 {
     public function edit($idPersona)
     {
@@ -41,10 +43,11 @@ class PersonaAnagraficaController
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
         }
+
+        return redirect()->route('nomadelfia.persone.dettaglio',
+            ['idPersona' => $idPersona])->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+
     }
 
     public function create()
@@ -90,8 +93,9 @@ class PersonaAnagraficaController
         if ($res) {
             return redirect(route('nomadelfia.persone.inserimento.entrata.scelta',
                 ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
-        } else {
-            return redirect(route('nomadelfia.persone.create'))->withError("Errore. Persona $persona->nominativo non inserita.");
         }
+
+        return redirect(route('nomadelfia.persone.create'))->withError("Errore. Persona $persona->nominativo non inserita.");
+
     }
 }

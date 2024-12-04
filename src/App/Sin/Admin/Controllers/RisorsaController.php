@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Controllers;
 
 use Spatie\Permission\Models\Permission;
 
-class RisorsaController
+final class RisorsaController
 {
     public function index()
     {

@@ -1,21 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Wireable;
 
-class Option implements Wireable
+final class Option implements Wireable
 {
     public function __construct(public int $id, public string $value) {}
-
-    public function toLivewire()
-    {
-        return [
-            'id' => $this->id,
-            'value' => $this->value,
-        ];
-    }
 
     public static function fromLivewire($value)
     {
@@ -23,6 +17,14 @@ class Option implements Wireable
         $value = $value['value'];
 
         return new self($id, $value);
+    }
+
+    public function toLivewire()
+    {
+        return [
+            'id' => $this->id,
+            'value' => $this->value,
+        ];
     }
 }
 
@@ -57,7 +59,7 @@ abstract class Autocomplete extends Component
      */
     abstract public function selected(array $ids): array;
 
-    public function mount(array|int $persone_id = [], string $placeholder = '--- Inserisci  ---', string $name_input = 'persone_id[]', bool $multiple = false): void
+    final public function mount(array|int $persone_id = [], string $placeholder = '--- Inserisci  ---', string $name_input = 'persone_id[]', bool $multiple = false): void
     {
         $this->placeholder = $placeholder;
         $this->nameInput = $name_input;
@@ -71,10 +73,10 @@ abstract class Autocomplete extends Component
 
     }
 
-    public function select(string $id): void
+    final public function select(int $id): void
     {
         $found = collect($this->options)->first(function (Option $opt) use ($id): bool {
-            return $opt->id == $id;
+            return $opt->id === $id;
         });
 
         if ($this->multiple) {
@@ -85,26 +87,26 @@ abstract class Autocomplete extends Component
         $this->reset('options', 'searchTerm');
     }
 
-    public function deselect(string $id): void
+    final public function deselect(int $id): void
     {
         $this->selected = collect($this->selected)->reject(function (Option $selected) use ($id): bool {
-            return $selected->id == $id;
+            return $selected->id === $id;
         });
     }
 
-    public function updatedSearchTerm(string $value): void
+    final public function updatedSearchTerm(string $value): void
     {
         $this->search($value);
     }
 
-    public function search(string $term): void
+    final public function search(string $term): void
     {
         $this->reset('options');
 
         $this->options = $this->searchBy($term);
     }
 
-    public function render()
+    final public function render()
     {
         return view('livewire.search-persona');
     }

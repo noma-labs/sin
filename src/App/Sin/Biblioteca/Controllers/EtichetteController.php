@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -7,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Browsershot\Browsershot;
 
-class EtichetteController
+final class EtichetteController
 {
     public function view()
     {
@@ -46,9 +48,10 @@ class EtichetteController
         $res = Libro::find($idLibro)->update(['tobe_printed' => 1]);
         if ($res) {
             return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
-        } else {
-            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withError("Errore nell'operazione");
         }
+
+        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withError("Errore nell'operazione");
+
     }
 
     public function removeLibro($idLibro)
@@ -57,33 +60,34 @@ class EtichetteController
         $res = $libro->update(['tobe_printed' => 0]);
         if ($res) {
             return redirect()->route('libri.etichette')->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
-        } else {
-            return redirect()->route('libri.etichette')->withError("Errore nell'operazione");
         }
+
+        return redirect()->route('libri.etichette')->withError("Errore nell'operazione");
+
     }
 
     public function etichetteFromToCollocazione(Request $request)
     {
         $from = $request->input('fromCollocazione');
         $to = $request->input('toCollocazione', $request->input('fromCollocazione'));
-        if ($request->input('action') == 'add') {
+        if ($request->input('action') === 'add') {
             $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 1]);
 
             return redirect()->route('libri.etichette')->withSuccess("$count etichette aggiunte alla stampa");
-        } else {
-            $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 0]);
-
-            return redirect()->route('libri.etichette')->withSuccess("$count etichette rimosse dalla stampa");
         }
+        $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 0]);
+
+        return redirect()->route('libri.etichette')->withSuccess("$count etichette rimosse dalla stampa");
+
     }
 
-    public function removeAll(Request $request)
+    public function removeAll()
     {
         $res = Libro::toBePrinted()->update(['tobe_printed' => 0]);
         if ($res) {
             return redirect()->route('libri.etichette')->withSuccess("Tutte le $res etichette sono state eliminate.");
-        } else {
-            return redirect()->route('libri.etichette')->withError("Errore nell'operazione");
         }
+
+        return redirect()->route('libri.etichette')->withError("Errore nell'operazione");
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nome
  * @property string $data_nascita
  */
-class ViewClientiConSenzaPatente extends Model
+final class ViewClientiConSenzaPatente extends Model
 {
     protected $table = 'v_clienti_patente';
 

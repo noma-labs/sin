@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
@@ -18,7 +20,7 @@ it('can render the gruppofamiliare index page', function (): void {
 
 it('can update the date of a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
 
@@ -37,7 +39,7 @@ it('can update the date of a gruppo familiare', function (): void {
 
 it('can assign a persona to a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);
@@ -55,7 +57,7 @@ it('can assign a persona to a gruppo familiare', function (): void {
 
 it('can delete a persona from a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);
@@ -67,7 +69,7 @@ it('can delete a persona from a gruppo familiare', function (): void {
 
 it('can move a persona from another gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);

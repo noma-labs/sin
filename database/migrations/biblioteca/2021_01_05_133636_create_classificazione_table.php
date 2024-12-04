@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateClassificazioneTable extends SqlMigration
+final class CreateClassificazioneTable extends SqlMigration
 {
     public $connection = 'db_biblioteca';
 }

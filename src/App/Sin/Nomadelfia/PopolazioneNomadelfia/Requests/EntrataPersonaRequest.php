@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\PopolazioneNomadelfia\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EntrataPersonaRequest extends FormRequest
+final class EntrataPersonaRequest extends FormRequest
 {
     public function rules(): array
     {

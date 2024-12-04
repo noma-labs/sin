@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Scuola\Unit;
 
 use App\Scuola\Models\Anno;
@@ -233,7 +235,7 @@ it('get possible students in year', function (): void {
     $gruppo = GruppoFamiliare::all()->random();
     $famiglia->assegnaCapoFamiglia($capoFam);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
-    $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
+    $act->execute($capoFam, Carbon::now(), $gruppo);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunno, Famiglia::findOrFail($famiglia->id));

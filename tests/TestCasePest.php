@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -10,7 +12,7 @@ abstract class TestCasePest extends BaseTestCase
 {
     use CreatesApplication, MigrateFreshDB;
 
-    public function createRequest($method, $uri): Request
+    final public function createRequest($method, $uri): Request
     {
         $symfonyRequest = SymfonyRequest::create(
             $uri,

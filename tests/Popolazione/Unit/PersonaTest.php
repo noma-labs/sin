@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use Carbon\Carbon;
@@ -17,7 +19,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Illuminate\Support\Carbon as SupportCarbon;
 
 it('assigns gruppo to a person', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
@@ -27,32 +28,32 @@ it('assigns gruppo to a person', function (): void {
     $action->execute($persona, $gruppo, $data_entrata);
 
     $attuale = $persona->gruppofamiliareAttuale();
-    expect($attuale->id)->toBe($gruppo->id)
-        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata->toDateString());
+    expect($attuale->id)->toEqual($gruppo->id)
+        ->and($attuale->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
 
     // nuovo gruppo
     $newGruppo = GruppoFamiliare::all()->random();
-    $data_entrata = Carbon::now()->addYears(3); //->toDatestring();
+    $data_entrata = Carbon::now()->addYears(3); //->startOfDay();
     $action = app(AssegnaGruppoFamiliareAction::class);
     $action->execute($persona, $newGruppo, $data_entrata);
 
     $attuale = $persona->gruppofamiliareAttuale();
-    expect($attuale->id)->toBe($newGruppo->id)
-        ->and($attuale->pivot->data_entrata_gruppo)->toBe($data_entrata->toDateString());
+    expect($attuale->id)->toEqual($newGruppo->id)
+        ->and($attuale->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     $storico = $persona->gruppofamiliariStorico()->get()->last();
-    expect($storico->id)->toBe($gruppo->id)
-        ->and($storico->pivot->data_uscita_gruppo)->toBe($data_entrata->toDateString());
+    expect($storico->id)->toEqual($gruppo->id)
+        ->and($storico->pivot->data_uscita_gruppo)->toEqual($data_entrata->toDateString());
 
 });
 
-it('testEntrataMaschioDallaNascita', function (): void {  /*
+it('EntrataMaschioDallaNascita', function (): void {  /*
         Person interna (DN)
         Figlio (DN)
         Nubile(celibe (DN)
         Gruppo (DN)
         Famiglia, Figlio (DN)
         */
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -69,20 +70,20 @@ it('testEntrataMaschioDallaNascita', function (): void {  /*
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($persona->data_nascita)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->statoAttuale()->id)->toBe($celibe->id)
-        ->and($persona->statoAttuale()->stato)->toBe($celibe->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($persona->data_nascita)
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($persona->data_nascita))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoAttuale()->id)->toEqual($celibe->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($celibe->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($persona->data_nascita)
         ->and($persona->famigliaAttuale())->not->toBeNull()
-        ->and($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+        ->and($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataFemminaDallaNascita', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataFemminaDallaNascita', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -99,20 +100,20 @@ it('testEntrataFemminaDallaNascita', function (): void {
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($persona->data_nascita)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toBe($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($persona->data_nascita);
-    $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($persona->data_nascita))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($persona->data_nascita);
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataMinorenneFemminaAccolto', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMinorenneFemminaAccolto', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -137,20 +138,20 @@ it('testEntrataMinorenneFemminaAccolto', function (): void {
     */
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toBe($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
-    $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataMinorenneMaschioAccolto', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMinorenneMaschioAccolto', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -175,20 +176,20 @@ it('testEntrataMinorenneMaschioAccolto', function (): void {
     */
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toBe($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
-    $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataMinorenneFemminaConFamiglia', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMinorenneFemminaConFamiglia', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -212,20 +213,20 @@ it('testEntrataMinorenneFemminaConFamiglia', function (): void {
     */
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toBe($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
-    $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataMinorenneMaschioConFamiglia', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMinorenneMaschioConFamiglia', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -249,20 +250,20 @@ it('testEntrataMinorenneMaschioConFamiglia', function (): void {
     */
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($figlio->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->stato)->toBe($nubile->stato)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
-    $this->assertNotNull($persona->famigliaAttuale());
-    expect($persona->famigliaAttuale()->id)->toBe($famiglia->id);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($figlio->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->stato)->toEqual($nubile->stato)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
+    expect($persona->famigliaAttuale())->not->toBeNull();
+    expect($persona->famigliaAttuale()->id)->toEqual($famiglia->id);
 });
 
-it('testEntrataMaggiorenneMaschioSingle', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMaggiorenneMaschioSingle', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
@@ -283,8 +284,8 @@ it('testEntrataMaggiorenneMaschioSingle', function (): void {
     expect($persona->famigliaAttuale())->toBeNull();
 });
 
-it('testEntrataMaggiorenneFemminaSingle', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMaggiorenneFemminaSingle', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
@@ -294,19 +295,19 @@ it('testEntrataMaggiorenneFemminaSingle', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($ospite->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($nubile->id)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata);
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($ospite->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($nubile->id)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
 
     expect($persona->famigliaAttuale())->toBeNull();
 });
 
-it('testEntrataMaggiorenneSposato', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('EntrataMaggiorenneSposato', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
@@ -315,17 +316,17 @@ it('testEntrataMaggiorenneSposato', function (): void {
     $act->execute($persona, $data_entrata, $gruppo);
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($ospite->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale())->toBe(null)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata)
+    expect($persona->getDataEntrataNomadelfia())->toEqual(Carbon::parse($data_entrata))
+        ->and($persona->posizioneAttuale()->id)->toEqual($ospite->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale())->toEqual(null)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull();
 });
 
-it('testRientroMaggiorenneInNomadelfia', function (): void {
-    $data_entrata = SupportCarbon::now()->toDatestring();
+it('RientroMaggiorenneInNomadelfia', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
@@ -339,30 +340,30 @@ it('testRientroMaggiorenneInNomadelfia', function (): void {
     $act->execute($persona, Famiglia::findOrFail($famiglia->id));
     $this->assertTrue($persona->isPersonaInterna());
     $data_entrata = Carbon::parse($persona->data_nascita);
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
+    expect($persona->getDataEntrataNomadelfia())->toEqual($data_entrata);
 
     // la persona esce dalla comunità
-    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 
     $act = app(UscitaPersonaAction::class);
     $act->execute($persona, $data_uscita, true);
 
     $this->assertFalse($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring())
-        ->and($persona->getDataUscitaNomadelfia())->toBe($data_uscita);
+    expect($persona->getDataEntrataNomadelfia())->toEqual($data_entrata)
+        ->and($persona->getDataUscitaNomadelfia())->toEqual($data_uscita);
 
     // la persona rientra in Nomadelfia da maggiorenne adulto
-    $data_rientro = Carbon::now()->addYears(10)->toDatestring();
+    $data_rientro = Carbon::now()->addYears(10)->startOfDay();
     //        $persona->entrataMaggiorenneSingle($data_rientro, ->id);
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia())->toBe($data_rientro)
-        ->and($persona->getDataUscitaNomadelfia())->toBe($data_uscita);
+    expect($persona->getDataEntrataNomadelfia())->toEqual($data_rientro)
+        ->and($persona->getDataUscitaNomadelfia())->toEqual($data_uscita);
 });
 
-it('testRientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
-    $data_entrata = Carbon::now();
+it('RientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->create();
     $gruppo = GruppoFamiliare::first();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
@@ -376,16 +377,16 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
     $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($figlio, $data_entrata, Famiglia::findOrFail($famiglia->id));
     $this->assertTrue($figlio->isPersonaInterna());
-    expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
+    expect($figlio->getDataEntrataNomadelfia())->toEqual($data_entrata);
 
     // la famiglia esce da Nomadelfia
-    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
 
     $this->assertFalse($figlio->isPersonaInterna());
-    expect($figlio->getDataEntrataNomadelfia())->toBe($data_entrata->toDatestring());
-    expect($figlio->getDataUscitaNomadelfia())->toBe($data_uscita);
+    expect($figlio->getDataEntrataNomadelfia())->toEqual($data_entrata);
+    expect($figlio->getDataUscitaNomadelfia())->toEqual($data_uscita);
 
     // la persona rientra in Nomadelfia in una nuova famiglia
     $famiglia_rientro = Famiglia::factory()->create();
@@ -395,19 +396,19 @@ it('testRientroMinorenneInNuovaFamigliaNomadelfia', function (): void {
     $famiglia_rientro->assegnaCapoFamiglia($cp);
     $this->assertCount(0, $famiglia_rientro->figliAttuali()->get());
 
-    $data_rientro = Carbon::now()->addYears(10)->toDatestring();
+    $data_rientro = Carbon::now()->addYears(10)->startOfDay();
     //        $figlio->entrataMinorenneAccolto($data_rientro, $famiglia_rientro->id);
 
     $act = app(EntrataMinorenneAccoltoAction::class);
     $act->execute($figlio, $data_rientro, $famiglia_rientro);
     $this->assertTrue($figlio->isPersonaInterna());
-    expect($figlio->getDataEntrataNomadelfia())->toBe($data_rientro)
-        ->and($figlio->getDataUscitaNomadelfia())->toBe($data_uscita)
-        ->and($famiglia_rientro->figliAttuali()->count())->toBe(1);
+    expect($figlio->getDataEntrataNomadelfia())->toEqual($data_rientro)
+        ->and($figlio->getDataUscitaNomadelfia())->toEqual($data_uscita)
+        ->and($famiglia_rientro->figliAttuali()->count())->toEqual(1);
 });
 
-it('testRientroFamigliaInNomadelfia', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+it('RientroFamigliaInNomadelfia', function (): void {
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->create();
     $gruppo = GruppoFamiliare::first();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
@@ -422,30 +423,30 @@ it('testRientroFamigliaInNomadelfia', function (): void {
     $act->execute($figlio, Famiglia::findOrFail($famiglia->id));
 
     // la famiglia esce da Nomadelfia
-    $data_uscita = Carbon::now()->addYear(10)->toDatestring();
+    $data_uscita = Carbon::now()->addYear(10)->startOfDay();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
 
     $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_entrata, $data_uscita): void {
         $this->assertFalse($componente->isPersonaInterna());
         if ($componente->isCapoFamiglia()) {
-            expect($componente->getDataEntrataNomadelfia())->toBe($data_entrata);
+            expect($componente->getDataEntrataNomadelfia())->toEqual($data_entrata);
         } else {
-            expect($componente->getDataEntrataNomadelfia())->toBe($componente->data_nascita);
+            expect($componente->getDataEntrataNomadelfia())->toEqual(Carbon::parse($componente->data_nascita));
         }
-        expect($componente->getDataUscitaNomadelfia())->toBe($data_uscita);
+        expect($componente->getDataUscitaNomadelfia())->toEqual($data_uscita);
     });
 
     // la famiglia rientra a Nomadelfia. Prima entra il capofamiglia
-    $data_rientro = Carbon::now()->addYear(20)->toDatestring();
+    $data_rientro = Carbon::now()->addYear(20)->startOfDay();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
     $action = app(EntrataMinorenneConFamigliaAction::class);
     $action->execute($figlio, $data_rientro, Famiglia::findOrFail($famiglia->id));
     $famiglia->componentiAttuali()->get()->each(function ($componente) use ($data_rientro, $data_uscita): void {
         $this->assertTrue($componente->isPersonaInterna());
-        expect($componente->getDataEntrataNomadelfia())->toBe($data_rientro);
-        expect($componente->getDataUscitaNomadelfia())->toBe($data_uscita);
+        expect($componente->getDataEntrataNomadelfia())->toEqual($data_rientro);
+        expect($componente->getDataUscitaNomadelfia())->toEqual($data_uscita);
     });
 });
 
@@ -453,7 +454,7 @@ it('get people nati in anno correctly', function (): void {
     Persona::factory()->nato(Carbon::parse('01-01-1791'))->maschio()->create();
     Persona::factory()->nato(Carbon::parse('18-04-1791'))->maschio()->create();
     Persona::factory()->nato(Carbon::parse('31-12-1791'))->maschio()->create();
-    expect(Persona::natiInAnno(1791)->count())->toBe(3);
+    expect(Persona::natiInAnno(1791)->count())->toEqual(3);
 });
 
 it('builds numero elenco', function (): void {
@@ -462,10 +463,10 @@ it('builds numero elenco', function (): void {
     $pLast = Persona::factory()->create(['cognome' => 'Aminoacido']);
 
     $last = Persona::NumeroElencoPrefixByLetter('A')->limit(1)->get()->first();
-    expect($last->numero_elenco)->toBe('A9');
+    expect($last->numero_elenco)->toEqual('A9');
 
     $action = app(ProposeNumeroElencoAction::class);
 
     $n = $action->execute($pLast);
-    expect($n)->toBe('A10');
+    expect($n)->toEqual('A10');
 });

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $data_nascita
  * @property string $cliente_con_patente
  */
-class ViewClienti extends Model
+final class ViewClienti extends Model
 {
     protected $table = 'v_clienti_meccanica';
 

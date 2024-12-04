@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignIncarico;
@@ -7,7 +9,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class AssegnaIncaricoAction
+final class AssegnaIncaricoAction
 {
     public function execute(Persona $persona, Incarico $incarico, Carbon $date): void
     {

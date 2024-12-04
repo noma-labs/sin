@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Incarico\Controllers;
 
 use Carbon\Carbon;
@@ -8,7 +10,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Illuminate\Http\Request;
 
-class IncarichiController
+final class IncarichiController
 {
     public function view()
     {
@@ -91,9 +93,9 @@ class IncarichiController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'persona non esiste']);
         }
+
+        return response()->json(['value' => '', 'label' => 'persona non esiste']);
 
     }
 }

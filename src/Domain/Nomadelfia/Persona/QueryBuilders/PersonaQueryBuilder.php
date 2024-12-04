@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Persona\QueryBuilders;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class PersonaQueryBuilder extends Builder
+final class PersonaQueryBuilder extends Builder
 {
     public function NumeroElencoPrefixByLetter(string $lettera)
     {

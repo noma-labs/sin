@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
@@ -17,29 +19,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @method Prescuola()
  * */
-class ClasseTipo extends Model
+final class ClasseTipo extends Model
 {
-    const PRESCUOLA_3ANNI = '3 anni';
+    public const PRESCUOLA_3ANNI = '3 anni';
 
-    const PRESCUOLA_4ANNI = '4 anni';
+    public const PRESCUOLA_4ANNI = '4 anni';
 
-    const PRESCUOLA_5ANNI = '5 anni';
+    public const PRESCUOLA_5ANNI = '5 anni';
 
-    const PRIMA_ELEMENTARE = '1a Elementare';
+    public const PRIMA_ELEMENTARE = '1a Elementare';
 
-    const SECONDA_ELEMENTARE = '2a Elementare';
+    public const SECONDA_ELEMENTARE = '2a Elementare';
 
-    const TERZA_ELEMENTARE = '3a Elementare';
+    public const TERZA_ELEMENTARE = '3a Elementare';
 
-    const QUARTA_ELEMENTARE = '4a Elementare';
+    public const QUARTA_ELEMENTARE = '4a Elementare';
 
-    const QUINTA_ELEMENTARE = '5a Elementare';
+    public const QUINTA_ELEMENTARE = '5a Elementare';
 
-    const PRIMA_MEDIA = '1a media';
+    public const PRIMA_MEDIA = '1a media';
 
-    const SECONDA_MEDIA = '2a media';
+    public const SECONDA_MEDIA = '2a media';
 
-    const TERZA_MEDIA = '3a media';
+    public const TERZA_MEDIA = '3a media';
 
     public $timestamps = true;
 
@@ -65,7 +67,7 @@ class ClasseTipo extends Model
         return $query->where('id', '=', $this->next);
     }
 
-    public function scopePrescuola($query): ClasseTipo
+    public function scopePrescuola($query): self
     {
         return $query->where('ciclo', '=', 'prescuola')->first();
     }
@@ -162,57 +164,57 @@ class ClasseTipo extends Model
 
     public function scopeIs3AnniPrescuola($query): bool
     {
-        return $this->nome == self::PRESCUOLA_3ANNI;
+        return $this->nome === self::PRESCUOLA_3ANNI;
     }
 
     public function scopeIs4AnniPrescuola($query): bool
     {
-        return $this->nome == self::PRESCUOLA_4ANNI;
+        return $this->nome === self::PRESCUOLA_4ANNI;
     }
 
     public function scopeIs5AnniPrescuola($query): bool
     {
-        return $this->nome == self::PRESCUOLA_5ANNI;
+        return $this->nome === self::PRESCUOLA_5ANNI;
     }
 
     public function scopeIsPrimaEl(): bool
     {
-        return $this->nome == self::PRIMA_ELEMENTARE;
+        return $this->nome === self::PRIMA_ELEMENTARE;
     }
 
     public function scopeIsSecondaEl(): bool
     {
-        return $this->nome == self::SECONDA_ELEMENTARE;
+        return $this->nome === self::SECONDA_ELEMENTARE;
     }
 
     public function scopeIsTerzaEl(): bool
     {
-        return $this->nome == self::TERZA_ELEMENTARE;
+        return $this->nome === self::TERZA_ELEMENTARE;
     }
 
     public function scopeIsQuartaEl(): bool
     {
-        return $this->nome == self::QUARTA_ELEMENTARE;
+        return $this->nome === self::QUARTA_ELEMENTARE;
     }
 
     public function scopeIsQuintaEl(): bool
     {
-        return $this->nome == self::QUINTA_ELEMENTARE;
+        return $this->nome === self::QUINTA_ELEMENTARE;
     }
 
     public function IsPrimaMed(): bool
     {
-        return $this->nome == self::PRIMA_MEDIA;
+        return $this->nome === self::PRIMA_MEDIA;
     }
 
     public function scopeIsSecondaMed(): bool
     {
-        return $this->nome == self::SECONDA_MEDIA;
+        return $this->nome === self::SECONDA_MEDIA;
     }
 
     public function scopeIsTerzaMed(): bool
     {
-        return $this->nome == self::TERZA_MEDIA;
+        return $this->nome === self::TERZA_MEDIA;
     }
 
     public function scopeIsUniversita(): bool

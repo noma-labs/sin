@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
+use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-class EntrataMaggiorenneConFamigliaAction
+final class EntrataMaggiorenneConFamigliaAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
-    public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo): void
+    public function execute(Persona $persona, Carbon $data_entrata, GruppoFamiliare $gruppo): void
     {
         if (! $persona->isMaggiorenne()) {
             throw PersonaIsMinorenne::named($persona->nominativo);
@@ -44,7 +47,7 @@ class EntrataMaggiorenneConFamigliaAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
     }
 
     public function calcGruppoFamiliare(EntrataPersonaData $dto): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use Carbon\Carbon;
@@ -10,7 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoActio
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 
 it('entrata_minorenne_con_famiglia', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -24,20 +26,20 @@ it('entrata_minorenne_con_famiglia', function (): void {
     $action->execute($persona, $data_entrata, Famiglia::findOrFail($famiglia->id));
 
     expect($persona->isPersonaInterna())->toBeTrue();
-    expect($persona->getDataEntrataNomadelfia())->tobe($data_entrata);
+    expect($persona->getDataEntrataNomadelfia())->toEqual($data_entrata);
     //        $this->assertEquals($persona->posizioneAttuale()->id, $figlio->id);
-    expect($persona->posizioneAttuale()->pivot->data_inizio)->tobe($data_entrata);
+    expect($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString());
     //        expect($persona->statoAttuale()->id, $nubile->id);
     //        expect($persona->statoAttuale()->stato, $nubile->stato);
-    expect($persona->statoAttuale()->pivot->data_inizio)->tobe($persona->data_nascita);
-    expect($persona->gruppofamiliareAttuale()->id)->tobe($gruppo->id);
-    expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->tobe($data_entrata);
+    expect($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita);
+    expect($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id);
+    expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString());
     expect($persona->famigliaAttuale())->not->toBeNull();
 
 });
 
 it('entrata_minorenne_accolto', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
