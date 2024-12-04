@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Admin\Models\User;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\App;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class AuthTablesSeeder extends Seeder
+final class AuthTablesSeeder extends Seeder
 {
     public function run()
     {

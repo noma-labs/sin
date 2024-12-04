@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use Domain\Photo\Models\Photo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class PhotoFactory extends Factory
+final class PhotoFactory extends Factory
 {
     protected $model = Photo::class;
 

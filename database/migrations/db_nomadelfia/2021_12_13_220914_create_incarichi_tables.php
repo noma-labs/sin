@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateIncarichiTables extends SqlMigration
+final class CreateIncarichiTables extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

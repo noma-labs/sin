@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateVideoTable extends SqlMigration
+final class CreateVideoTable extends SqlMigration
 {
     public $connection = 'db_biblioteca';
 }

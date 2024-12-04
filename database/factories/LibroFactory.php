@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Biblioteca\Models\Libro;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LibroFactory extends Factory
+final class LibroFactory extends Factory
 {
     protected $model = Libro::class;
 
@@ -36,7 +38,7 @@ class LibroFactory extends Factory
         });
     }
 
-    public function physicalPlacement(string $collocazione): LibroFactory
+    public function physicalPlacement(string $collocazione): self
     {
         return $this->state(function (array $attributes) use ($collocazione) {
             return [

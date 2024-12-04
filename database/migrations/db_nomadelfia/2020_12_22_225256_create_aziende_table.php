@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateAziendeTable extends SqlMigration
+final class CreateAziendeTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }
