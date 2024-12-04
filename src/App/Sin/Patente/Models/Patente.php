@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Models;
 
 use App\Traits\SortableTrait;
@@ -19,15 +21,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $data_scadenza_patente
  * @property string $note
  */
-class Patente extends Model
+final class Patente extends Model
 {
     use SortableTrait;
-
-    protected $connection = 'db_patente';
-
-    protected $table = 'persone_patenti';
-
-    protected $primaryKey = 'numero_patente';
 
     public $increment = false;
 
@@ -37,24 +33,13 @@ class Patente extends Model
 
     public $timestamps = false;
 
+    protected $connection = 'db_patente';
+
+    protected $table = 'persone_patenti';
+
+    protected $primaryKey = 'numero_patente';
+
     protected $guarded = [];
-
-    // see https://laravel.com/docs/7.x/upgrade
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope('InNomadelfia', function (Builder $builder): void {
-            $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
-                ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
-                ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
-                ->whereNull('db_nomadelfia.popolazione.data_uscita')
-                ->orderBy('db_nomadelfia.persone.nominativo');
-        });
-    }
 
     public function persona(): BelongsTo
     {
@@ -110,12 +95,12 @@ class Patente extends Model
 
     public function hasCqcPersone(): bool
     {
-        return $this->cqcPersone() != null;
+        return $this->cqcPersone() !== null;
     }
 
     public function hasCqcMerci(): bool
     {
-        return $this->cqcMerci() != null;
+        return $this->cqcMerci() !== null;
     }
 
     public function cqcPersone()
@@ -172,14 +157,15 @@ class Patente extends Model
     public function scopeScadute($query, ?int $days = null)
     {
 
-        if ($days != null) {
+        if ($days !== null) {
             $data = Carbon::now()->subDays($days)->toDateString();
 
             return $query->where('data_scadenza_patente', '>=', $data)
                 ->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
-        } else {
-            return $query->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
         }
+
+        return $query->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
+
     }
 
     /** Return TRUE if the patente has the commissione, FALSE otherwise
@@ -188,7 +174,7 @@ class Patente extends Model
      */
     public function hasCommissione(): bool
     {
-        return $this->stato == 'commissione';
+        return $this->stato === 'commissione';
     }
 
     /** Ritorna le patenti a cui è stata assegnata la commissione
@@ -206,5 +192,22 @@ class Patente extends Model
     {
         return $query->whereNull('stato')
             ->orWhere('stato', '!=', 'commissione');
+    }
+
+    protected static function booted(): void
+    {
+        self::addGlobalScope('InNomadelfia', function (Builder $builder): void {
+            $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
+                ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
+                ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
+                ->whereNull('db_nomadelfia.popolazione.data_uscita')
+                ->orderBy('db_nomadelfia.persone.nominativo');
+        });
+    }
+
+    // see https://laravel.com/docs/7.x/upgrade
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

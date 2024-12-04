@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Mail\PersonaDecessoMail;
@@ -7,7 +9,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailPersonaDecessoAction
+final class SendEmailPersonaDecessoAction
 {
     public function execute(Persona $persona, string $data_decesso): void
     {

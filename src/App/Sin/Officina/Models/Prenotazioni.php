@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use App\Traits\SortableTrait;
@@ -19,7 +21,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $data_arrivo
  * @property string $ora_arrivo
  */
-class Prenotazioni extends Model
+final class Prenotazioni extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -34,31 +36,6 @@ class Prenotazioni extends Model
     protected $guarded = [];
 
     protected $casts = ['deleted_at' => 'datetime'];
-
-    protected static function newFactory(): PrenotazioniFactory
-    {
-        return PrenotazioniFactory::new();
-    }
-
-    public function uso()
-    {
-        return $this->hasOne(Uso::class, 'ofus_iden', 'uso_id');
-    }
-
-    public function meccanico(): HasOne
-    {
-        return $this->hasOne(Persona::class, 'id', 'meccanico_id');
-    }
-
-    public function cliente(): HasOne
-    {
-        return $this->hasOne(Persona::class, 'id', 'cliente_id');
-    }
-
-    public function veicolo(): HasOne
-    {
-        return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
-    }
 
     public static function inTimeRange(Carbon $data_from, Carbon $data_to): Builder
     {
@@ -90,6 +67,26 @@ class Prenotazioni extends Model
                             ->where('data_arrivo', '>', $data_from->toDateString());
                     });
             });
+    }
+
+    public function uso()
+    {
+        return $this->hasOne(Uso::class, 'ofus_iden', 'uso_id');
+    }
+
+    public function meccanico(): HasOne
+    {
+        return $this->hasOne(Persona::class, 'id', 'meccanico_id');
+    }
+
+    public function cliente(): HasOne
+    {
+        return $this->hasOne(Persona::class, 'id', 'cliente_id');
+    }
+
+    public function veicolo(): HasOne
+    {
+        return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }
 
     /**
@@ -147,5 +144,10 @@ class Prenotazioni extends Model
         }
 
         return false;
+    }
+
+    protected static function newFactory(): PrenotazioniFactory
+    {
+        return PrenotazioniFactory::new();
     }
 }

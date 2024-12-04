@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Api\Controllers;
 
 use App\Traits\Enums;
@@ -14,7 +16,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon as SupportCarbon;
 
-class ApiController
+final class ApiController
 {
     public function persona(Request $request, $id)
     {
@@ -129,9 +131,10 @@ class ApiController
         ];
         if ($azienda->lavoratoriAttuali()->updateExistingPivot($request->input('lavoratore_id'), $attr)) {
             return [true];
-        } else {
-            return [false];
         }
+
+        return [false];
+
     }
 
     /**
@@ -146,7 +149,7 @@ class ApiController
         $results = [];
         if ($request->has('filtro')) {
             // Aziende nello storico
-            if ($request->query('filtro') == 'storico') {
+            if ($request->query('filtro') === 'storico') {
                 $aziende = Azienda::aziende()->whereHas('lavoratoriStorici', function ($query) use ($id): void {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
@@ -154,7 +157,7 @@ class ApiController
                     $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
                 }
             } // Aziende possibili per il lavoratore
-            elseif ($request->query('filtro') == 'possibili') {
+            elseif ($request->query('filtro') === 'possibili') {
                 $aziende = Azienda::aziende()->whereDoesntHave('lavoratoriAttuali', function ($query) use ($id): void {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
@@ -180,7 +183,7 @@ class ApiController
         $results = [];
         if ($request->has('filtro')) {
             // Aziende nello storico
-            if ($request->query('filtro') == 'storico') {
+            if ($request->query('filtro') === 'storico') {
                 $aziende = Azienda::incarichi()->whereHas('lavoratoriStorici', function ($query) use ($id): void {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
@@ -188,7 +191,7 @@ class ApiController
                     $results[] = ['id' => $azienda->id, 'nome' => $azienda->nome_azienda];
                 }
             } // Aziende possibili per il lavoratore
-            elseif ($request->query('filtro') == 'possibili') {
+            elseif ($request->query('filtro') === 'possibili') {
                 $aziende = Azienda::incarichi()->whereDoesntHave('lavoratoriAttuali', function ($query) use ($id): void {
                     $query->where('id', '=', $id);
                 })->orderBy('nome_azienda')->get();
@@ -279,7 +282,7 @@ class ApiController
         })->get();
 
         return $persone->filter(function ($value, $key): bool {
-            return $value->id != 0;
+            return $value->id !== 0;
         })->diff($lavoratori_attivi)->take(30)->toArray();
     }
 }

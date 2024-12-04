@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
@@ -9,7 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Exception;
 use Illuminate\Http\Request;
 
-class FamiglieController
+final class FamiglieController
 {
     public function view()
     {
@@ -52,10 +54,11 @@ class FamiglieController
         if ($saved) {
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withSuccess("Famiglia $famiglia->nome_famiglia aggiornata con successo");
-        } else {
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
         }
+
+        return redirect(route('nomadelfia.famiglia.dettaglio',
+            ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
+
     }
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)

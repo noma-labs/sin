@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Biblioteca\Models\Autore;
 
-class SearchAutore extends Autocomplete
+final class SearchAutore extends Autocomplete
 {
     public function searchBy(string $term): array
     {

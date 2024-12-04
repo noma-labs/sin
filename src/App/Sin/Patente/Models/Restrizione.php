@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Models;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
-class Restrizione extends Model
+final class Restrizione extends Model
 {
-    protected $connection = 'db_patente';
-
-    protected $table = 'restrizione';
-
-    protected $primaryKey = 'codice';
-
     public $increment = false;
 
     public $keyType = 'string';
 
     public $timestamps = false;
+
+    protected $connection = 'db_patente';
+
+    protected $table = 'restrizione';
+
+    protected $primaryKey = 'codice';
 
     protected $guarded = [];
 

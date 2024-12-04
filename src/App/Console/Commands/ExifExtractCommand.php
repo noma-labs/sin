@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Domain\Photo\Actions\ExtractExifAction;
@@ -7,7 +9,7 @@ use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class ExifExtractCommand extends Command
+final class ExifExtractCommand extends Command
 {
     /**
      * The name and signature of the console command.

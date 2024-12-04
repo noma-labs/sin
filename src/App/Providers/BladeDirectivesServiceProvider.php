@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Carbon\Carbon;
@@ -7,7 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class BladeDirectivesServiceProvider extends ServiceProvider
+final class BladeDirectivesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -74,5 +76,5 @@ class BladeDirectivesServiceProvider extends ServiceProvider
         });
     }
 
-    public function register() {}
+    public function register(): void {}
 }

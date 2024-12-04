@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Classe;
@@ -7,7 +9,7 @@ use App\Scuola\Requests\AddCoordinatoreRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class ClassiCoordinatoriController
+final class ClassiCoordinatoriController
 {
     public function store(AddCoordinatoreRequest $request, $id)
     {

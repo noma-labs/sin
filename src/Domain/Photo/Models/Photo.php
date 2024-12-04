@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Photo\Models;
 
 use Database\Factories\PhotoFactory;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Photo extends Model
+final class Photo extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -27,13 +29,13 @@ class Photo extends Model
         'taken_at' => 'datetime',
     ];
 
-    protected static function newFactory(): PhotoFactory
-    {
-        return PhotoFactory::new();
-    }
-
     public function persone(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'db_foto.foto_persone', 'photo_id', 'persona_id');
+    }
+
+    protected static function newFactory(): PhotoFactory
+    {
+        return PhotoFactory::new();
     }
 }

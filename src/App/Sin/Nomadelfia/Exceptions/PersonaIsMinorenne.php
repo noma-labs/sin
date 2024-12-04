@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-class PersonaIsMinorenne extends NomadelfiaException
+final class PersonaIsMinorenne extends NomadelfiaException
 {
-    public static function named(string $nome): PersonaIsMinorenne
+    public static function named(string $nome): self
     {
         return new self("La persona `{$nome}` è minorenne.");
     }

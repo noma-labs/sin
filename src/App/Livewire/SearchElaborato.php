@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Scuola\Models\Elaborato;
 
-class SearchElaborato extends Autocomplete
+final class SearchElaborato extends Autocomplete
 {
     public function searchBy(string $term): array
     {

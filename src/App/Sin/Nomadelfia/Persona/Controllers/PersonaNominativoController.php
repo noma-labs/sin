@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaNominativoController
+final class PersonaNominativoController
 {
     public function edit($idPersona)
     {
@@ -27,10 +29,11 @@ class PersonaNominativoController
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSucces('Nominativo  aggiornato con suceesso');
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato aggiornato.');
         }
+
+        return redirect()->route('nomadelfia.persone.dettaglio',
+            ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato aggiornato.');
+
     }
 
     /**
@@ -52,9 +55,10 @@ class PersonaNominativoController
         if ($persona->save()) {
             return redirect()->route('nomadelfia.persone.dettaglio',
                 ['idPersona' => $idPersona])->withSucces('Nuovo nominativo aggiunto con successo.');
-        } else {
-            return redirect()->route('nomadelfia.persone.dettaglio',
-                ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato assegnato.');
         }
+
+        return redirect()->route('nomadelfia.persone.dettaglio',
+            ['idPersona' => $idPersona])->withError('Errore. Il nominativo non è stato assegnato.');
+
     }
 }

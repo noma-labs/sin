@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\DataTransferObjects;
 
 use Exception;
 use Illuminate\Support\Str;
 
-class Dimensione
+final class Dimensione
 {
     public int $larghezza;
 
     public int $altezza;
 
-    public static function fromString(?string $dimensione): ?Dimensione
+    public static function fromString(?string $dimensione): ?self
     {
         if (is_null($dimensione)) {
             return null;

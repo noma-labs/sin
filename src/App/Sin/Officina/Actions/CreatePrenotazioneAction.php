@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Actions;
 
 use App\Officina\Models\Prenotazioni;
@@ -7,7 +9,7 @@ use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class CreatePrenotazioneAction
+final class CreatePrenotazioneAction
 {
     public function __invoke(
         Persona $cliente,

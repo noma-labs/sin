@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\QueryBuilders;
 
 use App\Scuola\Models\Anno;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class StudenteQueryBuilder extends Builder
+final class StudenteQueryBuilder extends Builder
 {
     public function InAnnoScolastico($anno)
     {

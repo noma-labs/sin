@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Classificazione as Classificazione;
 use Illuminate\Http\Request;
 
-class ClassificazioniController
+final class ClassificazioniController
 {
     public function index()
     {
@@ -34,7 +36,7 @@ class ClassificazioniController
 
     }
 
-    public function show($id)
+    public function show()
     {
         return redirect('classificazioni');
     }
@@ -59,9 +61,9 @@ class ClassificazioniController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
         }
+
+        return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
 
     }
 
@@ -84,7 +86,7 @@ class ClassificazioniController
         return redirect()->route('classificazioni.index')->withError("Errore durante l'operaizone di aggiornamento");
     }
 
-    public function destroy($id)
+    public function destroy()
     {
         return redirect()->route('classificazioni.index')->withError('Impossibile eliminare la classificazione');
     }

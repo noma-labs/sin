@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Controllers;
 
 use App\Officina\Models\Alimentazioni;
@@ -13,7 +15,7 @@ use App\Officina\Models\ViewClienti;
 use Illuminate\Http\Request;
 use Throwable;
 
-class ApiController
+final class ApiController
 {
     public function clientiMeccanica(Request $request)
     {
@@ -51,15 +53,15 @@ class ApiController
         return response()->json($results);
     }
 
-    public function tipologia(Request $request)
+    public function tipologia()
     {
         // $term = $request->input('term');
-        $tipologie = Tipologia::all(); //where("nome","LIKE", $term.'%')->get();
+        $tipologie = Tipologia::all();
+        //where("nome","LIKE", $term.'%')->get();
         $results = [];
         foreach ($tipologie as $tipologia) {
             $results[] = ['value' => $tipologia->id, 'label' => $tipologia->nome];
         }
-
         return response()->json($results);
     }
 
@@ -109,22 +111,22 @@ class ApiController
      */
     public function nuovaGomma(Request $request): array
     {
-        if ($request->input('note') == '') {
+        if ($request->input('note') === '') {
             $note = '';
         } else {
             $note = $request->input('note');
         }
-        if ($request->input('gomma_id') == '') {
+        if ($request->input('gomma_id') === '') {
             // salvo la nuova gomma nel db
             try {
                 $gomma = TipoGomme::create([
-                    'codice' => strtoupper($request->input('nuovo_codice')),
+                    'codice' => mb_strtoupper($request->input('nuovo_codice')),
                     'note' => $note,
                 ]);
             } catch (Throwable) {
                 return [
                     'status' => 'error',
-                    'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') == ''),
+                    'msg' => "Errore: codice della gomma gia' presente ".$request->input('nuovo_codice').' '.($request->input('note') === ''),
                 ];
             }
         } else {

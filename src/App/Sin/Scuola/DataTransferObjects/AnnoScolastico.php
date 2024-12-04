@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\DataTransferObjects;
 
 use Exception;
 use Illuminate\Support\Str;
 
-class AnnoScolastico
+final class AnnoScolastico
 {
     public int $startYear;
 
     public int $endYear;
 
-    public static function fromString(string $as): AnnoScolastico
+    public static function fromString(string $as): self
     {
         $as = Str::of($as)->explode('/');
         if (count($as) < 2) {
@@ -24,7 +26,7 @@ class AnnoScolastico
             throw new Exception('I due anni devono essere un numero');
         }
 
-        if ($endYear != $startYear + 1) {
+        if ($endYear !== $startYear + 1) {
             throw new Exception("La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
         }
 

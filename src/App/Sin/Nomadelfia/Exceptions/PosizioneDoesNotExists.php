@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-class PosizioneDoesNotExists extends NomadelfiaException
+final class PosizioneDoesNotExists extends NomadelfiaException
 {
-    public static function named(string $nome): PosizioneDoesNotExists
+    public static function named(string $nome): self
     {
         return new self("La posizione`{$nome}` non esiste.");
     }
 
-    public static function create(string $posizionenName): PosizioneDoesNotExists
+    public static function create(string $posizionenName): self
     {
         return new self("La posizione `{$posizionenName}` non esiste.");
     }

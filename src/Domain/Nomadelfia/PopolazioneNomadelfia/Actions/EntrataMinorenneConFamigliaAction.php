@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
@@ -9,7 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaDa
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-class EntrataMinorenneConFamigliaAction
+final class EntrataMinorenneConFamigliaAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 

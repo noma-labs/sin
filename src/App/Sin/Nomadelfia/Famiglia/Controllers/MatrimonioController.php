@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Carbon\Carbon;
@@ -8,7 +10,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class MatrimonioController
+final class MatrimonioController
 {
     public function create()
     {

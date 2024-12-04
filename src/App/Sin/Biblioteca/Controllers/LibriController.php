@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
@@ -12,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class LibriController
+final class LibriController
 {
     public function showEditCollocazioneForm($idLibro)
     {
@@ -32,22 +34,21 @@ class LibriController
         $libro = Libro::findOrFail($idLibro);
         $collocazione = $libro->collocazione;
         $xCollocazioneNuova = $request->xCollocazione;
-        if ($xCollocazioneNuova != 'null') {
+        if ($xCollocazioneNuova !== 'null') {
             $libroTarget = Libro::where('collocazione', $xCollocazioneNuova)->first();
             if ($libroTarget) {
                 return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'))->withWarning('Stai cambiando la collocazione');
-            } else {
-                $libro->collocazione = $xCollocazioneNuova;
-                $res = $libro->save();
-
-                return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita in $libro->collocazione con successo.");
             }
-        } else {
-            $libro->collocazione = null;
+            $libro->collocazione = $xCollocazioneNuova;
             $res = $libro->save();
 
-            return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita con SENZA COLLOCAZIONE con successo.");
+            return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita in $libro->collocazione con successo.");
+
         }
+        $libro->collocazione = null;
+        $res = $libro->save();
+
+        return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita con SENZA COLLOCAZIONE con successo.");
 
     }
 
@@ -116,7 +117,7 @@ class LibriController
             }
             if ($request->xCollocazione) {
                 $collocazione = $request->xCollocazione;
-                if ($collocazione == 'null') {
+                if ($collocazione === 'null') {
                     $q->where('collocazione', '=', '')->orWhereNull('collocazione');
                     $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
                 } else {
@@ -140,7 +141,7 @@ class LibriController
             }
             if ($request->filled('xClassificazione')) {
                 $classificazione = (int) $request->xClassificazione;
-                if ($classificazione == 0) { // NON CLASSIFICATO
+                if ($classificazione === 0) { // NON CLASSIFICATO
                     $q->where('classificazione_id', "$classificazione")->orWhereNull('classificazione_id');
                 } else {
                     $q->where('classificazione_id', "$classificazione");
@@ -186,9 +187,10 @@ class LibriController
         $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idLibro)->get();
         if ($libro) {
             return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
-        } else {
-            return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
         }
+
+        return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
+
     }
 
     public function delete($idLibro)
@@ -282,9 +284,9 @@ class LibriController
 
         if ($res) {
             return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
-        } else {
-            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withWarning('Nessuna modifica effettuata');
         }
+
+        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withWarning('Nessuna modifica effettuata');
 
     }
 
@@ -319,14 +321,12 @@ class LibriController
 
         if ($libro->inPrestito()) {
             return redirect()->back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
-        } else {
-            $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
-            if ($prestito) {
-                return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
-            } else {
-                redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
-            }
         }
+        $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
+        if ($prestito) {
+            return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
+        }
+        redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
 
     }
 
@@ -360,7 +360,7 @@ class LibriController
         $_addanother = $request->input('_addanother');  // save and add another libro
         $_addonly = $request->input('_addonly');     // save only
 
-        if ($request->xCollocazione == 'null') {
+        if ($request->xCollocazione === 'null') {
             $collocazione = null;
         } else {
             $collocazione = $request->xCollocazione;

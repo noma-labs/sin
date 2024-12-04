@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Controllers;
 
 use App\Officina\Models\Alimentazioni;
@@ -13,7 +15,7 @@ use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 use Throwable;
 
-class VeicoliController
+final class VeicoliController
 {
     public function index(Request $request)
     {
@@ -122,9 +124,10 @@ class VeicoliController
 
         if ($request->input('_addanother')) { // salva e aggiungi un'altro7
             return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
-        } else {
-            return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
         }
+
+        return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+
     }
 
     /**
@@ -142,7 +145,7 @@ class VeicoliController
         // salva il filtro
         try {
             $filtro = TipoFiltro::create([
-                'codice' => strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper($request->input('codice')),
                 'tipo' => $request->input('tipo'),
                 'note' => $note,
             ]);
@@ -152,9 +155,10 @@ class VeicoliController
 
         if ($filtro) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Filtro $filtro->codice salvato correttamente");
-        } else {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio del filtro $filtro->codice");
         }
+
+        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio del filtro $filtro->codice");
+
     }
 
     /**
@@ -170,7 +174,7 @@ class VeicoliController
 
         try {
             $olio = TipoOlio::create([
-                'codice' => strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper($request->input('codice')),
                 'note' => $note,
             ]);
         } catch (Throwable) {
@@ -179,9 +183,10 @@ class VeicoliController
 
         if ($olio) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Olio $olio->codice salvato correttamente");
-        } else {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
         }
+
+        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
+
     }
 
     /**

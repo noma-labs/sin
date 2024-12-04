@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ArchivioDocumenti\Controllers;
 
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
 use Illuminate\Http\Request;
 
-class ArchivioDocumentiController
+final class ArchivioDocumentiController
 {
     public function index()
     {
@@ -19,9 +21,10 @@ class ArchivioDocumentiController
         $res = ArchivioDocumento::toBePrinted()->update(['stato' => 0]);
         if ($res) {
             return redirect()->route('archiviodocumenti.etichette')->withSuccess("Tutte le $res etichette sono state eliminate.");
-        } else {
-            return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
         }
+
+        return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
+
     }
 
     public function eliminaSingolo($id)
@@ -30,9 +33,10 @@ class ArchivioDocumentiController
         $res = $libro->update(['stato' => 0]);
         if ($res) {
             return redirect()->route('archiviodocumenti.etichette')->withSuccess("Libro $libro->foglio, $libro->titolo eliminato dalla stampa delle etichette");
-        } else {
-            return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
         }
+
+        return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
+
     }
 
     public function etichette()
@@ -51,15 +55,15 @@ class ArchivioDocumentiController
     {
         $from = $request->input('fromCollocazione');
         $to = $request->input('toCollocazione', $request->input('fromCollocazione'));
-        if ($request->input('action') == 'add') {
+        if ($request->input('action') === 'add') {
             $count = ArchivioDocumento::whereBetween('foglio', [$from, $to])->update(['stato' => 1]);
 
             return redirect()->route('archiviodocumenti.etichette')->withSuccess("$count etichette aggiunte alla stampa");
-        } else {
-            $count = ArchivioDocumento::whereBetween('foglio', [$from, $to])->update(['stato' => 0]);
-
-            return redirect()->route('archiviodocumenti.etichette')->withSuccess("$count etichette rimosse dalla stampa");
         }
+        $count = ArchivioDocumento::whereBetween('foglio', [$from, $to])->update(['stato' => 0]);
+
+        return redirect()->route('archiviodocumenti.etichette')->withSuccess("$count etichette rimosse dalla stampa");
+
     }
 
     public function ricerca(Request $request)
@@ -92,7 +96,7 @@ class ArchivioDocumentiController
             }
             if ($request->collocazione) {
                 $collocazione = $request->collocazione;
-                if ($collocazione == 'null') {
+                if ($collocazione === 'null') {
                     $q->where('foglio', '=', '')->orWhereNull('collocazione');
                     $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
                 } else {

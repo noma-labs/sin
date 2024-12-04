@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,8 +11,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $marca_id
  * @property string $nome
  */
-class Modelli extends Model
+final class Modelli extends Model
 {
+    public $timestamps = false;
+
     protected $connection = 'db_officina';
 
     protected $table = 'modello';
@@ -18,8 +22,6 @@ class Modelli extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
-
-    public $timestamps = false;
 
     public function marca()
     {
@@ -30,6 +32,6 @@ class Modelli extends Model
     // mette il nome in maiuscolo quando un nuovo modello viene creato o modificato.
     public function setNomeAttribute($value): void
     {
-        $this->attributes['nome'] = strtoupper($value);
+        $this->attributes['nome'] = mb_strtoupper($value);
     }
 }

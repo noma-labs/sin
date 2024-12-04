@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\GruppoFamiliare\QueryBuilders;
 
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Database\Eloquent\Builder;
 
-class GruppoFamiliareQueryBuilder extends Builder
+final class GruppoFamiliareQueryBuilder extends Builder
 {
-    public function single(GruppoFamiliare $gruppo): GruppoFamiliareQueryBuilder
+    public function single(GruppoFamiliare $gruppo): self
     {
         return $this->select('persone.*')
             ->from('persone')
@@ -24,7 +26,7 @@ class GruppoFamiliareQueryBuilder extends Builder
             ->orderBy('persone.nominativo');
     }
 
-    public function families(GruppoFamiliare $gruppo): GruppoFamiliareQueryBuilder
+    public function families(GruppoFamiliare $gruppo): self
     {
         return $this->select('famiglie_persone.famiglia_id', 'famiglie.nome_famiglia', 'persone.id as persona_id', 'persone.nominativo', 'famiglie_persone.posizione_famiglia', 'persone.data_nascita')
             ->from('gruppi_persone')

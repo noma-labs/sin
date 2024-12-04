@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaStatoController
+final class PersonaStatoController
 {
     public function index($idPersona)
     {
@@ -27,7 +29,7 @@ class PersonaStatoController
         $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
@@ -47,7 +49,7 @@ class PersonaStatoController
             ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
 
         return redirect()
-            ->action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Stato di $persona->nominativo  modificato con successo.");
     }
 }

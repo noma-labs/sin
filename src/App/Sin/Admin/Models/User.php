@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Models;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -13,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @property string $username
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use CausesActivity;
     use HasRoles;

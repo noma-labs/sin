@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Controllers;
 
 use Spatie\Activitylog\Models\Activity;
 
-class LogsActivityController
+final class LogsActivityController
 {
     public function index()
     {

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -14,7 +17,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-class PersonaEntrataController
+final class PersonaEntrataController
 {
     public function create($idPersona)
     {
@@ -28,7 +31,7 @@ class PersonaEntrataController
         $request->validated();
 
         $persona = Persona::findOrFail($idPersona);
-        $data_entrata = $request->input('data_entrata');
+        $data_entrata = Carbon::parse($request->input('data_entrata'));
 
         switch ($request->tipologia) {
             case 'dalla_nascita':

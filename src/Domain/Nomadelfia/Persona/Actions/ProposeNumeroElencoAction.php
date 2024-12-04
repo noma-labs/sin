@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Persona\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Support\Str;
 
-class ProposeNumeroElencoAction
+final class ProposeNumeroElencoAction
 {
     public function execute(Persona $persona): string
     {

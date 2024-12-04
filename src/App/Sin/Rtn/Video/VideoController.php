@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rtn\Video;
 
 use Exception;
 use Illuminate\Http\Request;
 
-class VideoController
+final class VideoController
 {
     public function index()
     {
@@ -14,12 +16,12 @@ class VideoController
         return view('rtn.video.create', compact('countByYear'));
     }
 
-    public function create()
+    public function create(): void
     {
         throw new Exception('not implemented yet');
     }
 
-    public function store(Request $request): void
+    public function store(): void
     {
         dd('Not implemented yet');
     }

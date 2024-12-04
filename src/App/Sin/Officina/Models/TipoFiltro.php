@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use App\Traits\Enums;
@@ -11,15 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tipo
  * @property string $note
  */
-class TipoFiltro extends Model
+final class TipoFiltro extends Model
 {
+    public $timestamps = false;
+
     protected $connection = 'db_officina';
 
     protected $table = 'tipo_filtro';
 
     protected $primaryKey = 'id';
-
-    public $timestamps = false;
 
     protected $fillable = ['codice', 'tipo', 'note'];
 

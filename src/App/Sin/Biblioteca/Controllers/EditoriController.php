@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Editore as Editore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class EditoriController
+final class EditoriController
 {
     public function index()
     {
@@ -39,9 +41,10 @@ class EditoriController
 
         if (Session::has('insertLibroUrl')) {
             return redirect()->to(Session::get('insertLibroUrl'))->withSuccess("Editore $editore->editore  aggiunto correttamente.");
-        } else {
-            return redirect()->route('editori.index')->withSuccess("Editore $editore->editore  aggiunto correttamente.");
         }
+
+        return redirect()->route('editori.index')->withSuccess("Editore $editore->editore  aggiunto correttamente.");
+
     }
 
     public function search(Request $request)
@@ -86,7 +89,7 @@ class EditoriController
         return redirect()->route('editori.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
     }
 
-    public function destroy(Editore $editore)
+    public function destroy()
     {
         return redirect()->route('editori.index')->withError("Impossibile eliminare l'editore");
     }

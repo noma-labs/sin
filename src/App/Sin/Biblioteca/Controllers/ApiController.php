@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
@@ -8,7 +10,7 @@ use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 use Illuminate\Http\Request;
 
-class ApiController
+final class ApiController
 {
     public function autocompleteLibro(Request $request)
     {
@@ -21,9 +23,9 @@ class ApiController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'libro non trovato']);
         }
+
+        return response()->json(['value' => '', 'label' => 'libro non trovato']);
 
     }
 
@@ -113,17 +115,17 @@ class ApiController
                     'data' => ['label' => $autore->autore, 'value' => $autore->id],
                     'msg' => $msg,
                 ]);
-            } else {
-                $msg = "Autore $autore->autore esiste già.";
             }
+            $msg = "Autore $autore->autore esiste già.";
 
             return response()->json(['err' => 1, 'data' => [], 'msg' => $msg]);
-        } else {
-            return response()->json([
-                'err' => 1,
-                'error' => "Errore nell'inserimento dellì'autore.",
-            ], 400);
         }
+
+        return response()->json([
+            'err' => 1,
+            'error' => "Errore nell'inserimento dellì'autore.",
+        ], 400);
+
     }
 
     /**
@@ -153,16 +155,16 @@ class ApiController
                     'data' => ['label' => $editore->editore, 'value' => $editore->id],
                     'msg' => $msg,
                 ]);
-            } else {
-                $msg = "Editore $editore->editore esiste già.";
             }
+            $msg = "Editore $editore->editore esiste già.";
 
             return response()->json(['err' => 1, 'data' => [], 'msg' => $msg]);
-        } else {
-            return response()->json([
-                'err' => 1,
-                'msg' => "Errore nell'inserimento dell'editore.",
-            ], 400);
         }
+
+        return response()->json([
+            'err' => 1,
+            'msg' => "Errore nell'inserimento dell'editore.",
+        ], 400);
+
     }
 }

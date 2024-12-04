@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Carbon\Carbon;
@@ -7,7 +9,7 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
 
-class AssegnaGruppoFamiliareAction
+final class AssegnaGruppoFamiliareAction
 {
     public function execute(Persona $persona, GruppoFamiliare $gruppo, Carbon $date): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
 use Exception;
@@ -8,7 +10,7 @@ use Illuminate\Http\Response;
 
 abstract class NomadelfiaException extends Exception
 {
-    public function render(Request $request): Response
+    final public function render(Request $request): Response
     {
         $exception = $this;
 

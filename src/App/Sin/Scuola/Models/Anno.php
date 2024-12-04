@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
@@ -15,7 +17,7 @@ use Illuminate\Support\Str;
  * @property string $data_inizio
  * @property string $scolastico
  */
-class Anno extends Model
+final class Anno extends Model
 {
     public $timestamps = true;
 
@@ -27,39 +29,6 @@ class Anno extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('data_inizio');
-        });
-    }
-
-    public function responsabile(): BelongsTo
-    {
-        return $this->belongsTo(Persona::class, 'responsabile_id', 'id');
-    }
-
-    public function aggiungiResponsabile(Persona $persona)
-    {
-        return $this->responsabile()->associate($persona);
-    }
-
-    public function nextAnnoScolasticoString(): string
-    {
-        $as = Str::of($this->scolastico)->explode('/');
-
-        return $this->buildAsString((int) $as[1]);
-    }
-
-    public function annoSolareInizio()
-    {
-        $as = Str::of($this->scolastico)->explode('/');
-
-        return $as[0];
-    }
-
     public static function buildAsString(int $from_year): string
     {
         $succ = $from_year + 1;
@@ -67,7 +36,7 @@ class Anno extends Model
         return "{$from_year}/{$succ}";
     }
 
-    public static function createAnno(int $year, $datainizo = null, $with_classi = false): Anno
+    public static function createAnno(int $year, $datainizo = null, $with_classi = false): self
     {
         $as = self::buildAsString($year);
 
@@ -96,7 +65,7 @@ class Anno extends Model
         }
     }
 
-    public static function cloneAnnoScolastico(Anno $copy_from_as, $data_inizio)
+    public static function cloneAnnoScolastico(self $copy_from_as, $data_inizio)
     {
         $nextas = $copy_from_as->nextAnnoScolasticoString();
         $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
@@ -113,13 +82,37 @@ class Anno extends Model
         return $a;
     }
 
-    public static function getLastAnno(): Anno
+    public static function getLastAnno(): self
     {
         $a = self::orderBy('scolastico', 'DESC')->limit(1)->get();
         if ($a->count() > 0) {
             return $a->first();
         }
         throw new Exception('Non ci sono anni scolastici attivi');
+    }
+
+    public function responsabile(): BelongsTo
+    {
+        return $this->belongsTo(Persona::class, 'responsabile_id', 'id');
+    }
+
+    public function aggiungiResponsabile(Persona $persona)
+    {
+        return $this->responsabile()->associate($persona);
+    }
+
+    public function nextAnnoScolasticoString(): string
+    {
+        $as = Str::of($this->scolastico)->explode('/');
+
+        return $this->buildAsString((int) $as[1]);
+    }
+
+    public function annoSolareInizio()
+    {
+        $as = Str::of($this->scolastico)->explode('/');
+
+        return $as[0];
     }
 
     public function classi()
@@ -320,5 +313,14 @@ class Anno extends Model
         );
 
         return collect($res)->groupBy('classe');
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('data_inizio');
+        });
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Photo\Actions;
 
 use Domain\Photo\Exif\ExifReader;
 
-class ExtractExifAction
+final class ExtractExifAction
 {
     public function execute(string $path): string
     {

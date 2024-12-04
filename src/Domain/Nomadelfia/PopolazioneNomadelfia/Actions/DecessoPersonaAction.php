@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class DecessoPersonaAction
+final class DecessoPersonaAction
 {
     public function __construct(private UscitaPersonaDBAction $uscita, private LogDecessoPersonaAction $logDecesso, private SendEmailPersonaDecessoAction $email) {}
 

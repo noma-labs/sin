@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Controllers;
 
-class PatentiController
+final class PatentiController
 {
     public function patenti()
     {

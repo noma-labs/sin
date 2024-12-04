@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaPosizioneController
+final class PersonaPosizioneController
 {
     public function index($idPersona)
     {
@@ -31,7 +33,7 @@ class PersonaPosizioneController
         $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
@@ -48,7 +50,7 @@ class PersonaPosizioneController
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
 
@@ -61,10 +63,11 @@ class PersonaPosizioneController
         $res = $persona->posizioni()->detach($id);
         if ($res) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
-        } else {
-            return redirect()->back()->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
         }
+
+        return redirect()->back()->withErro("Errore. Impossibile rimuovere la posizione per $persona->nominativo");
+
     }
 }

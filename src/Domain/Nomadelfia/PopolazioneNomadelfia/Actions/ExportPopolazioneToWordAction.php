@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Carbon\Carbon;
@@ -12,7 +14,7 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class ExportPopolazioneToWordAction
+final class ExportPopolazioneToWordAction
 {
     public function execute(Collection $elenchi): PhpWord
     {

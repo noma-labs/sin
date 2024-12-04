@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddStudentRequest extends FormRequest
+final class AddStudentRequest extends FormRequest
 {
     public function authorize(): bool
     {

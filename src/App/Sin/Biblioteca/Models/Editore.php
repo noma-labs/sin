@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $editore
  */
-class Editore extends Model
+final class Editore extends Model
 {
     use HasFactory;
 
@@ -21,14 +23,9 @@ class Editore extends Model
 
     protected $guarded = []; // all the fields are mass assignabe
 
-    protected static function newFactory(): EditoreFactory
-    {
-        return EditoreFactory::new();
-    }
-
     public function setEditoreAttribute($value): void
     {
-        $this->attributes['editore'] = strtoupper($value);
+        $this->attributes['editore'] = mb_strtoupper($value);
     }
 
     public function libri()
@@ -36,11 +33,16 @@ class Editore extends Model
         return $this->belongsToMany(Libro::class, 'editore_libro', 'editore_id', 'libro_id');
     }
 
-    protected static function boot()
+    protected static function newFactory(): EditoreFactory
+    {
+        return EditoreFactory::new();
+    }
+
+    protected static function boot(): void
     {
         parent::boot();
 
-        static::addGlobalScope('singoli', function (Builder $builder): void {
+        self::addGlobalScope('singoli', function (Builder $builder): void {
             $builder->where('tipedi', 'S');
         });
     }

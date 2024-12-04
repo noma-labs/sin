@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Autore as Autore;
@@ -26,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $ID_EDITORE
  * @property int $ID_AUTORE
  */
-class Libro extends Model
+final class Libro extends Model
 {
     use Enums;
     use HasFactory;
@@ -59,11 +61,6 @@ class Libro extends Model
 
     protected $casts = ['deleted_at' => 'datetime'];
 
-    protected static function newFactory()
-    {
-        return LibroFactory::new();
-    }
-
     public function getLogNameToUse(string $eventName = ''): string
     {
         return 'biblioteca';
@@ -71,12 +68,12 @@ class Libro extends Model
 
     public function setTitoloAttribute($value): void
     {
-        $this->attributes['titolo'] = strtoupper($value);
+        $this->attributes['titolo'] = mb_strtoupper($value);
     }
 
     public function setNoteAttribute($value): void
     {
-        $this->attributes['note'] = strtoupper($value);
+        $this->attributes['note'] = mb_strtoupper($value);
     }
 
     public function classificazione(): BelongsTo
@@ -119,5 +116,10 @@ class Libro extends Model
     public function scopeAutori($query)
     {
         return $query->select('autore')->groupBy('autore'); //->orderBY("AUTORE");
+    }
+
+    protected static function newFactory()
+    {
+        return LibroFactory::new();
     }
 }

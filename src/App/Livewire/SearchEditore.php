@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Biblioteca\Models\Editore;
 
-class SearchEditore extends Autocomplete
+final class SearchEditore extends Autocomplete
 {
     public function searchBy(string $term): array
     {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 
-class LogUscitaFamigliaAction
+final class LogUscitaFamigliaAction
 {
     public function execute(UscitaFamigliaData $dto): void
     {

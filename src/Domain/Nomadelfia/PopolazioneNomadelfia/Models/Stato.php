@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\StatoDoesNotExists;
@@ -10,14 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $stato
  * @property string $nome
  */
-class Stato extends Model
+final class Stato extends Model
 {
-    protected $connection = 'db_nomadelfia';
-
-    protected $table = 'stati';
-
-    protected $primaryKey = 'id';
-
     public $guarded = ['id'];
 
     public $timestamps = false;
@@ -29,6 +25,33 @@ class Stato extends Model
         'mammavocazione' => 'MAV',
         'sposato' => 'SPO',
     ];
+
+    protected $connection = 'db_nomadelfia';
+
+    protected $table = 'stati';
+
+    protected $primaryKey = 'id';
+
+    public static function find(string $name): self
+    {
+        $stato = self::where('stato', $name)->first();
+        if (! $stato) {
+            throw StatoDoesNotExists::create($name);
+        }
+
+        return $stato;
+    }
+
+    /**
+     * Ritorna lo stato dal suo nome
+     *
+     * @author: Davide Neri
+     */
+    public static function perNome($nome)
+    {
+
+        return self::where('stato', self::$mapNamesToDB[$nome])->first();
+    }
 
     public function persone()
     {
@@ -49,32 +72,11 @@ class Stato extends Model
 
     public function isCelibe(): bool
     {
-        return $this->stato == $this->mapNamesToDB['celibe'];
+        return $this->stato === $this->mapNamesToDB['celibe'];
     }
 
     public function isNubile(): bool
     {
-        return $this->stato == $this->mapNamesToDB['nubile'];
-    }
-
-    public static function find(string $name): Stato
-    {
-        $stato = Stato::where('stato', $name)->first();
-        if (! $stato) {
-            throw StatoDoesNotExists::create($name);
-        }
-
-        return $stato;
-    }
-
-    /**
-     * Ritorna lo stato dal suo nome
-     *
-     * @author: Davide Neri
-     */
-    public static function perNome($nome)
-    {
-
-        return static::where('stato', self::$mapNamesToDB[$nome])->first();
+        return $this->stato === $this->mapNamesToDB['nubile'];
     }
 }

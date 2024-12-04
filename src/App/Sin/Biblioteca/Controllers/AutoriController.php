@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class AutoriController
+final class AutoriController
 {
     public function index()
     {
@@ -38,9 +40,10 @@ class AutoriController
         $autore->save();
         if (Session::has('insertLibroUrl')) {
             return redirect()->to(Session::get('insertLibroUrl'))->withSuccess("Autore $autore->autore  aggiunto correttamente.");
-        } else {
-            return redirect()->route('autori.index')->withSuccess("Autore $autore->autore  aggiunto correttamente.");
         }
+
+        return redirect()->route('autori.index')->withSuccess("Autore $autore->autore  aggiunto correttamente.");
+
     }
 
     public function show($id)
@@ -87,7 +90,7 @@ class AutoriController
 
     }
 
-    public function destroy($id)
+    public function destroy()
     {
         return redirect()->route('autori.index')->withError("Impossibile eliminare l'autore");
     }

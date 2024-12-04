@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class GruppifamiliariController
+final class GruppifamiliariController
 {
     public function view()
     {

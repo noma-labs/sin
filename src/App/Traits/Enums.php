@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Exception;
@@ -25,6 +27,21 @@ trait Enums
         }
 
         return false;
+    }
+
+    public static function getPossibleEnumValues(string $name, string $table): array
+    {
+        $expression = DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"');
+
+        $type = DB::select($expression->getValue(DB::connection()->getQueryGrammar()))[0]->Type;
+        preg_match('/^enum\((.*)\)$/', $type, $matches);
+        $enum = [];
+        foreach (explode(',', $matches[1]) as $value) {
+            $v = trim($value, "'");
+            $enum[] = $v;
+        }
+
+        return $enum;
     }
 
     /**
@@ -103,20 +120,5 @@ trait Enums
     protected function isValueEnum(string $field, mixed $value): bool
     {
         return in_array($value, static::getEnum($field));
-    }
-
-    public static function getPossibleEnumValues(string $name, string $table): array
-    {
-        $expression = DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"');
-
-        $type = DB::select($expression->getValue(DB::connection()->getQueryGrammar()))[0]->Type;
-        preg_match('/^enum\((.*)\)$/', $type, $matches);
-        $enum = [];
-        foreach (explode(',', $matches[1]) as $value) {
-            $v = trim($value, "'");
-            $enum[] = $v;
-        }
-
-        return $enum;
     }
 }

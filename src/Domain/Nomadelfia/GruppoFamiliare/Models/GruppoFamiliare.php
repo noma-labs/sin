@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\GruppoFamiliare\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
@@ -18,9 +20,11 @@ use Illuminate\Support\Str;
  * @property string $nome
  * @property int $id
  */
-class GruppoFamiliare extends Model
+final class GruppoFamiliare extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
 
     protected $connection = 'db_nomadelfia';
 
@@ -28,18 +32,29 @@ class GruppoFamiliare extends Model
 
     protected $primaryKey = 'id';
 
-    public $timestamps = false;
-
     protected $guarded = [];
+
+    /*
+    * Ritorna il numero di componenti per ogni gruppi familiare
+   */
+    public static function countComponenti()
+    {
+        $expression = DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
+                            from gruppi_persone
+                            left join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                            where gruppi_persone.stato = '1'
+                            group by gruppi_persone.gruppo_famigliare_id
+                            order by gruppi_familiari.nome"
+        );
+
+        return DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+        );
+    }
 
     public function newEloquentBuilder($query): GruppoFamiliareQueryBuilder
     {
         return new GruppoFamiliareQueryBuilder($query);
-    }
-
-    protected static function newFactory()
-    {
-        return GruppoFamiliareFactory::new();
     }
 
     public function capogruppi()
@@ -50,13 +65,13 @@ class GruppoFamiliare extends Model
     public function capogruppoAttuale()
     {
         $cp = $this->capogruppi()->wherePivot('stato', 1)->get();
-        if ($cp->count() == 1) {
+        if ($cp->count() === 1) {
             return $cp[0];
-        } elseif ($cp->count() == 0) {
-            return null;
-        } else {
-            throw GruppoHaMultipleCapogruppi::named($this);
         }
+        if ($cp->count() === 0) {
+            return null;
+        }
+        throw GruppoHaMultipleCapogruppi::named($this);
     }
 
     /**
@@ -156,24 +171,6 @@ class GruppoFamiliare extends Model
     }
 
     /*
-    * Ritorna il numero di componenti per ogni gruppi familiare
-   */
-    public static function countComponenti()
-    {
-        $expression = DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
-                            from gruppi_persone
-                            left join gruppi_familiari on gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-                            where gruppi_persone.stato = '1'
-                            group by gruppi_persone.gruppo_famigliare_id
-                            order by gruppi_familiari.nome"
-        );
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-        );
-    }
-
-    /*
     * Ricostruisce le famiglie del gruppo familiare partendo dalle persone presenti.
     *
     */
@@ -199,5 +196,10 @@ class GruppoFamiliare extends Model
     public function isCentroDiSpirito(): bool
     {
         return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
+    }
+
+    protected static function newFactory()
+    {
+        return GruppoFamiliareFactory::new();
     }
 }

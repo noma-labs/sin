@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use Carbon\Carbon;
@@ -8,7 +10,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Illuminate\Http\Request;
 
-class PersonaGruppoFamiliareSpostaController
+final class PersonaGruppoFamiliareSpostaController
 {
     public function store(Request $request, $idPersona, $id)
     {

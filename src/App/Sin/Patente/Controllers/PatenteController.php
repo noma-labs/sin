@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Controllers;
 
 use App\Patente\Models\CategoriaPatente;
@@ -15,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Spatie\Browsershot\Browsershot;
 
-class PatenteController
+final class PatenteController
 {
     public function scadenze()
     {
@@ -352,9 +354,9 @@ class PatenteController
     {
         if (Patente::destroy($id)) {
             return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
-        } else {
-            return redirect()->route('patente.scadenze')->withError('Errore: Patente non eliminata.');
         }
+
+        return redirect()->route('patente.scadenze')->withError('Errore: Patente non eliminata.');
 
     }
 
@@ -390,11 +392,11 @@ class PatenteController
             'note' => request('note'),
         ]);
         // $this->addCategoriaUpdate($request,$id);
-        if ($res == 1) {
+        if ($res === 1) {
             return redirect(route('patente.ricerca'))->withSuccess("Patente $patente->numero_patente modificata con successo");
-        } else {
-            return redirect(route('patente.ricerca'))->withErroe("Errore nell'aggiornament della patente $patente->numero_patente");
         }
+
+        return redirect(route('patente.ricerca'))->withErroe("Errore nell'aggiornament della patente $patente->numero_patente");
 
     }
 

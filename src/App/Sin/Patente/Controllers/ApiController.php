@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Patente\Controllers;
 
 use App\Patente\Models\CategoriaPatente;
@@ -9,7 +11,7 @@ use App\Patente\Models\ViewClientiConSenzaPatente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ApiController
+final class ApiController
 {
     /**
      * Dato il numero di una patente, ritorna la patente e le categorie associate
@@ -54,10 +56,9 @@ class ApiController
      *
      * @author Davide Neri
      */
-    public function categorie(Request $request)
+    public function categorie()
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
-
         return response()->json($categorie);
     }
 
@@ -75,10 +76,9 @@ class ApiController
      *
      * @author Davide Neri
      */
-    public function cqc(Request $request)
+    public function cqc()
     {
         $cqc = CQC::orderby('categoria')->get();
-
         return response()->json($cqc);
     }
 
@@ -90,10 +90,9 @@ class ApiController
      *
      * @author Davide Neri
      */
-    public function restrizioni(Request $request)
+    public function restrizioni()
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
-
         return response()->json($categorie);
     }
 
@@ -108,7 +107,7 @@ class ApiController
      **/
     public function patenteCategorie(Request $request, $numero)
     {
-        if ($request->input('filtro') == 'possibili') {
+        if ($request->input('filtro') === 'possibili') {
             $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero): void {
                 $query->where('patenti_categorie.numero_patente', '=', $numero);
             })->get();
@@ -134,7 +133,7 @@ class ApiController
             ->get();
 
         $persone->map(function (ViewClientiConSenzaPatente $persona): ViewClientiConSenzaPatente {
-            if ($persona->cliente_con_patente != null) {
+            if ($persona->cliente_con_patente !== null) {
                 $persona['value'] = "$persona->nome  $persona->cognome (".$persona->cliente_con_patente.')';
             } else {
                 $persona['value'] = "$persona->nome  $persona->cognome";
@@ -214,8 +213,8 @@ class ApiController
         $patente->rilasciata_dal = $body['rilasciata_dal'];
         $patente->data_rilascio_patente = $body['data_rilascio_patente'];
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
-        $patente->note = $body['note'] == '' ? null : $body['note'];
-        $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
+        $patente->note = $body['note'] === '' ? null : $body['note'];
+        $patente->stato = $body['stato'] === 'null' ? null : $body['stato'];
         $patente->save();
         $categorie = $body['categorie'];
         // from  [ {categoria:"A", id: 4, pivot: { data_rilascio:"2018-10-03", data_scadenza:"2018-10-10" }}, ...]
@@ -237,16 +236,15 @@ class ApiController
 
         if ($res) {
             return response()->json(['err' => 0, 'msg' => "Patente $patente->numero_patente aggiornata correttamente"]);
-        } else {
-            return response()->json(['err' => 1, 'msg' => "Errore. Patente $patente->numero_patente non aggiornata"]);
         }
+
+        return response()->json(['err' => 1, 'msg' => "Errore. Patente $patente->numero_patente non aggiornata"]);
 
     }
 
-    public function rilasciata(Request $request)
+    public function rilasciata()
     {
         $rilasciata = Patente::select('rilasciata_dal')->distinct()->get();
-
         return response()->json($rilasciata);
     }
 
@@ -296,7 +294,7 @@ class ApiController
         $patente->data_scadenza_patente = $body['data_scadenza_patente'];
         $patente->rilasciata_dal = 'test';
         $patente->note = $body['note'];
-        $patente->stato = $body['stato'] == 'null' ? null : $body['stato'];
+        $patente->stato = $body['stato'] === 'null' ? null : $body['stato'];
 
         if ($patente->save()) {
             $p = Patente::find($body['numero_patente']);

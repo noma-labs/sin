@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
@@ -9,9 +11,10 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 use stdClass;
 
-class Cariche extends Model
+final class Cariche extends Model
 {
     use Enums;
 
@@ -31,25 +34,6 @@ class Cariche extends Model
         'culturale',
     ];
 
-    public function scopeAssociazione($query)
-    {
-        return $query->where('org', '=', 'associazione');
-    }
-
-    public function scopePresidente($query)
-    {
-        return $query->where('nome', '=', 'presidente');
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('org');
-        });
-    }
-
     public static function AssociazioneCariche()
     {
         $membri = self::byOrg('associazione');
@@ -64,28 +48,6 @@ class Cariche extends Model
         return $membri->select('persone.*')
             ->where('cariche.nome', '=', 'Presidente')
             ->first();
-    }
-
-    /**
-     * Aggiunge il presidente dell'associazione
-     *
-     * @author Davide Neri
-     **/
-    public function assegnaPresidenteAssociazione($persona, Carbon\Carbon $data_inizio)
-    {
-        if (is_string($persona)) {
-            $persona = Persona::findOrFail($persona);
-        }
-        if ($persona instanceof Persona) {
-            $pres = $this->GetAssociazionePresidente();
-            if ($pres != null) {
-                throw CouldNotAssignCarica::presidenteAssociazioneAlreadySet($pres);
-            }
-
-            return $this->assegnaMembro($persona, $data_inizio);
-        } else {
-            throw new \InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
-        }
     }
 
     public static function SolidarietaCariche()
@@ -128,7 +90,7 @@ class Cariche extends Model
             ->orderByRaw('cariche.ord');
     }
 
-    public static function EleggibiliConsiglioAnziani(): \stdClass
+    public static function EleggibiliConsiglioAnziani(): stdClass
     {
         $effetivo = Posizione::perNome('effettivo');
         $sacerdote = Stato::perNome('sacerdote');
@@ -163,6 +125,37 @@ class Cariche extends Model
         return $result;
     }
 
+    public function scopeAssociazione($query)
+    {
+        return $query->where('org', '=', 'associazione');
+    }
+
+    public function scopePresidente($query)
+    {
+        return $query->where('nome', '=', 'presidente');
+    }
+
+    /**
+     * Aggiunge il presidente dell'associazione
+     *
+     * @author Davide Neri
+     **/
+    public function assegnaPresidenteAssociazione($persona, Carbon\Carbon $data_inizio)
+    {
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            $pres = $this->GetAssociazionePresidente();
+            if ($pres !== null) {
+                throw CouldNotAssignCarica::presidenteAssociazioneAlreadySet($pres);
+            }
+
+            return $this->assegnaMembro($persona, $data_inizio);
+        }
+        throw new InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
+    }
+
     // ritorna le persone che ricoprono le cariche di una organizazione
     public function membri()
     {
@@ -180,5 +173,14 @@ class Cariche extends Model
                 'data_inizio' => $data_inizio,
             ]);
         }
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('org');
+        });
     }
 }

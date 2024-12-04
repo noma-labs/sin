@@ -1,54 +1,54 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Photo\Exif;
 
 use Domain\Photo\Models\ExifData;
+use Exception;
+use Generator;
 use Illuminate\Support\Collection;
 use MongoDB\BSON\Iterator;
 use Symfony\Component\Process\Process;
 
 final class ExifReader
 {
-    protected $exifToolBinary;
-
-    protected $sourcePath;
-
-    protected $targetBasePath;
-
     public ?int $timeout;
 
-    protected $additionalOptions = [];
+    private ?string $exifToolBinary = null;
+
+    private ?string $sourcePath = null;
+
+    private array $additionalOptions = [];
 
     public function __construct()
     {
         $this->timeout = 180;
     }
 
-    public static function file(string $file): ExifReader
+    public static function file(string $file): self
     {
-        return (new ExifReader)->setSourcePath($file);
+        return (new self)->setSourcePath($file);
     }
 
-    public static function folder(string $folder): ExifReader
+    public static function folder(string $folder): self
     {
-        return (new ExifReader)->setSourcePath($folder)->recursively();
+        return (new self)->setSourcePath($folder)->recursively();
     }
 
-    public function setSourcePath(string $sourcePath): ExifReader
+    public function setSourcePath(string $sourcePath): self
     {
         $this->sourcePath = $sourcePath;
 
         return $this;
     }
 
-    public function setTargetBasePath($targetBasePath): ExifReader
+    public function setTargetBasePath(): self
     {
-        $this->targetBasePath = $targetBasePath;
-
         return $this;
     }
 
-    public function moveFileWithinFolder(): ExifReader
+    public function moveFileWithinFolder(): self
     {
         //  exiftool -d %Y/%m "-directory<filemodifydate" "-directory<createdate" "-directory<datetimeoriginal" /media/dido/LUMIX/DCIM/111_PANA
         $this->additionalOptions[] = '-d %Y/%m'; //  move into file structure with YYYY and month 01,02,04,..., 12
@@ -61,56 +61,56 @@ final class ExifReader
         $this->exifToolBinary = $exifToolBinary;
     }
 
-    public function setTimeout(?int $timeout): ExifReader
+    public function setTimeout(?int $timeout): self
     {
         $this->timeout = $timeout;
 
         return $this;
     }
 
-    public function enableStructuredInformation(): ExifReader
+    public function enableStructuredInformation(): self
     {
         $this->additionalOptions[] = '-struct';
 
         return $this;
     }
 
-    public function extractHashOfTheImage(): ExifReader
+    public function extractHashOfTheImage(): self
     {
         $this->additionalOptions[] = '-ImageDataHash';
 
         return $this;
     }
 
-    public function allowDuplicates(): ExifReader
+    public function allowDuplicates(): self
     {
         $this->additionalOptions[] = '-a';
 
         return $this;
     }
 
-    public function disablePrintConversion(): ExifReader
+    public function disablePrintConversion(): self
     {
         $this->additionalOptions[] = '-n';
 
         return $this;
     }
 
-    public function verbose(int $level = 5): ExifReader
+    public function verbose(int $level = 5): self
     {
         $this->additionalOptions[] = '-v'.$level;
 
         return $this;
     }
 
-    public function extractFileInformation(?string $subtag = null): ExifReader
+    public function extractFileInformation(?string $subtag = null): self
     {
         $this->additionalOptions[] = $subtag ? '-file:'.$subtag : '-file:all';
 
         return $this;
     }
 
-    public function flatGroup1Tag(): ExifReader
+    public function flatGroup1Tag(): self
     {
         // produce the tag group name in the key. Like  "File:ImageDataHash"
         $this->additionalOptions[] = '-G1';
@@ -118,21 +118,21 @@ final class ExifReader
         return $this;
     }
 
-    public function extractXMPInformation(?string $subtag = null): ExifReader
+    public function extractXMPInformation(?string $subtag = null): self
     {
         $this->additionalOptions[] = $subtag ? '-xmp:'.$subtag : '-xmp:all';
 
         return $this;
     }
 
-    public function extractExifInformation(?string $subtag = null): ExifReader
+    public function extractExifInformation(?string $subtag = null): self
     {
         $this->additionalOptions[] = $subtag ? '-exif:'.$subtag : '-exif:all';
 
         return $this;
     }
 
-    public function extractIPTCInformation(?string $subtag = null): ExifReader
+    public function extractIPTCInformation(?string $subtag = null): self
     {
         $this->additionalOptions[] = $subtag ? '-iptc:'.$subtag : '-iptc:all';
 
@@ -140,12 +140,12 @@ final class ExifReader
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function fileOrder(string $tag, string $num = '4', string $order = 'ASC'): ExifReader
+    public function fileOrder(string $tag, string $num = '4', string $order = 'ASC'): self
     {
         if (! in_array($order, ['ASC', 'DESC'])) {
-            throw new \Exception('Order must be ASC or DESC');
+            throw new Exception('Order must be ASC or DESC');
         }
         if ($order === 'DESC') {
             $tag = '-'.$tag;
@@ -155,28 +155,28 @@ final class ExifReader
         return $this;
     }
 
-    public function exportToCSV(string $targetPath): ExifReader
+    public function exportToCSV(string $targetPath): self
     {
         $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
 
         return $this;
     }
 
-    public function exportToJSON(string $targetPath): ExifReader
+    public function exportToJSON(string $targetPath): self
     {
         $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
 
         return $this;
     }
 
-    public function exportToPhp(): ExifReader
+    public function exportToPhp(): self
     {
         $this->additionalOptions[] = '-php';
 
         return $this;
     }
 
-    public function recursively(): ExifReader
+    public function recursively(): self
     {
         $this->additionalOptions[] = '-r';
 
@@ -222,7 +222,7 @@ final class ExifReader
     }
 
     // TODO: the return iterator losse some row information
-    public function run(): \Generator
+    public function run(): Generator
     {
         $this->exportToPhp();
 
@@ -244,7 +244,7 @@ final class ExifReader
         ];
     }
 
-    protected function callExifTool(array $command): string
+    private function callExifTool(array $command): string
     {
 
         $fullCommand = $this->getFullCommand($command);
@@ -280,7 +280,7 @@ final class ExifReader
         return $process->getErrorOutput();
     }
 
-    protected function getFullCommand(array $command): string
+    private function getFullCommand(array $command): string
     {
         $exifTool = $this->exifToolBinary ?: 'exiftool';
         $optionsCommand = $this->getOptionsCommand($command);
@@ -292,7 +292,7 @@ final class ExifReader
 
     }
 
-    protected function getOptionsCommand(array $command): string
+    private function getOptionsCommand(array $command): string
     {
         return implode(' ', $command['options']);
     }

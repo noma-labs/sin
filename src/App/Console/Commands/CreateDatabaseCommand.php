@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class CreateDatabaseCommand extends Command
+final class CreateDatabaseCommand extends Command
 {
     protected $signature = 'make:database';
 
