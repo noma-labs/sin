@@ -36,7 +36,7 @@
                                 @csrf
                                 <p>
                                     Inserire la data di uscita della famiglia
-                                    {{ $famiglia->nome }}
+                                    {{ $famiglia->nome_famiglia }}
                                 </p>
                                 <date-picker
                                     :bootstrap-styling="true"
