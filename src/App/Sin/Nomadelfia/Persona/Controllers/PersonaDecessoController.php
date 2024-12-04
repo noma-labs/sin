@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ final class PersonaDecessoController
         ]);
         $persona = Persona::findOrFail($idPersona);
         $action = app(DecessoPersonaAction::class);
-        $action->execute($persona, $request->data_decesso);
+        $action->execute($persona, Carbon::parse($request->data_decesso));
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("Il decesso di $persona->nominativo aggiornato correttamente.");

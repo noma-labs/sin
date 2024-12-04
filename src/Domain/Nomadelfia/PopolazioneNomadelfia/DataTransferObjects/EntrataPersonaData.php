@@ -27,7 +27,7 @@ final class EntrataPersonaData
 
     public ?Stato $stato = null;
 
-    public ?string $stato_data;
+    public ?Carbon $stato_data;
 
     public ?Famiglia $famiglia = null;
 

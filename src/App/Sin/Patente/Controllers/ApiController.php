@@ -59,6 +59,7 @@ final class ApiController
     public function categorie()
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
+
         return response()->json($categorie);
     }
 
@@ -79,6 +80,7 @@ final class ApiController
     public function cqc()
     {
         $cqc = CQC::orderby('categoria')->get();
+
         return response()->json($cqc);
     }
 
@@ -93,6 +95,7 @@ final class ApiController
     public function restrizioni()
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
+
         return response()->json($categorie);
     }
 
@@ -245,6 +248,7 @@ final class ApiController
     public function rilasciata()
     {
         $rilasciata = Patente::select('rilasciata_dal')->distinct()->get();
+
         return response()->json($rilasciata);
     }
 

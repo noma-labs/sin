@@ -27,7 +27,7 @@ beforeEach(function (): void {
 it('will send email if a person enter', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA44')->create();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
 
@@ -53,8 +53,8 @@ it('will send email if a person enter', function (): void {
 it('will send email if person exit', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA45')->create();
-    $data_entrata = Carbon::now()->toDatestring();
-    $data_uscita = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
+    $data_uscita = Carbon::now()->startOfDay();
 
     $action = app(SendEmailPersonaUscitaAction::class);
 
@@ -69,11 +69,10 @@ it('will send email if person exit', function (): void {
 
         return $mail->hasTo($to);
     });
-
 });
 
 it('sends an email if a person enter', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->create();
     $famiglia = Famiglia::factory()->create();
 
@@ -97,13 +96,13 @@ it('sends an email if a person enter', function (): void {
 it('sends an email if a person exit', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $gruppo = GruppoFamiliare::all()->random();
     $action = app(EntrataMaggiorenneSingleAction::class);
 
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
-    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
     $action = app(UscitaPersonaAction::class);
     $action->execute($persona, $data_uscita);
 
@@ -117,7 +116,7 @@ it('sends an email if a person exit', function (): void {
 it('will send email if a person die', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA55')->create();
-    $data_decesso = Carbon::now()->toDatestring();
+    $data_decesso = Carbon::now()->startOfDay();
 
     $action = app(SendEmailPersonaDecessoAction::class);
 
@@ -137,8 +136,8 @@ it('will send email if a person die', function (): void {
 it('will NOT send email if person exit', function (): void {
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA72')->create();
-    $data_entrata = Carbon::now()->toDatestring();
-    $data_uscita = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
+    $data_uscita = Carbon::now()->startOfDay();
 
     Config::set('aggiornamento-anagrafe.enabled', false);
 
@@ -159,7 +158,7 @@ it('will NOT send email if person enter', function (): void {
     Config::set('aggiornamento-anagrafe.enabled', false);
 
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA84')->create();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
 
@@ -178,7 +177,7 @@ it('will NOT send email if person enter', function (): void {
 
 //
 //it('adds the content to persona entered email', function () {
-//    $data_entrata = Carbon::now()->toDatestring();
+//    $data_entrata = Carbon::now()->startOfDay();
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $famiglia = Famiglia::factory()->create();
 //    $gruppo = GruppoFamiliare::first();
@@ -196,8 +195,8 @@ it('will NOT send email if person enter', function (): void {
 //
 //it('adds the content to persona exited email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
-//    $data_entrata = Carbon::now()->toDatestring();
-//    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+//    $data_entrata = Carbon::now()->startOfDay();
+//    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 //
 //    Config::set('aggiornamento-anagrafe.to', ["test@nomadelfia.it"]);
 //
@@ -208,8 +207,8 @@ it('will NOT send email if person enter', function (): void {
 //
 //it('adds the content to famiglia entered email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
-//    $data_entrata = Carbon::now()->toDatestring();
-//    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+//    $data_entrata = Carbon::now()->startOfDay();
+//    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 //
 //    $mailable = new PersonaUscitaMail($persona, $data_entrata, $data_uscita);
 //    $mailable->build();
@@ -218,7 +217,7 @@ it('will NOT send email if person enter', function (): void {
 //
 //it('adds the content to persona died email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
-//    $data_uscita = Carbon::now()->addYears(5)->toDatestring();
+//    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 //
 //    $mailable = new PersonaDecessoMail($persona, $data_uscita);
 //    $mailable->build();

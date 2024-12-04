@@ -51,7 +51,7 @@ final class EntrataMinorenneAccoltoAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');
         } else {

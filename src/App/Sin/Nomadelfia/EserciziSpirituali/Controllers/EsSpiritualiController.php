@@ -20,6 +20,7 @@ final class EsSpiritualiController
     {
         $esercizi = EserciziSpirituali::attivi()->get();
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
+
         return view('nomadelfia.esercizi.index', compact('esercizi', 'noEsercizi'));
     }
 

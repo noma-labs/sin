@@ -27,14 +27,12 @@ it('can show an elaborato', function (): void {
 it('can update an elaborato', function (): void {
     $elaborato = Elaborato::factory()->create();
 
-    $updateData = [
+    login();
+
+    $this->put(action([ElaboratiController::class, 'update'], $elaborato->id), [
         'titolo' => 'Updated Title',
         'anno_scolastico' => '2015/2016',
-    ];
-
-    login();
-    $this->put(action([ElaboratiController::class, 'update'], $elaborato->id), $updateData)
-        ->assertRedirect();
+    ])->assertRedirect();
 
     $this->assertDatabaseHas('elaborati', [
         'id' => $elaborato->id,

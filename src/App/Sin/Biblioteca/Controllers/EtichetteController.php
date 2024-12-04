@@ -87,6 +87,7 @@ final class EtichetteController
         if ($res) {
             return redirect()->route('libri.etichette')->withSuccess("Tutte le $res etichette sono state eliminate.");
         }
+
         return redirect()->route('libri.etichette')->withError("Errore nell'operazione");
     }
 }

@@ -25,7 +25,7 @@ it('show index of nomadelfia', function (): void {
 
 it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $gruppo = GruppoFamiliare::all()->random();
     $act = app(EntrataMaggiorenneSingleAction::class);
     $act->execute($persona, $data_entrata, $gruppo);

@@ -11,7 +11,7 @@ use App\Nomadelfia\Exceptions\PersonaHasMultiplePosizioniAttuale;
 use App\Nomadelfia\Exceptions\PersonaHasMultipleStatoAttuale;
 use App\Patente\Models\Patente;
 use App\Traits\SortableTrait;
-use Carbon\Carbon;;
+use Carbon\Carbon;
 use Database\Factories\PersonaFactory;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
  * @property string $cf
  * @property string $biografia
  */
-class Persona extends Model
+final class Persona extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -353,7 +353,7 @@ class Persona extends Model
             return Carbon::parse($pop->first()->data_entrata);
         }
 
-        return null;
+        throw new Exception("La persona $this->nominativo non risulta essere mai entrata");
     }
 
     public function getDataUscitaNomadelfia(): Carbon
@@ -408,8 +408,8 @@ class Persona extends Model
 
     public function assegnaPosizione(
         $posizione,
-        string $data_inizio,
-        ?string $attuale_data_fine = null
+        Carbon $data_inizio,
+        ?Carbon $attuale_data_fine = null
     ): void {
         if (is_string($posizione) || is_int($posizione)) {
             $posizione = Posizione::findOrFail($posizione);
@@ -420,9 +420,9 @@ class Persona extends Model
                 $attuale = $this->posizioneAttuale();
                 if ($attuale) {
                     $this->posizioni()->updateExistingPivot($attuale->id,
-                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
+                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine->toDateString() : $data_inizio->toDateString())]);
                 }
-                $this->posizioni()->attach($posizione->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
+                $this->posizioni()->attach($posizione->id, ['stato' => '1', 'data_inizio' => $data_inizio->toDateString()]);
                 DB::connection('db_nomadelfia')->commit();
             } catch (Exception $e) {
                 DB::connection('db_nomadelfia')->rollback();
@@ -435,8 +435,8 @@ class Persona extends Model
 
     public function modificaDataInizioPosizione(
         $posizione_id,
-        $currentDatain,
-        $newDataIn
+        Carbon $currentDatain,
+        Carbon $newDataIn
     ) {
         $expression = DB::raw('UPDATE persone_posizioni
                SET  data_inizio = :new
@@ -444,7 +444,7 @@ class Persona extends Model
 
         return DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain, 'new' => $newDataIn]
+            ['posizone' => $posizione_id, 'persona' => $this->id, 'current' => $currentDatain->toDateString(), 'new' => $newDataIn->toDateString()]
         );
     }
 

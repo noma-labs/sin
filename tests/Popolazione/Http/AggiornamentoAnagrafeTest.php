@@ -12,12 +12,12 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 
 it('show aggiornamento anagrafe index', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->minorenne()->femmina()->numeroElenco('AAA53')->luogoNascita('grosseto')->create();
     $famiglia = Famiglia::factory()->create();
     $gruppo = GruppoFamiliare::first();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-    $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata]);
+    $capoFam->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata->toDateString()]);
     $famiglia->assegnaCapoFamiglia($capoFam);
 
     $action = app(LogEntrataPersonaAction::class);

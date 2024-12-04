@@ -62,6 +62,7 @@ final class ApiController
         foreach ($tipologie as $tipologia) {
             $results[] = ['value' => $tipologia->id, 'label' => $tipologia->nome];
         }
+
         return response()->json($results);
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -15,7 +16,7 @@ final class EntrataMinorenneConFamigliaAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
-    public function execute(Persona $persona, $data_entrata, ?Famiglia $famiglia = null): void
+    public function execute(Persona $persona, Carbon $data_entrata, ?Famiglia $famiglia = null): void
     {
         $dto = new EntrataPersonaData;
         $dto->persona = $persona;
@@ -50,7 +51,7 @@ final class EntrataMinorenneConFamigliaAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');
         } else {

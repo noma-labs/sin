@@ -6,6 +6,7 @@ namespace Domain\Nomadelfia\GruppoFamiliare\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
+use Carbon\Carbon;
 use Database\Factories\GruppoFamiliareFactory;
 use Domain\Nomadelfia\GruppoFamiliare\QueryBuilders\GruppoFamiliareQueryBuilder;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -82,7 +83,7 @@ final class GruppoFamiliare extends Model
         $effetivo = Posizione::perNome('effettivo');
         $attuale = $this->capogruppoAttuale();
         $expression = DB::raw(
-            "SELECT * 
+            "SELECT *
                 FROM persone
                 INNER JOIN gruppi_persone ON gruppi_persone.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
@@ -101,12 +102,9 @@ final class GruppoFamiliare extends Model
         );
     }
 
-    /**
-     *  Assegna un nuovo capogruppo
-     */
-    public function assegnaCapogruppo($persona, $data_inizio): void
+    public function assegnaCapogruppo(Persona|int $persona, Carbon $data_inizio): void
     {
-        // TODO: controllare che la persona sia un mascho e nomadeflo effettivo
+        // TODO: controllare che la persona sia un mascho e nomadelfo effettivo
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }

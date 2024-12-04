@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ final class PersonaPosizioneController
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
         $persona = Persona::findOrFail($idPersona);
-        $persona->assegnaPosizione($request->posizione_id, $request->data_inizio, $request->data_fine);
+        $persona->assegnaPosizione($request->posizione_id, Carbon::parse($request->data_inizio), Carbon::parse($request->data_fine));
 
         return redirect()
             ->action([self::class, 'index'], ['idPersona' => $persona->id])
@@ -48,7 +49,7 @@ final class PersonaPosizioneController
             'current_data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        if ($persona->modificaDataInizioPosizione($id, $request->current_data_inizio, $request->new_data_inizio)) {
+        if ($persona->modificaDataInizioPosizione($id, Carbon::parse($request->current_data_inizio), Carbon::parse($request->new_data_inizio))) {
             return redirect()
                 ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");

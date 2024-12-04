@@ -14,7 +14,6 @@ uses(TestCasePest::class)
     ->group('Popolazione')
     ->in('Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
 
-
 function login(?User $user = null): User
 {
     if (is_null($user)) {

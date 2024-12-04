@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Mail\FamigliaUscitaMail;
-use Carbon\Carbon;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Illuminate\Support\Facades\Mail;
 

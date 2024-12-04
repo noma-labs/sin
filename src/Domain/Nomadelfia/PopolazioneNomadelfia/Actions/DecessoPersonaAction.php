@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class DecessoPersonaAction
 {
-    public function __construct(private UscitaPersonaDBAction $uscita, private LogDecessoPersonaAction $logDecesso, private SendEmailPersonaDecessoAction $email) {}
+    public function __construct(
+        private UscitaPersonaDBAction $uscita,
+        private LogDecessoPersonaAction $logDecesso,
+        private SendEmailPersonaDecessoAction $email
+    ) {}
 
-    public function execute(Persona $persona, string $data_decesso): void
+    public function execute(Persona $persona, Carbon $data_decesso): void
     {
         $this->uscita->execute($persona, $data_decesso);
         $this->deceduto($persona, $data_decesso);

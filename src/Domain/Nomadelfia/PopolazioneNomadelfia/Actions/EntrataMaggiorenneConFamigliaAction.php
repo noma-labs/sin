@@ -47,7 +47,7 @@ final class EntrataMaggiorenneConFamigliaAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
     }
 
     public function calcGruppoFamiliare(EntrataPersonaData $dto): void

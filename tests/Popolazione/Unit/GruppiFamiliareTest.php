@@ -38,7 +38,7 @@ it('could not assign capogruppo if person is postulante', function (): void {
 
 it('testAssegnaCapogruppoErrorsWithOspite', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->cinquantenne()->maschio()->create();
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
@@ -49,7 +49,7 @@ it('testAssegnaCapogruppoErrorsWithOspite', function (): void {
 
 it('testAssegnaCapogruppoErrorsWithWomen', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->cinquantenne()->femmina()->create();
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));

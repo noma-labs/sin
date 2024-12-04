@@ -56,6 +56,6 @@ final class EntrataDallaNascitaAction
         } else {
             $dto->stato = Stato::find('NUB');
         }
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
     }
 }

@@ -48,7 +48,8 @@ it('will update book when the admin is logged in', function (): void {
     $sendRequest()->assertRedirectToRoute('libro.dettaglio', $book->id);
 
     // NOTE: the title of the book is converted into upper case when it is inserted into db
-    expect(Libro::find($book->id)->titolo)->toBe(mb_strtoupper($title));
+
+    expect(Libro::find($book->id)->titolo)->toEqual(mb_strtoupper($title));
 });
 
 it('will edit the physical location when the admin is logged in', function (): void {

@@ -73,7 +73,9 @@ final class Libro extends Model
 
     public function setNoteAttribute($value): void
     {
-        $this->attributes['note'] = mb_strtoupper($value);
+        if ($value) {
+            $this->attributes['note'] = mb_strtoupper($value);
+        }
     }
 
     public function classificazione(): BelongsTo

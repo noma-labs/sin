@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Rtn\Video;
 
 use Exception;
-use Illuminate\Http\Request;
 
 final class VideoController
 {

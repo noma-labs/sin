@@ -398,7 +398,7 @@ final class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function assegnaMoglie($persona, ?Carbon $data, $note = null)
+    public function assegnaMoglie($persona)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
@@ -413,7 +413,6 @@ final class Famiglia extends Model
             if ($persona->isMaschio() === true) {
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);
             }
-            $data = $data ? $data : $this->data_creazione;
 
             return $this->assegnaComponente($persona, $this->getMoglieEnum());
         }
@@ -484,7 +483,7 @@ final class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function uscitaDalNucleoFamiliare($persona, $data_uscita, $note = null)
+    public function uscitaDalNucleoFamiliare($persona, $note = null)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);

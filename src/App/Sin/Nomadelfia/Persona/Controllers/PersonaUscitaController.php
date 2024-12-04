@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -23,7 +24,7 @@ final class PersonaUscitaController
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $act = app(UscitaPersonaAction::class);
-        $act->execute($persona, $request->data_uscita, true);
+        $act->execute($persona, Carbon::parse($request->data_uscita), true);
 
         return redirect()->route('nomadelfia.persone.dettaglio',
             ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");

@@ -10,9 +10,9 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 final class UscitaPersonaAction
 {
     public function __construct(
-            private UscitaPersonaDBAction $uscita,
-            private LogUscitaPersonaAction $logUscitaActivity,
-            private SendEmailPersonaUscitaAction $email) {}
+        private UscitaPersonaDBAction $uscita,
+        private LogUscitaPersonaAction $logUscitaActivity,
+        private SendEmailPersonaUscitaAction $email) {}
 
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
@@ -22,7 +22,7 @@ final class UscitaPersonaAction
     {
         $this->uscita->execute($persona, $data_uscita, $disableFromFamily);
 
-        $data_entrata = $this->calcDataEntrata($persona);
+        $data_entrata = $persona->getDataEntrataNomadelfia();
 
         $this->logUscitaActivity->execute(
             $persona,
@@ -35,12 +35,5 @@ final class UscitaPersonaAction
             $data_entrata,
             $data_uscita
         );
-    }
-
-    public function calcDataEntrata(Persona $persona): Carbon
-    {
-        // TODO: if there is not data entrata raise an exception because it is not possible that a person is leaving the
-        // community without having a entering date.
-        return $persona->getDataEntrataNomadelfia() ?: '';
     }
 }

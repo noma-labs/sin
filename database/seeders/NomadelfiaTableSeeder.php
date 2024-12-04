@@ -396,7 +396,7 @@ final class NomadelfiaTableSeeder extends Seeder
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);
-        $famiglia->assegnaMoglie($moglie, $now);
+        $famiglia->assegnaMoglie($moglie);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(3)->femmina()->create(), $famiglia);
         app(EntrataDallaNascitaAction::class)->execute(Persona::factory()->diEta(4)->maschio()->create(), $famiglia);
         app(EntrataMinorenneAccoltoAction::class)->execute(Persona::factory()->diEta(5)->maschio()->create(), Carbon::now()->addYears(4), $famiglia);

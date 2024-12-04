@@ -85,7 +85,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function (): void {
     $this->assertEquals($persona->statoAttuale()->stato, $nubile->stato);
     $this->assertEquals($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
-    $this->assertEquals(carbon::parse($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo), $data_entrata);
+    $this->assertEquals(Carbon::parse($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo), $data_entrata);
     $this->assertNotNull($persona->famigliaAttuale());
     $this->assertEquals($persona->famigliaAttuale()->pivot->posizione_famiglia, Famiglia::getFiglioNatoEnum());
 });
@@ -140,18 +140,18 @@ it('entrata_maggiorenne_single', function (): void {
         ]);
 
     expect($persona->isPersonaInterna())->toBeTrue()
-        ->and($persona->getDataEntrataNomadelfia())->toBe($data_entrata)
-        ->and($persona->posizioneAttuale()->id)->toBe($ospite->id)
-        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toBe($data_entrata)
-        ->and($persona->statoAttuale()->id)->toBe($celibe->id)
-        ->and($persona->statoAttuale()->pivot->data_inizio)->toBe($persona->data_nascita)
-        ->and($persona->gruppofamiliareAttuale()->id)->toBe($gruppo->id)
-        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toBe($data_entrata)
+        ->and($persona->getDataEntrataNomadelfia())->toEqual($data_entrata)
+        ->and($persona->posizioneAttuale()->id)->toEqual($ospite->id)
+        ->and($persona->posizioneAttuale()->pivot->data_inizio)->toEqual($data_entrata->toDateString())
+        ->and($persona->statoAttuale()->id)->toEqual($celibe->id)
+        ->and($persona->statoAttuale()->pivot->data_inizio)->toEqual($persona->data_nascita)
+        ->and($persona->gruppofamiliareAttuale()->id)->toEqual($gruppo->id)
+        ->and($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo)->toEqual($data_entrata->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull();
-})->only();
+});
 
 it('entrata_maggiorenne_sposato', function (): void {
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->create();
     $gruppo = GruppoFamiliare::first();
     $ospite = Posizione::perNome('ospite');
@@ -161,16 +161,15 @@ it('entrata_maggiorenne_sposato', function (): void {
         [
             'tipologia' => 'maggiorenne_famiglia',
             'gruppo_id' => $gruppo->id,
-            'data_entrata' => $data_entrata,
+            'data_entrata' => $data_entrata->toDatestring(),
         ]);
 
     $this->assertTrue($persona->isPersonaInterna());
     $this->assertEquals($persona->getDataEntrataNomadelfia(), $data_entrata);
     $this->assertEquals($persona->posizioneAttuale()->id, $ospite->id);
-    $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
+    $this->assertEquals($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata->toDateString());
     $this->assertEquals($persona->statoAttuale(), null);
     $this->assertEquals($persona->gruppofamiliareAttuale()->id, $gruppo->id);
-    $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
-
+    $this->assertEquals($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata->toDateString());
     $this->assertNull($persona->famigliaAttuale());
 });
