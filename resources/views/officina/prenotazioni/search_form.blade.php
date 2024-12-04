@@ -37,7 +37,7 @@
                     <option selected value>--Seleziona--</option>
                     @foreach ($meccanici as $meccanico)
                         <option value="{{ $meccanico->persona_id }}">
-                            {{ $meccanico->nome . " " . $veicolo->cognome }}
+                            {{ $meccanico->nominativo }}
                         </option>
                     @endforeach
                 </select>
