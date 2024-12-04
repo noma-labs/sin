@@ -15,10 +15,10 @@
                         <p>
                             Entrata in data
                             <strong>
-                                {{ $persona->getDataEntrataNomadelfia() }}
+                                {{ $persona->getDataEntrataNomadelfia()->toDateString() }}
                             </strong>
                             <span class="badge badge-info">
-                                @diffHumans($persona->getDataUscitaNomadelfia())
+                                @diffHumans($persona->getDataEntrataNomadelfia())
                             </span>
                         </p>
 
@@ -62,7 +62,7 @@
                         </h2>
                         <p>
                             Uscita in data
-                            {{ $persona->getDataUscitaNomadelfia() }}
+                            {{ $persona->getDataUscitaNomadelfia()->toDateString() }}
                             <span class="badge badge-info">
                                 @diffHumans($persona->getDataUscitaNomadelfia())
                             </span>

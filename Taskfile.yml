@@ -39,13 +39,13 @@ tasks:
     cmds:
       - ./vendor/bin/sail php artisan config:clear
       - ./vendor/bin/sail php artisan route:clear
+      - ./vendor/bin/sail php artisan view:clear
 
   qa:
     cmds:
       - task lint:check
       - task analyse
       - task test
-
 
   test:
     deps: [up]

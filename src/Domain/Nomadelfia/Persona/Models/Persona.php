@@ -356,7 +356,7 @@ class Persona extends Model
         throw new Exception("La persona $this->nominativo non risulta essere mai entrata");
     }
 
-    public function getDataUscitaNomadelfia(): Carbon
+    public function getDataUscitaNomadelfia(): ?Carbon
     {
 
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_uscita', 'DESC')->whereNotNull('data_uscita');
@@ -364,8 +364,7 @@ class Persona extends Model
             return Carbon::parse($pop->first()->data_uscita);
         }
 
-        throw new Exception("Persona $this->nominativo non ha una data di uscita");
-
+        return null;
     }
 
     public function isPersonaInterna(): bool

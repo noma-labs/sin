@@ -49,7 +49,7 @@ final class BladeDirectivesServiceProvider extends ServiceProvider
         });
 
         Blade::directive('diffHumans', function ($date): string {
-            return "<?php echo Carbon::parse($date)->diffForHumans(['parts' => 3, 'join' => true]) ?>";
+            return "<?php echo Carbon::parse($date)->diffForHumans(now(), Carbon\CarbonInterface::DIFF_ABSOLUTE) ?>";
         });
 
         Blade::directive('role', function ($role): string {
