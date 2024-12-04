@@ -8,6 +8,7 @@ use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 final class ApiController
@@ -91,7 +92,7 @@ final class ApiController
     /**
      * Inserisce un nuovo autore.
      *
-     * @return string
+     * @return JsonResponse
      *                {
      *                "err": 0|1, // 1 if there are errors, 0 otherwise
      *                "data": {
@@ -101,7 +102,7 @@ final class ApiController
      *                "msg": String  // message  "Editore DIDO-EDITORE-2 esiste già."
      *                }
      */
-    public function postAutore(Request $request)
+    public function postAutore(Request $request): JsonResponse
     {
         if ($request->filled('nome')) {
             $nome = $request->input('nome');
@@ -131,7 +132,7 @@ final class ApiController
     /**
      * Inserisce un nuovo editore.
      *
-     * @return string
+     * @return JsonResponse
      *                {
      *                "err": 0|1,            // 1 if there are errors, 0 otherwise
      *                "data": {
@@ -141,7 +142,7 @@ final class ApiController
      *                "msg": string
      *                }
      */
-    public function postEditore(Request $request)
+    public function postEditore(Request $request): JsonResponse
     {
         if ($request->filled('nome')) {
             $nome = $request->input('nome');

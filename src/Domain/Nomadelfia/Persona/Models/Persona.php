@@ -193,7 +193,7 @@ class Persona extends Model
     public function incarichiPossibili()
     {
         $multiplied = $this->incarichiAttuali()->get()->pluck('id');
-        if ($multiplied !== null) {
+        if ($multiplied->count() > 0) {
             return Incarico::whereNotIn('id', $multiplied)->get();
         }
 
@@ -364,7 +364,7 @@ class Persona extends Model
             return Carbon::parse($pop->first()->data_uscita);
         }
 
-        return null;
+        throw new Exception("Persona $this->nominativo non ha una data di uscita");
 
     }
 
@@ -494,9 +494,9 @@ class Persona extends Model
      * Sposta una persona e la sua famiglia dal gruppo familiare attuale in un nuovo gruppo familiare.
      *
      * @param  int|null  $gruppoFamiliareAttuale
-     * @param  Carbon\Carbon  $dataUscitaGruppoFamiliareAttuale
+     * @param  Carbon  $dataUscitaGruppoFamiliareAttuale
      * @param  int  $gruppoFamiliareNuovo
-     * @param  Carbon\Carbon  $dataEntrataGruppo
+     * @param  Carbon  $dataEntrataGruppo
      */
     public function cambiaGruppoFamiliare(
         $gruppoFamiliareAttuale,

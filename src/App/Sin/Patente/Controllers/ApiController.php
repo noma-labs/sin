@@ -17,7 +17,7 @@ final class ApiController
      * Dato il numero di una patente, ritorna la patente e le categorie associate
      *
      * @param  string  $numero  della patente
-     * @return string $Patente
+     * @return JsonResponse $Patente
      *                {
      *                "persona_id": number,
      *                "numero_patente": string,
@@ -39,10 +39,8 @@ final class ApiController
      *                }
      *                }
      *                ]}
-     *
-     * @author Davide Neri
      */
-    public function patente(Request $request, $numero)
+    public function patente($numero): JsonResponse
     {
         $p = Patente::where('numero_patente', $numero)->with(['categorie', 'cqc'])->first();
 
@@ -52,11 +50,9 @@ final class ApiController
     /**
      * Ritorna tutte le categorie (eccetto i CQC)
      *
-     * @return string $CategoriaPatente
-     *
-     * @author Davide Neri
+     * @return JsonResponse $CategoriaPatente
      */
-    public function categorie()
+    public function categorie(): JsonResponse
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
 
@@ -67,7 +63,7 @@ final class ApiController
      * Ritorna cqc merci e c.q.c persone
      *
      *
-     * @return string
+     * @return JsonResponse
      *                {[
      *                id: 16,
      *                categoria: "C.Q.C. PERSONE",
@@ -77,7 +73,7 @@ final class ApiController
      *
      * @author Davide Neri
      */
-    public function cqc()
+    public function cqc(): JsonResponse
     {
         $cqc = CQC::orderby('categoria')->get();
 
@@ -87,12 +83,9 @@ final class ApiController
     /**
      * Ritorna tutte le restrizioni
      *
-     *
-     * @return string $Restrizione
-     *
-     * @author Davide Neri
+     * @return JsonResponse
      */
-    public function restrizioni()
+    public function restrizioni(): JsonResponse
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
 
@@ -105,10 +98,8 @@ final class ApiController
      *
      * @param  string  $numero  numeor della patente
      * @return JsonResponse
-     *
-     * @author Davide Neri
      **/
-    public function patenteCategorie(Request $request, $numero)
+    public function patenteCategorie(Request $request, $numero): JsonResponse
     {
         if ($request->input('filtro') === 'possibili') {
             $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero): void {
@@ -279,14 +270,13 @@ final class ApiController
      *  ]
      * }
      *
-     * @return string
+     * @return JsonResponse
      *                {
      *                'err': 0 | 1,
-     *                "msg" : String   // mmessaggio riassuntivo dell'operaione efffetuata dal server
-     *                "data": Object   // ot er data
+     *                "msg" : String   // mmessaggio riassuntivo dell'operaione effetuata dal server
+     *                "data": Object   // ora e data
      *                }
      *
-     * @author Davide Neri
      **/
     public function create(Request $request)
     {

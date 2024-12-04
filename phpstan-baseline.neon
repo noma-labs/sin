@@ -372,7 +372,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
-			count: 4
+			count: 3
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
@@ -2286,11 +2286,6 @@ parameters:
 			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
-			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
 			message: "#^Method Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder\\:\\:notAlreadyMarried\\(\\) should return Domain\\\\Nomadelfia\\\\Famiglia\\\\QueryBuilders\\\\FamigliaQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Famiglia/QueryBuilders/FamigliaQueryBuilder.php
@@ -2377,21 +2372,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\Stato\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to static method createFromFormat\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
-			count: 1
-			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
-
-		-
-			message: "#^Call to static method parse\\(\\) on an unknown class Carbon\\.$#"
 			count: 1
 			path: src/Domain/Nomadelfia/Persona/Models/Persona.php
 

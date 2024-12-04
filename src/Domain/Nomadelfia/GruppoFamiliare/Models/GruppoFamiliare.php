@@ -72,7 +72,7 @@ final class GruppoFamiliare extends Model
         if ($cp->count() === 0) {
             return null;
         }
-        throw GruppoHaMultipleCapogruppi::named($this);
+        throw GruppoHaMultipleCapogruppi::named($this->nome);
     }
 
     /**
@@ -105,7 +105,7 @@ final class GruppoFamiliare extends Model
     public function assegnaCapogruppo(Persona|int $persona, Carbon $data_inizio): void
     {
         // TODO: controllare che la persona sia un mascho e nomadelfo effettivo
-        if (is_string($persona)) {
+        if (is_int($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
