@@ -22,7 +22,7 @@
                         name="nome_famiglia"
                         value="{{ $famiglia->nome_famiglia }}"
                     />
-                    {{ $famiglia->nominativo }}
+                    {{ $famiglia->nome_famiglia }}
                 </div>
             </div>
             <div class="form-group row">
