@@ -1,7 +1,7 @@
 {
     "preset": "laravel",
     "notPath": [
-        "sin/src/Domain/Nomadelfia/Persona/Models/Persona.php"
+        "src/Domain/Nomadelfia/Persona/Models/Persona.php"
     ],
     "rules": {
         "array_push": true,
