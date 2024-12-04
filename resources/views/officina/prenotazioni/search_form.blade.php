@@ -36,7 +36,7 @@
                 <select class="form-control" id="meccanico" name="meccanico_id">
                     <option selected value>--Seleziona--</option>
                     @foreach ($meccanici as $meccanico)
-                        <option value="{{ $meccanico->id }}">
+                        <option value="{{ $meccanico->persona_id }}">
                             {{ $meccanico->nome . " " . $veicolo->cognome }}
                         </option>
                     @endforeach

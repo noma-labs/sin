@@ -12,10 +12,7 @@
         >
             @csrf
             @method("delete")
-            <p>
-                Vuoi davvero eliminare l'incarico {{ $incarico->nome_azienda }}
-                ?
-            </p>
+            <p>Vuoi davvero eliminare l'incarico {{ $incarico->nome }} ?</p>
             <small>
                 L'incarico verrà eliminato e tutte le persone ad esso associate
                 sarannao rimosse dall'incarico
