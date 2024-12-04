@@ -13,7 +13,7 @@ final class LogUscitaFamigliaAction
     {
         $dto->componenti->each(function (Persona $persona, int $key) use ($dto): Persona {
             $action = app(LogUscitaPersonaAction::class);
-            $action->execute($persona, $dto->data_uscita);
+            $action->execute($persona, $persona->getDataEntrataNomadelfia(), $dto->data_uscita);
 
             return $persona;
         });

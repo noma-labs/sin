@@ -9,7 +9,7 @@ use Livewire\Wireable;
 
 final class Option implements Wireable
 {
-    public function __construct(public string $id, public string $value) {}
+    public function __construct(public int $id, public string $value) {}
 
     public static function fromLivewire($value)
     {
@@ -73,7 +73,7 @@ abstract class Autocomplete extends Component
 
     }
 
-    final public function select(string $id): void
+    final public function select(int $id): void
     {
         $found = collect($this->options)->first(function (Option $opt) use ($id): bool {
             return $opt->id === $id;
