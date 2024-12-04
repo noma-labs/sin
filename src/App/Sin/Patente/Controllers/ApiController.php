@@ -18,27 +18,27 @@ final class ApiController
      *
      * @param  string  $numero  della patente
      * @return JsonResponse $Patente
-     *                {
-     *                "persona_id": number,
-     *                "numero_patente": string,
-     *                "rilasciata_dal": string,
-     *                "data_rilascio_patente": date  "GG-MM-YYYY",
-     *                "data_scadenza_patente":date "GG-MM-YYYY",
-     *                "stato": enum ('commissione',NULL),
-     *                "note": string,
-     *                "categorie":[
-     *                {"id": number,
-     *                "categoria": string,
-     *                "descrizione": string,
-     *                "note":"string,
-     *                "pivot":{
-     *                "numero_patente": string,
-     *                "categoria_patente_id":string,
-     *                "data_rilascio":date ("2016-01-07")
-     *                "data_scadenza": date ("2021-01-05)
-     *                }
-     *                }
-     *                ]}
+     *                      {
+     *                      "persona_id": number,
+     *                      "numero_patente": string,
+     *                      "rilasciata_dal": string,
+     *                      "data_rilascio_patente": date  "GG-MM-YYYY",
+     *                      "data_scadenza_patente":date "GG-MM-YYYY",
+     *                      "stato": enum ('commissione',NULL),
+     *                      "note": string,
+     *                      "categorie":[
+     *                      {"id": number,
+     *                      "categoria": string,
+     *                      "descrizione": string,
+     *                      "note":"string,
+     *                      "pivot":{
+     *                      "numero_patente": string,
+     *                      "categoria_patente_id":string,
+     *                      "data_rilascio":date ("2016-01-07")
+     *                      "data_scadenza": date ("2021-01-05)
+     *                      }
+     *                      }
+     *                      ]}
      */
     public function patente($numero): JsonResponse
     {
@@ -64,12 +64,12 @@ final class ApiController
      *
      *
      * @return JsonResponse
-     *                {[
-     *                id: 16,
-     *                categoria: "C.Q.C. PERSONE",
-     *                descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
-     *                note: ""]
-     *                }
+     *                      {[
+     *                      id: 16,
+     *                      categoria: "C.Q.C. PERSONE",
+     *                      descrizione: "PER TRASPORTO PERSONE (IN VIGORE DAL 10/09/2008)",
+     *                      note: ""]
+     *                      }
      *
      * @author Davide Neri
      */
@@ -82,8 +82,6 @@ final class ApiController
 
     /**
      * Ritorna tutte le restrizioni
-     *
-     * @return JsonResponse
      */
     public function restrizioni(): JsonResponse
     {
@@ -97,7 +95,6 @@ final class ApiController
      *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
      *
      * @param  string  $numero  numeor della patente
-     * @return JsonResponse
      **/
     public function patenteCategorie(Request $request, $numero): JsonResponse
     {
@@ -271,11 +268,11 @@ final class ApiController
      * }
      *
      * @return JsonResponse
-     *                {
-     *                'err': 0 | 1,
-     *                "msg" : String   // mmessaggio riassuntivo dell'operaione effetuata dal server
-     *                "data": Object   // ora e data
-     *                }
+     *                      {
+     *                      'err': 0 | 1,
+     *                      "msg" : String   // mmessaggio riassuntivo dell'operaione effetuata dal server
+     *                      "data": Object   // ora e data
+     *                      }
      *
      **/
     public function create(Request $request)

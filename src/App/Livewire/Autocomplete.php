@@ -76,7 +76,7 @@ abstract class Autocomplete extends Component
     final public function select(int $id): void
     {
         $found = collect($this->options)->first(function (Option $opt) use ($id): bool {
-            return (int) $opt->id === $id;
+            return $opt->id === $id;
         });
 
         if ($this->multiple) {

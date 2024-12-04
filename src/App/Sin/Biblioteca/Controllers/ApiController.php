@@ -93,14 +93,14 @@ final class ApiController
      * Inserisce un nuovo autore.
      *
      * @return JsonResponse
-     *                {
-     *                "err": 0|1, // 1 if there are errors, 0 otherwise
-     *                "data": {
-     *                "label": String,  // nome of the autore inserted
-     *                "value": Int,    // ID of the autore
-     *                },
-     *                "msg": String  // message  "Editore DIDO-EDITORE-2 esiste già."
-     *                }
+     *                      {
+     *                      "err": 0|1, // 1 if there are errors, 0 otherwise
+     *                      "data": {
+     *                      "label": String,  // nome of the autore inserted
+     *                      "value": Int,    // ID of the autore
+     *                      },
+     *                      "msg": String  // message  "Editore DIDO-EDITORE-2 esiste già."
+     *                      }
      */
     public function postAutore(Request $request): JsonResponse
     {
@@ -133,14 +133,14 @@ final class ApiController
      * Inserisce un nuovo editore.
      *
      * @return JsonResponse
-     *                {
-     *                "err": 0|1,            // 1 if there are errors, 0 otherwise
-     *                "data": {
-     *                "label": String, //nome of the editore inserted
-     *                "value": Int,    // ID of the editore
-     *                },
-     *                "msg": string
-     *                }
+     *                      {
+     *                      "err": 0|1,            // 1 if there are errors, 0 otherwise
+     *                      "data": {
+     *                      "label": String, //nome of the editore inserted
+     *                      "value": Int,    // ID of the editore
+     *                      },
+     *                      "msg": string
+     *                      }
      */
     public function postEditore(Request $request): JsonResponse
     {
