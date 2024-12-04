@@ -62,7 +62,7 @@
                         </h2>
                         <p>
                             Uscita in data
-                            {{ $persona->getDataUscitaNomadelfia()->toDateString() }}
+                            {{ $persona->getDataUscitaNomadelfia() ? $persona->getDataUscitaNomadelfia()->toDateString(): ''}}
                             <span class="badge badge-info">
                                 @diffHumans($persona->getDataUscitaNomadelfia())
                             </span>

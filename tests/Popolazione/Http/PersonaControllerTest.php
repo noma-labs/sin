@@ -21,4 +21,4 @@ it('render the show of a person with minimal info', function (): void {
     $this->get(action([PersoneController::class, 'show'], ['idPersona' => $persona->id]))
         ->assertOk()
         ->assertSeeText($persona->nominativo);
-})->only();
+});
