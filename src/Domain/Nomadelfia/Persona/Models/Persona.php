@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
  * @property string $cf
  * @property string $biografia
  */
-final class Persona extends Model
+class Persona extends Model
 {
     use HasFactory;
     use SoftDeletes;
