@@ -115,6 +115,13 @@
                         @endforelse
                     </ul>
                 </div>
+
+                <a
+                href="{{ route("scuola.elaborati.students.edit', $elaborato->id) }}"
+                class="btn btn-warning"
+            >
+                Modifica
+            </a>
                 <div class="col-md-6">
                     <strong>Coordinatori</strong>
                     <ul>

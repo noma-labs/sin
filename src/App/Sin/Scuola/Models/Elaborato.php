@@ -9,6 +9,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string|null $collocazione
+ * @property string|null $anno_scolastico
+ * @property string $titolo
+ * @property string $classi
+ * @property string $file_path
+ * @property int    $file_size
+ * @property string $file_hash
+ * @property string $dimensione
+ * @property string $rilegatura
+ * @property string $note
+ * @property Carbon created_at
+ * @property Carbon $updated_at
+ * @property int    $libro_id
+ */
 final class Elaborato extends Model
 {
     use HasFactory;
