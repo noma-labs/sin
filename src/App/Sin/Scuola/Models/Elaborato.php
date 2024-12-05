@@ -16,14 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $titolo
  * @property string $classi
  * @property string $file_path
- * @property int    $file_size
+ * @property int $file_size
  * @property string $file_hash
  * @property string $dimensione
  * @property string $rilegatura
  * @property string $note
  * @property Carbon created_at
  * @property Carbon $updated_at
- * @property int    $libro_id
+ * @property int $libro_id
  */
 final class Elaborato extends Model
 {
