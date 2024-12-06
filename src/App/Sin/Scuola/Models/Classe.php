@@ -179,7 +179,7 @@ final class Classe extends Model
 
         if ($tipo->isPrescuola()) {
             $end = $date->copy()->subYears(2)->endOfYear();
-            $start = $date->copy()->subYears(6)->startOfYear();
+            $start = $date->copy()->subYears(7)->startOfYear();
         } elseif ($tipo->IsUniversita()) {
             $end = $date->copy()->subYears(17)->endOfYear();
             $start = $date->copy()->subYears(26)->startOfYear();
