@@ -174,12 +174,12 @@ final class Classe extends Model
 
         $date = Carbon::now()->setYear($as);
 
-        $end = $date->copy()->subYears(6)->endOfYear();
+        $end = $date->copy()->subYears(5)->endOfYear();
         $start = $date->copy()->subYears(25)->startOfYear();
 
         if ($tipo->isPrescuola()) {
-            $end = $date->copy()->subYears(3)->endOfYear();
-            $start = $date->copy()->subYears(6)->startOfYear();
+            $end = $date->copy()->subYears(2)->endOfYear();
+            $start = $date->copy()->subYears(7)->startOfYear();
         } elseif ($tipo->IsUniversita()) {
             $end = $date->copy()->subYears(17)->endOfYear();
             $start = $date->copy()->subYears(26)->startOfYear();
