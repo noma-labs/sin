@@ -177,16 +177,16 @@ final class Classe extends Model
         if ($tipo->isPrescuola()) {
             $end = $date->copy()->subYears(2)->endOfYear();
             $start = $date->copy()->subYears(7)->startOfYear();
-        } elseif ($tipo->isElementare()) {
+        } elseif ($tipo->isElementari()) {
             $end = $date->copy()->subYears(5)->endOfYear();
             $start = $date->copy()->subYears(13)->startOfYear();
-        } elseif ($tipo->isMedia()) {
+        } elseif ($tipo->isMedie()) {
             $end = $date->copy()->subYears(10)->endOfYear();
             $start = $date->copy()->subYears(20)->startOfYear();
         } elseif ($tipo->IsUniversita()) {
             $end = $date->copy()->subYears(17)->endOfYear();
             $start = $date->copy()->subYears(26)->startOfYear();
-        } else{
+        } else {
             $end = $date->copy()->subYears(5)->endOfYear();
             $start = $date->copy()->subYears(25)->startOfYear();
 
