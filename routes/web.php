@@ -51,6 +51,7 @@ use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
+use App\Scuola\Controllers\ElaboratiStudentiController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Support\Facades\Route;
 
@@ -186,6 +187,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('anno.classe.aggiungi');
     Route::post('stampa', [ScuolaController::class, 'print'])->name('stampa');
     Route::get('/anno/{anno_id}/classi', [ClassiController::class, 'index'])->name('classi');
+
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
     Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');
     Route::get('classi/{id}/elaborato', [ClassiElaboratiController::class, 'create'])->name('classi.elaborato.create');
@@ -193,16 +195,17 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiCoordinatoriController::class, 'delete'])->name('classi.coordinatore.rimuovi');
+
     Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
     Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');
     Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
     Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('elaborati.media.store');
     Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('elaborati.show');
     Route::get('elaborati/{id}/edit', [ElaboratiController::class, 'edit'])->name('elaborati.edit');
+    Route::get('elaborati/{id}/students', [ElaboratiStudentiController::class, 'edit'])->name('elaborati.students.edit');
     Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('elaborati.update');
     Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
-
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {

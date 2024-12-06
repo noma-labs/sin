@@ -6,6 +6,7 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
+use App\Scuola\Models\Classe;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -112,7 +113,6 @@ final class ElaboratiController
     public function show($id)
     {
         $elaborato = Elaborato::with('studenti')->findOrFail($id);
-
         return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
     }
 
