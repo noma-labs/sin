@@ -128,7 +128,7 @@ final class Classe extends Model
 
         $all = $q->where('persone.data_nascita', '<=', $end)
             ->where('persone.data_nascita', '>=', $start)
-            ->orderByRaw('persone.nome ASC')
+            ->orderByRaw('nominativo ASC')
             ->get();
 
         $alreadyIn = $this->coordinatori()->pluck('id');
