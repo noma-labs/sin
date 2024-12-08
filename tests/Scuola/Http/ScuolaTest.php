@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
-use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;

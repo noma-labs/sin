@@ -28,7 +28,7 @@
                                 <option value="{{ $t->id }}">
                                     {{ $t->nome }}
                                 </option>
-                                @endif
+                            @endif
                         @endforeach
                     </select>
                 </div>

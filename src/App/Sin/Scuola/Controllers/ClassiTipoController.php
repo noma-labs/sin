@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
-use App\Scuola\Models\AddStudentAction;
-use App\Scuola\Models\Anno;
 use App\Scuola\Models\Classe;
 use App\Scuola\Models\ClasseTipo;
-use App\Scuola\Requests\AddStudentRequest;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class ClassiTipoController
 {
-    public function update(Request $request, int $id)
+    public function update(Request $request, string $id)
     {
         $request->validate([
             'tipo_id' => 'required',
@@ -28,6 +24,5 @@ final class ClassiTipoController
         $classe->save();
 
         return redirect()->back()->withSuccess('Classe aggiornata con successo.');
-
     }
 }
