@@ -23,6 +23,8 @@
                             <span class="font-weight-bold">
                                 {{ $classe->tipo->nome }}
                             </span>
+                            @include("scuola.templates.modificaTipoClasse", ["classe" => $classe])
+                        </a>
                         </div>
                         <div class="col-md-4">
                             <a

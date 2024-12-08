@@ -49,6 +49,7 @@ use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
+use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ScuolaController;
@@ -186,6 +187,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('anno.classe.aggiungi');
     Route::post('stampa', [ScuolaController::class, 'print'])->name('stampa');
     Route::get('/anno/{anno_id}/classi', [ClassiController::class, 'index'])->name('classi');
+
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
     Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');
     Route::get('classi/{id}/elaborato', [ClassiElaboratiController::class, 'create'])->name('classi.elaborato.create');
@@ -193,6 +195,8 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('classi.alunno.assegna');
     Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiCoordinatoriController::class, 'delete'])->name('classi.coordinatore.rimuovi');
+    Route::put('classi/{id}/tipo', [ClassiTipoController::class, 'update'])->name('classi.tipo.update');
+
     Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
     Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');
     Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
