@@ -37,7 +37,7 @@ it('can delete classe', function (): void {
 });
 
 it('update the tipo of a classe', function (): void {
-    $a = Anno::createAnno(2000);
+    $a = Anno::createAnno(2002);
     $c = $a->aggiungiClasse(ClasseTipo::first());
     $s = Studente::factory()->minorenne()->maschio()->create();
     $c->aggiungiAlunno($s, Carbon::now());
