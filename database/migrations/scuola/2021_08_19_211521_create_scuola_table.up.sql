@@ -31,8 +31,7 @@ CREATE TABLE `classi`
     `tipo_id`    int(10)   NOT NULL,
     `anno_id`    int(10)   NOT NULL COMMENT 'Anno scolastico di riferimento',
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` timestamp NULL DEFAULT NULL,
-    CONSTRAINT unique_classe_as UNIQUE (tipo_id, anno_id)
+    `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
@@ -79,4 +78,3 @@ ALTER TABLE `coordinatori_classi`
 CREATE INDEX classi_anni_idx ON classi (anno_id);
 CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
 CREATE UNIQUE INDEX alunni_classi_unique ON alunni_classi (classe_id, persona_id, data_inizio);
-
