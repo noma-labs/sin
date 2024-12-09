@@ -39,6 +39,7 @@ final class ScuolaController
             ->orderBy('anno.scolastico', 'DESC')
             ->withoutGlobalScope('order')
             ->get();
+
         return view('scuola.anno.storico', compact('anni'));
     }
 
