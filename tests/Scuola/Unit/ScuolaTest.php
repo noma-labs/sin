@@ -93,9 +93,9 @@ it('get students from classroom types', function (): void {
 
     $tot = Studente::InAnnoScolasticoPerCiclo($a)->get();
     expect(count($tot))->toBe(3)
-        ->and($tot[0]->count)->toBe(1)
-        ->and($tot[1]->count)->toBe(1)
-        ->and($tot[2]->count)->toBe(2);
+        ->and($tot[0]->alunni_count)->toBe(1)
+        ->and($tot[1]->alunni_count)->toBe(1)
+        ->and($tot[2]->alunni_count)->toBe(2);
 });
 
 it('create classroom in a year', function (): void {

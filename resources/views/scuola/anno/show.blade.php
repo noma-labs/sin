@@ -27,14 +27,37 @@
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
+                                <p>Data inizio</p>
+                                <span class="badge badge-secondary">
+                                    {{ $anno->data_inizio }}
+                                </span>
+                            </li>
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                            >
                                 Studenti
                                 <span class="badge badge-primary badge-pill">
                                     {{ $alunni }}
                                 </span>
                             </li>
+                            <li class="list-group-item">
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($cicloAlunni as $cicloAlunno)
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center"
+                                        >
+                                            {{ $cicloAlunno->ciclo }}
+                                            <span
+                                                class="badge badge-primary badge-pill"
+                                            >
+                                                {{ $cicloAlunno->alunni_count }}
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         </ul>
                     </div>
-                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
