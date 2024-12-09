@@ -36,6 +36,15 @@ final class Anno extends Model
         return "{$from_year}/{$succ}";
     }
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('data_inizio');
+        });
+    }
+
     public static function createAnno(int $year, $datainizo = null, $with_classi = false): self
     {
         $as = self::buildAsString($year);
@@ -315,12 +324,5 @@ final class Anno extends Model
         return collect($res)->groupBy('classe');
     }
 
-    protected static function boot(): void
-    {
-        parent::boot();
 
-        self::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('data_inizio');
-        });
-    }
 }
