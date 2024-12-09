@@ -10,6 +10,7 @@ use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -31,8 +32,12 @@ final class ScuolaController
 
     public function storico()
     {
-        $anni = Anno::selectRaw('anno.*, (SELECT count(*) FROM `alunni_classi` join classi on classi.id = alunni_classi.classe_id) as `alunni_count`')
-            ->orderBy('scolastico', 'DESC')
+        $anni = Anno::leftJoin('classi', 'classi.anno_id', '=', 'anno.id')
+            ->leftJoin('alunni_classi', 'alunni_classi.classe_id', '=', 'classi.id')
+            ->select('anno.id', 'anno.scolastico', DB::raw('COUNT(alunni_classi.persona_id) as alunni_count'))
+            ->groupBy('anno.id', 'anno.scolastico')
+            ->orderBy('anno.scolastico', 'DESC')
+            ->withoutGlobalScope('order')
             ->get();
 
         return view('scuola.anno.storico', compact('anni'));
