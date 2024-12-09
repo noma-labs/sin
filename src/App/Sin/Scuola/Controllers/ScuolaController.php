@@ -31,7 +31,9 @@ final class ScuolaController
 
     public function storico()
     {
-        $anni = Anno::orderBy('scolastico', 'DESC')->get();
+        $anni = Anno::selectRaw('anno.*, (SELECT count(*) FROM `alunni_classi` join classi on classi.id = alunni_classi.classe_id) as `alunni_count`')
+            ->orderBy('scolastico', 'DESC')
+            ->get();
 
         return view('scuola.anno.storico', compact('anni'));
     }
@@ -39,6 +41,7 @@ final class ScuolaController
     public function show(Request $request, $id)
     {
         $anno = Anno::find($id);
+
         $alunni = Studente::InAnnoScolastico($anno)->count();
         $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
         $resp = $anno->responsabile;

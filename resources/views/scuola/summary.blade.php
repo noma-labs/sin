@@ -33,7 +33,7 @@
                             >
                                 <p class="m-2">{{ ucfirst($c->ciclo) }}</p>
                                 <span class="badge badge-primary badge-pill">
-                                    {{ $c->count }}
+                                    {{ $c->alunni_count }}
                                 </span>
                             </li>
                         @endforeach
