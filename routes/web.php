@@ -53,6 +53,7 @@ use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ScuolaController;
+use App\Scuola\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -207,6 +208,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
 
+    Route::get('student/{id}', [StudentController::class, 'show'])->name('student.show');
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {

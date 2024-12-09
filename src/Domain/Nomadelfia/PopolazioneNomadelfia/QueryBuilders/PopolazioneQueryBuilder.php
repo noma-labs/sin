@@ -19,6 +19,26 @@ final class PopolazioneQueryBuilder extends Builder
 
     }
 
+    /**
+     *          start              end
+     *           |------------------|
+     * in---out  |
+     * in--------|-----out           |
+     * in -------|-------------------|-----------out
+     * in -------|-------------------|------------NULL
+     *           |  in-------out     |
+     *           |  in---------------|----out
+     *           |                   |  in ----out
+     */
+    public function presentInRange(Carbon $data_start, Carbon $data_end): Builder
+    {
+        return $this->where('popolazione.data_uscita', '<', $data_start)
+                ->where(function ($query) use ($data_to): void {
+                    $query->whereNull('popolazione.data_uscita')
+                        ->orWhere('popolazione.data_uscita', '>=', $data_to);
+                });
+    }
+
     public function presente()
     {
         return $this

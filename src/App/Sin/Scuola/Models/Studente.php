@@ -28,13 +28,15 @@ final class Studente extends Model
         return new StudenteQueryBuilder($query);
     }
 
-    public function classe()
-    {
-        return $this->hasMany(Classe::class, 'id', 'classe_id');
-    }
-
     protected static function newFactory()
     {
         return PersonaFactory::new();
     }
+
+    public function classe()
+    {
+        return $this->hasMany(Classe::class, 'id', 'persona_id');
+    }
+
+
 }
