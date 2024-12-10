@@ -46,6 +46,7 @@ use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
 use App\Patente\Controllers\PatenteController;
 use App\Rtn\Video\VideoController as RtnVideoController;
+use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiCoordinatoriController;
@@ -54,7 +55,6 @@ use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ScuolaController;
-use App\Scuola\DataTransferObjects\AnnoScolastico;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -188,8 +188,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('/anno/{id}', [AnnoScolasticoController::class, 'show'])->name('anno.show');
     Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('anno.clone');
     Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('anno.aggiungi');
-    Route::post('anno/{id}/classe', [AnnoScolasticoController::class, 'aggiungiClasse'])->name('anno.classe.aggiungi');
-    Route::get('/anno/{anno_id}/classi', [AnnoScolasticoController::class, 'index'])->name('classi');
+    Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('anno.classe.aggiungi');
 
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
     Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');

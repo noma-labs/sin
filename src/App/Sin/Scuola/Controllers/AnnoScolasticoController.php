@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Anno;
-use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
