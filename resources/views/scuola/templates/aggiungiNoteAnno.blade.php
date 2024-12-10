@@ -16,7 +16,13 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Note</span>
                 </div>
-                <textarea class="form-control"name="note" aria-label="With textarea">{{ $anno->descrizione }}</textarea>
+                <textarea
+                    class="form-control"
+                    name="note"
+                    aria-label="With textarea"
+                >
+{{ $anno->descrizione }}</textarea
+                >
             </div>
         </form>
     </template>
