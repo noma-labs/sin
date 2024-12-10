@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
+use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiTipoController;
-use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -31,7 +31,7 @@ it('can delete classe', function (): void {
 
     $this->delete(action([ClassiController::class, 'delete'], ['id' => $c->id]));
 
-    $this->get(action([ScuolaController::class, 'show'], ['id' => $a->id]))
+    $this->get(action([AnnoScolasticoController::class, 'show'], ['id' => $a->id]))
         ->assertSuccessful()
         ->assertDontSee($s->nominativo);
 });
