@@ -27,6 +27,15 @@
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
+                                <p>Note</p>
+                                <div>
+                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+                                    {{ $anno->descrizione }}
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                            >
                                 <p>Data inizio</p>
                                 <span class="badge badge-secondary">
                                     {{ $anno->data_inizio }}
@@ -44,11 +53,11 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach ($cicloAlunni as $cicloAlunno)
                                         <li
-                                            class="list-group-item d-flex justify-content-between align-items-center"
+                                            class="list-group-item d-flex justify-content-end align-items-center"
                                         >
                                             {{ $cicloAlunno->ciclo }}
                                             <span
-                                                class="badge badge-primary badge-pill"
+                                                class="badge badge-secondary badge-pill ml-2"
                                             >
                                                 {{ $cicloAlunno->alunni_count }}
                                             </span>

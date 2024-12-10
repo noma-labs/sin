@@ -46,6 +46,9 @@ use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
 use App\Patente\Controllers\PatenteController;
 use App\Rtn\Video\VideoController as RtnVideoController;
+use App\Scuola\Controllers\AnnoScolasticoClassiController;
+use App\Scuola\Controllers\AnnoScolasticoController;
+use App\Scuola\Controllers\AnnoScolasticoNoteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
@@ -181,12 +184,13 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () {
     Route::get('/', [ScuolaController::class, 'summary'])->name('summary');
     Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('anno.storico');
-    Route::get('/anno/{id}', [ScuolaController::class, 'show'])->name('anno.show');
-    Route::post('/anno/{id}/clone', [ScuolaController::class, 'cloneAnnoScolastico'])->name('anno.clone');
-    Route::post('/anno', [ScuolaController::class, 'aggiungiAnnoScolastico'])->name('anno.aggiungi');
-    Route::post('anno/{id}', [ScuolaController::class, 'aggiungiClasse'])->name('anno.classe.aggiungi');
     Route::post('stampa', [ScuolaController::class, 'print'])->name('stampa');
-    Route::get('/anno/{anno_id}/classi', [ClassiController::class, 'index'])->name('classi');
+
+    Route::get('/anno/{id}', [AnnoScolasticoController::class, 'show'])->name('anno.show');
+    Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('anno.clone');
+    Route::put('/anno/{id}/note', AnnoScolasticoNoteController::class)->name('anno.note.update');
+    Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('anno.aggiungi');
+    Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('anno.classe.aggiungi');
 
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
     Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');
