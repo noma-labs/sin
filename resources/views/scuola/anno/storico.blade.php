@@ -21,7 +21,9 @@
                                     >
                                         {{ $anno->scolastico }}
                                     </a>
-                                    <span class="badge badge-secondary badge-pill">
+                                    <span
+                                        class="badge badge-secondary badge-pill"
+                                    >
                                         {{ $anno->alunni_count }}
                                     </span>
                                 </h5>

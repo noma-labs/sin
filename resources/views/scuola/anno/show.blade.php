@@ -44,11 +44,11 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach ($cicloAlunni as $cicloAlunno)
                                         <li
-                                            class="list-group-item d-flex justify-content-between align-items-center"
+                                            class="list-group-item d-flex justify-content-end align-items-center"
                                         >
                                             {{ $cicloAlunno->ciclo }}
                                             <span
-                                                class="badge badge-primary badge-pill"
+                                                class="badge badge-secondary badge-pill ml-2"
                                             >
                                                 {{ $cicloAlunno->alunni_count }}
                                             </span>
