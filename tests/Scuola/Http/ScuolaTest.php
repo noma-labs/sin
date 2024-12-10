@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
-use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\ScuolaController;
-use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;

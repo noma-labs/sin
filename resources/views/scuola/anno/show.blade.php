@@ -27,6 +27,15 @@
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
+                                <p>Note</p>
+                                <div>
+                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+                                    {{ $anno->descrizione }}
+                                </div>
+                            </li>
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                            >
                                 <p>Data inizio</p>
                                 <span class="badge badge-secondary">
                                     {{ $anno->data_inizio }}
