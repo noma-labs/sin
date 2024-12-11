@@ -187,6 +187,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('stampa', [ScuolaController::class, 'print'])->name('stampa');
 
     Route::get('/anno/{id}', [AnnoScolasticoController::class, 'show'])->name('anno.show');
+    Route::get('/anno/{id}/new', [AnnoScolasticoController::class, 'showNew'])->name('anno.show.new');
     Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('anno.clone');
     Route::put('/anno/{id}/note', AnnoScolasticoNoteController::class)->name('anno.note.update');
     Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('anno.aggiungi');
