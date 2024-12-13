@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scuola\DataTransferObjects;
 
 use App\Scuola\Models\Anno;
+use App\Scuola\Models\Studente;
 use DateTimeImmutable;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
@@ -27,40 +28,48 @@ final class AnnoScolasticoData
 
     public static function FromDatabase(Anno $anno): self
     {
-        $results = DB::connection('db_scuola')
-            ->table('tipo')
-            ->join('classi', 'classi.tipo_id', '=', 'tipo.id')
-            ->join('alunni_classi', 'alunni_classi.classe_id', '=', 'classi.id')
+        $students =  Studente::join('db_scuola.alunni_classi', 'db_scuola.alunni_classi.persona_id', '=', 'persone.id')
+            ->join('db_scuola.classi', 'db_scuola.classi.id', '=', 'db_scuola.alunni_classi.classe_id')
+            ->join('db_scuola.tipo', 'db_scuola.tipo.id', '=', 'db_scuola.classi.tipo_id')
             ->select(
-                'tipo.ciclo',
-                'tipo.nome',
-                DB::raw('GROUP_CONCAT(DISTINCT alunni_classi.persona_id ORDER BY alunni_classi.persona_id SEPARATOR ",") as alunni'),
-                DB::raw('COUNT(DISTINCT alunni_classi.persona_id) as total_alunni')
+                'persone.id',
+                'persone.nome',
+                'persone.cognome',
+                'persone.nominativo',
+                'persone.data_nascita',
+                'db_scuola.tipo.ciclo',
+                'db_scuola.tipo.nome as classe_nome',
             )
-            ->where('classi.anno_id', $anno->id)
-            ->groupBy('tipo.ciclo', 'tipo.nome')
-            ->orderBy('tipo.ciclo')
-            ->orderBy('tipo.nome')
+            ->where('db_scuola.classi.anno_id', $anno->id)
+            ->orderBy('persone.nominativo')
             ->get();
 
-        $cicliScolastici = [];
-        $totAlunni = 0;
-        foreach ($results as $result) {
-            $totAlunni += $result->total_alunni;
-            $alunniIds = array_map('intval', explode(',', $result->alunni));
-            $classe = new Classe($result->nome, $alunniIds);
 
-            if (! isset($cicliScolastici[$result->ciclo])) {
-                $cicliScolastici[$result->ciclo] = new CicloScolastico($result->ciclo, []);
-            }
-            $ciclo = $cicliScolastici[$result->ciclo];
-            $ciclo->classi[] = $classe;
-            $ciclo->alunniCount += count($alunniIds);
-        }
+            $cicliScolastici = collect($students)
+                    ->groupBy('ciclo')
+                    ->map(function ($cicloGroup, $ciclo) {
+                        $classi = $cicloGroup
+                            ->groupBy('classe_nome')
+                            ->map(function ($classeGroup, $classeNome) {
+                                $alunni = $classeGroup->map(function ($item) {
+                                    return new StudenteData(
+                                        $item->id,
+                                        $item->nome,
+                                        $item->cognome,
+                                        $item->nominativo,
+                                        new DateTimeImmutable($item->data_nascita),
+                                        $item->ciclo,
+                                        $item->classe_nome,
+                                    );
+                            })->values()->toArray();
+                            return new Classe($classeNome, $alunni);
+                        })->values()->toArray();
+                return new CicloScolastico($ciclo, $classi);
+            });
 
-        return new self(
+       return new self(
             (int) $anno->id,
-            $totAlunni,
+            (int) $students->count(),
             AnnoScolastico::fromString($anno->scolastico),
             $anno->responsabile ? Persona::findOrFail($anno->responsabile) : null,
             new DateTimeImmutable($anno->data_inizio),
@@ -80,10 +89,13 @@ final class CicloScolastico
 
     public function __construct(
         public string $ciclo,
-        /** @var Classe[] */
-        public array $classi
+           /** @var Classe[] */
+        public ?array $classi,
     ) {
         $this->alunniCount = 0;
+        array_map(function ($classe) {
+            $this->alunniCount += count($classe->alunni);
+        }, $classi);
     }
 }
 
@@ -91,6 +103,21 @@ final class Classe
 {
     public function __construct(
         public string $nome,
+        /** @var StudenteData[] */
         public array $alunni
+    ) {
+    }
+}
+
+final class StudenteData
+{
+    public function __construct(
+        public int $id,
+        public string $nome,
+        public string $cognome,
+        public string $nominativo,
+        public DateTimeImmutable $data_nascita,
+        public string $ciclo,
+        public string $classe_nome,
     ) {}
 }

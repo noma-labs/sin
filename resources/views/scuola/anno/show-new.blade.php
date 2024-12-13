@@ -6,7 +6,7 @@
     @include("partials.header", ["title" => "Anno scolastico " . $anno->as])
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6 offset-md-3">
             <div class="card-deck">
                 <div class="card">
                     <div class="card-header">Scuola A.S. {{ $anno->as }}</div>
@@ -47,20 +47,6 @@
                                     {{ $anno->totalStudents }}
                                 </span>
                             </li>
-                            <li class="list-group-item">
-                                <ul class="list-group list-group-flush">
-                                    <li
-                                        class="list-group-item d-flex justify-content-end align-items-center"
-                                    >
-                                        Prescuola
-                                        <span
-                                            class="badge badge-secondary badge-pill ml-2"
-                                        >
-                                            {{ $anno->prescuola->alunniCount }}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -76,9 +62,9 @@
                         <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-target="#collapsePrescuola"
                             aria-expanded="true"
-                            aria-controls="collapseOne"
+                            aria-controls="collapsePrescuola"
                         >
                             Prescuola  <span class="badge badge-secondary badge-pill"> {{ $anno->prescuola->alunniCount }}  </span>
                         </button>
@@ -86,7 +72,7 @@
                 </div>
 
                 <div
-                    id="collapseOne"
+                    id="collapsePrescuola"
                     class="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
@@ -102,7 +88,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                            {{ $alunno }}
+                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -119,9 +105,9 @@
                         <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-target="#collapseElementari"
                             aria-expanded="true"
-                            aria-controls="collapseOne"
+                            aria-controls="collapseElementari"
                         >
                             Elementari  <span class="badge badge-secondary badge-pill"> {{ $anno->elementari->alunniCount }}  </span>
                         </button>
@@ -129,7 +115,7 @@
                 </div>
 
                 <div
-                    id="collapseOne"
+                    id="collapseElementari"
                     class="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
@@ -145,7 +131,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                            {{ $alunno }}
+                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -162,9 +148,9 @@
                         <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-target="#collapseMedie"
                             aria-expanded="true"
-                            aria-controls="collapseOne"
+                            aria-controls="collapseMedie"
                         >
                             Medie  <span class="badge badge-secondary badge-pill"> {{ $anno->medie->alunniCount }}  </span>
                         </button>
@@ -172,7 +158,7 @@
                 </div>
 
                 <div
-                    id="collapseOne"
+                    id="collapseMedie"
                     class="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
@@ -188,7 +174,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                            {{ $alunno }}
+                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -205,9 +191,9 @@
                         <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-target="#collapseSuperiori"
                             aria-expanded="true"
-                            aria-controls="collapseOne"
+                            aria-controls="collapseSuperiori"
                         >
                             Superiori  <span class="badge badge-secondary badge-pill"> {{ $anno->superiori->alunniCount }}  </span>
                         </button>
@@ -215,7 +201,7 @@
                 </div>
 
                 <div
-                    id="collapseOne"
+                    id="collapseSuperiori"
                     class="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
@@ -231,7 +217,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                            {{ $alunno }}
+                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -248,9 +234,9 @@
                         <button
                             class="btn btn-link"
                             data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-target="#collapseUniversità"
                             aria-expanded="true"
-                            aria-controls="collapseOne"
+                            aria-controls="collapseUniversità"
                         >
                             Università  <span class="badge badge-secondary badge-pill"> {{ $anno->universita->alunniCount }}  </span>
                         </button>
@@ -258,7 +244,7 @@
                 </div>
 
                 <div
-                    id="collapseOne"
+                    id="collapseUniversità"
                     class="collapse show"
                     aria-labelledby="headingOne"
                     data-parent="#accordion"
@@ -274,7 +260,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                            {{ $alunno }}
+                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
