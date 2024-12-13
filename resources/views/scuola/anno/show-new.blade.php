@@ -36,7 +36,7 @@
                             >
                                 <p>Data inizio</p>
                                 <span class="badge badge-secondary">
-                                    {{ $anno->data_inizio->format("2000-01-01") }}
+                                    {{ $anno->data_inizio->format("Y-m-d") }}
                                 </span>
                             </li>
                             <li
