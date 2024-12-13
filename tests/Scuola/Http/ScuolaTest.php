@@ -48,4 +48,9 @@ it('can list classi in anno scolastico', function (): void {
     $this->get(action([AnnoScolasticoController::class, 'show'], ['id' => $a->id]))
         ->assertSuccessful();
 
+    $this->get(action([AnnoScolasticoController::class, 'showNew'], ['id' => $a->id]))
+        ->assertSuccessful()
+        ->assertSee($c->tipo->nome)
+        ->assertSee($c->alunni()->first()->nominativo);
+
 });
