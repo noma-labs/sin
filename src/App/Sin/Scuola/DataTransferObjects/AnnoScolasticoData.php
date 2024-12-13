@@ -8,7 +8,6 @@ use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use DateTimeImmutable;
 use Domain\Nomadelfia\Persona\Models\Persona;
-use Illuminate\Support\Facades\DB;
 
 final class AnnoScolasticoData
 {
@@ -28,7 +27,7 @@ final class AnnoScolasticoData
 
     public static function FromDatabase(Anno $anno): self
     {
-        $students =  Studente::join('db_scuola.alunni_classi', 'db_scuola.alunni_classi.persona_id', '=', 'persone.id')
+        $students = Studente::join('db_scuola.alunni_classi', 'db_scuola.alunni_classi.persona_id', '=', 'persone.id')
             ->join('db_scuola.classi', 'db_scuola.classi.id', '=', 'db_scuola.alunni_classi.classe_id')
             ->join('db_scuola.tipo', 'db_scuola.tipo.id', '=', 'db_scuola.classi.tipo_id')
             ->select(
@@ -44,30 +43,31 @@ final class AnnoScolasticoData
             ->orderBy('persone.nominativo')
             ->get();
 
-
-            $cicliScolastici = collect($students)
-                    ->groupBy('ciclo')
-                    ->map(function ($cicloGroup, $ciclo) {
-                        $classi = $cicloGroup
-                            ->groupBy('classe_nome')
-                            ->map(function ($classeGroup, $classeNome) {
-                                $alunni = $classeGroup->map(function ($item) {
-                                    return new StudenteData(
-                                        $item->id,
-                                        $item->nome,
-                                        $item->cognome,
-                                        $item->nominativo,
-                                        new DateTimeImmutable($item->data_nascita),
-                                        $item->ciclo,
-                                        $item->classe_nome,
-                                    );
-                            })->values()->toArray();
-                            return new Classe($classeNome, $alunni);
+        $cicliScolastici = collect($students)
+            ->groupBy('ciclo')
+            ->map(function ($cicloGroup, $ciclo): \App\Scuola\DataTransferObjects\CicloScolastico {
+                $classi = $cicloGroup
+                    ->groupBy('classe_nome')
+                    ->map(function ($classeGroup, $classeNome): \App\Scuola\DataTransferObjects\Classe {
+                        $alunni = $classeGroup->map(function ($item): \App\Scuola\DataTransferObjects\StudenteData {
+                            return new StudenteData(
+                                $item->id,
+                                $item->nome,
+                                $item->cognome,
+                                $item->nominativo,
+                                new DateTimeImmutable($item->data_nascita),
+                                $item->ciclo,
+                                $item->classe_nome,
+                            );
                         })->values()->toArray();
+
+                        return new Classe($classeNome, $alunni);
+                    })->values()->toArray();
+
                 return new CicloScolastico($ciclo, $classi);
             });
 
-       return new self(
+        return new self(
             (int) $anno->id,
             (int) $students->count(),
             AnnoScolastico::fromString($anno->scolastico),
@@ -89,11 +89,11 @@ final class CicloScolastico
 
     public function __construct(
         public string $ciclo,
-           /** @var Classe[] */
+        /** @var Classe[] */
         public ?array $classi,
     ) {
         $this->alunniCount = 0;
-        array_map(function ($classe) {
+        array_map(function ($classe): void {
             $this->alunniCount += count($classe->alunni);
         }, $classi);
     }
@@ -105,8 +105,7 @@ final class Classe
         public string $nome,
         /** @var StudenteData[] */
         public array $alunni
-    ) {
-    }
+    ) {}
 }
 
 final class StudenteData

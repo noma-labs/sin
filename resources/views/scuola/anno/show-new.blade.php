@@ -66,7 +66,10 @@
                             aria-expanded="true"
                             aria-controls="collapsePrescuola"
                         >
-                            Prescuola  <span class="badge badge-secondary badge-pill"> {{ $anno->prescuola->alunniCount }}  </span>
+                            Prescuola
+                            <span class="badge badge-secondary badge-pill">
+                                {{ $anno->prescuola->alunniCount }}
+                            </span>
                         </button>
                     </h5>
                 </div>
@@ -88,7 +91,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -109,7 +112,10 @@
                             aria-expanded="true"
                             aria-controls="collapseElementari"
                         >
-                            Elementari  <span class="badge badge-secondary badge-pill"> {{ $anno->elementari->alunniCount }}  </span>
+                            Elementari
+                            <span class="badge badge-secondary badge-pill">
+                                {{ $anno->elementari->alunniCount }}
+                            </span>
                         </button>
                     </h5>
                 </div>
@@ -131,7 +137,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -152,7 +158,10 @@
                             aria-expanded="true"
                             aria-controls="collapseMedie"
                         >
-                            Medie  <span class="badge badge-secondary badge-pill"> {{ $anno->medie->alunniCount }}  </span>
+                            Medie
+                            <span class="badge badge-secondary badge-pill">
+                                {{ $anno->medie->alunniCount }}
+                            </span>
                         </button>
                     </h5>
                 </div>
@@ -174,7 +183,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -195,7 +204,10 @@
                             aria-expanded="true"
                             aria-controls="collapseSuperiori"
                         >
-                            Superiori  <span class="badge badge-secondary badge-pill"> {{ $anno->superiori->alunniCount }}  </span>
+                            Superiori
+                            <span class="badge badge-secondary badge-pill">
+                                {{ $anno->superiori->alunniCount }}
+                            </span>
                         </button>
                     </h5>
                 </div>
@@ -217,7 +229,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
@@ -238,7 +250,10 @@
                             aria-expanded="true"
                             aria-controls="collapseUniversità"
                         >
-                            Università  <span class="badge badge-secondary badge-pill"> {{ $anno->universita->alunniCount }}  </span>
+                            Università
+                            <span class="badge badge-secondary badge-pill">
+                                {{ $anno->universita->alunniCount }}
+                            </span>
                         </button>
                     </h5>
                 </div>
@@ -260,7 +275,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
-                                           @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
                                 </ul>
