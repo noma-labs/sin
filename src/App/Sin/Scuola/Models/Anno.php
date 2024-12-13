@@ -41,10 +41,11 @@ final class Anno extends Model
         $as = self::buildAsString($year);
 
         $d = Carbon::now();
-        if ($datainizo != null) {
+        if ($datainizo !== null) {
             $d = Carbon::parse($datainizo);
         }
-       return  DB::transaction(function () use ($as, $d, $with_classi) {
+
+        return DB::transaction(function () use ($as, $d, $with_classi) {
             $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
             if ($with_classi) {
                 $t = ClasseTipo::all();
@@ -54,6 +55,7 @@ final class Anno extends Model
                     }
                 }
             }
+
             return $a;
         });
     }

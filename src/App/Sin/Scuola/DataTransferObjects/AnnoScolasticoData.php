@@ -45,11 +45,11 @@ final class AnnoScolasticoData
 
         $cicliScolastici = collect($students)
             ->groupBy('ciclo')
-            ->map(function ($cicloGroup, $ciclo): \App\Scuola\DataTransferObjects\CicloScolastico {
+            ->map(function ($cicloGroup, $ciclo): CicloScolastico {
                 $classi = $cicloGroup
                     ->groupBy('classe_nome')
-                    ->map(function ($classeGroup, $classeNome): \App\Scuola\DataTransferObjects\Classe {
-                        $alunni = $classeGroup->map(function ($item): \App\Scuola\DataTransferObjects\StudenteData {
+                    ->map(function ($classeGroup, $classeNome): Classe {
+                        $alunni = $classeGroup->map(function ($item): StudenteData {
                             return new StudenteData(
                                 $item->id,
                                 $item->nome,
