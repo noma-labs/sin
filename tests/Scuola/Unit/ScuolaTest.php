@@ -9,7 +9,6 @@ use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
-use DateTimeImmutable;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -101,10 +100,9 @@ it('get students from classroom types', function (): void {
         ->and($tot[1]->alunni_count)->toBe(1)
         ->and($tot[2]->alunni_count)->toBe(2);
 
-
     $ad = AnnoScolasticoData::FromDatabase(Anno::findOrFail($a->id));
     expect($ad->totalStudents)->toBe(4)
-        ->and($ad->data_inizio->format("Y-m-d"))->toEqual($inizio->toDateString())
+        ->and($ad->data_inizio->format('Y-m-d'))->toEqual($inizio->toDateString())
         ->and($ad->prescuola->alunniCount)->toBe(1)
         ->and($ad->elementari->alunniCount)->toBe(1)
         ->and($ad->medie->alunniCount)->toBe(2);
