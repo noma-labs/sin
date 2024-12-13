@@ -40,13 +40,12 @@ final class Anno extends Model
     {
         $as = self::buildAsString($year);
 
-        if ($datainizo === null) {
-            $d = Carbon::now();
-        } else {
+        $d = Carbon::now();
+        if ($datainizo !== null) {
             $d = Carbon::parse($datainizo);
         }
-        try {
-            \DB::beginTransaction();
+
+        return DB::transaction(function () use ($as, $d, $with_classi) {
             $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
             if ($with_classi) {
                 $t = ClasseTipo::all();
@@ -56,13 +55,9 @@ final class Anno extends Model
                     }
                 }
             }
-            \DB::commit();
 
             return $a;
-        } catch (Exception $e) {
-            \DB::rollback();
-            throw $e;
-        }
+        });
     }
 
     public static function cloneAnnoScolastico(self $copy_from_as, $data_inizio)

@@ -17,7 +17,7 @@
                                 <h5 class="mb-0">
                                     <a
                                         class="btn btn-link"
-                                        href="{{ route("scuola.anno.show", $anno->id) }}"
+                                        href="{{ route("scuola.anno.show.new", $anno->id) }}"
                                     >
                                         {{ $anno->scolastico }}
                                     </a>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
+use App\Scuola\DataTransferObjects\AnnoScolasticoData;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
@@ -21,6 +22,15 @@ final class AnnoScolasticoController
         $classi = $anno->classi()->with('tipo')->get()->sortBy('tipo.ord');
 
         return view('scuola.anno.show', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
+    }
+
+    public function showNew(Request $request, $id)
+    {
+        $anno = Anno::findOrFail($id);
+
+        $anno = AnnoScolasticoData::FromDatabase($anno);
+
+        return view('scuola.anno.show-new', compact('anno'));
     }
 
     public function clone(Request $request, $id)

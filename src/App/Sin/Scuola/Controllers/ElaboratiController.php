@@ -151,7 +151,7 @@ final class ElaboratiController
             $dim = Dimensione::fromString($request->input('dimensione'));
 
             $elaborato->titolo = $request->input('titolo');
-            $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
+            $elaborato->anno_scolastico = str(AnnoScolastico::fromString($request->input('anno_scolastico')));
             $elaborato->note = $request->input('note');
             $elaborato->dimensione = $dim ? $dim->toString() : null;
             $elaborato->rilegatura = $request->input('rilegatura');

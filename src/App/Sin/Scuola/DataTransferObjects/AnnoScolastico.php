@@ -6,12 +6,18 @@ namespace App\Scuola\DataTransferObjects;
 
 use Exception;
 use Illuminate\Support\Str;
+use Stringable;
 
-final class AnnoScolastico
+final class AnnoScolastico implements Stringable
 {
     public int $startYear;
 
     public int $endYear;
+
+    public function __toString(): string
+    {
+        return $this->startYear.'/'.$this->endYear;
+    }
 
     public static function fromString(string $as): self
     {
@@ -35,10 +41,5 @@ final class AnnoScolastico
         $a->endYear = $endYear;
 
         return $a;
-    }
-
-    public function toString(): string
-    {
-        return $this->startYear.'/'.$this->endYear;
     }
 }

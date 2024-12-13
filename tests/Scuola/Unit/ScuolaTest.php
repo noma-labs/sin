@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Scuola\Unit;
 
+use App\Scuola\DataTransferObjects\AnnoScolasticoData;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -70,10 +71,12 @@ it('get student from year', function (): void {
 });
 
 it('get students from classroom types', function (): void {
-    $a = Anno::createAnno(1815);
-    $t = ClasseTipo::all();
-    $now = Carbon::now();
 
+    $inizio = Carbon::now();
+    $a = Anno::createAnno(1815, $inizio);
+    $t = ClasseTipo::all();
+
+    $now = Carbon::now();
     // prescuola
     $c1 = $a->aggiungiClasse($t->get(0));
     $p1 = Studente::factory()->minorenne()->maschio()->nato($now)->create();
@@ -96,6 +99,13 @@ it('get students from classroom types', function (): void {
         ->and($tot[0]->alunni_count)->toBe(1)
         ->and($tot[1]->alunni_count)->toBe(1)
         ->and($tot[2]->alunni_count)->toBe(2);
+
+    $ad = AnnoScolasticoData::FromDatabase(Anno::findOrFail($a->id));
+    expect($ad->totalStudents)->toBe(4)
+        ->and($ad->data_inizio->format('Y-m-d'))->toEqual($inizio->toDateString())
+        ->and($ad->prescuola->alunniCount)->toBe(1)
+        ->and($ad->elementari->alunniCount)->toBe(1)
+        ->and($ad->medie->alunniCount)->toBe(2);
 });
 
 it('create classroom in a year', function (): void {
