@@ -17,9 +17,15 @@
                                 <h5 class="mb-0">
                                     <a
                                         class="btn btn-link"
-                                        href="{{ route("scuola.anno.show.new", $anno->id) }}"
+                                        href="{{ route("scuola.anno.show", $anno->id) }}"
                                     >
                                         {{ $anno->scolastico }}
+                                    </a>
+                                    <a
+                                        class="btn btn-link bttn"
+                                        href="{{ route("scuola.anno.show.new", $anno->id) }}"
+                                    >
+                                        (nuova versione)
                                     </a>
                                     <span
                                         class="badge badge-secondary badge-pill"

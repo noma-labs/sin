@@ -40,6 +40,7 @@ final class AnnoScolasticoData
                 'db_scuola.tipo.nome as classe_nome',
             )
             ->where('db_scuola.classi.anno_id', $anno->id)
+            ->orderBy('db_scuola.tipo.ord')
             ->orderBy('persone.nominativo')
             ->get();
 
