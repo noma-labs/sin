@@ -2,6 +2,7 @@
 
 @section("content")
     @include("partials.header", ["title" => "Elaborati"])
+
     <a
         class="btn btn-primary my-2"
         href="{{ route("scuola.elaborati.create") }}"
