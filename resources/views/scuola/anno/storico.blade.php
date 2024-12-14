@@ -22,7 +22,7 @@
                                         {{ $anno->scolastico }}
                                     </a>
                                     <a
-                                    class="btn btn-link bttn"
+                                        class="btn btn-link bttn"
                                         href="{{ route("scuola.anno.show.new", $anno->id) }}"
                                     >
                                         (nuova versione)
