@@ -27,7 +27,7 @@
                             >
                                 <p>Note</p>
                                 <div>
-                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+
                                     {{ $anno->descrizione }}
                                 </div>
                             </li>
@@ -46,6 +46,15 @@
                                 <span class="badge badge-primary badge-pill">
                                     {{ $anno->totalStudents }}
                                 </span>
+                            </li>
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center"
+                            >
+                                Operazioni
+                                <div>
+                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+                                    @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $anno])
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -91,6 +100,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
+                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
@@ -137,6 +147,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
+                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
@@ -183,6 +194,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
+                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
@@ -229,6 +241,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
+                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach
@@ -275,6 +288,7 @@
                                 <ul>
                                     @foreach ($classe->alunni as $alunno)
                                         <li>
+                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                         </li>
                                     @endforeach

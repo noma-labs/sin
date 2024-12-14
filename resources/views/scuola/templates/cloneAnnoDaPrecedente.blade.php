@@ -12,8 +12,7 @@
         >
             {{ csrf_field() }}
             <div class="alert alert-info" role="alert">
-                Gli studenti dell'anno {{ $anno->scolastico }} verranno
-                importati in un nuovo anno facendoli avanzare di una classe.
+                Gli studenti verranno importati in un nuovo anno facendoli avanzare di una classe.
             </div>
             <div class="form-group row">
                 <label for="example-text-input" class="col-4 col-form-label">
