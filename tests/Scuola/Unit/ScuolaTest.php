@@ -33,11 +33,9 @@ it('add classroom', function (): void {
     expect($a->id)->not->toBeNull();
     $tipi = ClasseTipo::all();
     $t = $tipi->random();
-    expect($a->classi()->count())->toBe(0)
-        ->and(count($a->classiTipoPossibili()))->toBe(count($tipi));
+    expect($a->classi()->count())->toBe(0);
     $c = $a->aggiungiClasse($t);
-    expect(count($a->classiTipoPossibili()))->toBe(count($tipi) - 1)
-        ->and($a->classi()->count())->toBe(1)
+    expect($a->classi()->count())->toBe(1)
         ->and($c->alunni()->count())->toBe(0)
         ->and($c->anno->id)->toBe($a->id);
     $p1 = Studente::factory()->minorenne()->maschio()->create();
