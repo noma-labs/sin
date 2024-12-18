@@ -19,14 +19,14 @@
                 <div class="col-8">
                     <select class="form-control" name="tipo_id">
                         <option value="" selected>---scegli--</option>
-                        @foreach (App\Scuola\Models\ClasseTipo::all() as $t)
+                        @foreach (App\Scuola\Models\ClasseTipo::orderBy('ord')->orderBy('nome')->get() as $t)
                             @if ($classe->tipo->id == $t->id)
                                 <option value="{{ $t->id }}" selected>
-                                    {{ $t->nome }}
+                                    {{ $t->nome }} ({{ $t->ciclo }})
                                 </option>
                             @else
                                 <option value="{{ $t->id }}">
-                                    {{ $t->nome }}
+                                    {{ $t->nome }} ({{ $t->ciclo }})
                                 </option>
                             @endif
                         @endforeach
