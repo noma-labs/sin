@@ -18,11 +18,14 @@
                 <div class="col-8">
                     <select class="form-control" name="tipo">
                         <option value="" selected>---scegli--</option>
-                        {{-- format-ignore-start --}} @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t) {{-- format-ignore-end --}}
+                        {{-- format-ignore-start --}}
+                        @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t)
+                            <!-- prettier-ignore-end -->
                             <option value="{{ $t->id }}">
                                 {{ $t->nome }} ({{ $t->ciclo }})
                             </option>
                         @endforeach
+                        {{-- format-ignore-end --}}
                     </select>
                 </div>
             </div>

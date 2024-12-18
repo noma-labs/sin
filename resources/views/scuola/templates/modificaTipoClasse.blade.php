@@ -19,7 +19,8 @@
                 <div class="col-8">
                     <select class="form-control" name="tipo_id">
                         <option value="" selected>---scegli--</option>
-                        {{-- format-ignore-start --}} @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t) {{-- format-ignore-end --}}
+                        {{-- format-ignore-start --}}
+                        @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t)
                             @if ($classe->tipo->id == $t->id)
                                 <option value="{{ $t->id }}" selected>
                                     {{ $t->nome }} ({{ $t->ciclo }})
@@ -30,6 +31,7 @@
                                 </option>
                             @endif
                         @endforeach
+                        {{-- format-ignore-end --}}
                     </select>
                 </div>
             </div>
