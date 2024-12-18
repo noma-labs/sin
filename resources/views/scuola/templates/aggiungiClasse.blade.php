@@ -18,11 +18,12 @@
                 <div class="col-8">
                     <select class="form-control" name="tipo">
                         <option value="" selected>---scegli--</option>
-                        @foreach (App\Scuola\Models\ClasseTipo::orderBy('ord')->orderBy('nome')->get() as $t)
+                        {{-- format-ignore-start --}} @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t) {{-- format-ignore-end --}}
                             <option value="{{ $t->id }}">
-                                {{ $t->nome }}  ({{ $t->ciclo }})
+                                {{ $t->nome }} ({{ $t->ciclo }})
                             </option>
                         @endforeach
+
                     </select>
                 </div>
             </div>
@@ -30,5 +31,26 @@
     </template>
     <template slot="modal-button">
         <button class="btn btn-danger" form="addClasse">Aggiungi</button>
+    </template>
+</my-modal>
+
+                    </select>
+                </div>
+            </div>
+        </form>
+    </template>
+</my-modal>
+
+                    </select>
+                </div>
+            </div>
+        </form>
+    </template>
+</my-modal>
+
+                    </select>
+                </div>
+            </div>
+        </form>
     </template>
 </my-modal>
