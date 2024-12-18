@@ -20,7 +20,7 @@
                         <option value="" selected>---scegli--</option>
                         @foreach (App\Scuola\Models\ClasseTipo::orderBy('ord')->orderBy('nome')->get() as $t)
                             <option value="{{ $t->id }}">
-                                {{ $t->nome }}
+                                {{ $t->nome }}  ({{ $t->ciclo }})
                             </option>
                         @endforeach
                     </select>
