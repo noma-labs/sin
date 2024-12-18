@@ -23,7 +23,6 @@
                                 {{ $t->nome }} ({{ $t->ciclo }})
                             </option>
                         @endforeach
-
                     </select>
                 </div>
             </div>
@@ -31,26 +30,5 @@
     </template>
     <template slot="modal-button">
         <button class="btn btn-danger" form="addClasse">Aggiungi</button>
-    </template>
-</my-modal>
-
-                    </select>
-                </div>
-            </div>
-        </form>
-    </template>
-</my-modal>
-
-                    </select>
-                </div>
-            </div>
-        </form>
-    </template>
-</my-modal>
-
-                    </select>
-                </div>
-            </div>
-        </form>
     </template>
 </my-modal>
