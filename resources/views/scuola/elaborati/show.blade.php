@@ -131,6 +131,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <a
+                        class="btn btn-primary"
+                        href="{{ route("scuola.elaborati.students.create", $elaborato->id) }}"
+                        role="button"
+                    >
+                        Importa studenti
+                    </a>
+                    <a
                         href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
                         class="btn btn-warning"
                     >

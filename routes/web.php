@@ -55,6 +55,7 @@ use App\Scuola\Controllers\ClassiElaboratiController;
 use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
+use App\Scuola\Controllers\ElaboratiStudentsController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Support\Facades\Route;
 
@@ -211,6 +212,8 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('elaborati.update');
     Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
+    Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
+    Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
 
 });
 
