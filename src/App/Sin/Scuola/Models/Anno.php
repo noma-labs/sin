@@ -230,17 +230,6 @@ final class Anno extends Model
         return $this->classi()->with('tipo')->whereIn('tipo_id', $p->pluck('id'))->get()->sortBy('tipo.ord');
     }
 
-
-    public function classiTipoAttuali()
-    {
-        $current = $this->classi()->with('tipo')->get();
-        $ids = $current->map(function ($item) {
-            return $item->tipo->id;
-        });
-
-        return ClasseTipo::whereIn('id', $ids);
-    }
-
     public function aggiungiClasse(ClasseTipo $tipo): Classe
     {
         return $this->classi()->create(['anno_id' => $this->id, 'tipo_id' => $tipo->id]);
