@@ -35,7 +35,6 @@ it('add classroom', function (): void {
     $t = $tipi->random();
     expect($a->classi()->count())->toBe(0);
     $c = $a->aggiungiClasse($t);
-    $c = $a->aggiungiClasse($t);
     expect($a->classi()->count())->toBe(1)
         ->and($c->alunni()->count())->toBe(0)
         ->and($c->anno->id)->toBe($a->id);
