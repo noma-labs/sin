@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
-use App\Scuola\DataTransferObjects\AnnoScolasticoData;
-use App\Scuola\Models\Anno;
 use App\Scuola\Models\Elaborato;
 use Illuminate\Http\Request;
 
@@ -15,11 +13,16 @@ final class ElaboratiStudentsController
     {
         $elaborato = Elaborato::findOrFail($id);
 
-        $a = Anno::where('scolastico', $elaborato->anno_scolastico)->firstOrFail();
+        return view('scuola.elaborati.students.create', compact('elaborato'));
 
-        $anno = AnnoScolasticoData::FromDatabase($a);
+    }
 
-        return view('scuola.elaborati.students.create', compact('anno'));
+    public function store(Request $request, $id)
+    {
 
+        $elaborato = Elaborato::findOrFail($id);
+        $elaborato->studenti()->sync($request->students);
+
+        return redirect()->route('scuola.elaborati.show', [$id => $id])->withSuccess('Studenti aggiunti correttamente');
     }
 }

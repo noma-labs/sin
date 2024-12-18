@@ -35,7 +35,7 @@
     </style>
     <div class="form-control h-auto">
         <div>
-            @foreach ( $selected as $sel)
+            @foreach ($selected as $sel)
                 <span class="selected-option">
                     {{ $sel->value }}
                     <span

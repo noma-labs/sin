@@ -3,7 +3,7 @@
 @section("content")
     @include("partials.header", ["title" => "Modifica elaborato"])
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 offset-md-2">
             <form
                 method="POST"
                 action="{{ route("scuola.elaborati.update", $elaborato->id) }}"
@@ -59,7 +59,6 @@
                             </div>
                             <div class="col-md-8">
                                 <label for="classe">Classe</label>
-                                {{ $elaborato->classi }}
                                 <div class="dropdown">
                                     <button
                                         class="btn btn-secondary dropdown-toggle"
