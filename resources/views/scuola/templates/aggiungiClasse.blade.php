@@ -18,7 +18,7 @@
                 <div class="col-8">
                     <select class="form-control" name="tipo">
                         <option value="" selected>---scegli--</option>
-                        @foreach ($anno->classiTipoPossibili() as $t)
+                        @foreach (App\Scuola\Models\ClasseTipo::all() as $t)
                             <option value="{{ $t->id }}">
                                 {{ $t->nome }}
                             </option>

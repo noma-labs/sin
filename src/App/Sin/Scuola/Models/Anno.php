@@ -230,16 +230,6 @@ final class Anno extends Model
         return $this->classi()->with('tipo')->whereIn('tipo_id', $p->pluck('id'))->get()->sortBy('tipo.ord');
     }
 
-    public function classiTipoPossibili()
-    {
-        $current = $this->classi()->get();
-        $ids = $current->map(function ($item) {
-            return $item->tipo->id;
-        });
-        $all = ClasseTipo::all();
-
-        return $all->whereNotIn('id', $ids);
-    }
 
     public function classiTipoAttuali()
     {
