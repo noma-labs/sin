@@ -62,6 +62,13 @@
                     @endif
 
                     <a
+                        class="btn btn-secondary my-2"
+                        href="{{ route("scuola.elaborati.students.create", $elaborato->id) }}"
+                        role="button"
+                    >
+                        Aggiungi studenti
+                    </a>
+                    <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                         class="btn btn-sm btn-secondary float-right"
                     >

@@ -55,6 +55,7 @@ use App\Scuola\Controllers\ClassiElaboratiController;
 use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
+use App\Scuola\Controllers\ElaboratiStudentsController;
 use App\Scuola\Controllers\ScuolaController;
 use Illuminate\Support\Facades\Route;
 
@@ -193,6 +194,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('anno.aggiungi');
     Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('anno.classe.aggiungi');
 
+
     Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
     Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');
     Route::get('classi/{id}/elaborato', [ClassiElaboratiController::class, 'create'])->name('classi.elaborato.create');
@@ -211,6 +213,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('elaborati.update');
     Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
+    Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
 
 });
 

@@ -91,7 +91,7 @@ final class ElaboratiController
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
-                    'anno_scolastico' => $as->toString(),
+                    'anno_scolastico' => $as,
                     'classi' => $classi,
                     'dimensione' => $dimensione,
                     'rilegatura' => $request->input('rilegatura'),

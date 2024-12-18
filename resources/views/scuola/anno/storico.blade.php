@@ -4,9 +4,6 @@
 
 @section("content")
     @include("scuola.templates.aggiungiAnnoScolastico")
-
-    <livewire:filter-alunno />
-
     @foreach (collect($anni)->chunk(3) as $chunk)
         <div class="row">
             @foreach ($chunk as $anno)

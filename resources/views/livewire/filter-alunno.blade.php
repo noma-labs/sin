@@ -9,38 +9,45 @@
     </div>
 
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox"  id="inlineRadio0" value="all" wire:model="selectedOption">
-        <label class="form-check-label" for="inlineRadio0">tutti</label>
-    </div>
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  wire:model.live="selectedCicloOption" value="prescuola">
+        <label class="form-check-label" for="inlineCheckbox1">Prescuola</label>
+      </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox"  id="inlineRadio1" value="elementari" wire:model="selectedOption">
-        <label class="form-check-label" for="inlineRadio1">elementari</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox"  id="inlineRadio2" value="medie" wire:model="selectedOption">
-        <label class="form-check-label" for="inlineRadio2">medie</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox"  id="inlineRadio3" value="superiori" wire:model="selectedOption">
-        <label class="form-check-label" for="inlineRadio3">superiori</label>
-    </div>
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  wire:model.live="selectedCicloOption" value="elementari">
+        <label class="form-check-label" for="inlineCheckbox1">Elementari</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" wire:model.live="selectedCicloOption" value="medie">
+        <label class="form-check-label" for="inlineCheckbox2">Medie</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" wire:model.live="selectedCicloOption" value="superiori">
+        <label class="form-check-label" for="inlineCheckbox3">Superiori</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" wire:model.live="selectedCicloOption" value="all">
+        <label class="form-check-label" for="inlineCheckbox3">Tutti i cicli</label>
+      </div>
 
-    <div class="form-group">
-        <label for="studenti">Classi</label>
-        <select class="form-control" id="studenti" wire:model="selectedStudent">
-            @foreach ($classiOption as $classe)
-                <option wire:key="{{ $classe->id }}" value="{{ $classe->id }}">{{ $classe->tipo->nome }}</option>
-            @endforeach
-        </select>
-    </div>
+      @foreach ($classiOptions as $classe)
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1"  wire:model="selectedClassiOptions" value="{{ $classe->id }}">
+            <label class="form-check-label" for="inlineCheckbox1">{{ $classe->nome }}</label>
+        </div>
+      @endforeach
 
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="selectAllCheckbox" wire:click="toggleSelectAll">
+        <label class="form-check-label" for="selectAllCheckbox">Seleziona/Deseleziona Tutti</label>
+    </div>
 
     <div class="form-group">
         <label for="studenti">Studenti ({{count($students)}})</label>
-        <select class="form-control" id="studenti" wire:model="selectedStudent">
-            @foreach ($students as $student)
-                <option wire:key="{{ $student->id }}" value="{{ $student->id }}">{{ $student->nominativo }}</option>
-            @endforeach
+            <ul>
+                @foreach ($students as $student)
+                <li> {{ $student->nominativo }}  {{ $student->ciclo }} </li>
+                @endforeach
+            </ul>
         </select>
     </div>
 </div>
