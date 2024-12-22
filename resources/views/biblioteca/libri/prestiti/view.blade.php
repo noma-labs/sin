@@ -27,7 +27,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label">Cliente</label>
-                    <livewire:search-persona name_input="persona_id" />
+                    <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
             <div class="col-md-6">
