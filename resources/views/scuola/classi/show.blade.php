@@ -20,7 +20,7 @@
                                     href="{{ route("scuola.anno.show", $anno->id) }}"
                                 >
                                     {{ $anno->scolastico }}
-                              </a>
+                                </a>
                             </li>
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center"
@@ -35,21 +35,21 @@
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 <p>Note</p>
-                                 <div>
-                                     {{ $classe->note }}
-                                     @include("scuola.templates.aggiungiNoteClasse", ["classe" => $classe])
-                                 </div>
+                                <div>
+                                    {{ $classe->note }}
+                                    @include("scuola.templates.aggiungiNoteClasse", ["classe" => $classe])
+                                </div>
                             </li>
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 Elaborato
                                 <a
-                                class="btn btn-warning"
-                                href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
-                            >
-                                Aggiungi Elaborato
-                            </a>
+                                    class="btn btn-warning"
+                                    href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
+                                >
+                                    Aggiungi Elaborato
+                                </a>
                             </li>
                         </ul>
                     </div>

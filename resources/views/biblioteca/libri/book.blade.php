@@ -32,8 +32,9 @@
                             <label for="xIdUtente" class="control-label">
                                 Cliente
                             </label>
-                            <livewire:search-popolazione name_input="persona_id" />
-
+                            <livewire:search-popolazione
+                                name_input="persona_id"
+                            />
                         </div>
                     </div>
                 </div>
