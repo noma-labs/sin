@@ -17,5 +17,4 @@ final class ClassiNoteController
 
         return redirect()->back()->withSuccess('Note aggiornate con successo.');
     }
-
 }
