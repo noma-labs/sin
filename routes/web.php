@@ -52,6 +52,7 @@ use App\Scuola\Controllers\AnnoScolasticoNoteController;
 use App\Scuola\Controllers\ClassiController;
 use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
+use App\Scuola\Controllers\ClassiNoteController;
 use App\Scuola\Controllers\ClassiTipoController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
@@ -202,6 +203,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('classi.alunno.rimuovi');
     Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiCoordinatoriController::class, 'delete'])->name('classi.coordinatore.rimuovi');
     Route::put('classi/{id}/tipo', [ClassiTipoController::class, 'update'])->name('classi.tipo.update');
+    Route::put('classi/{id}/note', ClassiNoteController::class)->name('classi.note.update');
 
     Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
     Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');

@@ -2036,6 +2036,16 @@ parameters:
 			path: src/App/Sin/Scuola/Controllers/ClassiElaboratiController.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiNoteController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/ClassiNoteController.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$tipo_id\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Controllers/ClassiTipoController.php
