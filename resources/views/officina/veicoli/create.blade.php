@@ -13,7 +13,7 @@
                     class="form-control"
                     placeholder="Nome Veicolo..."
                     name="nome"
-                    value="{{old('nome')}}"
+                    value="{{ old("nome") }}"
                 />
             </div>
             <div class="form-group col-md-3">
@@ -23,7 +23,7 @@
                     class="form-control"
                     placeholder="Targa Veicolo"
                     name="targa"
-                    value="{{old('targa')}}"
+                    value="{{ old("targa") }}"
                 />
             </div>
             <div class="form-goup col-md-3">
@@ -99,7 +99,12 @@
             </div>
             <div class="form-goup col-md-3">
                 <label for="posti">Numero posti</label>
-                <input type="number" class="form-control" name="posti"  value="{{old('posti')}}"/>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="posti"
+                    value="{{ old("posti") }}"
+                />
             </div>
         </div>
         <button class="btn btn-primary" align="right" type="submit">
