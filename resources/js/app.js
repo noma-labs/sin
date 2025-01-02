@@ -31,10 +31,6 @@ Vue.component(
 
 // Officina components
 Vue.component(
-  "veicolo-create-form",
-  require("./components/veicolo-create-form.vue").default,
-);
-Vue.component(
   "gomme-veicolo",
   require("./components/officina/gomme-veicolo.vue").default,
 );
