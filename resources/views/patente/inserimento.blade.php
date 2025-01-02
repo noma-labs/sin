@@ -1,7 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Inserisci nuova Patente"></sin-header>
+    @include("partials.header", ["title" => "Inserisci nuova patente"])
 
     <patente-inserimento
         api-patente-persone="{{ route("api.patente.persone.senzapatente") }}"

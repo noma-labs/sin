@@ -1,9 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Ricerca Patenti">
-        Numero patenti: {{ App\Patente\Models\Patente::count() }}
-    </sin-header>
+    @include("partials.header", ["title" => "Ricerca Patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
     <form method="GET" action="{{ route("patente.ricerca.conferma") }}">
         {{ csrf_field() }}

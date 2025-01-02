@@ -1,9 +1,7 @@
 @extends("nomadelfia.index")
 
 @section("content")
-    <sin-header
-        title="{{ "Modifica azienda: " . $azienda->nome_azienda }}"
-    ></sin-header>
+    @include("partials.header", ["title" => "Modifica azienda: " . $azienda->nome_azienda])
     <azienda-edit
         url_aggiungi="{{ route("api.nomadelfia.azienda.aggiungi.lavoratore") }}"
         base_url="/api/nomadelfia/aziende"

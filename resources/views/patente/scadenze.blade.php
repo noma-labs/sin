@@ -1,9 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Scadenza patenti">
-        Numero totale patenti: {{ App\Patente\Models\Patente::count() }}
-    </sin-header>
+    @include("partials.header", ["title" => "Scadenze patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
     <div class="row">
         <div class="col align-self-center">

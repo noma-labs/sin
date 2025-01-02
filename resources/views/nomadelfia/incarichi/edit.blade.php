@@ -1,10 +1,7 @@
 @extends("nomadelfia.index")
 
 @section("content")
-    <sin-header
-        title="{{ "Modifica Incarico: " . $incarico->nome }}"
-    ></sin-header>
-
+    @include("partials.header", ["title" => "Modifica Incarico: " . $incarico->nome])
     <div>
         <div class="row">
             <div class="col-md-8 table-responsive">

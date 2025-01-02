@@ -49,8 +49,6 @@ final class ApiController
         return response()->json($results);
     }
 
-
-
     /**
      * ritorna il json dell'azienda insieme ai lavoratori
      *

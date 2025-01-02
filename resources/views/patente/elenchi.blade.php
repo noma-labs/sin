@@ -1,7 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Elenchi Patente"></sin-header>
+    @include("partials.header", ["title" => "Elenchi Patente"])
 
     @include("patente.elenchi.percategoria")
 

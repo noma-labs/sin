@@ -18,10 +18,6 @@ Vue.use(Vuelidate);
 // global registration of components
 Vue.component("autocomplete", require("./components/autocomplete.vue").default);
 Vue.component("my-modal", require("./components/my-modal.vue").default);
-Vue.component(
-  "sin-header",
-  require("./components/partials/sin-header.vue").default,
-);
 
 // Biblioteca components
 Vue.component(
