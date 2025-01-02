@@ -49,10 +49,7 @@ final class ApiController
         return response()->json($results);
     }
 
-    public function famigliaCreate(Request $request): string
-    {
-        return $request->input('nome').$request->input('cognome');
-    }
+
 
     /**
      * ritorna il json dell'azienda insieme ai lavoratori

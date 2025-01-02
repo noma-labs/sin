@@ -48,10 +48,6 @@ Vue.component(
 );
 
 // DB nomadelfia components
-Vue.component(
-  "famiglia-select",
-  require("./components/famiglia-select.vue").default,
-);
 Vue.component("azienda-edit", require("./components/azienda-edit.vue").default);
 Vue.component(
   "persona-entrata",
