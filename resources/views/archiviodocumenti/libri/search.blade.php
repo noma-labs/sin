@@ -1,10 +1,7 @@
 @extends("archiviodocumenti.index")
 
 @section("content")
-    <sin-header title="Ricerca Archivio Libri">
-        Numero totale di libri:
-        {{ App\ArchivioDocumenti\Models\ArchivioDocumento::count() }}
-    </sin-header>
+    @include("partials.header", ["title" => "Ricerca Archivio Libri"])
 
     <form method="GET" action="{{ route("archiviodocumenti.libri.ricerca") }}">
         {{ csrf_field() }}

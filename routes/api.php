@@ -51,7 +51,6 @@ Route::group(['prefix' => 'nomadelfia', 'namespace' => 'App\Nomadelfia\Api\Contr
     Route::get('/persone/{id}', 'ApiController@persona')->name('api.nomadelfia.persona');
     Route::get('/famiglie', 'ApiController@famiglie')->name('api.nomadeflia.famiglie');
     Route::get('/gruppi', 'ApiController@gruppi')->name('api.nomadeflia.gruppi');
-    Route::post('/famiglie/create', 'ApiController@famigliaCreate')->name('api.nomadeflia.famiglie.create');
     Route::get('/posizioni', 'ApiController@posizioniAll')->name('api.nomadeflia.posizioni');
     Route::get('/azienda/edit/{id}', [ApiController::class, 'aziendaEdit'])->name('api.nomadeflia.azienda.edit');
     Route::get('/azienda/mansioni', 'ApiController@mansioni')->name('api.nomadeflia.azienda.mansioni');

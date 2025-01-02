@@ -1,7 +1,8 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Modifica Patente"></sin-header>
+    @include("partials.header", ["title" => "Modifica Patente"])
+
     <patente-modfica
         api-patente="{{ route("api.patente", ["numero" => $patente->numero_patente]) }}"
         api-patente-modifica="{{ route("api.patente.modifica", ["numero" => $patente->numero_patente]) }}"

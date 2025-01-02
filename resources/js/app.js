@@ -18,10 +18,6 @@ Vue.use(Vuelidate);
 // global registration of components
 Vue.component("autocomplete", require("./components/autocomplete.vue").default);
 Vue.component("my-modal", require("./components/my-modal.vue").default);
-Vue.component(
-  "sin-header",
-  require("./components/partials/sin-header.vue").default,
-);
 
 // Biblioteca components
 Vue.component(
@@ -35,10 +31,6 @@ Vue.component(
 
 // Officina components
 Vue.component(
-  "veicolo-create-form",
-  require("./components/veicolo-create-form.vue").default,
-);
-Vue.component(
   "gomme-veicolo",
   require("./components/officina/gomme-veicolo.vue").default,
 );
@@ -48,10 +40,6 @@ Vue.component(
 );
 
 // DB nomadelfia components
-Vue.component(
-  "famiglia-select",
-  require("./components/famiglia-select.vue").default,
-);
 Vue.component("azienda-edit", require("./components/azienda-edit.vue").default);
 Vue.component(
   "persona-entrata",
