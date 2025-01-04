@@ -17,29 +17,30 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-final class PersonaEntrataController
+final class PersonaOrigineController
 {
     public function create($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-
-        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
+        return view('nomadelfia.persone.inserimento.entrata-origine', compact('persona'));
     }
 
-    public function store(EntrataPersonaRequest $request, $idPersona)
+    public function store(Request $request, $idPersona)
     {
-        $request->validated();
+        $request->validate([
+            'origine' => 'required',
+        ], [
+            'origine.required' => 'Origine è obbligatoria',
+        ]);
 
         $persona = Persona::findOrFail($idPersona);
-        $data_entrata = Carbon::parse($request->input('data_entrata'));
+        dd($request->all());
 
-        switch ($request->tipologia) {
-            case 'dalla_nascita':
-                $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
-                $action = app(EntrataDallaNascitaAction::class);
-                $action->execute($persona, $famiglia);
+        switch ($request->origine) {
+            case 'interno':
+                $persona->origine = "interno";
                 break;
-            case 'minorenne_accolto':
+            case 'accolto':
                 $famiglia = Famiglia::findOrFail($request->input('famiglia_id'));
                 $action = app(EntrataMinorenneAccoltoAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
@@ -49,18 +50,13 @@ final class PersonaEntrataController
                 $action = app(EntrataMinorenneConFamigliaAction::class);
                 $action->execute($persona, $data_entrata, $famiglia);
                 break;
-            case 'maggiorenne_single':
-                $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
-                $action = app(EntrataMaggiorenneSingleAction::class);
-                $action->execute($persona, $data_entrata, $gruppoFamiliare);
-                break;
-            case 'maggiorenne_famiglia':
+            case 'esterno':
                 $gruppoFamiliare = GruppoFamiliare::findOrFail($request->input('gruppo_id'));
                 $act = app(EntrataMaggiorenneConFamigliaAction::class);
                 $act->execute($persona, $data_entrata, $gruppoFamiliare);
                 break;
             default:
-                return redirect()->back()->withErrore("Tipologia di entrata per $request->tipologia non riconosciuta.");
+                return redirect()->back()->withErrore("Tipologia di entrata per $request->origine non riconosciuta.");
 
         }
 

@@ -20,6 +20,7 @@ CREATE TABLE `persone` (
   `numero_elenco` varchar(32) DEFAULT NULL UNIQUE,
   `biografia` TEXT DEFAULT NULL,
   `cf` varchar(32) DEFAULT NULL,
+  `origine` enum('interno', 'accolto', 'figlio_famiglia', 'esterno') NOT NULL,
    PRIMARY KEY (`id`,`nominativo`) USING BTREE,
    UNIQUE KEY `nominativo` (`nominativo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -29,4 +30,3 @@ CREATE TABLE `persone` (
 --
 -- ALTER TABLE `persone`
 --     ADD UNIQUE KEY `nominativo` (`nominativo`)
-

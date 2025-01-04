@@ -86,9 +86,7 @@
     <br />
 
     <div v-if="tipologiaEntrata" class="form-group row">
-      <label class="col-sm-6 col-form-label" for="dallaNascita"
-        >Data Entrata:
-      </label>
+      <label class="col-sm-6 col-form-label" for="dallaNascita">Data Entrata: </label>
       <div class="col-sm-6">
         <date-picker
           name="data_entrata"
