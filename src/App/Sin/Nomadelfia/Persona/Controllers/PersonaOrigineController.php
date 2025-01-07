@@ -17,7 +17,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-final class PersonaOrigineController
+final class PersonaEntrataController
 {
     public function create($idPersona)
     {

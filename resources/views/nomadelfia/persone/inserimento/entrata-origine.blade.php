@@ -24,20 +24,71 @@
       </div>
 
       <div class="form-group row offset-md-4">
-        <label class="col-sm-2">Come è entrato in Nomadelfia?</label>
-        <div class="col-sm-4">
             <form action="{{ route("nomadelfia.persone.inserimento.entrata.scelta.view",  ["idPersona" => $persona->id]) }}" method="POST">
                 @csrf
-            <select class="form-control" name="origine">
-                <option value="">--- Seleziona origine ---</option>
-                <option value="interno">Nato a Nomadelfia</option>
-                <option value="accolto">Minorenne Accolto</option>
-                <option value="minorenne_famiglia">Minorenne entrato con la sua famiglia</option>
-                <option value="esterno">Maggiorenne (single o con famiglia)</option>
-            </select>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-6 pt-0">
+                            Origine (prima entrata in Nomadelfia):
+                        </legend>
+                        <div class="col-sm-6">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="origine"
+                                    id="nascita"
+                                    value="nascita"
+                                    @if(old('nascita')=='M') checked @endif
+                                />
+                                <label class="form-check-label" for="nascita">
+                                    Nato in Nomadelfia
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="origine"
+                                    id="accolto"
+                                    value="accolto"
+                                    @if(old('sesso')=='F') checked @endif
+                                />
+                                <label class="form-check-label" for="accolto">
+                                    Figlio accolto
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="origine"
+                                    id="famiglia"
+                                    value="famiglia"
+                                    @if(old('sesso')=='F') checked @endif
+                                />
+                                <label class="form-check-label" for="famiglia">
+                                    Minorenne entrato con la sua famiglia
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="origine"
+                                    id="famiglia"
+                                    value="esterno"
+                                    @if(old('sesso')=='F') checked @endif
+                                />
+                                <label class="form-check-label" for="famiglia">
+                                    Esterno
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             <button type="submit" class="btn btn-primary">Salva</button>
         </form>
-        </div>
-      </div>
+        <
 
 @endsection

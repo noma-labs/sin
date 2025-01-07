@@ -27,7 +27,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaContr
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
-use App\Nomadelfia\Persona\Controllers\PersonaOrigineController;
+use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
@@ -91,9 +91,9 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
     Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('persone.anagrafica.edit');
     Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('persone.anagrafica.update');
-    Route::get('persone/{idPersona}/entrata/scelta', [PersonaOrigineController::class, 'create'])->name('persone.inserimento.entrata.scelta.view');
-    Route::post('persone/{idPersona}/entrata/scelta', [PersonaOrigineController::class, 'store'])->name('persone.inserimento.entrata.scelta');
-    Route::post('persone/{idPersona}/entrata/{entrata}/modifica', [PersonaOrigineController::class, 'update'])->name('persone.dataentrata.modifica');
+    Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('persone.inserimento.entrata.scelta.view');
+    Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('persone.inserimento.entrata.scelta');
+    Route::post('persone/{idPersona}/entrata/{entrata}/modifica', [PersonaEntrataController::class, 'update'])->name('persone.dataentrata.modifica');
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('persone.uscita');
     Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('persone.datauscita.modifica');
