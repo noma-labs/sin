@@ -302,6 +302,24 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <label class="col-sm-4 font-weight-bold">
+                                        Origine:
+                                    </label>
+                                    <div class="col-sm-6">
+                                        @if ($persona->origine)
+                                            <span>
+                                                {{ $persona->origine }}
+                                            </span>
+                                        @else
+                                            <span class="text-danger">
+                                                Nessuna origine
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <label class="col-sm-4 font-weight-bold">
                                         Nominativo:
                                     </label>
                                     <div class="col-sm-6">
