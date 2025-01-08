@@ -44,6 +44,7 @@ use Illuminate\Support\Str;
  * @property string $provincia_nascita
  * @property string $cf
  * @property string $biografia
+ * @property string $origine
  */
 class Persona extends Model
 {

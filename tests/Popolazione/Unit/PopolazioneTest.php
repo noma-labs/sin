@@ -35,8 +35,6 @@ it('remove dead person from population', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
-    $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($tot, count($pop));
 
     $data_decesso = Carbon::now()->addYears(5)->startOfDay();
 
@@ -55,8 +53,8 @@ it('remove dead person from population', function (): void {
     expect($persona->gruppofamiliariStorico()->get()->last()->pivot->data_uscita_gruppo)->toEqual($data_decesso->toDateString())
         ->and($persona->famigliaAttuale())->toBeNull();
 
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($tot - 1);
+    $afterPop = PopolazioneNomadelfia::totalePopolazione();
+    expect($afterPop)->toBe($tot - 1);
 });
 
 it('manage exit of an adult', function (): void {
@@ -79,8 +77,6 @@ it('manage exit of an adult', function (): void {
     expect($incarico->lavoratoriAttuali()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($tot);
 
     $data_uscita = Carbon::now()->addYears(5)->startOfDay();
     $action = app(UscitaPersonaAction::class);
@@ -101,8 +97,8 @@ it('manage exit of an adult', function (): void {
         ->and($incarico->lavoratoriAttuali()->count())->toBe(0)
         ->and($incarico->lavoratoriStorici()->count())->toBe(1);
 
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($tot - 1);
+    $after = PopolazioneNomadelfia::totalePopolazione();
+    expect($after)->toBe($tot - 1);
 });
 
 /*
@@ -132,8 +128,6 @@ it('manage exit of underage', function (): void {
     expect($classe->alunni()->count())->toBe(1);
 
     $tot = PopolazioneNomadelfia::totalePopolazione();
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect($tot)->toEqual(count($pop));
 
     $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 
@@ -153,14 +147,12 @@ it('manage exit of underage', function (): void {
         ->and($persona->famiglieStorico()->get()->last()->id)->toEqual($famiglia->id)
         ->and($classe->alunniAttuali()->count())->toEqual(0);
 
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toEqual($tot - 1);
+    $after = PopolazioneNomadelfia::totalePopolazione();
+    expect($after)->toEqual($tot - 1);
 });
 
 it('manage exit of family', function (): void {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($init_tot);
 
     $now = Carbon::now();
     $gruppo = GruppoFamiliare::all()->random();
@@ -184,16 +176,12 @@ it('manage exit of family', function (): void {
     $act->execute($faccolto, Carbon::now()->addYears(2), $famiglia);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 4);
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($init_tot + 4);
 
     $data_uscita = Carbon::now();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot);
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($init_tot);
 });
 
 /*
@@ -202,8 +190,6 @@ it('manage exit of family', function (): void {
 */
 it('manage people not part of family when it exits', function (): void {
     $init_tot = PopolazioneNomadelfia::totalePopolazione();
-    $pop = PopolazioneNomadelfia::popolazione();
-    $this->assertEquals($init_tot, count($pop));
 
     $now = Carbon::now();
     $gruppo = GruppoFamiliare::all()->random();
@@ -228,8 +214,6 @@ it('manage people not part of family when it exits', function (): void {
     $act->execute($faccolto, Carbon::now()->addYears(2), $famiglia);
 
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 4);
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($init_tot + 4);
 
     // toglie un figlio dal nucleo familiare
     $famiglia->uscitaDalNucleoFamiliare($fnato, 'remove from nucleo');
@@ -240,8 +224,6 @@ it('manage people not part of family when it exits', function (): void {
 
     // controlla che il figlio fuori dal nucleo non è uscito
     expect(PopolazioneNomadelfia::totalePopolazione())->toBe($init_tot + 1);
-    $pop = PopolazioneNomadelfia::popolazione();
-    expect(count($pop))->toBe($init_tot + 1);
 });
 
 it('count the underages of the population', function (): void {

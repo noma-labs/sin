@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine as ModelsOrigine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 final class EntrataMaggiorenneConFamigliaAction
@@ -24,6 +25,7 @@ final class EntrataMaggiorenneConFamigliaAction
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;
         $dto->gruppoFamiliare = $gruppo;
+        $dto->origine = ModelsOrigine::Esterno;
 
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
