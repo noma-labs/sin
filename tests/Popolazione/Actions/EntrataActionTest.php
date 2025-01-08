@@ -91,7 +91,6 @@ it('maggiorenne con famiglia', function (): void {
     expect($persona->isPersonaInterna())->toBeTrue();
 });
 
-
 it('nato a nomadelfia', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
 
@@ -124,7 +123,7 @@ it('does not update the origine column the second time a person enter', function
 
     expect($persona->origine)->toEqual(Origine::Interno->value);
 
-    DB::connection('db_nomadelfia')->table('popolazione')->where('persona_id', $persona->id)->update(["data_uscita" =>  Carbon::now()->startOfDay()]);
+    DB::connection('db_nomadelfia')->table('popolazione')->where('persona_id', $persona->id)->update(['data_uscita' => Carbon::now()->startOfDay()]);
 
     // enter as maggiorenne single
     $action = app(EntrataMaggiorenneSingleAction::class);
