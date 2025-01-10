@@ -45,8 +45,6 @@ window.ui = require("jquery-ui");
 // Jquery datapicker
 import "jquery-ui/ui/i18n/datepicker-it.js";
 
-import "jquery-ui/ui/widgets/autocomplete.js";
-
 $(document).ready(function () {
   $("#datepicker").datepicker();
 });

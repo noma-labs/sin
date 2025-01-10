@@ -16,7 +16,6 @@ const { validationMixin, default: Vuelidate } = require("vuelidate");
 Vue.use(Vuelidate);
 
 // global registration of components
-Vue.component("autocomplete", require("./components/autocomplete.vue").default);
 Vue.component("my-modal", require("./components/my-modal.vue").default);
 
 // Biblioteca components
@@ -41,10 +40,6 @@ Vue.component(
 
 // DB nomadelfia components
 Vue.component("azienda-edit", require("./components/azienda-edit.vue").default);
-Vue.component(
-  "persona-entrata",
-  require("./components/popolazione/persona-entrata.vue").default,
-);
 
 // Patente components
 Vue.component(
