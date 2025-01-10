@@ -20,7 +20,7 @@ final class EntrataPersona extends Component
 
     public bool $showGruppoFamiliareSelect = false;
 
-    final public function mount(Persona $persona)
+    final public function mount(Persona $persona): void
     {
         $this->persona = $persona;
         $this->dataEntrata = Carbon::now()->toDateString();
@@ -28,12 +28,12 @@ final class EntrataPersona extends Component
 
     final public function updatedTipologia(string $value): void
     {
-        $this->showFamigliaSelect = $value == 'dalla_nascita' || $value == 'minorenne_accolto' || $value == 'minorenne_famiglia';
-        $this->showGruppoFamiliareSelect = $value == 'maggiorenne_single' || $value == 'maggiorenne_famiglia';
+        $this->showFamigliaSelect = $value === 'dalla_nascita' || $value === 'minorenne_accolto' || $value === 'minorenne_famiglia';
+        $this->showGruppoFamiliareSelect = $value === 'maggiorenne_single' || $value === 'maggiorenne_famiglia';
 
-        if ($value == 'dalla_nascita' && $this->persona->data_nascita) {
+        if ($value === 'dalla_nascita' && $this->persona->data_nascita) {
             $this->dataEntrata = Carbon::parse($this->persona->data_nascita)->toDateString();
-        }else{
+        } else {
             $this->dataEntrata = Carbon::now()->toDateString();
         }
     }

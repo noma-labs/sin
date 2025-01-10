@@ -25,9 +25,9 @@ final class SearchFamiglia extends Autocomplete
     public function selected(array $ids): array
     {
         $families = Famiglia::select('id', 'nome_famiglia')
-                ->orderBy('nome_famiglia', 'asc')
-                ->whereIn('id', $ids)
-                ->get();
+            ->orderBy('nome_famiglia', 'asc')
+            ->whereIn('id', $ids)
+            ->get();
 
         $selected = [];
         foreach ($families as $family) {

@@ -7,12 +7,6 @@
 
     <livewire:entrata-persona :persona="$persona" />
 
-    <!-- <persona-entrata
-        api-nomadelfia-famiglie="{{ route("api.nomadeflia.famiglie") }}"
-        api-nomadelfia-persona="{{ route("api.nomadelfia.persona", ["id" => $persona->id]) }}"
-        api-nomadelfia-gruppi="{{ route("api.nomadeflia.gruppi") }}"
-    ></persona-entrata> -->
-
     <div class="row my-2">
         <div class="col-auto">
             <button type="submit" class="btn btn-block btn-primary">
