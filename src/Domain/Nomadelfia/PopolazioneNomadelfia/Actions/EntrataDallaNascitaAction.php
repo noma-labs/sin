@@ -9,6 +9,7 @@ use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -22,6 +23,7 @@ final class EntrataDallaNascitaAction
         $dto->famiglia = $famiglia;
         $dto->persona = $persona;
         $dto->data_entrata = Carbon::parse($dto->persona->data_nascita);
+        $dto->origine = Origine::Interno;
 
         $this->calcGruppoFamiliare($dto);
         $this->calcPosizione($dto);

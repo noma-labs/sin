@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
@@ -32,4 +33,6 @@ final class EntrataPersonaData
     public ?Famiglia $famiglia = null;
 
     public ?string $famiglia_posizione;
+
+    public Origine $origine;
 }

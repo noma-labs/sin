@@ -47,6 +47,8 @@ final class EntrataPersonaAction
         try {
             $conn = DB::connection('db_nomadelfia');
 
+            $conn->update('UPDATE persone SET origine = ? WHERE id = ? and origine IS NULL', [$entrataPersonaData->origine->value, $persona_id]);
+
             $conn->insert('INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)',
                 [$persona_id, $entrataPersonaData->data_entrata]);
 

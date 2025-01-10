@@ -26,25 +26,6 @@ final class PopolazioneNomadelfia extends Model
     protected $guarded = [];
 
     /*
-    *  Ritorna le persone della popolazione di Nomadelfia
-    */
-    public static function popolazione()
-    {
-        $expression = DB::raw("SELECT popolazione.*, persone.*,  persone_posizioni.*, posizioni.nome as posizione
-                FROM popolazione
-                LEFT JOIN persone p on popolazione.persona_id = p.id
-                LEFT JOIN persone ON persone.id = popolazione.persona_id
-                LEFT JOIN persone_posizioni ON persone_posizioni.persona_id = popolazione.persona_id
-                LEFT JOIN posizioni ON posizioni.id = persone_posizioni.posizione_id
-                WHERE popolazione.data_uscita IS NULL AND  (persone_posizioni.stato = '1'  OR persone_posizioni.stato IS NULL)
-                ORDER BY nominativo");
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-    }
-
-    /*
     *  Ritorna il totale della popolazione attuale
     *  Una persona fa parte della popolazione se e solo se
     *       - è una persona attiva (stato = '1)
