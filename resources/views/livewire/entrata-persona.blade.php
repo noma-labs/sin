@@ -99,12 +99,7 @@
     <div class="row my-2">
         <label for="fornascita" class="col-sm-6">Famiglia</label>
         <div class="col-sm-6">
-            <select class="form-control" id="famiglia" name="famiglia_id">
-                <option value="">---Seleziona---</option>
-                <!-- Add your options here -->
-                <option value="famiglia1">Famiglia 1</option>
-                <option value="famiglia2">Famiglia 2</option>
-            </select>
+            <livewire:search-famiglia name_input="famiglia_id" />
         </div>
     </div>
   @endif
@@ -122,5 +117,7 @@
     </div>
   </div>
   @endif
+
+
 
 </div>
