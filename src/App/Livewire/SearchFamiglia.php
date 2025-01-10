@@ -10,7 +10,8 @@ final class SearchFamiglia extends Autocomplete
 {
     public function searchBy(string $term): array
     {
-        $families = Famiglia::select('id', 'nome_famiglia')
+        $families = Famiglia::query()
+            ->select('id', 'nome_famiglia')
             ->orderBy('nome_famiglia', 'asc')
             ->get();
 
@@ -24,7 +25,8 @@ final class SearchFamiglia extends Autocomplete
 
     public function selected(array $ids): array
     {
-        $families = Famiglia::select('id', 'nome_famiglia')
+        $families = Famiglia::query()
+            ->select('id', 'nome_famiglia')
             ->orderBy('nome_famiglia', 'asc')
             ->whereIn('id', $ids)
             ->get();
