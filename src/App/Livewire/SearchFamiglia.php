@@ -13,6 +13,7 @@ final class SearchFamiglia extends Autocomplete
         $families = Famiglia::query()
             ->select('id', 'nome_famiglia')
             ->orderBy('nome_famiglia', 'asc')
+            ->where('nome_famiglia', 'LIKE', "$term%")
             ->get();
 
         $options = [];
