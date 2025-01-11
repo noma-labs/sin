@@ -16,6 +16,7 @@ use App\Biblioteca\Controllers\LibriController;
 use App\Biblioteca\Controllers\LibriPrestitiController;
 use App\Biblioteca\Controllers\VideoController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
+use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
@@ -125,8 +126,10 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 
     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
-    Route::post('aziende/{id}/assegna', [AziendeController::class, 'assegnaPersona'])->name('azienda.assegna');
-    Route::post('aziende/{id}/sposta/{idPersona}', [AziendeController::class, 'spostaPersona'])->name('azienda.sposta');
+    Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('azienda.lavoratore.assegna');
+    Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('aziende.persona.sposta');
+    Route::put('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'update'])->name('aziende.persona.update');
+    Route::delete('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'delete'])->name('aziende.persona.delete');
 
     Route::get('incarichi', [IncarichiController::class, 'view'])->name('incarichi.index');
     Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('incarichi.edit');

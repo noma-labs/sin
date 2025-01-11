@@ -26,12 +26,23 @@
                             {{ $lavoratore->pivot->data_inizio_azienda }}
                           </td>
                           <td class="text-center">
-                            <button
-                              class="btn btn-sm btn-warning"
-                            >
-                              Modifica
-                            </button>
+                            @include("nomadelfia.templates.modificaPersonaAzienda")
                             @include("nomadelfia.templates.spostaPersonaAzienda")
+                            <form
+                                class="form"
+                                method="POST"
+                                action="{{ route("nomadelfia.aziende.persona.delete", ["idPersona" => $lavoratore->id, "id" => $azienda->id]) }}"
+                            >
+                                @csrf
+                                @method("delete")
+                                <button
+                                type="submit"
+                                value="Submit"
+                                class="btn btn-danger m-1"
+                            >
+                                Elimina
+                            </button>
+                            </form>
                           </td>
                     </tr>
                 @endforeach

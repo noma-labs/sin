@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formAssegnaPersonaAzienda"
-            action="{{ route("nomadelfia.azienda.assegna", ["id" => $azienda->id]) }}"
+            action="{{ route("nomadelfia.azienda.lavoratore.assegna", ["id" => $azienda->id]) }}"
         >
             {{ csrf_field() }}
             <div class="form-group row">

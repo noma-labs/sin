@@ -1,15 +1,16 @@
 <my-modal
     modal-title="Sposta Persona in Azienda"
     button-title="Sposta"
-    button-style="btn-success my-2"
+    button-style="btn-warning my-2"
 >
     <template slot="modal-body-slot">
         <form
             class="form"
             method="POST"
             id="spostaPersonAzienda{{ $lavoratore->id }}"
-            action="{{ route("nomadelfia.azienda.sposta", ["id" => $azienda->id, "idPersona" => $lavoratore->id]) }}"
+            action="{{ route("nomadelfia.aziende.persona.sposta", ["id" => $azienda->id, "idPersona" => $lavoratore->id]) }}"
         >
+            @method("PUT")
             {{ csrf_field() }}
 
             <div class="form-group row">
