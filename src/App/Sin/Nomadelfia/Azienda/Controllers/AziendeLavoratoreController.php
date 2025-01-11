@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 final class AziendeLavoratoreController
 {
-
     public function store(Request $request, $id)
     {
         $request->validate([

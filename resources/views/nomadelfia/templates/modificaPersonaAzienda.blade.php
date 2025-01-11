@@ -20,10 +20,16 @@
                 <div class="col-sm-6">
                     <select name="mansione" class="form-control">
                         <option selected>---seleziona mansione ---</option>
-                        <option value="LAVORATORE" {{ $lavoratore->pivot->mansione  == 'LAVORATORE' ? "selected" : "" }} >
+                        <option
+                            value="LAVORATORE"
+                            {{ $lavoratore->pivot->mansione == "LAVORATORE" ? "selected" : "" }}
+                        >
                             LAVORATORE
                         </option>
-                        <option value="RESPONSABILE AZIENDA" {{ $lavoratore->pivot->mansione == 'RESPONSABILE AZIENDA' ? "selected" : "" }} >
+                        <option
+                            value="RESPONSABILE AZIENDA"
+                            {{ $lavoratore->pivot->mansione == "RESPONSABILE AZIENDA" ? "selected" : "" }}
+                        >
                             RESPONSABILE AZIENDA
                         </option>
                     </select>
@@ -35,7 +41,11 @@
                     Data inizio
                 </label>
                 <div class="col-sm-6">
-                   <input type="date" name="data_inizio" value="{{$lavoratore->pivot->data_inizio_azienda}}">
+                    <input
+                        type="date"
+                        name="data_inizio"
+                        value="{{ $lavoratore->pivot->data_inizio_azienda }}"
+                    />
                 </div>
             </div>
         </form>

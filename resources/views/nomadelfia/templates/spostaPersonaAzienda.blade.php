@@ -28,7 +28,6 @@
             </div>
             <hr />
 
-
             <div class="form-group row">
                 <label for="staticEmail" class="col-sm-6 col-form-label">
                     Nuova azienda
@@ -36,7 +35,7 @@
                 <div class="col-sm-6">
                     <select name="nuova_azienda_id" class="form-control">
                         <option selected>---seleziona azienda ---</option>
-                        @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::orderBy('nome_azienda')->get() as $a)
+                        @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::orderBy("nome_azienda")->get() as $a)
                             @if ($a->id != $azienda->id)
                                 <option
                                     value="{{ $a->id }}"
