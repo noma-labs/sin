@@ -13,6 +13,12 @@
             @method("PUT")
             {{ csrf_field() }}
 
+            <input
+                type="hidden"
+                name="data_inizio"
+                value="{{ $lavoratore->pivot->data_inizio_azienda }}"
+            />
+
             <div class="form-group row">
                 <label for="inputData" class="col-sm-6 col-form-label">
                     Mansione
@@ -43,7 +49,7 @@
                 <div class="col-sm-6">
                     <input
                         type="date"
-                        name="data_inizio"
+                        name="nuova_data_inizio"
                         value="{{ $lavoratore->pivot->data_inizio_azienda }}"
                     />
                 </div>

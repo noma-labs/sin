@@ -52,7 +52,9 @@ final class AziendeLavoratoreController
         $request->validate([
             'mansione' => 'required',
             'data_inizio' => 'required|date',
+            'nuova_data_inizio' => 'required|date',
         ], [
+            'nuova_data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",
         ]);
@@ -60,9 +62,10 @@ final class AziendeLavoratoreController
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($id);
 
-        $persona->aziende()->updateExistingPivot($id, [
+        $persona->aziende()->wherePivot('data_inizio_azienda', $request->data_inizio)
+        ->updateExistingPivot($id, [
             'mansione' => $request->mansione,
-            'data_inizio_azienda' => $request->data_inizio,
+            'data_inizio_azienda' => $request->nuova_data_inizio,
         ]);
 
         return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda modificata con successo.");
