@@ -44,7 +44,7 @@
                                         value="Submit"
                                         class="btn btn-danger m-1"
                                     >
-                                        Elimina
+                                        Concludi
                                     </button>
                                 </form>
                             </td>
