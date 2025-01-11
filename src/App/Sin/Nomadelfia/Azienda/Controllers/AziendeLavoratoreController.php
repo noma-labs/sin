@@ -65,7 +65,7 @@ final class AziendeLavoratoreController
         $persona->aziende()->wherePivot('data_inizio_azienda', $request->data_inizio)
             ->updateExistingPivot($id, [
                 'mansione' => $request->mansione,
-                'data_inizio_azienda' => $request->nuova_data_inizio,
+                'data_inizio_azienda' => $request->get('nuova_data_inizio'),
             ]);
 
         return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda modificata con successo.");
