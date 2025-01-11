@@ -125,6 +125,8 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 
     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
+    Route::post('aziende/{id}/assegna', [AziendeController::class, 'assegnaPersona'])->name('azienda.assegna');
+    Route::post('aziende/{id}/sposta/{idPersona}', [AziendeController::class, 'spostaPersona'])->name('azienda.sposta');
 
     Route::get('incarichi', [IncarichiController::class, 'view'])->name('incarichi.index');
     Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('incarichi.edit');
