@@ -38,9 +38,6 @@ Vue.component(
   require("./components/officina/gestione-filtri.vue").default,
 );
 
-// DB nomadelfia components
-Vue.component("azienda-edit", require("./components/azienda-edit.vue").default);
-
 // Patente components
 Vue.component(
   "patente-modfica",

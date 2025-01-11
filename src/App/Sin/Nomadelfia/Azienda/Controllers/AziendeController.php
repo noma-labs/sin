@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 final class AziendeController
 {
-    /**
-     * view della pagina di gestione delle aziende
-     *
-     * @author Matteo Neri
-     **/
     public function view()
     {
         $aziende = Azienda::aziende()->orderBy('nome_azienda')->with('lavoratoriAttuali')->get();
@@ -22,14 +17,9 @@ final class AziendeController
         return view('nomadelfia.aziende.index', compact('aziende'));
     }
 
-    /**
-     * ritorna la view per editare una azienda
-     *
-     * @author Matteo Neri
-     **/
     public function edit($id)
     {
-        $azienda = Azienda::findOrFail($id);
+        $azienda = Azienda::with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
 
         return view('nomadelfia.aziende.edit', compact('azienda'));
 
