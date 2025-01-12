@@ -92,7 +92,7 @@ final class VeicoliController
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac' ));
+        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
     public function create(Request $request)

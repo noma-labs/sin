@@ -1523,92 +1523,92 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withError\\(\\)\\.$#"
 			count: 7
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
 			count: 7
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Alimentazioni\\:\\:orderBy\\(\\)\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Impiego\\:\\:orderBy\\(\\)\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Marche\\:\\:orderBy\\(\\)\\.$#"
 			count: 4
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Modelli\\:\\:firstOrCreate\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Modelli\\:\\:orderBy\\(\\)\\.$#"
 			count: 3
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:create\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:where\\(\\)\\.$#"
 			count: 8
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:create\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:orderBy\\(\\)\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoOlio\\:\\:create\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Tipologia\\:\\:orderBy\\(\\)\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:create\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:find\\(\\)\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\Veicolo\\:\\:orderBy\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Cannot access property \\$codice on array\\|float\\|int\\|string\\|false\\.$#"
 			count: 2
-			path: src/App/Sin/Officina/Controllers/VeicoliController .php
+			path: src/App/Sin/Officina/Controllers/VeicoliController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
