@@ -9,6 +9,7 @@ use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche as Marca;
 use App\Officina\Models\Modelli as Modello;
 use App\Officina\Models\TipoFiltro;
+use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Veicolo;
@@ -44,8 +45,9 @@ final class VeicoliController
     public function show($id)
     {
         $veicolo = Veicolo::withTrashed()->findOrFail($id);
+        $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.show', compact('veicolo'));
+        return view('officina.veicoli.show', compact('veicolo', 'gomme'));
     }
 
     public function edit($id)
@@ -62,8 +64,9 @@ final class VeicoliController
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
         $enum_tipo_filtro = TipoFiltro::tipo();
         $olio_motore = TipoOlio::all();
+        $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro', 'olio_motore'));
+        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro', 'olio_motore', 'gomme'));
     }
 
     public function editConfirm(Request $request, $id)
@@ -187,6 +190,18 @@ final class VeicoliController
 
         return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
 
+    }
+
+    public function aggiungiGomma(Request $request)
+    {
+        $request->validate([
+            'codice' => 'required',
+        ]);
+        $gomma = TipoGomme::create([
+            'codice' => $request->input('codice'),
+        ]);
+
+        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
     }
 
     /**

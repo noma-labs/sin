@@ -26,10 +26,6 @@ Vue.component(
 
 // Officina components
 Vue.component(
-  "gomme-veicolo",
-  require("./components/officina/gomme-veicolo.vue").default,
-);
-Vue.component(
   "gestione-filtri",
   require("./components/officina/gestione-filtri.vue").default,
 );

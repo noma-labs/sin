@@ -45,6 +45,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
+use App\Officina\Controllers\VeicoliGommeController;
 use App\Patente\Controllers\PatenteController;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
@@ -305,6 +306,8 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::get('veicoli/nuovo', [VeicoliController::class, 'viewCreate'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.nuovo');
     Route::post('veicoli/nuovo', [VeicoliController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
     Route::get('veicoli/{id}', [VeicoliController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
+    Route::delete('veicoli/{id}/gomme/{idGomma}', [VeicoliGommeController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.delete');
+    Route::post('veicoli/{id}/gomme', [VeicoliGommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.store');
     Route::get('veicoli/modifica/{id}', [VeicoliController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
     Route::post('veicoli/modifica/{id}', [VeicoliController::class, 'editConfirm'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica.confirm');
     Route::delete('demolisci/veicolo', [VeicoliController::class, 'demolisci'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
@@ -312,6 +315,7 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::post('filtro/aggiungi', [VeicoliController::class, 'aggiungiFiltro'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
     Route::view('filtri', 'officina.gestione.filtri')->middleware('can:meccanica.veicolo.modifica')->name('filtri');
     Route::post('olio/aggiungi', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
+    Route::post('gomma', [VeicoliController::class, 'aggiungiGomma'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
     Route::get('/patenti', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 

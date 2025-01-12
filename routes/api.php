@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 // API route: /api/officina/
 Route::group(['prefix' => 'officina', 'namespace' => 'App\Officina\Controllers'], function () {
-    Route::post('gomme/elimina', 'ApiController@eliminaGomma')->name('api.officina.gomme.elimina');
-    Route::post('gomme/nuova', 'ApiController@nuovaGomma')->name('api.officina.gomme.nuova');
-    Route::get('gomme/', 'ApiController@gomme')->name('api.officina.gomme');
     Route::get('filtri/tipi', 'ApiController@tipiFiltro')->name('api.officina.filtri.tipi');
     Route::delete('filtri/elimina', 'ApiController@eliminaFiltro')->name('api.officina.filtri.elimina');
     Route::get('filtri/', 'ApiController@filtri')->name('api.officina.filtri');

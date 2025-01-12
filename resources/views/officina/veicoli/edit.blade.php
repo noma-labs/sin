@@ -2,14 +2,15 @@
 
 @section("content")
     @include("partials.header", ["title" => "Modifica Veicolo"])
-    <form
-        method="POST"
-        id="veicolo-form-modifica"
-        action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
-    >
-        {{ csrf_field() }}
-        <div class="row">
-            <div class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-9">
+            <form
+                method="POST"
+                id="veicolo-form-modifica"
+                action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
+            >
+                {{ csrf_field() }}
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -296,64 +297,55 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
 
-            <div class="col-md-3">
-                <gomme-veicolo
-                    v-bind:gomme="{{ $veicolo->gomme }}"
-                    v-bind:veicolo="{{ $veicolo->id }}"
-                    token="{{ csrf_token() }}"
-                ></gomme-veicolo>
-
-                <div class="card card-mod">
-                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                    <div class="card-header card-header-mod">
-                        <h3 class="card-title">Documenti</h3>
-                    </div>
-                    <div class="card-body card-body-mod">
-                        <ul class="list-group list-group-flush"></ul>
-                        <my-modal
-                            modal-title="Aggiungi File"
-                            button-title="Aggiungi File"
-                            button-style="btn-block btn-warning"
-                        >
-                            <template v-slot:modal-body-slot>
-                                <form
-                                    action="#"
-                                    method="post"
-                                    id="form-aggiungi-file"
-                                >
-                                    {{ csrf_field() }}
-                                    <input
-                                        type="hidden"
-                                        name="veicolo"
-                                        value="{{ $veicolo->id }}"
-                                    />
-                                    <input
-                                        type="file"
-                                        name="file"
-                                        class="form-control file-input"
-                                        id="file"
-                                    />
-                                    <label
-                                        for="file"
-                                        class="file-label btn btn-warning"
-                                    >
-                                        Scegli File
-                                    </label>
-                                </form>
-                            </template>
-                            <template v-slot:modal-button>
-                                <button type="button" class="btn btn-success">
-                                    Salva
-                                </button>
-                            </template>
-                        </my-modal>
-                    </div>
+        <div class="col-md-3">
+            <div class="card card-mod">
+                <div class="card-header card-header-mod">
+                    <h3 class="card-title">Tipi Di Gomme</h3>
+                </div>
+                <div class="card-body card-body-mod">
+                    <ul class="list-group list-group-flush">
+                        @foreach ($veicolo->gomme()->get() as $gv)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        {{ $gv->codice }}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <form
+                                            action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
+                                            id="form-delete-{{ $gv->id }}"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method("DELETE")
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger btn-sm"
+                                            >
+                                                Elim.
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                    @include("officina.veicoli.assegnaGomma")
                 </div>
             </div>
+
+            <div class="card card-mod">
+                <div class="card-header card-header-mod">
+                    <h3 class="card-title">Documenti</h3>
+                </div>
+                <div class="card-body card-body-mod"></div>
+            </div>
         </div>
-    </form>
+    </div>
+
     <div class="row">
         <div class="col-md-2">
             <my-modal
@@ -426,7 +418,6 @@
                 </template>
             </my-modal>
         </div>
-        {{-- modal aggiungi tipo olio --}}
         <div class="col-md-2">
             <my-modal
                 modal-title="Aggiungi Tipo Olio"
@@ -475,6 +466,44 @@
                         class="btn btn-success"
                         type="submit"
                         form="form-aggiungi-olio"
+                    >
+                        Salva
+                    </button>
+                </template>
+            </my-modal>
+        </div>
+        <div class="col-md-2">
+            <my-modal
+                modal-title="Aggiungi Gomma"
+                button-title="Aggiungi Gomma"
+                button-style="btn-block btn-warning"
+            >
+                <template v-slot:modal-body-slot>
+                    <form
+                        method="POST"
+                        action="{{ route("gomma.aggiungi") }}"
+                        id="form-aggiungi-gomma"
+                    >
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="codice">Codice Gomma</label>
+                                <input
+                                    name="codice"
+                                    type="text"
+                                    id="codice"
+                                    class="form-control"
+                                    placeholder="es. 170/75 R17"
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </template>
+                <template v-slot:modal-button>
+                    <button
+                        class="btn btn-success"
+                        type="submit"
+                        form="form-aggiungi-gomma"
                     >
                         Salva
                     </button>
@@ -570,7 +599,7 @@
                 </my-modal>
             </div>
         @else
-            <div class="col-md-2 offset-md-4">
+            <div class="col-md-2 offset-md-2">
                 <my-modal
                     modal-title="Demolisci Veicolo"
                     button-title="Demolisci"
@@ -627,6 +656,4 @@
             </button>
         </div>
     </div>
-
-    <!-- end section dettagli prenotazione -->
 @endsection
