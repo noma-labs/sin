@@ -6,7 +6,6 @@ namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Autore as Autore;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 final class AutoriController
 {
@@ -19,10 +18,6 @@ final class AutoriController
 
     public function create()
     {
-        if (Session::has('insertLibroUrl')) { // contains the url of the detail of the utente
-            Session::keep('insertLibroUrl');
-        }
-
         return view('biblioteca.autori.create');
     }
 
@@ -38,12 +33,8 @@ final class AutoriController
         $autore = new Autore;
         $autore->autore = $request->autore;
         $autore->save();
-        if (Session::has('insertLibroUrl')) {
-            return redirect()->to(Session::get('insertLibroUrl'))->withSuccess("Autore $autore->autore  aggiunto correttamente.");
-        }
 
-        return redirect()->route('autori.index')->withSuccess("Autore $autore->autore  aggiunto correttamente.");
-
+        return back()->withSuccess("Autore $autore->autore  aggiunto correttamente.");
     }
 
     public function show($id)
