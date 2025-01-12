@@ -3,10 +3,9 @@
 @section("content")
     @include("partials.header", ["title" => "Modifica Veicolo"])
 
-        <div class="row">
-
-            <div class="col-md-9">
-                <form
+    <div class="row">
+        <div class="col-md-9">
+            <form
                 method="POST"
                 id="veicolo-form-modifica"
                 action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
@@ -299,55 +298,53 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-mod">
+                <div class="card-header card-header-mod">
+                    <h3 class="card-title">Tipi Di Gomme</h3>
+                </div>
+                <div class="card-body card-body-mod">
+                    <ul class="list-group list-group-flush">
+                        @foreach ($veicolo->gomme()->get() as $gv)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        {{ $gv->codice }}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <form
+                                            action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
+                                            id="form-delete-{{ $gv->id }}"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method("DELETE")
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger btn-sm"
+                                            >
+                                                Elim.
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                    @include("officina.veicoli.assegnaGomma")
+                </div>
             </div>
 
-
-            <div class="col-md-3">
-                <div class="card card-mod">
-                    <div class="card-header card-header-mod">
-                        <h3 class="card-title">Tipi Di Gomme</h3>
-                    </div>
-                    <div class="card-body card-body-mod">
-                        <ul class="list-group list-group-flush">
-                            @foreach ($veicolo->gomme()->get() as $gv)
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            {{ $gv->codice }}
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <form
-                                                action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
-                                                id="form-delete-{{ $gv->id }}"
-                                                method="POST"
-                                            >
-                                                @csrf
-                                                @method("DELETE")
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-danger btn-sm"
-                                                >
-                                                    Elim.
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                        @include("officina.veicoli.assegnaGomma")
-                    </div>
+            <div class="card card-mod">
+                <div class="card-header card-header-mod">
+                    <h3 class="card-title">Documenti</h3>
                 </div>
-
-                <div class="card card-mod">
-                    <div class="card-header card-header-mod">
-                        <h3 class="card-title">Documenti</h3>
-                    </div>
-                    <div class="card-body card-body-mod">
-                    </div>
-                </div>
+                <div class="card-body card-body-mod"></div>
             </div>
         </div>
+    </div>
 
     <div class="row">
         <div class="col-md-2">
