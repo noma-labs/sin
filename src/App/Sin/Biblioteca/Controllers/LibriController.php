@@ -314,6 +314,7 @@ final class LibriController
     public function showInsertLibroForm()
     {
         $classificazioni = Classificazione::orderBy('descrizione')->get();
+
         return view('biblioteca.libri.insert', compact('classificazioni'));
     }
 

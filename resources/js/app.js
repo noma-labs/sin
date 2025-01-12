@@ -23,10 +23,6 @@ Vue.component(
   "search-collocazione",
   require("./components/libro-collocazione-autocomplete.vue").default,
 );
-Vue.component(
-  "libro-editore-autore",
-  require("./components/biblioteca/libro-editore-autore.vue").default,
-);
 
 // Officina components
 Vue.component(
