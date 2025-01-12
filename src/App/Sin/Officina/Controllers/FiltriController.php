@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 final class FiltriController
 {
-    public function index(Request $request)
+    public function index()
     {
         $filtri = TipoFiltro::all()->sortBy('tipo');
-
         return view('officina.gestione.filtri', compact('filtri'));
     }
 
