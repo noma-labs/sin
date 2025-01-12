@@ -192,6 +192,16 @@ final class VeicoliController
 
     }
 
+    public function aggiungiGomma(Request $request){
+        $request->validate([
+            'codice' => 'required',
+        ]);
+        $gomma = TipoGomme::create([
+            'codice' => $request->input('codice'),
+        ]);
+        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
+    }
+
     /**
      * demolisce un veicolo, setta la colonna deleted_at
      */

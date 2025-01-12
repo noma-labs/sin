@@ -315,6 +315,7 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::post('filtro/aggiungi', [VeicoliController::class, 'aggiungiFiltro'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
     Route::view('filtri', 'officina.gestione.filtri')->middleware('can:meccanica.veicolo.modifica')->name('filtri');
     Route::post('olio/aggiungi', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
+    Route::post('gomma', [VeicoliController::class, 'aggiungiGomma'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
     Route::get('/patenti', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 

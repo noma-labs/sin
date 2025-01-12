@@ -1,6 +1,6 @@
 <my-modal
-    modal-title="Aggiungi Tipo Gomma"
-    button-title="Aggiungi Gomma"
+    modal-title="Assegna gomma al veicolo"
+    button-title="Aggiungi"
     button-style="btn-block btn-warning"
 >
     <template slot="modal-body-slot">
