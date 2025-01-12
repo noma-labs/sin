@@ -5,6 +5,12 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Filtri"])
 
+
+    <div class="row my-2">
+        <div class="col-md-2">
+            @include("officina.veicoli.aggiungiFiltro")
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8">
             <table class="table table-hover table-bordered table-sm">
