@@ -252,7 +252,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php
 
 		-
@@ -317,7 +317,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 3
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/EditoriController.php
 
 		-
@@ -462,7 +462,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
-			count: 5
+			count: 4
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
@@ -472,7 +472,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-

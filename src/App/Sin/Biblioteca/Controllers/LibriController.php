@@ -353,7 +353,6 @@ final class LibriController
 
         $etichetta_criterio = $request->input('stampaEtichetta'); //radio buttons for printing or no the etichetta
         $msg_etichetta = '';
-        // $genera_etichetta = 0;
         switch ($etichetta_criterio) {
             case 'aggiungiEtichetta':
                 $libro->tobe_printed = 1;
@@ -370,7 +369,7 @@ final class LibriController
             $libro->editori()->sync($request->xIdEditori);
         });
         if ($_addanother) {
-            return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+             return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
 
         return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
