@@ -42,6 +42,8 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
+use App\Officina\Controllers\FiltriController;
+use App\Officina\Controllers\GommeController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
@@ -313,9 +315,11 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::delete('demolisci/veicolo', [VeicoliController::class, 'demolisci'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
 
     Route::post('filtro/aggiungi', [VeicoliController::class, 'aggiungiFiltro'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::view('filtri', 'officina.gestione.filtri')->middleware('can:meccanica.veicolo.modifica')->name('filtri');
+    Route::get('filtri', [FiltriController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
+    Route::post('filtri', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
+    Route::delete('filtri/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
     Route::post('olio/aggiungi', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
-    Route::post('gomma', [VeicoliController::class, 'aggiungiGomma'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
+    Route::post('gomma', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
     Route::get('/patenti', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 

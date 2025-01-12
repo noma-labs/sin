@@ -1416,9 +1416,29 @@ parameters:
 			path: src/App/Sin/Officina/Actions/CreatePrenotazioneAction.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:find\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Officina/Controllers/FiltriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:create\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Officina/Controllers/ApiController.php
+			path: src/App/Sin/Officina/Controllers/FiltriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoFiltro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/FiltriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/GommeController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Officina\\\\Models\\\\TipoGomme\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Officina/Controllers/GommeController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$note\\.$#"
