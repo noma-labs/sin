@@ -56,9 +56,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <label for="xAutori" class="control-label">
-                    Autore/i
-                </label>
+                <label for="xAutori" class="control-label">Autore/i</label>
                 <livewire:search-autore
                     :persone_id="$libro->autori->pluck('id')->toArray()"
                     name_input="xIdAutori[]"
@@ -68,9 +66,7 @@
             </div>
 
             <div class="col-md-6">
-                <label for="xEditori" class="control-label">
-                    Editore/i
-                </label>
+                <label for="xEditori" class="control-label">Editore/i</label>
                 <livewire:search-editore
                     :persone_id="$libro->editori->pluck('id')->toArray()"
                     name_input="xIdEditori[]"

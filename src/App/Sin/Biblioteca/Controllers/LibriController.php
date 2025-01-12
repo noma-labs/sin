@@ -369,7 +369,7 @@ final class LibriController
             $libro->editori()->sync($request->xIdEditori);
         });
         if ($_addanother) {
-             return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+            return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
 
         return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
