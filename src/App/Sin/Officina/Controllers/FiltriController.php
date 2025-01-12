@@ -12,6 +12,7 @@ final class FiltriController
     public function index()
     {
         $filtri = TipoFiltro::all()->sortBy('tipo');
+
         return view('officina.gestione.filtri', compact('filtri'));
     }
 

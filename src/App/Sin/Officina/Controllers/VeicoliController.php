@@ -62,11 +62,10 @@ final class VeicoliController
         $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
-        $enum_tipo_filtro = TipoFiltro::tipo();
         $olio_motore = TipoOlio::all();
         $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro', 'olio_motore', 'gomme'));
+        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
     public function editConfirm(Request $request, $id)
@@ -92,9 +91,8 @@ final class VeicoliController
         $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
-        $enum_tipo_filtro = TipoFiltro::tipo();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro'));
+        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac' ));
     }
 
     public function create(Request $request)
