@@ -91,25 +91,6 @@ final class ApiController
     }
 
     /**
-     * Ritorna solo le categorie associate a una patente.
-     *    /?filtro=possibili : ritorna le categorie non ancora assegnate alla patente
-     *
-     * @param  string  $numero  numeor della patente
-     **/
-    public function patenteCategorie(Request $request, $numero): JsonResponse
-    {
-        if ($request->input('filtro') === 'possibili') {
-            $p = CategoriaPatente::whereDoesntHave('patenti', function ($query) use ($numero): void {
-                $query->where('patenti_categorie.numero_patente', '=', $numero);
-            })->get();
-        } else {
-            $p = Patente::where('numero_patente', $numero)->with('categorie')->first();
-        }
-
-        return response()->json($p);
-    }
-
-    /**
      * Ritorna tutte le persone siano che hanno la patente sia che non la hanno.
      *
      **/
