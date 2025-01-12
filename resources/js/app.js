@@ -24,12 +24,6 @@ Vue.component(
   require("./components/libro-collocazione-autocomplete.vue").default,
 );
 
-// Officina components
-Vue.component(
-  "gestione-filtri",
-  require("./components/officina/gestione-filtri.vue").default,
-);
-
 // Patente components
 Vue.component(
   "patente-modfica",
