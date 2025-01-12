@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <div class="form-group">
                             <label for="xCollocazione">Collocazione</label>
                             <input
@@ -26,7 +26,7 @@
                             />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <label for="editCollocazione">&nbsp;</label>
                             <div>
@@ -35,7 +35,7 @@
                                     href="{{ route("libro.collocazione", ["idLibro" => $libro->id]) }}"
                                     role="button"
                                 >
-                                    Modifica Colloc.
+                                    Modifica
                                 </a>
                             </div>
                         </div>
@@ -56,48 +56,29 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-8">
-                        <label for="xAutori" class="control-label">
-                            Autore/i
-                        </label>
-                        <livewire:search-autore
-                            :persone_id="$libro->autori->pluck('id')->toArray()"
-                            name_input="xIdAutori[]"
-                            placeholder="Inserisci autori"
-                            multiple="true"
-                        />
-                    </div>
-                    <div class="col-md-4">
-                        <a
-                            class="btn btn-success"
-                            href="{{ route("autori.create") }}"
-                            target="_blank"
-                            role="button"
-                        >
-                            Nuovo Autore
-                        </a>
-                    </div>
-                </div>
+                <label for="xAutori" class="control-label">
+                    Autore/i
+                </label>
+                <livewire:search-autore
+                    :persone_id="$libro->autori->pluck('id')->toArray()"
+                    name_input="xIdAutori[]"
+                    placeholder="Inserisci autori"
+                    multiple="true"
+                />
             </div>
 
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-8">
-                        <label for="xEditori" class="control-label">
-                            Editore/i
-                        </label>
-                        <livewire:search-editore
-                            :persone_id="$libro->editori->pluck('id')->toArray()"
-                            name_input="xIdEditori[]"
-                            placeholder="Inserisci editori"
-                            multiple="true"
-                        />
-                    </div>
-                </div>
+                <label for="xEditori" class="control-label">
+                    Editore/i
+                </label>
+                <livewire:search-editore
+                    :persone_id="$libro->editori->pluck('id')->toArray()"
+                    name_input="xIdEditori[]"
+                    placeholder="Inserisci editori"
+                    multiple="true"
+                />
             </div>
         </div>
-        <!-- end second row: autore, editore -->
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
