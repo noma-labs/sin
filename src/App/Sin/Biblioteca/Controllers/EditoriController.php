@@ -6,7 +6,6 @@ namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Editore as Editore;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 final class EditoriController
 {
@@ -19,10 +18,6 @@ final class EditoriController
 
     public function create()
     {
-        if (Session::has('insertLibroUrl')) { // contains the url of the detail of the utente
-            Session::keep('insertLibroUrl');
-        }
-
         return view('biblioteca.editori.create');
     }
 
@@ -39,12 +34,7 @@ final class EditoriController
         $editore->editore = $request->editore;
         $editore->save();
 
-        if (Session::has('insertLibroUrl')) {
-            return redirect()->to(Session::get('insertLibroUrl'))->withSuccess("Editore $editore->editore  aggiunto correttamente.");
-        }
-
-        return redirect()->route('editori.index')->withSuccess("Editore $editore->editore  aggiunto correttamente.");
-
+        return back()->withSuccess("Editore $editore->editore  aggiunto correttamente.");
     }
 
     public function search(Request $request)

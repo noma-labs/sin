@@ -97,7 +97,6 @@ it('will swap the physical location of two books when the admin is logged in', f
 });
 
 it('will insert a book when the admin is logged in', function (): void {
-
     $sendRequest = fn () => post(action([LibriController::class, 'insertConfirm']), [
         'xTitolo' => 'MY title',
         'xIdAutori' => Autore::factory()->create()->id,
@@ -110,7 +109,7 @@ it('will insert a book when the admin is logged in', function (): void {
 
     login();
 
-    $sendRequest()->assertOk();
+    $sendRequest()->assertRedirect();
 
     expect(Libro::where('collocazione', '=', 'AAA005')->get()->count())->toBe(1);
 

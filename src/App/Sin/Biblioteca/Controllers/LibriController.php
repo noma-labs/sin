@@ -12,7 +12,7 @@ use App\Biblioteca\Models\Prestito as Prestito;
 use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 final class LibriController
 {
@@ -248,46 +248,27 @@ final class LibriController
     {
         $request->validate([
             'xTitolo' => 'required',
-            // 'xCollocazione'=>"required|unique:db_biblioteca.libro,collocazione,".$idLibro.",ID_libro", //per update solito nome
-            'xIdEditore' => 'exists:db_biblioteca.editore,id',
-            'xIdAutore' => 'exists:db_biblioteca.autore,id',
             'xClassificazione' => 'required|exists:db_biblioteca.classificazione,id',
         ], [
-            // 'xCollocazione.required' => 'La collocazione è obbligatoria.',
             'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
-            'xIdEditore.exists' => 'Editore inserito non è valido.',
-            // 'xIdAutore.exists' => 'Autore inserito non è valido.',
-            'xIdEditore.required' => "L'editore  è obbligatorio",
-            'xIdAutore.required' => "L'autore è abbligatorio.",
             'xClassificazione.exists' => 'La classificazione inserita non è valida.',
             'xClassificazione.required' => 'La classificazione è obbligatoria',
             'xCollocazione.unique' => 'La collocazione inserita esiste già.',
         ]);
 
         $libro = Libro::findOrFail($idLibro);
-
         $libro->titolo = $request->xTitolo;
-        $libro->ID_EDITORE = $request->input('xIdEditore', 0);
-        $libro->ID_AUTORE = $request->input('xIdAutore', 0);
         $libro->classificazione_id = $request->xClassificazione;
         $libro->note = $request->xNote;
-
         $libro->fill($request->only('isbn', 'data_pubblicazione', 'categoria', 'dimensione', 'critica'));
 
-        $res = $libro->save();
+        DB::transaction(function () use ($libro, $request): void {
+            $libro->save();
+            $libro->autori()->sync($request->xIdAutori);
+            $libro->editori()->sync($request->xIdEditori);
+        });
 
-        $integerIDs = json_decode('['.$request->xIdAutori.']', true); // list of idAutore (e.g., 26,275,292)
-        $libro->autori()->sync($integerIDs);
-
-        $editoriIDs = json_decode('['.$request->xIdEditori.']', true); // list of idAutore (e.g., 26,275,292)
-        $libro->editori()->sync($editoriIDs);
-
-        if ($res) {
-            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
-        }
-
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withWarning('Nessuna modifica effettuata');
-
+        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
     }
 
     public function book($idLibro)
@@ -330,13 +311,11 @@ final class LibriController
 
     }
 
-    public function showInsertLibroForm(Request $request)
+    public function showInsertLibroForm()
     {
         $classificazioni = Classificazione::orderBy('descrizione')->get();
-        // flash the url of the insert libro in order to come back after new editore or autore is inserted
-        Session::put('insertLibroUrl', $request->fullUrl());
 
-        return view('biblioteca.libri.insert', compact('classificazioni')); //,$editori,$autori);
+        return view('biblioteca.libri.insert', compact('classificazioni'));
     }
 
     public function insertConfirm(Request $request)
@@ -358,7 +337,6 @@ final class LibriController
         ]);
 
         $_addanother = $request->input('_addanother');  // save and add another libro
-        $_addonly = $request->input('_addonly');     // save only
 
         if ($request->xCollocazione === 'null') {
             $collocazione = null;
@@ -371,14 +349,10 @@ final class LibriController
         $libro->collocazione = $collocazione;
         $libro->classificazione_id = $request->xClassificazione;
         $libro->note = $request->xNote;
-        $libro->ID_AUTORE = $request->input('xIdAutore', 0); // if not set put to SENZA AUTORE
-        $libro->ID_EDITORE = $request->input('xIdEditore', 0); // if not set put to SENZA EDITORE
-
         $libro->fill($request->only('isbn', 'data_pubblicazione', 'categoria', 'dimensione', 'critica'));
 
         $etichetta_criterio = $request->input('stampaEtichetta'); //radio buttons for printing or no the etichetta
         $msg_etichetta = '';
-        // $genera_etichetta = 0;
         switch ($etichetta_criterio) {
             case 'aggiungiEtichetta':
                 $libro->tobe_printed = 1;
@@ -389,23 +363,15 @@ final class LibriController
                 $msg_etichetta = "L'etichetta non viene stampata";
                 break;
         }
-        $res = $libro->save();
-
-        $idsAutori = json_decode('['.$request->xIdAutori.']', true); // receive a list of idAutori (e.g., [26,275,292[])
-        $libro->autori()->sync($idsAutori);
-
-        $idsEditori = json_decode('['.$request->xIdEditori.']', true); // receive a list of idEditori (e.g., [26,275,292[])
-        $libro->editori()->sync($idsEditori);
-
-        if ($res) {
-            if ($_addanother) {
-                return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //"\n Titolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-            }
-            if ($_addonly) {
-                return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta); //" \nTitolo: $libro->titolo, Collocazione:$libro->collocazione, Editore: $libro->editore->Editore, Autore: $libro->autore->autore, Classificazione:".$libro->classificazione->descrizione." Note: $libro->note");
-            }
-        } else {
-            return redirect()->route('libri.inserisci')->withError('Errore nella creazione del libro.');
+        DB::transaction(function () use ($libro, $request): void {
+            $libro->save();
+            $libro->autori()->sync($request->xIdAutori);
+            $libro->editori()->sync($request->xIdEditori);
+        });
+        if ($_addanother) {
+            return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
+
+        return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
     }
 }
