@@ -299,14 +299,44 @@
             </div>
 
             <div class="col-md-3">
-                <gomme-veicolo
-                    v-bind:gomme="{{ $veicolo->gomme }}"
-                    v-bind:veicolo="{{ $veicolo->id }}"
-                    token="{{ csrf_token() }}"
-                ></gomme-veicolo>
+                <div class="card card-mod">
+                    <div class="card-header card-header-mod">
+                        <h3 class="card-title">Tipi Di Gomme</h3>
+                    </div>
+                    <div class="card-body card-body-mod">
+                        <ul class="list-group list-group-flush">
+                            @foreach ($veicolo->gomme()->get() as $g)
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            {{ $g->codice }}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <form
+                                                action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $g->id]) }}"
+                                                method="post"
+                                                id="form-delete-gomma-{{ $g->id }}"
+                                            >
+                                                @csrf
+                                                @method("DELETE")
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-danger btn-sm"
+                                                    form="form-delete-gomma-{{ $g->id }}"
+                                                >
+                                                    Elimina
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        @include("officina.veicoli.aggiungiGomma")
+                    </div>
+                </div>
 
                 <div class="card card-mod">
-                    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
                     <div class="card-header card-header-mod">
                         <h3 class="card-title">Documenti</h3>
                     </div>
