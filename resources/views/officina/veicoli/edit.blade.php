@@ -2,14 +2,16 @@
 
 @section("content")
     @include("partials.header", ["title" => "Modifica Veicolo"])
-    <form
-        method="POST"
-        id="veicolo-form-modifica"
-        action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
-    >
-        {{ csrf_field() }}
+
         <div class="row">
+
             <div class="col-md-9">
+                <form
+                method="POST"
+                id="veicolo-form-modifica"
+                action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
+            >
+                {{ csrf_field() }}
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -296,7 +298,9 @@
                         </div>
                     </div>
                 </div>
+            </form>
             </div>
+
 
             <div class="col-md-3">
                 <div class="card card-mod">
@@ -322,9 +326,8 @@
                                                 <button
                                                     type="submit"
                                                     class="btn btn-danger btn-sm"
-                                                    form="form-delete-{{ $gv->id }}"
                                                 >
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    Elim.
                                                 </button>
                                             </form>
                                         </div>
@@ -345,7 +348,7 @@
                 </div>
             </div>
         </div>
-    </form>
+
     <div class="row">
         <div class="col-md-2">
             <my-modal
