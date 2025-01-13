@@ -324,7 +324,10 @@ Route::prefix('officina')->middleware('auth')->group(function () {
 });
 
 Route::prefix('patente')->middleware('auth')->group(function () {
-    Route::get('/', [PatenteController::class, 'scadenze'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
+    Route::get('/', [PatenteController::class, 'create'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.create');
+    Route::post('/', [PatenteController::class, 'store'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.store');
+
+    Route::get('/scadenze', [PatenteController::class, 'scadenze'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
     Route::get('/ricerca', [PatenteController::class, 'patente'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.ricerca');
 
     Route::get('/elenchi', [PatenteController::class, 'elenchi'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.elenchi');
@@ -338,7 +341,6 @@ Route::prefix('patente')->middleware('auth')->group(function () {
     Route::get('/search', [PatenteController::class, 'ricerca'])->name('patente.ricerca.conferma');
     Route::get('modifica/{id}', [PatenteController::class, 'modifica'])->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica');
     Route::get('elimina/{id}', [PatenteController::class, 'elimina'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
-    Route::get('inserimento', [PatenteController::class, 'inserimento'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento');
 });
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {

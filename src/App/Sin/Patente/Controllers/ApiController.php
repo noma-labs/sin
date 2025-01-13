@@ -288,7 +288,7 @@ final class ApiController
                     'msg' => 'Patente '.$p->numero_patente.' inserita correttamente',
                     'data' => [
                         'urlPatente' => route('patente.modifica', ['id' => $p->numero_patente]),
-                        'urlInserimento' => route('patente.inserimento'),
+                        'urlInserimento' => route('patente.create'),
                     ],
                 ], 201);
         }

@@ -19,6 +19,47 @@ use Spatie\Browsershot\Browsershot;
 
 final class PatenteController
 {
+    public function create()
+    {
+        $categorie = CategoriaPatente::all();
+        $persone = Persona::all();
+
+        return view('patente.create', compact('categorie', 'persone'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'persona_id' => 'required',
+            'numero_patente' => 'required',
+            'data_rilascio_patente' => 'required|date',
+            'data_scadenza_patente' => 'required|date|after:data_rilascio_patente',
+            'rilasciata_dal' => 'required',
+        ], [
+            'persona_id.required' => 'La persona è obbligatoria.',
+            'numero_patente.required' => 'Il numero patente è obbligatorio.',
+            'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria.',
+            'data_scadenza_patente.required' => 'La data di scadenza è obbligatoria.',
+            'rilasciata_dal.required' => "L'ente che ha rilasciato è obbligatorio.",
+            'data_scadenza_patente.after' => 'La data di scadenza deve essere successiva alla data di rilascio.',
+        ]);
+
+        $patente = new Patente();
+        $patente->persona_id = $request->input('persona_id');
+        $patente->numero_patente = $request->input('numero_patente');
+        $patente->data_rilascio_patente = $request->input('data_rilascio_patente');
+        $patente->data_scadenza_patente = $request->input('data_scadenza_patente');
+        $patente->rilasciata_dal = $request->input('rilasciata_dal');
+        $patente->note = $request->input('note');
+        $patente->stato = $request->input('assegnaCommissione') === 'on' ? 'commissione' : null;
+        $patente->save();
+
+        // $patente->categorie()->attach($body['categorie']);
+        // $patente->cqc()->attach($body['cqc']);
+
+        return redirect()->back()->withSuccess('Patente creata con successo.');
+    }
+
     public function scadenze()
     {
         $patenti = Patente::with('persona')->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
@@ -398,13 +439,5 @@ final class PatenteController
 
         return redirect(route('patente.ricerca'))->withErroe("Errore nell'aggiornament della patente $patente->numero_patente");
 
-    }
-
-    public function inserimento()
-    {
-        $categorie = CategoriaPatente::all();
-        $persone = Persona::all();
-
-        return view('patente.inserimento', compact('categorie', 'persone'));
     }
 }
