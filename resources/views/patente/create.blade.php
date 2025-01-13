@@ -6,7 +6,7 @@
     <form method="POST" action="{{ route("patente.store") }}">
         @csrf
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 offset-md-3">
                 <div class="row">
                     <div class="col-md-12">
                         <label for="numero_patente">Persona:</label>
