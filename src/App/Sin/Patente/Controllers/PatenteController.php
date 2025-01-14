@@ -21,14 +21,15 @@ final class PatenteController
 {
     public function create()
     {
-        $categorie = CategoriaPatente::all();
-        $persone = Persona::all();
+        $categorie = CategoriaPatente::orderby('categoria')->get();
+        $cqc = CQC::orderby('categoria')->get();
 
-        return view('patente.create', compact('categorie', 'persone'));
+        return view('patente.create', compact('categorie', 'cqc'));
     }
 
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'persona_id' => 'required',
             'numero_patente' => 'required',
@@ -54,8 +55,9 @@ final class PatenteController
         $patente->stato = $request->input('assegnaCommissione') === 'on' ? 'commissione' : null;
         $patente->save();
 
-        // $patente->categorie()->attach($body['categorie']);
-        // $patente->cqc()->attach($body['cqc']);
+        if
+        $patente->categorie()->attach($request->input('categorie'));
+        $patente->cqc()->attach($request->input('cqc'));
 
         return redirect()->back()->withSuccess('Patente creata con successo.');
     }
