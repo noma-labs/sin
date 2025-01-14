@@ -287,12 +287,19 @@
                                     </template>
 
                                     <template slot="modal-button">
-                                        <a
-                                            class="btn btn-danger"
-                                            href="{{ route("patente.elimina", $patente->numero_patente) }}"
+                                        <form
+                                            action="{{ route("patente.elimina", $patente->numero_patente) }}"
+                                            method="POST"
                                         >
-                                            Elimina
-                                        </a>
+                                            @csrf
+                                            @method("DELETE")
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger"
+                                            >
+                                                Elimina
+                                            </button>
+                                        </form>
                                     </template>
                                 </my-modal>
                             @endcan

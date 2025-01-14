@@ -29,10 +29,7 @@ Vue.component(
   "patente-modfica",
   require("./components/patente/patente-modifica.vue").default,
 );
-Vue.component(
-  "patente-inserimento",
-  require("./components/patente/patente-inserimento.vue").default,
-);
+
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from "vuejs-datepicker";
