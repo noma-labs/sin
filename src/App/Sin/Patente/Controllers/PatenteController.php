@@ -7,19 +7,11 @@ namespace App\Patente\Controllers;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
-use Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
-use Spatie\Browsershot\Browsershot;
 
 final class PatenteController
 {
-    public function scadenze()
+    public function index()
     {
         $patenti = Patente::with('persona')->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with('persona')->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
@@ -46,365 +38,101 @@ final class PatenteController
         ));
     }
 
-    public function elenchi()
-    {
-        return view('patente.elenchi');
-    }
-
-    public function esportaPatentiPdf(): void
-    {
-        dd('Esportazione non effettuata');
-    }
-
-    public function esportaPatentiExcel(): void
-    {
-        $data = Carbon::now();
-        $name = "Patenti-$data.xlsx";
-
-        $spreadsheet = new Spreadsheet;
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'COGNOME')
-            ->setCellValue('B1', 'NOME')
-            ->setCellValue('C1', 'DATA NASCITA')
-            ->setCellValue('D1', 'LUOGO NASCITA')
-            ->setCellValue('E1', 'N PATENTE')
-            ->setCellValue('F1', 'DATA RILASCIO')
-            ->setCellValue('G1', 'RILASCIATA DA')
-            ->setCellValue('H1', 'DATA SCADENZA')
-            ->setCellValue('I1', 'CATEGORIE');
-        // ->setCellValue('J1', 'STATO')
-        // ->setCellValue('K1', 'NOTE');
-        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-
-        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
-
-        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
-            return $product->persona->cognome;
-        });
-
-        $patenti = $patenti->map(function ($patente, $key): array {
-            return [$patente->persona->cognome,
-                $patente->persona->nome,
-                $patente->persona->data_nascita,
-                $patente->persona->provincia_nascita,
-                $patente->numero_patente,
-                $patente->data_rilascio_patente,
-                $patente->rilasciata_dal,
-                $patente->data_scadenza_patente,
-                $patente->categorieAsString(),
-            ];    // $patente->stato,
-            // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
-        });
-
-        $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), //->toArray(),  // The data to set
-            null, // Array values with this value will not be set
-            'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
-            // true
-        );
-        $spreadsheet->getActiveSheet()->getPageSetup()
-            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
-
-        // Redirect output to a client’s web browser (Xlsx)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$name.'"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-        // If you're serving to IE over SSL, then the following may be needed
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header('Pragma: public'); // HTTP/1.0
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save('php://output');
-    }
-
-    public function esportaCQCExcel(): void
-    {
-        $data = Carbon::now();
-        $name = "cqc-$data.xlsx";
-        $spreadsheet = new Spreadsheet;
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'COGNOME')
-            ->setCellValue('B1', 'NOME')
-            ->setCellValue('C1', 'DATA NASCITA')
-            ->setCellValue('D1', 'LUOGO NASCITA')
-            ->setCellValue('E1', 'N PATENTE')
-            ->setCellValue('F1', 'DATA RILASCIO CQC PERSONE')
-            ->setCellValue('G1', 'DATA SCADENZA CQC PERSONE')
-            ->setCellValue('H1', 'DATA RILASCIO CQC MERCI')
-            ->setCellValue('I1', 'DATA SCADENZA CQC MERCI');
-        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-
-        $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
-
-        $cqcPersone = Patente::with('persona')->has('cqc')->get()->sortBy(function ($product) {
-            return $product->persona->cognome;
-        });
-
-        $cqcPersone = $cqcPersone->map(function ($patente, $key): array {
-            return [$patente->persona->cognome,
-                $patente->persona->nome,
-                $patente->persona->data_nascita,
-                $patente->persona->provincia_nascita,
-                $patente->numero_patente,
-                // $patente->data_rilascio_patente,
-                // $patente->rilasciata_dal,
-                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-            ];
-        });
-
-        $spreadsheet->getActiveSheet()->fromArray(
-            $cqcPersone->toArray(), //->toArray(),  // The data to set
-            null, // Array values with this value will not be set
-            'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
-            // true
-        );
-
-        $spreadsheet->getActiveSheet()->getPageSetup()
-            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
-        $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
-
-        // Redirect output to a client’s web browser (Xlsx)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$name.'"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-        // If you're serving to IE over SSL, then the following may be needed
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header('Pragma: public'); // HTTP/1.0
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save('php://output');
-    }
-
-    public function stampaAutorizzatiPreview()
-    {
-        PopolazioneNomadelfia::take('id');
-        $presidente = Cariche::GetAssociazionePresidente();
-        $patentiAutorizzati = Patente::has('categorie')->get()
-            ->sortBy(function ($product) {
-                return $product->persona->nome;
-            });
-
-        return view('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
-
-    }
-
-    public function stampaAutorizzati(): \Symfony\Component\HttpFoundation\BinaryFileResponse
-    {
-        $date = Carbon::now()->format('Y-m-d_H-i-s');
-        $file_name = storage_path("autorizzati-$date.pdf");
-
-        Browsershot::url(route('patente.elenchi.autorizzati.esporta.preview'))
-            ->noSandbox()
-            ->format('A4')
-            ->timeout(2000)
-            ->margins(10, 20, 30, 40)
-            ->savePdf($file_name);
-
-        return response()->download($file_name)->deleteFileAfterSend();
-
-    }
-
-    public function autorizzatiEsportaExcel(): void
-    {
-        $data = Carbon::now();
-        $name = "Conducenti autorizzati $data.xlsx";
-
-        $spreadsheet = new Spreadsheet;
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'NOME')
-            ->setCellValue('B1', 'COGNOME')
-            ->setCellValue('C1', 'DATA NASCITA')
-            ->setCellValue('D1', 'CATEGORIE');
-
-        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
-            return $product->persona->nome;
-        });
-
-        //$patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
-        //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
-        //  });
-
-        $patenti = $patenti->map(function ($patente, $key): array {
-            return [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()];
-        });
-
-        $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), //->toArray(),  // The data to set
-            null, // Array values with this value will not be set
-            'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
-        );
-
-        // Redirect output to a client’s web browser (Xlsx)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$name.'"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-        // If you're serving to IE over SSL, then the following may be needed
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header('Pragma: public'); // HTTP/1.0
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save('php://output');
-
-    }
-
-    public function patente()
+    public function create()
     {
         $categorie = CategoriaPatente::orderby('categoria')->get();
-        $cqc = CQC::orderby('categoria')->get();
+        $cqcs = CQC::orderby('categoria')->get();
 
-        return view('patente.search', compact('categorie', 'cqc'));
+        return view('patente.create', compact('categorie', 'cqcs'));
     }
 
-    public function ricerca(Request $request)
-    {
-        // $persona = Persona::findorfail($request->input("persona_id"));
-        if (! $request->except(['_token'])) {
-            return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
-        }
-
-        $msgSearch = ' ';
-        $orderBy = 'numero_patente';
-        $queryPatenti = Patente::where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
-            if ($request->filled('persona_id')) {
-                $persona = $request->persona_id;
-                $q->where('persone_patenti.persona_id', $persona);
-                $nome = Persona::findorfail($persona)->nominativo;
-                $msgSearch = $msgSearch.'Persona='.$nome;
-
-            }
-            if ($request->filled('numero_patente')) {
-                $numero_patente = $request->numero_patente;
-                $q->where('numero_patente', 'LIKE', "$numero_patente%");
-                $msgSearch = $msgSearch.' numero_patente='.$numero_patente;
-            }
-            if ($request->filled('criterio_data_rilascio') and $request->filled('data_rilascio')) {
-                $q->where('data_rilascio_patente', $request->input('criterio_data_rilascio'), $request->input('data_rilascio'));
-                $msgSearch = $msgSearch.' Data Rilascio'.$request->input('criterio_data_rilascio').$request->input('data_rilascio');
-            }
-            if ($request->filled('criterio_data_scadenza') and $request->filled('data_scadenza')) {
-                $q->where('data_scadenza_patente', $request->input('criterio_data_scadenza'), $request->input('data_scadenza'));
-                $orderBy = 'data_scadenza_patente';
-                $msgSearch = $msgSearch.' Data scadenza'.$request->input('criterio_data_scadenza').$request->input('data_scadenza');
-            }
-            if ($request->filled('cqc_patente')) {
-                $cqc = $request->cqc_patente;
-                $q->whereHas('cqc', function ($q) use ($cqc, &$msgSearch, $request): void {
-                    $q->where('id', $cqc);
-                    if ($request->filled('criterio_cqc_data_scadenza') and $request->filled('cqc_data_scadenza')) {
-                        $q->where('data_scadenza', $request->input('criterio_cqc_data_scadenza'), $request->input('cqc_data_scadenza'));
-                        $msgSearch = $msgSearch.' data scadenza '.$request->input('criterio_cqc_data_scadenza').$request->input('cqc_data_scadenza');
-                    }
-                });
-
-                $nome = CQC::findorfail($cqc)->categoria;
-                $msgSearch = $msgSearch.' cqc='.$nome;
-            }
-            if ($request->filled('categoria_patente')) {
-                $categoria = $request->categoria_patente;
-                $q->whereHas('categorie', function ($q) use ($categoria): void {
-                    $q->where('id', $categoria);
-                });
-                $nome = CategoriaPatente::findorfail($categoria)->categoria;
-                $msgSearch = $msgSearch.' categoria='.$nome;
-            }
-        });
-        //$msgSearch=$msgSearch."order by: $orderBy";
-        $patenti = $queryPatenti->sortable($orderBy, 'asc')->paginate(25);
-
-        $categorie = CategoriaPatente::orderby('categoria')->get();
-        $cqc = CQC::orderby('categoria')->get();
-
-        return view('patente.search', compact('patenti', 'categorie', 'cqc', 'msgSearch'));
-    }
-
-    public function elimina($id)
-    {
-        if (Patente::destroy($id)) {
-            return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
-        }
-
-        return redirect()->route('patente.scadenze')->withError('Errore: Patente non eliminata.');
-
-    }
-
-    public function modifica($id)
-    {
-        $categorie = CategoriaPatente::all();
-        $patente = Patente::find($id); //->where('numero_patente', '=', $id); //->get();
-
-        return view('patente.modifica', compact('categorie', 'patente'));
-    }
-
-    public function confermaModifica(Request $request, $id)
+    public function store(Request $request)
     {
         $request->validate([
             'persona_id' => 'required',
             'numero_patente' => 'required',
-            'rilasciata_dal' => 'required',
             'data_rilascio_patente' => 'required|date',
-            'data_scadenza_patente' => 'required|date|after_or_equal:data_rilascio_patente',
+            'data_scadenza_patente' => 'required|date|after:data_rilascio_patente',
+            'rilasciata_dal' => 'required',
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'numero_patente.required' => 'Il numero patente è obbligatorio.',
-            'rilasciata_dal.required' => "L'ente he ha rilasciato è obbligatorio.",
-            'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria..',
+            'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria.',
             'data_scadenza_patente.required' => 'La data di scadenza è obbligatoria.',
+            'rilasciata_dal.required' => "L'ente che ha rilasciato è obbligatorio.",
         ]);
 
-        $patente = Patente::find($id);
-        $res = $patente->update(['rilasciata_dal' => request('rilasciata_dal'),
-            'numero_patente' => request('numero_patente'),
-            'data_rilascio_patente' => request('data_rilascio_patente'),
-            'data_scadenza_patente' => request('data_scadenza_patente'),
-            'note' => request('note'),
-        ]);
-        // $this->addCategoriaUpdate($request,$id);
-        if ($res === 1) {
-            return redirect(route('patente.ricerca'))->withSuccess("Patente $patente->numero_patente modificata con successo");
+        $patente = new Patente();
+        $patente->persona_id = $request->input('persona_id');
+        $patente->numero_patente = $request->input('numero_patente');
+        $patente->data_rilascio_patente = $request->input('data_rilascio_patente');
+        $patente->data_scadenza_patente = $request->input('data_scadenza_patente');
+        $patente->rilasciata_dal = $request->input('rilasciata_dal');
+        $patente->note = $request->input('note');
+        $patente->stato = $request->input('assegnaCommissione') === 'on' ? 'commissione' : null;
+        $patente->save();
+
+        $patente->refresh();
+
+        $patente->categorie()->attach($request->input('categorie'));
+
+        $syncData = [];
+        foreach ($request->cqc as $cqcId => $data) {
+            if (empty($data['id'])) {
+                continue;
+            }
+            if (! empty($data['data_scadenza'])) {
+                $syncData[$cqcId]['data_scadenza'] = $data['data_scadenza'];
+            }
+            if (! empty($data['data_rilascio'])) {
+                $syncData[$cqcId]['data_rilascio'] = $data['data_rilascio'];
+            }
         }
 
-        return redirect(route('patente.ricerca'))->withErroe("Errore nell'aggiornament della patente $patente->numero_patente");
+        $patente->cqc()->attach($syncData);
 
+        return redirect(route('patente.scadenze'))->withSuccess('Patente inserita con successo.');
     }
 
-    public function inserimento()
+    public function show(string $numero)
     {
         $categorie = CategoriaPatente::all();
-        $persone = Persona::all();
+        $cqcs = CQC::all();
+        $patente = Patente::with('categorie', 'cqc')->findorfail($numero);
 
-        return view('patente.inserimento', compact('categorie', 'persone'));
+        return view('patente.show', compact('categorie', 'cqcs', 'patente'));
+    }
+
+    public function update(Request $request, string $numero)
+    {
+        $request->validate([
+            'numero_patente' => 'required',
+            'data_rilascio_patente' => 'required|date',
+            'data_scadenza_patente' => 'required|date|after:data_rilascio_patente',
+            'rilasciata_dal' => 'required',
+        ], [
+            'numero_patente.required' => 'Il numero patente è obbligatorio.',
+            'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria.',
+            'data_scadenza_patente.required' => 'La data di scadenza è obbligatoria.',
+            'rilasciata_dal.required' => "L'ente che ha rilasciato è obbligatorio.",
+        ]);
+
+        $patente = Patente::findorfail($numero);
+        $patente->numero_patente = $request->input('numero_patente');
+        $patente->data_rilascio_patente = $request->input('data_rilascio_patente');
+        $patente->data_scadenza_patente = $request->input('data_scadenza_patente');
+        $patente->rilasciata_dal = $request->input('rilasciata_dal');
+        $patente->note = $request->input('note');
+        $patente->stato = $request->input('assegnaCommissione') === 'on' ? 'commissione' : null;
+        $patente->save();
+
+        return redirect(route('patente.visualizza', ['numero' => $patente->numero_patente]))->withSuccess('Patente aggiornata con successo.');
+    }
+
+    public function delete($numero)
+    {
+        Patente::destroy($numero);
+
+        return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
     }
 }

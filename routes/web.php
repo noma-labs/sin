@@ -48,7 +48,11 @@ use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
 use App\Officina\Controllers\VeicoliGommeController;
+use App\Patente\Controllers\PatenteCategorieController;
 use App\Patente\Controllers\PatenteController;
+use App\Patente\Controllers\PatenteCQCController;
+use App\Patente\Controllers\PatenteElenchiController;
+use App\Patente\Controllers\PatenteSearchController;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
@@ -324,21 +328,25 @@ Route::prefix('officina')->middleware('auth')->group(function () {
 });
 
 Route::prefix('patente')->middleware('auth')->group(function () {
-    Route::get('/', [PatenteController::class, 'scadenze'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
-    Route::get('/ricerca', [PatenteController::class, 'patente'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.ricerca');
+    Route::get('/search', [PatenteSearchController::class, 'searchView'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.ricerca');
+    Route::get('/search/confirm', [PatenteSearchController::class, 'search'])->name('patente.ricerca.conferma');
 
-    Route::get('/elenchi', [PatenteController::class, 'elenchi'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.elenchi');
-    Route::get('/elenchi/stampa', [PatenteController::class, 'stampaAutorizzati'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
-    Route::get('/elenchi/preview', [PatenteController::class, 'stampaAutorizzatiPreview'])->name('patente.elenchi.autorizzati.esporta.preview');
-    Route::get('/elenchi/esporta/excel', [PatenteController::class, 'autorizzatiEsportaExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
-    Route::get('/elenchi/patenti/pdf', [PatenteController::class, 'esportaPatentiPdf'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
-    Route::get('/elenchi/patenti/excel', [PatenteController::class, 'esportaPatentiExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
-    Route::get('/elenchi/cqc/excel', [PatenteController::class, 'esportaCQCExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.cqc.esporta.excel');
+    Route::get('/elenchi', [PatenteElenchiController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.elenchi');
+    Route::get('/elenchi/stampa', [PatenteElenchiController::class, 'stampaAutorizzati'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
+    Route::get('/elenchi/preview', [PatenteElenchiController::class, 'stampaAutorizzatiPreview'])->name('patente.elenchi.autorizzati.esporta.preview');
+    Route::get('/elenchi/esporta/excel', [PatenteElenchiController::class, 'autorizzatiEsportaExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
+    Route::get('/elenchi/patenti/pdf', [PatenteElenchiController::class, 'esportaPatentiPdf'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
+    Route::get('/elenchi/patenti/excel', [PatenteElenchiController::class, 'esportaPatentiExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
+    Route::get('/elenchi/cqc/excel', [PatenteElenchiController::class, 'esportaCQCExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.cqc.esporta.excel');
 
-    Route::get('/search', [PatenteController::class, 'ricerca'])->name('patente.ricerca.conferma');
-    Route::get('modifica/{id}', [PatenteController::class, 'modifica'])->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica');
-    Route::get('elimina/{id}', [PatenteController::class, 'elimina'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
-    Route::get('inserimento', [PatenteController::class, 'inserimento'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.inserimento');
+    Route::get('/', [PatenteController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
+    Route::get('/create', [PatenteController::class, 'create'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.create');
+    Route::post('/', [PatenteController::class, 'store'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.store');
+    Route::get('/{numero}', [PatenteController::class, 'show'])->middleware('can:scuolaguida.patente.modifica')->name('patente.visualizza');
+    Route::delete('/{numero}', [PatenteController::class, 'delete'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
+    Route::put('/{numero}', [PatenteController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.update');
+    Route::put('/{numero}/categorie', [PatenteCategorieController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.categorie.modifica');
+    Route::put('/{numero}/cqc', [PatenteCQCController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.cqc.modifica');
 });
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {

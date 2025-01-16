@@ -21,7 +21,7 @@
             Scadenze patenti
         </a>
         @can("scuolaguida.inserisci")
-            <a class="dropdown-item" href="{{ route("patente.inserimento") }}">
+            <a class="dropdown-item" href="{{ route("patente.create") }}">
                 Aggiungi patente
             </a>
         @endcan

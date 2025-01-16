@@ -11,10 +11,6 @@ Vue.config.devtools = true;
 // moment for date formatting
 window.moment = require("moment");
 
-// Add vuevaludate plugin for form validation
-const { validationMixin, default: Vuelidate } = require("vuelidate");
-Vue.use(Vuelidate);
-
 // global registration of components
 Vue.component("my-modal", require("./components/my-modal.vue").default);
 
@@ -22,16 +18,6 @@ Vue.component("my-modal", require("./components/my-modal.vue").default);
 Vue.component(
   "search-collocazione",
   require("./components/libro-collocazione-autocomplete.vue").default,
-);
-
-// Patente components
-Vue.component(
-  "patente-modfica",
-  require("./components/patente/patente-modifica.vue").default,
-);
-Vue.component(
-  "patente-inserimento",
-  require("./components/patente/patente-inserimento.vue").default,
 );
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
