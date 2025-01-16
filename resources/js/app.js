@@ -11,10 +11,6 @@ Vue.config.devtools = true;
 // moment for date formatting
 window.moment = require("moment");
 
-// Add vuevaludate plugin for form validation
-const { validationMixin, default: Vuelidate } = require("vuelidate");
-Vue.use(Vuelidate);
-
 // global registration of components
 Vue.component("my-modal", require("./components/my-modal.vue").default);
 
