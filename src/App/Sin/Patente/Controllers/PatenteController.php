@@ -8,7 +8,6 @@ use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 final class PatenteController
 {
@@ -133,6 +132,7 @@ final class PatenteController
     public function delete($numero)
     {
         Patente::destroy($numero);
+
         return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
     }
 }

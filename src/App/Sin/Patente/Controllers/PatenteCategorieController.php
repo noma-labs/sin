@@ -7,9 +7,7 @@ namespace App\Patente\Controllers;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 final class PatenteCategorieController
 {

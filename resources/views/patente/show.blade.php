@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-6">
             <form
-                action="{{ route("patente.update", ["numero"=>$patente->numero_patente]) }}"
+                action="{{ route("patente.update", ["numero" => $patente->numero_patente]) }}"
                 method="POST"
                 id="edit-patente"
             >
