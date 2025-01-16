@@ -193,14 +193,14 @@
                             <td>{{ $patente->data_scadenza_patente }}</td>
                             <td>{{ $patente->categorieAsString() }}</td>
                             <td>
-                                @if ($patente->hasCqcMerci())
+                                @if ($patente->cqcMerci() !== null)
                                     {{ $patente->cqcMerci()->pivot->data_scadenza }}
                                 @else
                                         ---
                                 @endif
                             </td>
                             <td>
-                                @if ($patente->hasCqcPersone())
+                                @if ($patente->cqcPersone() !== null)
                                     {{ $patente->cqcPersone()->pivot->data_scadenza }}
                                 @else
                                         ---
@@ -212,12 +212,12 @@
                                     role="group"
                                     aria-label="Basic example"
                                 >
-                                    @can("scuolaguida.modifica")
+                                    @can("scuolaguida.visualizza")
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("patente.modifica", $patente->numero_patente) }}"
+                                            href="{{ route("patente.visualizza", $patente->numero_patente) }}"
                                         >
-                                            Modifica
+                                            Dettaglio
                                         </a>
                                     @endcan
 

@@ -30,7 +30,6 @@ Vue.component(
   require("./components/patente/patente-modifica.vue").default,
 );
 
-
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from "vuejs-datepicker";
 // set the language fo all the date-picker component

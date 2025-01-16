@@ -48,7 +48,9 @@ use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\VeicoliController;
 use App\Officina\Controllers\VeicoliGommeController;
+use App\Patente\Controllers\PatenteCategorieController;
 use App\Patente\Controllers\PatenteController;
+use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -340,9 +342,11 @@ Route::prefix('patente')->middleware('auth')->group(function () {
     Route::get('/', [PatenteController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
     Route::get('/create', [PatenteController::class, 'create'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.create');
     Route::post('/', [PatenteController::class, 'store'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.store');
-    Route::get('/{id}', [PatenteController::class, 'edit'])->middleware('can:scuolaguida.patente.modifica')->name('patente.modifica');
-    Route::delete('/{id}', [PatenteController::class, 'delete'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
-
+    Route::get('/{numero}', [PatenteController::class, 'show'])->middleware('can:scuolaguida.patente.modifica')->name('patente.visualizza');
+    Route::delete('/{numero}', [PatenteController::class, 'delete'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
+    Route::put('/{numero}', [PatenteController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.update');
+    Route::put('/{numero}/categorie', [PatenteCategorieController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.categorie.modifica');
+    Route::put('/{numero}/cqc', [PatenteCQCController::class, 'update'])->middleware('can:scuolaguida.patente.modifica')->name('patente.cqc.modifica');
 });
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {

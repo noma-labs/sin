@@ -94,78 +94,47 @@
                 </div>
                 <div class="row form-group">
                     <div class="form-group col-md-12">
-                        <label for="">C.Q.C:</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <input
-                                    class="form-check-input"
-                                    name="cqc_persone"
-                                    type="checkbox"
-                                    id="cqc_persone"
-                                    value="on"
-                                />
-                                <label
-                                    class="form-check-label"
-                                    for="cqc_persone"
-                                >
-                                    C.Q.C. PERSONE
-                                </label>
+                        <div><label for="">C.Q.C:</label></div>
+                        @foreach ($cqcs as $cqc)
+                            <div class="form-check-inline">
+                                <div class="col-md-4">
+                                    <input
+                                        class="form-check-input"
+                                        name="cqc[{{ $cqc->id }}][id]"
+                                        type="checkbox"
+                                        id="{{ $cqc->id }}"
+                                        value="{{ $cqc->id }}"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="{{ $cqc->id }}"
+                                    >
+                                        {{ $cqc->categoria }}
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Rilasciata il:</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        name="cqc[{{ $cqc->id }}][data_rilascio]"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Valida fino al:</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        name="cqc[{{ $cqc->id }}][data_scadenza]"
+                                    />
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <label>Rilasciata il:</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    name="cqc_persone_data_rilascio"
-                                    value="{{ old("cqc_persone_data_rilascio") }}"
-                                />
-                            </div>
-                            <div class="col-md-4">
-                                <label>Valida fino al:</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    name="cqc_persone_data_scadenza"
-                                    value="{{ old("cqc_persone_data_scadenza") }}"
-                                />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <input
-                                    class="form-check-input"
-                                    name="cqc_merci"
-                                    type="checkbox"
-                                    id="cqc_merci"
-                                    value="on"
-                                />
-                                <label class="form-check-label" for="cqc_merci">
-                                    C.Q.C. MERCI
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Rilasciata il:</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    name="cqc_merci_data_rilascio"
-                                    value="{{ old("cqc_merci_data_rilascio") }}"
-                                />
-                            </div>
-                            <div class="col-md-4">
-                                <label>Valida fino al:</label>
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    name="cqc_merci_data_scadenza"
-                                    value="{{ old("cqc_merci_data_scadenza") }}"
-                                />
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
+                        <div><label for="">Commisione</label></div>
                         <div class="form-check">
                             <input
                                 class="form-check-input"

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Patente\Models;
 
-use App\Traits\SortableTrait;
-use Carbon;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 final class CQC extends Model
 {
-    use SortableTrait;
-
     public $timestamps = false;
 
     protected $connection = 'db_patente';
@@ -48,11 +45,6 @@ final class CQC extends Model
         return $query->where('id', 17)->first();
     }
 
-    /**
-     * Ritorna le patenti che scadono entro $days giorni
-     *
-     * @param  int  $days  :numero di giorni entro il quale le patenti scadono.
-     */
     public function scopeinScadenza($query, $days): BelongsToMany
     {
         $data = Carbon::now()->addDays($days)->toDateString();
@@ -63,11 +55,6 @@ final class CQC extends Model
             ->wherePivot('data_scadenza', '>=', Carbon::now()->toDateString());
     }
 
-    /**
-     * Ritorna le patenti con C.Q.C che non sono in scadenza da $days giorni in poi.
-     *
-     * @param  int  $days  : numero di giorni entro il quale le patenti scadono.
-     */
     public function scopeNonInScadenza($query, int $days): BelongsToMany
     {
         $data = Carbon::now()->addDays($days)->toDateString();
@@ -78,12 +65,6 @@ final class CQC extends Model
 
     }
 
-    /**
-     * Ritorna le patenti con C.Q.C scadeute.
-     * Se $days è null ritorna tutte le patenti scadute, altimenti solo quelle scadute d $days giorni.
-     *
-     * @param  int  $days  : numero di giorni | null
-     */
     public function scadute($days = null): BelongsToMany
     {
         if ($days !== null) {
