@@ -24,11 +24,6 @@ Vue.component(
   require("./components/libro-collocazione-autocomplete.vue").default,
 );
 
-// Patente components
-Vue.component(
-  "patente-modfica",
-  require("./components/patente/patente-modifica.vue").default,
-);
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from "vuejs-datepicker";
