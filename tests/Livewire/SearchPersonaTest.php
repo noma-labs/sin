@@ -24,7 +24,6 @@ it('can search persone', function (): void {
         ->assertSee('Altro Cliente');
 });
 
-
 it('can dispatch event', function (): void {
     $p = Persona::factory()->create(['nominativo' => 'a-person']);
 

@@ -38,15 +38,13 @@
                 <div class="row">
                     <div class="col-md-8">
                         <label class="form-label">Collocazione -lettere</label>
-                        <livewire:search-collocazione
-                            name_input="lettere"
-                            multiple="true"
-                        />
+                        <livewire:search-collocazione-lettere />
                     </div>
                     <div class="col-md-4">
                         <livewire:search-collocazione-numeri
                             :show-free="false"
                             :show-next="false"
+                            name="xCollocazione"
                         />
                     </div>
                 </div>

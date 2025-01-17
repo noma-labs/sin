@@ -46,11 +46,19 @@ final class SearchCollocazioneNumeri extends Component
         $this->letters = $option;
         if ($option === 'SENZA_COLLOCAZIONE') {
             $this->collocazione = 'null';
-
             return;
         }
 
-        $this->busy = ViewCollocazione::numeri($this->letters)->get()->pluck('numeri')->toArray();
+        if ($option === 'null') {
+            $this->collocazione = 'null';
+            return;
+        }
+
+        $num = ViewCollocazione::numeri($this->letters)->get();
+        if ($num->isEmpty()) {
+            return;
+        }
+        $this->busy = $num->pluck('numeri')->toArray();
         $max = ViewCollocazione::MaxForLettere($this->letters);
         $arr2 = range(1, $max);
         $this->free = array_diff($arr2, $this->busy);

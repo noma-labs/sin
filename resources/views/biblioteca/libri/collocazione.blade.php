@@ -71,7 +71,7 @@
                  <div class="row">
                     <div class="col-md-8">
                         <label class="form-label">Collocazione -lettere</label>
-                        <livewire:search-collocazione>
+                        <livewire:search-collocazione-lettere>
                     </div>
                     <div class="col-md-4">
                         <livewire:search-collocazione-numeri

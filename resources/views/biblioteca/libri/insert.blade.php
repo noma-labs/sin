@@ -11,16 +11,17 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8">
-                                <label class="form-label">Collocazione -lettere</label>
-                                <livewire:search-collocazione
-                                    name_input="lettere"
-                                />
+                                <label class="form-label">
+                                    Collocazione -lettere
+                                </label>
+                                <livewire:search-collocazione-lettere/>
                             </div>
                             <div class="col-md-4">
                                 <livewire:search-collocazione-numeri
                                     :show-free="true"
                                     :show-busy="false"
                                     :show-next="true"
+                                    name="xCollocazione"
                                 />
                             </div>
                         </div>

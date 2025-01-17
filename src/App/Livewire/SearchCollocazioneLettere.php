@@ -6,7 +6,7 @@ namespace App\Livewire;
 
 use App\Biblioteca\Models\ViewCollocazione;
 
-final class SearchCollocazione extends Autocomplete
+final class SearchCollocazioneLettere extends Autocomplete
 {
     public function searchBy(string $term): array
     {
