@@ -9,12 +9,21 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
-                        <search-collocazione
-                            title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                            url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                            numeri-required="true"
-                            numeri-assegnati="false"
-                        ></search-collocazione>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="form-label">Collocazione -lettere</label>
+                                <livewire:search-collocazione
+                                    name_input="lettere"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <livewire:search-collocazione-numeri
+                                    :show-free="true"
+                                    :show-busy="false"
+                                    :show-next="true"
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="xTitolo" class="control-label">

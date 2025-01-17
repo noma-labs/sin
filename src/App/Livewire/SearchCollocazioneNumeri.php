@@ -29,11 +29,15 @@ final class SearchCollocazioneNumeri extends Component
 
     public bool $showNext;
 
-    final public function mount(bool $showBusy = true, bool $showFree = true, bool $showNext = true): void
+    public string $name;
+
+    final public function mount(bool $showBusy = true, bool $showFree = true, bool $showNext = true, string $name = 'xCollocazione'): void
     {
         $this->showBusy = $showBusy;
         $this->showFree = $showFree;
         $this->showNext = $showNext;
+
+        $name = $name;
     }
 
     #[On('option-selected')]
@@ -92,7 +96,7 @@ final class SearchCollocazioneNumeri extends Component
         return <<<'HTML'
         <div class="form-group">
             <label class="form-label">Numeri(*)</label>
-            <input type="hidden" name="xCollocazione" value="{{ $collocazione }}">
+            <input type="hidden" name="{{$name}}" value="{{ $collocazione }}">
             <select class="form-control" wire:model.live="numero">
                 <!-- HACK: use value="0" to force the select to show this option instaed of the numero =     -->
                 <option value="0" selected>

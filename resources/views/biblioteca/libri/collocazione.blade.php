@@ -32,7 +32,7 @@
                                     <strong>{{ $autore->autore }}</strong>
                                 @endif
                             @empty
-                                <strong>Neesun autore</strong>
+                                <strong>Nessun autore</strong>
                             @endforelse
                         </p>
                         <p>
@@ -68,15 +68,20 @@
 
             <div class="col-md-6">
                 <h2>Scegli nuova collocazione</h2>
-                <search-collocazione
-                    url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                    numeri-required="true"
-                    numeri-assegnati="true"
-                ></search-collocazione>
-
-                <livewire:search-collocazione multiple="true" />
-
-                <livewire:search-collocazione-numeri />
+                 <div class="row">
+                    <div class="col-md-8">
+                        <label class="form-label">Collocazione -lettere</label>
+                        <livewire:search-collocazione>
+                    </div>
+                    <div class="col-md-4">
+                        <livewire:search-collocazione-numeri
+                            :show-free="false"
+                            :show-busy="true"
+                            :show-next="true"
+                            name="xCollocazione"
+                        />
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">

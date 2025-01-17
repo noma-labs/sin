@@ -35,13 +35,6 @@
     @else
         <div class="row">
             <div class="col-md-6">
-                <search-collocazione
-                    title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere"
-                    url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                    numeri-required="false"
-                    numeri-mancanti="false"
-                    numero-nuovo="false"
-                ></search-collocazione>
                 <div class="row">
                     <div class="col-md-8">
                         <label class="form-label">Collocazione -lettere</label>

@@ -29,7 +29,7 @@ it('can dispatch event', function (): void {
     $p = Persona::factory()->create(['nominativo' => 'a-person']);
 
     Livewire::test(SearchPersona::class)
-        ->call('search', 'test')
+        ->call('search', 'a-person')
         ->call('select', $p->id)
         ->assertDispatched('option-selected');
 });
