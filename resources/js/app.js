@@ -1,15 +1,10 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 require("./bootstrap");
+
 import Vue from "vue";
 window.Vue = Vue; //this is important! Do not use require('vue')
 Vue.config.devtools = true;
 
 
-// global registration of components
 Vue.component("my-modal", require("./components/my-modal.vue").default);
 
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
