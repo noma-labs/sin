@@ -14,7 +14,7 @@
                                 <label class="form-label">
                                     Collocazione -lettere
                                 </label>
-                                <livewire:search-collocazione-lettere/>
+                                <livewire:search-collocazione-lettere />
                             </div>
                             <div class="col-md-4">
                                 <livewire:search-collocazione-numeri
