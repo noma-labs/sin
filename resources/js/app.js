@@ -8,8 +8,6 @@ import Vue from "vue";
 window.Vue = Vue; //this is important! Do not use require('vue')
 Vue.config.devtools = true;
 
-// moment for date formatting
-window.moment = require("moment");
 
 // global registration of components
 Vue.component("my-modal", require("./components/my-modal.vue").default);

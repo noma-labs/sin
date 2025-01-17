@@ -20,7 +20,6 @@
         "jquery-ui": "^1.12.1",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.5",
-        "moment": "^2.22.2",
         "popper.js": "^1.13.0",
         "puppeteer": "^20.7.3",
         "resolve-url-loader": "^5.0.0",
