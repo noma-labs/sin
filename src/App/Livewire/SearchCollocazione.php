@@ -10,13 +10,11 @@ final class SearchCollocazione extends Autocomplete
 {
     public function searchBy(string $term): array
     {
-        $collocazioni = ViewCollocazione::lettere()
-                ->where('lettere', 'LIKE', $term.'%')
-                ->get();
+        $collocazioni = ViewCollocazione::lettere()->where('lettere', 'LIKE', $term.'%')->get();
 
-        $options = [];
+        $options = [new Option('SENZA_COLLOCAZIONE', 'SENZA COLLOCAZIONE')];
         foreach ($collocazioni as $colloc) {
-            $options[] = new Option($colloc->lettere , $colloc->lettere);
+            $options[] = new Option($colloc->lettere, $colloc->lettere);
         }
 
         return $options;
@@ -31,7 +29,7 @@ final class SearchCollocazione extends Autocomplete
 
         $selected = [];
         foreach ($collocazioni as $colloc) {
-            $options[] = new Option($colloc->lettere , $colloc->lettere);
+            $options[] = new Option($colloc->lettere, $colloc->lettere);
         }
 
         return $selected;

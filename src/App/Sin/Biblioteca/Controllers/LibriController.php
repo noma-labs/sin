@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\DB;
 
 final class LibriController
 {
-
     public function showSearchLibriForm()
     {
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();

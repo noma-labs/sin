@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Biblioteca\Feature;
 
+use App\Biblioteca\Controllers\LibriCollocazioneController;
 use App\Biblioteca\Controllers\LibriController;
 use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
@@ -59,7 +60,7 @@ it('will edit the physical location when the admin is logged in', function (): v
         ->create();
 
     $new = 'AAA002';
-    $sendRequest = fn () => post(action([LibriController::class, 'updateCollocazione'], $book->id), [
+    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'updateCollocazione'], $book->id), [
         'xCollocazione' => $new,
     ]);
 
@@ -82,7 +83,7 @@ it('will swap the physical location of two books when the admin is logged in', f
         ->physicalPlacement('AAA100')
         ->create();
 
-    $sendRequest = fn () => post(action([LibriController::class, 'confirmCollocazione'], $book1->id), [
+    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'confirmCollocazione'], $book1->id), [
         'idTarget' => $book2->id,
     ]);
 
