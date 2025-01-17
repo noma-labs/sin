@@ -36,8 +36,7 @@ final class SearchCollocazioneNumeri extends Component
         $this->showBusy = $showBusy;
         $this->showFree = $showFree;
         $this->showNext = $showNext;
-
-        $name = $name;
+        $this->name = $name;
     }
 
     #[On('option-selected')]

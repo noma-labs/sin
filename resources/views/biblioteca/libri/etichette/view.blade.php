@@ -133,7 +133,9 @@
 
                         <div class="row">
                             <div class="col-md-8">
-                                <label class="form-label">Collocazione -lettere</label>
+                                <label class="form-label">
+                                    Collocazione -lettere
+                                </label>
                                 <livewire:search-collocazione-lettere />
                             </div>
                             <div class="col-md-4">
@@ -150,8 +152,10 @@
 
                         <div class="row">
                             <div class="col-md-8">
-                                <label class="form-label">Collocazione -lettere</label>
-                                <livewire:search-collocazione-lettere/>
+                                <label class="form-label">
+                                    Collocazione -lettere
+                                </label>
+                                <livewire:search-collocazione-lettere />
                             </div>
                             <div class="col-md-4">
                                 <livewire:search-collocazione-numeri
