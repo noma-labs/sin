@@ -42,7 +42,17 @@
                     numeri-mancanti="false"
                     numero-nuovo="false"
                 ></search-collocazione>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="form-label">Collocazione -lettere</label>
+                        <livewire:search-collocazione multiple="true"/>
+                    </div>
+                    <div class="col-md-4">
+                        <livewire:search-collocazione-numeri :show-free="false" :show-next="false"/>
+                    </div>
+                </div>
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="xTitolo" class="control-label">Titolo</label>

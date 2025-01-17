@@ -32,7 +32,7 @@
                                     <strong>{{ $autore->autore }}</strong>
                                 @endif
                             @empty
-                                <strong>{{ $libro->AUTORE }}</strong>
+                                <strong> Neesun autore </strong>
                             @endforelse
                         </p>
                         <p>
@@ -45,14 +45,20 @@
                                     <strong>{{ $editore->editore }}</strong>
                                 @endif
                             @empty
-                                <strong>{{ $libro->EDITORE }}</strong>
+                                <strong> Neesun editore </strong>
                             @endforelse
                         </p>
                         <p>
                             classificazione:
+                            @if ($libro->classificazione)
+                                <strong>
+                                    {{ $libro->classificazione->descrizione }}
+                                </strong>
+                           @else
                             <strong>
-                                {{ $libro->classificazione->descrizione }}
+                                Nessuna classificazione
                             </strong>
+                            @endif
                         </p>
                         <p>
                             Note:
@@ -69,6 +75,13 @@
                     numeri-required="true"
                     numeri-assegnati="true"
                 ></search-collocazione>
+
+                <livewire:search-collocazione multiple="true"/>
+
+
+
+                <livewire:search-collocazione-numeri/>
+
 
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">
