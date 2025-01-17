@@ -14,12 +14,6 @@ window.moment = require("moment");
 // global registration of components
 Vue.component("my-modal", require("./components/my-modal.vue").default);
 
-// Biblioteca components
-Vue.component(
-  "search-collocazione",
-  require("./components/libro-collocazione-autocomplete.vue").default,
-);
-
 // add DatePicker components https://github.com/charliekassel/vuejs-datepicker
 import Datepicker from "vuejs-datepicker";
 // set the language fo all the date-picker component

@@ -130,26 +130,43 @@
                     >
                         {{ csrf_field() }}
                         <h5>Dalla collocazione:</h5>
-                        <search-collocazione
-                            title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                            name="fromCollocazione"
-                            url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                            numeri-required="true"
-                            numero-nuovo="false"
-                            numeri-mancanti="false"
-                            numeri-assegnati="true"
-                        ></search-collocazione>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="form-label">
+                                    Collocazione -lettere
+                                </label>
+                                <livewire:search-collocazione-lettere />
+                            </div>
+                            <div class="col-md-4">
+                                <livewire:search-collocazione-numeri
+                                    :show-free="false"
+                                    :show-busy="true"
+                                    :show-next="false"
+                                    name="fromCollocazione"
+                                />
+                            </div>
+                        </div>
 
                         <h5>Fino collocazione:</h5>
-                        <search-collocazione
-                            title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                            name="toCollocazione"
-                            url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                            numeri-required="true"
-                            numero-nuovo="false"
-                            numeri-mancanti="false"
-                            numeri-assegnati="true"
-                        ></search-collocazione>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="form-label">
+                                    Collocazione -lettere
+                                </label>
+                                <livewire:search-collocazione-lettere />
+                            </div>
+                            <div class="col-md-4">
+                                <livewire:search-collocazione-numeri
+                                    :show-free="false"
+                                    :show-busy="true"
+                                    :show-next="false"
+                                    name="toCollocazione"
+                                />
+                            </div>
+                        </div>
+
                         <button
                             class="btn btn-success my-2"
                             name="action"

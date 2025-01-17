@@ -41,13 +41,20 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <search-collocazione
-                    placeholder="Ins. lettere..."
-                    url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                    name="collocazione"
-                    numeri-mancanti="false"
-                    numero-nuovo="false"
-                ></search-collocazione>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="form-label">Collocazione -lettere</label>
+                        <livewire:search-collocazione-lettere />
+                    </div>
+                    <div class="col-md-4">
+                        <livewire:search-collocazione-numeri
+                            :show-free="false"
+                            :show-busy="true"
+                            :show-next="false"
+                            name="collocazione"
+                        />
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <label class="control-label">Titolo</label>

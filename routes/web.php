@@ -12,6 +12,7 @@ use App\Biblioteca\Controllers\AutoriController;
 use App\Biblioteca\Controllers\ClassificazioniController;
 use App\Biblioteca\Controllers\EditoriController;
 use App\Biblioteca\Controllers\EtichetteController;
+use App\Biblioteca\Controllers\LibriCollocazioneController;
 use App\Biblioteca\Controllers\LibriController;
 use App\Biblioteca\Controllers\LibriPrestitiController;
 use App\Biblioteca\Controllers\VideoController;
@@ -237,9 +238,10 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->withoutMiddleware('auth')->name('libri.ricerca.submit');
     Route::get('etichette/preview', [EtichetteController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
 
-    Route::get('libri/{idLibro}/collocazione', [LibriController::class, 'showEditCollocazioneForm'])->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
-    Route::post('libri/{idLibro}/collocazione/update', [LibriController::class, 'updateCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update');
-    Route::post('libri/{idLibro}/confirm', [LibriController::class, 'confirmCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update.confirm');
+    Route::get('libri/{idLibro}/collocazione', [LibriCollocazioneController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
+    Route::post('libri/{idLibro}/collocazione/update', [LibriCollocazioneController::class, 'updateCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update');
+    Route::post('libri/{idLibro}/confirm', [LibriCollocazioneController::class, 'confirmCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update.confirm');
+
     Route::get('libri/inserimento', [LibriController::class, 'showInsertLibroForm'])->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci');
     Route::post('libri/inserimento', [LibriController::class, 'insertConfirm'])->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci.Confirm');
 

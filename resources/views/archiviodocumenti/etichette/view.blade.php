@@ -129,26 +129,9 @@
                         <label>Collocazione</label>
                         <input type="text" name="fromCollocazione" />
 
-                        <!-- <search-collocazione title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                                    name="fromCollocazione"
-                                    url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                                    numeri-required="true"
-                                    numero-nuovo="false"
-                                    numeri-mancanti="false"
-                                    numeri-assegnati="true">
-               </search-collocazione> -->
-
                         <h5>Fino alla collocazione:</h5>
                         <label>Collocazione</label>
                         <input type="text" name="toCollocazione" />
-                        <!-- <search-collocazione title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                                 name="toCollocazione"
-                                 url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                                 numeri-required="true"
-                                 numero-nuovo="false"
-                                 numeri-mancanti="false"
-                                 numeri-assegnati="true">
-            </search-collocazione> -->
                         <button
                             class="btn btn-success my-2"
                             name="action"

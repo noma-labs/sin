@@ -51,6 +51,31 @@ parameters:
 			path: src/App/Livewire/FilterAlunno.php
 
 		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneLettere.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneNumeri.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:numeri\\(\\)\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneNumeri.php
+
+		-
+			message: "#^Method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneNumeri.php
+
+		-
+			message: "#^Static call to instance method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneNumeri.php
+
+		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:presenteByNomeCognomeNominativo\\(\\)\\.$#"
 			count: 1
 			path: src/App/Livewire/SearchPopolazione.php
@@ -341,17 +366,42 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$idTarget\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:withWarning\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
+
+		-
 			message: "#^Access to an undefined property App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:\\$id\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$idTarget\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
@@ -377,7 +427,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
-			count: 3
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
@@ -426,18 +476,13 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\View\\\\Factory\\|Illuminate\\\\Contracts\\\\View\\\\View\\:\\:withWarning\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
 			count: 4
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 9
+			count: 6
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
@@ -472,16 +517,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
-			count: 10
+			count: 6
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:sortable\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:where\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
@@ -1631,52 +1671,47 @@ parameters:
 			path: src/App/Sin/Officina/Models/Prenotazioni.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Patente\\\\Models\\\\Patente\\:\\:\\$numero_patente\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cqc\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCQCController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$term\\.$#"
-			count: 2
-			path: src/App/Sin/Patente/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CQC\\:\\:orderby\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCQCController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:orderby\\(\\)\\.$#"
-			count: 2
-			path: src/App/Sin/Patente/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
-			count: 2
-			path: src/App/Sin/Patente/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:select\\(\\)\\.$#"
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:findorfail\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCQCController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:where\\(\\)\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$categorie\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCategorieController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\ViewClientiConSenzaPatente\\:\\:SenzaPatente\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCategorieController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\ViewClientiConSenzaPatente\\:\\:where\\(\\)\\.$#"
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:whereNotIn\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Patente/Controllers/ApiController.php
+			path: src/App/Sin/Patente/Controllers/PatenteCategorieController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:findorfail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteCategorieController.php
 
 		-
 			message: "#^Access to an undefined property App\\\\Patente\\\\Models\\\\Patente\\:\\:\\$numero_patente\\.$#"
+			count: 1
+			path: src/App/Sin/Patente/Controllers/PatenteController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cqc\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
@@ -1697,7 +1732,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\:\\:withSuccess\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
 		-
@@ -1717,11 +1752,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\CategoriaPatente\\:\\:orderby\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Controllers/PatenteController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Patente\\\\Models\\\\Patente\\:\\:find\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteController.php
 
@@ -1844,26 +1874,6 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findorfail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Patente/Controllers/PatenteSearchController.php
-
-		-
-			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
-			count: 6
-			path: src/App/Sin/Patente/Models/CQC.php
-
-		-
-			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
-			count: 4
-			path: src/App/Sin/Patente/Models/CategoriaPatente.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:count\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Patente/Models/Patente.php
-
-		-
-			message: "#^Call to static method now\\(\\) on an unknown class Carbon\\.$#"
-			count: 6
-			path: src/App/Sin/Patente/Models/Patente.php
 
 		-
 			message: "#^Method App\\\\Rtn\\\\Video\\\\VideoQueryBuilder\\:\\:byYear\\(\\) should return App\\\\Rtn\\\\Video\\\\VideoQueryBuilder but returns Illuminate\\\\Database\\\\Query\\\\Builder\\.$#"
