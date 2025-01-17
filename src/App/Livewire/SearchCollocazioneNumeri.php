@@ -46,11 +46,13 @@ final class SearchCollocazioneNumeri extends Component
         $this->letters = $option;
         if ($option === 'SENZA_COLLOCAZIONE') {
             $this->collocazione = 'null';
+
             return;
         }
 
         if ($option === 'null') {
             $this->collocazione = 'null';
+
             return;
         }
 
