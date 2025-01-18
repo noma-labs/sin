@@ -3,8 +3,10 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Gruppi Familiari"])
 
+
     @foreach (collect($g)->chunk(3) as $chunk)
         <div class="row">
+
             @foreach ($chunk as $gruppo)
                 <div class="col-md-4 my-1">
                     <div id="accordion">

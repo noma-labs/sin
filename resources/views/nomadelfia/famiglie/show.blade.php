@@ -38,11 +38,7 @@
                                     Inserire la data di uscita della famiglia
                                     {{ $famiglia->nome_famiglia }}
                                 </p>
-                                <date-picker
-                                    :bootstrap-styling="true"
-                                    format="yyyy-MM-dd"
-                                    name="data_uscita"
-                                ></date-picker>
+                                <input class="form-control" type="date" name="data_uscita" />
                             </form>
                         </template>
                         <template slot="modal-button">

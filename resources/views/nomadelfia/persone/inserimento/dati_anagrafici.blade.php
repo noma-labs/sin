@@ -61,12 +61,7 @@
                         Data di Nascita:
                     </label>
                     <div class="col-sm-6">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            value="{{ old("data_nascita") }}"
-                            format="yyyy-MM-dd"
-                            name="data_nascita"
-                        ></date-picker>
+                        <input class="form-control" type="date" name="data_nascita" value="{{ old("data_nascita") }}" />
                     </div>
                 </div>
                 <div class="form-group row">

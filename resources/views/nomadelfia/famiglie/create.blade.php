@@ -49,12 +49,7 @@
                         Data matrimonio
                     </label>
                     <div class="col-md-6">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            value="{{ old("data_matrimonio") }}"
-                            format="yyyy-MM-dd"
-                            name="data_matrimonio"
-                        ></date-picker>
+                        <input class="form-control" type="date" name="data_matrimonio"  value="{{ old("data_matrimonio") }}"/>
                     </div>
                 </div>
                 <div class="row">
