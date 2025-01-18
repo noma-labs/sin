@@ -30,12 +30,7 @@
                     Data creazione famiglia:
                 </label>
                 <div class="col-8">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ $famiglia->data_creazione }}"
-                        format="yyyy-MM-dd"
-                        name="data_creazione"
-                    ></date-picker>
+                    <input type="date" name="data_creazione" value="{{ $famiglia->data_creazione }}" />
                 </div>
             </div>
         </form>

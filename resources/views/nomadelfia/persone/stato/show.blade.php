@@ -64,12 +64,7 @@
                                                     Data inizio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $persona->statoAttuale()->pivot->data_inizio }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_inizio"
-                                                    ></date-picker>
+                                                    <input type="date" name="data_inizio" value="{{ $persona->statoAttuale()->pivot->data_inizio }}" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -80,12 +75,7 @@
                                                     Data fine Stato
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $persona->statoAttuale()->pivot->data_fine }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_fine"
-                                                    ></date-picker>
+                                                    <input type="date" name="data_fine" value="{{ $persona->statoAttuale()->pivot->data_fine }}" class="form-control">
                                                 </div>
                                             </div>
 
@@ -175,12 +165,7 @@
                                             Data fine stato
                                         </label>
                                         <div class="col-sm-6">
-                                            <date-picker
-                                                :bootstrap-styling="true"
-                                                value="{{ old("data_fine") }}"
-                                                format="yyyy-MM-dd"
-                                                name="data_fine"
-                                            ></date-picker>
+                                            <input type="date" name="data_fine" class="form-control"  value="{{ old("data_fine") }}">
                                             <small
                                                 id="emailHelp"
                                                 class="form-text text-muted"
@@ -227,12 +212,7 @@
                                         Data inizio
                                     </label>
                                     <div class="col-sm-8">
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") }}"
-                                            format="yyyy-MM-dd"
-                                            name="data_inizio"
-                                        ></date-picker>
+                                        <input type="date" name="data_inizio" class="form-control"  value="{{ old("data_inizio") }}">
                                     </div>
                                 </div>
                             </form>

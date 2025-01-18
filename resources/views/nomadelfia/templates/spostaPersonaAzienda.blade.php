@@ -18,12 +18,7 @@
                     Data fine
                 </label>
                 <div class="col-sm-6">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_fine") }}"
-                        format="yyyy-MM-dd"
-                        name="data_fine"
-                    ></date-picker>
+                    <input type="date" name="data_fine" value="{{ old("data_fine") }}" class="form-control"/>
                 </div>
             </div>
             <hr />

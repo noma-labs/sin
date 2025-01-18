@@ -15,13 +15,7 @@
                 <label class="col-sm-6 col-form-label">Nuova Data Uscita</label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            :typeable="true"
-                            value="{{ $data_uscita }}"
-                            format="yyyy-MM-dd"
-                            name="data_uscita"
-                        ></date-picker>
+                        <input type="date" name="data_uscita" value="{{ $data_uscita }}" class="form-control"/>
                     </label>
                 </div>
             </div>

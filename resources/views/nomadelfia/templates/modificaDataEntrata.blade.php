@@ -17,13 +17,7 @@
                 </label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            :typeable="true"
-                            value="{{ $data_entrata }}"
-                            format="yyyy-MM-dd"
-                            name="data_entrata"
-                        ></date-picker>
+                        <input type="date" name="data_entrata" value="{{ $data_entrata }}" class="form-control"/>
                     </label>
                     <small id="help" class="form-text text-muted">
                         Lasciare vuoto se coincide con la data di nascita della

@@ -66,12 +66,7 @@
                                                     Data Inzio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $incarico->pivot->data_inizio_azienda }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_entrata"
-                                                    ></date-picker>
+                                                    <input type="date" name="data_entrata" value="{{ $incarico->pivot->data_inizio_azienda }}" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -82,12 +77,7 @@
                                                     Data fine
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $incarico->pivot->data_fine_azienda }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_uscita"
-                                                    ></date-picker>
+                                                    <input type="date" name="data_uscita" value="{{ $incarico->pivot->data_fine_azienda }}" class="form-control">
                                                 </div>
                                             </div>
 
@@ -242,12 +232,7 @@
                                         Data inizio incarico
                                     </label>
                                     <div class="col-sm-6">
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") }}"
-                                            format="yyyy-MM-dd"
-                                            name="data_inizio"
-                                        ></date-picker>
+                                        <input type="date" name="data_inizio" value="{{ old("data_inizio") }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">

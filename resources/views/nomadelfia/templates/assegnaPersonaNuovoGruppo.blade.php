@@ -36,12 +36,7 @@
                     Data entrata gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_entrata") }}"
-                        format="yyyy-MM-dd"
-                        name="data_entrata"
-                    ></date-picker>
+                    <input type="date" name="data_entrata" value="{{ old("data_entrata") }}"  class="form-control"/>
                 </div>
             </div>
         </form>
