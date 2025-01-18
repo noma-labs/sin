@@ -71,12 +71,12 @@
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $attuale->pivot->data_entrata_gruppo }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="new_data_entrata"
-                                                    ></date-picker>
+                                                        value="{{ $attuale->pivot->data_entrata_gruppo }}"
+                                                    />
                                                 </div>
                                             </div>
                                         </form>

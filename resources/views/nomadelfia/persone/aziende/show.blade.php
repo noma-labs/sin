@@ -72,12 +72,12 @@
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $azienda->pivot->data_inizio_azienda }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_entrata"
-                                                    ></date-picker>
+                                                        value="{{ $azienda->pivot->data_inizio_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -88,12 +88,12 @@
                                                     Data fine
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $azienda->pivot->data_fine_azienda }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_uscita"
-                                                    ></date-picker>
+                                                        value="{{ $azienda->pivot->data_fine_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -250,12 +250,12 @@
                                         Data entrata azienda
                                     </label>
                                     <div class="col-sm-6">
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") }}"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            class="form-control"
+                                            type="date"
                                             name="data_inizio"
-                                        ></date-picker>
+                                            value="{{ old("data_inizio") }}"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group row">

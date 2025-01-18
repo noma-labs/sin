@@ -4,19 +4,7 @@ import Vue from "vue";
 window.Vue = Vue; //this is important! Do not use require('vue')
 Vue.config.devtools = true;
 
-
 Vue.component("my-modal", require("./components/my-modal.vue").default);
-
-// add DatePicker components https://github.com/charliekassel/vuejs-datepicker
-import Datepicker from "vuejs-datepicker";
-// set the language fo all the date-picker component
-import { it } from "vuejs-datepicker/dist/locale";
-
-Datepicker.computed.translation = function () {
-  return it;
-};
-
-Vue.component("date-picker", Datepicker);
 
 // create Vue instance
 const app = new Vue({

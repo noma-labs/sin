@@ -44,13 +44,13 @@
                 </div>
                 <div class="form-group">
                     <label for="birthdate">Data Nascita</label>
-                    <date-picker
+                    <input
                         id="birthdate"
-                        :bootstrap-styling="true"
-                        value="{{ old("datanascita") ? old("datanascita") : $persona->data_nascita }}"
-                        format="yyyy-MM-dd"
+                        class="form-control"
+                        type="date"
                         name="datanascita"
-                    ></date-picker>
+                        value="{{ old("datanascita") ? old("datanascita") : $persona->data_nascita }}"
+                    />
                 </div>
                 <div class="form-group">
                     <label for="birthplace">Luogo Nascita</label>
@@ -64,13 +64,13 @@
                 </div>
                 <div class="form-group">
                     <label for="decesso">Data Decesso</label>
-                    <date-picker
-                        id="decesso"
-                        :bootstrap-styling="true"
-                        value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        id="birthdate"
+                        class="form-control"
+                        type="date"
                         name="data_decesso"
-                    ></date-picker>
+                        value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"
+                    />
                 </div>
                 <div class="form-group">
                     <div class="form-check">

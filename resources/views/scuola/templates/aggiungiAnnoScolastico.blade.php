@@ -16,12 +16,12 @@
                     Data Inizio
                 </label>
                 <div class="col-md-8">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_inizio") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="data_inizio"
-                    ></date-picker>
+                        value="{{ old("data_inizio") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
         </form>

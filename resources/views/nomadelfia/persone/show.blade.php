@@ -39,11 +39,11 @@
                                         Inserire la data di uscita di
                                         {{ $persona->nominativo }}
                                     </p>
-                                    <date-picker
-                                        :bootstrap-styling="true"
-                                        format="yyyy-MM-dd"
+                                    <input
+                                        class="form-control"
+                                        type="date"
                                         name="data_uscita"
-                                    ></date-picker>
+                                    />
                                 </form>
                             </template>
                             <template slot="modal-button">
@@ -252,11 +252,11 @@
                                             Inserire la data di decesso di
                                             {{ $persona->nominativo }}
                                         </p>
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            class="form-control"
+                                            type="date"
                                             name="data_decesso"
-                                        ></date-picker>
+                                        />
                                     </form>
                                 </template>
                                 <template slot="modal-button">

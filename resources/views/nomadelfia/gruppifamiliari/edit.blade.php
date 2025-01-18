@@ -102,11 +102,11 @@
                                                 Data Cambio
                                             </label>
                                             <div class="col-sm-6">
-                                                <date-picker
-                                                    :bootstrap-styling="true"
-                                                    format="yyyy-MM-dd"
+                                                <input
+                                                    class="form-control"
+                                                    type="date"
                                                     name="inizio"
-                                                ></date-picker>
+                                                />
                                             </div>
                                         </div>
                                     </form>

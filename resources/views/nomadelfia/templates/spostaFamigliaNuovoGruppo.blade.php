@@ -33,12 +33,12 @@
                     Data cambio gruppo:
                 </label>
                 <div class="col-8">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_cambiogruppo") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="data_cambiogruppo"
-                    ></date-picker>
+                        value="{{ old("data_cambiogruppo") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
             <div class="form-group row">

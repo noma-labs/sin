@@ -20,12 +20,12 @@
                     Data uscita gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("current_data_uscita") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="current_data_uscita"
-                    ></date-picker>
+                        value="{{ old("current_data_uscita") }}"
+                        class="form-control"
+                    />
                     <small id="emailHelp" class="form-text text-muted">
                         Lasciare vuoto se concide con la data di entrata nel
                         nuovo gruppo familiare.
@@ -66,12 +66,12 @@
                     Data entrata gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("new_data_entrata") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="new_data_entrata"
-                    ></date-picker>
+                        value="{{ old("new_data_entrata") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
         </form>

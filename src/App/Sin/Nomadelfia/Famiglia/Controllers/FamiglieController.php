@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Famiglia\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -169,7 +170,7 @@ final class FamiglieController
         ]);
         $famiglia = Famiglia::findorfail($id);
         $action = app(UscitaFamigliaAction::class);
-        $action->execute($famiglia, $request->data_uscita);
+        $action->execute($famiglia, Carbon::parse($request->data_uscita));
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
             ['id' => $id]))->withSuccess('Famiglia uscita con successo.');

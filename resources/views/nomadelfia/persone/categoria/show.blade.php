@@ -63,12 +63,12 @@
                                                     Data inizio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $categoriaAttuale->pivot->data_inizio }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_inizio"
-                                                    ></date-picker>
+                                                        value="{{ $categoriaAttuale->pivot->data_inizio }}"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -79,12 +79,12 @@
                                                     Data fine categoria
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $categoriaAttuale->pivot->data_fine }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_fine"
-                                                    ></date-picker>
+                                                        value="{{ $categoriaAttuale->pivot->data_fine }}"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -175,12 +175,12 @@
                                             Data fine categoria
                                         </label>
                                         <div class="col-sm-6">
-                                            <date-picker
-                                                :bootstrap-styling="true"
-                                                value="{{ Carbon::now()->toDateString() }}"
-                                                format="yyyy-MM-dd"
+                                            <input
+                                                class="form-control"
+                                                type="date"
                                                 name="data_fine"
-                                            ></date-picker>
+                                                value="{{ Carbon::now()->toDateString() }}"
+                                            />
                                             <small
                                                 id="emailHelp"
                                                 class="form-text text-muted"
@@ -227,13 +227,13 @@
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">
-                                        <!-- <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password"> -->
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            class="form-control"
+                                            type="date"
                                             name="data_inizio"
-                                        ></date-picker>
+                                            value="{{ Carbon::now()->toDateString() }}"
+                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
+                                        />
                                     </div>
                                 </div>
                             </form>
