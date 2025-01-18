@@ -33,7 +33,12 @@
                     Data cambio gruppo:
                 </label>
                 <div class="col-8">
-                    <input type="date" name="data_cambiogruppo" value="{{ old("data_cambiogruppo") }}" class="form-control"/>
+                    <input
+                        type="date"
+                        name="data_cambiogruppo"
+                        value="{{ old("data_cambiogruppo") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
             <div class="form-group row">

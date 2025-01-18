@@ -64,7 +64,12 @@
                                                     Data inizio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="date" name="data_inizio" value="{{ $persona->statoAttuale()->pivot->data_inizio }}" class="form-control">
+                                                    <input
+                                                        type="date"
+                                                        name="data_inizio"
+                                                        value="{{ $persona->statoAttuale()->pivot->data_inizio }}"
+                                                        class="form-control"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -75,7 +80,12 @@
                                                     Data fine Stato
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="date" name="data_fine" value="{{ $persona->statoAttuale()->pivot->data_fine }}" class="form-control">
+                                                    <input
+                                                        type="date"
+                                                        name="data_fine"
+                                                        value="{{ $persona->statoAttuale()->pivot->data_fine }}"
+                                                        class="form-control"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -165,7 +175,12 @@
                                             Data fine stato
                                         </label>
                                         <div class="col-sm-6">
-                                            <input type="date" name="data_fine" class="form-control"  value="{{ old("data_fine") }}">
+                                            <input
+                                                type="date"
+                                                name="data_fine"
+                                                class="form-control"
+                                                value="{{ old("data_fine") }}"
+                                            />
                                             <small
                                                 id="emailHelp"
                                                 class="form-text text-muted"
@@ -212,7 +227,12 @@
                                         Data inizio
                                     </label>
                                     <div class="col-sm-8">
-                                        <input type="date" name="data_inizio" class="form-control"  value="{{ old("data_inizio") }}">
+                                        <input
+                                            type="date"
+                                            name="data_inizio"
+                                            class="form-control"
+                                            value="{{ old("data_inizio") }}"
+                                        />
                                     </div>
                                 </div>
                             </form>

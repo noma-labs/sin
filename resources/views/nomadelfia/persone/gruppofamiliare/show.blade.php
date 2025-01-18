@@ -71,7 +71,12 @@
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" type="date" name="new_data_entrata"   value="{{ $attuale->pivot->data_entrata_gruppo }}"/>
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
+                                                        name="new_data_entrata"
+                                                        value="{{ $attuale->pivot->data_entrata_gruppo }}"
+                                                    />
                                                 </div>
                                             </div>
                                         </form>

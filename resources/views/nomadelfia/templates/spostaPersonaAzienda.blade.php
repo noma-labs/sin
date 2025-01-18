@@ -18,7 +18,12 @@
                     Data fine
                 </label>
                 <div class="col-sm-6">
-                    <input type="date" name="data_fine" value="{{ old("data_fine") }}" class="form-control"/>
+                    <input
+                        type="date"
+                        name="data_fine"
+                        value="{{ old("data_fine") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
             <hr />

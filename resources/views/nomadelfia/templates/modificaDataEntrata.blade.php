@@ -17,7 +17,12 @@
                 </label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
-                        <input type="date" name="data_entrata" value="{{ $data_entrata }}" class="form-control"/>
+                        <input
+                            type="date"
+                            name="data_entrata"
+                            value="{{ $data_entrata }}"
+                            class="form-control"
+                        />
                     </label>
                     <small id="help" class="form-text text-muted">
                         Lasciare vuoto se coincide con la data di nascita della

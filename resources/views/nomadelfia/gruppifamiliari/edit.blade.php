@@ -102,7 +102,11 @@
                                                 Data Cambio
                                             </label>
                                             <div class="col-sm-6">
-                                                <input class="form-control" type="date" name="inizio"/>
+                                                <input
+                                                    class="form-control"
+                                                    type="date"
+                                                    name="inizio"
+                                                />
                                             </div>
                                         </div>
                                     </form>

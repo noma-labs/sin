@@ -70,7 +70,12 @@
                                                     Data fine posizione
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input type="date" name="data_fine" class="form-control"  value="{{ $posattuale->pivot->data_fine }}">
+                                                    <input
+                                                        type="date"
+                                                        name="data_fine"
+                                                        class="form-control"
+                                                        value="{{ $posattuale->pivot->data_fine }}"
+                                                    />
                                                 </div>
                                             </div>
                                         </form>
@@ -116,18 +121,21 @@
                                         >
                                             Data fine posizione
                                         </label>
-                                            <input type="date" name="data_fine" class="form-control" value="{{ Carbon::now()->toDateString() }}">
-                                            <small
-                                                id="emailHelp"
-                                                class="form-text text-muted"
-                                            >
-                                                Lasciare vuoto se concide con la
-                                                data di inizio della nuova
-                                                posizione .
-                                            </small>
-                                        </div>
+                                        <input
+                                            type="date"
+                                            name="data_fine"
+                                            class="form-control"
+                                            value="{{ Carbon::now()->toDateString() }}"
+                                        />
+                                        <small
+                                            id="emailHelp"
+                                            class="form-text text-muted"
+                                        >
+                                            Lasciare vuoto se concide con la
+                                            data di inizio della nuova posizione
+                                            .
+                                        </small>
                                     </div>
-                                    <hr />
                                 @endif
 
                                 <h5 class="my-2">
@@ -163,7 +171,12 @@
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">
-                                        <input type="date" name="data_inizio" class="form-control"   value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}">
+                                        <input
+                                            type="date"
+                                            name="data_inizio"
+                                            class="form-control"
+                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
+                                        />
                                     </div>
                                 </div>
                             </form>

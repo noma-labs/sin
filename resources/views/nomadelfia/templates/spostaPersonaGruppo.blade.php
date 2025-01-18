@@ -20,7 +20,12 @@
                     Data uscita gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <input type="date" name="current_data_uscita" value="{{ old("current_data_uscita") }}" class="form-control"/>
+                    <input
+                        type="date"
+                        name="current_data_uscita"
+                        value="{{ old("current_data_uscita") }}"
+                        class="form-control"
+                    />
                     <small id="emailHelp" class="form-text text-muted">
                         Lasciare vuoto se concide con la data di entrata nel
                         nuovo gruppo familiare.
@@ -61,7 +66,12 @@
                     Data entrata gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <input type="date" name="new_data_entrata" value="{{ old("new_data_entrata") }}" class="form-control"/>
+                    <input
+                        type="date"
+                        name="new_data_entrata"
+                        value="{{ old("new_data_entrata") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
         </form>

@@ -72,7 +72,12 @@
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" type="date" name="data_entrata" value="{{ $azienda->pivot->data_inizio_azienda }}"/>
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
+                                                        name="data_entrata"
+                                                        value="{{ $azienda->pivot->data_inizio_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -83,7 +88,12 @@
                                                     Data fine
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" type="date" name="data_uscita"  value="{{ $azienda->pivot->data_fine_azienda }}"/>
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
+                                                        name="data_uscita"
+                                                        value="{{ $azienda->pivot->data_fine_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -240,7 +250,12 @@
                                         Data entrata azienda
                                     </label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="date" name="data_inizio"   value="{{ old("data_inizio") }}"/>
+                                        <input
+                                            class="form-control"
+                                            type="date"
+                                            name="data_inizio"
+                                            value="{{ old("data_inizio") }}"
+                                        />
                                     </div>
                                 </div>
                                 <div class="form-group row">

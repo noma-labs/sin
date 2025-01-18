@@ -44,7 +44,13 @@
                 </div>
                 <div class="form-group">
                     <label for="birthdate">Data Nascita</label>
-                    <input id="birthdate" class="form-control" type="date" name="datanascita"   value="{{ old("datanascita") ? old("datanascita") : $persona->data_nascita }}"/>
+                    <input
+                        id="birthdate"
+                        class="form-control"
+                        type="date"
+                        name="datanascita"
+                        value="{{ old("datanascita") ? old("datanascita") : $persona->data_nascita }}"
+                    />
                 </div>
                 <div class="form-group">
                     <label for="birthplace">Luogo Nascita</label>
@@ -58,7 +64,13 @@
                 </div>
                 <div class="form-group">
                     <label for="decesso">Data Decesso</label>
-                    <input id="birthdate" class="form-control" type="date" name="data_decesso"   value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"/>
+                    <input
+                        id="birthdate"
+                        class="form-control"
+                        type="date"
+                        name="data_decesso"
+                        value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"
+                    />
                 </div>
                 <div class="form-group">
                     <div class="form-check">

@@ -63,7 +63,12 @@
                                                     Data inizio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" type="date" name="data_inizio"   value="{{ $categoriaAttuale->pivot->data_inizio }}"/>
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
+                                                        name="data_inizio"
+                                                        value="{{ $categoriaAttuale->pivot->data_inizio }}"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -74,7 +79,12 @@
                                                     Data fine categoria
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" type="date" name="data_fine"  value="{{ $categoriaAttuale->pivot->data_fine }}"/>
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
+                                                        name="data_fine"
+                                                        value="{{ $categoriaAttuale->pivot->data_fine }}"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -165,7 +175,12 @@
                                             Data fine categoria
                                         </label>
                                         <div class="col-sm-6">
-                                            <input class="form-control" type="date" name="data_fine"  value="{{ Carbon::now()->toDateString() }}"/>
+                                            <input
+                                                class="form-control"
+                                                type="date"
+                                                name="data_fine"
+                                                value="{{ Carbon::now()->toDateString() }}"
+                                            />
                                             <small
                                                 id="emailHelp"
                                                 class="form-text text-muted"
@@ -212,7 +227,13 @@
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="date" name="data_inizio"  value="{{ Carbon::now()->toDateString() }}" value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"/>
+                                        <input
+                                            class="form-control"
+                                            type="date"
+                                            name="data_inizio"
+                                            value="{{ Carbon::now()->toDateString() }}"
+                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
+                                        />
                                     </div>
                                 </div>
                             </form>

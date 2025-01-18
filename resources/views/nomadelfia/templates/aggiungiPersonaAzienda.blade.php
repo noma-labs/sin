@@ -24,7 +24,12 @@
                     Data Inizio
                 </label>
                 <div class="col-8">
-                    <input type="date" name="data_inizio"  value="{{ old("data_inizio") }}" class="form-control" />
+                    <input
+                        type="date"
+                        name="data_inizio"
+                        value="{{ old("data_inizio") }}"
+                        class="form-control"
+                    />
                     <small id="emailHelp" class="form-text text-muted">
                         Lasciare vuoto se concide con la data di oggi.
                     </small>

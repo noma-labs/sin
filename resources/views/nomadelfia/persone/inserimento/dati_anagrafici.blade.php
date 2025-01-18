@@ -61,7 +61,12 @@
                         Data di Nascita:
                     </label>
                     <div class="col-sm-6">
-                        <input class="form-control" type="date" name="data_nascita" value="{{ old("data_nascita") }}" />
+                        <input
+                            class="form-control"
+                            type="date"
+                            name="data_nascita"
+                            value="{{ old("data_nascita") }}"
+                        />
                     </div>
                 </div>
                 <div class="form-group row">

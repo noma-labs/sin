@@ -30,7 +30,11 @@
                     Data creazione famiglia:
                 </label>
                 <div class="col-8">
-                    <input type="date" name="data_creazione" value="{{ $famiglia->data_creazione }}" />
+                    <input
+                        type="date"
+                        name="data_creazione"
+                        value="{{ $famiglia->data_creazione }}"
+                    />
                 </div>
             </div>
         </form>

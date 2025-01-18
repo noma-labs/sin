@@ -39,7 +39,11 @@
                                         Inserire la data di uscita di
                                         {{ $persona->nominativo }}
                                     </p>
-                                    <input  class="form-control" type="date" name="data_uscita"/>
+                                    <input
+                                        class="form-control"
+                                        type="date"
+                                        name="data_uscita"
+                                    />
                                 </form>
                             </template>
                             <template slot="modal-button">
@@ -248,7 +252,11 @@
                                             Inserire la data di decesso di
                                             {{ $persona->nominativo }}
                                         </p>
-                                        <input class="form-control" type="date" name="data_decesso"/>
+                                        <input
+                                            class="form-control"
+                                            type="date"
+                                            name="data_decesso"
+                                        />
                                     </form>
                                 </template>
                                 <template slot="modal-button">

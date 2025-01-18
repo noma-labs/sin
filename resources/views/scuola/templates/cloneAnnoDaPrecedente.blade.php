@@ -20,7 +20,12 @@
                     Data Inizio
                 </label>
                 <div class="col-md-8">
-                    <input type="date" name="anno_inizio" value="{{ old("anno_inizio") }}" class="form-control"/>
+                    <input
+                        type="date"
+                        name="anno_inizio"
+                        value="{{ old("anno_inizio") }}"
+                        class="form-control"
+                    />
                 </div>
             </div>
         </form>

@@ -38,7 +38,11 @@
                                     Inserire la data di uscita della famiglia
                                     {{ $famiglia->nome_famiglia }}
                                 </p>
-                                <input class="form-control" type="date" name="data_uscita" />
+                                <input
+                                    class="form-control"
+                                    type="date"
+                                    name="data_uscita"
+                                />
                             </form>
                         </template>
                         <template slot="modal-button">

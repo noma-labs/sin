@@ -29,7 +29,12 @@
                 <label class="col-sm-6 col-form-label">Nuova Data</label>
                 <div class="form-check col-sm-6">
                     <label class="form-check-label">
-                        <input type="date" name="new_data_inizio" value="{{ $persona->data_nascita }}" class="form-control"/>
+                        <input
+                            type="date"
+                            name="new_data_inizio"
+                            value="{{ $persona->data_nascita }}"
+                            class="form-control"
+                        />
                     </label>
                 </div>
             </div>
