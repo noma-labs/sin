@@ -122,6 +122,15 @@
                                     </label>
                                     <div class="col-sm-8">
                                         <span>{{ $persona->nome }}</span>
+
+                                        <x-my-modal>
+                                            <x-slot:body>
+                                                <strong>BODY</strong>
+                                            </x-slot>
+                                            <x-slot:footer>
+                                               <strong>footer</strong>
+                                            </x-slot>
+                                        </x-my-modal>
                                     </div>
                                 </div>
                             </li>
