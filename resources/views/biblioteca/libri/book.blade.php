@@ -106,7 +106,11 @@
                 </p>
                 <p>
                     Classificazione:
-                    <strong>{{ $libro->classificazione->descrizione }}</strong>
+                    @if ($libro->classificazione)
+                        <strong>
+                            {{ $libro->classificazione->descrizione }}
+                        </strong>
+                    @endif
                 </p>
                 <p>
                     Note:

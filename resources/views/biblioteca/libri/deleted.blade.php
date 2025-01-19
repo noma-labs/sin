@@ -34,6 +34,7 @@
                     <th style="width: 20%" style="font-size: 10px">
                         {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
                     </th>
+                    <th>OPERAZIONI</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,10 +42,10 @@
                     <tr>
                         <td>{{ $libro->deleted_at }}</td>
                         <td>{{ $libro->deleted_note }}</td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->collocazione }}
                         </td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->titolo }}
                         </td>
 
@@ -68,11 +69,20 @@
                             <td>{{ $libro->editore }}</td>
                         @endif
 
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->classificazione->descrizione }}
                         </td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->note }}
+                        </td>
+                        <td>
+                            <a
+                                class="btn btn-warning"
+                                href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"
+                                role="button"
+                            >
+                                Dettaglio
+                            </a>
                         </td>
                     </tr>
                 @empty
