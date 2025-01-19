@@ -11,10 +11,12 @@
     },
     "devDependencies": {
         "prettier": "^3.2.5",
-        "prettier-plugin-blade": "^2.1.6"
+        "prettier-plugin-blade": "^2.1.6",
+        "vue-template-compiler": "2.7.16"
     },
     "dependencies": {
         "bootstrap": "^4.0.0",
+        "jquery": "^3.3.1",
         "laravel-mix": "^6.0.6",
         "jquery": "^3.3.1",
         "popper.js": "^1.13.0",
@@ -22,8 +24,7 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.74.1",
         "sass-loader": "^12.6.0",
-        "vue": "^2.5.13",
-        "vue-template-compiler": "^2.6.14",
+        "vue": "2.7.16",
         "vue-loader": "^15.9.7",
         "vuejs-datepicker": "^1.5.3"
     }

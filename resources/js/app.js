@@ -14,21 +14,21 @@ const app = new Vue({
   },
 });
 
-$(document).ready(function () {
+$(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-$(document).ready(function () {
-    // disabled all the input element in a form when a form is submitted
-    $(function () {
-      $("form").submit(function () {
-        $(this)
-          .find(":input")
-          .filter(function () {
-            return !this.value;
-          })
-          .attr("disabled", "disabled");
-        return true; // ensure form still submits
-      });
+$(function () {
+  // disabled all the input element in a form when a form is submitted
+  $(function () {
+    $("form").submit(function () {
+      $(this)
+        .find(":input")
+        .filter(function () {
+          return !this.value;
+        })
+        .attr("disabled", "disabled");
+      return true; // ensure form still submits
     });
   });
+});
