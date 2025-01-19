@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Rimuovi Alunno"
     button-title="Rimuovi"
     button-style="btn-danger my-1"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -18,13 +18,13 @@
                 </p>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger btn-sm"
             form="formRimuoviAlunno{{ $alunno->id }}"
         >
             Elimina
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

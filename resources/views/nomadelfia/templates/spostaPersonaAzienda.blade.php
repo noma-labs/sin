@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Sposta Persona in Azienda"
     button-title="Sposta"
     button-style="btn-warning my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -49,13 +49,13 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="spostaPersonAzienda{{ $lavoratore->id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

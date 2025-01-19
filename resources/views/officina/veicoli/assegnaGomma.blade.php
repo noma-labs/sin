@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Assegna gomma al veicolo"
     button-title="Aggiungi"
     button-style="btn-block btn-warning"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -25,10 +25,10 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button type="submit" class="btn btn-danger" form="add-gomma">
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

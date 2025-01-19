@@ -48,12 +48,12 @@
                             >
                                 Dettaglio
                             </a>
-                            <my-modal
+                            <x-modal
                                 modal-title="Esporta Elenchi"
                                 button-title="Esporta Elenchi"
                                 button-style="btn-secondary my-2"
                             >
-                                <template slot="modal-body-slot">
+                                <x-slot:body>
                                     <form
                                         class="form"
                                         method="POST"
@@ -97,16 +97,16 @@
                                             </label>
                                         </div>
                                     </form>
-                                </template>
-                                <template slot="modal-button">
+                                </x-slot>
+                                <x-slot:footer>
                                     <button
                                         class="btn btn-success"
                                         form="formStampa"
                                     >
                                         Esporta (.doc)
                                     </button>
-                                </template>
-                            </my-modal>
+                                </x-slot>
+                            </x-modal>
                         </div>
                         <div class="col-4">
                             @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $lastAnno])

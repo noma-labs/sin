@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Aggiungi Filtro"
     button-title="Aggiungi Filtro"
     button-style="btn-block btn-warning"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             method="POST"
             action="{{ route("filtri.aggiungi") }}"
@@ -45,8 +45,8 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-success"
             type="submit"
@@ -54,5 +54,5 @@
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

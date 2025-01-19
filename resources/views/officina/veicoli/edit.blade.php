@@ -351,7 +351,7 @@
             @include("officina.veicoli.aggiungiFiltro")
         </div>
         <div class="col-md-2">
-            <my-modal
+            <x-modal
                 modal-title="Aggiungi Tipo Olio"
                 button-title="Aggiungi Olio"
                 button-style="btn-block btn-warning"
@@ -392,7 +392,7 @@
                             </div>
                         </div>
                     </form>
-                </template>
+                </x-slot>
                 <template v-slot:modal-button>
                     <button
                         class="btn btn-success"
@@ -401,11 +401,11 @@
                     >
                         Salva
                     </button>
-                </template>
-            </my-modal>
+                </x-slot>
+            </x-modal>
         </div>
         <div class="col-md-2">
-            <my-modal
+            <x-modal
                 modal-title="Aggiungi Gomma"
                 button-title="Aggiungi Gomma"
                 button-style="btn-block btn-warning"
@@ -430,7 +430,7 @@
                             </div>
                         </div>
                     </form>
-                </template>
+                </x-slot>
                 <template v-slot:modal-button>
                     <button
                         class="btn btn-success"
@@ -439,12 +439,12 @@
                     >
                         Salva
                     </button>
-                </template>
-            </my-modal>
+                </x-slot>
+            </x-modal>
         </div>
         @if ($veicolo->deleted_at)
             <div class="col-md-2 offset-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Elimina Veicolo Definitivamente"
                     button-title="Elimina Definitivamente"
                     button-style="btn-danger btn-block"
@@ -475,7 +475,7 @@
                                 />
                             </form>
                         </div>
-                    </template>
+                    </x-slot>
                     <template v-slot:modal-button>
                         <button
                             type="submit"
@@ -484,11 +484,11 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
             <div class="col-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Riabilita Veicolo"
                     button-title="Riabilita Veicolo"
                     button-style="btn-danger btn-block"
@@ -518,7 +518,7 @@
                                 />
                             </form>
                         </div>
-                    </template>
+                    </x-slot>
                     <template v-slot:modal-button>
                         <button
                             type="submit"
@@ -527,12 +527,12 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
         @else
             <div class="col-md-2 offset-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Demolisci Veicolo"
                     button-title="Demolisci"
                     button-style="btn-danger btn-block"
@@ -565,7 +565,7 @@
                                 />
                             </form>
                         </div>
-                    </template>
+                    </x-slot>
                     <template v-slot:modal-button>
                         <button
                             type="submit"
@@ -574,8 +574,8 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
         @endif
         <div class="col-md-2">

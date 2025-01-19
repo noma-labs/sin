@@ -30,12 +30,12 @@
                                 </span>
                             </div>
                             <div class="col-md-3">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Categoria attuale"
                                     button-title="Modifica"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -131,16 +131,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaCategoriaModifica"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 <!--end modal modifica categoria-->
 
                                 @include("nomadelfia.templates.eliminaPersonaCategoria", ["persona" => $persona, "categoria" => $categoriaAttuale])
@@ -149,12 +149,12 @@
                     @else
                         <p class="text-danger">Nessuna categoria</p>
                     @endif
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Categoria persona"
                         button-title="Nuova Categoria"
                         button-style="btn-success  my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -237,16 +237,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaCategoria"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal aggiungi categoria-->
                 </div>
                 <!--end card body-->

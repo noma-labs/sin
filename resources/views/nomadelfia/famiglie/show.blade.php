@@ -21,12 +21,12 @@
                     </p>
                     @include("nomadelfia.templates.aggiornaFamiglia", ["famiglia" => $famiglia])
 
-                    <my-modal
+                    <x-modal
                         modal-title="Uscita famiglia dalla comunità"
                         button-title="Uscita famiglia"
                         button-style="btn-danger my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -44,16 +44,16 @@
                                     name="data_uscita"
                                 />
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formUscitaFamiglia{{ $famiglia->id }}"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                 </div>
             </div>
         </div>

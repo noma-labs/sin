@@ -32,12 +32,12 @@
                                 </span>
                             </div>
                             <div class="col-md-5">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Gruppo familiare attuale"
                                     button-title="Modifica data"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -80,16 +80,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaGruppoModifica{{ $attuale->id }}"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
                                 @include("nomadelfia.templates.eliminaPersonaDalGruppo", ["persona" => $persona, "gruppo" => $attuale])
                             </div>

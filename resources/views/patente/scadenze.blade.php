@@ -268,12 +268,12 @@
                             @endcan
 
                             @can("scuolaguida.elimina")
-                                <my-modal
+                                <x-modal
                                     modal-title="Eliminazione patente"
                                     button-title="Elimina"
                                     button-style="btn-danger"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         Vuoi davvero eliminare la patente di
                                         @isset($patente->persona->nome)
                                             {{ $patente->persona->nome }}
@@ -284,9 +284,9 @@
                                         @endisset
 
                                         ?
-                                    </template>
+                                    </x-slot>
 
-                                    <template slot="modal-button">
+                                    <x-slot:footer>
                                         <form
                                             action="{{ route("patente.elimina", $patente->numero_patente) }}"
                                             method="POST"
@@ -300,8 +300,8 @@
                                                 Elimina
                                             </button>
                                         </form>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                             @endcan
                         </div>
                     </td>

@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Assegna Es. Spirituali"
     button-title="Aggiungi Persona"
     button-style="btn-success my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -14,13 +14,13 @@
             <p>Seleziona Persona</p>
             <livewire:search-popolazione name_input="persona_id" />
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="assegnaEsSpirituali{{ $esercizio->id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

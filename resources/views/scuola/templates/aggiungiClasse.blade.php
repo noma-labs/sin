@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Aggiungi Classe"
     button-title="Aggiungi Classe"
     button-style="btn-primary my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -30,8 +30,8 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger" form="addClasse">Aggiungi</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>
