@@ -122,7 +122,7 @@
                     </div>
                 </nav>
             </div>
-            <div id="archivio" class="container-fluid">
+            <div class="container-fluid">
                 @include("partials.flash")
                 @include("partials.errors")
                 @yield("content")

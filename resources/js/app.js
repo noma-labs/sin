@@ -1,16 +1,11 @@
-require("./bootstrap");
+window.Popper = require("popper.js/dist/umd/popper");
 
-import Vue from "vue";
-window.Vue = Vue; //this is important! Do not use require('vue')
-Vue.config.devtools = true;
-
-// create Vue instance
-const app = new Vue({
-  el: "#archivio",
-  data: {
-    showModal: false,
-  },
-});
+try {
+  window.$ = window.jQuery = require("jquery/dist/jquery");
+  require("bootstrap");
+} catch (e) {
+    console.log(e);
+}
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
