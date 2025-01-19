@@ -4,7 +4,7 @@ try {
   window.$ = window.jQuery = require("jquery/dist/jquery");
   require("bootstrap");
 } catch (e) {
-    console.log(e);
+  console.log(e);
 }
 
 $(function () {
