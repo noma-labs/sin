@@ -36,8 +36,11 @@
                     <th style="width: 18%" style="font-size: 10px">
                         {{ App\Traits\SortableTrait::link_to_sorting_action("CLASSIFICAZIONE") }}
                     </th>
-                    <th style="width: 20%" style="font-size: 10px">
+                    <th style="width: 10%" style="font-size: 10px">
                         {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
+                    </th>
+                    <th style="width: 10%" style="font-size: 10px">
+                        OPERAZIONI
                     </th>
                 </tr>
             </thead>
@@ -61,10 +64,10 @@
                                 </span>
                             @endif
                         </td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->collocazione }}
                         </td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             {{ $libro->titolo }}
                         </td>
 
@@ -88,13 +91,22 @@
                             <td>{{ $libro->editore }}</td>
                         @endif
 
-                        <td onclick="gotoLibroDetails({{ $libro->id }})">
+                        <td>
                             @if ($libro->classificazione)
                                 {{ $libro->classificazione->descrizione }}
                             @endif
                         </td>
-                        <td onclick="gotoLibroDetails({{ $libro->id }})" O>
+                        <td>
                             {{ $libro->note }}
+                        </td>
+                        <td>
+                            <a
+                                class="btn btn-warning"
+                                href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"
+                                role="button"
+                            >
+                                Dettaglio
+                            </a>
                         </td>
                     </tr>
                 @empty

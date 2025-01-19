@@ -182,15 +182,13 @@
                     <th style="width: 30%">TITOLO</th>
                     <th style="width: 10%">COLLOC.</th>
                     <th style="width: 20%">NOTE</th>
+                    <th style="width: 20%">DETTAGLIO</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($prestiti as $prestito)
                     <tr>
-                        <td
-                            onclick="gotoPrestitoDetails({{ $prestito->id }})"
-                            width="20"
-                        >
+                        <td " width="20">
                             {{ $prestito->data_inizio_prestito }}
 
                             @if ($prestito->in_prestito)
@@ -204,21 +202,29 @@
                                 </span>
                             @endif
                         </td>
-                        <td onclick="gotoPrestitoDetails({{ $prestito->id }})">
+                        <td>
                             {{ $prestito->cliente->nominativo }}
                         </td>
-                        <td onclick="gotoPrestitoDetails({{ $prestito->id }})">
+                        <td>
                             {{ $prestito->bibliotecario->nominativo }}
                         </td>
-                        <td onclick="gotoPrestitoDetails({{ $prestito->id }})">
+                        <td>
                             {{ $prestito->libro->titolo }}
                         </td>
-                        <td onclick="gotoPrestitoDetails({{ $prestito->id }})">
+                        <td>
                             {{ $prestito->libro->collocazione }}
                         </td>
-                        <td onclick="gotoPrestitoDetails({{ $prestito->id }})">
+                        <td>
                             {{ $prestito->note }}
                         </td>
+                        <td>
+                            <a
+                                class="btn btn-warning"
+                                href="{{ route("libri.prestito", ["idPrestito" => $prestito->id]) }}"
+                                role="button"
+                            >
+                                Dettaglio prestito
+                            </a>
                     </tr>
                 @empty
                     <div class="alert alert-danger">

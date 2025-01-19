@@ -65,22 +65,18 @@
                         >
                             <thead class="thead-inverse">
                                 <tr>
-                                    <th style="width: 10%">COLLOCAZIONE</th>
-                                    <th style="width: 15%">TITOLO</th>
-                                    <th style="width: 10%">OPERAZIONI</th>
+                                    <th>COLLOCAZIONE</th>
+                                    <th>TITOLO</th>
+                                    <th>OPERAZIONI</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($libriTobePrinted as $libro)
                                     <tr>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->collocazione }}
                                         </td>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->titolo }}
                                         </td>
                                         <td>
@@ -96,6 +92,13 @@
                                                     Rimuovi etichetta
                                                 </button>
                                             </form>
+                                            <a
+                                                class="btn btn-warning"
+                                                href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"
+                                                role="button"
+                                            >
+                                                Dettaglio LIbro
+                                            </a>
                                         </td>
                                     </tr>
                                 @empty
