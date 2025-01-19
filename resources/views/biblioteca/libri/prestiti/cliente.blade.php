@@ -46,12 +46,12 @@
                                     </td>
                                     <td>
                                         <a
-                                        class="btn btn-warning"
-                                        href="{{ route("libri.prestito", ["idPrestito" => 1]) }}"
-                                        role="button"
-                                    >
-                                        Dettaglio prestito
-                                    </a>
+                                            class="btn btn-warning"
+                                            href="{{ route("libri.prestito", ["idPrestito" => 1]) }}"
+                                            role="button"
+                                        >
+                                            Dettaglio prestito
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

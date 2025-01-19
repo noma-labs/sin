@@ -34,7 +34,7 @@
                     <th style="width: 20%" style="font-size: 10px">
                         {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
                     </th>
-                    <th> OPERAZIONI</th>
+                    <th>OPERAZIONI</th>
                 </tr>
             </thead>
             <tbody>

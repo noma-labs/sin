@@ -71,7 +71,7 @@
                                         <td>
                                             {{ $libro->foglio }}
                                         </td>
-                                        <td >
+                                        <td>
                                             {{ $libro->titolo }}
                                         </td>
                                         <td>

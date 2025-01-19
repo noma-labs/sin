@@ -188,7 +188,7 @@
             <tbody>
                 @forelse ($prestiti as $prestito)
                     <tr>
-                        <td " width="20">
+                        <td width="20">
                             {{ $prestito->data_inizio_prestito }}
 
                             @if ($prestito->in_prestito)
@@ -225,6 +225,7 @@
                             >
                                 Dettaglio prestito
                             </a>
+                        </td>
                     </tr>
                 @empty
                     <div class="alert alert-danger">
