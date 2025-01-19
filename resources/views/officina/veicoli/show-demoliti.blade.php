@@ -13,11 +13,11 @@
         </div>
     </div>
 
-    <div class="card card-mod">
-        <div class="card-header card-header-mod">
+    <div class="card  ">
+        <div class="card-header">
             <h3>Ricerca</h3>
         </div>
-        <div class="card-body card-body-mod">
+        <div class="card-body">
             <form action="" method="get" class="form-inline">
                 <label for="nome" class="sr-only">Nome</label>
                 <input
