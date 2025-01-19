@@ -411,6 +411,6 @@
         </x-slot>
         <x-slot:footer>
             <button class="btn btn-success" form="formStampa">Salva</button>
-    </x-slot>
+        </x-slot>
     </x-modal>
 @endsection

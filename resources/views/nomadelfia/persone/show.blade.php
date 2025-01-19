@@ -22,7 +22,11 @@
                             </span>
                         </p>
 
-                        <x-modal  button-title="Uscita" button-style="btn btn-danger my-2"  modal-title="Uscita dalla comunità">
+                        <x-modal
+                            button-title="Uscita"
+                            button-style="btn btn-danger my-2"
+                            modal-title="Uscita dalla comunità"
+                        >
                             <x-slot:body>
                                 <form
                                     class="form"
@@ -51,7 +55,6 @@
                                 </button>
                             </x-slot>
                         </x-modal>
-
                     @else
                         <h2>
                             Stato Attuale:

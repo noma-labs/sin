@@ -356,7 +356,7 @@
                 button-title="Aggiungi Olio"
                 button-style="btn-block btn-warning"
             >
-                <template v-slot:modal-body-slot>
+                <x-slot:body>
                     <form
                         method="POST"
                         action="{{ route("olio.aggiungi") }}"
@@ -393,7 +393,7 @@
                         </div>
                     </form>
                 </x-slot>
-                <template v-slot:modal-button>
+                <x-slot:footer>
                     <button
                         class="btn btn-success"
                         type="submit"
@@ -410,7 +410,7 @@
                 button-title="Aggiungi Gomma"
                 button-style="btn-block btn-warning"
             >
-                <template v-slot:modal-body-slot>
+                <x-slot:body>
                     <form
                         method="POST"
                         action="{{ route("gomma.aggiungi") }}"
@@ -431,7 +431,7 @@
                         </div>
                     </form>
                 </x-slot>
-                <template v-slot:modal-button>
+                <x-slot:footer>
                     <button
                         class="btn btn-success"
                         type="submit"
@@ -449,7 +449,7 @@
                     button-title="Elimina Definitivamente"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-danger" role="alert">
                             <p>
                                 Attenzione si sta per eliminare il veicolo:
@@ -476,7 +476,7 @@
                             </form>
                         </div>
                     </x-slot>
-                    <template v-slot:modal-button>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
@@ -493,7 +493,7 @@
                     button-title="Riabilita Veicolo"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-warning" role="alert">
                             <p>
                                 Attenzione si sta per riabilitare il veicolo:
@@ -519,7 +519,7 @@
                             </form>
                         </div>
                     </x-slot>
-                    <template v-slot:modal-button>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
@@ -537,7 +537,7 @@
                     button-title="Demolisci"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-danger" role="alert">
                             <p>
                                 Attenzione si sta per demolire il veicolo:
@@ -566,7 +566,7 @@
                             </form>
                         </div>
                     </x-slot>
-                    <template v-slot:modal-button>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
