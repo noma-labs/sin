@@ -174,12 +174,12 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card card-mod">
+            <div class="card">
                 <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                <div class="card-header card-header-mod">
+                <div class="card-header">
                     <h3 class="card-title">Tipi Di Gomme</h3>
                 </div>
-                <div class="card-body card-body-mod">
+                <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @foreach ($veicolo->gomme as $g)
                             <li class="list-group-item">
@@ -190,12 +190,11 @@
                 </div>
             </div>
 
-            <div class="card card-mod">
-                <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-                <div class="card-header card-header-mod">
+            <div class="card">
+                <div class="card-header">
                     <h3 class="card-title">Documenti</h3>
                 </div>
-                <div class="card-body card-body-mod">
+                <div class="card-body">
                     <ul class="list-group list-group-flush"></ul>
                 </div>
             </div>
