@@ -6,21 +6,19 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MyModal extends Component
+class Modal extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
+    public function __construct(
+        public string $buttonStyle,
+        public string $buttonTitle,
+        public string $modalTitle,
+    )
     {
-        //
+
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
-        return view('components.my-modal');
+        return view('components.modal');
     }
 }

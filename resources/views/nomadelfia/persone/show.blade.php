@@ -22,12 +22,8 @@
                             </span>
                         </p>
 
-                        <my-modal
-                            modal-title="Uscita dalla comunità"
-                            button-title="Uscita"
-                            button-style="btn-danger my-2"
-                        >
-                            <template slot="modal-body-slot">
+                        <x-modal  button-title="Uscita" button-style="btn btn-danger my-2"  modal-title="Uscita dalla comunità">
+                            <x-slot:body>
                                 <form
                                     class="form"
                                     method="POST"
@@ -45,16 +41,17 @@
                                         name="data_uscita"
                                     />
                                 </form>
-                            </template>
-                            <template slot="modal-button">
+                            </x-slot>
+                            <x-slot:footer>
                                 <button
                                     class="btn btn-success"
                                     form="formUscitaPersona{{ $persona->id }}"
                                 >
                                     Salva
                                 </button>
-                            </template>
-                        </my-modal>
+                            </x-slot>
+                        </x-modal>
+
                     @else
                         <h2>
                             Stato Attuale:
@@ -68,15 +65,15 @@
                             </span>
                         </p>
 
-                        <my-modal
+                        <x-modal
                             modal-title="Entrata nella comunità"
                             button-title="Entrata"
                             button-style="btn-success my-2"
                         >
-                            <template slot="modal-body-slot">
+                            <x-slot:body>
                                 @include("nomadelfia.templates.entrataPersona", ["persona" => $persona])
-                            </template>
-                        </my-modal>
+                            </x-slot>
+                        </x-modal>
                     @endif
 
                     <a
@@ -122,15 +119,6 @@
                                     </label>
                                     <div class="col-sm-8">
                                         <span>{{ $persona->nome }}</span>
-
-                                        <x-my-modal>
-                                            <x-slot:body>
-                                                <strong>BODY</strong>
-                                            </x-slot>
-                                            <x-slot:footer>
-                                               <strong>footer</strong>
-                                            </x-slot>
-                                        </x-my-modal>
                                     </div>
                                 </div>
                             </li>
@@ -244,12 +232,12 @@
                             Modifica
                         </a>
                         @if (! $persona->isDeceduta())
-                            <my-modal
+                            <x-modal
                                 modal-title="Decesso di persona"
                                 button-title="Decesso"
                                 button-style="btn-danger my-2"
                             >
-                                <template slot="modal-body-slot">
+                                <x-slot:body>
                                     <form
                                         class="form"
                                         method="POST"
@@ -267,16 +255,16 @@
                                             name="data_decesso"
                                         />
                                     </form>
-                                </template>
-                                <template slot="modal-button">
+                                </x-slot>
+                                <x-slot:footer>
                                     <button
                                         class="btn btn-danger"
                                         form="formDecessoPersona{{ $persona->id }}"
                                     >
                                         Salva
                                     </button>
-                                </template>
-                            </my-modal>
+                                </x-slot>
+                            </x-modal>
                         @endif
                     </div>
                 </div>
