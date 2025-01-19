@@ -301,7 +301,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card  ">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Tipi Di Gomme</h3>
                 </div>
@@ -337,7 +337,7 @@
                 </div>
             </div>
 
-            <div class="card  ">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Documenti</h3>
                 </div>

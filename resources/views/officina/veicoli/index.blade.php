@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="card  ">
+    <div class="card">
         <div class="card-header">
             <h3>Ricerca</h3>
         </div>
