@@ -18,7 +18,6 @@
                     class="navbar navbar-expand-md navbar-inverse bg-inverse"
                     style="background-color: white"
                 >
-                    <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url("/home") }}">
                         <img
                             style="
