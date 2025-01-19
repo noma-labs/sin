@@ -1,11 +1,13 @@
-<div>
+<div  class="modal-container">
      <dialog id="dialog">
         <button autofocus>Close</button>
         <div>
-           {{ $body }}
-        </div>
-        <div>
-            {{ $footer }}
+            <div>
+               {{ $body }}
+            </div>
+            <div>
+                {{ $footer }}
+            </div>
         </div>
       </dialog>
      <button class="btn btn-success" >opn modal</button>
