@@ -24,6 +24,7 @@
                                 <th style="width: 10%">Collocazione</th>
                                 <th style="width: 20%">Titolo</th>
                                 <th style="width: 30%">Note</th>
+                                <th style="width: 30%">Operazioni</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,20 +35,23 @@
                                             {{ $prestito->data_inizio_prestito }}
                                         </span>
                                     </td>
-                                    <td
-                                        onclick="gotoPrestitoDetails({{ $prestito->id }})"
-                                    >
+                                    <td>
                                         {{ $prestito->libro->collocazione }}
                                     </td>
-                                    <td
-                                        onclick="gotoPrestitoDetails({{ $prestito->id }})"
-                                    >
+                                    <td>
                                         {{ $prestito->libro->titolo }}
                                     </td>
-                                    <td
-                                        onclick="gotoPrestitoDetails({{ $prestito->id }})"
-                                    >
+                                    <td>
                                         {{ $prestito->note }}
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="btn btn-warning"
+                                            href="{{ route("libri.prestito", ["idPrestito" => 1]) }}"
+                                            role="button"
+                                        >
+                                            Dettaglio prestito
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

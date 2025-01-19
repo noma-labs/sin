@@ -68,14 +68,10 @@
                             <tbody>
                                 @forelse ($libriTobePrinted as $libro)
                                     <tr>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->foglio }}
                                         </td>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->titolo }}
                                         </td>
                                         <td>
