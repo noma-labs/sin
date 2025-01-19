@@ -9,7 +9,6 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-        <!-- CSS style (boostrap, jquery-ui) compiled with "npm run prod"  -->
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" />
     </head>
@@ -129,7 +128,6 @@
             </div>
         </div>
 
-        <!-- JS compiled with Laravel-mix -->
         <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
     </body>
 </html>
