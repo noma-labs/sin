@@ -30,12 +30,12 @@
                                 </span>
                             </p>
                             <div class="col-md-3">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Stato attuale"
                                     button-title="Modifica"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -132,28 +132,28 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaStatoModifica"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 <!--end modal stato-->
                             </div>
                         </div>
                     @else
                         <p class="text-danger">Nessuno stato</p>
                     @endif
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Stato persona"
                         button-title="Nuovo Stato"
                         button-style="btn-success my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -236,16 +236,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaStato"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal-->
                 </div>
             </div>

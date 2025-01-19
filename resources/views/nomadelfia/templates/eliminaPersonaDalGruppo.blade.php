@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Elimina persona dal Gruppo familiare "
     button-title="Elimina"
     button-style="btn-danger my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -17,13 +17,13 @@
                 familiare {{ $gruppo->nome }} ?
             </body>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger"
             form="formEliminaGruppoStorico{{ $gruppo->id }}"
         >
             Elimina
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

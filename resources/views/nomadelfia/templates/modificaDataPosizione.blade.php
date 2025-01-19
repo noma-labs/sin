@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Modifica Posizione attuale"
     button-title="Modifica"
     button-style="btn-warning my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -39,15 +39,15 @@
                 </div>
             </div>
         </form>
-    </template>
+    </x-slot>
 
-    <template slot="modal-button">
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="formPersonaPosizioneModifica{{ $persona->id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>
 <!--end modal modifica posizione-->

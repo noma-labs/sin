@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Modifica Classe"
     button-title="Modifica Classe"
     button-style="btn-primary my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -36,8 +36,8 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger" form="editClasseTipo">Modifica</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

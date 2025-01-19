@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Elimina Incarico"
     button-title="Elimina"
     button-style="btn-danger my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -18,13 +18,13 @@
                 sarannao rimosse dall'incarico
             </small>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger"
             form="formEliminacaIncarico{{ $incarico->id }}"
         >
             Elimina
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

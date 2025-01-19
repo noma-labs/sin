@@ -38,12 +38,12 @@
                         </div>
                         <!--end col dati gruppo -->
                         <div class="col-md-8">
-                            <my-modal
+                            <x-modal
                                 modal-title="Modifica Capogruppo"
                                 button-title="Cambia Capogruppo"
                                 button-style="btn-danger my-2"
                             >
-                                <template slot="modal-body-slot">
+                                <x-slot:body>
                                     <form
                                         class="form"
                                         method="POST"
@@ -110,16 +110,16 @@
                                             </div>
                                         </div>
                                     </form>
-                                </template>
-                                <template slot="modal-button">
+                                </x-slot>
+                                <x-slot:footer>
                                     <button
                                         class="btn btn-success"
                                         form="formPersonaGruppoModifica{{ $gruppo->id }}"
                                     >
                                         Salva
                                     </button>
-                                </template>
-                            </my-modal>
+                                </x-slot>
+                            </x-modal>
                         </div>
                     </div>
                 </div>

@@ -17,12 +17,12 @@
                                 <td>{{ $lavoratore->nominativo }}</td>
                                 <td>{{ $lavoratore->pivot->data_inizio }}</td>
                                 <td>
-                                    <my-modal
+                                    <x-modal
                                         modal-title="Elimina persona"
                                         button-title="Elimina"
                                         button-style="btn-danger my-2"
                                     >
-                                        <template slot="modal-body-slot">
+                                        <x-slot:body>
                                             <form
                                                 class="form"
                                                 method="POST"
@@ -38,16 +38,16 @@
                                                     {{ $incarico->nome }} ?
                                                 </body>
                                             </form>
-                                        </template>
-                                        <template slot="modal-button">
+                                        </x-slot>
+                                        <x-slot:footer>
                                             <button
                                                 class="btn btn-danger"
                                                 form="formEliminaPersona{{ $lavoratore->id }}"
                                             >
                                                 Elimina
                                             </button>
-                                        </template>
-                                    </my-modal>
+                                        </x-slot>
+                                    </x-modal>
                                 </td>
                             </tr>
                         @endforeach

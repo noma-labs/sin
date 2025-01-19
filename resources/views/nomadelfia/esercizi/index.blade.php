@@ -118,12 +118,12 @@
         </div>
     @endforeach
 
-    <my-modal
+    <x-modal
         modal-title="Esporta Elechi"
         button-title="Esporta Es.Spirituali"
         button-style="btn-success my-2"
     >
-        <template slot="modal-body-slot">
+        <x-slot:body>
             <form
                 class="form"
                 method="get"
@@ -132,9 +132,9 @@
             >
                 <h5>Esporta esercizi Spirituali in Word (.docx)</h5>
             </form>
-        </template>
-        <template slot="modal-button">
+        </x-slot>
+        <x-slot:footer>
             <button class="btn btn-success" form="formStampa">Salva</button>
-        </template>
-    </my-modal>
+        </x-slot>
+    </x-modal>
 @endsection

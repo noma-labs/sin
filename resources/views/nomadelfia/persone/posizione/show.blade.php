@@ -31,12 +31,12 @@
                             <div class="col-md-5">
                                 @include("nomadelfia.templates.modificaDataPosizione", ["persona" => $persona, "id" => $posattuale->id, "nome" => $posattuale->nome, "data_inizio" => $posattuale->pivot->data_inizio])
 
-                                <my-modal
+                                <x-modal
                                     modal-title="Concludi Posizione"
                                     button-title="Concludi"
                                     button-style="btn-info my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -79,16 +79,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formConcludiPosizione{{ $posattuale->id }}"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
 
                                 @include("nomadelfia.templates.eliminaPersonaPosizione", ["persona" => $persona, "posizione" => $posattuale])
                             </div>
@@ -96,12 +96,12 @@
                     @else
                         <p class="text-danger">Nessuna posizione</p>
                     @endif
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Posizione persona"
                         button-title="Nuova Posizione"
                         button-style="btn-success  my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -180,16 +180,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaPosizione"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal aggiungi posizione-->
                 </div>
                 <!--end card body-->

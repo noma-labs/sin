@@ -33,12 +33,12 @@
                                 </span>
                             </div>
                             <div class="col-md-3">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Incarico attuale"
                                     button-title="Modifica"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -180,16 +180,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaGruppoModifica"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 <!--end modal modifica posizione-->
                             </div>
                         </div>
@@ -197,12 +197,12 @@
                         <p class="text-danger">Nessun incarico</p>
                     @endforelse
 
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Incarico"
                         button-title="Nuovo Incarico"
                         button-style="btn-success my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -274,16 +274,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaAzinedaAggiungi"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal-->
                 </div>
                 <!--end card body-->

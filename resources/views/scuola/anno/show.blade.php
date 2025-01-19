@@ -140,12 +140,12 @@
                                     >
                                         Aggiungi Elaborato
                                     </a>
-                                    <my-modal
+                                    <x-modal
                                         modal-title="Elimina classe"
                                         button-title="Elimina"
                                         button-style="btn-danger my-2"
                                     >
-                                        <template slot="modal-body-slot">
+                                        <x-slot:body>
                                             <form
                                                 class="form"
                                                 method="POST"
@@ -160,16 +160,16 @@
                                                     ?
                                                 </body>
                                             </form>
-                                        </template>
-                                        <template slot="modal-button">
+                                        </x-slot>
+                                        <x-slot:footer>
                                             <button
                                                 class="btn btn-danger"
                                                 form="formEliminaClasse{{ $classe->id }}"
                                             >
                                                 Elimina
                                             </button>
-                                        </template>
-                                    </my-modal>
+                                        </x-slot>
+                                    </x-modal>
                                 </div>
                             </div>
                         </div>

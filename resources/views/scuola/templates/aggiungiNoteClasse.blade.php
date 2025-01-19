@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Note Classe"
     button-title="Aggiorna Note"
     button-style="btn-warning"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -25,8 +25,8 @@
                 </textarea>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger btn-sm" form="addNote">Salva</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

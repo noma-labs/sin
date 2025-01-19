@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Aggiorna famiglia"
     button-title="Modifica"
     button-style="btn-warning my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -38,13 +38,13 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger"
             form="formAggiornaFamiglia{{ $famiglia->id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

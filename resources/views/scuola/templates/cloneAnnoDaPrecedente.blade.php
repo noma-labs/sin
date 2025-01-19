@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Clona anno"
     button-title="Clona anno"
     button-style="btn-info my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -29,9 +29,9 @@
                 </div>
             </div>
         </form>
-    </template>
+    </x-slot>
     s
-    <template slot="modal-button">
+    <x-slot:footer>
         <button class="btn btn-danger" form="cloneAnno">Crea</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

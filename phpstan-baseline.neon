@@ -211,26 +211,6 @@ parameters:
 			path: src/App/Sin/Auth/Controllers/LoginController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:numeri\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
-			message: "#^Method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
-			message: "#^Static call to instance method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:MaxForLettere\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/ApiController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$autore\\.$#"
 			count: 4
 			path: src/App/Sin/Biblioteca/Controllers/AutoriController.php

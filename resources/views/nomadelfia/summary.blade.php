@@ -302,12 +302,12 @@
         </div>
     </div>
 
-    <my-modal
+    <x-modal
         modal-title="Stampa elenchi"
         button-title="Stampa Popolazione Nomadelfia"
         button-style="btn-success my-2"
     >
-        <template slot="modal-body-slot">
+        <x-slot:body>
             <form
                 class="form"
                 method="POST"
@@ -408,9 +408,9 @@
                     </label>
                 </div>
             </form>
-        </template>
-        <template slot="modal-button">
+        </x-slot>
+        <x-slot:footer>
             <button class="btn btn-success" form="formStampa">Salva</button>
-        </template>
-    </my-modal>
+        </x-slot>
+    </x-modal>
 @endsection

@@ -351,12 +351,12 @@
             @include("officina.veicoli.aggiungiFiltro")
         </div>
         <div class="col-md-2">
-            <my-modal
+            <x-modal
                 modal-title="Aggiungi Tipo Olio"
                 button-title="Aggiungi Olio"
                 button-style="btn-block btn-warning"
             >
-                <template v-slot:modal-body-slot>
+                <x-slot:body>
                     <form
                         method="POST"
                         action="{{ route("olio.aggiungi") }}"
@@ -392,8 +392,8 @@
                             </div>
                         </div>
                     </form>
-                </template>
-                <template v-slot:modal-button>
+                </x-slot>
+                <x-slot:footer>
                     <button
                         class="btn btn-success"
                         type="submit"
@@ -401,16 +401,16 @@
                     >
                         Salva
                     </button>
-                </template>
-            </my-modal>
+                </x-slot>
+            </x-modal>
         </div>
         <div class="col-md-2">
-            <my-modal
+            <x-modal
                 modal-title="Aggiungi Gomma"
                 button-title="Aggiungi Gomma"
                 button-style="btn-block btn-warning"
             >
-                <template v-slot:modal-body-slot>
+                <x-slot:body>
                     <form
                         method="POST"
                         action="{{ route("gomma.aggiungi") }}"
@@ -430,8 +430,8 @@
                             </div>
                         </div>
                     </form>
-                </template>
-                <template v-slot:modal-button>
+                </x-slot>
+                <x-slot:footer>
                     <button
                         class="btn btn-success"
                         type="submit"
@@ -439,17 +439,17 @@
                     >
                         Salva
                     </button>
-                </template>
-            </my-modal>
+                </x-slot>
+            </x-modal>
         </div>
         @if ($veicolo->deleted_at)
             <div class="col-md-2 offset-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Elimina Veicolo Definitivamente"
                     button-title="Elimina Definitivamente"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-danger" role="alert">
                             <p>
                                 Attenzione si sta per eliminare il veicolo:
@@ -475,8 +475,8 @@
                                 />
                             </form>
                         </div>
-                    </template>
-                    <template v-slot:modal-button>
+                    </x-slot>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
@@ -484,16 +484,16 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
             <div class="col-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Riabilita Veicolo"
                     button-title="Riabilita Veicolo"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-warning" role="alert">
                             <p>
                                 Attenzione si sta per riabilitare il veicolo:
@@ -518,8 +518,8 @@
                                 />
                             </form>
                         </div>
-                    </template>
-                    <template v-slot:modal-button>
+                    </x-slot>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
@@ -527,17 +527,17 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
         @else
             <div class="col-md-2 offset-md-2">
-                <my-modal
+                <x-modal
                     modal-title="Demolisci Veicolo"
                     button-title="Demolisci"
                     button-style="btn-danger btn-block"
                 >
-                    <template v-slot:modal-body-slot>
+                    <x-slot:body>
                         <div class="alert alert-danger" role="alert">
                             <p>
                                 Attenzione si sta per demolire il veicolo:
@@ -565,8 +565,8 @@
                                 />
                             </form>
                         </div>
-                    </template>
-                    <template v-slot:modal-button>
+                    </x-slot>
+                    <x-slot:footer>
                         <button
                             type="submit"
                             class="btn btn-success"
@@ -574,8 +574,8 @@
                         >
                             Ok
                         </button>
-                    </template>
-                </my-modal>
+                    </x-slot>
+                </x-modal>
             </div>
         @endif
         <div class="col-md-2">

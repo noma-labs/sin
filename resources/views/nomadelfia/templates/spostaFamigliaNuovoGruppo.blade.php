@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Sposta in un nuovo gruppo familiare"
     button-style="btn-warning my-2"
     button-title="Sposta"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -54,13 +54,13 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="formAssegnaGruppo{{ $famiglia_id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

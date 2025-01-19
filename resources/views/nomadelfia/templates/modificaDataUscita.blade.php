@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Modifica data uscita"
     button-title="Modifica Uscita"
     button-style="btn-warning my-1"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -25,14 +25,14 @@
                 </div>
             </div>
         </form>
-    </template>
+    </x-slot>
 
-    <template slot="modal-button">
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="formModificaDataUscita{{ $data_uscita }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

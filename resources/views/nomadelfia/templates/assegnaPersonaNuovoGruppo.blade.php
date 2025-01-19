@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Assegna Gruppo Familiare"
     button-title="Nuovo Gruppo"
     button-style="btn-success my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -45,9 +45,9 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-success" form="formPersonaGruppo">Salva</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>
 <!--end modal-->
