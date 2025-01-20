@@ -8,13 +8,16 @@ use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
-use App\Biblioteca\Controllers\AutoriController;
+use App\Biblioteca\Controllers\AuthorsController;
+use App\Biblioteca\Controllers\BooksBorrowController;
+use App\Biblioteca\Controllers\BooksCallNumberController;
+use App\Biblioteca\Controllers\BooksController;
+use App\Biblioteca\Controllers\BooksDeletedController;
 use App\Biblioteca\Controllers\ClassificazioniController;
-use App\Biblioteca\Controllers\EditoriController;
-use App\Biblioteca\Controllers\EtichetteController;
-use App\Biblioteca\Controllers\LibriCollocazioneController;
-use App\Biblioteca\Controllers\LibriController;
-use App\Biblioteca\Controllers\LibriPrestitiController;
+use App\Biblioteca\Controllers\EditorsController;
+use App\Biblioteca\Controllers\LabelsController;
+use App\Biblioteca\Controllers\LoansController;
+use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Controllers\VideoController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
@@ -234,40 +237,42 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::view('/', 'biblioteca.index')->withoutMiddleware('auth')->name('biblioteca');
-    Route::get('libri', [LibriController::class, 'showSearchLibriForm'])->withoutMiddleware('auth')->name('libri.ricerca');
-    Route::get('libri/ricerca', [LibriController::class, 'searchConfirm'])->withoutMiddleware('auth')->name('libri.ricerca.submit');
-    Route::get('etichette/preview', [EtichetteController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
+    Route::get('books', [SearchableBooksController::class, 'index'])->withoutMiddleware('auth')->name('books.index');
+    Route::get('books-search', [SearchableBooksController::class, 'search'])->withoutMiddleware('auth')->name('books.search');
 
-    Route::get('libri/{idLibro}/collocazione', [LibriCollocazioneController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('libro.collocazione');
-    Route::post('libri/{idLibro}/collocazione/update', [LibriCollocazioneController::class, 'updateCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update');
-    Route::post('libri/{idLibro}/confirm', [LibriCollocazioneController::class, 'confirmCollocazione'])->middleware('can:biblioteca.libro.modifica')->name('libro.collocazione.update.confirm');
+    Route::get('books-new', [BooksController::class, 'create'])->middleware('can:biblioteca.libro.inserisci')->name('books.create');
+    Route::post('books-new', [BooksController::class, 'store'])->middleware('can:biblioteca.libro.inserisci')->name('books.store');
+    Route::get('books/{id}/edit', [BooksController::class, 'edit'])->middleware('can:biblioteca.libro.modifica')->name('books.edit');
+    Route::put('books/{id}', [BooksController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name('books.update');
+    Route::get('books/{id}', [BooksController::class, 'show'])->middleware('can:biblioteca.libro.prenota')->name('books.show');
 
-    Route::get('libri/inserimento', [LibriController::class, 'showInsertLibroForm'])->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci');
-    Route::post('libri/inserimento', [LibriController::class, 'insertConfirm'])->middleware('can:biblioteca.libro.inserisci')->name('libri.inserisci.Confirm');
+    Route::get('books/{id}/call-number', [BooksCallNumberController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('books.call-number');
+    Route::put('books/{id}/call-number', [BooksCallNumberController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.update');
+    Route::get('books/{id}/call-number/{idTarget}', [BooksCallNumberController::class, 'swapShow'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.swap');
+    Route::put('books/{id}/call-number/{idTarget}', [BooksCallNumberController::class, 'swapUpdate'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.swap.update');
 
-    Route::get('libri/prestiti', [LibriPrestitiController::class, 'view'])->middleware('can:biblioteca.libro.prenota')->name('libri.prestiti');
-    Route::get('libri/prestiti/ricerca', [LibriPrestitiController::class, 'search'])->middleware('can:biblioteca.libro.visualizza')->name('libri.prestiti.ricerca');
-    Route::get('libri/prestiti/{idPrestito}', [LibriPrestitiController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('libri.prestito');
-    Route::get('libri/prestiti/{idPrestito}/modifica', [LibriPrestitiController::class, 'edit'])->middleware('can:biblioteca.libro.modifica')->name('libri.prestito.modifica'); //->middleware('can:edit,App\Libro')->
-    Route::post('libri/prestiti/{idPrestito}/modifica', [LibriPrestitiController::class, 'editConfirm'])->middleware('can:biblioteca.libro.modifica'); //->name('libri.prestito.modificaConfirm');
-    Route::post('libri/prestiti/{idPrestito}/concludi', [LibriPrestitiController::class, 'conclude'])->middleware('can:biblioteca.libro.prenota')->name('libri.prestito.concludi');
+    Route::get('loans', [LoansController::class, 'index'])->middleware('can:biblioteca.libro.prenota')->name('books.loans');
+    Route::get('loans/search', [LoansController::class, 'search'])->middleware('can:biblioteca.libro.visualizza')->name('books.loans.search');
+    Route::get('loans/{id}', [LoansController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('books.loans.show');
+    Route::get('loans/{id}/edit', [LoansController::class, 'edit'])->middleware('can:biblioteca.libro.modifica')->name('books.loans.edit');
+    Route::put('loans/{id}/edit', [LoansController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name('books.loans.update');
+    Route::put('loans/{id}/return', [LoansController::class, 'return'])->middleware('can:biblioteca.libro.prenota')->name('books.loans.return');
 
-    Route::get('libri/eliminati', [LibriController::class, 'showDeleted'])->name('libri.eliminati');
-    Route::get('libri/{idLibro}', [LibriController::class, 'show'])->middleware('can:biblioteca.libro.prenota')->name('libro.dettaglio');
-    Route::get('libri/{idLibro}/modifica', [LibriController::class, 'edit'])->middleware('can:biblioteca.libro.modifica')->name('libro.modifica');
-    Route::post('libri/{idLibro}/modifica', [LibriController::class, 'editConfirm'])->middleware('can:biblioteca.libro.modifica');
-    Route::get('libri/{idLibro}/elimina', [LibriController::class, 'delete'])->middleware('can:biblioteca.libro.elimina')->name('libro.elimina');
-    Route::post('libri/{idLibro}/elimina', [LibriController::class, 'deleteConfirm'])->middleware('can:biblioteca.libro.elimina');
-    Route::get('libri/{idLibro}/prenota', [LibriController::class, 'book'])->middleware('can:biblioteca.libro.prenota')->name('libri.prenota');
-    Route::post('libri/{idLibro}/prenota', [LibriController::class, 'bookConfirm'])->middleware('can:biblioteca.libro.prenota');
-    Route::post('libri/{idLibro}/ripristina', [LibriController::class, 'restore'])->middleware('can:biblioteca.libro.elimina')->name('libri.ripristina');
+    Route::get('books/{id}/borrow', [BooksBorrowController::class, 'create'])->middleware('can:biblioteca.libro.prenota')->name('books.borrow');
+    Route::post('books/{id}/borrow', [BooksBorrowController::class, 'store'])->middleware('can:biblioteca.libro.prenota')->name('books.borrow.store');
 
-    Route::get('etichette', [EtichetteController::class, 'view'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette');
-    Route::post('etichette', [EtichetteController::class, 'etichetteFromToCollocazione'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.aggiungi');
-    Route::post('etichette/add/{idLibro}', [EtichetteController::class, 'addLibro'])->middleware('can:biblioteca.etichetta.inserisci')->name('libri.etichette.aggiungi.libro');
-    Route::post('etichette/remove', [EtichetteController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi');
-    Route::post('etichette/remove/{idLibro}', [EtichetteController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
-    Route::get('etichette/print', [EtichetteController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
+    Route::get('books-trashed', [BooksDeletedController::class, 'index'])->name('books.trashed');
+    Route::get('books/{id}/destroy', [BooksDeletedController::class, 'create'])->middleware('can:biblioteca.libro.elimina')->name('books.destory.create');
+    Route::delete('books/{id}', [BooksDeletedController::class, 'destory'])->middleware('can:biblioteca.libro.elimina')->name('books.destroy');
+    Route::put('books/{id}/restore', [BooksDeletedController::class, 'restore'])->middleware('can:biblioteca.libro.elimina')->name('books.restore');
+
+    Route::get('labels/preview', [LabelsController::class, 'preview'])->withoutMiddleware('auth')->name('books.labels.preview');
+    Route::get('labels', [LabelsController::class, 'index'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels');
+    Route::post('labels', [LabelsController::class, 'storeBatch'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.store-batch');
+    Route::post('labels/{idLibro}', [LabelsController::class, 'storeBook'])->middleware('can:biblioteca.etichetta.inserisci')->name('books.labels.store-book');
+    Route::delete('labels/remove', [LabelsController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete');
+    Route::post('labels/remove/{idLibro}', [LabelsController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete-book');
+    Route::get('labels/print', [LabelsController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.print');
 
     Route::group([
         'middleware' => [
@@ -275,8 +280,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
             'can:biblioteca.autore.visualizza',
         ],
     ], function () {
-        Route::get('autori/search', [AutoriController::class, 'search'])->name('autori.ricerca');
-        Route::resource('autori', AutoriController::class);
+        Route::get('autori/search', [AuthorsController::class, 'search'])->name('autori.ricerca');
+        Route::resource('autori', AuthorsController::class);
     });
 
     Route::group([
@@ -285,8 +290,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
             'can:biblioteca.autore.inserisci',
         ],
     ], function () {
-        Route::get('editori/search', [EditoriController::class, 'search'])->name('editori.ricerca');
-        Route::resource('editori', EditoriController::class);
+        Route::get('editori/search', [EditorsController::class, 'search'])->name('editori.ricerca');
+        Route::resource('editori', EditorsController::class);
     });
 
     Route::group(['middleware' => ['can:biblioteca.libro.visualizza']], function () {

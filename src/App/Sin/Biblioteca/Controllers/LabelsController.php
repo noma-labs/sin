@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Biblioteca\Controllers;
+
+use App\Biblioteca\Models\Libro as Libro;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Spatie\Browsershot\Browsershot;
+
+final class LabelsController
+{
+    public function index()
+    {
+        $libriTobePrinted = Libro::TobePrinted()->orderBY('COLLOCAZIONE')->get();
+
+        return view('biblioteca.books.labels.index', ['libriTobePrinted' => $libriTobePrinted]);
+    }
+
+    public function preview(Request $request)
+    {
+        if ($request->has('idLibro')) {
+            $libri = Libro::where('id', $request->idLibro)->get();
+        } else {
+            $libri = Libro::TobePrinted()->get();
+        }
+
+        return view('biblioteca.books.labels.printsingle', ['libri' => $libri]);
+    }
+
+    public function storeBook($idLibro)
+    {
+        $res = Libro::find($idLibro)->update(['tobe_printed' => 1]);
+        if ($res) {
+            return redirect()->route('books.show', ['id' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
+        }
+
+        return redirect()->route('books.show', ['id' => $idLibro])->withError("Errore nell'operazione");
+
+    }
+
+    public function removeLibro($idLibro)
+    {
+        $libro = Libro::find($idLibro);
+        $res = $libro->update(['tobe_printed' => 0]);
+        if ($res) {
+            return redirect()->route('books.labels')->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
+        }
+
+        return redirect()->route('books.labels')->withError("Errore nell'operazione");
+
+    }
+
+    public function storeBatch(Request $request)
+    {
+        $from = $request->input('fromCollocazione');
+        $to = $request->input('toCollocazione', $request->input('fromCollocazione'));
+        if ($request->input('action') === 'add') {
+            $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 1]);
+
+            return redirect()->route('books.labels')->withSuccess("$count etichette aggiunte alla stampa");
+        }
+        $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 0]);
+
+        return redirect()->route('books.labels')->withSuccess("$count etichette rimosse dalla stampa");
+
+    }
+
+    public function removeAll()
+    {
+        $res = Libro::toBePrinted()->update(['tobe_printed' => 0]);
+        if ($res) {
+            return redirect()->route('books.labels')->withSuccess("Tutte le $res etichette sono state eliminate.");
+        }
+
+        return redirect()->route('books.labels')->withError("Errore nell'operazione");
+    }
+
+    public function printToPdf(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $date = Carbon::now()->format('Y-m-d_H-i-s');
+        $file_name = storage_path("etichette-$date.pdf");
+
+        Browsershot::url(route('books.labels.preview', ['idLibro' => $request->get('idLibro')]))
+            ->noSandbox()
+            ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
+            ->timeout(2000)
+            ->savePdf($file_name);
+
+        return response()->download($file_name)->deleteFileAfterSend();
+    }
+}

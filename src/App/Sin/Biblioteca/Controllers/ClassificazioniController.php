@@ -13,12 +13,12 @@ final class ClassificazioniController
     {
         $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
 
-        return view('biblioteca.libri.classificazioni.index')->with('classificazioni', $classificazioni);
+        return view('biblioteca.books.classificazioni.index')->with('classificazioni', $classificazioni);
     }
 
     public function create()
     {
-        return view('biblioteca.libri.classificazioni.create');
+        return view('biblioteca.books.classificazioni.create');
     }
 
     public function store(Request $request)
@@ -45,7 +45,7 @@ final class ClassificazioniController
     {
         $classificazione = Classificazione::findOrFail($id);
 
-        return view('biblioteca.libri.classificazioni.edit')->with('classificazione', $classificazione);
+        return view('biblioteca.books.classificazioni.edit')->with('classificazione', $classificazione);
     }
 
     public function searchClassificazione(Request $request)

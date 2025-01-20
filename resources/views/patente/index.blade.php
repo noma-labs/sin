@@ -6,7 +6,6 @@
 <li class="nav-item dropdown">
     <a
         class="nav-link dropdown-toggle"
-        href="{{ route("libri.ricerca") }}"
         id="navbarDropdown"
         role="button"
         data-toggle="dropdown"
