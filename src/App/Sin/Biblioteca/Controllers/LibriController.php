@@ -73,13 +73,13 @@ final class LibriController
             return redirect()->route('books.create')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
 
-        return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+        return redirect()->route('books.show', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
     }
 
     public function show($idLibro)
     {
         $libro = Libro::withTrashed()->find($idLibro);
-        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idLibro)->get();
+        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1);
         if ($libro) {
             return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
         }
@@ -88,10 +88,10 @@ final class LibriController
 
     }
 
-    public function edit($idLibro)
+    public function edit($id)
     {
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
-        $libro = Libro::findOrFail($idLibro);
+        $libro = Libro::findOrFail($id);
 
         return view('biblioteca.libri.edit', ['libro' => $libro, 'classificazioni' => $classificazioni]);
 
@@ -121,6 +121,6 @@ final class LibriController
             $libro->editori()->sync($request->xIdEditori);
         });
 
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
+        return redirect()->route('books.show', ['id' => $idLibro])->withSuccess('Libro modificato correttamente');
     }
 }

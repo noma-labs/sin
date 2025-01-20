@@ -47,10 +47,10 @@ final class EtichetteController
     {
         $res = Libro::find($idLibro)->update(['tobe_printed' => 1]);
         if ($res) {
-            return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
+            return redirect()->route('books.show', ['id' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
         }
 
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withError("Errore nell'operazione");
+        return redirect()->route('books.show', ['id' => $idLibro])->withError("Errore nell'operazione");
 
     }
 

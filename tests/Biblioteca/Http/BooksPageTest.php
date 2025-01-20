@@ -13,6 +13,7 @@ use App\Biblioteca\Models\Editore;
 use App\Biblioteca\Models\Libro;
 
 use function Pest\Laravel\post;
+use function Pest\Laravel\put;
 
 it('guest user can load search page homepage', function (): void {
     $this
@@ -35,7 +36,7 @@ it('will search books by location', function (): void {
         ->assertSee($book->collocazione);
 });
 
-it('will insert a book when the admin is logged in', function (): void {
+it('inserts a book when the admin is logged in', function (): void {
     $sendRequest = fn () => post(action([LibriController::class, 'store']), [
         'xTitolo' => 'MY title',
         'xIdAutori' => Autore::factory()->create()->id,
@@ -54,7 +55,22 @@ it('will insert a book when the admin is logged in', function (): void {
 
 });
 
-it('will update book when the admin is logged in', function (): void {
+it('shows a book detail page', function (): void {
+    $book = Libro::factory()
+        ->physicalPlacement('BBB001')
+        ->has(Editore::factory()->count(2), 'editori')
+        ->has(Autore::factory()->count(3), 'autori')
+        ->create();
+
+    login();
+
+    $this->get(action([LibriController::class, 'show'], $book->id))
+          ->assertSuccessful()
+         ->assertSee('BBB001');
+
+});
+
+it('updates a book when the admin is logged in', function (): void {
 
     $book = Libro::factory()
         ->has(Editore::factory(), 'editori')
@@ -63,7 +79,7 @@ it('will update book when the admin is logged in', function (): void {
         ->create();
 
     $title = 'New Title';
-    $sendRequest = fn () => post(action([LibriController::class, 'update'], $book->id), [
+    $sendRequest = fn () => put(action([LibriController::class, 'update'], $book->id), [
         'xTitolo' => $title,
         'xClassificazione' => Classificazione::all()->first()->id,
     ]);
@@ -72,21 +88,20 @@ it('will update book when the admin is logged in', function (): void {
 
     login();
 
-    $sendRequest()->assertRedirectToRoute('libro.dettaglio', $book->id);
+    $sendRequest()->assertRedirect(route('books.show', ['id' => $book->id]));
 
     // NOTE: the title of the book is converted into upper case when it is inserted into db
-
     expect(Libro::find($book->id)->titolo)->toEqual(mb_strtoupper($title));
 });
 
-it('will edit the physical location when the admin is logged in', function (): void {
+it('will edit the call-number when the admin is logged in', function (): void {
 
     $book = Libro::factory()
         ->physicalPlacement('AAA001')
         ->create();
 
     $new = 'AAA002';
-    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'updateCollocazione'], $book->id), [
+    $sendRequest = fn () => put(action([LibriCollocazioneController::class, 'update'], $book->id), [
         'xCollocazione' => $new,
     ]);
 
@@ -94,12 +109,12 @@ it('will edit the physical location when the admin is logged in', function (): v
 
     login();
 
-    $sendRequest()->assertRedirectToRoute('libro.dettaglio', $book->id);
+    $sendRequest()->assertRedirectToRoute('books.show', $book->id);
 
     expect(Libro::find($book->id)->collocazione)->toBe($new);
 });
 
-it('will swap the physical location of two books when the admin is logged in', function (): void {
+it('will swap the call-number of two books when the admin is logged in', function (): void {
 
     $book1 = Libro::factory()
         ->physicalPlacement('AAA099')
@@ -109,7 +124,7 @@ it('will swap the physical location of two books when the admin is logged in', f
         ->physicalPlacement('AAA100')
         ->create();
 
-    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'confirmCollocazione'], $book1->id), [
+    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'swapUpdate'], $book1->id), [
         'idTarget' => $book2->id,
     ]);
 
@@ -117,7 +132,7 @@ it('will swap the physical location of two books when the admin is logged in', f
 
     login();
 
-    $sendRequest()->assertRedirectToRoute('libro.dettaglio', $book1->id);
+    $sendRequest()->assertRedirectToRoute('books.show', $book1->id);
 
     expect(Libro::find($book1->id)->collocazione)->toBe($book2->collocazione);
     expect(Libro::find($book2->id)->collocazione)->toBe($book1->collocazione);

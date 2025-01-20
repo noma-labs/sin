@@ -28,7 +28,7 @@ final class LibriDeletedController
         $libro = Libro::withTrashed()->findOrFail($idLibro);
         $libro->restore();
 
-        return redirect()->route('libro.dettaglio', ['idLibro' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
+        return redirect()->route('books.show', ['id' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
     }
 
     public function deleteConfirm(Request $request, $idLibro)

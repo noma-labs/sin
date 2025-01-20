@@ -4,9 +4,10 @@
     @include("partials.header", ["title" => "Modifica collocazione"])
     <form
         method="POST"
-        action="{{ route("libro.collocazione.update", ["idLibro" => $libro->id]) }}"
+        action="{{ route("books.call-number.update", ["id" => $libro->id]) }}"
     >
         {{ csrf_field() }}
+        @method("PUT")
         <div class="row">
             <div class="col-md-6">
                 <div class="card text-white bg-info">

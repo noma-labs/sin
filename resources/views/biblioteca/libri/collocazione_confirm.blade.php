@@ -32,7 +32,7 @@
                                 <strong>{{ $autore->autore }}</strong>
                             @endif
                         @empty
-                            <strong>{{ $libro->AUTORE }}</strong>
+                            <strong>Nessun autore</strong>
                         @endforelse
                     </p>
                     <p>
@@ -45,12 +45,16 @@
                                 <strong>{{ $editore->editore }}</strong>
                             @endif
                         @empty
-                            <strong>{{ $libro->EDITORE }}</strong>
+                            <strong>nessun editore</strong>
                         @endforelse
                     </p>
                     <p>
                         classificazione:
-                        <strong>{{ $libro->descrizione }}</strong>
+                        @if ($libro->classificazione)
+                            <strong>
+                                {{ $libro->classificazione->descrizione }}
+                            </strong>
+                        @endif
                     </p>
                     <p>
                         Note:
@@ -88,7 +92,11 @@
                     </p>
                     <p>
                         classificazione:
-                        <strong>{{ $libroTarget->descrizione }}</strong>
+                         @if ($libroTarget->classificazione)
+                            <strong>
+                                {{ $libro->classificazione->descrizione }}
+                            </strong>
+                        @endif
                     </p>
                     <p>
                         Note:
@@ -104,8 +112,9 @@
             <form
                 method="POST"
                 class="form-inline"
-                action="{{ route("libro.collocazione.update.confirm", ["idLibro" => $libro->id]) }}"
+                action="{{ route("books.call-number.swap.update", ["id" => $libro->id, "idTarget" => $libroTarget->id]) }}"
             >
+                @method("PUT")
                 {{ csrf_field() }}
                 <input
                     type="hidden"

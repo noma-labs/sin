@@ -13,10 +13,10 @@ final class LibriCollocazioneController
     {
         $libro = Libro::with('classificazione')->findOrFail($idLibro);
 
-        return view('biblioteca.libri.collocazione', compact('libro'));
+        return view('biblioteca.libri.call-number.show', compact('libro'));
     }
 
-    public function updateCollocazione(Request $request, $idLibro)
+    public function update(Request $request, $idLibro)
     {
         $validatedData = $request->validate([
             'xCollocazione' => 'required', //per update solito nome
@@ -30,22 +30,30 @@ final class LibriCollocazioneController
         if ($xCollocazioneNuova !== 'null') {
             $libroTarget = Libro::where('collocazione', $xCollocazioneNuova)->first();
             if ($libroTarget) {
-                return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'))->withWarning('Stai cambiando la collocazione');
+                return redirect()->route('books.call-number.swap', ['id' => $libro->id, 'idTarget' => $libroTarget->id]);
             }
             $libro->collocazione = $xCollocazioneNuova;
             $res = $libro->save();
 
-            return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita in $libro->collocazione con successo.");
+            return redirect()->route('books.show', ['id' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita in $libro->collocazione con successo.");
 
         }
         $libro->collocazione = null;
         $res = $libro->save();
 
-        return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita con SENZA COLLOCAZIONE con successo.");
+        return redirect()->route('books.show', ['id' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita con SENZA COLLOCAZIONE con successo.");
 
     }
 
-    public function confirmCollocazione(Request $request, $idLibro)
+    public function swapShow($id, $idTarget)
+    {
+        $libro = Libro::findOrFail($id);
+        $libroTarget = Libro::findOrFail($idTarget);
+
+        return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'));
+    }
+
+    public function swapUpdate(Request $request, $idLibro)
     {
         $request->validate([
             'idTarget' => 'required', //per update solito nome
@@ -62,7 +70,7 @@ final class LibriCollocazioneController
         $libro->save();
         $libroTarget->save();
 
-        return redirect()->route('libro.dettaglio', ['idLibro' => $libro->id])
+        return redirect()->route('books.show', ['id' => $libro->id])
             ->withSuccess("Il libro $libro->titolo assegnato la collocazione $libro->collocazione, $libroTarget->titolo è stata sostituita in $libroTarget->collocazione con successo.");
     }
 }

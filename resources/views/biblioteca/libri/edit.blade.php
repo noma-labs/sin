@@ -6,9 +6,10 @@
     <form
         method="POST"
         id="form-modifica"
-        action="/biblioteca/libri/{{ $libro->id }}/modifica"
+        action="{{ route("books.update", ["id" => $libro->id]) }}"
     >
         {{ csrf_field() }}
+        @method("PUT")
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -32,7 +33,7 @@
                             <div>
                                 <a
                                     class="btn btn-success"
-                                    href="{{ route("libro.collocazione", ["idLibro" => $libro->id]) }}"
+                                    href="{{ route("books.call-number", ["id" => $libro->id]) }}"
                                     role="button"
                                 >
                                     Modifica

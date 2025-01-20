@@ -40,7 +40,7 @@
                             @foreach ($editore->libri()->orderBy("titolo")->get()as $libro)
                                 <li>
                                     <a
-                                        href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"
+                                        href="{{ route("books.show", ["id" => $libro->id]) }}"
                                     >
                                         {{ $libro->collocazione }} -
                                         {{ $libro->titolo }}

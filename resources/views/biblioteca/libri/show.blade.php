@@ -160,7 +160,7 @@
                     @if (! $libro->trashed())
                         <a
                             class="btn btn-success"
-                            href="{{ route("libro.modifica", ["idLibro" => $libro->id]) }}"
+                            href="{{ route("books.edit", ["id" => $libro->id]) }}"
                         >
                             Modifica
                         </a>
@@ -171,7 +171,7 @@
                                 type="submit"
                             >
                                 Aggiungi stampa etichetta
-                            </button>
+                    </button>
                         @else
                             <button
                                 class="btn btn-warning"

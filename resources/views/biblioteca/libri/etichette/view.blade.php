@@ -94,7 +94,7 @@
                                             </form>
                                             <a
                                                 class="btn btn-warning"
-                                                href="{{ route("libro.dettaglio", ["idLibro" => $libro->id]) }}"
+                                                href="{{ route("books.show", ["id" => $libro->id]) }}"
                                                 role="button"
                                             >
                                                 Dettaglio LIbro
