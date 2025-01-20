@@ -17,11 +17,7 @@
         </div>
     </div>
 
-    <form
-        method="GET"
-        class="form"
-        action="{{ route("books.loans.search") }}"
-    >
+    <form method="GET" class="form" action="{{ route("books.loans.search") }}">
         <div class="row">
             {{ csrf_field() }}
             <div class="col-md-6">

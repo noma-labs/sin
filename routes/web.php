@@ -10,11 +10,11 @@ use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AutoriController;
 use App\Biblioteca\Controllers\BooksCallNumberController;
+use App\Biblioteca\Controllers\BooksController;
 use App\Biblioteca\Controllers\ClassificazioniController;
 use App\Biblioteca\Controllers\EditoriController;
 use App\Biblioteca\Controllers\EtichetteController;
 use App\Biblioteca\Controllers\LibriBorrowController;
-use App\Biblioteca\Controllers\BooksController;
 use App\Biblioteca\Controllers\LibriDeletedController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
@@ -253,7 +253,7 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 
     Route::get('loans', [LoansController::class, 'index'])->middleware('can:biblioteca.libro.prenota')->name('books.loans');
     Route::get('loans/search', [LoansController::class, 'search'])->middleware('can:biblioteca.libro.visualizza')->name('books.loans.search');
-    Route::get('loans/{id}', [LoansController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name("books.loans.show");
+    Route::get('loans/{id}', [LoansController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('books.loans.show');
     Route::get('loans/{id}/edit', [LoansController::class, 'edit'])->middleware('can:biblioteca.libro.modifica')->name('books.loans.edit');
     Route::put('loans/{id}/edit', [LoansController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name('books.loans.update');
     Route::put('loans/{id}/return', [LoansController::class, 'return'])->middleware('can:biblioteca.libro.prenota')->name('books.loans.return');

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 
 final class LoansController
 {
-
     public function index()
     {
         $prestiti = Prestito::inPrestito()
