@@ -32,12 +32,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    Libri pubblicati ({{ $editore->libri->count() }})
+                    Libri pubblicati ({{ $books->count() }})
                 </div>
                 <div class="card-body">
-                    @if ($editore->libri->count())
+                    @if ($books->count())
                         <ul>
-                            @foreach ($editore->libri()->orderBy("titolo")->get()as $libro)
+                            @foreach ($books->get() as $libro)
                                 <li>
                                     <a
                                         href="{{ route("books.show", ["id" => $libro->id]) }}"

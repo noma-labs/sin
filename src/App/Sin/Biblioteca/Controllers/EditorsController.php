@@ -49,8 +49,9 @@ final class EditorsController
     public function show($id)
     {
         $editore = Editore::findOrFail($id);
+        $books = $editore->libri()->orderBy('titolo');
 
-        return view('biblioteca.editors.show')->with('editore', $editore);
+        return view('biblioteca.editors.show', compact('editore', 'books'));
     }
 
     public function edit($id)
