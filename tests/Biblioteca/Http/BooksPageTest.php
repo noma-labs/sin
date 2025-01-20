@@ -124,7 +124,7 @@ it('will swap the call-number of two books when the admin is logged in', functio
         ->physicalPlacement('AAA100')
         ->create();
 
-    $sendRequest = fn () => put(action('books.call-number.swap.update', ['id' => $book1->id, 'idTarget' => $book2->id]), [
+    $sendRequest = fn () => put(route('books.call-number.swap.update', ['id' => $book1->id, 'idTarget' => $book2->id]), [
     ]);
 
     $sendRequest()->assertRedirect(route('login'));
