@@ -32,7 +32,7 @@
                                         @if (str_contains($activity["subject_type"], "Libro"))
                                             <a
                                                 class="text-warning"
-                                                href="{{ route("libro.dettaglio", $activity->subject->id) }}"
+                                                href="{{ route("books.show", $activity->subject->id) }}"
                                             >
                                                 {{ $activity->subject->collocazione }}
                                                 -
