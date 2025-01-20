@@ -28,7 +28,7 @@
                                     <strong>{{ $autore->autore }}</strong>
                                 @endif
                             @empty
-                                <strong>{{ $libro->AUTORE }}</strong>
+                                nessun autore
                             @endforelse
                         </p>
                         <p>
@@ -41,7 +41,7 @@
                                     <strong>{{ $editore->editore }}</strong>
                                 @endif
                             @empty
-                                <strong>{{ $libro->EDITORE }}</strong>
+                                nessun editore
                             @endforelse
                         </p>
                         <p>
@@ -64,7 +64,7 @@
             <form
                 method="POST"
                 class="form-horizontal"
-                action="/biblioteca/libri/{{ $libro->id }}/elimina"
+                action="{{ route("books.destroy", $libro->id) }}"
             >
                 {{ csrf_field() }}
                 @method("DELETE")

@@ -11,7 +11,7 @@
                     Motivazione: {{ $libro->deleted_note }}
                     <form
                         id="restoreBook"
-                        action="{{ route("libri.ripristina", ["idLibro" => $libro->id]) }}"
+                        action="{{ route("books.restore", $libro->id) }}"
                         method="post"
                     >
                         {{ csrf_field() }}
@@ -240,14 +240,14 @@
                     @if ($libro->inPrestito())
                         <a
                             class="btn btn-primary"
-                            href="{{ route("books.loans.show", ["id" => $prestito->id]) }}"
+                            href="{{ route("books.loans.show", $prestito->id) }}"
                         >
                             Gestisci prestito
                         </a>
                     @else
                         <a
                             class="btn btn-primary"
-                            href="{{ route("libri.prenota", ["idLibro" => $libro->id]) }}"
+                            href="{{ route("books.borrow", $libro->id) }}"
                         >
                             Dai in Prestito
                         </a>

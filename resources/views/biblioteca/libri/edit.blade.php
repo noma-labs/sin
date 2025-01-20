@@ -212,7 +212,7 @@
             </a>
             <a
                 class="btn btn-danger"
-                href="{{ route("libro.elimina", ["idLibro" => $libro->id]) }}"
+                href="{{ route("books.destory.create", $libro->id) }}"
             >
                 Elimina
             </a>

@@ -32,7 +32,7 @@
                 Etichette
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route("libri.eliminati") }}">
+            <a class="dropdown-item" href="{{ route("books.trashed") }}">
                 Libri eliminati
             </a>
         @endif

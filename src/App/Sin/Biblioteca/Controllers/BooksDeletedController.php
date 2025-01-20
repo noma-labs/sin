@@ -7,20 +7,20 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use Illuminate\Http\Request;
 
-final class LibriDeletedController
+final class BooksDeletedController
 {
     public function index()
     {
         $libriEliminati = Libro::onlyTrashed()->paginate(50);
 
-        return view('biblioteca.libri.deleted.index', compact('libriEliminati'));
+        return view('biblioteca.libri.trash.index', compact('libriEliminati'));
     }
 
     public function create($idLibro)
     {
         $libro = Libro::findOrFail($idLibro);
 
-        return view('biblioteca.libri.deleted.create', ['libro' => $libro]);
+        return view('biblioteca.libri.trash.create', ['libro' => $libro]);
     }
 
     public function restore($idLibro)
@@ -31,7 +31,7 @@ final class LibriDeletedController
         return redirect()->route('books.show', ['id' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
     }
 
-    public function deleteConfirm(Request $request, $idLibro)
+    public function destory(Request $request, $idLibro)
     {
         $request->validate([
             'xCancellazioneNote' => 'required', //per update solito nome

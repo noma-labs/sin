@@ -10,16 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class LibriBorrowController
+final class BooksBorrowController
 {
-    public function create($idLibro)
+    public function create($id)
     {
-        $libro = Libro::findOrFail($idLibro);
+        $libro = Libro::findOrFail($id);
 
         return view('biblioteca.libri.book', ['libro' => $libro]);
     }
 
-    public function store(Request $request, $idLibro)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'xDatainizio' => 'date',
@@ -31,7 +31,7 @@ final class LibriBorrowController
             'persona_id.required' => 'Nessun cliente selezionato',
         ]);
 
-        $libro = Libro::findOrFail($idLibro);
+        $libro = Libro::findOrFail($id);
         // Receive the data for the book with POST operation, and  redirect to the libro dettaglio
         $datainizio = $request->xDatainizio;
         $datafine = $request->xDataFine;
@@ -44,7 +44,7 @@ final class LibriBorrowController
         if ($libro->inPrestito()) {
             return redirect()->back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
         }
-        $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
+        $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $id, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
         if ($prestito) {
             return redirect()->route('books.loans')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
         }

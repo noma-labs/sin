@@ -6,7 +6,7 @@
     <form
         method="POST"
         class="form"
-        action="{{ route("books.loans.store", ["idLibro" => $libro->id]) }}"
+        action="{{ route("books.borrow.store", $libro->id) }}"
     >
         {{ csrf_field() }}
         <div class="row">
