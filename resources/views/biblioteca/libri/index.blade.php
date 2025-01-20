@@ -28,7 +28,7 @@
             >
                 Classificazioni
             </a>
-            <a class="dropdown-item" href="{{ route("libri.etichette") }}">
+            <a class="dropdown-item" href="{{ route("books.labels") }}">
                 Etichette
             </a>
             <div class="dropdown-divider"></div>

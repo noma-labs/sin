@@ -35,7 +35,7 @@
                     </a>
                     <a
                         class="btn btn-success"
-                        href="{{ route("libri.etichette.stampa") }}"
+                        href="{{ route("books.labels.print") }}"
                         role="button"
                     >
                         Esporta etichette
@@ -43,10 +43,11 @@
                     <form
                         class="float-right"
                         id="formRemoveAll"
-                        action="{{ route("libri.etichette.rimuovi") }}"
+                        action="{{ route("books.labels.delete") }}"
                         method="post"
                     >
                         {{ csrf_field() }}
+                        @method("DELETE")
                         <button
                             class="btn btn-danger"
                             form="formRemoveAll"
@@ -81,7 +82,7 @@
                                         </td>
                                         <td>
                                             <form
-                                                action="{{ route("libri.etichette.rimuovi.libro", ["idLibro" => $libro->id]) }}"
+                                                action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                                                 method="post"
                                             >
                                                 {{ csrf_field() }}
@@ -129,7 +130,7 @@
                     <form
                         method="POST"
                         class="form"
-                        action="{{ route("libri.etichette.aggiungi") }}"
+                        action="{{ route("books.labels.store-batch") }}"
                     >
                         {{ csrf_field() }}
                         <h5>Dalla collocazione:</h5>

@@ -16,7 +16,7 @@ it('download the etichette pfd of multiple books', function (): void {
     login();
 
     $this
-        ->get(route('libri.etichette.stampa'))
+        ->get(route('books.labels.print'))
         ->assertSuccessful()
         ->assertDownload();
 
@@ -31,7 +31,7 @@ it('download the etichette pfd of a single book', function (): void {
     login();
 
     $this
-        ->get(route('libri.etichette.stampa', ['idLibro' => $libro->id]))
+        ->get(route('books.labels.print', ['idLibro' => $libro->id]))
         ->assertSuccessful()
         ->assertDownload();
 

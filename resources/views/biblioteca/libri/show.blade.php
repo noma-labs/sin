@@ -141,7 +141,7 @@
             </div>
             <form
                 id="addLibroPrint"
-                action="{{ route("libri.etichette.aggiungi.libro", ["idLibro" => $libro->id]) }}"
+                action="{{ route("books.labels.store-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
                 {{ csrf_field() }}
@@ -149,7 +149,7 @@
 
             <form
                 id="removeLibroPrint"
-                action="{{ route("libri.etichette.rimuovi.libro", ["idLibro" => $libro->id]) }}"
+                action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
                 {{ csrf_field() }}
@@ -187,7 +187,7 @@
                     @if (! $libro->trashed())
                         <a
                             class="btn btn-warning"
-                            href="{{ route("libri.etichette.stampa", ["idLibro" => $libro->id]) }}"
+                            href="{{ route("books.labels.print", ["idLibro" => $libro->id]) }}"
                         >
                             Genera Etichetta
                         </a>

@@ -15,7 +15,7 @@ use App\Biblioteca\Controllers\BooksController;
 use App\Biblioteca\Controllers\BooksDeletedController;
 use App\Biblioteca\Controllers\ClassificazioniController;
 use App\Biblioteca\Controllers\EditoriController;
-use App\Biblioteca\Controllers\EtichetteController;
+use App\Biblioteca\Controllers\LabelsController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Controllers\VideoController;
@@ -266,13 +266,13 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::delete('books/{id}', [BooksDeletedController::class, 'destory'])->middleware('can:biblioteca.libro.elimina')->name('books.destroy');
     Route::put('books/{id}/restore', [BooksDeletedController::class, 'restore'])->middleware('can:biblioteca.libro.elimina')->name('books.restore');
 
-    Route::get('etichette/preview', [EtichetteController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
-    Route::get('etichette', [EtichetteController::class, 'view'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette');
-    Route::post('etichette', [EtichetteController::class, 'etichetteFromToCollocazione'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.aggiungi');
-    Route::post('etichette/add/{idLibro}', [EtichetteController::class, 'addLibro'])->middleware('can:biblioteca.etichetta.inserisci')->name('libri.etichette.aggiungi.libro');
-    Route::post('etichette/remove', [EtichetteController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi');
-    Route::post('etichette/remove/{idLibro}', [EtichetteController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('libri.etichette.rimuovi.libro');
-    Route::get('etichette/print', [EtichetteController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('libri.etichette.stampa');
+    Route::get('labels/preview', [LabelsController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
+    Route::get('labels', [LabelsController::class, 'index'])->middleware('can:biblioteca.etichetta.visualizza')->name("books.labels");
+    Route::post('labels', [LabelsController::class, 'storeBatch'])->middleware('can:biblioteca.etichetta.visualizza')->name("books.labels.store-batch");
+    Route::post('labels/{idLibro}', [LabelsController::class, 'storeBook'])->middleware('can:biblioteca.etichetta.inserisci')->name("books.labels.store-book");
+    Route::delete('labels/remove', [LabelsController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete');
+    Route::post('labels/remove/{idLibro}', [LabelsController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete-book');
+    Route::get('labels/print', [LabelsController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.print');
 
     Route::group([
         'middleware' => [
