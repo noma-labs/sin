@@ -39,7 +39,7 @@ final class EditoriController
 
     public function search(Request $request)
     {
-        if ($request->has('idEditore')) {
+        if ($request->filled('idEditore')) {
             $editore = Editore::findOrFail($request->input('idEditore'));
 
             return redirect()->route('editori.show', ['editori' => $editore->id]);

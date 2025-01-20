@@ -171,6 +171,7 @@ final class PrenotazioniController
             'ora_arr' => 'required',
             'uso' => 'required',
             'destinazione' => 'required',
+            'note' => 'nullable|string',
         ]);
 
         $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
@@ -189,7 +190,7 @@ final class PrenotazioniController
             $request->get('ora_par'),
             $request->get('ora_arr'),
             Uso::findOrFail($request->get('uso')),
-            $request->get('note', ''),
+            $request->get('note') ?? '',
             $request->input('destinazione', '')
         );
 

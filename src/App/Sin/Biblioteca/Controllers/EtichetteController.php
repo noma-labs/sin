@@ -20,7 +20,7 @@ final class EtichetteController
 
     public function preview(Request $request)
     {
-        if ($request->has('idLibro')) {
+        if ($request->filled('idLibro')) {
             $libri = Libro::where('id', $request->idLibro)->get();
         } else {
             $libri = Libro::TobePrinted()->get();

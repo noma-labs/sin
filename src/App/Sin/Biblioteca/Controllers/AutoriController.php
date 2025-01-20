@@ -53,11 +53,15 @@ final class AutoriController
 
     public function search(Request $request)
     {
-        if ($request->has('idAutore')) {
-            $autore = Autore::findOrFail($request->input('idAutore'));
-
-            return view('biblioteca.autori.show')->with('autore', $autore);
-        }
+        $request->validate([
+            'idAutore' => 'required|exists:db_biblioteca.autore,id',
+        ], [
+            'idAutore.required' => 'L\'autore non può essere vuoto.',
+            'idAutore.exists' => 'L\'autore non esiste.',
+        ]
+        );
+        $autore = Autore::findOrFail($request->input('idAutore'));
+        return view('biblioteca.autori.show')->with('autore', $autore);
     }
 
     public function update(Request $request, string $id)
