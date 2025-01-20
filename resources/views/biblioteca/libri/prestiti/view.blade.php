@@ -135,7 +135,7 @@
                 <div class="float-left my-2">
                     <a
                         class="btn btn-primary"
-                        href="{{ route("libri.ricerca") }}"
+                        href="{{ route("book.search.index") }}"
                         role="button"
                     >
                         Torna alla ricerca dei libri

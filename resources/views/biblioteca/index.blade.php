@@ -18,7 +18,7 @@
                         Gestione dei libri nella biblioteca di Nomadelfia.
                     </p>
                     <a
-                        href="{{ route("libri.ricerca") }}"
+                        href="{{ route("book.search.index") }}"
                         class="btn btn-primary"
                     >
                         Gestione Libri

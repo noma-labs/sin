@@ -67,6 +67,7 @@
                 action="/biblioteca/libri/{{ $libro->id }}/elimina"
             >
                 {{ csrf_field() }}
+                @method("DELETE")
                 <div class="form-group">
                     <label classfor="motivo">
                         Inserisci la motivazione della cancellazione

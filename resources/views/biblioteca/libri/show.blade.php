@@ -15,6 +15,7 @@
                         method="post"
                     >
                         {{ csrf_field() }}
+                        @method("PUT")
                         <button form="restoreBook" class="btn btn-info my-2">
                             Ripristina Libro
                         </button>

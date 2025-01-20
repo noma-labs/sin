@@ -6,6 +6,7 @@ namespace Tests\Biblioteca\Feature;
 
 use App\Biblioteca\Controllers\LibriCollocazioneController;
 use App\Biblioteca\Controllers\LibriController;
+use App\Biblioteca\Controllers\SearchableLibriController;
 use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
 use App\Biblioteca\Models\Editore;
@@ -22,7 +23,7 @@ it('will search books by location', function (): void {
         ->create();
 
     $this
-        ->get(action([LibriController::class, 'searchConfirm'], [
+        ->get(action([SearchableLibriController::class, 'search'], [
             'xCollocazione' => 'AAA',
         ]))
         ->assertSee($book->collocazione);
@@ -37,7 +38,7 @@ it('will update book when the admin is logged in', function (): void {
         ->create();
 
     $title = 'New Title';
-    $sendRequest = fn () => post(action([LibriController::class, 'editConfirm'], $book->id), [
+    $sendRequest = fn () => post(action([LibriController::class, 'update'], $book->id), [
         'xTitolo' => $title,
         'xClassificazione' => Classificazione::all()->first()->id,
     ]);
@@ -98,7 +99,7 @@ it('will swap the physical location of two books when the admin is logged in', f
 });
 
 it('will insert a book when the admin is logged in', function (): void {
-    $sendRequest = fn () => post(action([LibriController::class, 'insertConfirm']), [
+    $sendRequest = fn () => post(action([LibriController::class, 'store']), [
         'xTitolo' => 'MY title',
         'xIdAutori' => Autore::factory()->create()->id,
         'xIdEditori' => Editore::factory()->create()->id,

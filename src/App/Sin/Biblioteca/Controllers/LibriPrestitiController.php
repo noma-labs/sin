@@ -137,7 +137,7 @@ final class LibriPrestitiController
         return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito]);
     }
 
-    public function editConfirm(Request $request, $idPrestito)
+    public function update(Request $request, $idPrestito)
     {
         $request->validate([
             'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',

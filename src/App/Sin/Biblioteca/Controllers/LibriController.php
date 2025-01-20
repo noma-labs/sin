@@ -4,264 +4,22 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Autore as Autore;
 use App\Biblioteca\Models\Classificazione as Classificazione;
-use App\Biblioteca\Models\Editore as Editore;
 use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
-use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class LibriController
 {
-    public function showSearchLibriForm()
-    {
-        $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
-        $CollocazioneLettere = ViewCollocazione::lettere()->get();
-
-        return view('biblioteca.libri.search', ['classificazioni' => $classificazioni,
-            'lettere' => $CollocazioneLettere]);
-    }
-
-    public function searchConfirm(Request $request)
-    {
-        $request->validate([
-            'xIdEditore' => 'exists:db_biblioteca.editore,id',
-            'xIdAutore' => 'exists:db_biblioteca.autore,id',
-            'xClassificazione' => 'exists:db_biblioteca.classificazione,id',
-        ], [
-            'xIdEditore.exists' => 'Editore inserito non esiste.',
-            'xIdAutore.exists' => 'Autore inserito non esiste.',
-            'xClassificazione.exists' => 'Classificazione inserita non esiste.',
-        ]);
-
-        $msgSearch = ' ';
-        $orderBy = 'titolo';
-
-        if (! $request->except(['_token'])) {
-            return redirect()->route('libri.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
-        }
-
-        if ($request->filled('xIdEditore')) {
-            $editore = Editore::findOrFail($request->xIdEditore);
-            $msgSearch = $msgSearch." Editore= $editore->editore;";
-            $idEditore = $request->xIdEditore;
-            $queryLibri = Editore::find($editore->id)->libri();
-            $orderBy = 'collocazione';
-        }
-        $queryLibri = Libro::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {
-            if ($request->xTitolo) {
-                $titolo = $request->xTitolo;
-                $q->where('titolo', 'like', "%$titolo%");
-                $msgSearch = $msgSearch.'Titolo='.$titolo;
-                $orderBy = 'titolo';
-            }
-            if ($request->xCollocazione) {
-                $collocazione = $request->xCollocazione;
-                if ($collocazione === 'null') {
-                    $q->where('collocazione', '=', '')->orWhereNull('collocazione');
-                    $msgSearch = $msgSearch.' Collocazione=SENZA collocazione';
-                } else {
-                    $q->where('collocazione', 'like', "%$collocazione%");
-                    $msgSearch = $msgSearch.' Collocazione='.$collocazione;
-                }
-                $orderBy = 'collocazione';
-            }
-            if ($request->filled('xIdEditore')) {
-                $editore = Editore::findOrFail($request->xIdEditore);
-                $msgSearch = $msgSearch." Editore= $editore->editore;";
-                $idEditore = $request->xIdEditore;
-                $q->where('ID_EDITORE', $idEditore);
-                $orderBy = 'collocazione';
-            }
-            if ($request->filled('xIdAutore')) {
-                $idAutore = $request->xIdAutore;
-                $q->where('ID_AUTORE', $idAutore);
-                $autore = Autore::findOrFail($idAutore)->autore;
-                $msgSearch = $msgSearch." Autore=$autore";
-            }
-            if ($request->filled('xClassificazione')) {
-                $classificazione = (int) $request->xClassificazione;
-                if ($classificazione === 0) { // NON CLASSIFICATO
-                    $q->where('classificazione_id', "$classificazione")->orWhereNull('classificazione_id');
-                } else {
-                    $q->where('classificazione_id', "$classificazione");
-                }
-                $class = Classificazione::findOrFail($classificazione)->descrizione;
-                $msgSearch = $msgSearch.' Classificazione='.$class;
-            }
-            if ($request->xNote) {
-                $note = $request->xNote;
-                $q->where('note', 'like', "%$note%");
-                $msgSearch = $msgSearch.' Note='.$note;
-            }
-            if ($request->xCategoria) {
-                $categoria = $request->xCategoria;
-                $q->where('categoria', $categoria);
-                $msgSearch = $msgSearch.' Categoria='.$categoria;
-            }
-        });
-
-        // SQL query used to add the etichette to be printed (this query is sent to the etichetteController@Add)
-        $query = str_replace(['?'], ['\'%s\''], $queryLibri->toSql());
-        $query = vsprintf($query, $queryLibri->getBindings());
-
-        // show also the libri delted only if the authneticated user has role bibioteca
-        if (Auth::check() and Auth::user()->hasRole('biblioteca')) {
-            $libri = $queryLibri->withTrashed()->orderBy($orderBy)->paginate(50);
-        } else {
-            $libri = $queryLibri->orderBy($orderBy)->paginate(50);
-        }
-
-        $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
-
-        return view('biblioteca.libri.search_results', ['libri' => $libri,
-            'classificazioni' => $classificazioni,
-            'msgSearch' => $msgSearch,
-            'query' => $query,
-        ]);
-    }
-
-    public function show($idLibro)
-    {
-        $libro = Libro::withTrashed()->find($idLibro);
-        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idLibro)->get();
-        if ($libro) {
-            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
-        }
-
-        return redirect()->route('libri.ricerca')->withError('Il libro selezionato non esiste');
-
-    }
-
-    public function delete($idLibro)
-    {
-        $libro = Libro::findOrFail($idLibro);
-
-        return view('biblioteca.libri.delete', ['libro' => $libro]);
-    }
-
-    public function restore($idLibro)
-    {
-        $libro = Libro::withTrashed()->findOrFail($idLibro);
-        $libro->restore();
-
-        return redirect()->route('libro.dettaglio', ['idLibro' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
-    }
-
-    public function deleteConfirm(Request $request, $idLibro)
-    {
-        $request->validate([
-            'xCancellazioneNote' => 'required', //per update solito nome
-        ], [
-            'xCancellazioneNote.required' => 'La motivazione della cancellazione del libro è obbligatoria.',
-        ]);
-        $libro = Libro::findOrFail($idLibro);
-        if ($libro->inPrestito()) {
-            return redirect()->route('libri.ricerca')
-                ->withError('Impossibilie eliminare il libro. Il libro è in prestito.');
-        }
-
-        $libro->deleted_note = $request->xCancellazioneNote;
-        $libro->delete();
-
-        return redirect()->route('libri.ricerca')->withSuccess('Il libro è stato eliminato con successo.');
-    }
-
-    public function showDeleted()
-    {
-        $libriEliminati = Libro::onlyTrashed()->paginate(50);
-
-        // dd($libriEliminati);
-        return view('biblioteca.libri.deleted', compact('libriEliminati'));
-    }
-
-    public function edit($idLibro)
-    {
-        $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
-        $libro = Libro::findOrFail($idLibro);
-
-        return view('biblioteca.libri.edit', ['libro' => $libro, 'classificazioni' => $classificazioni]);
-
-    }
-
-    public function editConfirm(Request $request, $idLibro)
-    {
-        $request->validate([
-            'xTitolo' => 'required',
-            'xClassificazione' => 'required|exists:db_biblioteca.classificazione,id',
-        ], [
-            'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
-            'xClassificazione.exists' => 'La classificazione inserita non è valida.',
-            'xClassificazione.required' => 'La classificazione è obbligatoria',
-            'xCollocazione.unique' => 'La collocazione inserita esiste già.',
-        ]);
-
-        $libro = Libro::findOrFail($idLibro);
-        $libro->titolo = $request->xTitolo;
-        $libro->classificazione_id = $request->xClassificazione;
-        $libro->note = $request->xNote;
-        $libro->fill($request->only('isbn', 'data_pubblicazione', 'categoria', 'dimensione', 'critica'));
-
-        DB::transaction(function () use ($libro, $request): void {
-            $libro->save();
-            $libro->autori()->sync($request->xIdAutori);
-            $libro->editori()->sync($request->xIdEditori);
-        });
-
-        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
-    }
-
-    public function book($idLibro)
-    {
-        $libro = Libro::findOrFail($idLibro);
-
-        return view('biblioteca.libri.book', ['libro' => $libro]);
-    }
-
-    public function bookConfirm(Request $request, $idLibro)
-    {
-        $request->validate([
-            'xDatainizio' => 'date',
-            'persona_id' => 'required',
-            // 'xIdBibliotecario'=> 'exists:db_ayth.cliente,id'
-        ], [
-            'xDatainizio.date' => 'La data di inizio prestito deve essere una data valida YYYY-MM-GG',
-            'persona_id.exists' => 'Il cliente selezionanto non esiste',
-            'persona_id.required' => 'Nessun cliente selezionato',
-        ]);
-
-        $libro = Libro::findOrFail($idLibro);
-        // Receive the data for the book with POST operation, and  redirect to the libro dettaglio
-        $datainizio = $request->xDatainizio;
-        $datafine = $request->xDataFine;
-        $note = $request->input('xNote', null);
-        $idUtente = $request->persona_id;
-
-        // biblitoecario is the id of the Person associated with the logged user
-        $idBibliotecario = Auth::user()->persona->id;
-
-        if ($libro->inPrestito()) {
-            return redirect()->back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
-        }
-        $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
-        if ($prestito) {
-            return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
-        }
-        redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
-
-    }
-
-    public function showInsertLibroForm()
+    public function create()
     {
         $classificazioni = Classificazione::orderBy('descrizione')->get();
 
-        return view('biblioteca.libri.insert', compact('classificazioni'));
+        return view('biblioteca.libri.create', compact('classificazioni'));
     }
 
-    public function insertConfirm(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'xTitolo' => 'required',
@@ -316,5 +74,53 @@ final class LibriController
         }
 
         return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+    }
+
+    public function show($idLibro)
+    {
+        $libro = Libro::withTrashed()->find($idLibro);
+        $prestitiAttivi = $libro->prestiti->where('in_prestito', 1); //Prestito::InPrestito()->where("libro",$idLibro)->get();
+        if ($libro) {
+            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
+        }
+
+        return redirect()->route('book.search.index')->withError('Il libro selezionato non esiste');
+
+    }
+
+    public function edit($idLibro)
+    {
+        $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
+        $libro = Libro::findOrFail($idLibro);
+
+        return view('biblioteca.libri.edit', ['libro' => $libro, 'classificazioni' => $classificazioni]);
+
+    }
+
+    public function update(Request $request, $idLibro)
+    {
+        $request->validate([
+            'xTitolo' => 'required',
+            'xClassificazione' => 'required|exists:db_biblioteca.classificazione,id',
+        ], [
+            'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
+            'xClassificazione.exists' => 'La classificazione inserita non è valida.',
+            'xClassificazione.required' => 'La classificazione è obbligatoria',
+            'xCollocazione.unique' => 'La collocazione inserita esiste già.',
+        ]);
+
+        $libro = Libro::findOrFail($idLibro);
+        $libro->titolo = $request->xTitolo;
+        $libro->classificazione_id = $request->xClassificazione;
+        $libro->note = $request->xNote;
+        $libro->fill($request->only('isbn', 'data_pubblicazione', 'categoria', 'dimensione', 'critica'));
+
+        DB::transaction(function () use ($libro, $request): void {
+            $libro->save();
+            $libro->autori()->sync($request->xIdAutori);
+            $libro->editori()->sync($request->xIdEditori);
+        });
+
+        return redirect()->route('libro.dettaglio', ['idLibro' => $idLibro])->withSuccess('Libro modificato correttamente');
     }
 }

@@ -5,7 +5,6 @@
 <li class="nav-item dropdown">
     <a
         class="nav-link dropdown-toggle"
-        href="{{ route("libri.ricerca") }}"
         id="navbarDropdown"
         role="button"
         data-toggle="dropdown"
@@ -16,7 +15,7 @@
     </a>
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route("libri.ricerca") }}">
+        <a class="dropdown-item" href="{{ route("book.search.index") }}">
             Ricerca libro
         </a>
         @if (! Auth::guest())
