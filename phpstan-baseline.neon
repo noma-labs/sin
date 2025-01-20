@@ -346,6 +346,51 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/EtichetteController.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDataFine\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDatainizio\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:create\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/LibriBorrowController.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$idTarget\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriCollocazioneController.php
@@ -381,47 +426,12 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$persona_id\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCancellazioneNote\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCategoria\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xClassificazione\\.$#"
-			count: 3
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
 			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDataFine\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xDatainizio\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdAutore\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
@@ -431,94 +441,64 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdEditore\\.$#"
-			count: 4
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdEditori\\.$#"
 			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xNote\\.$#"
-			count: 3
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xTitolo\\.$#"
-			count: 3
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasRole\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
-			count: 4
+			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
-			count: 6
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withWarning\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:findOrFail\\(\\)\\.$#"
-			count: 1
+			count: 3
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:orderBy\\(\\)\\.$#"
-			count: 4
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:findOrFail\\(\\)\\.$#"
 			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
 			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
-			count: 6
+			count: 2
 			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:sortable\\(\\)\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCancellazioneNote\\.$#"
 			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+			path: src/App/Sin/Biblioteca/Controllers/LibriDeletedController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Prestito\\:\\:create\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
 			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+			path: src/App/Sin/Biblioteca/Controllers/LibriDeletedController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriDeletedController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/LibriDeletedController.php
 
 		-
 			message: "#^Cannot call method restore\\(\\) on array\\<Illuminate\\\\Database\\\\Eloquent\\\\Builder\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\.$#"
 			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LibriController.php
+			path: src/App/Sin/Biblioteca/Controllers/LibriDeletedController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$persona\\.$#"
@@ -624,6 +604,86 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 4
 			path: src/App/Sin/Biblioteca/Controllers/LibriPrestitiController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCategoria\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xClassificazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xCollocazione\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdAutore\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xIdEditore\\.$#"
+			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xNote\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xTitolo\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasRole\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withError\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Autore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:findOrFail\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Classificazione\\:\\:orderBy\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Editore\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\Libro\\:\\:sortable\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Biblioteca\\\\Models\\\\ViewCollocazione\\:\\:lettere\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Biblioteca/Controllers/SearchableLibriController.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$cassetta\\.$#"

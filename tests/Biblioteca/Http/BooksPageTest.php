@@ -14,6 +14,12 @@ use App\Biblioteca\Models\Libro;
 
 use function Pest\Laravel\post;
 
+it('guest user can load search page homepage', function (): void {
+    $this
+        ->get(action([SearchableLibriController::class, 'index']))
+        ->assertSee('Ricerca Libro');
+});
+
 it('will search books by location', function (): void {
 
     $book = Libro::factory()
@@ -27,6 +33,25 @@ it('will search books by location', function (): void {
             'xCollocazione' => 'AAA',
         ]))
         ->assertSee($book->collocazione);
+});
+
+it('will insert a book when the admin is logged in', function (): void {
+    $sendRequest = fn () => post(action([LibriController::class, 'store']), [
+        'xTitolo' => 'MY title',
+        'xIdAutori' => Autore::factory()->create()->id,
+        'xIdEditori' => Editore::factory()->create()->id,
+        'xCollocazione' => 'AAA005',
+        'xClassificazione' => Classificazione::factory()->create()->id,
+    ]);
+
+    $sendRequest()->assertRedirect(route('login'));
+
+    login();
+
+    $sendRequest()->assertRedirect();
+
+    expect(Libro::where('collocazione', '=', 'AAA005')->get()->count())->toBe(1);
+
 });
 
 it('will update book when the admin is logged in', function (): void {
@@ -96,23 +121,4 @@ it('will swap the physical location of two books when the admin is logged in', f
 
     expect(Libro::find($book1->id)->collocazione)->toBe($book2->collocazione);
     expect(Libro::find($book2->id)->collocazione)->toBe($book1->collocazione);
-});
-
-it('will insert a book when the admin is logged in', function (): void {
-    $sendRequest = fn () => post(action([LibriController::class, 'store']), [
-        'xTitolo' => 'MY title',
-        'xIdAutori' => Autore::factory()->create()->id,
-        'xIdEditori' => Editore::factory()->create()->id,
-        'xCollocazione' => 'AAA005',
-        'xClassificazione' => Classificazione::factory()->create()->id,
-    ]);
-
-    $sendRequest()->assertRedirect(route('login'));
-
-    login();
-
-    $sendRequest()->assertRedirect();
-
-    expect(Libro::where('collocazione', '=', 'AAA005')->get()->count())->toBe(1);
-
 });

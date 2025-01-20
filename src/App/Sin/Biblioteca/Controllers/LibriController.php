@@ -70,7 +70,7 @@ final class LibriController
             $libro->editori()->sync($request->xIdEditori);
         });
         if ($_addanother) {
-            return redirect()->route('libri.inserisci')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+            return redirect()->route('books.create')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
 
         return redirect()->route('libro.dettaglio', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
@@ -84,7 +84,7 @@ final class LibriController
             return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
         }
 
-        return redirect()->route('book.search.index')->withError('Il libro selezionato non esiste');
+        return redirect()->route('books.index')->withError('Il libro selezionato non esiste');
 
     }
 

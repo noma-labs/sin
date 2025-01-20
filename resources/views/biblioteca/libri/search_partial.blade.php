@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<form method="GET" class="form" action="{{ route("libri.ricerca.submit") }}">
+<form method="GET" class="form" action="{{ route("books.search") }}">
     {{ csrf_field() }}
     @if (Auth::guest())
         <div class="row">

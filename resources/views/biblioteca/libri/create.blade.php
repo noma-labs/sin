@@ -3,7 +3,7 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Libro"])
 
-    <form method="POST" action="{{ route("libri.inserisci.Confirm") }}">
+    <form method="POST" action="{{ route("books.store") }}">
         {{ csrf_field() }}
         <div class="row">
             <div class="col-md-12">

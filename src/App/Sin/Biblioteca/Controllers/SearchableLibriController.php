@@ -39,7 +39,7 @@ final class SearchableLibriController
         $orderBy = 'titolo';
 
         if (! $request->except(['_token'])) {
-            return redirect()->route('book.search.index')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return redirect()->route('books.index')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         if ($request->filled('xIdEditore')) {

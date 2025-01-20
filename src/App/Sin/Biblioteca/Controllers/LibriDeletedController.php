@@ -40,13 +40,13 @@ final class LibriDeletedController
         ]);
         $libro = Libro::findOrFail($idLibro);
         if ($libro->inPrestito()) {
-            return redirect()->route('book.search.index')
+            return redirect()->route('books.index')
                 ->withError('Impossibilie eliminare il libro. Il libro è in prestito.');
         }
 
         $libro->deleted_note = $request->xCancellazioneNote;
         $libro->delete();
 
-        return redirect()->route('book.search.index')->withSuccess('Il libro è stato eliminato con successo.');
+        return redirect()->route('books.index')->withSuccess('Il libro è stato eliminato con successo.');
     }
 }

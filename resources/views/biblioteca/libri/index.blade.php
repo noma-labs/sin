@@ -15,11 +15,11 @@
     </a>
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route("book.search.index") }}">
+        <a class="dropdown-item" href="{{ route("books.index") }}">
             Ricerca libro
         </a>
         @if (! Auth::guest())
-            <a class="dropdown-item" href="{{ route("libri.inserisci") }}">
+            <a class="dropdown-item" href="{{ route("books.create") }}">
                 Aggiungi libro
             </a>
             <a
