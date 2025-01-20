@@ -19,7 +19,7 @@ final class SearchableBooksController
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
         $CollocazioneLettere = ViewCollocazione::lettere()->get();
 
-        return view('biblioteca.libri.search.index', ['classificazioni' => $classificazioni,
+        return view('biblioteca.books.search.index', ['classificazioni' => $classificazioni,
             'lettere' => $CollocazioneLettere]);
     }
 
@@ -115,7 +115,7 @@ final class SearchableBooksController
 
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
 
-        return view('biblioteca.libri.search_results', ['libri' => $libri,
+        return view('biblioteca.books.search_results', ['libri' => $libri,
             'classificazioni' => $classificazioni,
             'msgSearch' => $msgSearch,
             'query' => $query,

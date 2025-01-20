@@ -28,7 +28,7 @@ final class LoansController
             ->orderBy('data_inizio_prestito', 'desc')
             ->get();
 
-        return view('biblioteca.libri.prestiti.view', ['prestiti' => $prestiti,
+        return view('biblioteca.books.prestiti.view', ['prestiti' => $prestiti,
             'msgSearch' => 'Tutti e prestiti attivi',
             'query' => '']);
     }
@@ -43,7 +43,7 @@ final class LoansController
             $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); //Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
             $prestitiRestituiti = $cliente->prestiti()->where('in_prestito', 0)->orderBy('data_fine_prestito')->get(); //Prestito::Restituiti()->where(["CLIENTE"=>$idCliente])->get();
 
-            return view('biblioteca.libri.prestiti.cliente', compact('cliente', 'prestitiAttivi', 'prestitiRestituiti'));
+            return view('biblioteca.books.prestiti.cliente', compact('cliente', 'prestitiAttivi', 'prestitiRestituiti'));
         }
 
         $queryPrestiti = Prestito::where(function ($q) use ($request, &$msgSearch): void {
@@ -93,7 +93,7 @@ final class LoansController
         $prestiti = $queryPrestiti->orderBy('data_inizio_prestito', 'DESC')->paginate(50);
         $query = $queryPrestiti->toSql();
 
-        return view('biblioteca.libri.prestiti.view', ['prestiti' => $prestiti,
+        return view('biblioteca.books.prestiti.view', ['prestiti' => $prestiti,
             'msgSearch' => $msgSearch,
             'query' => $query]);
     }
@@ -105,14 +105,14 @@ final class LoansController
         }
         $prestito = Prestito::findOrFail($id);
 
-        return view('biblioteca.libri.prestiti.show', ['prestito' => $prestito]);
+        return view('biblioteca.books.prestiti.show', ['prestito' => $prestito]);
     }
 
     public function edit($id)
     {
         $prestito = Prestito::findOrFail($id);
 
-        return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito]);
+        return view('biblioteca.books.prestiti.edit', ['prestito' => $prestito]);
     }
 
     public function update(Request $request, $id)

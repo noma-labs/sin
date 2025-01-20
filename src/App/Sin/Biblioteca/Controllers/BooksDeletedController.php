@@ -13,14 +13,14 @@ final class BooksDeletedController
     {
         $libriEliminati = Libro::onlyTrashed()->paginate(50);
 
-        return view('biblioteca.libri.trash.index', compact('libriEliminati'));
+        return view('biblioteca.books.trash.index', compact('libriEliminati'));
     }
 
     public function create($idLibro)
     {
         $libro = Libro::findOrFail($idLibro);
 
-        return view('biblioteca.libri.trash.create', ['libro' => $libro]);
+        return view('biblioteca.books.trash.create', ['libro' => $libro]);
     }
 
     public function restore($idLibro)

@@ -13,7 +13,7 @@ final class BooksCallNumberController
     {
         $libro = Libro::with('classificazione')->findOrFail($idLibro);
 
-        return view('biblioteca.libri.call-number.show', compact('libro'));
+        return view('biblioteca.books.call-number.show', compact('libro'));
     }
 
     public function update(Request $request, $idLibro)
@@ -50,7 +50,7 @@ final class BooksCallNumberController
         $libro = Libro::findOrFail($id);
         $libroTarget = Libro::findOrFail($idTarget);
 
-        return view('biblioteca.libri.call-number.swap', compact('libro', 'libroTarget'));
+        return view('biblioteca.books.call-number.swap', compact('libro', 'libroTarget'));
     }
 
     public function swapUpdate($idLibro, $idTarget)

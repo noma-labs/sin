@@ -13,12 +13,12 @@ final class AuthorsController
     {
         $autori = Autore::orderBy('Autore')->paginate(150);
 
-        return view('biblioteca.autori.index')->with('autori', $autori);
+        return view('biblioteca.authors.index')->with('autori', $autori);
     }
 
     public function create()
     {
-        return view('biblioteca.autori.create');
+        return view('biblioteca.authors.create');
     }
 
     public function store(Request $request)
@@ -40,23 +40,25 @@ final class AuthorsController
     public function show($id)
     {
         $autore = Autore::findOrFail($id);
+        $books = $autore->libri()->orderBy('titolo');
 
-        return view('biblioteca.autori.show')->with('autore', $autore);
+        return view('biblioteca.authors.show', compact('autore', 'books'));
     }
 
     public function edit($id)
     {
         $autore = Autore::findOrFail($id);
 
-        return view('biblioteca.autori.edit')->with('autore', $autore);
+        return view('biblioteca.authors.edit')->with('autore', $autore);
     }
 
     public function search(Request $request)
     {
         if ($request->has('idAutore')) {
             $autore = Autore::findOrFail($request->input('idAutore'));
+            $books = $autore->libri()->orderBy('titolo');
 
-            return view('biblioteca.autori.show')->with('autore', $autore);
+            return view('biblioteca.authors.show', compact('autore', 'books'));
         }
     }
 

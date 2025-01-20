@@ -13,12 +13,12 @@ final class EditorsController
     {
         $editori = Editore::orderBy('Editore')->paginate(150);
 
-        return view('biblioteca.editori.index')->with('editori', $editori);
+        return view('biblioteca.editors.index')->with('editori', $editori);
     }
 
     public function create()
     {
-        return view('biblioteca.editori.create');
+        return view('biblioteca.editors.create');
     }
 
     public function store(Request $request)
@@ -50,14 +50,14 @@ final class EditorsController
     {
         $editore = Editore::findOrFail($id);
 
-        return view('biblioteca.editori.show')->with('editore', $editore);
+        return view('biblioteca.editors.show')->with('editore', $editore);
     }
 
     public function edit($id)
     {
         $editore = Editore::findOrFail($id);
 
-        return view('biblioteca.editori.edit')->with('editore', $editore);
+        return view('biblioteca.editors.edit')->with('editore', $editore);
 
     }
 

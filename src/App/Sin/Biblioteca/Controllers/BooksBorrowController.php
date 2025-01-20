@@ -8,7 +8,6 @@ use App\Biblioteca\Models\Libro as Libro;
 use App\Biblioteca\Models\Prestito as Prestito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 final class BooksBorrowController
 {
@@ -16,7 +15,7 @@ final class BooksBorrowController
     {
         $libro = Libro::findOrFail($id);
 
-        return view('biblioteca.libri.book', ['libro' => $libro]);
+        return view('biblioteca.books.borrow.create', ['libro' => $libro]);
     }
 
     public function store(Request $request, $id)

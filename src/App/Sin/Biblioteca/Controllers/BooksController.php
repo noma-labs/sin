@@ -15,7 +15,7 @@ final class BooksController
     {
         $classificazioni = Classificazione::orderBy('descrizione')->get();
 
-        return view('biblioteca.libri.create', compact('classificazioni'));
+        return view('biblioteca.books.create', compact('classificazioni'));
     }
 
     public function store(Request $request)
@@ -80,7 +80,7 @@ final class BooksController
         $libro = Libro::withTrashed()->find($idLibro);
         $prestitiAttivi = $libro->prestiti->where('in_prestito', 1);
         if ($libro) {
-            return view('biblioteca.libri.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
+            return view('biblioteca.books.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
         }
 
         return redirect()->route('books.index')->withError('Il libro selezionato non esiste');
@@ -92,7 +92,7 @@ final class BooksController
         $classificazioni = Classificazione::orderBy('descrizione', 'ASC')->get();
         $libro = Libro::findOrFail($id);
 
-        return view('biblioteca.libri.edit', ['libro' => $libro, 'classificazioni' => $classificazioni]);
+        return view('biblioteca.books.edit', ['libro' => $libro, 'classificazioni' => $classificazioni]);
 
     }
 

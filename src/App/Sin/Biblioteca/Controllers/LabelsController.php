@@ -15,7 +15,7 @@ final class LabelsController
     {
         $libriTobePrinted = Libro::TobePrinted()->orderBY('COLLOCAZIONE')->get();
 
-        return view('biblioteca.libri.labels.index', ['libriTobePrinted' => $libriTobePrinted]);
+        return view('biblioteca.books.labels.index', ['libriTobePrinted' => $libriTobePrinted]);
     }
 
     public function preview(Request $request)
@@ -26,7 +26,7 @@ final class LabelsController
             $libri = Libro::TobePrinted()->get();
         }
 
-        return view('biblioteca.libri.labels.printsingle', ['libri' => $libri]);
+        return view('biblioteca.books.labels.printsingle', ['libri' => $libri]);
     }
 
     public function storeBook($idLibro)
