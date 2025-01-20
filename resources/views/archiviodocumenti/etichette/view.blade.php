@@ -26,7 +26,7 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12 my-2">
-                    <!-- <a class="btn btn-info"   href="{{ route("libri.etichette.preview") }}"  role="button">Anteprima </a> -->
+                    <!-- <a class="btn btn-info"   href="{{ route("books.labels.preview") }}"  role="button">Anteprima </a> -->
                     <a
                         class="btn btn-success"
                         href="{{ route("libri.etichette.esporta") }}"

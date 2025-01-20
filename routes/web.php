@@ -266,10 +266,10 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::delete('books/{id}', [BooksDeletedController::class, 'destory'])->middleware('can:biblioteca.libro.elimina')->name('books.destroy');
     Route::put('books/{id}/restore', [BooksDeletedController::class, 'restore'])->middleware('can:biblioteca.libro.elimina')->name('books.restore');
 
-    Route::get('labels/preview', [LabelsController::class, 'preview'])->withoutMiddleware('auth')->name('libri.etichette.preview');
-    Route::get('labels', [LabelsController::class, 'index'])->middleware('can:biblioteca.etichetta.visualizza')->name("books.labels");
-    Route::post('labels', [LabelsController::class, 'storeBatch'])->middleware('can:biblioteca.etichetta.visualizza')->name("books.labels.store-batch");
-    Route::post('labels/{idLibro}', [LabelsController::class, 'storeBook'])->middleware('can:biblioteca.etichetta.inserisci')->name("books.labels.store-book");
+    Route::get('labels/preview', [LabelsController::class, 'preview'])->withoutMiddleware('auth')->name('books.labels.preview');
+    Route::get('labels', [LabelsController::class, 'index'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels');
+    Route::post('labels', [LabelsController::class, 'storeBatch'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.store-batch');
+    Route::post('labels/{idLibro}', [LabelsController::class, 'storeBook'])->middleware('can:biblioteca.etichetta.inserisci')->name('books.labels.store-book');
     Route::delete('labels/remove', [LabelsController::class, 'removeAll'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete');
     Route::post('labels/remove/{idLibro}', [LabelsController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete-book');
     Route::get('labels/print', [LabelsController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.print');

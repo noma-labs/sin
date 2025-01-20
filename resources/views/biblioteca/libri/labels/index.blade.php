@@ -28,7 +28,7 @@
                 <div class="col-md-12 my-2">
                     <a
                         class="btn btn-info"
-                        href="{{ route("libri.etichette.preview") }}"
+                        href="{{ route("books.labels.preview") }}"
                         role="button"
                     >
                         Anteprima

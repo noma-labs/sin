@@ -29,8 +29,6 @@ final class LabelsController
         return view('biblioteca.libri.labels.printsingle', ['libri' => $libri]);
     }
 
-
-
     public function storeBook($idLibro)
     {
         $res = Libro::find($idLibro)->update(['tobe_printed' => 1]);
@@ -47,10 +45,10 @@ final class LabelsController
         $libro = Libro::find($idLibro);
         $res = $libro->update(['tobe_printed' => 0]);
         if ($res) {
-            return redirect()->route("books.labels")->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
+            return redirect()->route('books.labels')->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
         }
 
-        return redirect()->route("books.labels")->withError("Errore nell'operazione");
+        return redirect()->route('books.labels')->withError("Errore nell'operazione");
 
     }
 
@@ -61,11 +59,11 @@ final class LabelsController
         if ($request->input('action') === 'add') {
             $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 1]);
 
-            return redirect()->route("books.labels")->withSuccess("$count etichette aggiunte alla stampa");
+            return redirect()->route('books.labels')->withSuccess("$count etichette aggiunte alla stampa");
         }
         $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 0]);
 
-        return redirect()->route("books.labels")->withSuccess("$count etichette rimosse dalla stampa");
+        return redirect()->route('books.labels')->withSuccess("$count etichette rimosse dalla stampa");
 
     }
 
@@ -73,10 +71,10 @@ final class LabelsController
     {
         $res = Libro::toBePrinted()->update(['tobe_printed' => 0]);
         if ($res) {
-            return redirect()->route("books.labels")->withSuccess("Tutte le $res etichette sono state eliminate.");
+            return redirect()->route('books.labels')->withSuccess("Tutte le $res etichette sono state eliminate.");
         }
 
-        return redirect()->route("books.labels")->withError("Errore nell'operazione");
+        return redirect()->route('books.labels')->withError("Errore nell'operazione");
     }
 
     public function printToPdf(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
@@ -84,7 +82,7 @@ final class LabelsController
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("etichette-$date.pdf");
 
-        Browsershot::url(route('libri.etichette.preview', ['idLibro' => $request->get('idLibro')]))
+        Browsershot::url(route('books.labels.preview', ['idLibro' => $request->get('idLibro')]))
             ->noSandbox()
             ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
             ->timeout(2000)
