@@ -7,7 +7,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Autore as Autore;
 use Illuminate\Http\Request;
 
-final class AutoriController
+final class AuthorsController
 {
     public function index()
     {
@@ -77,12 +77,12 @@ final class AutoriController
             return redirect()->route('autori.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
         }
 
-        return redirect()->route('autori.index')->withErroe("Errore durante l'operaizone di aggiornamento");
+        return redirect()->route('autori.index')->withErrors("Errore durante l'operaizone di aggiornamento");
 
     }
 
     public function destroy()
     {
-        return redirect()->route('autori.index')->withError("Impossibile eliminare l'autore");
+        return redirect()->route('autori.index')->withErrors("Impossibile eliminare l'autore");
     }
 }

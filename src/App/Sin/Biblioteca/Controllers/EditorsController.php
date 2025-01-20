@@ -7,11 +7,11 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Editore as Editore;
 use Illuminate\Http\Request;
 
-final class EditoriController
+final class EditorsController
 {
     public function index()
     {
-        $editori = Editore::orderBy('Editore')->paginate(150); //Get all roles
+        $editori = Editore::orderBy('Editore')->paginate(150);
 
         return view('biblioteca.editori.index')->with('editori', $editori);
     }

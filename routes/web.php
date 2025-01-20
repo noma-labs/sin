@@ -8,13 +8,13 @@ use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
-use App\Biblioteca\Controllers\AutoriController;
+use App\Biblioteca\Controllers\AuthorsController;
 use App\Biblioteca\Controllers\BooksBorrowController;
 use App\Biblioteca\Controllers\BooksCallNumberController;
 use App\Biblioteca\Controllers\BooksController;
 use App\Biblioteca\Controllers\BooksDeletedController;
 use App\Biblioteca\Controllers\ClassificazioniController;
-use App\Biblioteca\Controllers\EditoriController;
+use App\Biblioteca\Controllers\EditorsController;
 use App\Biblioteca\Controllers\LabelsController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
@@ -280,8 +280,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
             'can:biblioteca.autore.visualizza',
         ],
     ], function () {
-        Route::get('autori/search', [AutoriController::class, 'search'])->name('autori.ricerca');
-        Route::resource('autori', AutoriController::class);
+        Route::get('autori/search', [AuthorsController::class, 'search'])->name('autori.ricerca');
+        Route::resource('autori', AuthorsController::class);
     });
 
     Route::group([
@@ -290,8 +290,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
             'can:biblioteca.autore.inserisci',
         ],
     ], function () {
-        Route::get('editori/search', [EditoriController::class, 'search'])->name('editori.ricerca');
-        Route::resource('editori', EditoriController::class);
+        Route::get('editori/search', [EditorsController::class, 'search'])->name('editori.ricerca');
+        Route::resource('editori', EditorsController::class);
     });
 
     Route::group(['middleware' => ['can:biblioteca.libro.visualizza']], function () {
