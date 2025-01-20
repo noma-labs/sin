@@ -92,9 +92,9 @@
                     </p>
                     <p>
                         classificazione:
-                         @if ($libroTarget->classificazione)
+                        @if ($libroTarget->classificazione)
                             <strong>
-                                {{ $libro->classificazione->descrizione }}
+                                {{ $libroTarget->classificazione->descrizione }}
                             </strong>
                         @endif
                     </p>
@@ -116,13 +116,6 @@
             >
                 @method("PUT")
                 {{ csrf_field() }}
-                <input
-                    type="hidden"
-                    class="mx-1"
-                    name="idTarget"
-                    value="{{ $libroTarget->id }}"
-                />
-                <!-- value=yes sent to the server, if value is yes delete the record -->
                 <div class="form-group">
                     <button class="btn btn-danger mx-1" type="submit">
                         Cambia collocazione

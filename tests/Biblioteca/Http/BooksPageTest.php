@@ -65,8 +65,8 @@ it('shows a book detail page', function (): void {
     login();
 
     $this->get(action([LibriController::class, 'show'], $book->id))
-          ->assertSuccessful()
-         ->assertSee('BBB001');
+        ->assertSuccessful()
+        ->assertSee('BBB001');
 
 });
 
@@ -124,8 +124,7 @@ it('will swap the call-number of two books when the admin is logged in', functio
         ->physicalPlacement('AAA100')
         ->create();
 
-    $sendRequest = fn () => post(action([LibriCollocazioneController::class, 'swapUpdate'], $book1->id), [
-        'idTarget' => $book2->id,
+    $sendRequest = fn () => put(action('books.call-number.swap.update', ['id' => $book1->id, 'idTarget' => $book2->id]), [
     ]);
 
     $sendRequest()->assertRedirect(route('login'));

@@ -247,8 +247,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::get('books/{id}', [LibriController::class, 'show'])->middleware('can:biblioteca.libro.prenota')->name('books.show');
 
     Route::get('books/{id}/call-number', [LibriCollocazioneController::class, 'show'])->middleware('can:biblioteca.libro.visualizza')->name('books.call-number');
-    Route::put('books/{id}/call-number', [LibriCollocazioneController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name("books.call-number.update");
-    Route::get('books/{id}/call-number/{idTarget}', [LibriCollocazioneController::class, 'swapShow'])->middleware('can:biblioteca.libro.modifica')->name("books.call-number.swap");
+    Route::put('books/{id}/call-number', [LibriCollocazioneController::class, 'update'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.update');
+    Route::get('books/{id}/call-number/{idTarget}', [LibriCollocazioneController::class, 'swapShow'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.swap');
     Route::put('books/{id}/call-number/{idTarget}', [LibriCollocazioneController::class, 'swapUpdate'])->middleware('can:biblioteca.libro.modifica')->name('books.call-number.swap.update');
 
     Route::get('loans', [LibriPrestitiController::class, 'view'])->middleware('can:biblioteca.libro.prenota')->name('libri.prestiti');

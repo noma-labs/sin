@@ -18,7 +18,7 @@ final class LibriCollocazioneController
 
     public function update(Request $request, $idLibro)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'xCollocazione' => 'required', //per update solito nome
         ], [
             'xCollocazione.required' => 'La collocazione nuova non è stata selezionata.',
@@ -39,7 +39,7 @@ final class LibriCollocazioneController
 
         }
         $libro->collocazione = null;
-        $res = $libro->save();
+        $libro->save();
 
         return redirect()->route('books.show', ['id' => $libro->id])->withSuccess("La collocazione $collocazione è stata sostituita con SENZA COLLOCAZIONE con successo.");
 
@@ -53,16 +53,10 @@ final class LibriCollocazioneController
         return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'));
     }
 
-    public function swapUpdate(Request $request, $idLibro)
+    public function swapUpdate($idLibro, $idTarget)
     {
-        $request->validate([
-            'idTarget' => 'required', //per update solito nome
-        ], [
-            'idTarget.required' => 'IL libro a cui prelevare la collocazione è obbligatorio.',
-        ]);
-
         $libro = Libro::findOrFail($idLibro);
-        $libroTarget = Libro::findOrFail($request->idTarget);
+        $libroTarget = Libro::findOrFail($idTarget);
 
         $collocazione = $libro->collocazione;
         $libro->collocazione = $libroTarget->collocazione;

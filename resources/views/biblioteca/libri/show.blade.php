@@ -171,7 +171,7 @@
                                 type="submit"
                             >
                                 Aggiungi stampa etichetta
-                    </button>
+                            </button>
                         @else
                             <button
                                 class="btn btn-warning"
