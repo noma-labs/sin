@@ -36,7 +36,6 @@ final class LoansController
     public function search(Request $request)
     {
 
-
         $msgSearch = ' ';
         // se sto cercando il prestito di una persona redirect sul dettaglio della persona.
         if ($request->filled('persona_id') and ! $request->filled('note')) {
