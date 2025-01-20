@@ -20,7 +20,7 @@
     <form
         method="GET"
         class="form"
-        action="{{ route("libri.prestiti.ricerca") }}"
+        action="{{ route("books.loans.search") }}"
     >
         <div class="row">
             {{ csrf_field() }}
@@ -220,7 +220,7 @@
                         <td>
                             <a
                                 class="btn btn-warning"
-                                href="{{ route("libri.prestito", ["idPrestito" => $prestito->id]) }}"
+                                href="{{ route("books.loans.show", ["id" => $prestito->id]) }}"
                                 role="button"
                             >
                                 Dettaglio prestito

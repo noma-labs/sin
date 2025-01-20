@@ -12,31 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-final class LibriPrestitiController
+final class LoansController
 {
-    public function conclude(Request $request, $idPrestito)
-    {
-        $prestito = Prestito::findOrFail($idPrestito);
-        $_concludi = $request->_concludi; // "concludi" value is sent when the button Concluid prestito is clicked
 
-        // $bibliotecario = Auth::user()->id; //$request->xIdBibliotecario;
-        $bibliotecario = Auth::user()->persona->id;
-        if ($_concludi) {
-            $data = Carbon::now()->toDateString();
-            $res = $prestito->update(['in_prestito' => 0, 'data_fine_prestito' => $data, 'bibliotecario_id' => $bibliotecario]);
-            if ($res) {
-                return ($url = Session::get('clientePrestitiUrl'))
-                    ? redirect()->to($url)->withSuccess("Prestito terminato correttamente in data $data")
-                    : redirect()->route('libri.prestiti')->withSuccess("Prestito terminato correttamente in data $data");
-            }
-
-            return redirect()->route('libri.prestiti')->withError('Errore nella richiesta. Nessuna modifica effettuata');
-
-        }
-
-    }
-
-    public function view()
+    public function index()
     {
         $prestiti = Prestito::inPrestito()
             ->with([
@@ -120,24 +99,24 @@ final class LibriPrestitiController
             'query' => $query]);
     }
 
-    public function show($idPrestito)
+    public function show($id)
     {
-        if (Session::has('clientePrestitiUrl')) { // contains the url of the detail of the utente
+        if (Session::has('clientePrestitiUrl')) {
             Session::keep('clientePrestitiUrl');
         }
-        $prestito = Prestito::findOrFail($idPrestito);
+        $prestito = Prestito::findOrFail($id);
 
         return view('biblioteca.libri.prestiti.show', ['prestito' => $prestito]);
     }
 
-    public function edit($idPrestito)
+    public function edit($id)
     {
-        $prestito = Prestito::findOrFail($idPrestito);
+        $prestito = Prestito::findOrFail($id);
 
         return view('biblioteca.libri.prestiti.edit', ['prestito' => $prestito]);
     }
 
-    public function update(Request $request, $idPrestito)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',
@@ -145,7 +124,7 @@ final class LibriPrestitiController
             'xDataRestituzione.after_or_equal' => 'La data di restituzione prestito deve essere maggiore o uguale alla data di inizio prestito',
         ]);
 
-        $prestito = Prestito::findOrFail($idPrestito);
+        $prestito = Prestito::findOrFail($id);
 
         $dataprenotazione = $request->xDataPrenotazione;
         $datarestituzione = $request->xDataRestituzione;
@@ -154,7 +133,7 @@ final class LibriPrestitiController
         $bibliotecario = Auth::user()->persona->id;
 
         $persona = Persona::findOrFail($request->persona_id);
-        $prestito = Prestito::findOrFail($idPrestito);
+        $prestito = Prestito::findOrFail($id);
         $prestito->update([
             'bibliotecario_id' => $bibliotecario,
             'data_fine_prestito' => $datarestituzione,
@@ -163,10 +142,32 @@ final class LibriPrestitiController
             'cliente_id' => $persona->id,
         ]);
         if ($prestito) {
-            return redirect()->route('libri.prestiti')->withSuccess('Prestito modificato correttamente');
+            return redirect()->route('books.loans')->withSuccess('Prestito modificato correttamente');
         }
 
-        return redirect()->route('libri.prestiti')->withWarning('Nessuna modifica effettuata');
+        return redirect()->route('books.loans')->withWarning('Nessuna modifica effettuata');
+
+    }
+
+    public function return(Request $request, $idPrestito)
+    {
+        $prestito = Prestito::findOrFail($idPrestito);
+        $_concludi = $request->_concludi; // "concludi" value is sent when the button Concluid prestito is clicked
+
+        // $bibliotecario = Auth::user()->id; //$request->xIdBibliotecario;
+        $bibliotecario = Auth::user()->persona->id;
+        if ($_concludi) {
+            $data = Carbon::now()->toDateString();
+            $res = $prestito->update(['in_prestito' => 0, 'data_fine_prestito' => $data, 'bibliotecario_id' => $bibliotecario]);
+            if ($res) {
+                return ($url = Session::get('clientePrestitiUrl'))
+                    ? redirect()->to($url)->withSuccess("Prestito terminato correttamente in data $data")
+                    : redirect()->route('books.loans')->withSuccess("Prestito terminato correttamente in data $data");
+            }
+
+            return redirect()->route('books.loans')->withError('Errore nella richiesta. Nessuna modifica effettuata');
+
+        }
 
     }
 }

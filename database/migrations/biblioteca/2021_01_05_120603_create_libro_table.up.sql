@@ -23,7 +23,7 @@ CREATE TABLE `libro` (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- TODO: enable the constraint after fix the LibriController::swapUpdate that swaps the collocazione of two books
+-- TODO: enable the constraint after fix the BooksController::swapUpdate that swaps the collocazione of two books
 -- CONSTRAINT unq_libro_collocazione UNIQUE (collocazione)
 
 

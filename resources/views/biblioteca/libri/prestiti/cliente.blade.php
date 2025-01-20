@@ -47,7 +47,7 @@
                                     <td>
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("libri.prestito", ["idPrestito" => 1]) }}"
+                                            href="{{ route("books.loans.show", ["id" => 1]) }}"
                                             role="button"
                                         >
                                             Dettaglio prestito
@@ -75,7 +75,7 @@
                             @foreach ($prestitiRestituiti as $prestito)
                                 <li class="list-group-item">
                                     <a
-                                        href="{{ route("libri.prestito", [$prestito->id]) }}"
+                                        href="{{ route("books.loans.show", [$prestito->id]) }}"
                                     >
                                         {{ $prestito->libro->collocazione }}-
                                         {{ $prestito->libro->titolo }}

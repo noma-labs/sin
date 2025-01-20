@@ -12,7 +12,7 @@ use App\Biblioteca\Models\ViewCollocazione as ViewCollocazione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-final class SearchableLibriController
+final class SearchableBooksController
 {
     public function index()
     {

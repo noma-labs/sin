@@ -7,7 +7,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use Illuminate\Http\Request;
 
-final class LibriCollocazioneController
+final class BooksCallNumberController
 {
     public function show($idLibro)
     {
@@ -50,7 +50,7 @@ final class LibriCollocazioneController
         $libro = Libro::findOrFail($id);
         $libroTarget = Libro::findOrFail($idTarget);
 
-        return view('biblioteca.libri.collocazione_confirm', compact('libro', 'libroTarget'));
+        return view('biblioteca.libri.call-number.swap', compact('libro', 'libroTarget'));
     }
 
     public function swapUpdate($idLibro, $idTarget)

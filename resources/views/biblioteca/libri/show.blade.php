@@ -240,7 +240,7 @@
                     @if ($libro->inPrestito())
                         <a
                             class="btn btn-primary"
-                            href="{{ route("libri.prestito", ["idPrestito" => $prestito->id]) }}"
+                            href="{{ route("books.loans.show", ["id" => $prestito->id]) }}"
                         >
                             Gestisci prestito
                         </a>

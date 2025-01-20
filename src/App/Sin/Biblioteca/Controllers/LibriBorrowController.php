@@ -46,9 +46,9 @@ final class LibriBorrowController
         }
         $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $idLibro, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
         if ($prestito) {
-            return redirect()->route('libri.prestiti')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
+            return redirect()->route('books.loans')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
         }
-        redirect()->route('libri.prestiti')->withWarning('Errore nel prestito');
+        redirect()->route('books.loans')->withWarning('Errore nel prestito');
 
     }
 }

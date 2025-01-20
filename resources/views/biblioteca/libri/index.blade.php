@@ -83,7 +83,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route("libri.prestiti") }}">Prestiti</a>
+        <a class="nav-link" href="{{ route("books.loans") }}">Prestiti</a>
     </li>
 @endif
 

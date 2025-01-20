@@ -66,16 +66,17 @@
                 class="form"
                 id="concludi-prestito"
                 method="POST"
-                action="{{ route("libri.prestito.concludi", ["idPrestito" => $prestito->id]) }}"
+                action="{{ route("books.loans.return", $prestito->id) }}"
             >
                 {{ csrf_field() }}
+                @method("PUT")
             </form>
 
             <div class="row">
                 <div class="col-md-12 my-3">
                     <a
                         class="btn btn-success"
-                        href="{{ route("libri.prestito.modifica", ["idPrestito" => $prestito->id]) }}"
+                        href="{{ route("books.loans.edit", ["id" => $prestito->id]) }}"
                         role="button"
                     >
                         Modifica Prestito
@@ -94,7 +95,7 @@
 
                     <a
                         class="btn btn-info float-right"
-                        href="{{ route("libri.prestiti") }}"
+                        href="{{ route("books.loans") }}"
                         role="button"
                     >
                         Torna ai prestiti

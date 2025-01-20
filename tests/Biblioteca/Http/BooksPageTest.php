@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Biblioteca\Feature;
 
-use App\Biblioteca\Controllers\LibriCollocazioneController;
-use App\Biblioteca\Controllers\LibriController;
-use App\Biblioteca\Controllers\SearchableLibriController;
+use App\Biblioteca\Controllers\BooksCallNumberController;
+use App\Biblioteca\Controllers\BooksController;
+use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Models\Autore;
 use App\Biblioteca\Models\Classificazione;
 use App\Biblioteca\Models\Editore;
@@ -17,7 +17,7 @@ use function Pest\Laravel\put;
 
 it('guest user can load search page homepage', function (): void {
     $this
-        ->get(action([SearchableLibriController::class, 'index']))
+        ->get(action([SearchableBooksController::class, 'index']))
         ->assertSee('Ricerca Libro');
 });
 
@@ -30,14 +30,14 @@ it('will search books by location', function (): void {
         ->create();
 
     $this
-        ->get(action([SearchableLibriController::class, 'search'], [
+        ->get(action([SearchableBooksController::class, 'search'], [
             'xCollocazione' => 'AAA',
         ]))
         ->assertSee($book->collocazione);
 });
 
 it('inserts a book when the admin is logged in', function (): void {
-    $sendRequest = fn () => post(action([LibriController::class, 'store']), [
+    $sendRequest = fn () => post(action([BooksController::class, 'store']), [
         'xTitolo' => 'MY title',
         'xIdAutori' => Autore::factory()->create()->id,
         'xIdEditori' => Editore::factory()->create()->id,
@@ -64,7 +64,7 @@ it('shows a book detail page', function (): void {
 
     login();
 
-    $this->get(action([LibriController::class, 'show'], $book->id))
+    $this->get(action([BooksController::class, 'show'], $book->id))
         ->assertSuccessful()
         ->assertSee('BBB001');
 
@@ -79,7 +79,7 @@ it('updates a book when the admin is logged in', function (): void {
         ->create();
 
     $title = 'New Title';
-    $sendRequest = fn () => put(action([LibriController::class, 'update'], $book->id), [
+    $sendRequest = fn () => put(action([BooksController::class, 'update'], $book->id), [
         'xTitolo' => $title,
         'xClassificazione' => Classificazione::all()->first()->id,
     ]);
@@ -101,7 +101,7 @@ it('will edit the call-number when the admin is logged in', function (): void {
         ->create();
 
     $new = 'AAA002';
-    $sendRequest = fn () => put(action([LibriCollocazioneController::class, 'update'], $book->id), [
+    $sendRequest = fn () => put(action([BooksCallNumberController::class, 'update'], $book->id), [
         'xCollocazione' => $new,
     ]);
 

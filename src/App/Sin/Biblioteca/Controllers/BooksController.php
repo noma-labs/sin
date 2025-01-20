@@ -9,7 +9,7 @@ use App\Biblioteca\Models\Libro as Libro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-final class LibriController
+final class BooksController
 {
     public function create()
     {

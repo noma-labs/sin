@@ -9,9 +9,10 @@
                 id="form-modifica"
                 class="form"
                 method="POST"
-                action="{{ route("libri.prestito.modifica", ["idPrestito" => $prestito->id]) }}"
+                action="{{ route("books.loans.update", $prestito->id) }}"
             >
                 {{ csrf_field() }}
+                @method("PUT")
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -96,7 +97,7 @@
                         </button>
                         <a
                             class="btn btn-info m-1"
-                            href="{{ route("libri.prestiti") }}"
+                            href="{{ route("books.loans") }}"
                             role="button"
                         >
                             Torna Prestiti
