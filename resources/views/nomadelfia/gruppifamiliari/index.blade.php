@@ -21,7 +21,7 @@
                                         {{ $gruppo->nome }}
                                     </a>
                                     <span
-                                        class="badge badge-primary badge-pill"
+                                        class="badge bg-primary  badge-pill"
                                     >
                                         {{ $gruppo->count }}
                                     </span>

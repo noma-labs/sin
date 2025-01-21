@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h5>
                         Mammae di vocazione
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($mvocazione) }}
                         </span>
                     </h5>

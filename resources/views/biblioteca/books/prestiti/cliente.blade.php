@@ -31,7 +31,7 @@
                             @foreach ($prestitiAttivi as $prestito)
                                 <tr>
                                     <td>
-                                        <span class="badge badge-danger">
+                                        <span class="badge bg-danger">
                                             {{ $prestito->data_inizio_prestito }}
                                         </span>
                                     </td>

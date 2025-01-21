@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h3>
                         Ospiti
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ $ospiti->total }}
                         </span>
                     </h3>
@@ -24,7 +24,7 @@
                 <div class="card-header">
                     <h5>
                         Uomini
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($ospiti->uomini) }}
                         </span>
                     </h5>
@@ -59,7 +59,7 @@
                 <div class="card-header">
                     <h5>
                         Donne
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($ospiti->donne) }}
                         </span>
                     </h5>

@@ -29,7 +29,7 @@
                         <td>{{ $role->guard_name }}</td>
                         <td>
                             @foreach ($role->permissions as $permission)
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     {{ $permission->name }}
                                 </span>
                             @endforeach

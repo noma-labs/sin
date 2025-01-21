@@ -12,7 +12,7 @@
                         class="list-group-item d-flex justify-content-between align-items-center"
                     >
                         <a>Popolazione Nomadelfia</a>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $totale }}
                         </span>
                     </li>
@@ -26,7 +26,7 @@
                         </a>
                         <p>Donne ({{ count($maggiorenni->donne) }})</p>
                         <p>Uomini ({{ count($maggiorenni->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $maggiorenni->total }}
                         </span>
                     </li>
@@ -40,7 +40,7 @@
                         </a>
                         <p>Donne ({{ count($effettivi->donne) }})</p>
                         <p>Uomini ({{ count($effettivi->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $effettivi->total }}
                         </span>
                     </li>
@@ -54,7 +54,7 @@
                         </a>
                         <p>Donne ({{ count($postulanti->donne) }})</p>
                         <p>Uomini ({{ count($postulanti->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $postulanti->total }}
                         </span>
                     </li>
@@ -68,7 +68,7 @@
                         </a>
                         <p>Donne ({{ count($ospiti->donne) }})</p>
                         <p>Uomini ({{ count($ospiti->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $ospiti->total }}
                         </span>
                     </li>
@@ -80,7 +80,7 @@
                         >
                             Sacerdoti
                         </a>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ count($sacerdoti) }}
                         </span>
                     </li>
@@ -92,7 +92,7 @@
                         >
                             Mamme di Vocazione
                         </a>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ count($mvocazione) }}
                         </span>
                     </li>
@@ -104,7 +104,7 @@
                         >
                             Nomadelfa Mamma
                         </a>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ count($nomanamma) }}
                         </span>
                     </li>
@@ -118,7 +118,7 @@
                         </a>
                         <p>Donne ({{ count($figliMaggiorenni->donne) }})</p>
                         <p>Uomini ({{ count($figliMaggiorenni->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $figliMaggiorenni->total }}
                         </span>
                     </li>
@@ -132,7 +132,7 @@
                         </a>
                         <p>Donne ({{ count($minorenni->donne) }})</p>
                         <p>Uomini ({{ count($minorenni->uomini) }})</p>
-                        <span class="badge badge-primary badge-pill">
+                        <span class="badge bg-primary  badge-pill">
                             {{ $minorenni->total }}
                         </span>
                     </li>
@@ -161,11 +161,11 @@
                                     <strong>{{ $posizione->count }}</strong>
 
                                     @if ($posizione->sesso == "F")
-                                        <span class="badge badge-primary">
+                                        <span class="badge bg-primary ">
                                             {{ $posizione->sesso }}
                                         </span>
                                     @else
-                                        <span class="badge badge-warning">
+                                        <span class="badge bg-warning">
                                             {{ $posizione->sesso }}
                                         </span>
                                     @endif
@@ -184,7 +184,7 @@
                                     >
                                         {{ $fam->nome_famiglia }}
                                     </a>
-                                    <span class="badge badge-primary">
+                                    <span class="badge bg-primary ">
                                         {{ $fam->componenti }}
                                     </span>
                                 </li>
@@ -211,7 +211,7 @@
                         <li>
                             @include("nomadelfia.templates.gruppo", ["id" => $gruppo->id, "nome" => $gruppo->nome])
                             <strong>
-                                <span class="badge badge-primary badge-pill">
+                                <span class="badge bg-primary  badge-pill">
                                     {{ $gruppo->count }}
                                 </span>
                             </strong>
@@ -236,11 +236,11 @@
                     @forelse ($activities as $act)
                         <li>
                             @if ($act->isEnterEvent())
-                                <span class="badge badge-success">Entrata</span>
+                                <span class="badge bg-success">Entrata</span>
                             @endif
 
                             @if ($act->isExitEvent())
-                                <span class="badge badge-danger">Uscita</span>
+                                <span class="badge bg-danger">Uscita</span>
                             @endif
 
                             @if ($act->isDeathEvent())
@@ -276,7 +276,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center"
                         >
                             <p>Eta massima</p>
-                            <span class="badge badge-primary badge-pill">
+                            <span class="badge bg-primary  badge-pill">
                                 {{ $stats->max }}
                             </span>
                         </li>
@@ -284,7 +284,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center"
                         >
                             <p>Eta media</p>
-                            <span class="badge badge-primary badge-pill">
+                            <span class="badge bg-primary  badge-pill">
                                 {{ $stats->avg }}
                             </span>
                         </li>
@@ -292,7 +292,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center"
                         >
                             <p>Eta minima</p>
-                            <span class="badge badge-primary badge-pill">
+                            <span class="badge bg-primary  badge-pill">
                                 {{ $stats->min }}
                             </span>
                         </li>

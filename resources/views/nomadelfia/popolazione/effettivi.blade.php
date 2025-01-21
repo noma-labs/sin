@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h3>
                         Nomadelfi Effettivi
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ $effettivi->total }}
                         </span>
                     </h3>
@@ -24,7 +24,7 @@
                 <div class="card-header">
                     <h5>
                         Uomini
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($effettivi->uomini) }}
                         </span>
                     </h5>
@@ -59,7 +59,7 @@
                 <div class="card-header">
                     <h5>
                         Donne
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($effettivi->donne) }}
                         </span>
                     </h5>

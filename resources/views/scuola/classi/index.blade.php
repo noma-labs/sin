@@ -24,7 +24,7 @@
                                     >
                                         {{ $classe->tipo->nome }}
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary  badge-pill"
                                         >
                                             {{ $classe->alunni()->count() }}
                                         </span>
@@ -47,7 +47,7 @@
                                                 @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                                 @liveRome($alunno)
                                                     <span
-                                                        class="badge badge-warning"
+                                                        class="badge bg-warning"
                                                     >
                                                         Roma
                                                     </span>

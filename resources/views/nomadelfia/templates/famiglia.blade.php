@@ -11,11 +11,11 @@
                         @include("nomadelfia.templates.persona", ["persona" => $componente])
                     </span>
                     @if ($componente->stato == "1")
-                        <span class="badge badge-pill badge-success">
+                        <span class="badge badge-pill bg-success">
                             Nel nucleo
                         </span>
                     @else
-                        <span class="badge badge-pill badge-danger">
+                        <span class="badge badge-pill bg-danger">
                             Fuori da nucleo
                         </span>
                     @endif

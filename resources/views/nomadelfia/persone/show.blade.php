@@ -10,7 +10,7 @@
                     @if ($persona->isPersonaInterna())
                         <h2>
                             Stato Attuale:
-                            <span class="badge badge-success">Presente</span>
+                            <span class="badge bg-success">Presente</span>
                         </h2>
                         <p>
                             Entrata in data
@@ -58,7 +58,7 @@
                     @else
                         <h2>
                             Stato Attuale:
-                            <span class="badge badge-secondary">Uscito</span>
+                            <span class="badge bg-secondary ">Uscito</span>
                         </h2>
                         <p>
                             Uscita in data

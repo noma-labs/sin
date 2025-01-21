@@ -17,12 +17,12 @@
                         <tr id="{{ $lavoratore->id }}" hoverable>
                             <td scope="row">
                                 {{ $lavoratore->nominativo }}
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning">
                                     {{ $lavoratore->pivot->mansione }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-primary">
+                                <span class="badge bg-primary ">
                                     {{ $lavoratore->pivot->stato }}
                                 </span>
                             </td>
@@ -70,12 +70,12 @@
                             >
                                 {{ $lavoratore->nominativo }}
                                 <span
-                                    class="badge badge-danger badge-pill ml-4"
+                                    class="badge bg-danger badge-pill ml-4"
                                 >
                                     {{ $lavoratore->pivot->data_fine_azienda }}
                                 </span>
                                 <span
-                                    class="badge badge-danger badge-pill ml-1"
+                                    class="badge bg-danger badge-pill ml-1"
                                 >
                                     {{ $lavoratore->pivot->stato }}
                                 </span>

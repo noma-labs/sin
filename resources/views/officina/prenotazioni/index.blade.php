@@ -123,15 +123,15 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         Partita
                                     </span>
                                 @elseif ($pren->deveAncoraPartire())
-                                    <span class="badge badge-warning">
+                                    <span class="badge bg-warning">
                                         Deve Partire
                                     </span>
                                 @elseif ($pren->isArrivata())
-                                    <span class="badge badge-success">
+                                    <span class="badge bg-success">
                                         Arrivata
                                     </span>
                                 @endif
@@ -140,7 +140,7 @@
                             <td>
                                 {{ $pren->veicolo->nome }}
                                 @if ($pren->veicolo->deleted_at)
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         demolito
                                     </span>
                                 @endif

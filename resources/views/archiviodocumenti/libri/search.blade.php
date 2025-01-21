@@ -128,7 +128,7 @@
                     <tr>
                         <td>
                             @if ($libro->stato == 1)
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning">
                                     In stampa
                                 </span>
                             @endif

@@ -188,12 +188,12 @@
                             {{ $prestito->data_inizio_prestito }}
 
                             @if ($prestito->in_prestito)
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning">
                                     {{ Carbon\Carbon::parse($prestito->data_inizio_prestito)->diffInDays(Carbon\Carbon::now(), false) }}
                                     giorni
                                 </span>
                             @else
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     Restituito
                                 </span>
                             @endif

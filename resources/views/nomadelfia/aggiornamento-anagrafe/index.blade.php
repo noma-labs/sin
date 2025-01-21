@@ -20,11 +20,11 @@
                     </th>
                     <td>
                         @if ($a->isEnterEvent())
-                            <span class="badge badge-success">Entrata</span>
+                            <span class="badge bg-success">Entrata</span>
                         @endif
 
                         @if ($a->isExitEvent())
-                            <span class="badge badge-danger">Uscita</span>
+                            <span class="badge bg-danger">Uscita</span>
                         @endif
 
                         @if ($a->isDeathEvent())

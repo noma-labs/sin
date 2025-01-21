@@ -53,13 +53,13 @@
                             @endif
 
                             @if ($libro->inPrestito())
-                                <span class="badge badge-danger">
+                                <span class="badge bg-danger">
                                     In prestito
                                 </span>
                             @endif
 
                             @if ($libro->tobe_printed == 1 and ! $libro->trashed())
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning">
                                     In stampa
                                 </span>
                             @endif

@@ -32,7 +32,7 @@
                         <td>{{ $user->created_at->format("F d, Y h:ia") }}</td>
                         <td>
                             @foreach ($user->roles as $role)
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     {{ $role->name }}
                                 </span>
                             @endforeach

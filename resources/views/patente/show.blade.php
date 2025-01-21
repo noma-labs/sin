@@ -173,7 +173,7 @@
                             <ul class="list-inline">
                                 @foreach ($patente->categorie as $cat)
                                     <li class="list-inline-item">
-                                        <span class="badge badge-primary">
+                                        <span class="badge bg-primary ">
                                             {{ $cat->categoria }}
                                         </span>
                                     </li>
@@ -190,10 +190,10 @@
                             @foreach ($patente->cqc as $c)
                                 <div>
                                     <b>{{ $c->categoria }}</b>
-                                    <span class="badge badge-success">
+                                    <span class="badge bg-success">
                                         {{ $c->pivot->data_rilascio }}
                                     </span>
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         {{ $c->pivot->data_scadenza }}
                                     </span>
                                 </div>

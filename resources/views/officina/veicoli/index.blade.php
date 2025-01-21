@@ -81,7 +81,7 @@
                         <td>
                             {{ $veicolo->nome }}
                             @if ($veicolo->prenotabile)
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     prenotabile
                                 </span>
                             @endif

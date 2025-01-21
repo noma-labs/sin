@@ -49,7 +49,7 @@
                             <td>
                                 {{ $pren->veicolo()->withTrashed()->first()->nome }}
                                 @if ($pren->veicolo()->withTrashed()->first()->deleted_at)
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         demolito
                                     </span>
                                 @endif

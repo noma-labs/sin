@@ -19,7 +19,7 @@
                                 >
                                     Persone senza Es. Spirituale
                                     <span
-                                        class="badge badge-primary badge-pill"
+                                        class="badge bg-primary  badge-pill"
                                     >
                                         {{ $noEsercizi->total }}
                                     </span>
@@ -78,7 +78,7 @@
                                     >
                                         {{ $esercizio->turno }}
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary  badge-pill"
                                         >
                                             {{ $esercizio->personeOk()->total }}
                                         </span>

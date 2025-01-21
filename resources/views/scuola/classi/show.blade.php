@@ -65,7 +65,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Alunni
-                            <span class="badge badge-primary">
+                            <span class="badge bg-primary ">
                                 {{ $alunni->count() }}
                             </span>
                         </div>
@@ -88,7 +88,7 @@
                                             anni)
                                             @liveRome($alunno)
                                                 <span
-                                                    class="badge badge-warning"
+                                                    class="badge bg-warning"
                                                 >
                                                     Roma
                                                 </span>
@@ -111,7 +111,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Coordinatori
-                            <span class="badge badge-primary">
+                            <span class="badge bg-primary ">
                                 {{ $coords->count() }}
                             </span>
                         </div>

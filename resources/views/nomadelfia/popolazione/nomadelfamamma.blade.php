@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h5>
                         Nomadelfe Mamme
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ count($nmamma) }}
                         </span>
                     </h5>

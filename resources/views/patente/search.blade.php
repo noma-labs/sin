@@ -182,11 +182,11 @@
                                     {{ $patente->persona->cognome }}
                                 @endif
                                 @if ($patente->hasCommissione())
-                                    <span class="badge badge-warning">C.</span>
+                                    <span class="badge bg-warning">C.</span>
                                 @endif
 
                                 @isset($patente->note)
-                                    <span class="badge badge-success">N.</span>
+                                    <span class="badge bg-success">N.</span>
                                 @endisset
                             </td>
                             <td>{{ $patente->numero_patente }}</td>

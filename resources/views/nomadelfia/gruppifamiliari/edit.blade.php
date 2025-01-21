@@ -194,7 +194,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         Persone
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary ">
                             {{ $gruppo->personeAttuale->count() }}
                         </span>
                     </h4>
