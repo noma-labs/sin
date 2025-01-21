@@ -45,18 +45,12 @@
         >
             Veicoli
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route("veicoli.index") }}">
-                Lista Veicoli
-            </a>
-            <a class="dropdown-item" href="{{ route("veicoli.nuovo") }}">
-                Nuovo Veicolo
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route("veicoli.demoliti") }}">
-                Veicoli Demoliti
-            </a>
-        </div>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ route("veicoli.index") }}"> Lista Veicoli </a> </li>
+            <li><a class="dropdown-item" href="{{ route("veicoli.nuovo") }}"> Nuovo Veicolo  </a> </li>
+            <li> <div class="dropdown-divider"></div> </li>
+            <li> <a class="dropdown-item" href="{{ route("veicoli.demoliti") }}"> Veicoli Demoliti </a> </li>
+        </ul>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route("officina.patenti") }}">
@@ -75,12 +69,12 @@
         >
             Gestione
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route("filtri") }}">Filtri</a>
-            <a class="dropdown-item" href="">Gomme</a>
-            <a class="dropdown-item" href="">Modelli</a>
-            <a class="dropdown-item" href="">Marche</a>
-            <a class="dropdown-item" href="">Oli Motore</a>
-        </div>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ route("filtri") }}">Filtri</a></li>
+            <li><a class="dropdown-item" href="">Gomme</a></li>
+            <li><a class="dropdown-item" href="">Modelli</a></li>
+            <li><a class="dropdown-item" href="">Marche</a></li>
+            <l><a class="dropdown-item" href="">Oli Motore</a></l>
+        </ul>
     </li>
 @endsection
