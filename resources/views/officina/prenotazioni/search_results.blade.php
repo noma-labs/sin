@@ -10,22 +10,15 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">
-            &times;
-        </a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <div id="results" class="alert alert-success">
-        Numero di prenotazioni trovate:
-        <strong>{{ $prenotazioni->total() }}</strong>
+        Numero di prenotazioni trovate: <strong>{{ $prenotazioni->total() }}</strong>
     </div>
 
-    <!-- inizio tabella prenotazioni -->
     <div class="table-responsive">
-        <table
-            class="table table-hover table-bordered"
-            style="table-layout: auto; overflow-x: scroll"
-        >
+        <table class="table table-hover table-bordered" >
             <thead class="thead-inverse">
                 <tr>
                     <th>Nome</th>
