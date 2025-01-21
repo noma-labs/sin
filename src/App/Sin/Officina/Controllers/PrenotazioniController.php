@@ -171,6 +171,7 @@ final class PrenotazioniController
             'ora_arr' => 'required',
             'uso' => 'required',
             'destinazione' => 'required',
+            'note' => 'nullable|string',
         ]);
 
         $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
