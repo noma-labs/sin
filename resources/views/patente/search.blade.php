@@ -21,7 +21,7 @@
             </div>
 
             <div class="form-group col-md-2">
-                <label class="control-label">Data Scadenza patente</label>
+                <label class="form-label">Data Scadenza patente</label>
                 <select
                     class="form-control"
                     name="criterio_data_scadenza"
@@ -65,7 +65,7 @@
         <div class="form-row">
             {{--
                 <div class="form-group col-md-2  offset-md-1">
-                <label class="control-label">Data Rilascio</label>
+                <label class="form-label">Data Rilascio</label>
                 <select class="form-control" name="criterio_data_rilascio" type="text">
                 <option selected value="">---Scegli criterio---</option>
                 <option value="<">Minore</option>
@@ -99,7 +99,7 @@
             </div>
 
             <div class="form-group col-md-2">
-                <label class="control-label">Data Scadenza C.Q.C</label>
+                <label class="form-label">Data Scadenza C.Q.C</label>
                 <select
                     class="form-control"
                     name="criterio_cqc_data_scadenza"

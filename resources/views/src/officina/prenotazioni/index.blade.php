@@ -15,7 +15,7 @@
         <livewire:prenotazione-veicoli />
         <div class="row">
             <div class="col-md-3">
-                <label class="control-label">Cliente</label>
+                <label class="form-label">Cliente</label>
                 <select class="form-select" id="cliente" name="nome">
                     <option selected value>--Seleziona--</option>
                     @foreach ($clienti as $cliente)

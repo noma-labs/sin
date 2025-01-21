@@ -22,7 +22,7 @@
             {{ csrf_field() }}
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label class="control-label">Cliente</label>
+                    <label class="form-label">Cliente</label>
                     <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
@@ -53,11 +53,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label class="control-label">Titolo</label>
+                <label class="form-label">Titolo</label>
                 <input class="form-control" type="text" name="titolo" />
             </div>
             <div class="col-md-4">
-                <label class="control-label">Note</label>
+                <label class="form-label">Note</label>
                 <input class="form-control" type="text" name="note" />
             </div>
         </div>

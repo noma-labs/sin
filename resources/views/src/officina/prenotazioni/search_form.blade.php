@@ -2,7 +2,7 @@
     {{ csrf_field() }}
     <div class="row">
         <div class="col-md-3">
-            <label class="control-label">Cliente</label>
+            <label class="form-label">Cliente</label>
             <select class="form-select" id="cliente" name="cliente_id">
                 <option selected value>--Seleziona--</option>
                 @foreach ($clienti as $cliente)
@@ -18,7 +18,7 @@
 
         <div class="col-md-3">
             <div class="mb-3">
-                <label class="control-label">Veicolo</label>
+                <label class="form-label">Veicolo</label>
                 <select class="form-select" id="veicolo" name="veicolo_id">
                     <option selected value>--Seleziona--</option>
                     @foreach ($veicoli as $veicolo)
@@ -32,7 +32,7 @@
 
         <div class="col-md-3">
             <div class="mb-3">
-                <label class="control-label">Meccanico</label>
+                <label class="form-label">Meccanico</label>
                 <select class="form-select" id="meccanico" name="meccanico_id">
                     <option selected value>--Seleziona--</option>
                     @foreach ($meccanici as $meccanico)
@@ -61,7 +61,7 @@
     <div class="row">
         <div class="col-md-2">
             <div class="mb-3">
-                <label class="control-label">Data partenza</label>
+                <label class="form-label">Data partenza</label>
                 <select
                     class="form-select"
                     name="criterio_data_partenza"
@@ -84,7 +84,7 @@
 
         <div class="col-md-2">
             <div class="mb-3">
-                <label class="control-label">Data arrivo</label>
+                <label class="form-label">Data arrivo</label>
                 <select
                     class="form-select"
                     name="criterio_data_arrivo"
