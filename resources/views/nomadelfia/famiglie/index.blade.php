@@ -10,7 +10,7 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
+                                data-bs-toggle="collapse"
                                 data-target="#Single"
                                 aria-expanded="true"
                                 aria-controls="Single"
@@ -80,7 +80,7 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
+                                data-bs-toggle="collapse"
                                 data-target="#CapoFamiglia"
                                 aria-expanded="true"
                                 aria-controls="CapoFamiglia"
@@ -150,7 +150,7 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
+                                data-bs-toggle="collapse"
                                 data-target="#Errori"
                                 aria-expanded="true"
                                 aria-controls="Errori"

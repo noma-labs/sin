@@ -5,7 +5,7 @@
 <button
     type="button"
     class="btn {{ $buttonStyle }}"
-    data-toggle="modal"
+    data-bs-toggle="modal"
     data-target="#{{ $modalId }}"
 >
     {{ $buttonTitle }}

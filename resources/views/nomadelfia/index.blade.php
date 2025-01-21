@@ -11,7 +11,7 @@
         class="nav-link dropdown-toggle"
         id="navbarPopolazione"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -62,7 +62,7 @@
         class="nav-link dropdown-toggle"
         id="navbarPesone"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -89,7 +89,7 @@
         class="nav-link dropdown-toggle"
         id="navbarFamiglie"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >

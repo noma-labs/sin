@@ -12,7 +12,7 @@
                             <h5 class="mb-0">
                                 <button
                                     class="btn btn-link"
-                                    data-toggle="collapse"
+                                    data-bs-toggle="collapse"
                                     data-target="#collapseNo"
                                     aria-expanded="false"
                                     aria-controls="collapseNo"
@@ -71,7 +71,7 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
+                                        data-bs-toggle="collapse"
                                         data-target="#collapse{{ $esercizio->id }}"
                                         aria-expanded="false"
                                         aria-controls="collapse{{ $esercizio->id }}"

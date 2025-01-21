@@ -11,7 +11,7 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
+                                data-bs-toggle="collapse"
                                 data-target="#effettivi"
                                 aria-expanded="true"
                                 aria-controls="effettivi"
@@ -79,7 +79,7 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
+                                data-bs-toggle="collapse"
                                 data-target="#postulanti"
                                 aria-expanded="true"
                                 aria-controls="postulanti"
@@ -143,7 +143,7 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
+                                        data-bs-toggle="collapse"
                                         data-target="#posizione{{ $posizione->id }}"
                                         aria-expanded="false"
                                         aria-controls="posizione{{ $posizione->id }}"
@@ -223,7 +223,7 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
+                                        data-bs-toggle="collapse"
                                         data-target="#familiare{{ $stato->id }}"
                                         aria-expanded="false"
                                         aria-controls="familiare{{ $stato->id }}"

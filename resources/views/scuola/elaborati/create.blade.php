@@ -41,7 +41,7 @@
                                 class="btn btn-secondary dropdown-toggle"
                                 type="button"
                                 id="dropdownMenuButton"
-                                data-toggle="dropdown"
+                                data-bs-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
                             >

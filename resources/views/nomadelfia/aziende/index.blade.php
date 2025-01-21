@@ -16,7 +16,7 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
+                                        data-bs-toggle="collapse"
                                         data-target="#collapse{{ $azienda->id }}"
                                         aria-expanded="true"
                                         aria-controls="collapse{{ $azienda->id }}"
