@@ -189,7 +189,7 @@ final class PrenotazioniController
             $request->get('ora_par'),
             $request->get('ora_arr'),
             Uso::findOrFail($request->get('uso')),
-            $request->get('note', ''),
+            $request->input('note', ''),
             $request->input('destinazione', '')
         );
 

@@ -20,7 +20,7 @@ final class CreatePrenotazioneAction
         string $ora_partenza,
         string $ora_arrivo,
         Uso $uso,
-        string $note,
+        ?string $note,
         string $destianazione
     ): Prenotazioni {
 
