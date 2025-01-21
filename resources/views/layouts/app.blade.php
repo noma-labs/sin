@@ -100,7 +100,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container mt-3">
+        <div class="container-fluid">
             @include("partials.flash")
             @include("partials.errors")
             @yield("content")
