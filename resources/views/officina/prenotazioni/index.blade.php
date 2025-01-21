@@ -99,8 +99,8 @@
     </form>
 
     <div class="table-responsive">
-        <table class="table table-hover table-bordered table-sm" >
-            <thead class="thead-inverse">
+        <table class="table table-bordered" >
+            <thead class="thead-inverse bg-warning">
                 <tr>
                     <th>#</th>
                     <th>Stato</th>
@@ -116,7 +116,7 @@
                     <th>Oper.</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-primary text-white">
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
                         <tr hoverable>
