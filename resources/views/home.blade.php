@@ -1,11 +1,10 @@
 @extends("layouts.app")
 
 @section("content")
-
-<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
         @if (Auth::guest())
             <div class="col">
-                <div class="card text-center h-100" >
+                <div class="card text-center h-100">
                     <div class="card-header">Biblioteca</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -14,7 +13,10 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a href="{{ url("/biblioteca") }} " class="btn btn-primary" >
+                        <a
+                            href="{{ url("/biblioteca") }} "
+                            class="btn btn-primary"
+                        >
                             dsaf
                         </a>
                     </div>
@@ -29,18 +31,16 @@
                     <p class="card-text">
                         Stazione meteo situata nella zona delle scuole
                     </p>
-
                 </div>
-                    <div class="card-footer">
-                        <a
+                <div class="card-footer">
+                    <a
                         target="_blank"
                         href="http://192.168.11.7:3000/d/z-qyiG1Mk/weather?orgId=1&from=now-6h&to=now"
                         class="btn btn-primary"
                     >
                         Accedi
                     </a>
-                    </div>
-
+                </div>
             </div>
         </div>
 
@@ -49,9 +49,7 @@
                 <div class="card text-center h-100">
                     <div class="card-header">RTN</div>
                     <div class="card-body">
-                        <p class="card-text">
-                            Gestione video storico di RTN.
-                        </p>
+                        <p class="card-text">Gestione video storico di RTN.</p>
                     </div>
                     <div class="card-footer">
                         <a
@@ -95,7 +93,6 @@
                         <p class="card-text">
                             Gestione mezzi agricoli dell'azienda agraria
                         </p>
-
                     </div>
                     <div class="card-footer">
                         <a
@@ -114,18 +111,15 @@
                 <div class="card text-center h-100">
                     <div class="card-header">Officina</div>
                     <div class="card-body">
-                        <p class="card-text">
-                            Gestione mezzi di Nomadelfia
-                        </p>
-
+                        <p class="card-text">Gestione mezzi di Nomadelfia</p>
                     </div>
                     <div class="card-footer">
                         <a
-                        href="{{ route("officina.index") }}"
-                        class="btn btn-primary"
-                    >
-                        Accedi
-                    </a>
+                            href="{{ route("officina.index") }}"
+                            class="btn btn-primary"
+                        >
+                            Accedi
+                        </a>
                     </div>
                 </div>
             </div>
@@ -137,18 +131,17 @@
                     <div class="card-header">Gestione Nomadelfia</div>
                     <div class="card-body">
                         <p class="card-text">
-                            Popolazione Nomadelfia, Aziende, Gruppi
-                            familiari, Famiglie
+                            Popolazione Nomadelfia, Aziende, Gruppi familiari,
+                            Famiglie
                         </p>
-
                     </div>
                     <div class="card-footer">
                         <a
-                        href="{{ route("nomadelfia.index") }}"
-                        class="btn btn-primary"
-                    >
-                        Accedi
-                    </a>
+                            href="{{ route("nomadelfia.index") }}"
+                            class="btn btn-primary"
+                        >
+                            Accedi
+                        </a>
                     </div>
                 </div>
             </div>
@@ -162,7 +155,6 @@
                         <p class="card-text">
                             Gestione classi, alunni cordinatori
                         </p>
-
                     </div>
                     <div class="card-footer">
                         <a
@@ -182,16 +174,12 @@
                     <div class="card-header">Amministratore</div>
                     <div class="card-body">
                         <p class="card-text">
-                            Pannello di controllo per la gestione degli
-                            utenti, permessi, backup e logs di tutti i
-                            sitemi.
+                            Pannello di controllo per la gestione degli utenti,
+                            permessi, backup e logs di tutti i sitemi.
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a
-                            href="{{ route("admin") }}"
-                            class="btn btn-primary"
-                        >
+                        <a href="{{ route("admin") }}" class="btn btn-primary">
                             Accedi
                         </a>
                     </div>
@@ -205,10 +193,8 @@
                     <div class="card-header">Patenti</div>
                     <div class="card-body">
                         <p class="card-text">
-                            Pannello di controllo per la gestione delle
-                            patenti
+                            Pannello di controllo per la gestione delle patenti
                         </p>
-
                     </div>
                     <div class="card-footer">
                         <a
@@ -230,7 +216,6 @@
                         <p class="card-text">
                             Gestione archivio libri di Nomadelfia
                         </p>
-
                     </div>
                     <div class="card-footer">
                         <a
@@ -251,19 +236,16 @@
                     <p class="card-text">
                         Gestione archivio libri di Nomadelfia
                     </p>
-
                 </div>
                 <div class="card-footer">
                     <a
-                    href="{{ route("archiviodocumenti") }}"
-                    class="btn btn-primary"
-                >
-                    Accedi
-                </a>
+                        href="{{ route("archiviodocumenti") }}"
+                        class="btn btn-primary"
+                    >
+                        Accedi
+                    </a>
                 </div>
             </div>
         </div>
-
-
     </div>
 @endsection

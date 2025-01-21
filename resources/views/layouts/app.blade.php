@@ -57,7 +57,7 @@
                                 </a>
                             </li>
                         @else
-                            <li class="nav-item dropdown ">
+                            <li class="nav-item dropdown">
                                 <a
                                     class="nav-link dropdown-toggle"
                                     href="#"
@@ -91,7 +91,6 @@
                                             style="display: none"
                                         >
                                             @csrf
-
                                         </form>
                                     </li>
                                 </ul>
