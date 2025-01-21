@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <label for="data_partenza">Data Partenza</label>
+                <label class="form-label" for="data_partenza">Data Partenza</label>
                 <input
                     type="date"
                     class="form-control"
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="ora_partenza">Ora Partenza</label>
+                <label class="form-label" for="ora_partenza">Ora Partenza</label>
                 <input
                     type="time"
                     class="form-control"
@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="data_arrivo">Data Arrivo</label>
+                <label class="form-label" for="data_arrivo">Data Arrivo</label>
                 <input
                     type="date"
                     class="form-control"
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="ora_arrivo">Ora Arrivo</label>
+                <label class="form-label" for="ora_arrivo">Ora Arrivo</label>
                 <input
                     type="time"
                     class="form-control"
@@ -53,7 +53,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="veicolo">Veicolo</label>
+                <label class="form-label" for="veicolo">Veicolo</label>
                 <select class="form-control" name="veicolo">
                     <option selected disabled hidden>{{ $message }}</option>
                     @foreach ($veicoli as $impiego => $tipologie)

@@ -2,18 +2,7 @@
 @section("title", "Veicoli")
 
 @section("content")
-    <div class="my-page-title">
-        <div class="d-flex justify-content-end">
-            <div class="mr-auto p-2">
-                <span class="h1 text-center">Gestione Veicoli</span>
-            </div>
-            <div class="p-2 text-right">
-                <h5 class="m-1">
-                    {{ App\Officina\Models\Veicolo::count() }} veicoli
-                </h5>
-            </div>
-        </div>
-    </div>
+    @include("partials.header", ["title" => "Gestione Veicoli (".App\Officina\Models\Veicolo::count() .")"])
 
     <div class="card">
         <div class="card-header">
