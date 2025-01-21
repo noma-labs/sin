@@ -41,7 +41,7 @@
                     <ul class="navbar-nav">
                         @yield("navbar-link")
                     </ul>
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ms-auto">
                         @if (Auth::guest())
                             <li class="nav-item">
                                 <a
@@ -57,10 +57,11 @@
                                 </a>
                             </li>
                         @else
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown ">
                                 <a
-                                    href="#"
                                     class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarScrollingDropdown"
                                     role="button"
                                     data-bs-toggle="dropdown"
                                     aria-haspopup="true"
@@ -71,27 +72,17 @@
                                 </a>
 
                                 <ul
-                                    class="dropdown-menu dropdown-menu-right"
-                                    role="menu"
+                                    class="dropdown-menu"
+                                    aria-labelledby="navbarScrollingDropdown"
                                 >
                                     <li>
-                                        @role("admin")
-                                            <a
-                                                class="dropdown-item"
-                                                href="{{ route("admin.backup") }}"
-                                            >
-                                                Pannello Amministazione
-                                            </a>
-                                        @endrole
-
-                                        <a
+                                        <button
                                             class="dropdown-item"
-                                            href="{{ route("logout") }}"
-                                            onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();"
+                                            type="submit"
+                                            form="logout-form"
                                         >
                                             Logout
-                                        </a>
+                                        </button>
 
                                         <form
                                             id="logout-form"
@@ -99,7 +90,8 @@
                                             method="POST"
                                             style="display: none"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
+
                                         </form>
                                     </li>
                                 </ul>
@@ -109,7 +101,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container-fluid">
+        <div class="container-fluid mt-3">
             @include("partials.flash")
             @include("partials.errors")
             @yield("content")
