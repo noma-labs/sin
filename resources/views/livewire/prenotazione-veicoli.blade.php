@@ -2,7 +2,9 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <label class="form-label" for="data_partenza">Data Partenza</label>
+                <label class="form-label" for="data_partenza">
+                    Data Partenza
+                </label>
                 <input
                     type="date"
                     class="form-control"
@@ -14,7 +16,9 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="form-label" for="ora_partenza">Ora Partenza</label>
+                <label class="form-label" for="ora_partenza">
+                    Ora Partenza
+                </label>
                 <input
                     type="time"
                     class="form-control"

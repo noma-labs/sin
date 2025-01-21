@@ -128,9 +128,7 @@
                     <tr>
                         <td>
                             @if ($libro->stato == 1)
-                                <span class="badge bg-warning">
-                                    In stampa
-                                </span>
+                                <span class="badge bg-warning">In stampa</span>
                             @endif
                         </td>
                         <td>{{ $libro->foglio }}</td>

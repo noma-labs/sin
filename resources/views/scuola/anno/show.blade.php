@@ -37,7 +37,7 @@
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 <p>Data inizio</p>
-                                <span class="badge bg-secondary ">
+                                <span class="badge bg-secondary">
                                     {{ $anno->data_inizio }}
                                 </span>
                             </li>
@@ -45,7 +45,7 @@
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 Studenti
-                                <span class="badge bg-primary  badge-pill">
+                                <span class="badge bg-primary badge-pill">
                                     {{ $alunni }}
                                 </span>
                             </li>
@@ -57,7 +57,7 @@
                                         >
                                             {{ $cicloAlunno->ciclo }}
                                             <span
-                                                class="badge bg-secondary  badge-pill ml-2"
+                                                class="badge bg-secondary badge-pill ml-2"
                                             >
                                                 {{ $cicloAlunno->alunni_count }}
                                             </span>
@@ -95,7 +95,7 @@
                                     >
                                         {{ $classe->tipo->nome }}
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $classe->alunni()->count() }}
                                         </span>

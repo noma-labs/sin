@@ -17,7 +17,7 @@
                                 aria-controls="effettivi"
                             >
                                 Effettivi
-                                <span class="badge bg-primary  badge-pill">
+                                <span class="badge bg-primary badge-pill">
                                     {{ $effettivi->total }}
                                 </span>
                             </button>
@@ -35,7 +35,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ count($effettivi->uomini) }}
                                         </span>
@@ -51,7 +51,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ count($effettivi->donne) }}
                                         </span>
@@ -85,7 +85,7 @@
                                 aria-controls="postulanti"
                             >
                                 Postulanti
-                                <span class="badge bg-primary  badge-pill">
+                                <span class="badge bg-primary badge-pill">
                                     {{ $postulanti->total }}
                                 </span>
                             </button>
@@ -103,7 +103,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             COUNT UOMINI
                                         </span>
@@ -113,7 +113,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             COUNT DONNE
                                         </span>
@@ -152,7 +152,7 @@
                                             {{ $posizione->nome }}
                                         </span>
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $posizione->personeAttuale()->count() }}
                                         </span>
@@ -171,7 +171,7 @@
                                             <h5>
                                                 Uomini
                                                 <span
-                                                    class="badge bg-primary  badge-pill"
+                                                    class="badge bg-primary badge-pill"
                                                 >
                                                     {{ $posizione->personeAttuale()->uomini()->count() }}
                                                 </span>
@@ -186,7 +186,7 @@
                                             <h5>
                                                 Donne
                                                 <span
-                                                    class="badge bg-primary  badge-pill"
+                                                    class="badge bg-primary badge-pill"
                                                 >
                                                     {{ $posizione->personeAttuale()->donne()->count() }}
                                                 </span>
@@ -232,7 +232,7 @@
                                             {{ $stato->nome }}
                                         </span>
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $stato->personeAttuale()->count() }}
                                         </span>
@@ -251,7 +251,7 @@
                                             <h5>
                                                 Uomini
                                                 <span
-                                                    class="badge bg-primary  badge-pill"
+                                                    class="badge bg-primary badge-pill"
                                                 >
                                                     {{ $stato->personeAttuale()->uomini()->count() }}
                                                 </span>
@@ -266,7 +266,7 @@
                                             <h5>
                                                 Donne
                                                 <span
-                                                    class="badge bg-primary  badge-pill"
+                                                    class="badge bg-primary badge-pill"
                                                 >
                                                     {{ $stato->personeAttuale()->donne()->count() }}
                                                 </span>

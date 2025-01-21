@@ -2,7 +2,7 @@
 @section("title", "Veicoli")
 
 @section("content")
-    @include("partials.header", ["title" => "Gestione Veicoli (".App\Officina\Models\Veicolo::count() .")"])
+    @include("partials.header", ["title" => "Gestione Veicoli (" . App\Officina\Models\Veicolo::count() . ")"])
 
     <div class="card">
         <div class="card-header">

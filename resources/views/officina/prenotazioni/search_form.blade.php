@@ -124,9 +124,7 @@
             <input type="text" class="form-control" id="note" name="note" />
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary">
-                Ricerca
-            </button>
+            <button type="submit" class="btn btn-primary">Ricerca</button>
         </div>
     </div>
 </form>

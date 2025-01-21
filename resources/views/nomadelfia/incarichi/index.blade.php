@@ -27,7 +27,7 @@
                                             >
                                                 {{ $incarico->nome }}
                                                 <span
-                                                    class="badge bg-primary  badge-pill"
+                                                    class="badge bg-primary badge-pill"
                                                 >
                                                     {{ $incarico->lavoratoriAttuali->count() }}
                                                 </span>
@@ -90,7 +90,7 @@
                         @forelse ($busy as $b)
                             <li class="list-group-item">
                                 @include("nomadelfia.templates.persona", ["persona" => $b])
-                                <span class="badge bg-primary ">
+                                <span class="badge bg-primary">
                                     {{ $b->count }}
                                 </span>
                             </li>

@@ -23,7 +23,7 @@
                                     >
                                         {{ $azienda->nome_azienda }}
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $azienda->lavoratoriAttuali->count() }}
                                         </span>

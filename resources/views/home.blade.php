@@ -24,6 +24,7 @@
                     </div>
                 </div>
             @endif
+
             <div class="col">
                 <div class="card text-center h-100">
                     <div class="card-header">Stazione Meteo Nomadelfia</div>
@@ -48,7 +49,9 @@
                     <div class="card text-center h-100">
                         <div class="card-header">RTN</div>
                         <div class="card-body">
-                            <p class="card-text">Gestione video storico di RTN.</p>
+                            <p class="card-text">
+                                Gestione video storico di RTN.
+                            </p>
                         </div>
                         <div class="card-footer">
                             <a
@@ -61,6 +64,7 @@
                     </div>
                 </div>
             @endhasrole
+
             @can("biblioteca.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
@@ -82,6 +86,7 @@
                     </div>
                 </div>
             @endcan
+
             @can("agraria.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
@@ -102,12 +107,15 @@
                     </div>
                 </div>
             @endcan
+
             @can("meccanica.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Officina</div>
                         <div class="card-body">
-                            <p class="card-text">Gestione mezzi di Nomadelfia</p>
+                            <p class="card-text">
+                                Gestione mezzi di Nomadelfia
+                            </p>
                         </div>
                         <div class="card-footer">
                             <a
@@ -120,14 +128,15 @@
                     </div>
                 </div>
             @endcan
+
             @can("popolazione.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Gestione Nomadelfia</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Popolazione Nomadelfia, Aziende, Gruppi familiari,
-                                Famiglie
+                                Popolazione Nomadelfia, Aziende, Gruppi
+                                familiari, Famiglie
                             </p>
                         </div>
                         <div class="card-footer">
@@ -141,6 +150,7 @@
                     </div>
                 </div>
             @endcan
+
             @can("scuola.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
@@ -161,31 +171,38 @@
                     </div>
                 </div>
             @endcan
+
             @hasrole("super-admin")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Amministratore</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Pannello di controllo per la gestione degli utenti,
-                                permessi, backup e logs di tutti i sitemi.
+                                Pannello di controllo per la gestione degli
+                                utenti, permessi, backup e logs di tutti i
+                                sitemi.
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route("admin") }}" class="btn btn-primary">
+                            <a
+                                href="{{ route("admin") }}"
+                                class="btn btn-primary"
+                            >
                                 Accedi
                             </a>
                         </div>
                     </div>
                 </div>
             @endhasrole
+
             @can("scuolaguida.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Patenti</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Pannello di controllo per la gestione delle patenti
+                                Pannello di controllo per la gestione delle
+                                patenti
                             </p>
                         </div>
                         <div class="card-footer">
@@ -199,6 +216,7 @@
                     </div>
                 </div>
             @endcan
+
             @can("archivio.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
@@ -219,6 +237,7 @@
                     </div>
                 </div>
             @endcan
+
             <div class="col">
                 <div class="card text-center h-100">
                     <div class="card-header">Archivio Libri</div>

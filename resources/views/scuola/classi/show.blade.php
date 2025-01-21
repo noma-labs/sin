@@ -65,7 +65,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Alunni
-                            <span class="badge bg-primary ">
+                            <span class="badge bg-primary">
                                 {{ $alunni->count() }}
                             </span>
                         </div>
@@ -87,9 +87,7 @@
                                             @diffYears($alunno->data_nascita)
                                             anni)
                                             @liveRome($alunno)
-                                                <span
-                                                    class="badge bg-warning"
-                                                >
+                                                <span class="badge bg-warning">
                                                     Roma
                                                 </span>
                                             @endliveRome
@@ -111,7 +109,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Coordinatori
-                            <span class="badge bg-primary ">
+                            <span class="badge bg-primary">
                                 {{ $coords->count() }}
                             </span>
                         </div>

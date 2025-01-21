@@ -38,7 +38,7 @@
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
-                    <span class="badge bg-primary ">
+                    <span class="badge bg-primary">
                         {{ $elaborato->collocazione }}
                     </span>
 
@@ -48,7 +48,7 @@
                         <span class="badge bg-danger">pdf</span>
                     @endif
 
-                    <span class="badge bg-secondary ">
+                    <span class="badge bg-secondary">
                         {{ strtolower($elaborato->rilegatura) }}
                     </span>
 

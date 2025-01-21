@@ -173,7 +173,7 @@
                             <ul class="list-inline">
                                 @foreach ($patente->categorie as $cat)
                                     <li class="list-inline-item">
-                                        <span class="badge bg-primary ">
+                                        <span class="badge bg-primary">
                                             {{ $cat->categoria }}
                                         </span>
                                     </li>

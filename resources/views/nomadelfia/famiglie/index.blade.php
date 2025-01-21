@@ -31,7 +31,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $capifamiglieMaschio->count() }}
                                         </span>
@@ -51,7 +51,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $capifamiglieFemmina->count() }}
                                         </span>
@@ -101,7 +101,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $singleMaschio->count() }}
                                         </span>
@@ -121,7 +121,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $singleFemmine->count() }}
                                         </span>

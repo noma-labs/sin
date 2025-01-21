@@ -58,7 +58,7 @@
                     @else
                         <h2>
                             Stato Attuale:
-                            <span class="badge bg-secondary ">Uscito</span>
+                            <span class="badge bg-secondary">Uscito</span>
                         </h2>
                         <p>
                             Uscita in data

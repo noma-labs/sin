@@ -24,7 +24,7 @@
                                     >
                                         {{ $classe->tipo->nome }}
                                         <span
-                                            class="badge bg-primary  badge-pill"
+                                            class="badge bg-primary badge-pill"
                                         >
                                             {{ $classe->alunni()->count() }}
                                         </span>

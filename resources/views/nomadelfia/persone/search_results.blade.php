@@ -42,7 +42,7 @@
                     @empty($persona->delated_at)
                         <tr hoverable>
                             <td>
-                                <span class="badge bg-primary ">
+                                <span class="badge bg-primary">
                                     {{ $persona->numero_elenco }}
                                 </span>
                             </td>

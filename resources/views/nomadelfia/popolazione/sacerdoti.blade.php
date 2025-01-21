@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h5>
                         Sacerdoti
-                        <span class="badge bg-primary ">
+                        <span class="badge bg-primary">
                             {{ count($sacerdoti) }}
                         </span>
                     </h5>

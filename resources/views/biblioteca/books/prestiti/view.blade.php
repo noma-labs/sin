@@ -193,9 +193,7 @@
                                     giorni
                                 </span>
                             @else
-                                <span class="badge bg-success">
-                                    Restituito
-                                </span>
+                                <span class="badge bg-success">Restituito</span>
                             @endif
                         </td>
                         <td>

@@ -5,10 +5,7 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Prenotazioni"])
 
-    <form
-        method="POST"
-        action="{{ route("officina.prenota") }}"
-    >
+    <form method="POST" action="{{ route("officina.prenota") }}">
         @csrf
 
         <div class="mb-3">
@@ -17,7 +14,7 @@
 
         <div class="row mb-3">
             <div class="col-md-2">
-                <label for="person"  class="form-label">Cliente</label>
+                <label for="person" class="form-label">Cliente</label>
                 <select class="form-control" id="person" name="nome">
                     <option selected value>--Seleziona--</option>
                     @foreach ($clienti as $cliente)
@@ -65,7 +62,9 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <label class="form-label" for="destinazione">Destinazione</label>
+                <label class="form-label" for="destinazione">
+                    Destinazione
+                </label>
                 <input
                     type="text"
                     class="form-control"
@@ -99,7 +98,7 @@
     </form>
 
     <div class="table-responsive">
-        <table class="table table-bordered" >
+        <table class="table table-bordered">
             <thead class="thead-inverse bg-warning">
                 <tr>
                     <th>#</th>
@@ -123,9 +122,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())
-                                    <span class="badge bg-danger">
-                                        Partita
-                                    </span>
+                                    <span class="badge bg-danger">Partita</span>
                                 @elseif ($pren->deveAncoraPartire())
                                     <span class="badge bg-warning">
                                         Deve Partire
