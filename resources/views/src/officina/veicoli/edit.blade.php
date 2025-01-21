@@ -546,9 +546,7 @@
                             </p>
                             <p>
                                 Il veicolo verrà comunque conservato come
-                                <span class="fst-italic">
-                                    veicolo demolito
-                                </span>
+                                <span class="fst-italic">veicolo demolito</span>
                                 .
                             </p>
                             <form

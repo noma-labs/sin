@@ -32,7 +32,9 @@
                                 class="list-group-item d-flex justify-content-end align-items-center"
                             >
                                 <p class="m-2">{{ ucfirst($c->ciclo) }}</p>
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $c->alunni_count }}
                                 </span>
                             </li>

@@ -16,7 +16,9 @@
                         <div class="col-md-6">
                             <p>
                                 Uomini
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ count($anz->uomini) }}
                                 </span>
                             </p>
@@ -31,7 +33,9 @@
                         <div class="col-md-6">
                             <p>
                                 Donne
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ count($anz->donne) }}
                                 </span>
                             </p>

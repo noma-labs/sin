@@ -17,7 +17,9 @@
                                 aria-controls="effettivi"
                             >
                                 Effettivi
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $effettivi->total }}
                                 </span>
                             </button>
@@ -85,7 +87,9 @@
                                 aria-controls="postulanti"
                             >
                                 Postulanti
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $postulanti->total }}
                                 </span>
                             </button>

@@ -84,11 +84,7 @@
             --}}
             <div class="mb-3 col-md-2 offset-md-1">
                 <label for="categoria_patente">C.Q.C</label>
-                <select
-                    class="form-select"
-                    id="cqc_patente"
-                    name="cqc_patente"
-                >
+                <select class="form-select" id="cqc_patente" name="cqc_patente">
                     <option selected value="">---Scegli C.Q.C---</option>
                     @foreach ($cqc as $c)
                         <option value="{{ $c->id }}">
@@ -139,7 +135,12 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+            <a
+                href="#"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="close"
+            >
                 &times;
             </a>
         </div>
@@ -182,11 +183,15 @@
                                     {{ $patente->persona->cognome }}
                                 @endif
                                 @if ($patente->hasCommissione())
-                                    <span class="badge text-bg-warning">C.</span>
+                                    <span class="badge text-bg-warning">
+                                        C.
+                                    </span>
                                 @endif
 
                                 @isset($patente->note)
-                                    <span class="badge text-bg-success">N.</span>
+                                    <span class="badge text-bg-success">
+                                        N.
+                                    </span>
                                 @endisset
                             </td>
                             <td>{{ $patente->numero_patente }}</td>
@@ -281,9 +286,7 @@
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                    >
-                        
-                    </button>
+                    ></button>
                 </div>
                 <div class="modal-body">
                     Vuoi davvero eliminare la patente ?

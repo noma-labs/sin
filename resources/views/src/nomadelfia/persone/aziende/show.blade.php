@@ -11,13 +11,9 @@
                     @if ($persona->aziendeAttuali()->count() > 0)
                         <div class="row">
                             <p class="col-md-3 fw-bold">Azienda</p>
-                            <p class="col-md-2 fw-bold">
-                                Data entrata
-                            </p>
+                            <p class="col-md-2 fw-bold">Data entrata</p>
                             <p class="col-md-3 fw-bold">Mansione</p>
-                            <p class="col-md-2 fw-bold">
-                                Tempo trascorso
-                            </p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
                             <p class="col-md-2 fw-bold">Op.</p>
                         </div>
                     @endif

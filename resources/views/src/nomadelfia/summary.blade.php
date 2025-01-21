@@ -211,7 +211,9 @@
                         <li>
                             @include("nomadelfia.templates.gruppo", ["id" => $gruppo->id, "nome" => $gruppo->nome])
                             <strong>
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $gruppo->count }}
                                 </span>
                             </strong>
@@ -236,7 +238,9 @@
                     @forelse ($activities as $act)
                         <li>
                             @if ($act->isEnterEvent())
-                                <span class="badge text-bg-success">Entrata</span>
+                                <span class="badge text-bg-success">
+                                    Entrata
+                                </span>
                             @endif
 
                             @if ($act->isExitEvent())

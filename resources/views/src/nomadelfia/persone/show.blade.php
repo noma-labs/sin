@@ -190,9 +190,7 @@
                             @if ($persona->isDeceduta())
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 fw-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Data decesso:
                                         </label>
                                         <div class="col-sm-8">
@@ -536,9 +534,7 @@
                             @if ($famigliaAttuale)
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 fw-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Nome Famiglia:
                                         </label>
                                         <div class="col-sm-8">
@@ -552,9 +548,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 fw-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Posizione:
                                         </label>
                                         <div class="col-sm-8">
@@ -567,9 +561,7 @@
                             @else
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 fw-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Tipo:
                                         </label>
                                         <div class="col-sm-8">

@@ -10,12 +10,8 @@
                 <div class="card-body">
                     @if ($attuale)
                         <div class="row">
-                            <p class="col-md-3 fw-bold">
-                                Nome Famigla
-                            </p>
-                            <p class="col-md-3 fw-bold">
-                                Posizione Famiglia
-                            </p>
+                            <p class="col-md-3 fw-bold">Nome Famigla</p>
+                            <p class="col-md-3 fw-bold">Posizione Famiglia</p>
                             <p class="col-md-3 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">

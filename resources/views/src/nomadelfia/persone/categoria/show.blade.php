@@ -12,9 +12,7 @@
                         <div class="row">
                             <p class="col-md-3 fw-bold">Categoria</p>
                             <p class="col-md-3 fw-bold">Data Inizio</p>
-                            <p class="col-md-3 fw-bold">
-                                Tempo trascorso
-                            </p>
+                            <p class="col-md-3 fw-bold">Tempo trascorso</p>
                             <p class="col-md-3 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">

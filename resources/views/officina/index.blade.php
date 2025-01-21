@@ -46,10 +46,25 @@
             Veicoli
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{ route("veicoli.index") }}"> Lista Veicoli </a> </li>
-            <li><a class="dropdown-item" href="{{ route("veicoli.nuovo") }}"> Nuovo Veicolo  </a> </li>
-            <li> <div class="dropdown-divider"></div> </li>
-            <li> <a class="dropdown-item" href="{{ route("veicoli.demoliti") }}"> Veicoli Demoliti </a> </li>
+            <li>
+                <a class="dropdown-item" href="{{ route("veicoli.index") }}">
+                    Lista Veicoli
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ route("veicoli.nuovo") }}">
+                    Nuovo Veicolo
+                </a>
+            </li>
+            <li><div class="dropdown-divider"></div></li>
+            <li>
+                <a
+                    class="dropdown-item"
+                    href="{{ route("veicoli.demoliti") }}"
+                >
+                    Veicoli Demoliti
+                </a>
+            </li>
         </ul>
     </li>
     <li class="nav-item">
@@ -70,7 +85,11 @@
             Gestione
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{ route("filtri") }}">Filtri</a></li>
+            <li>
+                <a class="dropdown-item" href="{{ route("filtri") }}">
+                    Filtri
+                </a>
+            </li>
             <li><a class="dropdown-item" href="">Gomme</a></li>
             <li><a class="dropdown-item" href="">Modelli</a></li>
             <li><a class="dropdown-item" href="">Marche</a></li>

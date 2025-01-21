@@ -154,7 +154,12 @@
     <div class="alert alert-info">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+        <a
+            href="#"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="close"
+        >
             &times;
         </a>
     </div>

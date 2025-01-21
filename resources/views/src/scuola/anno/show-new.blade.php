@@ -42,7 +42,9 @@
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 Studenti
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $anno->totalStudents }}
                                 </span>
                             </li>
@@ -92,7 +94,9 @@
                         @foreach ($anno->prescuola->classi as $classe)
                             <div>
                                 {{ $classe->nome }}
-                                <span class="badge text-bg-secondary rounded-pill">
+                                <span
+                                    class="badge text-bg-secondary rounded-pill"
+                                >
                                     {{ count($classe->alunni) }}
                                 </span>
 
@@ -139,7 +143,9 @@
                         @foreach ($anno->elementari->classi as $classe)
                             <div>
                                 {{ $classe->nome }}
-                                <span class="badge text-bg-secondary rounded-pill">
+                                <span
+                                    class="badge text-bg-secondary rounded-pill"
+                                >
                                     {{ count($classe->alunni) }}
                                 </span>
 
@@ -186,7 +192,9 @@
                         @foreach ($anno->medie->classi as $classe)
                             <div>
                                 {{ $classe->nome }}
-                                <span class="badge text-bg-secondary rounded-pill">
+                                <span
+                                    class="badge text-bg-secondary rounded-pill"
+                                >
                                     {{ count($classe->alunni) }}
                                 </span>
 
@@ -233,7 +241,9 @@
                         @foreach ($anno->superiori->classi as $classe)
                             <div>
                                 {{ $classe->nome }}
-                                <span class="badge text-bg-secondary rounded-pill">
+                                <span
+                                    class="badge text-bg-secondary rounded-pill"
+                                >
                                     {{ count($classe->alunni) }}
                                 </span>
 
@@ -280,7 +290,9 @@
                         @foreach ($anno->universita->classi as $classe)
                             <div>
                                 {{ $classe->nome }}
-                                <span class="badge text-bg-secondary rounded-pill">
+                                <span
+                                    class="badge text-bg-secondary rounded-pill"
+                                >
                                     {{ count($classe->alunni) }}
                                 </span>
 

@@ -45,7 +45,9 @@
                                 class="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 Studenti
-                                <span class="badge text-bg-primary rounded-pill">
+                                <span
+                                    class="badge text-bg-primary rounded-pill"
+                                >
                                     {{ $alunni }}
                                 </span>
                             </li>

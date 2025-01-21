@@ -84,7 +84,12 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+            <a
+                href="#"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="close"
+            >
                 &times;
             </a>
         </div>
@@ -174,9 +179,7 @@
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                    >
-                        
-                    </button>
+                    ></button>
                 </div>
                 <div class="modal-body">Vuo davvero eliminare la patente ?</div>
                 <div class="modal-footer">

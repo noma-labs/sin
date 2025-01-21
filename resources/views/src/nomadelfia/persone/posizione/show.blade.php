@@ -13,9 +13,7 @@
                         <div class="row">
                             <p class="col-md-3 fw-bold">Posizione</p>
                             <p class="col-md-2 fw-bold">Data Inizio</p>
-                            <p class="col-md-2 fw-bold">
-                                Tempo trascorso
-                            </p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
                             <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">

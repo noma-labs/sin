@@ -34,9 +34,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 fw-bold">
-                                    Persone:
-                                </label>
+                                <label class="col-sm-6 fw-bold">Persone:</label>
                                 <div class="col-sm-3">
                                     <span class="badge text-bg-info">
                                         {{ $persone->total }}
@@ -62,9 +60,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 fw-bold">
-                                    Luogo:
-                                </label>
+                                <label class="col-sm-6 fw-bold">Luogo:</label>
                                 <div class="col-sm-6">
                                     {{ $esercizio->luogo }}
                                 </div>

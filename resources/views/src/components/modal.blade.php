@@ -30,9 +30,7 @@
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                >
-                    
-                </button>
+                ></button>
             </div>
             <div class="modal-body">
                 {{ $body }}
