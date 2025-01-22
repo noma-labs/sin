@@ -7,82 +7,41 @@
             <div class="card-body">
                 <form method="POST" action="{{ route("login") }}">
                     @csrf
-                    <div
-                        class="form-group{{ $errors->has("username") ? " has-error" : "" }}"
-                    >
-                        <label for="username" class="col-md-4 control-label">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
                             Username
                         </label>
-                        <div class="col-md-6">
-                            <input
-                                id="username"
-                                type="text"
-                                class="form-control"
-                                name="username"
-                                value="{{ old("username") }}"
-                                required
-                                autofocus
-                            />
-                            @if ($errors->has("username"))
-                                <span class="help-block">
-                                    <strong>
-                                        {{ $errors->first("username") }}
-                                    </strong>
-                                </span>
-                            @endif
-                        </div>
+                        <input
+                            id="username"
+                            type="text"
+                            class="form-control"
+                            name="username"
+                            value="{{ old("username") }}"
+                            required
+                            autofocus
+                        />
                     </div>
 
-                    <div
-                        class="form-group{{ $errors->has("password") ? " has-error" : "" }}"
-                    >
-                        <label for="password" class="col-md-4 control-label">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
                             Password
                         </label>
-
-                        <div class="col-md-6">
-                            <input
-                                id="password"
-                                type="password"
-                                class="form-control"
-                                name="password"
-                                required
-                            />
-
-                            @if ($errors->has("password"))
-                                <span class="help-block">
-                                    <strong>
-                                        {{ $errors->first("password") }}
-                                    </strong>
-                                </span>
-                            @endif
-                        </div>
+                        <input
+                            id="password"
+                            type="password"
+                            class="form-control"
+                            name="password"
+                            required
+                        />
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <div class="checkbox">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="remember"
-                                        {{ old("remember") ? "checked" : "" }}
-                                    />
-                                    Ricordami
-                                </label>
-                            </div>
-                        </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="remember" {{ old("remember") ? "checked" : "" }}  id="rememberMe"/>
+                        <label class="form-check-label" for="rememberMe"> Ricordami </label>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-md-8 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary">
-                                Entra
-                            </button>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-primary"> Entra </button>
                 </form>
-                <!-- </div> -->
             </div>
         </div>
     </div>
