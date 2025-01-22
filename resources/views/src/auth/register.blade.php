@@ -9,11 +9,7 @@
                     <div class="panel-heading">Register</div>
 
                     <div class="panel-body">
-                        <form
-
-                            method="POST"
-                            action="{{ route("register") }}"
-                        >
+                        <form method="POST" action="{{ route("register") }}">
                             {{ csrf_field() }}
 
                             <div

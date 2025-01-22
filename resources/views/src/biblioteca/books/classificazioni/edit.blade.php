@@ -9,7 +9,6 @@
             <form
                 action="{{ route("classificazioni.update", $classificazione->id) }}"
                 method="POST"
-
             >
                 @csrf
                 @method("PUT")

@@ -63,7 +63,6 @@
             <h2>Motivazione cancellazione</h2>
             <form
                 method="POST"
-
                 action="{{ route("books.destroy", $libro->id) }}"
             >
                 {{ csrf_field() }}

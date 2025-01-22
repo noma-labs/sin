@@ -6,11 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-2">
-                <form
-                    action="{{ route("autori.store") }}"
-                    method="POST"
-
-                >
+                <form action="{{ route("autori.store") }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="autore">Autore</label>

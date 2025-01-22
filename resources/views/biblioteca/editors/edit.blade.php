@@ -9,7 +9,6 @@
             <form
                 action="{{ route("editori.update", $editore->id) }}"
                 method="POST"
-
             >
                 @csrf
                 @method("PUT")

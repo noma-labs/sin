@@ -10,11 +10,7 @@
                         Entra con nome utente e password
                     </div>
                     <div class="card-body">
-                        <form
-
-                            method="POST"
-                            action="{{ route("login") }}"
-                        >
+                        <form method="POST" action="{{ route("login") }}">
                             {{ csrf_field() }}
                             <div
                                 class="mb-3{{ $errors->has("username") ? " has-error" : "" }}"

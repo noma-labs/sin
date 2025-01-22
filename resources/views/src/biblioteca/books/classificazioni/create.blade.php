@@ -6,11 +6,7 @@
 
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <form
-                action="{{ route("classificazioni.index") }}"
-                method="POST"
-
-            >
+            <form action="{{ route("classificazioni.index") }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="descrizione">Classificazione</label>
