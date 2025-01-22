@@ -17,7 +17,7 @@
                             >
                                 <label
                                     for="username"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Username
                                 </label>
@@ -46,7 +46,7 @@
                             >
                                 <label
                                     for="password"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Password
                                 </label>

@@ -17,7 +17,7 @@
                             >
                                 <label
                                     for="name"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Name
                                 </label>
@@ -48,7 +48,7 @@
                             >
                                 <label
                                     for="username"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Username
                                 </label>
@@ -79,7 +79,7 @@
                             >
                                 <label
                                     for="email"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     E-Mail Address
                                 </label>
@@ -109,7 +109,7 @@
                             >
                                 <label
                                     for="password"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Password
                                 </label>
@@ -136,7 +136,7 @@
                             <div class="form-group">
                                 <label
                                     for="password-confirm"
-                                    class="col-md-4 control-label"
+                                    class="col-md-4 form-label"
                                 >
                                     Confirm Password
                                 </label>
