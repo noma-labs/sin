@@ -34,7 +34,7 @@
         >
             <use xlink:href="#check-circle-fill" />
         </svg>
-        <div>{{ Session::get("success") }} alskdfjalsfd</div>
+        <div>{{ Session::get("success") }}</div>
         <button
             type="button"
             class="btn-close"
