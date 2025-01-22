@@ -10,7 +10,7 @@
                 <form
                     action="{{ route("editori.store") }}"
                     method="POST"
-                    class="form-horizontal"
+
                 >
                     @csrf
                     <div class="form-group">

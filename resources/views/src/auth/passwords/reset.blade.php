@@ -10,7 +10,7 @@
 
                     <div class="panel-body">
                         <form
-                            class="form-horizontal"
+
                             method="POST"
                             action="{{ route("password.request") }}"
                         >

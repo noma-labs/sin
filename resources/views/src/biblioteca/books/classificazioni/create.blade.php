@@ -9,7 +9,7 @@
             <form
                 action="{{ route("classificazioni.index") }}"
                 method="POST"
-                class="form-horizontal"
+
             >
                 @csrf
                 <div class="mb-3">

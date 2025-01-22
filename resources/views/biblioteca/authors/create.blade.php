@@ -9,7 +9,7 @@
                 <form
                     action="{{ route("autori.store") }}"
                     method="POST"
-                    class="form-horizontal"
+
                 >
                     @csrf
                     <div class="form-group">

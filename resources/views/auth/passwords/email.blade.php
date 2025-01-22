@@ -16,7 +16,7 @@
                         @endif
 
                         <form
-                            class="form-horizontal"
+
                             method="POST"
                             action="{{ route("password.email") }}"
                         >

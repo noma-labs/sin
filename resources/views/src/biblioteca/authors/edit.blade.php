@@ -9,7 +9,7 @@
             <form
                 action="{{ route("autori.update", $autore->id) }}"
                 method="POST"
-                class="form-horizontal"
+
             >
                 @csrf
                 @method("PUT")
