@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Aggiungi Libro"])
 
     <form method="POST" action="{{ route("books.store") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-12">
                 <div class="row">

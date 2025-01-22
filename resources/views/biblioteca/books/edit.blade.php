@@ -8,7 +8,7 @@
         id="form-modifica"
         action="{{ route("books.update", ["id" => $libro->id]) }}"
     >
-        {{ csrf_field() }}
+        @csrf
         @method("PUT")
         <div class="row">
             <div class="col-md-6">

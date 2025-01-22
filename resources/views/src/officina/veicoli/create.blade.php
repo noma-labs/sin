@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Nuovo Veicolo"])
 
     <form method="post" action="{{ route("veicoli.create") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="mb-3 row">
             <div class="mb-3 col-md-3">
                 <label for="nome">Nome</label>

@@ -10,7 +10,7 @@
             id="assegnaEsSpirituali{{ $esercizio->id }}"
             action="{{ route("nomadelfia.esercizi.assegna", ["id" => $esercizio->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <p>Seleziona Persona</p>
             <livewire:search-popolazione name_input="persona_id" />
         </form>

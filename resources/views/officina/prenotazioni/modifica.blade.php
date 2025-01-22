@@ -10,7 +10,7 @@
         method="POST"
         action="{{ route("officina.prenota.update", $pren->id) }}"
     >
-        {{ csrf_field() }}
+        @csrf
 
         <livewire:prenotazione-veicoli
             :dataPartenza="$pren->data_partenza"

@@ -42,7 +42,7 @@
                                             id="formPersonaCategoriaModifica"
                                             action="{{ route("nomadelfia.persone.categoria.modifica", ["idPersona" => $persona->id, "id" => $categoriaAttuale->id]) }}"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <div class="form-group row">
                                                 <label
                                                     for="staticEmail"
@@ -161,7 +161,7 @@
                                 id="formPersonaCategoria"
                                 action="{{ route("nomadelfia.persone.categoria.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 @if ($categoriaAttuale)
                                     <h5 class="my-2">
                                         Completa dati della categoria attuale:

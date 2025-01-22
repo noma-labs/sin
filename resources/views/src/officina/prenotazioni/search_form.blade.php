@@ -1,5 +1,5 @@
 <form method="GET" action="{{ route("officina.ricerca.submit") }}">
-    {{ csrf_field() }}
+    @csrf
     <div class="row">
         <div class="col-md-3">
             <label class="form-label">Cliente</label>

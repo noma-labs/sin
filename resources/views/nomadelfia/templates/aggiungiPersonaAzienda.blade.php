@@ -10,7 +10,7 @@
             id="formAssegnaPersonaAzienda"
             action="{{ route("nomadelfia.azienda.lavoratore.assegna", ["id" => $azienda->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Persona

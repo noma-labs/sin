@@ -115,7 +115,7 @@
                 action="{{ route("books.call-number.swap.update", ["id" => $libro->id, "idTarget" => $libroTarget->id]) }}"
             >
                 @method("PUT")
-                {{ csrf_field() }}
+                @csrf
                 <div class="mb-3">
                     <button class="btn btn-danger mx-1" type="submit">
                         Cambia collocazione

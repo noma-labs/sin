@@ -5,7 +5,7 @@
     @include("partials.header", ["title" => "Aggiugni ruolo"])
 
     <form method="post" action="{{ route("roles.store") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="form-group">

@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Ricerca Archivio Libri"])
 
     <form method="GET" action="{{ route("archiviodocumenti.libri.ricerca") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-3">
                 <label for="collocazione" class="control-label">

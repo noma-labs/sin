@@ -11,7 +11,7 @@
             action="{{ route("scuola.classi.tipo.update", ["id" => $classe->id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
             <div class="mb-3 row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Tipo di classe

@@ -314,7 +314,7 @@
                 id="formStampa"
                 action="{{ route("nomadelfia.popolazione.stampa") }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 <h5>Seleziona gli elenchi da stampare:</h5>
                 <div class="form-check">
                     <input

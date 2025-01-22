@@ -10,7 +10,7 @@
             id="formRimuoviAlunno{{ $alunno->id }}"
             action="{{ route("scuola.classi.alunno.rimuovi", ["id" => $classe->id, "alunno_id" => $alunno->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group row">
                 <p>
                     Voi davvero eliminare l'alunno {{ $alunno->nominativo }}

@@ -10,7 +10,7 @@
             id="formRimuoviCoordinatore{{ $coord->id }}"
             action="{{ route("scuola.classi.coordinatore.rimuovi", ["id" => $classe->id, "coord_id" => $coord->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group row">
                 <p>
                     Voi davvero eliminare {{ $coord->nominativo }} dalla

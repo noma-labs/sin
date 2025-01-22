@@ -41,7 +41,7 @@
                                             id="formConcludiPosizione{{ $posattuale->id }}"
                                             action="{{ route("nomadelfia.persone.posizione.concludi", ["idPersona" => $persona->id, "id" => $posattuale->id]) }}"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="data_inizio"
@@ -106,7 +106,7 @@
                                 id="formPersonaPosizione"
                                 action="{{ route("nomadelfia.persone.posizione.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 @if ($posattuale != null)
                                     <h5 class="my-2">
                                         Completa dati della posizione attuale:

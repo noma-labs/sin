@@ -11,7 +11,7 @@
         method="POST"
         action="{{ route("officina.prenota") }}"
     >
-        {{ csrf_field() }}
+        @csrf
         <livewire:prenotazione-veicoli />
         <div class="row">
             <div class="col-md-3">

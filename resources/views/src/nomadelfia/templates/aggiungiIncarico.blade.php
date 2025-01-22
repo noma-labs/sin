@@ -10,7 +10,7 @@
             id="formComponente"
             action="{{ route("nomadelfia.incarichi.aggiungi") }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1">Nome Incarico</label>
                 <input

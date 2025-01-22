@@ -13,7 +13,7 @@
 </div>
 
 <form method="GET" class="form" action="{{ route("video.ricerca.submit") }}">
-    {{ csrf_field() }}
+    @csrf
     <div class="row">
         <div class="col-md-4">
             <label for="xTitolo" class="control-label">Collocazione DVD</label>

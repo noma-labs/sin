@@ -19,7 +19,7 @@
 
     <form method="GET" class="form" action="{{ route("books.loans.search") }}">
         <div class="row">
-            {{ csrf_field() }}
+            @csrf
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label">Cliente</label>

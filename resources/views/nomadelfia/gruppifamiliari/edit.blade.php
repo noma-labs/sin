@@ -50,7 +50,7 @@
                                         id="formPersonaGruppoModifica{{ $gruppo->id }}"
                                         action="{{ route("nomadelfia.gruppifamiliari.capogruppo", ["id" => $gruppo->id]) }}"
                                     >
-                                        {{ csrf_field() }}
+                                        @csrf
                                         <div class="form-group row">
                                             <label
                                                 for="staticEmail"

@@ -1,5 +1,5 @@
 <form method="GET" action="{{ route("nomadelfia.persone.ricerca.submit") }}">
-    {{ csrf_field() }}
+    @csrf
     <div class="row">
         <div class="col-md-2">
             <label class="form-label">Nominativo</label>

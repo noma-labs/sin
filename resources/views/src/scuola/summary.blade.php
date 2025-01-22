@@ -62,7 +62,7 @@
                                         id="formStampa"
                                         action="{{ route("scuola.stampa") }}"
                                     >
-                                        {{ csrf_field() }}
+                                        @csrf
                                         <p>
                                             Seleziona gli elenchi da stampare:
                                         </p>

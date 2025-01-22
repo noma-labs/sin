@@ -41,7 +41,7 @@
                         method="post"
                     >
                         {{ method_field("DELETE") }}
-                        {{ csrf_field() }}
+                        @csrf
                         <button
                             class="btn btn-danger"
                             form="formRemoveAll"
@@ -80,7 +80,7 @@
                                                 method="post"
                                             >
                                                 {{ method_field("DELETE") }}
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 <button
                                                     class="btn btn-danger"
                                                     type="submit"
@@ -120,7 +120,7 @@
                         class="form"
                         action="{{ route("archiviodocumenti.etichette.aggiungi") }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <h5>Dalla collocazione:</h5>
                         <label>Collocazione</label>
                         <input type="text" name="fromCollocazione" />

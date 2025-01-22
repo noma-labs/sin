@@ -109,7 +109,7 @@
                                                 method="POST"
                                                 style="display: none"
                                             >
-                                                {{ csrf_field() }}
+                                                @csrf
                                             </form>
                                         </li>
                                     </ul>

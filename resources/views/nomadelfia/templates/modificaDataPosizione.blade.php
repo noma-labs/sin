@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.persone.posizione.modifica", ["idPersona" => $persona->id, "id" => $id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
             <input
                 type="hidden"
                 name="current_data_inizio"

@@ -45,7 +45,7 @@
                                             id="formPersonaGruppoModifica"
                                             action="{{ route("nomadelfia.persone.incarichi.modifica", ["idPersona" => $persona->id, "id" => $incarico->id]) }}"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <div class="form-group row">
                                                 <label
                                                     for="staticEmail"
@@ -209,7 +209,7 @@
                                 id="formPersonaAzinedaAggiungi"
                                 action="{{ route("nomadelfia.persone.incarichi.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 <h5 class="my-2">Nuovo Incarico</h5>
                                 <div class="form-group row">
                                     <label

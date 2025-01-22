@@ -10,7 +10,7 @@
 
                     <div class="panel-body">
                         <form method="POST" action="{{ route("register") }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div
                                 class="mb-3{{ $errors->has("name") ? " has-error" : "" }}"

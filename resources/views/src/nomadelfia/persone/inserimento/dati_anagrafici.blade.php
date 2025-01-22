@@ -11,7 +11,7 @@
                 method="POST"
                 action="{{ route("nomadelfia.persone.anagrafica.store") }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 <div class="mb-3 row">
                     <label for="fornominativo" class="col-sm-6 col-form-label">
                         Nominativo:

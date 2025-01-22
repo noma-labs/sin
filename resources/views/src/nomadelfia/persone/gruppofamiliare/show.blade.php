@@ -39,7 +39,7 @@
                                             action="{{ route("nomadelfia.persone.gruppo.modifica", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
                                         >
                                             @method("PUT")
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="current_data_entrata"

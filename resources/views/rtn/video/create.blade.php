@@ -5,7 +5,7 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Video Archivio Professionale"])
     <form method="post" action="{{ route("rtn.video.store") }}">
-        {{ csrf_field() }}
+        @csrf
 
         <div class="row justify-content-center">
             <div class="col-md-6">

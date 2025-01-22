@@ -14,7 +14,7 @@
                         action="{{ route("nomadelfia.persone.numelenco.confirm", ["idPersona" => $persona->id]) }}"
                     >
                         @method("PUT")
-                        {{ csrf_field() }}
+                        @csrf
                         <div class="row">
                             <div class="col-md-9">
                                 <label for="exampleInputEmail1">

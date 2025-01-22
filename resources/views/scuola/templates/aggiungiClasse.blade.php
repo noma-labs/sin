@@ -10,7 +10,7 @@
             id="addClasse"
             action="{{ route("scuola.anno.classe.aggiungi", ["id" => $anno->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Tipo di classe

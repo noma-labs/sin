@@ -9,7 +9,7 @@
                 method="POST"
                 action="{{ route("nomadelfia.persone.store") }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 <div class="row">
                     <div class="col-md-6">
                         <input

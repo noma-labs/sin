@@ -46,7 +46,7 @@
                         action="{{ route("books.labels.delete") }}"
                         method="post"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         @method("DELETE")
                         <button
                             class="btn btn-danger"
@@ -85,7 +85,7 @@
                                                 action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                                                 method="post"
                                             >
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 <button
                                                     class="btn btn-danger"
                                                     type="submit"
@@ -132,7 +132,7 @@
                         class="form"
                         action="{{ route("books.labels.store-batch") }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <h5>Dalla collocazione:</h5>
 
                         <div class="row">

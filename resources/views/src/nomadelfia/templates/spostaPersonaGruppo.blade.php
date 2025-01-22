@@ -10,7 +10,7 @@
             id="spostaPersonGruppo{{ $persona->id }}"
             action="{{ route("nomadelfia.persone.gruppo.sposta", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
 
             <h5 class="my-2">
                 Completa dati del gruppo attuale: {{ $attuale->nome }}

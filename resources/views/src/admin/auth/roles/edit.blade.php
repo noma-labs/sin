@@ -6,7 +6,7 @@
 
     <form method="POST" action="{{ route("roles.update", $ruolo->id) }}">
         <input type="hidden" name="_method" value="PUT" />
-        {{ csrf_field() }}
+        @csrf
 
         <div class="row">
             <div class="col-md-6 offset-md-2">

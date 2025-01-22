@@ -13,7 +13,7 @@
                             method="POST"
                             action="{{ route("password.request") }}"
                         >
-                            {{ csrf_field() }}
+                            @csrf
 
                             <input
                                 type="hidden"

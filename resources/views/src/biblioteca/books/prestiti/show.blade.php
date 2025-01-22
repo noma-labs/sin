@@ -68,7 +68,7 @@
                 method="POST"
                 action="{{ route("books.loans.return", $prestito->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 @method("PUT")
             </form>
 

@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Ricerca Patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
     <form method="GET" action="{{ route("patente.ricerca.conferma") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="mb-3 col-md-2 offset-md-1">
                 <label>Persona</label>

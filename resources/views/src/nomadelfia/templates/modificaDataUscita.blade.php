@@ -10,7 +10,7 @@
             id="formModificaDataUscita{{ $data_uscita }}"
             action="{{ route("nomadelfia.persone.datauscita.modifica", ["idPersona" => $persona->id, "uscita" => $data_uscita]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="mb-3 row">
                 <label class="col-sm-6 col-form-label">Nuova Data Uscita</label>
                 <div class="col-sm-6">

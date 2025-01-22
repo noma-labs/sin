@@ -10,7 +10,7 @@
             id="formAssegnaIncaricoPersona"
             action="{{ route("nomadelfia.incarichi.assegna", ["id" => $incarico->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="form-group row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Persona

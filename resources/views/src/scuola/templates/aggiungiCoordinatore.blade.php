@@ -10,7 +10,7 @@
             id="formAggiungiCoord"
             action="{{ route("scuola.classi.coordinatore.assegna", ["id" => $classe->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="mb-3 row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Coordinatore

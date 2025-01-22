@@ -13,7 +13,7 @@
                         action="{{ route("nomadelfia.persone.nominativo.modifica", ["idPersona" => $persona->id]) }}"
                     >
                         @method("PUT")
-                        {{ csrf_field() }}
+                        @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">
                                 Nominativo attuale
@@ -50,7 +50,7 @@
                         method="POST"
                         action="{{ route("nomadelfia.persone.nominativo.assegna", ["idPersona" => $persona->id]) }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">
                                 Nuovo nominativo

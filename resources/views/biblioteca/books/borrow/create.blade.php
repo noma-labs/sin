@@ -8,7 +8,7 @@
         class="form"
         action="{{ route("books.borrow.store", $libro->id) }}"
     >
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="row">

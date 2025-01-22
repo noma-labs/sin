@@ -10,7 +10,7 @@
                 id="veicolo-form-modifica"
                 action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -362,7 +362,7 @@
                         action="{{ route("olio.aggiungi") }}"
                         id="form-aggiungi-olio"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <input
                             type="hidden"
                             name="veicolo"
@@ -416,7 +416,7 @@
                         action="{{ route("gomma.aggiungi") }}"
                         id="form-aggiungi-gomma"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="codice">Codice Gomma</label>

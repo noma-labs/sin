@@ -65,7 +65,7 @@
                 method="POST"
                 action="{{ route("books.destroy", $libro->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 @method("DELETE")
                 <div class="mb-3">
                     <label classfor="motivo">

@@ -11,7 +11,7 @@
                 method="POST"
                 action="{{ route("books.loans.update", $prestito->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 @method("PUT")
                 <div class="row">
                     <div class="col-md-6">

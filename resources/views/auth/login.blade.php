@@ -6,7 +6,7 @@
             <div class="card-header">Entra con nome utente e password</div>
             <div class="card-body">
                 <form method="POST" action="{{ route("login") }}">
-                    {{ csrf_field() }}
+                    @csrf
                     <div
                         class="form-group{{ $errors->has("username") ? " has-error" : "" }}"
                     >

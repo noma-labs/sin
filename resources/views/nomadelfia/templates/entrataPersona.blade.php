@@ -3,7 +3,7 @@
     method="POST"
     action="{{ route("nomadelfia.persone.inserimento.entrata.scelta.view", ["idPersona" => $persona->id]) }}"
 >
-    {{ csrf_field() }}
+    @csrf
 
     <livewire:entrata-persona :persona="$persona" />
 

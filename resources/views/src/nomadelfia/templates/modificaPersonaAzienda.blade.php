@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.aziende.persona.update", ["id" => $azienda->id, "idPersona" => $lavoratore->id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
 
             <input
                 type="hidden"

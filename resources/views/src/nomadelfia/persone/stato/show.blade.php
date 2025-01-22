@@ -41,7 +41,7 @@
                                             action="{{ route("nomadelfia.persone.stato.modifica", ["idPersona" => $persona->id, "id" => $persona->statoAttuale()->id]) }}"
                                         >
                                             @method("PUT")
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <div class="mb-3 row">
                                                 <label
                                                     for="staticEmail"
@@ -158,7 +158,7 @@
                                 id="formPersonaStato"
                                 action="{{ route("nomadelfia.persone.stato.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
 
                                 @if ($persona->statoAttuale())
                                     <h5 class="my-2">

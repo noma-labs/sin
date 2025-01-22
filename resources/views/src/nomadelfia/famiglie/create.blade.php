@@ -9,7 +9,7 @@
                 method="POST"
                 action="{{ route("nomadelfia.matrimonio.store") }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 <div class="mb-3 row">
                     <label for="Husband" class="col-md-6 col-form-label">
                         Marito

@@ -10,7 +10,7 @@
             id="cloneAnno"
             action="{{ route("scuola.anno.clone", ["id" => $anno->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="alert alert-info" role="alert">
                 Gli studenti verranno importati in un nuovo anno facendoli
                 avanzare di una classe.

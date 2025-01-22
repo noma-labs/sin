@@ -11,7 +11,7 @@
                 action="{{ route("nomadelfia.persone.anagrafica.update", ["idPersona" => $persona->id]) }}"
             >
                 @method("PUT")
-                {{ csrf_field() }}
+                @csrf
                 <div class="mb-3">
                     <label for="name">Nome</label>
                     <input

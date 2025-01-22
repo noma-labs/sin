@@ -19,7 +19,7 @@
         <div class="col-md-8 offset-md-2 my-3">
             <span>Ricerca editore:</span>
             <form action="{{ route("editori.ricerca") }}" method="get">
-                {{ csrf_field() }}
+                @csrf
                 <livewire:search-editore name_input="idEditore" />
                 <button class="btn btn-success my-2 float-end" type="submit">
                     Cerca

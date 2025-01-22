@@ -10,7 +10,7 @@
             id="formPersonaGruppo"
             action="{{ route("nomadelfia.persone.gruppo.assegna", ["idPersona" => $persona->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
 
             <h5 class="my-2">Nuovo gruppo familiare</h5>
             <div class="form-group row">

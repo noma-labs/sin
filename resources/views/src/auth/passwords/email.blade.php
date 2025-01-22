@@ -19,7 +19,7 @@
                             method="POST"
                             action="{{ route("password.email") }}"
                         >
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div
                                 class="mb-3{{ $errors->has("email") ? " has-error" : "" }}"

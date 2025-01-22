@@ -14,7 +14,7 @@
                         action="{{ route("books.restore", $libro->id) }}"
                         method="post"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         @method("PUT")
                         <button form="restoreBook" class="btn btn-info my-2">
                             Ripristina Libro
@@ -144,7 +144,7 @@
                 action="{{ route("books.labels.store-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
-                {{ csrf_field() }}
+                @csrf
             </form>
 
             <form
@@ -152,7 +152,7 @@
                 action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
-                {{ csrf_field() }}
+                @csrf
             </form>
 
             <div class="row my-2">

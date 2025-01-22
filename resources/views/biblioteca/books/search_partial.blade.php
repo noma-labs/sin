@@ -19,7 +19,7 @@
 </div>
 
 <form method="GET" class="form" action="{{ route("books.search") }}">
-    {{ csrf_field() }}
+    @csrf
     @if (Auth::guest())
         <div class="row">
             <div class="col-md-12">

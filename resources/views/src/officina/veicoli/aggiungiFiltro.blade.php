@@ -9,7 +9,7 @@
             action="{{ route("filtri.aggiungi") }}"
             id="form-aggiungi-filtro"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="row">
                 <div class="col-md-4">
                     <label for="codice">Codice Filtro</label>
