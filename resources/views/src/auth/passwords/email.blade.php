@@ -24,10 +24,7 @@
                             <div
                                 class="mb-3{{ $errors->has("email") ? " has-error" : "" }}"
                             >
-                                <label
-                                    for="email"
-                                    class="col-md-4 form-label"
-                                >
+                                <label for="email" class="col-md-4 form-label">
                                     E-Mail Address
                                 </label>
 

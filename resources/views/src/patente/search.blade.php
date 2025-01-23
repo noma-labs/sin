@@ -121,9 +121,7 @@
             </div>
             <div class="mb-3">
                 <label>&nbsp;</label>
-                <button type="submit" class="btn  btn-primary">
-                    Ricerca
-                </button>
+                <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>
     </form>

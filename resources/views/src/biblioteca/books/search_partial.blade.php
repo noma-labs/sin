@@ -138,7 +138,7 @@
     <div class="row">
         <div class="col-md-2 offset-md-10">
             <button
-                class="btn  btn-success"
+                class="btn btn-success"
                 id="biblio"
                 name="biblioteca"
                 type="submit"

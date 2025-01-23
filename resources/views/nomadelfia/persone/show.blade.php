@@ -99,7 +99,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-bs-target="#collapseOne"
                             aria-expanded="true"
                             aria-controls="collapseOne"
                         >
@@ -283,7 +283,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapsezero"
+                            data-bs-target="#collapsezero"
                             aria-expanded="true"
                             aria-controls="collapsezero"
                         >
@@ -517,7 +517,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseTwo"
+                            data-bs-target="#collapseTwo"
                             aria-expanded="true"
                             aria-controls="collapseTwo"
                         >

@@ -68,10 +68,7 @@
                             <td>{{ $pren->destinazione }}</td>
                             <td>{{ $pren->note }}</td>
                             <td>
-                                <div
-                                    class="button-group "
-                                    role="group"
-                                >
+                                <div class="button-group" role="group">
                                     <a
                                         role="button"
                                         class="btn btn-warning"

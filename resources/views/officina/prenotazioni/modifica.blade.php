@@ -4,7 +4,10 @@
 
 @section("content")
     @include("partials.header", ["title" => "Modifica Prenotazione"])
-    <form method="POST" action="{{ route("officina.prenota.update", $pren->id) }}" >
+    <form
+        method="POST"
+        action="{{ route("officina.prenota.update", $pren->id) }}"
+    >
         @csrf
 
         <livewire:prenotazione-veicoli
@@ -62,7 +65,9 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label" for="destinazione">Destinazione</label>
+                <label class="form-label" for="destinazione">
+                    Destinazione
+                </label>
                 <input
                     type="text"
                     class="form-control"
@@ -83,24 +88,21 @@
                     value="{{ $pren->note }}"
                 />
             </div>
-            <div class="col-md-2 d-flex align-items-end  justify-content-end gap-2">
-                <button
-                    type="submit"
-                    id="prenota"
-                    class="btn btn-primary"
-                >
+            <div
+                class="col-md-2 d-flex align-items-end justify-content-end gap-2"
+            >
+                <button type="submit" id="prenota" class="btn btn-primary">
                     Modifica
                 </button>
                 @can("meccanica.prenotazione.elimina")
-                <a
-                    class="btn btn-danger"
-                    href="{{ route("officina.prenota.delete", $pren->id) }}"
-                >
-                    Elimina
-                </a>
-            @endcan
+                    <a
+                        class="btn btn-danger"
+                        href="{{ route("officina.prenota.delete", $pren->id) }}"
+                    >
+                        Elimina
+                    </a>
+                @endcan
             </div>
-
         </div>
         <br />
     </form>

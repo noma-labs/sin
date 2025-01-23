@@ -1,4 +1,8 @@
-<form method="GET" action="{{ route("officina.ricerca.submit") }}" class="mb-3">
+<form
+    method="GET"
+    action="{{ route("officina.ricerca.submit") }}"
+    class="mb-3"
+>
     @csrf
     <div class="row g-3">
         <div class="col-md-3">

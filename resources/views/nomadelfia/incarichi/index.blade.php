@@ -21,7 +21,7 @@
                                             <button
                                                 class="btn btn-link"
                                                 data-bs-toggle="collapse"
-                                                data-target="#collapse{{ $incarico->id }}"
+                                                data-bs-target="#collapse{{ $incarico->id }}"
                                                 aria-expanded="true"
                                                 aria-controls="collapse{{ $incarico->id }}"
                                             >

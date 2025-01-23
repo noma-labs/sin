@@ -48,15 +48,13 @@
                     @endforeach
                 </select>
 
-                <button class="btn btn-primary" type="submit">
-                    Cerca
-                </button>
+                <button class="btn btn-primary" type="submit">Cerca</button>
             </form>
         </div>
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered bg-primary" >
+        <table class="table table-bordered bg-primary">
             <thead class="thead-inverse">
                 <tr>
                     <th>#</th>
@@ -72,7 +70,7 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-            <tbody  class="bg-primary text-white">
+            <tbody class="bg-primary text-white">
                 @foreach ($veicoli as $veicolo)
                     <tr hoverable>
                         <td>{{ $loop->iteration }}</td>

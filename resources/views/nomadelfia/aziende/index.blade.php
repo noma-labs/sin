@@ -17,7 +17,7 @@
                                     <button
                                         class="btn btn-link"
                                         data-bs-toggle="collapse"
-                                        data-target="#collapse{{ $azienda->id }}"
+                                        data-bs-target="#collapse{{ $azienda->id }}"
                                         aria-expanded="true"
                                         aria-controls="collapse{{ $azienda->id }}"
                                     >
@@ -47,7 +47,7 @@
                                     </ul>
                                     <div class="row">
                                         <a
-                                            class="btn btn-danger  col-md-4 offset-md-2"
+                                            class="btn btn-danger col-md-4 offset-md-2"
                                             type="button"
                                             href="{{ route("nomadelfia.aziende.edit", $azienda->id) }}"
                                         >

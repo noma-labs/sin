@@ -1,6 +1,6 @@
 <div class="my-page-title">
     <div class="d-flex justify-content-end">
-        <div class=" p-2">
+        <div class="p-2">
             <span class="h1 text-center">Ricerca Libro</span>
         </div>
         <div class="p-2 text-right">
@@ -138,7 +138,7 @@
     <div class="row">
         <div class="col-md-2 offset-md-10">
             <button
-                class="btn  btn-success"
+                class="btn btn-success"
                 id="biblio"
                 name="biblioteca"
                 type="submit"

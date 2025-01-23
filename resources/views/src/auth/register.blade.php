@@ -15,10 +15,7 @@
                             <div
                                 class="mb-3{{ $errors->has("name") ? " has-error" : "" }}"
                             >
-                                <label
-                                    for="name"
-                                    class="col-md-4 form-label"
-                                >
+                                <label for="name" class="col-md-4 form-label">
                                     Name
                                 </label>
 
@@ -77,10 +74,7 @@
                             <div
                                 class="mb-3{{ $errors->has("email") ? " has-error" : "" }}"
                             >
-                                <label
-                                    for="email"
-                                    class="col-md-4 form-label"
-                                >
+                                <label for="email" class="col-md-4 form-label">
                                     E-Mail Address
                                 </label>
 

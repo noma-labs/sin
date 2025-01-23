@@ -4,7 +4,7 @@
 @section("content")
     <div class="my-page-title">
         <div class="d-flex justify-content-end">
-            <div class=" p-2">
+            <div class="p-2">
                 <span class="h1 text-center">Ricerca Autori</span>
             </div>
             <div class="p-2 text-right">

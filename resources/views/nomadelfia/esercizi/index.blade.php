@@ -13,7 +13,7 @@
                                 <button
                                     class="btn btn-link"
                                     data-bs-toggle="collapse"
-                                    data-target="#collapseNo"
+                                    data-bs-target="#collapseNo"
                                     aria-expanded="false"
                                     aria-controls="collapseNo"
                                 >
@@ -70,7 +70,7 @@
                                     <button
                                         class="btn btn-link"
                                         data-bs-toggle="collapse"
-                                        data-target="#collapse{{ $esercizio->id }}"
+                                        data-bs-target="#collapse{{ $esercizio->id }}"
                                         aria-expanded="false"
                                         aria-controls="collapse{{ $esercizio->id }}"
                                     >

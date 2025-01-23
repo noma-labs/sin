@@ -18,7 +18,7 @@
                                     <button
                                         class="btn btn-link"
                                         data-bs-toggle="collapse"
-                                        data-target="#collapse{{ $classe->id }}"
+                                        data-bs-target="#collapse{{ $classe->id }}"
                                         aria-expanded="true"
                                         aria-controls="collapse{{ $classe->id }}"
                                     >

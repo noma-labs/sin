@@ -12,7 +12,7 @@
                             <button
                                 class="btn btn-link"
                                 data-bs-toggle="collapse"
-                                data-target="#effettivi"
+                                data-bs-target="#effettivi"
                                 aria-expanded="true"
                                 aria-controls="effettivi"
                             >
@@ -80,7 +80,7 @@
                             <button
                                 class="btn btn-link"
                                 data-bs-toggle="collapse"
-                                data-target="#postulanti"
+                                data-bs-target="#postulanti"
                                 aria-expanded="true"
                                 aria-controls="postulanti"
                             >
@@ -144,7 +144,7 @@
                                     <button
                                         class="btn btn-link"
                                         data-bs-toggle="collapse"
-                                        data-target="#posizione{{ $posizione->id }}"
+                                        data-bs-target="#posizione{{ $posizione->id }}"
                                         aria-expanded="false"
                                         aria-controls="posizione{{ $posizione->id }}"
                                     >
@@ -224,7 +224,7 @@
                                     <button
                                         class="btn btn-link"
                                         data-bs-toggle="collapse"
-                                        data-target="#familiare{{ $stato->id }}"
+                                        data-bs-target="#familiare{{ $stato->id }}"
                                         aria-expanded="false"
                                         aria-controls="familiare{{ $stato->id }}"
                                     >

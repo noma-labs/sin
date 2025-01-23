@@ -140,9 +140,7 @@
         <div class="col-md-2">
             <div class="mb-3">
                 <label id="lab">&nbsp;</label>
-                <button type="submit" class="btn  btn-primary">
-                    Ricerca
-                </button>
+                <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>
     </div>

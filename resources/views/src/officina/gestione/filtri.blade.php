@@ -38,7 +38,7 @@
                                             @method("DELETE")
                                             <button
                                                 type="submit"
-                                                class="btn btn-danger btn-sm "
+                                                class="btn btn-danger btn-sm"
                                             >
                                                 Elimina
                                             </button>

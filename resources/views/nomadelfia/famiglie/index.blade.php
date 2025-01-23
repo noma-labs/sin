@@ -11,7 +11,7 @@
                             <button
                                 class="btn btn-link"
                                 data-bs-toggle="collapse"
-                                data-target="#Single"
+                                data-bs-target="#Single"
                                 aria-expanded="true"
                                 aria-controls="Single"
                             >
@@ -81,7 +81,7 @@
                             <button
                                 class="btn btn-link"
                                 data-bs-toggle="collapse"
-                                data-target="#CapoFamiglia"
+                                data-bs-target="#CapoFamiglia"
                                 aria-expanded="true"
                                 aria-controls="CapoFamiglia"
                             >
@@ -151,7 +151,7 @@
                             <button
                                 class="btn btn-link"
                                 data-bs-toggle="collapse"
-                                data-target="#Errori"
+                                data-bs-target="#Errori"
                                 aria-expanded="true"
                                 aria-controls="Errori"
                             >

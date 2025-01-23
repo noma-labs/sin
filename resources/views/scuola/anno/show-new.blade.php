@@ -70,7 +70,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapsePrescuola"
+                            data-bs-target="#collapsePrescuola"
                             aria-expanded="true"
                             aria-controls="collapsePrescuola"
                         >
@@ -117,7 +117,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseElementari"
+                            data-bs-target="#collapseElementari"
                             aria-expanded="true"
                             aria-controls="collapseElementari"
                         >
@@ -164,7 +164,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseMedie"
+                            data-bs-target="#collapseMedie"
                             aria-expanded="true"
                             aria-controls="collapseMedie"
                         >
@@ -211,7 +211,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseSuperiori"
+                            data-bs-target="#collapseSuperiori"
                             aria-expanded="true"
                             aria-controls="collapseSuperiori"
                         >
@@ -258,7 +258,7 @@
                         <button
                             class="btn btn-link"
                             data-bs-toggle="collapse"
-                            data-target="#collapseUniversità"
+                            data-bs-target="#collapseUniversità"
                             aria-expanded="true"
                             aria-controls="collapseUniversità"
                         >

@@ -52,10 +52,7 @@
                             <td>{{ $persona->data_nascita }}</td>
                             <td>{{ $persona->provincia_nascita }}</td>
                             <td>
-                                <div
-                                    class="button-group "
-                                    role="group"
-                                >
+                                <div class="button-group" role="group">
                                     <a
                                         class="btn btn-warning btn-sm"
                                         href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $persona->id]) }}"

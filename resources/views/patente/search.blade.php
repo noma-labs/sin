@@ -125,9 +125,7 @@
             </div>
             <div class="form-group">
                 <label>&nbsp;</label>
-                <button type="submit" class="btn  btn-primary">
-                    Ricerca
-                </button>
+                <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>
     </form>

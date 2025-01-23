@@ -64,7 +64,9 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label" for="alimentazione">Alimentazione</label>
+                    <label class="form-label" for="alimentazione">
+                        Alimentazione
+                    </label>
                     <input
                         type="text"
                         class="form-control"
@@ -85,7 +87,9 @@
 
             <div class="row g-3 mb-3">
                 <div class="col-md-3">
-                    <label class="form-label" for="tipologia">Filtro Olio</label>
+                    <label class="form-label" for="tipologia">
+                        Filtro Olio
+                    </label>
                     <input
                         type="text"
                         class="form-control"
@@ -94,7 +98,9 @@
                     />
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label" for="impiego">Filtro Gasolio</label>
+                    <label class="form-label" for="impiego">
+                        Filtro Gasolio
+                    </label>
                     <input
                         type="text"
                         class="form-control"
@@ -104,7 +110,9 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label" for="alimentazione">Filtro Aria</label>
+                    <label class="form-label" for="alimentazione">
+                        Filtro Aria
+                    </label>
                     <input
                         type="text"
                         class="form-control"
@@ -135,7 +143,9 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label" for="litri_olio">Litri Olio</label>
+                    <label class="form-label" for="litri_olio">
+                        Litri Olio
+                    </label>
                     <input
                         type="number"
                         class="form-control"
@@ -178,5 +188,4 @@
     >
         Modifica
     </a>
-
 @endsection

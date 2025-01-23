@@ -9,7 +9,7 @@
             <h3>Ricerca</h3>
         </div>
         <div class="card-body">
-            <form action="" method="get" >
+            <form action="" method="get">
                 <div class="row">
                     <div class="col col-md-2">
                         <label class="form-label" for="nome">Nome</label>
@@ -44,7 +44,11 @@
                     </div>
                     <div class="col col-md-2">
                         <label class="form-label" for="modello">Modello</label>
-                        <select name="modello" id="modello" class="form-control">
+                        <select
+                            name="modello"
+                            id="modello"
+                            class="form-control"
+                        >
                             <option value="">--Modelli--</option>
                             @foreach ($modelli as $modello)
                                 <option value="{{ $modello->id }}">
@@ -63,8 +67,8 @@
         </div>
     </div>
 
-    <div class="table-responsive ">
-        <table class="table table-bordered" >
+    <div class="table-responsive">
+        <table class="table table-bordered">
             <thead class="thead-inverse bg-warning">
                 <tr>
                     <th width="2%">#</th>

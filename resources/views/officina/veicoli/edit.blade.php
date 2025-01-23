@@ -215,11 +215,7 @@
                 <div class="row mb-3 g-3">
                     <div class="col-6 col-md-3">
                         <label for="olio_id">Tipo Di Olio</label>
-                        <select
-                            class="form-control"
-                            name="olio_id"
-                            type="text"
-                        >
+                        <select class="form-control" name="olio_id" type="text">
                             <option value="" hidden selected>
                                 --Seleziona--
                             </option>
@@ -505,9 +501,7 @@
                         </p>
                         <p>
                             Il veicolo verrà comunque conservato come
-                            <span class="font-italic">
-                                veicolo demolito
-                            </span>
+                            <span class="font-italic">veicolo demolito</span>
                             .
                         </p>
                         <form
@@ -537,7 +531,7 @@
             </x-modal>
         @endif
         <button
-            class="btn  btn-success"
+            class="btn btn-success"
             form="veicolo-form-modifica"
             type="submit"
         >

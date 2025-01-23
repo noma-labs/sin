@@ -578,7 +578,7 @@
         @endif
         <div class="col-md-2">
             <button
-                class="btn  btn-success"
+                class="btn btn-success"
                 form="veicolo-form-modifica"
                 type="submit"
             >

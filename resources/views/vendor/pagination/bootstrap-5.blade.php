@@ -5,8 +5,8 @@
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Previous">
-                     <span aria-hidden="true">&laquo;</span>
-                  </a>
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                 </li>
             @else
                 <li class="page-item">
@@ -27,6 +27,7 @@
                         <span class="page-link">{{ $element }}</span>
                     </li>
                 @endif
+
                 {{-- Array Of Links --}}
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
@@ -44,12 +45,18 @@
                     @endforeach
                 @endif
             @endforeach
+
             {{-- Next Page Link --}}
+
             @if ($paginator->hasMorePages())
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" aria-label="Next">
+                    <a
+                        class="page-link"
+                        href="{{ $paginator->nextPageUrl() }}"
+                        aria-label="Next"
+                    >
                         <span aria-hidden="true">&raquo;</span>
-                      </a>
+                    </a>
                 </li>
             @else
                 <li class="page-item disabled">

@@ -62,9 +62,7 @@
         <div class="col-md-2 offset-md-8">
             <div class="form-group">
                 <label id="lab">&nbsp;</label>
-                <button type="submit" class="btn  btn-primary">
-                    Ricerca
-                </button>
+                <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>
     </div>

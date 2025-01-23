@@ -95,11 +95,7 @@
             <div class="col-md-2">
                 <div class="mb-3">
                     <label for="prenota"><br /></label>
-                    <button
-                        type="submit"
-                        id="prenota"
-                        class="btn  btn-primary"
-                    >
+                    <button type="submit" id="prenota" class="btn btn-primary">
                         Prenota
                     </button>
                 </div>
