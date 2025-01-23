@@ -8,11 +8,9 @@
     <form method="POST" action="{{ route("officina.prenota") }}">
         @csrf
 
-        <div class="mb-3">
-            <livewire:prenotazione-veicoli />
-        </div>
+        <livewire:prenotazione-veicoli />
 
-        <div class="row mb-3">
+        <div class="row g-3">
             <div class="col-md-2">
                 <label for="person" class="form-label">Cliente</label>
                 <select class="form-control" id="person" name="nome">

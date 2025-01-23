@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" /> -->
     </head>
     <body>
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <nav class="navbar navbar-expand-md bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url("/home") }}">
                     <img src="/images/logo-noma.png" alt="" height="40" />
