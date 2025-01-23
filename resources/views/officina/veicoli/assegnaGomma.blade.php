@@ -1,7 +1,7 @@
 <x-modal
     modal-title="Assegna gomma al veicolo"
     button-title="Aggiungi"
-    button-style="btn-block btn-warning"
+    button-style=" btn-warning"
 >
     <x-slot:body>
         <form

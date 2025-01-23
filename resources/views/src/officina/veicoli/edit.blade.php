@@ -354,7 +354,7 @@
             <x-modal
                 modal-title="Aggiungi Tipo Olio"
                 button-title="Aggiungi Olio"
-                button-style="btn-block btn-warning"
+                button-style=" btn-warning"
             >
                 <x-slot:body>
                     <form
@@ -408,7 +408,7 @@
             <x-modal
                 modal-title="Aggiungi Gomma"
                 button-title="Aggiungi Gomma"
-                button-style="btn-block btn-warning"
+                button-style=" btn-warning"
             >
                 <x-slot:body>
                     <form
@@ -447,7 +447,7 @@
                 <x-modal
                     modal-title="Elimina Veicolo Definitivamente"
                     button-title="Elimina Definitivamente"
-                    button-style="btn-danger btn-block"
+                    button-style="btn-danger "
                 >
                     <x-slot:body>
                         <div class="alert alert-danger" role="alert">
@@ -491,7 +491,7 @@
                 <x-modal
                     modal-title="Riabilita Veicolo"
                     button-title="Riabilita Veicolo"
-                    button-style="btn-danger btn-block"
+                    button-style="btn-danger "
                 >
                     <x-slot:body>
                         <div class="alert alert-warning" role="alert">
@@ -535,7 +535,7 @@
                 <x-modal
                     modal-title="Demolisci Veicolo"
                     button-title="Demolisci"
-                    button-style="btn-danger btn-block"
+                    button-style="btn-danger "
                 >
                     <x-slot:body>
                         <div class="alert alert-danger" role="alert">
@@ -578,7 +578,7 @@
         @endif
         <div class="col-md-2">
             <button
-                class="btn btn-block btn-success"
+                class="btn  btn-success"
                 form="veicolo-form-modifica"
                 type="submit"
             >

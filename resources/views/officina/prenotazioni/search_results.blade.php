@@ -24,7 +24,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover table-bordered">
+        <table class="table  table-bordered">
             <thead class="thead-inverse bg-warning"">
                 <tr>
                     <th>Nome</th>
@@ -63,7 +63,7 @@
                             <td>{{ $pren->note }}</td>
                             <td>
                                 <div
-                                    class="button-group btn-block"
+                                    class="button-group"
                                     role="group"
                                 >
                                     <a
@@ -88,9 +88,7 @@
             </tbody>
         </table>
     </div>
-    <div class="row">
-        <div class="col-md-6 offset-md-4">
-            {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
-        </div>
+    <div class="d-flex justify-content-center">
+        {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
 @endsection

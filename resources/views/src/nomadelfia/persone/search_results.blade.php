@@ -58,7 +58,7 @@
                             <td>{{ $persona->provincia_nascita }}</td>
                             <td>
                                 <div
-                                    class="button-group btn-block"
+                                    class="button-group "
                                     role="group"
                                 >
                                     <a

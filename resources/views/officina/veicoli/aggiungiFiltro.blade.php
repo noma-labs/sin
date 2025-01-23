@@ -1,7 +1,7 @@
 <x-modal
     modal-title="Aggiungi Filtro"
     button-title="Aggiungi Filtro"
-    button-style="btn-block btn-warning"
+    button-style=" btn-warning"
 >
     <x-slot:body>
         <form

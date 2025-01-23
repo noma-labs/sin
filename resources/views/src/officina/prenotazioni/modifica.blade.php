@@ -95,7 +95,7 @@
                 <button
                     type="submit"
                     id="prenota"
-                    class="btn btn-block btn-primary"
+                    class="btn  btn-primary"
                 >
                     Modifica
                 </button>
@@ -104,7 +104,7 @@
                 <div class="col-md-2">
                     <label>&nbsp;</label>
                     <a
-                        class="btn btn-block btn-danger"
+                        class="btn  btn-danger"
                         href="{{ route("officina.prenota.delete", $pren->id) }}"
                     >
                         Elimina

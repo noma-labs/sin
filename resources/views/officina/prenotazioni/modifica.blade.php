@@ -67,16 +67,14 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
-                    <label for="destinazione">Destinazione</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="destinazione"
-                        name="destinazione"
-                        value="{{ $pren->destinazione }}"
-                    />
-                </div>
+                <label for="destinazione">Destinazione</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="destinazione"
+                    name="destinazione"
+                    value="{{ $pren->destinazione }}"
+                />
             </div>
         </div>
         <div class="row">
@@ -95,7 +93,7 @@
                 <button
                     type="submit"
                     id="prenota"
-                    class="btn btn-block btn-primary"
+                    class="btn btn-primary"
                 >
                     Modifica
                 </button>
@@ -104,7 +102,7 @@
                 <div class="col-md-2">
                     <label>&nbsp;</label>
                     <a
-                        class="btn btn-block btn-danger"
+                        class="btn btn-danger"
                         href="{{ route("officina.prenota.delete", $pren->id) }}"
                     >
                         Elimina

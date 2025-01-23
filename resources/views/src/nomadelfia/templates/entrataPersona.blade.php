@@ -9,7 +9,7 @@
 
     <div class="row my-2">
         <div class="col-auto">
-            <button type="submit" class="btn btn-block btn-primary">
+            <button type="submit" class="btn  btn-primary">
                 Salva
             </button>
         </div>

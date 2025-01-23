@@ -1,6 +1,6 @@
 <form method="GET" action="{{ route("officina.ricerca.submit") }}" class="mb-3">
     @csrf
-    <div class="row">
+    <div class="row g-3">
         <div class="col-md-3">
             <label class="form-label">Cliente</label>
             <select class="form-control" id="cliente" name="cliente_id">

@@ -47,7 +47,7 @@
                                     </ul>
                                     <div class="row">
                                         <a
-                                            class="btn btn-danger btn-block col-md-4 offset-md-2"
+                                            class="btn btn-danger  col-md-4 offset-md-2"
                                             type="button"
                                             href="{{ route("nomadelfia.aziende.edit", $azienda->id) }}"
                                         >

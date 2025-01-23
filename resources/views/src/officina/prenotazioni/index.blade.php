@@ -98,7 +98,7 @@
                     <button
                         type="submit"
                         id="prenota"
-                        class="btn btn-block btn-primary"
+                        class="btn  btn-primary"
                     >
                         Prenota
                     </button>
