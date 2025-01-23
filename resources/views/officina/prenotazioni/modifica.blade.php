@@ -4,12 +4,7 @@
 
 @section("content")
     @include("partials.header", ["title" => "Modifica Prenotazione"])
-    <form
-        class="container-fluid"
-        id="needs-validation"
-        method="POST"
-        action="{{ route("officina.prenota.update", $pren->id) }}"
-    >
+    <form method="POST" action="{{ route("officina.prenota.update", $pren->id) }}" >
         @csrf
 
         <livewire:prenotazione-veicoli
@@ -20,9 +15,9 @@
             :selectedVeicolo="$pren->veicolo_id"
         />
 
-        <div class="row">
-            <div class="col-md-3">
-                <label for="cliente">Nome</label>
+        <div class="row mb-3 g-3">
+            <div class="col-md-3 col-sm-6">
+                <label class="form-label" for="cliente">Nome</label>
                 <select class="form-control" id="cliente" name="nome">
                     <option value="{{ $pren->cliente_id }}" selected>
                         {{ $pren->cliente->nominativo }}
@@ -36,8 +31,8 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-3">
-                <label for="meccanico">Meccanico</label>
+            <div class="col-md-3 col-sm-6">
+                <label class="form-label" for="meccanico">Meccanico</label>
                 <select class="form-control" id="meccanico" name="meccanico">
                     <option value="{{ $pren->meccanico_id }}" selected>
                         {{ $pren->meccanico->nominativo }}
@@ -52,7 +47,7 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="uso">Uso</label>
+                <label class="form-label" for="uso">Uso</label>
                 <select class="form-control" id="uso" name="uso">
                     <option value="{{ $pren->uso_id }}" selected>
                         {{ $pren->uso->ofus_nome }}
@@ -67,7 +62,7 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="destinazione">Destinazione</label>
+                <label class="form-label" for="destinazione">Destinazione</label>
                 <input
                     type="text"
                     class="form-control"
@@ -77,9 +72,9 @@
                 />
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <label for="note">Note</label>
+        <div class="row g-3">
+            <div class="col-md-10">
+                <label class="form-label" for="note">Note</label>
                 <input
                     type="text"
                     class="form-control"
@@ -88,8 +83,7 @@
                     value="{{ $pren->note }}"
                 />
             </div>
-            <div class="col-md-2">
-                <label>&nbsp;</label>
+            <div class="col-md-2 d-flex align-items-end  justify-content-end gap-2">
                 <button
                     type="submit"
                     id="prenota"
@@ -97,18 +91,16 @@
                 >
                     Modifica
                 </button>
-            </div>
-            @can("meccanica.prenotazione.elimina")
-                <div class="col-md-2">
-                    <label>&nbsp;</label>
-                    <a
-                        class="btn btn-danger"
-                        href="{{ route("officina.prenota.delete", $pren->id) }}"
-                    >
-                        Elimina
-                    </a>
-                </div>
+                @can("meccanica.prenotazione.elimina")
+                <a
+                    class="btn btn-danger"
+                    href="{{ route("officina.prenota.delete", $pren->id) }}"
+                >
+                    Elimina
+                </a>
             @endcan
+            </div>
+
         </div>
         <br />
     </form>

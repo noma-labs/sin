@@ -1,6 +1,6 @@
 <div>
     <div class="row g-3 mb-3">
-        <div class="col-md-2">
+        <div class="col-md-2  col-6">
             <label class="form-label" for="data_partenza">
                 Data Partenza
             </label>
@@ -12,7 +12,7 @@
                 wire:model.live.debounce.250ms="dataPartenza"
             />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2  col-6">
             <label class="form-label" for="ora_partenza">
                 Ora Partenza
             </label>
@@ -25,7 +25,7 @@
                 required
             />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2  col-6">
             <label class="form-label" for="data_arrivo">Data Arrivo</label>
             <input
                 type="date"
@@ -36,7 +36,7 @@
                 required
             />
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2  col-6">
             <label class="form-label" for="ora_arrivo">Ora Arrivo</label>
             <input
                 type="time"
