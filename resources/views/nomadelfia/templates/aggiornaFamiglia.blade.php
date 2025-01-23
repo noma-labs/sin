@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.famiglia.aggiorna", ["id" => $famiglia->id]) }}"
         >
             @csrf
-            <div class="form-group row">
+            <div class=" row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Nome famiglia
                 </label>
@@ -25,7 +25,7 @@
                     {{ $famiglia->nome_famiglia }}
                 </div>
             </div>
-            <div class="form-group row">
+            <div class=" row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data creazione famiglia:
                 </label>

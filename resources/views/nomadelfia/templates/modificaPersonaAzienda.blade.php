@@ -19,7 +19,7 @@
                 value="{{ $lavoratore->pivot->data_inizio_azienda }}"
             />
 
-            <div class="form-group row">
+            <div class=" row">
                 <label for="inputData" class="col-sm-6 col-form-label">
                     Mansione
                 </label>
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class=" row">
                 <label for="inputData" class="col-sm-6 col-form-label">
                     Data inizio
                 </label>

@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="">
                         <label class="form-label" for="xDataPrenotazione">
                             Data Inizio Prestito
                         </label>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="">
                         <label class="form-label" for="xIdUtente">
                             Cliente
                         </label>
@@ -33,7 +33,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="">
                         <label class="form-label">Note</label>
                         <input
                             class="form-control"
@@ -47,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="">
                         <label class="form-label" for="xIdBibliotecario">
                             Bibliotecario
                         </label>

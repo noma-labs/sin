@@ -13,7 +13,7 @@
             @csrf
 
             <h5 class="my-2">Nuovo gruppo familiare</h5>
-            <div class="form-group row">
+            <div class=" row">
                 <label for="staticEmail" class="col-sm-6 col-form-label">
                     Gruppo familiare
                 </label>
@@ -31,7 +31,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class=" row">
                 <label for="inputPassword" class="col-sm-6 col-form-label">
                     Data entrata gruppo familiare
                 </label>

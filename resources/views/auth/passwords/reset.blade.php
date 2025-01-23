@@ -22,7 +22,7 @@
                             />
 
                             <div
-                                class="form-group{{ $errors->has("email") ? " has-error" : "" }}"
+                                class="{{ $errors->has("email") ? " has-error" : "" }}"
                             >
                                 <label for="email" class="col-md-4 form-label">
                                     E-Mail Address
@@ -50,7 +50,7 @@
                             </div>
 
                             <div
-                                class="form-group{{ $errors->has("password") ? " has-error" : "" }}"
+                                class="{{ $errors->has("password") ? " has-error" : "" }}"
                             >
                                 <label
                                     for="password"
@@ -79,7 +79,7 @@
                             </div>
 
                             <div
-                                class="form-group{{ $errors->has("password_confirmation") ? " has-error" : "" }}"
+                                class="{{ $errors->has("password_confirmation") ? " has-error" : "" }}"
                             >
                                 <label
                                     for="password-confirm"
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button
                                         type="submit"

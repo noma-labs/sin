@@ -103,7 +103,7 @@ final class SearchCollocazioneNumeri extends Component
     public function render(): string
     {
         return <<<'HTML'
-        <div class="form-group">
+        <div class="">
             <label class="form-label">Numeri(*)</label>
             <input type="hidden" name="{{$name}}" value="{{ $collocazione }}">
             <select class="form-control" wire:model.live="numero">

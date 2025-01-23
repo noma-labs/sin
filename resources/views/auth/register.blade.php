@@ -13,7 +13,7 @@
                             @csrf
 
                             <div
-                                class="form-group{{ $errors->has("name") ? " has-error" : "" }}"
+                                class="{{ $errors->has("name") ? " has-error" : "" }}"
                             >
                                 <label for="name" class="col-md-4 form-label">
                                     Name
@@ -41,7 +41,7 @@
                             </div>
 
                             <div
-                                class="form-group{{ $errors->has("username") ? " has-error" : "" }}"
+                                class="{{ $errors->has("username") ? " has-error" : "" }}"
                             >
                                 <label
                                     for="username"
@@ -72,7 +72,7 @@
                             </div>
 
                             <div
-                                class="form-group{{ $errors->has("email") ? " has-error" : "" }}"
+                                class="{{ $errors->has("email") ? " has-error" : "" }}"
                             >
                                 <label for="email" class="col-md-4 form-label">
                                     E-Mail Address
@@ -99,7 +99,7 @@
                             </div>
 
                             <div
-                                class="form-group{{ $errors->has("password") ? " has-error" : "" }}"
+                                class="{{ $errors->has("password") ? " has-error" : "" }}"
                             >
                                 <label
                                     for="password"
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="">
                                 <label
                                     for="password-confirm"
                                     class="col-md-4 form-label"
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button
                                         type="submit"

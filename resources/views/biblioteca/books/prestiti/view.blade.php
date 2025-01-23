@@ -21,13 +21,13 @@
         <div class="row">
             @csrf
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label class="form-label">Cliente</label>
                     <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="xIdBibliotecario" class="control-label">
                         Bibliotecario
                     </label>
@@ -63,7 +63,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <div class="form-group">
+                <div class="">
                     <label for="xInizioPrestito" class="control-label">
                         Data Inizio Prestito
                     </label>
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
+                <div class="">
                     <label for="xInizioPrestito">&nbsp;</label>
                     <input
                         class="form-control"
@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
+                <div class="">
                     <label for="xFinePrestito" class="control-label">
                         Data Fine Prestito
                     </label>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-group">
+                <div class="">
                     <label for="xFinePrestito">&nbsp;</label>
                     <input
                         class="form-control"

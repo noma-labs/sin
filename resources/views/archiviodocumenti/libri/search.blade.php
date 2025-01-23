@@ -66,7 +66,7 @@
             <div class="col-md-5"></div>
 
             <div class="col-md-2">
-                <div class="form-group">
+                <div class="">
                     <label id="lab">&nbsp;</label>
                     <button type="submit" class="btn btn-primary">
                         Ricerca

@@ -52,7 +52,7 @@
                                             action="{{ route("nomadelfia.persone.aziende.modifica", ["idPersona" => $persona->id, "id" => $azienda->id]) }}"
                                         >
                                             @csrf
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -65,7 +65,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -80,7 +80,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -127,7 +127,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -217,7 +217,7 @@
                             >
                                 @csrf
                                 <h5 class="my-2">Nuova Azienda</h5>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-6 col-form-label"
@@ -245,7 +245,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label class="col-sm-6 col-form-label">
                                         Data entrata azienda
                                     </label>
@@ -258,7 +258,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label class="col-sm-6 col-form-label">
                                         Mansione
                                     </label>

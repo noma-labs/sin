@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.incarichi.aggiungi") }}"
         >
             @csrf
-            <div class="form-group">
+            <div class="">
                 <label for="exampleInputEmail1">Nome Incarico</label>
                 <input
                     type="text"

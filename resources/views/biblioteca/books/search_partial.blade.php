@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="xTitolo" class="control-label">Titolo</label>
                     <input
                         class="form-control"
@@ -65,7 +65,7 @@
     @endif
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="">
                 <label for="xAutore" class="control-label">
                     Autore ({{ App\Biblioteca\Models\Autore::count() }})
                 </label>
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="">
                 <label for="xEditore" class="control-label">
                     Editore ({{ App\Biblioteca\Models\Editore::count() }})
                 </label>
@@ -85,7 +85,7 @@
     <!-- end first row: collocazione, titolo, autore, editore -->
     <div class="row">
         <div class="col-md-5">
-            <div class="form-group">
+            <div class="">
                 <label for="xClassificazione" class="control-label">
                     Classificazione
                     ({{ App\Biblioteca\Models\Classificazione::count() }})
@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="form-group">
+            <div class="">
                 <label for="xNote" class="control-label">Note</label>
                 <input
                     class="form-control"
@@ -122,7 +122,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="form-group">
+            <div class="">
                 <label for="categoria">Categoria</label>
                 <select class="form-control" name="xCategoria" id="categoria">
                     <option value="" hidden>Seleziona...</option>

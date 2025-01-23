@@ -12,7 +12,7 @@
             >
                 @csrf
                 @method("PUT")
-                <div class="form-group">
+                <div class="">
                     <label for="editore">Editore</label>
                     <input
                         type="text"
@@ -22,7 +22,7 @@
                         value="{{ $editore->editore }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <button type="submit" class="btn btn-primary">Salva</button>
                 </div>
             </form>

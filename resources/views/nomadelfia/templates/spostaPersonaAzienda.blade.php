@@ -13,7 +13,7 @@
             @method("PUT")
             @csrf
 
-            <div class="form-group row">
+            <div class=" row">
                 <label for="inputData" class="col-sm-6 col-form-label">
                     Data fine
                 </label>
@@ -28,7 +28,7 @@
             </div>
             <hr />
 
-            <div class="form-group row">
+            <div class=" row">
                 <label for="staticEmail" class="col-sm-6 col-form-label">
                     Nuova azienda
                 </label>

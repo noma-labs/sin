@@ -116,7 +116,7 @@
             >
                 @method("PUT")
                 @csrf
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-danger mx-1" type="submit">
                         Cambia collocazione
                     </button>

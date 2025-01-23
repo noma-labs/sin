@@ -49,7 +49,7 @@
                                                 name="data_inizio"
                                                 value="{{ $posattuale->pivot->data_inizio }}"
                                             />
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -114,7 +114,7 @@
                                         Completa dati della posizione attuale:
                                         {{ $posattuale->nome }}
                                     </h5>
-                                    <div class="form-group row">
+                                    <div class=" row">
                                         <label
                                             for="inputPassword"
                                             class="col-sm-6 col-form-label"
@@ -141,7 +141,7 @@
                                 <h5 class="my-2">
                                     Inserimento nuova posizione
                                 </h5>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-6 col-form-label"
@@ -166,7 +166,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label class="col-sm-6 col-form-label">
                                         Data inizio
                                     </label>

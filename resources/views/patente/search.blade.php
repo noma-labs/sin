@@ -6,11 +6,11 @@
     <form method="GET" action="{{ route("patente.ricerca.conferma") }}">
         @csrf
         <div class="form-row">
-            <div class="form-group col-md-2 offset-md-1">
+            <div class=" col-md-2 offset-md-1">
                 <label>Persona</label>
                 <livewire:search-persona name_input="persona_id" />
             </div>
-            <div class="form-group col-md-2">
+            <div class=" col-md-2">
                 <label for="numero_patente">Numero Patente</label>
                 <input
                     class="form-control"
@@ -20,7 +20,7 @@
                 />
             </div>
 
-            <div class="form-group col-md-2">
+            <div class=" col-md-2">
                 <label class="form-label">Data Scadenza patente</label>
                 <select
                     class="form-control"
@@ -36,7 +36,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
+                <div class="">
                     <label>&nbsp;</label>
                     <input
                         type="date"
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class=" col-md-2">
                 <label for="categoria_patente">Categoria patente</label>
                 <select
                     class="form-control"
@@ -64,7 +64,7 @@
         </div>
         <div class="form-row">
             {{--
-                <div class="form-group col-md-2  offset-md-1">
+                <div class=" col-md-2  offset-md-1">
                 <label class="form-label">Data Rilascio</label>
                 <select class="form-control" name="criterio_data_rilascio" type="text">
                 <option selected value="">---Scegli criterio---</option>
@@ -76,13 +76,13 @@
                 </select>
                 </div>
                 <div class="col-md-2">
-                <div class="form-group">
+                <div class="">
                 <label>&nbsp;</label>
                 <input type="date" class="form-control" name="data_rilascio">
                 </div>
                 </div>
             --}}
-            <div class="form-group col-md-2 offset-md-1">
+            <div class=" col-md-2 offset-md-1">
                 <label for="categoria_patente">C.Q.C</label>
                 <select
                     class="form-control"
@@ -98,7 +98,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class=" col-md-2">
                 <label class="form-label">Data Scadenza C.Q.C</label>
                 <select
                     class="form-control"
@@ -114,7 +114,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
+                <div class="">
                     <label>&nbsp;</label>
                     <input
                         type="date"
@@ -123,7 +123,7 @@
                     />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="">
                 <label>&nbsp;</label>
                 <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>

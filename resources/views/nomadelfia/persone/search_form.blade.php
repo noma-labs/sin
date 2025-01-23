@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
+            <div class="">
                 <label class="form-label">Cognome</label>
                 <input
                     class="form-control"
@@ -33,7 +33,7 @@
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
+            <div class="">
                 <label class="form-label">Data di Nascita</label>
                 <select
                     class="form-control"
@@ -60,7 +60,7 @@
     </div>
     <div class="row align-items-end">
         <div class="col-md-2 offset-md-8">
-            <div class="form-group">
+            <div class="">
                 <label id="lab">&nbsp;</label>
                 <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>

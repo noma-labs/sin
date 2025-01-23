@@ -8,7 +8,7 @@
         <div class="col-md-4 offset-md-4">
             <form action="{{ route("classificazioni.index") }}" method="POST">
                 @csrf
-                <div class="form-group">
+                <div class="">
                     <label for="descrizione">Classificazione</label>
                     <input
                         type="text"
@@ -18,7 +18,7 @@
                         placeholder="Nome classificazione"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <button type="submit" class="btn btn-primary">
                         Aggiungi
                     </button>

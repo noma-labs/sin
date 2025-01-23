@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="form-group">
+            <div class="">
                 <label for="xClassificazione" class="control-label">
                     Data registrazione
                 </label>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="form-group">
+            <div class="">
                 <label for="xNote" class="control-label">Descrizione</label>
                 <input
                     class="form-control"

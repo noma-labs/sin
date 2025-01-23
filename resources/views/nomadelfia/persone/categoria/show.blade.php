@@ -43,7 +43,7 @@
                                             action="{{ route("nomadelfia.persone.categoria.modifica", ["idPersona" => $persona->id, "id" => $categoriaAttuale->id]) }}"
                                         >
                                             @csrf
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -56,7 +56,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -71,7 +71,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -88,7 +88,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class=" row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -167,7 +167,7 @@
                                         Completa dati della categoria attuale:
                                         {{ $categoriaAttuale->nome }}
                                     </h5>
-                                    <div class="form-group row">
+                                    <div class=" row">
                                         <label
                                             for="inputPassword"
                                             class="col-sm-6 col-form-label"
@@ -197,7 +197,7 @@
                                 <h5 class="my-2">
                                     Inserimento nuova categoria
                                 </h5>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-6 col-form-label"
@@ -222,7 +222,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class=" row">
                                     <label class="col-sm-6 col-form-label">
                                         Data inizio
                                     </label>

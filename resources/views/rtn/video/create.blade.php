@@ -9,7 +9,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="form-group row">
+                <div class=" row">
                     <label
                         for="forDataRegistrazione"
                         class="col-md-4 col-form-label"
@@ -25,7 +25,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label
                         for="forDataTrasmission"
                         class="col-md-4 col-form-label"
@@ -41,7 +41,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label
                         for="forDataTrasmission"
                         class="col-md-4 col-form-label"
@@ -56,7 +56,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label for="inputOperatore" class="col-md-4 col-form-label">
                         Operatore/i
                     </label>
@@ -69,7 +69,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label for="inputOperatore" class="col-md-4 col-form-label">
                         Località
                     </label>
@@ -82,7 +82,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label for="inputOperatore" class="col-md-4 col-form-label">
                         Argomento
                     </label>
@@ -95,7 +95,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class=" row">
                     <label for="inputPersona" class="col-md-4 col-form-label">
                         Persone
                     </label>
@@ -103,7 +103,7 @@
                         <livewire:search-persona />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">
                             Inserisci

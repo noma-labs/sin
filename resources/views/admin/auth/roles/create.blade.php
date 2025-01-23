@@ -8,7 +8,7 @@
         @csrf
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="form-group">
+                <div class="">
                     <label for="nome">Nome del ruolo</label>
                     <input
                         type="text"
@@ -17,7 +17,7 @@
                         class="form-control"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="descrizione">Descrizione ruolo</label>
                     <input
                         type="text"

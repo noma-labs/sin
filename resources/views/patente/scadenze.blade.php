@@ -3,220 +3,214 @@
 @section("content")
     @include("partials.header", ["title" => "Scadenze patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
-    <div class="row">
-        <div class="col align-self-center">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-header">Patenti</div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            In scadenza entro
-                            {{ config("patente.scadenze.patenti.inscadenza") }}
-                            gg ({{ $patenti->count() }})
-                        </h5>
-                        <ul>
-                            @foreach ($patenti as $patente)
-                                <li>
-                                    <a
-                                        href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                    >
-                                        {{ $patente->persona->nominativo }}
-                                    </a>
-                                    <span class="badge bg-warning">
-                                        {{ $patente->data_scadenza_patente }}
-                                        ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}gg)
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <h5 class="card-title">
-                            Scadute ({{ $patentiScadute->count() }})
-                        </h5>
-                        <ul>
-                            @foreach ($patentiScadute as $patente)
-                                <li>
-                                    <a
-                                        href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                    >
-                                        {{ $patente->persona->nominativo }}
-                                    </a>
-                                    <span class="badge bg-danger">
-                                        {{ $patente->data_scadenza_patente }}
-                                        ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
-                                        gg)
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">Patenti</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        In scadenza entro
+                        {{ config("patente.scadenze.patenti.inscadenza") }}
+                        gg ({{ $patenti->count() }})
+                    </h5>
+                    <ul>
+                        @foreach ($patenti as $patente)
+                            <li>
+                                <a
+                                    href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                >
+                                    {{ $patente->persona->nominativo }}
+                                </a>
+                                <span class="badge bg-warning">
+                                    {{ $patente->data_scadenza_patente }}
+                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}gg)
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <h5 class="card-title">
+                        Scadute ({{ $patentiScadute->count() }})
+                    </h5>
+                    <ul>
+                        @foreach ($patentiScadute as $patente)
+                            <li>
+                                <a
+                                    href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                >
+                                    {{ $patente->persona->nominativo }}
+                                </a>
+                                <span class="badge bg-danger">
+                                    {{ $patente->data_scadenza_patente }}
+                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    gg)
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">Patenti con commissione</div>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            In scadenza entro
-                            {{ config("patente.scadenze.commissione.inscadenza") }}
-                            gg ({{ $patentiCommissione->count() }})
-                        </h5>
-                        <ul>
-                            @foreach ($patentiCommissione as $patente)
-                                <li>
-                                    <a
-                                        href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                    >
-                                        {{ $patente->persona->nominativo }}
-                                    </a>
-                                    <span class="badge bg-warning">
-                                        {{ $patente->data_scadenza_patente }}
-                                        ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
-                                        gg)
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <h5 class="card-title">
-                            Scadute ({{ $patentiCommisioneScadute->count() }})
-                        </h5>
-                        <ul>
-                            @foreach ($patentiCommisioneScadute as $patente)
-                                <li>
-                                    <a
-                                        href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                    >
-                                        {{ $patente->persona->nominativo }}
-                                    </a>
-                                    <span class="badge bg-danger">
-                                        {{ $patente->data_scadenza_patente }}
-                                        ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
-                                        gg)
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">Patenti con commissione</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        In scadenza entro
+                        {{ config("patente.scadenze.commissione.inscadenza") }}
+                        gg ({{ $patentiCommissione->count() }})
+                    </h5>
+                    <ul>
+                        @foreach ($patentiCommissione as $patente)
+                            <li>
+                                <a
+                                    href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                >
+                                    {{ $patente->persona->nominativo }}
+                                </a>
+                                <span class="badge bg-warning">
+                                    {{ $patente->data_scadenza_patente }}
+                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    gg)
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <h5 class="card-title">
+                        Scadute ({{ $patentiCommisioneScadute->count() }})
+                    </h5>
+                    <ul>
+                        @foreach ($patentiCommisioneScadute as $patente)
+                            <li>
+                                <a
+                                    href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                >
+                                    {{ $patente->persona->nominativo }}
+                                </a>
+                                <span class="badge bg-danger">
+                                    {{ $patente->data_scadenza_patente }}
+                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    gg)
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">C.Q.C</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="card-title">C.Q.C Persone</h5>
+                            <h6 class="card-subtitle">
+                                In Scadenza entro
+                                {{ config("patente.scadenze.cqc.inscadenza") }}
+                                gg ({{ $patentiCQCPersone->count() }})
+                            </h6>
+                            <ul>
+                                @foreach ($patentiCQCPersone as $patente)
+                                    <li>
+                                        <a
+                                            href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                        >
+                                            {{ $patente->persona->nominativo }}
+                                        </a>
+                                        <span class="badge bg-warning">
+                                            {{ $patente->pivot->data_scadenza }}
+                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                <div class="card">
-                    <div class="card-header">C.Q.C</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="card-title">C.Q.C Persone</h5>
-                                <h6 class="card-subtitle">
-                                    In Scadenza entro
-                                    {{ config("patente.scadenze.cqc.inscadenza") }}
-                                    gg ({{ $patentiCQCPersone->count() }})
-                                </h6>
-                                <ul>
-                                    @foreach ($patentiCQCPersone as $patente)
-                                        <li>
-                                            <a
-                                                href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                            >
-                                                {{ $patente->persona->nominativo }}
-                                            </a>
-                                            <span class="badge bg-warning">
-                                                {{ $patente->pivot->data_scadenza }}
-                                                ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
-                                            </span>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                            <h6 class="card-subtitle">
+                                Scadute
+                                ({{ $patentiCQCPersoneScadute->count() }})
+                            </h6>
+                            <ul>
+                                @foreach ($patentiCQCPersoneScadute as $patente)
+                                    <li>
+                                        <a
+                                            href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                        >
+                                            {{ $patente->persona->nominativo }}
+                                        </a>
+                                        <span class="badge bg-danger">
+                                            {{ $patente->pivot->data_scadenza }}
+                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="card-title">C.Q.C Merci</h5>
+                            <h6 class="card-subtitle">
+                                In scadenza entro
+                                {{ config("patente.scadenze.cqc.inscadenza") }}
+                                gg ({{ $patentiCQCMerci->count() }})
+                            </h6>
+                            <ul>
+                                @foreach ($patentiCQCMerci as $patente)
+                                    <li>
+                                        <a
+                                            href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                        >
+                                            {{ $patente->persona->nominativo }}
+                                        </a>
+                                        <span class="badge bg-warning">
+                                            {{ $patente->pivot->data_scadenza }}
+                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                                <h6 class="card-subtitle">
-                                    Scadute
-                                    ({{ $patentiCQCPersoneScadute->count() }})
-                                </h6>
-                                <ul>
-                                    @foreach ($patentiCQCPersoneScadute as $patente)
-                                        <li>
-                                            <a
-                                                href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                            >
-                                                {{ $patente->persona->nominativo }}
-                                            </a>
-                                            <span class="badge bg-danger">
-                                                {{ $patente->pivot->data_scadenza }}
-                                                ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
-                                            </span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <h5 class="card-title">C.Q.C Merci</h5>
-                                <h6 class="card-subtitle">
-                                    In scadenza entro
-                                    {{ config("patente.scadenze.cqc.inscadenza") }}
-                                    gg ({{ $patentiCQCMerci->count() }})
-                                </h6>
-                                <ul>
-                                    @foreach ($patentiCQCMerci as $patente)
-                                        <li>
-                                            <a
-                                                href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                            >
-                                                {{ $patente->persona->nominativo }}
-                                            </a>
-                                            <span class="badge bg-warning">
-                                                {{ $patente->pivot->data_scadenza }}
-                                                ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
-                                            </span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-
-                                <h6 class="card-subtitle">
-                                    Scadute
-                                    ({{ $patentiCQCMerciScadute->count() }})
-                                </h6>
-                                <ul>
-                                    @foreach ($patentiCQCMerciScadute as $patente)
-                                        <li>
-                                            <a
-                                                href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
-                                            >
-                                                {{ $patente->persona->nominativo }}
-                                            </a>
-                                            <span class="badge bg-danger">
-                                                {{ $patente->pivot->data_scadenza }}
-                                                ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
-                                            </span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                            <h6 class="card-subtitle">
+                                Scadute
+                                ({{ $patentiCQCMerciScadute->count() }})
+                            </h6>
+                            <ul>
+                                @foreach ($patentiCQCMerciScadute as $patente)
+                                    <li>
+                                        <a
+                                            href="{{ route("patente.visualizza", ["numero" => $patente->numero_patente]) }}"
+                                        >
+                                            {{ $patente->persona->nominativo }}
+                                        </a>
+                                        <span class="badge bg-danger">
+                                            {{ $patente->pivot->data_scadenza }}
+                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <!--  end card C.Q.C  -->
             </div>
-            <!--  end card deck  -->
         </div>
-        <!--end col -->
-    </div>
+        </div>
 
-    <table
-        class="mt-2 table table-hover table-bordered table-sm"
-        style="table-layout: auto; overflow-x: scroll"
-    >
-        <thead class="thead-inverse">
+    <table class="table table-bordered table-sm" >
+        <thead class="thead-inverse bg-warning">
             <tr>
-                <th style="width: 20%">Nome Cognome</th>
-                <th style="width: 10%">
+                <th>Nome Cognome</th>
+                <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "Num. Patente") }}
                 </th>
-                <th style="width: 15%">
+                <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "Data Scadenza") }}
                 </th>
-                <th style="width: 10%">Categorie</th>
-                <th style="width: 15%">Scadenza C.Q.C M.</th>
-                <th style="width: 15%">Scadenza C.Q.C P.</th>
-                <th style="width: 10%">Operazioni</th>
+                <th>Categorie</th>
+                <th>Scadenza C.Q.C M.</th>
+                <th>Scadenza C.Q.C P.</th>
+                <th>Operazioni</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-primary text-white">
             @foreach ($patentiAll as $patente)
                 <tr hoverable>
                     <td>

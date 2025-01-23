@@ -14,7 +14,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-10">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xCollocazione">Collocazione</label>
                             <input
                                 class="form-control"
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="">
                             <label for="editCollocazione">&nbsp;</label>
                             <div>
                                 <a
@@ -78,7 +78,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="isbn">ISBN</label>
                     <input
                         class="form-control"
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="data_pubblicazione">Data pubblicazione</label>
                     <input
                         type="date"
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="categoria">Categoria</label>
                     <select class="form-control" name="categoria" type="text">
                         <option disabled selected>
@@ -127,7 +127,7 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="dimensione">Dimensione</label>
                     <input
                         class="form-control"
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="critica">Critica</label>
                     <select class="form-control" name="critica" type="text">
                         <option disabled selected>

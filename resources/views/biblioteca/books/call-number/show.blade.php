@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-success" type="submit">
                         Modifica collocazione
                     </button>

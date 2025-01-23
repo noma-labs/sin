@@ -14,7 +14,7 @@
                     >
                         @method("PUT")
                         @csrf
-                        <div class="form-group">
+                        <div class="">
                             <label for="exampleInputEmail1">
                                 Nominativo attuale
                             </label>
@@ -51,7 +51,7 @@
                         action="{{ route("nomadelfia.persone.nominativo.assegna", ["idPersona" => $persona->id]) }}"
                     >
                         @csrf
-                        <div class="form-group">
+                        <div class="">
                             <label for="exampleInputEmail1">
                                 Nuovo nominativo
                             </label>

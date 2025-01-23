@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xDatainizio" class="control-label">
                                 Data Inizio Prestito
                             </label>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xIdUtente" class="control-label">
                                 Cliente
                             </label>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label for="note" class="control-label">Note</label>
                             <input
                                 type="text"

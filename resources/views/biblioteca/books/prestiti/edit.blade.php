@@ -15,7 +15,7 @@
                 @method("PUT")
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xDataPrenotazione">
                                 Data Inizio Prestito
                             </label>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="">
                             <label
                                 for="xDataRestituzione"
                                 class="control-label"
@@ -49,7 +49,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label>Cliente</label>
                             <livewire:search-persona
                                 :persone_id="$prestito->cliente->id"
@@ -60,7 +60,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label class="form-label">Note</label>
                             <input
                                 type="text"
@@ -74,7 +74,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xIdBibliotecario">Bibliotecario</label>
                             <input
                                 type="text"
