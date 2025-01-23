@@ -13,7 +13,7 @@
                 @csrf
                 <div class="row mb-3 g-3">
                     <div class="col-6 col-md-3">
-                        <label>Targa</label>
+                        <label class="form-label">Targa</label>
                         <input
                             type="text"
                             class="form-control"

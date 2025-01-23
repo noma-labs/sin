@@ -101,7 +101,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <label>Rilasciato il:</label>
+                            <label class="form-label">Rilasciato il:</label>
                             <input
                                 type="date"
                                 class="form-control"
@@ -109,7 +109,7 @@
                             />
                         </div>
                         <div class="col-md-3">
-                            <label>Valido fino al:</label>
+                            <label class="form-label">Valido fino al:</label>
                             <input
                                 type="date"
                                 class="form-control"

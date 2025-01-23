@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="">
-                            <label>Cliente</label>
+                            <label class="form-label">Cliente</label>
                             <livewire:search-persona
                                 :persone_id="$prestito->cliente->id"
                                 name_input="persona_id"

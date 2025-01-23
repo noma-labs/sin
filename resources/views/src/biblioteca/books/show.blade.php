@@ -25,7 +25,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <label>Collocazione</label>
+                    <label class="form-label">Collocazione</label>
                     <input
                         type="text"
                         class="form-control"
@@ -87,7 +87,7 @@
                     />
                 </div>
                 <div class="col-md-4">
-                    <label>Data pubblicazione</label>
+                    <label class="form-label">Data pubblicazione</label>
                     <input
                         class="form-control"
                         type="date"
@@ -96,7 +96,7 @@
                     />
                 </div>
                 <div class="col-md-4">
-                    <label>Categoria</label>
+                    <label class="form-label">Categoria</label>
                     <input
                         class="form-control"
                         type="text"
@@ -108,7 +108,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <label>Dimensione</label>
+                    <label class="form-label">Dimensione</label>
                     <input
                         class="form-control"
                         type="text"
@@ -117,7 +117,7 @@
                     />
                 </div>
                 <div class="col-md-6">
-                    <label>Critica</label>
+                    <label class="form-label">Critica</label>
                     <input
                         class="form-control"
                         type="text"

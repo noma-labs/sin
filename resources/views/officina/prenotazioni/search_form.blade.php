@@ -89,7 +89,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            <label>&nbsp;</label>
+            <label class="form-label">&nbsp;</label>
             <input
                 type="date"
                 class="form-control"
@@ -99,7 +99,7 @@
         </div>
 
         <div class="col-md-4">
-            <label>Tutte le prenotazioni nel giorno:</label>
+            <label class="form-label">Tutte le prenotazioni nel giorno:</label>
             <input
                 type="date"
                 class="form-control"

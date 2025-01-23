@@ -73,7 +73,7 @@
                             <div class="mb-3">
                                 <div class="col-md-6 col-md-offset-4">
                                     <div class="checkbox">
-                                        <label>
+                                        <label class="form-label">
                                             <input
                                                 type="checkbox"
                                                 name="remember"

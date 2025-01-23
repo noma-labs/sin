@@ -53,7 +53,7 @@
                             >
                                 @foreach ($classi as $key => $value)
                                     <a class="dropdown-item" href="#">
-                                        <label>
+                                        <label class="form-label">
                                             <input
                                                 type="checkbox"
                                                 name="classi[]"

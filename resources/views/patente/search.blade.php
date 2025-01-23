@@ -5,9 +5,9 @@
 
     <form method="GET" action="{{ route("patente.ricerca.conferma") }}">
         @csrf
-        <div class="form-row">
-            <div class="col-md-2 offset-md-1">
-                <label>Persona</label>
+        <div class="row">
+            <div class="col-md-2">
+                <label class="form-label">Persona</label>
                 <livewire:search-persona name_input="persona_id" />
             </div>
             <div class="col-md-2">
@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-2">
                 <div class="">
-                    <label>&nbsp;</label>
+                    <label class="form-label">&nbsp;</label>
                     <input
                         type="date"
                         class="form-control"
@@ -62,7 +62,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-row">
+        <div class="row">
             {{--
                 <div class=" col-md-2  offset-md-1">
                 <label class="form-label">Data Rilascio</label>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-md-2">
                 <div class="">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <input type="date" class="form-control" name="data_rilascio">
                 </div>
                 </div>
@@ -115,7 +115,7 @@
             </div>
             <div class="col-md-2">
                 <div class="">
-                    <label>&nbsp;</label>
+                    <label class="form-label">&nbsp;</label>
                     <input
                         type="date"
                         class="form-control"
@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>

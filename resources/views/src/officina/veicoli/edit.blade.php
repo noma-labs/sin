@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label>Targa</label>
+                            <label class="form-label">Targa</label>
                             <input
                                 type="text"
                                 class="form-control"

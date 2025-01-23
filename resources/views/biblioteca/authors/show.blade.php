@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    <label>Autore</label>
+                    <label class="form-label">Autore</label>
                     <input
                         type="text"
                         class="form-control"

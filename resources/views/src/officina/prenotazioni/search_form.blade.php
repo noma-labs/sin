@@ -77,7 +77,7 @@
         </div>
         <div class="col-md-2">
             <div class="mb-3">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <input type="date" class="form-control" name="data_partenza" />
             </div>
         </div>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <label>&nbsp;</label>
+            <label class="form-label">&nbsp;</label>
             <input
                 type="date"
                 class="form-control"
@@ -109,7 +109,7 @@
         </div>
 
         <div class="col-md-4">
-            <label>Tutte le prenotazioni nel giorno:</label>
+            <label class="form-label">Tutte le prenotazioni nel giorno:</label>
             <input
                 type="date"
                 class="form-control"

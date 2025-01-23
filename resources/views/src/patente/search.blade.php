@@ -7,7 +7,7 @@
         @csrf
         <div class="row">
             <div class="mb-3 col-md-2 offset-md-1">
-                <label>Persona</label>
+                <label class="form-label">Persona</label>
                 <livewire:search-persona name_input="persona_id" />
             </div>
             <div class="mb-3 col-md-2">
@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-2">
                 <div class="mb-3">
-                    <label>&nbsp;</label>
+                    <label class="form-label">&nbsp;</label>
                     <input
                         type="date"
                         class="form-control"
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-md-2">
                 <div class="mb-3">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <input type="date" class="form-control" name="data_rilascio">
                 </div>
                 </div>
@@ -111,7 +111,7 @@
             </div>
             <div class="col-md-2">
                 <div class="mb-3">
-                    <label>&nbsp;</label>
+                    <label class="form-label">&nbsp;</label>
                     <input
                         type="date"
                         class="form-control"
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>

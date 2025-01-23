@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <label>&nbsp;</label>
+            <label class="form-label">&nbsp;</label>
             <input
                 type="date"
                 class="form-control"

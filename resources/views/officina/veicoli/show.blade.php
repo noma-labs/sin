@@ -6,7 +6,7 @@
         <div class="col-md-9">
             <div class="row mb-3 g-3">
                 <div class="col-md-3">
-                    <label>Targa</label>
+                    <label class="form-label">Targa</label>
                     <input
                         type="text"
                         class="form-control"

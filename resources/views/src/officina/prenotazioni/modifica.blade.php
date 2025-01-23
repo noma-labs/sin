@@ -91,14 +91,14 @@
                 />
             </div>
             <div class="col-md-2">
-                <label>&nbsp;</label>
+                <label class="form-label">&nbsp;</label>
                 <button type="submit" id="prenota" class="btn btn-primary">
                     Modifica
                 </button>
             </div>
             @can("meccanica.prenotazione.elimina")
                 <div class="col-md-2">
-                    <label>&nbsp;</label>
+                    <label class="form-label">&nbsp;</label>
                     <a
                         class="btn btn-danger"
                         href="{{ route("officina.prenota.delete", $pren->id) }}"

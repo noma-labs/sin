@@ -153,7 +153,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <label>Famiglie per posizione</label>
+                        <label class="form-label">Famiglie per posizione</label>
                         <ul>
                             @foreach ($posizioniFamiglia as $posizione)
                                 <li>
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label>Famiglie Numerose</label>
+                        <label class="form-label">Famiglie Numerose</label>
                         <ul>
                             @foreach ($famiglieNumerose as $fam)
                                 <li>

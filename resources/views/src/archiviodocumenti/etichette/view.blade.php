@@ -122,11 +122,11 @@
                     >
                         @csrf
                         <h5>Dalla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="fromCollocazione" />
 
                         <h5>Fino alla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="toCollocazione" />
                         <button
                             class="btn btn-success my-2"
