@@ -154,13 +154,13 @@
     <div class="alert alert-info">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
             &times;
         </a>
     </div>
 
     <!-- <div class="alert alert-info alert-dismissable "><strong> {{ $query }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
   </div> -->
 
     <div id="results" class="alert alert-success">

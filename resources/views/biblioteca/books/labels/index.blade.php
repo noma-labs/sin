@@ -13,7 +13,7 @@
                 <a
                     href="#"
                     class="close"
-                    data-dismiss="alert"
+                    data-bs-dismiss="alert"
                     aria-label="close"
                 >
                     &times;

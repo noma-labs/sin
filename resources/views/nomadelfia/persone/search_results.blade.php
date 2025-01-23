@@ -10,7 +10,7 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
             &times;
         </a>
     </div>

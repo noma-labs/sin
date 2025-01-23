@@ -137,7 +137,7 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">
+            <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
                 &times;
             </a>
         </div>
@@ -277,7 +277,7 @@
                     <button
                         type="button"
                         class="close"
-                        data-dismiss="modal"
+                        data-bs-dismiss="modal"
                         aria-label="Close"
                     >
                         <span aria-hidden="true">&times;</span>
@@ -290,7 +290,7 @@
                     <button
                         type="button"
                         class="btn btn-secondary"
-                        data-dismiss="modal"
+                        data-bs-dismiss="modal"
                     >
                         Close
                     </button>
