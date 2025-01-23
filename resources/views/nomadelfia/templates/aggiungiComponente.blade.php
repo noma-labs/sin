@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.famiglie.componente.assegna", ["id" => $famiglia->id]) }}"
         >
             @csrf
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Persona
                 </label>
@@ -19,7 +19,7 @@
                     <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Posizione Famiglia
                 </label>
@@ -36,7 +36,7 @@
                     </select>
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Stato:
                 </label>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Note:
                 </label>

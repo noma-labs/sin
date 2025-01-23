@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.persone.dataentrata.modifica", ["idPersona" => $persona->id, "entrata" => $data_entrata]) }}"
         >
             @csrf
-            <div class=" row">
+            <div class="row">
                 <label class="col-sm-6 col-form-label">
                     Nuova Data Entrata
                 </label>

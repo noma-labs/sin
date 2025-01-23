@@ -192,9 +192,9 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
-    <table class="table table-bordered table-sm" >
+    <table class="table table-bordered table-sm">
         <thead class="thead-inverse bg-warning">
             <tr>
                 <th>Nome Cognome</th>

@@ -10,7 +10,7 @@
                 action="{{ route("nomadelfia.matrimonio.store") }}"
             >
                 @csrf
-                <div class=" row">
+                <div class="row">
                     <label for="Husband" class="col-md-6 col-form-label">
                         Marito
                     </label>
@@ -27,7 +27,7 @@
                         </select>
                     </div>
                 </div>
-                <div class=" row">
+                <div class="row">
                     <label for="forFemale" class="col-md-6 col-form-label">
                         Moglie
                     </label>
@@ -44,7 +44,7 @@
                         </select>
                     </div>
                 </div>
-                <div class=" row">
+                <div class="row">
                     <label for="datamatrimonio" class="col-md-6 col-form-label">
                         Data matrimonio
                     </label>

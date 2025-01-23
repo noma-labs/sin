@@ -22,7 +22,7 @@
                         value="{{ $autore->autore }}"
                     />
                 </div>
-                <div class=" my-2">
+                <div class="my-2">
                     <button type="submit" class="btn btn-primary">Salva</button>
                 </div>
             </form>

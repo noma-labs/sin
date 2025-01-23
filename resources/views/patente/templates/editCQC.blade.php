@@ -12,7 +12,7 @@
         >
             @csrf
             @method("PUT")
-            <div class=" row">
+            <div class="row">
                 <div class="col-8">
                     @foreach ($cqcs as $cqc)
                         <div class="form-check form-check-inline">

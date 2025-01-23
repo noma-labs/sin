@@ -84,7 +84,12 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
+            <a
+                href="#"
+                class="close"
+                data-bs-dismiss="alert"
+                aria-label="close"
+            >
                 &times;
             </a>
         </div>

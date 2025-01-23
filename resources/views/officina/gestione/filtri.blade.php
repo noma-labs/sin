@@ -6,7 +6,7 @@
     @include("partials.header", ["title" => "Gestione Filtri"])
 
     <div class="d-flex justify-content-end mb-3">
-            @include("officina.veicoli.aggiungiFiltro")
+        @include("officina.veicoli.aggiungiFiltro")
     </div>
     <div class="row d-flex justify-content-center">
         <div class="col-md-12">

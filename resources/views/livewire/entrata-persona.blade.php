@@ -1,5 +1,5 @@
 <div>
-    <div class=" row">
+    <div class="row">
         <label for="fornascita" class="col-sm-6">Nome Cognome</label>
         <div class="col-sm-6">
             <p class="font-weight-bold">
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class=" row">
+    <div class="row">
         <label for="fornascita" class="col-sm-6">Data nascita</label>
         <div class="col-sm-6">
             <p class="font-weight-bold">{{ $persona->data_nascita }}</p>

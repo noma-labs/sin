@@ -272,7 +272,7 @@
                     <h3 class="card-title">Tipi Di Gomme</h3>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush ">
+                    <ul class="list-group list-group-flush">
                         @foreach ($veicolo->gomme()->get() as $gv)
                             <li class="list-group-item">
                                 <div class="row">

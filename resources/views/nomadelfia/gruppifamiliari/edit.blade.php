@@ -51,7 +51,7 @@
                                         action="{{ route("nomadelfia.gruppifamiliari.capogruppo", ["id" => $gruppo->id]) }}"
                                     >
                                         @csrf
-                                        <div class=" row">
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
                                                 class="col-sm-6 col-form-label"
@@ -70,7 +70,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class=" row">
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
                                                 class="col-sm-6 col-form-label"
@@ -95,7 +95,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class=" row">
+                                        <div class="row">
                                             <label
                                                 class="col-sm-6 col-form-label"
                                             >

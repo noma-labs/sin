@@ -15,7 +15,7 @@
                 Gli studenti verranno importati in un nuovo anno facendoli
                 avanzare di una classe.
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data Inizio
                 </label>

@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.azienda.lavoratore.assegna", ["id" => $azienda->id]) }}"
         >
             @csrf
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Persona
                 </label>
@@ -19,7 +19,7 @@
                     <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data Inizio
                 </label>

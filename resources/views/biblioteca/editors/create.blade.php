@@ -19,7 +19,7 @@
                             placeholder="Es. Mondadori"
                         />
                     </div>
-                    <div class=" my-3">
+                    <div class="my-3">
                         <button type="submit" class="btn btn-primary">
                             Aggiungi
                         </button>

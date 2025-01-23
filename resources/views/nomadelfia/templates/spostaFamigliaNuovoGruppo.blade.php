@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.famiglie.gruppo.sposta", ["id" => $famiglia_id, "currentGruppo" => $gruppo_id]) }}"
         >
             @csrf
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Nuovo gruppo
                 </label>
@@ -28,7 +28,7 @@
                     </select>
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data cambio gruppo:
                 </label>
@@ -41,7 +41,7 @@
                     />
                 </div>
             </div>
-            <div class=" row">
+            <div class="row">
                 <div class="col"></div>
                 <div class="text-justify">
                     Le seguenti persone saranno spostate nel gruppo familiare

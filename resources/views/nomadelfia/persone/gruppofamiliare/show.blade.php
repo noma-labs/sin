@@ -51,7 +51,7 @@
                                                 name="current_data_entrata"
                                                 value="{{ $attuale->pivot->data_entrata_gruppo }}"
                                             />
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -64,7 +64,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >

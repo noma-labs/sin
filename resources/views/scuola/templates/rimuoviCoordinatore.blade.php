@@ -11,7 +11,7 @@
             action="{{ route("scuola.classi.coordinatore.rimuovi", ["id" => $classe->id, "coord_id" => $coord->id]) }}"
         >
             @csrf
-            <div class=" row">
+            <div class="row">
                 <p>
                     Voi davvero eliminare {{ $coord->nominativo }} dalla
                     {{ $classe->tipo->nome }} ?

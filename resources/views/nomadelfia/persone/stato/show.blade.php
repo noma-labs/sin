@@ -44,7 +44,7 @@
                                         >
                                             @method("PUT")
                                             @csrf
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -57,7 +57,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -72,7 +72,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class=" row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -167,7 +167,7 @@
                                         Completa dati dello stato attuale:
                                         {{ $persona->statoAttuale()->nome }}
                                     </h5>
-                                    <div class=" row">
+                                    <div class="row">
                                         <label
                                             for="dataInizio"
                                             class="col-sm-6 col-form-label"
@@ -194,7 +194,7 @@
                                 @endif
 
                                 <h5 class="my-2">Inserimento nuovo stato</h5>
-                                <div class=" row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-4 col-form-label"
@@ -219,7 +219,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class=" row">
+                                <div class="row">
                                     <label
                                         for="inputPassword"
                                         class="col-sm-4 col-form-label"

@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class=" col-md-12">
+                    <div class="col-md-12">
                         <label for="note">Note:</label>
                         <textarea class="form-control" name="note">
              {{ $patente->note }} </textarea
