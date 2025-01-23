@@ -5,13 +5,11 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Filtri"])
 
-    <div class="row mb-3">
-        <div class="col-md-2">
+    <div class="d-flex justify-content-end mb-3">
             @include("officina.veicoli.aggiungiFiltro")
-        </div>
     </div>
-    <div class="row">
-        <div class="col-md-8">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
             <table class="table table-bordered table-sm">
                 <thead class="thead-inverse bg-warning">
                     <tr>
