@@ -5,8 +5,8 @@
 
     <form method="post" action="{{ route("veicoli.create") }}">
         @csrf
-        <div class="form-group row">
-            <div class="form-group col-md-3">
+        <div class="row g-3">
+            <div class="col-md-3">
                 <label for="nome">Nome</label>
                 <input
                     type="text"
@@ -16,7 +16,7 @@
                     value="{{ old("nome") }}"
                 />
             </div>
-            <div class="form-group col-md-3">
+            <div class="col-md-3">
                 <label for="targa">Targa</label>
                 <input
                     type="text"
@@ -26,7 +26,7 @@
                     value="{{ old("targa") }}"
                 />
             </div>
-            <div class="form-goup col-md-3">
+            <div class="col-md-3">
                 <label for="marca">Marca</label>
                 <select class="form-control" id="marca" name="marca">
                     <option hidden disabled selected value="">Scegli...</option>
@@ -40,7 +40,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-goup col-md-3">
+            <div class="col-md-3">
                 <label for="alimentazione">Modello</label>
                 <input
                     type="text"
@@ -49,8 +49,7 @@
                     name="modello"
                 />
             </div>
-        </div>
-        <div class="form-group row">
+
             <div class="col-md-3">
                 <label for="impiego">Impiego</label>
                 <select class="form-control" id="impiego" name="impiego">
@@ -65,7 +64,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-goup col-md-3">
+            <div class="col-md-3">
                 <label for="tipologia">Tipologia</label>
                 <select class="form-control" id="tipologia" name="tipologia">
                     <option hidden disabled selected value="">Scegli...</option>
@@ -79,7 +78,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-goup col-md-3">
+            <div class="col-md-2">
                 <label for="alimentazione">Alimentazione</label>
                 <select
                     class="form-control"
@@ -97,7 +96,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-goup col-md-3">
+            <div class="col-md-2">
                 <label for="posti">Numero posti</label>
                 <input
                     type="number"
@@ -106,9 +105,12 @@
                     value="{{ old("posti") }}"
                 />
             </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary" align="right" type="submit">
+                    Salva
+                </button>
+            </div>
         </div>
-        <button class="btn btn-primary" align="right" type="submit">
-            Salva
-        </button>
+
     </form>
 @endsection

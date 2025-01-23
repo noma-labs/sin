@@ -5,23 +5,23 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Filtri"])
 
-    <div class="row my-2">
+    <div class="row mb-3">
         <div class="col-md-2">
             @include("officina.veicoli.aggiungiFiltro")
         </div>
     </div>
     <div class="row">
         <div class="col-md-8">
-            <table class="table table-hover table-bordered table-sm">
-                <thead class="thead-inverse">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-inverse bg-warning">
                     <tr>
-                        <th width="30%">Codice</th>
-                        <th width="10%">Tipo</th>
-                        <th width="30%">Note</th>
-                        <th width="20%">Operazioni</th>
+                        <th>Codice</th>
+                        <th>Tipo</th>
+                        <th>Note</th>
+                        <th>Operazioni</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-primary text-white">
                     @foreach ($filtri as $filtro)
                         <tr>
                             <td>{{ $filtro->codice }}</td>

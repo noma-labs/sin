@@ -3,7 +3,7 @@
 @section("content")
     @include("partials.header", ["title" => "Modifica Veicolo"])
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md-9">
             <form
                 method="POST"
@@ -11,271 +11,241 @@
                 action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
             >
                 @csrf
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Targa</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="targa"
-                                value="{{ $veicolo->targa }}"
-                            />
-                        </div>
+                <div class="row mb-3 g-3">
+                    <div class="col-6 col-md-3">
+                        <label>Targa</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="targa"
+                            value="{{ $veicolo->targa }}"
+                        />
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="nome">Nome</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="nome"
-                                value="{{ $veicolo->nome }}"
-                            />
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="nome">Nome</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="nome"
+                            value="{{ $veicolo->nome }}"
+                        />
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="marca">Marca</label>
-                            <select
-                                class="form-control"
-                                name="marca_id"
-                                type="text"
-                            >
-                                @foreach ($marche as $marca)
-                                    <option
-                                        value="{{ $marca->id }}"
-                                        @if($marca->id == $veicolo->modello->marca->id) selected @endif
-                                    >
-                                        {{ $marca->nome }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="marca">Marca</label>
+                        <select
+                            class="form-control"
+                            name="marca_id"
+                            type="text"
+                        >
+                            @foreach ($marche as $marca)
+                                <option
+                                    value="{{ $marca->id }}"
+                                    @if($marca->id == $veicolo->modello->marca->id) selected @endif
+                                >
+                                    {{ $marca->nome }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="modello_id">Modello</label>
-                            <select
-                                class="form-control"
-                                name="modello_id"
-                                type="text"
-                            >
-                                @foreach ($modelli as $mod)
-                                    <option
-                                        value="{{ $mod->id }}"
-                                        @if($mod->id == $veicolo->modello->id) selected @endif
-                                    >
-                                        {{ $mod->nome }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="modello_id">Modello</label>
+                        <select
+                            class="form-control"
+                            name="modello_id"
+                            type="text"
+                        >
+                            @foreach ($modelli as $mod)
+                                <option
+                                    value="{{ $mod->id }}"
+                                    @if($mod->id == $veicolo->modello->id) selected @endif
+                                >
+                                    {{ $mod->nome }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="tipologia">Tipologia</label>
-                            <select
-                                class="form-control"
-                                name="tipologia_id"
-                                type="text"
-                            >
-                                @foreach ($tipologie as $tipologia)
-                                    <option
-                                        value="{{ $tipologia->id }}"
-                                        @if($tipologia->id == $veicolo->tipologia_id) selected @endif
-                                    >
-                                        {{ $tipologia->nome }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="tipologia">Tipologia</label>
+                        <select
+                            class="form-control"
+                            name="tipologia_id"
+                            type="text"
+                        >
+                            @foreach ($tipologie as $tipologia)
+                                <option
+                                    value="{{ $tipologia->id }}"
+                                    @if($tipologia->id == $veicolo->tipologia_id) selected @endif
+                                >
+                                    {{ $tipologia->nome }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="impiego">Impiego</label>
-                            <select
-                                class="form-control"
-                                name="impiego_id"
-                                type="text"
-                            >
-                                @foreach ($impieghi as $impiego)
-                                    <option
-                                        value="{{ $impiego->id }}"
-                                        @if($impiego->id == $veicolo->impiego_id) selected @endif
-                                    >
-                                        {{ $impiego->nome }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="impiego">Impiego</label>
+                        <select
+                            class="form-control"
+                            name="impiego_id"
+                            type="text"
+                        >
+                            @foreach ($impieghi as $impiego)
+                                <option
+                                    value="{{ $impiego->id }}"
+                                    @if($impiego->id == $veicolo->impiego_id) selected @endif
+                                >
+                                    {{ $impiego->nome }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="alimentazione">Alimentazione</label>
-                            <select
-                                class="form-control"
-                                name="alimentazione_id"
-                                type="text"
-                            >
-                                @foreach ($alimentazioni as $alimentazione)
-                                    <option
-                                        value="{{ $alimentazione->id }}"
-                                        @if($alimentazione->id == $veicolo->alimentazione_id) selected @endif
-                                    >
-                                        {{ $alimentazione->nome }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="alimentazione">Alimentazione</label>
+                        <select
+                            class="form-control"
+                            name="alimentazione_id"
+                            type="text"
+                        >
+                            @foreach ($alimentazioni as $alimentazione)
+                                <option
+                                    value="{{ $alimentazione->id }}"
+                                    @if($alimentazione->id == $veicolo->alimentazione_id) selected @endif
+                                >
+                                    {{ $alimentazione->nome }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="posti">N. Posti</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="num_posti"
-                                value="{{ $veicolo->num_posti }}"
-                            />
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="posti">N. Posti</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="num_posti"
+                            value="{{ $veicolo->num_posti }}"
+                        />
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="tipologia">Filtro Olio</label>
-                            <select
-                                class="form-control"
-                                name="filtro_olio"
-                                type="text"
-                            >
-                                <option value="" hidden selected>
-                                    --Seleziona--
+                <div class="row mb-3 g-3">
+                    <div class="col-6 col-md-3">
+                        <label for="tipologia">Filtro Olio</label>
+                        <select
+                            class="form-control"
+                            name="filtro_olio"
+                            type="text"
+                        >
+                            <option value="" hidden selected>
+                                --Seleziona--
+                            </option>
+                            @foreach ($f_olio as $filtro)
+                                <option
+                                    value="{{ $filtro->id }}"
+                                    @if($filtro->id == $veicolo->filtro_olio) selected @endif
+                                >
+                                    {{ $filtro->codice }}
                                 </option>
-                                @foreach ($f_olio as $filtro)
-                                    <option
-                                        value="{{ $filtro->id }}"
-                                        @if($filtro->id == $veicolo->filtro_olio) selected @endif
-                                    >
-                                        {{ $filtro->codice }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="tipologia">Filtro Gasolio</label>
-                            <select
-                                class="form-control"
-                                name="filtro_gasolio"
-                                type="text"
-                            >
-                                <option value="" hidden selected>
-                                    --Seleziona--
+                    <div class="col-6 col-md-3">
+                        <label for="tipologia">Filtro Gasolio</label>
+                        <select
+                            class="form-control"
+                            name="filtro_gasolio"
+                            type="text"
+                        >
+                            <option value="" hidden selected>
+                                --Seleziona--
+                            </option>
+                            @foreach ($f_gasolio as $filtro)
+                                <option
+                                    value="{{ $filtro->id }}"
+                                    @if($filtro->id == $veicolo->filtro_gasolio) selected @endif
+                                >
+                                    {{ $filtro->codice }}
                                 </option>
-                                @foreach ($f_gasolio as $filtro)
-                                    <option
-                                        value="{{ $filtro->id }}"
-                                        @if($filtro->id == $veicolo->filtro_gasolio) selected @endif
-                                    >
-                                        {{ $filtro->codice }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="tipologia">Filtro Aria</label>
-                            <select
-                                class="form-control"
-                                name="filtro_aria"
-                                type="text"
-                            >
-                                <option value="" hidden selected>
-                                    --Seleziona--
+                    <div class="col-6 col-md-3">
+                        <label for="tipologia">Filtro Aria</label>
+                        <select
+                            class="form-control"
+                            name="filtro_aria"
+                            type="text"
+                        >
+                            <option value="" hidden selected>
+                                --Seleziona--
+                            </option>
+                            @foreach ($f_aria as $filtro)
+                                <option
+                                    value="{{ $filtro->id }}"
+                                    @if($filtro->id == $veicolo->filtro_aria) selected @endif
+                                >
+                                    {{ $filtro->codice }}
                                 </option>
-                                @foreach ($f_aria as $filtro)
-                                    <option
-                                        value="{{ $filtro->id }}"
-                                        @if($filtro->id == $veicolo->filtro_aria) selected @endif
-                                    >
-                                        {{ $filtro->codice }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="tipologia">Filtro A.C.</label>
-                            <select
-                                class="form-control"
-                                name="filtro_aria_condizionata"
-                                type="text"
-                            >
-                                <option value="" hidden selected>
-                                    --Seleziona--
+                    <div class="col-6 col-md-3">
+                        <label for="tipologia">Filtro A.C.</label>
+                        <select
+                            class="form-control"
+                            name="filtro_aria_condizionata"
+                            type="text"
+                        >
+                            <option value="" hidden selected>
+                                --Seleziona--
+                            </option>
+                            @foreach ($f_ac as $filtro)
+                                <option
+                                    value="{{ $filtro->id }}"
+                                    @if($filtro->id == $veicolo->filtro_aria_condizionata) selected @endif
+                                >
+                                    {{ $filtro->codice }}
                                 </option>
-                                @foreach ($f_ac as $filtro)
-                                    <option
-                                        value="{{ $filtro->id }}"
-                                        @if($filtro->id == $veicolo->filtro_aria_condizionata) selected @endif
-                                    >
-                                        {{ $filtro->codice }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="olio_id">Tipo Di Olio</label>
-                            <select
-                                class="form-control"
-                                name="olio_id"
-                                type="text"
-                            >
-                                <option value="" hidden selected>
-                                    --Seleziona--
+                <div class="row mb-3 g-3">
+                    <div class="col-6 col-md-3">
+                        <label for="olio_id">Tipo Di Olio</label>
+                        <select
+                            class="form-control"
+                            name="olio_id"
+                            type="text"
+                        >
+                            <option value="" hidden selected>
+                                --Seleziona--
+                            </option>
+                            @foreach ($olio_motore as $o)
+                                <option
+                                    value="{{ $o->id }}"
+                                    @if($o->id == $veicolo->olio_id) selected @endif
+                                >
+                                    {{ $o->codice }}
                                 </option>
-                                @foreach ($olio_motore as $o)
-                                    <option
-                                        value="{{ $o->id }}"
-                                        @if($o->id == $veicolo->olio_id) selected @endif
-                                    >
-                                        {{ $o->codice }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="litri_olio">Litri Olio</label>
-                            <input
-                                type="number"
-                                name="litri_olio"
-                                class="form-control"
-                                @if($veicolo->litri_olio) value="{{ $veicolo->litri_olio }}" @endif
-                            />
-                        </div>
+                    <div class="col-6 col-md-3">
+                        <label for="litri_olio">Litri Olio</label>
+                        <input
+                            type="number"
+                            name="litri_olio"
+                            class="form-control"
+                            @if($veicolo->litri_olio) value="{{ $veicolo->litri_olio }}" @endif
+                        />
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mb-3 g-3">
                     <div class="col-md-8">
                         <div class="form-check">
                             <label class="form-check-label">
@@ -300,8 +270,8 @@
             </form>
         </div>
 
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-12 col-md-3">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Tipi Di Gomme</h3>
                 </div>
@@ -346,246 +316,232 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-2">
-            @include("officina.veicoli.aggiungiFiltro")
-        </div>
-        <div class="col-md-2">
-            <x-modal
-                modal-title="Aggiungi Tipo Olio"
-                button-title="Aggiungi Olio"
-                button-style=" btn-warning"
-            >
-                <x-slot:body>
-                    <form
-                        method="POST"
-                        action="{{ route("olio.aggiungi") }}"
-                        id="form-aggiungi-olio"
-                    >
-                        @csrf
-                        <input
-                            type="hidden"
-                            name="veicolo"
-                            value="{{ $veicolo->id }}"
-                        />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="codice">Codice Olio</label>
-                                <input
-                                    name="codice"
-                                    type="text"
-                                    id="codice"
-                                    class="form-control"
-                                    placeholder="es. 15W/40"
-                                />
-                            </div>
-                            <div class="col-md-6">
-                                <label for="note">Note</label>
-                                <input
-                                    type="text"
-                                    name="note"
-                                    id="note"
-                                    class="form-control"
-                                    value=""
-                                    placeholder="Nota Facoltativa..."
-                                />
-                            </div>
+    <div class="d-grid gap-3 d-md-block">
+        @include("officina.veicoli.aggiungiFiltro")
+        <x-modal
+            modal-title="Aggiungi Tipo Olio"
+            button-title="Aggiungi Olio"
+            button-style=" btn-warning"
+        >
+            <x-slot:body>
+                <form
+                    method="POST"
+                    action="{{ route("olio.aggiungi") }}"
+                    id="form-aggiungi-olio"
+                >
+                    @csrf
+                    <input
+                        type="hidden"
+                        name="veicolo"
+                        value="{{ $veicolo->id }}"
+                    />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="codice">Codice Olio</label>
+                            <input
+                                name="codice"
+                                type="text"
+                                id="codice"
+                                class="form-control"
+                                placeholder="es. 15W/40"
+                            />
                         </div>
-                    </form>
-                </x-slot>
-                <x-slot:footer>
-                    <button
-                        class="btn btn-success"
-                        type="submit"
-                        form="form-aggiungi-olio"
-                    >
-                        Salva
-                    </button>
-                </x-slot>
-            </x-modal>
-        </div>
-        <div class="col-md-2">
-            <x-modal
-                modal-title="Aggiungi Gomma"
-                button-title="Aggiungi Gomma"
-                button-style=" btn-warning"
-            >
-                <x-slot:body>
-                    <form
-                        method="POST"
-                        action="{{ route("gomma.aggiungi") }}"
-                        id="form-aggiungi-gomma"
-                    >
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="codice">Codice Gomma</label>
-                                <input
-                                    name="codice"
-                                    type="text"
-                                    id="codice"
-                                    class="form-control"
-                                    placeholder="es. 170/75 R17"
-                                />
-                            </div>
+                        <div class="col-md-6">
+                            <label for="note">Note</label>
+                            <input
+                                type="text"
+                                name="note"
+                                id="note"
+                                class="form-control"
+                                value=""
+                                placeholder="Nota Facoltativa..."
+                            />
                         </div>
-                    </form>
-                </x-slot>
-                <x-slot:footer>
-                    <button
-                        class="btn btn-success"
-                        type="submit"
-                        form="form-aggiungi-gomma"
-                    >
-                        Salva
-                    </button>
-                </x-slot>
-            </x-modal>
-        </div>
+                    </div>
+                </form>
+            </x-slot>
+            <x-slot:footer>
+                <button
+                    class="btn btn-success"
+                    type="submit"
+                    form="form-aggiungi-olio"
+                >
+                    Salva
+                </button>
+            </x-slot>
+        </x-modal>
+        <x-modal
+            modal-title="Aggiungi Gomma"
+            button-title="Aggiungi Gomma"
+            button-style=" btn-warning"
+        >
+            <x-slot:body>
+                <form
+                    method="POST"
+                    action="{{ route("gomma.aggiungi") }}"
+                    id="form-aggiungi-gomma"
+                >
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="codice">Codice Gomma</label>
+                            <input
+                                name="codice"
+                                type="text"
+                                id="codice"
+                                class="form-control"
+                                placeholder="es. 170/75 R17"
+                            />
+                        </div>
+                    </div>
+                </form>
+            </x-slot>
+            <x-slot:footer>
+                <button
+                    class="btn btn-success"
+                    type="submit"
+                    form="form-aggiungi-gomma"
+                >
+                    Salva
+                </button>
+            </x-slot>
+        </x-modal>
         @if ($veicolo->deleted_at)
-            <div class="col-md-2 offset-md-2">
-                <x-modal
-                    modal-title="Elimina Veicolo Definitivamente"
-                    button-title="Elimina Definitivamente"
-                    button-style="btn-danger "
-                >
-                    <x-slot:body>
-                        <div class="alert alert-danger" role="alert">
-                            <p>
-                                Attenzione si sta per eliminare il veicolo:
-                                <strong>{{ $veicolo->nome }}</strong>
-                                .
-                            </p>
-                            <p>
-                                Il veicolo verrà eliminato
-                                <span class="font-italic">definitivamente</span>
-                                e non sarà più possibile recuperarlo.
-                            </p>
-                            <form
-                                action="{{ route("veicoli.elimina.definitivamente") }}"
-                                method="post"
-                                id="form-elimina"
-                            >
-                                @csrf
-                                @method("DELETE")
-                                <input
-                                    name="v_id"
-                                    type="hidden"
-                                    value="{{ $veicolo->id }}"
-                                />
-                            </form>
-                        </div>
-                    </x-slot>
-                    <x-slot:footer>
-                        <button
-                            type="submit"
-                            class="btn btn-success"
-                            form="form-elimina"
-                        >
-                            Ok
-                        </button>
-                    </x-slot>
-                </x-modal>
-            </div>
-            <div class="col-md-2">
-                <x-modal
-                    modal-title="Riabilita Veicolo"
-                    button-title="Riabilita Veicolo"
-                    button-style="btn-danger "
-                >
-                    <x-slot:body>
-                        <div class="alert alert-warning" role="alert">
-                            <p>
-                                Attenzione si sta per riabilitare il veicolo:
-                                <strong>{{ $veicolo->nome }}</strong>
-                                .
-                            </p>
-                            <p>
-                                Il veicolo tornerà disponibile nei veicoli della
-                                comunità.
-                            </p>
-                            <form
-                                action="{{ route("veicolo.riabilita") }}"
-                                method="post"
-                                id="form-riabilita"
-                            >
-                                @csrf
-                                @method("POST")
-                                <input
-                                    name="v_id"
-                                    type="hidden"
-                                    value="{{ $veicolo->id }}"
-                                />
-                            </form>
-                        </div>
-                    </x-slot>
-                    <x-slot:footer>
-                        <button
-                            type="submit"
-                            class="btn btn-success"
-                            form="form-riabilita"
-                        >
-                            Ok
-                        </button>
-                    </x-slot>
-                </x-modal>
-            </div>
-        @else
-            <div class="col-md-2 offset-md-2">
-                <x-modal
-                    modal-title="Demolisci Veicolo"
-                    button-title="Demolisci"
-                    button-style="btn-danger "
-                >
-                    <x-slot:body>
-                        <div class="alert alert-danger" role="alert">
-                            <p>
-                                Attenzione si sta per demolire il veicolo:
-                                <strong>{{ $veicolo->nome }}</strong>
-                                .
-                            </p>
-                            <p>
-                                Il veicolo verrà comunque conservato come
-                                <span class="font-italic">
-                                    veicolo demolito
-                                </span>
-                                .
-                            </p>
-                            <form
-                                action="{{ route("veicoli.demolisci") }}"
-                                method="post"
-                                id="form-demolisci"
-                            >
-                                @csrf
-                                @method("DELETE")
-                                <input
-                                    name="v_id"
-                                    type="hidden"
-                                    value="{{ $veicolo->id }}"
-                                />
-                            </form>
-                        </div>
-                    </x-slot>
-                    <x-slot:footer>
-                        <button
-                            type="submit"
-                            class="btn btn-success"
-                            form="form-demolisci"
-                        >
-                            Ok
-                        </button>
-                    </x-slot>
-                </x-modal>
-            </div>
-        @endif
-        <div class="col-md-2">
-            <button
-                class="btn  btn-success"
-                form="veicolo-form-modifica"
-                type="submit"
+            <x-modal
+                modal-title="Elimina Veicolo Definitivamente"
+                button-title="Elimina Definitivamente"
+                button-style="btn-danger "
             >
-                Salva
-            </button>
-        </div>
+                <x-slot:body>
+                    <div class="alert alert-danger" role="alert">
+                        <p>
+                            Attenzione si sta per eliminare il veicolo:
+                            <strong>{{ $veicolo->nome }}</strong>
+                            .
+                        </p>
+                        <p>
+                            Il veicolo verrà eliminato
+                            <span class="font-italic">definitivamente</span>
+                            e non sarà più possibile recuperarlo.
+                        </p>
+                        <form
+                            action="{{ route("veicoli.elimina.definitivamente") }}"
+                            method="post"
+                            id="form-elimina"
+                        >
+                            @csrf
+                            @method("DELETE")
+                            <input
+                                name="v_id"
+                                type="hidden"
+                                value="{{ $veicolo->id }}"
+                            />
+                        </form>
+                    </div>
+                </x-slot>
+                <x-slot:footer>
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        form="form-elimina"
+                    >
+                        Ok
+                    </button>
+                </x-slot>
+            </x-modal>
+            <x-modal
+                modal-title="Riabilita Veicolo"
+                button-title="Riabilita Veicolo"
+                button-style="btn-danger "
+            >
+                <x-slot:body>
+                    <div class="alert alert-warning" role="alert">
+                        <p>
+                            Attenzione si sta per riabilitare il veicolo:
+                            <strong>{{ $veicolo->nome }}</strong>
+                            .
+                        </p>
+                        <p>
+                            Il veicolo tornerà disponibile nei veicoli della
+                            comunità.
+                        </p>
+                        <form
+                            action="{{ route("veicolo.riabilita") }}"
+                            method="post"
+                            id="form-riabilita"
+                        >
+                            @csrf
+                            @method("POST")
+                            <input
+                                name="v_id"
+                                type="hidden"
+                                value="{{ $veicolo->id }}"
+                            />
+                        </form>
+                    </div>
+                </x-slot>
+                <x-slot:footer>
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        form="form-riabilita"
+                    >
+                        Ok
+                    </button>
+                </x-slot>
+            </x-modal>
+        @else
+            <x-modal
+                modal-title="Demolisci Veicolo"
+                button-title="Demolisci"
+                button-style="btn-danger "
+            >
+                <x-slot:body>
+                    <div class="alert alert-danger" role="alert">
+                        <p>
+                            Attenzione si sta per demolire il veicolo:
+                            <strong>{{ $veicolo->nome }}</strong>
+                            .
+                        </p>
+                        <p>
+                            Il veicolo verrà comunque conservato come
+                            <span class="font-italic">
+                                veicolo demolito
+                            </span>
+                            .
+                        </p>
+                        <form
+                            action="{{ route("veicoli.demolisci") }}"
+                            method="post"
+                            id="form-demolisci"
+                        >
+                            @csrf
+                            @method("DELETE")
+                            <input
+                                name="v_id"
+                                type="hidden"
+                                value="{{ $veicolo->id }}"
+                            />
+                        </form>
+                    </div>
+                </x-slot>
+                <x-slot:footer>
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        form="form-demolisci"
+                    >
+                        Ok
+                    </button>
+                </x-slot>
+            </x-modal>
+        @endif
+        <button
+            class="btn  btn-success"
+            form="veicolo-form-modifica"
+            type="submit"
+        >
+            Salva
+        </button>
     </div>
 @endsection
