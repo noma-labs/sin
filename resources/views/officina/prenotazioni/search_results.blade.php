@@ -25,7 +25,7 @@
 
     <div class="table-responsive">
         <table class="table table-hover table-bordered">
-            <thead class="thead-inverse">
+            <thead class="thead-inverse bg-warning"">
                 <tr>
                     <th>Nome</th>
                     <th>Macchina</th>
@@ -40,7 +40,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-primary text-white">
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
                         <tr hoverable>
@@ -90,7 +90,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 offset-md-4">
-            {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
+            {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
         </div>
     </div>
 @endsection

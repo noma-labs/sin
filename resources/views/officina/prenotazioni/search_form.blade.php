@@ -1,6 +1,6 @@
-<form method="GET" action="{{ route("officina.ricerca.submit") }}">
+<form method="GET" action="{{ route("officina.ricerca.submit") }}" class="mb-3">
     @csrf
-    <div class="row mb-3">
+    <div class="row g-3">
         <div class="col-md-3">
             <label class="form-label">Cliente</label>
             <select class="form-control" id="cliente" name="cliente_id">
@@ -41,7 +41,7 @@
         </div>
 
         <div class="col-md-3">
-            <label for="uso">Uso</label>
+            <label class="form-label" for="uso">Uso</label>
             <select class="form-control" id="uso" name="uso_id" required>
                 <option disabled selected>--Seleziona--</option>
                 @foreach ($usi as $uso)
@@ -51,9 +51,7 @@
                 @endforeach
             </select>
         </div>
-    </div>
 
-    <div class="row mb-3">
         <div class="col-md-2">
             <label class="form-label">Data partenza</label>
             <select
@@ -68,8 +66,7 @@
                 <option value=">=" selected>Maggiore Uguale</option>
             </select>
         </div>
-        <div class="col-md-2">
-            <label>&nbsp;</label>
+        <div class="col-md-2 d-flex align-items-end">
             <input type="date" class="form-control" name="data_partenza" />
         </div>
 
@@ -106,9 +103,7 @@
                 name="data_singola"
             />
         </div>
-    </div>
 
-    <div class="row mb-3">
         <div class="col-md-5">
             <label for="destinazione">Destinazione</label>
             <input
