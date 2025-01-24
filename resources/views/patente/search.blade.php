@@ -36,15 +36,13 @@
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">
-                <input
-                    type="date"
-                    class="form-control"
-                    name="data_scadenza"
-                />
+                <input type="date" class="form-control" name="data_scadenza" />
             </div>
 
             <div class="col-md-3">
-                <label class="form-label" for="categoria_patente">Categoria patente</label>
+                <label class="form-label" for="categoria_patente">
+                    Categoria patente
+                </label>
                 <select
                     class="form-control"
                     id="categoria_patente"
@@ -98,7 +96,6 @@
                     name="cqc_data_scadenza"
                 />
             </div>
-
         </div>
         <div class="row mb-3">
             <div class="d-flex justify-content-end">
@@ -116,11 +113,11 @@
             <strong>{{ $msgSearch }}</strong>
 
             <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-        ></button>
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
         </div>
     @endif
 
@@ -131,16 +128,14 @@
         </div>
 
         <div class="table-responsive">
-            <table
-                class="table table-hover table-bordered table-sm"
-            >
+            <table class="table table-hover table-bordered table-sm">
                 <thead class="thead-inverse">
                     <tr>
                         <th>Nome Cognome</th>
                         <th>
                             {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "N. Patente") }}
                         </th>
-                        <th> Scadenza" </th>
+                        <th>Scadenza"</th>
                         <th>Categorie</th>
                         <th>Scadenza C.Q.C M.</th>
                         <th>Scadenza C.Q.C P.</th>

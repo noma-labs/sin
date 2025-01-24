@@ -25,10 +25,7 @@
                                 checked
                             @endif
                         />
-                        <label
-                            class="form-label"
-                            for="{{ $cqc->id }}"
-                        >
+                        <label class="form-label" for="{{ $cqc->id }}">
                             {{ $cqc->categoria }}
                         </label>
                     </div>

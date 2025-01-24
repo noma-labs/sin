@@ -1,4 +1,4 @@
-@include("partials.header", ["title" => "Ricerca Libro", "subtitle" =>   App\Biblioteca\Models\Libro::count() . " libri"])
+@include("partials.header", ["title" => "Ricerca Libro", "subtitle" => App\Biblioteca\Models\Libro::count() . " libri"])
 <form method="GET" class="form" action="{{ route("books.search") }}">
     @csrf
     @if (Auth::guest())

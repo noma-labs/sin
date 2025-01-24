@@ -43,9 +43,7 @@
                         <th>
                             {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
                         </th>
-                        <th>
-                            OPERAZIONI
-                        </th>
+                        <th>OPERAZIONI</th>
                     </tr>
                 </thead>
                 <tbody class="bg-primary text-white">
@@ -55,11 +53,17 @@
                                 @if ($libro->trashed())
                                     {{ $libro->deleted_note }}
                                 @endif
+
                                 @if ($libro->inPrestito())
-                                    <span class="badge bg-danger">In prestito</span>
+                                    <span class="badge bg-danger">
+                                        In prestito
+                                    </span>
                                 @endif
+
                                 @if ($libro->tobe_printed == 1 and ! $libro->trashed())
-                                    <span class="badge bg-warning">In stampa</span>
+                                    <span class="badge bg-warning">
+                                        In stampa
+                                    </span>
                                 @endif
                             </td>
                             <td>

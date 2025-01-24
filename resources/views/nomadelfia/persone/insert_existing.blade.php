@@ -7,9 +7,7 @@
     <div class="row">
         @isset($personeEsistenti)
             <div class="col-md-12 table-responsive">
-                <table
-                    class="table table-hover table-bordered table-sm"
-                >
+                <table class="table table-hover table-bordered table-sm">
                     <thead class="thead-inverse">
                         <tr>
                             <th>Nominativo</th>

@@ -44,7 +44,9 @@
                                 />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Valida fino al:</label>
+                                <label class="form-label">
+                                    Valida fino al:
+                                </label>
                                 <input
                                     type="date"
                                     class="form-control"
