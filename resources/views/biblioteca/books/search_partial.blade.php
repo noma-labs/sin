@@ -1,23 +1,4 @@
-<div class="my-page-title">
-    <div class="d-flex justify-content-end">
-        <div class="p-2">
-            <span class="h1 text-center">Ricerca Libro</span>
-        </div>
-        <div class="p-2 text-right">
-            <h5 class="m-1">
-                {{ App\Biblioteca\Models\Libro::count() }} libri presenti nella
-                biblioteca
-            </h5>
-            @if (Auth::check())
-                <h5 class="m-1">
-                    {{ App\Biblioteca\Models\Libro::onlyTrashed()->count() }}
-                    libri scartati o eliminati
-                </h5>
-            @endif
-        </div>
-    </div>
-</div>
-
+@include("partials.header", ["title" => "Ricerca Libro", "subtitle" =>   App\Biblioteca\Models\Libro::count() . " libri"])
 <form method="GET" class="form" action="{{ route("books.search") }}">
     @csrf
     @if (Auth::guest())
@@ -63,80 +44,66 @@
             </div>
         </div>
     @endif
-    <div class="row">
+    <div class="row g-3">
         <div class="col-md-6">
-            <div class="">
-                <label for="xAutore" class="control-label">
-                    Autore ({{ App\Biblioteca\Models\Autore::count() }})
-                </label>
-                <livewire:search-autore name_input="xIdAutore" />
-            </div>
+            <label for="xAutore" class="control-label">
+                Autore ({{ App\Biblioteca\Models\Autore::count() }})
+            </label>
+            <livewire:search-autore name_input="xIdAutore" />
         </div>
         <div class="col-md-6">
-            <div class="">
-                <label for="xEditore" class="control-label">
-                    Editore ({{ App\Biblioteca\Models\Editore::count() }})
-                </label>
+            <label for="xEditore" class="control-label">
+                Editore ({{ App\Biblioteca\Models\Editore::count() }})
+            </label>
 
-                <livewire:search-editore name_input="xIdEditore" />
-            </div>
+            <livewire:search-editore name_input="xIdEditore" />
         </div>
-    </div>
-    <!-- end first row: collocazione, titolo, autore, editore -->
-    <div class="row">
-        <div class="col-md-5">
-            <div class="">
-                <label for="xClassificazione" class="control-label">
-                    Classificazione
-                    ({{ App\Biblioteca\Models\Classificazione::count() }})
-                </label>
-                <select
-                    class="form-control"
-                    name="xClassificazione"
-                    type="text"
-                    id="xClassificazione"
-                >
-                    <option value="" selected disabled>
-                        ---Seleziona Classificazione---
+        <div class="col-md-4">
+            <label for="xClassificazione" class="control-label">
+                Classificazione
+                ({{ App\Biblioteca\Models\Classificazione::count() }})
+            </label>
+            <select
+                class="form-control"
+                name="xClassificazione"
+                type="text"
+                id="xClassificazione"
+            >
+                <option value="" selected disabled>
+                    ---Seleziona Classificazione---
+                </option>
+                @foreach ($classificazioni as $cls)
+                    <option value="{{ $cls->id }}">
+                        {{ $cls->descrizione }}
                     </option>
-                    @foreach ($classificazioni as $cls)
-                        <option value="{{ $cls->id }}">
-                            {{ $cls->descrizione }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+                @endforeach
+            </select>
         </div>
-        <div class="col-md-5">
-            <div class="">
-                <label for="xNote" class="control-label">Note</label>
-                <input
-                    class="form-control"
-                    name="xNote"
-                    type="text"
-                    id="xNote"
-                    size="20"
-                    maxlength="100"
-                    placeholder="Inserisci parola da ricercare nelle note"
-                />
-            </div>
+        <div class="col-md-4">
+            <label for="xNote" class="control-label">Note</label>
+            <input
+                class="form-control"
+                name="xNote"
+                type="text"
+                id="xNote"
+                size="20"
+                maxlength="100"
+                placeholder="Inserisci parola da ricercare nelle note"
+            />
         </div>
         <div class="col-md-2">
-            <div class="">
-                <label for="categoria">Categoria</label>
-                <select class="form-control" name="xCategoria" id="categoria">
-                    <option value="" hidden>Seleziona...</option>
-                    <option value="piccoli">PICCOLI</option>
-                    <option value="elementari">ELEMENTARI</option>
-                    <option value="medie">MEDIE</option>
-                    <option value="superiori">SUPERIORI</option>
-                    <option value="adulti">ADULTI</option>
-                </select>
-            </div>
+            <label for="categoria">Categoria</label>
+            <select class="form-control" name="xCategoria" id="categoria">
+                <option value="" hidden>Seleziona...</option>
+                <option value="piccoli">PICCOLI</option>
+                <option value="elementari">ELEMENTARI</option>
+                <option value="medie">MEDIE</option>
+                <option value="superiori">SUPERIORI</option>
+                <option value="adulti">ADULTI</option>
+            </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2 offset-md-10">
+
+        <div class="col-md-2 d-flex align-items-end">
             <button
                 class="btn btn-success"
                 id="biblio"
@@ -147,5 +114,4 @@
             </button>
         </div>
     </div>
-    <!-- end second row: classificazioe, note -->
 </form>

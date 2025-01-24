@@ -9,7 +9,7 @@
 @endsection
 
 @section("content")
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-4 offset-md-2">
             <div class="card" style="width: 17rem">
                 <div class="card-body">

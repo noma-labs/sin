@@ -6,9 +6,12 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
-            &times;
-        </a>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
     </div>
 
     <div id="results" class="alert alert-success">
@@ -17,29 +20,29 @@
     </div>
 
     @if ($libri->total() > 0)
-        <table id="table" class="table table-bordered table-hover table-sm">
+        <table id="table" class="table table-bordered table-sm">
             <thead class="thead-inverse">
                 <tr>
-                    <th style="width: 10%" style="font-size: 10px">STATO</th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>STATO</th>
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("COLLOCAZIONE", "COLLOC") }}
                     </th>
-                    <th style="width: 30%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("TITOLO") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("AUTORE") }}
                     </th>
-                    <th style="width: 12%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("EDITORE") }}
                     </th>
-                    <th style="width: 18%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("CLASSIFICAZIONE") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("NOTE") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         OPERAZIONI
                     </th>
                 </tr>
@@ -112,15 +115,12 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="row">
-            <div class="col-md-6 offset-md-4">
-                {{ $libri->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
-            </div>
+        <div class="d-flex justify-content-center">
+            {{ $libri->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
         </div>
     @endif
 @endsection
 
-<!-- #results anchor -->
 <script>
     window.location.hash = 'results';
 </script>

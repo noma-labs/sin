@@ -306,7 +306,7 @@
 
     <div class="row">
         <div class="col-md-6 offset-md-4">
-            {{ $patentiAll->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
+            {{ $patentiAll->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
         </div>
     </div>
 @endsection
