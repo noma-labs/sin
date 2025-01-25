@@ -5,14 +5,14 @@
 
     <div class="row">
         <div class="col-md-8 table-responsive">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover table-bordered bg-warning">
                 <thead class="thead-inverse">
                     <th scope="col" width="40%">Nominativo</th>
                     <th scope="col" width="15%" class="text-center">Stato</th>
                     <th scope="col" width="20%">Data inizio lavoro</th>
                     <th scope="col" width="25%">Operazioni</th>
                 </thead>
-                <tbody>
+                <tbody class="bg-primary text-white">
                     @foreach ($azienda->lavoratoriAttuali as $lavoratore)
                         <tr id="{{ $lavoratore->id }}" hoverable>
                             <td scope="row">
