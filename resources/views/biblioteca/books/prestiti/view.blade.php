@@ -1,21 +1,7 @@
 @extends("biblioteca.books.index")
 
 @section("content")
-    <div class="my-page-title">
-        <div class="d-flex justify-content-end">
-            <div class="p-2">
-                <span class="h1 text-center">Gestione prestiti</span>
-            </div>
-            <div class="p-2 text-right">
-                <h5 class="m-1">
-                    {{ App\Biblioteca\Models\Prestito::InPrestito()->count() }}
-                    prestiti attivi/
-                    {{ App\Biblioteca\Models\Prestito::count() }} prestiti
-                    totali.
-                </h5>
-            </div>
-        </div>
-    </div>
+    @include("partials.header", ["title" => "Gestione prestiti", "subtitle" =>  App\Biblioteca\Models\Prestito::InPrestito()->count() ."/".  App\Biblioteca\Models\Prestito::count() . " (attivi/totali)"])
 
     <form method="GET" class="form" action="{{ route("books.loans.search") }}">
         <div class="row">

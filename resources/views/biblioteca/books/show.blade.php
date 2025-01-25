@@ -154,7 +154,7 @@
             </form>
 
             <div class="row">
-                <div class=" d-grid gap-2 d-md-block">
+                <div class="d-grid gap-2 d-md-block">
                     @if (! $libro->trashed())
                         <a
                             class="btn btn-success"
