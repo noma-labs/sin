@@ -11,8 +11,8 @@
             action="{{ route("scuola.anno.classe.aggiungi", ["id" => $anno->id]) }}"
         >
             @csrf
-            <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="mb-3">
+                <label for="example-text-input" class="col-4 form-label">
                     Tipo di classe
                 </label>
                 <div class="col-8">

@@ -1,7 +1,7 @@
 <x-modal
     modal-title="Clona anno"
     button-title="Clona anno"
-    button-style="btn-info my-2"
+    button-style="btn-warning my-2"
 >
     <x-slot:body>
         <form

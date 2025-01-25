@@ -5,80 +5,77 @@
 @section("content")
     @include("partials.header", ["title" => "Anno scolastico " . $anno->scolastico])
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-header">
-                        Scuola A.S. {{ $anno->scolastico }}
+    <div class="card mb-3">
+        <div class="card-header">
+            Scuola A.S. {{ $anno->scolastico }}
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>Responsabile Scuola</p>
+                    @if ($resp)
+                        @include("nomadelfia.templates.persona", ["persona" => $resp])
+                    @else
+                            Non Assegnato
+                    @endif
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>Note</p>
+                    <div>
+                        @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+                        {{ $anno->descrizione }}
                     </div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>Data inizio</p>
+                    <span class="badge bg-secondary">
+                        {{ $anno->data_inizio }}
+                    </span>
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    Studenti
+                    <span class="badge bg-primary rounded-pill">
+                        {{ $alunni }}
+                    </span>
+                </li>
+                <li class="list-group-item">
+                    <ul class="list-group list-group-flush">
+                        @foreach ($cicloAlunni as $cicloAlunno)
                             <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
+                                class="list-group-item d-flex justify-content-end align-items-center"
                             >
-                                <p>Responsabile Scuola</p>
-                                @if ($resp)
-                                    @include("nomadelfia.templates.persona", ["persona" => $resp])
-                                @else
-                                        Non Assegnato
-                                @endif
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                <p>Note</p>
-                                <div>
-                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
-                                    {{ $anno->descrizione }}
-                                </div>
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                <p>Data inizio</p>
-                                <span class="badge bg-secondary">
-                                    {{ $anno->data_inizio }}
+                                {{ $cicloAlunno->ciclo }}
+                                <span
+                                    class="badge bg-secondary rounded-pill ms-2"
+                                >
+                                    {{ $cicloAlunno->alunni_count }}
                                 </span>
                             </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                Studenti
-                                <span class="badge bg-primary rounded-pill">
-                                    {{ $alunni }}
-                                </span>
-                            </li>
-                            <li class="list-group-item">
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($cicloAlunni as $cicloAlunno)
-                                        <li
-                                            class="list-group-item d-flex justify-content-end align-items-center"
-                                        >
-                                            {{ $cicloAlunno->ciclo }}
-                                            <span
-                                                class="badge bg-secondary rounded-pill ms-2"
-                                            >
-                                                {{ $cicloAlunno->alunni_count }}
-                                            </span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+                        @endforeach
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-header">
+            @include("scuola.templates.aggiungiClasse", ["anno" => $anno])
+
+            @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $anno])
+
         </div>
     </div>
-    @include("scuola.templates.aggiungiClasse", ["anno" => $anno])
 
-    @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $anno])
-
-    @foreach ($classi->chunk(3) as $chunk)
-        <div class="row my-2">
-            @foreach ($chunk as $classe)
-                <div class="col-md-4">
+        <div class="row  row-cols-1 row-cols-md-3 g-3">
+            @foreach ($classi as $classe)
+                <div class="col">
                     <div id="accordion">
                         <div class="card">
                             <div
@@ -177,5 +174,4 @@
                 </div>
             @endforeach
         </div>
-    @endforeach
 @endsection

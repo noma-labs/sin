@@ -12,10 +12,8 @@
         >
             @method("PUT")
             @csrf
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Note</span>
-                </div>
+            <div class="mb-3">
+                <label class="form-label">Not sdfasdfasgfe</label>
                 <textarea
                     class="form-control"
                     name="note"

@@ -5,64 +5,60 @@
 @section("content")
     @include("partials.header", ["title" => "Anno scolastico " . $anno->as])
 
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-header">Scuola A.S. {{ $anno->as }}</div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                <p>Responsabile Scuola</p>
-                                @if ($anno->responsabile)
-                                    @include("nomadelfia.templates.persona", ["persona" => $anno->responsabile])
-                                @else
-                                        Non Assegnato
-                                @endif
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                <p>Note</p>
-                                <div>
-                                    {{ $anno->descrizione }}
-                                </div>
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                <p>Data inizio</p>
-                                <span class="badge bg-secondary">
-                                    {{ $anno->data_inizio->format("Y-m-d") }}
-                                </span>
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                Studenti
-                                <span class="badge bg-primary rounded-pill">
-                                    {{ $anno->totalStudents }}
-                                </span>
-                            </li>
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                            >
-                                Operazioni
-                                <div>
-                                    @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
-                                    @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $anno])
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    <div class="card-deck mb-3">
+        <div class="card">
+            <div class="card-header">Scuola A.S. {{ $anno->as }}</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        <p>Responsabile Scuola</p>
+                        @if ($anno->responsabile)
+                            @include("nomadelfia.templates.persona", ["persona" => $anno->responsabile])
+                        @else
+                                Non Assegnato
+                        @endif
+                    </li>
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        <p>Note</p>
+                        <div>
+                            {{ $anno->descrizione }}
+                        </div>
+                    </li>
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        <p>Data inizio</p>
+                        <span class="badge bg-secondary">
+                            {{ $anno->data_inizio->format("Y-m-d") }}
+                        </span>
+                    </li>
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        Studenti
+                        <span class="badge bg-primary rounded-pill">
+                            {{ $anno->totalStudents }}
+                        </span>
+                    </li>
+                    <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                        Operazioni
+                        <div>
+                            @include("scuola.templates.aggiungiNoteAnno", ["anno" => $anno])
+                            @include("scuola.templates.cloneAnnoDaPrecedente", ["anno" => $anno])
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <div class="row mt-3" id="accordion">
+    <div class="row" id="accordion">
         <div class="col-md">
             <div class="card">
                 <div class="card-header" id="headingOne">
