@@ -2,8 +2,8 @@
 
 @section("content")
     @include("partials.header", ["title" => "Gestione Famiglie"])
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row row-cols-1 row-cols-md-4 d-flex ">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headSingle">
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headCapoFamiglia">
@@ -143,7 +143,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headCapoFamiglia">

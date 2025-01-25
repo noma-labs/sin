@@ -2,7 +2,7 @@
 @section("title", "Editori")
 
 @section("content")
-   @include("partials.header", ["title" => "Gestione Editori", "subtitle" =>  App\Biblioteca\Models\Editore::count()])
+    @include("partials.header", ["title" => "Gestione Editori", "subtitle" => App\Biblioteca\Models\Editore::count()])
 
     <div class="row">
         <div class="col-md-8 offset-md-2 my-3">

@@ -10,9 +10,12 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
-            &times;
-        </a>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
     </div>
 
     <div id="results" class="alert alert-success">
@@ -20,13 +23,9 @@
         <strong>{{ $persone->total() }}</strong>
     </div>
 
-    <!-- inizio tabella persone -->
     <div class="table-responsive">
-        <table
-            class="table table-hover table-bordered"
-            style="table-layout: auto; overflow-x: scroll"
-        >
-            <thead class="thead-inverse">
+        <table class="table table-hover table-bordered" >
+            <thead class="thead-inverse bg-warning">
                 <tr>
                     <th>Numero Elenco</th>
                     <th>Nominativo</th>
@@ -37,12 +36,12 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-primary text-white">
                 @foreach ($persone as $persona)
                     @empty($persona->delated_at)
                         <tr hoverable>
                             <td>
-                                <span class="badge bg-primary">
+                                <span class="badge bg-success">
                                     {{ $persona->numero_elenco }}
                                 </span>
                             </td>

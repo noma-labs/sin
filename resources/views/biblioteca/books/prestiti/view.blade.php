@@ -1,7 +1,7 @@
 @extends("biblioteca.books.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Gestione prestiti", "subtitle" =>  App\Biblioteca\Models\Prestito::InPrestito()->count() ."/".  App\Biblioteca\Models\Prestito::count() . " (attivi/totali)"])
+    @include("partials.header", ["title" => "Gestione prestiti", "subtitle" => App\Biblioteca\Models\Prestito::InPrestito()->count() . "/" . App\Biblioteca\Models\Prestito::count() . " (attivi/totali)"])
 
     <form method="GET" class="form" action="{{ route("books.loans.search") }}">
         <div class="row">
@@ -140,7 +140,12 @@
     <div class="alert alert-info">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+        <a
+            href="#"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="close"
+        >
             &times;
         </a>
     </div>

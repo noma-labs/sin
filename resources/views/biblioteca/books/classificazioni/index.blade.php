@@ -2,8 +2,7 @@
 @section("title", "Classificazione")
 
 @section("content")
-    @include("partials.header", ["title" => "Gestione Classificazioni", "subtitle" =>  App\Biblioteca\Models\Classificazione::count()])
-
+    @include("partials.header", ["title" => "Gestione Classificazioni", "subtitle" => App\Biblioteca\Models\Classificazione::count()])
 
     <div class="row">
         <div class="col-md-8 offset-md-2">

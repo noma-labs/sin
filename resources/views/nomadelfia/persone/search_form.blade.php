@@ -1,6 +1,6 @@
 <form method="GET" action="{{ route("nomadelfia.persone.ricerca.submit") }}">
     @csrf
-    <div class="row">
+    <div class="row mb-3 g-3">
         <div class="col-md-2">
             <label class="form-label">Nominativo</label>
             <input
@@ -21,15 +21,13 @@
         </div>
 
         <div class="col-md-2">
-            <div class="">
-                <label class="form-label">Cognome</label>
-                <input
-                    class="form-control"
-                    name="cognome"
-                    type="text"
-                    placeholder="Inserisci il cognome"
-                />
-            </div>
+            <label class="form-label">Cognome</label>
+            <input
+                class="form-control"
+                name="cognome"
+                type="text"
+                placeholder="Inserisci il cognome"
+            />
         </div>
 
         <div class="col-md-2">
@@ -48,8 +46,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2">
-            <label class="form-label">&nbsp;</label>
+        <div class="col-md-2 d-flex align-items-end">
             <input
                 type="date"
                 class="form-control"
@@ -57,13 +54,8 @@
                 name="data_nascita"
             />
         </div>
-    </div>
-    <div class="row align-items-end">
-        <div class="col-md-2 offset-md-8">
-            <div class="">
-                <label id="lab">&nbsp;</label>
-                <button type="submit" class="btn btn-primary">Ricerca</button>
-            </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Ricerca</button>
         </div>
     </div>
 </form>
