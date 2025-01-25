@@ -1,16 +1,5 @@
-<div class="my-page-title">
-    <div class="d-flex justify-content-end">
-        <div class="p-2">
-            <span class="h1 text-center">Ricerca DVD</span>
-        </div>
-        <div class="p-2 text-right">
-            <h5 class="m-1">
-                {{ App\Biblioteca\Models\Video::count() }} DVD presenti nella
-                Biblioteca.
-            </h5>
-        </div>
-    </div>
-</div>
+@include("partials.header", ["title" => "Gestione DVD")])
+
 
 <form method="GET" class="form" action="{{ route("video.ricerca.submit") }}">
     @csrf
