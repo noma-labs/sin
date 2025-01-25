@@ -5,7 +5,7 @@
 @section("content")
     @include("partials.header", ["title" => "Anno scolastico " . $anno->as])
 
-    <div class="card-deck mb-3">
+    <div class="mb-3">
         <div class="card">
             <div class="card-header">Scuola A.S. {{ $anno->as }}</div>
             <div class="card-body">
@@ -58,8 +58,8 @@
         </div>
     </div>
 
-    <div class="row" id="accordion">
-        <div class="col-md">
+    <div class="row row-cols-1 row-cols-md-5 g-3" id="accordion">
+        <div class="col">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md">
+        <div class="col">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
@@ -153,7 +153,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md">
+        <div class="col">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
@@ -200,7 +200,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md">
+        <div class="col">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
@@ -247,7 +247,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md">
+        <div class="col">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
