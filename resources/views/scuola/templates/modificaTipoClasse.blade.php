@@ -17,7 +17,7 @@
                     Tipo di classe
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="tipo_id">
+                    <select class="form-select" name="tipo_id">
                         <option value="" selected>---scegli--</option>
                         {{-- format-ignore-start --}}
                         @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t)

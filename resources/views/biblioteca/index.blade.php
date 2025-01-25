@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- <a href="{{ route("video") }}">
-      <div class="jumbotron ">
+      <div class="bg-light mb-4 rounded-2 py-5 px-3 ">
         <h2 class="text-center">Gestione DVD Biblioteca</h2>
       </div>
     </a> -->

@@ -23,7 +23,7 @@
                             class="list-group-item d-flex justify-content-between align-items-center"
                         >
                             Studenti
-                            <span class="badge bg-primary badge-pill">
+                            <span class="badge bg-primary rounded-pill">
                                 {{ $alunni }}
                             </span>
                         </li>
@@ -32,7 +32,7 @@
                                 class="list-group-item d-flex justify-content-end align-items-center"
                             >
                                 <p class="m-2">{{ ucfirst($c->ciclo) }}</p>
-                                <span class="badge bg-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ $c->alunni_count }}
                                 </span>
                             </li>

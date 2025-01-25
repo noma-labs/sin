@@ -31,7 +31,7 @@
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="posizione">
+                    <select class="form-select" name="posizione">
                         <option
                             value="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
                             ="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"

@@ -64,7 +64,7 @@
                 ({{ App\Biblioteca\Models\Classificazione::count() }})
             </label>
             <select
-                class="form-control"
+                class="form-select"
                 name="xClassificazione"
                 type="text"
                 id="xClassificazione"
@@ -93,7 +93,7 @@
         </div>
         <div class="col-md-2">
             <label for="categoria">Categoria</label>
-            <select class="form-control" name="xCategoria" id="categoria">
+            <select class="form-select" name="xCategoria" id="categoria">
                 <option value="" hidden>Seleziona...</option>
                 <option value="piccoli">PICCOLI</option>
                 <option value="elementari">ELEMENTARI</option>

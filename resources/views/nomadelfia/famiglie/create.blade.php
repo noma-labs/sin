@@ -15,7 +15,7 @@
                         Marito
                     </label>
                     <div class="col-md-6">
-                        <select class="form-control" name="husband" type="text">
+                        <select class="form-select" name="husband" type="text">
                             <option disabled selected>
                                 ---Seleziona il marito---
                             </option>
@@ -32,7 +32,7 @@
                         Moglie
                     </label>
                     <div class="col-md-6">
-                        <select class="form-control" name="wife" type="text">
+                        <select class="form-select" name="wife" type="text">
                             <option disabled selected>
                                 ---Seleziona la moglie---
                             </option>

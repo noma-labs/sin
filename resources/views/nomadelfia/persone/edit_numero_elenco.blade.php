@@ -22,7 +22,7 @@
                                     <strong>{{ $first }}</strong>
                                 </label>
                                 @if (count($assegnati) > 0)
-                                    <select class="form-control">
+                                    <select class="form-select">
                                         @foreach ($assegnati as $p)
                                             <option>
                                                 {{ $p->numero_elenco }}

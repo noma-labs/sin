@@ -94,7 +94,7 @@
                     @endif
 
                     <a
-                        class="btn btn-info float-right"
+                        class="btn btn-info float-end"
                         href="{{ route("books.loans") }}"
                         role="button"
                     >

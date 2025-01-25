@@ -18,7 +18,7 @@
                                     aria-controls="collapseNo"
                                 >
                                     Persone senza Es. Spirituale
-                                    <span class="badge bg-primary badge-pill">
+                                    <span class="badge bg-primary rounded-pill">
                                         {{ $noEsercizi->total }}
                                     </span>
                                 </button>
@@ -76,7 +76,7 @@
                                     >
                                         {{ $esercizio->turno }}
                                         <span
-                                            class="badge bg-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $esercizio->personeOk()->total }}
                                         </span>

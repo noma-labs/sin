@@ -12,7 +12,7 @@
                 </strong>
                 <a
                     href="#"
-                    class="close"
+                    class="btn-close"
                     data-bs-dismiss="alert"
                     aria-label="close"
                 >
@@ -35,7 +35,7 @@
                         Esporta etichette
                     </a>
                     <form
-                        class="float-right"
+                        class="float-end"
                         id="formRemoveAll"
                         action="{{ route("archiviodocumenti.etichette.rimuovi") }}"
                         method="post"
@@ -137,7 +137,7 @@
                             Aggiungi
                         </button>
                         <button
-                            class="btn btn-danger float-right my-2"
+                            class="btn btn-danger float-end my-2"
                             name="action"
                             value="remove"
                             type="submit"

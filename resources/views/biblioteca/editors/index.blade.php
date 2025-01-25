@@ -10,7 +10,7 @@
             <form action="{{ route("editori.ricerca") }}" method="get">
                 @csrf
                 <livewire:search-editore name_input="idEditore" />
-                <button class="btn btn-success my-2 float-right" type="submit">
+                <button class="btn btn-success my-2 float-end" type="submit">
                     Cerca
                 </button>
             </form>

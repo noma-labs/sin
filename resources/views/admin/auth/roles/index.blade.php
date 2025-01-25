@@ -8,7 +8,7 @@
 
     <a
         href="{{ route("roles.create") }}"
-        class="btn btn-success float-right my-2"
+        class="btn btn-success float-end my-2"
     >
         Aggiungi Ruolo
     </a>

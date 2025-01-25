@@ -33,7 +33,7 @@
                     <div class="col-6 col-md-3">
                         <label for="marca">Marca</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="marca_id"
                             type="text"
                         >
@@ -51,7 +51,7 @@
                     <div class="col-6 col-md-3">
                         <label for="modello_id">Modello</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="modello_id"
                             type="text"
                         >
@@ -68,7 +68,7 @@
                     <div class="col-6 col-md-3">
                         <label for="tipologia">Tipologia</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="tipologia_id"
                             type="text"
                         >
@@ -85,7 +85,7 @@
                     <div class="col-6 col-md-3">
                         <label for="impiego">Impiego</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="impiego_id"
                             type="text"
                         >
@@ -103,7 +103,7 @@
                     <div class="col-6 col-md-3">
                         <label for="alimentazione">Alimentazione</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="alimentazione_id"
                             type="text"
                         >
@@ -132,7 +132,7 @@
                     <div class="col-6 col-md-3">
                         <label for="tipologia">Filtro Olio</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="filtro_olio"
                             type="text"
                         >
@@ -152,7 +152,7 @@
                     <div class="col-6 col-md-3">
                         <label for="tipologia">Filtro Gasolio</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="filtro_gasolio"
                             type="text"
                         >
@@ -173,7 +173,7 @@
                     <div class="col-6 col-md-3">
                         <label for="tipologia">Filtro Aria</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="filtro_aria"
                             type="text"
                         >
@@ -193,7 +193,7 @@
                     <div class="col-6 col-md-3">
                         <label for="tipologia">Filtro A.C.</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="filtro_aria_condizionata"
                             type="text"
                         >
@@ -215,7 +215,7 @@
                 <div class="row mb-3 g-3">
                     <div class="col-6 col-md-3">
                         <label for="olio_id">Tipo Di Olio</label>
-                        <select class="form-control" name="olio_id" type="text">
+                        <select class="form-select" name="olio_id" type="text">
                             <option value="" hidden selected>
                                 --Seleziona--
                             </option>
@@ -417,7 +417,7 @@
                         </p>
                         <p>
                             Il veicolo verrà eliminato
-                            <span class="font-italic">definitivamente</span>
+                            <span class="fst-italic">definitivamente</span>
                             e non sarà più possibile recuperarlo.
                         </p>
                         <form
@@ -501,7 +501,7 @@
                         </p>
                         <p>
                             Il veicolo verrà comunque conservato come
-                            <span class="font-italic">veicolo demolito</span>
+                            <span class="fst-italic">veicolo demolito</span>
                             .
                         </p>
                         <form

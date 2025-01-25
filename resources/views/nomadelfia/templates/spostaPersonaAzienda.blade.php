@@ -33,7 +33,7 @@
                     Nuova azienda
                 </label>
                 <div class="col-sm-6">
-                    <select name="nuova_azienda_id" class="form-control">
+                    <select name="nuova_azienda_id" class="form-select">
                         <option selected>---seleziona azienda ---</option>
                         @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::orderBy("nome_azienda")->get() as $a)
                             @if ($a->id != $azienda->id)

@@ -10,12 +10,12 @@
                 <div class="card-body">
                     @if ($categoriaAttuale)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Categoria</p>
-                            <p class="col-md-3 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-3 font-weight-bold">
+                            <p class="col-md-3 fw-bold">Categoria</p>
+                            <p class="col-md-3 fw-bold">Data Inizio</p>
+                            <p class="col-md-3 fw-bold">
                                 Tempo trascorso
                             </p>
-                            <p class="col-md-3 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">
@@ -25,7 +25,7 @@
                                 {{ $categoriaAttuale->pivot->data_inizio }}
                             </p>
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($categoriaAttuale->pivot->data_inizio)
                                 </span>
                             </div>
@@ -207,7 +207,7 @@
                                     <div class="col-sm-6">
                                         <select
                                             name="categoria_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona categoria---
@@ -256,10 +256,10 @@
                 <div class="card-header">Storico delle Categoria</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Categoria</p>
-                        <p class="col-md-3 font-weight-bold">Data inizio</p>
-                        <p class="col-md-3 font-weight-bold">Data fine</p>
-                        <p class="col-md-3 font-weight-bold">Durata</p>
+                        <p class="col-md-3 fw-bold">Categoria</p>
+                        <p class="col-md-3 fw-bold">Data inizio</p>
+                        <p class="col-md-3 fw-bold">Data fine</p>
+                        <p class="col-md-3 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($persona->categorieStorico as $categoriastorico)
@@ -275,7 +275,7 @@
                             </p>
 
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($categoriastorico->pivot->data_fine)->diffForHumans(Carbon::parse($categoriastorico->pivot->data_inizio), ["short" => true]) }}
                                 </span>
                             </div>

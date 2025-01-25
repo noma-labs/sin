@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="codice">Codice Gomma</label>
-                    <select class="form-control" name="gomma_id">
+                    <select class="form-select" name="gomma_id">
                         <option value="" selected hidden>--Seleziona--</option>
                         @foreach ($gomme as $g)
                             <option value="{{ $g->id }}">

@@ -54,7 +54,7 @@
                         Data Inizio Prestito
                     </label>
                     <select
-                        class="form-control"
+                        class="form-select"
                         name="xSegnoInizioPrestito"
                         type="text"
                     >
@@ -86,7 +86,7 @@
                     <label for="xFinePrestito" class="control-label">
                         Data Fine Prestito
                     </label>
-                    <select class="form-control" name="xSegnoFinePrestito">
+                    <select class="form-select" name="xSegnoFinePrestito">
                         <option value="">---Seleziona criterio---</option>
                         <option value="<">Minore</option>
                         <option value="<=">Minore Uguale</option>
@@ -114,7 +114,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="float-left my-2">
+                <div class="float-start my-2">
                     <a
                         class="btn btn-primary"
                         href="{{ route("books.index") }}"
@@ -123,7 +123,7 @@
                         Torna alla ricerca dei libri
                     </a>
                 </div>
-                <div class="float-right m-1">
+                <div class="float-end m-1">
                     <!-- <button  class="btn btn-info"   name="_concludi" value="true"  type="submit">Elimina prestito</button> -->
                     <button
                         class="btn btn-success"
@@ -140,13 +140,13 @@
     <div class="alert alert-info">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">
+        <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">
             &times;
         </a>
     </div>
 
     <!-- <div class="alert alert-info alert-dismissable "><strong> {{ $query }}</strong>
-        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="btn-close" data-bs-dismiss="alert" aria-label="close">&times;</a>
   </div> -->
 
     <div id="results" class="alert alert-success">

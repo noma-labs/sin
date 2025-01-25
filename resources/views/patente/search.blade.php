@@ -23,7 +23,7 @@
             <div class="col-md-6">
                 <label class="form-label">Data Scadenza patente</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_data_scadenza"
                     type="text"
                 >
@@ -44,7 +44,7 @@
                     Categoria patente
                 </label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     id="categoria_patente"
                     name="categoria_patente"
                 >
@@ -61,7 +61,7 @@
             <div class="col-md-6">
                 <label for="categoria_patente">C.Q.C</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     id="cqc_patente"
                     name="cqc_patente"
                 >
@@ -77,7 +77,7 @@
             <div class="col-md-3">
                 <label class="form-label">Data Scadenza C.Q.C</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_cqc_data_scadenza"
                     type="text"
                 >
@@ -249,11 +249,11 @@
                     </h5>
                     <button
                         type="button"
-                        class="close"
+                        class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                     >
-                        <span aria-hidden="true">&times;</span>
+                        
                     </button>
                 </div>
                 <div class="modal-body">

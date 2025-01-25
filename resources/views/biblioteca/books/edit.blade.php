@@ -104,7 +104,7 @@
             <div class="col-md-4">
                 <div class="">
                     <label for="categoria">Categoria</label>
-                    <select class="form-control" name="categoria" type="text">
+                    <select class="form-select" name="categoria" type="text">
                         <option disabled selected>
                             ---Seleziona la categoria---
                         </option>
@@ -141,7 +141,7 @@
             <div class="col-md-6">
                 <div class="">
                     <label for="critica">Critica</label>
-                    <select class="form-control" name="critica" type="text">
+                    <select class="form-select" name="critica" type="text">
                         <option disabled selected>
                             ---Seleziona la critica---
                         </option>
@@ -165,7 +165,7 @@
             <div class="col-md-12">
                 <label for="xClassificazione">Classificazione</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="xClassificazione"
                     type="text"
                     id="xClassificazione"

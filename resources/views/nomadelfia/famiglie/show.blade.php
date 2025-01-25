@@ -9,13 +9,13 @@
                 <div class="card-body">
                     <p class="card-text">
                         Nome famiglia:
-                        <span class="font-weight-bold">
+                        <span class="fw-bold">
                             {{ $famiglia->nome_famiglia }}
                         </span>
                     </p>
                     <p class="card-text">
                         Data creazione:
-                        <span class="font-weight-bold">
+                        <span class="fw-bold">
                             {{ $famiglia->data_creazione }}
                         </span>
                     </p>
@@ -117,10 +117,10 @@
                             <div class="card-body">
                                 @if ($gruppoAttuale)
                                     <div class="row">
-                                        <div class="col-sm-6 font-weight-bold">
+                                        <div class="col-sm-6 fw-bold">
                                             Gruppo familiare
                                         </div>
-                                        <div class="col-sm-6 font-weight-bold">
+                                        <div class="col-sm-6 fw-bold">
                                             Data entrata
                                         </div>
                                     </div>
@@ -176,10 +176,10 @@
                         >
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6 font-weight-bold">
+                                    <div class="col-md-6 fw-bold">
                                         Gruppo familiare
                                     </div>
-                                    <div class="col-md-6 font-weight-bold">
+                                    <div class="col-md-6 fw-bold">
                                         Data entrata - data uscita
                                     </div>
                                 </div>

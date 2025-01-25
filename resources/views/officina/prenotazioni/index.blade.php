@@ -13,7 +13,7 @@
         <div class="row g-3">
             <div class="col-md-2">
                 <label for="person" class="form-label">Cliente</label>
-                <select class="form-control" id="person" name="nome">
+                <select class="form-select" id="person" name="nome">
                     <option selected value>--Seleziona--</option>
                     @foreach ($clienti as $cliente)
                         <option
@@ -28,7 +28,7 @@
             <div class="col-md-2">
                 <label for="meccanico" class="form-label">Meccanico</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     id="meccanico"
                     name="meccanico"
                     required
@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-2">
                 <label class="form-label" for="uso">Uso</label>
-                <select class="form-control" id="uso" name="uso" required>
+                <select class="form-select" id="uso" name="uso" required>
                     <option disabled selected>--Seleziona--</option>
                     @foreach ($usi as $uso)
                         <option

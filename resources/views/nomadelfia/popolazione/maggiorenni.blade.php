@@ -31,9 +31,9 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-4 font-weight-bold">Nominativo</p>
-                        <p class="col-md-4 font-weight-bold">Data Entrata</p>
-                        <p class="col-md-4 font-weight-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Nominativo</p>
+                        <p class="col-md-4 fw-bold">Data Entrata</p>
+                        <p class="col-md-4 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($maggiorenni->uomini as $persona)
@@ -68,10 +68,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Nominativo</p>
-                        <p class="col-md-3 font-weight-bold">Data Entrata</p>
-                        <p class="col-md-3 font-weight-bold">Durata</p>
-                        <p class="col-md-3 font-weight-bold">Operazioni</p>
+                        <p class="col-md-3 fw-bold">Nominativo</p>
+                        <p class="col-md-3 fw-bold">Data Entrata</p>
+                        <p class="col-md-3 fw-bold">Durata</p>
+                        <p class="col-md-3 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($maggiorenni->donne as $persona)

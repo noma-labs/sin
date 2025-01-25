@@ -111,7 +111,7 @@
         <div class="col-md-12">
             <form
                 method="POST"
-                class="form-inline"
+                class="d-flex align-items-center"
                 action="{{ route("books.call-number.swap.update", ["id" => $libro->id, "idTarget" => $libroTarget->id]) }}"
             >
                 @method("PUT")

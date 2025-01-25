@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-3">
                 <label for="marca">Marca</label>
-                <select class="form-control" id="marca" name="marca">
+                <select class="form-select" id="marca" name="marca">
                     <option hidden disabled selected value="">Scegli...</option>
                     @foreach ($marche as $marca)
                         <option
@@ -52,7 +52,7 @@
 
             <div class="col-md-3">
                 <label for="impiego">Impiego</label>
-                <select class="form-control" id="impiego" name="impiego">
+                <select class="form-select" id="impiego" name="impiego">
                     <option hidden disabled selected value="">Scegli...</option>
                     @foreach ($impieghi as $impiego)
                         <option
@@ -66,7 +66,7 @@
             </div>
             <div class="col-md-3">
                 <label for="tipologia">Tipologia</label>
-                <select class="form-control" id="tipologia" name="tipologia">
+                <select class="form-select" id="tipologia" name="tipologia">
                     <option hidden disabled selected value="">Scegli...</option>
                     @foreach ($tipologie as $tipologia)
                         <option
@@ -81,7 +81,7 @@
             <div class="col-md-2">
                 <label for="alimentazione">Alimentazione</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     id="alimentazione"
                     name="alimentazione"
                 >

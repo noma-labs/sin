@@ -21,7 +21,7 @@
         <div class="row mb-3 g-3">
             <div class="col-md-3 col-sm-6">
                 <label class="form-label" for="cliente">Nome</label>
-                <select class="form-control" id="cliente" name="nome">
+                <select class="form-select" id="cliente" name="nome">
                     <option value="{{ $pren->cliente_id }}" selected>
                         {{ $pren->cliente->nominativo }}
                     </option>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-3 col-sm-6">
                 <label class="form-label" for="meccanico">Meccanico</label>
-                <select class="form-control" id="meccanico" name="meccanico">
+                <select class="form-select" id="meccanico" name="meccanico">
                     <option value="{{ $pren->meccanico_id }}" selected>
                         {{ $pren->meccanico->nominativo }}
                     </option>
@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="uso">Uso</label>
-                <select class="form-control" id="uso" name="uso">
+                <select class="form-select" id="uso" name="uso">
                     <option value="{{ $pren->uso_id }}" selected>
                         {{ $pren->uso->ofus_nome }}
                     </option>

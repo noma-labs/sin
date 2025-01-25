@@ -10,20 +10,20 @@
                     <div class="card-header">Posizione attuale</div>
                     <div class="card-body">
                         <div class="row">
-                            <p class="col-md-4 font-weight-bold">
+                            <p class="col-md-4 fw-bold">
                                 Data Entrata
                             </p>
-                            <p class="col-md-2 font-weight-bold">
+                            <p class="col-md-2 fw-bold">
                                 Tempo trascorso
                             </p>
-                            <p class="col-md-6 font-weight-bold">Operazioni</p>
+                            <p class="col-md-6 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-4">
                                 {{ $attuale->data_entrata }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($attuale->data_entrata)->diffForHumans(["short" => true]) }}
                                 </span>
                             </div>
@@ -43,12 +43,12 @@
                 <div class="card-body">
                     <div class="card-body">
                         <div class="row">
-                            <p class="col-md-2 font-weight-bold">
+                            <p class="col-md-2 fw-bold">
                                 Data entrata
                             </p>
-                            <p class="col-md-2 font-weight-bold">Data uscita</p>
-                            <p class="col-md-2 font-weight-bold">Durata</p>
-                            <p class="col-md-6 font-weight-bold">Operazioni</p>
+                            <p class="col-md-2 fw-bold">Data uscita</p>
+                            <p class="col-md-2 fw-bold">Durata</p>
+                            <p class="col-md-6 fw-bold">Operazioni</p>
                         </div>
 
                         @forelse ($storico as $storicoPopolazione)
@@ -61,7 +61,7 @@
                                 </p>
 
                                 <div class="col-md-2">
-                                    <span class="badge badge-info">
+                                    <span class="badge text-bg-info">
                                         {{ Carbon::parse($storicoPopolazione->data_entrata)->diffForHumans(Carbon::parse($storicoPopolazione->data_uscita), ["short" => true]) }}
                                     </span>
                                 </div>

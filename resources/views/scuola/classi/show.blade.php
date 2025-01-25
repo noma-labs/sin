@@ -80,7 +80,7 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold mt-2">
+                                        <div class="fw-bold mt-2">
                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                             (
@@ -124,7 +124,7 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold">
+                                        <div class="fw-bold">
                                             @include("nomadelfia.templates.persona", ["persona" => $coord])
                                             <span>
                                                 ({{ $coord->pivot->tipo }})

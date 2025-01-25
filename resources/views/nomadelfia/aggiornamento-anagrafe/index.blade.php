@@ -28,7 +28,7 @@
                         @endif
 
                         @if ($a->isDeathEvent())
-                            <span class="badge badge-dark">Decesso</span>
+                            <span class="badge text-bg-dark">Decesso</span>
                         @endif
                     </td>
                     <td>

@@ -86,7 +86,7 @@
             <strong>{{ $msgSearch }}</strong>
             <a
                 href="#"
-                class="close"
+                class="btn-close"
                 data-bs-dismiss="alert"
                 aria-label="close"
             >
@@ -174,11 +174,11 @@
                     </h5>
                     <button
                         type="button"
-                        class="close"
+                        class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                     >
-                        <span aria-hidden="true">&times;</span>
+                        
                     </button>
                 </div>
                 <div class="modal-body">Vuo davvero eliminare la patente ?</div>

@@ -69,10 +69,10 @@
                                 id="{{ $lavoratore->id }}"
                             >
                                 {{ $lavoratore->nominativo }}
-                                <span class="badge bg-danger badge-pill ml-4">
+                                <span class="badge bg-danger rounded-pill ms-4">
                                     {{ $lavoratore->pivot->data_fine_azienda }}
                                 </span>
-                                <span class="badge bg-danger badge-pill ml-1">
+                                <span class="badge bg-danger rounded-pill ms-1">
                                     {{ $lavoratore->pivot->stato }}
                                 </span>
                             </a>

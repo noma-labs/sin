@@ -24,7 +24,7 @@
             </a>
             <a
                 href="javascript:history.go(-1)"
-                class="btn btn-primary my-2 float-right"
+                class="btn btn-primary my-2 float-end"
             >
                 Torna indietro
             </a>

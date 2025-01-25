@@ -3,14 +3,14 @@
     <div class="row">
         @foreach ($chunk as $gruppo)
             <div class="col-md-3">
-                <p class="font-weight-bold">
+                <p class="fw-bold">
                     {{ $gruppo->nome }} {{ $gruppo->persone()->count() }}
                 </p>
 
                 @if ($gruppo->capogruppoAttuale())
                     <p>
                         Capogruppo:
-                        <span class="font-weight-bold">
+                        <span class="fw-bold">
                             {{ $gruppo->capogruppoAttuale()->nominativo }}
                         </span>
                     </p>
@@ -18,7 +18,7 @@
                     <p class="text-danger">Senza capogruppo</p>
                 @endif
                 @foreach ($gruppo->Single() as $famiglia)
-                    <p class="font-weight-bold">{{ $famiglia->nominativo }}</p>
+                    <p class="fw-bold">{{ $famiglia->nominativo }}</p>
                 @endforeach
 
                 @foreach ($gruppo->Famiglie() as $famiglia_id => $componenti)
@@ -30,7 +30,7 @@
                                     {{ $componente->nominativo }}
                                 </li>
                             @else
-                                <li class="font-weight-bold">
+                                <li class="fw-bold">
                                     {{ $componente->nominativo }}
                                 </li>
                             @endif

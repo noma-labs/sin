@@ -11,12 +11,12 @@
                 <div class="card-body">
                     @if ($posattuale != null)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Posizione</p>
-                            <p class="col-md-2 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-2 font-weight-bold">
+                            <p class="col-md-3 fw-bold">Posizione</p>
+                            <p class="col-md-2 fw-bold">Data Inizio</p>
+                            <p class="col-md-2 fw-bold">
                                 Tempo trascorso
                             </p>
-                            <p class="col-md-5 font-weight-bold">Operazioni</p>
+                            <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">{{ $posattuale->nome }}</p>
@@ -24,7 +24,7 @@
                                 {{ $posattuale->pivot->data_inizio }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($posattuale->pivot->data_inizio)
                                 </span>
                             </div>
@@ -151,7 +151,7 @@
                                     <div class="col-sm-6">
                                         <select
                                             name="posizione_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona posizione---
@@ -201,11 +201,11 @@
                 <div class="card-header">Storico delle Posizione</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-2 font-weight-bold">Posizione</p>
-                        <p class="col-md-2 font-weight-bold">Data inizio</p>
-                        <p class="col-md-2 font-weight-bold">Data fine</p>
-                        <p class="col-md-2 font-weight-bold">Durata</p>
-                        <p class="col-md-4 font-weight-bold">Operazioni</p>
+                        <p class="col-md-2 fw-bold">Posizione</p>
+                        <p class="col-md-2 fw-bold">Data inizio</p>
+                        <p class="col-md-2 fw-bold">Data fine</p>
+                        <p class="col-md-2 fw-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($storico as $posizionestor)
@@ -219,7 +219,7 @@
                             </p>
 
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($posizionestor->pivot->data_fine)->diffForHumans(Carbon::parse($posizionestor->pivot->data_inizio), ["short" => true]) }}
                                 </span>
                             </div>

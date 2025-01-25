@@ -7,7 +7,7 @@
     <div class="row g-3">
         <div class="col-md-3">
             <label class="form-label">Cliente</label>
-            <select class="form-control" id="cliente" name="cliente_id">
+            <select class="form-select" id="cliente" name="cliente_id">
                 <option selected value>--Seleziona--</option>
                 @foreach ($clienti as $cliente)
                     <option
@@ -22,7 +22,7 @@
 
         <div class="col-md-3">
             <label class="form-label">Veicolo</label>
-            <select class="form-control" id="veicolo" name="veicolo_id">
+            <select class="form-select" id="veicolo" name="veicolo_id">
                 <option selected value>--Seleziona--</option>
                 @foreach ($veicoli as $veicolo)
                     <option value="{{ $veicolo->id }}">
@@ -34,7 +34,7 @@
 
         <div class="col-md-3">
             <label class="form-label">Meccanico</label>
-            <select class="form-control" id="meccanico" name="meccanico_id">
+            <select class="form-select" id="meccanico" name="meccanico_id">
                 <option selected value>--Seleziona--</option>
                 @foreach ($meccanici as $meccanico)
                     <option value="{{ $meccanico->persona_id }}">
@@ -46,7 +46,7 @@
 
         <div class="col-md-3">
             <label class="form-label" for="uso">Uso</label>
-            <select class="form-control" id="uso" name="uso_id" required>
+            <select class="form-select" id="uso" name="uso_id" required>
                 <option disabled selected>--Seleziona--</option>
                 @foreach ($usi as $uso)
                     <option value="{{ $uso->ofus_iden }}">
@@ -59,7 +59,7 @@
         <div class="col-md-2">
             <label class="form-label">Data partenza</label>
             <select
-                class="form-control"
+                class="form-select"
                 name="criterio_data_partenza"
                 type="text"
             >
@@ -77,7 +77,7 @@
         <div class="col-md-2">
             <label class="form-label">Data arrivo</label>
             <select
-                class="form-control"
+                class="form-select"
                 name="criterio_data_arrivo"
                 type="text"
             >

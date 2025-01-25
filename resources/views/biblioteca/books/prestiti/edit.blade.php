@@ -102,7 +102,7 @@
                         >
                             Torna Prestiti
                         </a>
-                        <button class="btn btn-danger m-1 float-right">
+                        <button class="btn btn-danger m-1 float-end">
                             Elimina prestito
                         </button>
                     </div>

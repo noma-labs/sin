@@ -98,7 +98,7 @@
                             Classificazione (*)
                         </label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="xClassificazione"
                             type="text"
                             id="xClassificazione"
@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="critica">Critica</label>
-                        <select class="form-control" name="critica" type="text">
+                        <select class="form-select" name="critica" type="text">
                             <option disabled selected>
                                 ---Seleziona la critica---
                             </option>
@@ -183,7 +183,7 @@
                     <div class="col-md-4">
                         <label for="categoria">Categoria</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="categoria"
                             type="text"
                         >
@@ -251,7 +251,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-right text-danger">
+                        <p class="text-end text-danger">
                             Le informazioni segnate con (*) sono obbligatorie.
                         </p>
                     </div>

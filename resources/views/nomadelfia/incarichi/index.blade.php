@@ -27,7 +27,7 @@
                                             >
                                                 {{ $incarico->nome }}
                                                 <span
-                                                    class="badge bg-primary badge-pill"
+                                                    class="badge bg-primary rounded-pill"
                                                 >
                                                     {{ $incarico->lavoratoriAttuali->count() }}
                                                 </span>

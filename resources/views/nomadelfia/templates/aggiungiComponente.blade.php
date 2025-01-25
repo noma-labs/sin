@@ -24,7 +24,7 @@
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="posizione">
+                    <select class="form-select" name="posizione">
                         <option value="" selected>
                             ---scegli posizione---
                         </option>

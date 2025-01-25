@@ -36,7 +36,7 @@
             <div class="">
                 <label class="form-label">Data di Nascita</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_data_nascita"
                     type="text"
                 >

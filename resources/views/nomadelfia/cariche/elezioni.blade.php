@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     Eleggibili: Consiglio Degli anziani
-                    <span class="badge bg-primary badge-pill">
+                    <span class="badge bg-primary rounded-pill">
                         {{ $anz->total }}
                     </span>
                 </div>
@@ -16,7 +16,7 @@
                         <div class="col-md-6">
                             <p>
                                 Uomini
-                                <span class="badge bg-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ count($anz->uomini) }}
                                 </span>
                             </p>
@@ -31,7 +31,7 @@
                         <div class="col-md-6">
                             <p>
                                 Donne
-                                <span class="badge bg-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ count($anz->donne) }}
                                 </span>
                             </p>

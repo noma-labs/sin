@@ -16,7 +16,7 @@
                     Coordinatore
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_id">
+                    <select class="form-select" name="coord_id">
                         <option value="" selected>
                             ---scegli coordinatore--
                         </option>
@@ -38,7 +38,7 @@
                     Tipo
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_tipo">
+                    <select class="form-select" name="coord_tipo">
                         <option value="" selected>---scegli tipo--</option>
                         @foreach (App\Scuola\Models\Coordinatore::getPossibleEnumValues("tipo", "db_scuola.coordinatori_classi") as $p)
                             <option value="{{ $p }}">{{ $p }}</option>

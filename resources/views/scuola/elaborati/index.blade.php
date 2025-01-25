@@ -29,7 +29,7 @@
     <div class="card">
         <div class="card-header">
             Lista Elaborati
-            <span class="font-weight-bold">({{ $elaborati->count() }})</span>
+            <span class="fw-bold">({{ $elaborati->count() }})</span>
         </div>
         <ul class="list-group list-group-flush">
             @forelse ($elaborati as $elaborato)

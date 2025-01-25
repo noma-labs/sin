@@ -2,7 +2,7 @@
     <div class="row">
         <label for="fornascita" class="col-sm-6">Nome Cognome</label>
         <div class="col-sm-6">
-            <p class="font-weight-bold">
+            <p class="fw-bold">
                 {{ $persona->nome }} {{ $persona->cognome }}
             </p>
         </div>
@@ -11,7 +11,7 @@
     <div class="row">
         <label for="fornascita" class="col-sm-6">Data nascita</label>
         <div class="col-sm-6">
-            <p class="font-weight-bold">{{ $persona->data_nascita }}</p>
+            <p class="fw-bold">{{ $persona->data_nascita }}</p>
         </div>
     </div>
 
@@ -117,7 +117,7 @@
         <div class="row my-2">
             <label for="fornascita" class="col-sm-6">Gruppo Familiare:</label>
             <div class="col-sm-6">
-                <select class="form-control" id="gruppo" name="gruppo_id">
+                <select class="form-select" id="gruppo" name="gruppo_id">
                     <option value="">--- Seleziona---</option>
                     @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::orderby("nome")->get() as $gruppo)
                         <option value="{{ $gruppo->id }}">

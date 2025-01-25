@@ -1,8 +1,8 @@
 <div>
-    <div class="form-group">
+    <div class="mb-3">
         <label for="annoScolastico">Anno Scolastico</label>
         <select
-            class="form-control"
+            class="form-select"
             id="annoScolastico"
             wire:change="selectAnnoScolastico($event.target.value)"
         >
@@ -99,7 +99,7 @@
         @endforeach
     @endif
 
-    <div class="form-group">
+    <div class="mb-3">
         <label name="xCategoria" for="studenti">
             Studenti ({{ count($students) }})
         </label>

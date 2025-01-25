@@ -20,7 +20,7 @@
                         <select
                             name="alunno_id[]"
                             id="alunno_id"
-                            class="form-control"
+                            class="form-select"
                             multiple
                             size="{{ min($alunniPossibili->count(), 20) }}"
                         >

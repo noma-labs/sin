@@ -17,7 +17,7 @@
                             <strong>
                                 {{ $persona->getDataEntrataNomadelfia()->toDateString() }}
                             </strong>
-                            <span class="badge badge-info">
+                            <span class="badge text-bg-info">
                                 @diffHumans($persona->getDataEntrataNomadelfia())
                             </span>
                         </p>
@@ -63,7 +63,7 @@
                         <p>
                             Uscita in data
                             {{ $persona->getDataUscitaNomadelfia() ? $persona->getDataUscitaNomadelfia()->toDateString() : "" }}
-                            <span class="badge badge-info">
+                            <span class="badge text-bg-info">
                                 @diffHumans($persona->getDataUscitaNomadelfia())
                             </span>
                         </p>
@@ -117,7 +117,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Nome:
                                     </label>
                                     <div class="col-sm-8">
@@ -127,7 +127,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Cognome:
                                     </label>
                                     <div class="col-sm-8">
@@ -137,7 +137,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Codice Fiscale:
                                     </label>
                                     <div class="col-sm-8">
@@ -155,7 +155,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Data Nascita:
                                     </label>
                                     <div class="col-sm-8">
@@ -167,7 +167,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Luogo Nascita:
                                     </label>
                                     <div class="col-sm-8">
@@ -179,7 +179,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Sesso:
                                     </label>
                                     <div class="col-sm-8">
@@ -191,7 +191,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <label
-                                            class="col-sm-4 font-weight-bold"
+                                            class="col-sm-4 fw-bold"
                                         >
                                             Data decesso:
                                         </label>
@@ -206,7 +206,7 @@
 
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Biografia:
                                     </label>
                                     <div class="col-sm-8">
@@ -301,7 +301,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Origine:
                                     </label>
                                     <div class="col-sm-6">
@@ -319,7 +319,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Nominativo:
                                     </label>
                                     <div class="col-sm-6">
@@ -338,12 +338,12 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Numero Elenco:
                                     </label>
                                     <div class="col-sm-6">
                                         @if ($persona->numero_elenco)
-                                            <span class="badge badge-info">
+                                            <span class="badge text-bg-info">
                                                 {{ $persona->numero_elenco }}
                                             </span>
                                         @else
@@ -369,7 +369,7 @@
 
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Stato familiare:
                                     </label>
                                     <div class="col-sm-6">
@@ -395,7 +395,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Posizione:
                                     </label>
                                     <div class="col-sm-6">
@@ -419,7 +419,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Gruppo familiare:
                                     </label>
                                     <div class="col-sm-6">
@@ -447,7 +447,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Azienda/e:
                                     </label>
                                     <div class="col-sm-6">
@@ -478,7 +478,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Incarichi:
                                     </label>
                                     <div class="col-sm-6">
@@ -537,7 +537,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <label
-                                            class="col-sm-4 font-weight-bold"
+                                            class="col-sm-4 fw-bold"
                                         >
                                             Nome Famiglia:
                                         </label>
@@ -553,7 +553,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <label
-                                            class="col-sm-4 font-weight-bold"
+                                            class="col-sm-4 fw-bold"
                                         >
                                             Posizione:
                                         </label>
@@ -568,7 +568,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <label
-                                            class="col-sm-4 font-weight-bold"
+                                            class="col-sm-4 fw-bold"
                                         >
                                             Tipo:
                                         </label>

@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="tipo">Tipo</label>
-                    <select name="tipo" id="tipo" class="form-control">
+                    <select name="tipo" id="tipo" class="form-select">
                         <option hidden selected>--Seleziona--</option>
                         @foreach (App\Officina\Models\TipoFiltro::tipo() as $t_filtro)
                             <option value="{{ $t_filtro }}">

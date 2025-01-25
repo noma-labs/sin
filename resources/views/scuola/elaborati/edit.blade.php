@@ -103,7 +103,7 @@
                                 <select
                                     id="rilegatura"
                                     name="rilegatura"
-                                    class="form-control"
+                                    class="form-select"
                                 >
                                     @foreach ($rilegature as $option)
                                         <option

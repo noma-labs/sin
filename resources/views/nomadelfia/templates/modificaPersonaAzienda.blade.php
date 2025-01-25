@@ -24,7 +24,7 @@
                     Mansione
                 </label>
                 <div class="col-sm-6">
-                    <select name="mansione" class="form-control">
+                    <select name="mansione" class="form-select">
                         <option selected>---seleziona mansione ---</option>
                         <option
                             value="LAVORATORE"
