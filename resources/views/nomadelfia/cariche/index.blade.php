@@ -2,8 +2,8 @@
 
 @section("content")
     @include("partials.header", ["title" => "Gestione Cariche costituzionali"])
-    <div class="row">
-        <div class="col-md-3 card-deck">
+    <div class="row row-cols-1 row-cols-md-4">
+        <div class="col">
             <div class="card">
                 <div class="card-header">Associazione Nomadelfia</div>
                 <div class="card-body">
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 card-deck">
+        <div class="col">
             <div class="card">
                 <div class="card-header">Solidarietà Nomadelfia ODV</div>
                 <div class="card-body">
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 card-deck">
+        <div class="col">
             <div class="card">
                 <div class="card-header">Fondazione Nomadelfia</div>
                 <div class="card-body">
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="col-md-2 card-deck">
+        <div class="col">
             <div class="card">
                 <div class="card-header">Cooperativa Agricola Culturale</div>
                 <div class="card-body">
@@ -116,28 +116,5 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="col-md-2 card-deck"> --}}
-        {{-- <div class="card" > --}}
-        {{-- <div class="card-header"> --}}
-        {{-- Cooperativa Culturale --}}
-        {{-- </div> --}}
-        {{-- <div class="card-body"> --}}
-        {{-- <ul> --}}
-        {{-- @foreach($cul as $key => $membri) --}}
-        {{-- <li>{{$key}} </li> --}}
-        {{-- <ul> --}}
-        {{-- @foreach($membri as $m) --}}
-        {{-- <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li> --}}
-        {{-- @endforeach --}}
-        {{-- </ul> --}}
-        {{-- @endforeach --}}
-        {{-- </ul> --}}
-        {{-- </div> --}}
-        {{-- <div class="card-footer"> --}}
-        {{-- <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a> --}}
-        {{-- </div> --}}
-        {{-- </div> --}}
-        {{-- </div> --}}
     </div>
 @endsection
