@@ -15,19 +15,15 @@
                 Gli studenti verranno importati in un nuovo anno facendoli
                 avanzare di una classe.
             </div>
-            <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
-                    Data Inizio
-                </label>
-                <div class="col-md-8">
-                    <input
-                        type="date"
-                        name="anno_inizio"
-                        value="{{ old("anno_inizio") }}"
-                        class="form-control"
-                    />
-                </div>
-            </div>
+            <label class="form-label">
+                Data Inizio
+            </label>
+            <input
+                type="date"
+                name="anno_inizio"
+                value="{{ old("anno_inizio") }}"
+                class="form-control"
+            />
         </form>
     </x-slot>
     s

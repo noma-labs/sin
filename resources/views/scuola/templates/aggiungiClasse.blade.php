@@ -11,24 +11,20 @@
             action="{{ route("scuola.anno.classe.aggiungi", ["id" => $anno->id]) }}"
         >
             @csrf
-            <div class="mb-3">
-                <label for="example-text-input" class="col-4 form-label">
-                    Tipo di classe
-                </label>
-                <div class="col-8">
-                    <select class="form-select" name="tipo">
-                        <option value="" selected>---scegli--</option>
-                        {{-- format-ignore-start --}}
-                        @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t)
-                            <!-- prettier-ignore-end -->
-                            <option value="{{ $t->id }}">
-                                {{ $t->nome }} ({{ $t->ciclo }})
-                            </option>
-                        @endforeach
-                        {{-- format-ignore-end --}}
-                    </select>
-                </div>
-            </div>
+            <label for="example-text-input" class="form-label">
+                Tipo di classe
+            </label>
+            <select class="form-select" name="tipo">
+                <option value="" selected>---scegli--</option>
+                {{-- format-ignore-start --}}
+                @foreach (App\Scuola\Models\ClasseTipo::orderBy("ord")->orderBy("nome")->get() as $t)
+                    <!-- prettier-ignore-end -->
+                    <option value="{{ $t->id }}">
+                        {{ $t->nome }} ({{ $t->ciclo }})
+                    </option>
+                @endforeach
+                {{-- format-ignore-end --}}
+            </select>
         </form>
     </x-slot>
     <x-slot:footer>
