@@ -9,11 +9,11 @@
         enctype="multipart/form-data"
     >
         @csrf
-        <div class="row justify-content-center">
+        <div class="row justify-content-center g-3">
             <div class="col-md-10">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-md-2">
-                        <label for="anno_scolastico" class="control-label">
+                        <label for="anno_scolastico" class="form-label">
                             Anno Scolastico
                         </label>
                         <input
@@ -25,7 +25,7 @@
                         />
                     </div>
                     <div class="col-md-8">
-                        <label for="titolo" class="control-label">Titolo</label>
+                        <label for="titolo" class="form-label">Titolo</label>
                         <input
                             class="form-control"
                             type="text"
@@ -67,9 +67,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="rilegatura" class="control-label">
+                        <label for="rilegatura" class="form-label">
                             Rilegatura
                         </label>
                         <select
@@ -88,7 +88,7 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="dimensione" class="control-label">
+                        <label for="dimensione" class="form-label">
                             Dimensioni (cm. larghezza x altezza)
                         </label>
                         <input
@@ -100,9 +100,9 @@
                         />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-12">
-                        <label for="alunni" class="control-label">
+                        <label for="alunni" class="form-label">
                             Alunni/o
                         </label>
                         <livewire:search-persona
@@ -111,9 +111,9 @@
                         />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-12">
-                        <label for="alunni" class="control-label">
+                        <label for="alunni" class="form-label">
                             Coordinatori/o
                         </label>
                         <livewire:search-persona
@@ -122,27 +122,26 @@
                         />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-12">
-                        <label for="note" class="control-label">Note</label>
+                        <label for="note" class="form-label">Note</label>
                         <textarea
                             class="form-control"
                             id="note"
                             name="note"
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
-                        >
-                        {{ old("note") }}
+                        >{{ old("note") }}
                         </textarea>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-12">
                         <label for="file" class="form-label">Scegli file</label>
                         <input type="file" id="file" name="file" />
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mb-3">
                     <div class="col-md-12">
                         <button class="btn btn-success" type="submit">
                             Salva

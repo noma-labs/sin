@@ -137,12 +137,14 @@
                     >
                         Importa studenti
                     </a>
-                    <a
-                        href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-                        class="btn btn-warning"
-                    >
-                        Modifica
-                    </a>
+                    <div class="d-flex justify-content-end">
+                        <a
+                            href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+                            class="btn btn-warning"
+                        >
+                            Modifica
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

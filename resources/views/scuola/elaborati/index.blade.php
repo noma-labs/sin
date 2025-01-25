@@ -63,7 +63,8 @@
 
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
-                        class="btn btn-sm btn-secondary float-right"
+                        class="btn btn-primary "
+                        role="button"
                     >
                         Dettaglio
                     </a>
