@@ -5,12 +5,12 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Prenotazioni"])
 
-    <form method="POST" action="{{ route("officina.prenota") }}">
+    <form method="POST" action="{{ route("officina.prenota") }}" class="mb-3">
         @csrf
 
         <livewire:prenotazione-veicoli />
 
-        <div class="row g-3">
+        <div class="row g-3 mb-3">
             <div class="col-md-2">
                 <label for="person" class="form-label">Cliente</label>
                 <select class="form-select" id="person" name="nome">
@@ -82,7 +82,7 @@
                 />
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row">
             <div class="col d-flex align-items-end">
                 <button
                     type="submit"
@@ -95,28 +95,28 @@
         </div>
     </form>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="thead-inverse bg-warning">
-                <tr>
-                    <th>#</th>
-                    <th>Stato</th>
-                    <th>Nome</th>
-                    <th>Macchina</th>
-                    <th>Data P./A.</th>
-                    <th>Ora P.</th>
-                    <th>Ora A.</th>
-                    <th>Meccanico</th>
-                    <th>Uso</th>
-                    <th>Destinazione</th>
-                    <th>Note</th>
-                    <th>Oper.</th>
+    <div class="table-responsive mb-3">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr class="table-warning">
+                    <th scope="col">#</th>
+                    <th scope="col">Stato</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Macchina</th>
+                    <th scope="col">Data P./A.</th>
+                    <th scope="col">Ora P.</th>
+                    <th scope="col">Ora A.</th>
+                    <th scope="col">Meccanico</th>
+                    <th scope="col">Uso</th>
+                    <th scope="col">Destinazione</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Oper.</th>
                 </tr>
             </thead>
-            <tbody class="bg-primary text-white">
+            <tbody>
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr hoverable>
+                        <tr scope="row"  class="table-primary" hoverable>
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())

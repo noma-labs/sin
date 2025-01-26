@@ -17,7 +17,7 @@
                             <div class="col-md-2">
                                 <label
                                     for="anno_scolastico"
-                                    class="control-label"
+                                    class="form-label"
                                 >
                                     Anno Scolastico
                                 </label>
@@ -30,7 +30,7 @@
                                 />
                             </div>
                             <div class="col-md-8">
-                                <label for="titolo" class="control-label">
+                                <label for="titolo" class="form-label">
                                     Titolo
                                 </label>
                                 <input
@@ -54,7 +54,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label for="rilegatura" class="control-label">
+                                <label for="rilegatura" class="form-label">
                                     Rilegatura
                                 </label>
                                 <select
@@ -73,7 +73,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="dimensione" class="control-label">
+                                <label for="dimensione" class="form-label">
                                     Dimensioni (cm. larghezza x altezza)
                                 </label>
                                 <input
@@ -87,7 +87,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label for="alunni" class="control-label">
+                                <label for="alunni" class="form-label">
                                     Alunni/o
                                 </label>
                                 <livewire:search-persona
@@ -99,7 +99,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label for="alunni" class="control-label">
+                                <label for="alunni" class="form-label">
                                     Coordinatori/o
                                 </label>
                                 <livewire:search-persona
@@ -111,7 +111,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label for="note" class="control-label">
+                                <label for="note" class="form-label">
                                     Note
                                 </label>
                                 <textarea
