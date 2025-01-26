@@ -32,10 +32,10 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h4><strong>Associa i permessi</strong></h4>
-                <table class="table table-bordered table-hover table-sm">
+                <table class="table table-hover">
                     <tbody>
                         @foreach ($permissions as $permission)
-                            <tr>
+                            <tr class="table-primary">
                                 <input
                                     type="checkbox"
                                     id="{{ $permission->id }}"

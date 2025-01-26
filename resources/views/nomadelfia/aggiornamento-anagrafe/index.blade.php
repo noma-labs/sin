@@ -5,7 +5,7 @@
 
     <table class="table table-striped">
         <thead>
-            <tr>
+            <tr class="table-warning">
                 <th scope="col">#</th>
                 <th scope="col">Evento</th>
                 <th scope="col">Persona</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             @forelse ($activity as $a)
-                <tr>
+                <tr class="table-primary">
                     <th scope="row">
                         {{ $loop->iteration }}
                     </th>

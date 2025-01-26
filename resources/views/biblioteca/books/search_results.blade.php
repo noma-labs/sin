@@ -21,9 +21,9 @@
 
     @if ($libri->total() > 0)
         <div class="table-responsive">
-            <table id="table" class="table table-bordered table-sm">
-                <thead class="thead-inverse bg-warning">
-                    <tr>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr class="table-warning">
                         <th>STATO</th>
                         <th>
                             {{ App\Traits\SortableTrait::link_to_sorting_action("COLLOCAZIONE", "COLLOC") }}
@@ -46,9 +46,9 @@
                         <th>OPERAZIONI</th>
                     </tr>
                 </thead>
-                <tbody class="bg-primary text-white">
+                <tbody>
                     @forelse ($libri as $libro)
-                        <tr>
+                        <tr class="table-primary">
                             <td>
                                 @if ($libro->trashed())
                                     {{ $libro->deleted_note }}

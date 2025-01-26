@@ -64,7 +64,7 @@
                         <table
                             class="table table-striped table-hover table-bordered"
                         >
-                            <thead class="thead-inverse">
+                            <thead>
                                 <tr>
                                     <th>COLLOCAZIONE</th>
                                     <th>TITOLO</th>

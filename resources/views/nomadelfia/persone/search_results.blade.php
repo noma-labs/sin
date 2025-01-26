@@ -24,9 +24,9 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover table-bordered" >
-            <thead class="thead-inverse bg-warning">
-                <tr>
+        <table class="table table-hover" >
+            <thead>
+                <tr class="table-warning">
                     <th>Numero Elenco</th>
                     <th>Nominativo</th>
                     <th>Nome</th>
@@ -36,10 +36,10 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-            <tbody class="bg-primary text-white">
+           <tbody>
                 @foreach ($persone as $persona)
                     @empty($persona->delated_at)
-                        <tr hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>
                                 <span class="badge bg-success">
                                     {{ $persona->numero_elenco }}

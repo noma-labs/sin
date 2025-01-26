@@ -1,7 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Scadenze patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
+    @include("partials.header", ["title" => "Scadenze patenti", "subtitle" => "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
     <div class="row row-cols-1 row-cols-md-3 g-3 mb-3">
         <div class="col">
@@ -194,9 +194,9 @@
         </div>
     </div>
 
-    <table class="table table-bordered table-sm">
-        <thead class="thead-inverse bg-warning">
-            <tr>
+    <table class="table">
+        <thead>
+            <tr class="table-warning">
                 <th>Nome Cognome</th>
                 <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "Num. Patente") }}
@@ -210,9 +210,9 @@
                 <th>Operazioni</th>
             </tr>
         </thead>
-        <tbody class="bg-primary text-white">
+       <tbody>
             @foreach ($patentiAll as $patente)
-                <tr hoverable>
+                <tr class="table-primary" hoverable>
                     <td>
                         @if ($patente->persona->nome == null or $patente->persona->cognome == null)
                             {{ $patente->persona->nominativo }}

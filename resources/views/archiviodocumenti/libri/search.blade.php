@@ -101,29 +101,29 @@
             <strong>{{ $libri->total() }}</strong>
         </div>
 
-        <table id="table" class="table table-bordered table-hover table-sm">
-            <thead class="thead-inverse">
+        <table id="table" class="table table-hover">
+            <thead>
                 <tr>
-                    <th style="width: 5%" style="font-size: 10px">STATO</th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>STATO</th>
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("COLLOCAZIONE", "COLLOC") }}
                     </th>
-                    <th style="width: 30%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("TITOLO") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("AUTORE") }}
                     </th>
-                    <th style="width: 12%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("EDITORE") }}
                     </th>
-                    <th style="width: 18%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("LOCALITA") }}
                     </th>
-                    <th style="width: 20%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("ANNO") }}
                     </th>
-                    <th style="width: 20%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("Cop.SCAT.") }}
                     </th>
                 </tr>

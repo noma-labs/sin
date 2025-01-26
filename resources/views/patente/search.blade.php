@@ -128,9 +128,9 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover table-bordered table-sm">
-                <thead class="thead-inverse">
-                    <tr>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-warning">
                         <th>Nome Cognome</th>
                         <th>
                             {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "N. Patente") }}
@@ -144,7 +144,7 @@
                 </thead>
                 <tbody>
                     @foreach ($patenti as $patente)
-                        <tr hoverable>
+                        <tr  class="table-primary" hoverable>
                             <td>
                                 @if ($patente->persona->nome == null or $patente->persona->cognome == null)
                                     {{ $patente->persona->nominativo }}
@@ -253,7 +253,7 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"
                     >
-                        
+
                     </button>
                 </div>
                 <div class="modal-body">

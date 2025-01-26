@@ -5,21 +5,21 @@
     <div class="row">
         <div class="col-md-12">
             @if (count($activities))
-                <table class="table table-striped table-bordered table-sm">
-                    <thead class="thead-inverse">
-                        <tr>
-                            <th style="width: 10%">Data attività</th>
-                            <th style="width: 5%">Utente</th>
-                            <th style="width: 15%">Oggetto</th>
-                            <th style="width: 8%">Nome</th>
-                            <th style="width: 6%">Operaz.</th>
-                            <th style="width: 50%">Proprietà</th>
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="table-warning">
+                            <th>Data attività</th>
+                            <th>Utente</th>
+                            <th>Oggetto</th>
+                            <th>Nome</th>
+                            <th>Operaz.</th>
+                            <th>Proprietà</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($activities as $activity)
                             @if ($activity->subject)
-                                <tr>
+                                <tr class="table-primary">
                                     <td>
                                         {{ Carbon::now()->diffForHumans($activity["created_at"]) }}
                                     </td>

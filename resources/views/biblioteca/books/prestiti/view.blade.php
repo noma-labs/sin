@@ -160,22 +160,22 @@
     </div>
 
     @if ($prestiti->count() > 0)
-        <table class="table table-hover table-striped table-bordered">
-            <thead class="thead-inverse">
-                <tr>
-                    <th style="width: 15%">DATA INIZIO PRESTITO</th>
-                    <th style="width: 10%">CLIENTE</th>
-                    <th style="width: 15%">BIBLIOTECARIO</th>
-                    <th style="width: 30%">TITOLO</th>
-                    <th style="width: 10%">COLLOC.</th>
-                    <th style="width: 20%">NOTE</th>
-                    <th style="width: 20%">DETTAGLIO</th>
+        <table class="table table-hover table-striped ">
+            <thead>
+                <tr class="table-warning">
+                    <th>DATA INIZIO PRESTITO</th>
+                    <th>CLIENTE</th>
+                    <th>BIBLIOTECARIO</th>
+                    <th>TITOLO</th>
+                    <th>COLLOC.</th>
+                    <th>NOTE</th>
+                    <th>DETTAGLIO</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($prestiti as $prestito)
-                    <tr>
-                        <td width="20">
+                    <tr class="table-primary" hoverable>
+                        <td>
                             {{ $prestito->data_inizio_prestito }}
 
                             @if ($prestito->in_prestito)

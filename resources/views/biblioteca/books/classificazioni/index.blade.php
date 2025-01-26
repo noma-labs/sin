@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <table class="table table-hover table-bordered">
-                <thead class="thead-inverse">
+                <thead>
                     <tr>
                         <th>Classificazione</th>
                         <th>Operazioni</th>

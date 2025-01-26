@@ -10,18 +10,18 @@
     </div>
     <div class="row d-flex justify-content-center">
         <div class="col-md-12">
-            <table class="table table-bordered table-sm">
-                <thead class="thead-inverse bg-warning">
-                    <tr>
+            <table class="table">
+                <thead>
+                    <tr class="table-warning">
                         <th>Codice</th>
                         <th>Tipo</th>
                         <th>Note</th>
                         <th>Operazioni</th>
                     </tr>
                 </thead>
-                <tbody class="bg-primary text-white">
+               <tbody>
                     @foreach ($filtri as $filtro)
-                        <tr>
+                        <tr class="table-primary">
                             <td>{{ $filtro->codice }}</td>
                             <td>{{ $filtro->tipo }}</td>
                             <td>{{ $filtro->note }}</td>

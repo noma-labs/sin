@@ -116,7 +116,7 @@
             <tbody>
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr scope="row"  class="table-primary" hoverable>
+                        <tr scope="row"  class="table-primary">
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())

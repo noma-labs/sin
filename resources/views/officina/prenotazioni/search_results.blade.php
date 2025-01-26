@@ -24,9 +24,9 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="thead-inverse bg-warning">
-                <tr>
+        <table class="table">
+            <thead>
+                <tr class="table-warning">
                     <th>Nome</th>
                     <th>Macchina</th>
                     <th>Data Partenza</th>
@@ -40,10 +40,10 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody class="bg-primary text-white">
+           <tbody>
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>{{ $pren->cliente->nominativo }}</td>
                             <td>
                                 {{ $pren->veicolo()->withTrashed()->first()->nome }}

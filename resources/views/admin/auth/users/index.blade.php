@@ -11,7 +11,7 @@
     </a>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="thead-inverse">
+            <thead>
                 <tr>
                     <th>Persona</th>
                     <th>Username</th>

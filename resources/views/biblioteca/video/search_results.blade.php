@@ -9,15 +9,15 @@
 
     @if ($videos->total() > 0)
         <table id="table" class="table table-bordered">
-            <thead class="thead-inverse">
+            <thead>
                 <tr>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("CASSETTA") }}
                     </th>
-                    <th style="width: 30%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("DATA_REGISTRAZIONE") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("DESCRIZIONE") }}
                     </th>
                 </tr>

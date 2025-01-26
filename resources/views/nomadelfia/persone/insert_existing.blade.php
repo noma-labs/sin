@@ -7,9 +7,9 @@
     <div class="row">
         @isset($personeEsistenti)
             <div class="col-md-12 table-responsive">
-                <table class="table table-hover table-bordered table-sm">
-                    <thead class="thead-inverse">
-                        <tr>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-warning">
                             <th>Nominativo</th>
                             <th>Nome</th>
                             <th>Cognome</th>
@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                         @foreach ($personeEsistenti->get() as $persona)
-                            <tr hoverable>
+                            <tr class="table-primary" hoverable>
                                 <td>{{ $persona->nominativo }}</td>
                                 <td>{{ $persona->nome }}</td>
                                 <td>{{ $persona->cognome }}</td>

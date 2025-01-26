@@ -54,9 +54,9 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered bg-primary">
-            <thead class="thead-inverse">
-                <tr>
+        <table class="table">
+            <thead>
+                <tr class="table-warning">
                     <th>#</th>
                     <th>Nome</th>
                     <th>Targa</th>
@@ -70,9 +70,9 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-            <tbody class="bg-primary text-white">
+           <tbody>
                 @foreach ($veicoli as $veicolo)
-                    <tr hoverable>
+                    <tr  class="table-primary" hoverable>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $veicolo->nome }}</td>
                         <td>{{ $veicolo->targa }}</td>

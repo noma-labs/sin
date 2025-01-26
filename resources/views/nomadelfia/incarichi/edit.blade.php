@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-8 table-responsive">
                 <table class="table table-hover table-bordered">
-                    <thead class="thead-inverse">
+                    <thead>
                         <th scope="col">Nominativo</th>
                         <th scope="col">Data Inizio</th>
                         <th scope="col">Operazioni</th>

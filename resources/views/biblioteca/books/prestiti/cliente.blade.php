@@ -17,19 +17,19 @@
         <div class="col-md-8">
             @if ($prestitiAttivi->count() > 0)
                 <div class="table-responsive" style="max-height: 300px">
-                    <table class="table table-bordered table-sm">
-                        <thead class="thead-inverse">
-                            <tr>
-                                <th style="width: 10%">Inizio prestito</th>
-                                <th style="width: 10%">Collocazione</th>
-                                <th style="width: 20%">Titolo</th>
-                                <th style="width: 30%">Note</th>
-                                <th style="width: 30%">Operazioni</th>
+                    <table class="table">
+                        <thead>
+                            <tr class="table-warning">
+                                <th>Inizio prestito</th>
+                                <th>Collocazione</th>
+                                <th></th>Titolo</th>
+                                <th>Note</th>
+                                <th>Operazioni</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($prestitiAttivi as $prestito)
-                                <tr>
+                                <tr class="table-primary" hoverable>
                                     <td>
                                         <span class="badge bg-danger">
                                             {{ $prestito->data_inizio_prestito }}

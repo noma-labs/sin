@@ -69,23 +69,23 @@
 
     <div class="table-responsive">
         <table class="table table-bordered">
-            <thead class="thead-inverse bg-warning">
-                <tr>
-                    <th width="2%">#</th>
-                    <th width="20%">Nome</th>
-                    <th width="12%">Targa</th>
-                    <th width="9%">Marca</th>
-                    <th width="9%">Modello</th>
-                    <th width="11%">Impiego</th>
-                    <th width="8%">Tipologia</th>
-                    <th width="8%">Alimentazione</th>
-                    <th width="5%">Posti</th>
-                    <th width="16%">Operazioni</th>
+            <thead>
+                <tr class="table-warning">
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Targa</th>
+                    <th>Marca</th>
+                    <th>Modello</th>
+                    <th>Impiego</th>
+                    <th>Tipologia</th>
+                    <th>Alimentazione</th>
+                    <th>Posti</th>
+                    <th>Operazioni</th>
                 </tr>
             </thead>
-            <tbody class="bg-primary text-white">
+           <tbody>
                 @foreach ($veicoli as $veicolo)
-                    <tr hoverable>
+                    <tr class="table-primary" hoverable>
                         <td>{{ $loop->iteration }}</td>
                         <td>
                             {{ $veicolo->nome }}
