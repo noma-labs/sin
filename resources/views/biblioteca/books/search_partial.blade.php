@@ -4,7 +4,7 @@
     @if (Auth::guest())
         <div class="row">
             <div class="col-md-12">
-                <label for="xTitolo" class="control-label">Titolo</label>
+                <label for="xTitolo" class="form-label">Titolo</label>
                 <input
                     class="form-control"
                     name="xTitolo"
@@ -33,7 +33,7 @@
 
             <div class="col-md-6">
                 <div class="">
-                    <label for="xTitolo" class="control-label">Titolo</label>
+                    <label for="xTitolo" class="form-label">Titolo</label>
                     <input
                         class="form-control"
                         type="text"
@@ -46,20 +46,20 @@
     @endif
     <div class="row g-3">
         <div class="col-md-6">
-            <label for="xAutore" class="control-label">
+            <label for="xAutore" class="form-label">
                 Autore ({{ App\Biblioteca\Models\Autore::count() }})
             </label>
             <livewire:search-autore name_input="xIdAutore" />
         </div>
         <div class="col-md-6">
-            <label for="xEditore" class="control-label">
+            <label for="xEditore" class="form-label">
                 Editore ({{ App\Biblioteca\Models\Editore::count() }})
             </label>
 
             <livewire:search-editore name_input="xIdEditore" />
         </div>
         <div class="col-md-4">
-            <label for="xClassificazione" class="control-label">
+            <label for="xClassificazione" class="form-label">
                 Classificazione
                 ({{ App\Biblioteca\Models\Classificazione::count() }})
             </label>
@@ -80,7 +80,7 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label for="xNote" class="control-label">Note</label>
+            <label for="xNote" class="form-label">Note</label>
             <input
                 class="form-control"
                 name="xNote"

@@ -7,7 +7,7 @@
         @csrf
         <div class="row">
             <div class="col-md-3">
-                <label for="collocazione" class="control-label">
+                <label for="collocazione" class="form-label">
                     Collocazione
                 </label>
                 <input
@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="xTitolo" class="control-label">Titolo</label>
+                <label for="xTitolo" class="form-label">Titolo</label>
                 <input
                     class="form-control"
                     name="titolo"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="autore" class="control-label">Autore</label>
+                <label for="autore" class="form-label">Autore</label>
                 <input
                     class="form-control"
                     name="autore"
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="editore" class="control-label">Editore</label>
+                <label for="editore" class="form-label">Editore</label>
                 <input
                     class="form-control"
                     name="editore"

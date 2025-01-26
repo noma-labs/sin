@@ -5,7 +5,7 @@
     @csrf
     <div class="row">
         <div class="col-md-4">
-            <label for="xTitolo" class="control-label">Collocazione DVD</label>
+            <label for="xTitolo" class="form-label">Collocazione DVD</label>
             <input
                 class="form-control"
                 type="text"
@@ -16,7 +16,7 @@
 
         <div class="col-md-4">
             <div class="">
-                <label for="xClassificazione" class="control-label">
+                <label for="xClassificazione" class="form-label">
                     Data registrazione
                 </label>
                 <input
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-4">
             <div class="">
-                <label for="xNote" class="control-label">Descrizione</label>
+                <label for="xNote" class="form-label">Descrizione</label>
                 <input
                     class="form-control"
                     name="descrizione"

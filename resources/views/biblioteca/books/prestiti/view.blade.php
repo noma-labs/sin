@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6">
                 <div class="">
-                    <label for="xIdBibliotecario" class="control-label">
+                    <label for="xIdBibliotecario" class="form-label">
                         Bibliotecario
                     </label>
                     <livewire:search-persona name_input="xIdBibliotecario" />
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="">
-                    <label for="xInizioPrestito" class="control-label">
+                    <label for="xInizioPrestito" class="form-label">
                         Data Inizio Prestito
                     </label>
                     <select
@@ -83,7 +83,7 @@
             </div>
             <div class="col-md-3">
                 <div class="">
-                    <label for="xFinePrestito" class="control-label">
+                    <label for="xFinePrestito" class="form-label">
                         Data Fine Prestito
                     </label>
                     <select class="form-select" name="xSegnoFinePrestito">

@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="">
-                            <label for="xDatainizio" class="control-label">
+                            <label for="xDatainizio" class="form-label">
                                 Data Inizio Prestito
                             </label>
                             <input
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="">
-                            <label for="xIdUtente" class="control-label">
+                            <label for="xIdUtente" class="form-label">
                                 Cliente
                             </label>
                             <livewire:search-popolazione
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="">
-                            <label for="note" class="control-label">Note</label>
+                            <label for="note" class="form-label">Note</label>
                             <input
                                 type="text"
                                 class="form-control"

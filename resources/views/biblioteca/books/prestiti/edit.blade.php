@@ -32,7 +32,7 @@
                         <div class="">
                             <label
                                 for="xDataRestituzione"
-                                class="control-label"
+                                class="form-label"
                             >
                                 Data Fine Prestito
                             </label>

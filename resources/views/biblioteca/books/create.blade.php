@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="xTitolo" class="control-label">
+                        <label for="xTitolo" class="form-label">
                             Titolo (*)
                         </label>
                         <input
@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="xEditori" class="control-label">
+                                <label for="xEditori" class="form-label">
                                     Autore/i
                                 </label>
                                 <livewire:search-autore
@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="xEditori" class="control-label">
+                                <label for="xEditori" class="form-label">
                                     Editore/i
                                 </label>
                                 <livewire:search-editore
@@ -94,7 +94,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="xClassificazione" class="control-label">
+                        <label for="xClassificazione" class="form-label">
                             Classificazione (*)
                         </label>
                         <select
@@ -206,7 +206,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="xNote" class="control-label">Note</label>
+                        <label for="xNote" class="form-label">Note</label>
                         <textarea
                             class="form-control"
                             name="xNote"
