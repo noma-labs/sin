@@ -35,9 +35,10 @@ final class LoansController
 
     public function search(Request $request)
     {
+
         $msgSearch = ' ';
         // se sto cercando il prestito di una persona redirect sul dettaglio della persona.
-        if ($request->has('persona_id') and ! $request->has('note')) {
+        if ($request->filled('persona_id') and ! $request->filled('note')) {
             Session::flash('clientePrestitiUrl', $request->fullUrl());
             $cliente = Persona::findOrFail($request->input('persona_id'));
             $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); //Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
@@ -47,30 +48,31 @@ final class LoansController
         }
 
         $queryPrestiti = Prestito::where(function ($q) use ($request, &$msgSearch): void {
-            if ($request->has('collocazione')) {
+            if ($request->filled('collocazione')) {
                 $collocazione = $request->collocazione;
                 $idLibri = Libro::where('collocazione', 'like', "$collocazione%")->pluck('id')->toArray();
                 $q->whereIn('libro_id', $idLibri);
                 // $q->where('libro_id', $libro->id);
                 $msgSearch = $msgSearch.'Collocazione='.$collocazione;
             }
-            if ($request->has('note')) {
+            if ($request->filled('note')) {
                 $note = $request->note;
                 $q->where('note', 'like', "%$note%");
                 $msgSearch = $msgSearch.' Note='.$note;
             }
-            if ($request->has('titolo')) {
+            if ($request->filled('titolo')) {
                 $idLibri = Libro::withTrashed()->where('titolo', $request->titolo)->pluck('id')->toArray();
                 $q->whereIn('libro_id', $idLibri);
                 $msgSearch = $msgSearch." Titolo = $request->titolo";
             }
-            if ($request->has('persona_id')) {
+            if ($request->filled('persona_id')) {
                 $utente = $request->input('persona_id');
                 $nomeUtente = Persona::findOrFail($utente)->nominativo;
                 $q->where('cliente_id', $utente);
                 $msgSearch = $msgSearch.' Cliente='.$nomeUtente;
             }
             if ($request->xSegnoInizioPrestito) {
+                dd($request->all());
                 $inizioPrestito = $request->xInizioPrestito;
                 $segnoPrestito = $request->xSegnoInizioPrestito;
                 $q->where('data_inizio_prestito', $segnoPrestito, $inizioPrestito);
