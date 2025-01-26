@@ -531,11 +531,6 @@ parameters:
 			path: src/App/Sin/Biblioteca/Controllers/LoansController.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xInizioPrestito\\.$#"
-			count: 1
-			path: src/App/Sin/Biblioteca/Controllers/LoansController.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$xSegnoFinePrestito\\.$#"
 			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LoansController.php
@@ -583,6 +578,11 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 4
+			path: src/App/Sin/Biblioteca/Controllers/LoansController.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
 			path: src/App/Sin/Biblioteca/Controllers/LoansController.php
 
 		-
