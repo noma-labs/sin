@@ -63,12 +63,11 @@
             <h2>Motivazione cancellazione</h2>
             <form
                 method="POST"
-                class="form-horizontal"
                 action="{{ route("books.destroy", $libro->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 @method("DELETE")
-                <div class="form-group">
+                <div class="">
                     <label classfor="motivo">
                         Inserisci la motivazione della cancellazione
                     </label>
@@ -81,7 +80,7 @@
                 </div>
                 <input type="hidden" name="post" value="yes" />
                 <!-- value=yes sent to the server, if value is yes delete the libro -->
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-danger" type="submit">
                         Elimina
                     </button>

@@ -11,13 +11,13 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
-                                data-target="#effettivi"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#effettivi"
                                 aria-expanded="true"
                                 aria-controls="effettivi"
                             >
                                 Effettivi
-                                <span class="badge badge-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ $effettivi->total }}
                                 </span>
                             </button>
@@ -35,7 +35,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ count($effettivi->uomini) }}
                                         </span>
@@ -51,7 +51,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ count($effettivi->donne) }}
                                         </span>
@@ -79,13 +79,13 @@
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
-                                data-target="#postulanti"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#postulanti"
                                 aria-expanded="true"
                                 aria-controls="postulanti"
                             >
                                 Postulanti
-                                <span class="badge badge-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ $postulanti->total }}
                                 </span>
                             </button>
@@ -103,7 +103,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             COUNT UOMINI
                                         </span>
@@ -113,7 +113,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             COUNT DONNE
                                         </span>
@@ -143,8 +143,8 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
-                                        data-target="#posizione{{ $posizione->id }}"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#posizione{{ $posizione->id }}"
                                         aria-expanded="false"
                                         aria-controls="posizione{{ $posizione->id }}"
                                     >
@@ -152,7 +152,7 @@
                                             {{ $posizione->nome }}
                                         </span>
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $posizione->personeAttuale()->count() }}
                                         </span>
@@ -171,7 +171,7 @@
                                             <h5>
                                                 Uomini
                                                 <span
-                                                    class="badge badge-primary badge-pill"
+                                                    class="badge bg-primary rounded-pill"
                                                 >
                                                     {{ $posizione->personeAttuale()->uomini()->count() }}
                                                 </span>
@@ -186,7 +186,7 @@
                                             <h5>
                                                 Donne
                                                 <span
-                                                    class="badge badge-primary badge-pill"
+                                                    class="badge bg-primary rounded-pill"
                                                 >
                                                     {{ $posizione->personeAttuale()->donne()->count() }}
                                                 </span>
@@ -223,8 +223,8 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
-                                        data-target="#familiare{{ $stato->id }}"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#familiare{{ $stato->id }}"
                                         aria-expanded="false"
                                         aria-controls="familiare{{ $stato->id }}"
                                     >
@@ -232,7 +232,7 @@
                                             {{ $stato->nome }}
                                         </span>
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $stato->personeAttuale()->count() }}
                                         </span>
@@ -251,7 +251,7 @@
                                             <h5>
                                                 Uomini
                                                 <span
-                                                    class="badge badge-primary badge-pill"
+                                                    class="badge bg-primary rounded-pill"
                                                 >
                                                     {{ $stato->personeAttuale()->uomini()->count() }}
                                                 </span>
@@ -266,7 +266,7 @@
                                             <h5>
                                                 Donne
                                                 <span
-                                                    class="badge badge-primary badge-pill"
+                                                    class="badge bg-primary rounded-pill"
                                                 >
                                                     {{ $stato->personeAttuale()->donne()->count() }}
                                                 </span>

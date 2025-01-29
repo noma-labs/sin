@@ -10,12 +10,12 @@
             id="spostaPersonGruppo{{ $persona->id }}"
             action="{{ route("nomadelfia.persone.gruppo.sposta", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
         >
-            {{ csrf_field() }}
+            @csrf
 
             <h5 class="my-2">
                 Completa dati del gruppo attuale: {{ $attuale->nome }}
             </h5>
-            <div class="form-group row">
+            <div class="row">
                 <label for="inputPassword" class="col-sm-6 col-form-label">
                     Data uscita gruppo familiare
                 </label>
@@ -41,12 +41,12 @@
             />
 
             <h5 class="my-2">Nuovo gruppo familiare</h5>
-            <div class="form-group row">
+            <div class="row">
                 <label for="staticEmail" class="col-sm-6 col-form-label">
                     Gruppo familiare
                 </label>
                 <div class="col-sm-6">
-                    <select name="new_gruppo_id" class="form-control">
+                    <select name="new_gruppo_id" class="form-select">
                         <option selected>---seleziona gruppo ---</option>
                         @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppofam)
                             @if ($gruppofam->id != $attuale->id)
@@ -61,7 +61,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="inputPassword" class="col-sm-6 col-form-label">
                     Data entrata gruppo familiare
                 </label>

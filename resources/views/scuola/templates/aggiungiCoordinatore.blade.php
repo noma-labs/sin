@@ -10,13 +10,13 @@
             id="formAggiungiCoord"
             action="{{ route("scuola.classi.coordinatore.assegna", ["id" => $classe->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
+            @csrf
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Coordinatore
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_id">
+                    <select class="form-select" name="coord_id">
                         <option value="" selected>
                             ---scegli coordinatore--
                         </option>
@@ -33,12 +33,12 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Tipo
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_tipo">
+                    <select class="form-select" name="coord_tipo">
                         <option value="" selected>---scegli tipo--</option>
                         @foreach (App\Scuola\Models\Coordinatore::getPossibleEnumValues("tipo", "db_scuola.coordinatori_classi") as $p)
                             <option value="{{ $p }}">{{ $p }}</option>
@@ -46,7 +46,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data Inizio
                 </label>

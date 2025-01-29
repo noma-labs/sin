@@ -11,12 +11,10 @@
                 <div class="card-body">
                     @if ($posattuale != null)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Posizione</p>
-                            <p class="col-md-2 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-2 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-5 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Posizione</p>
+                            <p class="col-md-2 fw-bold">Data Inizio</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">{{ $posattuale->nome }}</p>
@@ -24,7 +22,7 @@
                                 {{ $posattuale->pivot->data_inizio }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($posattuale->pivot->data_inizio)
                                 </span>
                             </div>
@@ -43,13 +41,13 @@
                                             id="formConcludiPosizione{{ $posattuale->id }}"
                                             action="{{ route("nomadelfia.persone.posizione.concludi", ["idPersona" => $persona->id, "id" => $posattuale->id]) }}"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="data_inizio"
                                                 value="{{ $posattuale->pivot->data_inizio }}"
                                             />
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -63,7 +61,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -108,13 +106,13 @@
                                 id="formPersonaPosizione"
                                 action="{{ route("nomadelfia.persone.posizione.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 @if ($posattuale != null)
                                     <h5 class="my-2">
                                         Completa dati della posizione attuale:
                                         {{ $posattuale->nome }}
                                     </h5>
-                                    <div class="form-group row">
+                                    <div class="row">
                                         <label
                                             for="inputPassword"
                                             class="col-sm-6 col-form-label"
@@ -141,7 +139,7 @@
                                 <h5 class="my-2">
                                     Inserimento nuova posizione
                                 </h5>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-6 col-form-label"
@@ -151,7 +149,7 @@
                                     <div class="col-sm-6">
                                         <select
                                             name="posizione_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona posizione---
@@ -166,7 +164,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label class="col-sm-6 col-form-label">
                                         Data inizio
                                     </label>
@@ -201,11 +199,11 @@
                 <div class="card-header">Storico delle Posizione</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-2 font-weight-bold">Posizione</p>
-                        <p class="col-md-2 font-weight-bold">Data inizio</p>
-                        <p class="col-md-2 font-weight-bold">Data fine</p>
-                        <p class="col-md-2 font-weight-bold">Durata</p>
-                        <p class="col-md-4 font-weight-bold">Operazioni</p>
+                        <p class="col-md-2 fw-bold">Posizione</p>
+                        <p class="col-md-2 fw-bold">Data inizio</p>
+                        <p class="col-md-2 fw-bold">Data fine</p>
+                        <p class="col-md-2 fw-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($storico as $posizionestor)
@@ -219,7 +217,7 @@
                             </p>
 
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($posizionestor->pivot->data_fine)->diffForHumans(Carbon::parse($posizionestor->pivot->data_inizio), ["short" => true]) }}
                                 </span>
                             </div>

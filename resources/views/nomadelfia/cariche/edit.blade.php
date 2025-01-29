@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Gruppo Familiare:
                                 </label>
                                 <div class="col-sm-6">
@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Capogruppo:
                                 </label>
                                 <div class="col-sm-6">
@@ -58,7 +58,7 @@
                                         </p>
                                     @else
                                         <div class="col-md-6">
-                                            <div class="font-weight-bold mt-2">
+                                            <div class="fw-bold mt-2">
                                                 <a
                                                     href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $famiglia_single->famiglia_id]) }}"
                                                 >
@@ -83,7 +83,7 @@
                                         </p>
                                     @else
                                         <div class="col-md-6">
-                                            <div class="font-weight-bold mt-2">
+                                            <div class="fw-bold mt-2">
                                                 Fam.
                                                 <a
                                                     href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $famiglia_id]) }}"
@@ -122,7 +122,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         Persone
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ $gruppo->personeAttuale->count() }}
                         </span>
                     </h4>

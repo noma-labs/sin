@@ -11,8 +11,8 @@
                 method="POST"
                 action="{{ route("nomadelfia.persone.anagrafica.store") }}"
             >
-                {{ csrf_field() }}
-                <div class="form-group row">
+                @csrf
+                <div class="row">
                     <label for="fornominativo" class="col-sm-6 col-form-label">
                         Nominativo:
                     </label>
@@ -26,7 +26,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                     <label for="fornome" class="col-sm-6 col-form-label">
                         Nome:
                     </label>
@@ -40,7 +40,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                     <label for="forcognome" class="col-sm-6 col-form-label">
                         Cognome:
                     </label>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="row">
                     <label for="fornascita" class="col-sm-6 col-form-label">
                         Data di Nascita:
                     </label>
@@ -69,7 +69,7 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                     <label for="forluogo" class="col-sm-6 col-form-label">
                         Luogo di nascita:
                     </label>
@@ -83,7 +83,7 @@
                         />
                     </div>
                 </div>
-                <fieldset class="form-group">
+                <fieldset class="">
                     <div class="row">
                         <legend class="col-form-label col-sm-6 pt-0">
                             Sesso:

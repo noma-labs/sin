@@ -28,7 +28,7 @@
                                         (nuova versione)
                                     </a>
                                     <span
-                                        class="badge badge-secondary badge-pill"
+                                        class="badge bg-secondary rounded-pill"
                                     >
                                         {{ $anno->alunni_count }}
                                     </span>

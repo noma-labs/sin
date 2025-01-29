@@ -7,24 +7,21 @@
     <div class="row">
         @isset($personeEsistenti)
             <div class="col-md-12 table-responsive">
-                <table
-                    class="table table-hover table-bordered table-sm"
-                    style="table-layout: auto; overflow-x: scroll"
-                >
-                    <thead class="thead-inverse">
-                        <tr>
-                            <th width="10%">Nominativo</th>
-                            <th width="10%">Nome</th>
-                            <th width="10%">Cognome</th>
-                            <th width="10%">Data Nascita</th>
-                            <th width="10%">Luogo Nascita</th>
-                            <th width="5%">sesso</th>
-                            <th width="10%">Oper.</th>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-warning">
+                            <th>Nominativo</th>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Data Nascita</th>
+                            <th>Luogo Nascita</th>
+                            <th>sesso</th>
+                            <th>Oper.</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($personeEsistenti->get() as $persona)
-                            <tr hoverable>
+                            <tr class="table-primary" hoverable>
                                 <td>{{ $persona->nominativo }}</td>
                                 <td>{{ $persona->nome }}</td>
                                 <td>{{ $persona->cognome }}</td>

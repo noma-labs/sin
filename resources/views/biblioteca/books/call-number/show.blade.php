@@ -6,7 +6,7 @@
         method="POST"
         action="{{ route("books.call-number.update", ["id" => $libro->id]) }}"
     >
-        {{ csrf_field() }}
+        @csrf
         @method("PUT")
         <div class="row">
             <div class="col-md-6">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-success" type="submit">
                         Modifica collocazione
                     </button>

@@ -10,9 +10,12 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">
-            &times;
-        </a>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
     </div>
 
     <div id="results" class="alert alert-success">
@@ -20,14 +23,10 @@
         <strong>{{ $persone->total() }}</strong>
     </div>
 
-    <!-- inizio tabella persone -->
     <div class="table-responsive">
-        <table
-            class="table table-hover table-bordered"
-            style="table-layout: auto; overflow-x: scroll"
-        >
-            <thead class="thead-inverse">
-                <tr>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-warning">
                     <th>Numero Elenco</th>
                     <th>Nominativo</th>
                     <th>Nome</th>
@@ -40,9 +39,9 @@
             <tbody>
                 @foreach ($persone as $persona)
                     @empty($persona->delated_at)
-                        <tr hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>
-                                <span class="badge badge-primary">
+                                <span class="badge bg-success">
                                     {{ $persona->numero_elenco }}
                                 </span>
                             </td>
@@ -52,10 +51,7 @@
                             <td>{{ $persona->data_nascita }}</td>
                             <td>{{ $persona->provincia_nascita }}</td>
                             <td>
-                                <div
-                                    class="button-group btn-block"
-                                    role="group"
-                                >
+                                <div class="button-group" role="group">
                                     <a
                                         class="btn btn-warning btn-sm"
                                         href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $persona->id]) }}"
@@ -72,7 +68,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 offset-md-4">
-            {{ $persone->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
+            {{ $persone->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
         </div>
     </div>
 @endsection

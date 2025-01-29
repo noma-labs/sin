@@ -1,7 +1,7 @@
 <x-modal
     modal-title="Aggiungi Filtro"
     button-title="Aggiungi Filtro"
-    button-style="btn-block btn-warning"
+    button-style=" btn-warning"
 >
     <x-slot:body>
         <form
@@ -9,7 +9,7 @@
             action="{{ route("filtri.aggiungi") }}"
             id="form-aggiungi-filtro"
         >
-            {{ csrf_field() }}
+            @csrf
             <div class="row">
                 <div class="col-md-4">
                     <label for="codice">Codice Filtro</label>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="tipo">Tipo</label>
-                    <select name="tipo" id="tipo" class="form-control">
+                    <select name="tipo" id="tipo" class="form-select">
                         <option hidden selected>--Seleziona--</option>
                         @foreach (App\Officina\Models\TipoFiltro::tipo() as $t_filtro)
                             <option value="{{ $t_filtro }}">

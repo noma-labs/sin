@@ -12,15 +12,13 @@
                             <h5 class="mb-0">
                                 <button
                                     class="btn btn-link"
-                                    data-toggle="collapse"
-                                    data-target="#collapseNo"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseNo"
                                     aria-expanded="false"
                                     aria-controls="collapseNo"
                                 >
                                     Persone senza Es. Spirituale
-                                    <span
-                                        class="badge badge-primary badge-pill"
-                                    >
+                                    <span class="badge bg-primary rounded-pill">
                                         {{ $noEsercizi->total }}
                                     </span>
                                 </button>
@@ -71,14 +69,14 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
-                                        data-target="#collapse{{ $esercizio->id }}"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $esercizio->id }}"
                                         aria-expanded="false"
                                         aria-controls="collapse{{ $esercizio->id }}"
                                     >
                                         {{ $esercizio->turno }}
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $esercizio->personeOk()->total }}
                                         </span>

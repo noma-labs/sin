@@ -9,7 +9,7 @@
 @endsection
 
 @section("content")
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-4 offset-md-2">
             <div class="card" style="width: 17rem">
                 <div class="card-body">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- <a href="{{ route("video") }}">
-      <div class="jumbotron ">
+      <div class="bg-light mb-4 rounded-2 py-5 px-3 ">
         <h2 class="text-center">Gestione DVD Biblioteca</h2>
       </div>
     </a> -->

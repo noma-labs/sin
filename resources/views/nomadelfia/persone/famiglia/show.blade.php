@@ -10,13 +10,9 @@
                 <div class="card-body">
                     @if ($attuale)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">
-                                Nome Famigla
-                            </p>
-                            <p class="col-md-3 font-weight-bold">
-                                Posizione Famiglia
-                            </p>
-                            <p class="col-md-3 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Nome Famigla</p>
+                            <p class="col-md-3 fw-bold">Posizione Famiglia</p>
+                            <p class="col-md-3 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">
@@ -42,8 +38,8 @@
                 <div class="card-header">Storico famiglie</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Nome famiglia</p>
-                        <p class="col-md-3 font-weight-bold">Posizione</p>
+                        <p class="col-md-3 fw-bold">Nome famiglia</p>
+                        <p class="col-md-3 fw-bold">Posizione</p>
                     </div>
 
                     @forelse ($storico as $famigliaStorico)

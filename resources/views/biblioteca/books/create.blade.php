@@ -4,7 +4,7 @@
     @include("partials.header", ["title" => "Aggiungi Libro"])
 
     <form method="POST" action="{{ route("books.store") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="xTitolo" class="control-label">
+                        <label for="xTitolo" class="form-label">
                             Titolo (*)
                         </label>
                         <input
@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="xEditori" class="control-label">
+                                <label for="xEditori" class="form-label">
                                     Autore/i
                                 </label>
                                 <livewire:search-autore
@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="xEditori" class="control-label">
+                                <label for="xEditori" class="form-label">
                                     Editore/i
                                 </label>
                                 <livewire:search-editore
@@ -94,11 +94,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="xClassificazione" class="control-label">
+                        <label for="xClassificazione" class="form-label">
                             Classificazione (*)
                         </label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="xClassificazione"
                             type="text"
                             id="xClassificazione"
@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="critica">Critica</label>
-                        <select class="form-control" name="critica" type="text">
+                        <select class="form-select" name="critica" type="text">
                             <option disabled selected>
                                 ---Seleziona la critica---
                             </option>
@@ -183,7 +183,7 @@
                     <div class="col-md-4">
                         <label for="categoria">Categoria</label>
                         <select
-                            class="form-control"
+                            class="form-select"
                             name="categoria"
                             type="text"
                         >
@@ -206,7 +206,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label for="xNote" class="control-label">Note</label>
+                        <label for="xNote" class="form-label">Note</label>
                         <textarea
                             class="form-control"
                             name="xNote"
@@ -251,7 +251,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-right text-danger">
+                        <p class="text-end text-danger">
                             Le informazioni segnate con (*) sono obbligatorie.
                         </p>
                     </div>

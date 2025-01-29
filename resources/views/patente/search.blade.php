@@ -4,13 +4,13 @@
     @include("partials.header", ["title" => "Ricerca Patenti " . "(numero patenti: " . App\Patente\Models\Patente::count() . ")"])
 
     <form method="GET" action="{{ route("patente.ricerca.conferma") }}">
-        {{ csrf_field() }}
-        <div class="form-row">
-            <div class="form-group col-md-2 offset-md-1">
-                <label>Persona</label>
+        @csrf
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Persona</label>
                 <livewire:search-persona name_input="persona_id" />
             </div>
-            <div class="form-group col-md-2">
+            <div class="col-md-6">
                 <label for="numero_patente">Numero Patente</label>
                 <input
                     class="form-control"
@@ -20,10 +20,10 @@
                 />
             </div>
 
-            <div class="form-group col-md-2">
-                <label class="control-label">Data Scadenza patente</label>
+            <div class="col-md-6">
+                <label class="form-label">Data Scadenza patente</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_data_scadenza"
                     type="text"
                 >
@@ -35,21 +35,16 @@
                     <option value=">=">Maggiore Uguale</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <input
-                        type="date"
-                        class="form-control"
-                        name="data_scadenza"
-                    />
-                </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <input type="date" class="form-control" name="data_scadenza" />
             </div>
 
-            <div class="form-group col-md-2">
-                <label for="categoria_patente">Categoria patente</label>
+            <div class="col-md-3">
+                <label class="form-label" for="categoria_patente">
+                    Categoria patente
+                </label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     id="categoria_patente"
                     name="categoria_patente"
                 >
@@ -62,33 +57,10 @@
                 </select>
             </div>
         </div>
-        <div class="form-row">
-            {{--
-                <div class="form-group col-md-2  offset-md-1">
-                <label class="control-label">Data Rilascio</label>
-                <select class="form-control" name="criterio_data_rilascio" type="text">
-                <option selected value="">---Scegli criterio---</option>
-                <option value="<">Minore</option>
-                <option value="<=">Minore Uguale</option>
-                <option value="=">Uguale</option>
-                <option value=">">Maggiore</option>
-                <option value=">=">Maggiore Uguale</option>
-                </select>
-                </div>
-                <div class="col-md-2">
-                <div class="form-group">
-                <label>&nbsp;</label>
-                <input type="date" class="form-control" name="data_rilascio">
-                </div>
-                </div>
-            --}}
-            <div class="form-group col-md-2 offset-md-1">
+        <div class="row mb-3">
+            <div class="col-md-6">
                 <label for="categoria_patente">C.Q.C</label>
-                <select
-                    class="form-control"
-                    id="cqc_patente"
-                    name="cqc_patente"
-                >
+                <select class="form-select" id="cqc_patente" name="cqc_patente">
                     <option selected value="">---Scegli C.Q.C---</option>
                     @foreach ($cqc as $c)
                         <option value="{{ $c->id }}">
@@ -98,10 +70,10 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-2">
-                <label class="control-label">Data Scadenza C.Q.C</label>
+            <div class="col-md-3">
+                <label class="form-label">Data Scadenza C.Q.C</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_cqc_data_scadenza"
                     type="text"
                 >
@@ -113,21 +85,17 @@
                     <option value=">=">Maggiore Uguale</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label>&nbsp;</label>
-                    <input
-                        type="date"
-                        class="form-control"
-                        name="cqc_data_scadenza"
-                    />
-                </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <input
+                    type="date"
+                    class="form-control"
+                    name="cqc_data_scadenza"
+                />
             </div>
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <button type="submit" class="btn btn-block btn-primary">
-                    Ricerca
-                </button>
+        </div>
+        <div class="row mb-3">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Ricerca</button>
             </div>
         </div>
     </form>
@@ -139,9 +107,13 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">
-                &times;
-            </a>
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
         </div>
     @endif
 
@@ -152,28 +124,23 @@
         </div>
 
         <div class="table-responsive">
-            <table
-                class="table table-hover table-bordered table-sm"
-                style="table-layout: auto; overflow-x: scroll"
-            >
-                <thead class="thead-inverse">
-                    <tr>
-                        <th style="width: 20%">Nome Cognome</th>
-                        <th style="width: 10%">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-warning">
+                        <th>Nome Cognome</th>
+                        <th>
                             {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "N. Patente") }}
                         </th>
-                        <th style="width: 10%">
-                            {{ App\Traits\SortableTrait::link_to_sorting_action("numero_patente", "Data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Scadenza") }}
-                        </th>
-                        <th style="width: 20%">Categorie</th>
-                        <th style="width: 15%">Scadenza C.Q.C M.</th>
-                        <th style="width: 15%">Scadenza C.Q.C P.</th>
-                        <th style="width: 10%">Operazioni</th>
+                        <th>Scadenza"</th>
+                        <th>Categorie</th>
+                        <th>Scadenza C.Q.C M.</th>
+                        <th>Scadenza C.Q.C P.</th>
+                        <th>Operazioni</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($patenti as $patente)
-                        <tr hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>
                                 @if ($patente->persona->nome == null or $patente->persona->cognome == null)
                                     {{ $patente->persona->nominativo }}
@@ -182,11 +149,11 @@
                                     {{ $patente->persona->cognome }}
                                 @endif
                                 @if ($patente->hasCommissione())
-                                    <span class="badge badge-warning">C.</span>
+                                    <span class="badge bg-warning">C.</span>
                                 @endif
 
                                 @isset($patente->note)
-                                    <span class="badge badge-success">N.</span>
+                                    <span class="badge bg-success">N.</span>
                                 @endisset
                             </td>
                             <td>{{ $patente->numero_patente }}</td>
@@ -278,12 +245,10 @@
                     </h5>
                     <button
                         type="button"
-                        class="close"
-                        data-dismiss="modal"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
                         aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    ></button>
                 </div>
                 <div class="modal-body">
                     Vuoi davvero eliminare la patente ?
@@ -292,7 +257,7 @@
                     <button
                         type="button"
                         class="btn btn-secondary"
-                        data-dismiss="modal"
+                        data-bs-dismiss="modal"
                     >
                         Close
                     </button>

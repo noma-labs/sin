@@ -5,25 +5,23 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Filtri"])
 
-    <div class="row my-2">
-        <div class="col-md-2">
-            @include("officina.veicoli.aggiungiFiltro")
-        </div>
+    <div class="d-flex justify-content-end mb-3">
+        @include("officina.veicoli.aggiungiFiltro")
     </div>
-    <div class="row">
-        <div class="col-md-8">
-            <table class="table table-hover table-bordered table-sm">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th width="30%">Codice</th>
-                        <th width="10%">Tipo</th>
-                        <th width="30%">Note</th>
-                        <th width="20%">Operazioni</th>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr class="table-warning">
+                        <th>Codice</th>
+                        <th>Tipo</th>
+                        <th>Note</th>
+                        <th>Operazioni</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($filtri as $filtro)
-                        <tr>
+                        <tr class="table-primary">
                             <td>{{ $filtro->codice }}</td>
                             <td>{{ $filtro->tipo }}</td>
                             <td>{{ $filtro->note }}</td>
@@ -38,7 +36,7 @@
                                             @method("DELETE")
                                             <button
                                                 type="submit"
-                                                class="btn btn-danger btn-sm btn-block"
+                                                class="btn btn-danger btn-sm"
                                             >
                                                 Elimina
                                             </button>

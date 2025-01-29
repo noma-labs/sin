@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Es. Spirituale:
                                 </label>
                                 <div class="col-sm-6">
@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Responsabile:
                                 </label>
                                 <div class="col-sm-6">
@@ -34,11 +34,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
-                                    Persone:
-                                </label>
+                                <label class="col-sm-6 fw-bold">Persone:</label>
                                 <div class="col-sm-3">
-                                    <span class="badge badge-info">
+                                    <span class="badge text-bg-info">
                                         {{ $persone->total }}
                                     </span>
                                 </div>
@@ -46,7 +44,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Data inzio:
                                 </label>
                                 <div class="col-sm-6">
@@ -54,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Data fine:
                                 </label>
                                 <div class="col-sm-6">
@@ -62,9 +60,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
-                                    Luogo:
-                                </label>
+                                <label class="col-sm-6 fw-bold">Luogo:</label>
                                 <div class="col-sm-6">
                                     {{ $esercizio->luogo }}
                                 </div>
@@ -86,15 +82,15 @@
                 <div class="card-header">
                     <h5>
                         Uomini
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($persone->uomini) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-6 font-weight-bold">Nominativo</p>
-                        <p class="col-md-6 font-weight-bold">Operazioni</p>
+                        <p class="col-md-6 fw-bold">Nominativo</p>
+                        <p class="col-md-6 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($persone->uomini as $persona)
@@ -119,15 +115,15 @@
                 <div class="card-header">
                     <h5>
                         Donne
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($persone->donne) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-6 font-weight-bold">Nominativo</p>
-                        <p class="col-md-6 font-weight-bold">Operazioni</p>
+                        <p class="col-md-6 fw-bold">Nominativo</p>
+                        <p class="col-md-6 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($persone->donne as $persona)

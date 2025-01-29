@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                    <label>Editore</label>
+                    <label class="form-label">Editore</label>
                     <input
                         type="text"
                         class="form-control"
@@ -24,7 +24,7 @@
             </a>
             <a
                 href="javascript:history.go(-1)"
-                class="btn btn-primary my-2 float-right"
+                class="btn btn-primary my-2 float-end"
             >
                 Torna indietro
             </a>

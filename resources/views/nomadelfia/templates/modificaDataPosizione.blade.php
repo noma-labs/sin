@@ -11,13 +11,13 @@
             action="{{ route("nomadelfia.persone.posizione.modifica", ["idPersona" => $persona->id, "id" => $id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
             <input
                 type="hidden"
                 name="current_data_inizio"
                 value="{{ $data_inizio }}"
             />
-            <div class="form-group row">
+            <div class="row">
                 <label class="col-sm-6 col-form-label">Data Attuale</label>
                 <div class="form-check col-sm-6">
                     <label class="form-check-label" for="exampleRadios1">
@@ -25,7 +25,7 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label class="col-sm-6 col-form-label">Nuova Data</label>
                 <div class="form-check col-sm-6">
                     <label class="form-check-label">

@@ -111,12 +111,12 @@
         <div class="col-md-12">
             <form
                 method="POST"
-                class="form-inline"
+                class="d-flex align-items-center"
                 action="{{ route("books.call-number.swap.update", ["id" => $libro->id, "idTarget" => $libroTarget->id]) }}"
             >
                 @method("PUT")
-                {{ csrf_field() }}
-                <div class="form-group">
+                @csrf
+                <div class="">
                     <button class="btn btn-danger mx-1" type="submit">
                         Cambia collocazione
                     </button>

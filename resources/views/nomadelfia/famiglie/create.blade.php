@@ -9,13 +9,13 @@
                 method="POST"
                 action="{{ route("nomadelfia.matrimonio.store") }}"
             >
-                {{ csrf_field() }}
-                <div class="form-group row">
-                    <label for="Husband" class="col-md-6 col-form-label">
+                @csrf
+                <div class="row mb-3">
+                    <label for="Husband" class="col-md-6 form-label">
                         Marito
                     </label>
                     <div class="col-md-6">
-                        <select class="form-control" name="husband" type="text">
+                        <select class="form-select" name="husband" type="text">
                             <option disabled selected>
                                 ---Seleziona il marito---
                             </option>
@@ -27,12 +27,12 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="forFemale" class="col-md-6 col-form-label">
+                <div class="row mb-3">
+                    <label for="forFemale" class="col-md-6 form-label">
                         Moglie
                     </label>
                     <div class="col-md-6">
-                        <select class="form-control" name="wife" type="text">
+                        <select class="form-select" name="wife" type="text">
                             <option disabled selected>
                                 ---Seleziona la moglie---
                             </option>
@@ -44,8 +44,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="datamatrimonio" class="col-md-6 col-form-label">
+                <div class="row mb-3">
+                    <label for="datamatrimonio" class="col-md-6 form-label">
                         Data matrimonio
                     </label>
                     <div class="col-md-6">
@@ -57,7 +57,7 @@
                         />
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-auto">
                         <button class="btn btn-success" type="submit">
                             Aggiungi

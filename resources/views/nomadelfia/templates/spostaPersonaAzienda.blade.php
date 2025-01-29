@@ -11,9 +11,9 @@
             action="{{ route("nomadelfia.aziende.persona.sposta", ["id" => $azienda->id, "idPersona" => $lavoratore->id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
 
-            <div class="form-group row">
+            <div class="row">
                 <label for="inputData" class="col-sm-6 col-form-label">
                     Data fine
                 </label>
@@ -28,12 +28,12 @@
             </div>
             <hr />
 
-            <div class="form-group row">
+            <div class="row">
                 <label for="staticEmail" class="col-sm-6 col-form-label">
                     Nuova azienda
                 </label>
                 <div class="col-sm-6">
-                    <select name="nuova_azienda_id" class="form-control">
+                    <select name="nuova_azienda_id" class="form-select">
                         <option selected>---seleziona azienda ---</option>
                         @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::orderBy("nome_azienda")->get() as $a)
                             @if ($a->id != $azienda->id)

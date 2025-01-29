@@ -10,14 +10,14 @@
                     @if ($persona->isPersonaInterna())
                         <h2>
                             Stato Attuale:
-                            <span class="badge badge-success">Presente</span>
+                            <span class="badge bg-success">Presente</span>
                         </h2>
                         <p>
                             Entrata in data
                             <strong>
                                 {{ $persona->getDataEntrataNomadelfia()->toDateString() }}
                             </strong>
-                            <span class="badge badge-info">
+                            <span class="badge text-bg-info">
                                 @diffHumans($persona->getDataEntrataNomadelfia())
                             </span>
                         </p>
@@ -58,12 +58,12 @@
                     @else
                         <h2>
                             Stato Attuale:
-                            <span class="badge badge-secondary">Uscito</span>
+                            <span class="badge bg-secondary">Uscito</span>
                         </h2>
                         <p>
                             Uscita in data
                             {{ $persona->getDataUscitaNomadelfia() ? $persona->getDataUscitaNomadelfia()->toDateString() : "" }}
-                            <span class="badge badge-info">
+                            <span class="badge text-bg-info">
                                 @diffHumans($persona->getDataUscitaNomadelfia())
                             </span>
                         </p>
@@ -98,8 +98,8 @@
                     <h5 class="mb-0">
                         <button
                             class="btn btn-link"
-                            data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
                             aria-expanded="true"
                             aria-controls="collapseOne"
                         >
@@ -117,7 +117,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Nome:
                                     </label>
                                     <div class="col-sm-8">
@@ -127,7 +127,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Cognome:
                                     </label>
                                     <div class="col-sm-8">
@@ -137,7 +137,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Codice Fiscale:
                                     </label>
                                     <div class="col-sm-8">
@@ -155,7 +155,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Data Nascita:
                                     </label>
                                     <div class="col-sm-8">
@@ -167,7 +167,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Luogo Nascita:
                                     </label>
                                     <div class="col-sm-8">
@@ -179,7 +179,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Sesso:
                                     </label>
                                     <div class="col-sm-8">
@@ -190,9 +190,7 @@
                             @if ($persona->isDeceduta())
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 font-weight-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Data decesso:
                                         </label>
                                         <div class="col-sm-8">
@@ -206,7 +204,7 @@
 
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Biografia:
                                     </label>
                                     <div class="col-sm-8">
@@ -282,8 +280,8 @@
                     <h5 class="mb-0">
                         <button
                             class="btn btn-link"
-                            data-toggle="collapse"
-                            data-target="#collapsezero"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapsezero"
                             aria-expanded="true"
                             aria-controls="collapsezero"
                         >
@@ -301,7 +299,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Origine:
                                     </label>
                                     <div class="col-sm-6">
@@ -319,7 +317,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Nominativo:
                                     </label>
                                     <div class="col-sm-6">
@@ -338,12 +336,12 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Numero Elenco:
                                     </label>
                                     <div class="col-sm-6">
                                         @if ($persona->numero_elenco)
-                                            <span class="badge badge-info">
+                                            <span class="badge text-bg-info">
                                                 {{ $persona->numero_elenco }}
                                             </span>
                                         @else
@@ -369,7 +367,7 @@
 
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Stato familiare:
                                     </label>
                                     <div class="col-sm-6">
@@ -395,7 +393,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Posizione:
                                     </label>
                                     <div class="col-sm-6">
@@ -419,7 +417,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Gruppo familiare:
                                     </label>
                                     <div class="col-sm-6">
@@ -447,7 +445,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Azienda/e:
                                     </label>
                                     <div class="col-sm-6">
@@ -478,7 +476,7 @@
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 font-weight-bold">
+                                    <label class="col-sm-4 fw-bold">
                                         Incarichi:
                                     </label>
                                     <div class="col-sm-6">
@@ -516,8 +514,8 @@
                     <h5 class="mb-0">
                         <button
                             class="btn btn-link"
-                            data-toggle="collapse"
-                            data-target="#collapseTwo"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo"
                             aria-expanded="true"
                             aria-controls="collapseTwo"
                         >
@@ -536,9 +534,7 @@
                             @if ($famigliaAttuale)
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 font-weight-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Nome Famiglia:
                                         </label>
                                         <div class="col-sm-8">
@@ -552,9 +548,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 font-weight-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Posizione:
                                         </label>
                                         <div class="col-sm-8">
@@ -567,9 +561,7 @@
                             @else
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label
-                                            class="col-sm-4 font-weight-bold"
-                                        >
+                                        <label class="col-sm-4 fw-bold">
                                             Tipo:
                                         </label>
                                         <div class="col-sm-8">

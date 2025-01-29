@@ -5,8 +5,8 @@
 <button
     type="button"
     class="btn {{ $buttonStyle }}"
-    data-toggle="modal"
-    data-target="#{{ $modalId }}"
+    data-bs-toggle="modal"
+    data-bs-target="#{{ $modalId }}"
 >
     {{ $buttonTitle }}
 </button>
@@ -27,12 +27,10 @@
                 </h5>
                 <button
                     type="button"
-                    class="close"
-                    data-dismiss="modal"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
                     aria-label="Close"
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                ></button>
             </div>
             <div class="modal-body">
                 {{ $body }}

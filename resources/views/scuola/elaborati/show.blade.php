@@ -58,19 +58,19 @@
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-4">
-                    <label for="collocazione" class="control-label">
+                    <label for="collocazione" class="form-label">
                         Collocazione
                     </label>
                     <p class="form-control">{{ $elaborato->collocazione }}</p>
                 </div>
                 <div class="col-md-8">
-                    <label for="titolo" class="control-label">Titolo</label>
+                    <label for="titolo" class="form-label">Titolo</label>
                     <p class="form-control w-auto">{{ $elaborato->titolo }}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="anno_scolastico" class="control-label">
+                    <label for="anno_scolastico" class="form-label">
                         Anno Scolastico
                     </label>
                     <p class="form-control">
@@ -78,13 +78,13 @@
                     </p>
                 </div>
                 <div class="col-md-8">
-                    <label for="classi" class="control-label">Classi</label>
+                    <label for="classi" class="form-label">Classi</label>
                     <p class="form-control">{{ $elaborato->classi }}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="anno_scolastico" class="control-label">
+                    <label for="anno_scolastico" class="form-label">
                         Rilegatura
                     </label>
                     <p class="form-control">
@@ -92,13 +92,13 @@
                     </p>
                 </div>
                 <div class="col-md-8">
-                    <label for="classi" class="control-label">Dimensioni</label>
+                    <label for="classi" class="form-label">Dimensioni</label>
                     <p class="form-control">{{ $elaborato->dimensione }}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label for="note" class="control-label">Note</label>
+                    <label for="note" class="form-label">Note</label>
                     <p class="form-control h-auto">{{ $elaborato->note }}</p>
                 </div>
             </div>
@@ -137,12 +137,14 @@
                     >
                         Importa studenti
                     </a>
-                    <a
-                        href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
-                        class="btn btn-warning"
-                    >
-                        Modifica
-                    </a>
+                    <div class="d-flex justify-content-end">
+                        <a
+                            href="{{ route("scuola.elaborati.edit", $elaborato->id) }}"
+                            class="btn btn-warning"
+                        >
+                            Modifica
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

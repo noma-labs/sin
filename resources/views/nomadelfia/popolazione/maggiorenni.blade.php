@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h3>
                         Maggiorenni
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ $maggiorenni->total }}
                         </span>
                     </h3>
@@ -24,16 +24,16 @@
                 <div class="card-header">
                     <h5>
                         Uomini
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($maggiorenni->uomini) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-4 font-weight-bold">Nominativo</p>
-                        <p class="col-md-4 font-weight-bold">Data Entrata</p>
-                        <p class="col-md-4 font-weight-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Nominativo</p>
+                        <p class="col-md-4 fw-bold">Data Entrata</p>
+                        <p class="col-md-4 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($maggiorenni->uomini as $persona)
@@ -61,17 +61,17 @@
                 <div class="card-header">
                     <h5>
                         Donne
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($maggiorenni->donne) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Nominativo</p>
-                        <p class="col-md-3 font-weight-bold">Data Entrata</p>
-                        <p class="col-md-3 font-weight-bold">Durata</p>
-                        <p class="col-md-3 font-weight-bold">Operazioni</p>
+                        <p class="col-md-3 fw-bold">Nominativo</p>
+                        <p class="col-md-3 fw-bold">Data Entrata</p>
+                        <p class="col-md-3 fw-bold">Durata</p>
+                        <p class="col-md-3 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($maggiorenni->donne as $persona)

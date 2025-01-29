@@ -10,16 +10,10 @@
                 <div class="card-body">
                     @if ($attuale)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">
-                                Gruppo familiare
-                            </p>
-                            <p class="col-md-2 font-weight-bold">
-                                Data entrata
-                            </p>
-                            <p class="col-md-2 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-5 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Gruppo familiare</p>
+                            <p class="col-md-2 fw-bold">Data entrata</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">{{ $attuale->nome }}</p>
@@ -27,7 +21,7 @@
                                 {{ $attuale->pivot->data_entrata_gruppo }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($attuale->pivot->data_entrata_gruppo)
                                 </span>
                             </div>
@@ -45,13 +39,13 @@
                                             action="{{ route("nomadelfia.persone.gruppo.modifica", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
                                         >
                                             @method("PUT")
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="current_data_entrata"
                                                 value="{{ $attuale->pivot->data_entrata_gruppo }}"
                                             />
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -64,7 +58,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -106,11 +100,11 @@
                 <div class="card-header">Storico dei gruppi familiari</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Gruppo</p>
-                        <p class="col-md-2 font-weight-bold">Data inizio</p>
-                        <p class="col-md-2 font-weight-bold">Data fine</p>
-                        <p class="col-md-2 font-weight-bold">Tempo trascorso</p>
-                        <p class="col-md-3 font-weight-bold">Operazioni</p>
+                        <p class="col-md-3 fw-bold">Gruppo</p>
+                        <p class="col-md-2 fw-bold">Data inizio</p>
+                        <p class="col-md-2 fw-bold">Data fine</p>
+                        <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                        <p class="col-md-3 fw-bold">Operazioni</p>
                     </div>
                     @forelse ($persona->gruppofamiliariStorico as $gruppostorico)
                         <div class="row">
@@ -122,7 +116,7 @@
                                 {{ $gruppostorico->pivot->data_uscita_gruppo }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($gruppostorico->pivot->data_uscita_gruppo)->diffForHumans(Carbon::parse($gruppostorico->pivot->data_entrata_gruppo), ["short" => true]) }}
                                 </span>
                             </div>

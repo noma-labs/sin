@@ -6,13 +6,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-2">
-                <form
-                    action="{{ route("autori.store") }}"
-                    method="POST"
-                    class="form-horizontal"
-                >
+                <form action="{{ route("autori.store") }}" method="POST">
                     @csrf
-                    <div class="form-group">
+                    <div class="">
                         <label for="autore">Autore</label>
                         <input
                             type="text"
@@ -22,7 +18,7 @@
                             placeholder="Es. Italo Calvino"
                         />
                     </div>
-                    <div class="form-group my-3">
+                    <div class="my-3">
                         <button type="submit" class="btn btn-primary">
                             Aggiungi
                         </button>

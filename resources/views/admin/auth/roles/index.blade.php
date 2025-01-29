@@ -8,14 +8,14 @@
 
     <a
         href="{{ route("roles.create") }}"
-        class="btn btn-success float-right my-2"
+        class="btn btn-success float-end my-2"
     >
         Aggiungi Ruolo
     </a>
     <div class="table-responsive col-md-8 offset-md-2">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-inverse">
-                <tr>
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-warning">
                     <th>Ruolo</th>
                     <th>Descrizione</th>
                     <th>Risorse</th>
@@ -24,12 +24,12 @@
             </thead>
             <tbody>
                 @foreach ($roles as $role)
-                    <tr>
+                    <tr class="table-primary">
                         <td>{{ $role->name }}</td>
                         <td>{{ $role->guard_name }}</td>
                         <td>
                             @foreach ($role->permissions as $permission)
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     {{ $permission->name }}
                                 </span>
                             @endforeach

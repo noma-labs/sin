@@ -10,8 +10,8 @@
             id="addClasse"
             action="{{ route("scuola.anno.aggiungi") }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
+            @csrf
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data Inizio
                 </label>

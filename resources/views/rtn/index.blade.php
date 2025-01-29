@@ -8,7 +8,7 @@
         class="nav-link dropdown-toggle"
         id="navbarVideo"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >

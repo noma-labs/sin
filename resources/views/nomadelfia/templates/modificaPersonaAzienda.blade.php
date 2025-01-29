@@ -11,7 +11,7 @@
             action="{{ route("nomadelfia.aziende.persona.update", ["id" => $azienda->id, "idPersona" => $lavoratore->id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
 
             <input
                 type="hidden"
@@ -19,40 +19,33 @@
                 value="{{ $lavoratore->pivot->data_inizio_azienda }}"
             />
 
-            <div class="form-group row">
-                <label for="inputData" class="col-sm-6 col-form-label">
-                    Mansione
-                </label>
-                <div class="col-sm-6">
-                    <select name="mansione" class="form-control">
-                        <option selected>---seleziona mansione ---</option>
-                        <option
-                            value="LAVORATORE"
-                            {{ $lavoratore->pivot->mansione == "LAVORATORE" ? "selected" : "" }}
-                        >
-                            LAVORATORE
-                        </option>
-                        <option
-                            value="RESPONSABILE AZIENDA"
-                            {{ $lavoratore->pivot->mansione == "RESPONSABILE AZIENDA" ? "selected" : "" }}
-                        >
-                            RESPONSABILE AZIENDA
-                        </option>
-                    </select>
-                </div>
+            <div class="mb-3">
+                <label for="inputData" class="form-label">Mansione</label>
+                <select name="mansione" class="form-select">
+                    <option selected>---seleziona mansione ---</option>
+                    <option
+                        value="LAVORATORE"
+                        {{ $lavoratore->pivot->mansione == "LAVORATORE" ? "selected" : "" }}
+                    >
+                        LAVORATORE
+                    </option>
+                    <option
+                        value="RESPONSABILE AZIENDA"
+                        {{ $lavoratore->pivot->mansione == "RESPONSABILE AZIENDA" ? "selected" : "" }}
+                    >
+                        RESPONSABILE AZIENDA
+                    </option>
+                </select>
             </div>
 
-            <div class="form-group row">
-                <label for="inputData" class="col-sm-6 col-form-label">
-                    Data inizio
-                </label>
-                <div class="col-sm-6">
-                    <input
-                        type="date"
-                        name="nuova_data_inizio"
-                        value="{{ $lavoratore->pivot->data_inizio_azienda }}"
-                    />
-                </div>
+            <div class="mb-3">
+                <label for="inputData" class="form-label">Data inizio</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    name="nuova_data_inizio"
+                    value="{{ $lavoratore->pivot->data_inizio_azienda }}"
+                />
             </div>
         </form>
     </x-slot>

@@ -1,4 +1,4 @@
-<p class="font-weight-bold">Popolazione Nomadelfia</p>
+<p class="fw-bold">Popolazione Nomadelfia</p>
 <p>{{ Carbon::now()->toDateString() }}</p>
 
 <div>

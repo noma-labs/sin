@@ -29,26 +29,26 @@
     <div class="card">
         <div class="card-header">
             Lista Elaborati
-            <span class="font-weight-bold">({{ $elaborati->count() }})</span>
+            <span class="fw-bold">({{ $elaborati->count() }})</span>
         </div>
         <ul class="list-group list-group-flush">
             @forelse ($elaborati as $elaborato)
                 <li class="list-group-item">
-                    <span class="badge badge-warning">
+                    <span class="badge bg-warning">
                         {{ $elaborato->anno_scolastico }}
                     </span>
 
-                    <span class="badge badge-primary">
+                    <span class="badge bg-primary">
                         {{ $elaborato->collocazione }}
                     </span>
 
                     <strong>{{ $elaborato->titolo }}</strong>
 
                     @if ($elaborato->file_path)
-                        <span class="badge badge-danger">pdf</span>
+                        <span class="badge bg-danger">pdf</span>
                     @endif
 
-                    <span class="badge badge-secondary">
+                    <span class="badge bg-secondary">
                         {{ strtolower($elaborato->rilegatura) }}
                     </span>
 
@@ -63,7 +63,8 @@
 
                     <a
                         href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
-                        class="btn btn-sm btn-secondary float-right"
+                        class="btn btn-primary"
+                        role="button"
                     >
                         Dettaglio
                     </a>

@@ -12,8 +12,8 @@
                 </strong>
                 <a
                     href="#"
-                    class="close"
-                    data-dismiss="alert"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
                     aria-label="close"
                 >
                     &times;
@@ -35,13 +35,13 @@
                         Esporta etichette
                     </a>
                     <form
-                        class="float-right"
+                        class="float-end"
                         id="formRemoveAll"
                         action="{{ route("archiviodocumenti.etichette.rimuovi") }}"
                         method="post"
                     >
                         {{ method_field("DELETE") }}
-                        {{ csrf_field() }}
+                        @csrf
                         <button
                             class="btn btn-danger"
                             form="formRemoveAll"
@@ -58,7 +58,7 @@
                         <table
                             class="table table-striped table-hover table-bordered"
                         >
-                            <thead class="thead-inverse">
+                            <thead>
                                 <tr>
                                     <th style="width: 10%">COLLOCAZIONE</th>
                                     <th style="width: 15%">TITOLO</th>
@@ -80,7 +80,7 @@
                                                 method="post"
                                             >
                                                 {{ method_field("DELETE") }}
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 <button
                                                     class="btn btn-danger"
                                                     type="submit"
@@ -120,13 +120,13 @@
                         class="form"
                         action="{{ route("archiviodocumenti.etichette.aggiungi") }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <h5>Dalla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="fromCollocazione" />
 
                         <h5>Fino alla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="toCollocazione" />
                         <button
                             class="btn btn-success my-2"
@@ -137,7 +137,7 @@
                             Aggiungi
                         </button>
                         <button
-                            class="btn btn-danger float-right my-2"
+                            class="btn btn-danger float-end my-2"
                             name="action"
                             value="remove"
                             type="submit"

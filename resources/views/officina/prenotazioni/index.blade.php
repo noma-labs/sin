@@ -5,18 +5,15 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Prenotazioni"])
 
-    <form
-        class="container-fluid"
-        id="needs-validation"
-        method="POST"
-        action="{{ route("officina.prenota") }}"
-    >
-        {{ csrf_field() }}
+    <form method="POST" action="{{ route("officina.prenota") }}" class="mb-3">
+        @csrf
+
         <livewire:prenotazione-veicoli />
-        <div class="row">
-            <div class="col-md-3">
-                <label class="control-label">Cliente</label>
-                <select class="form-control" id="cliente" name="nome">
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-2">
+                <label for="person" class="form-label">Cliente</label>
+                <select class="form-select" id="person" name="nome">
                     <option selected value>--Seleziona--</option>
                     @foreach ($clienti as $cliente)
                         <option
@@ -28,124 +25,108 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="meccanico">Meccanico</label>
-                    <select
-                        class="form-control"
-                        id="meccanico"
-                        name="meccanico"
-                        required
-                    >
-                        <option selected disabled>--Seleziona--</option>
-                        @foreach ($meccanici as $mecc)
-                            <option
-                                value="{{ $mecc->persona_id }}"
-                                @if (old('meccanico') === (string)$mecc->persona_id) selected @endif
-                                @if (strtolower($mecc->nominativo) == 'gennaro' OR strtolower($mecc->nominativo) == 'carlo s.') disabled @endif
-                            >
-                                {{ $mecc->nominativo }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <div class="col-md-2">
+                <label for="meccanico" class="form-label">Meccanico</label>
+                <select
+                    class="form-select"
+                    id="meccanico"
+                    name="meccanico"
+                    required
+                >
+                    <option selected disabled>--Seleziona--</option>
+                    @foreach ($meccanici as $mecc)
+                        <option
+                            value="{{ $mecc->persona_id }}"
+                            @if (old('meccanico') === (string)$mecc->persona_id) selected @endif
+                            @if (strtolower($mecc->nominativo) == 'gennaro' OR strtolower($mecc->nominativo) == 'carlo s.') disabled @endif
+                        >
+                            {{ $mecc->nominativo }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="uso">Uso</label>
-                    <select class="form-control" id="uso" name="uso" required>
-                        <option disabled selected>--Seleziona--</option>
-                        @foreach ($usi as $uso)
-                            <option
-                                value="{{ $uso->ofus_iden }}"
-                                @if (old('uso') == $uso->ofus_iden) selected @endif
-                            >
-                                {{ $uso->ofus_nome }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <div class="col-md-2">
+                <label class="form-label" for="uso">Uso</label>
+                <select class="form-select" id="uso" name="uso" required>
+                    <option disabled selected>--Seleziona--</option>
+                    @foreach ($usi as $uso)
+                        <option
+                            value="{{ $uso->ofus_iden }}"
+                            @if (old('uso') == $uso->ofus_iden) selected @endif
+                        >
+                            {{ $uso->ofus_nome }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="destinazione">Destinazione</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="destinazione"
-                        name="destinazione"
-                        value="Grosseto"
-                    />
-                </div>
+            <div class="col-md-2">
+                <label class="form-label" for="destinazione">
+                    Destinazione
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="destinazione"
+                    name="destinazione"
+                    value="Grosseto"
+                />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="note">Note</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="note"
+                    value="{{ old("note") }}"
+                    name="note"
+                />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7">
-                <div class="form-group">
-                    <label for="note">Note</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="note"
-                        value="{{ old("note") }}"
-                        name="note"
-                    />
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label for="prenota"><br /></label>
-                    <button
-                        type="submit"
-                        id="prenota"
-                        class="btn btn-block btn-primary"
-                    >
-                        Prenota
-                    </button>
-                </div>
+            <div class="col d-flex align-items-end">
+                <button
+                    type="submit"
+                    id="prenota"
+                    class="btn btn-primary ms-auto"
+                >
+                    Prenota
+                </button>
             </div>
         </div>
-        <br />
     </form>
 
-    <!-- inizio tabella prenotazioni -->
-    <div class="table-responsive">
-        <table
-            class="table table-hover table-bordered table-sm"
-            style="table-layout: auto; overflow-x: scroll"
-        >
-            <thead class="thead-inverse">
+    <div class="table-responsive mb-3">
+        <table class="table table-hover table-sm">
+            <thead class="table-warning">
                 <tr>
-                    <th width="2%">#</th>
-                    <th width="5%">Stato</th>
-                    <th width="7%">Nome</th>
-                    <th width="12%">Macchina</th>
-                    <th width="10%">Data P./A.</th>
-                    <th width="3%">Ora P.</th>
-                    <th width="3%">Ora A.</th>
-                    <th width="10%">Meccanico</th>
-                    <th width="8%">Uso</th>
-                    <th width="10%">Destinazione</th>
-                    <th width="15%">Note</th>
-                    <th width="15%">Oper.</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Stato</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Macchina</th>
+                    <th scope="col">Data P./A.</th>
+                    <th scope="col">Ora P.</th>
+                    <th scope="col">Ora A.</th>
+                    <th scope="col">Meccanico</th>
+                    <th scope="col">Uso</th>
+                    <th scope="col">Destinazione</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Oper.</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-primary">
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr hoverable>
+                        <tr scope="row">
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())
-                                    <span class="badge badge-danger">
-                                        Partita
-                                    </span>
+                                    <span class="badge bg-danger">Partita</span>
                                 @elseif ($pren->deveAncoraPartire())
-                                    <span class="badge badge-warning">
+                                    <span class="badge bg-warning">
                                         Deve Partire
                                     </span>
                                 @elseif ($pren->isArrivata())
-                                    <span class="badge badge-success">
+                                    <span class="badge bg-success">
                                         Arrivata
                                     </span>
                                 @endif
@@ -154,7 +135,7 @@
                             <td>
                                 {{ $pren->veicolo->nome }}
                                 @if ($pren->veicolo->deleted_at)
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         demolito
                                     </span>
                                 @endif
@@ -206,7 +187,7 @@
             </tbody>
         </table>
     </div>
-    <div class="row justify-content-center mb-2">
+    <div class="d-flex justify-content-center">
         <div class="btn-group btn-group-lg" role="group">
             <a
                 role="button"

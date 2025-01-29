@@ -10,17 +10,16 @@
         "format:write": "npx prettier --write resources"
     },
     "devDependencies": {
-        "prettier": "^3.2.5",
-        "prettier-plugin-blade": "^2.1.6"
-    },
-    "dependencies": {
-        "bootstrap": "^4.0.0",
-        "jquery": "^3.3.1",
         "laravel-mix": "^6.0.6",
-        "popper.js": "^1.13.0",
-        "puppeteer": "^20.7.3",
+        "prettier": "^3.4.2",
+        "prettier-plugin-blade": "^2.1.6",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.74.1",
         "sass-loader": "^12.6.0"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.3",
+        "puppeteer": "^20.7.3"
     }
 }

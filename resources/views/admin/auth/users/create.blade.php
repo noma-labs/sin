@@ -7,12 +7,12 @@
         <form action="{{ route("users.store") }}" method="POST">
             @csrf
 
-            <div class="form-group">
+            <div class="">
                 <label for="persona_id">Nominativo (Persona anagrafe)(*)</label>
                 <livewire:search-popolazione name_input="persona_id" />
             </div>
 
-            <div class="form-group">
+            <div class="">
                 <label for="username">Username(*)</label>
                 <input
                     type="text"
@@ -22,7 +22,7 @@
                 />
             </div>
 
-            <div class="form-group">
+            <div class="">
                 <h5><b>Assegna i ruoli all'utente</b></h5>
                 @foreach ($roles as $role)
                     <input
@@ -38,7 +38,7 @@
                 @endforeach
             </div>
 
-            <div class="form-group">
+            <div class="">
                 <label for="password">Password(*)</label>
                 <br />
                 <input
@@ -49,7 +49,7 @@
                 />
             </div>
 
-            <div class="form-group">
+            <div class="">
                 <label for="password_confirmation">Conferma Password(*)</label>
                 <br />
                 <input

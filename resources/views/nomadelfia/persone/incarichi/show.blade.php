@@ -10,12 +10,10 @@
                 <div class="card-body">
                     @if ($attuali->count() > 0)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Incarico</p>
-                            <p class="col-md-3 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-3 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-3 font-weight-bold">Op.</p>
+                            <p class="col-md-3 fw-bold">Incarico</p>
+                            <p class="col-md-3 fw-bold">Data Inizio</p>
+                            <p class="col-md-3 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-3 fw-bold">Op.</p>
                         </div>
                     @endif
 
@@ -28,7 +26,7 @@
                                 {{ $incarico->pivot->data_inizio_azienda }}
                             </p>
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($incarico->pivot->data_inizio_azienda)
                                 </span>
                             </div>
@@ -45,8 +43,8 @@
                                             id="formPersonaGruppoModifica"
                                             action="{{ route("nomadelfia.persone.incarichi.modifica", ["idPersona" => $persona->id, "id" => $incarico->id]) }}"
                                         >
-                                            {{ csrf_field() }}
-                                            <div class="form-group row">
+                                            @csrf
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
                                                     class="col-sm-6 col-form-label"
@@ -59,7 +57,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -74,7 +72,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -91,7 +89,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     class="col-sm-6 col-form-label"
                                                 >
@@ -100,7 +98,7 @@
                                                 <div class="col-sm-6">
                                                     <select
                                                         name="mansione"
-                                                        class="form-control"
+                                                        class="form-select"
                                                     >
                                                         <option selected>
                                                             ---seleziona
@@ -121,7 +119,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
                                                     class="col-sm-6 col-form-label"
@@ -209,9 +207,9 @@
                                 id="formPersonaAzinedaAggiungi"
                                 action="{{ route("nomadelfia.persone.incarichi.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 <h5 class="my-2">Nuovo Incarico</h5>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
                                         class="col-sm-6 col-form-label"
@@ -221,7 +219,7 @@
                                     <div class="col-sm-6">
                                         <select
                                             name="azienda_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona incarico ---
@@ -237,7 +235,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label class="col-sm-6 col-form-label">
                                         Data inizio incarico
                                     </label>
@@ -250,14 +248,14 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label class="col-sm-6 col-form-label">
                                         Mansione
                                     </label>
                                     <div class="col-sm-6">
                                         <select
                                             name="mansione"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona mansione---
@@ -294,10 +292,10 @@
                 <div class="card-header">Storico incarichi</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Incarico</p>
-                        <p class="col-md-3 font-weight-bold">Data inizio</p>
-                        <p class="col-md-3 font-weight-bold">Data fine</p>
-                        <p class="col-md-3 font-weight-bold">Tempo trascorso</p>
+                        <p class="col-md-3 fw-bold">Incarico</p>
+                        <p class="col-md-3 fw-bold">Data inizio</p>
+                        <p class="col-md-3 fw-bold">Data fine</p>
+                        <p class="col-md-3 fw-bold">Tempo trascorso</p>
                     </div>
                     @forelse ($storico->get() as $incaricoStorico)
                         <div class="row">
@@ -311,7 +309,7 @@
                                 {{ $incaricoStorico->pivot->data_fine_azienda }}
                             </p>
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($incaricoStorico->pivot->data_fine_azienda)->diffForHumans(Carbon::parse($incaricoStorico->pivot->data_inizio_azienda), ["short" => true]) }}
                                 </span>
                             </div>

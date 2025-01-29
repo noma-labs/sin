@@ -8,13 +8,13 @@
         id="form-modifica"
         action="{{ route("books.update", ["id" => $libro->id]) }}"
     >
-        {{ csrf_field() }}
+        @csrf
         @method("PUT")
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-10">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xCollocazione">Collocazione</label>
                             <input
                                 class="form-control"
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="">
                             <label for="editCollocazione">&nbsp;</label>
                             <div>
                                 <a
@@ -57,7 +57,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <label for="xAutori" class="control-label">Autore/i</label>
+                <label for="xAutori" class="form-label">Autore/i</label>
                 <livewire:search-autore
                     :persone_id="$libro->autori->pluck('id')->toArray()"
                     name_input="xIdAutori[]"
@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-md-6">
-                <label for="xEditori" class="control-label">Editore/i</label>
+                <label for="xEditori" class="form-label">Editore/i</label>
                 <livewire:search-editore
                     :persone_id="$libro->editori->pluck('id')->toArray()"
                     name_input="xIdEditori[]"
@@ -78,7 +78,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="isbn">ISBN</label>
                     <input
                         class="form-control"
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="data_pubblicazione">Data pubblicazione</label>
                     <input
                         type="date"
@@ -102,9 +102,9 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
+                <div class="">
                     <label for="categoria">Categoria</label>
-                    <select class="form-control" name="categoria" type="text">
+                    <select class="form-select" name="categoria" type="text">
                         <option disabled selected>
                             ---Seleziona la categoria---
                         </option>
@@ -127,7 +127,7 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="dimensione">Dimensione</label>
                     <input
                         class="form-control"
@@ -139,9 +139,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="">
                     <label for="critica">Critica</label>
-                    <select class="form-control" name="critica" type="text">
+                    <select class="form-select" name="critica" type="text">
                         <option disabled selected>
                             ---Seleziona la critica---
                         </option>
@@ -165,7 +165,7 @@
             <div class="col-md-12">
                 <label for="xClassificazione">Classificazione</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="xClassificazione"
                     type="text"
                     id="xClassificazione"
@@ -186,7 +186,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <label for="xNote" class="control-label">Note</label>
+                <label for="xNote" class="form-label">Note</label>
                 <input
                     type="text"
                     name="xNote"

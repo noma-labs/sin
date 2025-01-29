@@ -1,8 +1,2 @@
-window.Popper = require("popper.js/dist/umd/popper");
-
-try {
-  window.$ = window.jQuery = require("jquery/dist/jquery");
-  require("bootstrap");
-} catch (e) {
-  console.log(e);
-}
+// This includes Popper and all of Bootstrap's JS plugins.
+require("bootstrap/dist/js/bootstrap.min.js");

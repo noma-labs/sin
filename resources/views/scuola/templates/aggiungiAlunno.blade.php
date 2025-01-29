@@ -10,32 +10,30 @@
             id="formComponente"
             action="{{ route("scuola.classi.alunno.assegna", ["id" => $classe->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            @csrf
+            <div class="mb-3">
+                <label for="example-text-input" class="form-label">
                     Alunno
                 </label>
-                <div class="col-8">
-                    @if ($alunniPossibili->isNotEmpty())
-                        <select
-                            name="alunno_id[]"
-                            id="alunno_id"
-                            class="form-control"
-                            multiple
-                            size="{{ min($alunniPossibili->count(), 20) }}"
-                        >
-                            @foreach ($alunniPossibili as $alunno)
-                                <option value="{{ $alunno->id }}">
-                                    {{ "(" . Carbon::createFromFormat("Y-m-d", $alunno->data_nascita)->year . ") " . $alunno->nome . " " . $alunno->cognome . " (" . $alunno->data_entrata . " - " . $alunno->data_uscita . ")" }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @else
-                        <p class="text-danger">Nessun alunno</p>
-                    @endif
-                </div>
+                @if ($alunniPossibili->isNotEmpty())
+                    <select
+                        name="alunno_id[]"
+                        id="alunno_id"
+                        class="form-select"
+                        multiple
+                        size="{{ min($alunniPossibili->count(), 20) }}"
+                    >
+                        @foreach ($alunniPossibili as $alunno)
+                            <option value="{{ $alunno->id }}">
+                                {{ "(" . Carbon::createFromFormat("Y-m-d", $alunno->data_nascita)->year . ") " . $alunno->nome . " " . $alunno->cognome . " (" . $alunno->data_entrata . " - " . $alunno->data_uscita . ")" }}
+                            </option>
+                        @endforeach
+                    </select>
+                @else
+                    <p class="text-danger">Nessun alunno</p>
+                @endif
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data Inizio
                 </label>

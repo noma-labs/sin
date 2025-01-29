@@ -5,24 +5,30 @@
 
     <div class="row">
         <div class="col-md-8 table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="thead-inverse">
-                    <th scope="col" width="40%">Nominativo</th>
-                    <th scope="col" width="15%" class="text-center">Stato</th>
-                    <th scope="col" width="20%">Data inizio lavoro</th>
-                    <th scope="col" width="25%">Operazioni</th>
+            <table class="table table-hover bg-warning">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">Nominativo</th>
+                        <th scope="col" class="text-center">Stato</th>
+                        <th scope="col">Data inizio lavoro</th>
+                        <th scope="col">Operazioni</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($azienda->lavoratoriAttuali as $lavoratore)
-                        <tr id="{{ $lavoratore->id }}" hoverable>
+                        <tr
+                            class="table-primary"
+                            id="{{ $lavoratore->id }}"
+                            hoverable
+                        >
                             <td scope="row">
                                 {{ $lavoratore->nominativo }}
-                                <span class="badge badge-warning">
+                                <span class="badge bg-warning">
                                     {{ $lavoratore->pivot->mansione }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-primary">
+                                <span class="badge bg-primary">
                                     {{ $lavoratore->pivot->stato }}
                                 </span>
                             </td>
@@ -69,14 +75,10 @@
                                 id="{{ $lavoratore->id }}"
                             >
                                 {{ $lavoratore->nominativo }}
-                                <span
-                                    class="badge badge-danger badge-pill ml-4"
-                                >
+                                <span class="badge bg-danger rounded-pill ms-4">
                                     {{ $lavoratore->pivot->data_fine_azienda }}
                                 </span>
-                                <span
-                                    class="badge badge-danger badge-pill ml-1"
-                                >
+                                <span class="badge bg-danger rounded-pill ms-1">
                                     {{ $lavoratore->pivot->stato }}
                                 </span>
                             </a>

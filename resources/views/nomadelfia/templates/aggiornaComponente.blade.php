@@ -10,8 +10,8 @@
             id="formComponenteAggiorna{{ $componente->persona_id }}"
             action="{{ route("nomadelfia.famiglie.componente.aggiorna", ["id" => $famiglia->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
+            @csrf
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Persona
                 </label>
@@ -26,12 +26,12 @@
                     {{ $componente->nominativo }}
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="posizione">
+                    <select class="form-select" name="posizione">
                         <option
                             value="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
                             ="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
@@ -53,7 +53,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Stato:
                 </label>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Note:
                 </label>

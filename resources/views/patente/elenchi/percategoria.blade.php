@@ -12,8 +12,8 @@
                                 <button
                                     class="btn btn-link"
                                     type="button"
-                                    data-toggle="collapse"
-                                    data-target="#categoria{{ $categoria->id }}"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#categoria{{ $categoria->id }}"
                                     aria-expanded="false"
                                     aria-controls="{{ $categoria->id }}"
                                 >
@@ -55,8 +55,8 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
-                                        data-target="#cqc{{ $cqc->id }}"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#cqc{{ $cqc->id }}"
                                         aria-expanded="true"
                                         aria-controls="{{ $cqc->id }}"
                                     >

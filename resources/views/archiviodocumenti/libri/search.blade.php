@@ -4,10 +4,10 @@
     @include("partials.header", ["title" => "Ricerca Archivio Libri"])
 
     <form method="GET" action="{{ route("archiviodocumenti.libri.ricerca") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-3">
-                <label for="collocazione" class="control-label">
+                <label for="collocazione" class="form-label">
                     Collocazione
                 </label>
                 <input
@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="xTitolo" class="control-label">Titolo</label>
+                <label for="xTitolo" class="form-label">Titolo</label>
                 <input
                     class="form-control"
                     name="titolo"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="autore" class="control-label">Autore</label>
+                <label for="autore" class="form-label">Autore</label>
                 <input
                     class="form-control"
                     name="autore"
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-3">
-                <label for="editore" class="control-label">Editore</label>
+                <label for="editore" class="form-label">Editore</label>
                 <input
                     class="form-control"
                     name="editore"
@@ -66,9 +66,9 @@
             <div class="col-md-5"></div>
 
             <div class="col-md-2">
-                <div class="form-group">
+                <div class="">
                     <label id="lab">&nbsp;</label>
-                    <button type="submit" class="btn btn-block btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         Ricerca
                     </button>
                 </div>
@@ -84,7 +84,12 @@
         >
             Ricerca effettuata:
             <strong>{{ $msgSearch }}</strong>
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">
+            <a
+                href="#"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="close"
+            >
                 &times;
             </a>
         </div>
@@ -96,29 +101,29 @@
             <strong>{{ $libri->total() }}</strong>
         </div>
 
-        <table id="table" class="table table-bordered table-hover table-sm">
-            <thead class="thead-inverse">
+        <table id="table" class="table table-hover">
+            <thead>
                 <tr>
-                    <th style="width: 5%" style="font-size: 10px">STATO</th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>STATO</th>
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("COLLOCAZIONE", "COLLOC") }}
                     </th>
-                    <th style="width: 30%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("TITOLO") }}
                     </th>
-                    <th style="width: 10%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("AUTORE") }}
                     </th>
-                    <th style="width: 12%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("EDITORE") }}
                     </th>
-                    <th style="width: 18%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("LOCALITA") }}
                     </th>
-                    <th style="width: 20%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("ANNO") }}
                     </th>
-                    <th style="width: 20%" style="font-size: 10px">
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("Cop.SCAT.") }}
                     </th>
                 </tr>
@@ -128,9 +133,7 @@
                     <tr>
                         <td>
                             @if ($libro->stato == 1)
-                                <span class="badge badge-warning">
-                                    In stampa
-                                </span>
+                                <span class="badge bg-warning">In stampa</span>
                             @endif
                         </td>
                         <td>{{ $libro->foglio }}</td>
@@ -171,19 +174,17 @@
                     </h5>
                     <button
                         type="button"
-                        class="close"
-                        data-dismiss="modal"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
                         aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    ></button>
                 </div>
                 <div class="modal-body">Vuo davvero eliminare la patente ?</div>
                 <div class="modal-footer">
                     <button
                         type="button"
                         class="btn btn-secondary"
-                        data-dismiss="modal"
+                        data-bs-dismiss="modal"
                     >
                         Close
                     </button>

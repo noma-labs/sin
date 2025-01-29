@@ -12,18 +12,14 @@
         >
             @method("PUT")
             @csrf
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Note</span>
-                </div>
-                <textarea
-                    class="form-control"
-                    name="note"
-                    aria-label="With textarea"
-                >
-{{ $anno->descrizione }}</textarea
-                >
-            </div>
+            <label class="form-label">Note</label>
+            <textarea
+                class="form-control"
+                name="note"
+                aria-label="With textarea"
+            >
+{{ $anno->descrizione }} </textarea
+            >
         </form>
     </x-slot>
     <x-slot:footer>

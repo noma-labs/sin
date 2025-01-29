@@ -5,10 +5,10 @@
     @include("partials.header", ["title" => "Aggiugni ruolo"])
 
     <form method="post" action="{{ route("roles.store") }}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="form-group">
+                <div class="">
                     <label for="nome">Nome del ruolo</label>
                     <input
                         type="text"
@@ -17,7 +17,7 @@
                         class="form-control"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="descrizione">Descrizione ruolo</label>
                     <input
                         type="text"
@@ -32,10 +32,10 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h4><strong>Associa i permessi</strong></h4>
-                <table class="table table-bordered table-hover table-sm">
+                <table class="table table-hover">
                     <tbody>
                         @foreach ($permissions as $permission)
-                            <tr>
+                            <tr class="table-primary">
                                 <input
                                     type="checkbox"
                                     id="{{ $permission->id }}"

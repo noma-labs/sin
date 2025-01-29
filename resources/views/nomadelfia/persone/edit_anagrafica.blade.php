@@ -11,8 +11,8 @@
                 action="{{ route("nomadelfia.persone.anagrafica.update", ["idPersona" => $persona->id]) }}"
             >
                 @method("PUT")
-                {{ csrf_field() }}
-                <div class="form-group">
+                @csrf
+                <div class="">
                     <label for="name">Nome</label>
                     <input
                         id="name"
@@ -22,7 +22,7 @@
                         value="{{ old("nome") ? old("nome") : $persona->nome }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="surname">Cognome</label>
                     <input
                         id="surname"
@@ -32,7 +32,7 @@
                         value="{{ old("cognome") ? old("cognome") : $persona->cognome }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="fiscalcode">Codice Fiscale</label>
                     <input
                         id="fiscalcode"
@@ -42,7 +42,7 @@
                         value="{{ old("codicefiscale") ? old("codicefiscale") : $persona->cf }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="birthdate">Data Nascita</label>
                     <input
                         id="birthdate"
@@ -52,7 +52,7 @@
                         value="{{ old("datanascita") ? old("datanascita") : $persona->data_nascita }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="birthplace">Luogo Nascita</label>
                     <input
                         id="birthplace"
@@ -62,7 +62,7 @@
                         value="{{ old("luogonascita") ? old("luogonascita") : $persona->provincia_nascita }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="decesso">Data Decesso</label>
                     <input
                         id="birthdate"
@@ -72,7 +72,7 @@
                         value="{{ old("data_decesso") ? old("data_decesso") : $persona->data_decesso }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <div class="form-check">
                         <input
                             id="sexmen"
@@ -100,7 +100,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="">
                     <label for="biography">Biografia</label>
                     <textarea
                         id="biography"
@@ -112,7 +112,7 @@
                     >
                 </div>
 
-                <div class="form-group">
+                <div class="">
                     <button class="btn btn-danger">Torna indietro</button>
                     <button class="btn btn-success" type="submit">
                         Salva Modifiche

@@ -7,7 +7,7 @@
         class="nav-link dropdown-toggle"
         href="#"
         id="navbarDropdownMenuLink"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >

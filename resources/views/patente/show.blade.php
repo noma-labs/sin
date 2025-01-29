@@ -12,9 +12,11 @@
             >
                 @csrf
                 @method("PUT")
-                <div class="row">
+                <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="numero_patente">Persona:</label>
+                        <label class="form-label" for="numero_patente">
+                            Persona:
+                        </label>
                         <input
                             type="text"
                             class="form-control"
@@ -23,7 +25,9 @@
                         />
                     </div>
                     <div class="col-md-6">
-                        <label for="nome_cognome">Nome Cognome:</label>
+                        <label class="form-label" for="nome_cognome">
+                            Nome Cognome:
+                        </label>
 
                         @if ($patente->persona->nome and $patente->persona->cognome)
                             <input
@@ -41,10 +45,10 @@
                             />
                         @endif
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6">
-                        <label for="data_nascita">Data di nascita:</label>
+                        <label class="form-label" for="data_nascita">
+                            Data di nascita:
+                        </label>
 
                         @if ($patente->persona->data_nascita)
                             <input
@@ -63,7 +67,9 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                        <label for="luogo_nascita">Luogo di nascita:</label>
+                        <label class="form-label" for="luogo_nascita">
+                            Luogo di nascita:
+                        </label>
 
                         @if ($patente->persona->provincia_nascita)
                             <input
@@ -81,10 +87,8 @@
                             />
                         @endif
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-6">
-                        <label for="data_rilascio_patente">
+                        <label class="form-label" for="data_rilascio_patente">
                             Patente rilasciata il:
                         </label>
                         <input
@@ -95,7 +99,9 @@
                         />
                     </div>
                     <div class="col-md-6">
-                        <label for="rilasciata_dal">Rilasciata da:</label>
+                        <label class="form-label" for="rilasciata_dal">
+                            Rilasciata da:
+                        </label>
                         <input
                             type="text"
                             class="form-control"
@@ -103,10 +109,9 @@
                             value="{{ $patente->rilasciata_dal }}"
                         />
                     </div>
-                </div>
-                <div class="row">
+
                     <div class="col-md-6">
-                        <label for="data_scadenza_patente">
+                        <label class="form-label" for="data_scadenza_patente">
                             Patente valida fino al:
                         </label>
                         <input
@@ -117,7 +122,9 @@
                         />
                     </div>
                     <div class="col-md-6">
-                        <label for="numero_patente">Numero Patente:</label>
+                        <label class="form-label" for="numero_patente">
+                            Numero Patente:
+                        </label>
                         <input
                             type="text"
                             class="form-control"
@@ -125,16 +132,12 @@
                             value="{{ $patente->numero_patente }}"
                         />
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label for="note">Note:</label>
+                    <div class="col-md-12">
+                        <label class="form-label" for="note">Note:</label>
                         <textarea class="form-control" name="note">
              {{ $patente->note }} </textarea
                         >
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-md-12">
                         <div class="form-check">
                             <input
@@ -150,22 +153,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col-md-3">
-                        <button
-                            type="submit"
-                            form="edit-patente"
-                            class="btn btn-primary"
-                        >
-                            Salva
-                        </button>
-                    </div>
-                </div>
             </form>
         </div>
 
-        <div class="col-md-6">
-            <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="row g-3">
                 <div class="col-md-5">
                     <div class="card">
                         <h5 class="card-header">Categorie</h5>
@@ -173,7 +165,7 @@
                             <ul class="list-inline">
                                 @foreach ($patente->categorie as $cat)
                                     <li class="list-inline-item">
-                                        <span class="badge badge-primary">
+                                        <span class="badge bg-primary">
                                             {{ $cat->categoria }}
                                         </span>
                                     </li>
@@ -190,10 +182,10 @@
                             @foreach ($patente->cqc as $c)
                                 <div>
                                     <b>{{ $c->categoria }}</b>
-                                    <span class="badge badge-success">
+                                    <span class="badge bg-success">
                                         {{ $c->pivot->data_rilascio }}
                                     </span>
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         {{ $c->pivot->data_scadenza }}
                                     </span>
                                 </div>
@@ -204,6 +196,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" form="edit-patente" class="btn btn-primary">
+                Salva
+            </button>
         </div>
     </div>
 @endsection

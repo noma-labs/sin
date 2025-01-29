@@ -10,8 +10,8 @@
             id="formModificaDataEntrata{{ $persona->id }}"
             action="{{ route("nomadelfia.persone.dataentrata.modifica", ["idPersona" => $persona->id, "entrata" => $data_entrata]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
+            @csrf
+            <div class="row">
                 <label class="col-sm-6 col-form-label">
                     Nuova Data Entrata
                 </label>

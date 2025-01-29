@@ -11,11 +11,11 @@
                 method="POST"
                 action="{{ route("books.loans.update", $prestito->id) }}"
             >
-                {{ csrf_field() }}
+                @csrf
                 @method("PUT")
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xDataPrenotazione">
                                 Data Inizio Prestito
                             </label>
@@ -29,11 +29,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label
-                                for="xDataRestituzione"
-                                class="control-label"
-                            >
+                        <div class="">
+                            <label for="xDataRestituzione" class="form-label">
                                 Data Fine Prestito
                             </label>
                             <input
@@ -49,8 +46,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Cliente</label>
+                        <div class="">
+                            <label class="form-label">Cliente</label>
                             <livewire:search-persona
                                 :persone_id="$prestito->cliente->id"
                                 name_input="persona_id"
@@ -60,7 +57,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label class="form-label">Note</label>
                             <input
                                 type="text"
@@ -74,7 +71,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="">
                             <label for="xIdBibliotecario">Bibliotecario</label>
                             <input
                                 type="text"
@@ -102,7 +99,7 @@
                         >
                             Torna Prestiti
                         </a>
-                        <button class="btn btn-danger m-1 float-right">
+                        <button class="btn btn-danger m-1 float-end">
                             Elimina prestito
                         </button>
                     </div>

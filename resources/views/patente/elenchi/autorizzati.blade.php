@@ -1,16 +1,16 @@
 @foreach ($patentiAutorizzati->chunk(50) as $chunk)
     <div class="page">
-        <table class="table table-bordered table-sm table-striped">
+        <table class="table table-striped">
             <thead>
-                <tr>
-                    <th width="5%">#</th>
+                <tr class="table-warning">
+                    <th>#</th>
                     <th>Nome Cognome</th>
                     <th>Patente</th>
                     <th>Data Nascita</th>
                 </tr>
             </thead>
             @foreach ($chunk as $patente)
-                <tr>
+                <tr class="table-primary" hoverable>
                     <td>
                         @if ($loop->parent)
                             {{ $loop->parent->index * 50 + $loop->iteration }}

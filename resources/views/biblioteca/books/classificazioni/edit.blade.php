@@ -9,11 +9,10 @@
             <form
                 action="{{ route("classificazioni.update", $classificazione->id) }}"
                 method="POST"
-                class="form-horizontal"
             >
                 @csrf
                 @method("PUT")
-                <div class="form-group">
+                <div class="">
                     <label for="descrizione">Classificazione</label>
                     <input
                         type="text"
@@ -23,7 +22,7 @@
                         value="{{ $classificazione->descrizione }}"
                     />
                 </div>
-                <div class="form-group">
+                <div class="">
                     <button type="submit" class="btn btn-primary">Salva</button>
                 </div>
             </form>

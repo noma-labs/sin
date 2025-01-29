@@ -10,13 +10,13 @@
             id="formAssegnaGruppo{{ $famiglia_id }}"
             action="{{ route("nomadelfia.famiglie.gruppo.sposta", ["id" => $famiglia_id, "currentGruppo" => $gruppo_id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
+            @csrf
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Nuovo gruppo
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="nuovo_gruppo_id">
+                    <select class="form-select" name="nuovo_gruppo_id">
                         <option value="" selected>---scegli gruppo---</option>
                         @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppo)
                             @if ($gruppo->id != $gruppo_id)
@@ -28,7 +28,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <label for="example-text-input" class="col-4 col-form-label">
                     Data cambio gruppo:
                 </label>
@@ -41,7 +41,7 @@
                     />
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row">
                 <div class="col"></div>
                 <div class="text-justify">
                     Le seguenti persone saranno spostate nel gruppo familiare

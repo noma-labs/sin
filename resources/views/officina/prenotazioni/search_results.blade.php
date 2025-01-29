@@ -10,9 +10,12 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Ricerca effettuata:
         <strong>{{ $msgSearch }}</strong>
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">
-            &times;
-        </a>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
     </div>
 
     <div id="results" class="alert alert-success">
@@ -20,14 +23,10 @@
         <strong>{{ $prenotazioni->total() }}</strong>
     </div>
 
-    <!-- inizio tabella prenotazioni -->
     <div class="table-responsive">
-        <table
-            class="table table-hover table-bordered"
-            style="table-layout: auto; overflow-x: scroll"
-        >
-            <thead class="thead-inverse">
-                <tr>
+        <table class="table">
+            <thead>
+                <tr class="table-warning">
                     <th>Nome</th>
                     <th>Macchina</th>
                     <th>Data Partenza</th>
@@ -44,12 +43,12 @@
             <tbody>
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>{{ $pren->cliente->nominativo }}</td>
                             <td>
                                 {{ $pren->veicolo()->withTrashed()->first()->nome }}
                                 @if ($pren->veicolo()->withTrashed()->first()->deleted_at)
-                                    <span class="badge badge-danger">
+                                    <span class="badge bg-danger">
                                         demolito
                                     </span>
                                 @endif
@@ -63,10 +62,7 @@
                             <td>{{ $pren->destinazione }}</td>
                             <td>{{ $pren->note }}</td>
                             <td>
-                                <div
-                                    class="button-group btn-block"
-                                    role="group"
-                                >
+                                <div class="button-group" role="group">
                                     <a
                                         role="button"
                                         class="btn btn-warning"
@@ -89,9 +85,7 @@
             </tbody>
         </table>
     </div>
-    <div class="row">
-        <div class="col-md-6 offset-md-4">
-            {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-4") }}
-        </div>
+    <div class="d-flex justify-content-center">
+        {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
 @endsection

@@ -17,14 +17,14 @@
                                 <h5 class="mb-0">
                                     <button
                                         class="btn btn-link"
-                                        data-toggle="collapse"
-                                        data-target="#collapse{{ $classe->id }}"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $classe->id }}"
                                         aria-expanded="true"
                                         aria-controls="collapse{{ $classe->id }}"
                                     >
                                         {{ $classe->tipo->nome }}
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $classe->alunni()->count() }}
                                         </span>
@@ -47,7 +47,7 @@
                                                 @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                                 @liveRome($alunno)
                                                     <span
-                                                        class="badge badge-warning"
+                                                        class="badge bg-warning"
                                                     >
                                                         Roma
                                                     </span>

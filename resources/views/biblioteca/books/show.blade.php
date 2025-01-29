@@ -3,7 +3,7 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione libro"])
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-md-8">
             @if ($libro->trashed())
                 <div class="p-3 mb-2 bg-danger text-white">
@@ -14,7 +14,7 @@
                         action="{{ route("books.restore", $libro->id) }}"
                         method="post"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         @method("PUT")
                         <button form="restoreBook" class="btn btn-info my-2">
                             Ripristina Libro
@@ -23,9 +23,9 @@
                 </div>
             @endif
 
-            <div class="row">
+            <div class="row g-3">
                 <div class="col-md-6">
-                    <label>Collocazione</label>
+                    <label class="form-label">Collocazione</label>
                     <input
                         type="text"
                         class="form-control"
@@ -34,7 +34,7 @@
                     />
                 </div>
                 <div class="col-md-6">
-                    <label for="titolo">Titolo</label>
+                    <label class="form-label" for="titolo">Titolo</label>
                     <input
                         type="text"
                         class="form-control"
@@ -43,10 +43,9 @@
                         disabled
                     />
                 </div>
-            </div>
-            <div class="row">
+
                 <div class="col-md-6">
-                    <label for="autore">Autori</label>
+                    <label class="form-label" for="autore">Autori</label>
                     <livewire:search-autore
                         :persone_id="$libro->autori()->pluck('id')->toArray()"
                         name_input="xIdAutore"
@@ -54,17 +53,17 @@
                     />
                 </div>
                 <div class="col-md-6">
-                    <label for="autore">Editori</label>
+                    <label class="form-label" for="autore">Editori</label>
                     <livewire:search-editore
                         :persone_id="$libro->editori()->pluck('id')->toArray()"
                         name_input="xIdEditore"
                         :tmultiple="true"
                     />
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-12">
-                    <label for="autore">Classificazione</label>
+                    <label class="form-label" for="autore">
+                        Classificazione
+                    </label>
                     @if ($libro->classificazione)
                         <input
                             type="text"
@@ -75,10 +74,8 @@
                         />
                     @endif
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-4">
-                    <label for="isbn">ISBN</label>
+                    <label class="form-label" for="isbn">ISBN</label>
                     <input
                         class="form-control"
                         type="text"
@@ -87,7 +84,7 @@
                     />
                 </div>
                 <div class="col-md-4">
-                    <label>Data pubblicazione</label>
+                    <label class="form-label">Data pubblicazione</label>
                     <input
                         class="form-control"
                         type="date"
@@ -96,7 +93,7 @@
                     />
                 </div>
                 <div class="col-md-4">
-                    <label>Categoria</label>
+                    <label class="form-label">Categoria</label>
                     <input
                         class="form-control"
                         type="text"
@@ -108,7 +105,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <label>Dimensione</label>
+                    <label class="form-label">Dimensione</label>
                     <input
                         class="form-control"
                         type="text"
@@ -117,7 +114,7 @@
                     />
                 </div>
                 <div class="col-md-6">
-                    <label>Critica</label>
+                    <label class="form-label">Critica</label>
                     <input
                         class="form-control"
                         type="text"
@@ -127,9 +124,9 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-12">
-                    <label for="autore">Note</label>
+                    <label class="form-label" for="autore">Note</label>
                     <input
                         type="text"
                         class="form-control"
@@ -139,12 +136,13 @@
                     />
                 </div>
             </div>
+
             <form
                 id="addLibroPrint"
                 action="{{ route("books.labels.store-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
-                {{ csrf_field() }}
+                @csrf
             </form>
 
             <form
@@ -152,11 +150,11 @@
                 action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                 method="post"
             >
-                {{ csrf_field() }}
+                @csrf
             </form>
 
-            <div class="row my-2">
-                <div class="col-md-6">
+            <div class="row">
+                <div class="d-grid gap-2 d-md-block">
                     @if (! $libro->trashed())
                         <a
                             class="btn btn-success"
@@ -182,8 +180,7 @@
                             </button>
                         @endif
                     @endif
-                </div>
-                <div class="col-md-6">
+
                     @if (! $libro->trashed())
                         <a
                             class="btn btn-warning"

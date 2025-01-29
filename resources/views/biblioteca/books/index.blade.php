@@ -7,7 +7,7 @@
         class="nav-link dropdown-toggle"
         id="navbarDropdown"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -46,7 +46,7 @@
             href="{{ route("autori.index") }}"
             id="navbarDropdown"
             role="button"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
         >
@@ -67,7 +67,7 @@
             href="{{ route("editori.index") }}"
             id="navbarDropdown"
             role="button"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
         >

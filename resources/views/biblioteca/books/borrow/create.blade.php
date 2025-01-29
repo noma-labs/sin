@@ -8,13 +8,13 @@
         class="form"
         action="{{ route("books.borrow.store", $libro->id) }}"
     >
-        {{ csrf_field() }}
+        @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="xDatainizio" class="control-label">
+                        <div class="">
+                            <label for="xDatainizio" class="form-label">
                                 Data Inizio Prestito
                             </label>
                             <input
@@ -28,8 +28,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="xIdUtente" class="control-label">
+                        <div class="">
+                            <label for="xIdUtente" class="form-label">
                                 Cliente
                             </label>
                             <livewire:search-popolazione
@@ -40,8 +40,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="note" class="control-label">Note</label>
+                        <div class="">
+                            <label for="note" class="form-label">Note</label>
                             <input
                                 type="text"
                                 class="form-control"

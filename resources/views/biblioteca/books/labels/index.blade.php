@@ -12,8 +12,8 @@
                 </strong>
                 <a
                     href="#"
-                    class="close"
-                    data-dismiss="alert"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
                     aria-label="close"
                 >
                     &times;
@@ -41,12 +41,12 @@
                         Esporta etichette
                     </a>
                     <form
-                        class="float-right"
+                        class="float-end"
                         id="formRemoveAll"
                         action="{{ route("books.labels.delete") }}"
                         method="post"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         @method("DELETE")
                         <button
                             class="btn btn-danger"
@@ -64,7 +64,7 @@
                         <table
                             class="table table-striped table-hover table-bordered"
                         >
-                            <thead class="thead-inverse">
+                            <thead>
                                 <tr>
                                     <th>COLLOCAZIONE</th>
                                     <th>TITOLO</th>
@@ -85,7 +85,7 @@
                                                 action="{{ route("books.labels.delete-book", ["idLibro" => $libro->id]) }}"
                                                 method="post"
                                             >
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 <button
                                                     class="btn btn-danger"
                                                     type="submit"
@@ -132,7 +132,7 @@
                         class="form"
                         action="{{ route("books.labels.store-batch") }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <h5>Dalla collocazione:</h5>
 
                         <div class="row">
@@ -180,7 +180,7 @@
                             Aggiungi
                         </button>
                         <button
-                            class="btn btn-danger float-right my-2"
+                            class="btn btn-danger float-end my-2"
                             name="action"
                             value="remove"
                             type="submit"

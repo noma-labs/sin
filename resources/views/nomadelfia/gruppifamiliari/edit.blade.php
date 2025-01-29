@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Gruppo Familiare:
                                 </label>
                                 <div class="col-sm-6">
@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Capogruppo:
                                 </label>
                                 <div class="col-sm-6">
@@ -50,8 +50,8 @@
                                         id="formPersonaGruppoModifica{{ $gruppo->id }}"
                                         action="{{ route("nomadelfia.gruppifamiliari.capogruppo", ["id" => $gruppo->id]) }}"
                                     >
-                                        {{ csrf_field() }}
-                                        <div class="form-group row">
+                                        @csrf
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
                                                 class="col-sm-6 col-form-label"
@@ -70,7 +70,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
                                                 class="col-sm-6 col-form-label"
@@ -79,7 +79,7 @@
                                             </label>
                                             <div class="col-sm-6">
                                                 <select
-                                                    class="form-control"
+                                                    class="form-select"
                                                     name="nuovo"
                                                 >
                                                     <option value="" selected>
@@ -95,7 +95,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="row">
                                             <label
                                                 class="col-sm-6 col-form-label"
                                             >
@@ -137,7 +137,7 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold mt-2">
+                                        <div class="fw-bold mt-2">
                                             @include("nomadelfia.templates.persona", ["persona" => $persona])
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                         </p>
                                     @else
                                         <div class="col-md-6">
-                                            <div class="font-weight-bold mt-2">
+                                            <div class="fw-bold mt-2">
                                                 Fam.
                                                 <a
                                                     href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $famiglia_id]) }}"
@@ -194,7 +194,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         Persone
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ $gruppo->personeAttuale->count() }}
                         </span>
                     </h4>
