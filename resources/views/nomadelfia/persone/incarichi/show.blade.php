@@ -12,9 +12,7 @@
                         <div class="row">
                             <p class="col-md-3 fw-bold">Incarico</p>
                             <p class="col-md-3 fw-bold">Data Inizio</p>
-                            <p class="col-md-3 fw-bold">
-                                Tempo trascorso
-                            </p>
+                            <p class="col-md-3 fw-bold">Tempo trascorso</p>
                             <p class="col-md-3 fw-bold">Op.</p>
                         </div>
                     @endif

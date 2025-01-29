@@ -76,11 +76,7 @@
 
         <div class="col-md-2">
             <label class="form-label">Data arrivo</label>
-            <select
-                class="form-select"
-                name="criterio_data_arrivo"
-                type="text"
-            >
+            <select class="form-select" name="criterio_data_arrivo" type="text">
                 <option value="<">Minore</option>
                 <option value="<=" selected>Minore Uguale</option>
                 <option value="=">Uguale</option>

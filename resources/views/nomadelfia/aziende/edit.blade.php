@@ -10,13 +10,17 @@
                     <tr class="table-warning">
                         <th scope="col">Nominativo</th>
                         <th scope="col" class="text-center">Stato</th>
-                        <th scope="col" >Data inizio lavoro</th>
-                        <th scope="col" >Operazioni</th>
+                        <th scope="col">Data inizio lavoro</th>
+                        <th scope="col">Operazioni</th>
                     </tr>
                 </thead>
-               <tbody>
+                <tbody>
                     @foreach ($azienda->lavoratoriAttuali as $lavoratore)
-                        <tr class="table-primary"  id="{{ $lavoratore->id }}" hoverable>
+                        <tr
+                            class="table-primary"
+                            id="{{ $lavoratore->id }}"
+                            hoverable
+                        >
                             <td scope="row">
                                 {{ $lavoratore->nominativo }}
                                 <span class="badge bg-warning">

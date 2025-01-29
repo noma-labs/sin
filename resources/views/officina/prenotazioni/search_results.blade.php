@@ -40,7 +40,7 @@
                     <th></th>
                 </tr>
             </thead>
-           <tbody>
+            <tbody>
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
                         <tr class="table-primary" hoverable>

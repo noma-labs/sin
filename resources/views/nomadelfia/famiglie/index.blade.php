@@ -2,7 +2,7 @@
 
 @section("content")
     @include("partials.header", ["title" => "Gestione Famiglie"])
-    <div class="row row-cols-1 row-cols-md-4 d-flex ">
+    <div class="row row-cols-1 row-cols-md-4 d-flex">
         <div class="col">
             <div id="accordion">
                 <div class="card">

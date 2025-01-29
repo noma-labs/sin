@@ -70,9 +70,9 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-           <tbody>
+            <tbody>
                 @foreach ($veicoli as $veicolo)
-                    <tr  class="table-primary" hoverable>
+                    <tr class="table-primary" hoverable>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $veicolo->nome }}</td>
                         <td>{{ $veicolo->targa }}</td>

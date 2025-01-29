@@ -15,10 +15,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-2">
-                                <label
-                                    for="anno_scolastico"
-                                    class="form-label"
-                                >
+                                <label for="anno_scolastico" class="form-label">
                                     Anno Scolastico
                                 </label>
                                 <input

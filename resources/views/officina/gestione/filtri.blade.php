@@ -19,7 +19,7 @@
                         <th>Operazioni</th>
                     </tr>
                 </thead>
-               <tbody>
+                <tbody>
                     @foreach ($filtri as $filtro)
                         <tr class="table-primary">
                             <td>{{ $filtro->codice }}</td>

@@ -210,7 +210,7 @@
                 <th>Operazioni</th>
             </tr>
         </thead>
-       <tbody>
+        <tbody>
             @foreach ($patentiAll as $patente)
                 <tr class="table-primary" hoverable>
                     <td>

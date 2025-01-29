@@ -59,9 +59,7 @@
                             action="{{ route("scuola.stampa") }}"
                         >
                             @csrf
-                            <p>
-                                Seleziona gli elenchi da stampare:
-                            </p>
+                            <p>Seleziona gli elenchi da stampare:</p>
                             <div class="form-check">
                                 <input
                                     class="form-check-input"
@@ -97,10 +95,7 @@
                         </form>
                     </x-slot>
                     <x-slot:footer>
-                        <button
-                            class="btn btn-success"
-                            form="formStampa"
-                        >
+                        <button class="btn btn-success" form="formStampa">
                             Esporta (.doc)
                         </button>
                     </x-slot>

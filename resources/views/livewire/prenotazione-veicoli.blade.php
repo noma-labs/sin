@@ -45,7 +45,7 @@
         </div>
         <div class="col-md-4">
             <label class="form-label" for="veicolo">Veicolo</label>
-            <select class="form-select"  id="veiclo" name="veicolo">
+            <select class="form-select" id="veiclo" name="veicolo">
                 <option selected disabled hidden>{{ $message }}</option>
                 @foreach ($veicoli as $impiego => $tipologie)
                     @foreach ($tipologie as $tipologia => $veicoli)

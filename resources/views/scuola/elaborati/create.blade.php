@@ -102,9 +102,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <label for="alunni" class="form-label">
-                            Alunni/o
-                        </label>
+                        <label for="alunni" class="form-label">Alunni/o</label>
                         <livewire:search-persona
                             name_input="studenti_ids[]"
                             :multiple="true"
@@ -131,7 +129,8 @@
                             name="note"
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
-                        >{{ old("note") }}
+                        >
+{{ old("note") }}
                         </textarea>
                     </div>
                 </div>

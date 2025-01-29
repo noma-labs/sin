@@ -44,11 +44,7 @@
                     </div>
                     <div class="col col-md-2">
                         <label class="form-label" for="modello">Modello</label>
-                        <select
-                            name="modello"
-                            id="modello"
-                            class="form-select"
-                        >
+                        <select name="modello" id="modello" class="form-select">
                             <option value="">--Modelli--</option>
                             @foreach ($modelli as $modello)
                                 <option value="{{ $modello->id }}">
@@ -83,7 +79,7 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-           <tbody>
+            <tbody>
                 @foreach ($veicoli as $veicolo)
                     <tr class="table-primary" hoverable>
                         <td>{{ $loop->iteration }}</td>

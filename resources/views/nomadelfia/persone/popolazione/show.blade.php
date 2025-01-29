@@ -10,12 +10,8 @@
                     <div class="card-header">Posizione attuale</div>
                     <div class="card-body">
                         <div class="row">
-                            <p class="col-md-4 fw-bold">
-                                Data Entrata
-                            </p>
-                            <p class="col-md-2 fw-bold">
-                                Tempo trascorso
-                            </p>
+                            <p class="col-md-4 fw-bold">Data Entrata</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
                             <p class="col-md-6 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
@@ -43,9 +39,7 @@
                 <div class="card-body">
                     <div class="card-body">
                         <div class="row">
-                            <p class="col-md-2 fw-bold">
-                                Data entrata
-                            </p>
+                            <p class="col-md-2 fw-bold">Data entrata</p>
                             <p class="col-md-2 fw-bold">Data uscita</p>
                             <p class="col-md-2 fw-bold">Durata</p>
                             <p class="col-md-6 fw-bold">Operazioni</p>

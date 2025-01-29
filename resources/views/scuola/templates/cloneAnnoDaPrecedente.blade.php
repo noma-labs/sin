@@ -15,9 +15,7 @@
                 Gli studenti verranno importati in un nuovo anno facendoli
                 avanzare di una classe.
             </div>
-            <label class="form-label">
-                Data Inizio
-            </label>
+            <label class="form-label">Data Inizio</label>
             <input
                 type="date"
                 name="anno_inizio"

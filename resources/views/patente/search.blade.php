@@ -60,11 +60,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="categoria_patente">C.Q.C</label>
-                <select
-                    class="form-select"
-                    id="cqc_patente"
-                    name="cqc_patente"
-                >
+                <select class="form-select" id="cqc_patente" name="cqc_patente">
                     <option selected value="">---Scegli C.Q.C---</option>
                     @foreach ($cqc as $c)
                         <option value="{{ $c->id }}">
@@ -144,7 +140,7 @@
                 </thead>
                 <tbody>
                     @foreach ($patenti as $patente)
-                        <tr  class="table-primary" hoverable>
+                        <tr class="table-primary" hoverable>
                             <td>
                                 @if ($patente->persona->nome == null or $patente->persona->cognome == null)
                                     {{ $patente->persona->nominativo }}
@@ -252,9 +248,7 @@
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                    >
-
-                    </button>
+                    ></button>
                 </div>
                 <div class="modal-body">
                     Vuoi davvero eliminare la patente ?

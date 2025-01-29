@@ -47,7 +47,7 @@
                                 </a>
                             </li>
                         @else
-                             <li class="nav-item dropdown dropdown-center">
+                            <li class="nav-item dropdown dropdown-center">
                                 <a
                                     class="nav-link dropdown-toggle"
                                     href="#"

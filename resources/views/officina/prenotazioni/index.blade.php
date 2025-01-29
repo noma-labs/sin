@@ -96,7 +96,7 @@
     </form>
 
     <div class="table-responsive mb-3">
-        <table class="table table-hover table-sm" >
+        <table class="table table-hover table-sm">
             <thead class="table-warning">
                 <tr>
                     <th scope="col">#</th>

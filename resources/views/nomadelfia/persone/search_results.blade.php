@@ -24,7 +24,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover" >
+        <table class="table table-hover">
             <thead>
                 <tr class="table-warning">
                     <th>Numero Elenco</th>
@@ -36,7 +36,7 @@
                     <th>Operazioni</th>
                 </tr>
             </thead>
-           <tbody>
+            <tbody>
                 @foreach ($persone as $persona)
                     @empty($persona->delated_at)
                         <tr class="table-primary" hoverable>

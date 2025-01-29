@@ -17,7 +17,9 @@
                 class="form-control"
                 name="note"
                 aria-label="With textarea"
-            >{{$anno->descrizione }} </textarea >
+            >
+{{ $anno->descrizione }} </textarea
+            >
         </form>
     </x-slot>
     <x-slot:footer>

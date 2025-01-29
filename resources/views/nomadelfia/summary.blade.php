@@ -117,8 +117,12 @@
                             >
                                 Figli Maggiorenni
                             </a>
-                            <p>Donne ({{ count($figliMaggiorenni->donne) }})</p>
-                            <p>Uomini ({{ count($figliMaggiorenni->uomini) }})</p>
+                            <p>
+                                Donne ({{ count($figliMaggiorenni->donne) }})
+                            </p>
+                            <p>
+                                Uomini ({{ count($figliMaggiorenni->uomini) }})
+                            </p>
                             <span class="badge bg-primary rounded-pill">
                                 {{ $figliMaggiorenni->total }}
                             </span>
@@ -156,12 +160,16 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="form-label">Famiglie per posizione</label>
+                            <label class="form-label">
+                                Famiglie per posizione
+                            </label>
                             <ul>
                                 @foreach ($posizioniFamiglia as $posizione)
                                     <li>
                                         {{ $posizione->posizione_famiglia }} :
-                                        <strong>{{ $posizione->count }}</strong>
+                                        <strong>
+                                            {{ $posizione->count }}
+                                        </strong>
                                         @if ($posizione->sesso == "F")
                                             <span class="badge bg-primary">
                                                 {{ $posizione->sesso }}
@@ -241,18 +249,27 @@
                         @forelse ($activities as $act)
                             <li>
                                 @if ($act->isEnterEvent())
-                                    <span class="badge bg-success">Entrata</span>
+                                    <span class="badge bg-success">
+                                        Entrata
+                                    </span>
                                 @endif
+
                                 @if ($act->isExitEvent())
                                     <span class="badge bg-danger">Uscita</span>
                                 @endif
+
                                 @if ($act->isDeathEvent())
-                                    <span class="badge text-bg-dark">Decesso</span>
+                                    <span class="badge text-bg-dark">
+                                        Decesso
+                                    </span>
                                 @endif
+
                                 @include("nomadelfia.templates.persona", ["persona" => $act->subject])
                             </li>
                         @empty
-                            <p class="fst-italic">Non ci sono attività recenti</p>
+                            <p class="fst-italic">
+                                Non ci sono attività recenti
+                            </p>
                         @endforelse
                     </ul>
                 </div>

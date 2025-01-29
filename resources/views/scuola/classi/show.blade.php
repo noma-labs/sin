@@ -4,18 +4,14 @@
     @include("partials.header", ["title" => "Gestione Classe"])
 
     <div class="card mb-3">
-        <div class="card-header">
-            Classe {{ $classe->tipo->nome }}
-        </div>
+        <div class="card-header">Classe {{ $classe->tipo->nome }}</div>
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li
                     class="list-group-item d-flex justify-content-between align-items-center"
                 >
                     <p>A.S.</p>
-                    <a
-                        href="{{ route("scuola.anno.show", $anno->id) }}"
-                    >
+                    <a href="{{ route("scuola.anno.show", $anno->id) }}">
                         {{ $anno->scolastico }}
                     </a>
                 </li>

@@ -12,10 +12,7 @@
             <div class="col">
                 <div class="row g-3 mb-3">
                     <div class="col-6 col-md-2">
-                        <label
-                            for="call-number"
-                            class="form-label"
-                        >
+                        <label for="call-number" class="form-label">
                             Collocazione
                         </label>
                         <input
@@ -27,9 +24,7 @@
                         />
                     </div>
                     <div class="col-6 col-md-10">
-                        <label for="title" class="form-label">
-                            Titolo
-                        </label>
+                        <label for="title" class="form-label">Titolo</label>
                         <input
                             class="form-control"
                             type="text"
@@ -41,12 +36,7 @@
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-6 col-md-2">
-                        <label
-                            for="aa"
-                            class="form-label"
-                        >
-                            A/s
-                        </label>
+                        <label for="aa" class="form-label">A/s</label>
                         <input
                             class="form-control"
                             type="text"
@@ -128,24 +118,21 @@
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <label for="note" class="form-label">
-                            Note
-                        </label>
+                        <label for="note" class="form-label">Note</label>
                         <textarea
                             class="form-control"
                             id="note"
                             name="note"
                             rows="5"
                             placeholder="-- Inserisci il sommario del libro--- "
-                        > {{old("note") ? old("note") : $elaborato->note }}</textarea
+                        >
+ {{ old("note") ? old("note") : $elaborato->note }}</textarea
                         >
                     </div>
                 </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-12">
-                        <label for="alunni" class="form-label">
-                            Alunni/o
-                        </label>
+                        <label for="alunni" class="form-label">Alunni/o</label>
                         <livewire:search-alunno
                             :persone_id="$elaborato->studenti->pluck('id')->toArray()"
                             name_input="studenti_ids[]"

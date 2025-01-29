@@ -11,15 +11,15 @@
     },
     "devDependencies": {
         "laravel-mix": "^6.0.6",
-        "prettier": "^3.2.5",
+        "prettier": "^3.4.2",
         "prettier-plugin-blade": "^2.1.6",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.74.1",
         "sass-loader": "^12.6.0"
     },
     "dependencies": {
-        "bootstrap": "^5.3.3",
         "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.3",
         "puppeteer": "^20.7.3"
     }
 }

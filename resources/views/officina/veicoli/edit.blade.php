@@ -32,11 +32,7 @@
                     </div>
                     <div class="col-6 col-md-3">
                         <label for="marca">Marca</label>
-                        <select
-                            class="form-select"
-                            name="marca_id"
-                            type="text"
-                        >
+                        <select class="form-select" name="marca_id" type="text">
                             @foreach ($marche as $marca)
                                 <option
                                     value="{{ $marca->id }}"

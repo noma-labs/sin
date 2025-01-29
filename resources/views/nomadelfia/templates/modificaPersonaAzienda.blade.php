@@ -20,9 +20,7 @@
             />
 
             <div class="mb-3">
-                <label for="inputData" class="form-label">
-                    Mansione
-                </label>
+                <label for="inputData" class="form-label">Mansione</label>
                 <select name="mansione" class="form-select">
                     <option selected>---seleziona mansione ---</option>
                     <option
@@ -41,9 +39,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="inputData" class="form-label">
-                    Data inizio
-                </label>
+                <label for="inputData" class="form-label">Data inizio</label>
                 <input
                     type="date"
                     class="form-control"
