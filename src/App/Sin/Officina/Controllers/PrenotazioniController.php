@@ -102,7 +102,7 @@ final class PrenotazioniController
             ->orderBy('data_arrivo', 'desc')
             ->orderBy('ora_partenza', 'desc')
             ->orderBy('ora_arrivo', 'asc')
-            ->paginate(1);
+            ->paginate(25);
         $usi = Uso::all();
         $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
         $veicoli = Veicolo::orderBy('nome')->get();

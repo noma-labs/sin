@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-md">
+        <nav class="navbar sticky-top bg-body-tertiary navbar-expand-md">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url("/home") }}">
                     <img src="/images/logo-noma.png" alt="" height="40" />
