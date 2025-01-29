@@ -30,10 +30,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="">
-                            <label
-                                for="xDataRestituzione"
-                                class="form-label"
-                            >
+                            <label for="xDataRestituzione" class="form-label">
                                 Data Fine Prestito
                             </label>
                             <input

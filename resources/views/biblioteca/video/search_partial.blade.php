@@ -1,6 +1,5 @@
 @include("partials.header", ["title" => "Gestione DVD")])
 
-
 <form method="GET" class="form" action="{{ route("video.ricerca.submit") }}">
     @csrf
     <div class="row">

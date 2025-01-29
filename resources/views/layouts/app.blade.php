@@ -7,10 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-
-        <!-- Bootstrap CSS -->
-         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
-         <link rel="stylesheet" href="{{ asset("css/sin-theme.css") }}" />
+        <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
     </head>
     <body>
         <nav class="navbar navbar-expand-md">
@@ -50,7 +47,7 @@
                                 </a>
                             </li>
                         @else
-                            <li class="nav-item dropdown">
+                             <li class="nav-item dropdown dropdown-center">
                                 <a
                                     class="nav-link dropdown-toggle"
                                     href="#"

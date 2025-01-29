@@ -160,7 +160,7 @@
     </div>
 
     @if ($prestiti->count() > 0)
-        <table class="table table-hover table-striped ">
+        <table class="table table-hover table-striped">
             <thead>
                 <tr class="table-warning">
                     <th>DATA INIZIO PRESTITO</th>

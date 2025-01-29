@@ -16,13 +16,13 @@
         </div>
         <div class="col-md-8">
             @if ($prestitiAttivi->count() > 0)
-                <div class="table-responsive" style="max-height: 300px">
+                <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr class="table-warning">
                                 <th>Inizio prestito</th>
                                 <th>Collocazione</th>
-                                <th></th>Titolo</th>
+                                <th>Titolo</th>
                                 <th>Note</th>
                                 <th>Operazioni</th>
                             </tr>
@@ -61,7 +61,6 @@
             @else
                 <p class="bg-danger">Nessuna prenotazione attiva</p>
             @endif
-            <!-- </div> -->
         </div>
 
         <div class="col-md-4">

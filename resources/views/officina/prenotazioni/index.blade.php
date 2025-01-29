@@ -96,9 +96,9 @@
     </form>
 
     <div class="table-responsive mb-3">
-        <table class="table table-hover table-striped">
-            <thead>
-                <tr class="table-warning">
+        <table class="table table-hover table-sm" >
+            <thead class="table-warning">
+                <tr>
                     <th scope="col">#</th>
                     <th scope="col">Stato</th>
                     <th scope="col">Nome</th>
@@ -113,10 +113,10 @@
                     <th scope="col">Oper.</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-primary">
                 @foreach ($prenotazioni as $pren)
                     @empty($pren->delated_at)
-                        <tr scope="row"  class="table-primary">
+                        <tr scope="row">
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if ($pren->isPartita())

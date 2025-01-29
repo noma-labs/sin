@@ -22,7 +22,7 @@
                     <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("AUTORE") }}
                     </th>
-                    <th >
+                    <th>
                         {{ App\Traits\SortableTrait::link_to_sorting_action("EDITORE") }}
                     </th>
                     <th>
