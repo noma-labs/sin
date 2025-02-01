@@ -15,7 +15,7 @@
         "phpoffice/phpspreadsheet": "^3.0",
         "phpoffice/phpword": "^1.0",
         "pmatseykanets/laravel-sql-migrations": "dev-laravel10",
-        "sentry/sentry-laravel": "^4.5",
+        "sentry/sentry-laravel": "^4.11.0",
         "spatie/browsershot": "^3.57",
         "spatie/laravel-activitylog": "^4.0",
         "spatie/laravel-mailable-test": "^2.3",
