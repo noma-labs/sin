@@ -93,7 +93,6 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
 
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
-
     // TODO: move 'create' and 'store' action into a dedicated controller because they perfrom different actions and not create and store new persona
     Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('persone.create');
     Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('persone.store');
