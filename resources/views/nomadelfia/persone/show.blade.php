@@ -456,8 +456,9 @@
             </div>
         </div>
 
+        @can('scuola.visualizza')
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">Dati Famiglia</div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -515,6 +516,14 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">Scuola</div>
+                <div class="card-body">
+                    <a href="{{route('scuola.student.show', $persona->id)}}">Alunno</a>
+                </div>
+            </div>
         </div>
+        @endcan
     </div>
 @endsection
