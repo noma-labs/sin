@@ -44,7 +44,7 @@
                                             <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Categoria attuale
                                                 </label>
@@ -56,7 +56,7 @@
                                             </div>
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data inizio
                                                 </label>
@@ -72,7 +72,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine categoria
                                                 </label>
@@ -89,7 +89,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato
                                                 </label>
@@ -168,7 +168,7 @@
                                     <div class="row">
                                         <label
                                             for="inputPassword"
-                                            class="col-sm-6 col-form-label"
+                                            class="col-sm-6 form-label"
                                         >
                                             Data fine categoria
                                         </label>
@@ -198,7 +198,7 @@
                                 <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-6 col-form-label"
+                                        class="col-sm-6 form-label"
                                     >
                                         Categoria
                                     </label>
@@ -221,7 +221,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-sm-6 col-form-label">
+                                    <label class="col-sm-6 form-label">
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">

@@ -12,7 +12,7 @@
         >
             @csrf
             <div class="row">
-                <label class="col-sm-6 col-form-label">Nuova Data Uscita</label>
+                <label class="col-sm-6 form-label">Nuova Data Uscita</label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
                         <input

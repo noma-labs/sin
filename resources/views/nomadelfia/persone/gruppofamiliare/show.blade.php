@@ -48,7 +48,7 @@
                                             <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Gruppo familiare attuale
                                                 </label>
@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data entrata
                                                 </label>

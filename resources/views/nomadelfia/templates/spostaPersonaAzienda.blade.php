@@ -14,7 +14,7 @@
             @csrf
 
             <div class="row">
-                <label for="inputData" class="col-sm-6 col-form-label">
+                <label for="inputData" class="col-sm-6 form-label">
                     Data fine
                 </label>
                 <div class="col-sm-6">
@@ -29,7 +29,7 @@
             <hr />
 
             <div class="row">
-                <label for="staticEmail" class="col-sm-6 col-form-label">
+                <label for="staticEmail" class="col-sm-6 form-label">
                     Nuova azienda
                 </label>
                 <div class="col-sm-6">

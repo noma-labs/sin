@@ -50,7 +50,7 @@
                                             <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     posizione familiare attuale
                                                 </label>
@@ -63,7 +63,7 @@
 
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine posizione
                                                 </label>
@@ -115,7 +115,7 @@
                                     <div class="row">
                                         <label
                                             for="inputPassword"
-                                            class="col-sm-6 col-form-label"
+                                            class="col-sm-6 form-label"
                                         >
                                             Data fine posizione
                                         </label>
@@ -142,7 +142,7 @@
                                 <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-6 col-form-label"
+                                        class="col-sm-6 form-label"
                                     >
                                         Posizione
                                     </label>
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-sm-6 col-form-label">
+                                    <label class="col-sm-6 form-label">
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">

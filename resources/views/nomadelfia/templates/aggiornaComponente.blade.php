@@ -12,7 +12,7 @@
         >
             @csrf
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Persona
                 </label>
                 <div class="col-8">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Stato:
                 </label>
                 <div class="col-8">
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Note:
                 </label>
                 <div class="col-8">
