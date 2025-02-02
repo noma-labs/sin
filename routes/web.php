@@ -70,6 +70,7 @@ use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ElaboratiStudentsController;
 use App\Scuola\Controllers\ScuolaController;
+use App\Scuola\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -232,6 +233,7 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
     Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
 
+    Route::get('students/{id}', [StudentController::class, 'show'])->name('student.show');
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {

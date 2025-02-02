@@ -108,7 +108,7 @@
                     <ul>
                         @forelse ($elaborato->studenti as $studente)
                             <li>
-                                @include("nomadelfia.templates.persona", ["persona" => $studente])
+                                @include("scuola.templates.student", ["persona" => $studente])
                             </li>
                         @empty
                             <li>Nessuno studente.</li>
