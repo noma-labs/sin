@@ -184,13 +184,7 @@
                                 </label>
                                 <div class="col-sm-8">
                                     @if ($persona->biografia)
-                                        <textarea
-                                            class="form-control"
-                                            id="biografia"
-                                            readonly
-                                        >
-persona->biografia }}</textarea
-                                        >
+                                        <textarea class="form-control" id="biografia" readonly> {{$persona->biografia }}</textarea>
                                     @else
                                         <p class="text-danger">
                                             Nessuna biografia

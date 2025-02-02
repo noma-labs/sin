@@ -70,14 +70,6 @@
                         value="{{ old("luogo_nascita") }}"
                     />
                 </div>
-                <!-- <fieldset class="mb-3">
-                    <legend class="form-label"> Sesso: </legend>
-                    <input class="form-check-input" type="radio" name="sesso" id="forsessoM" value="M" @if(old('sesso')=='M') checked @endif />
-                    <label class="form-check-label" for="forsessoM"> Maschio </label> <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sesso" id="forsessoF" value="F" @if(old('sesso')=='F') checked @endif />
-                    <label class="form-check-label" for="forsessoF"> Femmina </label>
-                </fieldset> -->
-
                 <div class="mb-3">
                     <label for="forluogo" class="form-label">Sesso:</label>
                     <div class="form-check">
@@ -109,13 +101,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <button
-                        class="btn btn-success"
-                        name="_addonly"
-                        value="true"
-                        type="submit"
-                    >
-                        Salva
+                    <button class="btn btn-success" value="true" type="submit" >
+                        Inserisci
                     </button>
                 </div>
             </form>

@@ -47,14 +47,14 @@ final class PersonaAnagraficaController
         );
         $persona->save();
 
-        return redirect(route('nomadelfia.persone.anagrafica.entrata.scelta', ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+        return redirect(route('nomadelfia.persone.popolazine.entrata.create', ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
     public function edit($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.enagrafica.edit', compact('persona'));
+        return view('nomadelfia.persone.anagrafica.edit', compact('persona'));
     }
 
     public function update(Request $request, $idPersona)
