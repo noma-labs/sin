@@ -8,6 +8,8 @@ use App\Scuola\QueryBuilders\StudenteQueryBuilder;
 use Database\Factories\PersonaFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class Studente extends Model
@@ -34,9 +36,9 @@ final class Studente extends Model
         return $this->belongsToMany(Classe::class, 'db_scuola.alunni_classi', 'persona_id','classe_id');
     }
 
-    public function elaborati(): HasMany
+    public function elaborato(): BelongsToMany
     {
-        return $this->hasMany(Elaborato::class, 'id', 'studente_id');
+        return $this->belongsToMany(Elaborato::class, 'elaborati_studenti',  'studente_id', 'elaborato_id');
     }
 
     protected static function newFactory()
