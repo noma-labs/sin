@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-success" value="true" type="submit" >
+                    <button class="btn btn-success" value="true" type="submit">
                         Inserisci
                     </button>
                 </div>

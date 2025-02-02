@@ -96,14 +96,15 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('persone.dettaglio');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('persone.delete');
 
-    Route::get('persone/anagrafica', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
-    Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
+    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
+    Route::post('persone/anagrafica/new', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
     Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('persone.anagrafica.edit');
     Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('persone.anagrafica.update');
 
     Route::get('persone/{idPersona}/entrata', [PersonaEntrataController::class, 'create'])->name('persone.popolazine.entrata.create');
     Route::post('persone/{idPersona}/entrata', [PersonaEntrataController::class, 'store'])->name('persone.anagrafica.entrata.scelta');
     Route::post('persone/{idPersona}/entrata/{entrata}/modifica', [PersonaEntrataController::class, 'update'])->name('persone.dataentrata.modifica');
+
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('persone.uscita');
     Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('persone.datauscita.modifica');

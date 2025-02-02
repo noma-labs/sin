@@ -33,7 +33,9 @@
                     />
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="fiscalcode">Codice Fiscale</label>
+                    <label class="form-label" for="fiscalcode">
+                        Codice Fiscale
+                    </label>
                     <input
                         id="fiscalcode"
                         type="text"
@@ -43,7 +45,9 @@
                     />
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="birthdate">Data Nascita</label>
+                    <label class="form-label" for="birthdate">
+                        Data Nascita
+                    </label>
                     <input
                         id="birthdate"
                         class="form-control"
@@ -53,7 +57,9 @@
                     />
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="birthplace">Luogo Nascita</label>
+                    <label class="form-label" for="birthplace">
+                        Luogo Nascita
+                    </label>
                     <input
                         id="birthplace"
                         type="text"
@@ -82,7 +88,11 @@
                             value="M"
                             {{ $persona->sesso == "M" ? "checked" : "" }}
                         />
-                        <label class="form-label" for="sexmen" class="form-check-label">
+                        <label
+                            class="form-label"
+                            for="sexmen"
+                            class="form-check-label"
+                        >
                             Maschio
                         </label>
                     </div>
@@ -95,7 +105,11 @@
                             value="F"
                             {{ $persona->sesso == "F" ? "checked" : "" }}
                         />
-                        <label class="form-label" for="sexwomen" class="form-check-label">
+                        <label
+                            class="form-label"
+                            for="sexwomen"
+                            class="form-check-label"
+                        >
                             Femmina
                         </label>
                     </div>
@@ -109,7 +123,8 @@
                         rows="10"
                     >
                     {{ $persona->biografia }}
-                </textarea>
+                </textarea
+                    >
                 </div>
 
                 <div class="mb-3">

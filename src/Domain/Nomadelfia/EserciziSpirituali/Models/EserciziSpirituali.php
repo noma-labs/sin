@@ -129,7 +129,7 @@ final class EserciziSpirituali extends Model
 
     public function responsabile()
     {
-        return $this->hasOne(Persona::class, 'id', 'responsabile_id');
+        return $this->belongsTo(Persona::class, 'responsabile_id', 'id');
     }
 
     public function assegnaResponsabile($persona)
@@ -138,10 +138,9 @@ final class EserciziSpirituali extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->responsabile()->save($persona);
+            return $this->responsabile()->associate($persona);
         }
-
-        return $this->hasOne(Persona::class, 'persona_id', 'id');
+        throw new Exception('Bad person as arguemnt. It must be the id or the model of a person.');
     }
 
     protected static function newFactory()
