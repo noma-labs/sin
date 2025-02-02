@@ -456,74 +456,78 @@
             </div>
         </div>
 
-        @can('scuola.visualizza')
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-header">Dati Famiglia</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @if ($famigliaAttuale)
+        @can("scuola.visualizza")
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header">Dati Famiglia</div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            @if ($famigliaAttuale)
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label class="col-sm-4 fw-bold">
+                                            Nome Famiglia:
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <a
+                                                href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $persona->famigliaAttuale()->id]) }}"
+                                            >
+                                                {{ $persona->famigliaAttuale()->nome_famiglia }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label class="col-sm-4 fw-bold">
+                                            Posizione:
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <span>
+                                                {{ $persona->famigliaAttuale()->pivot->posizione_famiglia }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            @else
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label class="col-sm-4 fw-bold">
+                                            Tipo:
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <span>Single</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endif
                             <li class="list-group-item">
                                 <div class="row">
-                                    <label class="col-sm-4 fw-bold">
-                                        Nome Famiglia:
-                                    </label>
                                     <div class="col-sm-8">
                                         <a
-                                            href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $persona->famigliaAttuale()->id]) }}"
+                                            class="btn btn-warning"
+                                            href="{{ route("nomadelfia.persone.famiglie", ["idPersona" => $persona->id]) }}"
                                         >
-                                            {{ $persona->famigliaAttuale()->nome_famiglia }}
+                                            Modifica
                                         </a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <label class="col-sm-4 fw-bold">
-                                        Posizione:
-                                    </label>
-                                    <div class="col-sm-8">
-                                        <span>
-                                            {{ $persona->famigliaAttuale()->pivot->posizione_famiglia }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        @else
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <label class="col-sm-4 fw-bold">
-                                        Tipo:
-                                    </label>
-                                    <div class="col-sm-8">
-                                        <span>Single</span>
-                                    </div>
-                                </div>
-                            </li>
-                        @endif
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <a
-                                        class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.famiglie", ["idPersona" => $persona->id]) }}"
-                                    >
-                                        Modifica
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <div class="card-header">Scuola</div>
-                <div class="card-body">
-                    <a href="{{route('scuola.student.show', $persona->id)}}">Alunno</a>
+                <div class="card">
+                    <div class="card-header">Scuola</div>
+                    <div class="card-body">
+                        <a
+                            href="{{ route("scuola.student.show", $persona->id) }}"
+                        >
+                            Alunno
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
         @endcan
     </div>
 @endsection
