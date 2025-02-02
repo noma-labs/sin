@@ -6,11 +6,9 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="card mb-3">
-                <div class="card-header">
-                    Anagrafica
-                </div>
+                <div class="card-header">Anagrafica</div>
                 <div class="card-body">
-                   <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="row">
                                 <label class="col-sm-4 fw-bold">Nome:</label>
@@ -79,38 +77,51 @@
                         </li>
                     </ul>
                 </div>
-             </div>
+            </div>
         </div>
-         <div class="col">
-             <div class="card mb-3">
-                <div class="card-header">
-                    Classi frequentate
-                </div>
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-header">Classi frequentate</div>
                 <div class="card-body">
                     <ul>
-                        @foreach($student->classe as $classe)
-                             <li>
-                                 <a href="{{route('scuola.anno.show', $classe->anno->id)}}">  {{$classe->anno->scolastico}}</a>:
-                                 <a href="{{route('scuola.classi.show', $classe->id)}}"> {{$classe->tipo->ciclo}} {{$classe->tipo->nome}}</a>
-                             </li>
+                        @foreach ($student->classe as $classe)
+                            <li>
+                                <a
+                                    href="{{ route("scuola.anno.show", $classe->anno->id) }}"
+                                >
+                                    {{ $classe->anno->scolastico }}
+                                </a>
+                                :
+                                <a
+                                    href="{{ route("scuola.classi.show", $classe->id) }}"
+                                >
+                                    {{ $classe->tipo->ciclo }}
+                                    {{ $classe->tipo->nome }}
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
-             </div>
-         </div>
-         <div class="col">
-             <div class="card mb-3">
-                <div class="card-header">
-                    Elaborati
-                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-header">Elaborati</div>
                 <div class="card-body">
                     <ul>
-                    @foreach($student->elaborato as $elaborato)
-                            <li><a href="{{route('scuola.elaborati.show', $elaborato->id)}}">  {{$elaborato->anno_scolastico}}: {{$elaborato->titolo}}</a></li>
-                    @endforeach
+                        @foreach ($student->elaborato as $elaborato)
+                            <li>
+                                <a
+                                    href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
+                                >
+                                    {{ $elaborato->anno_scolastico }}:
+                                    {{ $elaborato->titolo }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
-             </div>
-         </div>
+            </div>
+        </div>
     </div>
 @endsection
