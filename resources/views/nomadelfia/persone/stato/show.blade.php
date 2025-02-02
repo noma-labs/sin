@@ -45,7 +45,7 @@
                                             <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato attuale
                                                 </label>
@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data inizio
                                                 </label>
@@ -73,7 +73,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine Stato
                                                 </label>
@@ -90,7 +90,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato
                                                 </label>
@@ -168,7 +168,7 @@
                                     <div class="row">
                                         <label
                                             for="dataInizio"
-                                            class="col-sm-6 col-form-label"
+                                            class="col-sm-6 form-label"
                                         >
                                             Data fine stato
                                         </label>
@@ -195,7 +195,7 @@
                                 <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-4 col-form-label"
+                                        class="col-sm-4 form-label"
                                     >
                                         Stato
                                     </label>
@@ -220,7 +220,7 @@
                                 <div class="row">
                                     <label
                                         for="inputPassword"
-                                        class="col-sm-4 col-form-label"
+                                        class="col-sm-4 form-label"
                                     >
                                         Data inizio
                                     </label>

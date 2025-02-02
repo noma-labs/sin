@@ -16,7 +16,7 @@
                 Completa dati del gruppo attuale: {{ $attuale->nome }}
             </h5>
             <div class="row">
-                <label for="inputPassword" class="col-sm-6 col-form-label">
+                <label for="inputPassword" class="col-sm-6 form-label">
                     Data uscita gruppo familiare
                 </label>
                 <div class="col-sm-6">
@@ -42,7 +42,7 @@
 
             <h5 class="my-2">Nuovo gruppo familiare</h5>
             <div class="row">
-                <label for="staticEmail" class="col-sm-6 col-form-label">
+                <label for="staticEmail" class="col-sm-6 form-label">
                     Gruppo familiare
                 </label>
                 <div class="col-sm-6">
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="row">
-                <label for="inputPassword" class="col-sm-6 col-form-label">
+                <label for="inputPassword" class="col-sm-6 form-label">
                     Data entrata gruppo familiare
                 </label>
                 <div class="col-sm-6">

@@ -47,7 +47,7 @@
                                             <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Incarico attuale
                                                 </label>
@@ -59,7 +59,7 @@
                                             </div>
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data Inzio
                                                 </label>
@@ -75,7 +75,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine
                                                 </label>
@@ -91,7 +91,7 @@
 
                                             <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Mansione
                                                 </label>
@@ -122,7 +122,7 @@
                                             <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato
                                                 </label>
@@ -212,7 +212,7 @@
                                 <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-6 col-form-label"
+                                        class="col-sm-6 form-label"
                                     >
                                         Incarico
                                     </label>
@@ -236,7 +236,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-sm-6 col-form-label">
+                                    <label class="col-sm-6 form-label">
                                         Data inizio incarico
                                     </label>
                                     <div class="col-sm-6">
@@ -249,7 +249,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-sm-6 col-form-label">
+                                    <label class="col-sm-6 form-label">
                                         Mansione
                                     </label>
                                     <div class="col-sm-6">

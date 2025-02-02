@@ -23,7 +23,7 @@ final class PersonaEntrataController
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
+        return view('nomadelfia.persone.popolazione.create', compact('persona'));
     }
 
     public function store(EntrataPersonaRequest $request, $idPersona)

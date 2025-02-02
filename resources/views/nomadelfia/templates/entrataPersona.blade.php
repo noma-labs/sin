@@ -1,7 +1,7 @@
 <form
     class="form"
     method="POST"
-    action="{{ route("nomadelfia.persone.inserimento.entrata.scelta.view", ["idPersona" => $persona->id]) }}"
+    action="{{ route("nomadelfia.persone.popolazine.entrata.create", ["idPersona" => $persona->id]) }}"
 >
     @csrf
 

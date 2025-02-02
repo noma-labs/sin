@@ -54,7 +54,7 @@
                                         <div class="row">
                                             <label
                                                 for="staticEmail"
-                                                class="col-sm-6 col-form-label"
+                                                class="col-sm-6 form-label"
                                             >
                                                 Capogruppo Attuale
                                             </label>
@@ -73,7 +73,7 @@
                                         <div class="row">
                                             <label
                                                 for="staticEmail"
-                                                class="col-sm-6 col-form-label"
+                                                class="col-sm-6 form-label"
                                             >
                                                 Nuovo capogruppo
                                             </label>
@@ -96,9 +96,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <label
-                                                class="col-sm-6 col-form-label"
-                                            >
+                                            <label class="col-sm-6 form-label">
                                                 Data Cambio
                                             </label>
                                             <div class="col-sm-6">

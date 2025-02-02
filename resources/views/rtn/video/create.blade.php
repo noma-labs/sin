@@ -12,7 +12,7 @@
                 <div class="row">
                     <label
                         for="forDataRegistrazione"
-                        class="col-md-4 col-form-label"
+                        class="col-md-4 form-label"
                     >
                         Data Registrazione
                     </label>
@@ -26,10 +26,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label
-                        for="forDataTrasmission"
-                        class="col-md-4 col-form-label"
-                    >
+                    <label for="forDataTrasmission" class="col-md-4 form-label">
                         Data Ultima trasmissione
                     </label>
                     <div class="col-md-8">
@@ -42,10 +39,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label
-                        for="forDataTrasmission"
-                        class="col-md-4 col-form-label"
-                    >
+                    <label for="forDataTrasmission" class="col-md-4 form-label">
                         Categoria Evento
                     </label>
                     <div class="col-md-8">
@@ -57,7 +51,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Operatore/i
                     </label>
                     <div class="col-md-8">
@@ -70,7 +64,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Località
                     </label>
                     <div class="col-md-8">
@@ -83,7 +77,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Argomento
                     </label>
                     <div class="col-md-8">
@@ -96,7 +90,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label for="inputPersona" class="col-md-4 col-form-label">
+                    <label for="inputPersona" class="col-md-4 form-label">
                         Persone
                     </label>
                     <div class="col-md-8">

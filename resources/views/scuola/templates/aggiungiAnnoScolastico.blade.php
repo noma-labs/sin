@@ -12,7 +12,7 @@
         >
             @csrf
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Data Inizio
                 </label>
                 <div class="col-md-8">

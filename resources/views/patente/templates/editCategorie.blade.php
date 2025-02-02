@@ -13,7 +13,7 @@
             @csrf
             @method("PUT")
             <div class="row">
-                <label for="example-text-input" class="col-4 col-form-label">
+                <label for="example-text-input" class="col-4 form-label">
                     Categorie
                 </label>
                 <div class="col-8">
