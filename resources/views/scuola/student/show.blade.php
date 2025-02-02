@@ -57,18 +57,6 @@
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <label class="col-sm-4 fw-bold">
-                                    Luogo Nascita:
-                                </label>
-                                <div class="col-sm-8">
-                                    <span>
-                                        {{ $student->provincia_nascita }}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
                                 <label class="col-sm-4 fw-bold">Sesso:</label>
                                 <div class="col-sm-8">
                                     <span>{{ $student->sesso }}</span>
@@ -84,19 +72,19 @@
                 <div class="card-header">Classi frequentate</div>
                 <div class="card-body">
                     <ul>
-                        @foreach ($student->classe as $classe)
+                        @foreach ($classes as $classe)
                             <li>
                                 <a
-                                    href="{{ route("scuola.anno.show", $classe->anno->id) }}"
+                                    href="{{ route("scuola.anno.show", $classe->anno_id) }}"
                                 >
-                                    {{ $classe->anno->scolastico }}
+                                    {{ $classe->anno_scolastico }}
                                 </a>
                                 :
                                 <a
                                     href="{{ route("scuola.classi.show", $classe->id) }}"
                                 >
-                                    {{ $classe->tipo->ciclo }}
-                                    {{ $classe->tipo->nome }}
+                                    {{ $classe->tipo_ciclo }}
+                                    {{ $classe->tipo_nome }}
                                 </a>
                             </li>
                         @endforeach
@@ -109,13 +97,14 @@
                 <div class="card-header">Elaborati</div>
                 <div class="card-body">
                     <ul>
-                        @foreach ($student->elaborato as $elaborato)
+                        @foreach ($works as $elaborato)
                             <li>
                                 <a
                                     href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                                 >
                                     {{ $elaborato->anno_scolastico }}:
                                     {{ $elaborato->titolo }}
+                                    ({{ $elaborato->classi }})
                                 </a>
                             </li>
                         @endforeach
