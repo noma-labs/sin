@@ -77,7 +77,7 @@
         </a>
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.create") }}"
+            href="{{ route("nomadelfia.persone.anagrafica.create") }}"
         >
             Inserisci Persona
         </a>
