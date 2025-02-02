@@ -93,17 +93,14 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
 
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
-    // TODO: move 'create' and 'store' action into a dedicated controller because they perfrom different actions and not create and store new persona
-    Route::get('persone-new', [PersoneController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('persone.create');
-    Route::post('persone', [PersoneController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('persone.store');
     Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('persone.dettaglio');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('persone.delete');
     Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
     Route::post('persone/anagrafica', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
     Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('persone.anagrafica.edit');
     Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('persone.anagrafica.update');
-    Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('persone.inserimento.entrata.scelta.view');
-    Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('persone.inserimento.entrata.scelta');
+    Route::get('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'create'])->name('persone.anagrafica.entrata.scelta.view');
+    Route::post('persone/{idPersona}/entrata/scelta', [PersonaEntrataController::class, 'store'])->name('persone.anagrafica.entrata.scelta');
     Route::post('persone/{idPersona}/entrata/{entrata}/modifica', [PersonaEntrataController::class, 'update'])->name('persone.dataentrata.modifica');
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('persone.decesso');
     Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('persone.uscita');
