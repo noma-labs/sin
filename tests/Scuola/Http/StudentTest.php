@@ -28,5 +28,5 @@ it('can render the student show page', function (): void {
 
     $this->get(action([StudentWorksController::class, 'show'], $student->id))
         ->assertStatus(200)
-        ->assertSee( $elaborato->titolo);
+        ->assertSee($elaborato->titolo);
 });
