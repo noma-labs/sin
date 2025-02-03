@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Scuola\Controllers;
 
-use App\Scuola\Models\Classe;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
 
@@ -19,7 +18,6 @@ final class StudentWorksController
             ->where('elaborati_studenti.studente_id', $id)
             ->orderBy('elaborati.anno_scolastico', 'ASC')
             ->get();
-
 
         return view('scuola.student.works.show', compact('works', 'student'));
     }

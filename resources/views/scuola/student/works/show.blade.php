@@ -1,31 +1,63 @@
-@extends("scuola.student.layout")
+@extends("scuola.index")
 
 @section("content")
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Studente</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Elaborati</li>
-        </ol>
-    </nav>
+    @include("partials.header", ["title" => "Alunno: " . $student->nome . " " . $student->cognome])
+
+    <ul
+        class="nav nav-pills pb-3 flex-column flex-sm-row justify-content-center"
+    >
+        <a
+            class="nav-link"
+            aria-current="page"
+            href="{{ route("scuola.student.show", $student->id) }}"
+        >
+            Anagrafica
+        </a>
+        <a
+            class="nav-link active"
+            href="{{ route("scuola.student.works.show", $student->id) }}"
+        >
+            Elaborati
+        </a>
+        <a
+            class="nav-link"
+            href="{{ route("scuola.student.classes.show", $student->id) }}"
+        >
+            Classi
+        </a>
+    </ul>
 
     <table class="table">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">A/S</th>
-            <th scope="col">Titolo</th>
-            <th scope="col">Classi</th>
-          </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th>Anno scolastico</th>
+                <th scope="col">Titolo</th>
+                <th scope="col">Classi</th>
+                <th scope="col">Operazioni</th>
+            </tr>
         </thead>
         <tbody>
             @foreach ($works as $elaborato)
-            <tr>
-                <th scope="row">1</th>
-                <td> {{ $elaborato->anno_scolastico }}:</td>
-                <td> {{ $elaborato->titolo }}:</td>
-                <td> {{ $elaborato->classi }}</td>
-            </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>
+                        <span class="badge rounded-pill text-bg-secondary">
+                            {{ $elaborato->anno_scolastico }}
+                        </span>
+                    </td>
+                    <td>{{ $elaborato->titolo }}</td>
+                    <td>{{ $elaborato->classi }}</td>
+                    <td>
+                        <a
+                            href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
+                            class="btn btn-primary"
+                        >
+                            Visualizza
+                        </a>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
-      </table>
+    </table>
 @endsection

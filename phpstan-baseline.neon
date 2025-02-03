@@ -2128,6 +2128,16 @@ parameters:
 		-
 			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:select\\(\\)\\.$#"
 			count: 1
+			path: src/App/Sin/Scuola/Controllers/StudentClassesController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:select\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/StudentClassesController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Classe\\:\\:select\\(\\)\\.$#"
+			count: 1
 			path: src/App/Sin/Scuola/Controllers/StudentController.php
 
 		-
@@ -2139,6 +2149,16 @@ parameters:
 			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:select\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Controllers/StudentController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Elaborato\\:\\:select\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/StudentWorksController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Studente\\:\\:select\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Scuola/Controllers/StudentWorksController.php
 
 		-
 			message: "#^Access to an undefined property App\\\\Scuola\\\\Models\\\\Anno\\:\\:\\$descrizione\\.$#"

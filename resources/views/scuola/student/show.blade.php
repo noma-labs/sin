@@ -1,6 +1,31 @@
-@extends("scuola.student.layout")
+@extends("scuola.index")
 
 @section("content")
+    @include("partials.header", ["title" => "Alunno: " . $student->nome . " " . $student->cognome])
+    <ul
+        class="nav nav-pills pb-3 flex-column flex-sm-row justify-content-center"
+    >
+        <a
+            class="nav-link active"
+            aria-current="page"
+            href="{{ route("scuola.student.show", $student->id) }}"
+        >
+            Anagrafica
+        </a>
+        <a
+            class="nav-link"
+            href="{{ route("scuola.student.works.show", $student->id) }}"
+        >
+            Elaborati
+        </a>
+        <a
+            class="nav-link"
+            href="{{ route("scuola.student.classes.show", $student->id) }}"
+        >
+            Classi
+        </a>
+    </ul>
+
     <div class="card mb-3">
         <div class="card-header">Anagrafica</div>
         <div class="card-body">
@@ -15,7 +40,9 @@
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <label class="form-label col-sm-4 fw-bold">Cognome:</label>
+                        <label class="form-label col-sm-4 fw-bold">
+                            Cognome:
+                        </label>
                         <div class="col-sm-8">
                             <span>{{ $student->cognome }}</span>
                         </div>
@@ -53,7 +80,9 @@
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <label class="form-label col-sm-4 fw-bold">Sesso:</label>
+                        <label class="form-label col-sm-4 fw-bold">
+                            Sesso:
+                        </label>
                         <div class="col-sm-8">
                             <span>{{ $student->sesso }}</span>
                         </div>
