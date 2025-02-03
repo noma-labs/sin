@@ -40,7 +40,6 @@
         </a>
     </div>
 
-
     <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-3">
         @foreach ($elaborati as $elaborato)
             <div class="col">
@@ -56,9 +55,9 @@
 
                         <!-- TODO: autore is taken from the "old" libro table and should be removed. It is only needed to have the old info for copying it into the new one -->
                         @if ($elaborato->autore)
-                        <div class="alert alert-warning" role="alert">
-                            {{ $elaborato->autore }}
-                          </div>
+                            <div class="alert alert-warning" role="alert">
+                                {{ $elaborato->autore }}
+                            </div>
                         @endif
 
                         <a
@@ -78,10 +77,11 @@
                         @endif
 
                         @if ($elaborato->file_path)
-                            <span class="badge rounded-pill bg-danger">pdf</span>
+                            <span class="badge rounded-pill bg-danger">
+                                pdf
+                            </span>
                         @endif
-
-                      </div>
+                    </div>
                 </div>
             </div>
         @endforeach
