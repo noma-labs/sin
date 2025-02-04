@@ -19,6 +19,8 @@ final class ElaboratiController
     {
         $order = $request->query('order', 'anno_scolastico');
         $by = $request->query('by', 'DESC');
+        $view = $request->get('view', 'cards');
+
         $elaborati = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
@@ -26,9 +28,7 @@ final class ElaboratiController
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('scuola.elaborati.index', [
-            'elaborati' => $elaborati,
-        ]);
+        return view('scuola.elaborati.index', compact('elaborati', 'view'));
     }
 
     public function create()
