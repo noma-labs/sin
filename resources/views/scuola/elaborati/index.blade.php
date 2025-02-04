@@ -92,7 +92,9 @@
                             <td>{{ $elaborato->collocazione }}</td>
                             <td>{{ $elaborato->file_mime_type }}</td>
                             <td>
+                                @if ($elaborato->file_size)
                                 {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
+                                @endif
                             </td>
                             <td>{{ strtolower($elaborato->note) }}</td>
                             <td>
@@ -120,7 +122,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ $elaborato->titolo }}
-                            </h5>
+                            </h5>s
 
                             {{ strtolower($elaborato->note) }}
 
@@ -153,11 +155,13 @@
                                 >
                                     {{ $elaborato->file_mime_type }}
                                 </span>
-                                <span
-                                    class="badge rounded-pill bg-dark-subtle text-dark-emphasis"
-                                >
-                                    {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
-                                </span>
+                                @if ($elaborato->file_size)
+                                    <span
+                                        class="badge rounded-pill bg-dark-subtle text-dark-emphasis"
+                                    >
+                                        {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
+                                    </span>
+                                @endif
                             @endif
 
                             <a
