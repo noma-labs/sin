@@ -85,7 +85,7 @@
                 </thead>
                 <tbody>
                     @foreach ($elaborati as $elaborato)
-                        <tr class="table-primary">
+                        <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $elaborato->titolo }}</td>
                             <td>{{ $elaborato->anno_scolastico }}</td>
