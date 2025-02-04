@@ -93,7 +93,7 @@
                             <td>{{ $elaborato->file_mime_type }}</td>
                             <td>
                                 @if ($elaborato->file_size)
-                                {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
+                                    {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
                                 @endif
                             </td>
                             <td>{{ strtolower($elaborato->note) }}</td>
@@ -122,7 +122,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ $elaborato->titolo }}
-                            </h5>s
+                            </h5>
 
                             {{ strtolower($elaborato->note) }}
 
