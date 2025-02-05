@@ -31,12 +31,22 @@
                     </div>
                 </form>
             @else
-                <a
-                    href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
-                    class="btn btn-primary"
-                >
-                    Scarica PDF
-                </a>
+                <div class="mb-3">
+                    <a
+                        href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
+                        class="btn btn-primary"
+                    >
+                        Scarica PDF
+                    </a>
+                    <a
+                        href="{{ route("scuola.elaborati.thumbnail.create", $elaborato->id) }}"
+                        class="btn btn-primary"
+                    >
+                        Carica copertina
+                    </a>
+                </div>
+
+
                 <iframe
                     src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
                     width="100%"

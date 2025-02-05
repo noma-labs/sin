@@ -73,7 +73,9 @@ use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Controllers\StudentClassesController;
 use App\Scuola\Controllers\StudentController;
 use App\Scuola\Controllers\StudentWorksController;
+use App\Scuola\Controllers\ThumbnailController;
 use Illuminate\Support\Facades\Route;
+use PhpOffice\PhpSpreadsheet\Writer\Ods\Thumbnails;
 
 Route::view('/', 'welcome');
 
@@ -234,6 +236,8 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
     Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
     Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
+    Route::get('elaborati/{id}/thumbnail', [ThumbnailController::class, 'create'])->name('elaborati.thumbnail.create');
+    Route::post('elaborati/{id}/thumbnail', [ThumbnailController::class, 'store'])->name('elaborati.thumbnail.store');
 
     Route::get('students/{id}', [StudentController::class, 'show'])->name('student.show');
     Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('student.works.show');
