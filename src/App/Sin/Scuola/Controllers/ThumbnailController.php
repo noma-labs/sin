@@ -6,6 +6,7 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Elaborato;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 final class ThumbnailController
 {
@@ -20,48 +21,62 @@ final class ThumbnailController
 
     public function store(Request $request, $id)
     {
+        $request->validate([
+            'file' => 'required|image|mimes:png|max:4096p',
+        ]);p
         $elaborato = Elaborato::findOrFail($id);
 
         $file = $request->file('file');
-
-        $pathToImages = $file->getPathname();
-        $fname = $file->getClientOriginalName();
+        $pathToImage = $file->getPathname();
 
         // Create a thumbnail
         $thumbWidth = 150; // Set the desired thumbnail width
-        $thumbnail = $this->createThumbnail($pathToImages, $fname, $thumbWidth);
+        $newImage = $this->scaleImage($pathToImage, $thumbWidth);
 
-        $storagePath = $file->storeAs('2026', 'thumbnail-2', 'scuola');
+        $tempThumbnailPath = sys_get_temp_dir() . '/thumbnail-' . $id . '.png';
+        imagepng($newImage, $tempThumbnailPath);
 
-        return response($thumbnail, 200)->header('Content-Type', 'image/png');
+        $thumbFileName = pathinfo($elaborato->file_path, PATHINFO_FILENAME);
+        $thumbFolder = pathinfo($elaborato->file_path, PATHINFO_DIRNAME);
 
-    }
-    private function createThumbnail($pathToImages, $fname, $thumbWidth)
+        $thumbFileName  = $thumbFolder ."/".$thumbFileName.'-thumbnail.png';
+        Storage::disk('scuola')->put($thumbFileName, file_get_contents($tempThumbnailPath));
+
+        // Update the elaborato record with the thumbnail details
+
+        imagedestroy($newImage);
+
+              }
+    private function scaleImage($pathToImages, $thumbWidth)
     {
-        // Load the image
         $img = imagecreatefrompng($pathToImages);
-        $width = imagesx($img);
-        $height = imagesy($img);
+        $sourceWidth = imagesx($img);
+        $sourceHeight = imagesy($img);
 
-        // Calculate thumbnail size
-        $new_width = $thumbWidth;
-        $new_height = (int) floor($height * ($thumbWidth / $width));
+        $desiredWidth = $thumbWidth;
+        $desiredHeight = (int) floor($sourceHeight * ($thumbWidth / $sourceWidth));
 
-        // Create a new temporary image
-        $tmp_img = imagecreatetruecolor($new_width, $new_height);
+        $newImage = imagecreatetruecolor($desiredWidth, $desiredHeight);
 
-        // Copy and resize old image into new image
-        imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        imagealphablending($newImage, false);
+        imagesavealpha($newImage, true);
 
-        // Save the thumbnail into a temporary file
-        $thumbnailPath = sys_get_temp_dir() . '/' . $fname . '_thumb.png';
-        imagepng($tmp_img, $thumbnailPath);
-
-        // Free up memory
+        imagecopyresampled(
+            $newImage,
+            $img,
+            0,
+            0,
+            0,
+            0,
+            $desiredWidth,
+            $desiredHeight,
+            $sourceWidth,
+            $sourceHeight,
+        );
+         // Free up memory
         imagedestroy($img);
-        imagedestroy($tmp_img);
 
-        return $thumbnailPath;
+        return $newImage;
     }
 
 

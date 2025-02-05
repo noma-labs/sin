@@ -8,6 +8,7 @@ use Database\Factories\ElaboratoFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 final class Elaborato extends Model
 {
@@ -36,5 +37,13 @@ final class Elaborato extends Model
     protected static function newFactory()
     {
         return ElaboratoFactory::new();
+    }
+
+    public function getFilePath(): ?string
+    {
+        if (! Storage::disk('scuola')->exists($this->file_path)) {
+           return null;
+        }
+        return Storage::disk('scuola')->url($this->file_path);
     }
 }

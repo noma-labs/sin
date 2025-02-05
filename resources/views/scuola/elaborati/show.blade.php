@@ -46,6 +46,8 @@
                     </a>
                 </div>
 
+                {{$elaborato->getFilePath()}}
+                <img src="{{$elaborato->getFilePath()}}" alt="Thumbnail" />
 
                 <iframe
                     src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
