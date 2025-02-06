@@ -46,8 +46,10 @@
                     </a>
                 </div>
 
-                <img src="{{$elaborato->getCoverImagePath()}}" alt="Thumbnail" />
-
+                <img
+                    src="{{ $elaborato->getCoverImagePath() }}"
+                    alt="Thumbnail"
+                />
             @endif
         </div>
 

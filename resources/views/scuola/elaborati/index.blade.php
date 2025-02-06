@@ -113,13 +113,15 @@
             @foreach ($elaborati as $elaborato)
                 <div class="col">
                     <div class="card h-100">
-                        @if($elaborato->getCoverImagePath())
-                        <img
-                            src="{{$elaborato->getCoverImagePath()}}"
-                            class="card-img-top p-3"
-                        />
+                        @if ($elaborato->getCoverImagePath())
+                            <img
+                                src="{{ $elaborato->getCoverImagePath() }}"
+                                class="card-img-top p-3"
+                            />
                         @else
-                        <p class="text-center p-3 h-100">preview mancante</p>
+                            <p class="text-center p-3 h-100">
+                                preview mancante
+                            </p>
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">
@@ -134,7 +136,6 @@
                                     {{ $elaborato->autore }}
                                 </div>
                             @endif
-
                         </div>
                         <div class="card-footer">
                             <span class="badge rounded-pill bg-secondary">

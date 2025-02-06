@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @property string $file_path
+ * @property string $cover_image_path
+ */
 final class Elaborato extends Model
 {
     use HasFactory;

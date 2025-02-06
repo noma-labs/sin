@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Elaborato;
+use GdImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,7 @@ final class CoverImageController
         return view('scuola.elaborati.cover.create', compact('elaborato'));
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request, string $id)
     {
         $request->validate([
             'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
@@ -49,7 +50,7 @@ final class CoverImageController
         return redirect()->route('scuola.elaborati.show', $id);
     }
 
-    private function scaleImage($pathToImages, $thumbWidth)
+    private function scaleImage($pathToImages, int $thumbWidth): GdImage|false
     {
         $img = imagecreatefrompng($pathToImages);
         $sourceWidth = imagesx($img);
