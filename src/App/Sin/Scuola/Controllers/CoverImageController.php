@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 final class CoverImageController
 {
-
     public function create($id)
     {
         $elaborato = Elaborato::findOrFail($id);
-        return view('scuola.elaborati.cover.create',compact('elaborato'));
+
+        return view('scuola.elaborati.cover.create', compact('elaborato'));
     }
 
     public function store(Request $request, $id)
@@ -31,13 +31,13 @@ final class CoverImageController
         $thumbWidth = 150; // Set the desired thumbnail width
         $newImage = $this->scaleImage($pathToImage, $thumbWidth);
 
-        $tempThumbnailPath = sys_get_temp_dir() . '/cover-' . $id . '.png';
+        $tempThumbnailPath = sys_get_temp_dir().'/cover-'.$id.'.png';
         imagepng($newImage, $tempThumbnailPath);
 
         $thumbFileName = pathinfo($elaborato->file_path, PATHINFO_FILENAME);
         $thumbFolder = pathinfo($elaborato->file_path, PATHINFO_DIRNAME);
 
-        $thumbFileName  = $thumbFolder ."/".$thumbFileName.'-cover.png';
+        $thumbFileName = $thumbFolder.'/'.$thumbFileName.'-cover.png';
 
         Storage::disk('public')->put($thumbFileName, file_get_contents($tempThumbnailPath));
 
@@ -47,7 +47,7 @@ final class CoverImageController
         imagedestroy($newImage);
 
         return redirect()->route('scuola.elaborati.show', $id);
-  }
+    }
 
     private function scaleImage($pathToImages, $thumbWidth)
     {
@@ -75,11 +75,9 @@ final class CoverImageController
             $sourceWidth,
             $sourceHeight,
         );
-         // Free up memory
+        // Free up memory
         imagedestroy($img);
 
         return $newImage;
     }
-
-
 }

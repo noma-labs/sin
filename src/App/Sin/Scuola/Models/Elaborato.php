@@ -34,16 +34,12 @@ final class Elaborato extends Model
         return $this->belongsToMany(Coordinatore::class, 'db_scuola.elaborati_coordinatori', 'elaborato_id', 'coordinatore_id')->orderby('nominativo');
     }
 
-    protected static function newFactory()
-    {
-        return ElaboratoFactory::new();
-    }
-
     public function getFilePath(): ?string
     {
         if (! Storage::disk('scuola')->exists($this->file_path)) {
-           return null;
+            return null;
         }
+
         return Storage::disk('scuola')->url($this->file_path);
     }
 
@@ -53,8 +49,14 @@ final class Elaborato extends Model
             return null;
         }
         if (! Storage::disk('public')->exists($this->cover_image_path)) {
-           return null;
+            return null;
         }
+
         return Storage::disk('public')->url($this->cover_image_path);
+    }
+
+    protected static function newFactory()
+    {
+        return ElaboratoFactory::new();
     }
 }
