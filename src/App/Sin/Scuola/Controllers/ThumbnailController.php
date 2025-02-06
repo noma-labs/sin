@@ -14,16 +14,15 @@ final class ThumbnailController
     public function create($id)
     {
         $elaborato = Elaborato::findOrFail($id);
-
-
         return view('scuola.elaborati.thumbnail.create',compact('elaborato'));
     }
 
     public function store(Request $request, $id)
     {
-        $request->validate([
-            'file' => 'required|image|mimes:png|max:4096p',
-        ]);p
+        // $request->validate([
+        //     'file' => 'required|image|mimes:png|max:4096',
+        // ]);
+
         $elaborato = Elaborato::findOrFail($id);
 
         $file = $request->file('file');
@@ -33,20 +32,26 @@ final class ThumbnailController
         $thumbWidth = 150; // Set the desired thumbnail width
         $newImage = $this->scaleImage($pathToImage, $thumbWidth);
 
-        $tempThumbnailPath = sys_get_temp_dir() . '/thumbnail-' . $id . '.png';
+        $tempThumbnailPath = sys_get_temp_dir() . '/cover-' . $id . '.png';
         imagepng($newImage, $tempThumbnailPath);
 
         $thumbFileName = pathinfo($elaborato->file_path, PATHINFO_FILENAME);
         $thumbFolder = pathinfo($elaborato->file_path, PATHINFO_DIRNAME);
 
-        $thumbFileName  = $thumbFolder ."/".$thumbFileName.'-thumbnail.png';
-        Storage::disk('scuola')->put($thumbFileName, file_get_contents($tempThumbnailPath));
+        $thumbFileName  = $thumbFolder ."/".$thumbFileName.'-cover.png';
+
+        Storage::disk('public')->put($thumbFileName, file_get_contents($tempThumbnailPath));
+
+        $elaborato->cover_image_path = $thumbFileName;
+        $elaborato->save();
+
 
         // Update the elaborato record with the thumbnail details
 
         imagedestroy($newImage);
 
-              }
+  }
+
     private function scaleImage($pathToImages, $thumbWidth)
     {
         $img = imagecreatefrompng($pathToImages);

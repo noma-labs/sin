@@ -113,10 +113,10 @@
             @foreach ($elaborati as $elaborato)
                 <div class="col">
                     <div class="card h-100">
-                        <!-- <img
-                        src="/images/logo-noma.png"
+                        <img
+                        src="{{$elaborato->getCoverImagePath()}}"
                         class="card-img-top img-fluid p-3"
-                    /> -->
+                    />
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ $elaborato->titolo }}

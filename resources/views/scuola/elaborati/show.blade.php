@@ -46,24 +46,8 @@
                     </a>
                 </div>
 
-                {{$elaborato->getFilePath()}}
-                <img src="{{$elaborato->getFilePath()}}" alt="Thumbnail" />
+                <img src="{{$elaborato->getCoverImagePath()}}" alt="Thumbnail" />
 
-                <iframe
-                    src="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
-                    width="100%"
-                    height="100%"
-                    title="{{ $elaborato->titolo }}"
-                >
-                    This browser does not support PDFs. Please download the PDF
-                    to view it:
-                    <a
-                        href="{{ route("scuola.elaborati.download", $elaborato->id) }}"
-                    >
-                        Download PDF
-                    </a>
-                    .
-                </iframe>
             @endif
         </div>
 

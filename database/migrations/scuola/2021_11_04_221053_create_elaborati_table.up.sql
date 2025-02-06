@@ -12,7 +12,10 @@ CREATE TABLE `elaborati`
     `file_mime_type`    varchar(64) DEFAULT NULL,
     `file_size`         bigint DEFAULT NULL,
     `file_hash`         varchar(64) DEFAULT NULL UNIQUE,
-    `cover_path`        varchar(256) DEFAULT NULL, -- path to cover image in png format
+
+    -- cover image path
+    `cover_image_path`        varchar(256) DEFAULT NULL,
+
 
     -- other
     `dimensione`           varchar(8) DEFAULT NULL COMMENT 'Formato del libro (larghazza X Altezza) in cm. 24x43',

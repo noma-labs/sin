@@ -46,4 +46,12 @@ final class Elaborato extends Model
         }
         return Storage::disk('scuola')->url($this->file_path);
     }
+
+    public function getCoverImagePath(): ?string
+    {
+        if (! Storage::disk('public')->exists($this->cover_image_path)) {
+           return null;
+        }
+        return Storage::disk('public')->url($this->cover_image_path);
+    }
 }
