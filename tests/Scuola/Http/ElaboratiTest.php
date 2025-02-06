@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Scuola;
 
+use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Models\Elaborato;
 use Faker\Factory as Faker;
@@ -63,4 +64,20 @@ it('can download a pdf file', function (): void {
         ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName);
 
     $this->assertTrue(Storage::disk('scuola')->exists($filePath));
+});
+
+it('can upload a cover image', function (): void {
+    login();
+
+    Storage::fake('public');
+    $file = UploadedFile::fake()->image('cover.png');
+
+    $elaborato = Elaborato::factory()->create();
+
+    $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
+        'file' => $file,
+    ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
+    $filePath = 'covers/'.$elaborato->id.'/cover.png';
+
+    Storage::disk('public')->assertExists($elaborato->cover_image_path);
 });

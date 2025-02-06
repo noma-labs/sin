@@ -2026,6 +2026,11 @@ parameters:
 			path: src/App/Sin/Scuola/Controllers/ClassiTipoController.php
 
 		-
+			message: "#^Call to an undefined static method App\\\\Scuola\\\\Models\\\\Elaborato\\:\\:findOrFail\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Controllers/CoverImageController.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:download\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Controllers/ElaboratiController.php
@@ -2349,6 +2354,11 @@ parameters:
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\Persona\\\\Models\\\\Persona\\:\\:findOrFail\\(\\)\\.$#"
 			count: 1
 			path: src/App/Sin/Scuola/Models/ClasseTipo.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:url\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Scuola/Models/Elaborato.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsToMany\\:\\:orderby\\(\\)\\.$#"

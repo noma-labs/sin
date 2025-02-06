@@ -66,6 +66,7 @@ use App\Scuola\Controllers\ClassiCoordinatoriController;
 use App\Scuola\Controllers\ClassiElaboratiController;
 use App\Scuola\Controllers\ClassiNoteController;
 use App\Scuola\Controllers\ClassiTipoController;
+use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Controllers\ElaboratiMediaController;
 use App\Scuola\Controllers\ElaboratiStudentsController;
@@ -234,6 +235,8 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
     Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
     Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
+    Route::get('elaborati/{id}/cover', [CoverImageController::class, 'create'])->name('elaborati.cover.create');
+    Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('elaborati.cover.store');
 
     Route::get('students/{id}', [StudentController::class, 'show'])->name('student.show');
     Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('student.works.show');
