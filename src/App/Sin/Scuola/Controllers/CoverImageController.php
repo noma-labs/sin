@@ -8,27 +8,26 @@ use App\Scuola\Models\Elaborato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-final class ThumbnailController
+final class CoverImageController
 {
 
     public function create($id)
     {
         $elaborato = Elaborato::findOrFail($id);
-        return view('scuola.elaborati.thumbnail.create',compact('elaborato'));
+        return view('scuola.elaborati.cover.create',compact('elaborato'));
     }
 
     public function store(Request $request, $id)
     {
-        // $request->validate([
-        //     'file' => 'required|image|mimes:png|max:4096',
-        // ]);
+        $request->validate([
+            'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
+        ]);
 
         $elaborato = Elaborato::findOrFail($id);
 
         $file = $request->file('file');
         $pathToImage = $file->getPathname();
 
-        // Create a thumbnail
         $thumbWidth = 150; // Set the desired thumbnail width
         $newImage = $this->scaleImage($pathToImage, $thumbWidth);
 
@@ -45,11 +44,9 @@ final class ThumbnailController
         $elaborato->cover_image_path = $thumbFileName;
         $elaborato->save();
 
-
-        // Update the elaborato record with the thumbnail details
-
         imagedestroy($newImage);
 
+        return redirect()->route('scuola.elaborati.show', $id);
   }
 
     private function scaleImage($pathToImages, $thumbWidth)

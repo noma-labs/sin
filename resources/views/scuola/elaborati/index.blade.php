@@ -113,10 +113,14 @@
             @foreach ($elaborati as $elaborato)
                 <div class="col">
                     <div class="card h-100">
+                        @if($elaborato->getCoverImagePath())
                         <img
-                        src="{{$elaborato->getCoverImagePath()}}"
-                        class="card-img-top img-fluid p-3"
-                    />
+                            src="{{$elaborato->getCoverImagePath()}}"
+                            class="card-img-top p-3"
+                        />
+                        @else
+                        <p class="text-center p-3 h-100">preview mancante</p>
+                        @endif
                         <div class="card-body">
                             <h5 class="card-title">
                                 {{ $elaborato->titolo }}
@@ -131,10 +135,6 @@
                                 </div>
                             @endif
 
-                            <a
-                                href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
-                                class="stretched-link"
-                            ></a>
                         </div>
                         <div class="card-footer">
                             <span class="badge rounded-pill bg-secondary">
@@ -161,7 +161,7 @@
                             @endif
 
                             <a
-                                href="{{ route("scuola.elaborati.preview", $elaborato->id) }}"
+                                href="{{ route("scuola.elaborati.show", $elaborato->id) }}"
                                 class="stretched-link"
                             ></a>
                         </div>

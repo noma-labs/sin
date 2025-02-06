@@ -49,6 +49,9 @@ final class Elaborato extends Model
 
     public function getCoverImagePath(): ?string
     {
+        if ($this->cover_image_path === null) {
+            return null;
+        }
         if (! Storage::disk('public')->exists($this->cover_image_path)) {
            return null;
         }

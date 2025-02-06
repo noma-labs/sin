@@ -39,7 +39,7 @@
                         Scarica PDF
                     </a>
                     <a
-                        href="{{ route("scuola.elaborati.thumbnail.create", $elaborato->id) }}"
+                        href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
                         class="btn btn-primary"
                     >
                         Carica copertina
