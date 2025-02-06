@@ -127,9 +127,6 @@
                             <h5 class="card-title">
                                 {{ $elaborato->titolo }}
                             </h5>
-
-                            {{ strtolower($elaborato->note) }}
-
                             <!-- TODO: autore is taken from the "old" libro table and should be removed. It is only needed to have the old info for copying it into the new one -->
                             @if ($elaborato->autore)
                                 <div class="alert alert-warning" role="alert">

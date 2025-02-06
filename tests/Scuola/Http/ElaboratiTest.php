@@ -66,8 +66,6 @@ it('can download a pdf file', function (): void {
     $this->assertTrue(Storage::disk('scuola')->exists($filePath));
 });
 
-
-
 it('can upload a cover image', function (): void {
     login();
 
@@ -79,7 +77,7 @@ it('can upload a cover image', function (): void {
     $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
         'file' => $file,
     ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
-    $filePath = 'covers/' . $elaborato->id . '/cover.png';
+    $filePath = 'covers/'.$elaborato->id.'/cover.png';
 
     Storage::disk('public')->assertExists($elaborato->cover_image_path);
 });
