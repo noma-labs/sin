@@ -119,11 +119,8 @@
                                 class="card-img-top"
                             />
                         @else
-                            <!-- <p class="text-center p-5 h-100">
-                                {{ $elaborato->titolo }}
-                            </p> -->
                             <div aria-hidden="true" class="h-100">
-                                <span class="placeholder col-12 h-100"></span>
+                                <span class="placeholder col-12 h-100"> </span>
                             </div>
                         @endif
                         <div class="card-footer">
