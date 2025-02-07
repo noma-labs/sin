@@ -92,9 +92,7 @@
                             <td>{{ $elaborato->collocazione }}</td>
                             <td>{{ $elaborato->file_mime_type }}</td>
                             <td>
-                                @if ($elaborato->file_size)
-                                    {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
-                                @endif
+                                {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
                             </td>
                             <td>{{ strtolower($elaborato->note) }}</td>
                             <td>
@@ -118,25 +116,19 @@
                         @if ($elaborato->getCoverImagePath())
                             <img
                                 src="{{ $elaborato->getCoverImagePath() }}"
-                                class="card-img-top p-3"
+                                class="card-img-top"
                             />
                         @else
-                            <p class="text-center p-3 h-100">
-                                preview mancante
-                            </p>
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title">
+                            <!-- <p class="text-center p-5 h-100">
                                 {{ $elaborato->titolo }}
-                            </h5>
-                            <!-- TODO: autore is taken from the "old" libro table and should be removed. It is only needed to have the old info for copying it into the new one -->
-                            @if ($elaborato->autore)
-                                <div class="alert alert-warning" role="alert">
-                                    {{ $elaborato->autore }}
-                                </div>
-                            @endif
-                        </div>
+                            </p> -->
+                            <div aria-hidden="true" class="h-100">
+                                <span class="placeholder col-12 h-100"></span>
+                            </div>
+                        @endif
                         <div class="card-footer">
+                            <p class="card-text">{{ $elaborato->titolo }}</p>
+
                             <span class="badge rounded-pill bg-secondary">
                                 {{ $elaborato->anno_scolastico }}
                             </span>
@@ -151,15 +143,8 @@
                                 <span
                                     class="badge rounded-pill bg-dark-subtle text-dark-emphasis"
                                 >
-                                    {{ $elaborato->file_mime_type }}
+                                    {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
                                 </span>
-                                @if ($elaborato->file_size)
-                                    <span
-                                        class="badge rounded-pill bg-dark-subtle text-dark-emphasis"
-                                    >
-                                        {{ Illuminate\Support\Number::fileSize($elaborato->file_size) }}
-                                    </span>
-                                @endif
                             @endif
 
                             <a

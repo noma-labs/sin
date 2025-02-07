@@ -75,10 +75,15 @@
                         <strong>Anno Scolastico:</strong>
                         {{ $elaborato->anno_scolastico }}
                     </p>
-                    <p>
+                    <p >
                         <strong>Collocazione:</strong>
                         {{ $elaborato->collocazione }}
                     </p>
+                    @if ($elaborato->autore !== null && $elaborato->autore !== "")
+                        <p class="alert alert-warning">
+                            {{ $elaborato->autore }}
+                        </p>
+                    @endif
                 </div>
                 <div class="card-footer">
                     <a
