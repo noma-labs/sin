@@ -75,7 +75,7 @@
                         <strong>Anno Scolastico:</strong>
                         {{ $elaborato->anno_scolastico }}
                     </p>
-                    <p >
+                    <p>
                         <strong>Collocazione:</strong>
                         {{ $elaborato->collocazione }}
                     </p>

@@ -120,7 +120,7 @@
                             />
                         @else
                             <div aria-hidden="true" class="h-100">
-                                <span class="placeholder col-12 h-100"> </span>
+                                <span class="placeholder col-12 h-100"></span>
                             </div>
                         @endif
                         <div class="card-footer">
