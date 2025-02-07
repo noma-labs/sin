@@ -79,6 +79,11 @@
                         <strong>Collocazione:</strong>
                         {{ $elaborato->collocazione }}
                     </p>
+                    @if ($elaborato->autore !== null && $elaborato->autore !== "")
+                        <p class="alert alert-warning">
+                            {{ $elaborato->autore }}
+                        </p>
+                    @endif
                 </div>
                 <div class="card-footer">
                     <a

@@ -25,7 +25,7 @@ final class ElaboratiController
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->orderBy($order, $by)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('elaborati.collocazione', 'DESC')
             ->get();
 
         return view('scuola.elaborati.index', compact('elaborati', 'view'));
@@ -111,7 +111,11 @@ final class ElaboratiController
 
     public function show($id)
     {
-        $elaborato = Elaborato::with('studenti')->findOrFail($id);
+        $elaborato = Elaborato::with('studenti')
+            ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
+            ->select('elaborati.*', 'libro.autore')
+            ->where('elaborati.id', $id)
+            ->first();
 
         return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
     }
