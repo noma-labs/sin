@@ -112,19 +112,18 @@
         <div class="row row-cols-1 row-cols-md-4 row-cols-lg-6 g-3">
             @foreach ($elaborati as $elaborato)
                 <div class="col">
-                    <div class="card h-100" style="width: 18rem;">
-                            @if ($elaborato->getCoverImagePath())
-                                <img
-                                    src="{{ $elaborato->getCoverImagePath() }}"
-                                    class="card-img-top"
-                                />
-                            @else
-
-                                <img
-                                    src="{{ asset("images/placeholder.svg") }}"
-                                    class="card-img-top"
-                                />
-                            @endif
+                    <div class="card h-100" style="width: 18rem">
+                        @if ($elaborato->getCoverImagePath())
+                            <img
+                                src="{{ $elaborato->getCoverImagePath() }}"
+                                class="card-img-top"
+                            />
+                        @else
+                            <img
+                                src="{{ asset("images/placeholder.svg") }}"
+                                class="card-img-top"
+                            />
+                        @endif
                         <div class="card-footer mt-auto">
                             <p class="card-text">{{ $elaborato->titolo }}</p>
 
