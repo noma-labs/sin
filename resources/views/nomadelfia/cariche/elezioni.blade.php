@@ -3,11 +3,11 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Elezioni Cariche costituzionali"])
     <div class="row">
-        <div class="col-md-3 card-deck">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
                     Eleggibili: Consiglio Degli anziani
-                    <span class="badge badge-primary badge-pill">
+                    <span class="badge bg-primary rounded-pill">
                         {{ $anz->total }}
                     </span>
                 </div>
@@ -16,7 +16,7 @@
                         <div class="col-md-6">
                             <p>
                                 Uomini
-                                <span class="badge badge-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ count($anz->uomini) }}
                                 </span>
                             </p>
@@ -31,7 +31,7 @@
                         <div class="col-md-6">
                             <p>
                                 Donne
-                                <span class="badge badge-primary badge-pill">
+                                <span class="badge bg-primary rounded-pill">
                                     {{ count($anz->donne) }}
                                 </span>
                             </p>

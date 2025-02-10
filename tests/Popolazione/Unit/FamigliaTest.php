@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
-use Carbon;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -25,25 +27,25 @@ it('assign a component', function (): void {
     // assegna capo famiglia
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $now = Carbon::now()->toDatestring();
+    $now = Carbon::now()->startOfDay();
     $famiglia->assegnaComponente($persona, $famiglia::getCapoFamigliaEnum());
     expect($famiglia->capofamiglia()->id)->toBe($persona->id);
 
     // test assegna MOGLIE
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $now = Carbon::now()->toDatestring();
+    $now = Carbon::now()->startOfDay();
     $famiglia->assegnaComponente($persona, $famiglia::getMoglieEnum());
     expect($famiglia->moglie()->id)->toBe($persona->id);
 });
 
-it('throws and expection with bad capo famiglia', function (): void {
+it('throws exception with bad capo famiglia', function (): void {
     $famiglia = Famiglia::factory()->create();
     $minorenne = Persona::factory()->minorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($minorenne);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
-it('throw exceptions  with already capo famiglia', function (): void {
+it('throw exception with already capo famiglia', function (): void {
     $famiglia = Famiglia::factory()->create();
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaCapoFamiglia($capoFam);
@@ -51,7 +53,7 @@ it('throw exceptions  with already capo famiglia', function (): void {
     $famiglia->assegnaCapoFamiglia($newCapoFam);
 })->throws(CouldNotAssignCapoFamiglia::class);
 
-it('throw expection with multiple mogli', function (): void {
+it('thexception with multiple wives', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $famiglia->assegnaMoglie($persona);
@@ -59,14 +61,14 @@ it('throw expection with multiple mogli', function (): void {
     $famiglia->assegnaMoglie($persona2);
 })->throws(CouldNotAssignMoglie::class);
 
-it('throw expection with a man', function (): void {
+it('thexception with a man', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $this->expectException(CouldNotAssignMoglie::class);
     $famiglia->assegnaMoglie($persona);
 })->throws(CouldNotAssignMoglie::class);
 
-it('throw expection with minorenne', function (): void {
+it('thexception with minorenne', function (): void {
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $famiglia->assegnaMoglie($persona);
@@ -78,11 +80,11 @@ it('assign a wife succesfully', function (): void {
     $famiglia->assegnaMoglie($persona);
     expect($persona->id)->toBe($famiglia->moglie()->id);
 
-    //moglie
+    // moglie
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
-    $now = Carbon::now()->toDatestring();
-    $famiglia->assegnaMoglie($persona, $now);
+    $now = Carbon::now()->startOfDay();
+    $famiglia->assegnaMoglie($persona);
     expect($famiglia->moglie()->id)->toBe($persona->id);
 });
 
@@ -91,7 +93,7 @@ it('assign a wife succesfully', function (): void {
  *
  * */
 it('exit a children from family', function (): void {
-    $now = Carbon::now()->toDatestring();
+    $now = Carbon::now()->startOfDay();
     $gruppo = GruppoFamiliare::all()->random();
 
     $famiglia = Famiglia::factory()->create();
@@ -106,19 +108,18 @@ it('exit a children from family', function (): void {
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam);
-    $famiglia->assegnaMoglie($moglie, $now);
+    $famiglia->assegnaMoglie($moglie);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($fnato, Famiglia::findOrFail($famiglia->id));
 
     $act = app(EntrataMinorenneAccoltoAction::class);
-    $act->execute($faccolto, Carbon::now()->addYears(2)->toDatestring(), Famiglia::findOrFail($famiglia->id));
+    $act->execute($faccolto, Carbon::now()->addYears(2)->startOfDay(), Famiglia::findOrFail($famiglia->id));
 
     expect($famiglia->componentiAttuali()->get()->count())->toBe(4);
 
     // toglie un figlio dal nucleo familiare
-    $famiglia->uscitaDalNucleoFamiliare($fnato, Carbon::now()->addYears(4)->toDatestring(),
-        'test remove from nucleo');
+    $famiglia->uscitaDalNucleoFamiliare($fnato, 'test remove from nucleo');
 
     expect($famiglia->componentiAttuali()->get()->count())->toBe(3);
 });
@@ -133,7 +134,7 @@ it('assign a new group succesfully', function (): void {
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $fnato = Persona::factory()->minorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::all()->random();
-    $now = Carbon::now()->toDatestring();
+    $now = Carbon::now()->startOfDay();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($capoFam, $now, $gruppo);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
@@ -143,7 +144,7 @@ it('assign a new group succesfully', function (): void {
     $famiglia->assegnaFiglioNato($fnato);
 
     $nuovoGruppo = GruppoFamiliare::all()->random();
-    $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->toDatestring(), $nuovoGruppo->id, Carbon::now()->toDatestring());
+    $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo->id, Carbon::now()->startOfDay(), $nuovoGruppo->id, Carbon::now()->startOfDay());
     expect($capoFam->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
         ->and($moglie->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id)
         ->and($fnato->gruppofamiliareAttuale()->id)->toBe($nuovoGruppo->id);
@@ -155,7 +156,7 @@ it('get famiglie numerose', function (): void {
     $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
     $moglie = Persona::factory()->maggiorenne()->femmina()->create();
     $gruppo = GruppoFamiliare::all()->random();
-    $now = Carbon::now()->toDatestring();
+    $now = Carbon::now()->startOfDay();
     app(EntrataMaggiorenneConFamigliaAction::class)->execute($capoFam, $now, $gruppo);
     app(EntrataMaggiorenneConFamigliaAction::class)->execute($moglie, $now, $gruppo);
     $famiglia->assegnaCapoFamiglia($capoFam);
@@ -173,7 +174,7 @@ it('get famiglie numerose', function (): void {
     $fanNum6 = Famiglia::famiglieNumerose(8);
     expect($fanNum6)->toHaveCount(count($beforeFanNum) + 1);
 
-    app(UscitaPersonaAction::class)->execute($figlio, Carbon::now()->toDatestring());
+    app(UscitaPersonaAction::class)->execute($figlio, Carbon::now()->startOfDay());
 
     $fanNum = Famiglia::famiglieNumerose(8);
     expect($fanNum)->toHaveCount(count($beforeFanNum));

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasMultipleCategorieAttuale extends InvalidArgumentException
+final class PersonaHasMultipleCategorieAttuale extends NomadelfiaException
 {
-    public static function named(string $nome): PersonaHasMultipleCategorieAttuale
+    public static function named(string $nome): self
     {
         return new self("La persona `{$nome}` ha più di una categoria attuale.");
     }

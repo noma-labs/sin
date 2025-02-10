@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
-use Carbon;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Exception;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $ord
  */
-class Classe extends Model
+final class Classe extends Model
 {
     public $timestamps = true;
 
@@ -77,7 +79,7 @@ class Classe extends Model
         }
     }
 
-    public function importStudentsFromOtherClasse(Classe $classe_from, string $data_inizio): void
+    public function importStudentsFromOtherClasse(self $classe_from, string $data_inizio): void
     {
         $a = $classe_from->alunni()->get();
         $this->alunni()->attach($a, ['data_inizio' => $data_inizio]);
@@ -112,8 +114,23 @@ class Classe extends Model
 
     public function coordinatoriPossibili()
     {
-        $as = $this->anno()->first()->annoSolareInizio();
-        $all = PopolazioneNomadelfia::fraEta(18, 100, 'nominativo ASC', $as, true)->get();
+        $anno = $this->anno()->first();
+        $as = $anno->annoSolareInizio();
+
+        $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
+            ->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+
+        $date = Carbon::now()->setYear($as);
+
+        $end = $date->copy()->subYears(18)->endOfYear();
+        $start = $date->copy()->subYears(100)->startOfYear();
+
+        $all = $q->where('persone.data_nascita', '<=', $end)
+            ->where('persone.data_nascita', '>=', $start)
+            ->orderByRaw('nominativo ASC')
+            ->get();
+
         $alreadyIn = $this->coordinatori()->pluck('id');
 
         return $all->whereNotIn('id', $alreadyIn);
@@ -147,15 +164,38 @@ class Classe extends Model
 
     public function alunniPossibili()
     {
-        $as = $this->anno()->first()->annoSolareInizio();
+        $anno = $this->anno()->first();
+        $as = $anno->annoSolareInizio();
         $tipo = $this->tipo()->first();
+
+        $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
+            ->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+            ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
+
+        $date = Carbon::now()->setYear($as);
+
         if ($tipo->isPrescuola()) {
-            $all = PopolazioneNomadelfia::fraEta(3, 6, 'data_nascita ASC, nominativo ASC', $as, true)->get();
+            $end = $date->copy()->subYears(2)->endOfYear();
+            $start = $date->copy()->subYears(7)->startOfYear();
+        } elseif ($tipo->isElementari()) {
+            $end = $date->copy()->subYears(5)->endOfYear();
+            $start = $date->copy()->subYears(13)->startOfYear();
+        } elseif ($tipo->isMedie()) {
+            $end = $date->copy()->subYears(10)->endOfYear();
+            $start = $date->copy()->subYears(20)->startOfYear();
         } elseif ($tipo->IsUniversita()) {
-            $all = PopolazioneNomadelfia::fraEta(17, 26, 'data_nascita ASC, nominativo ASC', $as, true)->get();
+            $end = $date->copy()->subYears(17)->endOfYear();
+            $start = $date->copy()->subYears(26)->startOfYear();
         } else {
-            $all = PopolazioneNomadelfia::fraEta(6, 25, 'data_nascita ASC, nominativo ASC', $as, true)->get();
+            $end = $date->copy()->subYears(5)->endOfYear();
+            $start = $date->copy()->subYears(25)->startOfYear();
+
         }
+
+        $all = $q->where('persone.data_nascita', '<=', $end)
+            ->where('persone.data_nascita', '>=', $start)
+            ->orderByRaw('data_nascita ASC, nominativo ASC')
+            ->get();
 
         $ids = Studente::InAnnoScolastico($this->anno)->pluck('persona_id');
 

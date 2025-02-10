@@ -1,39 +1,44 @@
-<my-modal
+<x-modal
     modal-title="Aggiungi Coordinatore"
     button-title="Aggiungi coordinatore"
     button-style="btn-primary my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
             id="formAggiungiCoord"
             action="{{ route("scuola.classi.coordinatore.assegna", ["id" => $classe->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            @csrf
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Coordinatore
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_id">
+                    <select class="form-select" name="coord_id">
                         <option value="" selected>
                             ---scegli coordinatore--
                         </option>
                         @foreach ($coordPossibili as $p)
                             <option value="{{ $p->id }}">
-                                {{ $p->nominativo }}
+                                @if ($p->nominativo != $p->nome)
+                                    {{ $p->nome . " " . $p->cognome . " (" . $p->nominativo . ")" }}
+                                @else
+                                    {{ $p->nome . " " . $p->cognome }}
+                                @endif
+                                {{ "(" . Carbon::createFromFormat("Y-m-d", $p->data_nascita)->year . ") " }}
                             </option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Tipo
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="coord_tipo">
+                    <select class="form-select" name="coord_tipo">
                         <option value="" selected>---scegli tipo--</option>
                         @foreach (App\Scuola\Models\Coordinatore::getPossibleEnumValues("tipo", "db_scuola.coordinatori_classi") as $p)
                             <option value="{{ $p }}">{{ $p }}</option>
@@ -41,17 +46,17 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Data Inizio
                 </label>
                 <div class="col-8">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_inizio") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="data_inizio"
-                    ></date-picker>
+                        value="{{ old("data_inizio") }}"
+                        class="form-control"
+                    />
                     <small id="emailHelp" class="form-text text-muted">
                         Lasciare vuoto se concide con la data di inzio anno
                         scolastico.
@@ -59,8 +64,8 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger" form="formAggiungiCoord">Salva</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

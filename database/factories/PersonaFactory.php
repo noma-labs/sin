@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PersonaFactory extends Factory
+final class PersonaFactory extends Factory
 {
     protected $model = Persona::class;
 
@@ -29,6 +31,15 @@ class PersonaFactory extends Factory
             'data_nascita' => $this->faker->date,
             'id_arch_pietro' => 0,
         ];
+    }
+
+    public function cognome(string $cognome)
+    {
+        return $this->state(function (array $attributes) use ($cognome) {
+            return [
+                'cognome' => $cognome,
+            ];
+        });
     }
 
     public function femmina()

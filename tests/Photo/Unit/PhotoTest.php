@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Domain\Photo\Models\Photo;
 
 use function PHPUnit\Framework\assertEquals;

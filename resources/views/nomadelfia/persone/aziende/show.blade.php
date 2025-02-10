@@ -10,15 +10,11 @@
                 <div class="card-body">
                     @if ($persona->aziendeAttuali()->count() > 0)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Azienda</p>
-                            <p class="col-md-2 font-weight-bold">
-                                Data entrata
-                            </p>
-                            <p class="col-md-3 font-weight-bold">Mansione</p>
-                            <p class="col-md-2 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-2 font-weight-bold">Op.</p>
+                            <p class="col-md-3 fw-bold">Azienda</p>
+                            <p class="col-md-2 fw-bold">Data entrata</p>
+                            <p class="col-md-3 fw-bold">Mansione</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-2 fw-bold">Op.</p>
                         </div>
                     @endif
 
@@ -34,28 +30,28 @@
                                 {{ $azienda->pivot->mansione }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($azienda->pivot->data_inizio_azienda)
                                 </span>
                             </div>
                             <div class="col-md-2">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Azienda attuale"
                                     button-title="Modifica"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
                                             id="formPersonaGruppoModifica"
                                             action="{{ route("nomadelfia.persone.aziende.modifica", ["idPersona" => $persona->id, "id" => $azienda->id]) }}"
                                         >
-                                            {{ csrf_field() }}
-                                            <div class="form-group row">
+                                            @csrf
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Azienda attuale
                                                 </label>
@@ -65,48 +61,48 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $azienda->pivot->data_inizio_azienda }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_entrata"
-                                                    ></date-picker>
+                                                        value="{{ $azienda->pivot->data_inizio_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $azienda->pivot->data_fine_azienda }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="data_uscita"
-                                                    ></date-picker>
+                                                        value="{{ $azienda->pivot->data_fine_azienda }}"
+                                                    />
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Mansione
                                                 </label>
                                                 <div class="col-sm-6">
                                                     <select
                                                         name="mansione"
-                                                        class="form-control"
+                                                        class="form-select"
                                                     >
                                                         <option selected>
                                                             ---seleziona
@@ -127,10 +123,10 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato
                                                 </label>
@@ -186,16 +182,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaGruppoModifica"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 <!--end modal modifica posizione-->
                             </div>
                         </div>
@@ -203,31 +199,31 @@
                         <p class="text-danger">Nessuna azienda</p>
                     @endforelse
 
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Azienda"
                         button-title="Nuova Azienda"
                         button-style="btn-success my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
                                 id="formPersonaAzinedaAggiungi"
                                 action="{{ route("nomadelfia.persone.aziende.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 <h5 class="my-2">Nuova Azienda</h5>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-6 col-form-label"
+                                        class="col-sm-6 form-label"
                                     >
                                         Azienda
                                     </label>
                                     <div class="col-sm-6">
                                         <select
                                             name="azienda_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona azienda ---
@@ -245,27 +241,27 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">
+                                <div class="row">
+                                    <label class="col-sm-6 form-label">
                                         Data entrata azienda
                                     </label>
                                     <div class="col-sm-6">
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") }}"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            class="form-control"
+                                            type="date"
                                             name="data_inizio"
-                                        ></date-picker>
+                                            value="{{ old("data_inizio") }}"
+                                        />
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">
+                                <div class="row">
+                                    <label class="col-sm-6 form-label">
                                         Mansione
                                     </label>
                                     <div class="col-sm-6">
                                         <select
                                             name="mansione"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona mansione---
@@ -282,16 +278,16 @@
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaAzinedaAggiungi"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal-->
                 </div>
                 <!--end card body-->
@@ -302,10 +298,10 @@
                 <div class="card-header">Storico aziende</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Azienda</p>
-                        <p class="col-md-3 font-weight-bold">Data inizio</p>
-                        <p class="col-md-3 font-weight-bold">Data fine</p>
-                        <p class="col-md-3 font-weight-bold">Tempo trascorso</p>
+                        <p class="col-md-3 fw-bold">Azienda</p>
+                        <p class="col-md-3 fw-bold">Data inizio</p>
+                        <p class="col-md-3 fw-bold">Data fine</p>
+                        <p class="col-md-3 fw-bold">Tempo trascorso</p>
                     </div>
                     @forelse ($persona->aziendeStorico as $aziendaStorico)
                         <div class="row">
@@ -319,7 +315,7 @@
                                 {{ $aziendaStorico->pivot->data_fine_azienda }}
                             </p>
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($aziendaStorico->pivot->data_fine_azienda)->diffForHumans(Carbon::parse($aziendaStorico->pivot->data_inizio_azienda), ["short" => true]) }}
                                 </span>
                             </div>

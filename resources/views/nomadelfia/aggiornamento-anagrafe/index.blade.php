@@ -5,7 +5,7 @@
 
     <table class="table table-striped">
         <thead>
-            <tr>
+            <tr class="table-warning">
                 <th scope="col">#</th>
                 <th scope="col">Evento</th>
                 <th scope="col">Persona</th>
@@ -14,21 +14,21 @@
         </thead>
         <tbody>
             @forelse ($activity as $a)
-                <tr>
+                <tr class="table-primary">
                     <th scope="row">
                         {{ $loop->iteration }}
                     </th>
                     <td>
                         @if ($a->isEnterEvent())
-                            <span class="badge badge-success">Entrata</span>
+                            <span class="badge bg-success">Entrata</span>
                         @endif
 
                         @if ($a->isExitEvent())
-                            <span class="badge badge-danger">Uscita</span>
+                            <span class="badge bg-danger">Uscita</span>
                         @endif
 
                         @if ($a->isDeathEvent())
-                            <span class="badge badge-dark">Decesso</span>
+                            <span class="badge text-bg-dark">Decesso</span>
                         @endif
                     </td>
                     <td>

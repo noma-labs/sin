@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Famiglia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
@@ -7,7 +9,7 @@ use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use App\Nomadelfia\Exceptions\FamigliaHasMultipleGroup;
 use App\Nomadelfia\Exceptions\FamigliaHasNoGroup;
 use App\Traits\Enums;
-use Carbon;
+use Carbon\Carbon;
 use Database\Factories\FamigliaFactory;
 use Domain\Nomadelfia\Famiglia\QueryBuilders\FamigliaQueryBuilder;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -24,7 +26,7 @@ use InvalidArgumentException;
  * @property string $nome_famiglia.
  * @property string $data_creazione.
  */
-class Famiglia extends Model
+final class Famiglia extends Model
 {
     use Enums;
     use HasFactory;
@@ -37,11 +39,6 @@ class Famiglia extends Model
 
     protected $guarded = [];
 
-    protected static function newFactory()
-    {
-        return FamigliaFactory::new();
-    }
-
     protected $enumPosizione = [
         // TODO: sostiture  CAPO FAMIGLIA con 'marito' e aggiungere una nuova colonna `capo_famiglia` per identificare chi è il capo famiglia
         // il nome della famiglia è uguale al nome del capo famiglia.
@@ -50,19 +47,6 @@ class Famiglia extends Model
         'FIGLIO NATO',
         'FIGLIO ACCOLTO',
     ];
-
-    public function newEloquentBuilder($query): FamigliaQueryBuilder
-    {
-        return new FamigliaQueryBuilder($query);
-    }
-
-    /**
-     * Set the nome in uppercase when a new famiglia is insereted.
-     */
-    public function setNomeFamigliaAttribute($value): void
-    {
-        $this->attributes['nome_famiglia'] = ucwords(strtolower($value));
-    }
 
     public static function getCapoFamigliaEnum()
     {
@@ -91,11 +75,6 @@ class Famiglia extends Model
         });
     }
 
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('nome_famiglia', 'asc')->get();
-    }
-
     /**
      * Returns the families with a CAPO FAMIGLIA (men or women)
      */
@@ -110,6 +89,157 @@ class Famiglia extends Model
         return DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar()),
         );
+    }
+
+    /**
+     * Ritorna tutti capi famiglia delle famiglie
+     *
+     * @author Davide Neri
+     **/
+    public static function OnlyCapofamiglia()
+    {
+        /** @phpstan-ignore-next-line */
+        return self::FamigliePerPosizioni('CAPO FAMIGLIA');
+    }
+
+    public static function famiglieNumerose(int $min_componenti = 5)
+    {
+        $expression = DB::raw("WITH famiglie_numerose AS (
+                             SELECT f.id, count(*) as componenti
+                             FROM `famiglie`  f
+                             INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
+                             INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
+                             WHERE fp.stato = '1' and pop.data_uscita is NULL
+                             GROUP BY f.id
+                             HAVING componenti >= :minc
+                             ORDER BY componenti DESC
+                    ) select ff.*, famiglie_numerose.componenti
+                    from famiglie_numerose
+                    join famiglie ff on famiglie_numerose.id = ff.id
+                    order by famiglie_numerose.componenti DESC;");
+
+        return DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar()),
+            ['minc' => $min_componenti]
+        );
+    }
+
+    /*
+    *  Ritorna le famiglie che hanno un errore nei loro componenti
+    *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
+    *   3) ci sono più di una MOGLIE nella famiglia
+    * Ritonra le famiglie senza componenti
+    */
+    public static function famigliaConErrore()
+    {
+        $result = collect();
+        $expression = DB::raw(
+            "SELECT famiglie.id, famiglie.nome_famiglia
+              from (
+                  SELECT famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia, count(*) as count
+                  FROM famiglie_persone
+                  WHERE famiglie_persone.stato = '1'
+                  GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
+              ) AS g
+              INNER JOIN famiglie ON famiglie.id = g.famiglia_id
+              WHERE (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
+        );
+        $famiglie = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar())
+        );
+        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
+
+        $expression = DB::raw(
+            "SELECT *
+              FROM famiglie
+              WHERE famiglie.id NOT IN (
+              SELECT famiglie_persone.famiglia_id
+                FROm famiglie_persone
+                WHERE famiglie_persone.stato = '1'
+                GROUP BY famiglie_persone.famiglia_id
+              )"
+        );
+        $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar())
+        );
+
+        $result->push((object) [
+            'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
+            'results' => $famiglieSenzaComponenti,
+        ]);
+        $expression = DB::raw("
+      SELECT famiglie.*
+      FROM  famiglie
+      WHERE famiglie.id NOT IN (
+           SELECT famiglie_persone.famiglia_id
+           FROM famiglie_persone
+           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
+      )
+        ");
+
+        $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar())
+        );
+        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
+
+        $expression = DB::raw("SELECT *
+              from famiglie
+              WHERE famiglie.id IN (
+                SELECT famiglie_persone.famiglia_id
+                FROM famiglie_persone
+                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
+                INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
+                WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
+                GROUP BY famiglie_persone.famiglia_id
+                HAVING count(*) > 1
+              )");
+        $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar())
+        );
+        $result->push((object) [
+            'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
+            'results' => $famiglieConPiuGruppi,
+        ]);
+
+        return $result;
+    }
+
+    /*
+    *  Ritorna le persone Interne che non hanno una famiglia attiva.
+    *
+    */
+    public static function personeSenzaFamiglia()
+    {
+        $expression = DB::raw('
+        SELECT persone.id, persone.nominativo
+        FROM persone
+        INNER JOIN popolazione ON popolazione.persona_id = persone.id
+        WHERE persone.id NOT IN (
+          SELECT famiglie_persone.persona_id
+          FROM famiglie_persone
+        )  AND popolazione.data_uscita IS NULL');
+
+        return DB::connection('db_nomadelfia')->select(
+            $expression->getValue(DB::connection()->getQueryGrammar())
+        );
+    }
+
+    public function newEloquentBuilder($query): FamigliaQueryBuilder
+    {
+        return new FamigliaQueryBuilder($query);
+    }
+
+    /**
+     * Set the nome in uppercase when a new famiglia is insereted.
+     */
+    public function setNomeFamigliaAttribute($value): void
+    {
+        $this->attributes['nome_famiglia'] = ucwords(mb_strtolower($value));
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('nome_famiglia', 'asc')->get();
     }
 
     public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
@@ -143,17 +273,6 @@ class Famiglia extends Model
     public function scopeFemmina($query)
     {
         return $query->where('sesso', 'F');
-    }
-
-    /**
-     * Ritorna tutti capi famiglia delle famiglie
-     *
-     * @author Davide Neri
-     **/
-    public static function OnlyCapofamiglia()
-    {
-        /** @phpstan-ignore-next-line */
-        return self::FamigliePerPosizioni('CAPO FAMIGLIA');
     }
 
     /**
@@ -195,19 +314,19 @@ class Famiglia extends Model
             $expression->getValue(DB::connection()->getQueryGrammar()),
             ['famiglia_id' => $this->id]
         ));
-        if ($res->count() == 1) {
+        if ($res->count() === 1) {
             return $res->first();
-        } elseif ($res->count() == 0) {
-            return null;
-        } else {
-            throw FamigliaHasMultipleGroup::named($this);
         }
+        if ($res->count() === 0) {
+            return null;
+        }
+        throw FamigliaHasMultipleGroup::named($this);
     }
 
     public function gruppoFamiliareAttualeOrFail()
     {
         $gruppo = $this->gruppoFamiliareAttuale();
-        if ($gruppo == null) {
+        if ($gruppo === null) {
             throw FamigliaHasNoGroup::named($this->nome_famiglia);
         }
 
@@ -262,17 +381,16 @@ class Famiglia extends Model
         }
         if ($persona instanceof Persona) {
             $capo = $this->capofamiglia();
-            if ($capo != null) {
+            if ($capo !== null) {
                 throw CouldNotAssignCapoFamiglia::hasAlreadyCapoFamiglia($this, $capo);
             }
-            if ($persona->isMaggiorenne() != true) {
+            if ($persona->isMaggiorenne() !== true) {
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
 
             return $this->assegnaComponente($persona, $this->getCapoFamigliaEnum());
-        } else {
-            throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
         }
+        throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
     }
 
     /**
@@ -280,22 +398,21 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function assegnaMoglie($persona, $data = null, $note = null)
+    public function assegnaMoglie($persona)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            if ($this->moglie() != null) {
+            if ($this->moglie() !== null) {
                 throw CouldNotAssignMoglie::hasAlreadyMoglie($this, $persona);
             }
-            if ($persona->isMaggiorenne() == false) {
+            if ($persona->isMaggiorenne() === false) {
                 throw CouldNotAssignMoglie::beacuseIsMinorenne($this, $persona);
             }
-            if ($persona->isMaschio() == true) {
+            if ($persona->isMaschio() === true) {
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);
             }
-            $data = $data ? $data : $this->data_creazione;
 
             return $this->assegnaComponente($persona, $this->getMoglieEnum());
         }
@@ -366,7 +483,7 @@ class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function uscitaDalNucleoFamiliare($persona, $data_uscita, $note = null)
+    public function uscitaDalNucleoFamiliare($persona, $note = null)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
@@ -476,28 +593,6 @@ class Famiglia extends Model
         );
     }
 
-    public static function famiglieNumerose(int $min_componenti = 5)
-    {
-        $expression = DB::raw("WITH famiglie_numerose AS (
-                             SELECT f.id, count(*) as componenti
-                             FROM `famiglie`  f
-                             INNER JOIN famiglie_persone fp ON fp.famiglia_id = f.id
-                             INNER JOIN popolazione pop ON pop.persona_id = fp.persona_id
-                             WHERE fp.stato = '1' and pop.data_uscita is NULL
-                             GROUP BY f.id
-                             HAVING componenti >= :minc
-                             ORDER BY componenti DESC
-                    ) select ff.*, famiglie_numerose.componenti
-                    from famiglie_numerose
-                    join famiglie ff on famiglie_numerose.id = ff.id
-                    order by famiglie_numerose.componenti DESC;");
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['minc' => $min_componenti]
-        );
-    }
-
     /**
      * Assegna un nuovo gruppo familiare alla famiglia.
      *
@@ -563,103 +658,8 @@ class Famiglia extends Model
         });
     }
 
-    /*
-    *  Ritorna le famiglie che hanno un errore nei loro componenti
-    *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
-    *   3) ci sono più di una MOGLIE nella famiglia
-    * Ritonra le famiglie senza componenti
-    */
-    public static function famigliaConErrore()
+    protected static function newFactory()
     {
-        $result = collect();
-        $expression = DB::raw(
-            "SELECT famiglie.id, famiglie.nome_famiglia
-              from (
-                  SELECT famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia, count(*) as count
-                  FROM famiglie_persone
-                  WHERE famiglie_persone.stato = '1'
-                  GROUP BY famiglie_persone.famiglia_id, famiglie_persone.posizione_famiglia
-              ) AS g
-              INNER JOIN famiglie ON famiglie.id = g.famiglia_id
-              WHERE (g.posizione_famiglia = 'CAPO FAMIGLIA' AND g.count>1) OR (g.posizione_famiglia = 'MOGLIE' AND g.count>1)"
-        );
-        $famiglie = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
-
-        $expression = DB::raw(
-            "SELECT *
-              FROM famiglie
-              WHERE famiglie.id NOT IN (
-              SELECT famiglie_persone.famiglia_id
-                FROm famiglie_persone
-                WHERE famiglie_persone.stato = '1'
-                GROUP BY famiglie_persone.famiglia_id
-              )"
-        );
-        $famiglieSenzaComponenti = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-
-        $result->push((object) [
-            'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
-            'results' => $famiglieSenzaComponenti,
-        ]);
-        $expression = DB::raw("
-      SELECT famiglie.*
-      FROM  famiglie
-      WHERE famiglie.id NOT IN (
-           SELECT famiglie_persone.famiglia_id
-           FROM famiglie_persone
-           WHERE famiglie_persone.stato = '1' AND (famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA')
-      )
-        ");
-
-        $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
-
-        $expression = DB::raw("SELECT *
-              from famiglie
-              WHERE famiglie.id IN (
-                SELECT famiglie_persone.famiglia_id
-                FROM famiglie_persone
-                INNER JOIN gruppi_persone ON gruppi_persone.persona_id = famiglie_persone.persona_id
-                INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-                WHERE famiglie_persone.posizione_famiglia = 'CAPO FAMIGLIA'  and gruppi_persone.stato = '1' and  famiglie_persone.stato = '1'
-                GROUP BY famiglie_persone.famiglia_id
-                HAVING count(*) > 1
-              )");
-        $famiglieConPiuGruppi = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-        $result->push((object) [
-            'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
-            'results' => $famiglieConPiuGruppi,
-        ]);
-
-        return $result;
-    }
-
-    /*
-    *  Ritorna le persone Interne che non hanno una famiglia attiva.
-    *
-    */
-    public static function personeSenzaFamiglia()
-    {
-        $expression = DB::raw('
-        SELECT persone.id, persone.nominativo
-        FROM persone
-        INNER JOIN popolazione ON popolazione.persona_id = persone.id
-        WHERE persone.id NOT IN (
-          SELECT famiglie_persone.persona_id
-          FROM famiglie_persone
-        )  AND popolazione.data_uscita IS NULL');
-
-        return DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
+        return FamigliaFactory::new();
     }
 }

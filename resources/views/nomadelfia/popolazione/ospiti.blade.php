@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h3>
                         Ospiti
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ $ospiti->total }}
                         </span>
                     </h3>
@@ -24,16 +24,16 @@
                 <div class="card-header">
                     <h5>
                         Uomini
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($ospiti->uomini) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-4 font-weight-bold">Nominativo</p>
-                        <p class="col-md-4 font-weight-bold">Data inizio</p>
-                        <p class="col-md-4 font-weight-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Nominativo</p>
+                        <p class="col-md-4 fw-bold">Data inizio</p>
+                        <p class="col-md-4 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($ospiti->uomini as $persona)
@@ -59,16 +59,16 @@
                 <div class="card-header">
                     <h5>
                         Donne
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($ospiti->donne) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-4 font-weight-bold">Nominativo</p>
-                        <p class="col-md-4 font-weight-bold">Data inizio</p>
-                        <p class="col-md-4 font-weight-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Nominativo</p>
+                        <p class="col-md-4 fw-bold">Data inizio</p>
+                        <p class="col-md-4 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($ospiti->donne as $persona)

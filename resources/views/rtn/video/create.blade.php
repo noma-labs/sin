@@ -5,14 +5,14 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Video Archivio Professionale"])
     <form method="post" action="{{ route("rtn.video.store") }}">
-        {{ csrf_field() }}
+        @csrf
 
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="form-group row">
+                <div class="row">
                     <label
                         for="forDataRegistrazione"
-                        class="col-md-4 col-form-label"
+                        class="col-md-4 form-label"
                     >
                         Data Registrazione
                     </label>
@@ -25,11 +25,8 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label
-                        for="forDataTrasmission"
-                        class="col-md-4 col-form-label"
-                    >
+                <div class="row">
+                    <label for="forDataTrasmission" class="col-md-4 form-label">
                         Data Ultima trasmissione
                     </label>
                     <div class="col-md-8">
@@ -41,11 +38,8 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label
-                        for="forDataTrasmission"
-                        class="col-md-4 col-form-label"
-                    >
+                <div class="row">
+                    <label for="forDataTrasmission" class="col-md-4 form-label">
                         Categoria Evento
                     </label>
                     <div class="col-md-8">
@@ -56,8 +50,8 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                <div class="row">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Operatore/i
                     </label>
                     <div class="col-md-8">
@@ -69,8 +63,8 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                <div class="row">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Località
                     </label>
                     <div class="col-md-8">
@@ -82,8 +76,8 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputOperatore" class="col-md-4 col-form-label">
+                <div class="row">
+                    <label for="inputOperatore" class="col-md-4 form-label">
                         Argomento
                     </label>
                     <div class="col-md-8">
@@ -95,18 +89,15 @@
                         />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputPersona" class="col-md-4 col-form-label">
+                <div class="row">
+                    <label for="inputPersona" class="col-md-4 form-label">
                         Persone
                     </label>
                     <div class="col-md-8">
-                        <livewire:search-persona
-                            placeholder="Cerca persona"
-                            noResultsMessage="Nessun risultato"
-                        />
+                        <livewire:search-persona />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">
                             Inserisci

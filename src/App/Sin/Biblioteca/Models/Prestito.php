@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Prestito extends Model
+final class Prestito extends Model
 {
     protected $connection = 'db_biblioteca';
 
@@ -25,7 +27,7 @@ class Prestito extends Model
 
     public function bibliotecario(): BelongsTo
     {
-        return $this->belongsTo(Persona::class, 'bibliotecario_id', 'id'); //->withTrashed();
+        return $this->belongsTo(Persona::class, 'bibliotecario_id', 'id'); // ->withTrashed();
     }
 
     public function libro(): BelongsTo

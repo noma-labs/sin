@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Classificazione as Classificazione;
 use Illuminate\Http\Request;
 
-class ClassificazioniController
+final class ClassificazioniController
 {
     public function index()
     {
-        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
+        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); // Get all classificazioni
 
-        return view('biblioteca.libri.classificazioni.index')->with('classificazioni', $classificazioni);
+        return view('biblioteca.books.classificazioni.index')->with('classificazioni', $classificazioni);
     }
 
     public function create()
     {
-        return view('biblioteca.libri.classificazioni.create');
+        return view('biblioteca.books.classificazioni.create');
     }
 
     public function store(Request $request)
@@ -34,7 +36,7 @@ class ClassificazioniController
 
     }
 
-    public function show($id)
+    public function show()
     {
         return redirect('classificazioni');
     }
@@ -43,7 +45,7 @@ class ClassificazioniController
     {
         $classificazione = Classificazione::findOrFail($id);
 
-        return view('biblioteca.libri.classificazioni.edit')->with('classificazione', $classificazione);
+        return view('biblioteca.books.classificazioni.edit')->with('classificazione', $classificazione);
     }
 
     public function searchClassificazione(Request $request)
@@ -59,9 +61,9 @@ class ClassificazioniController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
         }
+
+        return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
 
     }
 
@@ -74,18 +76,18 @@ class ClassificazioniController
             'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
         ]
         );
-        $classificazione = Classificazione::findOrFail($id); //Get role with the given id
+        $classificazione = Classificazione::findOrFail($id); // Get role with the given id
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
             return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
         }
 
-        return redirect()->route('classificazioni.index')->withErroe("Errore durante l'operaizone di aggiornamento");
+        return redirect()->route('classificazioni.index')->withError("Errore durante l'operaizone di aggiornamento");
     }
 
-    public function destroy($id)
+    public function destroy()
     {
-        return redirect()->route('classificazioni.index')->withError("Impossibile eliminare l'autore");
+        return redirect()->route('classificazioni.index')->withError('Impossibile eliminare la classificazione');
     }
 }

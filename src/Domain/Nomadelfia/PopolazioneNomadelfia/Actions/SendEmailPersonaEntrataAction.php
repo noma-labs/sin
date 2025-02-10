@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Mail\PersonaEntrataMail;
@@ -9,11 +11,10 @@ use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailPersonaEntrataAction
+final class SendEmailPersonaEntrataAction
 {
-    public function execute(Persona $persona, string $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia): void
+    public function execute(Persona $persona, Carbon $data_entrata, GruppoFamiliare $gruppo, ?Famiglia $famiglia): void
     {
-        $data_entrata = Carbon::parse($data_entrata);
         $to = config('aggiornamento-anagrafe.to');
         $cc = config('aggiornamento-anagrafe.cc');
         if (config('aggiornamento-anagrafe.enabled')) {

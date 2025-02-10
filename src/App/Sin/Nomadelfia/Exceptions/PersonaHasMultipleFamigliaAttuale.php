@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasMultipleFamigliaAttuale extends InvalidArgumentException
+final class PersonaHasMultipleFamigliaAttuale extends NomadelfiaException
 {
-    public static function named(string $nome): PersonaHasMultipleFamigliaAttuale
+    public static function named(string $nome): self
     {
         return new self("La persona `{$nome}` ha più di uno stato familiare attuale.");
     }

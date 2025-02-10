@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class ClasseBuilder extends Builder
-{
-}
+final class ClasseBuilder extends Builder {}

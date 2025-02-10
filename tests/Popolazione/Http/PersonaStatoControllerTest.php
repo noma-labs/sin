@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
@@ -46,7 +48,7 @@ it('update stato of a person', function (): void {
 
 });
 
-//it('deletes a posizione of a person', function () {
+// it('deletes a posizione of a person', function () {
 //    login();
 //    $persona = Persona::factory()->minorenne()->maschio()->create();
 //    $posizione = Posizione::all()->random();
@@ -57,9 +59,9 @@ it('update stato of a person', function (): void {
 //    $this->delete(action([PersonaPosizioneController::class, 'delete'], ['idPersona' => $persona->id, 'id' => $posizione->id]))
 //        ->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 //
-//});
+// });
 //
-//it('concludes a posizione of a person', function () {
+// it('concludes a posizione of a person', function () {
 //    login();
 //    $persona = Persona::factory()->minorenne()->maschio()->create();
 //    $posizione = Posizione::all()->random();
@@ -73,4 +75,4 @@ it('update stato of a person', function (): void {
 //            'data_fine' => $data_fine,
 //        ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
 //
-//});
+// });

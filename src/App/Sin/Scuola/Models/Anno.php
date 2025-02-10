@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
@@ -15,7 +17,7 @@ use Illuminate\Support\Str;
  * @property string $data_inizio
  * @property string $scolastico
  */
-class Anno extends Model
+final class Anno extends Model
 {
     public $timestamps = true;
 
@@ -27,13 +29,61 @@ class Anno extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
+    public static function buildAsString(int $from_year): string
     {
-        parent::boot();
+        $succ = $from_year + 1;
 
-        static::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('data_inizio');
+        return "{$from_year}/{$succ}";
+    }
+
+    public static function createAnno(int $year, $datainizo = null, $with_classi = false): self
+    {
+        $as = self::buildAsString($year);
+
+        $d = Carbon::now();
+        if ($datainizo !== null) {
+            $d = Carbon::parse($datainizo);
+        }
+
+        return DB::transaction(function () use ($as, $d, $with_classi) {
+            $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
+            if ($with_classi) {
+                $t = ClasseTipo::all();
+                foreach ($t as $tipo) {
+                    if (! $tipo->isSuperiori()) {
+                        $a->aggiungiClasse($tipo);
+                    }
+                }
+            }
+
+            return $a;
         });
+    }
+
+    public static function cloneAnnoScolastico(self $copy_from_as, $data_inizio)
+    {
+        $nextas = $copy_from_as->nextAnnoScolasticoString();
+        $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
+
+        $classi_from = $copy_from_as->classi()->get();
+        foreach ($classi_from as $classe) {
+            $next = $classe->nextClasseTipo();
+            if ($next) {
+                $new_classe = $a->findOrCreateClasseByTipo($next);
+                $new_classe->importStudentsFromOtherClasse($classe, $data_inizio);
+            }
+        }
+
+        return $a;
+    }
+
+    public static function getLastAnno(): self
+    {
+        $a = self::orderBy('scolastico', 'DESC')->limit(1)->get();
+        if ($a->count() > 0) {
+            return $a->first();
+        }
+        throw new Exception('Non ci sono anni scolastici attivi');
     }
 
     public function responsabile(): BelongsTo
@@ -58,67 +108,6 @@ class Anno extends Model
         $as = Str::of($this->scolastico)->explode('/');
 
         return $as[0];
-    }
-
-    public static function buildAsString(int $from_year): string
-    {
-        $succ = $from_year + 1;
-
-        return "{$from_year}/{$succ}";
-    }
-
-    public static function createAnno(int $year, $datainizo = null, $with_classi = false): Anno
-    {
-        $as = self::buildAsString($year);
-
-        if ($datainizo === null) {
-            $d = Carbon::now();
-        } else {
-            $d = Carbon::parse($datainizo);
-        }
-        try {
-            \DB::beginTransaction();
-            $a = self::create(['scolastico' => $as, 'data_inizio' => $d]);
-            if ($with_classi) {
-                $t = ClasseTipo::all();
-                foreach ($t as $tipo) {
-                    if (! $tipo->isSuperiori()) {
-                        $a->aggiungiClasse($tipo);
-                    }
-                }
-            }
-            \DB::commit();
-
-            return $a;
-        } catch (Exception $e) {
-            \DB::rollback();
-            throw $e;
-        }
-    }
-
-    public static function cloneAnnoScolastico(Anno $copy_from_as, $data_inizio)
-    {
-        $nextas = $copy_from_as->nextAnnoScolasticoString();
-        $a = self::create(['scolastico' => $nextas, 'data_inizio' => $data_inizio]);
-        $classi_from = $copy_from_as->classi()->get();
-        foreach ($classi_from as $classe) {
-            $next = $classe->nextClasseTipo();
-            if ($next) {
-                $new_classe = $a->findOrCreateClasseByTipo($next);
-                $new_classe->importStudentsFromOtherClasse($classe, $data_inizio);
-            }
-        }
-
-        return $a;
-    }
-
-    public static function getLastAnno(): Anno
-    {
-        $a = self::orderBy('scolastico', 'DESC')->limit(1)->get();
-        if ($a->count() > 0) {
-            return $a->first();
-        }
-        throw new Exception('Non ci sono anni scolastici attivi');
     }
 
     public function classi()
@@ -241,27 +230,6 @@ class Anno extends Model
         return $this->classi()->with('tipo')->whereIn('tipo_id', $p->pluck('id'))->get()->sortBy('tipo.ord');
     }
 
-    public function classiTipoPossibili()
-    {
-        $current = $this->classi()->get();
-        $ids = $current->map(function ($item) {
-            return $item->tipo->id;
-        });
-        $all = ClasseTipo::all();
-
-        return $all->whereNotIn('id', $ids);
-    }
-
-    public function classiTipoAttuali()
-    {
-        $current = $this->classi()->with('tipo')->get();
-        $ids = $current->map(function ($item) {
-            return $item->tipo->id;
-        });
-
-        return ClasseTipo::whereIn('id', $ids);
-    }
-
     public function aggiungiClasse(ClasseTipo $tipo): Classe
     {
         return $this->classi()->create(['anno_id' => $this->id, 'tipo_id' => $tipo->id]);
@@ -319,5 +287,14 @@ class Anno extends Model
         );
 
         return collect($res)->groupBy('classe');
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('data_inizio');
+        });
     }
 }

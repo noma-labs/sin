@@ -11,7 +11,7 @@
         class="nav-link dropdown-toggle"
         id="navbarPopolazione"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -62,7 +62,7 @@
         class="nav-link dropdown-toggle"
         id="navbarPesone"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -77,7 +77,7 @@
         </a>
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.create") }}"
+            href="{{ route("nomadelfia.persone.anagrafica.create") }}"
         >
             Inserisci Persona
         </a>
@@ -89,7 +89,7 @@
         class="nav-link dropdown-toggle"
         id="navbarFamiglie"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >

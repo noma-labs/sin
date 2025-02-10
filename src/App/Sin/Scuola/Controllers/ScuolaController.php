@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Anno;
-use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class ScuolaController
+final class ScuolaController
 {
     public function summary()
     {
@@ -29,76 +31,30 @@ class ScuolaController
 
     public function storico()
     {
-        $anni = Anno::orderBy('scolastico', 'DESC')->get();
+        $anni = Anno::leftJoin('classi', 'classi.anno_id', '=', 'anno.id')
+            ->leftJoin('alunni_classi', 'alunni_classi.classe_id', '=', 'classi.id')
+            ->select('anno.id', 'anno.scolastico', DB::raw('COUNT(alunni_classi.persona_id) as alunni_count'))
+            ->groupBy('anno.id', 'anno.scolastico')
+            ->orderBy('anno.scolastico', 'DESC')
+            ->withoutGlobalScope('order')
+            ->get();
 
         return view('scuola.anno.storico', compact('anni'));
-    }
-
-    public function show(Request $request, $id)
-    {
-        $anno = Anno::find($id);
-        $alunni = Studente::InAnnoScolastico($anno)->count();
-        $cicloAlunni = Studente::InAnnoScolasticoPerCiclo($anno)->get();
-        $resp = $anno->responsabile;
-        $classi = $anno->classi()->with('tipo')->get()->sortBy('tipo.ord');
-
-        return view('scuola.anno.show', compact('anno', 'cicloAlunni', 'alunni', 'resp', 'classi'));
-    }
-
-    public function aggiungiClasse(Request $request, $id)
-    {
-        $request->validate([
-            'tipo' => 'required',
-        ], [
-            'tipo.required' => 'Il tipo di classe da aggiungere è obbligatorio.',
-        ]);
-        $anno = Anno::FindOrFail($id);
-        $classe = $anno->aggiungiClasse(ClasseTipo::findOrFail($request->tipo));
-
-        return redirect()->back()->withSuccess("Classe  {$classe->tipo->nome} aggiunta a {{$anno->scolastico}} con successo.");
-    }
-
-    public function cloneAnnoScolastico(Request $request, $id)
-    {
-        $request->validate([
-            'anno_inizio' => 'required',
-        ], [
-            'anno_inizio.date' => 'La data di inizio non è una data valida.',
-            'anno_inizio.required' => 'La data di inizio anno è obbligatoria',
-        ]);
-        $anno = Anno::FindOrFail($id);
-        $aNew = Anno::cloneAnnoScolastico($anno, $request->get('anno_inizio'));
-
-        return redirect()->route('scuola.anno.show', ['id' => $aNew->id])->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
-    }
-
-    public function aggiungiAnnoScolastico(Request $request)
-    {
-        $request->validate([
-            'data_inizio' => 'required',
-        ], [
-            'data_inizio.required' => 'La data di inizio anno è obbligatoria',
-        ]);
-        $year = Carbon::parse($request->get('data_inizio'))->year;
-        $anno = Anno::createAnno($year, $request->get('data_inizio'), true);
-
-        return redirect()->back()->withSuccess("Anno scolastico $anno->scolastico aggiunto con successo.");
-
     }
 
     public function print(Request $request)
     {
         $elenchi = collect($request->elenchi);
 
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
-        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie
+        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); // stile per le famiglie
 
         $colStyle4Next = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn'];
         $phpWord->addSection(['breakType' => 'continuous', 'colsNum' => 2]);
 
-        //$phpWord->setDefaultFontName('Times New Roman');
+        // $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
             'spaceAfter' => Converter::pointToTwip(2),
@@ -224,7 +180,7 @@ class ScuolaController
         $file_name = "scuola-familiare-$data.docx";
         try {
             $objWriter->save(storage_path($file_name));
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         return response()->download(storage_path($file_name));

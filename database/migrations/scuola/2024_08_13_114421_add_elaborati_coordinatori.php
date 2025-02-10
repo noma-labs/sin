@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class AddElaboratiCoordinatori extends SqlMigration
+final class AddElaboratiCoordinatori extends SqlMigration
 {
     public $connection = 'db_scuola';
 }

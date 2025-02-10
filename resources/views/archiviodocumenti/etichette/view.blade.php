@@ -12,8 +12,8 @@
                 </strong>
                 <a
                     href="#"
-                    class="close"
-                    data-dismiss="alert"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
                     aria-label="close"
                 >
                     &times;
@@ -26,7 +26,7 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-12 my-2">
-                    <!-- <a class="btn btn-info"   href="{{ route("libri.etichette.preview") }}"  role="button">Anteprima </a> -->
+                    <!-- <a class="btn btn-info"   href="{{ route("books.labels.preview") }}"  role="button">Anteprima </a> -->
                     <a
                         class="btn btn-success"
                         href="{{ route("libri.etichette.esporta") }}"
@@ -35,13 +35,13 @@
                         Esporta etichette
                     </a>
                     <form
-                        class="float-right"
+                        class="float-end"
                         id="formRemoveAll"
                         action="{{ route("archiviodocumenti.etichette.rimuovi") }}"
                         method="post"
                     >
                         {{ method_field("DELETE") }}
-                        {{ csrf_field() }}
+                        @csrf
                         <button
                             class="btn btn-danger"
                             form="formRemoveAll"
@@ -58,7 +58,7 @@
                         <table
                             class="table table-striped table-hover table-bordered"
                         >
-                            <thead class="thead-inverse">
+                            <thead>
                                 <tr>
                                     <th style="width: 10%">COLLOCAZIONE</th>
                                     <th style="width: 15%">TITOLO</th>
@@ -68,14 +68,10 @@
                             <tbody>
                                 @forelse ($libriTobePrinted as $libro)
                                     <tr>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->foglio }}
                                         </td>
-                                        <td
-                                            onclick="gotoLibroDetails({{ $libro->id }})"
-                                        >
+                                        <td>
                                             {{ $libro->titolo }}
                                         </td>
                                         <td>
@@ -84,7 +80,7 @@
                                                 method="post"
                                             >
                                                 {{ method_field("DELETE") }}
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 <button
                                                     class="btn btn-danger"
                                                     type="submit"
@@ -124,31 +120,14 @@
                         class="form"
                         action="{{ route("archiviodocumenti.etichette.aggiungi") }}"
                     >
-                        {{ csrf_field() }}
+                        @csrf
                         <h5>Dalla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="fromCollocazione" />
 
-                        <!-- <search-collocazione title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                                    name="fromCollocazione"
-                                    url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                                    numeri-required="true"
-                                    numero-nuovo="false"
-                                    numeri-mancanti="false"
-                                    numeri-assegnati="true">
-               </search-collocazione> -->
-
                         <h5>Fino alla collocazione:</h5>
-                        <label>Collocazione</label>
+                        <label class="form-label">Collocazione</label>
                         <input type="text" name="toCollocazione" />
-                        <!-- <search-collocazione title="Collocazione ({{ App\Biblioteca\Models\ViewCollocazione::total() }}) - Lettere (*)"
-                                 name="toCollocazione"
-                                 url-lettere="{{ route("api.biblioteca.collocazione") }}"
-                                 numeri-required="true"
-                                 numero-nuovo="false"
-                                 numeri-mancanti="false"
-                                 numeri-assegnati="true">
-            </search-collocazione> -->
                         <button
                             class="btn btn-success my-2"
                             name="action"
@@ -158,7 +137,7 @@
                             Aggiungi
                         </button>
                         <button
-                            class="btn btn-danger float-right my-2"
+                            class="btn btn-danger float-end my-2"
                             name="action"
                             value="remove"
                             type="submit"

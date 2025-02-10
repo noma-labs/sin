@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
 use Carbon;
@@ -12,9 +14,9 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class EsSpiritualiController
+final class EsSpiritualiController
 {
-    public function index(Request $request)
+    public function index()
     {
         $esercizi = EserciziSpirituali::attivi()->get();
         $noEsercizi = EserciziSpirituali::personeNoEsercizi();
@@ -55,7 +57,7 @@ class EsSpiritualiController
 
     public function stampa()
     {
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => false], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true], ['spaceBefore' => 240]);
         $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]);
@@ -63,7 +65,7 @@ class EsSpiritualiController
         $colStyle2Next = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'nextColumn'];
         $colStyle2Cont = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'continuous'];
 
-        //$phpWord->setDefaultFontName('Times New Roman');
+        // $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
             'spaceAfter' => Converter::pointToTwip(2),
@@ -87,12 +89,12 @@ class EsSpiritualiController
             $uomini = $phpWord->addSection($colStyle2Cont);
             $uomini->addTitle('Uomini '.count($persone->uomini), 2);
             foreach ($persone->uomini as $value) {
-                $uomini->addText(ucwords(strtolower($value->nominativo)));
+                $uomini->addText(ucwords(mb_strtolower($value->nominativo)));
             }
             $donne = $phpWord->addSection($colStyle2Next);
             $donne->addTitle('Donne '.count($persone->donne), 2);
             foreach ($persone->donne as $value) {
-                $donne->addText(ucfirst(strtolower($value->nominativo)));
+                $donne->addText(ucfirst(mb_strtolower($value->nominativo)));
             }
         }
         // persone senza esercizi spirituali
@@ -102,12 +104,12 @@ class EsSpiritualiController
         $uomini->addTitle('Senza esercizi Spirituali', 1);
         $uomini->addTitle('Uomini '.count($noEsercizi->uomini), 2);
         foreach ($noEsercizi->uomini as $value) {
-            $uomini->addText(ucwords(strtolower($value->nominativo)));
+            $uomini->addText(ucwords(mb_strtolower($value->nominativo)));
         }
         $donne = $phpWord->addSection($colStyle2Next);
         $donne->addTitle('Donne '.count($noEsercizi->donne), 2);
         foreach ($noEsercizi->donne as $value) {
-            $donne->addText(ucfirst(strtolower($value->nominativo)));
+            $donne->addText(ucfirst(mb_strtolower($value->nominativo)));
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateCaricheTable extends SqlMigration
+final class CreateCaricheTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

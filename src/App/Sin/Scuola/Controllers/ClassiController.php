@@ -1,24 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\AddStudentAction;
-use App\Scuola\Models\Anno;
 use App\Scuola\Models\Classe;
 use App\Scuola\Requests\AddStudentRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class ClassiController
+final class ClassiController
 {
-    public function index(int $anno_id)
-    {
-        $anno = Anno::firstOrFail($anno_id);
-        $classi = $anno->classi()->get();
-
-        return view('scuola.classi.index', compact('anno', 'classi'));
-    }
-
     public function show($id)
     {
         $classe = Classe::findOrFail($id);

@@ -1,49 +1,45 @@
-<my-modal
+<x-modal
     modal-title="Aggiungi Persona incarico"
     button-title="Aggiungi Persona"
     button-style="btn-primary my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
             id="formAssegnaIncaricoPersona"
             action="{{ route("nomadelfia.incarichi.assegna", ["id" => $incarico->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            @csrf
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Persona
                 </label>
                 <div class="col-8">
-                    <autocomplete
-                        placeholder="Inserisci nominativo..."
-                        name="persona_id"
-                        url="{{ route("api.nomadeflia.popolazione.search") }}"
-                    ></autocomplete>
+                    <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Data Inizio
                 </label>
                 <div class="col-8">
-                    <date-picker
-                        :bootstrap-styling="true"
-                        value="{{ old("data_inizio") }}"
-                        format="yyyy-MM-dd"
+                    <input
+                        type="date"
                         name="data_inizio"
-                    ></date-picker>
+                        value="{{ old("data_inizio") }}"
+                        class="form-control"
+                    />
                     <small id="emailHelp" class="form-text text-muted">
                         Lasciare vuoto se concide con la data di oggi.
                     </small>
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger" form="formAssegnaIncaricoPersona">
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

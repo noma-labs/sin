@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
@@ -7,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
-class UserController
+final class UserController
 {
     public function index()
     {
@@ -39,7 +41,7 @@ class UserController
         return redirect()->route('users.index')->withSuccess('Utente aggiunto correttamente');
     }
 
-    public function show($id)
+    public function show()
     {
         return redirect('users.index');
     }
@@ -49,7 +51,7 @@ class UserController
         $user = User::findOrFail($id);
         $roles = Role::get();
 
-        return view('admin.auth.users.edit', compact('user', 'roles')); //pass user and roles data to view
+        return view('admin.auth.users.edit', compact('user', 'roles')); // pass user and roles data to view
 
     }
 
@@ -70,7 +72,7 @@ class UserController
         if (isset($roles)) {
             $user->syncRoles([$roles]);
         } else {
-            $user->syncRoles([]); //If no role is selected remove exisiting role associated to a user
+            $user->syncRoles([]); // If no role is selected remove exisiting role associated to a user
         }
 
         return redirect()->route('users.index')->withSuccess('Utente modificato correttamente');
@@ -84,16 +86,16 @@ class UserController
      */
     public function destroy($id)
     {
-        //Find a user with a given id and delete
+        // Find a user with a given id and delete
         $user = User::findOrFail($id);
 
-        if ($user->username == 'Admin') {
+        if ($user->username === 'Admin') {
             return redirect()->route('users.index')->withError("Non puoi elimiare l'utente $user->username");
-        } else {
-            $user->delete();
-
-            return redirect()->route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
         }
+        $user->delete();
+
+        return redirect()->route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
+
     }
 
     public function restore($id)

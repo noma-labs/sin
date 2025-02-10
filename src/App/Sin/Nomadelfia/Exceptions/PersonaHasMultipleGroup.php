@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
 use Domain\Nomadelfia\Persona\Models\Persona;
-use InvalidArgumentException;
 
-class PersonaHasMultipleGroup extends InvalidArgumentException
+final class PersonaHasMultipleGroup extends NomadelfiaException
 {
-    public static function named(Persona $persona): PersonaHasMultipleGroup
+    public static function named(Persona $persona): self
     {
         return new self("La persona `{$persona->nominativo}` ha più di un gruppp familiare associato.");
     }

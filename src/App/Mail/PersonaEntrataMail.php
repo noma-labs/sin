@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Carbon\Carbon;
@@ -9,7 +11,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PersonaEntrataMail extends Mailable
+final class PersonaEntrataMail extends Mailable
 {
     use SerializesModels;
 
@@ -18,11 +20,9 @@ class PersonaEntrataMail extends Mailable
         public Carbon $data_entrata,
         public GruppoFamiliare $gruppo,
         public ?Famiglia $famiglia
-    ) {
+    ) {}
 
-    }
-
-    public function build(): PersonaEntrataMail
+    public function build(): self
     {
         return $this
             ->subject('[Aggiornamento Anagrafe] Entrata persona')

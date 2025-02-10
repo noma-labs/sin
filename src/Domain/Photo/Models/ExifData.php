@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Photo\Models;
 
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Str;
 
-class ExifData
+final class ExifData
 {
     public string $sha = '';
 
@@ -38,14 +40,9 @@ class ExifData
     // TODO: exif tool export keywords in two types: string, and array of string.
     public string $keywords = '';
 
-    public function getSubjects(): string
-    {
-        return implode(',', $this->subjects);
-    }
-
     public static function fromArray(array $info): self
     {
-        $exif = new self();
+        $exif = new self;
 
         if (! isset($info['SourceFile'])) {
             $t = implode(',', $info);
@@ -117,9 +114,14 @@ class ExifData
         //            $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
         //        }
 
-        $exif->folderTitle = Str::of($exif->directory)->basename();
+        $exif->folderTitle = Str::of($exif->directory)->basename()->toString();
 
         return $exif;
+    }
+
+    public function getSubjects(): string
+    {
+        return implode(',', $this->subjects);
     }
 
     public function toModelAttrs(): array

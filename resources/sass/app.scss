@@ -1,1 +1,11 @@
-@import "~bootstrap/scss/bootstrap";
+$nomadelfia-blu: #2f519f;
+$nomadelfia-azzurro: #1d70b8;
+$nomadelfia-giallo: #f9b233;
+
+$primary: $nomadelfia-blu;
+$secondary: $nomadelfia-azzurro;
+$warning: $nomadelfia-giallo;
+
+$table-bg-scale: -5%;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";

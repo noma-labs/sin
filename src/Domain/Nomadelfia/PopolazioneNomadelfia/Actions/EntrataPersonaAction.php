@@ -1,24 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class EntrataPersonaAction
+final class EntrataPersonaAction
 {
-    private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction;
-
-    private SendEmailPersonaEntrataAction $email;
-
     public function __construct(
-        LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
-        SendEmailPersonaEntrataAction $email
-    ) {
-        $this->logEntrataInNomadelfiaActivityAction = $logEntrataInNomadelfiaActivityAction;
-        $this->email = $email;
-    }
+        private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
+        private SendEmailPersonaEntrataAction $email
+    ) {}
 
     public function execute(EntrataPersonaData $entrataPersonaData): void
     {
@@ -51,6 +46,8 @@ class EntrataPersonaAction
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $conn = DB::connection('db_nomadelfia');
+
+            $conn->update('UPDATE persone SET origine = ? WHERE id = ? and origine IS NULL', [$entrataPersonaData->origine->value, $persona_id]);
 
             $conn->insert('INSERT INTO popolazione (persona_id, data_entrata) VALUES (?, ?)',
                 [$persona_id, $entrataPersonaData->data_entrata]);

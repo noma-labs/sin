@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Incarico\Models;
 
 use Database\Factories\IncaricoFactory;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $descrizione
  * @property string $nome
  */
-class Incarico extends Model
+final class Incarico extends Model
 {
     use HasFactory;
 
@@ -30,18 +32,24 @@ class Incarico extends Model
 
     protected $guarded = [];
 
-    protected static function newFactory()
+    /**
+     * Returns the people that have more than $minNUm incarichi.
+     *
+     * @return Collection
+     */
+    public static function getBusyPeople(int $minNum = 3)
     {
-        return IncaricoFactory::new();
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('order', function (Builder $builder): void {
-            $builder->orderby('nome');
-        });
+        return DB::connection('db_nomadelfia')
+            ->table('incarichi_persone')
+            ->selectRaw('persone.id, max(persone.nominativo) as nominativo,  count(*)  as count')
+            ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
+            ->whereNull('incarichi_persone.data_fine')
+            ->groupBy('persone.id')
+            ->having('count', '>=', $minNum)
+            ->orderBy('count', 'DESC')
+            // ->limit($limit)
+            // ->limit($limit)
+            ->get();
     }
 
     public function lavoratori(): BelongsToMany
@@ -70,23 +78,17 @@ class Incarico extends Model
         return $all->whereNotIn('id', $ids);
     }
 
-    /**
-     * Returns the people that have more than $minNUm incarichi.
-     *
-     * @return Collection
-     */
-    public static function getBusyPeople(int $minNum = 3)
+    protected static function newFactory()
     {
-        return DB::connection('db_nomadelfia')
-            ->table('incarichi_persone')
-            ->selectRaw('persone.id, max(persone.nominativo) as nominativo,  count(*)  as count')
-            ->leftJoin('persone', 'persone.id', '=', 'incarichi_persone.persona_id')
-            ->whereNull('incarichi_persone.data_fine')
-            ->groupBy('persone.id')
-            ->having('count', '>=', $minNum)
-            ->orderBy('count', 'DESC')
-            //->limit($limit)
-            //->limit($limit)
-            ->get();
+        return IncaricoFactory::new();
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope('order', function (Builder $builder): void {
+            $builder->orderby('nome');
+        });
     }
 }

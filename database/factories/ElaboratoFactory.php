@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Scuola\Models\Elaborato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ElaboratoFactory extends Factory
+final class ElaboratoFactory extends Factory
 {
     protected $model = Elaborato::class;
 
@@ -19,7 +21,7 @@ class ElaboratoFactory extends Factory
             'titolo' => $this->faker->sentence,
             'classi' => $this->faker->words(3, true),
             'file_path' => $this->faker->filePath(),
-            'file_mime_type' => $this->faker->mimeType,
+            'file_mime_type' => 'application/pdf',
             'file_size' => $this->faker->numberBetween(1000, 1000000),
             'file_hash' => $this->faker->sha256,
             'dimensione' => $this->faker->regexify('[0-9]{2}x[0-9]{2}'),

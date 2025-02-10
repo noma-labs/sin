@@ -1,30 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-class EntrataMinorenneAccoltoAction
+final class EntrataMinorenneAccoltoAction
 {
-    private EntrataPersonaAction $entrataInNomadelfiaAction;
+    public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
-    public function __construct(
-        EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
-        $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
-    }
-
-    public function execute(Persona $persona, $data_entrata, Famiglia $famiglia): void
+    public function execute(Persona $persona, Carbon $data_entrata, Famiglia $famiglia): void
     {
-        $dto = new EntrataPersonaData();
+        $dto = new EntrataPersonaData;
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;
         $dto->famiglia = $famiglia;
+        $dto->origine = Origine::Accolto;
 
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
@@ -54,7 +53,7 @@ class EntrataMinorenneAccoltoAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');
         } else {

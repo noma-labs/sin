@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Classe;
 
-class ClassiElaboratiController
+final class ClassiElaboratiController
 {
     public function create($id)
     {

@@ -1,23 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\Exceptions\PersonaIsMinorenne;
+use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-class EntrataMaggiorenneSingleAction
+final class EntrataMaggiorenneSingleAction
 {
-    private EntrataPersonaAction $entrataInNomadelfiaAction;
-
-    public function __construct(
-        EntrataPersonaAction $entrataInNomadelfiaAction
-    ) {
-        $this->entrataInNomadelfiaAction = $entrataInNomadelfiaAction;
-    }
+    public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 
     public function execute(Persona $persona, $data_entrata, GruppoFamiliare $gruppo): void
     {
@@ -25,10 +23,11 @@ class EntrataMaggiorenneSingleAction
             throw PersonaIsMinorenne::named($persona->nominativo);
         }
 
-        $dto = new EntrataPersonaData();
+        $dto = new EntrataPersonaData;
         $dto->persona = $persona;
         $dto->data_entrata = $data_entrata;
         $dto->gruppoFamiliare = $gruppo;
+        $dto->origine = Origine::Esterno;
 
         $this->calcStato($dto);
         $this->calcGruppoFamiliare($dto);
@@ -50,7 +49,7 @@ class EntrataMaggiorenneSingleAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = $dto->persona->data_nascita;
+        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');
         } else {

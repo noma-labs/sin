@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class AddPopolazioneTable extends SqlMigration
+final class AddPopolazioneTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

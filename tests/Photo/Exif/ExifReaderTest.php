@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Domain\Photo\Exif\ExifReader;
 
 beforeEach(function (): void {
@@ -8,7 +10,6 @@ beforeEach(function (): void {
 });
 
 it('can create exiftool command', function (): void {
-
     $command = ExifReader::file('test.png')
         ->enableStructuredInformation()
         ->createExifToolCommand();
@@ -159,7 +160,7 @@ it('can create command with recursive', function (): void {
     ]);
 });
 
-//it('can save exif data into CSV file', function () {
+// it('can save exif data into CSV file', function () {
 //    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
 //    $targetPath = __DIR__.'/temp/BlueSquare.csv';
 //
@@ -169,9 +170,9 @@ it('can create command with recursive', function (): void {
 //
 //    expect($targetPath)->toBeFile();
 //
-//});
+// });
 //
-//it('can save exif data into JSON file', function () {
+// it('can save exif data into JSON file', function () {
 //    $filePath = __DIR__.'/testfile/BlueSquare.jpg';
 //    $targetFile = '/temp/BlueSquare.json';
 //
@@ -181,9 +182,9 @@ it('can create command with recursive', function (): void {
 //        ->saveJSON($targetFile);
 //
 //    expect($fullName)->toBeFile();
-//});
+// });
 //
-//it('can scan a directory and save exif data into json', function () {
+// it('can scan a directory and save exif data into json', function () {
 //    $dirPath = __DIR__.'/testfile/testdir';
 //
 //   $filePath= ExifReader::folder($dirPath)
@@ -191,9 +192,9 @@ it('can create command with recursive', function (): void {
 //        ->saveJSON();
 //
 //    expect($filePath)->toBeFile();
-//});
+// });
 
-//it('can scan dir recursively save csv', function () {
+// it('can scan dir recursively save csv', function () {
 //    $dirPath = __DIR__ . '/testfile/testdir';
 //    $targetPath = __DIR__ . '/temp/dir.csv';
 //
@@ -203,7 +204,7 @@ it('can create command with recursive', function (): void {
 //
 //    expect($targetPath)->toBeFile();
 //
-//});
+// });
 
 it('can save to php', function (): void {
     $filePath = __DIR__.'/testfile/BlueSquare.jpg';

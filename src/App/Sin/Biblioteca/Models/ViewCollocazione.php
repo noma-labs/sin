@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method MaxForLettere()
  */
-class ViewCollocazione extends Model
+final class ViewCollocazione extends Model
 {
     protected $connection = 'db_biblioteca';
 

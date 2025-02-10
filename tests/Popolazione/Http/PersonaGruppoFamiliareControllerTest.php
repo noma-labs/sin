@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareConcludiController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ it('can render the gruppofamiliare index page', function (): void {
 
 it('can update the date of a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
 
@@ -38,7 +39,7 @@ it('can update the date of a gruppo familiare', function (): void {
 
 it('can assign a persona to a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);
@@ -56,7 +57,7 @@ it('can assign a persona to a gruppo familiare', function (): void {
 
 it('can delete a persona from a gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);
@@ -66,26 +67,9 @@ it('can delete a persona from a gruppo familiare', function (): void {
         ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
 });
 
-it('can concludes a persona from a gruppo familiare', function (): void {
-    login();
-    $data_entrata = Carbon::now()->toDatestring();
-    $persona = Persona::factory()->maggiorenne()->maschio()->create();
-    $gruppo = GruppoFamiliare::first();
-    $action = app(EntrataMaggiorenneSingleAction::class);
-    $action->execute($persona, $data_entrata, $gruppo);
-    $new_data_entrata = Carbon::now()->addDay()->toDatestring();
-    $this->post(action([PersonaGruppoFamiliareConcludiController::class, 'store'], ['idPersona' => $persona->id,  'id' => $gruppo->id]),
-        [
-            'data_entrata' => $data_entrata,
-            'data_uscita' => $new_data_entrata,
-        ]
-    )
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
-});
-
 it('can move a persona from another gruppo familiare', function (): void {
     login();
-    $data_entrata = Carbon::now()->toDatestring();
+    $data_entrata = Carbon::now()->startOfDay();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $gruppo = GruppoFamiliare::first();
     $action = app(EntrataMaggiorenneSingleAction::class);

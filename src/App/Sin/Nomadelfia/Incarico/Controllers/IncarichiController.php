@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Incarico\Controllers;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Incarico\Models\Incarico;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Illuminate\Http\Request;
 
-class IncarichiController
+final class IncarichiController
 {
     public function view()
     {
@@ -44,8 +47,9 @@ class IncarichiController
         ]);
         $incarico = Incarico::findOrFail($id);
         $persona = Persona::findOrFail($request->persona_id);
-        $d = $request->input('data_inizio', Carbon::now());
-        $persona->assegnaIncarico($incarico, $d);
+        $d = $request->input('data_inizio', Carbon::now()->toDateString());
+        $action = new AssegnaIncaricoAction;
+        $action->execute($persona, $incarico, Carbon::parse($d));
 
         return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
@@ -89,9 +93,9 @@ class IncarichiController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'persona non esiste']);
         }
+
+        return response()->json(['value' => '', 'label' => 'persona non esiste']);
 
     }
 }

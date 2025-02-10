@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class PrenotazioneVeicoli extends Component
+final class PrenotazioneVeicoli extends Component
 {
     public string $dataPartenza;
 

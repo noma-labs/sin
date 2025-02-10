@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Scuola\Unit;
 
+use App\Scuola\DataTransferObjects\AnnoScolasticoData;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
@@ -30,11 +33,9 @@ it('add classroom', function (): void {
     expect($a->id)->not->toBeNull();
     $tipi = ClasseTipo::all();
     $t = $tipi->random();
-    expect($a->classi()->count())->toBe(0)
-        ->and(count($a->classiTipoPossibili()))->toBe(count($tipi));
+    expect($a->classi()->count())->toBe(0);
     $c = $a->aggiungiClasse($t);
-    expect(count($a->classiTipoPossibili()))->toBe(count($tipi) - 1)
-        ->and($a->classi()->count())->toBe(1)
+    expect($a->classi()->count())->toBe(1)
         ->and($c->alunni()->count())->toBe(0)
         ->and($c->anno->id)->toBe($a->id);
     $p1 = Studente::factory()->minorenne()->maschio()->create();
@@ -63,15 +64,17 @@ it('get student from year', function (): void {
         ->and(Studente::InAnnoScolastico($a->id)->count())->toBe(3)
         ->and(Studente::InAnnoScolastico($a)->count())->toBe(3)
         ->and($c3->alunni()->where('nominativo', $p3->nominativo))->not->toBeEmpty()
-        ->and($p3->isDeceduto())->toBeFalse();
+        ->and($p3->isDeceduta())->toBeFalse();
 
 });
 
 it('get students from classroom types', function (): void {
-    $a = Anno::createAnno(1815);
-    $t = ClasseTipo::all();
-    $now = Carbon::now();
 
+    $inizio = Carbon::now();
+    $a = Anno::createAnno(1815, $inizio);
+    $t = ClasseTipo::all();
+
+    $now = Carbon::now();
     // prescuola
     $c1 = $a->aggiungiClasse($t->get(0));
     $p1 = Studente::factory()->minorenne()->maschio()->nato($now)->create();
@@ -91,9 +94,16 @@ it('get students from classroom types', function (): void {
 
     $tot = Studente::InAnnoScolasticoPerCiclo($a)->get();
     expect(count($tot))->toBe(3)
-        ->and($tot[0]->count)->toBe(1)
-        ->and($tot[1]->count)->toBe(1)
-        ->and($tot[2]->count)->toBe(2);
+        ->and($tot[0]->alunni_count)->toBe(1)
+        ->and($tot[1]->alunni_count)->toBe(1)
+        ->and($tot[2]->alunni_count)->toBe(2);
+
+    $ad = AnnoScolasticoData::FromDatabase(Anno::findOrFail($a->id));
+    expect($ad->totalStudents)->toBe(4)
+        ->and($ad->data_inizio->format('Y-m-d'))->toEqual($inizio->toDateString())
+        ->and($ad->prescuola->alunniCount)->toBe(1)
+        ->and($ad->elementari->alunniCount)->toBe(1)
+        ->and($ad->medie->alunniCount)->toBe(2);
 });
 
 it('create classroom in a year', function (): void {
@@ -178,7 +188,7 @@ it('clone students from existing year', function (): void {
 
     expect($a->prescuola()->alunni()->get())->toHaveCount(2);
     expect($a->alunni())->toHaveCount(10);
-    //TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
+    // TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
     //        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
     //        $this->assertEquals('2024-08-01', $aNew->data inizio);
     //        $this->assertCount(11, $aNew->classi()->get());
@@ -233,7 +243,7 @@ it('get possible students in year', function (): void {
     $gruppo = GruppoFamiliare::all()->random();
     $famiglia->assegnaCapoFamiglia($capoFam);
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
-    $act->execute($capoFam, Carbon::now()->toDateString(), $gruppo);
+    $act->execute($capoFam, Carbon::now(), $gruppo);
 
     $act = app(EntrataDallaNascitaAction::class);
     $act->execute($alunno, Famiglia::findOrFail($famiglia->id));

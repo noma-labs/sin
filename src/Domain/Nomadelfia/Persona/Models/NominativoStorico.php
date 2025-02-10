@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\Persona\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NominativoStorico extends Model
+final class NominativoStorico extends Model
 {
     protected $connection = 'db_nomadelfia';
 

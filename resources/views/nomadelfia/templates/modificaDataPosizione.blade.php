@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Modifica Posizione attuale"
     button-title="Modifica"
     button-style="btn-warning my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -11,44 +11,43 @@
             action="{{ route("nomadelfia.persone.posizione.modifica", ["idPersona" => $persona->id, "id" => $id]) }}"
         >
             @method("PUT")
-            {{ csrf_field() }}
+            @csrf
             <input
                 type="hidden"
                 name="current_data_inizio"
                 value="{{ $data_inizio }}"
             />
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label">Data Attuale</label>
+            <div class="row">
+                <label class="col-sm-6 form-label">Data Attuale</label>
                 <div class="form-check col-sm-6">
                     <label class="form-check-label" for="exampleRadios1">
                         {{ $data_inizio }}
                     </label>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label">Nuova Data</label>
+            <div class="row">
+                <label class="col-sm-6 form-label">Nuova Data</label>
                 <div class="form-check col-sm-6">
                     <label class="form-check-label">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            :typeable="true"
-                            value="{{ $persona->data_nascita }}"
-                            format="yyyy-MM-dd"
+                        <input
+                            type="date"
                             name="new_data_inizio"
-                        ></date-picker>
+                            value="{{ $persona->data_nascita }}"
+                            class="form-control"
+                        />
                     </label>
                 </div>
             </div>
         </form>
-    </template>
+    </x-slot>
 
-    <template slot="modal-button">
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="formPersonaPosizioneModifica{{ $persona->id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>
 <!--end modal modifica posizione-->

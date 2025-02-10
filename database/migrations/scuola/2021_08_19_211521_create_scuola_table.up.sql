@@ -3,7 +3,7 @@ CREATE TABLE `anno`
     `id`              int(10)     NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Anno (intero) è la chiave primaria',
     `responsabile_id` int(10)          DEFAULT NULL,
     `scolastico`      varchar(10) NOT NULL COMMENT 'Anno scolastico. E.g. 2018/2019',
-    `descrizione`     varchar(100)     DEFAULT NULL,
+    `descrizione`     text     DEFAULT NULL,
     `data_inizio`     date        NOT NULL COMMENT 'Data inizio dell anno scolastico',
     `data_fine`       date             DEFAULT NULL COMMENT 'Data fine dell anno scolastico',
     `created_at`      timestamp   NULL DEFAULT CURRENT_TIMESTAMP,
@@ -30,9 +30,9 @@ CREATE TABLE `classi`
     `id`         int(10)   NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `tipo_id`    int(10)   NOT NULL,
     `anno_id`    int(10)   NOT NULL COMMENT 'Anno scolastico di riferimento',
+    `note`     text     DEFAULT NULL,
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` timestamp NULL DEFAULT NULL,
-    CONSTRAINT unique_classe_as UNIQUE (tipo_id, anno_id)
+    `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
@@ -79,4 +79,3 @@ ALTER TABLE `coordinatori_classi`
 CREATE INDEX classi_anni_idx ON classi (anno_id);
 CREATE INDEX alunni_classi_idx ON alunni_classi (classe_id);
 CREATE UNIQUE INDEX alunni_classi_unique ON alunni_classi (classe_id, persona_id, data_inizio);
-

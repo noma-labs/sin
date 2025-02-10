@@ -10,16 +10,10 @@
                 <div class="card-body">
                     @if ($attuale)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">
-                                Gruppo familiare
-                            </p>
-                            <p class="col-md-2 font-weight-bold">
-                                Data entrata
-                            </p>
-                            <p class="col-md-2 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-5 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Gruppo familiare</p>
+                            <p class="col-md-2 fw-bold">Data entrata</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">{{ $attuale->nome }}</p>
@@ -27,17 +21,17 @@
                                 {{ $attuale->pivot->data_entrata_gruppo }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($attuale->pivot->data_entrata_gruppo)
                                 </span>
                             </div>
                             <div class="col-md-5">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Gruppo familiare attuale"
-                                    button-title="Modifica"
+                                    button-title="Modifica data"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -45,16 +39,16 @@
                                             action="{{ route("nomadelfia.persone.gruppo.modifica", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
                                         >
                                             @method("PUT")
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="current_data_entrata"
                                                 value="{{ $attuale->pivot->data_entrata_gruppo }}"
                                             />
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Gruppo familiare attuale
                                                 </label>
@@ -64,103 +58,38 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data entrata
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $attuale->pivot->data_entrata_gruppo }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        class="form-control"
+                                                        type="date"
                                                         name="new_data_entrata"
-                                                    ></date-picker>
+                                                        value="{{ $attuale->pivot->data_entrata_gruppo }}"
+                                                    />
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaGruppoModifica{{ $attuale->id }}"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
-                                <!--end modal modifica posizione-->
-
-                                <my-modal
-                                    modal-title="Concludi Gruppo familiare"
-                                    button-title="Concludi"
-                                    button-style="btn-info my-2"
-                                >
-                                    <template slot="modal-body-slot">
-                                        <form
-                                            class="form"
-                                            method="POST"
-                                            id="formConcludigruppo{{ $attuale->id }}"
-                                            action="{{ route("nomadelfia.persone.gruppo.concludi", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
-                                        >
-                                            {{ csrf_field() }}
-                                            <input
-                                                type="hidden"
-                                                name="data_entrata"
-                                                value="{{ $attuale->pivot->data_entrata_gruppo }}"
-                                            />
-                                            <div class="form-group row">
-                                                <label
-                                                    for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
-                                                >
-                                                    Gruppo familiare attuale
-                                                </label>
-                                                <div class="col-sm-6">
-                                                    <div>
-                                                        {{ $attuale->nome }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label
-                                                    class="col-sm-6 col-form-label"
-                                                >
-                                                    Data uscita gruppo
-                                                </label>
-                                                <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $attuale->pivot->data_uscita_gruppo }}"
-                                                        format="yyyy-MM-dd"
-                                                        name="data_uscita"
-                                                    ></date-picker>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </template>
-                                    <template slot="modal-button">
-                                        <button
-                                            class="btn btn-success"
-                                            form="formConcludigruppo{{ $attuale->id }}"
-                                        >
-                                            Salva
-                                        </button>
-                                    </template>
-                                </my-modal>
-
+                                    </x-slot>
+                                </x-modal>
+                                @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
                                 @include("nomadelfia.templates.eliminaPersonaDalGruppo", ["persona" => $persona, "gruppo" => $attuale])
                             </div>
                         </div>
                     @else
                         <p class="text-danger">Nessun gruppo familiare</p>
-                    @endif
-
-                    @if ($attuale)
-                        @include("nomadelfia.templates.spostaPersonaGruppo", ["persona" => $persona, "attuale" => $attuale])
-                    @else
                         @include("nomadelfia.templates.assegnaPersonaNuovoGruppo", ["persona" => $persona])
                     @endif
                 </div>
@@ -171,11 +100,11 @@
                 <div class="card-header">Storico dei gruppi familiari</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Gruppo</p>
-                        <p class="col-md-2 font-weight-bold">Data inizio</p>
-                        <p class="col-md-2 font-weight-bold">Data fine</p>
-                        <p class="col-md-2 font-weight-bold">Tempo trascorso</p>
-                        <p class="col-md-3 font-weight-bold">Operazioni</p>
+                        <p class="col-md-3 fw-bold">Gruppo</p>
+                        <p class="col-md-2 fw-bold">Data inizio</p>
+                        <p class="col-md-2 fw-bold">Data fine</p>
+                        <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                        <p class="col-md-3 fw-bold">Operazioni</p>
                     </div>
                     @forelse ($persona->gruppofamiliariStorico as $gruppostorico)
                         <div class="row">
@@ -187,7 +116,7 @@
                                 {{ $gruppostorico->pivot->data_uscita_gruppo }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($gruppostorico->pivot->data_uscita_gruppo)->diffForHumans(Carbon::parse($gruppostorico->pivot->data_entrata_gruppo), ["short" => true]) }}
                                 </span>
                             </div>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Domain\Photo\Actions\ExtractExifAction;
@@ -7,7 +9,7 @@ use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class ExifExtractCommand extends Command
+final class ExifExtractCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -35,12 +37,12 @@ class ExifExtractCommand extends Command
         $saveToDb = $this->option('save');
         $limit = (int) $this->option('limit');
 
-        $fileName = (new ExtractExifAction())->execute($path);
+        $fileName = (new ExtractExifAction)->execute($path);
 
         $this->info("Saving into $fileName");
 
         if ($saveToDb) {
-            $photos = (new StoreExifIntoDBAction())->execute($fileName);
+            $photos = (new StoreExifIntoDBAction)->execute($fileName);
 
             $photos = DB::connection('db_foto')->table('photos')->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')->limit($limit)->orderby('created_at', 'DESC')->get();
             $this->table(

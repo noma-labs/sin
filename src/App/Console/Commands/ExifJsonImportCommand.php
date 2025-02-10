@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Domain\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 
-class ExifJsonImportCommand extends Command
+final class ExifJsonImportCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -32,7 +34,7 @@ class ExifJsonImportCommand extends Command
 
         $this->info("Reading $file");
 
-        $num = (new StoreExifIntoDBAction())->execute($file);
+        $num = (new StoreExifIntoDBAction)->execute($file);
 
         $this->info("Inserted $num phots");
 

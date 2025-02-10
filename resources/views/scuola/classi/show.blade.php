@@ -3,38 +3,48 @@
 @section("content")
     @include("partials.header", ["title" => "Gestione Classe"])
 
-    <div class="row justify-content-md-center">
-        <div class="col-md-12">
-            <div class="card border-dark my-2">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            A.S.:
-                            <span class="font-weight-bold">
-                                <a
-                                    href="{{ route("scuola.anno.show", $anno->id) }}"
-                                >
-                                    {{ $anno->scolastico }}
-                                </a>
-                            </span>
-                        </div>
-                        <div class="col-md-4">
-                            Classe:
-                            <span class="font-weight-bold">
-                                {{ $classe->tipo->nome }}
-                            </span>
-                        </div>
-                        <div class="col-md-4">
-                            <a
-                                class="btn btn-warning"
-                                href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
-                            >
-                                Aggiungi Elaborato
-                            </a>
-                        </div>
+    <div class="card mb-3">
+        <div class="card-header">Classe {{ $classe->tipo->nome }}</div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>A.S.</p>
+                    <a href="{{ route("scuola.anno.show", $anno->id) }}">
+                        {{ $anno->scolastico }}
+                    </a>
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>Classe:</p>
+                    <div>
+                        {{ $classe->tipo->nome }}
+                        @include("scuola.templates.modificaTipoClasse", ["classe" => $classe])
                     </div>
-                </div>
-            </div>
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <p>Note</p>
+                    <div>
+                        {{ $classe->note }}
+                        @include("scuola.templates.aggiungiNoteClasse", ["classe" => $classe])
+                    </div>
+                </li>
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    Elaborato
+                    <a
+                        class="btn btn-warning"
+                        href="{{ route("scuola.classi.elaborato.create", $classe->id) }}"
+                    >
+                        Aggiungi Elaborato
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -45,7 +55,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Alunni
-                            <span class="badge badge-primary">
+                            <span class="badge bg-primary">
                                 {{ $alunni->count() }}
                             </span>
                         </div>
@@ -60,16 +70,14 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold mt-2">
+                                        <div class="fw-bold mt-2">
                                             @year($alunno->data_nascita)
                                             @include("nomadelfia.templates.persona", ["persona" => $alunno])
                                             (
                                             @diffYears($alunno->data_nascita)
                                             anni)
                                             @liveRome($alunno)
-                                                <span
-                                                    class="badge badge-warning"
-                                                >
+                                                <span class="badge bg-warning">
                                                     Roma
                                                 </span>
                                             @endliveRome
@@ -91,7 +99,7 @@
                     <div class="row justify-content-between">
                         <div class="col-4">
                             Coordinatori
-                            <span class="badge badge-primary">
+                            <span class="badge bg-primary">
                                 {{ $coords->count() }}
                             </span>
                         </div>
@@ -106,7 +114,7 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold">
+                                        <div class="fw-bold">
                                             @include("nomadelfia.templates.persona", ["persona" => $coord])
                                             <span>
                                                 ({{ $coord->pivot->tipo }})

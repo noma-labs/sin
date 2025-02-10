@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Carbon;
@@ -7,7 +9,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 
-class CaricheController
+final class CaricheController
 {
     /**
      * view della pagina index per la gestion delle cariche costituzionali
@@ -41,10 +43,10 @@ class CaricheController
     {
         $anz = Cariche::EleggibiliConsiglioAnziani();
 
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
-        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie
+        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); // stile per le famiglie
         $colStyle4Next = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn'];
         $colStyle4NCont = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'continuous'];
 

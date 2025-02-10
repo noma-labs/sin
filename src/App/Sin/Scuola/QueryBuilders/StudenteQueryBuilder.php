@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\QueryBuilders;
 
 use App\Scuola\Models\Anno;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-class StudenteQueryBuilder extends Builder
+final class StudenteQueryBuilder extends Builder
 {
     public function InAnnoScolastico($anno)
     {
@@ -26,8 +28,9 @@ class StudenteQueryBuilder extends Builder
     public function InAnnoScolasticoPerCiclo($anno)
     {
         return $this->InAnnoScolastico($anno)
-            ->select('db_scuola.tipo.ciclo', DB::raw('count(*) as count')) // $expression->getValue(DB::connection()->getQueryGrammar()))
-            ->groupBy('db_scuola.tipo.ciclo');
+            ->select('db_scuola.tipo.ciclo', DB::raw('count(*) as alunni_count'))
+            ->groupBy('db_scuola.tipo.ciclo')
+            ->orderBy('db_scuola.tipo.ord');
 
     }
 }

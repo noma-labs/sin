@@ -9,24 +9,24 @@
                 <div class="card-body">
                     <p class="card-text">
                         Nome famiglia:
-                        <span class="font-weight-bold">
+                        <span class="fw-bold">
                             {{ $famiglia->nome_famiglia }}
                         </span>
                     </p>
                     <p class="card-text">
                         Data creazione:
-                        <span class="font-weight-bold">
+                        <span class="fw-bold">
                             {{ $famiglia->data_creazione }}
                         </span>
                     </p>
                     @include("nomadelfia.templates.aggiornaFamiglia", ["famiglia" => $famiglia])
 
-                    <my-modal
+                    <x-modal
                         modal-title="Uscita famiglia dalla comunità"
                         button-title="Uscita famiglia"
                         button-style="btn-danger my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
@@ -36,24 +36,24 @@
                                 @csrf
                                 <p>
                                     Inserire la data di uscita della famiglia
-                                    {{ $famiglia->nome }}
+                                    {{ $famiglia->nome_famiglia }}
                                 </p>
-                                <date-picker
-                                    :bootstrap-styling="true"
-                                    format="yyyy-MM-dd"
+                                <input
+                                    class="form-control"
+                                    type="date"
                                     name="data_uscita"
-                                ></date-picker>
+                                />
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formUscitaFamiglia{{ $famiglia->id }}"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                 </div>
             </div>
         </div>
@@ -67,8 +67,8 @@
                     <h5 class="mb-0">
                         <button
                             class="btn btn-link"
-                            data-toggle="collapse"
-                            data-target="#collapseOne"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
                             aria-expanded="true"
                             aria-controls="collapseOne"
                         >
@@ -99,8 +99,8 @@
                             <h5 class="mb-0">
                                 <button
                                     class="btn btn-link"
-                                    data-toggle="collapse"
-                                    data-target="#collapsezero"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsezero"
                                     aria-expanded="true"
                                     aria-controls="collapsezero"
                                 >
@@ -117,10 +117,10 @@
                             <div class="card-body">
                                 @if ($gruppoAttuale)
                                     <div class="row">
-                                        <div class="col-sm-6 font-weight-bold">
+                                        <div class="col-sm-6 fw-bold">
                                             Gruppo familiare
                                         </div>
-                                        <div class="col-sm-6 font-weight-bold">
+                                        <div class="col-sm-6 fw-bold">
                                             Data entrata
                                         </div>
                                     </div>
@@ -159,8 +159,8 @@
                             <h5 class="mb-0">
                                 <button
                                     class="btn btn-link"
-                                    data-toggle="collapse"
-                                    data-target="#collapsezero"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsezero"
                                     aria-expanded="true"
                                     aria-controls="collapsezero"
                                 >
@@ -176,10 +176,10 @@
                         >
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6 font-weight-bold">
+                                    <div class="col-md-6 fw-bold">
                                         Gruppo familiare
                                     </div>
-                                    <div class="col-md-6 font-weight-bold">
+                                    <div class="col-md-6 fw-bold">
                                         Data entrata - data uscita
                                     </div>
                                 </div>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;

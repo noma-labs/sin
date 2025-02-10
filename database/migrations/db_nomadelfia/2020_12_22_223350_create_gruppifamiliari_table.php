@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateGruppifamiliariTable extends SqlMigration
+final class CreateGruppifamiliariTable extends SqlMigration
 {
     public $connection = 'db_nomadelfia';
 }

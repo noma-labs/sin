@@ -1,29 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class UscitaFamigliaAction
+final class UscitaFamigliaAction
 {
-    private LogUscitaFamigliaAction $logUscita;
-
-    private SendEmailFamigliaUscitaAction $emailUscita;
-
     public function __construct(
-        LogUscitaFamigliaAction $logUscita,
-        SendEmailFamigliaUscitaAction $emailUscita
-    ) {
-        $this->logUscita = $logUscita;
-        $this->emailUscita = $emailUscita;
-    }
+        private LogUscitaFamigliaAction $logUscita,
+        private SendEmailFamigliaUscitaAction $emailUscita
+    ) {}
 
-    public function execute(Famiglia $famiglia, string $data_uscita): void
+    public function execute(Famiglia $famiglia, Carbon $data_uscita): void
     {
-        $dto = new UscitaFamigliaData();
+        $dto = new UscitaFamigliaData;
         $dto->famiglia = $famiglia;
         $dto->componenti = $famiglia->componentiAttuali()->get();
         $dto->data_uscita = $data_uscita;

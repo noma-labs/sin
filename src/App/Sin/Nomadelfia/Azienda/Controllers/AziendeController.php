@@ -1,18 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Azienda\Controllers;
 
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class AziendeController
+final class AziendeController
 {
-    /**
-     * view della pagina di gestione delle aziende
-     *
-     * @author Matteo Neri
-     **/
     public function view()
     {
         $aziende = Azienda::aziende()->orderBy('nome_azienda')->with('lavoratoriAttuali')->get();
@@ -20,29 +17,12 @@ class AziendeController
         return view('nomadelfia.aziende.index', compact('aziende'));
     }
 
-    /**
-     * ritorna la view per editare una azienda
-     *
-     * @author Matteo Neri
-     **/
     public function edit($id)
     {
-        $azienda = Azienda::findOrFail($id);
+        $azienda = Azienda::with('lavoratoriAttuali')->with('lavoratoriStorici')->findOrFail($id);
 
         return view('nomadelfia.aziende.edit', compact('azienda'));
 
-    }
-
-    public function editConfirm(Request $request, $idPersona)
-    {
-    }
-
-    public function insert()
-    {
-    }
-
-    public function insertConfirm(Request $request) //InsertClientiRequest $request
-    {
     }
 
     public function searchPersona(Request $request)
@@ -63,9 +43,9 @@ class AziendeController
             }
 
             return response()->json($results);
-        } else {
-            return response()->json(['value' => '', 'label' => 'persona non esiste']);
         }
+
+        return response()->json(['value' => '', 'label' => 'persona non esiste']);
 
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class PersonaHasMultiplePosizioniAttuale extends InvalidArgumentException
+final class PersonaHasMultiplePosizioniAttuale extends NomadelfiaException
 {
-    public static function named(string $nome): PersonaHasMultiplePosizioniAttuale
+    public static function named(string $nome): self
     {
         return new self("La persona `{$nome}` ha più di una posizione attuale.");
     }

@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Azienda\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Azienda\Models\Azienda;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Illuminate\Http\Request;
 
-class PersonaAziendeController
+final class PersonaAziendeController
 {
     public function index($idPersona)
     {
@@ -29,18 +33,19 @@ class PersonaAziendeController
         ]);
         $persona = Persona::findOrFail($idPersona);
         $azienda = Azienda::findOrFail($request->azienda_id);
-        if (strcasecmp($request->mansione, 'lavoratore') == 0) {
-            $persona->assegnaLavoratoreAzienda($azienda, $request->data_inizio);
+        $action = new AssegnaAziendaAction;
+        if (strcasecmp($request->mansione, 'lavoratore') === 0) {
+            $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
 
             return redirect()
-                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
-        if (strcasecmp($request->mansione, 'responsabile azienda') == 0) {
-            $persona->assegnaResponsabileAzienda($azienda, $request->data_inizio);
+        if (strcasecmp($request->mansione, 'responsabile azienda') === 0) {
+            $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
 
             return redirect()
-                ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
 
@@ -68,7 +73,7 @@ class PersonaAziendeController
         ]);
 
         return redirect()
-            ->action([PersonaAziendeController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 }

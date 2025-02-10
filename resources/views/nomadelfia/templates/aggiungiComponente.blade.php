@@ -1,34 +1,30 @@
-<my-modal
+<x-modal
     modal-title="Aggiungi componente alla famiglia"
     button-title="Aggiungi Componente"
     button-style="btn-primary my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
             id="formComponente"
             action="{{ route("nomadelfia.famiglie.componente.assegna", ["id" => $famiglia->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            @csrf
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Persona
                 </label>
                 <div class="col-8">
-                    <autocomplete
-                        placeholder="Inserisci nominativo..."
-                        name="persona_id"
-                        url="{{ route("api.nomadeflia.popolazione.search") }}"
-                    ></autocomplete>
+                    <livewire:search-popolazione name_input="persona_id" />
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="posizione">
+                    <select class="form-select" name="posizione">
                         <option value="" selected>
                             ---scegli posizione---
                         </option>
@@ -40,8 +36,8 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Stato:
                 </label>
                 <div class="col-8">
@@ -72,8 +68,8 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Note:
                 </label>
                 <div class="col-8">
@@ -87,8 +83,8 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button class="btn btn-danger" form="formComponente">Salva</button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController
+final class RoleController
 {
     public function index()
     {
@@ -40,7 +42,7 @@ class RoleController
 
     }
 
-    public function show($id)
+    public function show()
     {
         return redirect('roles');
     }
@@ -61,7 +63,7 @@ class RoleController
     public function update(Request $request, $id)
     {
 
-        $role = Role::findOrFail($id); //Get role with the given id
+        $role = Role::findOrFail($id); // Get role with the given id
         $risorse_with_permissions = $request->except(['_method', '_token']);
         $only_with_ones = collect($risorse_with_permissions)->filter(function ($value, $key) {
             return collect($value)->contains(1);
@@ -80,7 +82,7 @@ class RoleController
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        if ($role->name == 'admin') {
+        if ($role->name === 'admin') {
             return redirect()->route('roles.index')->withError("Non puoi elimiare il ruolo $role->nome");
         }
         $role->delete();

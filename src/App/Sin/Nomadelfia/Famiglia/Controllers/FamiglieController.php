@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Famiglia\Controllers;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -9,7 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Exception;
 use Illuminate\Http\Request;
 
-class FamiglieController
+final class FamiglieController
 {
     public function view()
     {
@@ -52,10 +55,11 @@ class FamiglieController
         if ($saved) {
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withSuccess("Famiglia $famiglia->nome_famiglia aggiornata con successo");
-        } else {
-            return redirect(route('nomadelfia.famiglia.dettaglio',
-                ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
         }
+
+        return redirect(route('nomadelfia.famiglia.dettaglio',
+            ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
+
     }
 
     public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
@@ -150,7 +154,7 @@ class FamiglieController
 
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withSuccess('Componente aggiornato con successo');
-        } catch (Exception $e) {
+        } catch (Exception) {
             return redirect(route('nomadelfia.famiglia.dettaglio',
                 ['id' => $id]))->withError('Errore. Nessun componente aggiornato alla famiglia.');
         }
@@ -166,7 +170,7 @@ class FamiglieController
         ]);
         $famiglia = Famiglia::findorfail($id);
         $action = app(UscitaFamigliaAction::class);
-        $action->execute($famiglia, $request->data_uscita);
+        $action->execute($famiglia, Carbon::parse($request->data_uscita));
 
         return redirect(route('nomadelfia.famiglia.dettaglio',
             ['id' => $id]))->withSuccess('Famiglia uscita con successo.');

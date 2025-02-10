@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Gruppo Familiare:
                                 </label>
                                 <div class="col-sm-6">
@@ -18,7 +18,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-sm-6 font-weight-bold">
+                                <label class="col-sm-6 fw-bold">
                                     Capogruppo:
                                 </label>
                                 <div class="col-sm-6">
@@ -38,23 +38,23 @@
                         </div>
                         <!--end col dati gruppo -->
                         <div class="col-md-8">
-                            <my-modal
+                            <x-modal
                                 modal-title="Modifica Capogruppo"
                                 button-title="Cambia Capogruppo"
                                 button-style="btn-danger my-2"
                             >
-                                <template slot="modal-body-slot">
+                                <x-slot:body>
                                     <form
                                         class="form"
                                         method="POST"
                                         id="formPersonaGruppoModifica{{ $gruppo->id }}"
                                         action="{{ route("nomadelfia.gruppifamiliari.capogruppo", ["id" => $gruppo->id]) }}"
                                     >
-                                        {{ csrf_field() }}
-                                        <div class="form-group row">
+                                        @csrf
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
-                                                class="col-sm-6 col-form-label"
+                                                class="col-sm-6 form-label"
                                             >
                                                 Capogruppo Attuale
                                             </label>
@@ -70,16 +70,16 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="row">
                                             <label
                                                 for="staticEmail"
-                                                class="col-sm-6 col-form-label"
+                                                class="col-sm-6 form-label"
                                             >
                                                 Nuovo capogruppo
                                             </label>
                                             <div class="col-sm-6">
                                                 <select
-                                                    class="form-control"
+                                                    class="form-select"
                                                     name="nuovo"
                                                 >
                                                     <option value="" selected>
@@ -95,31 +95,29 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-sm-6 col-form-label"
-                                            >
+                                        <div class="row">
+                                            <label class="col-sm-6 form-label">
                                                 Data Cambio
                                             </label>
                                             <div class="col-sm-6">
-                                                <date-picker
-                                                    :bootstrap-styling="true"
-                                                    format="yyyy-MM-dd"
+                                                <input
+                                                    class="form-control"
+                                                    type="date"
                                                     name="inizio"
-                                                ></date-picker>
+                                                />
                                             </div>
                                         </div>
                                     </form>
-                                </template>
-                                <template slot="modal-button">
+                                </x-slot>
+                                <x-slot:footer>
                                     <button
                                         class="btn btn-success"
                                         form="formPersonaGruppoModifica{{ $gruppo->id }}"
                                     >
                                         Salva
                                     </button>
-                                </template>
-                            </my-modal>
+                                </x-slot>
+                            </x-modal>
                         </div>
                     </div>
                 </div>
@@ -137,7 +135,7 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="font-weight-bold mt-2">
+                                        <div class="fw-bold mt-2">
                                             @include("nomadelfia.templates.persona", ["persona" => $persona])
                                         </div>
                                     </div>
@@ -155,7 +153,7 @@
                                         </p>
                                     @else
                                         <div class="col-md-6">
-                                            <div class="font-weight-bold mt-2">
+                                            <div class="fw-bold mt-2">
                                                 Fam.
                                                 <a
                                                     href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $famiglia_id]) }}"
@@ -194,7 +192,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         Persone
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ $gruppo->personeAttuale->count() }}
                         </span>
                     </h4>

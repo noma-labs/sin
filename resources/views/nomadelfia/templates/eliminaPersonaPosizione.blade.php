@@ -1,9 +1,9 @@
-<my-modal
+<x-modal
     modal-title="Elimina posizione della persona"
     button-title="Elimina"
     button-style="btn-danger my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
@@ -17,13 +17,13 @@
                 posizione {{ $posizione->nome }} ?
             </body>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger"
             form="formEliminaposizioneStorico{{ $persona->id }}"
         >
             Elimina
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

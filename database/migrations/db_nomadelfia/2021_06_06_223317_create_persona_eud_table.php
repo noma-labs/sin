@@ -1,7 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreatePersonaEudTable extends SqlMigration
-{
-}
+final class CreatePersonaEudTable extends SqlMigration {}

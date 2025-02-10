@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -8,7 +10,7 @@ use Sentry\State\Scope;
 
 use function Sentry\configureScope;
 
-class SentryContext
+final class SentryContext
 {
     /**
      * Handle an incoming request.

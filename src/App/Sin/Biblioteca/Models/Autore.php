@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -11,23 +13,33 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $autore
  */
-class Autore extends Model
+final class Autore extends Model
 {
+    use HasFactory;
+
     protected $connection = 'db_biblioteca';
 
     protected $table = 'autore';
 
     protected $primaryKey = 'id';
 
-    use HasFactory;
-
     protected $guarded = []; // all the fields are mass assignabe
 
-    protected static function boot()
+    public function setAutoreAttribute($value): void
+    {
+        $this->attributes['autore'] = mb_strtoupper($value);
+    }
+
+    public function libri()
+    {
+        return $this->belongsToMany(Libro::class, 'autore_libro', 'autore_id', 'libro_id');
+    }
+
+    protected static function boot(): void
     {
         parent::boot();
 
-        static::addGlobalScope('tipaut', function (Builder $builder): void {
+        self::addGlobalScope('tipaut', function (Builder $builder): void {
             $builder->where('tipaut', 'S');
         });
     }
@@ -35,15 +47,5 @@ class Autore extends Model
     protected static function newFactory(): AutoreFactory
     {
         return AutoreFactory::new();
-    }
-
-    public function setAutoreAttribute($value): void
-    {
-        $this->attributes['autore'] = strtoupper($value);
-    }
-
-    public function libri()
-    {
-        return $this->belongsToMany(Libro::class, 'autore_libro', 'autore_id', 'libro_id');
     }
 }

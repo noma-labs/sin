@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Models;
 
 use App\Biblioteca\Models\Libro as Libro;
@@ -10,15 +12,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $descrizione
  */
-class Classificazione extends Model
+final class Classificazione extends Model
 {
+    use HasFactory;
+
     protected $connection = 'db_biblioteca';
 
     protected $table = 'classificazione';
 
     protected $primaryKey = 'id';
-
-    use HasFactory;
 
     protected $guarded = ['id'];
 
@@ -29,7 +31,7 @@ class Classificazione extends Model
 
     public function setDescrizioneAttribute($value): void
     {
-        $this->attributes['descrizione'] = strtoupper($value);
+        $this->attributes['descrizione'] = mb_strtoupper($value);
     }
 
     protected static function newFactory(): ClassificazioneFactory

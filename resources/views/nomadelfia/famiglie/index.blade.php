@@ -2,16 +2,16 @@
 
 @section("content")
     @include("partials.header", ["title" => "Gestione Famiglie"])
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row row-cols-1 row-cols-md-4 d-flex">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headSingle">
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
-                                data-target="#Single"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#Single"
                                 aria-expanded="true"
                                 aria-controls="Single"
                             >
@@ -31,7 +31,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $capifamiglieMaschio->count() }}
                                         </span>
@@ -51,7 +51,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $capifamiglieFemmina->count() }}
                                         </span>
@@ -73,15 +73,15 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headCapoFamiglia">
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
-                                data-target="#CapoFamiglia"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#CapoFamiglia"
                                 aria-expanded="true"
                                 aria-controls="CapoFamiglia"
                             >
@@ -101,7 +101,7 @@
                                     <h5>
                                         Uomini
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $singleMaschio->count() }}
                                         </span>
@@ -121,7 +121,7 @@
                                     <h5>
                                         Donne
                                         <span
-                                            class="badge badge-primary badge-pill"
+                                            class="badge bg-primary rounded-pill"
                                         >
                                             {{ $singleFemmine->count() }}
                                         </span>
@@ -143,15 +143,15 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" id="headCapoFamiglia">
                         <h5 class="mb-0">
                             <button
                                 class="btn btn-link"
-                                data-toggle="collapse"
-                                data-target="#Errori"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#Errori"
                                 aria-expanded="true"
                                 aria-controls="Errori"
                             >

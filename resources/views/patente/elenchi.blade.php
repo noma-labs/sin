@@ -1,7 +1,7 @@
 @extends("patente.index")
 
 @section("content")
-    <sin-header title="Elenchi Patente"></sin-header>
+    @include("partials.header", ["title" => "Elenchi Patente"])
 
     @include("patente.elenchi.percategoria")
 
@@ -12,7 +12,7 @@
                     <button
                         type="button"
                         class="btn btn-danger dropdown-toggle"
-                        data-toggle="dropdown"
+                        data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
@@ -40,7 +40,7 @@
                     <button
                         type="button"
                         class="btn btn-danger dropdown-toggle"
-                        data-toggle="dropdown"
+                        data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                     >
@@ -62,7 +62,7 @@
                     <button
                         type="button"
                         class="btn btn-danger dropdown-toggle"
-                        data-toggle="dropdown"
+                        data-bs-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                     >

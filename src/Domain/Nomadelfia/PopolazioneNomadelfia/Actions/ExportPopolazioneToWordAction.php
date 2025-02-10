@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use Carbon\Carbon;
@@ -12,23 +14,23 @@ use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
-class ExportPopolazioneToWordAction
+final class ExportPopolazioneToWordAction
 {
     public function execute(Collection $elenchi): PhpWord
     {
-        $data = new ExportPopolazioneData();
+        $data = new ExportPopolazioneData;
 
-        $phpWord = new PhpWord();
+        $phpWord = new PhpWord;
         // define styles
         $fontStyle12 = ['size' => 10, 'spaceAfter' => 60];
         $phpWord->addTitleStyle(1, ['size' => 12, 'bold' => true, 'allCaps' => true], ['spaceAfter' => 240]);
         $phpWord->addTitleStyle(2, ['size' => 10, 'bold' => true]);
-        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); //stile per le famiglie
+        $phpWord->addTitleStyle(3, ['size' => 8, 'bold' => true]); // stile per le famiglie
 
         $colStyle4Next = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'nextColumn'];
         $colStyle4NCont = ['colsNum' => 4, 'colsSpace' => 300, 'breakType' => 'continuous'];
 
-        //$phpWord->setDefaultFontName('Times New Roman');
+        // $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
             'spaceAfter' => Converter::pointToTwip(2),

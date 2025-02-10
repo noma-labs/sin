@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Rtn\Video;
 
 use App\Traits\SortableTrait;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static VideoQueryBuilder byYear()
  **/
-class Video extends Model
+final class Video extends Model
 {
     use SortableTrait;
 

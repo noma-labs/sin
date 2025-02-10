@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-class AddStudentAction
+final class AddStudentAction
 {
     public function execute(Classe $classe, Persona|int $alunno, $data_inizio): Persona
     {

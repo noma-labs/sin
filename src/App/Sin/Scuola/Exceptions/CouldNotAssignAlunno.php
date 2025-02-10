@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Exceptions;
 
 use Exception;
 
-class CouldNotAssignAlunno extends Exception
+final class CouldNotAssignAlunno extends Exception
 {
     public static function isNotValidAnno(string $anno): self
     {

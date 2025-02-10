@@ -1,8 +1,8 @@
 <form method="GET" action="{{ route("nomadelfia.persone.ricerca.submit") }}">
-    {{ csrf_field() }}
-    <div class="row">
+    @csrf
+    <div class="row mb-3 g-3">
         <div class="col-md-2">
-            <label class="control-label">Nominativo</label>
+            <label class="form-label">Nominativo</label>
             <input
                 class="form-control"
                 name="nominativo"
@@ -11,7 +11,7 @@
             />
         </div>
         <div class="col-md-2">
-            <label class="control-label">Nome</label>
+            <label class="form-label">Nome</label>
             <input
                 class="form-control"
                 name="nome"
@@ -21,22 +21,20 @@
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Cognome</label>
-                <input
-                    class="form-control"
-                    name="cognome"
-                    type="text"
-                    placeholder="Inserisci il cognome"
-                />
-            </div>
+            <label class="form-label">Cognome</label>
+            <input
+                class="form-control"
+                name="cognome"
+                type="text"
+                placeholder="Inserisci il cognome"
+            />
         </div>
 
         <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Data di Nascita</label>
+            <div class="">
+                <label class="form-label">Data di Nascita</label>
                 <select
-                    class="form-control"
+                    class="form-select"
                     name="criterio_data_nascita"
                     type="text"
                 >
@@ -48,8 +46,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2">
-            <label>&nbsp;</label>
+        <div class="col-md-2 d-flex align-items-end">
             <input
                 type="date"
                 class="form-control"
@@ -57,15 +54,8 @@
                 name="data_nascita"
             />
         </div>
-    </div>
-    <div class="row align-items-end">
-        <div class="col-md-2 offset-md-8">
-            <div class="form-group">
-                <label id="lab">&nbsp;</label>
-                <button type="submit" class="btn btn-block btn-primary">
-                    Ricerca
-                </button>
-            </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Ricerca</button>
         </div>
     </div>
 </form>

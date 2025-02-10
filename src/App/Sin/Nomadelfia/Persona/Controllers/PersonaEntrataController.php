@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
+use Carbon\Carbon;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -14,13 +17,13 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaA
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 
-class PersonaEntrataController
+final class PersonaEntrataController
 {
     public function create($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
 
-        return view('nomadelfia.persone.inserimento.entrata', compact('persona'));
+        return view('nomadelfia.persone.popolazione.create', compact('persona'));
     }
 
     public function store(EntrataPersonaRequest $request, $idPersona)
@@ -28,7 +31,7 @@ class PersonaEntrataController
         $request->validated();
 
         $persona = Persona::findOrFail($idPersona);
-        $data_entrata = $request->input('data_entrata');
+        $data_entrata = Carbon::parse($request->input('data_entrata'));
 
         switch ($request->tipologia) {
             case 'dalla_nascita':
@@ -73,8 +76,10 @@ class PersonaEntrataController
             'data_entrata.date' => 'La data entrata non è valida.',
         ]);
         $persona = Persona::findOrFail($idPersona);
-        PopolazioneNomadelfia::query()->where('persona_id', $persona->id)->where('data_entrata',
-            $entrata)->update(['data_entrata' => $request->data_entrata]);
+        PopolazioneNomadelfia::query()
+            ->where('persona_id', $persona->id)
+            ->where('data_entrata', $entrata)
+            ->update(['data_entrata' => $request->data_entrata]);
 
         return redirect()->back()->withSuccess("Data entrata di $persona->nominativo modificata con successo.");
     }

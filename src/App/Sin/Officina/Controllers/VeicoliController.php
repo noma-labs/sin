@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Controllers;
 
 use App\Officina\Models\Alimentazioni;
@@ -7,13 +9,14 @@ use App\Officina\Models\Impiego;
 use App\Officina\Models\Marche as Marca;
 use App\Officina\Models\Modelli as Modello;
 use App\Officina\Models\TipoFiltro;
+use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Tipologia;
 use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 use Throwable;
 
-class VeicoliController
+final class VeicoliController
 {
     public function index(Request $request)
     {
@@ -42,8 +45,9 @@ class VeicoliController
     public function show($id)
     {
         $veicolo = Veicolo::withTrashed()->findOrFail($id);
+        $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.show', compact('veicolo'));
+        return view('officina.veicoli.show', compact('veicolo', 'gomme'));
     }
 
     public function edit($id)
@@ -58,10 +62,10 @@ class VeicoliController
         $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
-        $enum_tipo_filtro = TipoFiltro::tipo();
         $olio_motore = TipoOlio::all();
+        $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro', 'olio_motore'));
+        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
     public function editConfirm(Request $request, $id)
@@ -87,9 +91,8 @@ class VeicoliController
         $f_olio = TipoFiltro::where('tipo', '=', 'olio')->orderBy('codice', 'asc')->get();
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
-        $enum_tipo_filtro = TipoFiltro::tipo();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'enum_tipo_filtro'));
+        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
     public function create(Request $request)
@@ -122,9 +125,10 @@ class VeicoliController
 
         if ($request->input('_addanother')) { // salva e aggiungi un'altro7
             return redirect(route('veicoli.nuovo'))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
-        } else {
-            return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
         }
+
+        return redirect(route('veicoli.dettaglio', ['id' => $veicolo->id]))->withSuccess("Veicolo $veicolo->nome salvato correttamente");
+
     }
 
     /**
@@ -142,19 +146,20 @@ class VeicoliController
         // salva il filtro
         try {
             $filtro = TipoFiltro::create([
-                'codice' => strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper($request->input('codice')),
                 'tipo' => $request->input('tipo'),
                 'note' => $note,
             ]);
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError('Errore durante il salvataggio del filtro: filtro già esistente');
         }
 
         if ($filtro) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Filtro $filtro->codice salvato correttamente");
-        } else {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio del filtro $filtro->codice");
         }
+
+        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio del filtro $filtro->codice");
+
     }
 
     /**
@@ -170,18 +175,31 @@ class VeicoliController
 
         try {
             $olio = TipoOlio::create([
-                'codice' => strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper($request->input('codice')),
                 'note' => $note,
             ]);
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio: olio già esistente");
         }
 
         if ($olio) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Olio $olio->codice salvato correttamente");
-        } else {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
         }
+
+        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
+
+    }
+
+    public function aggiungiGomma(Request $request)
+    {
+        $request->validate([
+            'codice' => 'required',
+        ]);
+        $gomma = TipoGomme::create([
+            'codice' => $request->input('codice'),
+        ]);
+
+        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
     }
 
     /**
@@ -192,7 +210,7 @@ class VeicoliController
         $veicolo = Veicolo::find($r->input('v_id'));
         try {
             $veicolo->delete();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $r->input('v_id')]))->withError('Errore nella demolizione del veicolo');
         }
 
@@ -228,7 +246,7 @@ class VeicoliController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->forceDelete();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella eliminazione del veicolo');
         }
 
@@ -240,7 +258,7 @@ class VeicoliController
         $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
         try {
             $veicolo->restore();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella riabilitazione del veicolo');
         }
 

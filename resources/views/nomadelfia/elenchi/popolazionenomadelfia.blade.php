@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-        <!-- CSS style (boostrap, jquery-ui) compiled with "npm run prod"  -->
+        <!-- CSS style (boostrap) compiled with "npm run prod"  -->
         <link
             rel="stylesheet"
             type="text/css"

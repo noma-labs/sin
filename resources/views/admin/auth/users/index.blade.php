@@ -5,13 +5,13 @@
     @include("partials.header", ["title" => "Gestione utenti"])
     <a
         href="{{ route("users.create") }}"
-        class="btn btn-success float-right my-2"
+        class="btn btn-success float-end my-2"
     >
         Aggiungi Utente
     </a>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="thead-inverse">
+            <thead>
                 <tr>
                     <th>Persona</th>
                     <th>Username</th>
@@ -32,7 +32,7 @@
                         <td>{{ $user->created_at->format("F d, Y h:ia") }}</td>
                         <td>
                             @foreach ($user->roles as $role)
-                                <span class="badge badge-success">
+                                <span class="badge bg-success">
                                     {{ $role->name }}
                                 </span>
                             @endforeach
@@ -47,13 +47,33 @@
                                 Modifica
                             </a>
                             @if ($user->trashed())
-                                {!! Form::open(["method" => "PUT", "route" => ["users.restore", $user->id]]) !!}
-                                {!! Form::submit("Ripristina", ["class" => "btn btn-warning"]) !!}
-                                {!! Form::close() !!}
+                                <form
+                                    action="{{ route("users.restore", $user->id) }}"
+                                    method="POST"
+                                >
+                                    @csrf
+                                    @method("PUT")
+                                    <button
+                                        type="submit"
+                                        class="btn btn-warning"
+                                    >
+                                        Ripristina
+                                    </button>
+                                </form>
                             @else
-                                {!! Form::open(["method" => "DELETE", "route" => ["users.destroy", $user->id]]) !!}
-                                {!! Form::submit("Disabilita", ["class" => "btn btn-danger"]) !!}
-                                {!! Form::close() !!}
+                                <form
+                                    action="{{ route("users.destroy", $user->id) }}"
+                                    method="POST"
+                                >
+                                    @csrf
+                                    @method("DELETE")
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Disabilita
+                                    </button>
+                                </form>
                             @endif
                         </td>
                     </tr>

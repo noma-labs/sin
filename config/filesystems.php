@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -74,6 +76,8 @@ return [
         ],
     ],
 
-    'links' => [],
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+    ],
 
 ];

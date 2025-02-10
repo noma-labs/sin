@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Officina\Models\Alimentazioni;
@@ -9,7 +11,7 @@ use App\Officina\Models\Tipologia;
 use App\Officina\Models\Veicolo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class VeicoloFactory extends Factory
+final class VeicoloFactory extends Factory
 {
     protected $model = Veicolo::class;
 

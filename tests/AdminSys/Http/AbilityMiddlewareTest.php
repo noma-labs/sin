@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\AdminSys\Http;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;

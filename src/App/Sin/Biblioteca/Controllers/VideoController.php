@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Biblioteca\Controllers;
 
 use App\Biblioteca\Models\Video as Video;
 use Illuminate\Http\Request;
 
-class VideoController
+final class VideoController
 {
     public function showSearchVideoForm()
     {

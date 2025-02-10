@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Scuola\Models\Anno;
@@ -9,7 +11,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ScuolaTableSeeder extends Seeder
+final class ScuolaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

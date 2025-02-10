@@ -16,19 +16,15 @@
                         @endif
 
                         <form
-                            class="form-horizontal"
                             method="POST"
                             action="{{ route("password.email") }}"
                         >
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div
-                                class="form-group{{ $errors->has("email") ? " has-error" : "" }}"
+                                class="{{ $errors->has("email") ? " has-error" : "" }}"
                             >
-                                <label
-                                    for="email"
-                                    class="col-md-4 control-label"
-                                >
+                                <label for="email" class="col-md-4 form-label">
                                     E-Mail Address
                                 </label>
 
@@ -52,7 +48,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button
                                         type="submit"

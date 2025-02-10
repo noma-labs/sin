@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 
-class ExportAnnoScolastico
+final class ExportAnnoScolastico
 {
     public int $totaleAlunni;
 

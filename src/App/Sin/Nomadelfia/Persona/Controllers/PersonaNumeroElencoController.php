@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Persona\Controllers;
 
+use Domain\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-class PersonaNumeroElencoController
+final class PersonaNumeroElencoController
 {
     public function edit($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
         $first = $persona->getInitialLetterOfCogonome();
         $assegnati = Persona::NumeroElencoPrefixByLetter($first)->get();
-        $propose = $persona->proposeNumeroElenco();
+
+        $action = new ProposeNumeroElencoAction;
+        $propose = $action->execute($persona);
 
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
     }

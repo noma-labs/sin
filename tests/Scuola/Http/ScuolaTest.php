@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Scuola;
 
-use App\Scuola\Controllers\ClassiController;
+use App\Scuola\Controllers\AnnoScolasticoController;
 use App\Scuola\Controllers\ScuolaController;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
@@ -25,7 +27,7 @@ it('can list anni scolastici', function (): void {
 it('can create nuovo anno', function (): void {
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([ScuolaController::class, 'aggiungiAnnoScolastico'], [
+    $this->post(action([AnnoScolasticoController::class, 'store'], [
         'anno inizio' => '2023',
         'data inizio' => '2023-12-12',
     ]))->assertRedirect();
@@ -43,30 +45,12 @@ it('can list classi in anno scolastico', function (): void {
     $this->assertCount(1, $c->alunni()->get());
 
     login();
-    $this->get(action([ScuolaController::class, 'show'], ['id' => $a->id]))
+    $this->get(action([AnnoScolasticoController::class, 'show'], ['id' => $a->id]))
         ->assertSuccessful();
 
-});
-
-it('can delete classe', function (): void {
-    $a = Anno::createAnno(2000);
-    $tipi = ClasseTipo::all();
-    $c = $a->aggiungiClasse($tipi->random());
-    $s = Studente::factory()->minorenne()->maschio()->create();
-    $c->aggiungiAlunno($s, Carbon::now());
-    $coord = Studente::factory()->maggiorenne()->maschio()->create();
-    $c->aggiungiCoordinatore($coord, Carbon::now());
-    $this->assertCount(1, $c->alunni()->get());
-
-    login();
-    $this->get(action([ClassiController::class, 'show'], ['id' => $c->id]))
+    $this->get(action([AnnoScolasticoController::class, 'showNew'], ['id' => $a->id]))
         ->assertSuccessful()
-        ->assertSee($s->nominativo)
-        ->assertSee($coord->nominativo);
+        ->assertSee($c->tipo->nome)
+        ->assertSee($c->alunni()->first()->nominativo);
 
-    $this->delete(action([ClassiController::class, 'delete'], ['id' => $c->id]));
-
-    $this->get(action([ScuolaController::class, 'show'], ['id' => $a->id]))
-        ->assertSuccessful()
-        ->assertDontSee($s->nominativo);
 });

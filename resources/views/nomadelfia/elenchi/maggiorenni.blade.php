@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <p class="font-weight-bold">
+        <p class="fw-bold">
             Uomini maggiorenni {{ count($maggiorenni->uomini) }}
         </p>
         <div class="row">
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <p class="font-weight-bold">
+        <p class="fw-bold">
             Donne maggiorenni {{ count($maggiorenni->donne) }}
         </p>
         <div class="row">

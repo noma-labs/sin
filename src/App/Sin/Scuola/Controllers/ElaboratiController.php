@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
@@ -11,20 +13,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class ElaboratiController
+final class ElaboratiController
 {
-    public function index()
+    public function index(Request $request)
     {
+        $order = $request->query('order', 'anno_scolastico');
+        $by = $request->query('by', 'DESC');
+        $view = $request->get('view', 'cards');
+
         $elaborati = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
-            ->orderBy('anno_scolastico', 'DESC')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy($order, $by)
+            ->orderBy('elaborati.collocazione', 'DESC')
             ->get();
 
-        return view('scuola.elaborati.index', [
-            'elaborati' => $elaborati,
-        ]);
+        return view('scuola.elaborati.index', compact('elaborati', 'view'));
     }
 
     public function create()
@@ -34,7 +38,7 @@ class ElaboratiController
 
         return view('scuola.elaborati.create', [
             'annoScolastico' => $annoScolastico,
-            'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'classi' => ['personale', 'prescuola', 'medie', 'superiori', 'tutti i cicli', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
             'rilegature' => [
                 'Altro',
                 'Anelli',
@@ -80,13 +84,16 @@ class ElaboratiController
             return redirect()->back()->withError('Errore durante il caricamento del file.');
         }
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file): void {
+        $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
+        $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
+
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file, $classi, $dimensione): void {
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
-                    'anno_scolastico' => $as->toString(),
-                    'classi' => implode(',', $request->input('classi')),
-                    'dimensione' => Dimensione::fromString($request->input('dimensione'))->toString(),
+                    'anno_scolastico' => $as,
+                    'classi' => $classi,
+                    'dimensione' => $dimensione,
                     'rilegatura' => $request->input('rilegatura'),
                     'note' => $request->input('note', null),
                     'file_path' => $storagePath,
@@ -104,7 +111,11 @@ class ElaboratiController
 
     public function show($id)
     {
-        $elaborato = Elaborato::with('studenti')->findOrFail($id);
+        $elaborato = Elaborato::with('studenti')
+            ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
+            ->select('elaborati.*', 'libro.autore')
+            ->where('elaborati.id', $id)
+            ->first();
 
         return view('scuola.elaborati.show', ['elaborato' => $elaborato]);
     }
@@ -115,7 +126,7 @@ class ElaboratiController
 
         return view('scuola.elaborati.edit', [
             'elaborato' => $elaborato,
-            'classi' => ['personale', 'prescuola', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
+            'classi' => ['personale', 'prescuola', 'medie', 'superiori', 'tutti i cicli', '1 elementare', '2 elementare', '3 elementare', '4 elementare', '5 elementare', '1 media', '2 media', '3 media', '1 superiore', '2 superiore', '3 superiore', '4 superiore', '5 superiore'],
             'rilegature' => [
                 'Altro',
                 'Anelli',
@@ -144,7 +155,7 @@ class ElaboratiController
             $dim = Dimensione::fromString($request->input('dimensione'));
 
             $elaborato->titolo = $request->input('titolo');
-            $elaborato->anno_scolastico = AnnoScolastico::fromString($request->input('anno_scolastico'))->toString();
+            $elaborato->anno_scolastico = str(AnnoScolastico::fromString($request->input('anno_scolastico')));
             $elaborato->note = $request->input('note');
             $elaborato->dimensione = $dim ? $dim->toString() : null;
             $elaborato->rilegatura = $request->input('rilegatura');

@@ -1,18 +1,18 @@
-<my-modal
+<x-modal
     modal-title="Aggiorna componente"
     button-title="Modifica"
     button-style="btn-warning my-2"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
             id="formComponenteAggiorna{{ $componente->persona_id }}"
             action="{{ route("nomadelfia.famiglie.componente.aggiorna", ["id" => $famiglia->id]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            @csrf
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Persona
                 </label>
                 <div class="col-8">
@@ -26,12 +26,12 @@
                     {{ $componente->nominativo }}
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Posizione Famiglia
                 </label>
                 <div class="col-8">
-                    <select class="form-control" name="posizione">
+                    <select class="form-select" name="posizione">
                         <option
                             value="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
                             ="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
@@ -53,8 +53,8 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Stato:
                 </label>
                 <div class="col-8">
@@ -86,8 +86,8 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-4 col-form-label">
+            <div class="row">
+                <label for="example-text-input" class="col-4 form-label">
                     Note:
                 </label>
                 <div class="col-8">
@@ -100,13 +100,13 @@
                 </div>
             </div>
         </form>
-    </template>
-    <template slot="modal-button">
+    </x-slot>
+    <x-slot:footer>
         <button
             class="btn btn-danger"
             form="formComponenteAggiorna{{ $componente->persona_id }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

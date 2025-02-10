@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 
+use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaPersonaData;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
-class UscitaPersonaDBAction
+final class UscitaPersonaDBAction
 {
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
     * Se disable_from_family è True e se è un minorenne, la persona viene anche messa fuori dal nucleo familiare.
     */
-    public function execute(Persona $persona, string $data_uscita, bool $disableFromFamily = false): void
+    public function execute(Persona $persona, Carbon $data_uscita, bool $disableFromFamily = false): void
     {
-        $dto = new UscitaPersonaData();
+        $dto = new UscitaPersonaData;
         $dto->persona = $persona;
         $dto->data_uscita = $data_uscita;
         $dto->disableFromFamily = $disableFromFamily;
@@ -73,7 +77,7 @@ class UscitaPersonaDBAction
             }
 
             DB::connection('db_nomadelfia')->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::connection('db_nomadelfia')->rollback();
             throw $e;
         }

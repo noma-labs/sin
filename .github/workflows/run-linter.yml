@@ -28,8 +28,6 @@ jobs:
       - name: Install npm deps
         run: npm install
 
-      - run: task lint:check
+      - run: task lint:check:ci
 
       - run: task analyse
-
-      - run: task rector:check

@@ -1,7 +1,7 @@
 -- Struttura della tabella `persone`
 
 CREATE TABLE `persone` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nominativo` varchar(100) NOT NULL,
   `nome` varchar(30) NOT NULL,
   `cognome` varchar(30) NOT NULL,
@@ -20,13 +20,7 @@ CREATE TABLE `persone` (
   `numero_elenco` varchar(32) DEFAULT NULL UNIQUE,
   `biografia` TEXT DEFAULT NULL,
   `cf` varchar(32) DEFAULT NULL,
-   PRIMARY KEY (`id`,`nominativo`) USING BTREE,
-   UNIQUE KEY `nominativo` (`nominativo`)
+  `origine` enum('interno', 'accolto', 'famiglia', 'esterno') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indici per le tabelle `persone`
---
--- ALTER TABLE `persone`
---     ADD UNIQUE KEY `nominativo` (`nominativo`)
-
+ALTER TABLE `persone`  ADD UNIQUE KEY `unq_persone_nome_cognome_nascita` (`nome`, `cognome`, `data_nascita`);

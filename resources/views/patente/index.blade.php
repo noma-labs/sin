@@ -6,10 +6,9 @@
 <li class="nav-item dropdown">
     <a
         class="nav-link dropdown-toggle"
-        href="{{ route("libri.ricerca") }}"
         id="navbarDropdown"
         role="button"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >
@@ -21,7 +20,7 @@
             Scadenze patenti
         </a>
         @can("scuolaguida.inserisci")
-            <a class="dropdown-item" href="{{ route("patente.inserimento") }}">
+            <a class="dropdown-item" href="{{ route("patente.create") }}">
                 Aggiungi patente
             </a>
         @endcan

@@ -1,39 +1,38 @@
-<my-modal
+<x-modal
     modal-title="Modifica data uscita"
     button-title="Modifica Uscita"
     button-style="btn-warning my-1"
 >
-    <template slot="modal-body-slot">
+    <x-slot:body>
         <form
             class="form"
             method="POST"
             id="formModificaDataUscita{{ $data_uscita }}"
             action="{{ route("nomadelfia.persone.datauscita.modifica", ["idPersona" => $persona->id, "uscita" => $data_uscita]) }}"
         >
-            {{ csrf_field() }}
-            <div class="form-group row">
-                <label class="col-sm-6 col-form-label">Nuova Data Uscita</label>
+            @csrf
+            <div class="row">
+                <label class="col-sm-6 form-label">Nuova Data Uscita</label>
                 <div class="col-sm-6">
                     <label class="form-check-label">
-                        <date-picker
-                            :bootstrap-styling="true"
-                            :typeable="true"
-                            value="{{ $data_uscita }}"
-                            format="yyyy-MM-dd"
+                        <input
+                            type="date"
                             name="data_uscita"
-                        ></date-picker>
+                            value="{{ $data_uscita }}"
+                            class="form-control"
+                        />
                     </label>
                 </div>
             </div>
         </form>
-    </template>
+    </x-slot>
 
-    <template slot="modal-button">
+    <x-slot:footer>
         <button
             class="btn btn-success"
             form="formModificaDataUscita{{ $data_uscita }}"
         >
             Salva
         </button>
-    </template>
-</my-modal>
+    </x-slot>
+</x-modal>

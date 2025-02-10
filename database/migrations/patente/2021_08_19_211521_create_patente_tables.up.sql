@@ -73,43 +73,21 @@ from `db_nomadelfia`.`persone`
 join `db_nomadelfia`.`popolazione` on `db_nomadelfia`.`popolazione`.`persona_id` = `db_nomadelfia`.`persone`.`id`
 where `db_nomadelfia`.`persone`.`data_nascita` <= (sysdate() - interval 180 year_month) and popolazione.data_uscita IS NULL;
 
---
--- Indici per le tabelle scaricate
---
-
---
--- Indici per le tabelle `categorie`
---
 ALTER TABLE `categorie`
     ADD PRIMARY KEY (`id`) USING BTREE;
 
---
--- Indici per le tabelle `patenti_categorie`
---
 ALTER TABLE `patenti_categorie`
     ADD PRIMARY KEY (`categoria_patente_id`,`numero_patente`) USING BTREE,
     ADD KEY `numero_patente_persona` (`numero_patente`,`categoria_patente_id`) USING BTREE;
 
---
--- Indici per le tabelle `persone_patenti`
---
+ALTER TABLE `patenti_categorie`
+    ADD CONSTRAINT `patenti_categorie_ibfk_1` FOREIGN KEY (`categoria_patente_id`) REFERENCES `categorie` (`id`);
+
 ALTER TABLE `persone_patenti`
     ADD PRIMARY KEY (`persona_id`,`numero_patente`,`data_rilascio_patente`,`data_scadenza_patente`) USING BTREE,
     ADD UNIQUE KEY `numero_patente_2` (`numero_patente`);
 
---
--- Limiti per le tabelle scaricate
---
-
---
--- Limiti per la tabella `patenti_categorie`
---
-ALTER TABLE `patenti_categorie`
-    ADD CONSTRAINT `patenti_categorie_ibfk_1` FOREIGN KEY (`categoria_patente_id`) REFERENCES `categorie` (`id`);
-
---
--- Limiti per la tabella `persone_patenti`
---
 ALTER TABLE `persone_patenti`
     ADD CONSTRAINT `persone_patenti_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`);
 
+ALTER TABLE `patenti_categorie` ADD CONSTRAINT `nuero_patente_fk` FOREIGN KEY (`numero_patente`) REFERENCES `persone_patenti`(`numero_patente`) ON DELETE CASCADE ON UPDATE CASCADE;

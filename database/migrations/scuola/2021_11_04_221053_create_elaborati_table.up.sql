@@ -13,6 +13,10 @@ CREATE TABLE `elaborati`
     `file_size`         bigint DEFAULT NULL,
     `file_hash`         varchar(64) DEFAULT NULL UNIQUE,
 
+    -- cover image path
+    `cover_image_path`        varchar(256) DEFAULT NULL,
+
+
     -- other
     `dimensione`           varchar(8) DEFAULT NULL COMMENT 'Formato del libro (larghazza X Altezza) in cm. 24x43',
     `rilegatura`        varchar(32) DEFAULT NULL COMMENT 'Rilegatura del libro',

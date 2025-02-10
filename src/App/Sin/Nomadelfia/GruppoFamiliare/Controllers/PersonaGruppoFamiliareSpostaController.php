@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
+use Carbon\Carbon;
+use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Illuminate\Http\Request;
 
-class PersonaGruppoFamiliareSpostaController
+final class PersonaGruppoFamiliareSpostaController
 {
     public function store(Request $request, $idPersona, $id)
     {
@@ -23,8 +28,14 @@ class PersonaGruppoFamiliareSpostaController
         $current_data_uscita = $request->input('current_data_uscita', $new_datain);
         $persona = Persona::findOrFail($idPersona);
 
-        $persona->spostaPersonaInGruppoFamiliare($id, $request->current_data_entrata, $current_data_uscita,
-            $request->new_gruppo_id, $new_datain);
+        $action = new ChangeGruppoFamiliareAction;
+        $action->execute($persona,
+            GruppoFamiliare::findOrFail($id),
+            Carbon::parse($request->current_data_entrata),
+            Carbon::parse($current_data_uscita),
+            GruppoFamiliare::findOrFail($request->new_gruppo_id),
+            Carbon::parse($new_datain),
+        );
 
         return redirect()
             ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])

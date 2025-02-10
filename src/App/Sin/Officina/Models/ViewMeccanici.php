@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property string $persona_id
  * @property string $nominativo
  * @property string $mansione
  */
-class ViewMeccanici extends Model
+final class ViewMeccanici extends Model
 {
     protected $table = 'v_lavoratori_meccanica';
 

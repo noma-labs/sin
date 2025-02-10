@@ -1,20 +1,15 @@
 <form
     class="form"
     method="POST"
-    action="{{ route("nomadelfia.persone.inserimento.entrata.scelta.view", ["idPersona" => $persona->id]) }}"
+    action="{{ route("nomadelfia.persone.popolazine.entrata.create", ["idPersona" => $persona->id]) }}"
 >
-    {{ csrf_field() }}
-    <persona-entrata
-        api-nomadelfia-famiglie="{{ route("api.nomadeflia.famiglie") }}"
-        api-nomadelfia-persona="{{ route("api.nomadelfia.persona", ["id" => $persona->id]) }}"
-        api-nomadelfia-gruppi="{{ route("api.nomadeflia.gruppi") }}"
-    ></persona-entrata>
+    @csrf
+
+    <livewire:entrata-persona :persona="$persona" />
 
     <div class="row my-2">
         <div class="col-auto">
-            <button type="submit" class="btn btn-block btn-primary">
-                Salva
-            </button>
+            <button type="submit" class="btn btn-primary">Salva</button>
         </div>
     </div>
 </form>

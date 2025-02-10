@@ -21,9 +21,17 @@
                                     >
                                         {{ $anno->scolastico }}
                                     </a>
+                                    <a
+                                        class="btn btn-link bttn"
+                                        href="{{ route("scuola.anno.show.new", $anno->id) }}"
+                                    >
+                                        (nuova versione)
+                                    </a>
                                     <span
-                                        class="badge badge-primary badge-pill"
-                                    ></span>
+                                        class="badge bg-secondary rounded-pill"
+                                    >
+                                        {{ $anno->alunni_count }}
+                                    </span>
                                 </h5>
                             </div>
                         </div>

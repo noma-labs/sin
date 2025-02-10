@@ -9,17 +9,17 @@
                 <div class="card-header">
                     <h5>
                         Sacerdoti
-                        <span class="badge badge-primary">
+                        <span class="badge bg-primary">
                             {{ count($sacerdoti) }}
                         </span>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Nominativo</p>
-                        <p class="col-md-3 font-weight-bold">Data inizio</p>
-                        <p class="col-md-3 font-weight-bold">Durata</p>
-                        <p class="col-md-3 font-weight-bold">Operazioni</p>
+                        <p class="col-md-3 fw-bold">Nominativo</p>
+                        <p class="col-md-3 fw-bold">Data inizio</p>
+                        <p class="col-md-3 fw-bold">Durata</p>
+                        <p class="col-md-3 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($sacerdoti as $sacerdote)

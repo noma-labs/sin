@@ -11,12 +11,10 @@
                 <div class="card-body">
                     @if ($posattuale != null)
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Posizione</p>
-                            <p class="col-md-2 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-2 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-5 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Posizione</p>
+                            <p class="col-md-2 fw-bold">Data Inizio</p>
+                            <p class="col-md-2 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-5 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">{{ $posattuale->nome }}</p>
@@ -24,35 +22,35 @@
                                 {{ $posattuale->pivot->data_inizio }}
                             </p>
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($posattuale->pivot->data_inizio)
                                 </span>
                             </div>
                             <div class="col-md-5">
                                 @include("nomadelfia.templates.modificaDataPosizione", ["persona" => $persona, "id" => $posattuale->id, "nome" => $posattuale->nome, "data_inizio" => $posattuale->pivot->data_inizio])
 
-                                <my-modal
+                                <x-modal
                                     modal-title="Concludi Posizione"
                                     button-title="Concludi"
                                     button-style="btn-info my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
                                             id="formConcludiPosizione{{ $posattuale->id }}"
                                             action="{{ route("nomadelfia.persone.posizione.concludi", ["idPersona" => $persona->id, "id" => $posattuale->id]) }}"
                                         >
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input
                                                 type="hidden"
                                                 name="data_inizio"
                                                 value="{{ $posattuale->pivot->data_inizio }}"
                                             />
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     posizione familiare attuale
                                                 </label>
@@ -63,32 +61,32 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine posizione
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $posattuale->pivot->data_fine }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        type="date"
                                                         name="data_fine"
-                                                    ></date-picker>
+                                                        class="form-control"
+                                                        value="{{ $posattuale->pivot->data_fine }}"
+                                                    />
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formConcludiPosizione{{ $posattuale->id }}"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
 
                                 @include("nomadelfia.templates.eliminaPersonaPosizione", ["persona" => $persona, "posizione" => $posattuale])
                             </div>
@@ -96,65 +94,62 @@
                     @else
                         <p class="text-danger">Nessuna posizione</p>
                     @endif
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Posizione persona"
                         button-title="Nuova Posizione"
                         button-style="btn-success  my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
                                 id="formPersonaPosizione"
                                 action="{{ route("nomadelfia.persone.posizione.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
                                 @if ($posattuale != null)
                                     <h5 class="my-2">
                                         Completa dati della posizione attuale:
                                         {{ $posattuale->nome }}
                                     </h5>
-                                    <div class="form-group row">
+                                    <div class="row">
                                         <label
                                             for="inputPassword"
-                                            class="col-sm-6 col-form-label"
+                                            class="col-sm-6 form-label"
                                         >
                                             Data fine posizione
                                         </label>
-                                        <div class="col-sm-6">
-                                            <date-picker
-                                                :bootstrap-styling="true"
-                                                value="{{ Carbon::now()->toDateString() }}"
-                                                format="yyyy-MM-dd"
-                                                name="data_fine"
-                                            ></date-picker>
-                                            <small
-                                                id="emailHelp"
-                                                class="form-text text-muted"
-                                            >
-                                                Lasciare vuoto se concide con la
-                                                data di inizio della nuova
-                                                posizione .
-                                            </small>
-                                        </div>
+                                        <input
+                                            type="date"
+                                            name="data_fine"
+                                            class="form-control"
+                                            value="{{ Carbon::now()->toDateString() }}"
+                                        />
+                                        <small
+                                            id="emailHelp"
+                                            class="form-text text-muted"
+                                        >
+                                            Lasciare vuoto se concide con la
+                                            data di inizio della nuova posizione
+                                            .
+                                        </small>
                                     </div>
-                                    <hr />
                                 @endif
 
                                 <h5 class="my-2">
                                     Inserimento nuova posizione
                                 </h5>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-6 col-form-label"
+                                        class="col-sm-6 form-label"
                                     >
                                         Posizione
                                     </label>
                                     <div class="col-sm-6">
                                         <select
                                             name="posizione_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option value="" selected>
                                                 ---seleziona posizione---
@@ -169,31 +164,30 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">
+                                <div class="row">
+                                    <label class="col-sm-6 form-label">
                                         Data inizio
                                     </label>
                                     <div class="col-sm-6">
-                                        <!-- <input type="date" name="data_inizio" class="form-control" id="inputPassword" placeholder="Password"> -->
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            type="date"
                                             name="data_inizio"
-                                        ></date-picker>
+                                            class="form-control"
+                                            value="{{ old("data_inizio") ? old("data_inizio") : Carbon::now()->toDateString() }}"
+                                        />
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaPosizione"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal aggiungi posizione-->
                 </div>
                 <!--end card body-->
@@ -205,11 +199,11 @@
                 <div class="card-header">Storico delle Posizione</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-2 font-weight-bold">Posizione</p>
-                        <p class="col-md-2 font-weight-bold">Data inizio</p>
-                        <p class="col-md-2 font-weight-bold">Data fine</p>
-                        <p class="col-md-2 font-weight-bold">Durata</p>
-                        <p class="col-md-4 font-weight-bold">Operazioni</p>
+                        <p class="col-md-2 fw-bold">Posizione</p>
+                        <p class="col-md-2 fw-bold">Data inizio</p>
+                        <p class="col-md-2 fw-bold">Data fine</p>
+                        <p class="col-md-2 fw-bold">Durata</p>
+                        <p class="col-md-4 fw-bold">Operazioni</p>
                     </div>
 
                     @forelse ($storico as $posizionestor)
@@ -223,7 +217,7 @@
                             </p>
 
                             <div class="col-md-2">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($posizionestor->pivot->data_fine)->diffForHumans(Carbon::parse($posizionestor->pivot->data_inizio), ["short" => true]) }}
                                 </span>
                             </div>

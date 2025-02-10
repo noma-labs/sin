@@ -14,7 +14,7 @@
                         action="{{ route("nomadelfia.persone.numelenco.confirm", ["idPersona" => $persona->id]) }}"
                     >
                         @method("PUT")
-                        {{ csrf_field() }}
+                        @csrf
                         <div class="row">
                             <div class="col-md-9">
                                 <label for="exampleInputEmail1">
@@ -22,7 +22,7 @@
                                     <strong>{{ $first }}</strong>
                                 </label>
                                 @if (count($assegnati) > 0)
-                                    <select class="form-control">
+                                    <select class="form-select">
                                         @foreach ($assegnati as $p)
                                             <option>
                                                 {{ $p->numero_elenco }}

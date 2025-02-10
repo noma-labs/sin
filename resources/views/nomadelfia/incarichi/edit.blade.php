@@ -1,15 +1,12 @@
 @extends("nomadelfia.index")
 
 @section("content")
-    <sin-header
-        title="{{ "Modifica Incarico: " . $incarico->nome }}"
-    ></sin-header>
-
+    @include("partials.header", ["title" => "Modifica Incarico: " . $incarico->nome])
     <div>
         <div class="row">
             <div class="col-md-8 table-responsive">
                 <table class="table table-hover table-bordered">
-                    <thead class="thead-inverse">
+                    <thead>
                         <th scope="col">Nominativo</th>
                         <th scope="col">Data Inizio</th>
                         <th scope="col">Operazioni</th>
@@ -20,12 +17,12 @@
                                 <td>{{ $lavoratore->nominativo }}</td>
                                 <td>{{ $lavoratore->pivot->data_inizio }}</td>
                                 <td>
-                                    <my-modal
+                                    <x-modal
                                         modal-title="Elimina persona"
                                         button-title="Elimina"
                                         button-style="btn-danger my-2"
                                     >
-                                        <template slot="modal-body-slot">
+                                        <x-slot:body>
                                             <form
                                                 class="form"
                                                 method="POST"
@@ -41,16 +38,16 @@
                                                     {{ $incarico->nome }} ?
                                                 </body>
                                             </form>
-                                        </template>
-                                        <template slot="modal-button">
+                                        </x-slot>
+                                        <x-slot:footer>
                                             <button
                                                 class="btn btn-danger"
                                                 form="formEliminaPersona{{ $lavoratore->id }}"
                                             >
                                                 Elimina
                                             </button>
-                                        </template>
-                                    </my-modal>
+                                        </x-slot>
+                                    </x-modal>
                                 </td>
                             </tr>
                         @endforeach

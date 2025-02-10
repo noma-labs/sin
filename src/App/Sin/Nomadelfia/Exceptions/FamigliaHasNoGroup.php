@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nomadelfia\Exceptions;
 
-use InvalidArgumentException;
-
-class FamigliaHasNoGroup extends InvalidArgumentException
+final class FamigliaHasNoGroup extends NomadelfiaException
 {
-    public static function named(string $nome): FamigliaHasNoGroup
+    public static function named(string $nome): self
     {
         return new self("Il capo famiglia della famiglia `{$nome}` non è assegnato/a in nessun gruppo familiare.");
     }

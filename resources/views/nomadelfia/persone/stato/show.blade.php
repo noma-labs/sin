@@ -10,12 +10,10 @@
                 <div class="card-body">
                     @if ($persona->statoAttuale())
                         <div class="row">
-                            <p class="col-md-3 font-weight-bold">Stato</p>
-                            <p class="col-md-3 font-weight-bold">Data Inizio</p>
-                            <p class="col-md-3 font-weight-bold">
-                                Tempo trascorso
-                            </p>
-                            <p class="col-md-3 font-weight-bold">Operazioni</p>
+                            <p class="col-md-3 fw-bold">Stato</p>
+                            <p class="col-md-3 fw-bold">Data Inizio</p>
+                            <p class="col-md-3 fw-bold">Tempo trascorso</p>
+                            <p class="col-md-3 fw-bold">Operazioni</p>
                         </div>
                         <div class="row">
                             <p class="col-md-3">
@@ -25,17 +23,17 @@
                                 {{ $persona->statoAttuale()->pivot->data_inizio }}
                             </p>
                             <p class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     @diffHumans($persona->statoAttuale()->pivot->data_inizio)
                                 </span>
                             </p>
                             <div class="col-md-3">
-                                <my-modal
+                                <x-modal
                                     modal-title="Modifica Stato attuale"
                                     button-title="Modifica"
                                     button-style="btn-warning my-2"
                                 >
-                                    <template slot="modal-body-slot">
+                                    <x-slot:body>
                                         <form
                                             class="form"
                                             method="POST"
@@ -43,11 +41,11 @@
                                             action="{{ route("nomadelfia.persone.stato.modifica", ["idPersona" => $persona->id, "id" => $persona->statoAttuale()->id]) }}"
                                         >
                                             @method("PUT")
-                                            {{ csrf_field() }}
-                                            <div class="form-group row">
+                                            @csrf
+                                            <div class="row">
                                                 <label
                                                     for="staticEmail"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato attuale
                                                 </label>
@@ -57,42 +55,42 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data inizio
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $persona->statoAttuale()->pivot->data_inizio }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        type="date"
                                                         name="data_inizio"
-                                                    ></date-picker>
+                                                        value="{{ $persona->statoAttuale()->pivot->data_inizio }}"
+                                                        class="form-control"
+                                                    />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Data fine Stato
                                                 </label>
                                                 <div class="col-sm-6">
-                                                    <date-picker
-                                                        :bootstrap-styling="true"
-                                                        value="{{ $persona->statoAttuale()->pivot->data_fine }}"
-                                                        format="yyyy-MM-dd"
+                                                    <input
+                                                        type="date"
                                                         name="data_fine"
-                                                    ></date-picker>
+                                                        value="{{ $persona->statoAttuale()->pivot->data_fine }}"
+                                                        class="form-control"
+                                                    />
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="row">
                                                 <label
                                                     for="inputPassword"
-                                                    class="col-sm-6 col-form-label"
+                                                    class="col-sm-6 form-label"
                                                 >
                                                     Stato
                                                 </label>
@@ -132,55 +130,55 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </template>
-                                    <template slot="modal-button">
+                                    </x-slot>
+                                    <x-slot:footer>
                                         <button
                                             class="btn btn-success"
                                             form="formPersonaStatoModifica"
                                         >
                                             Salva
                                         </button>
-                                    </template>
-                                </my-modal>
+                                    </x-slot>
+                                </x-modal>
                                 <!--end modal stato-->
                             </div>
                         </div>
                     @else
                         <p class="text-danger">Nessuno stato</p>
                     @endif
-                    <my-modal
+                    <x-modal
                         modal-title="Aggiungi Stato persona"
                         button-title="Nuovo Stato"
                         button-style="btn-success my-2"
                     >
-                        <template slot="modal-body-slot">
+                        <x-slot:body>
                             <form
                                 class="form"
                                 method="POST"
                                 id="formPersonaStato"
                                 action="{{ route("nomadelfia.persone.stato.assegna", ["idPersona" => $persona->id]) }}"
                             >
-                                {{ csrf_field() }}
+                                @csrf
 
                                 @if ($persona->statoAttuale())
                                     <h5 class="my-2">
                                         Completa dati dello stato attuale:
                                         {{ $persona->statoAttuale()->nome }}
                                     </h5>
-                                    <div class="form-group row">
+                                    <div class="row">
                                         <label
                                             for="dataInizio"
-                                            class="col-sm-6 col-form-label"
+                                            class="col-sm-6 form-label"
                                         >
                                             Data fine stato
                                         </label>
                                         <div class="col-sm-6">
-                                            <date-picker
-                                                :bootstrap-styling="true"
-                                                value="{{ old("data_fine") }}"
-                                                format="yyyy-MM-dd"
+                                            <input
+                                                type="date"
                                                 name="data_fine"
-                                            ></date-picker>
+                                                class="form-control"
+                                                value="{{ old("data_fine") }}"
+                                            />
                                             <small
                                                 id="emailHelp"
                                                 class="form-text text-muted"
@@ -194,17 +192,17 @@
                                 @endif
 
                                 <h5 class="my-2">Inserimento nuovo stato</h5>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="staticEmail"
-                                        class="col-sm-4 col-form-label"
+                                        class="col-sm-4 form-label"
                                     >
                                         Stato
                                     </label>
                                     <div class="col-sm-8">
                                         <select
                                             name="stato_id"
-                                            class="form-control"
+                                            class="form-select"
                                         >
                                             <option selecte>
                                                 ---seleziona Stato---
@@ -219,33 +217,33 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="row">
                                     <label
                                         for="inputPassword"
-                                        class="col-sm-4 col-form-label"
+                                        class="col-sm-4 form-label"
                                     >
                                         Data inizio
                                     </label>
                                     <div class="col-sm-8">
-                                        <date-picker
-                                            :bootstrap-styling="true"
-                                            value="{{ old("data_inizio") }}"
-                                            format="yyyy-MM-dd"
+                                        <input
+                                            type="date"
                                             name="data_inizio"
-                                        ></date-picker>
+                                            class="form-control"
+                                            value="{{ old("data_inizio") }}"
+                                        />
                                     </div>
                                 </div>
                             </form>
-                        </template>
-                        <template slot="modal-button">
+                        </x-slot>
+                        <x-slot:footer>
                             <button
                                 class="btn btn-success"
                                 form="formPersonaStato"
                             >
                                 Salva
                             </button>
-                        </template>
-                    </my-modal>
+                        </x-slot>
+                    </x-modal>
                     <!--end modal-->
                 </div>
             </div>
@@ -253,10 +251,10 @@
                 <div class="card-header">Storico delle Stato</div>
                 <div class="card-body">
                     <div class="row">
-                        <p class="col-md-3 font-weight-bold">Stato</p>
-                        <p class="col-md-3 font-weight-bold">Data inizio</p>
-                        <p class="col-md-3 font-weight-bold">Data fine</p>
-                        <p class="col-md-3 font-weight-bold">Durata</p>
+                        <p class="col-md-3 fw-bold">Stato</p>
+                        <p class="col-md-3 fw-bold">Data inizio</p>
+                        <p class="col-md-3 fw-bold">Data fine</p>
+                        <p class="col-md-3 fw-bold">Durata</p>
                     </div>
 
                     @forelse ($persona->statiStorico as $statostorico)
@@ -270,7 +268,7 @@
                             </p>
 
                             <div class="col-md-3">
-                                <span class="badge badge-info">
+                                <span class="badge text-bg-info">
                                     {{ Carbon::parse($statostorico->pivot->data_fine)->diffForHumans(Carbon::parse($statostorico->pivot->data_inizio), ["short" => true, "parts" => 5]) }}
                                 </span>
                             </div>

@@ -3,7 +3,7 @@
     <div class="row">
         @foreach ($anni as $key => $anno)
             <div class="col-md-3">
-                <span class="font-weight-bold">Nati {{ $key }}</span>
+                <span class="fw-bold">Nati {{ $key }}</span>
                 @foreach ($anno as $sesso)
                     @foreach ($sesso as $persona)
                         <div>{{ $persona->nominativo }}</div>

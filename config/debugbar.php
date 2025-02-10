@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -205,7 +207,7 @@ return [
         ],
         'views' => [
             'timeline' => false,  // Add the views to the timeline (Experimental)
-            'data' => false,    //Note: Can slow down the application, because the data can be quite large..
+            'data' => false,    // Note: Can slow down the application, because the data can be quite large..
         ],
         'route' => [
             'label' => true,  // show complete route on bar

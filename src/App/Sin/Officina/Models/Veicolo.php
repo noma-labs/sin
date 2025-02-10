@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Officina\Models;
 
 use Carbon\Carbon;
@@ -21,10 +23,12 @@ use Illuminate\Support\Facades\DB;
  * @property string $targa
  * @property int $prenotabile
  */
-class Veicolo extends Model
+final class Veicolo extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public $timestamps = false;
 
     protected $table = 'veicolo';
 
@@ -33,13 +37,6 @@ class Veicolo extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
-
-    public $timestamps = false;
-
-    protected static function newFactory()
-    {
-        return VeicoloFactory::new();
-    }
 
     /**
      * Return vehicles with or without bookings within a time range.
@@ -142,7 +139,7 @@ class Veicolo extends Model
         return $query->where('prenotabile', true);
     }
 
-    //IMPIEGO
+    // IMPIEGO
     public function scopeInterni($query)
     {
         return $query->where('impiego_id', 1);
@@ -197,5 +194,10 @@ class Veicolo extends Model
     public function scopeMotocicli($query)
     {
         return $query->where('tipologia_id', 10);
+    }
+
+    protected static function newFactory()
+    {
+        return VeicoloFactory::new();
     }
 }
