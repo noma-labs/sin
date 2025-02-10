@@ -63,7 +63,7 @@ final class RoleController
     public function update(Request $request, $id)
     {
 
-        $role = Role::findOrFail($id); //Get role with the given id
+        $role = Role::findOrFail($id); // Get role with the given id
         $risorse_with_permissions = $request->except(['_method', '_token']);
         $only_with_ones = collect($risorse_with_permissions)->filter(function ($value, $key) {
             return collect($value)->contains(1);

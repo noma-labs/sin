@@ -112,12 +112,12 @@ final class Libro extends Model
 
     public function scopeEditori($query)
     {
-        return $query->select('editore')->groupBy('editori'); //->orderBY("EDITORE");
+        return $query->select('editore')->groupBy('editori'); // ->orderBY("EDITORE");
     }
 
     public function scopeAutori($query)
     {
-        return $query->select('autore')->groupBy('autore'); //->orderBY("AUTORE");
+        return $query->select('autore')->groupBy('autore'); // ->orderBY("AUTORE");
     }
 
     protected static function newFactory()

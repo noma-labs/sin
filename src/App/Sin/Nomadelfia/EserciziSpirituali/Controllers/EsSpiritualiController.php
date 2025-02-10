@@ -65,7 +65,7 @@ final class EsSpiritualiController
         $colStyle2Next = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'nextColumn'];
         $colStyle2Cont = ['colsNum' => 2, 'colsSpace' => 700, 'breakType' => 'continuous'];
 
-        //$phpWord->setDefaultFontName('Times New Roman');
+        // $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(8);
         $phpWord->setDefaultParagraphStyle([
             'spaceAfter' => Converter::pointToTwip(2),

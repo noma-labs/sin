@@ -139,7 +139,7 @@ final class Veicolo extends Model
         return $query->where('prenotabile', true);
     }
 
-    //IMPIEGO
+    // IMPIEGO
     public function scopeInterni($query)
     {
         return $query->where('impiego_id', 1);

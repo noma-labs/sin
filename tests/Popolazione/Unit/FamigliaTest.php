@@ -80,7 +80,7 @@ it('assign a wife succesfully', function (): void {
     $famiglia->assegnaMoglie($persona);
     expect($persona->id)->toBe($famiglia->moglie()->id);
 
-    //moglie
+    // moglie
     $famiglia = Famiglia::factory()->create();
     $persona = Persona::factory()->maggiorenne()->femmina()->create();
     $now = Carbon::now()->startOfDay();

@@ -65,7 +65,7 @@ final class AuthorsController
     public function update(Request $request, string $id)
     {
         // return $id;
-        $autore = Autore::findOrFail($id); //Get role with the given id
+        $autore = Autore::findOrFail($id); // Get role with the given id
         $request->validate([
             'autore' => 'required|unique:db_biblioteca.autore,autore,'.$id.',id',
         ], [

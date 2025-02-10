@@ -61,7 +61,7 @@ final class Prenotazioni extends Model
                             ->where('data_arrivo', '!=', $data_to->toDateString()) // elimina partenza nello stesso giorno
                             ->where('ora_partenza', '<', $data_to->format('H:i'));
                     })
-                    //prenotazioni attive guardando solo le date: datapartenza e dataarrivo
+                    // prenotazioni attive guardando solo le date: datapartenza e dataarrivo
                     ->orWhere(function ($query) use ($data_from, $data_to): void {
                         $query->where('data_partenza', '<', $data_to->toDateString())
                             ->where('data_arrivo', '>', $data_from->toDateString());

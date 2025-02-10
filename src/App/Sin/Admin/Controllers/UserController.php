@@ -51,7 +51,7 @@ final class UserController
         $user = User::findOrFail($id);
         $roles = Role::get();
 
-        return view('admin.auth.users.edit', compact('user', 'roles')); //pass user and roles data to view
+        return view('admin.auth.users.edit', compact('user', 'roles')); // pass user and roles data to view
 
     }
 
@@ -72,7 +72,7 @@ final class UserController
         if (isset($roles)) {
             $user->syncRoles([$roles]);
         } else {
-            $user->syncRoles([]); //If no role is selected remove exisiting role associated to a user
+            $user->syncRoles([]); // If no role is selected remove exisiting role associated to a user
         }
 
         return redirect()->route('users.index')->withSuccess('Utente modificato correttamente');
@@ -86,7 +86,7 @@ final class UserController
      */
     public function destroy($id)
     {
-        //Find a user with a given id and delete
+        // Find a user with a given id and delete
         $user = User::findOrFail($id);
 
         if ($user->username === 'Admin') {
