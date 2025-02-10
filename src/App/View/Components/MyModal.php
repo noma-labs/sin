@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-final class Modal extends Component
+final class MyModal extends Component
 {
     public function __construct(
         public string $buttonStyle,
