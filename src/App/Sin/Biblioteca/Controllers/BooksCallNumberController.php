@@ -19,7 +19,7 @@ final class BooksCallNumberController
     public function update(Request $request, $idLibro)
     {
         $request->validate([
-            'xCollocazione' => 'required', //per update solito nome
+            'xCollocazione' => 'required', // per update solito nome
         ], [
             'xCollocazione.required' => 'La collocazione nuova non è stata selezionata.',
         ]);

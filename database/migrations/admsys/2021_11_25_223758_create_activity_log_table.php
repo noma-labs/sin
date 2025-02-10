@@ -22,7 +22,7 @@ final class CreateActivityLogTable extends Migration
             $table->unsignedBigInteger('causer_id')->nullable();
             $table->string('causer_type')->nullable();
             // json is not supported in Maria DB
-            //$table->json('properties')->nullable();
+            // $table->json('properties')->nullable();
             $table->longText('properties')->nullable();
             $table->timestamps();
 

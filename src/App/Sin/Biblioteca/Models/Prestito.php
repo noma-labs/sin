@@ -27,7 +27,7 @@ final class Prestito extends Model
 
     public function bibliotecario(): BelongsTo
     {
-        return $this->belongsTo(Persona::class, 'bibliotecario_id', 'id'); //->withTrashed();
+        return $this->belongsTo(Persona::class, 'bibliotecario_id', 'id'); // ->withTrashed();
     }
 
     public function libro(): BelongsTo

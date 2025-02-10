@@ -188,7 +188,7 @@ it('clone students from existing year', function (): void {
 
     expect($a->prescuola()->alunni()->get())->toHaveCount(2);
     expect($a->alunni())->toHaveCount(10);
-    //TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
+    // TODO: sistemare findOrCreateClasseByTipo() must be an instance of App\Scuola\Models\ClasseTipo, instance of Illuminate\Database\Eloquent\Builder given
     //        $aNew = Anno::cloneAnnoScolastico($a, '2024-08-01');
     //        $this->assertEquals('2024-08-01', $aNew->data inizio);
     //        $this->assertCount(11, $aNew->classi()->get());

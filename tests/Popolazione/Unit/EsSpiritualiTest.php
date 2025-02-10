@@ -13,7 +13,7 @@ it('testAggiungiPersona', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $esercizi->aggiungiPersona($persona);
     expect($esercizi->persone->count())->toBe(1);
-    //expect($persona->eserciziSpiritualiAttuale()->count(), 1);
+    // expect($persona->eserciziSpiritualiAttuale()->count(), 1);
 });
 
 it('testEsSpiritualeNotActive', function (): void {

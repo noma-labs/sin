@@ -41,8 +41,8 @@ final class LoansController
         if ($request->filled('persona_id') and ! $request->filled('note')) {
             Session::flash('clientePrestitiUrl', $request->fullUrl());
             $cliente = Persona::findOrFail($request->input('persona_id'));
-            $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); //Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
-            $prestitiRestituiti = $cliente->prestiti()->where('in_prestito', 0)->orderBy('data_fine_prestito')->get(); //Prestito::Restituiti()->where(["CLIENTE"=>$idCliente])->get();
+            $prestitiAttivi = $cliente->prestiti()->where('in_prestito', 1)->orderBy('data_inizio_prestito')->get(); // Prestito::InPrestito()->where(["CLIENTE"=>$idCliente])->get();
+            $prestitiRestituiti = $cliente->prestiti()->where('in_prestito', 0)->orderBy('data_fine_prestito')->get(); // Prestito::Restituiti()->where(["CLIENTE"=>$idCliente])->get();
 
             return view('biblioteca.books.prestiti.cliente', compact('cliente', 'prestitiAttivi', 'prestitiRestituiti'));
         }

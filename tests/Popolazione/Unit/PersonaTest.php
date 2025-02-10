@@ -33,7 +33,7 @@ it('assigns gruppo to a person', function (): void {
 
     // nuovo gruppo
     $newGruppo = GruppoFamiliare::all()->random();
-    $data_entrata = Carbon::now()->addYears(3); //->startOfDay();
+    $data_entrata = Carbon::now()->addYears(3); // ->startOfDay();
     $action = app(AssegnaGruppoFamiliareAction::class);
     $action->execute($persona, $newGruppo, $data_entrata);
 

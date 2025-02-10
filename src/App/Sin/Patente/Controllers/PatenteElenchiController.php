@@ -77,7 +77,7 @@ final class PatenteElenchiController
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), //->toArray(),  // The data to set
+            $patenti->toArray(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
             // true
@@ -149,7 +149,7 @@ final class PatenteElenchiController
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $cqcPersone->toArray(), //->toArray(),  // The data to set
+            $cqcPersone->toArray(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
             // true
@@ -220,7 +220,7 @@ final class PatenteElenchiController
             return $product->persona->nome;
         });
 
-        //$patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
+        // $patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
         //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
         //  });
 
@@ -229,7 +229,7 @@ final class PatenteElenchiController
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), //->toArray(),  // The data to set
+            $patenti->toArray(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
         );

@@ -256,18 +256,18 @@ final class ExifReader
         //        }
         //        $process->wait(function (string $code, string $data) {
         //            if ($code == Process::OUT) {
-        ////                $data = str($data)
-        ////                    ->replaceFirst("Array(Array(", "Array(");
-        ////                    ->replaceFirst("))", ")")
+        // //                $data = str($data)
+        // //                    ->replaceFirst("Array(Array(", "Array(");
+        // //                    ->replaceFirst("))", ")")
         //
-        ////                dd(str($data)->remove("\n"));
-        ////                $data = str($data)
-        ////                    ->replaceFirst("Array(Array(", "Array(");
-        //////                    ->replaceFirst("))", ")")
-        ////                $a = eval('return ' . $data);
-        ////                dd($a);
-        ////                $d = ExifData::fromArray($a);
-        ////                dd($code, $d);
+        // //                dd(str($data)->remove("\n"));
+        // //                $data = str($data)
+        // //                    ->replaceFirst("Array(Array(", "Array(");
+        // ////                    ->replaceFirst("))", ")")
+        // //                $a = eval('return ' . $data);
+        // //                dd($a);
+        // //                $d = ExifData::fromArray($a);
+        // //                dd($code, $d);
         //            yield $data;
         //        });
 

@@ -51,7 +51,7 @@ final class BooksController
         $libro->note = $request->xNote;
         $libro->fill($request->only('isbn', 'data_pubblicazione', 'categoria', 'dimensione', 'critica'));
 
-        $etichetta_criterio = $request->input('stampaEtichetta'); //radio buttons for printing or no the etichetta
+        $etichetta_criterio = $request->input('stampaEtichetta'); // radio buttons for printing or no the etichetta
         $msg_etichetta = '';
         switch ($etichetta_criterio) {
             case 'aggiungiEtichetta':

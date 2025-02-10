@@ -73,7 +73,7 @@ final class PatenteSearchController
                 $msgSearch = $msgSearch.' categoria='.$nome;
             }
         });
-        //$msgSearch=$msgSearch."order by: $orderBy";
+        // $msgSearch=$msgSearch."order by: $orderBy";
         $patenti = $queryPatenti->sortable($orderBy, 'asc')->paginate(25);
 
         $categorie = CategoriaPatente::orderby('categoria')->get();

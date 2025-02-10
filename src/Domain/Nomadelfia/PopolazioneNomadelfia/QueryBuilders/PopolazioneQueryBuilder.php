@@ -58,12 +58,12 @@ final class PopolazioneQueryBuilder extends Builder
         )[0];
     }
 
-    //with pop as (
-    //SELECT persone.*, p.data_entrata, TIMESTAMPDIFF(YEAR, persone.data_nascita, CURDATE()) as eta
-    //FROM persone
-    //INNER join popolazione p ON p.persona_id = persone.id
-    //where data_uscita is NULL
-    //) select
+    // with pop as (
+    // SELECT persone.*, p.data_entrata, TIMESTAMPDIFF(YEAR, persone.data_nascita, CURDATE()) as eta
+    // FROM persone
+    // INNER join popolazione p ON p.persona_id = persone.id
+    // where data_uscita is NULL
+    // ) select
     //    case
     //    when eta between 0 and 18 then '0-18'
     //    when eta between 18 and 21 then '18-21'
@@ -74,7 +74,7 @@ final class PopolazioneQueryBuilder extends Builder
     //    else 'OTHERS'
     //    end as r,
     //    count(1) as `Count`
-    //from pop
-    //group by r;
+    // from pop
+    // group by r;
 
 }

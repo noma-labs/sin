@@ -24,7 +24,7 @@ final class PersonaPosizioneController
         $request->validate([
             'posizione_id' => 'required',
             'data_inizio' => 'required|date',
-            //"data_fine" => "date",
+            // "data_fine" => "date",
         ], [
             'posizione_id.required' => 'La posizione è obbligatorio',
             'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',

@@ -34,7 +34,7 @@ final class BooksDeletedController
     public function destory(Request $request, $idLibro)
     {
         $request->validate([
-            'xCancellazioneNote' => 'required', //per update solito nome
+            'xCancellazioneNote' => 'required', // per update solito nome
         ], [
             'xCancellazioneNote.required' => 'La motivazione della cancellazione del libro è obbligatoria.',
         ]);

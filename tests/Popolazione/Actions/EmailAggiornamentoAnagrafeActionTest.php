@@ -176,7 +176,7 @@ it('will NOT send email if person enter', function (): void {
 });
 
 //
-//it('adds the content to persona entered email', function () {
+// it('adds the content to persona entered email', function () {
 //    $data_entrata = Carbon::now()->startOfDay();
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $famiglia = Famiglia::factory()->create();
@@ -191,9 +191,9 @@ it('will NOT send email if person enter', function (): void {
 //    Mail::assertSent(PersonaEntrataMail::class, function ($mail) use ($to) {
 //        return $mail->hasTo($to);
 //    });
-//});
+// });
 //
-//it('adds the content to persona exited email', function () {
+// it('adds the content to persona exited email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $data_entrata = Carbon::now()->startOfDay();
 //    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
@@ -203,23 +203,23 @@ it('will NOT send email if person enter', function (): void {
 //    $mailable = new PersonaUscitaMail($persona, $data_entrata, $data_uscita);
 //    $mailable->build();
 //    $mailable->assertTo('test@nomadelfia.it');
-//});
+// });
 //
-//it('adds the content to famiglia entered email', function () {
+// it('adds the content to famiglia entered email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $data_entrata = Carbon::now()->startOfDay();
 //    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 //
 //    $mailable = new PersonaUscitaMail($persona, $data_entrata, $data_uscita);
 //    $mailable->build();
-////    $mailable->assertTo('test@nomadelfia.it');
-//});
+// //    $mailable->assertTo('test@nomadelfia.it');
+// });
 //
-//it('adds the content to persona died email', function () {
+// it('adds the content to persona died email', function () {
 //    $persona = Persona::factory()->minorenne()->femmina()->create();
 //    $data_uscita = Carbon::now()->addYears(5)->startOfDay();
 //
 //    $mailable = new PersonaDecessoMail($persona, $data_uscita);
 //    $mailable->build();
 //    $mailable->assertTo('test@nomadelfia.it');
-//});
+// });

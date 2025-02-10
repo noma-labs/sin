@@ -11,7 +11,7 @@ final class ClassificazioniController
 {
     public function index()
     {
-        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); //Get all classificazioni
+        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); // Get all classificazioni
 
         return view('biblioteca.books.classificazioni.index')->with('classificazioni', $classificazioni);
     }
@@ -76,7 +76,7 @@ final class ClassificazioniController
             'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
         ]
         );
-        $classificazione = Classificazione::findOrFail($id); //Get role with the given id
+        $classificazione = Classificazione::findOrFail($id); // Get role with the given id
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
