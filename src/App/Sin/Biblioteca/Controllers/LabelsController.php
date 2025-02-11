@@ -82,8 +82,6 @@ final class LabelsController
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("etichette-$date.pdf");
 
-        dd(app('url'));
-        dd(route('books.labels.preview', ['idLibro' => $request->get('idLibro')]));
         Browsershot::url(route('books.labels.preview', ['idLibro' => $request->get('idLibro')]))
             ->noSandbox()
             ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
