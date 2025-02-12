@@ -9,34 +9,62 @@ use Illuminate\Support\Str;
 
 final class Dimensione
 {
-    public int $larghezza;
+    private int $width;
 
-    public int $altezza;
+    private int $height;
 
-    public static function fromString(?string $dimensione): ?self
+    public static function fromString(?string $dimension): ?self
     {
-        if (is_null($dimensione)) {
+        if (is_null($dimension)) {
             return null;
         }
-        $d = Str::of($dimensione)->explode('x');
+        // trim possible 'mm' suffix
+        $dimension = Str::of($dimension)->rtrim('mm');
+
+        if (Str::lower($dimension) === 'a4'){
+            $d = new self;
+            $d->width = 210;
+            $d->height = 297;
+            return $d;
+        }
+        if (Str::lower($dimension) === 'a3'){
+            $d = new self;
+            $d->width = 297;
+            $d->height = 420;
+            return $d;
+        }
+        $d = Str::of($dimension)->explode('x');
         if (count($d) < 2) {
-            throw new Exception('Dimensione deve essere nella forma 123x456 espresse in centimetri. Per esempio: 21x29');
+            throw new Exception('Il formato della dimensione non è corretto');
         }
-        $larghezza = $d[0];
-        $altezza = $d[1];
+        $width = $d[0];
+        $height = $d[1];
 
-        if (! is_numeric($larghezza) || ! is_numeric($altezza)) {
-            throw new Exception('Le dimensioni devono essere un numero');
+        if (! is_numeric($width) ) {
+            throw new Exception('Dimensione incorretta. La largehzza deve essere un numero intero');
         }
+        if (! is_numeric($height) ) {
+            throw new Exception('Dimensione incorretta. Altezza deve essere un numero intero');
+        }
+
         $d = new self;
-        $d->larghezza = (int) $larghezza;
-        $d->altezza = (int) $altezza;
-
+        $d->width = (int)$width;
+        $d->height = (int) $height;
         return $d;
     }
 
-    public function toString(): ?string
+    public function getWidth(): int
     {
-        return $this->larghezza.'x'.$this->altezza;
+        return $this->width;
+    }
+
+    public function getHeight(): int
+    {
+        return $this->height;
+    }
+
+    public function toString(): string
+    {
+        return $this->width.'x'.$this->height;
     }
 }

@@ -79,6 +79,10 @@
                         <strong>Collocazione:</strong>
                         {{ $elaborato->collocazione }}
                     </p>
+                    <p>
+                        <strong>Dimensione:</strong>
+                        {{ $elaborato->dimensione }}
+                    </p>
                     @if ($elaborato->autore !== null && $elaborato->autore !== "")
                         <p class="alert alert-warning">
                             {{ $elaborato->autore }}

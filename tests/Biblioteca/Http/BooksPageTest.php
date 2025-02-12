@@ -36,7 +36,7 @@ it('will search books by location', function (): void {
         ->assertSee($book->collocazione);
 });
 
-it('inserts a book when the admin is logged in', function (): void {
+it('only allowed user (admin) can store a new book', function (): void {
     $sendRequest = fn () => post(action([BooksController::class, 'store']), [
         'xTitolo' => 'MY title',
         'xIdAutori' => Autore::factory()->create()->id,
