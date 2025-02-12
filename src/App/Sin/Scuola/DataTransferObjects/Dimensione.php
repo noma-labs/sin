@@ -21,16 +21,18 @@ final class Dimensione
         // trim possible 'mm' suffix
         $dimension = Str::of($dimension)->rtrim('mm');
 
-        if (Str::lower($dimension) === 'a4'){
+        if (Str::lower($dimension) === 'a4') {
             $d = new self;
             $d->width = 210;
             $d->height = 297;
+
             return $d;
         }
-        if (Str::lower($dimension) === 'a3'){
+        if (Str::lower($dimension) === 'a3') {
             $d = new self;
             $d->width = 297;
             $d->height = 420;
+
             return $d;
         }
         $d = Str::of($dimension)->explode('x');
@@ -40,16 +42,17 @@ final class Dimensione
         $width = $d[0];
         $height = $d[1];
 
-        if (! is_numeric($width) ) {
+        if (! is_numeric($width)) {
             throw new Exception('Dimensione incorretta. La largehzza deve essere un numero intero');
         }
-        if (! is_numeric($height) ) {
+        if (! is_numeric($height)) {
             throw new Exception('Dimensione incorretta. Altezza deve essere un numero intero');
         }
 
         $d = new self;
-        $d->width = (int)$width;
+        $d->width = (int) $width;
         $d->height = (int) $height;
+
         return $d;
     }
 

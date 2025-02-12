@@ -6,7 +6,7 @@ namespace Tests\Scuola\Unit;
 
 use App\Scuola\DataTransferObjects\Dimensione;
 
-it("parse the dimension from a string", function (string $dimension, int $width, int $high, string $outString): void {
+it('parse the dimension from a string', function (string $dimension, int $width, int $high, string $outString): void {
     $parsed = Dimensione::fromString($dimension);
 
     expect($parsed->getHeight())->toEqual($high);
