@@ -102,7 +102,7 @@
                                     @forelse ($classe->alunni as $alunno)
                                         <li>
                                             @year($alunno->data_nascita)
-                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("scuola.templates.student", ["persona" => $alunno])
                                             @liveRome($alunno)
                                                 <span class="badge bg-warning">
                                                     Roma
