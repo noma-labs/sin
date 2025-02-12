@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="dimensione" class="form-label">
-                            Dimensioni (cm. larghezza x altezza)
+                            Dimensioni (A3, A4 oppure 210x297mm)
                         </label>
                         <input
                             class="form-control"
