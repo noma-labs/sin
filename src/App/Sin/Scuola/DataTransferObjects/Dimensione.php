@@ -19,15 +19,16 @@ final class Dimensione
             return null;
         }
         // trim possible 'mm' suffix
-        $dimension = Str::of($dimension)->rtrim('mm');
-        if ($dimension->lower() === 'a4') {
+        $dimension = Str::of($dimension)->rtrim('mm')->toString();
+
+        if (Str::lower($dimension) === 'a4') {
             $d = new self;
             $d->width = 210;
             $d->height = 297;
 
             return $d;
         }
-        if ($dimension->lower() === 'a3') {
+        if (Str::lower($dimension) === 'a3') {
             $d = new self;
             $d->width = 297;
             $d->height = 420;
