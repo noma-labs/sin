@@ -72,7 +72,7 @@
                                     <div class="col-md-6">
                                         <div class="fw-bold mt-2">
                                             @year($alunno->data_nascita)
-                                            @include("nomadelfia.templates.persona", ["persona" => $alunno])
+                                            @include("scuola.templates.student", ["persona" => $alunno])
                                             (
                                             @diffYears($alunno->data_nascita)
                                             anni)
