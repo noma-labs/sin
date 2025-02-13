@@ -88,7 +88,7 @@ final class LabelsController
 
         // Construct the route path
         $routePath = route('books.labels.preview', ['idLibro' => $request->get('idLibro')], false);
-        $url = $appUrl . $routePath;
+        $url = $appUrl.$routePath;
 
         Browsershot::url($url)
             ->noSandbox()
