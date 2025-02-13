@@ -348,7 +348,7 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 
     Route::get('/elenchi', [PatenteElenchiController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.elenchi');
     Route::get('/elenchi/stampa', [PatenteElenchiController::class, 'stampaAutorizzati'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.pdf');
-    Route::get('/elenchi/preview', [PatenteElenchiController::class, 'stampaAutorizzatiPreview'])->name('patente.elenchi.autorizzati.esporta.preview');
+    Route::get('/elenchi/preview', [PatenteElenchiController::class, 'stampaAutorizzatiPreview'])->withoutMiddleware('auth')->name('patente.elenchi.autorizzati.esporta.preview');
     Route::get('/elenchi/esporta/excel', [PatenteElenchiController::class, 'autorizzatiEsportaExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.autorizzati.esporta.excel');
     Route::get('/elenchi/patenti/pdf', [PatenteElenchiController::class, 'esportaPatentiPdf'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.pdf');
     Route::get('/elenchi/patenti/excel', [PatenteElenchiController::class, 'esportaPatentiExcel'])->middleware('can:scuolaguida.patente.esporta')->name('patente.elenchi.patenti.esporta.excel');
