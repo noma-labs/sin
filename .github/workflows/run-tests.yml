@@ -70,7 +70,7 @@ jobs:
           php artisan key:generate
 
       - name: Start Laravel Server
-        run: php artisan serve --host=0.0.0.0 --port=80
+        run: php artisan serve --host=0.0.0.0 --port=80 &&
 
       - name: Wait for Laravel Server to be ready
         run: |
