@@ -18,11 +18,10 @@ it('shows patenti to logged users', function (): void {
         ->assertOk();
 });
 
-
 it('export into pdf', function (): void {
     login();
 
     $this->get(action([PatenteElenchiController::class, 'stampaAutorizzati']))
-    ->assertSuccessful()
-    ->assertDownload();
+        ->assertSuccessful()
+        ->assertDownload();
 });

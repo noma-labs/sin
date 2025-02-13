@@ -194,13 +194,12 @@ final class PatenteElenchiController
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("autorizzati-$date.pdf");
 
+        // Get the APP_URL from the configuration
+        $appUrl = Config::get('app.url');
 
-         // Get the APP_URL from the configuration
-         $appUrl = Config::get('app.url');
-
-         // Construct the route path
-         $routePath = route('patente.elenchi.autorizzati.esporta.preview', [],  false);
-         $url = $appUrl . $routePath;
+        // Construct the route path
+        $routePath = route('patente.elenchi.autorizzati.esporta.preview', [], false);
+        $url = $appUrl.$routePath;
 
         Browsershot::url($url)
             ->noSandbox()
