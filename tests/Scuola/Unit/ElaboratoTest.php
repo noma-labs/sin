@@ -21,4 +21,4 @@ it('parse the dimension from a string', function (string $dimension, int $width,
     ['a3', 297, 420, '297x420'],
     [' 210 x 297 ', 210, 297, '210x297'],
     ['210x297mm', 210, 297, '210x297'],
-])->only();
+]);
