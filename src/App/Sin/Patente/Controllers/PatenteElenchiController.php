@@ -9,6 +9,7 @@ use Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Support\Facades\Config;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
@@ -193,7 +194,15 @@ final class PatenteElenchiController
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("autorizzati-$date.pdf");
 
-        Browsershot::url(route('patente.elenchi.autorizzati.esporta.preview'))
+
+         // Get the APP_URL from the configuration
+         $appUrl = Config::get('app.url');
+
+         // Construct the route path
+         $routePath = route('patente.elenchi.autorizzati.esporta.preview', false);
+         $url = $appUrl . $routePath;
+
+        Browsershot::url($url)
             ->noSandbox()
             ->format('A4')
             ->timeout(2000)
