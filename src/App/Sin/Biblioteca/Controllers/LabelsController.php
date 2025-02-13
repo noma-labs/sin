@@ -7,6 +7,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro as Libro;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Spatie\Browsershot\Browsershot;
 
 final class LabelsController
@@ -82,7 +83,14 @@ final class LabelsController
         $date = Carbon::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("etichette-$date.pdf");
 
-        Browsershot::url(route('books.labels.preview', ['idLibro' => $request->get('idLibro')]))
+        // Get the APP_URL from the configuration
+        $appUrl = Config::get('app.url');
+
+        // Construct the route path
+        $routePath = route('books.labels.preview', ['idLibro' => $request->get('idLibro')], false);
+        $url = $appUrl . $routePath;
+
+        Browsershot::url($url)
             ->noSandbox()
             ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
             ->timeout(2000)

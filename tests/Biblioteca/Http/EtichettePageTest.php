@@ -20,7 +20,7 @@ it('download the etichette pfd of multiple books', function (): void {
         ->assertSuccessful()
         ->assertDownload();
 
-})->skip('action has problem with puppeteer');
+});
 
 it('download the etichette pfd of a single book', function (): void {
 
@@ -35,4 +35,4 @@ it('download the etichette pfd of a single book', function (): void {
         ->assertSuccessful()
         ->assertDownload();
 
-})->skip('action has problem with puppeteer');
+});
