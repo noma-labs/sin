@@ -199,7 +199,7 @@ final class PatenteElenchiController
          $appUrl = Config::get('app.url');
 
          // Construct the route path
-         $routePath = route('patente.elenchi.autorizzati.esporta.preview', false);
+         $routePath = route('patente.elenchi.autorizzati.esporta.preview', [],  false);
          $url = $appUrl . $routePath;
 
         Browsershot::url($url)
