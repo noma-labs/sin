@@ -11,7 +11,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 
 2. Download and install  [`Composer`](https://getcomposer.org/download/).
 
-3. Download and install  [`node.js v16.x'](https://nodejs.org/it/download/)
+3. Download and install  [`node.js v22.x'](https://nodejs.org/it/download/)
 
 4. Open a shell (e.g., PowerShell or cmd), navigate to the C:/xampp/htdocs folder, and clone the repository.
     ```
