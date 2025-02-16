@@ -12,7 +12,6 @@ final class EntrataPersonaAction
 {
     public function __construct(
         private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,
-        private SendEmailPersonaEntrataAction $email
     ) {}
 
     public function execute(EntrataPersonaData $entrataPersonaData): void
@@ -24,13 +23,6 @@ final class EntrataPersonaAction
             $entrataPersonaData->gruppoFamiliare,
             ($entrataPersonaData->famiglia) ?: null,
         );
-        $this->email->execute(
-            $entrataPersonaData->persona,
-            $entrataPersonaData->data_entrata,
-            $entrataPersonaData->gruppoFamiliare,
-            ($entrataPersonaData->famiglia) ?: null,
-        );
-
     }
 
     public function save(EntrataPersonaData $entrataPersonaData): void

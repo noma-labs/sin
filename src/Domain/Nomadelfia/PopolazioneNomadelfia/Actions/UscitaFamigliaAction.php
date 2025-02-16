@@ -14,7 +14,6 @@ final class UscitaFamigliaAction
 {
     public function __construct(
         private LogUscitaFamigliaAction $logUscita,
-        private SendEmailFamigliaUscitaAction $emailUscita
     ) {}
 
     public function execute(Famiglia $famiglia, Carbon $data_uscita): void
@@ -26,7 +25,6 @@ final class UscitaFamigliaAction
 
         $this->save($dto);
         $this->logUscita->execute($dto);
-        $this->emailUscita->execute($dto);
     }
 
     public function save(UscitaFamigliaData $dto): void
