@@ -76,10 +76,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td
-                            class="my-table-titolo"
-                            height=150
-                        >
+                        <td class="my-table-titolo" height="150">
                             {{ $etichetta->titolo }}
                         </td>
                     </tr>

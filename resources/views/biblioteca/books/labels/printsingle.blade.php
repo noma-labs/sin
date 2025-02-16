@@ -78,10 +78,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td
-                            class="my-table-titolo"
-                            height=150
-                        >
+                        <td class="my-table-titolo" height="150">
                             {{ $libro->titolo }}
                         </td>
                     </tr>
