@@ -44,14 +44,14 @@
             }
             .my-table .my-table-collocazione{
               border-color:inherit;
-              font-size:{{ config("etichette.collocazione.font-size") }};
+              font-size:18;
               text-align:center;
               vertical-align:top;
               max-height:100px
               }
             .my-table .my-table-titolo{
               border-color:inherit;
-              font-size:{{ config("etichette.titolo.font-size") }};
+              font-size:18;
               text-align:center;
               vertical-align:middle;
               word-break:break-word;
@@ -78,7 +78,7 @@
                     <tr>
                         <td
                             class="my-table-titolo"
-                            height="{{ config("etichette.titolo.height") }}"
+                            height=150
                         >
                             {{ $etichetta->titolo }}
                         </td>

@@ -92,7 +92,7 @@ final class LabelsController
 
         Browsershot::url($url)
             ->noSandbox()
-            ->paperSize(config('etichette.dimensioni.larghezza'), config('etichette.dimensioni.altezza'))
+            ->paperSize(29, 62) // 29mm x 62mm (max hight of the printer)
             ->timeout(2000)
             ->savePdf($file_name);
 

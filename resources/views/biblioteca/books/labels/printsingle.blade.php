@@ -80,7 +80,7 @@
                     <tr>
                         <td
                             class="my-table-titolo"
-                            height="{{ config("etichette.titolo.height") }}"
+                            height=150
                         >
                             {{ $libro->titolo }}
                         </td>
