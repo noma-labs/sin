@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
+namespace App\Scuola\DataTransferObjects;
 
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;

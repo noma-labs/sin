@@ -14,7 +14,6 @@ final class DecessoPersonaAction
     public function __construct(
         private UscitaPersonaDBAction $uscita,
         private LogDecessoPersonaAction $logDecesso,
-        private SendEmailPersonaDecessoAction $email
     ) {}
 
     public function execute(Persona $persona, Carbon $data_decesso): void
@@ -25,11 +24,6 @@ final class DecessoPersonaAction
         $this->logDecesso->execute(
             $persona,
             $data_decesso,
-        );
-
-        $this->email->execute(
-            $persona,
-            $data_decesso
         );
     }
 

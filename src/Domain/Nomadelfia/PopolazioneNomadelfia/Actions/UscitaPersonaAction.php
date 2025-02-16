@@ -11,8 +11,8 @@ final class UscitaPersonaAction
 {
     public function __construct(
         private UscitaPersonaDBAction $uscita,
-        private LogUscitaPersonaAction $logUscitaActivity,
-        private SendEmailPersonaUscitaAction $email) {}
+        private LogUscitaPersonaAction $logUscitaActivity
+    ) {}
 
     /*
     * Fa uscire una persona da Nomadelfia aggiornando tutte le posizioni attuali con la data di uscita.
@@ -28,12 +28,6 @@ final class UscitaPersonaAction
             $persona,
             $data_entrata,
             $data_uscita,
-        );
-
-        $this->email->execute(
-            $persona,
-            $data_entrata,
-            $data_uscita
         );
     }
 }
