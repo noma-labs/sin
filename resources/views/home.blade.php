@@ -18,7 +18,7 @@
                                 href="{{ url("/biblioteca") }} "
                                 class="btn btn-primary"
                             >
-                                dsaf
+                                Accedi
                             </a>
                         </div>
                     </div>
@@ -237,25 +237,6 @@
                     </div>
                 </div>
             @endcan
-
-            <div class="col">
-                <div class="card text-center h-100">
-                    <div class="card-header">Archivio Libri</div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Gestione archivio libri di Nomadelfia
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a
-                            href="{{ route("archiviodocumenti") }}"
-                            class="btn btn-primary"
-                        >
-                            Accedi
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
