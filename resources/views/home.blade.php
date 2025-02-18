@@ -24,6 +24,7 @@
                     </div>
                 </div>
             @endif
+
             @hasrole("super-admin")
                 <div class="col">
                     <div class="card text-center h-100">
