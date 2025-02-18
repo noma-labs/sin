@@ -381,8 +381,6 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
     Route::get('/video', [RtnVideoController::class, 'create'])->name('rtn.video.create');
 });
 
-Route::view('/meteo', 'stazionemeteo.index')->name('stazionemeteo');
-
 Route::get('/debug-sentry', function () {
     throw new Exception('A fake sentry error!');
 });
