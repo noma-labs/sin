@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Scuola\DataTransferObjects;
 
 use App\Scuola\Exceptions\BadDimensionException;
+
 use Illuminate\Support\Str;
 
 final class Dimensione

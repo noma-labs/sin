@@ -10,6 +10,6 @@ final class BadDimensionException extends SchoolException
 {
     public static function isNotValid(string $dimension, string $msg): self
     {
-        return new self("La dimesione `{$dimension}` non è valida.`".$msg);
+        return new self("La dimesione `{$dimension}` non è valida. ".$msg);
     }
 }

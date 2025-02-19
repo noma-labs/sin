@@ -6,12 +6,14 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
+use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Closure;
 
 final class ElaboratiController
 {
@@ -55,17 +57,28 @@ final class ElaboratiController
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required',
-            'titolo' => 'required',
-            'anno_scolastico' => 'required',
-            'studenti_ids' => 'required',
+            // 'file' => 'required',
+            // 'titolo' => 'required',
+            // 'anno_scolastico' => 'required',
+            // 'studenti_ids' => 'required',
+            'dimensione' => 'nullable',
+            'dimensione' => function (string $attribute, mixed $value, Closure $fail) {
+                try {
+                    if (! $value) {
+                        return;
+                    }
+                    Dimensione::fromString($value)->toString();
+                } catch (BadDimensionException $e) {
+                    $fail($e->getMessage());
+                }
+
+            },
         ], [
             'file.required' => 'Nessun file selezionato.',
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
             'studenti_ids.required' => 'Almeno un alunno è obbligatorio.',
         ]);
-
         $titolo = $request->input('titolo');
         $alunni = $request->input('studenti_ids');
         $coords = $request->input('coordinatori_ids');
@@ -86,6 +99,7 @@ final class ElaboratiController
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
         $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
+
 
         DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file, $classi, $dimensione): void {
             $elaborato = Elaborato::query()->create(
@@ -145,6 +159,18 @@ final class ElaboratiController
         $request->validate([
             'titolo' => 'required',
             'anno_scolastico' => 'required',
+            'dimensione' => 'nullable',
+            'dimensione' => function (string $attribute, mixed $value, Closure $fail) {
+                try {
+                    if (! $value) {
+                        return;
+                    }
+                    Dimensione::fromString($value)->toString();
+                } catch (BadDimensionException $e) {
+                    $fail($e->getMessage());
+                }
+
+            },
         ], [
             'anno_scolastico.required' => 'Anno scolastico è obbligatorio.',
             'titolo.required' => 'Il titolo è obbligatorio.',
@@ -152,12 +178,12 @@ final class ElaboratiController
         $elaborato = Elaborato::findOrFail($id);
 
         DB::Transaction(function () use ($request, $elaborato): void {
-            $dim = Dimensione::fromString($request->input('dimensione'));
+            $dim = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
 
             $elaborato->titolo = $request->input('titolo');
             $elaborato->anno_scolastico = str(AnnoScolastico::fromString($request->input('anno_scolastico')));
             $elaborato->note = $request->input('note');
-            $elaborato->dimensione = $dim ? $dim->toString() : null;
+            $elaborato->dimensione = $dim;
             $elaborato->rilegatura = $request->input('rilegatura');
 
             $elaborato->classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
