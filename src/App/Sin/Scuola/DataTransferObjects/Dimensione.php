@@ -36,7 +36,7 @@ final class Dimensione
             return $d;
         }
         $d = Str::of($dimension)->explode('x');
-        if (count($d) < 2) {
+        if (count($d) != 2) {
             throw BadDimensionException::isNotValid($dimension, 'La dimensione deve essere nella forma LxH in millimetri. Per esempio: 210x297');
         }
         $width = $d[0];
