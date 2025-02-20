@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\Models;
 
+use App\Scuola\Exceptions\SchoolException;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
@@ -229,7 +230,7 @@ final class ClasseTipo extends Model
         if ($persona instanceof Persona) {
             $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
         } else {
-            throw SchoolException('Bad Argument. Persona must be an id or a model.');
+            throw new  SchoolException('Bad Argument. Persona must be an id or a model.');
         }
     }
 }
