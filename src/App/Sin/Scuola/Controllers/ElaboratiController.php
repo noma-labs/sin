@@ -9,11 +9,11 @@ use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Closure;
 
 final class ElaboratiController
 {
@@ -61,8 +61,7 @@ final class ElaboratiController
             'titolo' => 'required',
             'anno_scolastico' => 'required',
             'studenti_ids' => 'required',
-            'dimensione' => 'nullable',
-            'dimensione' => function (string $attribute, mixed $value, Closure $fail) {
+            'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
                         return;
@@ -99,7 +98,6 @@ final class ElaboratiController
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
         $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
-
 
         DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file, $classi, $dimensione): void {
             $elaborato = Elaborato::query()->create(
@@ -159,8 +157,7 @@ final class ElaboratiController
         $request->validate([
             'titolo' => 'required',
             'anno_scolastico' => 'required',
-            'dimensione' => 'nullable',
-            'dimensione' => function (string $attribute, mixed $value, Closure $fail) {
+            'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
                         return;

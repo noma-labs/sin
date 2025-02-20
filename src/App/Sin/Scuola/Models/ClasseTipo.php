@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Scuola\Models;
 
-use App\Nomadelfia\Exceptions\SchoolException;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;

@@ -25,13 +25,13 @@ it('parse the dimension from a string', function (string $dimension, int $width,
 ]);
 
 it('throws an exception if the dimension is wrong', function (string $dimension): void {
-     Dimensione::fromString($dimension);
+    Dimensione::fromString($dimension);
 })
-->with([
-    '23 45',
-    '23x',
-    '23x45x67',
-    '23xtwenty',
-    'twentyx45',
-])
-->throws(BadDimensionException::class);
+    ->with([
+        '23 45',
+        '23x',
+        '23x45x67',
+        '23xtwenty',
+        'twentyx45',
+    ])
+    ->throws(BadDimensionException::class);
