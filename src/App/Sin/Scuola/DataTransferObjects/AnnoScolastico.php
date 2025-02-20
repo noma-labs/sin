@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\DataTransferObjects;
 
-use App\Nomadelfia\Exceptions\SchoolException;
+use App\Scuola\Exceptions\SchoolException;
 use Illuminate\Support\Str;
 use Stringable;
 

@@ -57,17 +57,17 @@ final class ElaboratiController
     public function store(Request $request)
     {
         $request->validate([
-            // 'file' => 'required',
-            // 'titolo' => 'required',
-            // 'anno_scolastico' => 'required',
-            // 'studenti_ids' => 'required',
+            'file' => 'required',
+            'titolo' => 'required',
+            'anno_scolastico' => 'required',
+            'studenti_ids' => 'required',
             'dimensione' => 'nullable',
             'dimensione' => function (string $attribute, mixed $value, Closure $fail) {
                 try {
                     if (! $value) {
                         return;
                     }
-                    Dimensione::fromString($value)->toString();
+                    Dimensione::fromString($value);
                 } catch (BadDimensionException $e) {
                     $fail($e->getMessage());
                 }

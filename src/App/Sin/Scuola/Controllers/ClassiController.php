@@ -24,7 +24,7 @@ final class ClassiController
         return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'alunniPossibili', 'coordPossibili'));
     }
 
-    public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
+    public function aggiungiAlunno(Request $request, $id, AddStudentAction $addStudentAction)
     {
         $request->validated();
         $classe = Classe::findOrFail($id);

@@ -34,4 +34,4 @@ it('throws an exception if the dimension is wrong', function (string $dimension)
     '23xtwenty',
     'twentyx45',
 ])
-->throws(BadDimensionException::class)->only();
+->throws(BadDimensionException::class);

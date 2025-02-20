@@ -7,8 +7,9 @@ namespace App\Scuola\DataTransferObjects;
 use App\Scuola\Exceptions\BadDimensionException;
 
 use Illuminate\Support\Str;
+use Stringable;
 
-final class Dimensione
+final class Dimensione implements Stringable
 {
     private int $width;
 
@@ -70,5 +71,10 @@ final class Dimensione
     public function toString(): string
     {
         return $this->width.'x'.$this->height;
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }
