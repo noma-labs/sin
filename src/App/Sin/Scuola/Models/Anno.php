@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\Models;
 
-use App\Scuola\Exceptions\SchoolException;
+use App\Scuola\Exceptions\BadYearException;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,7 +83,7 @@ final class Anno extends Model
         if ($a->count() > 0) {
             return $a->first();
         }
-        throw new SchoolException('Non ci sono anni scolastici attivi');
+        throw new BadYearException('Non ci sono anni scolastici attivi');
     }
 
     public function responsabile(): BelongsTo

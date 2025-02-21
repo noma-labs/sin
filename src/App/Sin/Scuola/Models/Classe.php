@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\Models;
 
-use App\Scuola\Exceptions\SchoolException;
+use App\Scuola\Exceptions\GeneralException;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
@@ -75,7 +75,7 @@ final class Classe extends Model
                 'data_inizio' => $data_inizio,
             ]);
         } else {
-            throw new SchoolException('Alunno is not a valid id or model');
+            throw new GeneralException('Alunno is not a valid id or model');
         }
     }
 
@@ -108,7 +108,7 @@ final class Classe extends Model
             }
             $this->coordinatori()->attach($persona->id, $attr);
         } else {
-            throw new SchoolException('Coordinatore is not a valid id or model');
+            throw new GeneralException('Coordinatore is not a valid id or model');
         }
     }
 
@@ -145,7 +145,7 @@ final class Classe extends Model
         if ($coord instanceof Persona) {
             $this->coordinatori()->detach($coord->id);
         } else {
-            throw new SchoolException('Coordinatore  is not a valid id or model');
+            throw new GeneralException('Coordinatore  is not a valid id or model');
         }
     }
 
@@ -158,7 +158,7 @@ final class Classe extends Model
         if ($alunno instanceof Persona) {
             $this->alunni()->detach($alunno->id);
         } else {
-            throw new SchoolException('Alunno is not a valid id or model');
+            throw new GeneralException('Alunno is not a valid id or model');
         }
     }
 

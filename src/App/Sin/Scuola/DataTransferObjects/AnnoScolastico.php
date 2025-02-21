@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scuola\DataTransferObjects;
 
-use App\Scuola\Exceptions\SchoolException;
+use App\Scuola\Exceptions\BadYearException;
 use Illuminate\Support\Str;
 use Stringable;
 
@@ -23,17 +23,17 @@ final class AnnoScolastico implements Stringable
     {
         $as = Str::of($as)->explode('/');
         if (count($as) < 2) {
-            throw new SchoolException('Anno scolastico deve essere nella forma YYYY/ZZZZ. Per esempio: 2024/2025');
+            throw new BadYearException('Anno scolastico deve essere nella forma YYYY/ZZZZ. Per esempio: 2024/2025');
         }
 
         if (! is_numeric($as[0]) || ! is_numeric($as[1])) {
-            throw new SchoolException('I due anni devono essere un numero');
+            throw new BadYearException('I due anni devono essere un numero');
         }
         $startYear = (int) $as[0];
         $endYear = (int) $as[1];
 
         if ($endYear !== $startYear + 1) {
-            throw new SchoolException("Anno scolastico '$as' errato. La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
+            throw new BadYearException("Anno scolastico '$as' errato. La fine dell'anno scolastico deve essere consecutivo all'anno di inizio");
         }
 
         $a = new self;
