@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-final class SchoolException extends Exception
+class SchoolException extends Exception
 {
     final public function render(Request $request): Response
     {
