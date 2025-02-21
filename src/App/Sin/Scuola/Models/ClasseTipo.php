@@ -230,7 +230,7 @@ final class ClasseTipo extends Model
         if ($persona instanceof Persona) {
             $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
         } else {
-            throw new  SchoolException('Bad Argument. Persona must be an id or a model.');
+            throw new SchoolException('Bad Argument. Persona must be an id or a model.');
         }
     }
 }

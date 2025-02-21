@@ -9,7 +9,6 @@ use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
 use Faker\Factory as Faker;
-use Faker\Provider\ar_EG\Person;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -84,7 +83,6 @@ it('can upload a cover image', function (): void {
     Storage::disk('public')->assertExists($elaborato->cover_image_path);
 });
 
-
 it('can store an elaborato', function (): void {
     login();
 
@@ -104,7 +102,6 @@ it('can store an elaborato', function (): void {
         'anno_scolastico' => '2015/2016',
     ], 'db_scuola');
 });
-
 
 it('return a flash error id dimension is wrong', function (): void {
     login();
