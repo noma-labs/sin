@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace App\Scuola\DataTransferObjects;
 
-use Exception;
+use App\Scuola\Exceptions\BadDimensionException;
 use Illuminate\Support\Str;
+use Stringable;
 
-final class Dimensione
+final class Dimensione implements Stringable
 {
     private int $width;
 
     private int $height;
+
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
 
     public static function fromString(?string $dimension): ?self
     {
@@ -36,17 +42,17 @@ final class Dimensione
             return $d;
         }
         $d = Str::of($dimension)->explode('x');
-        if (count($d) < 2) {
-            throw new Exception('Il formato della dimensione non è corretto');
+        if (count($d) !== 2) {
+            throw BadDimensionException::isNotValid($dimension, 'La dimensione deve essere nella forma LxH in millimetri. Per esempio: 210x297');
         }
         $width = $d[0];
         $height = $d[1];
 
         if (! is_numeric($width)) {
-            throw new Exception('Dimensione incorretta. La largehzza deve essere un numero intero');
+            throw BadDimensionException::isNotValid($dimension, 'La larghezza deve essere un numero intero');
         }
         if (! is_numeric($height)) {
-            throw new Exception('Dimensione incorretta. Altezza deve essere un numero intero');
+            throw BadDimensionException::isNotValid($dimension, "l'altezza deve essere un numero intero");
         }
 
         $d = new self;

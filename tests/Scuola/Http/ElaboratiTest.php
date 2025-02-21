@@ -7,6 +7,7 @@ namespace Tests\Http\Scuola;
 use App\Scuola\Controllers\CoverImageController;
 use App\Scuola\Controllers\ElaboratiController;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Models\Studente;
 use Faker\Factory as Faker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -80,4 +81,40 @@ it('can upload a cover image', function (): void {
     $filePath = 'covers/'.$elaborato->id.'/cover.png';
 
     Storage::disk('public')->assertExists($elaborato->cover_image_path);
+});
+
+it('can store an elaborato', function (): void {
+    login();
+
+    $s = Studente::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/ 2016',
+        'studenti_ids' => [$s->id],
+        'coordinatori_ids' => [],
+        'dimensione' => 'A4',
+        'file' => UploadedFile::fake()->create('test.pdf'),
+    ])->assertRedirectToRoute('scuola.elaborati.index');
+
+    $this->assertDatabaseHas('elaborati', [
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/2016',
+    ], 'db_scuola');
+});
+
+it('return a flash error id dimension is wrong', function (): void {
+    login();
+
+    $s = Studente::factory()->minorenne()->maschio()->create();
+
+    $this->post(action([ElaboratiController::class, 'store']), [
+        'titolo' => 'Test Title',
+        'anno_scolastico' => '2015/ 2016',
+        'studenti_ids' => [$s->id],
+        'coordinatori_ids' => [],
+        'dimensione' => '2323',
+        'file' => UploadedFile::fake()->create('test.pdf'),
+    ])->assertSessionHasErrors(['dimensione' => 'La dimesione `2323` non è valida. La dimensione deve essere nella forma LxH in millimetri. Per esempio: 210x297']);
+
 });

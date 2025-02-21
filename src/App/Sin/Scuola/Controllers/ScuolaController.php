@@ -7,7 +7,6 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;
@@ -178,10 +177,7 @@ final class ScuolaController
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         $data = Carbon::now()->toDatestring();
         $file_name = "scuola-familiare-$data.docx";
-        try {
-            $objWriter->save(storage_path($file_name));
-        } catch (Exception) {
-        }
+        $objWriter->save(storage_path($file_name));
 
         return response()->download(storage_path($file_name));
     }

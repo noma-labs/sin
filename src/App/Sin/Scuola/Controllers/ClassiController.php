@@ -6,7 +6,6 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\AddStudentAction;
 use App\Scuola\Models\Classe;
-use App\Scuola\Requests\AddStudentRequest;
 use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -24,14 +23,21 @@ final class ClassiController
         return view('scuola.classi.show', compact('anno', 'classe', 'alunni', 'coords', 'alunniPossibili', 'coordPossibili'));
     }
 
-    public function aggiungiAlunno(AddStudentRequest $request, $id, AddStudentAction $addStudentAction)
+    public function aggiungiAlunno(Request $request, $id, AddStudentAction $addStudentAction)
     {
-        $request->validated();
+        $request->validate([
+            'alunno_id' => 'required',
+            'data_inizio' => 'required|date',
+        ], [
+            'alunno_id.required' => 'Alunno è obbligatorio.',
+            'data_inizio.required' => 'Data inizio è obbligatoria.',
+            'data_inizio.date' => 'Data inizio non è valida.',
+        ]);
         $classe = Classe::findOrFail($id);
         $alunni = $request->get('alunno_id');
         foreach ($alunni as $id) {
             $alunno = Persona::findOrFail($id);
-            $addStudentAction->execute($classe, $alunno, $request->data_inizio);
+            $addStudentAction->execute($classe, $alunno, $request->get('data_inizio'));
         }
 
         return redirect()->back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
