@@ -146,6 +146,276 @@ parameters:
 			path: src/App/Sin/Admin/Controllers/UserController.php
 
 		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Method App\\\\Agraria\\\\Controllers\\\\AgrariaController\\:\\:getProssimeManutenzioni\\(\\) has invalid return type App\\\\Agraria\\\\Controllers\\\\Collection\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Method App\\\\Agraria\\\\Controllers\\\\AgrariaController\\:\\:getProssimeManutenzioni\\(\\) should return App\\\\Agraria\\\\Controllers\\\\Collection but returns Illuminate\\\\Support\\\\Collection\\<\\*NEVER\\*, \\*NEVER\\*\\>\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$lavori_extra\\.$#"
+			count: 2
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$mezzo_agricolo\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$ore\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$persona\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$spesa\\.$#"
+			count: 2
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$mezzo_agricolo\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$ore\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\ManutenzioneProgrammata\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Variable \\$mezzo might not be defined\\.$#"
+			count: 6
+			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$filtro_aria_ext\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$filtro_aria_int\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$filtro_gasolio\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$filtro_olio\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$filtro_servizi\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$gomme_ant\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$gomme_post\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$nome\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$numero_telaio\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$tot_ore\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 2
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\Gomma\\:\\:create\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\Gomma\\:\\:where\\(\\)\\.$#"
+			count: 4
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:find\\(\\)\\.$#"
+			count: 3
+			path: src/App/Sin/Agraria/Controllers/MezziController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/PlannedMaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\ManutenzioneProgrammata\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/PlannedMaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\ManutenzioneProgrammata\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/PlannedMaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:find\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/PlannedMaintenanceController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/SearchableMaintenanceController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$id\\.$#"
+			count: 6
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$nome\\.$#"
+			count: 3
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$tot_ore\\.$#"
+			count: 4
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$data\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$mezzo_agricolo\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\StoricoOre\\:\\:\\$ore\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withSuccess\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:orderBy\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Parameter \\#1 \\$provider of method Illuminate\\\\Http\\\\RedirectResponse\\:\\:withErrors\\(\\) expects array\\|Illuminate\\\\Contracts\\\\Support\\\\MessageProvider\\|string, Illuminate\\\\Support\\\\Collection\\<int, string\\> given\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Controllers/VehicleHourController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$lavori_extra\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Models/Manutenzione.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$id\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Models/MezzoAgricolo.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\MezzoAgricolo\\:\\:\\$tot_ore\\.$#"
+			count: 2
+			path: src/App/Sin/Agraria/Models/MezzoAgricolo.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:whereHas\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Models/MezzoAgricolo.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Agraria\\\\Models\\\\ManutenzioneProgrammata\\:\\:where\\(\\)\\.$#"
+			count: 1
+			path: src/App/Sin/Agraria/Models/MezzoAgricolo.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Http\\\\Request\\:\\:\\$autore\\.$#"
 			count: 1
 			path: src/App/Sin/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
