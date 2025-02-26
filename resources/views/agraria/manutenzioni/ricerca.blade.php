@@ -1,14 +1,14 @@
-@extends('layout.main')
+@extends("layout.main")
 
-@section('title', 'Manutenzione')
+@section("title", "Manutenzione")
 
-@section('content')
-@include('partials.header', ['title' => 'Ricerca Manutenzione'])
-    <ricerca-manutenzione 
-        api-mezzi="{{route('api.mezzi')}}"
-        api-manutenzioni="{{route('api.manutenzioni')}}"
+@section("content")
+    @include("partials.header", ["title" => "Ricerca Manutenzione"])
+    <ricerca-manutenzione
+        api-mezzi="{{ route("api.mezzi") }}"
+        api-manutenzioni="{{ route("api.manutenzioni") }}"
         @isset($mezzo)
-            :mezzo={{$mezzo->id}}
-        @endisset>
-    </ricerca-manutenzione>
+            :mezzo={{ $mezzo->id }}
+        @endisset
+    ></ricerca-manutenzione>
 @endsection

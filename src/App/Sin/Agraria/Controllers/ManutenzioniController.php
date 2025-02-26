@@ -21,7 +21,7 @@ final class ManutenzioniController
         return view('agraria.manutenzioni.programmate');
     }
 
-    public function programmateSave(Request $request)
+    public function programmateSave(Request $request): array
     {
         $rules = [
             'data.nome' => 'required',
@@ -57,7 +57,7 @@ final class ManutenzioniController
         return view('agraria.manutenzioni.nuova', compact('mezzi', 'programmate'));
     }
 
-    public function nuovaSave(Request $request)
+    public function nuovaSave(Request $request): array
     {
         // validazione input
         $rules = [
@@ -141,7 +141,7 @@ final class ManutenzioniController
 
         try {
             $nuova_manutenzione->save();
-        } catch (Throwable $th) {
+        } catch (Throwable) {
             return ['state' => 'error', 'msg' => ['Errore salvataggio manutenzione']];
         }
 
