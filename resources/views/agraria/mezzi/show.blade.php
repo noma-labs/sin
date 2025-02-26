@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends("agraria.index")
 
 @section("title", "Mezzo")
 
@@ -132,7 +132,7 @@
             <div class="row">
                 <div class="col-md-2 offset-md-8">
                     <a
-                        href="{{ route("manutenzioni.ricerca") . "?id=" . $mezzo->id }}"
+                        href="{{ route("agraria.maintenanace.search.show") . "?id=" . $mezzo->id }}"
                         class="btn btn-warning btn-block"
                     >
                         Manutenzioni
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-md-2">
                     <a
-                        href="{{ route("mezzo.edit", ["id" => $mezzo->id]) }}"
+                        href="{{ route("agraria.vehicle.edit", ["id" => $mezzo->id]) }}"
                         class="btn btn-warning btn-block"
                     >
                         Modifica
@@ -168,19 +168,19 @@
 
                                     @if ($v < 0)
                                         <td>
-                                            <span class="badge badge-danger">
+                                            <span class="badge bg-danger">
                                                 {{ "scaduto da: " . abs($v) }}
                                             </span>
                                         </td>
                                     @elseif ($v < 50)
                                         <td>
-                                            <span class="badge badge-warning">
+                                            <span class="badge bg-warning">
                                                 {{ "scade tra: " . abs($v) }}
                                             </span>
                                         </td>
                                     @else
                                         <td>
-                                            <span class="badge badge-success">
+                                            <span class="badge bg-success">
                                                 {{ "scade tra: " . abs($v) }}
                                             </span>
                                         </td>

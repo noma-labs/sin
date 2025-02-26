@@ -7,8 +7,11 @@ use App\Admin\Controllers\RisorsaController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\Agraria\Controllers\AgrariaController;
-use App\Agraria\Controllers\ManutenzioniController;
+use App\Agraria\Controllers\MaintenanceController;
 use App\Agraria\Controllers\MezziController;
+use App\Agraria\Controllers\PlannedMaintenanceController;
+use App\Agraria\Controllers\SearchableMaintenanceController;
+use App\Agraria\Controllers\VehicleHourController;
 use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
@@ -315,20 +318,18 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 
 Route::prefix('agraria')->middleware('auth')->group(function () {
     Route::get('/', [AgrariaController::class, 'index'])->name('agraria.index');
-    Route::get('/mezzo/new', function () {
-        return view('mezzi.insert');
-    })->name('mezzo.new');
-    Route::post('/mezzo/new', [MezziController::class, 'insertConfirm'])->name('mezzo.new.confirm');
-    Route::post('/mezzo/edit/confirm', [MezziController::class, 'editConfirm'])->name('mezzo.edit.confirm');
-    Route::get('/mezzo/edit/{id}', [MezziController::class, 'edit'])->name('mezzo.edit');
-    Route::get('/mezzo/{id}', [MezziController::class, 'show'])->name('mezzo.show');
-    Route::get('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOreShow'])->name('mezzi.aggiorna.ore');
-    Route::post('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOre'])->name('mezzi.aggiorna.ore');
-    Route::get('/manutenzione/nuova', [ManutenzioniController::class, 'nuovaShow'])->name('manutenzioni.nuova');
-    Route::post('/manutenzione/nuova', [ManutenzioniController::class, 'nuovaSave'])->name('manutenzioni.nuova.save');
-    Route::get('/manutenzione/programmata', [ManutenzioniController::class, 'programmateShow'])->name('manutenzioni.programmate');
-    Route::post('/manutenzione/programmata/save', [ManutenzioniController::class, 'programmateSave'])->name('manutenzioni.programmate.save');
-    Route::get('/manutenzione/ricerca/', [ManutenzioniController::class, 'ricerca'])->name('manutenzioni.ricerca');
+    Route::get('/vechicle', [MezziController::class, 'create'])->name('agraria.vehicle.create');
+    Route::post('/vechicle', [MezziController::class, 'store'])->name('agraria.vehicle.store');
+    Route::get('/vechicle/{id}', [MezziController::class, 'show'])->name('agraria.vehicle.show');
+    Route::get('/vechicle/{id}/edit', [MezziController::class, 'edit'])->name('agraria.vehicle.edit');
+    Route::put('/vechicle/edit/confirm', [MezziController::class, 'update'])->name('agraria.vehicle.update');
+    Route::get('/hour', [VehicleHourController::class, 'create'])->name('agraria.vehicle.hour.create');
+    Route::post('/hour', [VehicleHourController::class, 'store'])->name('agraria.vehicle.hour.store');
+    Route::get('/maintenance', [MaintenanceController::class, 'create'])->name('agraria.maintenanace.create');
+    Route::post('/maintenance', [MaintenanceController::class, 'store'])->name('agraria.maintenanace.store');
+    Route::get('/planned-maintenance', [PlannedMaintenanceController::class, 'index'])->name('agraria.maintenanace.planned.index');
+    Route::post('/planned-maintenance', [PlannedMaintenanceController::class, 'store'])->name('agraria.maintenanace.planned.store');
+    Route::get('/planned-maintenance/search', [SearchableMaintenanceController::class, 'show'])->name('agraria.maintenanace.search.show');
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {

@@ -18,13 +18,12 @@ final class AgrariaController
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
         if ($this->controllaOre($mezzi)) {
-            $errors = collect(['<strong>ATTENZIONE</strong> Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a href="'.route('mezzi.aggiorna.ore').'">Clicca qui</a> per aggiornare.']);
+            $errors = collect(['ATTENZIONE: Le ore lavorative dei trattori non sono state aggiornate da più di un mese.']);
 
-            return view('agraria.index', compact('mezzi', 'ultime', 'prossime', 'errors'));
+            return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'errors'));
         }
 
-        return view('agraria.index', compact('mezzi', 'ultime', 'prossime'));
-
+        return view('agraria.home', compact('mezzi', 'ultime', 'prossime'));
     }
 
     /**

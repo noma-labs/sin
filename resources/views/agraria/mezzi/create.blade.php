@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends("agraria.index")
 @section("title", "Mezzo")
 
 @section("content")
@@ -6,7 +6,7 @@
     <div class="mx-auto" style="width: 250px">
         <foto-mezzo></foto-mezzo>
     </div>
-    <form action="{{ route("mezzo.new.confirm") }}" method="POST">
+    <form action="{{ route("agraria.vehicle.store") }}" method="POST">
         @csrf
         <div class="row">
             <div class="col-md-4">

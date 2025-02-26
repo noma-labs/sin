@@ -1,14 +1,12 @@
-@extends("layouts.app")
+@extends("agraria.index")
 
 @section("title", "Mezzo")
 
 @section("content")
-    @include("partials.header", ["title" => "Mezzo"])
-    <div class="mx-auto" style="width: 250px">
-        <foto-mezzo></foto-mezzo>
-    </div>
-    <form action="{{ route("mezzo.edit.confirm") }}" method="POST">
+    @include("partials.header", ["title" => $mezzo->nome])
+    <form action="{{ route("agraria.vehicle.update") }}" method="POST">
         @csrf
+        @method("PUT")
         <input type="hidden" value="{{ $mezzo->id }}" name="id" />
         <div class="row">
             <div class="col-md-4">

@@ -1,11 +1,14 @@
-@extends("layouts.app")
+@extends("agraria.index")
 
 @section("title", "Mezzo")
 
 @section("content")
     @include("partials.header", ["title" => "Aggiorna Ore"])
     <div class="container">
-        <form action="{{ route("mezzi.aggiorna.ore") }}" method="post">
+        <form
+            action="{{ route("agraria.vehicle.hour.create") }}"
+            method="post"
+        >
             @csrf
             <table class="table table-bordered">
                 <thead>
@@ -19,12 +22,10 @@
                     @foreach ($mezzi as $m)
                         <tr>
                             <td>
-                                {{-- <input class="form-control" type="text" value="{{$m->nome}}" disabled> --}}
                                 {{ $m->nome }}
                             </td>
                             <td>
                                 {{ $m->tot_ore }}
-                                {{-- <input class="form-control" type="number" value="{{$m->tot_ore}}" disabled> --}}
                             </td>
                             <td>
                                 <input
@@ -32,7 +33,6 @@
                                     type="number"
                                     name="{{ "id" . $m->id }}"
                                     value="{{ old("id" . $m->id) }}"
-                                    required
                                 />
                             </td>
                         </tr>
