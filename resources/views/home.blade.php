@@ -79,7 +79,7 @@
                         </div>
                         <div class="card-footer">
                             <a
-                                href="http://192.168.11.7:8080/"
+                                href="{{ route("agraria.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi
