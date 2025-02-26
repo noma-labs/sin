@@ -7,6 +7,7 @@ use App\Admin\Controllers\RisorsaController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\Agraria\Controllers\AgrariaController;
+use App\Agraria\Controllers\ManutenzioniController;
 use App\Agraria\Controllers\MezziController;
 use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
@@ -323,11 +324,11 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
     Route::get('/mezzo/{id}', [MezziController::class, 'show'])->name('mezzo.show');
     Route::get('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOreShow'])->name('mezzi.aggiorna.ore');
     Route::post('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOre'])->name('mezzi.aggiorna.ore');
-    Route::get('/manutenzione/nuova', 'ManutenzioniController@nuovaShow')->name('manutenzioni.nuova');
-    Route::post('/manutenzione/nuova', 'ManutenzioniController@nuovaSave')->name('manutenzioni.nuova.save');
-    Route::get('/manutenzione/programmata', 'ManutenzioniController@programmateShow')->name('manutenzioni.programmate');
-    Route::post('/manutenzione/programmata/save', 'ManutenzioniController@programmateSave')->name('manutenzioni.programmate.save');
-    Route::get('/manutenzione/ricerca/', 'ManutenzioniController@ricerca')->name('manutenzioni.ricerca');
+    Route::get('/manutenzione/nuova', [ManutenzioniController::class, 'nuovaShow'])->name('manutenzioni.nuova');
+    Route::post('/manutenzione/nuova', [ManutenzioniController::class, 'nuovaSave'])->name('manutenzioni.nuova.save');
+    Route::get('/manutenzione/programmata', [ManutenzioniController::class, 'programmateShow'])->name('manutenzioni.programmate');
+    Route::post('/manutenzione/programmata/save', [ManutenzioniController::class, 'programmateSave'])->name('manutenzioni.programmate.save');
+    Route::get('/manutenzione/ricerca/', [ManutenzioniController::class, 'ricerca'])->name('manutenzioni.ricerca');
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {

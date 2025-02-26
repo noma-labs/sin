@@ -3,26 +3,57 @@
 @section("title", "Agraria")
 
 @section("navbar-link")
-<li class="nav-item">
-    <a class="nav-link" href="{{route('agraria.index')}}">Agraria</a>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="manDropdown" role="button"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manutenzione</a>
-    <div class="dropdown-menu" aria-labelledby="manDropdown">
-        <a class="dropdown-item" href="{{route('manutenzioni.ricerca')}}">Ricerca</a>
-        <a class="dropdown-item" href="{{route('manutenzioni.nuova')}}">Inserisci</a>
-        <a class="dropdown-item" href="{{route('manutenzioni.programmate')}}">Programmate</a>
-    </div>
-</li>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="tratDropdown" role="button"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mezzo Agricolo</a>
-    <div class="dropdown-menu" aria-labelledby="tratDropdown">
-        <!-- <a class="dropdown-item" href="#">Ricerca</a> -->
-        <a class="dropdown-item" href="{{route('mezzo.new')}}">Inserisci</a>
-    </div>
-</li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route("agraria.index") }}">Agraria</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a
+            class="nav-link dropdown-toggle"
+            id="manDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            Manutenzione
+        </a>
+        <div class="dropdown-menu" aria-labelledby="manDropdown">
+            <a
+                class="dropdown-item"
+                href="{{ route("manutenzioni.ricerca") }}"
+            >
+                Ricerca
+            </a>
+            <a class="dropdown-item" href="{{ route("manutenzioni.nuova") }}">
+                Inserisci
+            </a>
+            <a
+                class="dropdown-item"
+                href="{{ route("manutenzioni.programmate") }}"
+            >
+                Programmate
+            </a>
+        </div>
+    </li>
+    <li class="nav-item dropdown">
+        <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="tratDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            Mezzo Agricolo
+        </a>
+        <div class="dropdown-menu" aria-labelledby="tratDropdown">
+            <!-- <a class="dropdown-item" href="#">Ricerca</a> -->
+            <a class="dropdown-item" href="{{ route("mezzo.new") }}">
+                Inserisci
+            </a>
+        </div>
+    </li>
 @endsection
 
 @section("content")
