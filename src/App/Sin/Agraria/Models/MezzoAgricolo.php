@@ -30,7 +30,7 @@ final class MezzoAgricolo extends Model
         $prog = ManutenzioneProgrammata::where('ore', '>', 10)->get();
         $scadenze = [];
         foreach ($prog as $p) {
-            $man = Manutenzione::whereHas('programmate', function (Builder $q) use ($p) {
+            $man = Manutenzione::whereHas('programmate', function (Builder $q) use ($p): void {
                 $q->where('tipo', $p->id);
             })
                 ->where('mezzo_agricolo', $this->id)

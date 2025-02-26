@@ -29,10 +29,8 @@ final class AgrariaController
 
     /**
      * controlla se le ore dei mezzi sono state aggiornate
-     *
-     * @return bool
      */
-    public function controllaOre($m)
+    public function controllaOre($m): bool
     {
         foreach ($m as $mezzo) {
             $ultimo_aggiornamento = StoricoOre::where('mezzo_agricolo', $mezzo->id)->orderBy('data', 'desc')->first();
@@ -50,10 +48,8 @@ final class AgrariaController
 
     /**
      * prende le prime 5 manutenzioni, imposta la stringa dei lavori fatti e ritorna il risultato
-     *
-     * @return array
      */
-    public function getManutenzioniFatte()
+    public function getManutenzioniFatte(): array
     {
         $manutenzioni = Manutenzione::orderBy('data', 'desc')->take(5)->get();
         $res = [];

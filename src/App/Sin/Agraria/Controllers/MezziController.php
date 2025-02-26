@@ -182,9 +182,9 @@ final class MezziController
         $rules = [];
         $msg = [];
         foreach ($mezzi as $m) {
-            $rules['id'.(string) ($m->id)] = 'required|gte:'.$m->tot_ore;
-            $msg['id'.(string) ($m->id).'.required'] = 'Le ore per il mezzo '.$m->nome.' sono richieste';
-            $msg['id'.(string) ($m->id).'.gte'] = 'Le ore per il mezzo '.$m->nome.' devono essere maggiori di o uguali '.$m->tot_ore;
+            $rules['id'.$m->id] = 'required|gte:'.$m->tot_ore;
+            $msg['id'.$m->id.'.required'] = 'Le ore per il mezzo '.$m->nome.' sono richieste';
+            $msg['id'.$m->id.'.gte'] = 'Le ore per il mezzo '.$m->nome.' devono essere maggiori di o uguali '.$m->tot_ore;
         }
 
         $val = Validator::make($request->all(), $rules, $msg);
@@ -202,7 +202,7 @@ final class MezziController
             try {
                 $m->save();
                 $so->save();
-            } catch (Throwable $th) {
+            } catch (Throwable) {
                 $errors = collect(['Errore salvataggio ore per il mezzo '.$m->nome]);
 
                 return redirect()->route('mezzi.aggiorna.ore')->withErrors($errors)->withInput();

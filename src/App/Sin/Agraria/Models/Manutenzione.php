@@ -26,7 +26,7 @@ final class Manutenzione extends Model
         return $this->hasOne(MezzoAgricolo::class, 'id', 'mezzo_agricolo');
     }
 
-    public function lavoriToString()
+    public function lavoriToString(): string
     {
         $res = [];
         if ($this->lavori_extra !== null && ! ctype_space($this->lavori_extra)) {
