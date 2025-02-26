@@ -19,6 +19,7 @@ use App\Biblioteca\Controllers\LabelsController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Controllers\VideoController;
+use App\Agraria\Controllers\AgrariaController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
@@ -308,6 +309,22 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 
     Route::get('video', [VideoController::class, 'showSearchVideoForm'])->name('video');
     Route::get('video/search', [VideoController::class, 'searchConfirm'])->name('video.ricerca.submit');
+});
+
+Route::prefix('agraria')->middleware('auth')->group(function () {
+    Route::get('/', [AgrariaController::class, 'index'])->name('agraria.index');
+    Route::get('/mezzo/new', function(){return view('mezzi.insert');})->name('mezzo.new');
+    Route::post('/mezzo/new', 'MezziController@insertConfirm')->name('mezzo.new.confirm');
+    Route::post('/mezzo/edit/confirm', 'MezziController@editConfirm')->name('mezzo.edit.confirm');
+    Route::get('/mezzo/edit/{id}', 'MezziController@edit')->name('mezzo.edit');
+    Route::get('/mezzo/{id}', 'MezziController@show')->name('mezzo.show');
+    Route::get('/mezzi/ore/aggiorna', 'MezziController@aggiornaOreShow')->name('mezzi.aggiorna.ore');
+    Route::post('/mezzi/ore/aggiorna', 'MezziController@aggiornaOre')->name('mezzi.aggiorna.ore');
+    Route::get('/manutenzione/nuova', 'ManutenzioniController@nuovaShow')->name('manutenzioni.nuova');
+    Route::post('/manutenzione/nuova', 'ManutenzioniController@nuovaSave')->name('manutenzioni.nuova.save');
+    Route::get('/manutenzione/programmata', 'ManutenzioniController@programmateShow')->name('manutenzioni.programmate');
+    Route::post('/manutenzione/programmata/save', 'ManutenzioniController@programmateSave')->name('manutenzioni.programmate.save');
+    Route::get('/manutenzione/ricerca/', 'ManutenzioniController@ricerca')->name('manutenzioni.ricerca');
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {

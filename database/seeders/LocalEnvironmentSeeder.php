@@ -24,6 +24,9 @@ final class LocalEnvironmentSeeder extends Seeder
         $this->call(BibliotecaTableSeeder::class);
         $this->call(ScuolaTableSeeder::class);
         $this->call(PhotoTableSeeder::class);
+        $this->call(GommaTableSeeder::class);
+        $this->call(ManutenzioneProgrammataTableSeeder::class);
+        $this->call(MezzoAgricoloTableSeeder::class);
     }
 
     protected function createDefaultAdminUser(): self
