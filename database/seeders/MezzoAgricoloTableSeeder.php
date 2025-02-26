@@ -1,11 +1,13 @@
 <?php
-namespace Database\Seeders;
 
+declare(strict_types=1);
+
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MezzoAgricoloTableSeeder extends Seeder
+final class MezzoAgricoloTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -95,13 +97,13 @@ class MezzoAgricoloTableSeeder extends Seeder
         DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
             'nome' => 'KUBOTA M6121',
             'tot_ore' => 197,
-            'numero_telaio' => 'KBTMKCSETJFF30143'
+            'numero_telaio' => 'KBTMKCSETJFF30143',
         ]);
 
         DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
             'nome' => 'FIAT 666',
             'tot_ore' => 701,
-            'numero_telaio' => '391789'
+            'numero_telaio' => '391789',
         ]);
     }
 }

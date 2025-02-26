@@ -6,6 +6,8 @@ use App\Admin\Controllers\LogsActivityController;
 use App\Admin\Controllers\RisorsaController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
+use App\Agraria\Controllers\AgrariaController;
+use App\Agraria\Controllers\MezziController;
 use App\ArchivioDocumenti\Controllers\ArchivioDocumentiController;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
@@ -19,7 +21,6 @@ use App\Biblioteca\Controllers\LabelsController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Controllers\VideoController;
-use App\Agraria\Controllers\AgrariaController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
@@ -313,13 +314,15 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 
 Route::prefix('agraria')->middleware('auth')->group(function () {
     Route::get('/', [AgrariaController::class, 'index'])->name('agraria.index');
-    Route::get('/mezzo/new', function(){return view('mezzi.insert');})->name('mezzo.new');
-    Route::post('/mezzo/new', 'MezziController@insertConfirm')->name('mezzo.new.confirm');
-    Route::post('/mezzo/edit/confirm', 'MezziController@editConfirm')->name('mezzo.edit.confirm');
-    Route::get('/mezzo/edit/{id}', 'MezziController@edit')->name('mezzo.edit');
-    Route::get('/mezzo/{id}', 'MezziController@show')->name('mezzo.show');
-    Route::get('/mezzi/ore/aggiorna', 'MezziController@aggiornaOreShow')->name('mezzi.aggiorna.ore');
-    Route::post('/mezzi/ore/aggiorna', 'MezziController@aggiornaOre')->name('mezzi.aggiorna.ore');
+    Route::get('/mezzo/new', function () {
+        return view('mezzi.insert');
+    })->name('mezzo.new');
+    Route::post('/mezzo/new', [MezziController::class, 'insertConfirm'])->name('mezzo.new.confirm');
+    Route::post('/mezzo/edit/confirm', [MezziController::class, 'editConfirm'])->name('mezzo.edit.confirm');
+    Route::get('/mezzo/edit/{id}', [MezziController::class, 'edit'])->name('mezzo.edit');
+    Route::get('/mezzo/{id}', [MezziController::class, 'show'])->name('mezzo.show');
+    Route::get('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOreShow'])->name('mezzi.aggiorna.ore');
+    Route::post('/mezzi/ore/aggiorna', [MezziController::class, 'aggiornaOre'])->name('mezzi.aggiorna.ore');
     Route::get('/manutenzione/nuova', 'ManutenzioniController@nuovaShow')->name('manutenzioni.nuova');
     Route::post('/manutenzione/nuova', 'ManutenzioniController@nuovaSave')->name('manutenzioni.nuova.save');
     Route::get('/manutenzione/programmata', 'ManutenzioniController@programmateShow')->name('manutenzioni.programmate');

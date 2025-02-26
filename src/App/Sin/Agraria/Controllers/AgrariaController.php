@@ -1,76 +1,81 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Agraria\Controllers;
 
+use App\Agraria\Models\Manutenzione;
 use App\Agraria\Models\MezzoAgricolo;
 use App\Agraria\Models\StoricoOre;
 use Carbon\Carbon;
-use App\Agraria\Models\Manutenzione;
 
-class AgrariaController
+final class AgrariaController
 {
-
     public function index()
     {
         $mezzi = MezzoAgricolo::orderBy('nome')->get();
         $ultime = $this->getManutenzioniFatte();
         $prossime = $this->getProssimeManutenzioni($mezzi);
-        $errors = collect(['<strong>ATTENZIONE</strong> Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a href="'.route('mezzi.aggiorna.ore').'">Clicca qui</a> per aggiornare.']);
-        if($this->controllaOre($mezzi))
+
+        if ($this->controllaOre($mezzi)) {
+            $errors = collect(['<strong>ATTENZIONE</strong> Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a href="'.route('mezzi.aggiorna.ore').'">Clicca qui</a> per aggiornare.']);
+
             return view('agraria.index', compact('mezzi', 'ultime', 'prossime', 'errors'));
-        else
-            return view('agraria.index', compact('mezzi', 'ultime', 'prossime'));
+        }
+
+        return view('agraria.index', compact('mezzi', 'ultime', 'prossime'));
+
     }
 
     /**
      * controlla se le ore dei mezzi sono state aggiornate
-     * @return Boolean
+     *
+     * @return bool
      */
     public function controllaOre($m)
     {
-        foreach ($m as $mezzo)
-        {
+        foreach ($m as $mezzo) {
             $ultimo_aggiornamento = StoricoOre::where('mezzo_agricolo', $mezzo->id)->orderBy('data', 'desc')->first();
-            if($ultimo_aggiornamento == null)
-                return True;
+            if ($ultimo_aggiornamento === null) {
+                return true;
+            }
             $data = new Carbon($ultimo_aggiornamento->data);
-            if($data->diffInDays(Carbon::now()) > 30)
-                return True;
+            if ($data->diffInDays(Carbon::now()) > 30) {
+                return true;
+            }
         }
-        return False;
+
+        return false;
     }
 
     /**
      * prende le prime 5 manutenzioni, imposta la stringa dei lavori fatti e ritorna il risultato
-     * @return Array
+     *
+     * @return array
      */
     public function getManutenzioniFatte()
     {
         $manutenzioni = Manutenzione::orderBy('data', 'desc')->take(5)->get();
         $res = [];
-        foreach ($manutenzioni as $m)
-        {
+        foreach ($manutenzioni as $m) {
             $mezzo = MezzoAgricolo::find($m->mezzo_agricolo);
             $prog = $m->programmate()->get();
             $lavori = [];
-            if($m->lavori_extra != null)
-            {
-                array_push($lavori, strtolower($m->lavori_extra));
+            if ($m->lavori_extra !== null) {
+                $lavori[] = mb_strtolower($m->lavori_extra);
             }
-            if($prog->isNotEmpty())
-            {
-                foreach ($prog as $p)
-                {
-                    array_push($lavori, strtolower($p->nome));
+            if ($prog->isNotEmpty()) {
+                foreach ($prog as $p) {
+                    $lavori[] = mb_strtolower($p->nome);
                 }
             }
             $new = [
                 'data' => $m->data,
                 'persona' => $m->persona,
                 'mezzo' => $mezzo->nome,
-                'lavori' => implode(', ', $lavori)
+                'lavori' => implode(', ', $lavori),
             ];
-            array_push($res, $new);
+            $res[] = $new;
         }
 
         return $res;
@@ -78,25 +83,25 @@ class AgrariaController
 
     /**
      * ritorna le prossime 20 manutenzioni da fare, in ordine di grandezza
+     *
      * @return Collection
      */
     public function getProssimeManutenzioni($mezzi)
     {
         $res = collect([]);
-        foreach ($mezzi as $m)
-        {
+        foreach ($mezzi as $m) {
             $man = $m->scadenzaManutenzioni()->sort()->all();
-            foreach ($man as $k => $v)
-            {
+            foreach ($man as $k => $v) {
                 $t = [
                     'id' => $m->id,
                     'nome' => $m->nome,
                     'manutenzione' => $k,
-                    'ore' => $v
+                    'ore' => $v,
                 ];
                 $res->push($t);
             }
         }
+
         return $res->sortBy('ore')->take(10);
     }
 }

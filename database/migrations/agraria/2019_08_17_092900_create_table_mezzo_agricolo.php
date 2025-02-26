@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+declare(strict_types=1);
 
-class CreateTableMezzoAgricolo extends Migration
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+final class CreateTableMezzoAgricolo extends Migration
 {
     public $connection = 'db_agraria';
 
@@ -27,7 +29,7 @@ class CreateTableMezzoAgricolo extends Migration
             $table->string('filtro_aria_ext')->nullable();
             $table->bigInteger('gomme_ant')->unsigned()->nullable();
             $table->bigInteger('gomme_post')->unsigned()->nullable();
-       });
+        });
     }
 
     /**

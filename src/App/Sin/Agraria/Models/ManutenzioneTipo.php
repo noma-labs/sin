@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Agraria\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ManutenzioneTipo extends Model
+final class ManutenzioneTipo extends Model
 {
-    protected $connection = 'db_agraria';
-    protected $table = 'manutenzione_tipo';
-    protected $guarded = ['nome'];
     public $timestamps = false;
+
+    protected $connection = 'db_agraria';
+
+    protected $table = 'manutenzione_tipo';
+
+    protected $guarded = ['nome'];
 }
