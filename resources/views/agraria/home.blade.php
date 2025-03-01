@@ -3,58 +3,65 @@
 @section("title", "Agraria")
 
 @section("content")
-    @include("partials.header", ["title" => "Home"])
+    @include("partials.header", ["title" => "Agraria"])
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="card card-mod">
-                <div class="card-header card-header-mod">
+        <div class="col-md-8 mb-3">
+            <div class="card mb-3">
+                <div class="card-header">
                     <h3 class="card-title">Prossime Manutenzioni</h3>
                 </div>
-                <div class="card-body card-body-mod">
-                    <a href="{{ route("agraria.vehicle.hour.create") }}">
+                <div class="card-body">
+                    <a
+                        class="btn btn-warning mb-3"
+                        role="button"
+                        class="button"
+                        href="{{ route("agraria.vehicle.hour.create") }}"
+                    >
                         Aggiorna ore veicoli
                     </a>
-                    <table class="table table-hover table-bordered">
-                        <thead class="thead-inverse table-sm">
-                            <tr>
-                                <th>Nome Mezzo</th>
-                                <th>Tipo Manutenzione</th>
-                                <th>Scadenza Ore</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($prossime as $p)
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-inverse table-sm">
                                 <tr>
-                                    <td>{{ $p["nome"] }}</td>
-                                    <td>{{ $p["manutenzione"] }}</td>
-                                    <td>
-                                        @if ($p["ore"] < 0)
-                                            <span class="badge bg-danger">
-                                                {{ "scaduta da: " . abs($p["ore"]) . " ore" }}
-                                            </span>
-                                        @elseif ($p["ore"] < 50)
-                                            <span class="badge bg-warning">
-                                                {{ "scade tra: " . abs($p["ore"]) . " ore" }}
-                                            </span>
-                                        @else
-                                            <span class="badge bg-success">
-                                                {{ "scade tra: " . abs($p["ore"]) . " ore" }}
-                                            </span>
-                                        @endif
-                                    </td>
+                                    <th>Mezzo</th>
+                                    <th>Manutenzione</th>
+                                    <th>Scadenza Ore</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($prossime as $p)
+                                    <tr>
+                                        <td>{{ $p["nome"] }}</td>
+                                        <td>{{ $p["manutenzione"] }}</td>
+                                        <td>
+                                            @if ($p["ore"] < 0)
+                                                <span class="badge bg-danger">
+                                                    {{ "scaduta da: " . abs($p["ore"]) . " ore" }}
+                                                </span>
+                                            @elseif ($p["ore"] < 50)
+                                                <span class="badge bg-warning">
+                                                    {{ "scade tra: " . abs($p["ore"]) . " ore" }}
+                                                </span>
+                                            @else
+                                                <span class="badge bg-success">
+                                                    {{ "scade tra: " . abs($p["ore"]) . " ore" }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="card card-mod">
-                <div class="card-header card-header-mod">
+            <div class="card">
+                <div class="card-header">
                     <h3 class="card-title">Ultime Manutenzioni</h3>
                 </div>
-                <div class="card-body card-body-mod">
+                <div class="card-body">
                     <table class="table table-hover table-bordered">
                         <thead class="thead-inverse">
                             <tr>
@@ -79,11 +86,16 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card card-mod">
-                <div class="card-header card-header-mod">
-                    <h3 class="card-title">Stato Mezzi</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Mezzi Agricoli
+                        <span class="badge text-bg-secondary">
+                            {{ $mezzi->count() }}
+                        </span>
+                    </h3>
                 </div>
-                <div class="card-body card-body-mod">
+                <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>

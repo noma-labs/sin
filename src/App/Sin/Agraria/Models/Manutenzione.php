@@ -6,6 +6,10 @@ namespace App\Agraria\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id.
+ * @property string $lavori_extra
+ */
 final class Manutenzione extends Model
 {
     public $timestamps = false;
@@ -24,21 +28,5 @@ final class Manutenzione extends Model
     public function mezzo()
     {
         return $this->hasOne(MezzoAgricolo::class, 'id', 'mezzo_agricolo');
-    }
-
-    public function lavoriToString(): string
-    {
-        $res = [];
-        if ($this->lavori_extra !== null && ! ctype_space($this->lavori_extra)) {
-            $res[] = mb_strtolower($this->lavori_extra);
-        }
-        $prog = $this->programmate()->get();
-        if ($prog->isNotEmpty()) {
-            foreach ($prog as $p) {
-                $res[] = mb_strtolower($p->nome);
-            }
-        }
-
-        return implode(', ', $res);
     }
 }
