@@ -25,6 +25,8 @@ final class MezzoAgricolo extends Model
         return $this->hasOne(Gomma::class, 'id', 'gomme_post');
     }
 
+
+
     public function scadenzaManutenzioni()
     {
         $prog = ManutenzioneProgrammata::where('ore', '>', 10)->get();

@@ -14,7 +14,7 @@
                         <select class="form-control" name="mezzo" id="mezzo">
                             <option value="" hidden>Seleziona il mezzo</option>
                             @foreach ($mezzi as $m)
-                                <option value="{{ $m->id }}">
+                                <option value="{{ $m->id }}" @if ($m->id == old("mezzo")) selected @endif>
                                     {{ $m->nome }}
                                 </option>
                             @endforeach
@@ -27,6 +27,7 @@
                             type="date"
                             class="form-control"
                             placeholder="Seleziona la data"
+                            value="{{ old("data") }}"
                         />
                     </div>
                     <div class="col-md-4">
@@ -36,6 +37,7 @@
                             type="number"
                             class="form-control"
                             placeholder="Ore totali del mezzo"
+                            value="{{ old("ore") }}"
                         />
                     </div>
                 </div>
@@ -59,6 +61,7 @@
                             class="form-control"
                             type="text"
                             placeholder="Persona che ha fatto i lavori"
+                            value="{{ old("persona") }}"
                         />
                     </div>
                 </div>

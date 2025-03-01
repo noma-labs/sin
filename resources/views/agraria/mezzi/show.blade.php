@@ -3,7 +3,7 @@
 @section("title", "Mezzo")
 
 @section("content")
-    @include("partials.header", ["title" => "Mezzo - " . $mezzo->nome])
+    @include("partials.header", ["title" => $mezzo->nome])
     <div class="row">
         <div class="col-md-8">
             <div class="row">
