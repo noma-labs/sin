@@ -22,7 +22,6 @@ final class SearchableMaintenanceController
             $query->where('data', '>=', $request->input('from'));
         }
         if ($request->filled('to')) {
-            dd($request->input('to'));
             $query->where('data', '<=', $request->input('to'));
         }
         if ($request->filled('term')) {
