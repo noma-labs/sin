@@ -14,7 +14,10 @@
                         <select class="form-control" name="mezzo" id="mezzo">
                             <option value="" hidden>Seleziona il mezzo</option>
                             @foreach ($mezzi as $m)
-                                <option value="{{ $m->id }}" @if ($m->id == old("mezzo")) selected @endif>
+                                <option
+                                    value="{{ $m->id }}"
+                                    @if ($m->id == old("mezzo")) selected @endif
+                                >
                                     {{ $m->nome }}
                                 </option>
                             @endforeach
@@ -71,7 +74,7 @@
                             Manutenzioni Straordinarie
                         </label>
                         <textarea
-                            name="extra"
+                            name="straordinarie"
                             class="form-control"
                             rows="3"
                             placeholder="Inserire lavori straordinari eseguiti sul mezzo"

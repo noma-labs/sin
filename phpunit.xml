@@ -26,6 +26,9 @@
     <testsuite name="Patente">
       <directory suffix="Test.php">./tests/Patente</directory>
     </testsuite>
+    <testsuite name="Agraria">
+      <directory suffix="Test.php">./tests/Agraria</directory>
+    </testsuite>
   </testsuites>
   <php>
     <env name="APP_ENV" value="testing"/>
