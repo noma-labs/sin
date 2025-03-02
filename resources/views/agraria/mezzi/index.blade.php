@@ -3,44 +3,47 @@
 @section("title", "Mezzo")
 
 @section("content")
-    @include("partials.header", ["title" => "Mezzi Agricoli", "subtitle" => {{ $mezzi->count() }} ])
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    Mezzi Agricoli
-                    <span class="badge text-bg-secondary">
+    @include("partials.header", ["title" => "Mezzi Agricoli", "subtitle" => $vehicles->count() ])
+    <table id="table" class="table table-hover">
+        <thead  class="table-warning">
+            <tr>
+                <th>Nome</th>
+                <th>Ore</th>
+                <th>Numero Telaio</th>
+                <th> Filtro olio</th>
+                <th> Filtro gasolio</th>
+                <th> Filtro Servizi</th>
+                <th> Filtro aria int-ext</th>
+                <th>Gomme Anteriori</th>
+                <th>Gomme Posteriori</th>
+                <th>Operazioni</th>
+            </tr>
+        </thead>
+        <tbody class="table-primary" >
+            @forelse ($vehicles as $vehicle)
+                <tr>
+                    <td> {{$vehicle->nome}} </td>
+                    <td>{{ $vehicle->tot_ore }}</td>
+                    <td>{{ $vehicle->numero_telaio }}</td>
+                    <td>{{ $vehicle->filtro_olio }}</td>
+                    <td>{{ $vehicle->filtro_gasolio }}</td>
+                    <td>{{ $vehicle->filtro_servizi }}</td>
+                    <td>{{ $vehicle->filtro_aria_int }}-{{ $vehicle->filtro_aria_ext }} </td>
+                    <td>@if($vehicle->gommeAnt){{ $vehicle->gommeAnt->nome}} @endif </td>
+                    <td>@if($vehicle->gommePos) {{$vehicle->gommePos->nome }}@endif </td>
+                    <td> <a
+                        href="{{ route("agraria.vehicle.show", $vehicle->id) }}"
+                        class="btn btn-secondary"
+                    >
+                        Dettaglio
+                    </a></td>
+                </tr>
+            @empty
+                <div class="alert alert-danger">
+                    <strong>Nessun risultato ottenuto</strong>
+                </div>
+            @endforelse
+        </tbody>
+    </table>
 
-                    </span>
-                </h3>
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Stato</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($mezzi as $mezzo)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $mezzo->nome }}</td>
-                                <td>
-                                    <a
-                                        href="{{ route("agraria.vehicle.show", $mezzo->id) }}"
-                                        class="btn btn-secondary"
-                                    >
-                                        Dettaglio
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 @endsection

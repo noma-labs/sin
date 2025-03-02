@@ -51,8 +51,8 @@
         Mezzo Agricolo
     </a>
     <div class="dropdown-menu" aria-labelledby="tratDropdown">
-            <a class="dropdown-item" href="{{ route("agraria.vehichles.index") }} >
-            Inserisci
+        <a class="dropdown-item" href="{{ route("agraria.vehichles.index") }}">
+            Elenco
         </a>
         <a class="dropdown-item" href="{{ route("agraria.vehicle.create") }}">
             Inserisci

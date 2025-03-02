@@ -19,7 +19,6 @@ final class AgrariaController
 
         if ($this->controllaOre($mezzi)) {
             $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
-
             return view('agraria.home', compact('mezzi', 'ultime', 'prossime'))->with('errors', $errors);
         }
 
@@ -75,8 +74,6 @@ final class AgrariaController
 
     /**
      * ritorna le prossime 20 manutenzioni da fare, in ordine di grandezza
-     *
-     * @return Collection
      */
     public function getProssimeManutenzioni($mezzi)
     {

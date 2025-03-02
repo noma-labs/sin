@@ -13,9 +13,8 @@ final class MezziController
 {
     public function index()
     {
-        $mezzi = MezzoAgricolo::orderBy('nome', 'asc')->paginate(150);
-
-        return view('agraria.mezzi.index', compact('mezzi'));
+        $vehicles = MezzoAgricolo::with('gommeAnt','gommePos')->orderBy('nome', 'asc')->paginate(150);
+        return view('agraria.mezzi.index', compact('vehicles'));
     }
 
     public function create()
