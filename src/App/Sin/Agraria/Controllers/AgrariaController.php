@@ -14,21 +14,19 @@ final class AgrariaController
     public function index()
     {
         $mezzi = MezzoAgricolo::orderBy('nome')->get();
+        // TODO: show the next maintenance for each vehicle (not a list of all the next maintenances)
         $ultime = $this->getManutenzioniFatte();
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
         if ($this->controllaOre($mezzi)) {
-            $errors = collect(['ATTENZIONE: Le ore lavorative dei trattori non sono state aggiornate da più di un mese.']);
+            $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
 
-            return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'errors'));
+            return view('agraria.home', compact('mezzi', 'ultime', 'prossime'))->with('errors', $errors);
         }
 
         return view('agraria.home', compact('mezzi', 'ultime', 'prossime'));
     }
 
-    /**
-     * controlla se le ore dei mezzi sono state aggiornate
-     */
     public function controllaOre($m): bool
     {
         foreach ($m as $mezzo) {
@@ -45,9 +43,6 @@ final class AgrariaController
         return false;
     }
 
-    /**
-     * prende le prime 5 manutenzioni, imposta la stringa dei lavori fatti e ritorna il risultato
-     */
     public function getManutenzioniFatte(): array
     {
         $manutenzioni = Manutenzione::orderBy('data', 'desc')->take(5)->get();
@@ -76,11 +71,6 @@ final class AgrariaController
         return $res;
     }
 
-    /**
-     * ritorna le prossime 20 manutenzioni da fare, in ordine di grandezza
-     *
-     * @return Collection
-     */
     public function getProssimeManutenzioni($mezzi)
     {
         $res = collect([]);

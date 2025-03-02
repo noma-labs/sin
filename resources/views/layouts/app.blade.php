@@ -58,7 +58,6 @@
                                     aria-expanded="false"
                                 >
                                     {{ Auth::user()->username }}
-                                    <span class="caret"></span>
                                 </a>
 
                                 <ul

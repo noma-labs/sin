@@ -1,5 +1,5 @@
 <div>
-    <div class="form-group">
+    <div>
         <label for="annoScolastico">Anno Scolastico</label>
         <select
             class="form-control"
@@ -99,7 +99,7 @@
         @endforeach
     @endif
 
-    <div class="form-group">
+    <div>
         <label name="xCategoria" for="studenti">
             Studenti ({{ count($students) }})
         </label>

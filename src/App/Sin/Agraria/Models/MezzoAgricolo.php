@@ -7,6 +7,18 @@ namespace App\Agraria\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int i$id.
+ * @property string $nome
+ * @property int $tot_ore.
+ * @property string $numero_telaio
+ * @property string $filtro_olio
+ * @property string $filtro_gasolio
+ * @property string $filtro_servizi
+ * @property string $filtro_aria_int
+ * @property int $gomme_ant
+ * @property int $gomme_post
+ */
 final class MezzoAgricolo extends Model
 {
     public $timestamps = false;
