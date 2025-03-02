@@ -71,7 +71,6 @@ final class AgrariaController
         return $res;
     }
 
-
     public function getProssimeManutenzioni($mezzi)
     {
         $res = collect([]);
