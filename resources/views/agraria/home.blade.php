@@ -4,22 +4,13 @@
 
 @section("content")
     @include("partials.header", ["title" => "Agraria"])
-
     <div class="row">
-        <div class="col-md-8 mb-3">
-            <div class="card mb-3">
+        <div class="col-md-6">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Prossime Manutenzioni</h3>
                 </div>
                 <div class="card-body">
-                    <a
-                        class="btn btn-warning mb-3"
-                        role="button"
-                        class="button"
-                        href="{{ route("agraria.vehicle.hour.create") }}"
-                    >
-                        Aggiorna ore veicoli
-                    </a>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered">
                             <thead class="thead-inverse table-sm">
@@ -56,7 +47,8 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Ultime Manutenzioni</h3>
@@ -78,45 +70,6 @@
                                     <td>{{ $u["mezzo"] }}</td>
                                     <td>{{ $u["lavori"] }}</td>
                                     <td>{{ $u["persona"] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        Mezzi Agricoli
-                        <span class="badge text-bg-secondary">
-                            {{ $mezzi->count() }}
-                        </span>
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Stato</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($mezzi as $mezzo)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $mezzo->nome }}</td>
-                                    <td>
-                                        <a
-                                            href="{{ route("agraria.vehicle.show", $mezzo->id) }}"
-                                            class="btn btn-secondary"
-                                        >
-                                            Dettaglio
-                                        </a>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

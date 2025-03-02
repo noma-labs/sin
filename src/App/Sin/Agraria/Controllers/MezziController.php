@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 final class MezziController
 {
+    public function index()
+    {
+        $mezzi = MezzoAgricolo::orderBy('nome', 'asc')->paginate(150);
+
+        return view('agraria.mezzi.index', compact('mezzi'));
+    }
+
     public function create()
     {
         return view('agraria.mezzi.create');

@@ -318,7 +318,8 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 
 Route::prefix('agraria')->middleware('auth')->group(function () {
     Route::get('/', [AgrariaController::class, 'index'])->name('agraria.index');
-    Route::get('/vechicle', [MezziController::class, 'create'])->name('agraria.vehicle.create');
+    Route::get('/vechicle', [MezziController::class, 'index'])->name('agraria.vehichles.index');
+    Route::get('/vechicle-new', [MezziController::class, 'create'])->name('agraria.vehicle.create');
     Route::post('/vechicle', [MezziController::class, 'store'])->name('agraria.vehicle.store');
     Route::get('/vechicle/{id}', [MezziController::class, 'show'])->name('agraria.vehicle.show');
     Route::get('/vechicle/{id}/edit', [MezziController::class, 'edit'])->name('agraria.vehicle.edit');
