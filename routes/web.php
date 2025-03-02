@@ -317,20 +317,20 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
 });
 
 Route::prefix('agraria')->middleware('auth')->group(function () {
-    Route::get('/', [AgrariaController::class, 'index'])->name('agraria.index');
-    Route::get('/vechicle', [MezziController::class, 'index'])->name('agraria.vehichles.index');
-    Route::get('/vechicle-new', [MezziController::class, 'create'])->name('agraria.vehicle.create');
-    Route::post('/vechicle', [MezziController::class, 'store'])->name('agraria.vehicle.store');
-    Route::get('/vechicle/{id}', [MezziController::class, 'show'])->name('agraria.vehicle.show');
-    Route::get('/vechicle/{id}/edit', [MezziController::class, 'edit'])->name('agraria.vehicle.edit');
-    Route::put('/vechicle/edit/confirm', [MezziController::class, 'update'])->name('agraria.vehicle.update');
-    Route::get('/hour', [VehicleHourController::class, 'create'])->name('agraria.vehicle.hour.create');
-    Route::post('/hour', [VehicleHourController::class, 'store'])->name('agraria.vehicle.hour.store');
-    Route::get('/maintenance', [MaintenanceController::class, 'create'])->name('agraria.maintenanace.create');
-    Route::post('/maintenance', [MaintenanceController::class, 'store'])->name('agraria.maintenanace.store');
-    Route::get('/planned-maintenance', [PlannedMaintenanceController::class, 'index'])->name('agraria.maintenanace.planned.index');
-    Route::post('/planned-maintenance', [PlannedMaintenanceController::class, 'store'])->name('agraria.maintenanace.planned.store');
-    Route::get('/planned-maintenance/search', [SearchableMaintenanceController::class, 'show'])->name('agraria.maintenanace.search.show');
+    Route::get('/', [AgrariaController::class, 'index'])->middleware('can:agraria.*')->name('agraria.index');
+    Route::get('/vechicle', [MezziController::class, 'index'])->middleware('can:agraria.*')->name('agraria.vehichles.index');
+    Route::get('/vechicle-new', [MezziController::class, 'create'])->middleware('can:agraria.*')->name('agraria.vehicle.create');
+    Route::post('/vechicle', [MezziController::class, 'store'])->middleware('can:agraria.*')->name('agraria.vehicle.store');
+    Route::get('/vechicle/{id}', [MezziController::class, 'show'])->middleware('can:agraria.*')->name('agraria.vehicle.show');
+    Route::get('/vechicle/{id}/edit', [MezziController::class, 'edit'])->middleware('can:agraria.*')->name('agraria.vehicle.edit');
+    Route::put('/vechicle/edit/confirm', [MezziController::class, 'update'])->middleware('can:agraria.*')->name('agraria.vehicle.update');
+    Route::get('/hour', [VehicleHourController::class, 'create'])->middleware('can:agraria.*')->name('agraria.vehicle.hour.create');
+    Route::post('/hour', [VehicleHourController::class, 'store'])->middleware('can:agraria.*')->name('agraria.vehicle.hour.store');
+    Route::get('/maintenance', [MaintenanceController::class, 'create'])->middleware('can:agraria.*')->name('agraria.maintenanace.create');
+    Route::post('/maintenance', [MaintenanceController::class, 'store'])->middleware('can:agraria.*')->name('agraria.maintenanace.store');
+    Route::get('/planned-maintenance', [PlannedMaintenanceController::class, 'index'])->middleware('can:agraria.*')->name('agraria.maintenanace.planned.index');
+    Route::post('/planned-maintenance', [PlannedMaintenanceController::class, 'store'])->middleware('can:agraria.*')->name('agraria.maintenanace.planned.store');
+    Route::get('/planned-maintenance/search', [SearchableMaintenanceController::class, 'show'])->middleware('can:agraria.*')->name('agraria.maintenanace.search.show');
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {

@@ -12,3 +12,11 @@ it('allow view the agraria home page only to logged user', function (): void {
         ->assertSuccessful()
         ->assertSee('Agraria');
 });
+
+it('show ths vechicles pages', function (): void {
+    login();
+
+    $this->get(route('agraria.vehichles.index'))
+        ->assertSuccessful()
+        ->assertSee('Mezzi');
+});
