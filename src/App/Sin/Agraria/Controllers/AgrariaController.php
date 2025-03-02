@@ -14,6 +14,7 @@ final class AgrariaController
     public function index()
     {
         $mezzi = MezzoAgricolo::orderBy('nome')->get();
+        // TODO: show the next maintenance for each vehicle (not a list of all the next maintenances)
         $ultime = $this->getManutenzioniFatte();
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
@@ -42,9 +43,6 @@ final class AgrariaController
         return false;
     }
 
-    /**
-     * prende le prime 5 manutenzioni, imposta la stringa dei lavori fatti e ritorna il risultato
-     */
     public function getManutenzioniFatte(): array
     {
         $manutenzioni = Manutenzione::orderBy('data', 'desc')->take(5)->get();
@@ -73,9 +71,7 @@ final class AgrariaController
         return $res;
     }
 
-    /**
-     * ritorna le prossime 20 manutenzioni da fare, in ordine di grandezza
-     */
+
     public function getProssimeManutenzioni($mezzi)
     {
         $res = collect([]);

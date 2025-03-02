@@ -166,16 +166,6 @@ parameters:
 			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
 
 		-
-			message: "#^Method App\\\\Agraria\\\\Controllers\\\\AgrariaController\\:\\:getProssimeManutenzioni\\(\\) has invalid return type App\\\\Agraria\\\\Controllers\\\\Collection\\.$#"
-			count: 1
-			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
-
-		-
-			message: "#^Method App\\\\Agraria\\\\Controllers\\\\AgrariaController\\:\\:getProssimeManutenzioni\\(\\) should return App\\\\Agraria\\\\Controllers\\\\Collection but returns Illuminate\\\\Support\\\\Collection\\<\\*NEVER\\*, \\*NEVER\\*\\>\\.$#"
-			count: 1
-			path: src/App/Sin/Agraria/Controllers/AgrariaController.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Agraria\\\\Models\\\\Manutenzione\\:\\:\\$data\\.$#"
 			count: 1
 			path: src/App/Sin/Agraria/Controllers/MaintenanceController.php
