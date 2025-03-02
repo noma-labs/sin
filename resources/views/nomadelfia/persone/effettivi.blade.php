@@ -67,9 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- end nomadelfi effettivi card -->
             </div>
-            <!-- end accordion -->
         </div>
 
         <div class="col-md-4">
@@ -123,9 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- end nomadelfi effettivi card -->
             </div>
-            <!-- end accordion -->
         </div>
     </div>
 
@@ -201,9 +197,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end nomadelfi effettivi card -->
                     </div>
-                    <!-- end accordion -->
                 </div>
             @endforeach
         </div>
