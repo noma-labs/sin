@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static sortable()
+ *
  * @property int $id
  * @property string $data_nascita
  * @property string $numero_elenco
