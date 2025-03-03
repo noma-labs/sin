@@ -8,7 +8,7 @@ use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static sortable()
+ * @method static Illuminate\Database\Eloquent\Builder sortable()
  *
  * @property int $id
  * @property string $data_nascita
