@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Traits\SortableTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static Illuminate\Database\Eloquent\Builder sortable()
+ * @method static Builder sortable()
  *
  * @property int $id
  * @property string $data_nascita
