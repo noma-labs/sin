@@ -7,15 +7,18 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use Carbon;
 use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
+use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 
 final class PopolazioneNomadelfiaController
 {
-    public function show()
+    public function index()
     {
-        return view('nomadelfia.popolazione.show');
+        $population = PopolazioneAttuale::orderBy('data_nascita', 'desc')->get();
+
+        return view('nomadelfia.popolazione.index', compact('population'));
     }
 
     public function maggiorenni()
