@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
@@ -25,7 +26,7 @@ trait SortableTrait
         return new HtmlString("<a href=\"$url\">$title $indicator</a>");
     }
 
-    public function scopeSortable($query, $column = null, $order = null)
+    public function scopeSortable($query, $column = null, $order = null): Builder
     {
         if (Request::has('s') && Request::has('o')) {
             return $query->orderBy(Request::input('s'), Request::input('o'));

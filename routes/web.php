@@ -52,6 +52,8 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintablePopolazioneController;
 use App\Officina\Controllers\FiltriController;
 use App\Officina\Controllers\GommeController;
 use App\Officina\Controllers\PatentiController;
@@ -182,9 +184,10 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 
     // TODO PrintablePopolazioneController@store
     Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name('popolazione.stampa');
+    Route::get('popolazione/excel', [PrintableExcelPopolazioneController::class, 'store'])->name('popolazione.export.excel');
     Route::get('popolazione/stampa/preview', [PopolazioneNomadelfiaController::class, 'preview'])->name('popolazione.anteprima');
 
-    Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'show'])->name('popolazione');
+    Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
     Route::get('popolazione/posizione/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');
     Route::get('popolazione/posizione/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->name('popolazione.posizione.effettivi');
     Route::get('popolazione/posizione/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->name('popolazione.posizione.postulanti');
