@@ -4,10 +4,29 @@ declare(strict_types=1);
 
 namespace Domain\Nomadelfia\PopolazioneNomadelfia\Models;
 
+use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $data_nascita
+ * @property string $numero_elenco
+ * @property string $cognome
+ * @property string $nome
+ * @property string $nominativo
+ * @property string $sesso
+ * @property string $provincia_nascita
+ * @property string $data_entrata
+ * @property string $posizione
+ * @property string $stato
+ * @property string $gruppo
+ * @property string $famiglia
+ * @property string $azienda
+ */
 final class PopolazioneAttuale extends Model
 {
+    use SortableTrait;
+
     public $timestamps = true;
 
     protected $connection = 'db_nomadelfia';
