@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class PrintableExcelPopolazioneController
 {
-    public function store()
+    public function store(): StreamedResponse
     {
         $spreadsheet = new Spreadsheet;
 
@@ -28,14 +28,14 @@ final class PrintableExcelPopolazioneController
             ->setCellValue('I1', 'FAMIGLIA')
             ->setCellValue('L1', 'AZIENDA');
 
-        $population = PopolazioneAttuale::select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')->get()->toArray();
+        $population = PopolazioneAttuale::query()->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')->get()->toArray();
 
         $sheet->fromArray($population, null, 'A2');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $file_name = 'popolazione_nomadelfia_'.Carbon::now()->format('Y-m-d').'.xlsx';
 
-        return new StreamedResponse(function () use ($writer) {
+        return new StreamedResponse(function () use ($writer): void {
             $writer->save('php://output');
         }, 200, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

@@ -17,7 +17,6 @@ final class PopolazioneNomadelfiaController
     public function index()
     {
         $population = PopolazioneAttuale::sortable()->get();
-
         return view('nomadelfia.popolazione.index', compact('population'));
     }
 
