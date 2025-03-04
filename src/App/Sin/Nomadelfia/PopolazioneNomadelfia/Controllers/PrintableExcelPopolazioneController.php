@@ -33,7 +33,7 @@ final class PrintableExcelPopolazioneController
             ->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
             ->get()
             ->toArray();
-        $sheet->fromArray($population[0], null, 'A2');
+        $sheet->fromArray($population, null, 'A2');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $file_name = 'popolazione_nomadelfia_'.Carbon::now()->format('Y-m-d').'.xlsx';
