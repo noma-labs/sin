@@ -25,10 +25,10 @@ tasks:
     cmds:
       # - NOTE: THE ORDER IS IMPORTANT !!"
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/admsys" --database=db_auth
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia --drop-views
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/patente" --database=db_patente
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca --drop-views
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/patente" --database=db_patente --drop-views
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/officina" --database=db_officina
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/foto" --database=db_foto
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/rtn" --database=db_rtn
