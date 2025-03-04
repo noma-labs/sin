@@ -15,7 +15,6 @@ final class CreateMediaTable extends Migration
 
             $table->morphs('model');
             # Using char instead of uuid to avoid breaking change. See https://laravel.com/docs/11.x/upgrade#dedicated-mariadb-driver
-
             $table->char('uuid', 36)->nullable()->unique();
             $table->string('collection_name');
             $table->string('name');

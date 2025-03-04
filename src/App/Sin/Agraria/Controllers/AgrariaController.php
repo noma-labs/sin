@@ -35,7 +35,7 @@ final class AgrariaController
                 return true;
             }
             $data = new Carbon($ultimo_aggiornamento->data);
-            if ($data->diffInDays(Carbon::now()) > 30) {
+            if ($data->diffInDays(Carbon::now(), true) > 30) {
                 return true;
             }
         }
