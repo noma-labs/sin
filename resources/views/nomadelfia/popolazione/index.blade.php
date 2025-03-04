@@ -44,9 +44,7 @@
                 <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("azienda", "Azienda") }}
                 </th>
-                <th>
-                    Operazioni
-                </th>
+                <th>Operazioni</th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +69,7 @@
                         >
                             Dettaglio
                         </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
