@@ -31,7 +31,7 @@ final class PopolazioneAttuale extends Model
 {
     use SortableTrait;
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $connection = 'db_nomadelfia';
 
