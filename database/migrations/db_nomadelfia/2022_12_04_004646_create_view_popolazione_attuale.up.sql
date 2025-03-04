@@ -1,6 +1,6 @@
 CREATE VIEW IF NOT EXISTS v_popolazione_attuale AS
     WITH pop AS (
-    SELECT persone.id, persone.nominativo, persone.nome, persone.cognome, persone.data_nascita, persone.sesso, persone.provincia_nascita, persone.numero_elenco, popolazione.data_entrata
+    SELECT persone.id, persone.nominativo, persone.nome, persone.cognome, persone.data_nascita, persone.sesso, persone.provincia_nascita, persone.cf, persone.numero_elenco, popolazione.data_entrata
     FROM popolazione
     JOIN persone ON persone.id = popolazione.persona_id
     WHERE popolazione.data_uscita IS NULL AND persone.data_decesso IS NULL

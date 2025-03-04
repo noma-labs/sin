@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nominativo
  * @property string $sesso
  * @property string $provincia_nascita
+ * @property string $cf
  * @property string $data_entrata
  * @property string $posizione
  * @property string $stato

@@ -30,6 +30,9 @@
                     {{ App\Traits\SortableTrait::link_to_sorting_action("provincia_nascita", "Provincia Nascita") }}
                 </th>
                 <th>
+                    {{ App\Traits\SortableTrait::link_to_sorting_action("cf", "Codice Fiscale") }}
+                </th>
+                <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("posizione", "Posizione") }}
                 </th>
                 <th>
@@ -52,6 +55,7 @@
                     <td>{{ $persona->data_nascita }}</td>
                     <td>{{ $persona->sesso }}</td>
                     <td>{{ $persona->provincia_nascita }}</td>
+                    <td>{{ $persona->cf }}</td>
                     <td>{{ $persona->posizione }}</td>
                     <td>{{ $persona->gruppo }}</td>
                     <td>{{ $persona->famiglia }}</td>
