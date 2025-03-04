@@ -22,14 +22,17 @@ final class PrintableExcelPopolazioneController
             ->setCellValue('C1', 'COGNOME')
             ->setCellValue('D1', 'DATA NASCITA')
             ->setCellValue('E1', 'PROVINCIA NASCITA')
-            ->setCellValue('F1', 'SESSO')
-            ->setCellValue('G1', 'POSIZIONE')
-            ->setCellValue('H1', 'GRUPPO FAMILIARE')
-            ->setCellValue('I1', 'FAMIGLIA')
-            ->setCellValue('L1', 'AZIENDA');
+            ->setCellValue('F1', 'CODICE FISCALE')
+            ->setCellValue('G1', 'SESSO')
+            ->setCellValue('H1', 'POSIZIONE')
+            ->setCellValue('I1', 'GRUPPO FAMILIARE')
+            ->setCellValue('J1', 'FAMIGLIA')
+            ->setCellValue('K1', 'AZIENDA');
 
-        $population = PopolazioneAttuale::query()->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')->get()->toArray();
-
+        $population = PopolazioneAttuale::query()
+            ->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
+            ->get()
+            ->toArray();
         $sheet->fromArray($population, null, 'A2');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
