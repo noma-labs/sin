@@ -22,12 +22,7 @@ final class Autore extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = []; protected function autore(): \Illuminate\Database\Eloquent\Casts\Attribute
-    {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['autore' => mb_strtoupper($value)];
-        });
-    }
+    protected $guarded = [];
 
     public function libri()
     {
@@ -46,5 +41,12 @@ final class Autore extends Model
     protected static function newFactory(): AutoreFactory
     {
         return AutoreFactory::new();
+    }
+
+    protected function autore(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['autore' => mb_strtoupper($value)];
+        });
     }
 }

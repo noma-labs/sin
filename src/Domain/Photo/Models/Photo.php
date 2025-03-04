@@ -34,6 +34,7 @@ final class Photo extends Model
     {
         return PhotoFactory::new();
     }
+
     protected function casts(): array
     {
         return [

@@ -35,6 +35,12 @@ final class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function persona(): HasOne
+    {
+        return $this->hasOne(Persona::class, 'id', 'persona_id');
+    }
+
     protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($password): array {
@@ -42,10 +48,6 @@ final class User extends Authenticatable
         });
     }
 
-    public function persona(): HasOne
-    {
-        return $this->hasOne(Persona::class, 'id', 'persona_id');
-    }
     protected function casts(): array
     {
         return ['deleted_at' => 'datetime'];

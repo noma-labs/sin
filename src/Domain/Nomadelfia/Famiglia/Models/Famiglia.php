@@ -229,16 +229,6 @@ final class Famiglia extends Model
         return new FamigliaQueryBuilder($query);
     }
 
-    /**
-     * Set the nome in uppercase when a new famiglia is insereted.
-     */
-    protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute
-    {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['nome_famiglia' => ucwords(mb_strtolower($value))];
-        });
-    }
-
     public function scopeOrdered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
@@ -283,7 +273,7 @@ final class Famiglia extends Model
      *
      * @author Davide Neri
      **/
-    public function uscita(\Carbon\Carbon $data_uscita): void
+    public function uscita(Carbon $data_uscita): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
@@ -663,5 +653,15 @@ final class Famiglia extends Model
     protected static function newFactory()
     {
         return FamigliaFactory::new();
+    }
+
+    /**
+     * Set the nome in uppercase when a new famiglia is insereted.
+     */
+    protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['nome_famiglia' => ucwords(mb_strtolower($value))];
+        });
     }
 }

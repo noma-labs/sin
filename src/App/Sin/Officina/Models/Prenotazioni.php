@@ -89,20 +89,16 @@ final class Prenotazioni extends Model
 
     /**
      * ritorna la data e l'ora di partenza
-     *
-     * @return Carbon
      */
-    public function dataOraPartenza(): ?\Carbon\Carbon
+    public function dataOraPartenza(): ?Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
 
     /**
      * ritorna la data e l'ora di arrivo
-     *
-     * @return Carbon
      */
-    public function dataOraArrivo(): ?\Carbon\Carbon
+    public function dataOraArrivo(): ?Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
@@ -148,6 +144,7 @@ final class Prenotazioni extends Model
     {
         return PrenotazioniFactory::new();
     }
+
     protected function casts(): array
     {
         return ['deleted_at' => 'datetime'];

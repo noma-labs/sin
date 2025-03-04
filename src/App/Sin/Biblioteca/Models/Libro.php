@@ -7,8 +7,8 @@ namespace App\Biblioteca\Models;
 use App\Traits\Enums;
 use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -61,14 +61,6 @@ final class Libro extends Model
         return 'biblioteca';
     }
 
-    protected function titolo(): Attribute
-    {
-        return Attribute::make(
-            set: fn ( string $value) => mb_strtoupper($value),
-        );
-    }
-
-
     public function classificazione(): BelongsTo
     {
         return $this->belongsTo(Classificazione::class, 'classificazione_id');
@@ -115,6 +107,14 @@ final class Libro extends Model
     {
         return LibroFactory::new();
     }
+
+    protected function titolo(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => mb_strtoupper($value),
+        );
+    }
+
     protected function casts(): array
     {
         return ['deleted_at' => 'datetime'];

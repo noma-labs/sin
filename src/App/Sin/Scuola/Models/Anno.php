@@ -107,7 +107,7 @@ final class Anno extends Model
     {
         $as = Str::of($this->scolastico)->explode('/');
 
-        return intval($as[0]);
+        return (int) ($as[0]);
     }
 
     public function classi()
