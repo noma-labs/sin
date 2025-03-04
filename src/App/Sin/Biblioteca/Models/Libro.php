@@ -8,6 +8,7 @@ use App\Traits\Enums;
 use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -60,22 +61,13 @@ final class Libro extends Model
         return 'biblioteca';
     }
 
-    protected function titolo(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function titolo(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['titolo' => mb_strtoupper($value)];
-        });
+        return Attribute::make(
+            set: fn ( string $value) => mb_strtoupper($value),
+        );
     }
 
-    protected function note(): \Illuminate\Database\Eloquent\Casts\Attribute
-    {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            if ($value) {
-                $this->attributes['note'] = mb_strtoupper($value);
-            }
-            return ['note' => mb_strtoupper($value)];
-        });
-    }
 
     public function classificazione(): BelongsTo
     {

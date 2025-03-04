@@ -87,7 +87,7 @@ final class PersonaFactory extends Factory
         });
     }
 
-    public function maggiorenne()
+    public function maggiorenne(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

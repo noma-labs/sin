@@ -111,7 +111,7 @@ class Persona extends Model
 
     public function isMaggiorenne(): bool
     {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
+        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita), true) > 18;
     }
 
     // *************

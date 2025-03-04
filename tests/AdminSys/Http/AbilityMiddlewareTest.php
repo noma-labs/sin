@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\AdminSys\Http;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
-use Spatie\Permission\Middlewares\PermissionMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Models\Role;
 
 it('forbids guests user', function (): void {
