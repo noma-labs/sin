@@ -30,9 +30,9 @@ final class PrintableExcelPopolazioneController
             ->setCellValue('K1', 'AZIENDA');
 
         $population = PopolazioneAttuale::query()
-                    ->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
-                    ->get()
-                    ->toArray();
+            ->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
+            ->get()
+            ->toArray();
         $sheet->fromArray($population[0], null, 'A2');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
