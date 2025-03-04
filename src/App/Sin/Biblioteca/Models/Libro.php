@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Models;
 
-use App\Biblioteca\Models\Autore as Autore;
-use App\Biblioteca\Models\Classificazione as Classificazione;
-use App\Biblioteca\Models\Editore as Editore;
-use App\Biblioteca\Models\Prestito as Prestito;
 use App\Traits\Enums;
 use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;

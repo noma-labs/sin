@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Video as Video;
+use App\Biblioteca\Models\Video;
 use Illuminate\Http\Request;
 
 final class VideoController

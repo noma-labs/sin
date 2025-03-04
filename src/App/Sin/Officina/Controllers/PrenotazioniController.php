@@ -6,9 +6,9 @@ namespace App\Officina\Controllers;
 
 use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Models\Prenotazioni;
-use App\Officina\Models\Uso as Uso;
+use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
-use App\Officina\Models\ViewClienti as ViewClienti;
+use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
