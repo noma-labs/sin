@@ -44,6 +44,7 @@
                 <th>
                     {{ App\Traits\SortableTrait::link_to_sorting_action("azienda", "Azienda") }}
                 </th>
+                <th>Operazioni</th>
             </tr>
         </thead>
         <tbody>
@@ -60,6 +61,15 @@
                     <td>{{ $persona->gruppo }}</td>
                     <td>{{ $persona->famiglia }}</td>
                     <td>{{ $persona->azienda }}</td>
+                    <td>
+                        <a
+                            href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $persona->id]) }}"
+                            class="btn btn-warning"
+                            role="button"
+                        >
+                            Dettaglio
+                        </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
