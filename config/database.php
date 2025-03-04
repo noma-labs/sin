@@ -36,10 +36,10 @@ return [
 
     'connections' => [
         'db_auth' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'db_admsys'), // db_auth
+            'database' => env('DB_DATABASE', 'db_admsys'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
@@ -49,10 +49,10 @@ return [
             'engine' => null,
         ],
         'db_nomadelfia' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'db_nomadelfia'), // archivio_anaginte
+            'database' => env('DB_DATABASE', 'db_nomadelfia'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
@@ -63,7 +63,7 @@ return [
             'engine' => null,
         ],
         'db_nomadelfia_test' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_nomadelfia'),
@@ -77,7 +77,7 @@ return [
             'engine' => null,
         ],
         'db_biblioteca' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'archivio_biblioteca'),
@@ -90,7 +90,7 @@ return [
             'engine' => 'InnoDB',
         ],
         'db_officina' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_meccanica'),
@@ -103,7 +103,7 @@ return [
             'strict' => false,
         ],
         'db_patente' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_patente'),
@@ -116,7 +116,7 @@ return [
             'engine' => null,
         ],
         'archivio_documenti' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'archivio_nomadelfia'),
@@ -129,7 +129,7 @@ return [
             'engine' => null,
         ],
         'db_scuola' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_scuola'),
@@ -142,7 +142,7 @@ return [
             'engine' => null,
         ],
         'information_schema' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'information_schema'),
@@ -155,7 +155,7 @@ return [
             'engine' => null,
         ],
         'db_agraria' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_agraria'),
@@ -168,7 +168,7 @@ return [
             'engine' => null,
         ],
         'db_foto' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_foto'),
@@ -181,7 +181,7 @@ return [
             'engine' => null,
         ],
         'db_noma_iot' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_noma_iot'),
@@ -194,7 +194,7 @@ return [
             'engine' => null,
         ],
         'db_rtn' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_rtn'),
