@@ -24,7 +24,7 @@ final class CreateActivityLogTable extends Migration
             $table->string('causer_type')->nullable();
             // $table->json('properties') json is not supported in Maria DB
             $table->longText('properties')->nullable();
-            # Using char instead of uuid to avoid breaking change. See https://laravel.com/docs/11.x/upgrade#dedicated-mariadb-driver
+            // Using char instead of uuid to avoid breaking change. See https://laravel.com/docs/11.x/upgrade#dedicated-mariadb-driver
             $table->char('batch_uuid', 36)->nullable();
             $table->timestamps();
 
