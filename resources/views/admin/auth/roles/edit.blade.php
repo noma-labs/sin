@@ -15,7 +15,6 @@
                     Ruolo::
                     <b>{{ $ruolo->name }}</b>
                 </p>
-                <!--            <p class="fw-normal">Descrizione: <b>{{ $ruolo->descrizione }}</b></p>-->
             </div>
         </div>
     </form>

@@ -68,7 +68,7 @@
                             <input
                                 type="checkbox"
                                 name="roles[]"
-                                value="{{ $role->id }}"
+                                value="{{ $role->name }}"
                                 {{ $user->hasRole($role) ? "checked" : "" }}
                                 id="role_{{ $role->id }}"
                             />
