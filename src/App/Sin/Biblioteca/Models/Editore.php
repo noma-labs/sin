@@ -20,11 +20,11 @@ final class Editore extends Model
 
     protected $table = 'editore';
 
-    protected $guarded = []; // all the fields are mass assignabe
-
-    public function setEditoreAttribute($value): void
+    protected $guarded = []; protected function editore(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['editore'] = mb_strtoupper($value);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['editore' => mb_strtoupper($value)];
+        });
     }
 
     public function libri()

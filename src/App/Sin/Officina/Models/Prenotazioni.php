@@ -35,8 +35,6 @@ final class Prenotazioni extends Model
 
     protected $guarded = [];
 
-    protected $casts = ['deleted_at' => 'datetime'];
-
     public static function inTimeRange(Carbon $data_from, Carbon $data_to): Builder
     {
         return DB::connection('db_officina')
@@ -94,7 +92,7 @@ final class Prenotazioni extends Model
      *
      * @return Carbon
      */
-    public function dataOraPartenza()
+    public function dataOraPartenza(): ?\Carbon\Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
@@ -104,7 +102,7 @@ final class Prenotazioni extends Model
      *
      * @return Carbon
      */
-    public function dataOraArrivo()
+    public function dataOraArrivo(): ?\Carbon\Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
@@ -149,5 +147,9 @@ final class Prenotazioni extends Model
     protected static function newFactory(): PrenotazioniFactory
     {
         return PrenotazioniFactory::new();
+    }
+    protected function casts(): array
+    {
+        return ['deleted_at' => 'datetime'];
     }
 }

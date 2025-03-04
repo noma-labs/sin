@@ -12,7 +12,7 @@ abstract class TestCasePest extends BaseTestCase
 {
     use CreatesApplication, MigrateFreshDB;
 
-    final public function createRequest($method, $uri): Request
+    final public function createRequest(string $method, string $uri): Request
     {
         $symfonyRequest = SymfonyRequest::create(
             $uri,

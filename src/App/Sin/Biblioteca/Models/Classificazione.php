@@ -28,9 +28,11 @@ final class Classificazione extends Model
         return $this->hasMany(Libro::class, 'classificazione_id');
     }
 
-    public function setDescrizioneAttribute($value): void
+    protected function descrizione(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['descrizione'] = mb_strtoupper($value);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['descrizione' => mb_strtoupper($value)];
+        });
     }
 
     protected static function newFactory(): ClassificazioneFactory

@@ -67,13 +67,13 @@ tasks:
     cmds:
       - ./vendor/bin/sail pint --test
       - ./vendor/bin/sail npm run format:check
-      - ./vendor/bin/rector --dry-run
+      - ./vendor/bin/sail bin rector --dry-run
 
   lint:
     cmds:
       - ./vendor/bin/sail pint
       - ./vendor/bin/sail npm run format:write
-      - ./vendor/bin/rector
+      - ./vendor/bin/sail bin rector
 
   analyse:
     cmds:

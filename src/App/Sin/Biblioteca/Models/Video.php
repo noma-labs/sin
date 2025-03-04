@@ -17,5 +17,8 @@ final class Video extends Model
 
     protected $primaryKey = 'id';
 
-    protected $casts = ['data_registrazione' => 'datetime'];
+    protected function casts(): array
+    {
+        return ['data_registrazione' => 'datetime'];
+    }
 }

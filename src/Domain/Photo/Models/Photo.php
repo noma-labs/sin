@@ -25,10 +25,6 @@ final class Photo extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'taken_at' => 'datetime',
-    ];
-
     public function persone(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'db_foto.foto_persone', 'photo_id', 'persona_id');
@@ -37,5 +33,11 @@ final class Photo extends Model
     protected static function newFactory(): PhotoFactory
     {
         return PhotoFactory::new();
+    }
+    protected function casts(): array
+    {
+        return [
+            'taken_at' => 'datetime',
+        ];
     }
 }

@@ -15,12 +15,12 @@ final class VideoController
         return view('rtn.video.create', compact('countByYear'));
     }
 
-    public function create(): void
+    public function create(): never
     {
         throw new Exception('not implemented yet');
     }
 
-    public function store(): void
+    public function store(): never
     {
         dd('Not implemented yet');
     }

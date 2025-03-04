@@ -55,23 +55,26 @@ final class Libro extends Model
         5,
     ];
 
-    protected $casts = ['deleted_at' => 'datetime'];
-
     public function getLogNameToUse(string $eventName = ''): string
     {
         return 'biblioteca';
     }
 
-    public function setTitoloAttribute($value): void
+    protected function titolo(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['titolo'] = mb_strtoupper($value);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['titolo' => mb_strtoupper($value)];
+        });
     }
 
-    public function setNoteAttribute($value): void
+    protected function note(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        if ($value) {
-            $this->attributes['note'] = mb_strtoupper($value);
-        }
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            if ($value) {
+                $this->attributes['note'] = mb_strtoupper($value);
+            }
+            return ['note' => mb_strtoupper($value)];
+        });
     }
 
     public function classificazione(): BelongsTo
@@ -119,5 +122,9 @@ final class Libro extends Model
     protected static function newFactory()
     {
         return LibroFactory::new();
+    }
+    protected function casts(): array
+    {
+        return ['deleted_at' => 'datetime'];
     }
 }

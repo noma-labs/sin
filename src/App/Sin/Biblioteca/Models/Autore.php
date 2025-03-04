@@ -22,11 +22,11 @@ final class Autore extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = []; // all the fields are mass assignabe
-
-    public function setAutoreAttribute($value): void
+    protected $guarded = []; protected function autore(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['autore'] = mb_strtoupper($value);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['autore' => mb_strtoupper($value)];
+        });
     }
 
     public function libri()
