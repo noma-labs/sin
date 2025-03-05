@@ -188,7 +188,7 @@ final class Classe extends Model
 
         }
 
-        $all = Persona::query()->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
+        $all = Persona::query()->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo')
             ->leftJoin('popolazione', 'popolazione.persona_id', '=', 'persone.id')
             ->where('persone.data_nascita', '<=', $end)
             ->where('persone.data_nascita', '>=', $start)
