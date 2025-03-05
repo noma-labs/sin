@@ -29,7 +29,7 @@ CREATE VIEW IF NOT EXISTS v_popolazione_attuale AS
     SELECT famiglie_persone.persona_id, famiglie.data_creazione as famiglia_inizio, famiglie.nome_famiglia as famiglia, famiglie_persone.posizione_famiglia
     FROM famiglie_persone
     JOIN famiglie ON famiglie.id = famiglie_persone.famiglia_id
-    WHERE famiglie_persone.persona_id IN (SELECT id from pop)
+    WHERE famiglie_persone.persona_id IN (SELECT id from pop) and famiglie_persone.stato = '1'
     GROUP BY famiglie_persone.persona_id
     ORDER BY famiglie.data_creazione DESC
 ), azienda AS (
