@@ -1,7 +1,7 @@
 @extends("nomadelfia.persone.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Nuovo Matrimonio"])
+    @include("partials.header", ["title" => "Nuova Famiglia"])
 
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -12,36 +12,18 @@
                 @csrf
                 <div class="row mb-3">
                     <label for="Husband" class="col-md-6 form-label">
-                        Marito
+                        Padre
                     </label>
                     <div class="col-md-6">
-                        <select class="form-select" name="husband" type="text">
-                            <option disabled selected>
-                                ---Seleziona il marito---
-                            </option>
-                            @foreach ($singleMale as $m)
-                                <option value="{{ $m->id }}">
-                                    {{ $m->nominativo }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <livewire:search-persona name_input="husband" />
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="forFemale" class="col-md-6 form-label">
-                        Moglie
+                        Madre
                     </label>
                     <div class="col-md-6">
-                        <select class="form-select" name="wife" type="text">
-                            <option disabled selected>
-                                ---Seleziona la moglie---
-                            </option>
-                            @foreach ($singleFemale as $f)
-                                <option value="{{ $f->id }}">
-                                    {{ $f->nominativo }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <livewire:search-persona name_input="wife" />
                     </div>
                 </div>
                 <div class="row mb-3">

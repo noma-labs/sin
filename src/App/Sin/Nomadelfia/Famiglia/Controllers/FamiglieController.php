@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Carbon\Carbon;
+use Domain\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use Domain\Nomadelfia\Famiglia\Models\Famiglia;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -14,7 +15,7 @@ use Illuminate\Http\Request;
 
 final class FamiglieController
 {
-    public function view()
+    public function index()
     {
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
         $capifamiglieFemmina = Famiglia::onlyCapoFamiglia()->femmina();
@@ -26,6 +27,31 @@ final class FamiglieController
 
         return view('nomadelfia.famiglie.index',
             compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
+    }
+
+    public function create()
+    {
+        return view('nomadelfia.famiglie.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'husband' => 'required',
+            'wife' => 'required',
+            'data_matrimonio' => 'required|date',
+        ], [
+            'husband.required' => 'Il nome dello sposo è obbligatorio',
+            'wife.unique' => 'Il nome della sposa è obbligatorio',
+            'data_matrimonio.required' => 'La data di matrimonio è obbligatoria.',
+        ]);
+        $husband = Persona::findOrFail($request->husband);
+        $wife = Persona::findOrFail($request->wife);
+        $act = app(CreateMarriageAction::class);
+        $fam = $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
+
+        return redirect(route('nomadelfia.famiglia.dettaglio',
+            ['id' => $fam->id]))->withSuccess('Matrionio creato con successo');
     }
 
     public function show(Request $request, $id)

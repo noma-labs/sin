@@ -204,7 +204,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href="{{ route("nomadelfia.families.index") }}"
                         class="btn btn-primary"
                     >
                         Entra

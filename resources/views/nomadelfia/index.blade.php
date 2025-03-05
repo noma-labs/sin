@@ -99,7 +99,7 @@
         Famiglie
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarFamiglie">
-        <a class="dropdown-item" href="{{ route("nomadelfia.famiglie") }}">
+        <a class="dropdown-item" href="{{ route("nomadelfia.families.index") }}">
             Gestione famiglie
         </a>
         <a

@@ -55,7 +55,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href=""
                         class="btn btn-primary"
                     >
                         Modifica
@@ -81,7 +81,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href=""
                         class="btn btn-primary"
                     >
                         Modifica
@@ -108,7 +108,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href=""
                         class="btn btn-primary"
                     >
                         Modifica

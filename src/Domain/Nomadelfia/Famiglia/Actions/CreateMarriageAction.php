@@ -14,7 +14,6 @@ final class CreateMarriageAction
 {
     public function execute(Persona $husband, Persona $wife, Carbon $data_matrimonio)
     {
-        // create a new family
         $fam = Famiglia::create(['nome_famiglia' => $husband->nominativo, 'data_creazione' => $data_matrimonio]);
 
         DB::connection('db_nomadelfia')->beginTransaction();
