@@ -2547,7 +2547,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Domain\\\\Nomadelfia\\\\PopolazioneNomadelfia\\\\Models\\\\PopolazioneNomadelfia\\:\\:PresentAt\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
