@@ -2949,7 +2949,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$data_inizio\.$#'
 			identifier: property.notFound
-			count: 4
+			count: 3
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
@@ -3003,7 +3003,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method Domain\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:PresentAt\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: src/App/Sin/Scuola/Models/Classe.php
 
 		-
