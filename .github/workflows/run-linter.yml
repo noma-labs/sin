@@ -30,4 +30,4 @@ jobs:
 
       - run: task lint:check:ci
 
-      - run: task analyse
+      - run: task analyse:ci

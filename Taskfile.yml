@@ -58,10 +58,14 @@ tasks:
       - ./vendor/bin/pest
 
   lint:check:ci:
-      cmds:
-        - ./vendor/bin/pint --test
-        - npm run format:check
-        - ./vendor/bin/rector --dry-run
+    cmds:
+      - ./vendor/bin/pint --test
+      - npm run format:check
+      - ./vendor/bin/rector --dry-run
+
+  analyse:ci:
+    cmds:
+       - ./vendor/bin/phpstan analyse -l 5
 
   lint:check:
     cmds:
