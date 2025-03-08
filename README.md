@@ -19,7 +19,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
     git clone https://github.com/noma-labs/sin.git
     ```
 
-5. Open the `php.ini` file and enable the PHP extensions (delete the ; character at the beginning of the row): `gd`. and `extension=intl` (required by Number::fileSize)
+5. Open the `php.ini` file and enable the PHP extensions (delete the ; character at the beginning of the row): `gd`, `zip`,  and `intl` (required by Number::fileSize)
 
 6. Navigate to the `C:/xampp/htdocs/sin` folder and install the PHP dependencies with Composer (installs the libraries by reading the composer-lock.json file):
     ```
