@@ -79,7 +79,7 @@ opcache.validate_timestamps=1
 opcache.revalidate_freq=4
 opcache.save_comments=1
 ```
-- Increase max upload size: Open the `php.ini` file and edit the following config: `upload_max_filesize=200M` and `post_max_size=200M`
+- Increase max upload size: Open the `php.ini` file and edit the following config: `upload_max_filesize=2000M` and `post_max_size=2000M`
 
 ### Local Dev with Docker
 Requirements:
