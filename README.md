@@ -29,8 +29,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 
 6. Install the frontend dependencies with npm (installs the frontend dependencies by reading the package-lock.json file):
     ```
-    npm install --no-bin-links    (for windows installation)
-    npm install mix
+    npm install
     npm run production
    ```
 7. Copy the `.env-example` file to a new file named `.env` and modify the environment variables as needed.
