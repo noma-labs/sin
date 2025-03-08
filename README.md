@@ -19,7 +19,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
     git clone https://github.com/noma-labs/sin.git
     ```
 
-5. Open the `php.ini` file and enable the PHP extensions (delete the ; character at the beginning of the row): `gd`. and `extension=intl` (required by Number::fileSize)
+5. Open the `php.ini` file and enable the PHP extensions (delete the ; character at the beginning of the row): `gd`, `zip`,  and `intl` (required by Number::fileSize)
 
 6. Navigate to the `C:/xampp/htdocs/sin` folder and install the PHP dependencies with Composer (installs the libraries by reading the composer-lock.json file):
     ```
@@ -29,8 +29,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 
 6. Install the frontend dependencies with npm (installs the frontend dependencies by reading the package-lock.json file):
     ```
-    npm install --no-bin-links    (for windows installation)
-    npm install mix
+    npm install
     npm run production
    ```
 7. Copy the `.env-example` file to a new file named `.env` and modify the environment variables as needed.
@@ -80,7 +79,7 @@ opcache.validate_timestamps=1
 opcache.revalidate_freq=4
 opcache.save_comments=1
 ```
-- Increase max upload size: Open the `php.ini` file and edit the following config: `upload_max_filesize=200M` and `post_max_size=200M`
+- Increase max upload size: Open the `php.ini` file and edit the following config: `upload_max_filesize=2000M` and `post_max_size=2000M`
 
 ### Local Dev with Docker
 Requirements:
