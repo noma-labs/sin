@@ -393,6 +393,7 @@ final class NomadelfiaTableSeeder extends Seeder
 
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($capoFam, $now, $gruppo);
+
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($moglie, $now, $gruppo);
         $famiglia->assegnaCapoFamiglia($capoFam);

@@ -45,7 +45,7 @@ final class BladeDirectivesServiceProvider extends ServiceProvider
 
         // Directoves that return the number of days from the $date.
         Blade::directive('diffYears', function ($date): string {
-            return "<?php echo Carbon::now()->diffInYears(Carbon::parse($date)) ?>";
+            return "<?php echo Carbon::now()->diffInYears(Carbon::parse($date), true) ?>";
         });
 
         Blade::directive('diffHumans', function ($date): string {

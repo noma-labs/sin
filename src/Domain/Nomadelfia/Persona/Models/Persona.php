@@ -66,25 +66,25 @@ class Persona extends Model
     {
         return new PersonaQueryBuilder($query);
     }
-
-    public function setNomeAttribute($value): void
+    protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['nome'] = ucwords(mb_strtolower($value));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['nome' => ucwords(mb_strtolower($value))];
+        });
     }
-
-    public function setCognomeAttribute($value): void
+    protected function cognome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['cognome'] = ucwords(mb_strtolower($value));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['cognome' => ucwords(mb_strtolower($value))];
+        });
     }
-
-    public function setNominativoAttribute($value): void
+    protected function nominativo(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['nominativo'] = ucwords(mb_strtolower($value));
-    }
-
-    public function getNominativoAttribute($value): string
-    {
-        return ucwords(mb_strtolower($value));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value): string {
+            return ucwords(mb_strtolower($value));
+        }, set: function ($value): array {
+            return ['nominativo' => ucwords(mb_strtolower($value))];
+        });
     }
 
     public function buildCompleteName(): string
@@ -111,7 +111,7 @@ class Persona extends Model
 
     public function isMaggiorenne(): bool
     {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita)) > 18;
+        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita), true) > 18;
     }
 
     // *************

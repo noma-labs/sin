@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Autore as Autore;
+use App\Biblioteca\Models\Autore;
 use Illuminate\Http\Request;
 
 final class AuthorsController

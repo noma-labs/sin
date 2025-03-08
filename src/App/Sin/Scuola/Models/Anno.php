@@ -103,11 +103,11 @@ final class Anno extends Model
         return $this->buildAsString((int) $as[1]);
     }
 
-    public function annoSolareInizio()
+    public function annoSolareInizio(): int
     {
         $as = Str::of($this->scolastico)->explode('/');
 
-        return $as[0];
+        return (int) ($as[0]);
     }
 
     public function classi()

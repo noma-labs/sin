@@ -35,7 +35,7 @@ final class RoleController
 
         $permissions = $request->except(['_token', 'nome', 'descrizione']);
         foreach ($permissions as $permission) {
-            $role->givePermissionTo($permission);
+            $role->givePermissionTo((int) $permission);
         }
 
         return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiunto!');

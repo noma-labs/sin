@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Models;
 
-use App\Biblioteca\Models\Libro as Libro;
 use Database\Factories\AutoreFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,12 +22,7 @@ final class Autore extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = []; // all the fields are mass assignabe
-
-    public function setAutoreAttribute($value): void
-    {
-        $this->attributes['autore'] = mb_strtoupper($value);
-    }
+    protected $guarded = [];
 
     public function libri()
     {
@@ -47,5 +41,12 @@ final class Autore extends Model
     protected static function newFactory(): AutoreFactory
     {
         return AutoreFactory::new();
+    }
+
+    protected function autore(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['autore' => mb_strtoupper($value)];
+        });
     }
 }

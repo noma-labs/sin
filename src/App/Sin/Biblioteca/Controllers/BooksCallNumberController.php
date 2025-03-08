@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Libro as Libro;
+use App\Biblioteca\Models\Libro;
 use Illuminate\Http\Request;
 
 final class BooksCallNumberController

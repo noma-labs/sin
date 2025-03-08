@@ -22,7 +22,7 @@ final class PatenteElenchiController
         return view('patente.elenchi');
     }
 
-    public function esportaPatentiPdf(): void
+    public function esportaPatentiPdf(): never
     {
         dd('Esportazione non effettuata');
     }

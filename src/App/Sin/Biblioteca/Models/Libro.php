@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Models;
 
-use App\Biblioteca\Models\Autore as Autore;
-use App\Biblioteca\Models\Classificazione as Classificazione;
-use App\Biblioteca\Models\Editore as Editore;
-use App\Biblioteca\Models\Prestito as Prestito;
 use App\Traits\Enums;
 use App\Traits\SortableTrait;
 use Database\Factories\LibroFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,23 +56,9 @@ final class Libro extends Model
         5,
     ];
 
-    protected $casts = ['deleted_at' => 'datetime'];
-
     public function getLogNameToUse(string $eventName = ''): string
     {
         return 'biblioteca';
-    }
-
-    public function setTitoloAttribute($value): void
-    {
-        $this->attributes['titolo'] = mb_strtoupper($value);
-    }
-
-    public function setNoteAttribute($value): void
-    {
-        if ($value) {
-            $this->attributes['note'] = mb_strtoupper($value);
-        }
     }
 
     public function classificazione(): BelongsTo
@@ -123,5 +106,17 @@ final class Libro extends Model
     protected static function newFactory()
     {
         return LibroFactory::new();
+    }
+
+    protected function titolo(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => mb_strtoupper($value),
+        );
+    }
+
+    protected function casts(): array
+    {
+        return ['deleted_at' => 'datetime'];
     }
 }

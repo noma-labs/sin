@@ -36,16 +36,20 @@ final class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $casts = ['deleted_at' => 'datetime'];
-
-    public function setPasswordAttribute($password): void// mutator that encrypt all the password of the users
-    {
-
-        $this->attributes['password'] = bcrypt($password);
-    }
-
     public function persona(): HasOne
     {
         return $this->hasOne(Persona::class, 'id', 'persona_id');
+    }
+
+    protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($password): array {
+            return ['password' => bcrypt($password)];
+        });
+    }
+
+    protected function casts(): array
+    {
+        return ['deleted_at' => 'datetime'];
     }
 }

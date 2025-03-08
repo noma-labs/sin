@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Libro as Libro;
-use App\Biblioteca\Models\Prestito as Prestito;
+use App\Biblioteca\Models\Libro;
+use App\Biblioteca\Models\Prestito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

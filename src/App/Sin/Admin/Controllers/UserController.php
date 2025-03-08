@@ -36,7 +36,7 @@ final class UserController
 
         $user = User::create($request->only('email', 'username', 'persona_id', 'password'));
         $roles = $request['roles'];
-        $user->assignRole([$roles]);
+        $user->assignRole($roles);
 
         return redirect()->route('users.index')->withSuccess('Utente aggiunto correttamente');
     }

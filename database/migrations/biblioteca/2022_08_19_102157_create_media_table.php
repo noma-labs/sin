@@ -14,7 +14,8 @@ final class CreateMediaTable extends Migration
             $table->bigIncrements('id');
 
             $table->morphs('model');
-            $table->uuid('uuid')->nullable()->unique();
+            // Using char instead of uuid to avoid breaking change. See https://laravel.com/docs/11.x/upgrade#dedicated-mariadb-driver
+            $table->char('uuid', 36)->nullable()->unique();
             $table->string('collection_name');
             $table->string('name');
             $table->string('file_name');

@@ -5,7 +5,7 @@ tasks:
     cmds:
       - >
         docker run --rm   -u "$(id -u):$(id -g)"   -v "$(pwd):/var/www/html"   -w /var/www/html
-        laravelsail/php81-composer:latest composer install --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
+        laravelsail/php82-composer:latest composer install --ignore-platform-req=ext-gd --ignore-platform-req=ext-exif
       - ./vendor/bin/sail up -d
       - ./vendor/bin/sail npm install
       - ./vendor/bin/sail npm run production
@@ -25,10 +25,10 @@ tasks:
     cmds:
       # - NOTE: THE ORDER IS IMPORTANT !!"
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/admsys" --database=db_auth
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/db_nomadelfia" --database=db_nomadelfia --drop-views
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/scuola" --database=db_scuola
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca
-      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/patente" --database=db_patente
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/biblioteca" --database=db_biblioteca --drop-views
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/patente" --database=db_patente --drop-views
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/officina" --database=db_officina
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/foto" --database=db_foto
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/rtn" --database=db_rtn
@@ -58,27 +58,31 @@ tasks:
       - ./vendor/bin/pest
 
   lint:check:ci:
-      cmds:
-        - ./vendor/bin/pint --test
-        - npm run format:check
-        - ./vendor/bin/rector --dry-run
+    cmds:
+      - ./vendor/bin/pint --test
+      - npm run format:check
+      - ./vendor/bin/rector --dry-run
+
+  analyse:ci:
+    cmds:
+       - ./vendor/bin/phpstan analyse -l 5
 
   lint:check:
     cmds:
-      -  docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint --test
+      - ./vendor/bin/sail pint --test
       - ./vendor/bin/sail npm run format:check
-      - ./vendor/bin/rector --dry-run
+      - ./vendor/bin/sail bin rector --dry-run
 
   lint:
     cmds:
-      - docker run -it --rm -v $PWD:/workspace syncloudsoftech/pinter  ./vendor/bin/pint
+      - ./vendor/bin/sail pint
       - ./vendor/bin/sail npm run format:write
-      - ./vendor/bin/rector
+      - ./vendor/bin/sail bin rector
 
   analyse:
     cmds:
-      - ./vendor/bin/phpstan analyse  -l 5
+      - ./vendor/bin/sail bin phpstan analyse  -l 5
 
   analyse:baseline:
     cmds:
-      - ./vendor/bin/phpstan analyse  -l 5 --generate-baseline
+      - ./vendor/bin/sail bin phpstan analyse  -l 5 --generate-baseline

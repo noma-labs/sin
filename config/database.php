@@ -10,8 +10,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify which of the database connections below you wish
-    | to use as your default connection for all database work. Of course
-    | you may use many connections at once using the Database library.
+    | to use as your default connection for database operations. This is
+    | the connection which will be utilized unless another connection
+    | is explicitly specified when you execute a query / statement.
     |
     */
 
@@ -21,25 +22,19 @@ return [
     |--------------------------------------------------------------------------
     | Database Connections
     |--------------------------------------------------------------------------
-    |--------------------------------------------------------------------------
     |
-    | Here are each of the database connections setup for your application.
-    | Of course, examples of configuring each database platform that is
-    | supported by Laravel is shown below to make development simple.
-    |
-    |
-    | All database work in Laravel is done through the PHP PDO facilities
-    | so make sure you have the driver for your particular database of
-    | choice installed on your machine before you begin development.
+    | Below are all of the database connections defined for your application.
+    | An example configuration is provided for each database system which
+    | is supported by Laravel. You're free to add / remove connections.
     |
     */
 
     'connections' => [
         'db_auth' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'db_admsys'), // db_auth
+            'database' => env('DB_DATABASE', 'db_admsys'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
@@ -49,10 +44,10 @@ return [
             'engine' => null,
         ],
         'db_nomadelfia' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'db_nomadelfia'), // archivio_anaginte
+            'database' => env('DB_DATABASE', 'db_nomadelfia'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
@@ -63,7 +58,7 @@ return [
             'engine' => null,
         ],
         'db_nomadelfia_test' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_nomadelfia'),
@@ -77,7 +72,7 @@ return [
             'engine' => null,
         ],
         'db_biblioteca' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'archivio_biblioteca'),
@@ -90,7 +85,7 @@ return [
             'engine' => 'InnoDB',
         ],
         'db_officina' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_meccanica'),
@@ -103,7 +98,7 @@ return [
             'strict' => false,
         ],
         'db_patente' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_patente'),
@@ -116,7 +111,7 @@ return [
             'engine' => null,
         ],
         'archivio_documenti' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'archivio_nomadelfia'),
@@ -129,7 +124,7 @@ return [
             'engine' => null,
         ],
         'db_scuola' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_scuola'),
@@ -142,7 +137,7 @@ return [
             'engine' => null,
         ],
         'information_schema' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'information_schema'),
@@ -155,7 +150,7 @@ return [
             'engine' => null,
         ],
         'db_agraria' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_agraria'),
@@ -168,7 +163,7 @@ return [
             'engine' => null,
         ],
         'db_foto' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_foto'),
@@ -181,7 +176,7 @@ return [
             'engine' => null,
         ],
         'db_noma_iot' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_noma_iot'),
@@ -194,7 +189,7 @@ return [
             'engine' => null,
         ],
         'db_rtn' => [
-            'driver' => 'mysql',
+            'driver' => 'mariadb',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'db_rtn'),
@@ -216,11 +211,14 @@ return [
     |
     | This table keeps track of all the migrations that have already run for
     | your application. Using this information, we can determine which of
-    | the migrations on disk haven't actually been run in the database.
+    | the migrations on disk haven't actually been run on the database.
     |
     */
 
-    'migrations' => 'migrations',
+    'migrations' => [
+        'table' => 'migrations',
+        'update_date_on_publish' => true,
+    ],
 
     /*
     |--------------------------------------------------------------------------

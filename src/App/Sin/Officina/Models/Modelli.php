@@ -29,9 +29,10 @@ final class Modelli extends Model
         return $this->belongsTo(Marche::class, 'marca_id');
     }
 
-    // mette il nome in maiuscolo quando un nuovo modello viene creato o modificato.
-    public function setNomeAttribute($value): void
+    protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['nome'] = mb_strtoupper($value);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['nome' => mb_strtoupper($value)];
+        });
     }
 }

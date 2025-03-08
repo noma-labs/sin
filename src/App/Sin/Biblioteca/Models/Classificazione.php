@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Models;
 
-use App\Biblioteca\Models\Libro as Libro;
 use Database\Factories\ClassificazioneFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,13 +28,15 @@ final class Classificazione extends Model
         return $this->hasMany(Libro::class, 'classificazione_id');
     }
 
-    public function setDescrizioneAttribute($value): void
-    {
-        $this->attributes['descrizione'] = mb_strtoupper($value);
-    }
-
     protected static function newFactory(): ClassificazioneFactory
     {
         return ClassificazioneFactory::new();
+    }
+
+    protected function descrizione(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['descrizione' => mb_strtoupper($value)];
+        });
     }
 }

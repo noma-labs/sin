@@ -7,7 +7,7 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 ### Using XAMMP on Windows
 **WARNING**: Installing XAMPP will delete all databases and sites in the C:/xampp/htdocs folder. As a precaution, copy the folder before proceeding with the installation of XAMPP.
 
-1. Download and install [`xampp`](https://www.apachefriends.org/it/index.html)  with PHP 8.1.x, MariaDB 10.4.x, PhpMyAdmin: 5.2.0.
+1. Download and install [`xampp`](https://www.apachefriends.org/it/index.html)  with PHP 8.2.x, MariaDB 10.4.x, PhpMyAdmin: 5.2.0.
 
 2. Download and install  [`Composer`](https://getcomposer.org/download/).
 

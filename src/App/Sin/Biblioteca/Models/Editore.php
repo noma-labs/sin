@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Models;
 
-use App\Biblioteca\Models\Libro as Libro;
 use Database\Factories\EditoreFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,12 +20,7 @@ final class Editore extends Model
 
     protected $table = 'editore';
 
-    protected $guarded = []; // all the fields are mass assignabe
-
-    public function setEditoreAttribute($value): void
-    {
-        $this->attributes['editore'] = mb_strtoupper($value);
-    }
+    protected $guarded = [];
 
     public function libri()
     {
@@ -44,6 +38,13 @@ final class Editore extends Model
 
         self::addGlobalScope('singoli', function (Builder $builder): void {
             $builder->where('tipedi', 'S');
+        });
+    }
+
+    protected function editore(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
+            return ['editore' => mb_strtoupper($value)];
         });
     }
 }

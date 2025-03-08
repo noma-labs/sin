@@ -28,7 +28,7 @@
                     <input
                         type="checkbox"
                         name="roles[]"
-                        value="{{ $role->id }}"
+                        value="{{ $role->name }}"
                         id="role_{{ $role->id }}"
                     />
                     <label for="role_{{ $role->id }}">

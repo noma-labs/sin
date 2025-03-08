@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Biblioteca\Controllers;
 
-use App\Biblioteca\Models\Editore as Editore;
+use App\Biblioteca\Models\Editore;
 use Illuminate\Http\Request;
 
 final class EditorsController
