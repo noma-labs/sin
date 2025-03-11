@@ -7,6 +7,7 @@ namespace Tests\Http\Nomadelfia;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
+use App\Scuola\Models\Anno;
 use Carbon\Carbon;
 use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Domain\Nomadelfia\Persona\Models\Persona;
@@ -45,6 +46,8 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
 });
 
 it('can_export_popolazione_into_word', function (): void {
+    Anno::createAnno(2042);
+
     login();
     $this->withoutExceptionHandling();
     $this->post(action([PopolazioneNomadelfiaController::class, 'print']),

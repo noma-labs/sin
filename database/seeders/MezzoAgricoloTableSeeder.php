@@ -9,14 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 final class MezzoAgricoloTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        $data = [
+            [
             'nome' => 'KUBOTA M7060',
             'tot_ore' => 940,
             'numero_telaio' => 'M7060D61391',
@@ -27,9 +23,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => 'DONALDSON P827653',
             'gomme_ant' => 2,
             'gomme_post' => 1,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        ],[
             'nome' => 'LANDINI  POWERFARM 60',
             'tot_ore' => 8237,
             'numero_telaio' => 'LMBLX51068',
@@ -40,9 +34,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => 'ARGO 3540048M1',
             'gomme_ant' => 4,
             'gomme_post' => 3,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        ],[
             'nome' => 'LANDINI EVOLUTION',
             'tot_ore' => 9532,
             'numero_telaio' => 'THWLT38202',
@@ -53,9 +45,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => 'ARGO 3540046M1',
             'gomme_ant' => 2,
             'gomme_post' => 5,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        ],[
             'nome' => 'LANDINI ATLANTIS 90',
             'tot_ore' => 6910,
             'numero_telaio' => 'LECLM07188',
@@ -66,9 +56,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => '_030026045',
             'gomme_ant' => 7,
             'gomme_post' => 6,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        ],[
             'nome' => 'LANDINI LANDPOWER 125',
             'tot_ore' => 6180,
             'numero_telaio' => 'SJMLW24029',
@@ -79,9 +67,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => 'Landini 3671170M1',
             'gomme_ant' => 9,
             'gomme_post' => 8,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
+        ],[
             'nome' => 'NEW HOLLAND T3030',
             'tot_ore' => 2386,
             'numero_telaio' => 'HSSN24546',
@@ -92,18 +78,7 @@ final class MezzoAgricoloTableSeeder extends Seeder
             'filtro_aria_ext' => 'Scar tech 020026043',
             'gomme_ant' => 11,
             'gomme_post' => 10,
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
-            'nome' => 'KUBOTA M6121',
-            'tot_ore' => 197,
-            'numero_telaio' => 'KBTMKCSETJFF30143',
-        ]);
-
-        DB::connection('db_agraria')->table('mezzo_agricolo')->insert([
-            'nome' => 'FIAT 666',
-            'tot_ore' => 701,
-            'numero_telaio' => '391789',
-        ]);
+        ]];
+        DB::connection('db_agraria')->table('mezzo_agricolo')->insert($data);
     }
 }

@@ -6,6 +6,7 @@ use App\Admin\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Spatie\Permission\Models\Role;
 use Tests\TestCasePest;
 
 use function Pest\Laravel\actingAs;
@@ -16,7 +17,9 @@ pest()->extends(TestCasePest::class)
 function login(?User $user = null): User
 {
     if (is_null($user)) {
-        $user = User::where('username', '=', 'Admin')->first();
+        $user = User::firstOrNew(['username' => 'admin-test'],[ 'email' => 'admin-test@email.it', 'password' => 'admin-test', 'persona_id' => 0]);
+        $user->save();
+        $user->assignRole(Role::where('name', "=", 'super-admin')->firstOrFail());
     }
 
     actingAs($user);
