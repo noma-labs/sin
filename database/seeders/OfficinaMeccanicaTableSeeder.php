@@ -15,8 +15,9 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
 {
     public function run()
     {
-        $meccanica = Azienda::findOrFail(1);
+        $meccanica = Azienda::where('nome_azienda', 'like', 'Officina%')->first();
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
+
         $persona->aziende()->attach($meccanica, [
             'stato' => 'Attivo',
             'data_inizio_azienda' => Carbon::now()->toDateString(),

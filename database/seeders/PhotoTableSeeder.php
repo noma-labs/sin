@@ -15,6 +15,5 @@ final class PhotoTableSeeder extends Seeder
         Photo::factory()
             ->has(Persona::factory()->count(3), 'persone')
             ->create();
-
     }
 }

@@ -2,49 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders;
-
-use App\Admin\Models\User;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-final class LocalEnvironmentSeeder extends Seeder
+return new class extends Migration
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $this->createDefaultAdminUser();
-        $this->call(NomadelfiaTableSeeder::class);
-        $this->call(OfficinaMeccanicaTableSeeder::class);
-        $this->call(BibliotecaTableSeeder::class);
-        $this->call(ScuolaTableSeeder::class);
-        $this->call(PhotoTableSeeder::class);
-        $this->call(GommaTableSeeder::class);
-        $this->call(ManutenzioneProgrammataTableSeeder::class);
-        $this->call(MezzoAgricoloTableSeeder::class);
-    }
+    public $connection = 'db_auth';
 
-    protected function createDefaultAdminUser(): self
+    public function up(): void
     {
         // Reset cached roles and permissions
-        app()['cache']->forget('spatie.permission.cache');
+        app()[Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $superAdmin = Role::create(['name' => 'super-admin']);
-        $presidenteAmmRole = Role::create(['name' => 'presidenza-amm']);
-        $presidenteOpeRole = Role::create(['name' => 'presidenza-ope']);
-        $meccanicaAmmRole = Role::create(['name' => 'meccanica-amm']);
-        $meccanicaOpeRole = Role::create(['name' => 'meccanica-ope']);
-        $bibliotecaAmmRole = Role::create(['name' => 'biblioteca-amm']);
-        $bibliotecaOpeRole = Role::create(['name' => 'biblioteca-ope']);
-        $patenteAmmRole = Role::create(['name' => 'patente-amm']);
-        $scuolaAmmRole = Role::create(['name' => 'scuola-amm']);
-        $agrariaAmmRole = Role::create(['name' => 'agraria-amm']);
+        $this->createPermissions();
+        $this->createRolesWithPermissions();
+    }
 
+    public function createPermissions()
+    {
         Permission::create(['name' => 'popolazione.*']);
         Permission::create(['name' => 'popolazione.visualizza']);
         Permission::create(['name' => 'popolazione.persona.*']);
@@ -106,6 +82,21 @@ final class LocalEnvironmentSeeder extends Seeder
 
         Permission::create(['name' => 'archivio.*']);
         Permission::create(['name' => 'archivio.visualizza']);
+    }
+
+    public function createRolesWithPermissions()
+    {
+        Role::create(['name' => 'super-admin']);
+
+        $presidenteAmmRole = Role::create(['name' => 'presidenza-amm']);
+        $presidenteOpeRole = Role::create(['name' => 'presidenza-ope']);
+        $meccanicaAmmRole = Role::create(['name' => 'meccanica-amm']);
+        $meccanicaOpeRole = Role::create(['name' => 'meccanica-ope']);
+        $bibliotecaAmmRole = Role::create(['name' => 'biblioteca-amm']);
+        $bibliotecaOpeRole = Role::create(['name' => 'biblioteca-ope']);
+        $patenteAmmRole = Role::create(['name' => 'patente-amm']);
+        $scuolaAmmRole = Role::create(['name' => 'scuola-amm']);
+        $agrariaAmmRole = Role::create(['name' => 'agraria-amm']);
 
         $presidenteAmmRole->givePermissionTo('popolazione.*');
         $presidenteAmmRole->givePermissionTo('archivio.*');
@@ -159,10 +150,5 @@ final class LocalEnvironmentSeeder extends Seeder
         $scuolaAmmRole->givePermissionTo('scuola.*');
 
         $agrariaAmmRole->givePermissionTo('agraria.*');
-
-        $userAdmin = User::create(['username' => 'admin', 'email' => 'admin@email.it', 'password' => 'admin', 'persona_id' => 0]);
-        $userAdmin->assignRole($superAdmin);
-
-        return $this;
     }
-}
+};

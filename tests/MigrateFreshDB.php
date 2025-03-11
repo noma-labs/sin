@@ -16,9 +16,6 @@ trait MigrateFreshDB
      */
     protected static $setUpHasRunOnce = false;
 
-    /**
-     * After the first run of setUp "migrate:fresh --seed"
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,7 +36,6 @@ trait MigrateFreshDB
             Artisan::call('migrate:fresh', ['--database' => 'db_rtn', '--path' => 'database/migrations/rtn']);
             Artisan::call('migrate:fresh', ['--database' => 'db_agraria', '--path' => 'database/migrations/agraria']);
 
-            Artisan::call('db:seed', ['--class' => 'LocalEnvironmentSeeder']);
             static::$setUpHasRunOnce = true;
         }
     }
