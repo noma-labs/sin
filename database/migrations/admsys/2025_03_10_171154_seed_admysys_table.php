@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 
 return new class extends Migration
 {
+    public $connection = 'db_auth';
+
     public function up(): void
     {
         // Reset cached roles and permissions
