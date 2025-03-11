@@ -23,7 +23,7 @@ final class DatabaseSeeder extends Seeder
         }
     }
 
-     protected function createDefaultAdminUser(): void
+    protected function createDefaultAdminUser(): void
     {
         $userAdmin = User::create(['username' => 'admin', 'email' => 'admin@email.it', 'password' => 'admin', 'persona_id' => 0]);
         $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);

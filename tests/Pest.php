@@ -17,9 +17,9 @@ pest()->extends(TestCasePest::class)
 function login(?User $user = null): User
 {
     if (is_null($user)) {
-        $user = User::firstOrNew(['username' => 'admin-test'],[ 'email' => 'admin-test@email.it', 'password' => 'admin-test', 'persona_id' => 0]);
+        $user = User::firstOrNew(['username' => 'admin-test'], ['email' => 'admin-test@email.it', 'password' => 'admin-test', 'persona_id' => 0]);
         $user->save();
-        $user->assignRole(Role::where('name', "=", 'super-admin')->firstOrFail());
+        $user->assignRole(Role::where('name', '=', 'super-admin')->firstOrFail());
     }
 
     actingAs($user);

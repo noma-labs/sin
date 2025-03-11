@@ -13,7 +13,6 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 final class NomadelfiaTableSeeder extends Seeder
 {

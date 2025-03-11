@@ -16,7 +16,6 @@ trait MigrateFreshDB
      */
     protected static $setUpHasRunOnce = false;
 
-
     protected function setUp(): void
     {
         parent::setUp();
