@@ -10,8 +10,7 @@ use Tests\TestCasePest;
 
 use function Pest\Laravel\actingAs;
 
-uses(TestCasePest::class)
-    ->group('Popolazione')
+pest()->extends(TestCasePest::class)
     ->in('Agraria', 'Biblioteca', 'Scuola', 'Popolazione', 'Officina', 'AdminSys', 'Photo', 'Livewire', 'Patente');
 
 function login(?User $user = null): User

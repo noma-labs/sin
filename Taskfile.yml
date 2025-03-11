@@ -51,7 +51,7 @@ tasks:
   test:
     deps: [up]
     cmds:
-      - ./vendor/bin/sail pest --bail
+      - ./vendor/bin/sail pest
 
   test:ci:
     cmds:
