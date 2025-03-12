@@ -34,7 +34,7 @@ trait Enums
         $expression = DB::raw('SHOW COLUMNS FROM '.$table.' WHERE Field = "'.$name.'"');
 
         $type = DB::select($expression->getValue(DB::connection()->getQueryGrammar()))[0]->Type;
-        preg_match('/^enum\((.*)\)$/', $type, $matches);
+        preg_match('/^enum\((.*)\)$/', (string) $type, $matches);
         $enum = [];
         foreach (explode(',', $matches[1]) as $value) {
             $v = trim($value, "'");

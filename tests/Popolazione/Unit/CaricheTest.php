@@ -30,11 +30,11 @@ it('can get the president of associazione', function (): void {
     );
 
     $p = Cariche::GetAssociazionePresidente();
-    expect($persona->id, $p->id);
-    expect($persona->nome, $p->nome);
-    expect($persona->cognome, $p->cognome);
-    expect($persona->data_nascita, $p->data_nascita);
-    expect($persona->provincia_nascita, $p->provincia_nascita);
+    expect($persona->id);
+    expect($persona->nome);
+    expect($persona->cognome);
+    expect($persona->data_nascita);
+    expect($persona->provincia_nascita);
 });
 
 it('get the eligible condidates', function (): void {

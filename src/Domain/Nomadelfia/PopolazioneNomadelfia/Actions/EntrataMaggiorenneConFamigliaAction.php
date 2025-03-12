@@ -12,7 +12,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaDa
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine as ModelsOrigine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
-final class EntrataMaggiorenneConFamigliaAction
+final readonly class EntrataMaggiorenneConFamigliaAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 

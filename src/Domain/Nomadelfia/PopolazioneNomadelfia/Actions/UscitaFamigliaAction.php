@@ -10,7 +10,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaDa
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-final class UscitaFamigliaAction
+final readonly class UscitaFamigliaAction
 {
     public function __construct(
         private LogUscitaFamigliaAction $logUscita,

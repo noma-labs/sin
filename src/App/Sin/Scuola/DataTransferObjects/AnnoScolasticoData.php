@@ -50,17 +50,15 @@ final class AnnoScolasticoData
                 $classi = $cicloGroup
                     ->groupBy('classe_nome')
                     ->map(function ($classeGroup, $classeNome): Classe {
-                        $alunni = $classeGroup->map(function ($item): StudenteData {
-                            return new StudenteData(
-                                $item->id,
-                                $item->nome,
-                                $item->cognome,
-                                $item->nominativo,
-                                new DateTimeImmutable($item->data_nascita),
-                                $item->ciclo,
-                                $item->classe_nome,
-                            );
-                        })->values()->toArray();
+                        $alunni = $classeGroup->map(fn ($item): StudenteData => new StudenteData(
+                            $item->id,
+                            $item->nome,
+                            $item->cognome,
+                            $item->nominativo,
+                            new DateTimeImmutable($item->data_nascita),
+                            $item->ciclo,
+                            $item->classe_nome,
+                        ))->values()->toArray();
 
                         return new Classe($classeNome, $alunni);
                     })->values()->toArray();

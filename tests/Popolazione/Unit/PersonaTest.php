@@ -273,13 +273,13 @@ it('EntrataMaggiorenneMaschioSingle', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $this->assertTrue($persona->isPersonaInterna());
-    expect($persona->getDataEntrataNomadelfia(), $data_entrata);
-    expect($persona->posizioneAttuale()->id, $ospite->id);
-    expect($persona->posizioneAttuale()->pivot->data_inizio, $data_entrata);
-    expect($persona->statoAttuale()->id, $celibe->id);
-    expect($persona->statoAttuale()->pivot->data_inizio, $persona->data_nascita);
-    expect($persona->gruppofamiliareAttuale()->id, $gruppo->id);
-    expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo, $data_entrata);
+    expect($persona->getDataEntrataNomadelfia());
+    expect($persona->posizioneAttuale()->id);
+    expect($persona->posizioneAttuale()->pivot->data_inizio);
+    expect($persona->statoAttuale()->id);
+    expect($persona->statoAttuale()->pivot->data_inizio);
+    expect($persona->gruppofamiliareAttuale()->id);
+    expect($persona->gruppofamiliareAttuale()->pivot->data_entrata_gruppo);
 
     expect($persona->famigliaAttuale())->toBeNull();
 });
@@ -423,7 +423,7 @@ it('RientroFamigliaInNomadelfia', function (): void {
     $act->execute($figlio, Famiglia::findOrFail($famiglia->id));
 
     // la famiglia esce da Nomadelfia
-    $data_uscita = Carbon::now()->addYear(10)->startOfDay();
+    $data_uscita = Carbon::now()->addYear()->startOfDay();
     $action = app(UscitaFamigliaAction::class);
     $action->execute($famiglia, $data_uscita);
 
@@ -438,7 +438,7 @@ it('RientroFamigliaInNomadelfia', function (): void {
     });
 
     // la famiglia rientra a Nomadelfia. Prima entra il capofamiglia
-    $data_rientro = Carbon::now()->addYear(20)->startOfDay();
+    $data_rientro = Carbon::now()->addYear()->startOfDay();
     $act = app(EntrataMaggiorenneConFamigliaAction::class);
     $act->execute($persona, $data_rientro, GruppoFamiliare::all()->random());
     $action = app(EntrataMinorenneConFamigliaAction::class);

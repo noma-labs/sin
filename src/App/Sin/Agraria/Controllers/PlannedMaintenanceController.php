@@ -38,7 +38,7 @@ final class PlannedMaintenanceController
         if ($request->filled('data.id')) {
             $man = ManutenzioneProgrammata::find($request->input('data.id'));
 
-            $man->nome = mb_strtoupper($request->input('data.nome'));
+            $man->nome = mb_strtoupper((string) $request->input('data.nome'));
             $man->ore = $request->input('data.ore');
             $man->save();
         }

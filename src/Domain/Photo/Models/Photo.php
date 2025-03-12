@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class Photo extends Model
 {
+    /** @use HasFactory<PhotoFactory> */
     use HasFactory, SoftDeletes;
 
     public $timestamps = true;
@@ -25,6 +26,11 @@ final class Photo extends Model
 
     protected $guarded = [];
 
+    /**
+     * The people associated with the photo.
+     *
+     * @return BelongsToMany<Persona, covariant $this>
+     */
     public function persone(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'db_foto.foto_persone', 'photo_id', 'persona_id');

@@ -176,17 +176,11 @@ final class PopolazioneNomadelfia extends Model
         $minorenni = collect(self::figliDaEta(0, 18, 'nominativo'));
         $result = new stdClass;
         $result->total = $minorenni->count();
-        $minorenni->map(function ($item, $key) {
-            return $item->anno = Carbon::parse($item->data_nascita)->year;
-        });
-        $groupMinorenni = $minorenni->sortBy(function ($persona, $key) {
-            return $persona->anno;
-        });
+        $minorenni->map(fn ($item, $key) => $item->anno = Carbon::parse($item->data_nascita)->year);
+        $groupMinorenni = $minorenni->sortBy(fn ($persona, $key) => $persona->anno);
         $result->anno = $groupMinorenni->groupby([
             'anno',
-            function ($item) {
-                return $item->sesso;
-            },
+            fn ($item) => $item->sesso,
         ]);
 
         return $result;

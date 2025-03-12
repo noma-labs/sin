@@ -146,7 +146,7 @@ final class Cariche extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $pres = $this->GetAssociazionePresidente();
+            $pres = self::GetAssociazionePresidente();
             if ($pres !== null) {
                 throw CouldNotAssignCarica::presidenteAssociazioneAlreadySet($pres);
             }

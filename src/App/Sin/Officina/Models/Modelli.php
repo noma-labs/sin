@@ -31,8 +31,6 @@ final class Modelli extends Model
 
     protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['nome' => mb_strtoupper($value)];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['nome' => mb_strtoupper((string) $value)]);
     }
 }

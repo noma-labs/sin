@@ -16,7 +16,7 @@ it('change a gruppo of a person', function (): void {
     $persona->gruppifamiliari()->attach($gruppo->id, ['stato' => '1', 'data_entrata_gruppo' => $data_entrata->toDatestring()]);
 
     $newGruppo = GruppoFamiliare::factory()->create();
-    $newGruppoEntrata = Carbon::now()->addMonth(1);
+    $newGruppoEntrata = Carbon::now()->addMonth();
     $uscita = Carbon::now()->addDays(15);
 
     $action = app(ChangeGruppoFamiliareAction::class);

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Set\ValueObject\SetList;
+use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -12,11 +12,10 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    ->withPreparedSets(deadCode: true, typeDeclarations: true)
+    ->withSkip([FirstClassCallableRector::class])
+    ->withPhpSets()
     ->withSets([
-        SetList::INSTANCEOF,
-        LaravelSetList::LARAVEL_90,
-        LaravelSetList::LARAVEL_100,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
         LaravelLevelSetList::UP_TO_LARAVEL_110,
-        SetList::PHP_80,
+        LaravelSetList::LARAVEL_COLLECTION,
     ]);

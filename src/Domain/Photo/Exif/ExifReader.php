@@ -197,7 +197,7 @@ final class ExifReader
     public function saveJSON(?string $fileName = null): string
     {
         // if not given, it use the name of the source file
-        $name = $fileName ?: pathinfo($this->sourcePath, PATHINFO_FILENAME).'.json';
+        $name = $fileName ?: pathinfo((string) $this->sourcePath, PATHINFO_FILENAME).'.json';
         $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 

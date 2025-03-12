@@ -13,7 +13,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
-final class EntrataMinorenneAccoltoAction
+final readonly class EntrataMinorenneAccoltoAction
 {
     public function __construct(private EntrataPersonaAction $entrataInNomadelfiaAction) {}
 

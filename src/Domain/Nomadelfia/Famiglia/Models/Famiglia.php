@@ -70,9 +70,7 @@ final class Famiglia extends Model
 
     public static function figliEnums()
     {
-        return collect(self::getEnum('Posizione'))->filter(function ($value, $key) {
-            return Str::startsWith($value, 'FIGLIO');
-        });
+        return collect(self::getEnum('Posizione'))->filter(fn ($value, $key) => Str::startsWith($value, 'FIGLIO'));
     }
 
     /**
@@ -380,7 +378,7 @@ final class Famiglia extends Model
                 throw CouldNotAssignCapoFamiglia::beacuseIsMinorenne($this, $persona);
             }
 
-            return $this->assegnaComponente($persona, $this->getCapoFamigliaEnum());
+            return $this->assegnaComponente($persona, self::getCapoFamigliaEnum());
         }
         throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
     }
@@ -406,7 +404,7 @@ final class Famiglia extends Model
                 throw CouldNotAssignMoglie::beacuseIsMan($this, $persona);
             }
 
-            return $this->assegnaComponente($persona, $this->getMoglieEnum());
+            return $this->assegnaComponente($persona, self::getMoglieEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -437,7 +435,7 @@ final class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, $this->getFiglioNatoEnum());
+            return $this->assegnaComponente($persona, self::getFiglioNatoEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -454,7 +452,7 @@ final class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            return $this->assegnaComponente($persona, $this->getFiglioAccoltoEnum());
+            return $this->assegnaComponente($persona, self::getFiglioAccoltoEnum());
         }
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
@@ -660,8 +658,6 @@ final class Famiglia extends Model
      */
     protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['nome_famiglia' => ucwords(mb_strtolower($value))];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['nome_famiglia' => ucwords(mb_strtolower((string) $value))]);
     }
 }

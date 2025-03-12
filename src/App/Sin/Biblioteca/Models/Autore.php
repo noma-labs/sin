@@ -45,8 +45,6 @@ final class Autore extends Model
 
     protected function autore(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['autore' => mb_strtoupper($value)];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['autore' => mb_strtoupper((string) $value)]);
     }
 }

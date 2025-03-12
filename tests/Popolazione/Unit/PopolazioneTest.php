@@ -326,7 +326,7 @@ it('get the people present at a specific date', function (): void {
     // persone enter after and exited after is NOT present
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     app(EntrataMaggiorenneSingleAction::class)->execute($persona, $now->copy()->addMonth(), GruppoFamiliare::all()->random());
-    app(UscitaPersonaAction::class)->execute($persona, $now->copy()->addMonth(2));
+    app(UscitaPersonaAction::class)->execute($persona, $now->copy()->addMonth());
     $after = PopolazioneNomadelfia::presentAt($now)->count();
     expect($after - $before)->toBe(0);
 

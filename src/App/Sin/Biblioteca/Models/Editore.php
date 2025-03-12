@@ -43,8 +43,6 @@ final class Editore extends Model
 
     protected function editore(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['editore' => mb_strtoupper($value)];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['editore' => mb_strtoupper((string) $value)]);
     }
 }

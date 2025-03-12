@@ -146,7 +146,7 @@ final class VeicoliController
         // salva il filtro
         try {
             $filtro = TipoFiltro::create([
-                'codice' => mb_strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper((string) $request->input('codice')),
                 'tipo' => $request->input('tipo'),
                 'note' => $note,
             ]);
@@ -175,7 +175,7 @@ final class VeicoliController
 
         try {
             $olio = TipoOlio::create([
-                'codice' => mb_strtoupper($request->input('codice')),
+                'codice' => mb_strtoupper((string) $request->input('codice')),
                 'note' => $note,
             ]);
         } catch (Throwable) {
