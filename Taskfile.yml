@@ -66,8 +66,8 @@ tasks:
 
   lint:check:
     cmds:
-      # - ./vendor/bin/sail pint --test
-      # - ./vendor/bin/sail npm run format:check
+      - ./vendor/bin/sail pint --test
+      - ./vendor/bin/sail npm run format:check
       - ./vendor/bin/sail bin rector --dry-run
 
   lint:
