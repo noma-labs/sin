@@ -7,7 +7,7 @@ namespace Domain\Nomadelfia\PopolazioneNomadelfia\Actions;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
 
-final class UscitaPersonaAction
+final readonly class UscitaPersonaAction
 {
     public function __construct(
         private UscitaPersonaDBAction $uscita,

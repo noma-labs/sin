@@ -174,9 +174,7 @@ final class PrenotazioniController
             'note' => 'nullable|string',
         ]);
 
-        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
-            return $input->data_par === $input->data_arr;
-        });
+        $validRequest->sometimes('ora_arr', 'after:ora_par', fn($input): bool => $input->data_par === $input->data_arr);
 
         if ($validRequest->fails()) {
             return redirect(route('officina.index'))->withErrors($validRequest)->withInput();
@@ -230,9 +228,7 @@ final class PrenotazioniController
             'destinazione' => 'required',
         ]);
 
-        $validRequest->sometimes('ora_arr', 'after:ora_par', function ($input): bool {
-            return $input->data_par === $input->data_arr;
-        });
+        $validRequest->sometimes('ora_arr', 'after:ora_par', fn($input): bool => $input->data_par === $input->data_arr);
 
         if ($validRequest->fails()) {
             return redirect(route('officina.prenota.update', $id))->withErrors($validRequest)->withInput();

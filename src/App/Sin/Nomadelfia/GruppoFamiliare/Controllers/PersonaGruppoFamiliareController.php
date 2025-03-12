@@ -45,7 +45,7 @@ final class PersonaGruppoFamiliareController
 
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
 
@@ -66,7 +66,7 @@ final class PersonaGruppoFamiliareController
         $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), Carbon::parse($request->data_entrata));
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -76,7 +76,7 @@ final class PersonaGruppoFamiliareController
         $res = $persona->gruppifamiliari()->detach($id);
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         }
 

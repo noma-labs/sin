@@ -60,7 +60,7 @@ final class SearchCollocazioneNumeri extends Component
             return;
         }
         $this->busy = $num->pluck('numeri')->toArray();
-        $max = ViewCollocazione::MaxForLettere($this->letters);
+        $max = ViewCollocazione::MaxForLettere();
         $arr2 = range(1, $max);
         $this->free = array_diff($arr2, $this->busy);
         $this->next = $max + 1;

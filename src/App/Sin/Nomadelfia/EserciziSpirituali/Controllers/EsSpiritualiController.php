@@ -89,12 +89,12 @@ final class EsSpiritualiController
             $uomini = $phpWord->addSection($colStyle2Cont);
             $uomini->addTitle('Uomini '.count($persone->uomini), 2);
             foreach ($persone->uomini as $value) {
-                $uomini->addText(ucwords(mb_strtolower($value->nominativo)));
+                $uomini->addText(ucwords(mb_strtolower((string) $value->nominativo)));
             }
             $donne = $phpWord->addSection($colStyle2Next);
             $donne->addTitle('Donne '.count($persone->donne), 2);
             foreach ($persone->donne as $value) {
-                $donne->addText(ucfirst(mb_strtolower($value->nominativo)));
+                $donne->addText(ucfirst(mb_strtolower((string) $value->nominativo)));
             }
         }
         // persone senza esercizi spirituali
@@ -104,12 +104,12 @@ final class EsSpiritualiController
         $uomini->addTitle('Senza esercizi Spirituali', 1);
         $uomini->addTitle('Uomini '.count($noEsercizi->uomini), 2);
         foreach ($noEsercizi->uomini as $value) {
-            $uomini->addText(ucwords(mb_strtolower($value->nominativo)));
+            $uomini->addText(ucwords(mb_strtolower((string) $value->nominativo)));
         }
         $donne = $phpWord->addSection($colStyle2Next);
         $donne->addTitle('Donne '.count($noEsercizi->donne), 2);
         foreach ($noEsercizi->donne as $value) {
-            $donne->addText(ucfirst(mb_strtolower($value->nominativo)));
+            $donne->addText(ucfirst(mb_strtolower((string) $value->nominativo)));
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');

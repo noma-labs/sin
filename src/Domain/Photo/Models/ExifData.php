@@ -40,13 +40,35 @@ final class ExifData
     // TODO: exif tool export keywords in two types: string, and array of string.
     public string $keywords = '';
 
+    /**
+     * @param array{
+     *     "SourceFile"?: string,
+     *     "FileName"?: string,
+     *     "Directory"?: string,
+     *     "FileSize"?: int,
+     *     "FileType"?: string,
+     *     "FileTypeExtension"?: string,
+     *     "ImageWidth"?: int,
+     *     "ImageHeight"?: int,
+     *     "ImageDataHash"?: string,
+     *     "Subject"?: array<int, string>,
+     *     "System:FileName"?: string,
+     *     "System:Directory"?: string,
+     *     "System:FileSize"?: int,
+     *     "File:FileType"?: string,
+     *     "File:FileTypeExtension"?: string,
+     *     "File:ImageWidth"?: int,
+     *     "File:ImageHeight"?: int,
+     *     "File:ImageDataHash"?: string,
+     *     "XMP-dc:Subject"?: array<int, string>
+     * } $info
+     */
     public static function fromArray(array $info): self
     {
         $exif = new self;
 
         if (! isset($info['SourceFile'])) {
-            $t = implode(',', $info);
-            throw new Exception("'SourceFile' not found in:".$t);
+            throw new Exception("'SourceFile' not found in the exif data");
         }
         $exif->sourceFile = $info['SourceFile'];
         // TODO the date of the data pf the photo ??
@@ -124,6 +146,9 @@ final class ExifData
         return implode(',', $this->subjects);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toModelAttrs(): array
     {
         return [

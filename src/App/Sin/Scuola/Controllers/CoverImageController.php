@@ -35,8 +35,8 @@ final class CoverImageController
         $tempThumbnailPath = sys_get_temp_dir().'/cover-'.$id.'.png';
         imagepng($newImage, $tempThumbnailPath);
 
-        $thumbFileName = pathinfo($elaborato->file_path, PATHINFO_FILENAME);
-        $thumbFolder = pathinfo($elaborato->file_path, PATHINFO_DIRNAME);
+        $thumbFileName = pathinfo((string) $elaborato->file_path, PATHINFO_FILENAME);
+        $thumbFolder = pathinfo((string) $elaborato->file_path, PATHINFO_DIRNAME);
 
         $thumbFileName = $thumbFolder.'/'.$thumbFileName.'-cover.png';
 

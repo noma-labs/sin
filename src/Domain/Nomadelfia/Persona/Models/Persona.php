@@ -68,23 +68,15 @@ class Persona extends Model
     }
     protected function nome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['nome' => ucwords(mb_strtolower($value))];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($value): array => ['nome' => ucwords(mb_strtolower((string) $value))]);
     }
     protected function cognome(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: function ($value): array {
-            return ['cognome' => ucwords(mb_strtolower($value))];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($value): array => ['cognome' => ucwords(mb_strtolower((string) $value))]);
     }
     protected function nominativo(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value): string {
-            return ucwords(mb_strtolower($value));
-        }, set: function ($value): array {
-            return ['nominativo' => ucwords(mb_strtolower($value))];
-        });
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($value): string => ucwords(mb_strtolower((string) $value)), set: fn($value): array => ['nominativo' => ucwords(mb_strtolower((string) $value))]);
     }
 
     public function buildCompleteName(): string
@@ -393,7 +385,7 @@ class Persona extends Model
                 $attuale = $this->statoAttuale();
                 if ($attuale) {
                     $this->stati()->updateExistingPivot($attuale->id,
-                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ? $attuale_data_fine : $data_inizio)]);
+                        ['stato' => '0', 'data_fine' => ($attuale_data_fine ?: $data_inizio)]);
                 }
                 $this->stati()->attach($stato->id, ['stato' => '1', 'data_inizio' => $data_inizio]);
                 DB::connection('db_nomadelfia')->commit();

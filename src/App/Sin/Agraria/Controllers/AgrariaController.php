@@ -56,7 +56,7 @@ final class AgrariaController
             }
             if ($prog->isNotEmpty()) {
                 foreach ($prog as $p) {
-                    $lavori[] = mb_strtolower($p->nome);
+                    $lavori[] = mb_strtolower((string) $p->nome);
                 }
             }
             $new = [

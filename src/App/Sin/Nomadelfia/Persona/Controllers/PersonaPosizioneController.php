@@ -34,7 +34,7 @@ final class PersonaPosizioneController
         $persona->assegnaPosizione($request->posizione_id, Carbon::parse($request->data_inizio), Carbon::parse($request->data_fine));
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
@@ -51,7 +51,7 @@ final class PersonaPosizioneController
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, Carbon::parse($request->current_data_inizio), Carbon::parse($request->new_data_inizio))) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
 
@@ -64,7 +64,7 @@ final class PersonaPosizioneController
         $res = $persona->posizioni()->detach($id);
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
         }
 

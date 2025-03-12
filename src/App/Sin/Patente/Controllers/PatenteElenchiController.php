@@ -59,9 +59,7 @@ final class PatenteElenchiController
 
         $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
 
-        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
-            return $product->persona->cognome;
-        });
+        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(fn($product) => $product->persona->cognome);
 
         $patenti = $patenti->map(function ($patente, $key): array {
             return [$patente->persona->cognome,
@@ -130,24 +128,20 @@ final class PatenteElenchiController
 
         $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
 
-        $cqcPersone = Patente::with('persona')->has('cqc')->get()->sortBy(function ($product) {
-            return $product->persona->cognome;
-        });
+        $cqcPersone = Patente::with('persona')->has('cqc')->get()->sortBy(fn($product) => $product->persona->cognome);
 
-        $cqcPersone = $cqcPersone->map(function ($patente, $key): array {
-            return [$patente->persona->cognome,
-                $patente->persona->nome,
-                $patente->persona->data_nascita,
-                $patente->persona->provincia_nascita,
-                $patente->numero_patente,
-                // $patente->data_rilascio_patente,
-                // $patente->rilasciata_dal,
-                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-                $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
-                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-                $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
-            ];
-        });
+        $cqcPersone = $cqcPersone->map(fn($patente, $key): array => [$patente->persona->cognome,
+            $patente->persona->nome,
+            $patente->persona->data_nascita,
+            $patente->persona->provincia_nascita,
+            $patente->numero_patente,
+            // $patente->data_rilascio_patente,
+            // $patente->rilasciata_dal,
+            $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
+            $patente->cqcPersone() ? $patente->cqcPersone()->pivot->data_rilascio : '',
+            $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
+            $patente->cqcMerci() ? $patente->cqcMerci()->pivot->data_rilascio : '',
+        ]);
 
         $spreadsheet->getActiveSheet()->fromArray(
             $cqcPersone->toArray(), // ->toArray(),  // The data to set
@@ -181,9 +175,7 @@ final class PatenteElenchiController
         PopolazioneNomadelfia::take('id');
         $presidente = Cariche::GetAssociazionePresidente();
         $patentiAutorizzati = Patente::has('categorie')->get()
-            ->sortBy(function ($product) {
-                return $product->persona->nome;
-            });
+            ->sortBy(fn($product) => $product->persona->nome);
 
         return view('patente.elenchi.index', ['patentiAutorizzati' => $patentiAutorizzati, 'presidente' => $presidente]);
 
@@ -224,17 +216,13 @@ final class PatenteElenchiController
             ->setCellValue('C1', 'DATA NASCITA')
             ->setCellValue('D1', 'CATEGORIE');
 
-        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(function ($product) {
-            return $product->persona->nome;
-        });
+        $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(fn($product) => $product->persona->nome);
 
         // $patenti = Patente::with("persona")->has('categorie')->get()->map(function ($patente, $key) {
         //    return array($patente->persona->nome,$patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString());
         //  });
 
-        $patenti = $patenti->map(function ($patente, $key): array {
-            return [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()];
-        });
+        $patenti = $patenti->map(fn($patente, $key): array => [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()]);
 
         $spreadsheet->getActiveSheet()->fromArray(
             $patenti->toArray(), // ->toArray(),  // The data to set

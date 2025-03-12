@@ -32,9 +32,7 @@ function runMiddleware($middleware, $permission)
     try {
         return $middleware->handle(
             new Request,
-            function (): Response {
-                return (new Response)->setContent('<html></html>');
-            },
+            fn(): Response => (new Response)->setContent('<html></html>'),
             $permission
         )->status();
     } catch (UnauthorizedException $e) {

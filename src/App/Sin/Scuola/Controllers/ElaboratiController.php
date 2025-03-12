@@ -221,7 +221,7 @@ final class ElaboratiController
             abort(404);
         }
 
-        $fileName = basename($filePath); // Get the base name in case you want to customize the download file name
+        $fileName = basename((string) $filePath); // Get the base name in case you want to customize the download file name
 
         return Storage::disk('scuola')->download($filePath, $fileName);
     }

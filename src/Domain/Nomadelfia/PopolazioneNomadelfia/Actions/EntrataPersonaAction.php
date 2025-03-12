@@ -8,7 +8,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaDa
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-final class EntrataPersonaAction
+final readonly class EntrataPersonaAction
 {
     public function __construct(
         private LogEntrataPersonaAction $logEntrataInNomadelfiaActivityAction,

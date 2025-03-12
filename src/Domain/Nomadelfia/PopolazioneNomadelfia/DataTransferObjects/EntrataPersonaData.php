@@ -28,11 +28,11 @@ final class EntrataPersonaData
 
     public ?Stato $stato = null;
 
-    public ?Carbon $stato_data;
+    public ?Carbon $stato_data = null;
 
     public ?Famiglia $famiglia = null;
 
-    public ?string $famiglia_posizione;
+    public ?string $famiglia_posizione = null;
 
     public Origine $origine;
 }

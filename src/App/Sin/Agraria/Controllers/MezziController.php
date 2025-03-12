@@ -49,37 +49,37 @@ final class MezziController
         Validator::make($request->all(), $rules, $msg)->validate();
 
         if ($request->filled('gomme_ant')) {
-            $gomme_ant = Gomma::where('nome', mb_strtoupper($request->input('gomme_ant')))->first();
+            $gomme_ant = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_ant')))->first();
             if (is_null($gomme_ant)) {
-                $gomme_ant = Gomma::create(['nome' => mb_strtoupper($request->input('gomme_ant'))]);
+                $gomme_ant = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
             }
         }
 
         if ($request->filled('gomme_post')) {
-            $gomme_post = Gomma::where('nome', mb_strtoupper($request->input('gomme_post')))->first();
+            $gomme_post = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_post')))->first();
             if (is_null($gomme_post)) {
-                $gomme_post = Gomma::create(['nome' => mb_strtoupper($request->input('gomme_post'))]);
+                $gomme_post = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
             }
         }
 
         $mezzo = new MezzoAgricolo;
-        $mezzo->nome = mb_strtoupper($request->input('nome'));
-        $mezzo->numero_telaio = mb_strtoupper($request->input('telaio'));
-        $mezzo->tot_ore = mb_strtoupper($request->input('ore'));
+        $mezzo->nome = mb_strtoupper((string) $request->input('nome'));
+        $mezzo->numero_telaio = mb_strtoupper((string) $request->input('telaio'));
+        $mezzo->tot_ore = mb_strtoupper((string) $request->input('ore'));
         if ($request->filled('olio')) {
-            $mezzo->filtro_olio = mb_strtoupper($request->input('olio'));
+            $mezzo->filtro_olio = mb_strtoupper((string) $request->input('olio'));
         }
         if ($request->filled('gasolio')) {
-            $mezzo->filtro_gasolio = mb_strtoupper($request->input('gasolio'));
+            $mezzo->filtro_gasolio = mb_strtoupper((string) $request->input('gasolio'));
         }
         if ($request->filled('servizi')) {
-            $mezzo->filtro_servizi = mb_strtoupper($request->input('servizi'));
+            $mezzo->filtro_servizi = mb_strtoupper((string) $request->input('servizi'));
         }
         if ($request->filled('aria_int')) {
-            $mezzo->filtro_aria_int = mb_strtoupper($request->input('aria_int'));
+            $mezzo->filtro_aria_int = mb_strtoupper((string) $request->input('aria_int'));
         }
         if ($request->filled('aria_ext')) {
-            $mezzo->filtro_aria_ext = mb_strtoupper($request->input('aria_ext'));
+            $mezzo->filtro_aria_ext = mb_strtoupper((string) $request->input('aria_ext'));
         }
         if (isset($gomme_ant)) {
             $mezzo->gomme_ant = $gomme_ant->id;
@@ -134,28 +134,28 @@ final class MezziController
 
         Validator::make($request->all(), $rules, $msg)->validate();
 
-        $mezzo_old->nome = mb_strtoupper($request->input('nome'));
-        $mezzo_old->numero_telaio = mb_strtoupper($request->input('telaio'));
-        $mezzo_old->tot_ore = mb_strtoupper($request->input('ore'));
+        $mezzo_old->nome = mb_strtoupper((string) $request->input('nome'));
+        $mezzo_old->numero_telaio = mb_strtoupper((string) $request->input('telaio'));
+        $mezzo_old->tot_ore = mb_strtoupper((string) $request->input('ore'));
         if ($request->filled('olio')) {
-            $mezzo_old->filtro_olio = mb_strtoupper($request->input('olio'));
+            $mezzo_old->filtro_olio = mb_strtoupper((string) $request->input('olio'));
         }
         if ($request->filled('gasolio')) {
-            $mezzo_old->filtro_gasolio = mb_strtoupper($request->input('gasolio'));
+            $mezzo_old->filtro_gasolio = mb_strtoupper((string) $request->input('gasolio'));
         }
         if ($request->filled('servizi')) {
-            $mezzo_old->filtro_servizi = mb_strtoupper($request->input('servizi'));
+            $mezzo_old->filtro_servizi = mb_strtoupper((string) $request->input('servizi'));
         }
         if ($request->filled('aria_int')) {
-            $mezzo_old->filtro_aria_int = mb_strtoupper($request->input('aria_int'));
+            $mezzo_old->filtro_aria_int = mb_strtoupper((string) $request->input('aria_int'));
         }
         if ($request->filled('aria_ext')) {
-            $mezzo_old->filtro_aria_ext = mb_strtoupper($request->input('aria_ext'));
+            $mezzo_old->filtro_aria_ext = mb_strtoupper((string) $request->input('aria_ext'));
         }
         if ($request->filled('gomme_ant')) {
-            $gomme_ant = Gomma::where('nome', mb_strtoupper($request->input('gomme_ant')))->first();
+            $gomme_ant = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_ant')))->first();
             if (is_null($gomme_ant)) {
-                $gomme_ant = Gomma::create(['nome' => mb_strtoupper($request->input('gomme_ant'))]);
+                $gomme_ant = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_ant'))]);
             }
             $mezzo_old->gomme_ant = $gomme_ant->id;
         } else {
@@ -163,9 +163,9 @@ final class MezziController
         }
 
         if ($request->filled('gomme_post')) {
-            $gomme_post = Gomma::where('nome', mb_strtoupper($request->input('gomme_post')))->first();
+            $gomme_post = Gomma::where('nome', mb_strtoupper((string) $request->input('gomme_post')))->first();
             if (is_null($gomme_post)) {
-                $gomme_post = Gomma::create(['nome' => mb_strtoupper($request->input('gomme_post'))]);
+                $gomme_post = Gomma::create(['nome' => mb_strtoupper((string) $request->input('gomme_post'))]);
             }
             $mezzo_old->gomme_post = $gomme_post->id;
         } else {

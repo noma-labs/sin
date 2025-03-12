@@ -63,9 +63,6 @@ tasks:
       - npm run format:check
       - ./vendor/bin/rector --dry-run
 
-  analyse:ci:
-    cmds:
-       - ./vendor/bin/phpstan analyse -l 5
 
   lint:check:
     cmds:
@@ -75,14 +72,18 @@ tasks:
 
   lint:
     cmds:
-      - ./vendor/bin/sail pint
-      - ./vendor/bin/sail npm run format:write
+      # - ./vendor/bin/sail pint
+      # - ./vendor/bin/sail npm run format:write
       - ./vendor/bin/sail bin rector
 
   analyse:
     cmds:
-      - ./vendor/bin/sail bin phpstan analyse  -l 5
+      - ./vendor/bin/sail bin phpstan analyse
 
   analyse:baseline:
     cmds:
-      - ./vendor/bin/sail bin phpstan analyse  -l 5 --generate-baseline
+      - ./vendor/bin/sail bin phpstan analyse  --generate-baseline
+
+  analyse:ci:
+    cmds:
+       - ./vendor/bin/phpstan analyse

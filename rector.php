@@ -12,11 +12,9 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    ->withPreparedSets(deadCode: true, typeDeclarations: true)
+    ->withPhpSets()
     ->withSets([
-        SetList::INSTANCEOF,
-        LaravelSetList::LARAVEL_90,
-        LaravelSetList::LARAVEL_100,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
         LaravelLevelSetList::UP_TO_LARAVEL_110,
-        SetList::PHP_80,
+        LaravelSetList::LARAVEL_COLLECTION
     ]);

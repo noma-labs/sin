@@ -9,7 +9,7 @@ use Domain\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-final class DecessoPersonaAction
+final readonly class DecessoPersonaAction
 {
     public function __construct(
         private UscitaPersonaDBAction $uscita,
