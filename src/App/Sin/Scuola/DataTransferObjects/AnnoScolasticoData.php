@@ -50,7 +50,7 @@ final class AnnoScolasticoData
                 $classi = $cicloGroup
                     ->groupBy('classe_nome')
                     ->map(function ($classeGroup, $classeNome): Classe {
-                        $alunni = $classeGroup->map(fn($item): StudenteData => new StudenteData(
+                        $alunni = $classeGroup->map(fn ($item): StudenteData => new StudenteData(
                             $item->id,
                             $item->nome,
                             $item->cognome,

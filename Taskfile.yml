@@ -72,8 +72,8 @@ tasks:
 
   lint:
     cmds:
-      # - ./vendor/bin/sail pint
-      # - ./vendor/bin/sail npm run format:write
+      - ./vendor/bin/sail pint
+      - ./vendor/bin/sail npm run format:write
       - ./vendor/bin/sail bin rector
 
   analyse:

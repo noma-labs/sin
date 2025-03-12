@@ -75,7 +75,7 @@ abstract class Autocomplete extends Component
 
     final public function select(int|string $id): void
     {
-        $found = collect($this->options)->first(fn(Option $opt): bool => (string) $opt->id === (string) $id);
+        $found = collect($this->options)->first(fn (Option $opt): bool => (string) $opt->id === (string) $id);
 
         if ($this->multiple) {
             $this->selected = collect($this->selected)->push($found)->unique();
@@ -89,7 +89,7 @@ abstract class Autocomplete extends Component
 
     final public function deselect(int|string $id): void
     {
-        $this->selected = collect($this->selected)->reject(fn(Option $selected): bool => (string) $selected->id === (string) $id);
+        $this->selected = collect($this->selected)->reject(fn (Option $selected): bool => (string) $selected->id === (string) $id);
     }
 
     final public function updatedSearchTerm(string $value): void

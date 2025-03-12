@@ -35,6 +35,6 @@ final class Classificazione extends Model
 
     protected function descrizione(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($value): array => ['descrizione' => mb_strtoupper((string) $value)]);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['descrizione' => mb_strtoupper((string) $value)]);
     }
 }

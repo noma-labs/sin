@@ -68,7 +68,7 @@ final class Veicolo extends Model
 
     public function impieghi(): BelongsTo
     {
-        return $this->belongsTo(\App\Officina\Models\Impiego::class);
+        return $this->belongsTo(Impiego::class);
     }
 
     public function modello(): HasOne

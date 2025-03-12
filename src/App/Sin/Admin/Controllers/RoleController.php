@@ -65,7 +65,7 @@ final class RoleController
 
         $role = Role::findOrFail($id); // Get role with the given id
         $risorse_with_permissions = $request->except(['_method', '_token']);
-        $only_with_ones = collect($risorse_with_permissions)->filter(fn($value, $key) => collect($value)->contains(1));
+        $only_with_ones = collect($risorse_with_permissions)->filter(fn ($value, $key) => collect($value)->contains(1));
         $role->risorse()->sync($only_with_ones);
 
         return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiornato!');

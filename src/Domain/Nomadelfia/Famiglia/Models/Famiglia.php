@@ -70,7 +70,7 @@ final class Famiglia extends Model
 
     public static function figliEnums()
     {
-        return collect(self::getEnum('Posizione'))->filter(fn($value, $key) => Str::startsWith($value, 'FIGLIO'));
+        return collect(self::getEnum('Posizione'))->filter(fn ($value, $key) => Str::startsWith($value, 'FIGLIO'));
     }
 
     /**
@@ -658,6 +658,6 @@ final class Famiglia extends Model
      */
     protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($value): array => ['nome_famiglia' => ucwords(mb_strtolower((string) $value))]);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['nome_famiglia' => ucwords(mb_strtolower((string) $value))]);
     }
 }

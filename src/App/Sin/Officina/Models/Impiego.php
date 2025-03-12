@@ -20,6 +20,6 @@ final class Impiego extends Model
 
     public function veicoli()
     {
-        return $this->hasMany(\App\Officina\Models\Veicolo::class, 'impiego_id', 'id');
+        return $this->hasMany(Veicolo::class, 'impiego_id', 'id');
     }
 }

@@ -20,6 +20,6 @@ final class Tipologia extends Model
 
     public function veicoli()
     {
-        return $this->hasMany(\App\Officina\Models\Veicolo::class, 'tipologia_id', 'id');
+        return $this->hasMany(Veicolo::class, 'tipologia_id', 'id');
     }
 }

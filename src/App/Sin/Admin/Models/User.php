@@ -43,7 +43,7 @@ final class User extends Authenticatable
 
     protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($password): array => ['password' => bcrypt($password)]);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($password): array => ['password' => bcrypt($password)]);
     }
 
     protected function casts(): array
