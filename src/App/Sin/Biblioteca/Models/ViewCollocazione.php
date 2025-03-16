@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Biblioteca\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
 
 /**
  * @property string $lettere
  * @property float $numeri
  *
- * @method MaxForLettere()
+ * @method Builder|static MaxForLettere()
  */
 final class ViewCollocazione extends Model
 {
@@ -29,18 +31,18 @@ final class ViewCollocazione extends Model
         return $query->lettere()->get()->count();
     }
 
-    public function scopeNumeri($query, $lettere)
+    public function scopeNumeri($query, string $lettere)
     {
         return $query->select('numeri')->where('lettere', $lettere)->orderBy('numeri');
     }
 
-    public function scopeMaxForLettere($query, $lettere): float
+    public function scopeMaxForLettere($query, string $lettere): float
     {
         // return the max number for the lettere (e.g. App\ViewCollocazione::MaxForLettere("AAA"))
         return $query->numeri($lettere)->get()->max()->numeri;
     }
 
-    public function scopeNumeriMancanti($query, $lettere): array
+    public function scopeNumeriMancanti($query, string $lettere): array
     {
         $numeri = $query->numeri($lettere)->get()->toArray();
         $max = $query->numeri($lettere)->get()->max()->numeri;
