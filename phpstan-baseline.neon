@@ -295,6 +295,12 @@ parameters:
 			path: src/App/Livewire/SearchCollocazioneLettere.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Biblioteca\\Models\\ViewCollocazione\>\:\:MaxForLettere\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/App/Livewire/SearchCollocazioneNumeri.php
+
+		-
 			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -339,12 +345,6 @@ parameters:
 		-
 			message: '#^Property App\\Livewire\\SearchCollocazioneNumeri\:\:\$next has no type specified\.$#'
 			identifier: missingType.property
-			count: 1
-			path: src/App/Livewire/SearchCollocazioneNumeri.php
-
-		-
-			message: '#^Static call to instance method App\\Biblioteca\\Models\\ViewCollocazione\:\:MaxForLettere\(\)\.$#'
-			identifier: method.staticCall
 			count: 1
 			path: src/App/Livewire/SearchCollocazioneNumeri.php
 
@@ -2599,12 +2599,6 @@ parameters:
 			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeMaxForLettere\(\) has parameter \$lettere with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
-
-		-
 			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeMaxForLettere\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -2617,19 +2611,7 @@ parameters:
 			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeri\(\) has parameter \$lettere with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
-
-		-
 			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeri\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeriMancanti\(\) has parameter \$lettere with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
@@ -2655,6 +2637,12 @@ parameters:
 		-
 			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeTotal\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
+
+		-
+			message: '#^PHPDoc tag @method for method App\\Biblioteca\\Models\\ViewCollocazione\:\:MaxForLettere\(\) return type contains generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/App/Sin/Biblioteca/Models/ViewCollocazione.php
 
@@ -12281,12 +12269,6 @@ parameters:
 			identifier: argument.templateType
 			count: 2
 			path: tests/Scuola/Unit/ScuolaTest.php
-
-		-
-			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
-			identifier: foreach.nonIterable
-			count: 1
-			path: tests/TestCasePest.php
 
 		-
 			message: '#^Method Tests\\TestCasePest\:\:emptyTempDirectory\(\) has no return type specified\.$#'

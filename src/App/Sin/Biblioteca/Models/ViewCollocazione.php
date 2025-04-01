@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $lettere
  * @property float $numeri
  *
- * @method Builder|static MaxForLettere()
+ * @method Builder|static MaxForLettere(string $lettere)
  */
 final class ViewCollocazione extends Model
 {
