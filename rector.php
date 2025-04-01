@@ -10,7 +10,6 @@ use RectorLaravel\Set\LaravelSetList;
 return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/src',
-        __DIR__.'/tests',
     ])
     ->withSkip([FirstClassCallableRector::class])
     ->withPhpSets()
