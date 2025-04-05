@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $ord
+ * @property-read Anno $anno
+ * @property-read ClasseTipo $tipo
  */
 final class Classe extends Model
 {

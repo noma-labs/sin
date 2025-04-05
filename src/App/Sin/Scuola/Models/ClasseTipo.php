@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $next
  *
  * @method Prescuola()
+ * @method ClasseTipo classeSuccessiva()
  * */
 final class ClasseTipo extends Model
 {
@@ -62,7 +63,7 @@ final class ClasseTipo extends Model
         return $this->alunni()->where('data_fine', '=', null);
     }
 
-    public function scopeClasseSuccessiva($query)
+    public function scopeClasseSuccessiva($query): self
     {
         return $query->where('id', '=', $this->next);
     }

@@ -27,17 +27,16 @@ final class ClassiController
     {
         $request->validate([
             'alunno_id' => 'required',
-            'data_inizio' => 'required|date',
         ], [
             'alunno_id.required' => 'Alunno è obbligatorio.',
-            'data_inizio.required' => 'Data inizio è obbligatoria.',
-            'data_inizio.date' => 'Data inizio non è valida.',
         ]);
-        $classe = Classe::findOrFail($id);
+        /** @var Classe $classe */
+        $classe = Classe::with('anno')->findOrFail($id);
         $alunni = $request->get('alunno_id');
+        $dataInizio = $request->get('data_inizio', $classe->anno->data_inizio);
         foreach ($alunni as $id) {
             $alunno = Persona::findOrFail($id);
-            $addStudentAction->execute($classe, $alunno, $request->get('data_inizio'));
+            $addStudentAction->execute($classe, $alunno, $dataInizio);
         }
 
         return redirect()->back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
