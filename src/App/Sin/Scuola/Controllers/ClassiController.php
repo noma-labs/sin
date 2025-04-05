@@ -30,7 +30,7 @@ final class ClassiController
         ], [
             'alunno_id.required' => 'Alunno è obbligatorio.',
         ]);
-          /** @var Classe $classe */
+        /** @var Classe $classe */
         $classe = Classe::with('anno')->findOrFail($id);
         $alunni = $request->get('alunno_id');
         $dataInizio = $request->get('data_inizio', $classe->anno->data_inizio);
