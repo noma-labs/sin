@@ -74,8 +74,8 @@
                                             @year($alunno->data_nascita)
                                             @include("scuola.templates.student", ["persona" => $alunno])
                                             (
-                                            @diffYears($alunno->data_nascita)
-                                            anni)
+                                            @diffHumans($alunno->data_nascita)
+                                            )
                                             @liveRome($alunno)
                                                 <span class="badge bg-warning">
                                                     Roma

@@ -202,8 +202,8 @@
                                 @year($persona->data_nascita)
                                 @include("nomadelfia.templates.persona", ["persona" => $persona])
                                 (
-                                @diffYears($persona->data_nascita)
-                                anni)
+                                @diffHumans($persona->data_nascita)
+                                )
                             </li>
                         @endforeach
                     </ul>
