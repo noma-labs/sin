@@ -7,6 +7,7 @@ namespace App\Scuola\Models;
 use App\Scuola\Exceptions\GeneralException;
 use Carbon\Carbon;
 use Domain\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $next
  *
  * @method Prescuola()
- * @method ClasseTipo classeSuccessiva()
+ * @method Builder<ClasseTipo> classeSuccessiva()
  * */
 final class ClasseTipo extends Model
 {
@@ -63,10 +64,14 @@ final class ClasseTipo extends Model
         return $this->alunni()->where('data_fine', '=', null);
     }
 
-    public function scopeClasseSuccessiva($query): self
+    /**
+     * @return Builder<ClasseTipo>
+     */
+    public function scopeClasseSuccessiva($query)
     {
         return $query->where('id', '=', $this->next);
     }
+
 
     public function scopePrescuola($query): self
     {
