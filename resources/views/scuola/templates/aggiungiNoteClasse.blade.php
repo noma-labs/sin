@@ -13,13 +13,13 @@
             @method("PUT")
             @csrf
             <div class="mb-3">
-                <label class="form-label">Not sdfasdfasgfe</label>
+                <label class="form-label">Note</label>
                 <textarea
                     class="form-control"
                     name="note"
                     aria-label="With textarea"
                 >
-                    {{ $classe->note }}
+{{ $classe->note }}
                 </textarea>
             </div>
         </form>
