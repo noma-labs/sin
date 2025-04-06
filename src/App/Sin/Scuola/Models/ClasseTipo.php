@@ -72,7 +72,6 @@ final class ClasseTipo extends Model
         return $query->where('id', '=', $this->next);
     }
 
-
     public function scopePrescuola($query): self
     {
         return $query->where('ciclo', '=', 'prescuola')->first();
