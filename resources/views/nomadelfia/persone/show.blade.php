@@ -462,6 +462,13 @@
                     <div class="card-header">Dati Famiglia</div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
+                            @if ($famigliaEnrico)
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>ALFA Enrico:</strong>
+                                    {{ Illuminate\Support\Str::headline($famigliaEnrico->famiglia) }}
+                                </div>
+                            @endif
+
                             @if ($famigliaAttuale)
                                 <li class="list-group-item">
                                     <div class="row">

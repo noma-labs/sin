@@ -190,7 +190,8 @@ final class Classe extends Model
 
         }
 
-        $all = Persona::query()->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo')
+        $all = Persona::query()->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'alfa_enrico_15_feb_23.famiglia as famigliaEnrico')
+            ->leftJoin('alfa_enrico_15_feb_23', 'persone.id_alfa_enrico', '=', 'alfa_enrico_15_feb_23.id')
             ->where('persone.data_nascita', '<=', $end)
             ->where('persone.data_nascita', '>=', $start)
             ->orderByRaw('data_nascita ASC, nominativo ASC')

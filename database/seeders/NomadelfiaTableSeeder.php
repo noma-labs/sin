@@ -13,6 +13,7 @@ use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigli
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 final class NomadelfiaTableSeeder extends Seeder
 {
@@ -28,8 +29,13 @@ final class NomadelfiaTableSeeder extends Seeder
         $famiglia = Famiglia::factory()->create();
         $now = Carbon::now();
 
-        $capoFam = Persona::factory()->maggiorenne()->maschio()->create();
-        $moglie = Persona::factory()->maggiorenne()->femmina()->create();
+        DB::connection('db_nomadelfia')->insert('INSERT INTO alfa_enrico_15_feb_23 (FAMIGLIA) values (?)', ['MAMMA1 BABBO1']);
+        $last = DB::connection('db_nomadelfia')->select('SELECT LAST_INSERT_ID() as id');
+        $capoFam = Persona::factory()->maggiorenne()->maschio()->withIdEnrico($last[0]->id)->create();
+
+        DB::connection('db_nomadelfia')->insert('INSERT INTO alfa_enrico_15_feb_23 (FAMIGLIA) values (?)', ['MAMMA1 BABBO1']);
+        $last = DB::connection('db_nomadelfia')->select('SELECT LAST_INSERT_ID() as id');
+        $moglie = Persona::factory()->maggiorenne()->femmina()->withIdEnrico($last[0]->id)->create();
 
         $act = app(EntrataMaggiorenneConFamigliaAction::class);
         $act->execute($capoFam, $now, $gruppo);

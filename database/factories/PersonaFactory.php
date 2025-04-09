@@ -122,4 +122,13 @@ final class PersonaFactory extends Factory
             ];
         });
     }
+
+    public function withIdEnrico(int $id)
+    {
+        return $this->state(function (array $attributes) use ($id) {
+            return [
+                'id_alfa_enrico' => $id,
+            ];
+        });
+    }
 }
