@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
@@ -19,6 +18,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Carbon\Carbon;
 
 it('assigns gruppo to a person', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

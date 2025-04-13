@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
 use Carbon;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;

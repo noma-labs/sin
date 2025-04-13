@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 final class UscitaFamigliaData

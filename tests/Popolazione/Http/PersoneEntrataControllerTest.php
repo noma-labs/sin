@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Carbon\Carbon;
 
 it('can show the form to enter a person', function (): void {
     login();

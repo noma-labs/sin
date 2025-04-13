@@ -6,9 +6,9 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
-use Carbon\Carbon;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Carbon\Carbon;
 
 it('can render the posizioni index page of a person', function (): void {
     login();

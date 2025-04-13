@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Incarico\Controllers;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class IncarichiController

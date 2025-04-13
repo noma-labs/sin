@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Azienda\Models;
 
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
 use Database\Factories\AziendaFactory;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

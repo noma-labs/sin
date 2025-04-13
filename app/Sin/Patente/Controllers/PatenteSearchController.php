@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Patente\Controllers;
 
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class PatenteSearchController

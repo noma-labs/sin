@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Persona\Models\Persona;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 

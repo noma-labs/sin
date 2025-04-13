@@ -7,10 +7,10 @@ namespace Tests\Http\Nomadelfia;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
-use Carbon\Carbon;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Carbon\Carbon;
 
 it('can render the stato index page of a person', function (): void {
     login();

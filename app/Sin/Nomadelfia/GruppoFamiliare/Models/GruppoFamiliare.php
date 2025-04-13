@@ -6,11 +6,11 @@ namespace App\Nomadelfia\GruppoFamiliare\Models;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
 use App\Nomadelfia\Exceptions\GruppoHaMultipleCapogruppi;
-use Carbon\Carbon;
-use Database\Factories\GruppoFamiliareFactory;
 use App\Nomadelfia\GruppoFamiliare\QueryBuilders\GruppoFamiliareQueryBuilder;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Carbon\Carbon;
+use Database\Factories\GruppoFamiliareFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

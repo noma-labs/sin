@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use Carbon\Carbon;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 final class ChangeGruppoFamiliareAction

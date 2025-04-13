@@ -6,12 +6,12 @@ namespace Tests\Officina\Http;
 
 use App\Admin\Models\User;
 use App\Livewire\PrenotazioneVeicoli;
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
-use App\Nomadelfia\Persona\Models\Persona;
 use Spatie\Permission\Models\Role;
 
 it('forbids access to guests', function (): void {

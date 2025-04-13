@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Nomadelfia\Exceptions\CouldNotAssignCapogruppo;
-use Carbon\Carbon;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use Carbon\Carbon;
 
 it('assign capogruppo', function (): void {
     $gruppo = GruppoFamiliare::factory()->create();

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Photo\Actions;
 
-use Cerbero\JsonParser\JsonParser;
 use App\Photo\Models\ExifData;
+use Cerbero\JsonParser\JsonParser;
 use Illuminate\Support\Facades\DB;
 
 final class StoreExifIntoDBAction

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use App\Scuola\Models\Anno;
-use App\Scuola\Models\Studente;
-use Carbon\Carbon;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Scuola\Models\Anno;
+use App\Scuola\Models\Studente;
+use Carbon\Carbon;
 use stdClass;
 
 final class ExportPopolazioneData

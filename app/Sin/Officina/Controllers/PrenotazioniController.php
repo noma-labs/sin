@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Officina\Controllers;
 
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
@@ -11,7 +12,6 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;

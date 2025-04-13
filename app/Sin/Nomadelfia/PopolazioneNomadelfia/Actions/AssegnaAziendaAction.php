@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
-use Carbon\Carbon;
 use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Exceptions\CouldNotAssignAzienda;
 use App\Nomadelfia\Persona\Models\Persona;
+use Carbon\Carbon;
 
 final class AssegnaAziendaAction
 {

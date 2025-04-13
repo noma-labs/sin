@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
@@ -12,6 +11,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Carbon\Carbon;
 
 final readonly class EntrataMinorenneAccoltoAction
 {

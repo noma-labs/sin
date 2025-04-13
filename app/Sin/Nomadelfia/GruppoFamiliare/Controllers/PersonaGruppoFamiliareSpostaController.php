@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
-use Carbon\Carbon;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class PersonaGruppoFamiliareSpostaController

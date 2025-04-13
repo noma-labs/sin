@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
@@ -15,6 +13,8 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class PersonaEntrataController

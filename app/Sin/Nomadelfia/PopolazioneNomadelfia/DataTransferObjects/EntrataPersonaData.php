@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use Carbon\Carbon;
 
 final class EntrataPersonaData
 {

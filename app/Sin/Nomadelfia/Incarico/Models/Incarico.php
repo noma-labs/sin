@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Incarico\Models;
 
-use Database\Factories\IncaricoFactory;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Database\Factories\IncaricoFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

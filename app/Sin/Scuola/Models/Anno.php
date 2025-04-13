@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Scuola\Models;
 
+use App\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Exceptions\BadYearException;
 use Carbon\Carbon;
-use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Scuola\Unit;
 
-use App\Scuola\DataTransferObjects\AnnoScolasticoData;
-use App\Scuola\Models\Anno;
-use App\Scuola\Models\ClasseTipo;
-use App\Scuola\Models\Studente;
-use Carbon\Carbon;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Scuola\DataTransferObjects\AnnoScolasticoData;
+use App\Scuola\Models\Anno;
+use App\Scuola\Models\ClasseTipo;
+use App\Scuola\Models\Studente;
+use Carbon\Carbon;
 
 it('add responsible to school', function (): void {
     $a = Anno::createAnno(2014);

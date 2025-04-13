@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Popolazione\Unit;
 
-use App\Scuola\Models\Anno;
-use App\Scuola\Models\ClasseTipo;
-use Carbon\Carbon;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -25,6 +22,9 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Scuola\Models\Anno;
+use App\Scuola\Models\ClasseTipo;
+use Carbon\Carbon;
 
 it('remove dead person from population', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

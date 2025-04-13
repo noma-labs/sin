@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Carbon\Carbon;
 use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
@@ -17,6 +16,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogUscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\UscitaFamigliaData;
+use Carbon\Carbon;
 
 it('save enter event into activity table', function (): void {
     $data_entrata = Carbon::now()->startOfDay();

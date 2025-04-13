@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
-use Carbon\Carbon;
 use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
+use Carbon\Carbon;
 
 final class LogEntrataPersonaAction
 {

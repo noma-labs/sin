@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 
-use Carbon;
 use App\Nomadelfia\PopolazioneNomadelfia\QueryBuilders\PopolazioneQueryBuilder;
+use Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
