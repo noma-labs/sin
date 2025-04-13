@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Persona\Controllers;
 
-use Domain\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class PersonaNumeroElencoController

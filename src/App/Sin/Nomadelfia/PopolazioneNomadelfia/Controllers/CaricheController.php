@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 

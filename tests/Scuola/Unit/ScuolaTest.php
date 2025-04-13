@@ -9,11 +9,11 @@ use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use App\Scuola\Models\Studente;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 
 it('add responsible to school', function (): void {
     $a = Anno::createAnno(2014);

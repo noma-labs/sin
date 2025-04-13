@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class SearchAlunno extends Autocomplete
 {

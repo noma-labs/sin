@@ -7,8 +7,8 @@ namespace Database\Seeders;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Seeder;
 
 final class OfficinaMeccanicaTableSeeder extends Seeder

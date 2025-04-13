@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Livewire\Component;
 
 final class EntrataPersona extends Component

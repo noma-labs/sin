@@ -158,7 +158,7 @@
                                                 <a
                                                     href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $famiglia_id]) }}"
                                                 >
-                                                    {{ Domain\Nomadelfia\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
+                                                    {{ App\Nomadelfia\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
                                                 </a>
                                                 ({{ count($componenti) }})
                                             </div>

@@ -6,7 +6,7 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Classe;
 use App\Scuola\Requests\AddCoordinatoreRequest;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class ClassiCoordinatoriController

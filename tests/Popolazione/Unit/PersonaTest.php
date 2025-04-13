@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 it('assigns gruppo to a person', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

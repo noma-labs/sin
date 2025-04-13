@@ -7,7 +7,7 @@ namespace App\Officina\Models;
 use App\Traits\SortableTrait;
 use Carbon\Carbon;
 use Database\Factories\PrenotazioniFactory;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Exception;
 use Illuminate\Http\Request;
 

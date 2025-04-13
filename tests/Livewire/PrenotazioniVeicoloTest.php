@@ -8,7 +8,7 @@ use App\Livewire\PrenotazioneVeicoli;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Livewire\Livewire;
 
 use function Spatie\PestPluginTestTime\testTime;

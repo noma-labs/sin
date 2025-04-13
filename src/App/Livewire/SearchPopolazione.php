@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
 final class SearchPopolazione extends Autocomplete
 {

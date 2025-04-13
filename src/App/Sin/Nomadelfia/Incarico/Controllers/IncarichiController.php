@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Incarico\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
+use App\Nomadelfia\Incarico\Models\Incarico;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Illuminate\Http\Request;
 
 final class IncarichiController

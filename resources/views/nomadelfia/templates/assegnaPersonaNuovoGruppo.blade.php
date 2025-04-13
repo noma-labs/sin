@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <select name="gruppo_id" class="form-select">
                         <option selected>---seleziona gruppo ---</option>
-                        @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppofam)
+                        @foreach (App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppofam)
                             <option
                                 value="{{ $gruppofam->id }}"
                                 {{ old("gruppo_id") == $gruppofam->id ? "selected" : "" }}

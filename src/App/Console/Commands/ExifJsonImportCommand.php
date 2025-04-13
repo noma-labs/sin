@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use Domain\Photo\Actions\StoreExifIntoDBAction;
+use App\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 
 final class ExifJsonImportCommand extends Command

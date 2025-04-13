@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
 final class PersonaPopolazioneController
 {

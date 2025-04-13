@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 
 it('can_list_gruppi_familiari', function (): void {
     login();

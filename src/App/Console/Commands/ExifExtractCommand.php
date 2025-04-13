@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use Domain\Photo\Actions\ExtractExifAction;
-use Domain\Photo\Actions\StoreExifIntoDBAction;
+use App\Photo\Actions\ExtractExifAction;
+use App\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

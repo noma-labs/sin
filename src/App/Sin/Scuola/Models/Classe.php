@@ -6,8 +6,8 @@ namespace App\Scuola\Models;
 
 use App\Scuola\Exceptions\GeneralException;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

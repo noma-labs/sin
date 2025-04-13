@@ -7,14 +7,14 @@ namespace Tests\Unit;
 use App\Nomadelfia\Exceptions\CouldNotAssignCapoFamiglia;
 use App\Nomadelfia\Exceptions\CouldNotAssignMoglie;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataDallaNascitaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use InvalidArgumentException;
 
 it('throws and invalidArgument on assign a component', function (): void {

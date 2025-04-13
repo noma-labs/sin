@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Carbon;
-use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 

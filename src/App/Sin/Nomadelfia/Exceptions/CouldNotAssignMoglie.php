@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class CouldNotAssignMoglie extends NomadelfiaException
 {

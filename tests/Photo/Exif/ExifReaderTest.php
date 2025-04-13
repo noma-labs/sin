@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Domain\Photo\Exif\ExifReader;
+use App\Photo\Exif\ExifReader;
 
 beforeEach(function (): void {
     $tempDirPath = __DIR__.'/temp';

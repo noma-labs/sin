@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 
 it('assign posizione', function (): void {
     $data_entrata = Carbon::now()->startOfDay();

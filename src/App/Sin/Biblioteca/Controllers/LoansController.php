@@ -7,7 +7,7 @@ namespace App\Biblioteca\Controllers;
 use App\Biblioteca\Models\Libro;
 use App\Biblioteca\Models\Prestito;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

@@ -6,12 +6,12 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
 
 it('can show the form to enter a person', function (): void {
     login();

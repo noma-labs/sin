@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class MatrimonioController

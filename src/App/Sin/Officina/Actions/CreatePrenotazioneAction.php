@@ -7,7 +7,7 @@ namespace App\Officina\Actions;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class CreatePrenotazioneAction
 {

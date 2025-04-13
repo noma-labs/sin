@@ -6,9 +6,9 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
+use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 
 it('can render the aziende index page of a person', function (): void {
     login();

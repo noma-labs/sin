@@ -7,7 +7,7 @@ namespace App\Patente\Controllers;
 use App\Patente\Models\CategoriaPatente;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
 final class PatenteSearchController

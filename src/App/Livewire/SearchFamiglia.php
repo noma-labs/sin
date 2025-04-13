@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
 
 final class SearchFamiglia extends Autocomplete
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Incarico\Models\Incarico;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class CouldNotAssignIncarico extends NomadelfiaException
 {

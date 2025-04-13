@@ -7,7 +7,7 @@ namespace App\Scuola\DataTransferObjects;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
 use DateTimeImmutable;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class AnnoScolasticoData
 {

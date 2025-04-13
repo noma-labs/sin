@@ -28,7 +28,7 @@
                         <option value="" selected>
                             ---scegli posizione---
                         </option>
-                        @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum("Posizione") as $posizione)
+                        @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
                             <option value="{{ $posizione }}">
                                 {{ $posizione }}
                             </option>

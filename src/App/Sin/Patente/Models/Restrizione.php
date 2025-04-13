@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Patente\Models;
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
 
 final class Restrizione extends Model

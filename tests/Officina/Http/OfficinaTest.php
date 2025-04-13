@@ -11,7 +11,7 @@ use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Spatie\Permission\Models\Role;
 
 it('forbids access to guests', function (): void {

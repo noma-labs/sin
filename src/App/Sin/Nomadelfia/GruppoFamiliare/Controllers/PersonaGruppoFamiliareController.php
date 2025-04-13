@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

@@ -39,7 +39,7 @@
                         >
                             ---scegli posizione---
                         </option>
-                        @foreach (Domain\Nomadelfia\Famiglia\models\Famiglia::getEnum("Posizione") as $posizione)
+                        @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
                             @if ($posizione == $componente->posizione_famiglia)
                                 <option value="{{ $posizione }}" selected>
                                     {{ $posizione }}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use Domain\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
+use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 
 final class AggiornamentoAnagrafeController
 {

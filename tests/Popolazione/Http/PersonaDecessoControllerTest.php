@@ -6,9 +6,9 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 
 it('stores a new decesso', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();

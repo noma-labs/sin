@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\StreamedResponse;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Illuminate\Http\Request;
 
 final class PersonaDecessoController

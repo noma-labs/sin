@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 
 final class EsSpiritualeNotActive extends NomadelfiaException
 {

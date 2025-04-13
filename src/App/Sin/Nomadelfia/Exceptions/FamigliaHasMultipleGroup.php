@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
 
 final class FamigliaHasMultipleGroup extends NomadelfiaException
 {

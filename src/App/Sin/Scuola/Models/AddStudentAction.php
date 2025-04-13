@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scuola\Models;
 
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class AddStudentAction
 {

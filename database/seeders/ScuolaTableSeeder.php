@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Database\Seeder;
 
 final class ScuolaTableSeeder extends Seeder

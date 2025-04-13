@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Exceptions;
 
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class CouldNotAssignCapogruppo extends NomadelfiaException
 {

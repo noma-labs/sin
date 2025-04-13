@@ -39,21 +39,20 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/App/",
-            "Domain\\": "src/Domain/",
             "Database\\Seeders\\": "database/seeders/",
             "Database\\Factories\\": "database/factories/",
-            "App\\Biblioteca\\": "src/App/Sin/Biblioteca",
-            "App\\Agraria\\": "src/App/Sin/Agraria",
-            "App\\Auth\\": "src/App/Sin/Auth",
             "App\\Admin\\": "src/App/Sin/Admin",
-            "App\\Core\\": "src/App/Sin/Core",
-            "App\\Officina\\": "src/App/Sin/Officina",
-            "App\\Nomadelfia\\": "src/App/Sin/Nomadelfia",
+            "App\\Agraria\\": "src/App/Sin/Agraria",
             "App\\Anagrafe\\": "src/App/Sin/Anagrafe",
-            "App\\Scuola\\": "src/App/Sin/Scuola",
-            "App\\Rtn\\": "src/App/Sin/Rtn",
+            "App\\ArchivioDocumenti\\": "src/App/Sin/ArchivioDocumenti",
+            "App\\Auth\\": "src/App/Sin/Auth",
+            "App\\Biblioteca\\": "src/App/Sin/Biblioteca",
+            "App\\Nomadelfia\\": "src/App/Sin/Nomadelfia",
+            "App\\Officina\\": "src/App/Sin/Officina",
             "App\\Patente\\": "src/App/Sin/Patente",
-            "App\\ArchivioDocumenti\\": "src/App/Sin/ArchivioDocumenti"
+            "App\\Photo\\": "src/App/Sin/Photo",
+            "App\\Rtn\\": "src/App/Sin/Rtn",
+            "App\\Scuola\\": "src/App/Sin/Scuola"
         }
     },
     "autoload-dev": {

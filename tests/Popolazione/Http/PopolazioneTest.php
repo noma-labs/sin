@@ -9,9 +9,9 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaContro
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Scuola\Models\Anno;
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
 it('forbids access to guests', function (): void {
     $this->get(action([PopolazioneSummaryController::class, 'index']))

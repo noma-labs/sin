@@ -11,7 +11,7 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
