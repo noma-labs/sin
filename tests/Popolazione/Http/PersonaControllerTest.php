@@ -6,7 +6,7 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
 use App\Nomadelfia\Persona\Controllers\PersoneController;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 it('shows form to insert a persona', function (): void {
     login();

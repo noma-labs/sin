@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
 
 it('show aggiornamento anagrafe index', function (): void {
     $data_entrata = Carbon::now()->startOfDay();

@@ -207,7 +207,7 @@
                                             <option selecte>
                                                 ---seleziona Stato---
                                             </option>
-                                            @foreach (Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato::all() as $stato)
+                                            @foreach (App\Nomadelfia\PopolazioneNomadelfia\Models\Stato::all() as $stato)
                                                 <option
                                                     value="{{ $stato->id }}"
                                                 >

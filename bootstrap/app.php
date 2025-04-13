@@ -13,12 +13,9 @@ declare(strict_types=1);
 |
 */
 
-use App\Application;
-
-$app = (new Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-))->useAppPath('src/App');
-
+$app = new Illuminate\Foundation\Application(
+    realpath(__DIR__.'/../')
+);
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces

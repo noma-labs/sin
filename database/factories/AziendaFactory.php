@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Domain\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Azienda\Models\Azienda;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class AziendaFactory extends Factory

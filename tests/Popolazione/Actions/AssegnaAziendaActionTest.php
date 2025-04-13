@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Azienda\Models\Azienda;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Azienda\Models\Azienda;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 
 it('assign a lavoratore azienda to a person', function (): void {
     $data_entrata = Carbon::now();

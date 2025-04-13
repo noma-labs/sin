@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class EsSpiritualiFactory extends Factory

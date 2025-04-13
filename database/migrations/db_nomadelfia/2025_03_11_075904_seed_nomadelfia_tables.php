@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

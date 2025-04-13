@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 it('can render the famiglia index page of a person', function (): void {
     login();

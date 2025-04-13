@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\Exceptions\EsSpiritualeNotActive;
-use Domain\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 it('testAggiungiPersona', function (): void {
     $esercizi = EserciziSpirituali::factory()->create();

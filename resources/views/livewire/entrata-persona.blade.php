@@ -119,7 +119,7 @@
             <div class="col-sm-6">
                 <select class="form-select" id="gruppo" name="gruppo_id">
                     <option value="">--- Seleziona---</option>
-                    @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::orderby("nome")->get() as $gruppo)
+                    @foreach (App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::orderby("nome")->get() as $gruppo)
                         <option value="{{ $gruppo->id }}">
                             {{ $gruppo->nome }}
                         </option>

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class PersonaFactory extends Factory

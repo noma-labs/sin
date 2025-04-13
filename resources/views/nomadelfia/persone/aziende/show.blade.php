@@ -228,8 +228,8 @@
                                             <option value="" selected>
                                                 ---seleziona azienda ---
                                             </option>
-                                            @foreach (Domain\Nomadelfia\Azienda\Models\Azienda::all() as $azienda)
-                                                @if ($persona->aziendeAttuali()->get()->contains(Domain\Nomadelfia\Azienda\Models\Azienda::find(4)) == false)
+                                            @foreach (App\Nomadelfia\Azienda\Models\Azienda::all() as $azienda)
+                                                @if ($persona->aziendeAttuali()->get()->contains(App\Nomadelfia\Azienda\Models\Azienda::find(4)) == false)
                                                     <option
                                                         value="{{ $azienda->id }}"
                                                         {{ old("azienda_id") === $azienda->id ? "selected" : "" }}

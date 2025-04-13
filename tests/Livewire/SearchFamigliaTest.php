@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Livewire;
 
 use App\Livewire\SearchFamiglia;
-use Domain\Nomadelfia\Famiglia\Models\Famiglia;
+use App\Nomadelfia\Famiglia\Models\Famiglia;
 use Livewire\Livewire;
 
 it('can render succesfully the component', function (): void {

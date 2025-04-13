@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
-use Domain\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\Persona\Models\Persona;
 
 it('show the form to assign a numero di elenco', function (): void {
     $persona = Persona::factory()->cognome('bob')->create();

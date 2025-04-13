@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 
 it('change a gruppo of a person', function (): void {
     $data_entrata = Carbon::now();

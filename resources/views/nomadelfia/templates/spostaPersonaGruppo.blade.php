@@ -48,7 +48,7 @@
                 <div class="col-sm-6">
                     <select name="new_gruppo_id" class="form-select">
                         <option selected>---seleziona gruppo ---</option>
-                        @foreach (Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppofam)
+                        @foreach (App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare::all() as $gruppofam)
                             @if ($gruppofam->id != $attuale->id)
                                 <option
                                     value="{{ $gruppofam->id }}"

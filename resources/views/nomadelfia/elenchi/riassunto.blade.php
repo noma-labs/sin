@@ -16,71 +16,71 @@
 <hr />
 <div>
     Effettivi:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->count() }}
 </div>
 <div>
     Uomini:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->uomini()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->uomini()->count() }}
 </div>
 <div>
     Donne:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->donne()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("effettivo")->persone()->donne()->count() }}
 </div>
 <hr />
 <div>
     Postulante:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->count() }}
 </div>
 <div>
     Uomini:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->uomini()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->uomini()->count() }}
 </div>
 <div>
     Donne:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->donne()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("postulante")->persone()->donne()->count() }}
 </div>
 <hr />
 <div>
     Sacerdoti:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::perNome("sacerdote")->persone()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::perNome("sacerdote")->persone()->attivo()->count() }}
 </div>
 <div>
     Mamme di vocazione:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::perNome("mammavocazione")->persone()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;::perNome("mammavocazione")->persone()->attivo()->count() }}
 </div>
 <hr />
 <div>
     Figli Maggiorenni:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->attivo()->count() }}
 </div>
 <div>
     Uomini:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->uomini()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->uomini()->attivo()->count() }}
 </div>
 <div>
     Donne:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->donne()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->maggiorenni()->donne()->attivo()->count() }}
 </div>
 <hr />
 <div>
     Figli Minorenni:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->attivo()->count() }}
 </div>
 <div>
     Uomini:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->uomini()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->uomini()->attivo()->count() }}
 </div>
 <div>
     Donne:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
 </div>
 <div>
     Accolti:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
 </div>
 <div>
     Nati da matrimoni:
-    {{ Domain\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
+    {{ App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;::perNome("figlio")->persone()->minorenni()->donne()->attivo()->count() }}
 </div>
 <hr />
 <div>Famiglia</div>

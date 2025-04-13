@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Nomadelfia\Incarico\Models\Incarico;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Carbon\Carbon;
-use Domain\Nomadelfia\Incarico\Models\Incarico;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 
 it('testIncarich', function (): void {
     $persona = Persona::factory()->cinquantenne()->maschio()->create();

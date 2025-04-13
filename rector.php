@@ -9,7 +9,7 @@ use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__.'/src',
+        __DIR__.'/app',
     ])
     ->withSkip([FirstClassCallableRector::class])
     ->withPhpSets()

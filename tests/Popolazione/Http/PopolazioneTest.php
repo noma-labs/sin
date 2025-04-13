@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
+use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Models\Persona;
+use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Scuola\Models\Anno;
 use Carbon\Carbon;
-use Domain\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use Domain\Nomadelfia\Persona\Models\Persona;
-use Domain\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 
 it('forbids access to guests', function (): void {
     $this->get(action([PopolazioneSummaryController::class, 'index']))
