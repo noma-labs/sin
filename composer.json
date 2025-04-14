@@ -13,7 +13,7 @@
         "livewire/livewire": "^3.4",
         "phpoffice/phpspreadsheet": "^3.0",
         "phpoffice/phpword": "^1.0",
-        "pmatseykanets/laravel-sql-migrations": "dev-laravel11",
+        "pmatseykanets/laravel-sql-migrations": "dev-laravel12",
         "sentry/sentry-laravel": "^4.11.0",
         "spatie/browsershot": "^4.0",
         "spatie/laravel-activitylog": "^4.0",
