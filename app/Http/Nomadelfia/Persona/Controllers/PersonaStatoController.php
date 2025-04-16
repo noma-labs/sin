@@ -29,7 +29,7 @@ final class PersonaStatoController
         $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'],$persona->id)
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
@@ -49,7 +49,7 @@ final class PersonaStatoController
             ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], $persona->id)
             ->withSuccess("Stato di $persona->nominativo  modificato con successo.");
     }
 }

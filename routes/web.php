@@ -132,25 +132,26 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::view('search', 'nomadelfia.persone.search')->name('people.search');
     Route::get('search/submit', [SearchablePersonaController::class, 'show'])->name('people.search.show');
 
-    Route::get('persone/{idPersona}/stato', [PersonaStatoController::class, 'index'])->name('persone.stato');
-    Route::post('persone/{idPersona}/stato', [PersonaStatoController::class, 'store'])->name('persone.stato.assegna');
+    Route::get('persone/{id}/stato', [PersonaStatoController::class, 'index'])->name('persone.stato');
+    Route::post('persone/{id}/stato', [PersonaStatoController::class, 'store'])->name('persone.stato.assegna');
     Route::put('persone/{idPersona}/stato/{id}', [PersonaStatoController::class, 'update'])->name('persone.stato.modifica');
+
     Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('persone.posizione');
     Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('persone.posizione.assegna');
     Route::put('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'update'])->name('persone.posizione.modifica');
     Route::delete('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'delete'])->name('persone.posizione.elimina');
     Route::post('persone/{idPersona}/posizione/{id}/concludi', [PersonaPosizioneConcludiController::class, 'store'])->name('persone.posizione.concludi');
+
     Route::get('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'index'])->name('persone.gruppofamiliare');
     Route::post('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'store'])->name('persone.gruppo.assegna');
     Route::put('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'update'])->name('persone.gruppo.modifica');
     Route::delete('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.elimina');
     Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta', [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('persone.gruppo.sposta');
+
     Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
     Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
     Route::post('persone/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
-    Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('persone.famiglie');
-
-    Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
+     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
     Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('azienda.lavoratore.assegna');
     Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('aziende.persona.sposta');
@@ -169,6 +170,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     // TODO: GruppoFamilireCapogruppo@store
     Route::post('gruppifamiliari/{id}/capogruppo', [GruppifamiliariController::class, 'assegnaCapogruppo'])->name('gruppifamiliari.capogruppo');
 
+    Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('persone.famiglie');
     Route::get('famiglie', [FamiglieController::class, 'view'])->name('famiglie');
     Route::post('famiglie/create', [FamiglieController::class, 'createConfirm'])->name('famiglie.create.confirm');
     Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('famiglia.dettaglio');

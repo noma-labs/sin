@@ -15,7 +15,7 @@ use Carbon\Carbon;
 it('can render the stato index page of a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $this->get(action([PersonaStatoController::class, 'index'], ['idPersona' => $persona->id]))
+    $this->get(action([PersonaStatoController::class, 'index'], $persona->id))
         ->assertSuccessful();
 });
 
@@ -23,11 +23,11 @@ it('add new stato to a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
     $data = Carbon::now()->toDateString();
-    $this->post(action([PersonaStatoController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonaStatoController::class, 'store'], $persona->id),
         [
             'stato_id' => Stato::all()->random()->id,
             'data_inizio' => $data,
-        ])->assertRedirect(route('nomadelfia.persone.stato', ['idPersona' => $persona->id]));
+        ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
 
 });
 
@@ -44,7 +44,7 @@ it('update stato of a person', function (): void {
             'data_fine' => $data_fine,
             'data_inizio' => $data_inizio,
             'stato' => 1,
-        ])->assertRedirect(route('nomadelfia.persone.stato', ['idPersona' => $persona->id]));
+        ])->assertRedirect(route('nomadelfia.persone.stato', $persona->id));
 
 });
 

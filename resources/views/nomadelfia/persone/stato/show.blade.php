@@ -156,7 +156,7 @@
                                 class="form"
                                 method="POST"
                                 id="formPersonaStato"
-                                action="{{ route("nomadelfia.persone.stato.assegna", ["idPersona" => $persona->id]) }}"
+                                action="{{ route("nomadelfia.persone.stato.assegna", $persona->id) }}"
                             >
                                 @csrf
 

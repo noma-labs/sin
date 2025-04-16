@@ -335,7 +335,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.stato", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.persone.stato",  $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
