@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;;
 
 final class PersonController
 {
@@ -48,7 +48,7 @@ final class PersonController
         );
         $persona->save();
 
-        return redirect(route('nomadelfia.join.create',  $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+        return redirect(route('nomadelfia.join.create', $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
     public function show($id)

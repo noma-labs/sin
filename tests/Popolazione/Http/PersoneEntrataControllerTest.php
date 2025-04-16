@@ -132,7 +132,7 @@ it('entrata_maggiorenne_single', function (): void {
 
     login();
 
-    $this->post(action([JoinCommunityController::class, 'store'],  $persona->id),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'maggiorenne_single',
             'gruppo_id' => $gruppo->id,

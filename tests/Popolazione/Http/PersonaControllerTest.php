@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Models\Persona;
 

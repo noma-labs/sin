@@ -81,7 +81,7 @@
 
                     <a
                         class="btn btn-warning"
-                        href="{{ route("nomadelfia.persone.popolazione", ["idPersona" => $persona->id]) }}"
+                        href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
                     >
                         Vedi Storico
                     </a>
@@ -303,7 +303,7 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-2">
-                                    @if (!$persona->numero_elenco)
+                                    @if (! $persona->numero_elenco)
                                         <a
                                             class="btn btn-warning"
                                             href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"

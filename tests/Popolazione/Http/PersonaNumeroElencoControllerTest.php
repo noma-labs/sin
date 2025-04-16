@@ -12,7 +12,7 @@ it('show the form to assign a numero di elenco', function (): void {
 
     login();
 
-    $this->get(action([FolderNumberController::class, 'create'],$persona->id))
+    $this->get(action([FolderNumberController::class, 'create'], $persona->id))
         ->assertOk()
         ->assertSee('B1');
 
@@ -24,7 +24,7 @@ it('show the form to assign a numero di elenco', function (): void {
 
     $persona = Persona::factory()->cognome('billy')->create();
 
-    $this->get(action([FolderNumberController::class, 'create'],$persona->id))
+    $this->get(action([FolderNumberController::class, 'create'], $persona->id))
         ->assertOk()
         ->assertSee('B2');
 

@@ -7,7 +7,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
-final class PersonaPopolazioneController
+final class JoinLeaveHistoryController
 {
     public function index($idPersona)
     {

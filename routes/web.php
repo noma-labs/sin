@@ -36,20 +36,20 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
-use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
-use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
-use App\Nomadelfia\Persona\Controllers\InternalNameController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
+use App\Nomadelfia\Persona\Controllers\InternalNameController;
+use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
+use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
-use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonController;
+use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\SearchablePersonaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PersonaPopolazioneController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\JoinLeaveHistoryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
@@ -119,6 +119,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::put('people/{id}/join/{entrata}', [JoinCommunityController::class, 'update'])->name('join.update');
     Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->name('leave.store');
     Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('leave.update');
+    Route::get('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'index'])->name('join-leave-history.index');
 
     Route::post('people/{id}/death', [DeathController::class, 'store'])->name('death.store');
     Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->name('folder-number.create');
@@ -128,9 +129,9 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('internal-name.edit');
     Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('internal-name.update');
 
-    Route::get('persone/ricerca/test', [SearchablePersonaController::class, 'index'])->name('persone.ricerca');
-    Route::get('persone/ricerca/submit', [SearchablePersonaController::class, 'show'])->name('persone.ricerca.submit');
-    Route::get('persone/{idPersona}/popolazione', [PersonaPopolazioneController::class, 'index'])->name('persone.popolazione');
+    Route::view('search', 'nomadelfia.persone.search')->name('people.search');
+    Route::get('search/submit', [SearchablePersonaController::class, 'show'])->name('people.search.show');
+
     Route::get('persone/{idPersona}/stato', [PersonaStatoController::class, 'index'])->name('persone.stato');
     Route::post('persone/{idPersona}/stato', [PersonaStatoController::class, 'store'])->name('persone.stato.assegna');
     Route::put('persone/{idPersona}/stato/{id}', [PersonaStatoController::class, 'update'])->name('persone.stato.modifica');

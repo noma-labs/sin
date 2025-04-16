@@ -74,7 +74,7 @@
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.ricerca") }}"
+            href="{{ route("nomadelfia.people.search") }}"
         >
             Ricerca persone
         </a>
