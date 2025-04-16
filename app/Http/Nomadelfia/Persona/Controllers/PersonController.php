@@ -7,7 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Support\Facades\DB;
 
-final class PersoneController
+final class PersonController
 {
     public function show($id)
     {
@@ -29,10 +29,7 @@ final class PersoneController
     public function delete($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
-        if ($persona->delete()) {
-            return redirect()->route('nomadelfia.index')->withSuccess("Persona $persona->nominativo eliminata con successo");
-        }
-
-        return view('nomadelfia')->withError("Impossibile eliminare $persona->nominativo ");
+        $persona->delete();
+        return redirect()->route('nomadelfia.index')->withSuccess("Persona $persona->nominativo eliminata con successo");
     }
 }
