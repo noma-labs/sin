@@ -22,7 +22,6 @@ final class PersonaDecessoController
         $action = app(DecessoPersonaAction::class);
         $action->execute($persona, Carbon::parse($request->data_decesso));
 
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            ['idPersona' => $idPersona])->withSuccess("Il decesso di $persona->nominativo aggiornato correttamente.");
+        return redirect()->route('nomadelfia.person.show', $idPersona)->withSuccess("Il decesso di $persona->nominativo aggiornato correttamente.");
     }
 }

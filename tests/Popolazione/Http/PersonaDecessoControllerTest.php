@@ -23,7 +23,7 @@ it('stores a new decesso', function (): void {
             'data_decesso' => $data_decesso,
         ])
         ->assertRedirect()
-        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+        ->assertRedirectContains(route('nomadelfia.person.show', $persona->id));
 
     $p = Persona::findOrFail($persona->id);
     expect($p->data_decesso)->toEqual($data_decesso)

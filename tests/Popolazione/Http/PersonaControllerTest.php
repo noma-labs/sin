@@ -19,7 +19,7 @@ it('render the show of a person with minimal info', function (): void {
 
     login();
 
-    $this->get(action([PersoneController::class, 'show'], ['idPersona' => $persona->id]))
+    $this->get(action([PersoneController::class, 'show'], ['id' => $persona->id]))
         ->assertOk()
         ->assertSeeText($persona->nominativo);
 });

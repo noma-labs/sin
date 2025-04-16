@@ -64,8 +64,7 @@ final class PersonaEntrataController
 
         }
 
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            [$persona->id])->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
+        return redirect()->route('nomadelfia.person.show',$persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
     public function update(Request $request, $idPersona, $entrata)

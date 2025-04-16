@@ -110,7 +110,7 @@
                                     @foreach ($singleMaschio->get() as $uomo)
                                         <div>
                                             <a
-                                                href="{{ route("nomadelfia.persone.dettaglio", ["id" => $uomo->id]) }}"
+                                                href="{{ route("nomadelfia.person.show", ["id" => $uomo->id]) }}"
                                             >
                                                 {{ $uomo->nome_famiglia }}
                                             </a>
@@ -129,7 +129,7 @@
                                     @foreach ($singleFemmine->get() as $donna)
                                         <div>
                                             <a
-                                                href="{{ route("nomadelfia.persone.dettaglio", ["id" => $donna->id]) }}"
+                                                href="{{ route("nomadelfia.person.show", ["id" => $donna->id]) }}"
                                             >
                                                 {{ $donna->nome_famiglia }}
                                             </a>

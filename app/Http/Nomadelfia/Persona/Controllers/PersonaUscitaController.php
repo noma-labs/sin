@@ -26,8 +26,7 @@ final class PersonaUscitaController
         $act = app(UscitaPersonaAction::class);
         $act->execute($persona, Carbon::parse($request->data_uscita), true);
 
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
+        return redirect()->route('nomadelfia.person.show',  $idPersona)->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
 
     }
 

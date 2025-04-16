@@ -6,7 +6,6 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
 final class UserController

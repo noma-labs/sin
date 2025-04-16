@@ -20,7 +20,7 @@ it('show the form to assign a numero di elenco', function (): void {
         [
             'numero_elenco' => 'B1',
         ])
-        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+        ->assertRedirectContains(route('nomadelfia.person.show', ['id' => $persona->id]));
 
     $persona = Persona::factory()->cognome('billy')->create();
 

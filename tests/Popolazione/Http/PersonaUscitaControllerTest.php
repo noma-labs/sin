@@ -24,7 +24,7 @@ it('exit a persona', function (): void {
             'data_uscita' => $data_uscita->toDateString(),
         ])
         ->assertRedirect()
-        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+        ->assertRedirectContains(route('nomadelfia.person.show', ['id' => $persona->id]));
 
     $p = Persona::findOrFail($persona->id);
     expect($p->getDataUscitaNomadelfia())->toEqual($data_uscita)

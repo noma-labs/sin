@@ -63,7 +63,7 @@
                     <td>{{ $persona->azienda }}</td>
                     <td>
                         <a
-                            href="{{ route("nomadelfia.persone.dettaglio", ["id" => $persona->id]) }}"
+                            href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}"
                             class="btn btn-warning"
                             role="button"
                         >

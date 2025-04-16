@@ -36,7 +36,6 @@ final class PersonaNumeroElencoController
         }
         $persona->update(['numero_elenco' => $ne]);
 
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            ['idPersona' => $idPersona])->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
+        return redirect()->route('nomadelfia.person.show',  $idPersona)->withSuccess("Numero di elenco di  $persona->nominativo assegnato correttamente.");
     }
 }
