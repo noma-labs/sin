@@ -202,7 +202,7 @@
                     </ul>
                     <a
                         class="btn btn-warning my-2"
-                        href="{{ route("nomadelfia.persone.anagrafica.edit", $persona->id) }}"
+                        href="{{ route("nomadelfia.person.identity.edit", $persona->id) }}"
                         role="button"
                     >
                         Modifica

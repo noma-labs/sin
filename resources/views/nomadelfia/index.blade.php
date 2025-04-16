@@ -80,7 +80,7 @@
         </a>
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.anagrafica.create") }}"
+            href="{{ route("nomadelfia.person.identity.create") }}"
         >
             Inserisci Persona
         </a>

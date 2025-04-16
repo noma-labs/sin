@@ -7,7 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-final class PersonaAnagraficaController
+final class PersonIdentityController
 {
     public function create()
     {
@@ -50,14 +50,14 @@ final class PersonaAnagraficaController
         return redirect(route('nomadelfia.persone.popolazine.entrata.create', ['idPersona' => $persona->id]))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
-    public function edit($idPersona)
+    public function edit($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
 
         return view('nomadelfia.persone.anagrafica.edit', compact('persona'));
     }
 
-    public function update(Request $request, $idPersona)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nome' => 'required',
@@ -72,7 +72,7 @@ final class PersonaAnagraficaController
             //            "luogonascita.required" => "Il luogo di nascita è obbligatorio",
             'sesso.required' => 'Il sesso è obbligatorio',
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $persona->nome = $request->nome;
         $persona->cognome = $request->cognome;
         $persona->data_nascita = $request->datanascita;
@@ -82,10 +82,10 @@ final class PersonaAnagraficaController
         $persona->biografia = $request->get('biografia', $persona->biografia);
         $persona->data_decesso = $request->get('data_decesso', $persona->data_decesso);
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show', $idPersona)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+            return redirect()->route('nomadelfia.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         }
 
-        return redirect()->route('nomadelfia.person.show', $idPersona)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+        return redirect()->route('nomadelfia.person.show', $id)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
 
     }
 }

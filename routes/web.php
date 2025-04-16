@@ -36,7 +36,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
-use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
 use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
@@ -106,12 +106,12 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
 
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
-    Route::get('person/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('person.show');
+    Route::get('people/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('person.show');
 
-    Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
-    Route::post('persone/anagrafica/new', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
-    Route::get('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'edit'])->name('persone.anagrafica.edit');
-    Route::put('persone/{idPersona}/anagrafica', [PersonaAnagraficaController::class, 'update'])->name('persone.anagrafica.update');
+    Route::get('people/identity', [PersonIdentityController::class, 'create'])->name('person.identity.create');
+    Route::post('people/identity', [PersonIdentityController::class, 'store'])->name('person.identity.store');
+    Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('person.identity.edit');
+    Route::put('people/{id}/identtity', [PersonIdentityController::class, 'update'])->name('person.identity.update');
 
     Route::get('persone/{idPersona}/entrata', [PersonaEntrataController::class, 'create'])->name('persone.popolazine.entrata.create');
     Route::post('persone/{idPersona}/entrata', [PersonaEntrataController::class, 'store'])->name('persone.anagrafica.entrata.scelta');
