@@ -8,9 +8,10 @@
             class="form"
             method="POST"
             id="formModificaDataEntrata{{ $persona->id }}"
-            action="{{ route("nomadelfia.persone.dataentrata.modifica", ["id" => $persona->id, "entrata" => $data_entrata]) }}"
+            action="{{ route("nomadelfia.join.update", ["id" => $persona->id, "entrata" => $data_entrata]) }}"
         >
             @csrf
+            @method("PUT")
             <div class="row">
                 <label class="col-sm-6 form-label">Nuova Data Entrata</label>
                 <div class="col-sm-6">

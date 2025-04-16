@@ -10,7 +10,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaUscitaController
+final class LeaveCommunityController
 {
     public function store(Request $request, $idPersona)
     {

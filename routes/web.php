@@ -44,7 +44,7 @@ use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
-use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
+use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Controllers\SearchablePersonaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
@@ -114,13 +114,14 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->name('person.identity.edit');
     Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->name('person.identity.update');
 
-    Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->name('persone.popolazine.entrata.create');
-    Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->name('persone.anagrafica.entrata.scelta');
-    Route::post('people/{id}/join/{entrata}/modifica', [JoinCommunityController::class, 'update'])->name('persone.dataentrata.modifica');
+    Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->name('join.create');
+    Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->name('join.store');
+    Route::put('people/{id}/join/{entrata}', [JoinCommunityController::class, 'update'])->name('join.update');
+
+    Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->name('leave.store');
+    Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('leave.update');
 
     Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('persone.decesso');
-    Route::post('persone/{idPersona}/uscita', [PersonaUscitaController::class, 'store'])->name('persone.uscita');
-    Route::post('persone/{idPersona}/uscita/{uscita}/modifica', [PersonaUscitaController::class, 'update'])->name('persone.datauscita.modifica');
     Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('persone.numelenco.modifica.view');
     Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('persone.numelenco.confirm');
     Route::get('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica.view');

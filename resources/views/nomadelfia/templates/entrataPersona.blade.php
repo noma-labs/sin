@@ -1,7 +1,7 @@
 <form
     class="form"
     method="POST"
-    action="{{ route("nomadelfia.persone.popolazine.entrata.create", ["id" => $persona->id]) }}"
+    action="{{ route("nomadelfia.join.store", $persona->id) }}"
 >
     @csrf
 

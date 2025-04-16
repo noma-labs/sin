@@ -32,7 +32,7 @@
                                     class="form"
                                     method="POST"
                                     id="formUscitaPersona{{ $persona->id }}"
-                                    action="{{ route("nomadelfia.persone.uscita", ["idPersona" => $persona->id]) }}"
+                                    action="{{ route("nomadelfia.leave.store", $persona->id) }}"
                                 >
                                     @csrf
                                     <p>

@@ -48,7 +48,7 @@ final class PersonController
         );
         $persona->save();
 
-        return redirect(route('nomadelfia.persone.popolazine.entrata.create',  $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
+        return redirect(route('nomadelfia.join.create',  $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
     public function show($id)
