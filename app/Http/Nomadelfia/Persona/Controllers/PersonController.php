@@ -25,11 +25,4 @@ final class PersonController
         return view('nomadelfia.persone.show',
             compact('persona', 'posizioneAttuale', 'gruppoAttuale', 'famigliaAttuale', 'famigliaEnrico'));
     }
-
-    public function delete($idPersona)
-    {
-        $persona = Persona::findOrFail($idPersona);
-        $persona->delete();
-        return redirect()->route('nomadelfia.index')->withSuccess("Persona $persona->nominativo eliminata con successo");
-    }
 }

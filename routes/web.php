@@ -107,7 +107,6 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
     Route::get('person/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('person.show');
-    Route::delete('persone/{idPersona}', [PersonController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('persone.delete');
 
     Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
     Route::post('persone/anagrafica/new', [PersonaAnagraficaController::class, 'store'])->name('persone.anagrafica.store');
