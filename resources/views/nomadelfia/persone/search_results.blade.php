@@ -54,7 +54,7 @@
                                 <div class="button-group" role="group">
                                     <a
                                         class="btn btn-warning btn-sm"
-                                        href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.persone.dettaglio", ["id" => $persona->id]) }}"
                                     >
                                         Dettaglio
                                     </a>

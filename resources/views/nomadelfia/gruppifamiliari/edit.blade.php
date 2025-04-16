@@ -24,7 +24,7 @@
                                 <div class="col-sm-6">
                                     @if ($gruppo->capogruppoAttuale())
                                         <a
-                                            href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $gruppo->capogruppoAttuale()->id]) }}"
+                                            href="{{ route("nomadelfia.persone.dettaglio", ["id" => $gruppo->capogruppoAttuale()->id]) }}"
                                         >
                                             {{ $gruppo->capogruppoAttuale()->nominativo }}
                                         </a>
@@ -167,7 +167,7 @@
                                                     <li>
                                                         @year($componente->data_nascita)
                                                         <a
-                                                            href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $componente->persona_id]) }}"
+                                                            href="{{ route("nomadelfia.persone.dettaglio", ["id" => $componente->persona_id]) }}"
                                                         >
                                                             {{ $componente->nominativo }}
                                                         </a>

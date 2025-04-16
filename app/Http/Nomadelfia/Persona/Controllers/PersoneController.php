@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 final class PersoneController
 {
-    public function show($idPersona)
+    public function show($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $posizioneAttuale = $persona->posizioneAttuale();
         $gruppoAttuale = $persona->gruppofamiliareAttuale();
         $famigliaAttuale = $persona->famigliaAttuale();

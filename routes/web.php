@@ -99,13 +99,14 @@ Route::prefix('admin')->middleware('role:super-admin')->group(function () {
     Route::put('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class);
     Route::get('risorse', [RisorsaController::class, 'index']);
     Route::get('logs', [LogsActivityController::class, 'index'])->name('admin.logs');
 });
 
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
-    Route::get('persone/{idPersona}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('persone.dettaglio');
+    Route::get('person/{id}', [PersoneController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('persone.dettaglio');
     Route::delete('persone/{idPersona}', [PersoneController::class, 'delete'])->middleware('can:popolazione.persona.elimina')->name('persone.delete');
 
     Route::get('persone/anagrafica/new', [PersonaAnagraficaController::class, 'create'])->name('persone.anagrafica.create');
