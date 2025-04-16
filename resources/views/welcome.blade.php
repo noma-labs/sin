@@ -12,7 +12,6 @@
 
         <title>Nomadelfia</title>
 
-        <!-- Styles -->
         <style>
             html,
             body {
