@@ -85,7 +85,7 @@ final class PersonaAnagraficaController
             return redirect()->route('nomadelfia.person.show', $idPersona)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         }
 
-        return redirect()->route('nomadelfia.person.show',$idPersona)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+        return redirect()->route('nomadelfia.person.show', $idPersona)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
 
     }
 }

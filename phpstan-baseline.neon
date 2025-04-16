@@ -205,6 +205,18 @@ parameters:
 			path: app/Http/Admin/Controllers/UserController.php
 
 		-
+			message: '#^Method App\\Admin\\Controllers\\UserController\:\:destroy\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Admin/Controllers/UserController.php
+
+		-
+			message: '#^Method App\\Admin\\Controllers\\UserController\:\:destroy\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Admin/Controllers/UserController.php
+
+		-
 			message: '#^Method App\\Admin\\Controllers\\UserController\:\:edit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4903,7 +4915,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersoneController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersoneController\:\:show\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersoneController\:\:show\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersoneController.php
@@ -6220,6 +6232,12 @@ parameters:
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:scopeAttivo\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
+
+		-
+			message: '#^Non\-static access to static property App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:\$mapNamesToDB\.$#'
+			identifier: staticProperty.nonStaticAccess
+			count: 2
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
 
 		-

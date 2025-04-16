@@ -27,18 +27,13 @@ final class PersonaNominativoController
         $persona = Persona::findOrFail($idPersona);
         $persona->nominativo = $request->nominativo;
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show',  $idPersona)->withSucces('Nominativo  aggiornato con suceesso');
+            return redirect()->route('nomadelfia.person.show', $idPersona)->withSucces('Nominativo  aggiornato con suceesso');
         }
 
-        return redirect()->route('nomadelfia.person.show',  $idPersona)->withError('Errore. Il nominativo non è stato aggiornato.');
+        return redirect()->route('nomadelfia.person.show', $idPersona)->withError('Errore. Il nominativo non è stato aggiornato.');
 
     }
 
-    /**
-     * Assegna un nuovo nominativo e salva il nominativo attuale nello storico dei nominativi.
-     *
-     * @author Davide Neri
-     */
     public function store(Request $request, $idPersona)
     {
         $request->validate([
@@ -51,11 +46,9 @@ final class PersonaNominativoController
         $persona->nominativiStorici()->create(['nominativo' => $persona->nominativo]);
         $persona->nominativo = $request->nuovonominativo;
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show',
-                ['idPersona' => $idPersona])->withSucces('Nuovo nominativo aggiunto con successo.');
+            return redirect()->route('nomadelfia.person.show', $idPersona)->withSucces('Nuovo nominativo aggiunto con successo.');
         }
 
-        return redirect()->route('nomadelfia.person.show',  $idPersona)->withError('Errore. Il nominativo non è stato assegnato.');
-
+        return redirect()->route('nomadelfia.person.show', $idPersona)->withError('Errore. Il nominativo non è stato assegnato.');
     }
 }
