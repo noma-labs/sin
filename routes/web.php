@@ -39,7 +39,7 @@ use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
-use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
+use App\Nomadelfia\Persona\Controllers\InternalNameController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
@@ -124,9 +124,10 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->name('folder-number.create');
     Route::post('people/{id}/folder-number', [FolderNumberController::class, 'store'])->name('folder-number.store');
 
-    Route::get('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica.view');
-    Route::put('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica');
-    Route::post('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.assegna');
+    Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('internal-name.store');
+    Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('internal-name.edit');
+    Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('internal-name.update');
+
     Route::get('persone/ricerca/test', [SearchablePersonaController::class, 'index'])->name('persone.ricerca');
     Route::get('persone/ricerca/submit', [SearchablePersonaController::class, 'show'])->name('persone.ricerca.submit');
     Route::get('persone/{idPersona}/popolazione', [PersonaPopolazioneController::class, 'index'])->name('persone.popolazione');

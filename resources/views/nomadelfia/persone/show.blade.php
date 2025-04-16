@@ -278,7 +278,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.nominativo.modifica.view", $persona->id) }}"
+                                        href="{{ route("nomadelfia.internal-name.edit", $persona->id) }}"
                                         role="button"
                                     >
                                         Modifica

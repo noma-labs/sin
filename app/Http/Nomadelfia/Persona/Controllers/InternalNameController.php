@@ -7,7 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-final class PersonaNominativoController
+final class InternalNameController
 {
     public function edit($idPersona)
     {
