@@ -37,7 +37,7 @@ use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
-use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
+use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
 use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
@@ -117,11 +117,10 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->name('join.create');
     Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->name('join.store');
     Route::put('people/{id}/join/{entrata}', [JoinCommunityController::class, 'update'])->name('join.update');
-
     Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->name('leave.store');
     Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('leave.update');
 
-    Route::post('persone/{idPersona}/decesso', [PersonaDecessoController::class, 'store'])->name('persone.decesso');
+    Route::post('people/{id}/death', [DeathController::class, 'store'])->name('death.store');
     Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('persone.numelenco.modifica.view');
     Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('persone.numelenco.confirm');
     Route::get('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica.view');

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Controllers\PersonaDecessoController;
+use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Carbon\Carbon;
@@ -18,7 +18,7 @@ it('stores a new decesso', function (): void {
     $data_decesso = Carbon::now()->toDateString();
     login();
 
-    $this->post(action([PersonaDecessoController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([DeathController::class, 'store'], $persona->id),
         [
             'data_decesso' => $data_decesso,
         ])

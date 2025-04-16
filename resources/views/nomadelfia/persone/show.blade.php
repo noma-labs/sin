@@ -218,7 +218,7 @@
                                     class="form"
                                     method="POST"
                                     id="formDecessoPersona{{ $persona->id }}"
-                                    action="{{ route("nomadelfia.persone.decesso", ["idPersona" => $persona->id]) }}"
+                                    action="{{ route("nomadelfia.death.store", $persona->id) }}"
                                 >
                                     @csrf
                                     <p>

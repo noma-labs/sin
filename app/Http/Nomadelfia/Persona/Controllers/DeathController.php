@@ -9,7 +9,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaDecessoController
+final class DeathController
 {
     public function store(Request $request, $idPersona)
     {
