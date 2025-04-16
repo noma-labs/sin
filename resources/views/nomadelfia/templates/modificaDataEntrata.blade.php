@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formModificaDataEntrata{{ $persona->id }}"
-            action="{{ route("nomadelfia.persone.dataentrata.modifica", ["idPersona" => $persona->id, "entrata" => $data_entrata]) }}"
+            action="{{ route("nomadelfia.persone.dataentrata.modifica", ["id" => $persona->id, "entrata" => $data_entrata]) }}"
         >
             @csrf
             <div class="row">

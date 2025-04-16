@@ -8,7 +8,7 @@
             <h4>Dati Anagrafici</h4>
             <form
                 method="POST"
-                action="{{ route("nomadelfia.person.identity.store") }}"
+                action="{{ route("nomadelfia.person.store") }}"
             >
                 @csrf
                 <div class="mb-3">

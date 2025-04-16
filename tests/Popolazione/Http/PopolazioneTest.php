@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
+use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -32,7 +33,7 @@ it('cant_insert_persona_with_same_nominativo_in_popolazione_presente', function 
     $act->execute($persona, $data_entrata, $gruppo);
 
     login();
-    $this->post(action([PersonIdentityController::class, 'store']),
+    $this->post(action([PersonController::class, 'store']),
         [
             'nominativo' => $persona->nominativo,
             'nome' => 'name',

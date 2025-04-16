@@ -17,20 +17,20 @@ use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaEntrataController
+final class JoinCommunityController
 {
-    public function create($idPersona)
+    public function create($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
 
         return view('nomadelfia.persone.popolazione.create', compact('persona'));
     }
 
-    public function store(EntrataPersonaRequest $request, $idPersona)
+    public function store(EntrataPersonaRequest $request, $id)
     {
         $request->validated();
 
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $data_entrata = Carbon::parse($request->input('data_entrata'));
 
         switch ($request->tipologia) {
@@ -67,14 +67,14 @@ final class PersonaEntrataController
         return redirect()->route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
-    public function update(Request $request, $idPersona, $entrata)
+    public function update(Request $request, $id, $entrata)
     {
         $request->validate([
             'data_entrata' => 'date',
         ], [
             'data_entrata.date' => 'La data entrata non è valida.',
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         PopolazioneNomadelfia::query()
             ->where('persona_id', $persona->id)
             ->where('data_entrata', $entrata)
