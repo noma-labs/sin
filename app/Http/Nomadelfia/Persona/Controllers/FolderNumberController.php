@@ -8,9 +8,9 @@ use App\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-final class PersonaNumeroElencoController
+final class FolderNumberController
 {
-    public function edit($idPersona)
+    public function create($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
         $first = $persona->getInitialLetterOfCogonome();
@@ -22,7 +22,7 @@ final class PersonaNumeroElencoController
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
     }
 
-    public function update(Request $request, $idPersona)
+    public function store(Request $request, $idPersona)
     {
         $request->validate([
             'numero_elenco' => 'required',

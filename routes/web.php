@@ -40,7 +40,7 @@ use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaNominativoController;
-use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
+use App\Nomadelfia\Persona\Controllers\FolderNumberController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
@@ -121,8 +121,9 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->name('leave.update');
 
     Route::post('people/{id}/death', [DeathController::class, 'store'])->name('death.store');
-    Route::get('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'edit'])->name('persone.numelenco.modifica.view');
-    Route::put('persone/{idPersona}/numelenco', [PersonaNumeroElencoController::class, 'update'])->name('persone.numelenco.confirm');
+    Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->name('folder-number.create');
+    Route::post('people/{id}/folder-number', [FolderNumberController::class, 'store'])->name('folder-number.store');
+
     Route::get('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica.view');
     Route::put('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.modifica');
     Route::post('persone/{idPersona}/nominativo', [PersonaNominativoController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('persone.nominativo.assegna');

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonaNumeroElencoController;
+use App\Nomadelfia\Persona\Controllers\FolderNumberController;
 use App\Nomadelfia\Persona\Models\Persona;
 
 it('show the form to assign a numero di elenco', function (): void {
@@ -12,11 +12,11 @@ it('show the form to assign a numero di elenco', function (): void {
 
     login();
 
-    $this->get(action([PersonaNumeroElencoController::class, 'edit'], ['idPersona' => $persona->id]))
+    $this->get(action([FolderNumberController::class, 'create'],$persona->id))
         ->assertOk()
         ->assertSee('B1');
 
-    $this->put(action([PersonaNumeroElencoController::class, 'update'], ['idPersona' => $persona->id]),
+    $this->post(action([FolderNumberController::class, 'store'], $persona->id),
         [
             'numero_elenco' => 'B1',
         ])
@@ -24,7 +24,7 @@ it('show the form to assign a numero di elenco', function (): void {
 
     $persona = Persona::factory()->cognome('billy')->create();
 
-    $this->get(action([PersonaNumeroElencoController::class, 'edit'], ['idPersona' => $persona->id]))
+    $this->get(action([FolderNumberController::class, 'create'],$persona->id))
         ->assertOk()
         ->assertSee('B2');
 

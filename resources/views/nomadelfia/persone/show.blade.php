@@ -303,14 +303,13 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-2">
-                                    @if ($persona->numero_elenco)
-                                    @else
+                                    @if (!$persona->numero_elenco)
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("nomadelfia.persone.numelenco.modifica.view", $persona->id) }}"
+                                            href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"
                                             role="button"
                                         >
-                                            Modifica
+                                            Assegna
                                         </a>
                                     @endif
                                 </div>
