@@ -2965,19 +2965,7 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Actions/CreateMarriageAction.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_cambiogruppo\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_creazione\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_uscita\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
@@ -2989,51 +2977,15 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$note\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nuovo_gruppo_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$persona_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$posizione\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$stato\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
-			count: 6
+			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 7
+			count: 2
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
@@ -3043,56 +2995,8 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:find\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:aggiornaComponente\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:aggiornaComponente\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:assegnaComponente\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:assegnaComponente\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:eliminaGruppoFamiliare\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:eliminaGruppoFamiliare\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:eliminaGruppoFamiliare\(\) has parameter \$idGruppo with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
@@ -3104,18 +3008,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:show\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:spostaInGruppoFamiliare\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:spostaInGruppoFamiliare\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
@@ -3133,22 +3025,142 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:uscita\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_cambiogruppo\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:uscita\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nuovo_gruppo_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyGruppofamiliareController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyGruppofamiliareController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyGruppofamiliareController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyController\:\:view\(\) has no return type specified\.$#'
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_uscita\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyLeaveController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyLeaveController\:\:store\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyLeaveController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$note\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$persona_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$posizione\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$stato\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:findorfail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findorfail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyMemberController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyMemberController\:\:store\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyMemberController\:\:update\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\FamilyMemberController\:\:update\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Controllers/FamilyMemberController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_matrimonio\.$#'
@@ -3211,7 +3223,7 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\PersonaFamigliaController\:\:index\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\PersonaFamigliaController\:\:index\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Controllers/PersonaFamigliaController.php
@@ -3712,19 +3724,37 @@ parameters:
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$inizio\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$nuovo\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\CapogruppoController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\CapogruppoController\:\:store\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/CapogruppoController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:families\(\)\.$#'
@@ -3735,7 +3765,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
+			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
 
 		-
@@ -3745,32 +3775,8 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:assegnaCapogruppo\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:assegnaCapogruppo\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:edit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:edit\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
 
@@ -3781,14 +3787,8 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:show\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:show\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\GruppofamiliareController\:\:view\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
 
@@ -3803,6 +3803,66 @@ parameters:
 			identifier: argument.templateType
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/GruppofamiliareController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$current_data_entrata\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$new_data_entrata\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$new_gruppo_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
+
+		-
+			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$current_data_entrata\.$#'
@@ -3913,7 +3973,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\PersonGruppoFamiliareController\:\:update\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\PersonGruppoFamiliareController\:\:update\(\) has parameter \$idGruppo with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
@@ -3923,66 +3983,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/PersonGruppoFamiliareController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$current_data_entrata\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$new_data_entrata\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$new_gruppo_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
-
-		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
@@ -4729,7 +4729,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonPositionController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersonPositionController\:\:delete\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersonPositionController\:\:delete\(\) has parameter \$idPos with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonPositionController.php
@@ -4819,7 +4819,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersonaPosizioneConcludiController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\PersonaPosizioneConcludiController\:\:store\(\) has parameter \$idPos with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/PersonaPosizioneConcludiController.php
