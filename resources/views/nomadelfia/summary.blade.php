@@ -329,9 +329,9 @@
         <x-slot:body>
             <form
                 class="form"
-                method="POST"
+                method="GET"
                 id="formStampa"
-                action="{{ route("nomadelfia.popolazione.stampa") }}"
+                action="{{ route("nomadelfia.popolazione.export.word") }}"
             >
                 @csrf
                 <h5>Seleziona gli elenchi da stampare:</h5>

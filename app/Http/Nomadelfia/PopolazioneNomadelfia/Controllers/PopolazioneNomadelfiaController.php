@@ -86,18 +86,4 @@ final class PopolazioneNomadelfiaController
         return view('nomadelfia.popolazione.figliminorenni', compact('minorenni'));
     }
 
-    public function print(Request $request)
-    {
-        $elenchi = collect($request->elenchi);
-        $action = new ExportPopolazioneToWordAction;
-        $word = $action->execute($elenchi);
-
-        $objWriter = IOFactory::createWriter($word, 'Word2007');
-        $data = Carbon::now()->toDatestring();
-        $file_name = "popolazione-$data.docx";
-
-        $objWriter->save(storage_path($file_name));
-
-        return response()->download(storage_path($file_name));
-    }
 }
