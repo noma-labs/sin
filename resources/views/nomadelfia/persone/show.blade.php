@@ -359,7 +359,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route('nomadelfia.person.position.index', $persona->id) }}"
+                                        href="{{ route("nomadelfia.person.position.index", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
