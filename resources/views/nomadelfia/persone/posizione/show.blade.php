@@ -104,7 +104,7 @@
                                 class="form"
                                 method="POST"
                                 id="formPersonaPosizione"
-                                action="{{ route("nomadelfia.persone.posizione.assegna", ["idPersona" => $persona->id]) }}"
+                                action="{{ route("nomadelfia.person.position.store", $persona->id) }}"
                             >
                                 @csrf
                                 @if ($posattuale != null)

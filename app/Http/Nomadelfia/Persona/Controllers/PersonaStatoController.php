@@ -29,11 +29,11 @@ final class PersonaStatoController
         $persona->assegnaStato($request->stato_id, $request->data_inizio, $request->data_fine);
 
         return redirect()
-            ->action([self::class, 'index'],$persona->id)
+            ->action([self::class, 'index'], $persona->id)
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
-    public function update(Request $request, $idPersona, $id)
+    public function update(Request $request, $id, $idStato)
     {
         $request->validate([
             'data_fine' => 'date',
@@ -44,8 +44,8 @@ final class PersonaStatoController
             'data_inizio.required' => 'La data di inizio dello stato è obbligatoria.',
             'stato.required' => 'Lo stato attuale è obbligatorio.',
         ]);
-        $persona = Persona::findOrFail($idPersona);
-        $persona->stati()->updateExistingPivot($id,
+        $persona = Persona::findOrFail($id);
+        $persona->stati()->updateExistingPivot($idStato,
             ['data_fine' => $request->data_fine, 'data_inizio' => $request->data_inizio, 'stato' => $request->stato]);
 
         return redirect()

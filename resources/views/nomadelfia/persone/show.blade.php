@@ -335,7 +335,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.stato",  $persona->id) }}"
+                                        href="{{ route("nomadelfia.persone.stato", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
@@ -359,7 +359,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.posizione", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route('nomadelfia.person.position.index', $persona->id) }}"
                                     >
                                         Modifica
                                     </a>

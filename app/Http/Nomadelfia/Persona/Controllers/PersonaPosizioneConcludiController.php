@@ -25,7 +25,7 @@ final class PersonaPosizioneConcludiController
         $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
         if ($res) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonPositionController::class, 'index'], $persona->id)
                 ->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
         }
 

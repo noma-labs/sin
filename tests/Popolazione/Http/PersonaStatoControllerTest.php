@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
-use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
+use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -39,7 +39,7 @@ it('update stato of a person', function (): void {
     $data_fine = Carbon::now()->toDateString();
     $persona->assegnaStato($stato->id, $data_inizio, $data_fine);
 
-    $this->put(action([PersonaStatoController::class, 'update'], ['idPersona' => $persona->id, 'id' => $stato->id]),
+    $this->put(action([PersonaStatoController::class, 'update'], ['id' => $persona->id, 'idStato' => $stato->id]),
         [
             'data_fine' => $data_fine,
             'data_inizio' => $data_inizio,
@@ -56,8 +56,8 @@ it('update stato of a person', function (): void {
 //    $data_fine = Carbon::now()->toDateString();
 //    $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 //
-//    $this->delete(action([PersonaPosizioneController::class, 'delete'], ['idPersona' => $persona->id, 'id' => $posizione->id]))
-//        ->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
+//    $this->delete(action([PersonPositionController::class, 'delete'], ['idPersona' => $persona->id, 'id' => $posizione->id]))
+//        ->assertRedirect(route('nomadelfia.person.position.index', $persona->id));
 //
 // });
 //
@@ -73,6 +73,6 @@ it('update stato of a person', function (): void {
 //        [
 //            'data_inizio' => $data_inizio,
 //            'data_fine' => $data_fine,
-//        ])->assertRedirect(route('nomadelfia.persone.posizione', ['idPersona' => $persona->id]));
+//        ])->assertRedirect(route('nomadelfia.person.position.index', $persona->id));
 //
 // });

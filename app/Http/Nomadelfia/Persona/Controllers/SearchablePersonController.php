@@ -7,7 +7,7 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-final class SearchablePersonaController
+final class SearchablePersonController
 {
     public function show(Request $request)
     {

@@ -42,11 +42,11 @@ use App\Nomadelfia\Persona\Controllers\InternalNameController;
 use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Controllers\PersonaPosizioneConcludiController;
-use App\Nomadelfia\Persona\Controllers\PersonaPosizioneController;
+use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\PersonaStatoController;
 use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
-use App\Nomadelfia\Persona\Controllers\SearchablePersonaController;
+use App\Nomadelfia\Persona\Controllers\SearchablePersonController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\JoinLeaveHistoryController;
@@ -130,16 +130,16 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('internal-name.update');
 
     Route::view('search', 'nomadelfia.persone.search')->name('people.search');
-    Route::get('search/submit', [SearchablePersonaController::class, 'show'])->name('people.search.show');
+    Route::get('search/submit', [SearchablePersonController::class, 'show'])->name('people.search.show');
 
-    Route::get('persone/{id}/stato', [PersonaStatoController::class, 'index'])->name('persone.stato');
-    Route::post('persone/{id}/stato', [PersonaStatoController::class, 'store'])->name('persone.stato.assegna');
-    Route::put('persone/{idPersona}/stato/{id}', [PersonaStatoController::class, 'update'])->name('persone.stato.modifica');
+    Route::get('people/{id}/stato', [PersonaStatoController::class, 'index'])->name('persone.stato');
+    Route::post('people/{id}/stato', [PersonaStatoController::class, 'store'])->name('persone.stato.assegna');
+    Route::put('people/{id}/stato/{idStato}', [PersonaStatoController::class, 'update'])->name('persone.stato.modifica');
 
-    Route::get('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'index'])->name('persone.posizione');
-    Route::post('persone/{idPersona}/posizione', [PersonaPosizioneController::class, 'store'])->name('persone.posizione.assegna');
-    Route::put('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'update'])->name('persone.posizione.modifica');
-    Route::delete('persone/{idPersona}/posizione/{id}', [PersonaPosizioneController::class, 'delete'])->name('persone.posizione.elimina');
+    Route::get('people/{id}/position', [PersonPositionController::class, 'index'])->name('person.position.index');
+    Route::post('people/{id}/position', [PersonPositionController::class, 'store'])->name('person.position.store');
+    Route::put('persone/{idPersona}/posizione/{id}', [PersonPositionController::class, 'update'])->name('persone.posizione.modifica');
+    Route::delete('persone/{idPersona}/posizione/{id}', [PersonPositionController::class, 'delete'])->name('persone.posizione.elimina');
     Route::post('persone/{idPersona}/posizione/{id}/concludi', [PersonaPosizioneConcludiController::class, 'store'])->name('persone.posizione.concludi');
 
     Route::get('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'index'])->name('persone.gruppofamiliare');
@@ -151,7 +151,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
     Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
     Route::post('persone/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
-     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
+    Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
     Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('azienda.lavoratore.assegna');
     Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('aziende.persona.sposta');
