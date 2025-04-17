@@ -58,10 +58,10 @@ final class PersonPositionController
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
 
-    public function delete($idPersona, $id)
+    public function delete($id, $idPos)
     {
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->posizioni()->detach($id);
+        $persona = Persona::findOrFail($id);
+        $res = $persona->posizioni()->detach($idPos);
         if ($res) {
             return redirect()
                 ->action([self::class, 'index'], $persona->id)

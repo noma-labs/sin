@@ -48,7 +48,7 @@
                                         class="form"
                                         method="POST"
                                         id="formPersonaGruppoModifica{{ $gruppo->id }}"
-                                        action="{{ route("nomadelfia.gruppifamiliari.capogruppo", ["id" => $gruppo->id]) }}"
+                                        action="{{ route("nomadelfia.capogruppo.store", $gruppo->id) }}"
                                     >
                                         @csrf
                                         <div class="row">
@@ -156,7 +156,7 @@
                                             <div class="fw-bold mt-2">
                                                 Fam.
                                                 <a
-                                                    href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $famiglia_id]) }}"
+                                                    href="{{ route("nomadelfia.families.show", $famiglia_id) }}"
                                                 >
                                                     {{ App\Nomadelfia\Famiglia\Models\Famiglia::find($famiglia_id)->nome_famiglia }}
                                                 </a>

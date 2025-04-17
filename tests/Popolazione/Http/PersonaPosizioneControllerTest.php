@@ -37,7 +37,7 @@ it('update posizione of a person', function (): void {
     $data_fine = Carbon::now()->startOfDay();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->put(action([PersonPositionController::class, 'update'], ['idPersona' => $persona->id, 'id' => $posizione->id]),
+    $this->put(action([PersonPositionController::class, 'update'], ['id' => $persona->id, 'idPos' => $posizione->id]),
         [
             'current_data_inizio' => $data_inizio->toDateString(),
             'new_data_inizio' => Carbon::now()->addDay()->toDateString(),
@@ -53,7 +53,7 @@ it('deletes a posizione of a person', function (): void {
     $data_fine = Carbon::now()->startOfDay();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->delete(action([PersonPositionController::class, 'delete'], ['idPersona' => $persona->id, 'id' => $posizione->id]))
+    $this->delete(action([PersonPositionController::class, 'delete'], ['id' => $persona->id, 'idPos' => $posizione->id]))
         ->assertRedirect(route('nomadelfia.person.position.index', $persona->id));
 
 });
@@ -66,7 +66,7 @@ it('concludes a posizione of a person', function (): void {
     $data_fine = Carbon::now()->startOfDay();
     $persona->assegnaPosizione($posizione->id, $data_inizio, $data_fine);
 
-    $this->post(action([PersonaPosizioneConcludiController::class, 'store'], ['idPersona' => $persona->id, 'id' => $posizione->id]),
+    $this->post(action([PersonaPosizioneConcludiController::class, 'store'], ['id' => $persona->id, 'idPos' => $posizione->id]),
         [
             'data_inizio' => $data_inizio,
             'data_fine' => $data_fine,

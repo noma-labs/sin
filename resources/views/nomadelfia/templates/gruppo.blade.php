@@ -1,3 +1,3 @@
-<a href="{{ route("nomadelfia.gruppifamiliari.dettaglio", ["id" => $id]) }}">
+<a href="{{ route("nomadelfia.gruppifamiliari.show", $id) }}">
     {{ $nome }}
 </a>

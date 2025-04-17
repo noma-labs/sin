@@ -39,7 +39,7 @@
                                             class="form"
                                             method="POST"
                                             id="formConcludiPosizione{{ $posattuale->id }}"
-                                            action="{{ route("nomadelfia.persone.posizione.concludi", ["idPersona" => $persona->id, "id" => $posattuale->id]) }}"
+                                            action="{{ route("nomadelfia.person.position.end", ["id" => $persona->id, "idPos" => $posattuale->id]) }}"
                                         >
                                             @csrf
                                             <input

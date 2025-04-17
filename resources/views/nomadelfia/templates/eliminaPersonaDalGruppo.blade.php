@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formEliminaGruppoStorico{{ $gruppo->id }}"
-            action="{{ route("nomadelfia.persone.gruppo.elimina", ["idPersona" => $persona->id, "id" => $gruppo->id]) }}"
+            action="{{ route("nomadelfia.persone.gruppo.delete", ["id" => $persona->id, "idGruppo" => $gruppo->id]) }}"
         >
             @csrf
             @method("delete")

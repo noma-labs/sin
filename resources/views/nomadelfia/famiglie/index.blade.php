@@ -40,7 +40,7 @@
                                     @foreach ($capifamiglieMaschio->get() as $uomo)
                                         <div>
                                             <a
-                                                href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $uomo->id]) }}"
+                                                href="{{ route("nomadelfia.families.show", $uomo->id) }}"
                                             >
                                                 {{ $uomo->nome_famiglia }}
                                             </a>
@@ -59,7 +59,7 @@
                                     @foreach ($capifamiglieFemmina->get() as $donna)
                                         <div>
                                             <a
-                                                href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $donna->id]) }}"
+                                                href="{{ route("nomadelfia.families.show", $donna->id) }}"
                                             >
                                                 {{ $donna->nome_famiglia }}
                                             </a>
@@ -180,7 +180,7 @@
                                             @foreach ($famigliaWithDescr->results as $famiglia)
                                                 <li>
                                                     <a
-                                                        href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $famiglia->id]) }}"
+                                                        href="{{ route("nomadelfia.families.show", $famiglia->id) }}"
                                                     >
                                                         {{ $famiglia->nome_famiglia }}
                                                     </a>

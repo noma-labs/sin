@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formPersonaPosizioneModifica{{ $persona->id }}"
-            action="{{ route("nomadelfia.persone.posizione.modifica", ["idPersona" => $persona->id, "id" => $id]) }}"
+            action="{{ route("nomadelfia.person.position.update", ["id" => $persona->id, "idPos" => $id]) }}"
         >
             @method("PUT")
             @csrf

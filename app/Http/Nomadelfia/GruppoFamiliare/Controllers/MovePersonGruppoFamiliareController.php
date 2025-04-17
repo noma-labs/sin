@@ -10,7 +10,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaGruppoFamiliareSpostaController
+final class MovePersonGruppoFamiliareController
 {
     public function store(Request $request, $idPersona, $id)
     {
@@ -38,7 +38,7 @@ final class PersonaGruppoFamiliareSpostaController
         );
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([PersonGruppoFamiliareController::class, 'index'], $persona->id)
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 }

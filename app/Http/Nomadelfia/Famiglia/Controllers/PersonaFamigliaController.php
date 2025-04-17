@@ -8,9 +8,9 @@ use App\Nomadelfia\Persona\Models\Persona;
 
 final class PersonaFamigliaController
 {
-    public function index($idPersona)
+    public function index($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $attuale = $persona->famigliaAttuale();
         $storico = $persona->famiglieStorico;
 

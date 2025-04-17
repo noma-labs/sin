@@ -6,7 +6,7 @@ namespace Tests\Http\Controllers;
 
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Models\Azienda;
-use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\GruppofamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Incarico\Models\Incarico;
@@ -88,12 +88,12 @@ it('show_gruppifamiliari_edit', function (): void {
     $action->execute($persona, $data_entrata, GruppoFamiliare::findOrFail($gruppo->id));
 
     $this
-        ->get(action([GruppifamiliariController::class, 'view']))
+        ->get(action([GruppofamiliareController::class, 'index']))
         ->assertSuccessful()
         ->assertSee($gruppo->nome);
 
     $this
-        ->get(action([GruppifamiliariController::class, 'edit'], $gruppo->id))
+        ->get(action([GruppofamiliareController::class, 'show'], $gruppo->id))
         ->assertSuccessful()
         ->assertSee($gruppo->nome);
 });

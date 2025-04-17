@@ -26,7 +26,6 @@
                     >
                         Elenco Elezioni
                     </a>
-                    {{-- <a href="{{ route('nomadelfia.famiglie') }}" class="btn btn-primary">Modifica</a> --}}
                 </div>
             </div>
         </div>
@@ -44,7 +43,6 @@
                                         @if (empty($m->nominativo))
                                             I have NO record!
                                         @else
-                                            {{-- @include("nomadelfia.templates.persona", ['persona' => $m]) --}}
                                             <li>{{ $m->nominativo }}</li>
                                         @endif
                                     </li>
@@ -55,7 +53,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href="{{ route("nomadelfia.families") }}"
                         class="btn btn-primary"
                     >
                         Modifica
@@ -72,7 +70,6 @@
                             <li>{{ $key }}</li>
                             <ul>
                                 @foreach ($membri as $m)
-                                    {{-- <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li> --}}
                                     <li>{{ $m->nominativo }}</li>
                                 @endforeach
                             </ul>
@@ -81,7 +78,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href="{{ route("nomadelfia.families") }}"
                         class="btn btn-primary"
                     >
                         Modifica
@@ -99,7 +96,6 @@
                             <li>{{ $key }}</li>
                             <ul>
                                 @foreach ($membri as $m)
-                                    {{-- <li>@include("nomadelfia.templates.persona", ['persona' => $m])  </li> --}}
                                     <li>{{ $m->nominativo }}</li>
                                 @endforeach
                             </ul>
@@ -108,7 +104,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href="{{ route("nomadelfia.families") }}"
                         class="btn btn-primary"
                     >
                         Modifica

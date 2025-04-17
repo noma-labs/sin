@@ -29,12 +29,15 @@ use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
-use App\Nomadelfia\Famiglia\Controllers\FamiglieController;
+use App\Nomadelfia\Famiglia\Controllers\FamilyController;
+use App\Nomadelfia\Famiglia\Controllers\FamilyLeaveController;
+use App\Nomadelfia\Famiglia\Controllers\FamilyMemberController;
 use App\Nomadelfia\Famiglia\Controllers\MatrimonioController;
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\GruppifamiliariController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\CapogruppoController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\GruppofamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\MovePersonGruppoFamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonGruppoFamiliareController;
 use App\Nomadelfia\Incarico\Controllers\IncarichiController;
 use App\Nomadelfia\Persona\Controllers\DeathController;
 use App\Nomadelfia\Persona\Controllers\FolderNumberController;
@@ -138,24 +141,26 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 
     Route::get('people/{id}/position', [PersonPositionController::class, 'index'])->name('person.position.index');
     Route::post('people/{id}/position', [PersonPositionController::class, 'store'])->name('person.position.store');
-    Route::put('persone/{idPersona}/posizione/{id}', [PersonPositionController::class, 'update'])->name('persone.posizione.modifica');
-    Route::delete('persone/{idPersona}/posizione/{id}', [PersonPositionController::class, 'delete'])->name('persone.posizione.elimina');
-    Route::post('persone/{idPersona}/posizione/{id}/concludi', [PersonaPosizioneConcludiController::class, 'store'])->name('persone.posizione.concludi');
+    Route::put('people/{id}/position/{idPos}', [PersonPositionController::class, 'update'])->name('person.position.update');
+    Route::delete('people/{id}/position/{idPos}', [PersonPositionController::class, 'delete'])->name('person.position.delete');
+    Route::post('people/{id}/position/{idPos}/end', [PersonaPosizioneConcludiController::class, 'store'])->name('person.position.end');
 
-    Route::get('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'index'])->name('persone.gruppofamiliare');
-    Route::post('persone/{idPersona}/gruppofamiliare', [PersonaGruppoFamiliareController::class, 'store'])->name('persone.gruppo.assegna');
-    Route::put('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'update'])->name('persone.gruppo.modifica');
-    Route::delete('persone/{idPersona}/gruppofamiliare/{id}', [PersonaGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.elimina');
-    Route::post('persone/{idPersona}/gruppofamiliare/{id}/sposta', [PersonaGruppoFamiliareSpostaController::class, 'store'])->name('persone.gruppo.sposta');
+    Route::get('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'index'])->name('person.gruppo');
+    Route::post('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'store'])->name('person.gruppo.store');
+    // FIXME: add an id for the "gruppi_persone" to uniquely update, delete, or move apersone. The <id, idGruppo> key does not uniquely identify
+    Route::put('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'update'])->name('person.gruppo.update');
+    Route::delete('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.delete');
+    Route::post('people/{idPersona}/gruppofamiliare/{id}/sposta', [MovePersonGruppoFamiliareController::class, 'store'])->name('persone.gruppo.sposta');
 
-    Route::get('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
-    Route::post('persone/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
-    Route::post('persone/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
+    Route::get('people/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
+    Route::post('people/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
+    Route::post('people/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
     Route::get('aziende', [AziendeController::class, 'view'])->name('aziende');
     Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
     Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('azienda.lavoratore.assegna');
     Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('aziende.persona.sposta');
     Route::put('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'update'])->name('aziende.persona.update');
+    // FIXME: add an id for aziene_persone to uniquely identify them. This delete remove all the aziende peronse association
     Route::delete('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'delete'])->name('aziende.persona.delete');
 
     Route::get('incarichi', [IncarichiController::class, 'view'])->name('incarichi.index');
@@ -165,28 +170,25 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('incarichi.assegna');
     Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('incarichi.persone.elimina');
 
-    Route::get('gruppifamiliari', [GruppifamiliariController::class, 'view'])->name('gruppifamiliari');
-    Route::get('gruppifamiliari/{id}', [GruppifamiliariController::class, 'edit'])->name('gruppifamiliari.dettaglio');
-    // TODO: GruppoFamilireCapogruppo@store
-    Route::post('gruppifamiliari/{id}/capogruppo', [GruppifamiliariController::class, 'assegnaCapogruppo'])->name('gruppifamiliari.capogruppo');
+    Route::get('gruppifamiliari', [GruppofamiliareController::class, 'index'])->name('gruppifamiliari');
+    Route::get('gruppifamiliari/{id}', [GruppofamiliareController::class, 'show'])->name('gruppifamiliari.show');
+    Route::post('gruppifamiliari/{id}/capogruppo', [CapogruppoController::class, 'store'])->name('capogruppo.store');
 
-    Route::get('persone/{idPersona}/famiglie', [PersonaFamigliaController::class, 'index'])->name('persone.famiglie');
-    Route::get('famiglie', [FamiglieController::class, 'view'])->name('famiglie');
-    Route::post('famiglie/create', [FamiglieController::class, 'createConfirm'])->name('famiglie.create.confirm');
-    Route::get('famiglie/{id}', [FamiglieController::class, 'show'])->name('famiglia.dettaglio');
-    Route::post('famiglie/{id}/aggiorna/', [FamiglieController::class, 'update'])->name('famiglia.aggiorna');
+    Route::get('families', [FamilyController::class, 'index'])->name('families');
+    Route::get('families/{id}', [FamilyController::class, 'show'])->name('families.show');
+    Route::put('families/{id}', [FamilyController::class, 'update'])->name('families.update');
+    Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('person.families');
 
-    Route::get('matrimonio/create', [MatrimonioController::class, 'create'])->name('matrimonio.create');
-    Route::post('matrimonio/store', [MatrimonioController::class, 'store'])->name('matrimonio.store');
+    Route::get('marriage', [MatrimonioController::class, 'create'])->name('marriage.create');
+    Route::post('marriage', [MatrimonioController::class, 'store'])->name('marriage.store');
 
-    // TODO FamigliaUscitaController@store
-    Route::post('famiglie/{id}/uscita', [FamiglieController::class, 'uscita'])->name('famiglie.uscita');
+    Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('family.leave');
+    Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('family.member.store');
+    Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('family.member.update');
+
     // TODO FamigliaGruppoFamiliareController@store|delete
-    Route::post('famiglie/{id}/gruppo/{currentGruppo}/assegna', [FamiglieController::class, 'spostaInGruppoFamiliare'])->name('famiglie.gruppo.sposta');
-    Route::delete('famiglie/{id}/gruppo/{idGruppo}', [FamiglieController::class, 'eliminaGruppoFamiliare'])->name('famiglie.gruppo.elimina');
-    // TODO FamigliaComponenteController@store|update
-    Route::post('famiglie/{id}/componente/assegna', [FamiglieController::class, 'assegnaComponente'])->name('famiglie.componente.assegna');
-    Route::post('famiglie/{id}/componente/aggiorna', [FamiglieController::class, 'aggiornaComponente'])->name('famiglie.componente.aggiorna');
+    Route::post('families/{id}/gruppo/{currentGruppo}/assegna', [FamilyController::class, 'spostaInGruppoFamiliare'])->name('famiglie.gruppo.sposta');
+    Route::delete('families/{id}/gruppo/{idGruppo}', [FamilyController::class, 'eliminaGruppoFamiliare'])->name('famiglie.gruppo.elimina');
 
     // TODO PrintablePopolazioneController@store
     Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name('popolazione.stampa');

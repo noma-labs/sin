@@ -374,7 +374,7 @@
                                 <div class="col-sm-6">
                                     @if ($gruppoAttuale)
                                         <a
-                                            href="{{ route("nomadelfia.gruppifamiliari.dettaglio", [$gruppoAttuale->id]) }}"
+                                            href="{{ route("nomadelfia.gruppifamiliari.show", [$gruppoAttuale->id]) }}"
                                         >
                                             {{ $gruppoAttuale->nome }}
                                         </a>
@@ -387,7 +387,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.gruppofamiliare", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.person.gruppo", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
@@ -476,7 +476,7 @@
                                         </label>
                                         <div class="col-sm-8">
                                             <a
-                                                href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $persona->famigliaAttuale()->id]) }}"
+                                                href="{{ route("nomadelfia.families.show", $persona->famigliaAttuale()->id) }}"
                                             >
                                                 {{ $persona->famigliaAttuale()->nome_famiglia }}
                                             </a>
@@ -512,7 +512,7 @@
                                     <div class="col-sm-8">
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("nomadelfia.persone.famiglie", ["idPersona" => $persona->id]) }}"
+                                            href="{{ route("nomadelfia.person.families", $persona->id) }}"
                                         >
                                             Modifica
                                         </a>
