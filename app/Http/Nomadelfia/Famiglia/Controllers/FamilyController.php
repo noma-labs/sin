@@ -57,38 +57,4 @@ final class FamilyController
             ['id' => $id]))->withErrors("Errore. Famiglia $famiglia->nome_famiglia non aggioranta");
 
     }
-
-    public function eliminaGruppoFamiliare(Request $request, $id, $idGruppo)
-    {
-        $famiglia = Famiglia::findorfail($id);
-        $gruppo = GruppoFamiliare::find($idGruppo);
-        $famiglia->rimuoviDaGruppoFamiliare($idGruppo);
-
-        return redirect(route('nomadelfia.gruppifamiliari',
-            ['id' => $idGruppo]))->withSuccess("Famiglia $famiglia->nome_famiglia eliminatada $gruppo->nome con successo");
-    }
-
-    /**
-     * Sposta la famiglia e tutti i componenti attivi in un nuovo gruppo familiare.
-     *
-     * @author Davide Neri
-     **/
-    public function spostaInGruppoFamiliare(Request $request, $id)
-    {
-        $request->validate([
-            'nuovo_gruppo_id' => 'required',
-            'data_cambiogruppo' => 'required|date',
-        ], [
-            'nuovo_gruppo_id.required' => 'Il nuovo gruppo dove spostare la famiglia è obbligatorio',
-            'data_cambiogruppo.required' => 'La data del cambio di gruppo è obbligatoria.',
-        ]);
-        $famiglia = Famiglia::findorfail($id);
-        $gruppo_corrente = $famiglia->gruppoFamiliareAttualeOrFail();
-        $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente->id, $request->data_cambiogruppo,
-            $request->nuovo_gruppo_id, $request->data_cambiogruppo);
-
-        return redirect(route('nomadelfia.families.show',
-            ['id' => $id]))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
-
-    }
 }

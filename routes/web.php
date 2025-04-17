@@ -30,6 +30,7 @@ use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
 use App\Nomadelfia\EserciziSpirituali\Controllers\EsSpiritualiController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyController;
+use App\Nomadelfia\Famiglia\Controllers\FamilyGruppofamiliareController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyLeaveController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyMemberController;
 use App\Nomadelfia\Famiglia\Controllers\MatrimonioController;
@@ -186,9 +187,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('family.member.update');
 
-    // TODO FamigliaGruppoFamiliareController@store|delete
-    Route::post('families/{id}/gruppo/{currentGruppo}/assegna', [FamilyController::class, 'spostaInGruppoFamiliare'])->name('famiglie.gruppo.sposta');
-    Route::delete('families/{id}/gruppo/{idGruppo}', [FamilyController::class, 'eliminaGruppoFamiliare'])->name('famiglie.gruppo.elimina');
+    Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('family.gruppo.move');
 
     // TODO PrintablePopolazioneController@store
     Route::post('popolazione/stampa', [PopolazioneNomadelfiaController::class, 'print'])->name('popolazione.stampa');
