@@ -76,7 +76,7 @@ it('can move a persona from another gruppo familiare', function (): void {
     $action->execute($persona, $data_entrata, $gruppo);
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->post(action([MovePersonGruppoFamiliareController::class, 'store'], ['idPersona' => $persona->id,  'id' => $gruppo->id]),
+    $this->post(action([MovePersonGruppoFamiliareController::class, 'store'], ['id' => $persona->id,  'idGruppo' => $gruppo->id]),
         [
             'new_gruppo_id' => GruppoFamiliare::all()->random()->id,
             'new_data_entrata' => $new_data_entrata,

@@ -151,7 +151,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     // FIXME: add an id for the "gruppi_persone" to uniquely update, delete, or move apersone. The <id, idGruppo> key does not uniquely identify
     Route::put('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'update'])->name('person.gruppo.update');
     Route::delete('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.delete');
-    Route::post('people/{idPersona}/gruppofamiliare/{id}/sposta', [MovePersonGruppoFamiliareController::class, 'store'])->name('persone.gruppo.sposta');
+    Route::post('people/{id}/gruppofamiliare/{idGruppo}/sposta', [MovePersonGruppoFamiliareController::class, 'store'])->name('persone.gruppo.sposta');
 
     Route::get('people/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->name('persone.aziende');
     Route::post('people/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');

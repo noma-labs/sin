@@ -3853,7 +3853,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\GruppoFamiliare\\Controllers\\MovePersonGruppoFamiliareController\:\:store\(\) has parameter \$idGruppo with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
@@ -4279,7 +4279,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/DeathController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\DeathController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\DeathController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/DeathController.php
@@ -4315,7 +4315,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\FolderNumberController\:\:create\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\FolderNumberController\:\:create\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
@@ -4327,7 +4327,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\FolderNumberController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\FolderNumberController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/FolderNumberController.php
@@ -4369,7 +4369,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:edit\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
@@ -4381,7 +4381,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
@@ -4393,7 +4393,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:update\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\InternalNameController\:\:update\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/InternalNameController.php
@@ -4519,7 +4519,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:store\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Persona\\Controllers\\LeaveCommunityController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/LeaveCommunityController.php
@@ -5557,7 +5557,7 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\JoinLeaveHistoryController\:\:index\(\) has parameter \$idPersona with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\JoinLeaveHistoryController\:\:index\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php

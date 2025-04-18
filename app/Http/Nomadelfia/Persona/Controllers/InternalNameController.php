@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 
 final class InternalNameController
 {
-    public function edit($idPersona)
+    public function edit($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
 
         return view('nomadelfia.persone.edit_nominativo', compact('persona'));
     }
 
-    public function update(Request $request, $idPersona)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
@@ -24,17 +24,17 @@ final class InternalNameController
             'nominativo.required' => 'Il nominativo è obbligatorio',
             'nominativo.unique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $persona->nominativo = $request->nominativo;
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show', $idPersona)->withSucces('Nominativo  aggiornato con suceesso');
+            return redirect()->route('nomadelfia.person.show', $id)->withSucces('Nominativo  aggiornato con suceesso');
         }
 
-        return redirect()->route('nomadelfia.person.show', $idPersona)->withError('Errore. Il nominativo non è stato aggiornato.');
+        return redirect()->route('nomadelfia.person.show', $id)->withError('Errore. Il nominativo non è stato aggiornato.');
 
     }
 
-    public function store(Request $request, $idPersona)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'nuovonominativo' => 'required|unique:db_nomadelfia.persone,nominativo',
@@ -42,13 +42,13 @@ final class InternalNameController
             'nuovonominativorequired' => 'Il nominativo è obbligatorio',
             'nuovonominativounique' => "Il nominativo $request->nominativo assegnato ad un'altra persona.",
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $persona->nominativiStorici()->create(['nominativo' => $persona->nominativo]);
         $persona->nominativo = $request->nuovonominativo;
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show', $idPersona)->withSucces('Nuovo nominativo aggiunto con successo.');
+            return redirect()->route('nomadelfia.person.show', $id)->withSucces('Nuovo nominativo aggiunto con successo.');
         }
 
-        return redirect()->route('nomadelfia.person.show', $idPersona)->withError('Errore. Il nominativo non è stato assegnato.');
+        return redirect()->route('nomadelfia.person.show', $id)->withError('Errore. Il nominativo non è stato assegnato.');
     }
 }
