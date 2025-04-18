@@ -51,13 +51,13 @@ use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\SearchablePersonController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\JoinLeaveHistoryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Officina\Controllers\FiltriController;
 use App\Officina\Controllers\GommeController;
 use App\Officina\Controllers\PatentiController;
@@ -191,7 +191,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('export/word', [PrintableWordPopolazioneController::class, 'index'])->name('popolazione.export.word');
     Route::get('export/excel', [PrintableExcelPopolazioneController::class, 'index'])->name('popolazione.export.excel');
 
-    Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
+    Route::get('popolazione', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
     Route::get('popolazione/positions/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');
     Route::get('popolazione/positions/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->name('popolazione.posizione.effettivi');
     Route::get('popolazione/positions/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->name('popolazione.posizione.postulanti');
@@ -202,17 +202,17 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('popolazione/stati/mamvocazione', [PopolazioneNomadelfiaController::class, 'mammeVocazione'])->name('popolazione.stati.mammevocazione');
     Route::get('popolazione/stati/nommamme', [PopolazioneNomadelfiaController::class, 'nomadelfaMamma'])->name('popolazione.stati.nomadelfamamma');
 
-    Route::get('esercizi/', [EsSpiritualiController::class, 'index'])->name('esercizi');
+    Route::get('esercizi', [EsSpiritualiController::class, 'index'])->name('esercizi');
     Route::get('esercizi/stampa', [EsSpiritualiController::class, 'stampa'])->name('esercizi.stampa');
     Route::get('esercizi/{id}', [EsSpiritualiController::class, 'show'])->name('esercizi.dettaglio');
     Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegn]aPersona'])->name('esercizi.assegna');
     Route::delete('esercizi/{id}/persona/{idPersona}', [EsSpiritualiController::class, 'elimin]aPersona'])->name('esercizi.elimina');
 
-    Route::get('cariche/', [CaricheController::class, 'index'])->name('cariche.index');
+    Route::get('cariche', [CaricheController::class, 'index'])->name('cariche.index');
     Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('cariche.elezioni');
     Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('cariche.esporta');
 
-    Route::get('activity/', [RecentActivitesController::class, 'index'])->name('activity');
+    Route::get('recent-activites', [RecentActivitesController::class, 'index'])->name('activity');
 });
 
 Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () {

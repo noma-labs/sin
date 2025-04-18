@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 
@@ -20,6 +19,7 @@ final class PopolazioneNomadelfiaController
     public function maggiorenni()
     {
         $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
+
         return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni'));
     }
 
