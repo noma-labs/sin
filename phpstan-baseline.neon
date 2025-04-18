@@ -3166,49 +3166,49 @@ parameters:
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$data_matrimonio\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$husband\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$wife\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:notAlreadyMarried\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MatrimonioController\:\:create\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MarriageController\:\:create\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MatrimonioController\:\:store\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Controllers\\MarriageController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Controllers/MatrimonioController.php
+			path: app/Http/Nomadelfia/Famiglia/Controllers/MarriageController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
@@ -5518,13 +5518,13 @@ parameters:
 			message: '#^Call to an undefined static method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/AggiornamentoAnagrafeController.php
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/RecentActivitesController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\AggiornamentoAnagrafeController\:\:index\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\RecentActivitesController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/AggiornamentoAnagrafeController.php
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/RecentActivitesController.php
 
 		-
 			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'

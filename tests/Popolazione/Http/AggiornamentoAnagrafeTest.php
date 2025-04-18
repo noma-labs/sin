@@ -8,7 +8,7 @@ use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\LogEntrataPersonaAction;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use Carbon\Carbon;
 
 it('show aggiornamento anagrafe index', function (): void {
@@ -29,7 +29,7 @@ it('show aggiornamento anagrafe index', function (): void {
         $famiglia
     );
     login();
-    $this->get(action([AggiornamentoAnagrafeController::class, 'index']))
+    $this->get(action([RecentActivitesController::class, 'index']))
         ->assertSuccessful()
         ->assertSee($persona->nominativo);
 });

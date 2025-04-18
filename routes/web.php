@@ -33,7 +33,7 @@ use App\Nomadelfia\Famiglia\Controllers\FamilyController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyGruppofamiliareController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyLeaveController;
 use App\Nomadelfia\Famiglia\Controllers\FamilyMemberController;
-use App\Nomadelfia\Famiglia\Controllers\MatrimonioController;
+use App\Nomadelfia\Famiglia\Controllers\MarriageController;
 use App\Nomadelfia\Famiglia\Controllers\PersonaFamigliaController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\CapogruppoController;
 use App\Nomadelfia\GruppoFamiliare\Controllers\GruppofamiliareController;
@@ -51,7 +51,7 @@ use App\Nomadelfia\Persona\Controllers\PersonController;
 use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Controllers\PersonPositionController;
 use App\Nomadelfia\Persona\Controllers\SearchablePersonController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\AggiornamentoAnagrafeController;
+use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\CaricheController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\JoinLeaveHistoryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
@@ -180,25 +180,24 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('person.families');
 
-    Route::get('marriage', [MatrimonioController::class, 'create'])->name('marriage.create');
-    Route::post('marriage', [MatrimonioController::class, 'store'])->name('marriage.store');
+    Route::get('marriage', [MarriageController::class, 'create'])->name('marriage.create');
+    Route::post('marriage', [MarriageController::class, 'store'])->name('marriage.store');
 
     Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('family.leave');
     Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('family.member.store');
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('family.member.update');
-
     Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('family.gruppo.move');
 
     Route::get('export/word', [PrintableWordPopolazioneController::class, 'index'])->name('popolazione.export.word');
     Route::get('export/excel', [PrintableExcelPopolazioneController::class, 'index'])->name('popolazione.export.excel');
 
     Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
-    Route::get('popolazione/posizione/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');
-    Route::get('popolazione/posizione/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->name('popolazione.posizione.effettivi');
-    Route::get('popolazione/posizione/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->name('popolazione.posizione.postulanti');
-    Route::get('popolazione/posizione/figlimaggiorenni', [PopolazioneNomadelfiaController::class, 'figliMaggiorenni'])->name('popolazione.posizione.figli.maggiorenni');
-    Route::get('popolazione/posizione/figliminorenni', [PopolazioneNomadelfiaController::class, 'figliMinorenni'])->name('popolazione.posizione.figli.minorenni');
-    Route::get('popolazione/posizione/ospiti', [PopolazioneNomadelfiaController::class, 'ospiti'])->name('popolazione.posizione.ospiti');
+    Route::get('popolazione/positions/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');
+    Route::get('popolazione/positions/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->name('popolazione.posizione.effettivi');
+    Route::get('popolazione/positions/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->name('popolazione.posizione.postulanti');
+    Route::get('popolazione/positions/figlimaggiorenni', [PopolazioneNomadelfiaController::class, 'figliMaggiorenni'])->name('popolazione.posizione.figli.maggiorenni');
+    Route::get('popolazione/positions/figliminorenni', [PopolazioneNomadelfiaController::class, 'figliMinorenni'])->name('popolazione.posizione.figli.minorenni');
+    Route::get('popolazione/positions/ospiti', [PopolazioneNomadelfiaController::class, 'ospiti'])->name('popolazione.posizione.ospiti');
     Route::get('popolazione/stati/sacerdoti', [PopolazioneNomadelfiaController::class, 'sacerdoti'])->name('popolazione.stati.sacerdoti');
     Route::get('popolazione/stati/mamvocazione', [PopolazioneNomadelfiaController::class, 'mammeVocazione'])->name('popolazione.stati.mammevocazione');
     Route::get('popolazione/stati/nommamme', [PopolazioneNomadelfiaController::class, 'nomadelfaMamma'])->name('popolazione.stati.nomadelfamamma');
@@ -213,7 +212,7 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('cariche.elezioni');
     Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('cariche.esporta');
 
-    Route::get('activity/', [AggiornamentoAnagrafeController::class, 'index'])->name('activity');
+    Route::get('activity/', [RecentActivitesController::class, 'index'])->name('activity');
 });
 
 Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () {

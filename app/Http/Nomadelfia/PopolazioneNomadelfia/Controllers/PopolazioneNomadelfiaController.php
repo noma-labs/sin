@@ -20,10 +20,7 @@ final class PopolazioneNomadelfiaController
     public function maggiorenni()
     {
         $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
-        // TODO: togliere da qui. messo solo per urgenza di creare es spirituali
-        $esercizi = EserciziSpirituali::attivi()->get();
-
-        return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni', 'esercizi'));
+        return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni'));
     }
 
     public function effettivi()

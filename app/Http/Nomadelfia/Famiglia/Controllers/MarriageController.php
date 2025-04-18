@@ -10,7 +10,7 @@ use App\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class MatrimonioController
+final class MarriageController
 {
     public function create()
     {
