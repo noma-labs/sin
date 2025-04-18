@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Controllers\PersonaUscitaController;
+use App\Nomadelfia\Persona\Controllers\LeaveCommunityController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use Carbon\Carbon;
@@ -19,12 +19,12 @@ it('exit a persona', function (): void {
 
     $data_uscita = Carbon::now()->startOfDay();
 
-    $this->post(action([PersonaUscitaController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([LeaveCommunityController::class, 'store'], $persona->id),
         [
             'data_uscita' => $data_uscita->toDateString(),
         ])
         ->assertRedirect()
-        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+        ->assertRedirectContains(route('nomadelfia.person.show', $persona->id));
 
     $p = Persona::findOrFail($persona->id);
     expect($p->getDataUscitaNomadelfia())->toEqual($data_uscita)

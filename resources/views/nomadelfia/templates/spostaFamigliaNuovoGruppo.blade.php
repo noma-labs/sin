@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formAssegnaGruppo{{ $famiglia_id }}"
-            action="{{ route("nomadelfia.famiglie.gruppo.sposta", ["id" => $famiglia_id, "currentGruppo" => $gruppo_id]) }}"
+            action="{{ route("nomadelfia.family.gruppo.move", ["id" => $famiglia_id, "currentGruppo" => $gruppo_id]) }}"
         >
             @csrf
             <div class="row">

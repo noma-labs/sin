@@ -1,5 +1,3 @@
-<a
-    href="{{ route("nomadelfia.persone.dettaglio", ["idPersona" => $persona->id]) }}"
->
+<a href="{{ route("nomadelfia.person.show", ["id" => $persona->id]) }}">
     {{ $persona->nominativo }}
 </a>

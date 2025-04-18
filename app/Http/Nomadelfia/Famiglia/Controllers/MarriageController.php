@@ -10,7 +10,7 @@ use App\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class MatrimonioController
+final class MarriageController
 {
     public function create()
     {
@@ -36,7 +36,7 @@ final class MatrimonioController
         $act = app(CreateMarriageAction::class);
         $fam = $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
 
-        return redirect(route('nomadelfia.famiglia.dettaglio',
+        return redirect(route('nomadelfia.families.show',
             ['id' => $fam->id]))->withSuccess('Matrionio creato con successo');
     }
 }

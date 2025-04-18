@@ -11,9 +11,8 @@
                         class="form"
                         id="assegnaNumeroElenco"
                         method="POST"
-                        action="{{ route("nomadelfia.persone.numelenco.confirm", ["idPersona" => $persona->id]) }}"
+                        action="{{ route("nomadelfia.folder-number.store", $persona->id) }}"
                     >
-                        @method("PUT")
                         @csrf
                         <div class="row">
                             <div class="col-md-9">

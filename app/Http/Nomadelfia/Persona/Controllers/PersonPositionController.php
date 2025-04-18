@@ -8,18 +8,18 @@ use App\Nomadelfia\Persona\Models\Persona;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaPosizioneController
+final class PersonPositionController
 {
-    public function index($idPersona)
+    public function index($id)
     {
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $posattuale = $persona->posizioneAttuale();
         $storico = $persona->posizioniStorico;
 
         return view('nomadelfia.persone.posizione.show', compact('persona', 'posattuale', 'storico'));
     }
 
-    public function store(Request $request, $idPersona)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'posizione_id' => 'required',
@@ -30,11 +30,11 @@ final class PersonaPosizioneController
             'data_inizio.required' => 'La data di inizio della posizione è obbligatoria.',
             // 'data_fine.required'=>"La data fine della posizione è obbligatoria.",
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         $persona->assegnaPosizione($request->posizione_id, Carbon::parse($request->data_inizio), Carbon::parse($request->data_fine));
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], $persona->id)
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
@@ -51,20 +51,20 @@ final class PersonaPosizioneController
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, Carbon::parse($request->current_data_inizio), Carbon::parse($request->new_data_inizio))) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], $persona->id)
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
 
         return redirect()->back()->withError("Impossibile aggiornare la posizione di  $persona->nominativo");
     }
 
-    public function delete($idPersona, $id)
+    public function delete($id, $idPos)
     {
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->posizioni()->detach($id);
+        $persona = Persona::findOrFail($id);
+        $res = $persona->posizioni()->detach($idPos);
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], $persona->id)
                 ->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
         }
 

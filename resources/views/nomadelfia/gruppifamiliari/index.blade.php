@@ -16,7 +16,7 @@
                                 <h5 class="mb-0">
                                     <a
                                         class="btn btn-link"
-                                        href="{{ route("nomadelfia.gruppifamiliari.dettaglio", $gruppo->id) }}"
+                                        href="{{ route("nomadelfia.gruppifamiliari.show", $gruppo->id) }}"
                                     >
                                         {{ $gruppo->nome }}
                                     </a>
@@ -34,7 +34,7 @@
                                 <div class="card-body">
                                     <a
                                         class="btn btn-primary"
-                                        href="{{ route("nomadelfia.gruppifamiliari.dettaglio", $gruppo->id) }}"
+                                        href="{{ route("nomadelfia.gruppifamiliari.show", $gruppo->id) }}"
                                     >
                                         Dettaglio
                                     </a>

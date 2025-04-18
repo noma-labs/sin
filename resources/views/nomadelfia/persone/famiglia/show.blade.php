@@ -17,7 +17,7 @@
                         <div class="row">
                             <p class="col-md-3">
                                 <a
-                                    href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $attuale->id]) }}"
+                                    href="{{ route("nomadelfia.families.show", $attuale->id) }}"
                                 >
                                     {{ $attuale->nome_famiglia }}
                                 </a>

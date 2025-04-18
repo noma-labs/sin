@@ -74,13 +74,13 @@
     <div class="dropdown-menu" aria-labelledby="navbarPesone">
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.ricerca") }}"
+            href="{{ route("nomadelfia.people.search") }}"
         >
             Ricerca persone
         </a>
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.persone.anagrafica.create") }}"
+            href="{{ route("nomadelfia.person.create") }}"
         >
             Inserisci Persona
         </a>
@@ -99,12 +99,12 @@
         Famiglie
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarFamiglie">
-        <a class="dropdown-item" href="{{ route("nomadelfia.famiglie") }}">
+        <a class="dropdown-item" href="{{ route("nomadelfia.families") }}">
             Gestione famiglie
         </a>
         <a
             class="dropdown-item"
-            href="{{ route("nomadelfia.matrimonio.create") }}"
+            href="{{ route("nomadelfia.marriage.create") }}"
         >
             Nuovo Matrimonio
         </a>

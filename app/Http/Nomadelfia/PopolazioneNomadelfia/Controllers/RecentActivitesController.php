@@ -6,7 +6,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
 
-final class AggiornamentoAnagrafeController
+final class RecentActivitesController
 {
     public function index()
     {

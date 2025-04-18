@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon;
-use Illuminate\Http\Request;
-use PhpOffice\PhpWord\IOFactory;
 
 final class PopolazioneNomadelfiaController
 {
@@ -24,10 +19,8 @@ final class PopolazioneNomadelfiaController
     public function maggiorenni()
     {
         $maggiorenni = PopolazioneNomadelfia::maggiorenni('nominativo');
-        // TODO: togliere da qui. messo solo per urgenza di creare es spirituali
-        $esercizi = EserciziSpirituali::attivi()->get();
 
-        return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni', 'esercizi'));
+        return view('nomadelfia.popolazione.maggiorenni', compact('maggiorenni'));
     }
 
     public function effettivi()
@@ -84,20 +77,5 @@ final class PopolazioneNomadelfiaController
         $minorenni = PopolazioneNomadelfia::figliMinorenni();
 
         return view('nomadelfia.popolazione.figliminorenni', compact('minorenni'));
-    }
-
-    public function print(Request $request)
-    {
-        $elenchi = collect($request->elenchi);
-        $action = new ExportPopolazioneToWordAction;
-        $word = $action->execute($elenchi);
-
-        $objWriter = IOFactory::createWriter($word, 'Word2007');
-        $data = Carbon::now()->toDatestring();
-        $file_name = "popolazione-$data.docx";
-
-        $objWriter->save(storage_path($file_name));
-
-        return response()->download(storage_path($file_name));
     }
 }

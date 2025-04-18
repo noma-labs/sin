@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareController;
-use App\Nomadelfia\GruppoFamiliare\Controllers\PersonaGruppoFamiliareSpostaController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\MovePersonGruppoFamiliareController;
+use App\Nomadelfia\GruppoFamiliare\Controllers\PersonGruppoFamiliareController;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
@@ -14,7 +14,7 @@ use Carbon\Carbon;
 it('can render the gruppofamiliare index page', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $this->get(action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id]))
+    $this->get(action([PersonGruppoFamiliareController::class, 'index'], $persona->id))
         ->assertSuccessful();
 });
 
@@ -29,12 +29,12 @@ it('can update the date of a gruppo familiare', function (): void {
 
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->put(action([PersonaGruppoFamiliareController::class, 'update'], ['idPersona' => $persona->id, 'id' => $gruppo->id]),
+    $this->put(action([PersonGruppoFamiliareController::class, 'update'], ['id' => $persona->id, 'idGruppo' => $gruppo->id]),
         [
             'current_data_entrata' => $data_entrata,
             'new_data_entrata' => $new_data_entrata,
         ])
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
+        ->assertRedirect(route('nomadelfia.person.gruppo', $persona->id));
 });
 
 it('can assign a persona to a gruppo familiare', function (): void {
@@ -47,12 +47,12 @@ it('can assign a persona to a gruppo familiare', function (): void {
 
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->post(action([PersonaGruppoFamiliareController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([PersonGruppoFamiliareController::class, 'store'], $persona->id),
         [
             'gruppo_id' => GruppoFamiliare::all()->random()->id,
             'data_entrata' => $new_data_entrata,
         ])
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
+        ->assertRedirect(route('nomadelfia.person.gruppo', $persona->id));
 });
 
 it('can delete a persona from a gruppo familiare', function (): void {
@@ -63,8 +63,8 @@ it('can delete a persona from a gruppo familiare', function (): void {
     $action = app(EntrataMaggiorenneSingleAction::class);
     $action->execute($persona, $data_entrata, $gruppo);
 
-    $this->delete(action([PersonaGruppoFamiliareController::class, 'delete'], ['idPersona' => $persona->id,  'id' => $gruppo->id]))
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
+    $this->delete(action([PersonGruppoFamiliareController::class, 'delete'], ['id' => $persona->id,  'idGruppo' => $gruppo->id]))
+        ->assertRedirect(route('nomadelfia.person.gruppo', $persona->id));
 });
 
 it('can move a persona from another gruppo familiare', function (): void {
@@ -76,12 +76,12 @@ it('can move a persona from another gruppo familiare', function (): void {
     $action->execute($persona, $data_entrata, $gruppo);
     $new_data_entrata = Carbon::now()->addDay()->toDatestring();
 
-    $this->post(action([PersonaGruppoFamiliareSpostaController::class, 'store'], ['idPersona' => $persona->id,  'id' => $gruppo->id]),
+    $this->post(action([MovePersonGruppoFamiliareController::class, 'store'], ['id' => $persona->id,  'idGruppo' => $gruppo->id]),
         [
             'new_gruppo_id' => GruppoFamiliare::all()->random()->id,
             'new_data_entrata' => $new_data_entrata,
             'current_data_entrata' => $data_entrata,
         ]
     )
-        ->assertRedirect(route('nomadelfia.persone.gruppofamiliare', ['idPersona' => $persona->id]));
+        ->assertRedirect(route('nomadelfia.person.gruppo', $persona->id));
 });

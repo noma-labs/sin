@@ -189,7 +189,7 @@
                                 @foreach ($famiglieNumerose as $fam)
                                     <li>
                                         <a
-                                            href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $fam->id]) }}"
+                                            href="{{ route("nomadelfia.families.show", $fam->id) }}"
                                         >
                                             {{ $fam->nome_famiglia }}
                                         </a>
@@ -204,7 +204,7 @@
                 </div>
                 <div class="card-footer">
                     <a
-                        href="{{ route("nomadelfia.famiglie") }}"
+                        href="{{ route("nomadelfia.families") }}"
                         class="btn btn-primary"
                     >
                         Entra
@@ -322,16 +322,16 @@
     </div>
 
     <x-modal
-        modal-title="Stampa elenchi"
-        button-title="Stampa Popolazione Nomadelfia"
+        modal-title="Esporta elenchi in word"
+        button-title="Esporta (.docx)"
         button-style="btn-success my-2"
     >
         <x-slot:body>
             <form
                 class="form"
-                method="POST"
+                method="GET"
                 id="formStampa"
-                action="{{ route("nomadelfia.popolazione.stampa") }}"
+                action="{{ route("nomadelfia.popolazione.export.word") }}"
             >
                 @csrf
                 <h5>Seleziona gli elenchi da stampare:</h5>

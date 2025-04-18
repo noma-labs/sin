@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="formEliminaFromEsSpirituale{{ $posizione->id }}"
-            action="{{ route("nomadelfia.persone.posizione.elimina", ["idPersona" => $persona->id, "id" => $posizione->id]) }}"
+            action="{{ route("nomadelfia.person.position.delete", ["id" => $persona->id, "idPos" => $posizione->id]) }}"
         >
             @csrf
             @method("delete")

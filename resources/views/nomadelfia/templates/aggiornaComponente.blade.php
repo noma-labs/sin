@@ -8,9 +8,10 @@
             class="form"
             method="POST"
             id="formComponenteAggiorna{{ $componente->persona_id }}"
-            action="{{ route("nomadelfia.famiglie.componente.aggiorna", ["id" => $famiglia->id]) }}"
+            action="{{ route("nomadelfia.family.member.update", ["id" => $famiglia->id]) }}"
         >
             @csrf
+            @method("PUT")
             <div class="row">
                 <label for="example-text-input" class="col-4 form-label">
                     Persona

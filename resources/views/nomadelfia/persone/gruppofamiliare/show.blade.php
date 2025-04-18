@@ -36,7 +36,7 @@
                                             class="form"
                                             method="POST"
                                             id="formPersonaGruppoModifica{{ $attuale->id }}"
-                                            action="{{ route("nomadelfia.persone.gruppo.modifica", ["idPersona" => $persona->id, "id" => $attuale->id]) }}"
+                                            action="{{ route("nomadelfia.person.gruppo.update", ["id" => $persona->id, "idGruppo" => $attuale->id]) }}"
                                         >
                                             @method("PUT")
                                             @csrf

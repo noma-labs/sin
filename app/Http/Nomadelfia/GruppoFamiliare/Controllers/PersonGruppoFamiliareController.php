@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-final class PersonaGruppoFamiliareController
+final class PersonGruppoFamiliareController
 {
     public function index(Request $request, $idPersona)
     {
@@ -21,7 +21,7 @@ final class PersonaGruppoFamiliareController
         return view('nomadelfia.persone.gruppofamiliare.show', compact('persona', 'attuale'));
     }
 
-    public function update(Request $request, $idPersona, $id)
+    public function update(Request $request, $id, $idGruppo)
     {
         $request->validate([
             'current_data_entrata' => 'required|date',
@@ -32,7 +32,7 @@ final class PersonaGruppoFamiliareController
             'new_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
             'new_data_entrata.date' => 'La data corrente di entrata non è una data valida',
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
 
         $expression = DB::raw('UPDATE gruppi_persone
                SET  data_entrata_gruppo = :new
@@ -40,12 +40,12 @@ final class PersonaGruppoFamiliareController
 
         $res = DB::connection('db_nomadelfia')->update(
             $expression->getValue(DB::connection()->getQueryGrammar()),
-            ['persona' => $idPersona, 'gruppo' => $id, 'current' => $request->current_data_entrata, 'new' => $request->new_data_entrata]
+            ['persona' => $id, 'gruppo' => $idGruppo, 'current' => $request->current_data_entrata, 'new' => $request->new_data_entrata]
         );
 
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], $persona->id)
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
 
@@ -66,7 +66,7 @@ final class PersonaGruppoFamiliareController
         $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), Carbon::parse($request->data_entrata));
 
         return redirect()
-            ->action([self::class, 'index'], ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], $persona->id)
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 
@@ -76,11 +76,10 @@ final class PersonaGruppoFamiliareController
         $res = $persona->gruppifamiliari()->detach($id);
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], $persona->id)
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         }
 
         return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
-
     }
 }

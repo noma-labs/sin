@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Http\Nomadelfia;
 
-use App\Nomadelfia\Persona\Controllers\PersonaAnagraficaController;
+use App\Nomadelfia\Persona\Controllers\PersonController;
+use App\Nomadelfia\Persona\Controllers\PersonIdentityController;
 use App\Nomadelfia\Persona\Models\Persona;
 
 it('shows form to create persona', function (): void {
     login();
-    $this->get(action([PersonaAnagraficaController::class, 'create']))
+    $this->get(action([PersonController::class, 'create']))
         ->assertSuccessful();
 });
 
 it('shows form to edit anagrafica', function (): void {
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     login();
-    $this->get(action([PersonaAnagraficaController::class, 'edit'], ['idPersona' => $persona->id]))
+    $this->get(action([PersonIdentityController::class, 'edit'], $persona->id))
         ->assertSuccessful();
 });
 
@@ -31,7 +32,7 @@ it('can update anagrafica', function (): void {
     $newLuogo = 'my-luogo';
     $newSesso = 'F';
     $newbiografia = 'Sono nato e morto';
-    $this->put(action([PersonaAnagraficaController::class, 'update'], ['idPersona' => $persona->id]),
+    $this->put(action([PersonIdentityController::class, 'update'], $persona->id),
         [
             'nome' => $newName,
             'cognome' => $newSurname,
@@ -41,7 +42,7 @@ it('can update anagrafica', function (): void {
             'biografia' => $newbiografia,
         ])
         ->assertRedirect()
-        ->assertRedirectContains(route('nomadelfia.persone.dettaglio', ['idPersona' => $persona->id]));
+        ->assertRedirectContains(route('nomadelfia.person.show', $persona->id));
 
     $p = Persona::findOrFail($persona->id);
     $this->assertEquals($newSurname, $p->cognome);
@@ -55,7 +56,7 @@ it('can update anagrafica', function (): void {
 it('can insert a persona', function (): void {
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersonaAnagraficaController::class, 'store']),
+    $this->post(action([PersonController::class, 'store']),
         [
             'nominativo' => 'my-name',
             'nome' => 'name',

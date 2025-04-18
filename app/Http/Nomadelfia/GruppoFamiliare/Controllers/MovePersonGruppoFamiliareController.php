@@ -10,9 +10,9 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaGruppoFamiliareSpostaController
+final class MovePersonGruppoFamiliareController
 {
-    public function store(Request $request, $idPersona, $id)
+    public function store(Request $request, $id, $idGruppo)
     {
         $request->validate([
             'new_gruppo_id' => 'required',
@@ -26,11 +26,11 @@ final class PersonaGruppoFamiliareSpostaController
         // se la data  di uscita del nuovo gruppo non è stata indicata, viene settata uguale all data di entrata nel nuovo gruppo
         $new_datain = $request->new_data_entrata;
         $current_data_uscita = $request->input('current_data_uscita', $new_datain);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
 
         $action = new ChangeGruppoFamiliareAction;
         $action->execute($persona,
-            GruppoFamiliare::findOrFail($id),
+            GruppoFamiliare::findOrFail($idGruppo),
             Carbon::parse($request->current_data_entrata),
             Carbon::parse($current_data_uscita),
             GruppoFamiliare::findOrFail($request->new_gruppo_id),
@@ -38,7 +38,7 @@ final class PersonaGruppoFamiliareSpostaController
         );
 
         return redirect()
-            ->action([PersonaGruppoFamiliareController::class, 'index'], ['idPersona' => $persona->id])
+            ->action([PersonGruppoFamiliareController::class, 'index'], $persona->id)
             ->withSuccess("$persona->nominativo assegnato al gruppo familiare con successo");
     }
 }

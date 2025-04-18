@@ -32,7 +32,7 @@
                                     class="form"
                                     method="POST"
                                     id="formUscitaPersona{{ $persona->id }}"
-                                    action="{{ route("nomadelfia.persone.uscita", ["idPersona" => $persona->id]) }}"
+                                    action="{{ route("nomadelfia.leave.store", $persona->id) }}"
                                 >
                                     @csrf
                                     <p>
@@ -81,7 +81,7 @@
 
                     <a
                         class="btn btn-warning"
-                        href="{{ route("nomadelfia.persone.popolazione", ["idPersona" => $persona->id]) }}"
+                        href="{{ route("nomadelfia.join-leave-history.index", $persona->id) }}"
                     >
                         Vedi Storico
                     </a>
@@ -202,7 +202,7 @@
                     </ul>
                     <a
                         class="btn btn-warning my-2"
-                        href="{{ route("nomadelfia.persone.anagrafica.edit", $persona->id) }}"
+                        href="{{ route("nomadelfia.person.identity.edit", $persona->id) }}"
                         role="button"
                     >
                         Modifica
@@ -218,7 +218,7 @@
                                     class="form"
                                     method="POST"
                                     id="formDecessoPersona{{ $persona->id }}"
-                                    action="{{ route("nomadelfia.persone.decesso", ["idPersona" => $persona->id]) }}"
+                                    action="{{ route("nomadelfia.death.store", $persona->id) }}"
                                 >
                                     @csrf
                                     <p>
@@ -278,7 +278,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.nominativo.modifica.view", $persona->id) }}"
+                                        href="{{ route("nomadelfia.internal-name.edit", $persona->id) }}"
                                         role="button"
                                     >
                                         Modifica
@@ -303,14 +303,13 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-2">
-                                    @if ($persona->numero_elenco)
-                                    @else
+                                    @if (! $persona->numero_elenco)
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("nomadelfia.persone.numelenco.modifica.view", $persona->id) }}"
+                                            href="{{ route("nomadelfia.folder-number.create", $persona->id) }}"
                                             role="button"
                                         >
-                                            Modifica
+                                            Assegna
                                         </a>
                                     @endif
                                 </div>
@@ -336,7 +335,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.stato", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.persone.stato", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
@@ -360,7 +359,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.posizione", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.person.position.index", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
@@ -375,7 +374,7 @@
                                 <div class="col-sm-6">
                                     @if ($gruppoAttuale)
                                         <a
-                                            href="{{ route("nomadelfia.gruppifamiliari.dettaglio", [$gruppoAttuale->id]) }}"
+                                            href="{{ route("nomadelfia.gruppifamiliari.show", [$gruppoAttuale->id]) }}"
                                         >
                                             {{ $gruppoAttuale->nome }}
                                         </a>
@@ -388,7 +387,7 @@
                                 <div class="col-sm-2">
                                     <a
                                         class="btn btn-warning"
-                                        href="{{ route("nomadelfia.persone.gruppofamiliare", ["idPersona" => $persona->id]) }}"
+                                        href="{{ route("nomadelfia.person.gruppo", $persona->id) }}"
                                     >
                                         Modifica
                                     </a>
@@ -477,7 +476,7 @@
                                         </label>
                                         <div class="col-sm-8">
                                             <a
-                                                href="{{ route("nomadelfia.famiglia.dettaglio", ["id" => $persona->famigliaAttuale()->id]) }}"
+                                                href="{{ route("nomadelfia.families.show", $persona->famigliaAttuale()->id) }}"
                                             >
                                                 {{ $persona->famigliaAttuale()->nome_famiglia }}
                                             </a>
@@ -513,7 +512,7 @@
                                     <div class="col-sm-8">
                                         <a
                                             class="btn btn-warning"
-                                            href="{{ route("nomadelfia.persone.famiglie", ["idPersona" => $persona->id]) }}"
+                                            href="{{ route("nomadelfia.person.families", $persona->id) }}"
                                         >
                                             Modifica
                                         </a>

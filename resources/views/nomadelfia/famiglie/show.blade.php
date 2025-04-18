@@ -31,7 +31,7 @@
                                 class="form"
                                 method="POST"
                                 id="formUscitaFamiglia{{ $famiglia->id }}"
-                                action="{{ route("nomadelfia.famiglie.uscita", ["id" => $famiglia->id]) }}"
+                                action="{{ route("nomadelfia.family.leave", ["id" => $famiglia->id]) }}"
                             >
                                 @csrf
                                 <p>

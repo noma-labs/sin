@@ -6,7 +6,6 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Spatie\Permission\Models\Role;
 
 final class UserController
@@ -51,7 +50,7 @@ final class UserController
         $user = User::findOrFail($id);
         $roles = Role::get();
 
-        return view('admin.auth.users.edit', compact('user', 'roles')); // pass user and roles data to view
+        return view('admin.auth.users.edit', compact('user', 'roles'));
 
     }
 
@@ -72,23 +71,15 @@ final class UserController
         if (isset($roles)) {
             $user->syncRoles([$roles]);
         } else {
-            $user->syncRoles([]); // If no role is selected remove exisiting role associated to a user
+            $user->syncRoles([]);
         }
 
         return redirect()->route('users.index')->withSuccess('Utente modificato correttamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        // Find a user with a given id and delete
         $user = User::findOrFail($id);
-
         if ($user->username === 'Admin') {
             return redirect()->route('users.index')->withError("Non puoi elimiare l'utente $user->username");
         }

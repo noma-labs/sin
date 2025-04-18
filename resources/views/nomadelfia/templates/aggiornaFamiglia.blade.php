@@ -8,10 +8,11 @@
             class="form"
             method="POST"
             id="formAggiornaFamiglia{{ $famiglia->id }}"
-            action="{{ route("nomadelfia.famiglia.aggiorna", ["id" => $famiglia->id]) }}"
+            action="{{ route("nomadelfia.families.update", $famiglia->id) }}"
         >
             @csrf
-            <div class="row">
+            @method("PUT")
+            <div class="row mb-3">
                 <label for="example-text-input" class="col-4 form-label">
                     Nome famiglia
                 </label>
@@ -22,7 +23,6 @@
                         name="nome_famiglia"
                         value="{{ $famiglia->nome_famiglia }}"
                     />
-                    {{ $famiglia->nome_famiglia }}
                 </div>
             </div>
             <div class="row">
@@ -31,6 +31,7 @@
                 </label>
                 <div class="col-8">
                     <input
+                        class="form-control"
                         type="date"
                         name="data_creazione"
                         value="{{ $famiglia->data_creazione }}"

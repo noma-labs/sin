@@ -8,7 +8,7 @@
             <form
                 class="form"
                 method="POST"
-                action="{{ route("nomadelfia.persone.anagrafica.update", ["idPersona" => $persona->id]) }}"
+                action="{{ route("nomadelfia.person.identity.update", $persona->id) }}"
             >
                 @method("PUT")
                 @csrf

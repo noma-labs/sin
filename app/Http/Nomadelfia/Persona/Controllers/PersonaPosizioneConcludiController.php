@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 final class PersonaPosizioneConcludiController
 {
-    public function store(Request $request, $idPersona, $id)
+    public function store(Request $request, $id, $idPos)
     {
         $request->validate([
             'data_inizio' => 'required|date',
@@ -21,11 +21,11 @@ final class PersonaPosizioneConcludiController
             'data_fine.required' => 'La data di uscita  è obbligatoria',
             'data_fine.after_or_equal' => 'La data di fine posizione non può essere inferiore alla data di inizio',
         ]);
-        $persona = Persona::findOrFail($idPersona);
-        $res = $persona->concludiPosizione($id, $request->data_inizio, $request->data_fine);
+        $persona = Persona::findOrFail($id);
+        $res = $persona->concludiPosizione($idPos, $request->data_inizio, $request->data_fine);
         if ($res) {
             return redirect()
-                ->action([PersonaPosizioneController::class, 'index'], ['idPersona' => $persona->id])
+                ->action([PersonPositionController::class, 'index'], $persona->id)
                 ->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
         }
 

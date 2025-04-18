@@ -10,24 +10,23 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-final class PersonaUscitaController
+final class LeaveCommunityController
 {
-    public function store(Request $request, $idPersona)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'data_uscita' => 'required',
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria',
         ]);
-        $persona = Persona::findOrFail($idPersona);
+        $persona = Persona::findOrFail($id);
         if ($persona->isMoglie() or $persona->isCapofamiglia()) {
             return redirect()->back()->withError("La persona $persona->nominativo non può uscire da Nomadelfia perchè risulta essere moglie o capo famiglia. Far uscire tutta la famiglia dalla pagina di gestione famiglia.");
         }
         $act = app(UscitaPersonaAction::class);
         $act->execute($persona, Carbon::parse($request->data_uscita), true);
 
-        return redirect()->route('nomadelfia.persone.dettaglio',
-            ['idPersona' => $idPersona])->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
+        return redirect()->route('nomadelfia.person.show', $id)->withSuccess("La data di uscita di $persona->nominativo aggiornata correttamente.");
 
     }
 

@@ -38,7 +38,7 @@
                                             class="form"
                                             method="POST"
                                             id="formPersonaStatoModifica"
-                                            action="{{ route("nomadelfia.persone.stato.modifica", ["idPersona" => $persona->id, "id" => $persona->statoAttuale()->id]) }}"
+                                            action="{{ route("nomadelfia.persone.stato.modifica", ["id" => $persona->id, "idStato" => $persona->statoAttuale()->id]) }}"
                                         >
                                             @method("PUT")
                                             @csrf
@@ -156,7 +156,7 @@
                                 class="form"
                                 method="POST"
                                 id="formPersonaStato"
-                                action="{{ route("nomadelfia.persone.stato.assegna", ["idPersona" => $persona->id]) }}"
+                                action="{{ route("nomadelfia.persone.stato.assegna", $persona->id) }}"
                             >
                                 @csrf
 

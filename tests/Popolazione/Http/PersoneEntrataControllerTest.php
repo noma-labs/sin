@@ -6,7 +6,7 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
-use App\Nomadelfia\Persona\Controllers\PersonaEntrataController;
+use App\Nomadelfia\Persona\Controllers\JoinCommunityController;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
@@ -16,7 +16,7 @@ use Carbon\Carbon;
 it('can show the form to enter a person', function (): void {
     login();
     $persona = Persona::factory()->minorenne()->maschio()->create();
-    $this->get(action([PersonaEntrataController::class, 'create'], ['idPersona' => $persona->id]))
+    $this->get(action([JoinCommunityController::class, 'create'], $persona->id))
         ->assertSuccessful();
 });
 
@@ -32,7 +32,7 @@ it('it_can_insert_minorenne_accolto_nella_popolazione', function (): void {
 
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'minorenne_accolto',
             'data_entrata' => $data_entrata->toDatestring(),
@@ -68,7 +68,7 @@ it('it_can_insert_minorenne_con_famiglia_nella_popolazione', function (): void {
     $famiglia->assegnaCapoFamiglia($capoFam);
 
     login();
-    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'minorenne_famiglia',
             'data_entrata' => $data_entrata,
@@ -102,7 +102,7 @@ it('entrata_persona_dalla_nascita', function (): void {
 
     login();
     $this->withoutExceptionHandling();
-    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'dalla_nascita',
             'famiglia_id' => $famiglia->id,
@@ -132,7 +132,7 @@ it('entrata_maggiorenne_single', function (): void {
 
     login();
 
-    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'maggiorenne_single',
             'gruppo_id' => $gruppo->id,
@@ -157,7 +157,7 @@ it('entrata_maggiorenne_sposato', function (): void {
     $ospite = Posizione::perNome('ospite');
 
     login();
-    $this->post(action([PersonaEntrataController::class, 'store'], ['idPersona' => $persona->id]),
+    $this->post(action([JoinCommunityController::class, 'store'], $persona->id),
         [
             'tipologia' => 'maggiorenne_famiglia',
             'gruppo_id' => $gruppo->id,

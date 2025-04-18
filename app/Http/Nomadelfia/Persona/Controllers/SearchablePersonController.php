@@ -7,20 +7,15 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 
-final class SearchablePersonaController
+final class SearchablePersonController
 {
-    public function index()
-    {
-        return view('nomadelfia.persone.search');
-    }
-
     public function show(Request $request)
     {
         $msgSearch = ' ';
         $orderBy = 'nominativo';
 
         if (! $request->except(['_token'])) {
-            return redirect()->route('nomadelfia.persone.ricerca')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return redirect()->route('nomadelfia.people.search')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         $queryLibri = Persona::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {

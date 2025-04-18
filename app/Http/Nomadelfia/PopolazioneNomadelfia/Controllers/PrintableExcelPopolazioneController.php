@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class PrintableExcelPopolazioneController
 {
-    public function store(): StreamedResponse
+    public function index(): StreamedResponse
     {
         $spreadsheet = new Spreadsheet;
 

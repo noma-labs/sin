@@ -7,7 +7,7 @@
         <div class="col-md-6 offset-md-3">
             <form
                 method="POST"
-                action="{{ route("nomadelfia.matrimonio.store") }}"
+                action="{{ route("nomadelfia.marriage.store") }}"
             >
                 @csrf
                 <div class="row mb-3">
