@@ -57,7 +57,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\JoinLeaveHistoryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneNomadelfiaController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
-use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintablePopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
 use App\Officina\Controllers\FiltriController;
 use App\Officina\Controllers\GommeController;
@@ -190,8 +189,8 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
 
     Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('family.gruppo.move');
 
-    Route::get('export/word', [PrintableWordPopolazioneController::class, 'store'])->name('popolazione.export.word');
-    Route::get('export/excel', [PrintableExcelPopolazioneController::class, 'store'])->name('popolazione.export.excel');
+    Route::get('export/word', [PrintableWordPopolazioneController::class, 'index'])->name('popolazione.export.word');
+    Route::get('export/excel', [PrintableExcelPopolazioneController::class, 'index'])->name('popolazione.export.excel');
 
     Route::get('popolazione/', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
     Route::get('popolazione/posizione/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');

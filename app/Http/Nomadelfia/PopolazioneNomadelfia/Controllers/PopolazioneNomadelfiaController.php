@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
-use App\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon;
-use Illuminate\Http\Request;
-use PhpOffice\PhpWord\IOFactory;
 
 final class PopolazioneNomadelfiaController
 {
@@ -85,5 +81,4 @@ final class PopolazioneNomadelfiaController
 
         return view('nomadelfia.popolazione.figliminorenni', compact('minorenni'));
     }
-
 }

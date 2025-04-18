@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
-use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Http\Request;
 
 final class FamilyController

@@ -5575,20 +5575,8 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$elenchi\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
-
-		-
-			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'
-			identifier: class.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
 
@@ -5647,26 +5635,8 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PopolazioneNomadelfiaController\:\:print\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
-
-		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PopolazioneNomadelfiaController\:\:sacerdoti\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
-
-		-
-			message: '#^Unable to resolve the template type TKey in call to function collect$#'
-			identifier: argument.templateType
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
-
-		-
-			message: '#^Unable to resolve the template type TValue in call to function collect$#'
-			identifier: argument.templateType
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
 
@@ -5687,6 +5657,36 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$elenchi\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
+
+		-
+			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PrintableWordPopolazioneController\:\:index\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\)\.$#'

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
-use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Http\Request;
 
 final class FamilyGruppofamiliareController
@@ -24,6 +23,6 @@ final class FamilyGruppofamiliareController
         $famiglia->assegnaFamigliaANuovoGruppoFamiliare($gruppo_corrente->id, $request->data_cambiogruppo,
             $request->nuovo_gruppo_id, $request->data_cambiogruppo);
 
-        return redirect(route('nomadelfia.families.show',$id))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
+        return redirect(route('nomadelfia.families.show', $id))->withSuccess('Famiglia spostata nel gruppo familiare con successo');
     }
 }

@@ -322,8 +322,8 @@
     </div>
 
     <x-modal
-        modal-title="Stampa elenchi"
-        button-title="Stampa Popolazione Nomadelfia"
+        modal-title="Esporta elenchi in word"
+        button-title="Esporta (.docx)"
         button-style="btn-success my-2"
     >
         <x-slot:body>

@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
-use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
-use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 
 final class PrintableWordPopolazioneController
 {
-
-    public function store(Request $request)
+    public function index(Request $request)
     {
         $elenchi = collect($request->elenchi);
         $action = new ExportPopolazioneToWordAction;
