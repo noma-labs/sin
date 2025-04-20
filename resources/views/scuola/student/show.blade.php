@@ -94,10 +94,10 @@
                             Famiglia (da anagrafe Enrico):
                         </label>
                         <div class="col-sm-8 alert alert-warning">
-                            @if($famigliaEnrico)
-                            <span>{{ $famigliaEnrico  }}</span>
+                            @if ($famigliaEnrico)
+                                <span>{{ $famigliaEnrico }}</span>
                             @else
-                            <span> Non presente </span>
+                                <span>Non presente</span>
                             @endif
                         </div>
                     </div>
