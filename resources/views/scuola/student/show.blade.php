@@ -88,6 +88,20 @@
                         </div>
                     </div>
                 </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <label class="form-label col-sm-4 fw-bold">
+                            Famiglia (da anagrafe Enrico):
+                        </label>
+                        <div class="col-sm-8 alert alert-warning">
+                            @if($famigliaEnrico)
+                            <span>{{ $famigliaEnrico  }}</span>
+                            @else
+                            <span> Non presente </span>
+                            @endif
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

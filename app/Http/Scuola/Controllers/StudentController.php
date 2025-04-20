@@ -7,12 +7,19 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\Classe;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Models\Studente;
+use Illuminate\Support\Facades\DB;
 
 final class StudentController
 {
     public function show($id)
     {
-        $student = Studente::select('id', 'nome', 'cognome', 'data_nascita', 'cf', 'sesso')->findOrFail($id);
+        $student = Studente::select('id', 'nome', 'cognome', 'data_nascita', 'cf', 'sesso','id_alfa_enrico')->findOrFail($id);
+
+        $famigliaEnrico = DB::connection('db_nomadelfia')
+                    ->table('alfa_enrico_15_feb_23')
+                    ->select('famiglia')
+                    ->where('id', $student->id_alfa_enrico)
+                    ->first();
 
         $classes = Classe::select('classi.id', 'tipo.nome as tipo_nome', 'tipo.ciclo as tipo_ciclo', 'anno.id as anno_id', 'anno.scolastico as anno_scolastico')
             ->join('tipo', 'classi.tipo_id', '=', 'tipo.id')
@@ -28,6 +35,6 @@ final class StudentController
             ->orderBy('elaborati.anno_scolastico', 'ASC')
             ->get();
 
-        return view('scuola.student.show', compact('student', 'classes', 'works'));
+        return view('scuola.student.show', compact('student', 'classes', 'works','famigliaEnrico'));
     }
 }
