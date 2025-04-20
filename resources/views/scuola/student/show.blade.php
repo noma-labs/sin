@@ -95,7 +95,9 @@
                         </label>
                         <div class="col-sm-8 alert alert-warning">
                             @if ($famigliaEnrico)
-                                <span>{{ $famigliaEnrico }}</span>
+                                <span>
+                                    {{ Illuminate\Support\Str::headline($famigliaEnrico->famiglia) }}
+                                </span>
                             @else
                                 <span>Non presente</span>
                             @endif
