@@ -7,6 +7,7 @@ namespace App\Scuola\Controllers;
 use App\Scuola\Models\Elaborato;
 use GdImage;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 final class CoverImageController
@@ -21,16 +22,15 @@ final class CoverImageController
     public function store(Request $request, string $id)
     {
         $request->validate([
-            'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
+            'file' => 'required|image|mimes:png,jpeg|max:1048576', // 10MB max size
         ]);
 
         $elaborato = Elaborato::findOrFail($id);
 
         $file = $request->file('file');
-        $pathToImage = $file->getPathname();
 
         $thumbWidth = 150; // Set the desired thumbnail width
-        $newImage = $this->scaleImage($pathToImage, $thumbWidth);
+        $newImage = $this->scaleImage($file, $thumbWidth);
 
         $tempThumbnailPath = sys_get_temp_dir().'/cover-'.$id.'.png';
         imagepng($newImage, $tempThumbnailPath);
@@ -50,9 +50,19 @@ final class CoverImageController
         return redirect()->route('scuola.elaborati.show', $id);
     }
 
-    private function scaleImage($pathToImages, int $thumbWidth): GdImage|false
+    private function scaleImage(UploadedFile $file, int $thumbWidth): GdImage|false
     {
-        $img = imagecreatefrompng($pathToImages);
+        $pathToImage = $file->getPathname();
+
+        $mimeType = $file->getMimeType();
+        if ($mimeType === 'image/png') {
+            $img = imagecreatefrompng($pathToImage);
+        } elseif ($mimeType === 'image/jpeg') {
+            $img = imagecreatefromjpeg($pathToImage);
+        } else {
+            return false; // Unsupported format
+        }
+
         $sourceWidth = imagesx($img);
         $sourceHeight = imagesy($img);
 
