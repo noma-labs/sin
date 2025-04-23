@@ -5641,13 +5641,85 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
 
 		-
+			message: '#^Cannot access offset ''azienda'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''cf'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''cognome'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''data_nascita'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''famiglia'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''gruppo'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''nome'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''nominativo'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''numero_elenco'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''posizione'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''provincia_nascita'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
+			message: '#^Cannot access offset ''sesso'' on stdClass\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableExcelPopolazioneController.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$elenchi\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PrintableWordPopolazioneController\:\:index\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PrintableWordPopolazioneController\:\:__invoke\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PrintableWordPopolazioneController.php
