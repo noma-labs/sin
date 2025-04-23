@@ -50,7 +50,7 @@ it('can export popolazione into word', function (): void {
 
     login();
     $this->withoutExceptionHandling();
-    $this->get(action([PrintableWordPopolazioneController::class, 'index']),
+    $this->get(action([PrintableWordPopolazioneController::class]),
         [
             'elenchi' => ['effePostOspFig', 'famiglie', 'gruppi', 'aziende', 'incarichi', 'scuola'],
         ])
