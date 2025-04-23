@@ -188,8 +188,8 @@ Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(func
     Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('family.member.update');
     Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('family.gruppo.move');
 
-    Route::get('export/word', [PrintableWordPopolazioneController::class, 'index'])->name('popolazione.export.word');
-    Route::get('export/excel', [PrintableExcelPopolazioneController::class, 'index'])->name('popolazione.export.excel');
+    Route::get('export/word', PrintableWordPopolazioneController::class)->name('popolazione.export.word');
+    Route::get('export/excel', PrintableExcelPopolazioneController::class)->name('popolazione.export.excel');
 
     Route::get('popolazione', [PopolazioneNomadelfiaController::class, 'index'])->name('popolazione');
     Route::get('popolazione/positions/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->name('popolazione.maggiorenni');

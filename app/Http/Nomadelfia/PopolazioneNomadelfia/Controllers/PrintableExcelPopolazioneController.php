@@ -6,32 +6,48 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class PrintableExcelPopolazioneController
 {
-    public function index(): StreamedResponse
+    public function __invoke(): StreamedResponse
     {
         $spreadsheet = new Spreadsheet;
 
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'NUMERO ELENCO')
-            ->setCellValue('B1', 'NOME')
-            ->setCellValue('C1', 'COGNOME')
-            ->setCellValue('D1', 'DATA NASCITA')
-            ->setCellValue('E1', 'PROVINCIA NASCITA')
-            ->setCellValue('F1', 'CODICE FISCALE')
-            ->setCellValue('G1', 'SESSO')
-            ->setCellValue('H1', 'POSIZIONE')
-            ->setCellValue('I1', 'GRUPPO FAMILIARE')
-            ->setCellValue('J1', 'FAMIGLIA')
-            ->setCellValue('K1', 'AZIENDA');
+            ->setCellValue('B1', 'NOMINATIVO')
+            ->setCellValue('C1', 'NOME')
+            ->setCellValue('D1', 'COGNOME')
+            ->setCellValue('E1', 'DATA NASCITA')
+            ->setCellValue('F1', 'PROVINCIA NASCITA')
+            ->setCellValue('G1', 'CODICE FISCALE')
+            ->setCellValue('H1', 'SESSO')
+            ->setCellValue('I1', 'POSIZIONE')
+            ->setCellValue('K1', 'GRUPPO FAMILIARE')
+            ->setCellValue('K1', 'FAMIGLIA')
+            ->setCellValue('L1', 'AZIENDA');
 
         $population = PopolazioneAttuale::query()
-            ->select('numero_elenco', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
+            ->select('numero_elenco', 'nominativo', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
             ->get()
+            ->map(fn ($item) => [
+                'numero_elenco' => Str::upper($item['numero_elenco']),
+                'nominativo' => Str::upper($item['nominativo']),
+                'nome' => Str::title($item['nome']),
+                'cognome' => Str::title($item['cognome']),
+                'data_nascita' => $item['data_nascita'],
+                'provincia_nascita' => Str::title($item['provincia_nascita']),
+                'cf' => Str::upper($item['cf']),
+                'sesso' => Str::title($item['sesso']),
+                'posizione' => Str::title($item['posizione']),
+                'gruppo' => Str::title($item['gruppo']),
+                'famiglia' => Str::title($item['famiglia']),
+                'azienda' => Str::title($item['azienda']),
+            ])
             ->toArray();
         $sheet->fromArray($population, null, 'A2');
 
