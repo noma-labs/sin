@@ -6,11 +6,10 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Support\Str;
-
 
 final class PrintableExcelPopolazioneController
 {
@@ -35,22 +34,20 @@ final class PrintableExcelPopolazioneController
         $population = PopolazioneAttuale::query()
             ->select('numero_elenco', 'nominativo', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
             ->get()
-            ->map(function ($item) {
-                return [
-                    'numero_elenco' =>  Str::upper($item['numero_elenco']),
-                    'nominativo' => Str::upper($item['nominativo']),
-                    'nome' => Str::title($item['nome']),
-                    'cognome' => Str::title($item['cognome']),
-                    'data_nascita' => $item['data_nascita'],
-                    'provincia_nascita' => Str::title($item['provincia_nascita']),
-                    'cf' =>  Str::upper($item['cf']),
-                    'sesso' => Str::title($item['sesso']),
-                    'posizione' => Str::title($item['posizione']),
-                    'gruppo' => Str::title($item['gruppo']),
-                    'famiglia' => Str::title($item['famiglia']),
-                    'azienda' => Str::title($item['azienda']),
-                ];
-            })
+            ->map(fn($item) => [
+                'numero_elenco' => Str::upper($item['numero_elenco']),
+                'nominativo' => Str::upper($item['nominativo']),
+                'nome' => Str::title($item['nome']),
+                'cognome' => Str::title($item['cognome']),
+                'data_nascita' => $item['data_nascita'],
+                'provincia_nascita' => Str::title($item['provincia_nascita']),
+                'cf' => Str::upper($item['cf']),
+                'sesso' => Str::title($item['sesso']),
+                'posizione' => Str::title($item['posizione']),
+                'gruppo' => Str::title($item['gruppo']),
+                'famiglia' => Str::title($item['famiglia']),
+                'azienda' => Str::title($item['azienda']),
+            ])
             ->toArray();
         $sheet->fromArray($population, null, 'A2');
 
