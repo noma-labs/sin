@@ -34,7 +34,7 @@ final class PrintableExcelPopolazioneController
         $population = PopolazioneAttuale::query()
             ->select('numero_elenco', 'nominativo', 'nome', 'cognome', 'data_nascita', 'provincia_nascita', 'cf', 'sesso', 'posizione', 'gruppo', 'famiglia', 'azienda')
             ->get()
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'numero_elenco' => Str::upper($item['numero_elenco']),
                 'nominativo' => Str::upper($item['nominativo']),
                 'nome' => Str::title($item['nome']),
