@@ -36,7 +36,7 @@ final class PrintableExcelPopolazioneController
             ->get()
             ->map(fn ($item) => [
                 'numero_elenco' => Str::upper($item['numero_elenco']),
-                'nominativo' => Str::upper($item['nominativo']),
+                'nominativo' => Str::title($item['nominativo']),
                 'nome' => Str::title($item['nome']),
                 'cognome' => Str::title($item['cognome']),
                 'data_nascita' => $item['data_nascita'],
