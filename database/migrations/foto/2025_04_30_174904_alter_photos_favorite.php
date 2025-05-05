@@ -1,7 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class AlterPhotosFavorite extends SqlMigration
-{
-}
+final class AlterPhotosFavorite extends SqlMigration {}

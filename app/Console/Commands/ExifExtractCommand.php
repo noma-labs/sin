@@ -50,7 +50,7 @@ final class ExifExtractCommand extends Command
             //             ->limit($limit)
             //             ->orderby('created_at', 'DESC')
             //             ->get();
-            $this->table( ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray()
+            $this->table(['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray()
             );
         }
 

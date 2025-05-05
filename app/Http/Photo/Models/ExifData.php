@@ -140,11 +140,10 @@ final class ExifData
             $dateString = $info['XMP-xmp:CreateDate'];
             try {
                 $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s.uP', $dateString);
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 $exif->takenAt = null;
             }
         }
-
 
         $exif->folderTitle = Str::of($exif->directory)->basename()->toString();
 

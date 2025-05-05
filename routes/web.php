@@ -71,7 +71,6 @@ use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\PhotoController;
-use App\Photo\Models\PhotoEnrico;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;

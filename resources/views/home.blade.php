@@ -47,25 +47,23 @@
             @endhasrole
 
             @hasrole("super-admin")
-            <div class="col">
-                <div class="card text-center h-100">
-                    <div class="card-header">Foto</div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Gestione foto
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a
-                            href="{{ route("photos.index") }}"
-                            class="btn btn-primary"
-                        >
-                            Accedi
-                        </a>
+                <div class="col">
+                    <div class="card text-center h-100">
+                        <div class="card-header">Foto</div>
+                        <div class="card-body">
+                            <p class="card-text">Gestione foto</p>
+                        </div>
+                        <div class="card-footer">
+                            <a
+                                href="{{ route("photos.index") }}"
+                                class="btn btn-primary"
+                            >
+                                Accedi
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endhasrole
+            @endhasrole
 
             @can("biblioteca.visualizza")
                 <div class="col">
