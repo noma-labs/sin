@@ -1,12 +1,11 @@
-
 CREATE TABLE `foto_enrico` (
-     `id` int(11) NOT NULL,
+     `id` int(11) AUTO_INCREMENT PRIMARY KEY,
      `data` date NOT NULL,
      `datnum` varchar(10) NOT NULL,
-     `localita` varchar(50) NOT NULL,
-     `argomento` varchar(100) NOT NULL,
-     `descrizione` varchar(200) NOT NULL,
-     `anum` int(8) NOT NULL,
+     `localita` text NOT NULL,
+     `argomento` text NOT NULL,
+     `descrizione` text NOT NULL,
+     `anum` varchar(8) NOT NULL,
      `cddvd` varchar(10) NOT NULL,
      `hdint` varchar(10) NOT NULL,
      `hdext` varchar(10) NOT NULL,
@@ -74,4 +73,3 @@ INSERT INTO `tipo` (`NR`, `FI`, `TP`, `DESCRIZ`) VALUES
 --   ADD KEY `descrizione` (`descrizione`),
 --   ADD KEY `anum` (`anum`);
 -- COMMIT;
-

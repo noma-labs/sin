@@ -71,7 +71,7 @@ final class ExifData
             throw new Exception("'SourceFile' not found in the exif data");
         }
         $exif->sourceFile = $info['SourceFile'];
-        // TODO the date of the data pf the photo ??
+        // TODO the date of the data of the photo ??
 
         if (isset($info['FileName'])) {
             $exif->fileName = $info['FileName'];
@@ -135,6 +135,16 @@ final class ExifData
         //        if (isset($info['XMP-mwg-rs:RegionInfo'])) {
         //            $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
         //        }
+
+        if (isset($info['XMP-xmp:CreateDate'])) {
+            $dateString = $info['XMP-xmp:CreateDate'];
+            try {
+                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s.uP', $dateString);
+            } catch (\Exception $e) {
+                $exif->takenAt = null;
+            }
+        }
+
 
         $exif->folderTitle = Str::of($exif->directory)->basename()->toString();
 

@@ -44,10 +44,13 @@ final class ExifExtractCommand extends Command
         if ($saveToDb) {
             $photos = (new StoreExifIntoDBAction)->execute($fileName);
 
-            $photos = DB::connection('db_foto')->table('photos')->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')->limit($limit)->orderby('created_at', 'DESC')->get();
-            $this->table(
-                ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-                $photos->toArray()
+            // $photos = DB::connection('db_foto')
+            //             ->table('photos')
+            //             ->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')
+            //             ->limit($limit)
+            //             ->orderby('created_at', 'DESC')
+            //             ->get();
+            $this->table( ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray()
             );
         }
 
