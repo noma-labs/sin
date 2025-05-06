@@ -65,15 +65,10 @@ final class PhotoController
         }
 
         $xmpData = json_decode($photo->region_info);
-        // Get the image dimensions
         $imageWidth = imagesx($image);
         $imageHeight = imagesy($image);
 
-        $xmpWidth = $xmpData->AppliedToDimensions->W;
-        $xmpHeight = $xmpData->AppliedToDimensions->H;
-
-        $red = imagecolorallocate($image, 255, 0, 0); // Red for rectangles
-        $white = imagecolorallocate($image, 255, 255, 255); // White for text background
+        $white = imagecolorallocate($image, 255, 255, 255);
 
         foreach ($xmpData->RegionList as $region) {
             $area = $region->Area;
@@ -89,7 +84,7 @@ final class PhotoController
             $y2 = (int)($centerY + $height / 2);
 
             // Draw 3 rectangles to simulate a 3px thick border
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 5; $i++) {
                 imagerectangle($image, $x1 - $i, $y1 - $i, $x2 + $i, $y2 + $i, $white);
             }
             // Add the name of the person (if available)
@@ -103,9 +98,26 @@ final class PhotoController
             }
         }
 
-        header('Content-Type: image/jpeg');
-        imagejpeg($image);
-        imagedestroy($image);
+        // header('Content-Type: image/jpeg');
+        // imagejpeg($image);
+        // Save the modified image to a temporary file
+     // Save the modified image to a publicly accessible directory
+     $publicTempDir = storage_path('app/public/temp');
+     if (!file_exists($publicTempDir)) {
+         mkdir($publicTempDir, 0755, true); // Create the directory if it doesn't exist
+     }
+     $tempFileName = uniqid('photo_', true) . '.jpg';
+     $tempFilePath = $publicTempDir . DIRECTORY_SEPARATOR . $tempFileName;
+     imagejpeg($image, $tempFilePath);
+     imagedestroy($image);
 
+     // Generate a URL for the temporary file
+     $tempFileUrl = asset('storage/temp/' . $tempFileName);
+
+     // Pass the photo and temporary file URL to the Blade view
+     return view('photo.show', [
+         'photo' => $photo,
+         'tempFileUrl' => $tempFileUrl,
+     ]);
     }
 }
