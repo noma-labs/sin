@@ -84,12 +84,6 @@
                                 </form>
                             @endif
 
-                            @if ($photo->taken_at)
-                                <p class="mb-0">
-                                    <strong>Taken At:</strong>
-                                    {{ $photo->taken_at }}
-                                </p>
-                            @else
                                 <form
                                     action="{{ route("photos.update", $photo->sha) }}"
                                     method="POST"
@@ -97,13 +91,37 @@
                                 >
                                     @csrf
                                     @method("PUT")
+                                    <label for="taken_at" class="form-label">
+                                        Taken At
+                                    </label>
+
+                                    {{ $photo->taken_at }}
                                     <input
-                                        type="date"
+                                        type="datetime"
                                         name="taken_at"
                                         value="{{ $photo->taken_at }}"
                                         class="form-control"
-                                        required
+
+                                        />
+                                    <label for="location" class="form-label">
+                                        Location
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        value="{{ $photo->location }}"
+                                        class="form-control"
                                     />
+
+                                    <label for="description" class="form-label">
+                                        Description
+                                    </label>
+                                    <textarea
+                                        type="text"
+                                        name="description"
+                                        class="form-control"
+                                        required
+                                    >{{ $photo->description }}</textarea>
                                     <button
                                         type="submit"
                                         class="btn btn-success"
@@ -111,7 +129,6 @@
                                         Update
                                     </button>
                                 </form>
-                            @endif
                         </div>
                     </li>
                 @endforeach

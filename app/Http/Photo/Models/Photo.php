@@ -45,6 +45,7 @@ final class Photo extends Model
     {
         return [
             'taken_at' => 'datetime',
+            'uid' => 'string',
         ];
     }
 }
