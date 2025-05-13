@@ -7,6 +7,7 @@ namespace App\Photo\Models;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Str;
+use Throwable;
 
 final class ExifData
 {
@@ -132,11 +133,11 @@ final class ExifData
             $exif->subjects = $info['XMP-dc:Subject'];
         }
         if (isset($info['XMP-mwg-rs:RegionInfo'])) {
-           try {
+            try {
                 $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
-           } catch (\Throwable $th) {
+            } catch (Throwable $th) {
 
-           }
+            }
         }
         if (isset($info['XMP-xmp:CreateDate'])) {
             $dateString = $info['XMP-xmp:CreateDate'];

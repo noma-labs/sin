@@ -15,7 +15,7 @@ final class FavouritesController
         $photo->favorite = 0;
         $photo->save();
 
-        return redirect()->route('photos.index')->with('success', 'Photo unfavorited successfully.');
+        return redirect()->back()->with('success', 'Photo unfavorited successfully.');
     }
 
     public function store(Request $request, string $sha)
@@ -24,6 +24,6 @@ final class FavouritesController
         $photo->favorite = 1;
         $photo->save();
 
-        return redirect()->route('photos.index')->with('success', 'Photo favorited successfully.');
+        return redirect()->back()->with('success', 'Photo favorited successfully.');
     }
 }

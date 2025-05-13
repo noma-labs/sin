@@ -9,6 +9,12 @@
         </div>
         <div class="col-md-4">
             <h2>Photo Details</h2>
+
+            <p class="mb-1">
+                <strong>Data:</strong>
+                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+            </p>
+
             <p class="mb-1">
                 <strong>File Name:</strong>
                 {{ $photo->file_name }}
@@ -17,29 +23,29 @@
                 <strong>Folder:</strong>
                 {{ $photo->folder_title }}
             </p>
-            <p class="mb-0">
-                <strong>Subject:</strong>
-                {{ $photo->subject }}
-            </p>
-            <p class="mb-0">
+            <div class="mb-3">
                 <strong>Persone:</strong>
                 <ul>
                     @foreach ($people as $person)
-                        <li><strong>{{ $person->persona_nome }} </strong>
+                        <li>
+                            <strong>{{ $person->persona_nome }} </strong>
                             @if ($person->id !== null)
-                                <a href="{{ route("nomadelfia.person.show", $person->id) }}" >
-                                    {{ $person->NOME }} {{ $person->COGNOME }}
+                                <a href="{{ route("nomadelfia.person.show", $person->id) }}">
+                                    {{ Illuminate\Support\Str::title($person->NOME) }} {{ Illuminate\Support\Str::title($person->COGNOME) }}
+                                    @if ($person->ALIAS)
+                                        <span class="text-muted">({{ Illuminate\Support\Str::title($person->ALIAS)   }})</span>
+
+                                    @endif
                                 </a>
                             @else
-                                {{ $person->NOME }} {{ $person->COGNOME }}
-                              @endif
+                                {{ Illuminate\Support\Str::title($person->NOME) }} {{ Illuminate\Support\Str::title($person->COGNOME) }}
+                            @endif
 
                         </li>
                     @endforeach
                 </ul>
-            </p>
-            <p class="mb-0">
-
+            </div>
+            <p class="mb-3">
 
                 <form
                     action="{{ route("photos.update", $photo->sha) }}"
@@ -48,18 +54,32 @@
                 >
                     @csrf
                     @method("PUT")
+                    <input
+                        type="datetime"
+                        name="taken_at"
+                        value="{{ $photo->taken_at }}"
+                        class="form-control"
+                    />
+
                     <label for="description" class="form-label">Description</label>
                     <textarea type="text" name="description" class="form-control">{{ $photo->description }}</textarea>
 
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" name="location" class="form-control" value="{{ $photo->location }}">
+                    <input type="text" name="location" class="form-control mb-3" value="{{ $photo->location }}">
                     <button
                         type="submit"
                         class="btn btn-secondary"
                     >
                         Save
                     </button>
-            </form>
+                </form>
+
+                <a
+                href="{{ route("photos.download", $photo->sha) }}"
+                class="btn btn-secondary"
+            >
+                Download
+            </a>
             </p>
 
         </div>

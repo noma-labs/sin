@@ -4,6 +4,7 @@
 
 @section("content")
     <form action="{{ route("photos.index") }}" method="GET" class="mb-3">
+        {{ $photos_count }} photos
         <div class="d-flex flex-wrap gap-2">
             @foreach ($years as $year)
                 <button
@@ -21,310 +22,96 @@
         </div>
     </form>
 
-    <div class="row justify-content-around">
-        <div class="col-md-8">
-            <h2>Favorite Photos</h2>
-            <ul class="list-group">
-                @foreach ($photos as $photo)
-                    <li class="list-group-item d-flex align-items-center">
-                        <img
-                            src="{{ asset("storage/foto-sport/$photo->folder_title/$photo->file_name") }}"
-                            alt="Photo"
-                            class="img-thumbnail me-3"
-                            style="width: 500px; height: auto"
-                        />
-                        <div>
-                            <p class="mb-1">
-                                <strong>File Name:</strong>
-                                {{ $photo->file_name }}
-                            </p>
-                            <p class="mb-1">
-                                <strong>Folder:</strong>
-                                {{ $photo->folder_title }}
-                            </p>
-                            <p class="mb-0">
-                                <strong>Subject:</strong>
-                                {{ $photo->subject }}
-                            </p>
+    <div class="d-flex flex-wrap">
+        @foreach ($photos as $photo)
+            <div class="card m-1" style="width: 18rem; ">
+                <img
+                    src="{{ asset("storage/foto-sport/$photo->folder_title/$photo->file_name") }}"
+                    alt="Photo"
+                    class="card-img-top"
+                    style="height: auto"
+                />
+                <div class="card-body">
+                    <p class="mb-1">
+                        <strong>File Name:</strong>
+                        {{ $photo->file_name }}
+                    </p>
 
-                            <a
-                                href="{{ route("photos.show", $photo->sha) }}"
-                                class="btn btn-primary mt-2"
+                    <p class="mb-1">
+                        <strong>Data:</strong>
+                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Location:</strong>
+                        {{ $photo->location }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>Description:</strong>
+                        {{ $photo->description }}
+                    </p>
+                    <a
+                        href="{{ route("photos.show", $photo->sha) }}"
+                        class="btn btn-primary mt-2 btn-sm"
+                    >
+                        View
+                    </a>
+
+                    @if ($photo->favorite === 0)
+                        <form
+                            action="{{ route("photos.favorite", $photo->sha) }}"
+                            class="mt-2"
+                        >
+                            @csrf
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-sm"
                             >
-                                View
-                            </a>
-
-                            @if ($photo->favorite === 0)
-                                <form
-                                    action="{{ route("photos.favorite", $photo->sha) }}"
-                                    class="mt-2"
-                                >
-                                    @csrf
-                                    <button
-                                        type="submit"
-                                        class="btn btn-success"
-                                    >
-                                        Favorite
-                                    </button>
-                                </form>
-                            @else
-                                <form
-                                    action="{{ route("photos.unfavorite", $photo->sha) }}"
-                                    method="POST"
-                                    class="mt-2"
-                                >
-                                    @csrf
-                                    @method("PUT")
-                                    <button
-                                        type="submit"
-                                        class="btn btn-danger"
-                                    >
-                                        Unfavorite
-                                    </button>
-                                </form>
-                            @endif
-
-                                <form
-                                    action="{{ route("photos.update", $photo->sha) }}"
-                                    method="POST"
-                                    class="mt-2"
-                                >
-                                    @csrf
-                                    @method("PUT")
-                                    <label for="taken_at" class="form-label">
-                                        Taken At
-                                    </label>
-
-                                    {{ $photo->taken_at }}
-                                    <input
-                                        type="datetime"
-                                        name="taken_at"
-                                        value="{{ $photo->taken_at }}"
-                                        class="form-control"
-
-                                        />
-                                    <label for="location" class="form-label">
-                                        Location
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="location"
-                                        value="{{ $photo->location }}"
-                                        class="form-control"
-                                    />
-
-                                    <label for="description" class="form-label">
-                                        Description
-                                    </label>
-                                    <textarea
-                                        type="text"
-                                        name="description"
-                                        class="form-control"
-                                        required
-                                    >{{ $photo->description }}</textarea>
-                                    <button
-                                        type="submit"
-                                        class="btn btn-success"
-                                    >
-                                        Update
-                                    </button>
-                                </form>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <h2>Metadata from enrico DBF</h2>
-            <ul>
-                @foreach ($enrico as $photo)
-                    <li>
-                        <span class="badge text-bg-secondary">
-                            {{ $photo->data }}
-                        </span>
-                        {{ $photo->datnum }}
-                        {{ $photo->anum }}
-                        {{ $photo->localita }}
-                        {{ $photo->argomento }}
-                        {{ $photo->descrizione }}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
+                                Favorite
+                            </button>
+                        </form>
+                    @else
+                        <form
+                            action="{{ route("photos.unfavorite", $photo->sha) }}"
+                            method="POST"
+                            class="mt-2"
+                        >
+                            @csrf
+                            @method("PUT")
+                            <button
+                                type="submit"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Unfavorite
+                            </button>
+                        </form>
+                    @endif
+                    <a
+                        href="{{ route("photos.download", $photo->sha) }}"
+                        class="btn btn-secondary btn-sm mt-2"
+                    >
+                        Download
+                    </a>
+                </div>
+            </div>
+        @endforeach
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('DOM fully loaded and parsed');
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            const image = new Image();
-            image.onload = function () {
-                canvas.width = image.width;
-                canvas.height = image.height;
-                ctx.drawImage(image, 0, 0);
+    <div class="row">
+        <h2>Metadata from enrico DBF</h2>
+        <ul>
+            @foreach ($enrico as $photo)
+                <li>
+                    <span class="badge text-bg-secondary">
+                        {{ $photo->data }}
+                    </span>
+                    {{ $photo->datnum }}
+                    {{ $photo->anum }}
+                    {{ $photo->localita }}
+                    {{ $photo->argomento }}
+                    {{ $photo->descrizione }}
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-                console.log('loaded');
-                ctx.beginPath();
-                ctx.rect(region.x, region.y, region.width, region.height);
-
-                // Example RegionInfo data (replace with actual data)
-                const regionInfo = [
-                    {
-                        Area: {
-                            H: 0.02284,
-                            W: 0.04878,
-                            X: 0.12021,
-                            Y: 0.6231,
-                        },
-                        Name: 'SANTOLINI TER',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.04695,
-                            W: 0.07491,
-                            X: 0.17509,
-                            Y: 0.5717,
-                        },
-                        Name: 'BEPPE MG',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.05964,
-                            W: 0.0784,
-                            X: 0.25348,
-                            Y: 0.5184,
-                        },
-                        Name: 'SANTOLINI SA',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.05838,
-                            W: 0.06272,
-                            X: 0.31707,
-                            Y: 0.45051,
-                        },
-                        Name: 'BEPPONE GZ',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.05076,
-                            W: 0.06272,
-                            X: 0.41115,
-                            Y: 0.38832,
-                        },
-                        Name: 'STEFANO EW',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.03934,
-                            W: 0.0662,
-                            X: 0.4878,
-                            Y: 0.32043,
-                        },
-                        Name: 'KOPA',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.04569,
-                            W: 0.0662,
-                            X: 0.58885,
-                            Y: 0.26015,
-                        },
-                        Name: 'DINO SI',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.03173,
-                            W: 0.05923,
-                            X: 0.11672,
-                            Y: 0.67069,
-                        },
-                        Name: 'LILIANA BIGI',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.02284,
-                            W: 0.06446,
-                            X: 0.31098,
-                            Y: 0.69924,
-                        },
-                        Name: 'GIORGIO LA',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.02919,
-                            W: 0.04878,
-                            X: 0.44599,
-                            Y: 0.6047,
-                        },
-                        Name: 'RENATO BEC',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.04061,
-                            W: 0.0662,
-                            X: 0.52787,
-                            Y: 0.53426,
-                        },
-                        Name: 'DENIS BED',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.03426,
-                            W: 0.0784,
-                            X: 0.6054,
-                            Y: 0.46637,
-                        },
-                        Name: 'GIOVANNI SIR',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                    {
-                        Area: {
-                            H: 0.06091,
-                            W: 0.07491,
-                            X: 0.72909,
-                            Y: 0.41497,
-                        },
-                        Name: 'GIANNI MOT',
-                        Rotation: 0.0,
-                        Type: 'Face',
-                    },
-                ];
-
-                // Draw rectangles for each region
-                regionInfo.forEach((region) => {
-                    ctx.beginPath();
-                    ctx.rect(region.x, region.y, region.width, region.height);
-                    ctx.lineWidth = 2;
-                    ctx.strokeStyle = 'red';
-                    ctx.stroke();
-                });
-            };
-            image.src = '';
-        });
-    </script>
-@endsection
+    @endsection
