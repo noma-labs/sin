@@ -22,7 +22,7 @@ final class ExtractExifAction
             ->extractIPTCInformation()
             ->extractHashOfTheImage()
             ->setTimeout(null);
-        if ($exifToolBinPath){
+        if ($exifToolBinPath) {
             $reader->setExifToolBinary($exifToolBinPath);
         }
 

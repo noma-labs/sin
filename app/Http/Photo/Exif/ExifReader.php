@@ -58,6 +58,7 @@ final class ExifReader
     public function setExifToolBinary(?string $exifToolBinary): self
     {
         $this->exifToolBinary = $exifToolBinary;
+
         return $this;
     }
 
