@@ -170,12 +170,10 @@ final class PhotoController
     {
         $photo = Photo::where('sha', $sha)->firstOrFail();
 
-        $filepath = storage_path("app/public/foto-sport/$photo->folder_title/$photo->file_name");
-
-        if (!file_exists($filepath)) {
+        if (!Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
-        return response()->download($filepath, $photo->file_name);
+        return  Storage::disk('photos')->download($photo->source_file);
     }
 }
