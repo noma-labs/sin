@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 final class FavouritesController
 {
-    public function destroy(Request $request, string $sha)
+    public function destroy(string $sha): RedirectResponse
     {
-        $photo = Photo::where('sha', $sha)->firstOrFail();
-        $photo->favorite = 0;
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo->favorite = false;
         $photo->save();
 
-        return redirect()->back()->with('success', 'Photo unfavorited successfully.');
+        return redirect()->back()->with('success', 'Foto rimossa dai favoriti con successo.');
     }
 
-    public function store(Request $request, string $sha)
+    public function store(string $sha): RedirectResponse
     {
-        $photo = Photo::where('sha', $sha)->firstOrFail();
-        $photo->favorite = 1;
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo->favorite = true;
         $photo->save();
 
-        return redirect()->back()->with('success', 'Photo favorited successfully.');
+        return redirect()->back()->with('success', 'Foto aggiunta ai favoriti.');
     }
 }

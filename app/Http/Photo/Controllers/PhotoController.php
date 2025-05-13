@@ -6,38 +6,46 @@ namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
 use App\Photo\Models\PhotoEnrico;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class PhotoController
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $filterYear = $request->input('year');
+        $filterYear = $request->string('year', '');
         $withEnricoMetadata = $request->input('with_metadata', false);
 
         $enrico = null;
         if ($withEnricoMetadata) {
-            $enrico = PhotoEnrico::orderBy('data');
-            if ($filterYear !== null) {
-                $enrico = $enrico->orWhere('descrizione', 'like', '%'.$filterYear.'%');
-                $enrico = $enrico->orwhereRaw('YEAR(data)= ?', [$filterYear]);
+            $enrico = PhotoEnrico::query();
+
+            if ($filterYear !== '') {
+                $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
+                $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
             }
+            $enrico->orderBy('data');
             $enrico = $enrico->get();
         }
 
-        $q = Photo::orderBy('taken_at')
+        $q = Photo::query()->orderBy('taken_at')
             ->where('favorite', 1)
             ->orderBy('taken_at');
-        if ($filterYear !== null) {
+
+        if ($filterYear !== '') {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
 
         $photos = $q->get();
         $photos_count = $q->count();
 
-        $years = Photo::selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
+        $years = Photo::query()
+            ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
             ->where('favorite', 1)
             ->orderByRaw('YEAR(taken_at)')
@@ -46,7 +54,7 @@ final class PhotoController
         return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
     }
 
-    public function update(Request $request, string $sha)
+    public function update(Request $request, string $sha): RedirectResponse
     {
         $request->validate([
             'taken_at' => 'nullable|date',
@@ -54,7 +62,7 @@ final class PhotoController
             'location' => 'nullable|string',
         ]);
 
-        $photo = Photo::where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
         if ($request->filled('taken_at')) {
             $photo->taken_at = $request->input('taken_at');
@@ -73,9 +81,9 @@ final class PhotoController
         return redirect()->back()->with('success', 'Foto aggiornata correttamente');
     }
 
-    public function show(Request $request, string $sha)
+    public function show(string $sha): View
     {
-        $photo = Photo::where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
         if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
@@ -96,24 +104,20 @@ final class PhotoController
         ]);
     }
 
-    public function preview(Request $request, string $sha)
+    public function preview(Request $request, string $sha): Response
     {
-        $photo = Photo::where('sha', $sha)->firstOrFail();
+        $drawFaces = $request->boolean('draw_faces', false);
 
-        $filePath = $photo->source_file;
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
-        if (! Storage::disk('photos')->exists($filePath)) {
-            abort(404);
-        }
-
-        $fileContent = Storage::disk('photos')->get($filePath);
-        $filePath = Storage::disk('photos')->path($filePath);
-        $mimeType = Storage::disk('photos')->mimeType($filePath);
-
-        $drawFaces = $request->query('draw_faces', false);
+        $fileContent = Storage::disk('photos')->get($photo->source_file);
+        $filePath = Storage::disk('photos')->path($photo->source_file);
+        $mimeType = mime_content_type($filePath);
 
         if (! $drawFaces) {
-            return response($fileContent, 200)->header('Content-Type', $mimeType);
+            // return response($fileContent, 200);
+            return response()->make($fileContent, 200)->header('Content-Type', $mimeType);
+
         }
 
         if ($photo->region_info) {
@@ -162,20 +166,24 @@ final class PhotoController
 
             imagedestroy($image);
 
-            return response($imageData, 200)->header('Content-Type', $mimeType);
+            return response()->make($imageData, 200)->header('Content-Type', $mimeType);
         }
 
-        return response($fileContent, 200)->header('Content-Type', $mimeType);
+        return response()->make($fileContent, 200)->header('Content-Type', $mimeType);
+
     }
 
-    public function download(string $sha)
+    public function download(string $sha): BinaryFileResponse
     {
-        $photo = Photo::where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
         if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
-        return Storage::disk('photos')->download($photo->source_file);
+        $filePath = Storage::disk('photos')->path($photo->source_file);
+
+        return response()->download($filePath, $photo->file_name);
+
     }
 }

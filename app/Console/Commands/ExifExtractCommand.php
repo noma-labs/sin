@@ -28,14 +28,17 @@ final class ExifExtractCommand extends Command
      */
     protected $description = 'Extract the exif metadata from the photos and store them into the database';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $path = $this->argument('path');
 
-        $exifBinPath = $this->option('exiftoolpath') ?? null;
+        $exifBinPath = $this->option('exiftoolpath');
+        if (is_array($exifBinPath)) {
+            $this->error('--exiftoolpath cannot be an array.');
+
+            return Command::FAILURE;
+        }
+        $exifBinPath = $exifBinPath !== null ? (string) $exifBinPath : null;
 
         $saveToDb = $this->option('save');
         $limit = (int) $this->option('limit');
@@ -46,7 +49,7 @@ final class ExifExtractCommand extends Command
 
         if ($saveToDb) {
             $photos = (new StoreExifIntoDBAction)->execute($fileName);
-            $this->table(['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray());
+            $this->info("saved $photos photos");
         }
 
         return Command::SUCCESS;

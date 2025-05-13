@@ -24,9 +24,8 @@
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
-        <a href="{{ route('photos.show', $photo->sha) }}">
-            <div class="card m-1" style="width: 30rem">
-
+            <a href="{{ route("photos.show", $photo->sha) }}">
+                <div class="card m-1" style="width: 30rem">
                     <img
                         src="{{ route("photos.preview", $photo->sha) }}"
                         alt="Photo"
@@ -34,38 +33,43 @@
                         style="height: auto"
                     />
 
+                    <div class="card-img-overlay">
+                        <h5 class="card-text text-white">
+                            {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                        </h5>
 
-                <div class="card-img-overlay">
-                    <h5 class="card-text text-white"> {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</h5>
-
-                        {{-- @if ($photo->favorite === 0)
+                        {{--
+                            @if ($photo->favorite === 0)
                             <form action="{{ route("photos.favorite", $photo->sha) }}" >
-                                @csrf
-                                <button
-                                    type="submit"
-                                    class="btn btn-success btn-sm"
-                                >
-                                    Favorite
-                                </button>
+                            @csrf
+                            <button
+                            type="submit"
+                            class="btn btn-success btn-sm"
+                            >
+                            Favorite
+                            </button>
                             </form>
-                        @else
+                            @else
                             <form action="{{ route("photos.unfavorite", $photo->sha) }}" method="POST" >
-                                @csrf
-                                @method("PUT")
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    Unfavorite
-                                </button>
+                            @csrf
+                            @method("PUT")
+                            <button type="submit" class="btn btn-danger btn-sm">
+                            Unfavorite
+                            </button>
                             </form>
-                        @endif --}}
-                        {{-- <a
+                            @endif
+                        --}}
+                        {{--
+                            <a
                             href="{{ route("photos.download", $photo->sha) }}"
                             class="btn btn-secondary btn-sm mt-2"
-                        >
+                            >
                             Download
-                        </a> --}}
+                            </a>
+                        --}}
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
         @endforeach
     </div>
 

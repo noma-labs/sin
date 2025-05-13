@@ -17,7 +17,7 @@ final class StoreExifIntoDBAction
         foreach (new JsonParser($jsonFile) as $value) {
             $data = ExifData::fromArray($value);
             $buffer[] = $data;
-            if (count($buffer) >= 1) {
+            if (count($buffer) >= 1000) {
                 $this->insertBatch($buffer);
                 $buffer = [];
             }
