@@ -24,73 +24,48 @@
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
+        <a href="{{ route('photos.show', $photo->sha) }}">
             <div class="card m-1" style="width: 30rem">
-                <img
-                    src="{{ route("photos.preview", $photo->sha) }}"
-                    alt="Photo"
-                    class="card-img-top"
-                    style="height: auto"
-                />
 
-                <div class="card-body">
-                    <p class="mb-1">
-                        <strong>File Name:</strong>
-                        {{ $photo->file_name }}
-                    </p>
+                    <img
+                        src="{{ route("photos.preview", $photo->sha) }}"
+                        alt="Photo"
+                        class="card-img-top"
+                        style="height: auto"
+                    />
 
-                    <p class="mb-1">
-                        <strong>Data:</strong>
-                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                    </p>
-                    <p class="mb-1">
-                        <strong>Location:</strong>
-                        {{ $photo->location }}
-                    </p>
-                    <p class="mb-1">
-                        <strong>Description:</strong>
-                        {{ $photo->description }}
-                    </p>
-                    <a
-                        href="{{ route("photos.show", $photo->sha) }}"
-                        class="btn btn-primary mt-2 btn-sm"
-                    >
-                        View
-                    </a>
 
-                    @if ($photo->favorite === 0)
-                        <form
-                            action="{{ route("photos.favorite", $photo->sha) }}"
-                            class="mt-2"
+                <div class="card-img-overlay">
+                    <h5 class="card-text text-white"> {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</h5>
+
+                        {{-- @if ($photo->favorite === 0)
+                            <form action="{{ route("photos.favorite", $photo->sha) }}" >
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="btn btn-success btn-sm"
+                                >
+                                    Favorite
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route("photos.unfavorite", $photo->sha) }}" method="POST" >
+                                @csrf
+                                @method("PUT")
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Unfavorite
+                                </button>
+                            </form>
+                        @endif --}}
+                        {{-- <a
+                            href="{{ route("photos.download", $photo->sha) }}"
+                            class="btn btn-secondary btn-sm mt-2"
                         >
-                            @csrf
-                            <button
-                                type="submit"
-                                class="btn btn-success btn-sm"
-                            >
-                                Favorite
-                            </button>
-                        </form>
-                    @else
-                        <form
-                            action="{{ route("photos.unfavorite", $photo->sha) }}"
-                            method="POST"
-                            class="mt-2"
-                        >
-                            @csrf
-                            @method("PUT")
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                Unfavorite
-                            </button>
-                        </form>
-                    @endif
-                    <a
-                        href="{{ route("photos.download", $photo->sha) }}"
-                        class="btn btn-secondary btn-sm mt-2"
-                    >
-                        Download
-                    </a>
+                            Download
+                        </a> --}}
                 </div>
             </div>
+        </a>
         @endforeach
     </div>
 
