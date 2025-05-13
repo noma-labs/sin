@@ -1,5 +1,5 @@
  CREATE TABLE `photos` (
-  `uid` varchar(255) NOT NULL,
+  `uid` varchar(255) NOT NULL PRIMARY KEY,
   `sha` varchar(255) NOT NULL,
   `source_file` varchar(255) NOT NULL,
   `directory` varchar(255) DEFAULT NULL,
@@ -20,9 +20,7 @@
   `updated_at` datetime(6) NOT NULL DEFAULT current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `photos`
-  ADD PRIMARY KEY (`uid`),
-  ADD UNIQUE KEY `unique_sha` (`sha`);
+ALTER TABLE `photos` ADD UNIQUE KEY `unique_sha` (`sha`);
 
 CREATE TABLE `foto_persone` (
     `photo_id` varchar(255) NOT NULL,

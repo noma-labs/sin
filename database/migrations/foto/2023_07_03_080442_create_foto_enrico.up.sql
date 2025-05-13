@@ -1,18 +1,18 @@
 CREATE TABLE `foto_enrico` (
-     `id` int(11) AUTO_INCREMENT PRIMARY KEY,
-     `data` date NOT NULL,
-     `datnum` varchar(10) NOT NULL,
-     `localita` text NOT NULL,
-     `argomento` text NOT NULL,
-     `descrizione` text NOT NULL,
-     `anum` varchar(8) NOT NULL,
-     `cddvd` varchar(10) NOT NULL,
-     `hdint` varchar(10) NOT NULL,
-     `hdext` varchar(10) NOT NULL,
-     `sc` varchar(2) NOT NULL,
-     `fi` varchar(2) NOT NULL,
-     `tp` varchar(2) NOT NULL,
-     `nfo` varchar(6) NOT NULL
+  `id` int(11) NOT NULL PRIMARY KEY,
+  `data` date NOT NULL,
+  `datnum` varchar(10) NOT NULL,
+  `localita` text NOT NULL,
+  `argomento` text NOT NULL,
+  `descrizione` text NOT NULL,
+  `anum` varchar(8) NOT NULL,
+  `cddvd` varchar(10) NOT NULL,
+  `hdint` varchar(10) NOT NULL,
+  `hdext` varchar(10) NOT NULL,
+  `sc` varchar(2) NOT NULL,
+  `fi` varchar(2) NOT NULL,
+  `tp` varchar(2) NOT NULL,
+  `nfo` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -61,15 +61,3 @@ INSERT INTO `tipo` (`NR`, `FI`, `TP`, `DESCRIZ`) VALUES
          (33, 'FO', 'BC', 'NEGATIVI B/N E COLORE'),
          (34, 'FO', 'DZ', 'DIAPOSITIVE DI TUTTI I FORMATI'),
          (35, 'DG', 'MS', 'MISTO SCANSIONI EST E SCANSIONI INTERNE');
-
---
--- Indici per le tabelle `album`
---
--- ALTER TABLE `album`
---     ADD PRIMARY KEY (`data`,`datnum`),
---   ADD UNIQUE KEY `data` (`data`,`datnum`),
---   ADD KEY `localita` (`localita`),
---   ADD KEY `argomento` (`argomento`),
---   ADD KEY `descrizione` (`descrizione`),
---   ADD KEY `anum` (`anum`);
--- COMMIT;

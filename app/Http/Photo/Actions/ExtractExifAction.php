@@ -12,7 +12,6 @@ final class ExtractExifAction
     {
         // exiftool -r -n -a -struct -progress1000 -G1 -file:all -xmp:all  -exif:all -iptc:all -ImageDataHash  -json>2000.json 2000
         $reader = ExifReader::folder($path)
-            ->setExifToolBinary()
             ->disablePrintConversion()
             ->allowDuplicates()
             ->enableStructuredInformation()

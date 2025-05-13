@@ -18,7 +18,7 @@ final class ExifExtractCommand extends Command
     protected $signature = 'exif:extract
                                     {path : The path (sub folder of the base app path) where the photos are}
                                     {--save : Save the result into the database}
-                                    {--exiftoolpath : The path to the exiftool binary (default: null)}
+                                    {--exiftoolpath= : The path to the exiftool binary (default: null)}
                                     { --limit=10}';
 
     /**
