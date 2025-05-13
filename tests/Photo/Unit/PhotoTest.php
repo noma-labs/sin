@@ -12,7 +12,7 @@ it('add photos to db', function (): void {
         ->inFolder('2023-14-05 AAAXXX A beatiful moment')
         ->create();
 
-    $c = Photo::where('folder_title', 'like', '%A beatiful moment%')->count();
+    $c = Photo::where('directory', 'like', '%A beatiful moment%')->count();
 
     assertEquals(3, $c);
 });

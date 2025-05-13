@@ -15,13 +15,17 @@ final class PhotoController
     public function index(Request $request)
     {
         $filterYear = $request->input('year');
+        $withEnricoMetadata = $request->input('with_metadata', false);
 
-        $enrico = PhotoEnrico::orderBy('data');
-        if ($filterYear !== null) {
-            $enrico = $enrico->orWhere('descrizione', 'like', '%'.$filterYear."%");
-            $enrico = $enrico->orwhereRaw('YEAR(data)= ?', [$filterYear]);
+        $enrico = null;
+        if ($withEnricoMetadata) {
+            $enrico = PhotoEnrico::orderBy('data');
+            if ($filterYear !== null) {
+                $enrico = $enrico->orWhere('descrizione', 'like', '%'.$filterYear.'%');
+                $enrico = $enrico->orwhereRaw('YEAR(data)= ?', [$filterYear]);
+            }
+            $enrico = $enrico->get();
         }
-        $enrico = $enrico->get();
 
         $q = Photo::orderBy('taken_at')
             ->where('favorite', 1)
@@ -73,7 +77,7 @@ final class PhotoController
     {
         $photo = Photo::where('sha', $sha)->firstOrFail();
 
-        if (!Storage::disk('photos')->exists($photo->source_file)) {
+        if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
@@ -103,21 +107,21 @@ final class PhotoController
         }
 
         $fileContent = Storage::disk('photos')->get($filePath);
-        $filePath= Storage::disk('photos')->path($filePath);
+        $filePath = Storage::disk('photos')->path($filePath);
         $mimeType = Storage::disk('photos')->mimeType($filePath);
 
         $drawFaces = $request->query('draw_faces', false);
 
-        if (!$drawFaces){
+        if (! $drawFaces) {
             return response($fileContent, 200)->header('Content-Type', $mimeType);
         }
 
-        if ($photo->region_info){
+        if ($photo->region_info) {
             $image = imagecreatefromjpeg($filePath);
             if (! $image) {
                 exit('Failed to load image.');
             }
-            $xmpData = json_decode($photo->region_info);
+            $xmpData = json_decode((string) $photo->region_info);
             $imageWidth = imagesx($image);
             $imageHeight = imagesy($image);
 
@@ -161,19 +165,17 @@ final class PhotoController
             return response($imageData, 200)->header('Content-Type', $mimeType);
         }
 
-
         return response($fileContent, 200)->header('Content-Type', $mimeType);
     }
-
 
     public function download(string $sha)
     {
         $photo = Photo::where('sha', $sha)->firstOrFail();
 
-        if (!Storage::disk('photos')->exists($photo->source_file)) {
+        if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
-        return  Storage::disk('photos')->download($photo->source_file);
+        return Storage::disk('photos')->download($photo->source_file);
     }
 }

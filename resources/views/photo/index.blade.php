@@ -24,12 +24,13 @@
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
-            <div class="card m-1" style="width: 30rem; ">
-                <img src="{{ route('photos.preview', $photo->sha) }}"
+            <div class="card m-1" style="width: 30rem">
+                <img
+                    src="{{ route("photos.preview", $photo->sha) }}"
                     alt="Photo"
                     class="card-img-top"
                     style="height: auto"
-                >
+                />
 
                 <div class="card-body">
                     <p class="mb-1">
@@ -77,10 +78,7 @@
                         >
                             @csrf
                             @method("PUT")
-                            <button
-                                type="submit"
-                                class="btn btn-danger btn-sm"
-                            >
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 Unfavorite
                             </button>
                         </form>
@@ -96,22 +94,23 @@
         @endforeach
     </div>
 
-    <div class="row">
-        <h2>Metadata from enrico DBF</h2>
-        <ul>
-            @foreach ($enrico as $photo)
-                <li>
-                    <span class="badge text-bg-secondary">
-                        {{ $photo->data }}
-                    </span>
-                    {{ $photo->datnum }}
-                    {{ $photo->anum }}
-                    {{ $photo->localita }}
-                    {{ $photo->argomento }}
-                    {{ $photo->descrizione }}
-                </li>
-            @endforeach
-        </ul>
-    </div>
-
-    @endsection
+    @if ($enrico)
+        <div class="row">
+            <h2>Metadata from enrico DBF</h2>
+            <ul>
+                @foreach ($enrico as $photo)
+                    <li>
+                        <span class="badge text-bg-secondary">
+                            {{ $photo->data }}
+                        </span>
+                        {{ $photo->datnum }}
+                        {{ $photo->anum }}
+                        {{ $photo->localita }}
+                        {{ $photo->argomento }}
+                        {{ $photo->descrizione }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+@endsection

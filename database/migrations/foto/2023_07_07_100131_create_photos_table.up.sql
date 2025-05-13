@@ -1,30 +1,28 @@
-CREATE TABLE `photos`
-(
-    `uid`                 varchar(255) NOT NULL,
-    `sha`                 varchar(255) NOT NULL,
-    `source_file`         varchar(255) NOT NULL,
-    `directory`           varchar(255)          DEFAULT NULL,
-    `folder_title`        varchar(255)          DEFAULT NULL COMMENT 'Parent folder name of the photo',
-    `file_size`           bigint(20)            DEFAULT NULL,
-    `file_name`           varchar(255)          DEFAULT NULL,
-    `file_type`           varchar(16)           DEFAULT NULL,
-    `file_type_extension` varchar(16)           DEFAULT NULL,
-    `image_height`        int(11)               DEFAULT NULL,
-    `image_width`         int(11)               DEFAULT NULL,
-    `keywords`            text                  DEFAULT NULL,
-    `region_info`         JSON                  DEFAULT NULL,
-    `subject`             text                  DEFAULT NULL,
-    `taken_at`            datetime              DEFAULT NULL COMMENT 'the create date of the photo set by the camera',
-    `created_at`          datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    `updated_at`          datetime(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    `deleted_at`          datetime(6)   DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+ CREATE TABLE `photos` (
+  `uid` varchar(255) NOT NULL,
+  `sha` varchar(255) NOT NULL,
+  `source_file` varchar(255) NOT NULL,
+  `directory` varchar(255) DEFAULT NULL,
+  `file_size` bigint(20) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `file_type` varchar(16) DEFAULT NULL,
+  `file_type_extension` varchar(16) DEFAULT NULL,
+  `image_height` int(11) DEFAULT NULL,
+  `image_width` int(11) DEFAULT NULL,
+  `keywords` text DEFAULT NULL,
+  `region_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`region_info`)),
+  `subject` text DEFAULT NULL,
+  `favorite` tinyint(1) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `location` text DEFAULT NULL,
+  `taken_at` datetime DEFAULT NULL COMMENT 'the create date of the photo set by the camera',
+  `created_at` datetime(6) NOT NULL DEFAULT current_timestamp(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT current_timestamp(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE VIEW  IF NOT EXISTS v_folders AS
-select folder_title AS folders, count(0) AS c
-from photos
-group by folder_title;
+ALTER TABLE `photos`
+  ADD PRIMARY KEY (`uid`),
+  ADD UNIQUE KEY `unique_sha` (`sha`);
 
 CREATE TABLE `foto_persone` (
     `photo_id` varchar(255) NOT NULL,
@@ -37,26 +35,7 @@ CREATE TABLE `foto_persone` (
 ALTER TABLE `foto_persone`
     ADD UNIQUE KEY (`photo_id`,`persona_id`);
 
--- ALTER TABLE `foto_persone`
---     ADD CONSTRAINT `foto_persone_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `photos` (`uid`);
 
--- CREATE TABLE `photos_albums` (
---  `photo_uid` varbinary(42) NOT NULL,
---  `album_uid` varbinary(42) NOT NULL,
---  `created_at` datetime DEFAULT NULL,
---  `updated_at` datetime DEFAULT NULL
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
---
--- ALTER TABLE `photos_albums`
---     ADD PRIMARY KEY (`photo_uid`,`album_uid`),
---   ADD KEY `idx_photos_albums_album_uid` (`album_uid`);
-
---
--- Indexes for table `photos`
---
--- ALTER TABLE `photos`
---     ADD UNIQUE KEY `photo_idx` (`sha`);
--- COMMIT;
 
 -- find duplicate foto by sha
 
@@ -132,6 +111,3 @@ ALTER TABLE `foto_persone`
 -- #          join info i2 on i2.sha = info.sha
 -- # where i2.source_file != info.source_file
 -- # order by i2.source_file;
-
-
-

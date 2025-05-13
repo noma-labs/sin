@@ -7,7 +7,6 @@ namespace App\Console\Commands;
 use App\Photo\Actions\ExtractExifAction;
 use App\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 final class ExifExtractCommand extends Command
 {
@@ -43,13 +42,6 @@ final class ExifExtractCommand extends Command
 
         if ($saveToDb) {
             $photos = (new StoreExifIntoDBAction)->execute($fileName);
-
-            // $photos = DB::connection('db_foto')
-            //             ->table('photos')
-            //             ->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')
-            //             ->limit($limit)
-            //             ->orderby('created_at', 'DESC')
-            //             ->get();
             $this->table(['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray()
             );
         }

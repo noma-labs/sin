@@ -6,7 +6,6 @@ namespace App\Photo\Models;
 
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Str;
 use Throwable;
 
 final class ExifData
@@ -135,7 +134,7 @@ final class ExifData
         if (isset($info['XMP-mwg-rs:RegionInfo'])) {
             try {
                 $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
-            } catch (Throwable $th) {
+            } catch (Throwable) {
 
             }
         }
@@ -147,8 +146,6 @@ final class ExifData
                 $exif->takenAt = null;
             }
         }
-
-        $exif->folderTitle = Str::of($exif->directory)->basename()->toString();
 
         return $exif;
     }
@@ -169,7 +166,6 @@ final class ExifData
             'source_file' => $this->sourceFile,
             'subject' => implode(',', $this->subjects),
             'region_info' => $this->regionInfo,
-            'folder_title' => $this->folderTitle,
             'file_size' => $this->fileSize,
             'file_name' => $this->fileName,
             'file_type' => $this->fileType,
@@ -178,7 +174,6 @@ final class ExifData
             'image_width' => $this->imageWidth,
             'taken_at' => $this->takenAt,
             'directory' => $this->directory,
-            //            'region_info' => $this->regionInfo,
         ];
     }
 }
