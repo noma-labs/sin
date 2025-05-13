@@ -7957,6 +7957,66 @@ parameters:
 			path: app/Http/Photo/Actions/StoreExifIntoDBAction.php
 
 		-
+			message: '#^Cannot access property \$RegionList on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Parameter \#2 \$values of method Illuminate\\Http\\Response\:\:header\(\) expects array\|string, string\|false given\.$#'
+			identifier: argument.type
+			count: 3
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagerectangle expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagestring expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Property App\\Photo\\Models\\Photo\:\:\$description \(string\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Property App\\Photo\\Models\\Photo\:\:\$location \(string\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Property App\\Photo\\Models\\Photo\:\:\$taken_at \(DateTime\|string\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between Illuminate\\Support\\Stringable and '''' will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: app/Http/Photo/Controllers/PhotoController.php
+
+		-
 			message: '#^Method App\\Photo\\Exif\\ExifReader\:\:callExifTool\(\) has parameter \$command with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -8009,6 +8069,24 @@ parameters:
 			identifier: argument.templateType
 			count: 1
 			path: app/Http/Photo/Exif/ExifReader.php
+
+		-
+			message: '#^Offset ''XMP\-mwg\-rs…'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: app/Http/Photo/Models/ExifData.php
+
+		-
+			message: '#^Offset ''XMP\-xmp\:CreateDate'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: app/Http/Photo/Models/ExifData.php
+
+		-
+			message: '#^Property App\\Photo\\Models\\ExifData\:\:\$regionInfo \(string\|null\) does not accept string\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Http/Photo/Models/ExifData.php
 
 		-
 			message: '#^Method App\\Rtn\\Video\\Video\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
