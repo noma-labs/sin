@@ -24,13 +24,13 @@
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
-            <div class="card m-1" style="width: 18rem; ">
-                <img
-                    src="{{ asset("storage/foto-sport/$photo->folder_title/$photo->file_name") }}"
+            <div class="card m-1" style="width: 30rem; ">
+                <img src="{{ route('photos.preview', $photo->sha) }}"
                     alt="Photo"
                     class="card-img-top"
                     style="height: auto"
-                />
+                >
+
                 <div class="card-body">
                     <p class="mb-1">
                         <strong>File Name:</strong>

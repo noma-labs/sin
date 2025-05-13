@@ -8,6 +8,7 @@ use App\Photo\Models\Photo;
 use App\Photo\Models\PhotoEnrico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 final class PhotoController
 {
@@ -44,9 +45,9 @@ final class PhotoController
     public function update(Request $request, string $sha)
     {
         $request->validate([
-            'taken_at' => 'nullable|date', // Allow null for taken_at
-            'description' => 'nullable|string', // Allow null for description
-            'location' => 'nullable|string', // Allow null for description
+            'taken_at' => 'nullable|date',
+            'description' => 'nullable|string',
+            'location' => 'nullable|string',
         ]);
 
         $photo = Photo::where('sha', $sha)->firstOrFail();
@@ -72,11 +73,47 @@ final class PhotoController
     {
         $photo = Photo::where('sha', $sha)->firstOrFail();
 
-        $filepath = storage_path("app/public/foto-sport/$photo->folder_title/$photo->file_name");
+        if (!Storage::disk('photos')->exists($photo->source_file)) {
+            abort(404, 'File not found.');
+        }
 
+        $people = DB::connection('db_foto')
+            ->table('foto_persone')
+            ->select('p.id', 'foto_persone.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
+            ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'foto_persone.persona_nome')
+            ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
+            ->where('foto_persone.photo_id', '=', $photo->uid)
+            ->orderby('foto_persone.persona_nome')
+            ->get();
+
+        return view('photo.show', [
+            'photo' => $photo,
+            'people' => $people,
+        ]);
+    }
+
+    public function preview(Request $request, string $sha)
+    {
+        $photo = Photo::where('sha', $sha)->firstOrFail();
+
+        $filePath = $photo->source_file;
+
+        if (! Storage::disk('photos')->exists($filePath)) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('photos')->get($filePath);
+        $filePath= Storage::disk('photos')->path($filePath);
+        $mimeType = Storage::disk('photos')->mimeType($filePath);
+
+        $drawFaces = $request->query('draw_faces', false);
+
+        if (!$drawFaces){
+            return response($fileContent, 200)->header('Content-Type', $mimeType);
+        }
 
         if ($photo->region_info){
-            $image = imagecreatefromjpeg($filepath);
+            $image = imagecreatefromjpeg($filePath);
             if (! $image) {
                 exit('Failed to load image.');
             }
@@ -114,39 +151,20 @@ final class PhotoController
                     imagestring($image, $font, $textX, $textY, $name, $white);
                 }
             }
-            // Save the modified image to a publicly accessible directory
-            $publicTempDir = storage_path('app/public/temp');
-            if (! file_exists($publicTempDir)) {
-                mkdir($publicTempDir, 0755, true); // Create the directory if it doesn't exist
-            }
-            $tempFileName = uniqid('photo_', true).'.jpg';
-            $tempFilePath = $publicTempDir.DIRECTORY_SEPARATOR.$tempFileName;
-            imagejpeg($image, $tempFilePath);
+
+            ob_start();
+            imagejpeg($image);
+            $imageData = ob_get_clean();
+
             imagedestroy($image);
 
-            // Generate a URL for the temporary file
-            $tempFileUrl = asset('storage/temp/'.$tempFileName);
-        }else{
-            $tempFileUrl = asset("storage/foto-sport/$photo->folder_title/$photo->file_name");
+            return response($imageData, 200)->header('Content-Type', $mimeType);
         }
 
 
-        $people = DB::connection('db_foto')
-            ->table('foto_persone')
-            ->select('p.id', 'foto_persone.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
-            ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'foto_persone.persona_nome')
-            ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
-            ->where('foto_persone.photo_id', '=', $photo->uid)
-            ->orderby('foto_persone.persona_nome')
-            ->get();
-
-        // Pass the photo and temporary file URL to the Blade view
-        return view('photo.show', [
-            'photo' => $photo,
-            'tempFileUrl' => $tempFileUrl,
-            'people' => $people,
-        ]);
+        return response($fileContent, 200)->header('Content-Type', $mimeType);
     }
+
 
     public function download(string $sha)
     {

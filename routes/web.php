@@ -418,6 +418,7 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::put('/{sha}', [PhotoController::class, 'update'])->name('photos.update');
     Route::get('/{sha}', [PhotoController::class, 'show'])->name('photos.show');
     Route::get('/{sha}/download', [PhotoController::class, 'download'])->name('photos.download');
+    Route::get('/{sha}/preview', [PhotoController::class, 'preview'])->name('photos.preview');
 
     Route::post('/{sha}/favourite', [FavouritesController::class, 'store'])->name('photos.favorite');
     Route::put('/{sha}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');

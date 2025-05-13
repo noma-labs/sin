@@ -5,7 +5,7 @@
 @section("content")
     <div class="row">
         <div class="col-md-8">
-            <img src="{{ $tempFileUrl }}" alt="Photo"  class="img-fluid"/>
+            <img src="{{ route('photos.preview', ['sha' => $photo->sha, 'draw_faces' => true]) }}" alt="Photo" class="img-fluid">
         </div>
         <div class="col-md-4">
             <h2>Photo Details</h2>
