@@ -17,7 +17,8 @@ final class ExifExtractCommand extends Command
      */
     protected $signature = 'exif:extract
                                     {path : The path (sub folder of the base app path) where the photos are}
-                                    {--save : Save the result into the database}}
+                                    {--save : Save the result into the database}
+                                    {--exiftoolpath : The path to the exiftool binary (default: null)}
                                     { --limit=10}';
 
     /**
@@ -33,17 +34,19 @@ final class ExifExtractCommand extends Command
     public function handle(): int
     {
         $path = $this->argument('path');
+
+        $exifBinPath = $this->option('exiftoolpath') ?? null;
+
         $saveToDb = $this->option('save');
         $limit = (int) $this->option('limit');
 
-        $fileName = (new ExtractExifAction)->execute($path);
+        $fileName = (new ExtractExifAction)->execute($path, $exifBinPath);
 
         $this->info("Saving into $fileName");
 
         if ($saveToDb) {
             $photos = (new StoreExifIntoDBAction)->execute($fileName);
-            $this->table(['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray()
-            );
+            $this->table(['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'], $photos->toArray());
         }
 
         return Command::SUCCESS;

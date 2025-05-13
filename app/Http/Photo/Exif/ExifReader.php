@@ -8,7 +8,6 @@ use App\Photo\Models\ExifData;
 use Exception;
 use Generator;
 use Illuminate\Support\Collection;
-use MongoDB\BSON\Iterator;
 use Symfony\Component\Process\Process;
 
 final class ExifReader
@@ -56,9 +55,10 @@ final class ExifReader
         return $this;
     }
 
-    public function setExifToolBinary(?string $exifToolBinary): void
+    public function setExifToolBinary(?string $exifToolBinary): self
     {
         $this->exifToolBinary = $exifToolBinary;
+        return $this;
     }
 
     public function setTimeout(?int $timeout): self

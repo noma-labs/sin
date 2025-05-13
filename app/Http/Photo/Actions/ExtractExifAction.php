@@ -8,10 +8,11 @@ use App\Photo\Exif\ExifReader;
 
 final class ExtractExifAction
 {
-    public function execute(string $path): string
+    public function execute(string $path, ?string $exifToolBinPath): string
     {
         // exiftool -r -n -a -struct -progress1000 -G1 -file:all -xmp:all  -exif:all -iptc:all -ImageDataHash  -json>2000.json 2000
-        return ExifReader::folder($path)
+        $reader = ExifReader::folder($path)
+            ->setExifToolBinary()
             ->disablePrintConversion()
             ->allowDuplicates()
             ->enableStructuredInformation()
@@ -21,7 +22,11 @@ final class ExtractExifAction
             ->extractExifInformation()
             ->extractIPTCInformation()
             ->extractHashOfTheImage()
-            ->setTimeout(null)
-            ->saveJSON();
+            ->setTimeout(null);
+        if ($exifToolBinPath){
+            $reader->setExifToolBinary($exifToolBinPath);
+        }
+
+        return $reader->saveJSON();
     }
 }
