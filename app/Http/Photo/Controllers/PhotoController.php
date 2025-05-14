@@ -6,6 +6,7 @@ namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
 use App\Photo\Models\PhotoEnrico;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,14 +19,14 @@ final class PhotoController
 {
     public function index(Request $request): View
     {
-        $filterYear = $request->string('year', '');
+        $filterYear = $request->input('year', null);
         $withEnricoMetadata = $request->input('with_metadata', false);
 
         $enrico = null;
         if ($withEnricoMetadata) {
             $enrico = PhotoEnrico::query();
 
-            if ($filterYear !== '') {
+            if ($filterYear !== null) {
                 $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
                 $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
             }
@@ -37,7 +38,7 @@ final class PhotoController
             ->where('favorite', 1)
             ->orderBy('taken_at');
 
-        if ($filterYear !== '') {
+        if ($filterYear !== null) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
 
@@ -65,7 +66,7 @@ final class PhotoController
         $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
         if ($request->filled('taken_at')) {
-            $photo->taken_at = $request->input('taken_at');
+            $photo->taken_at = Carbon::parse($request->input('taken_at'));
         }
 
         if ($request->filled('description')) {
@@ -90,12 +91,12 @@ final class PhotoController
         }
 
         $people = DB::connection('db_foto')
-            ->table('foto_persone')
-            ->select('p.id', 'foto_persone.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
-            ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'foto_persone.persona_nome')
+            ->table('photos_people')
+            ->select('p.id', 'photos_people.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
+            ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'photos_people.persona_nome')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
-            ->where('foto_persone.photo_id', '=', $photo->uid)
-            ->orderby('foto_persone.persona_nome')
+            ->where('photos_people.photo_id', '=', $photo->uid)
+            ->orderby('photos_people.persona_nome')
             ->get();
 
         return view('photo.show', [
@@ -115,29 +116,28 @@ final class PhotoController
         $mimeType = mime_content_type($filePath);
 
         if (! $drawFaces) {
-            // return response($fileContent, 200);
             return response()->make($fileContent, 200)->header('Content-Type', $mimeType);
-
         }
 
         if ($photo->region_info) {
+            $regionInfo = $photo->region_info;
             $image = imagecreatefromjpeg($filePath);
             if (! $image) {
                 exit('Failed to load image.');
             }
-            $xmpData = json_decode((string) $photo->region_info);
+
             $imageWidth = imagesx($image);
             $imageHeight = imagesy($image);
 
             $white = imagecolorallocate($image, 255, 255, 255);
 
-            foreach ($xmpData->RegionList as $region) {
+            foreach ($regionInfo->RegionList as $region) {
                 $area = $region->Area;
                 // Convert normalized values to pixel dimensions
-                $centerX = $area->X * $imageWidth;
-                $centerY = $area->Y * $imageHeight;
-                $width = $area->W * $imageWidth;
-                $height = $area->H * $imageHeight;
+                $centerX = $area['X'] * $imageWidth;
+                $centerY = $area['Y'] * $imageHeight;
+                $width = $area['W'] * $imageWidth;
+                $height = $area['H'] * $imageHeight;
                 // Calculate top-left and bottom-right corners
                 $x1 = (int) ($centerX - $width / 2);
                 $y1 = (int) ($centerY - $height / 2);

@@ -14,6 +14,7 @@ final class StoreExifIntoDBAction
     {
         $num = 0;
         $buffer = [];
+
         foreach (new JsonParser($jsonFile) as $value) {
             $data = ExifData::fromArray($value);
             $buffer[] = $data;
@@ -45,6 +46,6 @@ final class StoreExifIntoDBAction
         }
 
         DB::connection('db_foto')->table('photos')->insert($photoAttrs->toArray());
-        DB::connection('db_foto')->table('foto_persone')->insert($photoPeopleAttrs->toArray());
+        DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs->toArray());
     }
 }

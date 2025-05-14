@@ -1,17 +1,15 @@
- CREATE TABLE `photos` (
+CREATE TABLE `photos` (
   `uid` varchar(255) NOT NULL PRIMARY KEY,
   `sha` varchar(255) NOT NULL,
   `source_file` varchar(255) NOT NULL,
   `directory` varchar(255) DEFAULT NULL,
   `file_size` bigint(20) DEFAULT NULL,
   `file_name` varchar(255) DEFAULT NULL,
-  `file_type` varchar(16) DEFAULT NULL,
-  `file_type_extension` varchar(16) DEFAULT NULL,
+  `mime_type` varchar(32) DEFAULT NULL,
   `image_height` int(11) DEFAULT NULL,
   `image_width` int(11) DEFAULT NULL,
-  `keywords` text DEFAULT NULL,
   `region_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`region_info`)),
-  `subject` text DEFAULT NULL,
+  `subjects` text DEFAULT NULL,
   `favorite` tinyint(1) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `location` text DEFAULT NULL,
@@ -22,7 +20,7 @@
 
 ALTER TABLE `photos` ADD UNIQUE KEY `unique_sha` (`sha`);
 
-CREATE TABLE `foto_persone` (
+CREATE TABLE `photos_people` (
     `photo_id` varchar(255) NOT NULL,
     `persona_id` bigint(10) DEFAULT NULL,
     `persona_nome` varchar(255)  DEFAULT NULL,
@@ -30,7 +28,7 @@ CREATE TABLE `foto_persone` (
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB;
 
-ALTER TABLE `foto_persone`
+ALTER TABLE `photos_people`
     ADD UNIQUE KEY (`photo_id`,`persona_id`);
 
 

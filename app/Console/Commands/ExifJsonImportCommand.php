@@ -14,8 +14,8 @@ final class ExifJsonImportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'exif:import 
-                                    {file : The path (sub folder of the base app path) where the json file} 
+    protected $signature = 'exif:import
+                                    {file : The path (sub folder of the base app path) where the json file}
                                     { --limit=10} ';
 
     /**
@@ -36,7 +36,7 @@ final class ExifJsonImportCommand extends Command
 
         $num = (new StoreExifIntoDBAction)->execute($file);
 
-        $this->info("Inserted $num phots");
+        $this->info("Inserted $num photos");
 
         return Command::SUCCESS;
 

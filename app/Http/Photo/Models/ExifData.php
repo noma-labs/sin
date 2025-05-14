@@ -14,7 +14,7 @@ final class ExifData
 
     public string $sourceFile = '';
 
-    public ?string $fileType = null;
+    public ?string $mimeType = null;
 
     public string $fileName = '';
 
@@ -23,8 +23,6 @@ final class ExifData
     public string $directory = '';
 
     public string $folderTitle = '';
-
-    public string $fileExtension = '';
 
     public int $imageHeight = 0;
 
@@ -36,11 +34,6 @@ final class ExifData
     public array $subjects = [];
 
     public ?string $regionInfo = null;
-
-    //    public ?string $regionInfo = '{}';
-
-    // TODO: exif tool export keywords in two types: string, and array of string.
-    public string $keywords = '';
 
     /**
      * @param array{
@@ -73,78 +66,90 @@ final class ExifData
             throw new Exception("'SourceFile' not found in the exif data");
         }
         $exif->sourceFile = $info['SourceFile'];
-        // TODO the date of the data of the photo ??
-
-        if (isset($info['FileName'])) {
-            $exif->fileName = $info['FileName'];
-        }
-        if (isset($info['Directory'])) {
-            $exif->directory = $info['Directory'];
-        }
-        if (isset($info['FileSize'])) {
-            $exif->fileSize = $info['FileSize'];
-        }
-        if (isset($info['FileType'])) {
-            $exif->fileType = $info['FileType'];
-        }
-        if (isset($info['FileTypeExtension'])) {
-            $exif->fileExtension = $info['FileTypeExtension'];
-        }
-        if (isset($info['ImageWidth'])) {
-            $exif->imageWidth = $info['ImageWidth'];
-        }
-        if (isset($info['ImageHeight'])) {
-            $exif->imageHeight = $info['ImageHeight'];
-        }
-        if (isset($info['ImageDataHash'])) {
-            $exif->sha = $info['ImageDataHash'];
-        }
-        if (isset($info['Subject'])) {
-            $exif->subjects = $info['Subject'];
-        }
 
         // GROUP-based name (using G1 option)
         if (isset($info['System:FileName'])) {
             $exif->fileName = $info['System:FileName'];
+        } elseif (isset($info['FileName'])) {
+            $exif->fileName = $info['FileName'];
         }
+
         if (isset($info['System:Directory'])) {
             $exif->directory = $info['System:Directory'];
+        } elseif (isset($info['Directory'])) {
+            $exif->directory = $info['Directory'];
         }
+
         if (isset($info['System:FileSize'])) {
             $exif->fileSize = $info['System:FileSize'];
+        } elseif (isset($info['FileSize'])) {
+            $exif->fileSize = $info['FileSize'];
         }
-        if (isset($info['File:FileType'])) {
-            $exif->fileType = $info['File:FileType'];
+
+        if (isset($info['File:MIMEType'])) {
+            $exif->mimeType = $info['File:MIMEType'];
+        } elseif (isset($info['MIMEType'])) {
+            $exif->mimeType = $info['MIMEType'];
         }
-        if (isset($info['File:FileTypeExtension'])) {
-            $exif->fileExtension = $info['File:FileTypeExtension'];
-        }
+
         if (isset($info['File:ImageWidth'])) {
             $exif->imageWidth = $info['File:ImageWidth'];
+        } elseif (isset($info['ImageWidth'])) {
+            $exif->imageWidth = $info['ImageWidth'];
+        } elseif (isset($info['ExifImageWidth'])) {
+            $exif->imageWidth = $info['ExifImageWidth'];
         }
+
         if (isset($info['File:ImageHeight'])) {
             $exif->imageHeight = $info['File:ImageHeight'];
+        } elseif (isset($info['ImageHeight'])) {
+            $exif->imageHeight = $info['ImageHeight'];
+        } elseif (isset($info['ExifImageHeight'])) {
+            $exif->imageHeight = $info['ExifImageHeight'];
         }
+
         if (isset($info['File:ImageDataHash'])) {
             $exif->sha = $info['File:ImageDataHash'];
+        } elseif (isset($info['ImageDataHash'])) {
+            $exif->sha = $info['ImageDataHash'];
         }
+
         if (isset($info['XMP-dc:Subject'])) {
             $exif->subjects = $info['XMP-dc:Subject'];
+        } elseif (isset($info['Subject'])) {
+            $exif->subjects = $info['Subject'];
         }
+
         if (isset($info['XMP-mwg-rs:RegionInfo'])) {
             try {
                 $exif->regionInfo = json_encode($info['XMP-mwg-rs:RegionInfo']);
             } catch (Throwable) {
-
+                // ignore
             }
         }
+
+        // Date handling
         if (isset($info['XMP-xmp:CreateDate'])) {
             $dateString = $info['XMP-xmp:CreateDate'];
             try {
-                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s.uP', $dateString);
+                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s', $dateString);
             } catch (Exception) {
                 $exif->takenAt = null;
             }
+        } elseif (isset($info['CreateDate'])) {
+            $dateString = $info['CreateDate'];
+            try {
+                // Try with timezone
+                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:sP', $dateString);
+            } catch (Exception) {
+                try {
+                    $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s', $dateString);
+                } catch (Exception) {
+                    $exif->takenAt = null;
+                }
+            }
+        } else {
+            $exif->takenAt = null;
         }
 
         return $exif;
@@ -164,12 +169,11 @@ final class ExifData
             'uid' => uniqid(),
             'sha' => $this->sha,
             'source_file' => $this->sourceFile,
-            'subject' => implode(',', $this->subjects),
+            'subjects' => implode(',', $this->subjects),
             'region_info' => $this->regionInfo,
             'file_size' => $this->fileSize,
             'file_name' => $this->fileName,
-            'file_type' => $this->fileType,
-            'file_type_extension' => $this->fileExtension,
+            'mime_type' => $this->mimeType,
             'image_height' => $this->imageHeight,
             'image_width' => $this->imageWidth,
             'taken_at' => $this->takenAt,
