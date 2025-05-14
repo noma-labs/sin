@@ -37,6 +37,12 @@ parameters:
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
+			message: '#^Parameter \#2 \$prefixPathToRemove of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string\|null, array\|bool\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Console/Commands/ExifJsonImportCommand.php
+
+		-
 			message: '#^Part \$file \(array\|bool\|string\|null\) of encapsed string cannot be cast to string\.$#'
 			identifier: encapsedStringPart.nonString
 			count: 1

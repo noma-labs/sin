@@ -169,15 +169,15 @@ final class ExifData
 
         if ($prefixPathToRemove !== null) {
             if (str_starts_with($sourceFile, $prefixPathToRemove)) {
-                $sourceFile = substr($sourceFile, strlen($prefixPathToRemove));
+                $sourceFile = mb_substr($sourceFile, mb_strlen($prefixPathToRemove));
             } else {
-                throw new \Exception("Prefix '$prefixPathToRemove' not found in source_file: $sourceFile");
+                throw new Exception("Prefix '$prefixPathToRemove' not found in source_file: $sourceFile");
             }
-            if (!empty($directory)) {
+            if (! empty($directory)) {
                 if (str_starts_with($directory, $prefixPathToRemove)) {
-                    $directory = substr($directory, strlen($prefixPathToRemove));
+                    $directory = mb_substr($directory, mb_strlen($prefixPathToRemove));
                 } else {
-                    throw new \Exception("Prefix '$prefixPathToRemove' not found in directory: $directory");
+                    throw new Exception("Prefix '$prefixPathToRemove' not found in directory: $directory");
                 }
             }
         }

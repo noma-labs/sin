@@ -7,8 +7,8 @@ namespace App\Photo\Models;
 final class RegionInfo
 {
     /**
-     * @param array<string, int|string> $AppliedToDimensions
-     * @param RegionInfoRegion[] $RegionList
+     * @param  array<string, int|string>  $AppliedToDimensions
+     * @param  RegionInfoRegion[]  $RegionList
      */
     public function __construct(
         public array $AppliedToDimensions,
@@ -52,8 +52,7 @@ final class RegionInfo
 final class RegionInfoRegion
 {
     /**
-     * @param array<string, float> $Area
-     * @param float|int $Rotation
+     * @param  array<string, float>  $Area
      */
     public function __construct(
         public array $Area,
@@ -63,7 +62,7 @@ final class RegionInfoRegion
     ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

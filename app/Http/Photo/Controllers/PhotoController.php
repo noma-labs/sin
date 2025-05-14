@@ -26,7 +26,7 @@ final class PhotoController
         if ($withEnricoMetadata) {
             $enrico = PhotoEnrico::query();
 
-            if (!$filterYear->isEmpty()) {
+            if (! $filterYear->isEmpty()) {
                 $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
                 $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
             }
@@ -38,7 +38,7 @@ final class PhotoController
             ->where('favorite', 1)
             ->orderBy('taken_at');
 
-        if (!$filterYear->isEmpty()) {
+        if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
 
