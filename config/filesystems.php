@@ -81,6 +81,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/elaborati'),
         ],
+        'photos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/foto'),
+        ],
     ],
 
     'links' => [

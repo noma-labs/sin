@@ -14,9 +14,10 @@ final class ExifJsonImportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'exif:import 
-                                    {file : The path (sub folder of the base app path) where the json file} 
-                                    { --limit=10} ';
+    protected $signature = 'exif:import
+                                    {file : The path (sub folder of the base app path) where the json file}
+                                    { --limit=10}
+                                    { --remove-prefix= : Remove this prefix from source_file and directory }';
 
     /**
      * The console command description.
@@ -31,14 +32,14 @@ final class ExifJsonImportCommand extends Command
     public function handle(): int
     {
         $file = $this->argument('file');
+        $removePrefix = $this->option('remove-prefix');
 
         $this->info("Reading $file");
 
-        $num = (new StoreExifIntoDBAction)->execute($file);
+        $num = (new StoreExifIntoDBAction)->execute($file, $removePrefix);
 
-        $this->info("Inserted $num phots");
+        $this->info("Inserted $num photos");
 
         return Command::SUCCESS;
-
     }
 }

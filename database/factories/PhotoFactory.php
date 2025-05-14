@@ -18,12 +18,10 @@ final class PhotoFactory extends Factory
             'uid' => uniqid(),
             'sha' => $this->faker->sha1(),
             'source_file' => $this->faker->filePath(),
-            'subject' => collect($this->faker->words(5))->join(', '),
-            'folder_title' => $this->faker->word(), // 2022-05-23 XXXMQ Argomento foto
+            'subjects' => collect($this->faker->words(5))->join(', '),
             'file_size' => $this->faker->numberBetween(200, 4000),
             'file_name' => $this->faker->word(),
-            'file_type' => $this->faker->fileExtension(),
-            'file_type_extension' => $this->faker->fileExtension(),
+            'mime_type' => $this->faker->fileExtension(),
             'image_height' => $this->faker->biasedNumberBetween(10, 3000),
             'image_width' => $this->faker->biasedNumberBetween(0.6000),
             'taken_at' => Carbon::now(),
@@ -33,9 +31,9 @@ final class PhotoFactory extends Factory
     public function inFolder(string $name)
     {
         return $this->state(function (array $attributes) use ($name) {
-            // build a folder tilte like: 2022-05-23 XXXMQ Argomento foto
+            // build a folder title like: 2022-05-23 XXXMQ Argomento foto
             return [
-                'folder_title' => $name,
+                'directory' => $name,
             ];
         });
     }

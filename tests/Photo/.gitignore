@@ -1,2 +1,3 @@
 *.csv
 *.json
+!Command/testfile/photos.json

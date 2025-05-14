@@ -23,6 +23,10 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Fix APT repository label change issue
+        run: |
+          apt-get update --allow-releaseinfo-change
+
       - name: Install exiftool
         # TODO: the exif tool version is hardcoded 13.17. Make it as the same version of the EXIFTOOL_VERSION in the dockerfile
         run: |
@@ -33,7 +37,6 @@ jobs:
           perl Makefile.PL && \
           make install && \
           exiftool -ver
-       #   rm -rf Image-ExifTool-*.tar.gz && \
 
       - name: Install Task
         uses: arduino/setup-task@v1

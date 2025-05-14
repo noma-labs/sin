@@ -69,6 +69,8 @@ use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
+use App\Photo\Controllers\FavouritesController;
+use App\Photo\Controllers\PhotoController;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
@@ -409,6 +411,17 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
     Route::get('/', [RtnVideoController::class, 'index'])->name('rtn.video.index');
     Route::post('/video', [RtnVideoController::class, 'store'])->name('rtn.video.store');
     Route::get('/video', [RtnVideoController::class, 'create'])->name('rtn.video.create');
+});
+
+Route::prefix('photos')->middleware('auth')->group(function () {
+    Route::get('/', [PhotoController::class, 'index'])->name('photos.index');
+    Route::put('/{sha}', [PhotoController::class, 'update'])->name('photos.update');
+    Route::get('/{sha}', [PhotoController::class, 'show'])->name('photos.show');
+    Route::get('/{sha}/download', [PhotoController::class, 'download'])->name('photos.download');
+    Route::get('/{sha}/preview', [PhotoController::class, 'preview'])->name('photos.preview');
+
+    Route::post('/{sha}/favourite', [FavouritesController::class, 'store'])->name('photos.favorite');
+    Route::put('/{sha}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
 });
 
 Route::get('/debug-sentry', function () {

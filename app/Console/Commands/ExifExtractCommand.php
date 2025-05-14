@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Photo\Actions\ExtractExifAction;
-use App\Photo\Actions\StoreExifIntoDBAction;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 final class ExifExtractCommand extends Command
 {
@@ -18,7 +16,7 @@ final class ExifExtractCommand extends Command
      */
     protected $signature = 'exif:extract
                                     {path : The path (sub folder of the base app path) where the photos are}
-                                    {--save : Save the result into the database}}
+                                    {--exiftoolpath= : The path to the exiftool binary (default: null)}
                                     { --limit=10}';
 
     /**
@@ -28,28 +26,23 @@ final class ExifExtractCommand extends Command
      */
     protected $description = 'Extract the exif metadata from the photos and store them into the database';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $path = $this->argument('path');
-        $saveToDb = $this->option('save');
+
+        $exifBinPath = $this->option('exiftoolpath');
+        if (is_array($exifBinPath)) {
+            $this->error('--exiftoolpath cannot be an array.');
+
+            return Command::FAILURE;
+        }
+        $exifBinPath = $exifBinPath !== null ? (string) $exifBinPath : null;
+
         $limit = (int) $this->option('limit');
 
-        $fileName = (new ExtractExifAction)->execute($path);
+        $fileName = (new ExtractExifAction)->execute($path, $exifBinPath);
 
         $this->info("Saving into $fileName");
-
-        if ($saveToDb) {
-            $photos = (new StoreExifIntoDBAction)->execute($fileName);
-
-            $photos = DB::connection('db_foto')->table('photos')->select('folder_title', 'file_name', 'sha', 'file_name', 'subject', 'taken_at')->limit($limit)->orderby('created_at', 'DESC')->get();
-            $this->table(
-                ['Folder', 'file', 'Sha', 'Subjects', 'TakenAt'],
-                $photos->toArray()
-            );
-        }
 
         return Command::SUCCESS;
 
