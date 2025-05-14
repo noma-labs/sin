@@ -7951,16 +7951,10 @@ parameters:
 			path: app/Http/Photo/Actions/StoreExifIntoDBAction.php
 
 		-
-			message: '#^Parameter \#1 \$info of static method App\\Photo\\Models\\ExifData\:\:fromArray\(\) expects array\{SourceFile\?\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\}, mixed given\.$#'
+			message: '#^Parameter \#1 \$info of static method App\\Photo\\Models\\ExifData\:\:fromArray\(\) expects array\{SourceFile\?\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, MIMEType\?\: string, CreateDate\?\: string, \.\.\.\}, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Photo/Actions/StoreExifIntoDBAction.php
-
-		-
-			message: '#^Cannot access property \$RegionList on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-
 			message: '#^Parameter \#1 \$content of method Illuminate\\Contracts\\Routing\\ResponseFactory\:\:make\(\) expects array\|string, string\|false given\.$#'
@@ -8005,18 +7999,6 @@ parameters:
 			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-
-			message: '#^Property App\\Photo\\Models\\Photo\:\:\$taken_at \(DateTime\|string\|null\) does not accept mixed\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: app/Http/Photo/Controllers/PhotoController.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between Illuminate\\Support\\Stringable and '''' will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 2
-			path: app/Http/Photo/Controllers/PhotoController.php
-
-		-
 			message: '#^Method App\\Photo\\Exif\\ExifReader\:\:callExifTool\(\) has parameter \$command with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -8047,7 +8029,7 @@ parameters:
 			path: app/Http/Photo/Exif/ExifReader.php
 
 		-
-			message: '#^Parameter \#1 \$info of static method App\\Photo\\Models\\ExifData\:\:fromArray\(\) expects array\{SourceFile\?\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\}, mixed given\.$#'
+			message: '#^Parameter \#1 \$info of static method App\\Photo\\Models\\ExifData\:\:fromArray\(\) expects array\{SourceFile\?\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, MIMEType\?\: string, CreateDate\?\: string, \.\.\.\}, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Photo/Exif/ExifReader.php
@@ -8071,13 +8053,13 @@ parameters:
 			path: app/Http/Photo/Exif/ExifReader.php
 
 		-
-			message: '#^Offset ''XMP\-mwg\-rs…'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\} in isset\(\) does not exist\.$#'
+			message: '#^Offset ''XMP\-mwg\-rs…'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, MIMEType\?\: string, CreateDate\?\: string, \.\.\.\} in isset\(\) does not exist\.$#'
 			identifier: isset.offset
 			count: 1
 			path: app/Http/Photo/Models/ExifData.php
 
 		-
-			message: '#^Offset ''XMP\-xmp\:CreateDate'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, ImageWidth\?\: int, ImageHeight\?\: int, \.\.\.\} in isset\(\) does not exist\.$#'
+			message: '#^Offset ''XMP\-xmp\:CreateDate'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, MIMEType\?\: string, CreateDate\?\: string, \.\.\.\} in isset\(\) does not exist\.$#'
 			identifier: isset.offset
 			count: 1
 			path: app/Http/Photo/Models/ExifData.php
@@ -8087,6 +8069,54 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: app/Http/Photo/Models/ExifData.php
+
+		-
+			message: '#^Parameter \#1 \$Area of class App\\Photo\\Models\\RegionInfoRegion constructor expects array\<string, float\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfo.php
+
+		-
+			message: '#^Parameter \#2 \$Name of class App\\Photo\\Models\\RegionInfoRegion constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfo.php
+
+		-
+			message: '#^Parameter \#3 \$Rotation of class App\\Photo\\Models\\RegionInfoRegion constructor expects float\|int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfo.php
+
+		-
+			message: '#^Parameter \#4 \$Type of class App\\Photo\\Models\\RegionInfoRegion constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfo.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: app/Http/Photo/Models/RegionInfoCast.php
+
+		-
+			message: '#^Class App\\Photo\\Models\\RegionInfoCast implements generic interface Illuminate\\Contracts\\Database\\Eloquent\\CastsAttributes but does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Photo/Models/RegionInfoCast.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method App\\Photo\\Models\\RegionInfo\:\:fromArray\(\) expects array\{AppliedToDimensions\?\: array\<string, int\|string\>, RegionList\?\: array\<int, array\<string, mixed\>\>\}\|null, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfoCast.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method App\\Photo\\Models\\RegionInfo\:\:fromArray\(\) expects array\{AppliedToDimensions\?\: array\<string, int\|string\>, RegionList\?\: array\<int, array\<string, mixed\>\>\}\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Photo/Models/RegionInfoCast.php
 
 		-
 			message: '#^Method App\\Rtn\\Video\\Video\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'

@@ -19,14 +19,14 @@ final class PhotoController
 {
     public function index(Request $request): View
     {
-        $filterYear = $request->input('year', null);
+        $filterYear = $request->string('year');
         $withEnricoMetadata = $request->input('with_metadata', false);
 
         $enrico = null;
         if ($withEnricoMetadata) {
             $enrico = PhotoEnrico::query();
 
-            if ($filterYear !== null) {
+            if (!$filterYear->isEmpty()) {
                 $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
                 $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
             }
@@ -38,7 +38,7 @@ final class PhotoController
             ->where('favorite', 1)
             ->orderBy('taken_at');
 
-        if ($filterYear !== null) {
+        if (!$filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
 
@@ -66,7 +66,7 @@ final class PhotoController
         $photo = Photo::query()->where('sha', $sha)->firstOrFail();
 
         if ($request->filled('taken_at')) {
-            $photo->taken_at = Carbon::parse($request->input('taken_at'));
+            $photo->taken_at = Carbon::parse($request->string('taken_at')->toString());
         }
 
         if ($request->filled('description')) {

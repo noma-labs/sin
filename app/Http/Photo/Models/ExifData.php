@@ -43,6 +43,8 @@ final class ExifData
      *     "FileSize"?: int,
      *     "FileType"?: string,
      *     "FileTypeExtension"?: string,
+     *     "MIMEType"?: string,
+     *     "CreateDate"?: string,
      *     "ImageWidth"?: int,
      *     "ImageHeight"?: int,
      *     "ImageDataHash"?: string,
@@ -52,6 +54,7 @@ final class ExifData
      *     "System:FileSize"?: int,
      *     "File:FileType"?: string,
      *     "File:FileTypeExtension"?: string,
+     *     "File:MIMEType"?: string,
      *     "File:ImageWidth"?: int,
      *     "File:ImageHeight"?: int,
      *     "File:ImageDataHash"?: string,
@@ -96,16 +99,12 @@ final class ExifData
             $exif->imageWidth = $info['File:ImageWidth'];
         } elseif (isset($info['ImageWidth'])) {
             $exif->imageWidth = $info['ImageWidth'];
-        } elseif (isset($info['ExifImageWidth'])) {
-            $exif->imageWidth = $info['ExifImageWidth'];
         }
 
         if (isset($info['File:ImageHeight'])) {
             $exif->imageHeight = $info['File:ImageHeight'];
         } elseif (isset($info['ImageHeight'])) {
             $exif->imageHeight = $info['ImageHeight'];
-        } elseif (isset($info['ExifImageHeight'])) {
-            $exif->imageHeight = $info['ExifImageHeight'];
         }
 
         if (isset($info['File:ImageDataHash'])) {
