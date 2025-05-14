@@ -162,12 +162,31 @@ final class ExifData
     /**
      * @return array<string, mixed>
      */
-    public function toModelAttrs(): array
+    public function toModelAttrs(?string $prefixPathToRemove): array
     {
+        $sourceFile = $this->sourceFile;
+        $directory = $this->directory;
+
+        if ($prefixPathToRemove !== null) {
+            if (str_starts_with($sourceFile, $prefixPathToRemove)) {
+                $sourceFile = substr($sourceFile, strlen($prefixPathToRemove));
+            } else {
+                throw new \Exception("Prefix '$prefixPathToRemove' not found in source_file: $sourceFile");
+            }
+            if (!empty($directory)) {
+                if (str_starts_with($directory, $prefixPathToRemove)) {
+                    $directory = substr($directory, strlen($prefixPathToRemove));
+                } else {
+                    throw new \Exception("Prefix '$prefixPathToRemove' not found in directory: $directory");
+                }
+            }
+        }
+
         return [
             'uid' => uniqid(),
             'sha' => $this->sha,
-            'source_file' => $this->sourceFile,
+            'source_file' => $sourceFile,
+            'directory' => $directory,
             'subjects' => implode(',', $this->subjects),
             'region_info' => $this->regionInfo,
             'file_size' => $this->fileSize,
@@ -176,7 +195,6 @@ final class ExifData
             'image_height' => $this->imageHeight,
             'image_width' => $this->imageWidth,
             'taken_at' => $this->takenAt,
-            'directory' => $this->directory,
         ];
     }
 }

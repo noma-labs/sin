@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 final class StoreExifIntoDBAction
 {
-    public function execute(string $jsonFile): int
+    public function execute(string $jsonFile, ?string $prefixPathToRemove): int
     {
         $num = 0;
         $buffer = [];
@@ -19,25 +19,25 @@ final class StoreExifIntoDBAction
             $data = ExifData::fromArray($value);
             $buffer[] = $data;
             if (count($buffer) >= 1000) {
-                $this->insertBatch($buffer);
+                $this->insertBatch($buffer, $prefixPathToRemove);
                 $buffer = [];
             }
             $num += 1;
         }
         if (count($buffer) > 0) {
-            $this->insertBatch($buffer);
+            $this->insertBatch($buffer, $prefixPathToRemove);
         }
 
         return $num;
     }
 
-    private function insertBatch(array $exifsData): void
+    private function insertBatch(array $exifsData, ?string $prefixPathToRemove): void
     {
         $photoAttrs = collect();
         $photoPeopleAttrs = collect();
 
         foreach ($exifsData as $b) {
-            $attrs = $b->toModelAttrs();
+            $attrs = $b->toModelAttrs($prefixPathToRemove);
             $photoAttrs->add($attrs);
             if (count($b->subjects) > 0) {
                 $persons = array_map(fn ($name): array => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
