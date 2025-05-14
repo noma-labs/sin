@@ -495,5 +495,3 @@
 --     location = 'Nomadelfia',
 --     taken_at = '1989-01-07 00:00:00'
 -- WHERE sha = '63b9faa7934c269367fccc3b8a97ae69';
-
--- --
