@@ -1,0 +1,402 @@
+[{
+  "SourceFile": "/var/www/html/storage/app/foto-sport/2017-04-17 XF Sport nom.fi Batignano/IMG_0107.JPG",
+  "System:FileName": "IMG_0107.JPG",
+  "System:Directory": "/var/www/html/storage/app/foto-sport/2017-04-17 XF Sport nom.fi Batignano",
+  "System:FileSize": 2905070,
+  "System:FileModifyDate": "2025:04:29 20:18:31+00:00",
+  "System:FileAccessDate": "2025:04:29 20:18:31+00:00",
+  "System:FileInodeChangeDate": "2025:04:29 20:18:31+00:00",
+  "System:FilePermissions": 100755,
+  "File:FileType": "JPEG",
+  "File:FileTypeExtension": "JPG",
+  "File:MIMEType": "image/jpeg",
+  "File:ExifByteOrder": "II",
+  "File:CurrentIPTCDigest": "36fdffba59a71f974a6a28b6cc1e3c29",
+  "File:ImageWidth": 3648,
+  "File:ImageHeight": 2736,
+  "File:EncodingProcess": 0,
+  "File:BitsPerSample": 8,
+  "File:ColorComponents": 3,
+  "File:YCbCrSubSampling": "2 1",
+  "File:ImageDataHash": "c664dd273f4302db47d5cd12702bb242",
+  "XMP-x:XMPToolkit": "Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ",
+  "XMP-aux:LensInfo": "6.2 18.6 undef undef",
+  "XMP-aux:Lens": "6.2-18.6 mm",
+  "XMP-aux:ApproximateFocusDistance": 64.4,
+  "XMP-aux:FlashCompensation": 0,
+  "XMP-aux:Firmware": 1,
+  "XMP-xmp:ModifyDate": "2017:04:17 14:30:38",
+  "XMP-xmp:CreateDate": "2017:04:17 14:30:38",
+  "XMP-xmp:MetadataDate": "2022:05:20 12:05:26+02:00",
+  "XMP-photoshop:DateCreated": "2017:04:17 14:30:38",
+  "XMP-xmpMM:DocumentID": "430F7135B18BA2FE70366EEB1BC6250C",
+  "XMP-xmpMM:OriginalDocumentID": "430F7135B18BA2FE70366EEB1BC6250C",
+  "XMP-xmpMM:InstanceID": "xmp.iid:019f64b6-b64d-3d42-87b9-2bf8f93ed7aa",
+  "XMP-dc:Format": "image/jpeg",
+  "XMP-crs:CropTop": 0,
+  "XMP-crs:CropLeft": 0,
+  "XMP-crs:CropBottom": 1,
+  "XMP-crs:CropRight": 1,
+  "XMP-crs:CropAngle": 0,
+  "XMP-crs:CropConstrainToWarp": 0,
+  "XMP-crs:RawFileName": "IMG_0107.JPG",
+  "XMP-exifEX:PhotographicSensitivity": 160,
+  "XMP-exifEX:LensModel": "6.2-18.6 mm",
+  "XMP-xmpMM:History": [
+    {
+      "Action": "saved",
+      "Changed": "/metadata",
+      "InstanceID": "xmp.iid:019f64b6-b64d-3d42-87b9-2bf8f93ed7aa",
+      "SoftwareAgent": "Adobe Photoshop Lightroom Classic 11.3.1 (Windows)",
+      "When": "2022:05:20 12:05:26+02:00"
+    }
+  ],
+  "XMP-dc:Subject": [
+   "DAVIDE DS",
+    "MARCO GL"
+  ],
+  "XMP-lr:WeightedFlatSubject": [
+    "DAVIDE DS",
+    "MARCO GL"
+  ],
+  "XMP-lr:HierarchicalSubject": [
+     "DAVIDE DS",
+    "MARCO GL"
+  ],
+  "XMP-mwg-rs:RegionInfo": {
+    "AppliedToDimensions": {
+      "H": 2736,
+      "Unit": "pixel",
+      "W": 3648
+    },
+    "RegionList": [
+      {
+        "Area": {
+          "H": 0.0595,
+          "W": 0.04462,
+          "X": 0.0714,
+          "Y": 0.51507
+        },
+        "Name": "MARCO GL",
+        "Rotation": 0.01564,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.05785,
+          "W": 0.04339,
+          "X": 0.66375,
+          "Y": 0.53962
+        },
+        "Name": "DAVIDE DS",
+        "Rotation": -0.07985,
+        "Type": "Face"
+      }
+    ]
+  },
+  "XMP-exifEX:LensInfo": "6.2 18.6 undef undef",
+  "IFD0:Make": "Canon",
+  "IFD0:Model": "Canon DIGITAL IXUS 95 IS",
+  "IFD0:Orientation": 1,
+  "IFD0:XResolution": 180,
+  "IFD0:YResolution": 180,
+  "IFD0:ResolutionUnit": 2,
+  "IFD0:ModifyDate": "2017:04:17 14:30:38",
+  "IFD0:YCbCrPositioning": 2,
+  "ExifIFD:ExposureTime": 0.0025,
+  "ExifIFD:FNumber": 8,
+  "ExifIFD:ISO": 160,
+  "ExifIFD:ExifVersion": "0221",
+  "ExifIFD:DateTimeOriginal": "2017:04:17 14:30:38",
+  "ExifIFD:CreateDate": "2017:04:17 14:30:38",
+  "ExifIFD:ComponentsConfiguration": "1 2 3 0",
+  "ExifIFD:CompressedBitsPerPixel": 3,
+  "ExifIFD:ShutterSpeedValue": 0.0024786151507651,
+  "ExifIFD:ApertureValue": 8,
+  "ExifIFD:ExposureCompensation": 0,
+  "ExifIFD:MaxApertureValue": 2.79795934507662,
+  "ExifIFD:MeteringMode": 5,
+  "ExifIFD:Flash": 16,
+  "ExifIFD:FocalLength": 6.2,
+  "ExifIFD:FlashpixVersion": "0100",
+  "ExifIFD:ColorSpace": 1,
+  "ExifIFD:ExifImageWidth": 3648,
+  "ExifIFD:ExifImageHeight": 2736,
+  "InteropIFD:InteropIndex": "R98",
+  "InteropIFD:InteropVersion": "0100",
+  "InteropIFD:RelatedImageWidth": 3648,
+  "InteropIFD:RelatedImageHeight": 2736,
+  "ExifIFD:FocalPlaneXResolution": 15136.92946,
+  "ExifIFD:FocalPlaneYResolution": 15116.0221,
+  "ExifIFD:FocalPlaneResolutionUnit": 2,
+  "ExifIFD:SensingMethod": 2,
+  "ExifIFD:FileSource": 3,
+  "ExifIFD:CustomRendered": 0,
+  "ExifIFD:ExposureMode": 0,
+  "ExifIFD:WhiteBalance": 0,
+  "ExifIFD:DigitalZoomRatio": 1,
+  "ExifIFD:SceneCaptureType": 0,
+  "ExifIFD:LensInfo": "6.2 18.6 undef undef",
+  "ExifIFD:LensModel": "6.2-18.6 mm",
+  "IFD1:Compression": 6,
+  "IFD1:XResolution": 180,
+  "IFD1:YResolution": 180,
+  "IFD1:ResolutionUnit": 2,
+  "IFD1:ThumbnailOffset": 5120,
+  "IFD1:ThumbnailLength": 6498,
+  "IFD1:ThumbnailImage": "(Binary data 6498 bytes, use -b option to extract)",
+  "IPTC:CodedCharacterSet": "\u001b%G",
+  "IPTC:ApplicationRecordVersion": 4,
+  "IPTC:Keywords": [
+    "DAVIDE DS",
+    "MARCO GL"
+  ],
+  "IPTC:DateCreated": "2017:04:17",
+  "IPTC:TimeCreated": "14:30:38"
+},
+{
+  "SourceFile": "/var/www/html/storage/app/foto-sport/2017-04-17 XF Sport nom.fi Batignano/IMG_0110.JPG",
+  "System:FileName": "IMG_0110.JPG",
+  "System:Directory": "/var/www/html/storage/app/foto-sport/2017-04-17 XF Sport nom.fi Batignano",
+  "System:FileSize": 2764237,
+  "System:FileModifyDate": "2025:04:29 20:18:31+00:00",
+  "System:FileAccessDate": "2025:04:29 20:18:31+00:00",
+  "System:FileInodeChangeDate": "2025:04:29 20:18:31+00:00",
+  "System:FilePermissions": 100755,
+  "File:FileType": "JPEG",
+  "File:FileTypeExtension": "JPG",
+  "File:MIMEType": "image/jpeg",
+  "File:ExifByteOrder": "II",
+  "File:CurrentIPTCDigest": "fa16fbd27b13e0c758a45269b4f4f779",
+  "File:ImageWidth": 3648,
+  "File:ImageHeight": 2736,
+  "File:EncodingProcess": 0,
+  "File:BitsPerSample": 8,
+  "File:ColorComponents": 3,
+  "File:YCbCrSubSampling": "2 1",
+  "File:ImageDataHash": "4440e1d88fa019597e124a2b1ef32b5d",
+  "XMP-x:XMPToolkit": "Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ",
+  "XMP-aux:LensInfo": "6.2 18.6 undef undef",
+  "XMP-aux:Lens": "6.2-18.6 mm",
+  "XMP-aux:ApproximateFocusDistance": 64.4,
+  "XMP-aux:FlashCompensation": 0,
+  "XMP-aux:Firmware": 1,
+  "XMP-xmp:ModifyDate": "2017:04:17 14:31:01",
+  "XMP-xmp:CreateDate": "2017:04:17 14:31:01",
+  "XMP-xmp:MetadataDate": "2022:05:20 12:05:27+02:00",
+  "XMP-photoshop:DateCreated": "2017:04:17 14:31:01",
+  "XMP-xmpMM:DocumentID": "E55430E411AC583573A766FB401DCC71",
+  "XMP-xmpMM:OriginalDocumentID": "E55430E411AC583573A766FB401DCC71",
+  "XMP-xmpMM:InstanceID": "xmp.iid:a11c2217-50f8-4241-b705-eb5681865249",
+  "XMP-dc:Format": "image/jpeg",
+  "XMP-crs:CropTop": 0,
+  "XMP-crs:CropLeft": 0,
+  "XMP-crs:CropBottom": 1,
+  "XMP-crs:CropRight": 1,
+  "XMP-crs:CropAngle": 0,
+  "XMP-crs:CropConstrainToWarp": 0,
+  "XMP-crs:RawFileName": "IMG_0110.JPG",
+  "XMP-exifEX:PhotographicSensitivity": 160,
+  "XMP-exifEX:LensModel": "6.2-18.6 mm",
+  "XMP-xmpMM:History": [
+    {
+      "Action": "saved",
+      "Changed": "/metadata",
+      "InstanceID": "xmp.iid:a11c2217-50f8-4241-b705-eb5681865249",
+      "SoftwareAgent": "Adobe Photoshop Lightroom Classic 11.3.1 (Windows)",
+      "When": "2022:05:20 12:05:27+02:00"
+    }
+  ],
+  "XMP-dc:Subject": [
+    "ANDREA MC",
+    "CARLO SD",
+    "DAMIANO CM",
+    "DANIELE LS",
+    "DAVIDE AC",
+    "IMMIGRATI BATIGNANO",
+    "MANUEL GL",
+    "PIERANGELO GA"
+  ],
+  "XMP-lr:WeightedFlatSubject": [
+    "DAMIANO CM",
+    "PIERANGELO GA",
+    "IMMIGRATI BATIGNANO",
+    "DANIELE LS",
+    "MANUEL GL",
+    "ANDREA MC",
+    "DAVIDE AC",
+    "CARLO SD"
+  ],
+  "XMP-lr:HierarchicalSubject": [
+    "ANDREA MC",
+    "CARLO SD",
+    "DAMIANO CM",
+    "DANIELE LS",
+    "DAVIDE AC",
+    "IMMIGRATI BATIGNANO",
+    "MANUEL GL",
+    "PIERANGELO GA"
+  ],
+  "XMP-mwg-rs:RegionInfo": {
+    "AppliedToDimensions": {
+      "H": 2736,
+      "Unit": "pixel",
+      "W": 3648
+    },
+    "RegionList": [
+      {
+        "Area": {
+          "H": 0.05785,
+          "W": 0.04339,
+          "X": 0.07561,
+          "Y": 0.38307
+        },
+        "Name": "IMMIGRATI BATIGNANO",
+        "Rotation": 0.23,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.05785,
+          "W": 0.04339,
+          "X": 0.35021,
+          "Y": 0.51512
+        },
+        "Name": "PIERANGELO GA",
+        "Rotation": 0,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.05785,
+          "W": 0.04339,
+          "X": 0.84018,
+          "Y": 0.5527
+        },
+        "Name": "DAMIANO CM",
+        "Rotation": 0.23,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.06069,
+          "W": 0.03575,
+          "X": 0.78819,
+          "Y": 0.43642
+        },
+        "Name": "DANIELE LS",
+        "Rotation": 0,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.05202,
+          "W": 0.03467,
+          "X": 0.46587,
+          "Y": 0.44798
+        },
+        "Name": "CARLO SD",
+        "Rotation": 0,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.06069,
+          "W": 0.05417,
+          "X": 0.59263,
+          "Y": 0.55491
+        },
+        "Name": "MANUEL GL",
+        "Rotation": 0,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.07225,
+          "W": 0.05525,
+          "X": 0.21506,
+          "Y": 0.40751
+        },
+        "Name": "DAVIDE AC",
+        "Rotation": 0,
+        "Type": "Face"
+      },
+      {
+        "Area": {
+          "H": 0.05636,
+          "W": 0.03467,
+          "X": 0.33369,
+          "Y": 0.43569
+        },
+        "Name": "ANDREA MC",
+        "Rotation": 0,
+        "Type": "Face"
+      }
+    ]
+  },
+  "XMP-exifEX:LensInfo": "6.2 18.6 undef undef",
+  "IFD0:Make": "Canon",
+  "IFD0:Model": "Canon DIGITAL IXUS 95 IS",
+  "IFD0:Orientation": 1,
+  "IFD0:XResolution": 180,
+  "IFD0:YResolution": 180,
+  "IFD0:ResolutionUnit": 2,
+  "IFD0:ModifyDate": "2017:04:17 14:31:01",
+  "IFD0:YCbCrPositioning": 2,
+  "ExifIFD:ExposureTime": 0.002,
+  "ExifIFD:FNumber": 8,
+  "ExifIFD:ISO": 160,
+  "ExifIFD:ExifVersion": "0221",
+  "ExifIFD:DateTimeOriginal": "2017:04:17 14:31:01",
+  "ExifIFD:CreateDate": "2017:04:17 14:31:01",
+  "ExifIFD:ComponentsConfiguration": "1 2 3 0",
+  "ExifIFD:CompressedBitsPerPixel": 3,
+  "ExifIFD:ShutterSpeedValue": "0.00199589286846507",
+  "ExifIFD:ApertureValue": 8,
+  "ExifIFD:ExposureCompensation": 0,
+  "ExifIFD:MaxApertureValue": 2.79795934507662,
+  "ExifIFD:MeteringMode": 5,
+  "ExifIFD:Flash": 16,
+  "ExifIFD:FocalLength": 6.2,
+  "ExifIFD:FlashpixVersion": "0100",
+  "ExifIFD:ColorSpace": 1,
+  "ExifIFD:ExifImageWidth": 3648,
+  "ExifIFD:ExifImageHeight": 2736,
+  "InteropIFD:InteropIndex": "R98",
+  "InteropIFD:InteropVersion": "0100",
+  "InteropIFD:RelatedImageWidth": 3648,
+  "InteropIFD:RelatedImageHeight": 2736,
+  "ExifIFD:FocalPlaneXResolution": 15136.92946,
+  "ExifIFD:FocalPlaneYResolution": 15116.0221,
+  "ExifIFD:FocalPlaneResolutionUnit": 2,
+  "ExifIFD:SensingMethod": 2,
+  "ExifIFD:FileSource": 3,
+  "ExifIFD:CustomRendered": 0,
+  "ExifIFD:ExposureMode": 0,
+  "ExifIFD:WhiteBalance": 0,
+  "ExifIFD:DigitalZoomRatio": 1,
+  "ExifIFD:SceneCaptureType": 0,
+  "ExifIFD:LensInfo": "6.2 18.6 undef undef",
+  "ExifIFD:LensModel": "6.2-18.6 mm",
+  "IFD1:Compression": 6,
+  "IFD1:XResolution": 180,
+  "IFD1:YResolution": 180,
+  "IFD1:ResolutionUnit": 2,
+  "IFD1:ThumbnailOffset": 5120,
+  "IFD1:ThumbnailLength": 6008,
+  "IFD1:ThumbnailImage": "(Binary data 6008 bytes, use -b option to extract)",
+  "IPTC:CodedCharacterSet": "\u001b%G",
+  "IPTC:ApplicationRecordVersion": 4,
+  "IPTC:Keywords": [
+    "ANDREA MC",
+    "CARLO SD",
+    "DAMIANO CM",
+    "DANIELE LS",
+    "DAVIDE AC",
+    "IMMIGRATI BATIGNANO",
+    "MANUEL GL",
+    "PIERANGELO GA"
+  ],
+  "IPTC:DateCreated": "2017:04:17",
+  "IPTC:TimeCreated": "14:31:01"
+} ]
