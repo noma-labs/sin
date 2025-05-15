@@ -47,7 +47,7 @@ final class FavouritesController
             ->orderByRaw('YEAR(taken_at)')
             ->get();
 
-        return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
+        return view('photo.favorite.index', compact('photos', 'photos_count', 'years', 'enrico'));
     }
 
     public function destroy(string $sha): RedirectResponse
