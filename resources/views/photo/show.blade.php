@@ -1,6 +1,4 @@
-@extends("layouts.app")
-
-@section("title", "Foto show")
+@extends("photo.main")
 
 @section("content")
     <div class="row">

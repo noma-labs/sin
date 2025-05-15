@@ -1,6 +1,4 @@
-@extends("layouts.app")
-
-@section("title", "Foto (Enrico)")
+@extends("photo.main")
 
 @section("content")
     <form action="{{ route("photos.index") }}" method="GET" class="mb-3">
@@ -71,6 +69,10 @@
                 </div>
             </a>
         @endforeach
+    </div>
+
+    <div class="d-flex justify-content-center">
+        {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
 
     @if ($enrico)
