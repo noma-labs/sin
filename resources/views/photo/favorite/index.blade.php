@@ -1,8 +1,12 @@
 @extends("photo.main")
 
 @section("content")
-    <form action="{{ route("photos.index") }}" method="GET" class="mb-3">
-        <div class="d-flex flex-wrap gap-2">
+    <form
+        action="{{ route("photos.favorite.index") }}"
+        method="GET"
+        class="mb-3"
+    >
+        <div class="d-flex flex-wrap gap-2 justify-content-center">
             @foreach ($years as $year)
                 <button
                     type="submit"

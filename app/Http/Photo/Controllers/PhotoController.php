@@ -34,21 +34,20 @@ final class PhotoController
             $enrico = $enrico->get();
         }
 
-        $q = Photo::query()->orderBy('taken_at')
-            ->where('favorite', 1)
+        $q = Photo::query()
+            ->orderBy('taken_at')
             ->orderBy('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
 
-        $photos = $q->get();
+        $photos = $q->paginate(50);
         $photos_count = $q->count();
 
         $years = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
-            ->where('favorite', 1)
             ->orderByRaw('YEAR(taken_at)')
             ->get();
 
