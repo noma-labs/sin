@@ -26,37 +26,6 @@
                     <figcaption class="figure-caption"> {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</figcaption>
                     <img src="{{ route("photos.preview", $photo->sha) }}" class="figure-img img-fluid rounded" alt="...">
                 </figure>
-                        {{-- {{-- --}}
-                            {{-- @if ($photo->favorite === 0) --}}
-                            {{-- <form action="{{ route("photos.favorite", $photo->sha) }}" > --}}
-                            {{-- @csrf --}}
-                            {{-- <button --}}
-                            {{-- type="submit" --}}
-                            {{-- class="btn btn-success btn-sm" --}}
-                            {{-- > --}}
-                            {{-- Favorite --}}
-                            {{-- </button> --}}
-                            {{-- </form> --}}
-                            {{-- @else --}}
-                            {{-- <form action="{{ route("photos.unfavorite", $photo->sha) }}" method="POST" > --}}
-                            {{-- @csrf --}}
-                            {{-- @method("PUT") --}}
-                            {{-- <button type="submit" class="btn btn-danger btn-sm"> --}}
-                            {{-- Unfavorite --}}
-                            {{-- </button> --}}
-                            {{-- </form> --}}
-                            {{-- @endif --}}
-                        {{-- --}}
-                        {{-- {{-- --}}
-                            {{-- <a --}}
-                            {{-- href="{{ route("photos.download", $photo->sha) }}" --}}
-                            {{-- class="btn btn-secondary btn-sm mt-2" --}}
-                            {{-- > --}}
-                            {{-- Download --}}
-                            {{-- </a> --}}
-                        {{-- --}}
-                    {{-- </div> --}}
-                {{-- </div> --}}
             </a>
         @endforeach
     </div>
