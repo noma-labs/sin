@@ -8,7 +8,7 @@
                     type="submit"
                     name="year"
                     value="{{ $year->year }}"
-                      class="btn btn-sm btn-outline-secondary"
+                    class="btn btn-sm btn-outline-secondary"
                 >
                     {{ $year->year }}
                     <span class="badge text-bg-secondary">
@@ -23,8 +23,14 @@
         @foreach ($photos as $photo)
             <a href="{{ route("photos.show", $photo->sha) }}">
                 <figure class="figure m-1" style="width: 30rem">
-                    <figcaption class="figure-caption"> {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</figcaption>
-                    <img src="{{ route("photos.preview", $photo->sha) }}" class="figure-img img-fluid rounded" alt="...">
+                    <figcaption class="figure-caption">
+                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                    </figcaption>
+                    <img
+                        src="{{ route("photos.preview", $photo->sha) }}"
+                        class="figure-img img-fluid rounded"
+                        alt="..."
+                    />
                 </figure>
             </a>
         @endforeach
