@@ -20,6 +20,13 @@
                     </span>
                 </button>
             @endforeach
+
+            <a
+                href="{{ route("photos.favorite.download") }}"
+                class="btn btn-sm btn-outline-secondary"
+            >
+                Download all
+            </a>
         </div>
     </form>
 
