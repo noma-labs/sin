@@ -53,18 +53,18 @@ final class FavouritesController
         return view('photo.favorite.index', compact('photos', 'photos_count', 'years', 'enrico'));
     }
 
-    public function destroy(string $sha): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
         $photo->favorite = false;
         $photo->save();
 
         return redirect()->back()->with('success', 'Foto rimossa dai favoriti con successo.');
     }
 
-    public function store(string $sha): RedirectResponse
+    public function store(int $id): RedirectResponse
     {
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
         $photo->favorite = true;
         $photo->save();
 

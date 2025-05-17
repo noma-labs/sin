@@ -32,10 +32,10 @@
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
-            <a href="{{ route("photos.show", $photo->sha) }}">
+            <a href="{{ route("photos.show", $photo->id) }}">
                 <figure class="figure m-1" style="width: 30rem">
                     <img
-                        src="{{ route("photos.preview", $photo->sha) }}"
+                        src="{{ route("photos.preview", $photo->id) }}"
                         class="figure-img img-fluid rounded"
                         alt="{{ $photo->description }}"
                     />

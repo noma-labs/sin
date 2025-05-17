@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8">
             <img
-                src="{{ route("photos.preview", ["sha" => $photo->sha, "draw_faces" => true]) }}"
+                src="{{ route("photos.preview", ["id" => $photo->id, "draw_faces" => true]) }}"
                 alt="Photo"
                 class="img-fluid"
             />
@@ -53,7 +53,7 @@
             </div>
             <div class="mb-3">
                 <form
-                    action="{{ route("photos.update", $photo->sha) }}"
+                    action="{{ route("photos.update", $photo->id) }}"
                     method="POST"
                     class="mt-2"
                 >
@@ -90,7 +90,7 @@
                 </form>
 
                 <a
-                    href="{{ route("photos.download", $photo->sha) }}"
+                    href="{{ route("photos.download", $photo->id) }}"
                     class="btn btn-secondary"
                 >
                     Download

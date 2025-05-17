@@ -34,18 +34,36 @@ final class StoreExifIntoDBAction
     private function insertBatch(array $exifsData, ?string $prefixPathToRemove): void
     {
         $photoAttrs = collect();
-        $photoPeopleAttrs = collect();
+        $shaToSubjects = [];
 
         foreach ($exifsData as $b) {
             $attrs = $b->toModelAttrs($prefixPathToRemove);
             $photoAttrs->add($attrs);
             if (count($b->subjects) > 0) {
-                $persons = array_map(fn ($name): array => ['photo_id' => $attrs['uid'], 'persona_nome' => $name], $b->subjects);
-                $photoPeopleAttrs->push(...$persons);
+                $shaToSubjects[$attrs['sha']] = $b->subjects;
             }
         }
 
         DB::connection('db_foto')->table('photos')->insert($photoAttrs->toArray());
-        DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs->toArray());
+
+        // Fetch the IDs for the inserted photos using their sha
+        $shaList = array_keys($shaToSubjects);
+        $photos = DB::connection('db_foto')->table('photos')
+            ->whereIn('sha', $shaList)
+            ->pluck('id', 'sha');
+
+        $photoPeopleAttrs = collect();
+        foreach ($shaToSubjects as $sha => $subjects) {
+            $photoId = $photos[$sha] ?? null;
+            if ($photoId) {
+                foreach ($subjects as $name) {
+                    $photoPeopleAttrs->push(['photo_id' => $photoId, 'persona_nome' => $name]);
+                }
+            }
+        }
+
+        if ($photoPeopleAttrs->count() > 0) {
+            DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs->toArray());
+        }
     }
 }

@@ -183,7 +183,6 @@ final class ExifData
         }
 
         return [
-            'uid' => uniqid(),
             'sha' => $this->sha,
             'source_file' => $sourceFile,
             'directory' => $directory,

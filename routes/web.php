@@ -417,14 +417,13 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/', [PhotoController::class, 'index'])->name('photos.index');
 
     Route::get('/favourite', [FavouritesController::class, 'index'])->name('photos.favorite.index');
-    Route::post('/{sha}/favourite', [FavouritesController::class, 'store'])->name('photos.favorite');
-    Route::put('/{sha}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
-    Route::get('/favourite/download', [FavouritesController::class, 'download'])->name('photos.favorite.download');
+    Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->name('photos.favorite');
+    Route::put('/{id}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
 
-    Route::put('/{sha}', [PhotoController::class, 'update'])->name('photos.update');
-    Route::get('/{sha}', [PhotoController::class, 'show'])->name('photos.show');
-    Route::get('/{sha}/download', [PhotoController::class, 'download'])->name('photos.download');
-    Route::get('/{sha}/preview', [PhotoController::class, 'preview'])->name('photos.preview');
+    Route::put('/{id}', [PhotoController::class, 'update'])->name('photos.update');
+    Route::get('/{id}', [PhotoController::class, 'show'])->name('photos.show');
+    Route::get('/{id}/download', [PhotoController::class, 'download'])->name('photos.download');
+    Route::get('/{id}/preview', [PhotoController::class, 'preview'])->name('photos.preview');
 });
 
 Route::get('/debug-sentry', function () {
