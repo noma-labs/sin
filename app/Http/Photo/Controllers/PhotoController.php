@@ -94,7 +94,7 @@ final class PhotoController
             ->select('p.id', 'photos_people.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
             ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'photos_people.persona_nome')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
-            ->where('photos_people.photo_id', '=', $photo->uid)
+            ->where('photos_people.photo_id', '=', $photo->id)
             ->orderby('photos_people.persona_nome')
             ->get();
 

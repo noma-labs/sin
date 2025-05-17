@@ -62,7 +62,7 @@ final class StoreExifIntoDBAction
             }
         }
 
-        if ($photoPeopleAttrs->isNotEmpty()) {
+        if ($photoPeopleAttrs->count() > 0) {
             DB::connection('db_foto')->table('photos_people')->insert($photoPeopleAttrs->toArray());
         }
     }
