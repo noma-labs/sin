@@ -14,5 +14,5 @@ it('indes the photos', function (): void {
 
     $this->get(action([PhotoController::class, 'index']))
         ->assertSuccessful()
-        ->assertSee($photo->taken_at->format("d/m/Y"));
+        ->assertSee($photo->taken_at->format('d/m/Y'));
 });
