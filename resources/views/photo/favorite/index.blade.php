@@ -20,6 +20,13 @@
                     </span>
                 </button>
             @endforeach
+
+            <a
+                href="{{ route("photos.favorite.download") }}"
+                class="btn btn-sm btn-outline-secondary"
+            >
+                Download all
+            </a>
         </div>
     </form>
 
@@ -27,14 +34,29 @@
         @foreach ($photos as $photo)
             <a href="{{ route("photos.show", $photo->id) }}">
                 <figure class="figure m-1" style="width: 30rem">
-                    <figcaption class="figure-caption">
-                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                    </figcaption>
                     <img
                         src="{{ route("photos.preview", $photo->id) }}"
                         class="figure-img img-fluid rounded"
-                        alt="..."
+                        alt="{{ $photo->description }}"
                     />
+                    <figcaption class="figure-caption">
+                        <p class="fw-bold fs-4 lh-1">
+                            {{ $photo->location }}
+                        </p>
+                        <p class="fw-bold fs-7 lh-1">
+                            @if ($photo->taken_at)
+                                @if ($photo->taken_at->format("m-d") === "01-01")
+                                    {{ $photo->taken_at->format("Y") }}
+                                @else
+                                    {{ $photo->taken_at->format("d/m/Y") }}
+                                @endif
+                            @endif
+                        </p>
+
+                        @if ($photo->description)
+                            <p class="lh-1">{{ $photo->description }}</p>
+                        @endif
+                    </figcaption>
                 </figure>
             </a>
         @endforeach
