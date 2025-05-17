@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * Represents a photo entity with metadata extracted from the database schema.
  *
- * @property string $uid Unique identifier for the photo.
+ * @property int $id Unique identifier for the photo.
  * @property string $sha Unique SHA hash of the photo file.
  * @property string $source_file Path to the source file of the photo.
  * @property string|null $directory Directory where the photo is stored.
@@ -46,7 +46,7 @@ final class Photo extends Model
 
     protected $table = 'photos';
 
-    protected $primaryKey = 'uid';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
@@ -70,7 +70,6 @@ final class Photo extends Model
 
         return [
             'taken_at' => 'datetime',
-            'uid' => 'string',
             'region_info' => RegionInfoCast::class,
         ];
     }

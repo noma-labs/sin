@@ -54,7 +54,7 @@ final class PhotoController
         return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
     }
 
-    public function update(Request $request, string $sha): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
         $request->validate([
             'taken_at' => 'nullable|date',
@@ -62,7 +62,7 @@ final class PhotoController
             'location' => 'nullable|string',
         ]);
 
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
 
         if ($request->filled('taken_at')) {
             $photo->taken_at = Carbon::parse($request->string('taken_at')->toString());
@@ -81,9 +81,9 @@ final class PhotoController
         return redirect()->back()->with('success', 'Foto aggiornata correttamente');
     }
 
-    public function show(string $sha): View
+    public function show(int $id): View
     {
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
 
         if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
@@ -104,11 +104,11 @@ final class PhotoController
         ]);
     }
 
-    public function preview(Request $request, string $sha): Response
+    public function preview(Request $request, int $id): Response
     {
         $drawFaces = $request->boolean('draw_faces', false);
 
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
 
         $fileContent = Storage::disk('photos')->get($photo->source_file);
         $filePath = Storage::disk('photos')->path($photo->source_file);
@@ -172,9 +172,9 @@ final class PhotoController
 
     }
 
-    public function download(string $sha): BinaryFileResponse
+    public function download(int $id): BinaryFileResponse
     {
-        $photo = Photo::query()->where('sha', $sha)->firstOrFail();
+        $photo = Photo::query()->findOrFail($id);
 
         if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');

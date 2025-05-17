@@ -15,7 +15,6 @@ final class PhotoFactory extends Factory
     public function definition(): array
     {
         return [
-            'uid' => uniqid(),
             'sha' => $this->faker->sha1(),
             'source_file' => $this->faker->filePath(),
             'subjects' => collect($this->faker->words(5))->join(', '),
