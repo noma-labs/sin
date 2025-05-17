@@ -419,6 +419,7 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/favourite', [FavouritesController::class, 'index'])->name('photos.favorite.index');
     Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->name('photos.favorite');
     Route::put('/{id}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
+    Route::get('/favourite/download', [FavouritesController::class, 'download'])->name('photos.favorite.download');
 
     Route::put('/{id}', [PhotoController::class, 'update'])->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->name('photos.show');
