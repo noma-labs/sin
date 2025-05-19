@@ -42,7 +42,7 @@ final class ExifExtractCommand extends Command
 
         $fileName = (new ExtractExifAction)->execute($path, $exifBinPath);
 
-        $this->info("Saving into $fileName");
+        $this->info("Saved into $fileName");
 
         return Command::SUCCESS;
 

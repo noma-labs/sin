@@ -158,14 +158,15 @@ final class ExifReader
 
     public function exportToCSV(string $targetPath): self
     {
-        $this->additionalOptions[] = $targetPath ? '-csv>'.$targetPath : '-csv';
+        $this->additionalOptions[] = $targetPath ? '-csv>'.$this->wrapWithDoubleQuotes($targetPath) : '-csv';
 
         return $this;
     }
 
     public function exportToJSON(string $targetPath): self
     {
-        $this->additionalOptions[] = $targetPath ? '-json>'.$targetPath : '-json';
+        // double quotes te json path to support space in path
+        $this->additionalOptions[] = $targetPath ? '-json>'.$this->wrapWithDoubleQuotes($targetPath) : '-json';
 
         return $this;
     }
@@ -199,6 +200,7 @@ final class ExifReader
     {
         // if not given, it use the name of the source file
         $name = $fileName ?: pathinfo((string) $this->sourcePath, PATHINFO_FILENAME).'.json';
+
         $fullName = $this->sourcePath.DIRECTORY_SEPARATOR.$name;
         $this->exportToJSON($fullName);
 
@@ -245,6 +247,11 @@ final class ExifReader
         ];
     }
 
+    public function wrapWithDoubleQuotes(string $value): string
+    {
+        return '"'.$value.'"';
+    }
+
     private function callExifTool(array $command): string
     {
 
@@ -252,25 +259,6 @@ final class ExifReader
 
         $process = Process::fromShellCommandline($fullCommand)->setTimeout($this->timeout);
         $process->run();
-        //        foreach ($process->getIterator() as $out) {
-        //            dd($out);
-        //        }
-        //        $process->wait(function (string $code, string $data) {
-        //            if ($code == Process::OUT) {
-        // //                $data = str($data)
-        // //                    ->replaceFirst("Array(Array(", "Array(");
-        // //                    ->replaceFirst("))", ")")
-        //
-        // //                dd(str($data)->remove("\n"));
-        // //                $data = str($data)
-        // //                    ->replaceFirst("Array(Array(", "Array(");
-        // ////                    ->replaceFirst("))", ")")
-        // //                $a = eval('return ' . $data);
-        // //                dd($a);
-        // //                $d = ExifData::fromArray($a);
-        // //                dd($code, $d);
-        //            yield $data;
-        //        });
 
         if ($process->isSuccessful()) {
             return rtrim($process->getOutput());
@@ -285,12 +273,12 @@ final class ExifReader
     {
         $exifTool = $this->exifToolBinary ?: 'exiftool';
         $optionsCommand = $this->getOptionsCommand($command);
-        $targetFile = $command['file'];
+
+        $targetFile = $this->wrapWithDoubleQuotes($command['file']);
 
         return $exifTool.' '
             .$optionsCommand.' '
-            .$targetFile;
-
+            .($targetFile);
     }
 
     private function getOptionsCommand(array $command): string
