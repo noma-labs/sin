@@ -129,7 +129,7 @@ it('can can create command with csv format', function (): void {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-csv>test.csv',
+            '-csv>"test.csv"',
         ],
     ]);
 });
@@ -142,7 +142,7 @@ it('can create command with json output', function (): void {
     expect($commad)->toBe([
         'file' => 'test.png',
         'options' => [
-            '-json>test.json',
+            '-json>"test.json"',
         ],
     ]);
 });
