@@ -23,6 +23,7 @@ return new class extends Migration
     {
         Permission::create(['name' => 'popolazione.*']);
         Permission::create(['name' => 'popolazione.visualizza']);
+
         Permission::create(['name' => 'popolazione.persona.*']);
         Permission::create(['name' => 'popolazione.persona.visualizza']);
         Permission::create(['name' => 'popolazione.persona.inserisci']);

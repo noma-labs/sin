@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * Represents a photo entity with metadata extracted from the database schema.
  *
- * @property int $id Unique identifier for the photo.
+ * @property intsee $id Unique identifier for the photo.
  * @property string $sha Unique SHA hash of the photo file.
  * @property string $source_file Path to the source file of the photo.
  * @property string|null $directory Directory where the photo is stored.
