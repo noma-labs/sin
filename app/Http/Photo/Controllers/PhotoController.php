@@ -49,11 +49,14 @@ final class PhotoController
         $photos = $q->paginate(50);
         $photos_count = $q->count();
 
-        $years = Photo::query()
+        $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
-            ->orderByRaw('YEAR(taken_at)')
-            ->get();
+            ->orderByRaw('YEAR(taken_at)');
+        if (! $filterPersonName->isEmpty()) {
+            $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
+        }
+        $years = $qYears->get();
 
         return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
     }
