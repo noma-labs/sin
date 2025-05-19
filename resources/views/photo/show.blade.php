@@ -10,7 +10,7 @@
             />
         </div>
         <div class="col-md-4">
-            <h2>Photo Details</h2>
+            <h2>Dettaglio</h2>
 
             <p class="mb-1">
                 <strong>Data:</strong>
@@ -18,12 +18,8 @@
             </p>
 
             <p class="mb-1">
-                <strong>File Name:</strong>
-                {{ $photo->file_name }}
-            </p>
-            <p class="mb-1">
-                <strong>Folder:</strong>
-                {{ $photo->directory }}
+                <strong>File:</strong>
+                {{ $photo->source_file }}
             </p>
             <div class="mb-3">
                 <strong>Persone:</strong>
@@ -59,6 +55,9 @@
                 >
                     @csrf
                     @method("PUT")
+                    <label for="taken_at" class="form-label">
+                        Data di scatto
+                    </label>
                     <input
                         type="datetime"
                         name="taken_at"
@@ -67,7 +66,7 @@
                     />
 
                     <label for="description" class="form-label">
-                        Description
+                        Descrizione
                     </label>
                     <textarea
                         type="text"
@@ -77,24 +76,29 @@
 {{ $photo->description }}</textarea
                     >
 
-                    <label for="location" class="form-label">Location</label>
-                    <input
-                        type="text"
-                        name="location"
-                        class="form-control mb-3"
-                        value="{{ $photo->location }}"
-                    />
-                    <button type="submit" class="btn btn-secondary">
-                        Save
-                    </button>
+                    <label for="location" class="form-label">Luogo</label>
+
+                    @can("photo.update")
+                        <input
+                            type="text"
+                            name="location"
+                            class="form-control mb-3"
+                            value="{{ $photo->location }}"
+                        />
+                        <button type="submit" class="btn btn-secondary">
+                            Salva
+                        </button>
+                    @endcan
                 </form>
 
-                <a
-                    href="{{ route("photos.download", $photo->id) }}"
-                    class="btn btn-secondary"
-                >
-                    Download
-                </a>
+                @can("photo.download")
+                    <a
+                        href="{{ route("photos.download", $photo->id) }}"
+                        class="btn btn-secondary"
+                    >
+                        Download
+                    </a>
+                @endcan
             </div>
         </div>
     </div>

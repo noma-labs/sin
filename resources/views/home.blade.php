@@ -46,7 +46,7 @@
                 </div>
             @endhasrole
 
-            @hasrole("super-admin")
+            @can("photo.view")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Foto</div>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-            @endhasrole
+            @endcan
 
             @can("biblioteca.visualizza")
                 <div class="col">
