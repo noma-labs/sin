@@ -5,25 +5,21 @@
 @section("content")
     <div class="d-flex flex-wrap gap-2">
         @foreach ($faces as $face)
-            <a href="{{ route("photos.index", ['name'=> $face->name]) }}" >
-
-             <figure class="figure m-1" style="width: 15rem">
+            <a href="{{ route("photos.index", ["name" => $face->name]) }}">
+                <figure class="figure m-1" style="width: 15rem">
                     <figcaption class="figure-caption">
-                      {{ $face->name}}
+                        {{ $face->name }}
                     </figcaption>
-                     <figcaption class="figure-caption">
-                      Appare in {{ $face->count}}
+                    <figcaption class="figure-caption">
+                        Appare in {{ $face->count }}
                     </figcaption>
-                    <img
-
-                    />
+                    <img />
                 </figure>
-        </a>
+            </a>
         @endforeach
     </div>
 
     <div class="d-flex justify-content-center">
         {{ $faces->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
-
 @endsection

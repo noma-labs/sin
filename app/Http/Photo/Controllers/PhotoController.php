@@ -42,7 +42,7 @@ final class PhotoController
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
         }
-         if (! $filterPersonName->isEmpty()) {
+        if (! $filterPersonName->isEmpty()) {
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
 

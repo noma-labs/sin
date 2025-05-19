@@ -70,7 +70,6 @@ use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
 use App\Photo\Controllers\FaceController;
-use App\Photo\Controllers\FacesController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\PhotoController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -430,7 +429,6 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');
     Route::get('/{id}/download', [PhotoController::class, 'download'])->middleware('can:photo.download')->name('photos.download');
     Route::get('/{id}/preview', [PhotoController::class, 'preview'])->middleware('can:photo.view')->name('photos.preview');
-
 
 });
 
