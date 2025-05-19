@@ -69,6 +69,8 @@ use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
+use App\Photo\Controllers\FaceController;
+use App\Photo\Controllers\FacesController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\PhotoController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -415,15 +417,21 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 
 Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
+
     Route::get('/favourite', [FavouritesController::class, 'index'])->middleware('can:photo.view')->name('photos.favorite.index');
     Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->middleware('can:photo.store')->name('photos.favorite');
     Route::put('/{id}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
     Route::get('/favourite/download', [FavouritesController::class, 'download'])->middleware('can:photo.download')->name('photos.favorite.download');
 
+    Route::get('/faces', [FaceController::class, 'index'])->middleware('can:photo.view')->name('photos.face.index');
+    Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
+
     Route::put('/{id}', [PhotoController::class, 'update'])->middleware('can:photo.update')->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');
     Route::get('/{id}/download', [PhotoController::class, 'download'])->middleware('can:photo.download')->name('photos.download');
     Route::get('/{id}/preview', [PhotoController::class, 'preview'])->middleware('can:photo.view')->name('photos.preview');
+
+
 });
 
 Route::get('/debug-sentry', function () {

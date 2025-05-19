@@ -46,7 +46,7 @@
                 </div>
             @endhasrole
 
-             @can("photo.view")
+            @can("photo.view")
                 <div class="col">
                     <div class="card text-center h-100">
                         <div class="card-header">Foto</div>

@@ -8,7 +8,12 @@
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route("photos.favorite.index") }}">
-        Mostra Fotografica
+        Mostra
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route("photos.face.index") }}">
+        Volti
     </a>
 </li>
 @append

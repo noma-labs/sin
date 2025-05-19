@@ -78,7 +78,7 @@
 
                     <label for="location" class="form-label">Luogo</label>
 
-                    @can('photo.update')
+                    @can("photo.update")
                         <input
                             type="text"
                             name="location"
@@ -91,13 +91,13 @@
                     @endcan
                 </form>
 
-                @can('photo.download')
-                <a
-                    href="{{ route("photos.download", $photo->id) }}"
-                    class="btn btn-secondary"
-                >
-                    Download
-                </a>
+                @can("photo.download")
+                    <a
+                        href="{{ route("photos.download", $photo->id) }}"
+                        class="btn btn-secondary"
+                    >
+                        Download
+                    </a>
                 @endcan
             </div>
         </div>

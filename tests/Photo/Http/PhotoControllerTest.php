@@ -25,7 +25,7 @@ it('a photo-ope roel can see only the photo card in the home page', function ():
 
     login($photoOpe);
 
-   $this
+    $this
         ->get('/home')
         ->assertSuccessful()
         ->assertSee('Foto')

@@ -21,6 +21,7 @@ final class PhotoController
     {
         $filterYear = $request->string('year');
         $withEnricoMetadata = $request->input('with_metadata', false);
+        $filterPersonName = $request->string('name');
 
         $enrico = null;
         if ($withEnricoMetadata) {
@@ -40,6 +41,9 @@ final class PhotoController
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
+        }
+         if (! $filterPersonName->isEmpty()) {
+            $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
 
         $photos = $q->paginate(50);
