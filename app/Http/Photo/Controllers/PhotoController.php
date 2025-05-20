@@ -98,7 +98,7 @@ final class PhotoController
 
         $people = DB::connection('db_foto')
             ->table('photos_people')
-            ->select('p.id', 'photos_people.persona_nome', 'e.FOTO', 'e.NOME', 'e.COGNOME', 'e.ALIAS', 'e.NASCITA')
+            ->select('p.id', 'p.nome', 'p.cognome', 'e.ALIAS', 'photos_people.persona_nome')
             ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'photos_people.persona_nome')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
             ->where('photos_people.photo_id', '=', $photo->id)

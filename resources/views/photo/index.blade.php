@@ -1,23 +1,20 @@
 @extends("photo.main")
 
 @section("content")
-    <form action="{{ route("photos.index") }}" method="GET" class="mb-3">
-        <div class="d-flex flex-wrap gap-2">
-            @foreach ($years as $year)
-                <button
-                    type="submit"
-                    name="year"
-                    value="{{ $year->year }}"
-                    class="btn btn-sm btn-outline-secondary"
-                >
-                    {{ $year->year }}
-                    <span class="badge text-bg-secondary">
-                        {{ $year->count }}
-                    </span>
-                </button>
-            @endforeach
-        </div>
-    </form>
+    <input type="hidden" name="name" value="{{ request("name") }}" />
+    <div class="d-flex flex-wrap gap-2">
+        @foreach ($years as $year)
+            <a
+                href="{{ route("photos.index", ["year" => $year->year, "name" => request("name")]) }}"
+                class="btn btn-sm btn-outline-secondary"
+            >
+                {{ $year->year }}
+                <span class="badge text-bg-secondary">
+                    {{ $year->count }}
+                </span>
+            </a>
+        @endforeach
+    </div>
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
