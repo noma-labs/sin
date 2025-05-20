@@ -24,18 +24,18 @@
             <div class="mb-3">
                 <p class="fw-bold">Persone:</p>
                 @foreach ($people as $person)
-                    <a href="{{ route('photos.index', ['name' => $person->persona_nome]) }}"
-                        class="btn btn-sm btn-outline-secondary mb-1">
-                            {{ $person->persona_nome }}
+                    <a
+                        href="{{ route("photos.index", ["name" => $person->persona_nome]) }}"
+                        class="btn btn-sm btn-outline-secondary mb-1"
+                    >
+                        {{ $person->persona_nome }}
                         @if ($person->id !== null)
                             {{ Illuminate\Support\Str::title($person->nome) }}
                             {{ Illuminate\Support\Str::title($person->cognome) }}
                         @endif
                     </a>
-
                 @endforeach
             </div>
-
 
             <div class="mb-3">
                 <form
