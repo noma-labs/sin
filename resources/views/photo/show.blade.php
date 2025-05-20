@@ -22,31 +22,21 @@
                 {{ $photo->source_file }}
             </p>
             <div class="mb-3">
-                <strong>Persone:</strong>
-                <ul>
-                    @foreach ($people as $person)
-                        <li>
-                            <strong>{{ $person->persona_nome }}</strong>
-                            @if ($person->id !== null)
-                                <a
-                                    href="{{ route("nomadelfia.person.show", $person->id) }}"
-                                >
-                                    {{ Illuminate\Support\Str::title($person->NOME) }}
-                                    {{ Illuminate\Support\Str::title($person->COGNOME) }}
-                                    @if ($person->ALIAS)
-                                        <span class="text-muted">
-                                            ({{ Illuminate\Support\Str::title($person->ALIAS) }})
-                                        </span>
-                                    @endif
-                                </a>
-                            @else
-                                {{ Illuminate\Support\Str::title($person->NOME) }}
-                                {{ Illuminate\Support\Str::title($person->COGNOME) }}
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
+                <p class="fw-bold">Persone:</p>
+                @foreach ($people as $person)
+                    <a href="{{ route('photos.index', ['name' => $person->persona_nome]) }}"
+                        class="btn btn-sm btn-outline-secondary mb-1">
+                            {{ $person->persona_nome }}
+                        @if ($person->id !== null)
+                            {{ Illuminate\Support\Str::title($person->nome) }}
+                            {{ Illuminate\Support\Str::title($person->cognome) }}
+                        @endif
+                    </a>
+
+                @endforeach
             </div>
+
+
             <div class="mb-3">
                 <form
                     action="{{ route("photos.update", $photo->id) }}"

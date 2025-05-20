@@ -14,16 +14,12 @@ final class FaceController
     {
         $faces = DB::connection('db_foto')
             ->table('photos_people')
-            ->selectRaw(
-                "COALESCE(
-                NULLIF(CONCAT(p.nome, ' ', p.cognome), ' '),
-                photos_people.persona_nome
-            ) as name, count(*) as count"
-            )
+            ->selectRaw( "p.id, photos_people.persona_nome as name, count(*) as count")
             ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'photos_people.persona_nome')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
-            ->groupBy('photos_people.persona_nome', 'p.nome', 'p.cognome')
-            ->paginate(150);
+            ->groupBy('photos_people.persona_nome', 'p.id')
+            ->orderBY('photos_people.persona_nome')
+            ->paginate(200);
 
         return view('photo.face.index', compact('faces'));
     }
