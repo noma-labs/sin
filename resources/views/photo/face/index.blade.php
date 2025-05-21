@@ -4,10 +4,7 @@
 
 @section("content")
     <div class="d-flex justify-content-end m-3">
-        <form
-            method="GET"
-            action="{{ route("photos.face.index") }}"
-        >
+        <form method="GET" action="{{ route("photos.face.index") }}">
             <div class="input-group">
                 <input
                     type="text"
