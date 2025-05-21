@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class AddPhotoIndexes extends SqlMigration
+final class AddPhotoIndexes extends SqlMigration
 {
-     public $connection = 'db_foto';
+    public $connection = 'db_foto';
 }
