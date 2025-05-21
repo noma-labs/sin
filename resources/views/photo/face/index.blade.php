@@ -3,18 +3,20 @@
 @section("title", "Persone")
 
 @section("content")
-    <form method="GET" action="{{ route("photos.face.index") }}" class="mb-3">
-        <div class="input-group">
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Cerca persona..."
-                value="{{ request("search") }}"
-            />
-            <button class="btn btn-primary" type="submit">Cerca</button>
-        </div>
-    </form>
+    <div class="d-flex justify-content-end m-3">
+        <form method="GET" action="{{ route("photos.face.index") }}">
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Cerca persona..."
+                    value="{{ request("search") }}"
+                />
+                <button class="btn btn-primary" type="submit">Cerca</button>
+            </div>
+        </form>
+    </div>
 
     <div class="d-flex flex-wrap gap-2">
         @foreach ($faces as $face)
