@@ -3,7 +3,7 @@
 @section("title", "Persone")
 
 @section("content")
-    <form method="GET" action="{{ route("photos.face.index") }}" class="mb-3">
+    <form method="GET" action="{{ route("photos.face.index") }}" class="d-print-none mb-3">
         <div class="input-group">
             <input
                 type="text"
@@ -16,7 +16,7 @@
         </div>
     </form>
 
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-print-none d-flex flex-wrap gap-2">
         @foreach ($faces as $face)
             <a
                 href="{{ route("photos.index", ["name" => $face->name]) }}"
