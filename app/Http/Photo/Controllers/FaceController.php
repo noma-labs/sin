@@ -24,10 +24,10 @@ final class FaceController
         if (! $search->isEmpty()) {
             $query->where(function ($q) use ($search) {
                 $s = $search->toString();
-                $q->where('photos_people.persona_nome', 'like', "%$s%")
-                    ->orWhere('p.nome', 'like', "%$s%")
-                    ->orWhere('p.cognome', 'like', "%$s%")
-                    ->orWhere('e.ALIAS', 'like', "%$s%");
+                $q->where('photos_people.persona_nome', 'like', "$s%")
+                    ->orWhere('p.nome', 'like', "$s%")
+                    ->orWhere('p.cognome', 'like', "$s%")
+                    ->orWhere('e.ALIAS', 'like', "$s%");
             });
         }
         $faces = $query->paginate(200);
