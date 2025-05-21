@@ -27,7 +27,10 @@
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-print-none" id="navbarNav">
+                <div
+                    class="collapse navbar-collapse d-print-none"
+                    id="navbarNav"
+                >
                     <ul class="navbar-nav">
                         @yield("navbar-link")
                     </ul>

@@ -30,8 +30,8 @@
                     >
                         {{ $person->persona_nome }}
                         @if ($person->id !== null)
-                            {{ Illuminate\Support\Str::title($person->nome) }}
-                            {{ Illuminate\Support\Str::title($person->cognome) }}
+                                ({{ Illuminate\Support\Str::title($person->nome) }}
+                                {{ Illuminate\Support\Str::title($person->cognome) }})
                         @endif
                     </a>
                 @endforeach

@@ -21,6 +21,7 @@
                         </span>
                     </button>
                 @endforeach
+
                 <a
                     href="{{ route("photos.favorite.download") }}"
                     class="btn btn-sm btn-outline-secondary"
@@ -30,7 +31,6 @@
             </div>
         </form>
     </div>
-
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
@@ -42,7 +42,9 @@
                         alt="{{ $photo->description }}"
                     />
                     <figcaption class="figure-caption">
-                        <div class="d-none d-print-block">{{ $photo->file_name }}</div>
+                        <div class="d-none d-print-block">
+                            {{ $photo->file_name }}
+                        </div>
                         <p class="fw-bold fs-4 lh-1">
                             {{ $photo->location }}
                         </p>
