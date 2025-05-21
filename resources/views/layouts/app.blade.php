@@ -27,11 +27,11 @@
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse d-print-none" id="navbarNav">
                     <ul class="navbar-nav">
                         @yield("navbar-link")
                     </ul>
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto d-print-none">
                         @if (Auth::guest())
                             <li class="nav-item">
                                 <a
