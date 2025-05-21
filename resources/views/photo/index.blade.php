@@ -1,7 +1,6 @@
 @extends("photo.main")
 
 @section("content")
-    <input type="hidden" name="name" value="{{ request("name") }}" />
     <div class="d-flex flex-wrap gap-2">
         @foreach ($years as $year)
             <a

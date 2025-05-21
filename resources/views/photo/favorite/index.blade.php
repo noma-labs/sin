@@ -1,45 +1,50 @@
 @extends("photo.main")
 
 @section("content")
-    <form
-        action="{{ route("photos.favorite.index") }}"
-        method="GET"
-        class="mb-3"
-    >
-        <div class="d-flex flex-wrap gap-2 justify-content-center">
-            @foreach ($years as $year)
-                <button
-                    type="submit"
-                    name="year"
-                    value="{{ $year->year }}"
+    <div class="d-print-none">
+        <form
+            action="{{ route("photos.favorite.index") }}"
+            method="GET"
+            class="mb-3"
+        >
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                @foreach ($years as $year)
+                    <button
+                        type="submit"
+                        name="year"
+                        value="{{ $year->year }}"
+                        class="btn btn-sm btn-outline-secondary"
+                    >
+                        {{ $year->year }}
+                        <span class="badge text-bg-secondary">
+                            {{ $year->count }}
+                        </span>
+                    </button>
+                @endforeach
+
+                <a
+                    href="{{ route("photos.favorite.download") }}"
                     class="btn btn-sm btn-outline-secondary"
                 >
-                    {{ $year->year }}
-                    <span class="badge text-bg-secondary">
-                        {{ $year->count }}
-                    </span>
-                </button>
-            @endforeach
-
-            <a
-                href="{{ route("photos.favorite.download") }}"
-                class="btn btn-sm btn-outline-secondary"
-            >
-                Download all
-            </a>
-        </div>
-    </form>
+                    Download all
+                </a>
+            </div>
+        </form>
+    </div>
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
             <a href="{{ route("photos.show", $photo->id) }}">
-                <figure class="figure m-1" style="width: 30rem">
+                <figure class="figure m-1" style="width: 20rem">
                     <img
                         src="{{ route("photos.preview", $photo->id) }}"
                         class="figure-img img-fluid rounded"
                         alt="{{ $photo->description }}"
                     />
                     <figcaption class="figure-caption">
+                        <div class="d-none d-print-block">
+                            {{ $photo->file_name }}
+                        </div>
                         <p class="fw-bold fs-4 lh-1">
                             {{ $photo->location }}
                         </p>
@@ -62,7 +67,7 @@
         @endforeach
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-print-none d-flex justify-content-center">
         {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
 
