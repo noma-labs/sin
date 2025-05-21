@@ -30,7 +30,7 @@ final class FaceController
                     ->orWhere('e.ALIAS', 'like', "$s%");
             });
         }
-        $faces = $query->paginate(200);
+        $faces = $query->paginate(50);
 
         return view('photo.face.index', compact('faces'));
     }
