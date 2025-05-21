@@ -32,6 +32,14 @@
         </form>
     </div>
 
+    <a
+        href="{{ route("photos.slideshow", array_merge(request()->all(), ["favorite" => 1])) }}"
+        class="btn btn-primary m-3"
+        target="_blank"
+    >
+        Slideshow
+    </a>
+
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
             <a href="{{ route("photos.show", $photo->id) }}">

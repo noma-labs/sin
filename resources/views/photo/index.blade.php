@@ -15,6 +15,14 @@
         @endforeach
     </div>
 
+    <a
+        href="{{ route("photos.slideshow", request()->all()) }}"
+        class="btn btn-primary m-3"
+        target="_blank"
+    >
+        Slideshow
+    </a>
+
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)
             <a href="{{ route("photos.show", $photo->id) }}">
@@ -25,7 +33,7 @@
                     <img
                         src="{{ route("photos.preview", $photo->id) }}"
                         class="figure-img img-fluid rounded"
-                        alt="..."
+                        alt="{{ $photo->description }}"
                     />
                 </figure>
             </a>
