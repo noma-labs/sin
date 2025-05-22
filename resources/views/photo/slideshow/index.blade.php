@@ -9,16 +9,37 @@
     >
         <div class="carousel-inner">
             @foreach ($photos as $index => $photo)
-                <div class="carousel-item @if($index == 0) active @endif">
-                    <img
-                        src="{{ route("photos.preview", $photo->id) }}"
-                        class="d-block w-100"
-                        style="max-height: 100vh; object-fit: contain"
-                        alt="{{ $photo->description }}"
-                    />
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $photo->location }}</h5>
-                        <p>{{ $photo->description }}</p>
+                <div
+                    class="carousel-item @if($index == 0) active @endif text-center"
+                >
+                    <div
+                        class="d-flex flex-column align-items-center justify-content-center"
+                        style="min-height: 100vh"
+                    >
+                        <img
+                            src="{{ route("photos.preview", $photo->id) }}"
+                            class="d-block w-100 mb-3"
+                            style="max-height: 80vh; object-fit: contain"
+                            alt="{{ $photo->description }}"
+                        />
+                        <div
+                            class="mx-3 d-inline-block bg-body-secondary rounded"
+                        >
+                            @if ($photo->taken_at)
+                                <h5 class="text-black fw-bold mb-1">
+                                    {{ $photo->taken_at->format("d/m/Y") }}
+                                </h5>
+                                <div class="text-black mb-1">
+                                    ({{ $photo->location }})
+                                </div>
+                            @endif
+
+                            @if ($photo->description)
+                                <p class="text-black fs-6 mb-0">
+                                    {{ $photo->description }}
+                                </p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endforeach

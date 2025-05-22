@@ -15,7 +15,7 @@ final class SlideshowController
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
         $favorite = $request->boolean('favorite');
-        $every = $request->input('every', 5000);
+        $every = $request->input('every', 10000);
 
         $q = Photo::query()
             ->orderBy('taken_at')
