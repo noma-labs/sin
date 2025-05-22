@@ -101,6 +101,5 @@ final class FavouritesController
         }
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
-
     }
 }

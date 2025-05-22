@@ -34,11 +34,20 @@
 
     <a
         href="{{ route("photos.slideshow", array_merge(request()->all(), ["favorite" => 1])) }}"
-        class="btn btn-primary m-3"
+        class="d-print-none btn btn-primary m-3"
         target="_blank"
     >
         Slideshow
     </a>
+
+    @can("photo.download")
+        <a
+            href="{{ route("photos.legend") }}"
+            class="d-print-none btn btn-secondary m-3"
+        >
+            Scarica didascalie
+        </a>
+    @endcan
 
     <div class="d-flex flex-wrap">
         @foreach ($photos as $photo)

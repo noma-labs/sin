@@ -71,6 +71,7 @@ use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
 use App\Photo\Controllers\FaceController;
 use App\Photo\Controllers\FavouritesController;
+use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\SlideshowController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -423,6 +424,7 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->middleware('can:photo.store')->name('photos.favorite');
     Route::put('/{id}/favourite', [FavouritesController::class, 'destroy'])->name('photos.unfavorite');
     Route::get('/favourite/download', [FavouritesController::class, 'download'])->middleware('can:photo.download')->name('photos.favorite.download');
+    Route::get('/favourite/export', [LegendController::class, 'index'])->middleware('can:photo.download')->name('photos.legend');
 
     Route::get('/faces', [FaceController::class, 'index'])->middleware('can:photo.view')->name('photos.face.index');
     Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
