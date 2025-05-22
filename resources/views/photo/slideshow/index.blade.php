@@ -27,7 +27,11 @@
                         >
                             @if ($photo->taken_at)
                                 <h5 class="text-black fw-bold mb-1">
-                                    {{ $photo->taken_at->format("d/m/Y") }}
+                                    @if ($photo->taken_at->format("m-d") === "01-01")
+                                        {{ $photo->taken_at->format("Y") }}
+                                    @else
+                                        {{ $photo->taken_at->format("d/m/Y") }}
+                                    @endif
                                 </h5>
                                 <div class="text-black mb-1">
                                     ({{ $photo->location }})
