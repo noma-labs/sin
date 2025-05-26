@@ -18,6 +18,21 @@ final class CoverImageController
         return view('scuola.elaborati.cover.create', compact('elaborato'));
     }
 
+    public function show($id)
+    {
+        $elaborato = Elaborato::findOrFail($id);
+        $coverPath = "elaborati/{$elaborato->cover_image_path}";
+
+        if (! Storage::disk('media_previews')->exists($coverPath)) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('media_previews')->get($coverPath);
+        $mimeType = Storage::disk('media_previews')->mimeType($coverPath);
+
+        return response($fileContent, 200)->header('Content-Type', $mimeType);
+    }
+
     public function store(Request $request, string $id)
     {
         $request->validate([
@@ -36,13 +51,12 @@ final class CoverImageController
         imagepng($newImage, $tempThumbnailPath);
 
         $thumbFileName = pathinfo((string) $elaborato->file_path, PATHINFO_FILENAME);
-        $thumbFolder = pathinfo((string) $elaborato->file_path, PATHINFO_DIRNAME);
 
-        $thumbFileName = $thumbFolder.'/'.$thumbFileName.'-cover.png';
+        $coverDestinationPath = "elaborati/{$thumbFileName}.png";
 
-        Storage::disk('public')->put($thumbFileName, file_get_contents($tempThumbnailPath));
+        Storage::disk('media_previews')->put($coverDestinationPath, file_get_contents($tempThumbnailPath));
 
-        $elaborato->cover_image_path = $thumbFileName;
+        $elaborato->cover_image_path = $coverDestinationPath;
         $elaborato->save();
 
         imagedestroy($newImage);

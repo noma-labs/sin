@@ -253,8 +253,10 @@ Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () 
     Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
     Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
     Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
+
     Route::get('elaborati/{id}/cover', [CoverImageController::class, 'create'])->name('elaborati.cover.create');
     Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('elaborati.cover.store');
+    Route::get('elaborati/{id}/cover-show', [CoverImageController::class, 'show'])->name('elaborati.cover.show');
 
     Route::get('students/{id}', [StudentController::class, 'show'])->name('student.show');
     Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('student.works.show');

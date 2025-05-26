@@ -7,7 +7,8 @@ namespace App\Scuola\Controllers;
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Elaborato;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 final class ElaboratiMediaController
 {
@@ -25,24 +26,40 @@ final class ElaboratiMediaController
         $as = AnnoScolastico::fromString($elaborato->anno_scolastico);
 
         $file = $request->file('file');
-        $titleSlug = Str::slug($elaborato->titolo);
-        $filePath = "{$as->endYear}/{$elaborato->collocazione}_{$titleSlug}";
-        $fileName = "{$elaborato->collocazione}_{$titleSlug}.{$file->getClientOriginalExtension()}";
+        $destinationPath = "elaborati/{$as->endYear}_{$elaborato->collocazione}.{$file->getClientOriginalExtension()}";
 
-        $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
-        if (! $storagePath) {
-            return redirect()->back()->withError('Errore durante il caricamento del file.');
+        // Store file and check if successful
+        $stored = Storage::disk('media_originals')->put($destinationPath, file_get_contents($file->getRealPath()));
+
+        if ($stored) {
+            // Store cover image as PNG in media_previews/elaborati/YYYY-COLLOCAZIONE.png if present
+            if ($request->hasFile('cover_image')) {
+                $cover = $request->file('cover_image');
+                $coverPreviewPath = "elaborati/{$as->endYear}_{$elaborato->collocazione}.png";
+                // Convert to PNG if not already (optional: use Intervention Image or similar)
+                if ($cover->getClientOriginalExtension() !== 'png') {
+                    $image = Image::make($cover)->encode('png');
+                    Storage::disk('media_previews')->put($coverPreviewPath, $image);
+                } else {
+                    Storage::disk('media_previews')->put($coverPreviewPath, file_get_contents($cover->getRealPath()));
+                }
+                // Optionally update DB
+                $elaborato->cover_image_path = $coverPreviewPath;
+                $elaborato->save();
+            }
+
+            // Update the elaborato record with the file details
+            $elaborato->update([
+                'file_path' => $destinationPath,
+                'file_mime_type' => $file->getClientMimeType(),
+                'file_size' => $file->getSize(),
+                'file_hash' => hash_file('sha256', $file->getPathname()),
+            ]);
+
+            return redirect()->back()->withSuccess('Caricato correttameente');
         }
 
-        // Update the elaborato record with the file details
-        $elaborato->update([
-            'file_path' => $storagePath,
-            'file_mime_type' => $file->getClientMimeType(),
-            'file_size' => $file->getSize(),
-            'file_hash' => hash_file('sha256', $file->getPathname()),
-        ]);
-
-        return redirect()->back()->withSuccess('Caricato correttameente');
+        return redirect()->back()->withError('Errore nel salvataggio del file.');
 
     }
 }
