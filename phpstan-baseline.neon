@@ -8665,12 +8665,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -8695,12 +8689,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Cannot call method getClientOriginalExtension\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
 			message: '#^Cannot call method getPathname\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -8708,12 +8696,6 @@ parameters:
 
 		-
 			message: '#^Cannot call method getSize\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Cannot call method storeAs\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
@@ -8815,6 +8797,12 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
+			message: '#^Parameter \#1 \$file of method App\\Scuola\\Controllers\\ElaboratiController\:\:storeElaboratoFile\(\) expects Illuminate\\Http\\UploadedFile, array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Scuola/Controllers/ElaboratiController.php
+
+		-
 			message: '#^Parameter \#1 \$ids of method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\<Illuminate\\Database\\Eloquent\\Model,Illuminate\\Database\\Eloquent\\Model\>\:\:sync\(\) expects array\|Illuminate\\Database\\Eloquent\\Model\|Illuminate\\Support\\Collection, mixed given\.$#'
 			identifier: argument.type
 			count: 2
@@ -8822,12 +8810,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$string of function str expects string\|null, App\\Scuola\\DataTransferObjects\\AnnoScolastico given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiController.php
-
-		-
-			message: '#^Parameter \#1 \$title of static method Illuminate\\Support\\Str\:\:slug\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
@@ -8845,15 +8827,15 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Part \$collocazione \(mixed\) of encapsed string cannot be cast to string\.$#'
-			identifier: encapsedStringPart.nonString
-			count: 2
+			message: '#^Parameter \#4 \$titolo of method App\\Scuola\\Controllers\\ElaboratiController\:\:storeElaboratoFile\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
 			identifier: method.notFound
-			count: 3
+			count: 2
 			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
 
 		-
@@ -8875,12 +8857,6 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
 
 		-
-			message: '#^Cannot call method getClientOriginalExtension\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
-
-		-
 			message: '#^Cannot call method getPathname\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -8888,12 +8864,6 @@ parameters:
 
 		-
 			message: '#^Cannot call method getSize\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
-
-		-
-			message: '#^Cannot call method storeAs\(\) on array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
@@ -8907,6 +8877,12 @@ parameters:
 		-
 			message: '#^Method App\\Scuola\\Controllers\\ElaboratiMediaController\:\:store\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
+
+		-
+			message: '#^Parameter \#1 \$file of method App\\Scuola\\Controllers\\ElaboratiMediaController\:\:storeElaboratoFile\(\) expects Illuminate\\Http\\UploadedFile, array\<Illuminate\\Http\\UploadedFile\>\|Illuminate\\Http\\UploadedFile\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/ElaboratiMediaController.php
 

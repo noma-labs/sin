@@ -77,17 +77,14 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'report' => false,
         ],
-        'scuola' => [
-            'driver' => 'local',
-            'root' => storage_path('app/elaborati'),
-        ],
-        'photos' => [
-            'driver' => 'local',
-            'root' => storage_path('app/foto'),
-        ],
         'media_previews' => [
             'driver' => 'local',
             'root' => storage_path('app/media/previews'),
+            'visibility' => 'private',
+        ],
+        'media_originals' => [
+            'driver' => 'local',
+            'root' => storage_path('app/media/originals'),
             'visibility' => 'private',
         ],
     ],

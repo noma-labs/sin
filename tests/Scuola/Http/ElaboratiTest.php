@@ -44,13 +44,13 @@ it('can update an elaborato', function (): void {
 });
 
 it('can download a pdf file', function (): void {
-    Storage::fake('scuola');
+    Storage::fake('media_originals');
     $faker = Faker::create();
     $documentName = $faker->unique()->word.'.pdf';
 
     $file = UploadedFile::fake()->create($documentName, 100, 'application/pdf');
 
-    $filePath = $file->storeAs('elaborati', $documentName, 'scuola');
+    $filePath = $file->storeAs('elaborati', $documentName, 'media_originals');
 
     $elaborato = Elaborato::factory()->create([
         'file_path' => $filePath,
@@ -64,7 +64,7 @@ it('can download a pdf file', function (): void {
         ->assertHeader('Content-Type', 'application/pdf')
         ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName);
 
-    $this->assertTrue(Storage::disk('scuola')->exists($filePath));
+    $this->assertTrue(Storage::disk('media_originals')->exists($filePath));
 });
 
 it('can upload a cover image', function (): void {
