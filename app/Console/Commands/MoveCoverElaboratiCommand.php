@@ -17,35 +17,35 @@ final class MoveCoverElaboratiCommand extends Command
 
     public function handle()
     {
-        $elaborati = Elaborato::whereNotNull('cover_image_path')->get();
 
-        foreach ($elaborati as $elaborato) {
-            $as = AnnoScolastico::fromString($elaborato->anno_scolastico);
-            $this->moveCoverImagePath($elaborato, $as);
-        }
-
-        $this->info('File moving process completed.');
+        $movedCount = $this->moveCoverImagePath();
+        $this->info("File moving process completed. Moved: {$movedCount} images.");
     }
 
-    private function moveCoverImagePath(Elaborato $elaborato, AnnoScolastico $as): void
+    private function moveCoverImagePath(): int
     {
-        $coverPath = $elaborato->cover_image_path;
-        if ($coverPath === null) {
-            return;
+        $elaborati = Elaborato::whereNotNull('cover_image_path')->get();
+
+        $count = 0;
+        foreach ($elaborati as $elaborato) {
+            $coverPath = $elaborato->cover_image_path;
+
+            if (Storage::disk('public')->exists($coverPath)) {
+                $coverExtension = pathinfo($coverPath, PATHINFO_EXTENSION) ?: 'png';
+
+                $coverDestinationPath = "elaborati/{$elaborato->collocazione}.{$coverExtension}";
+
+                $coverContents = Storage::disk('public')->get($coverPath);
+                Storage::disk('media_previews')->put($coverDestinationPath, $coverContents);
+                Storage::disk('public')->delete($coverPath);
+
+                $elaborato->cover_image_path = $coverDestinationPath;
+                $elaborato->save();
+
+                $this->info("Moved cover image: {$coverPath} to media_previews/{$coverDestinationPath} and updated DB.");
+                $count++;
+            }
         }
-        if (Storage::disk('public')->exists($coverPath)) {
-            $coverExtension = pathinfo($coverPath, PATHINFO_EXTENSION) ?: 'png';
-
-            $coverDestinationPath = "elaborati/{$elaborato->collocazione}.{$coverExtension}";
-
-            $coverContents = Storage::disk('public')->get($coverPath);
-            Storage::disk('media_previews')->put($coverDestinationPath, $coverContents);
-            Storage::disk('public')->delete($coverPath);
-
-            $elaborato->cover_image_path = $coverDestinationPath;
-            $elaborato->save();
-
-            $this->info("Moved cover image: {$coverPath} to media_previews/{$coverDestinationPath} and updated DB.");
-        }
+        return $count;
     }
 }
