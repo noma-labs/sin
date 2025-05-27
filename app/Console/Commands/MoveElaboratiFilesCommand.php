@@ -57,6 +57,5 @@ final class MoveElaboratiFilesCommand extends Command
 
         $this->info('All files moved and DB updated.');
 
-        return;
     }
 }
