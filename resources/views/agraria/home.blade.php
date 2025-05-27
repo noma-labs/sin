@@ -20,7 +20,12 @@
                                 <li
                                     class="list-group-item py-1 px-2 d-flex justify-content-between align-items-center"
                                 >
-                                    <span>{{ $mezzo->nome }}</span>
+                                    <a
+                                        href="{{ route("agraria.vehicle.show", $mezzo->id) }}"
+                                    >
+                                        {{ $mezzo->nome }}
+                                    </a>
+                                    <span></span>
                                     <span class="fw-bold text-danger">
                                         €
                                         {{ number_format($mezzo->totale_spesa, 2, ",", ".") }}
