@@ -9,7 +9,7 @@ use App\Scuola\Models\Elaborato;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-final class MoveElaboratiFilesCommand extends Command
+final class MoveCoverElaboratiCommand extends Command
 {
     protected $signature = 'elaborati:move';
 
@@ -17,45 +17,14 @@ final class MoveElaboratiFilesCommand extends Command
 
     public function handle()
     {
-        $elaborati = Elaborato::all();
+        $elaborati = Elaborato::whereNotNull('cover_image_path')->get();
 
         foreach ($elaborati as $elaborato) {
             $as = AnnoScolastico::fromString($elaborato->anno_scolastico);
-            // $this->moveFilePath($elaborato, $as);
             $this->moveCoverImagePath($elaborato, $as);
         }
 
         $this->info('File moving process completed.');
-    }
-
-    private function moveFilePath(Elaborato $elaborato, AnnoScolastico $as): void
-    {
-        $filePath = $elaborato->file_path;
-        if ($filePath === null) {
-            return;
-        }
-
-        if (Storage::disk('scuola')->exists($filePath)) {
-            $extension = pathinfo($filePath, PATHINFO_EXTENSION) ?: 'pdf';
-            $destinationPath = "elaborati/{$as->endYear}_{$elaborato->collocazione}.{$extension}";
-
-            $contents = Storage::disk('scuola')->get($filePath);
-
-            // Write file to media_originals disk under elaborati/
-            Storage::disk('media_originals')->put($destinationPath, $contents);
-
-            // Delete original file from scuola disk
-            Storage::disk('scuola')->delete($filePath);
-
-            // Update DB with new file path
-            $elaborato->file_path = $destinationPath;
-            $elaborato->save();
-
-            $this->info("Moved: {$filePath} to media_originals/{$destinationPath} and updated DB.");
-
-            return;
-        }
-
     }
 
     private function moveCoverImagePath(Elaborato $elaborato, AnnoScolastico $as): void
@@ -67,7 +36,7 @@ final class MoveElaboratiFilesCommand extends Command
         if (Storage::disk('public')->exists($coverPath)) {
             $coverExtension = pathinfo($coverPath, PATHINFO_EXTENSION) ?: 'png';
 
-            $coverDestinationPath = "elaborati/{$as->endYear}_{$elaborato->collocazione}.{$coverExtension}";
+            $coverDestinationPath = "elaborati/{$elaborato->collocazione}.{$coverExtension}";
 
             $coverContents = Storage::disk('public')->get($coverPath);
             Storage::disk('media_previews')->put($coverDestinationPath, $coverContents);

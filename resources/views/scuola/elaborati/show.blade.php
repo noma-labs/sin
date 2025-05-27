@@ -57,7 +57,7 @@
                         />
                     @else
                         <a
-                           src="{{ asset("images/placeholder.svg") }}"
+                            src="{{ asset("images/placeholder.svg") }}"
                             class="btn btn-primary mb-3"
                         >
                             Carica copertina

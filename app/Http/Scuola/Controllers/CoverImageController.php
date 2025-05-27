@@ -41,6 +41,10 @@ final class CoverImageController
 
         $elaborato = Elaborato::findOrFail($id);
 
+        if ($elaborato->collocazione === null){
+            return redirect()->back()->with('error', 'Elaborato deve avere una collocazione.');
+        }
+
         $file = $request->file('file');
         $pathToImage = $file->getPathname();
 
@@ -50,9 +54,7 @@ final class CoverImageController
         $tempThumbnailPath = sys_get_temp_dir().'/cover-'.$id.'.png';
         imagepng($newImage, $tempThumbnailPath);
 
-        $thumbFileName = pathinfo((string) $elaborato->file_path, PATHINFO_FILENAME);
-
-        $coverDestinationPath = "elaborati/{$thumbFileName}.png";
+        $coverDestinationPath = "elaborati/{$elaborato->collocazione }.png";
 
         Storage::disk('media_previews')->put($coverDestinationPath, file_get_contents($tempThumbnailPath));
 
