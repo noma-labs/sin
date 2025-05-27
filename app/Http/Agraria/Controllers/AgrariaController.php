@@ -18,7 +18,8 @@ final class AgrariaController
         $ultime = $this->getManutenzioniFatte();
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
-        $mezziCostosi = MezzoAgricolo::select('mezzo_agricolo.id', 'mezzo_agricolo.nome')
+        $mezziCostosi = MezzoAgricolo::query()
+            ->select('mezzo_agricolo.id', 'mezzo_agricolo.nome')
             ->join('manutenzione', 'mezzo_agricolo.id', '=', 'manutenzione.mezzo_agricolo')
             ->selectRaw('SUM(CASE WHEN manutenzione.spesa IS NULL OR manutenzione.spesa = "" THEN 0 ELSE manutenzione.spesa END) as totale_spesa')
             ->groupBy('mezzo_agricolo.id', 'mezzo_agricolo.nome')

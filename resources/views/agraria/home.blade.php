@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header py-2">
                     <h3 class="card-title mb-0" style="font-size: 1.1rem">
-                        Costi di manutenzione
+                        Trattori con maggiori costi di manutenzione
                     </h3>
                 </div>
                 <div class="card-body py-2 px-2">
