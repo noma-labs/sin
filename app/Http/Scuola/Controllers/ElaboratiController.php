@@ -8,15 +8,17 @@ use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Traits\StoresElaboratoFile;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 final class ElaboratiController
 {
+    use StoresElaboratoFile;
+
     public function index(Request $request)
     {
         $order = $request->query('order', 'anno_scolastico');
@@ -82,24 +84,16 @@ final class ElaboratiController
         $alunni = $request->input('studenti_ids');
         $coords = $request->input('coordinatori_ids');
         $as = AnnoScolastico::fromString($request->input('anno_scolastico'));
-        $file = $request->file('file');
-
-        $titleSlug = Str::slug($titolo);
-        $collocazione = $request->input('collocazione', '');
-
-        $filePath = "{$as->endYear}/{$collocazione}_{$titleSlug}";
-        $fileName = "{$collocazione}_{$titleSlug}.{$file->getClientOriginalExtension()}";
-
-        $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
-
-        if (! $storagePath) {
-            return redirect()->back()->withError('Errore durante il caricamento del file.');
-        }
 
         $classi = $request->filled('classi') ? implode(',', $request->input('classi')) : '';
         $dimensione = $request->input('dimensione') ? Dimensione::fromString($request->input('dimensione'))->toString() : null;
 
-        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $storagePath, $file, $classi, $dimensione): void {
+        DB::Transaction(function () use ($request, $titolo, $as, $alunni, $coords, $classi, $dimensione): void {
+            $file = $request->file('file');
+
+            // FIXME: collocazione is empty !!!
+            $destinationPath = $this->storeElaboratoFile($file, $as, '', $titolo);
+
             $elaborato = Elaborato::query()->create(
                 attributes: [
                     'titolo' => $titolo,
@@ -108,7 +102,7 @@ final class ElaboratiController
                     'dimensione' => $dimensione,
                     'rilegatura' => $request->input('rilegatura'),
                     'note' => $request->input('note', null),
-                    'file_path' => $storagePath,
+                    'file_path' => $destinationPath,
                     'file_mime_type' => $file->getClientMimeType(),
                     'file_size' => $file->getSize(),
                     'file_hash' => hash_file('sha256', $file->getPathname()),

@@ -6,11 +6,13 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Elaborato;
+use App\Scuola\Traits\StoresElaboratoFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 final class ElaboratiMediaController
 {
+    use StoresElaboratoFile;
+
     public function store(Request $request, $id)
     {
         $elaborato = Elaborato::findOrFail($id);
@@ -25,18 +27,15 @@ final class ElaboratiMediaController
         $as = AnnoScolastico::fromString($elaborato->anno_scolastico);
 
         $file = $request->file('file');
-        $titleSlug = Str::slug($elaborato->titolo);
-        $filePath = "{$as->endYear}/{$elaborato->collocazione}_{$titleSlug}";
-        $fileName = "{$elaborato->collocazione}_{$titleSlug}.{$file->getClientOriginalExtension()}";
-
-        $storagePath = $file->storeAs($filePath, $fileName, 'scuola');
-        if (! $storagePath) {
-            return redirect()->back()->withError('Errore durante il caricamento del file.');
-        }
-
+        $destinationPath = $this->storeElaboratoFile(
+            $file,
+            $as,
+            $elaborato->collocazione,
+            $elaborato->titolo
+        );
         // Update the elaborato record with the file details
         $elaborato->update([
-            'file_path' => $storagePath,
+            'file_path' => $destinationPath,
             'file_mime_type' => $file->getClientMimeType(),
             'file_size' => $file->getSize(),
             'file_hash' => hash_file('sha256', $file->getPathname()),
