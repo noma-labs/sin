@@ -23,7 +23,11 @@
                             <tbody>
                                 @foreach ($prossime as $p)
                                     <tr>
-                                        <td>{{ $p["nome"] }}</td>
+                                        <td>
+                                            <a href="{{ route('agraria.vehicle.show', $p['id']) }}">
+                                               {{ $p["nome"] }}
+                                            </a>
+                                        </td>
                                         <td>{{ $p["manutenzione"] }}</td>
                                         <td>
                                             @if ($p["ore"] < 0)

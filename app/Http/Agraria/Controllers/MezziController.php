@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Agraria\Controllers;
 
 use App\Agraria\Models\Gomma;
+use App\Agraria\Models\Manutenzione;
 use App\Agraria\Models\MezzoAgricolo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -97,7 +98,12 @@ final class MezziController
         $mezzo = MezzoAgricolo::find($id);
         $prossime = $mezzo->scadenzaManutenzioni()->sort();
 
-        return view('agraria.mezzi.show', compact('mezzo', 'prossime'));
+        $historic = Manutenzione::with('programmate')
+            ->where('mezzo_agricolo', $id)
+            ->orderBy('data', 'desc')
+            ->get();
+
+        return view('agraria.mezzi.show', compact('mezzo', 'prossime', 'historic'));
     }
 
     public function edit($id)
