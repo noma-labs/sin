@@ -30,6 +30,10 @@ final class MoveCoverElaboratiCommand extends Command
         foreach ($elaborati as $elaborato) {
             $coverPath = $elaborato->cover_image_path;
 
+            if (empty($elaborato->collocazione)) {
+                throw new \RuntimeException("Elaborato ID {$elaborato->id} has null collocazione. Aborting.");
+            }
+
             if (Storage::disk('public')->exists($coverPath)) {
                 $coverExtension = pathinfo($coverPath, PATHINFO_EXTENSION) ?: 'png';
 
