@@ -8,6 +8,7 @@ use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\MoveCoverElaboratiCommand;
+use App\Console\Commands\MoveElaboratiFilesCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -23,6 +24,7 @@ final class Kernel extends ConsoleKernel
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
         MoveCoverElaboratiCommand::class,
+        MoveElaboratiFilesCommand::class,
     ];
 
     /**
