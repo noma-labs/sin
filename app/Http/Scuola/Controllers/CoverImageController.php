@@ -21,14 +21,14 @@ final class CoverImageController
     public function show($id)
     {
         $elaborato = Elaborato::findOrFail($id);
-        $coverPath = "elaborati/{$elaborato->cover_image_path}";
 
-        if (! Storage::disk('media_previews')->exists($coverPath)) {
+        if (! Storage::disk('media_previews')->exists($elaborato->cover_image_path)) {
             abort(404);
         }
 
-        $fileContent = Storage::disk('media_previews')->get($coverPath);
-        $mimeType = Storage::disk('media_previews')->mimeType($coverPath);
+        $fileContent = Storage::disk('media_previews')->get($elaborato->cover_image_path);
+        // Use Storage::mimeType with the actual file path, not a hardcoded string
+        $mimeType = Storage::disk('media_previews')->mimeType($elaborato->cover_image_path) ?? 'image/png';
 
         return response($fileContent, 200)->header('Content-Type', $mimeType);
     }
