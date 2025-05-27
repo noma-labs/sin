@@ -70,7 +70,8 @@ it('can download a pdf file', function (): void {
 it('can upload a cover image', function (): void {
     login();
 
-    Storage::fake('public');
+    Storage::fake('media_previews');
+
     $file = UploadedFile::fake()->image('cover.png');
 
     $elaborato = Elaborato::factory()->create();
@@ -78,9 +79,9 @@ it('can upload a cover image', function (): void {
     $this->post(action([CoverImageController::class, 'store'], $elaborato->id), [
         'file' => $file,
     ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
-    $filePath = 'covers/'.$elaborato->id.'/cover.png';
 
-    Storage::disk('public')->assertExists($elaborato->cover_image_path);
+
+    Storage::disk('media_previews')->assertExists($elaborato->cover_image_path);
 });
 
 it('can store an elaborato', function (): void {
