@@ -169,14 +169,14 @@
 
                     <div class="row">
                         <div class="col-6 border-end">
-                            <h6 class="mb-1">Totale Ordinarie</h6>
+                            <h6 class="mb-1">Totale Manut. Ordinarie</h6>
                             <div class="fw-bold text-success">
                                 €
                                 {{ number_format($totaleOrdinarie, 2, ",", ".") }}
                             </div>
                         </div>
                         <div class="col-6">
-                            <h6 class="mb-1">Totale Straordinarie</h6>
+                            <h6 class="mb-1">Totale Manut. Straordinarie</h6>
                             <div class="fw-bold text-danger">
                                 €
                                 {{ number_format($totaleStraordinarie, 2, ",", ".") }}
