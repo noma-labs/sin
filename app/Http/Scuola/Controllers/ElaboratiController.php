@@ -202,12 +202,12 @@ final class ElaboratiController
         $elaborato = Elaborato::findOrFail($id);
         $filePath = $elaborato->file_path;
 
-        if (! Storage::disk('scuola')->exists($filePath)) {
+        if (! Storage::disk('media_originals')->exists($filePath)) {
             abort(404);
         }
 
-        $fileContent = Storage::disk('scuola')->get($filePath);
-        $mimeType = Storage::disk('scuola')->mimeType($filePath);
+        $fileContent = Storage::disk('media_originals')->get($filePath);
+        $mimeType = Storage::disk('media_originals')->mimeType($filePath);
 
         return response($fileContent, 200)->header('Content-Type', $mimeType);
     }
@@ -217,12 +217,12 @@ final class ElaboratiController
         $elaborato = Elaborato::findOrFail($id);
         $filePath = $elaborato->file_path;
 
-        if (! Storage::disk('scuola')->exists($filePath)) {
+        if (! Storage::disk('media_originals')->exists($filePath)) {
             abort(404);
         }
 
         $fileName = basename((string) $filePath); // Get the base name in case you want to customize the download file name
 
-        return Storage::disk('scuola')->download($filePath, $fileName);
+        return Storage::disk('media_originals')->download($filePath, $fileName);
     }
 }

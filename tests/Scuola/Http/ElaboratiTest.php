@@ -64,7 +64,7 @@ it('can download a pdf file', function (): void {
         ->assertHeader('Content-Type', 'application/pdf')
         ->assertHeader('Content-Disposition', 'attachment; filename='.$documentName);
 
-    $this->assertTrue(Storage::disk('scuola')->exists($filePath));
+    $this->assertTrue(Storage::disk('media_originals')->exists($filePath));
 });
 
 it('can upload a cover image', function (): void {

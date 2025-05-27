@@ -90,7 +90,7 @@ final class FavouritesController
         $zip = new ZipArchive;
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             foreach ($photos as $photo) {
-                $filePath = Storage::disk('photos')->path($photo->source_file);
+                $filePath = Storage::disk('media_originals')->path($photo->source_file);
                 if (file_exists($filePath)) {
                     $zip->addFile($filePath, basename((string) $photo->source_file));
                 }
