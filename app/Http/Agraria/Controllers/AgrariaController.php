@@ -18,13 +18,22 @@ final class AgrariaController
         $ultime = $this->getManutenzioniFatte();
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
+        $mezziCostosi = MezzoAgricolo::query()
+            ->select('mezzo_agricolo.id', 'mezzo_agricolo.nome')
+            ->join('manutenzione', 'mezzo_agricolo.id', '=', 'manutenzione.mezzo_agricolo')
+            ->selectRaw('SUM(CASE WHEN manutenzione.spesa IS NULL OR manutenzione.spesa = "" THEN 0 ELSE manutenzione.spesa END) as totale_spesa')
+            ->groupBy('mezzo_agricolo.id', 'mezzo_agricolo.nome')
+            ->orderByDesc('totale_spesa')
+            ->take(5)
+            ->get();
+
         if ($this->controllaOre($mezzi)) {
             $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
 
-            return view('agraria.home', compact('mezzi', 'ultime', 'prossime'))->with('errors', $errors);
+            return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'mezziCostosi'))->with('errors', $errors);
         }
 
-        return view('agraria.home', compact('mezzi', 'ultime', 'prossime'));
+        return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'mezziCostosi'));
     }
 
     public function controllaOre($m): bool
