@@ -14,7 +14,7 @@ final class MoveElaboratiFilesCommand extends Command
 
     protected $description = 'Move elaborati files from nested folders to flat structure and update DB paths';
 
-    public function handle()
+    public function handle(): void
     {
         $disk = Storage::disk('media_originals');
         $years = $disk->directories('elaborati');
@@ -38,7 +38,7 @@ final class MoveElaboratiFilesCommand extends Command
                     }
 
                     // Update DB if needed
-                    $updated = Elaborato::where('file_path', $filePath)
+                    $updated = Elaborato::query()->where('file_path', $filePath)
                         ->orWhere('file_path', 'like', "%$filePath")
                         ->update(['file_path' => $newPath]);
 
@@ -57,6 +57,6 @@ final class MoveElaboratiFilesCommand extends Command
 
         $this->info('All files moved and DB updated.');
 
-        return 0;
+        return;
     }
 }
