@@ -85,12 +85,6 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/foto'),
         ],
-        'media_originals' => [
-            'driver' => 'local',
-            'root' => storage_path('app/media/originals'),
-            'visibility' => 'private',
-        ],
-
         'media_previews' => [
             'driver' => 'local',
             'root' => storage_path('app/media/previews'),
