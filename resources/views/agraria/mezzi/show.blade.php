@@ -35,7 +35,9 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label" for="tot_ore">Ore Totali</label>
+                            <label class="form-label" for="tot_ore">
+                                Ore Totali
+                            </label>
                             <input
                                 type="number"
                                 class="form-control"
@@ -44,7 +46,9 @@
                             />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="gomme_ant">Gomme Anteriori</label>
+                            <label class="form-label" for="gomme_ant">
+                                Gomme Anteriori
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -57,7 +61,9 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label" for="gomme_post">Gomme Posteriori</label>
+                            <label class="form-label" for="gomme_post">
+                                Gomme Posteriori
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -68,7 +74,9 @@
                             />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="filtro_aria_int">Filtro Aria Interno</label>
+                            <label class="form-label" for="filtro_aria_int">
+                                Filtro Aria Interno
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -79,7 +87,9 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label" for="filtro_aria_ext">Filtro Aria Esterno</label>
+                            <label class="form-label" for="filtro_aria_ext">
+                                Filtro Aria Esterno
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -88,7 +98,9 @@
                             />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="filtro_olio">Filtro Olio</label>
+                            <label class="form-label" for="filtro_olio">
+                                Filtro Olio
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -99,7 +111,9 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label" for="filtro_gasolio">Filtro Gasolio</label>
+                            <label class="form-label" for="filtro_gasolio">
+                                Filtro Gasolio
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -108,7 +122,9 @@
                             />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label" for="filtro_servizi">Filtro Servizi</label>
+                            <label class="form-label" for="filtro_servizi">
+                                Filtro Servizi
+                            </label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -134,29 +150,36 @@
             <div class="card card-mod mb-3">
                 <div class="card-body text-center">
                     @php
-                        $totaleOrdinarie = $historic->filter(function($manutenzione) {
-                            return $manutenzione->programmate && $manutenzione->programmate->count();
-                        })->sum(function($manutenzione) {
-                            return is_numeric($manutenzione->spesa) ? $manutenzione->spesa : 0;
-                        });
+                        $totaleOrdinarie = $historic
+                            ->filter(function ($manutenzione) {
+                                return $manutenzione->programmate && $manutenzione->programmate->count();
+                            })
+                            ->sum(function ($manutenzione) {
+                                return is_numeric($manutenzione->spesa) ? $manutenzione->spesa : 0;
+                            });
 
-                        $totaleStraordinarie = $historic->filter(function($manutenzione) {
-                            return !$manutenzione->programmate || !$manutenzione->programmate->count();
-                        })->sum(function($manutenzione) {
-                            return is_numeric($manutenzione->spesa) ? $manutenzione->spesa : 0;
-                        });
+                        $totaleStraordinarie = $historic
+                            ->filter(function ($manutenzione) {
+                                return ! $manutenzione->programmate || ! $manutenzione->programmate->count();
+                            })
+                            ->sum(function ($manutenzione) {
+                                return is_numeric($manutenzione->spesa) ? $manutenzione->spesa : 0;
+                            });
                     @endphp
+
                     <div class="row">
                         <div class="col-6 border-end">
                             <h6 class="mb-1">Totale Ordinarie</h6>
                             <div class="fw-bold text-success">
-                                € {{ number_format($totaleOrdinarie, 2, ',', '.') }}
+                                €
+                                {{ number_format($totaleOrdinarie, 2, ",", ".") }}
                             </div>
                         </div>
                         <div class="col-6">
                             <h6 class="mb-1">Totale Straordinarie</h6>
                             <div class="fw-bold text-danger">
-                                € {{ number_format($totaleStraordinarie, 2, ',', '.') }}
+                                €
+                                {{ number_format($totaleStraordinarie, 2, ",", ".") }}
                             </div>
                         </div>
                     </div>
@@ -164,14 +187,36 @@
             </div>
             <div class="card card-mod">
                 <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" id="manutenzioniTabs" role="tablist">
+                    <ul
+                        class="nav nav-tabs card-header-tabs"
+                        id="manutenzioniTabs"
+                        role="tablist"
+                    >
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="prossime-tab" data-bs-toggle="tab" data-bs-target="#prossime" type="button" role="tab" aria-controls="prossime" aria-selected="true">
+                            <button
+                                class="nav-link active"
+                                id="prossime-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#prossime"
+                                type="button"
+                                role="tab"
+                                aria-controls="prossime"
+                                aria-selected="true"
+                            >
                                 Prossime Manutenzioni
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="storico-tab" data-bs-toggle="tab" data-bs-target="#storico" type="button" role="tab" aria-controls="storico" aria-selected="false">
+                            <button
+                                class="nav-link"
+                                id="storico-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#storico"
+                                type="button"
+                                role="tab"
+                                aria-controls="storico"
+                                aria-selected="false"
+                            >
                                 Storico Manutenzioni
                             </button>
                         </li>
@@ -179,12 +224,19 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="manutenzioniTabsContent">
-                        <div class="tab-pane fade show active" id="prossime" role="tabpanel" aria-labelledby="prossime-tab">
+                        <div
+                            class="tab-pane fade show active"
+                            id="prossime"
+                            role="tabpanel"
+                            aria-labelledby="prossime-tab"
+                        >
                             <table class="table table-hover table-bordered">
                                 <thead class="table table-sm">
                                     <tr>
                                         <th scope="col" width="65%">Nome</th>
-                                        <th scope="col" width="45%">Ore Mancanti</th>
+                                        <th scope="col" width="45%">
+                                            Ore Mancanti
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -193,19 +245,25 @@
                                             <td>{{ $k }}</td>
                                             @if ($v < 0)
                                                 <td>
-                                                    <span class="badge bg-danger">
+                                                    <span
+                                                        class="badge bg-danger"
+                                                    >
                                                         {{ "scaduto da: " . abs($v) }}
                                                     </span>
                                                 </td>
                                             @elseif ($v < 50)
                                                 <td>
-                                                    <span class="badge bg-warning">
+                                                    <span
+                                                        class="badge bg-warning"
+                                                    >
                                                         {{ "scade tra: " . abs($v) }}
                                                     </span>
                                                 </td>
                                             @else
                                                 <td>
-                                                    <span class="badge bg-success">
+                                                    <span
+                                                        class="badge bg-success"
+                                                    >
                                                         {{ "scade tra: " . abs($v) }}
                                                     </span>
                                                 </td>
@@ -215,7 +273,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="storico" role="tabpanel" aria-labelledby="storico-tab">
+                        <div
+                            class="tab-pane fade"
+                            id="storico"
+                            role="tabpanel"
+                            aria-labelledby="storico-tab"
+                        >
                             <table class="table table-hover table-bordered">
                                 <thead class="table table-sm">
                                     <tr>
@@ -230,31 +293,46 @@
                                 <tbody>
                                     @forelse ($historic as $manutenzione)
                                         <tr>
-                                            <td>{{ $manutenzione->data ?? '' }}</td>
-                                            <td>{{ $manutenzione->ore ?? '' }}</td>
-                                            <td>{{ $manutenzione->spesa ?? '' }}</td>
-                                            <td>{{ $manutenzione->persona ?? '' }}</td>
-                                            <td>{{ $manutenzione->lavori_extra ?? '' }}</td>
                                             <td>
-                                                @if($manutenzione->programmate && $manutenzione->programmate->count())
+                                                {{ $manutenzione->data ?? "" }}
+                                            </td>
+                                            <td>
+                                                {{ $manutenzione->ore ?? "" }}
+                                            </td>
+                                            <td>
+                                                {{ $manutenzione->spesa ?? "" }}
+                                            </td>
+                                            <td>
+                                                {{ $manutenzione->persona ?? "" }}
+                                            </td>
+                                            <td>
+                                                {{ $manutenzione->lavori_extra ?? "" }}
+                                            </td>
+                                            <td>
+                                                @if ($manutenzione->programmate && $manutenzione->programmate->count())
                                                     <ul class="mb-0 ps-3">
-                                                        @foreach($manutenzione->programmate as $programmata)
+                                                        @foreach ($manutenzione->programmate as $programmata)
                                                             <li>
-                                                                {{ $programmata->nome ?? '' }}
-                                                                @if(isset($programmata->pivot->data))
-                                                                    ({{ $programmata->pivot->data }})
+                                                                {{ $programmata->nome ?? "" }}
+                                                                @if (isset($programmata->pivot->data))
+                                                                        ({{ $programmata->pivot->data }})
                                                                 @endif
                                                             </li>
                                                         @endforeach
                                                     </ul>
                                                 @else
-                                                    <span class="text-muted">-</span>
+                                                    <span class="text-muted">
+                                                        -
+                                                    </span>
                                                 @endif
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">Nessuna manutenzione storica trovata.</td>
+                                            <td colspan="7" class="text-center">
+                                                Nessuna manutenzione storica
+                                                trovata.
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>

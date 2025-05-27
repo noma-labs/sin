@@ -4,8 +4,30 @@
 
 @section("content")
     @include("partials.header", ["title" => "Agraria"])
+
     <div class="row">
-        <div class="col-md-6">
+         <div class="col-md-2">
+            <div class="card">
+                <div class="card-header py-2">
+                    <h3 class="card-title mb-0" style="font-size:1.1rem;">Costi di manutenzione</h3>
+                </div>
+                <div class="card-body py-2 px-2">
+                    @if(isset($mezziCostosi) && count($mezziCostosi))
+                        <ul class="list-group list-group-flush">
+                            @foreach($mezziCostosi as $mezzo)
+                                <li class="list-group-item py-1 px-2 d-flex justify-content-between align-items-center">
+                                    <span>{{ $mezzo->nome }}</span>
+                                    <span class="fw-bold text-danger">€ {{ number_format($mezzo->totale_spesa, 2, ',', '.') }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <span class="text-muted">Nessun dato disponibile.</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Prossime Manutenzioni</h3>
@@ -24,8 +46,10 @@
                                 @foreach ($prossime as $p)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('agraria.vehicle.show', $p['id']) }}">
-                                               {{ $p["nome"] }}
+                                            <a
+                                                href="{{ route("agraria.vehicle.show", $p["id"]) }}"
+                                            >
+                                                {{ $p["nome"] }}
                                             </a>
                                         </td>
                                         <td>{{ $p["manutenzione"] }}</td>
@@ -52,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Ultime Manutenzioni</h3>
