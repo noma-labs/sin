@@ -80,7 +80,6 @@ it('can upload a cover image', function (): void {
         'file' => $file,
     ])->assertRedirectToRoute('scuola.elaborati.show', $elaborato->id);
 
-
     Storage::disk('media_previews')->assertExists($elaborato->cover_image_path);
 });
 

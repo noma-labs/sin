@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Scuola\DataTransferObjects\AnnoScolastico;
 use App\Scuola\Models\Elaborato;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 
 final class MoveCoverElaboratiCommand extends Command
 {
@@ -15,7 +15,7 @@ final class MoveCoverElaboratiCommand extends Command
 
     protected $description = 'Move elaborati files to storage/app/original/elaborati and rename them.';
 
-    public function handle():void
+    public function handle(): void
     {
 
         $movedCount = $this->moveCoverImagePath();
@@ -32,12 +32,12 @@ final class MoveCoverElaboratiCommand extends Command
             $coverPath = $elaborato->cover_image_path;
 
             if (empty($elaborato->collocazione)) {
-                throw new \RuntimeException("Elaborato ID {$elaborato->id} has null collocazione. Aborting.");
+                throw new RuntimeException("Elaborato ID {$elaborato->id} has null collocazione. Aborting.");
             }
 
             if (Storage::disk('public')->exists($coverPath)) {
                 $coverContents = Storage::disk('public')->get($coverPath);
-                if ($coverContents === null){
+                if ($coverContents === null) {
                     $this->error("File {$coverPath} non trovato per {$elaborato->collocazione}");
                 }
 
@@ -54,6 +54,7 @@ final class MoveCoverElaboratiCommand extends Command
                 $count++;
             }
         }
+
         return $count;
     }
 }

@@ -40,7 +40,7 @@ final class CoverImageController
             'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
         ]);
 
-        if ($elaborato->collocazione === null){
+        if ($elaborato->collocazione === null) {
             return redirect()->back()->with('error', 'Elaborato deve avere una collocazione.');
         }
 
