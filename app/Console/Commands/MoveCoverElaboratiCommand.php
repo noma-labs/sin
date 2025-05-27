@@ -11,9 +11,9 @@ use RuntimeException;
 
 final class MoveCoverElaboratiCommand extends Command
 {
-    protected $signature = 'elaborati:move';
+    protected $signature = 'elaborati:move-cover';
 
-    protected $description = 'Move elaborati files to storage/app/original/elaborati and rename them.';
+    protected $description = 'Move cover elaborati files to storage/app/preview/elaborati and rename them.';
 
     public function handle(): void
     {
