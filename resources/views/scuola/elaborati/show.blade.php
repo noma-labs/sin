@@ -59,6 +59,7 @@
                         <a
                             src="{{ asset("images/placeholder.svg") }}"
                             class="btn btn-primary mb-3"
+                            href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
                         >
                             Carica copertina
                         </a>

@@ -11,8 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 
 /**
+ * @property int $id
  * @property string $file_path
  * @property string $cover_image_path
+ * @property string $collocazione
  */
 final class Elaborato extends Model
 {
@@ -36,15 +38,6 @@ final class Elaborato extends Model
     public function coordinatori(): BelongsToMany
     {
         return $this->belongsToMany(Coordinatore::class, 'db_scuola.elaborati_coordinatori', 'elaborato_id', 'coordinatore_id')->orderby('nominativo');
-    }
-
-    public function getFilePath(): ?string
-    {
-        if (! Storage::disk('scuola')->exists($this->file_path)) {
-            return null;
-        }
-
-        return Storage::disk('scuola')->url($this->file_path);
     }
 
     protected static function newFactory()
