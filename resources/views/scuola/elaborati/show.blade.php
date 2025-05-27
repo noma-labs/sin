@@ -49,16 +49,17 @@
                 <div class="card-body">
                     <p><strong>Copertina:</strong></p>
 
-                    @if ($elaborato->getCoverImagePath())
+                    @if ($elaborato->cover_image_path)
                         <img
-                            src="{{ $elaborato->getCoverImagePath() }}"
+                            src="{{ route("scuola.elaborati.cover.show", $elaborato->id) }}"
                             class="mb-3"
                             alt="Thumbnail"
                         />
                     @else
                         <a
-                            href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
+                            src="{{ asset("images/placeholder.svg") }}"
                             class="btn btn-primary mb-3"
+                            href="{{ route("scuola.elaborati.cover.create", $elaborato->id) }}"
                         >
                             Carica copertina
                         </a>

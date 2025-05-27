@@ -11,20 +11,38 @@ use Illuminate\Support\Facades\Storage;
 
 final class CoverImageController
 {
-    public function create($id)
+    public function create(int $id)
     {
-        $elaborato = Elaborato::findOrFail($id);
+        $elaborato = Elaborato::query()->findOrFail($id);
 
         return view('scuola.elaborati.cover.create', compact('elaborato'));
     }
 
-    public function store(Request $request, string $id)
+    public function show(int $id)
     {
+        $elaborato = Elaborato::query()->findOrFail($id);
+
+        if (! Storage::disk('media_previews')->exists($elaborato->cover_image_path)) {
+            abort(404);
+        }
+
+        $fileContent = Storage::disk('media_previews')->get($elaborato->cover_image_path);
+        $mimeType = Storage::disk('media_previews')->mimeType($elaborato->cover_image_path) ?? 'image/png';
+
+        return response($fileContent, 200)->header('Content-Type', $mimeType);
+    }
+
+    public function store(Request $request, int $id)
+    {
+        $elaborato = Elaborato::query()->findOrFail($id);
+
         $request->validate([
             'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
         ]);
 
-        $elaborato = Elaborato::findOrFail($id);
+        if ($elaborato->collocazione === null) {
+            return redirect()->back()->with('error', 'Elaborato deve avere una collocazione.');
+        }
 
         $file = $request->file('file');
         $pathToImage = $file->getPathname();
@@ -35,14 +53,11 @@ final class CoverImageController
         $tempThumbnailPath = sys_get_temp_dir().'/cover-'.$id.'.png';
         imagepng($newImage, $tempThumbnailPath);
 
-        $thumbFileName = pathinfo((string) $elaborato->file_path, PATHINFO_FILENAME);
-        $thumbFolder = pathinfo((string) $elaborato->file_path, PATHINFO_DIRNAME);
+        $coverDestinationPath = "elaborati/{$elaborato->collocazione }.png";
 
-        $thumbFileName = $thumbFolder.'/'.$thumbFileName.'-cover.png';
+        Storage::disk('media_previews')->put($coverDestinationPath, file_get_contents($tempThumbnailPath));
 
-        Storage::disk('public')->put($thumbFileName, file_get_contents($tempThumbnailPath));
-
-        $elaborato->cover_image_path = $thumbFileName;
+        $elaborato->cover_image_path = $coverDestinationPath;
         $elaborato->save();
 
         imagedestroy($newImage);

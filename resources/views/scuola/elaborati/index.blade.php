@@ -113,9 +113,9 @@
             @foreach ($elaborati as $elaborato)
                 <div class="col">
                     <div class="card h-100" style="width: 18rem">
-                        @if ($elaborato->getCoverImagePath())
+                        @if ($elaborato->cover_image_path)
                             <img
-                                src="{{ $elaborato->getCoverImagePath() }}"
+                                src="{{ route("scuola.elaborati.cover.show", $elaborato->id) }}"
                                 class="card-img-top"
                             />
                         @else
