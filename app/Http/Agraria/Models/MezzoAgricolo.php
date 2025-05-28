@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Agraria\Models;
 
+use Database\Factories\MezzoAgricoloFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -21,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class MezzoAgricolo extends Model
 {
+    /** @use HasFactory<MezzoAgricoloFactory> */
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $connection = 'db_agraria';
@@ -56,5 +61,10 @@ final class MezzoAgricolo extends Model
         }
 
         return collect($scadenze);
+    }
+
+    protected static function newFactory(): MezzoAgricoloFactory
+    {
+        return MezzoAgricoloFactory::new();
     }
 }

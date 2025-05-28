@@ -69,6 +69,7 @@ final class AgrariaController
                 }
             }
             $new = [
+                'id' => $m->id,
                 'data' => $m->data,
                 'persona' => $m->persona,
                 'mezzo' => $mezzo->nome,

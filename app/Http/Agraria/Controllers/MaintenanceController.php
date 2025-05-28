@@ -7,19 +7,21 @@ namespace App\Agraria\Controllers;
 use App\Agraria\Models\Manutenzione;
 use App\Agraria\Models\ManutenzioneProgrammata;
 use App\Agraria\Models\MezzoAgricolo;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 final class MaintenanceController
 {
-    public function create()
+    public function create(): View
     {
-        $mezzi = MezzoAgricolo::orderBy('nome', 'asc')->get();
-        $programmate = ManutenzioneProgrammata::orderBy('ore', 'asc')->get();
+        $mezzi = MezzoAgricolo::query()->orderBy('nome', 'asc')->get();
+        $programmate = ManutenzioneProgrammata::query()->orderBy('ore', 'asc')->get();
 
         return view('agraria.maintenanance.create', compact('mezzi', 'programmate'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'mezzo' => 'required',
@@ -52,6 +54,51 @@ final class MaintenanceController
             $nuova_manutenzione->programmate()->attach($request->get('programmate'));
         }
 
-        return redirect()->route('agraria.index')->withSuccess("Manutenzione $mezzo->nome salvata correttamente");
+        return redirect()->route('agraria.index')->with('success', "Manutenzione $mezzo->nome salvata correttamente");
+    }
+
+    public function show(int $id): View
+    {
+        $manutenzione = Manutenzione::with('mezzo', 'programmate')->findOrFail($id);
+
+        return view('agraria.maintenanance.show', compact('manutenzione'));
+    }
+
+    public function edit(int $id): View
+    {
+        $manutenzione = Manutenzione::with('mezzo', 'programmate')->findOrFail($id);
+        $programmate = ManutenzioneProgrammata::orderBy('ore', 'asc')->get();
+
+        return view('agraria.maintenanance.edit', compact('manutenzione', 'programmate'));
+    }
+
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $request->validate([
+            'mezzo' => 'required',
+            'data' => 'required',
+            'ore' => 'required',
+            'persona' => 'required',
+        ], [
+            'mezzo.required' => 'Il mezzo è richiesto',
+            'data.required' => 'La data è richiesta',
+            'ore.required' => 'Le ore sono richieste',
+            'persona.required' => 'La persona è richiesta',
+        ]);
+
+        $manutenzione = Manutenzione::query()->findOrFail($id);
+        $manutenzione->data = $request->input('data');
+        $manutenzione->ore = $request->input('ore');
+        $manutenzione->spesa = $request->input('spesa', 0);
+        $manutenzione->persona = $request->input('persona');
+        $manutenzione->lavori_extra = $request->input('straordinarie', null);
+        $manutenzione->mezzo_agricolo = $request->input('mezzo');
+        $manutenzione->save();
+
+        // Sync manutenzioni programmate
+        $manutenzione->programmate()->sync($request->get('programmate', []));
+
+        return redirect()->route('agraria.maintenanace.show', $manutenzione->id)
+            ->with('success', 'Manutenzione aggiornata correttamente');
     }
 }

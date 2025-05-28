@@ -4,6 +4,14 @@
 
 @section("content")
     @include("partials.header", ["title" => "Ricerca Manutenzione"])
+    <div class="mb-3 text-end">
+        <a
+            href="{{ route("agraria.maintenanace.create") }}"
+            class="btn btn-success"
+        >
+            + Nuova Manutenzione
+        </a>
+    </div>
     <form
         action="{{ route("agraria.maintenanace.search.show") }}"
         method="get"

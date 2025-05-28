@@ -4,6 +4,14 @@
 
 @section("content")
     @include("partials.header", ["title" => "Mezzi Agricoli", "subtitle" => $vehicles->count()])
+    <div class="mb-3 text-end">
+        <a
+            href="{{ route("agraria.vehicle.create") }}"
+            class="btn btn-success"
+        >
+            + Nuovo Mezzo Agricolo
+        </a>
+    </div>
     <table id="table" class="table table-hover">
         <thead class="table-warning">
             <tr>
