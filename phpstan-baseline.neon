@@ -343,42 +343,6 @@ parameters:
 			path: app/Http/Agraria/Controllers/AgrariaController.php
 
 		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$data\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$mezzo_agricolo\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$ore\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$persona\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$spesa\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Agraria\\Models\\ManutenzioneProgrammata\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -391,27 +355,39 @@ parameters:
 			path: app/Http/Agraria/Controllers/MaintenanceController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Agraria\\Models\\MezzoAgricolo\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Method App\\Agraria\\Controllers\\MaintenanceController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Method App\\Agraria\\Controllers\\MaintenanceController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Agraria/Controllers/MaintenanceController.php
-
-		-
-			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$lavori_extra \(string\) does not accept mixed\.$#'
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$data \(string\) does not accept mixed\.$#'
 			identifier: assign.propertyType
-			count: 1
+			count: 2
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$lavori_extra \(string\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$mezzo_agricolo \(int\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$ore \(int\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$persona \(string\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
+			message: '#^Property App\\Agraria\\Models\\Manutenzione\:\:\$spesa \(float\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 2
 			path: app/Http/Agraria/Controllers/MaintenanceController.php
 
 		-
@@ -641,18 +617,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: app/Http/Agraria/Controllers/VehicleHourController.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$mezzo_agricolo\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Models/Manutenzione.php
-
-		-
-			message: '#^Access to an undefined property App\\Agraria\\Models\\Manutenzione\:\:\$ore\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Agraria/Models/Manutenzione.php
 
 		-
 			message: '#^Access to an undefined property App\\Agraria\\Models\\StoricoOre\:\:\$data\.$#'

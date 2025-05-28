@@ -8,12 +8,10 @@
     <div class="row">
         <div class="col-md-2">
             <div class="card">
-                <div class="card-header py-2">
-                    <h3 class="card-title mb-0" style="font-size: 1.1rem">
-                        Trattori con maggiori costi di manutenzione
-                    </h3>
+                <div class="card-header">
+                    <h3 class="card-title">Costo manutezioni</h3>
                 </div>
-                <div class="card-body py-2 px-2">
+                <div class="card-body">
                     @if (isset($mezziCostosi) && count($mezziCostosi))
                         <ul class="list-group list-group-flush">
                             @foreach ($mezziCostosi as $mezzo)
@@ -97,19 +95,28 @@
                     <table class="table table-hover table-bordered">
                         <thead class="thead-inverse">
                             <tr>
-                                <th width="15%">Data</th>
-                                <th width="20%">Nome Mezzo</th>
-                                <th width="55%">Lavori Fatti</th>
-                                <th width="10%">Persona</th>
+                                <th>Nome Mezzo</th>
+                                <th>Data</th>
+                                <th>Lavori Fatti</th>
+                                <th>Persona</th>
+                                <th>Oper.</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($ultime as $u)
                                 <tr>
-                                    <td>{{ $u["data"] }}</td>
                                     <td>{{ $u["mezzo"] }}</td>
+                                    <td>{{ $u["data"] }}</td>
                                     <td>{{ $u["lavori"] }}</td>
                                     <td>{{ $u["persona"] }}</td>
+                                    <td>
+                                        <a
+                                            href="{{ route("agraria.maintenanace.show", $u["id"]) }}"
+                                            class="btn btn-sm btn-secondary"
+                                        >
+                                            Dettaglio
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

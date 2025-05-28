@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace App\Agraria\Models;
 
+use Database\Factories\ManutenzioneFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $id.
- * @property string $lavori_extra
+ * @property int $id
+ * @property string $data
+ * @property int $ore
+ * @property float $spesa
+ * @property string $persona
+ * @property string|null $lavori_extra
+ * @property int $mezzo_agricolo
  */
 final class Manutenzione extends Model
 {
+    /** @use HasFactory<ManutenzioneFactory> */
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $connection = 'db_agraria';
@@ -48,5 +58,10 @@ final class Manutenzione extends Model
                 $mezzo->save();
             }
         });
+    }
+
+    protected static function newFactory(): ManutenzioneFactory
+    {
+        return ManutenzioneFactory::new();
     }
 }
