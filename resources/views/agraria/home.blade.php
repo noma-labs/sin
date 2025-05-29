@@ -5,11 +5,40 @@
 @section("content")
     @include("partials.header", ["title" => "Agraria"])
 
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row mb-4">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Costo manutezioni</h3>
+                    <h3 class="card-title">Costo anno ({{ now()->year }})</h3>
+                </div>
+                <div class="card-body text-center">
+                    <span class="fw-bold display-6 text-success">
+                        € {{ isset($costoAnno) ? number_format($costoAnno, 2, ',', '.') : '0,00' }}
+                    </span>
+                    @if(isset($yoyPerc))
+                        <div class="mt-2">
+                            @if($yoyPerc > 0)
+                                <span class="fw-bold text-danger">
+                                    ▲ {{ number_format($yoyPerc, 1, ',', '.') }}% rispetto all'anno precedente
+                                </span>
+                            @elseif($yoyPerc < 0)
+                                <span class="fw-bold text-success">
+                                    ▼ {{ number_format(abs($yoyPerc), 1, ',', '.') }}% rispetto all'anno precedente
+                                </span>
+                            @else
+                                <span class="fw-bold text-muted">
+                                    = 0% rispetto all'anno precedente
+                                </span>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Costo per trattore</h3>
                 </div>
                 <div class="card-body">
                     @if (isset($mezziCostosi) && count($mezziCostosi))
@@ -37,7 +66,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Prossime Manutenzioni</h3>
@@ -86,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Ultime Manutenzioni</h3>
@@ -97,21 +128,29 @@
                             <tr>
                                 <th>Nome Mezzo</th>
                                 <th>Data</th>
-                                <th>Lavori Fatti</th>
+                                <th>Lavori Extra</th>
+                                <th>Manut.</th>
                                 <th>Persona</th>
                                 <th>Oper.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ultime as $u)
+                            @foreach ($done as $d)
                                 <tr>
-                                    <td>{{ $u["mezzo"] }}</td>
-                                    <td>{{ $u["data"] }}</td>
-                                    <td>{{ $u["lavori"] }}</td>
-                                    <td>{{ $u["persona"] }}</td>
+                                    <td>{{ $d->mezzo->nome }}</td>
+                                    <td>{{ $d->data }}</td>
+                                    <td>{{ $d->lavori_extra }}</td>
+                                    <td>{{ $d->persona }}</td>
+                                    <td>
+                                        @if ($d->programmate && $d->programmate->count())
+                                            <span class="text-lowercase">
+                                                {{ $d->programmate->pluck("nome")->implode(", ") }}
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a
-                                            href="{{ route("agraria.maintenanace.show", $u["id"]) }}"
+                                            href="{{ route("agraria.maintenanace.show", $d->id) }}"
                                             class="btn btn-sm btn-secondary"
                                         >
                                             Dettaglio
