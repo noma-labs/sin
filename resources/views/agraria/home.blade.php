@@ -14,7 +14,7 @@
                 <div class="card-body text-center">
                     <span class="fw-bold display-6 text-success">
                         €
-                        {{ isset($costoAnno) ? number_format($costoAnno, 2, ",", ".") : "0,00" }}
+                        {{ isset($costCurrentYear) ? number_format($costCurrentYear, 2, ",", ".") : "0,00" }}
                     </span>
                     @if (isset($yoyPerc))
                         <div class="mt-2">
