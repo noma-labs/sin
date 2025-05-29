@@ -14,10 +14,6 @@ final class AgrariaController
     public function index()
     {
         $mezzi = MezzoAgricolo::orderBy('nome')->get();
-        // TODO: show the next maintenance for each vehicle (not a list of all the next maintenances)
-        $ultime = $this->getManutenzioniFatte();
-        $prossime = $this->getProssimeManutenzioni($mezzi);
-
         $mezziCostosi = MezzoAgricolo::query()
             ->select('mezzo_agricolo.id', 'mezzo_agricolo.nome')
             ->join('manutenzione', 'mezzo_agricolo.id', '=', 'manutenzione.mezzo_agricolo')
@@ -26,14 +22,32 @@ final class AgrariaController
             ->orderByDesc('totale_spesa')
             ->take(5)
             ->get();
+        $done = Manutenzione::with('mezzo', 'programmate')->orderBy('data', 'desc')->take(3)->get();
+        $prossime = $this->getProssimeManutenzioni($mezzi);
+
+        // Calcola il costo totale delle manutenzioni dell'anno corrente (da gennaio)
+        $startOfYear = Carbon::now()->startOfYear()->toDateString();
+        $endOfYear = Carbon::now()->endOfYear()->toDateString();
+        $costoAnno = Manutenzione::whereBetween('data', [$startOfYear, $endOfYear])->sum('spesa');
+
+        // Calcola il costo totale delle manutenzioni dell'anno precedente (da gennaio a dicembre)
+        $startOfLastYear = Carbon::now()->subYear()->startOfYear()->toDateString();
+        $endOfLastYear = Carbon::now()->subYear()->endOfYear()->toDateString();
+        $costoAnnoPrecedente = Manutenzione::whereBetween('data', [$startOfLastYear, $endOfLastYear])->sum('spesa');
+
+        // Calcola la variazione percentuale YoY
+        $yoyPerc = null;
+        if ($costoAnnoPrecedente !== 0) {
+            $yoyPerc = (($costoAnno - $costoAnnoPrecedente) / $costoAnnoPrecedente) * 100;
+        }
 
         if ($this->controllaOre($mezzi)) {
             $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
 
-            return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'mezziCostosi'))->with('errors', $errors);
+            return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'))->with('errors', $errors);
         }
 
-        return view('agraria.home', compact('mezzi', 'ultime', 'prossime', 'mezziCostosi'));
+        return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'));
     }
 
     public function controllaOre($m): bool
@@ -50,35 +64,6 @@ final class AgrariaController
         }
 
         return false;
-    }
-
-    public function getManutenzioniFatte(): array
-    {
-        $manutenzioni = Manutenzione::orderBy('data', 'desc')->take(5)->get();
-        $res = [];
-        foreach ($manutenzioni as $m) {
-            $mezzo = MezzoAgricolo::find($m->mezzo_agricolo);
-            $prog = $m->programmate()->get();
-            $lavori = [];
-            if ($m->lavori_extra !== null) {
-                $lavori[] = mb_strtolower($m->lavori_extra);
-            }
-            if ($prog->isNotEmpty()) {
-                foreach ($prog as $p) {
-                    $lavori[] = mb_strtolower((string) $p->nome);
-                }
-            }
-            $new = [
-                'id' => $m->id,
-                'data' => $m->data,
-                'persona' => $m->persona,
-                'mezzo' => $mezzo->nome,
-                'lavori' => implode(', ', $lavori),
-            ];
-            $res[] = $new;
-        }
-
-        return $res;
     }
 
     public function getProssimeManutenzioni($mezzi)

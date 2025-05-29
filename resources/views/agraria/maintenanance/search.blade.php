@@ -56,6 +56,7 @@
                     <th>Ore</th>
                     <th>Persona</th>
                     <th>Lavori Extra</th>
+                    <th>Dettaglio</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +69,14 @@
                         <td>{{ $maintenance->ore }}</td>
                         <td>{{ $maintenance->persona }}</td>
                         <td>{{ $maintenance->lavori_extra }}</td>
+                        <td>
+                            <a
+                                href="{{ route("agraria.maintenanace.show", $maintenance->id) }}"
+                                class="btn btn-sm btn-secondary"
+                            >
+                                Dettaglio
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
