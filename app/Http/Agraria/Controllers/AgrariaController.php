@@ -27,27 +27,27 @@ final class AgrariaController
 
         // Calcola il costo totale delle manutenzioni dell'anno corrente (da gennaio)
         $startOfYear = Carbon::now()->startOfYear()->toDateString();
-        $endOfYear = Carbon::now()->endOfYear()->toDateString();
-        $costoAnno = Manutenzione::whereBetween('data', [$startOfYear, $endOfYear])->sum('spesa');
+        $today = Carbon::now()->toDateString();
+        $costCurrentYear = Manutenzione::whereBetween('data', [$startOfYear, $today])->sum('spesa');
 
         // Calcola il costo totale delle manutenzioni dell'anno precedente (da gennaio a dicembre)
         $startOfLastYear = Carbon::now()->subYear()->startOfYear()->toDateString();
-        $endOfLastYear = Carbon::now()->subYear()->endOfYear()->toDateString();
-        $costoAnnoPrecedente = Manutenzione::whereBetween('data', [$startOfLastYear, $endOfLastYear])->sum('spesa');
+        $todayLastYear = Carbon::now()->subYear()->toDateString();
+        $costLastYear = Manutenzione::whereBetween('data', [$startOfLastYear, $todayLastYear])->sum('spesa');
 
         // Calcola la variazione percentuale YoY
         $yoyPerc = null;
-        if ($costoAnnoPrecedente !== 0) {
-            $yoyPerc = (($costoAnno - $costoAnnoPrecedente) / $costoAnnoPrecedente) * 100;
+        if ($costLastYear !== 0) {
+            $yoyPerc = (($costCurrentYear - $costLastYear) / $costLastYear) * 100;
         }
 
         if ($this->controllaOre($mezzi)) {
             $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
 
-            return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'))->with('errors', $errors);
+            return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costCurrentYear', 'yoyPerc'))->with('errors', $errors);
         }
 
-        return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'));
+        return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costCurrentYear', 'yoyPerc'));
     }
 
     public function controllaOre($m): bool
