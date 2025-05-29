@@ -14,7 +14,15 @@ final class AgrariaController
     public function index()
     {
         $mezzi = MezzoAgricolo::orderBy('nome')->get();
-        $done = Manutenzione::with('mezzo', 'programmate')->orderBy('data', 'desc')->take(5)->get();
+        $mezziCostosi = MezzoAgricolo::query()
+            ->select('mezzo_agricolo.id', 'mezzo_agricolo.nome')
+            ->join('manutenzione', 'mezzo_agricolo.id', '=', 'manutenzione.mezzo_agricolo')
+            ->selectRaw('SUM(CASE WHEN manutenzione.spesa IS NULL OR manutenzione.spesa = "" THEN 0 ELSE manutenzione.spesa END) as totale_spesa')
+            ->groupBy('mezzo_agricolo.id', 'mezzo_agricolo.nome')
+            ->orderByDesc('totale_spesa')
+            ->take(5)
+            ->get();
+        $done = Manutenzione::with('mezzo', 'programmate')->orderBy('data', 'desc')->take(3)->get();
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
         // Calcola il costo totale delle manutenzioni dell'anno corrente (da gennaio)
@@ -29,17 +37,17 @@ final class AgrariaController
 
         // Calcola la variazione percentuale YoY
         $yoyPerc = null;
-        if ($costoAnnoPrecedente != 0) {
+        if ($costoAnnoPrecedente !== 0) {
             $yoyPerc = (($costoAnno - $costoAnnoPrecedente) / $costoAnnoPrecedente) * 100;
         }
 
         if ($this->controllaOre($mezzi)) {
             $errors = collect(['Le ore lavorative dei trattori non sono state aggiornate da più di un mese. <a  class="btn btn-sm btn-danger" href="'.route('agraria.vehicle.hour.create').'">Aggiorna ore</a>']);
 
-            return view('agraria.home', compact('mezzi', 'done', 'prossime', 'costoAnno', 'yoyPerc'))->with('errors', $errors);
+            return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'))->with('errors', $errors);
         }
 
-        return view('agraria.home', compact('mezzi', 'done', 'prossime', 'costoAnno', 'yoyPerc'));
+        return view('agraria.home', compact('mezziCostosi', 'done', 'prossime', 'costoAnno', 'yoyPerc'));
     }
 
     public function controllaOre($m): bool

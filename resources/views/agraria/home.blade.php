@@ -13,17 +13,22 @@
                 </div>
                 <div class="card-body text-center">
                     <span class="fw-bold display-6 text-success">
-                        € {{ isset($costoAnno) ? number_format($costoAnno, 2, ',', '.') : '0,00' }}
+                        €
+                        {{ isset($costoAnno) ? number_format($costoAnno, 2, ",", ".") : "0,00" }}
                     </span>
-                    @if(isset($yoyPerc))
+                    @if (isset($yoyPerc))
                         <div class="mt-2">
-                            @if($yoyPerc > 0)
+                            @if ($yoyPerc > 0)
                                 <span class="fw-bold text-danger">
-                                    ▲ {{ number_format($yoyPerc, 1, ',', '.') }}% rispetto all'anno precedente
+                                    ▲
+                                    {{ number_format($yoyPerc, 1, ",", ".") }}%
+                                    rispetto all'anno precedente
                                 </span>
-                            @elseif($yoyPerc < 0)
+                            @elseif ($yoyPerc < 0)
                                 <span class="fw-bold text-success">
-                                    ▼ {{ number_format(abs($yoyPerc), 1, ',', '.') }}% rispetto all'anno precedente
+                                    ▼
+                                    {{ number_format(abs($yoyPerc), 1, ",", ".") }}%
+                                    rispetto all'anno precedente
                                 </span>
                             @else
                                 <span class="fw-bold text-muted">
@@ -38,7 +43,7 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Costo per trattore</h3>
+                    <h3 class="card-title">Trattori con costo maggiore</h3>
                 </div>
                 <div class="card-body">
                     @if (isset($mezziCostosi) && count($mezziCostosi))
