@@ -28,10 +28,15 @@ return new class extends Migration
 
     protected function insertAltroCliente(): void
     {
-        $nominativo = 'Altro Cliente';
+        // By convention "Altro Cliente" has id=0 and it is used to when the person is not present into the system.
+
+        // Disable auto_increment for this insert (MySQL only)
+        DB::connection('db_nomadelfia')->statement('SET SESSION sql_mode="NO_AUTO_VALUE_ON_ZERO"');
+
         DB::connection('db_nomadelfia')->table('persone')->insert(
             [
-                'nominativo' => $nominativo,
+                'id' => 0,
+                'nominativo' => 'Altro Cliente',
                 'sesso' => 'M',
                 'nome' => 'Altro',
                 'cognome' => 'Cliente',
@@ -41,10 +46,8 @@ return new class extends Migration
             ]
         );
 
-        // By convention "Altro Cliente" has id=0 and it is used to when the person is not present into the system.
-        $persona = Persona::where('nominativo', $nominativo)->first();
-        $persona->id = 0;
-        $persona->save();
+        // Restore default sql_mode if needed (optional)
+        DB::connection('db_nomadelfia')->statement('SET SESSION sql_mode=""');
     }
 
     protected function createGruppiFamiliari(): void
