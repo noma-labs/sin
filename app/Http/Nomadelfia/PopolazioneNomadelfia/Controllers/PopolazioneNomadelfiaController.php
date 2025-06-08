@@ -16,33 +16,38 @@ final class PopolazioneNomadelfiaController
         $positionFilter = $request->string('position');
         $sexFilter = $request->string('sex');
 
-        $query = PopolazioneAttuale::sortable();
+        $query = PopolazioneAttuale::query();
 
         if (! $ageFilter->isEmpty()) {
-            match ($ageFilter->toString()) {
-                'overage' => $query->overage(),
-                'underage' => $query->underage(),
-                default => null,
-            };
+            $age = $ageFilter->toString();
+            if ($age === 'overage') {
+                $query = $query->overage();
+            } elseif ($age === 'underage') {
+                $query = $query->underage();
+            }
         }
         if (! $positionFilter->isEmpty()) {
-            match ($positionFilter->toString()) {
-                'effettivo' => $query->effettivo(),
-                'postulante' => $query->postulante(),
-                'ospite' => $query->ospite(),
-                'figlio' => $query->figlio(),
-                default => null,
-            };
+            $position = $positionFilter->toString();
+            if ($position === 'effettivo') {
+                $query = $query->effettivo();
+            } elseif ($position === 'postulante') {
+                $query = $query->postulante();
+            } elseif ($position === 'ospite') {
+                $query = $query->ospite();
+            } elseif ($position === 'figlio') {
+                $query = $query->figlio();
+            }
         }
         if (! $sexFilter->isEmpty()) {
-            match ($sexFilter->toString()) {
-                'male' => $query->male(),
-                'female' => $query->female(),
-                default => null,
-            };
+            $sex = $sexFilter->toString();
+            if ($sex === 'male') {
+                $query = $query->male();
+            } elseif ($sex === 'female') {
+                $query = $query->female();
+            }
         }
 
-        $population = $query->get();
+        $population = $query->sortable()->get();
 
         return view('nomadelfia.popolazione.index', compact('population'));
     }

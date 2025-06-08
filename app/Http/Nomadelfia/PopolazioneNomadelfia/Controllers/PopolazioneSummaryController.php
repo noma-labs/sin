@@ -14,10 +14,9 @@ final class PopolazioneSummaryController
 {
     public function index()
     {
-        $totale = PopolazioneAttuale::count();
+        $totale = PopolazioneAttuale::query()->count();
 
         $maggiorenni = PopolazioneNomadelfia::maggiorenni();
-        $underage = PopolazioneAttuale::underage()->get();
         $effettivi = PopolazioneNomadelfia::effettivi();
         $postulanti = PopolazioneNomadelfia::postulanti();
         $ospiti = PopolazioneNomadelfia::ospiti();

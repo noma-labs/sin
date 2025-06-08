@@ -903,13 +903,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Autore\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 4
-			path: app/Http/Biblioteca/Controllers/AuthorsController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Autore\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
+			count: 3
 			path: app/Http/Biblioteca/Controllers/AuthorsController.php
 
 		-
@@ -938,12 +932,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Biblioteca\\Controllers\\AuthorsController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Biblioteca/Controllers/AuthorsController.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Controllers\\AuthorsController\:\:search\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Controllers/AuthorsController.php
@@ -1333,12 +1321,6 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$term\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -1369,12 +1351,6 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Classificazione\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
-
-		-
 			message: '#^Method App\\Biblioteca\\Controllers\\ClassificazioniController\:\:create\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1400,18 +1376,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Biblioteca\\Controllers\\ClassificazioniController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Controllers\\ClassificazioniController\:\:searchClassificazione\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Controllers\\ClassificazioniController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Controllers/ClassificazioniController.php
@@ -1449,13 +1413,7 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Editore\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 4
-			path: app/Http/Biblioteca/Controllers/EditorsController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Editore\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
+			count: 3
 			path: app/Http/Biblioteca/Controllers/EditorsController.php
 
 		-
@@ -1484,12 +1442,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Biblioteca\\Controllers\\EditorsController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Biblioteca/Controllers/EditorsController.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Controllers\\EditorsController\:\:search\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Controllers/EditorsController.php
@@ -5527,6 +5479,18 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/JoinLeaveHistoryController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneAttuale\>\:\:overage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneAttuale\>\:\:underage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneNomadelfiaController.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Controllers\\PopolazioneNomadelfiaController\:\:effettivi\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -5588,12 +5552,6 @@ parameters:
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:stats\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/PopolazioneSummaryController.php
@@ -5995,12 +5953,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneAttuale.php
 
 		-
-			message: '#^PHPDoc tag @method for method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneAttuale\:\:sortable\(\) return type contains generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneAttuale.php
-
-		-
 			message: '#^Parameter \#1 \$name of function route expects BackedEnum\|string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -6121,15 +6073,9 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:totalePopolazione\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
-
-		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:select\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
-			count: 4
+			count: 3
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
@@ -6261,18 +6207,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\QueryBuilders\\PopolazioneQueryBuilder\:\:presenteByNomeCognomeNominativo\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\QueryBuilders\\PopolazioneQueryBuilder\:\:stats\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
-
-		-
-			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:select\(\) expects string, float\|int\|string given\.$#'
-			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
 

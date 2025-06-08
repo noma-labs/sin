@@ -73,7 +73,7 @@ final class ExportPopolazioneData
 
     public function __construct()
     {
-        $this->totalePopolazione = PopolazioneAttuale::count();
+        $this->totalePopolazione = PopolazioneAttuale::query()->count();
         $this->maggiorenni = PopolazioneNomadelfia::maggiorenni();
         $this->figliMinorenni = PopolazioneNomadelfia::figliMinorenni();
         $this->effettivi = PopolazioneNomadelfia::effettivi();
