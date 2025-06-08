@@ -54,12 +54,6 @@ final class RoleController
         return view('admin.auth.roles.edit', compact('ruolo'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
@@ -71,20 +65,14 @@ final class RoleController
         return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiornato!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
-        if ($role->name === 'admin') {
-            return redirect()->route('roles.index')->withError("Non puoi elimiare il ruolo $role->nome");
+        if ($role->name === 'super-admin') {
+            return redirect()->route('roles.index')->withError("Non puoi elimiare il ruolo $role->name");
         }
         $role->delete();
 
-        return redirect()->route('roles.index')->withSuccess("Ruolo $role->nome eliminato");
+        return redirect()->route('roles.index')->withSuccess("Ruolo $role->name eliminato");
     }
 }

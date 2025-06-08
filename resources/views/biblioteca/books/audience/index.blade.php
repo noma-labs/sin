@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <a
-                href="{{ route("classificazioni.create") }}"
+                href="{{ route("audience.create") }}"
                 class="btn btn-success my-3"
             >
                 Aggiungi Classificazione
@@ -47,7 +47,7 @@
                                         aria-label="..."
                                     >
                                         <a
-                                            href="{{ route("classificazioni.edit", $classificazione->id) }}"
+                                            href="{{ route("audience.edit", $classificazione->id) }}"
                                             class="btn btn-info pull-left"
                                         >
                                             Modifica
@@ -59,7 +59,7 @@
                                         aria-label="..."
                                     >
                                         <form
-                                            action="{{ route("classificazioni.destroy", $classificazione->id) }}"
+                                            action="{{ route("audience.destroy", $classificazione->id) }}"
                                             method="POST"
                                             style="display: inline"
                                         >

@@ -22,10 +22,7 @@
             <a class="dropdown-item" href="{{ route("books.create") }}">
                 Aggiungi libro
             </a>
-            <a
-                class="dropdown-item"
-                href="{{ route("classificazioni.index") }}"
-            >
+            <a class="dropdown-item" href="{{ route("audience.index") }}">
                 Classificazioni
             </a>
             <a class="dropdown-item" href="{{ route("books.labels") }}">
@@ -43,7 +40,7 @@
     <li class="nav-item dropdown" aria-labelledby="navbarDropdown">
         <a
             class="nav-link dropdown-toggle"
-            href="{{ route("autori.index") }}"
+            href="{{ route("authors.index") }}"
             id="navbarDropdown"
             role="button"
             data-bs-toggle="dropdown"
@@ -53,18 +50,18 @@
             Autori
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route("autori.index") }}">
-                Ricerca Autore
+            <a class="dropdown-item" href="{{ route("authors.index") }}">
+                Visualizza
             </a>
-            <a class="dropdown-item" href="{{ route("autori.create") }}">
-                Aggiungi Autore
+            <a class="dropdown-item" href="{{ route("authors.create") }}">
+                Aggiungi
             </a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a
             class="nav-link dropdown-toggle"
-            href="{{ route("editori.index") }}"
+            href="{{ route("editors.index") }}"
             id="navbarDropdown"
             role="button"
             data-bs-toggle="dropdown"
@@ -74,11 +71,11 @@
             Editori
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route("editori.index") }}">
-                Ricerca Editore
+            <a class="dropdown-item" href="{{ route("editors.index") }}">
+                Visualizza
             </a>
-            <a class="dropdown-item" href="{{ route("editori.create") }}">
-                Aggiungi Editore
+            <a class="dropdown-item" href="{{ route("editors.create") }}">
+                Aggiungi
             </a>
         </div>
     </li>

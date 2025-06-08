@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 
 final class AuthorsController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $autori = Autore::orderBy('Autore')->paginate(150);
+        $term = $request->string('term');
+        $query = Autore::query();
+        if (! $term->isEmpty()) {
+            $query->where('autore', 'like', "%$term%");
+        }
+        $autori = $query->orderBy('autore')->paginate(150);
 
         return view('biblioteca.authors.index')->with('autori', $autori);
     }
@@ -52,20 +57,8 @@ final class AuthorsController
         return view('biblioteca.authors.edit')->with('autore', $autore);
     }
 
-    public function search(Request $request)
-    {
-        if ($request->has('idAutore')) {
-            $autore = Autore::findOrFail($request->input('idAutore'));
-            $books = $autore->libri()->orderBy('titolo');
-
-            return view('biblioteca.authors.show', compact('autore', 'books'));
-        }
-    }
-
     public function update(Request $request, string $id)
     {
-        // return $id;
-        $autore = Autore::findOrFail($id); // Get role with the given id
         $request->validate([
             'autore' => 'required|unique:db_biblioteca.autore,autore,'.$id.',id',
         ], [
@@ -73,18 +66,18 @@ final class AuthorsController
             'autore.unique' => "L'autore $request->autore esistente già.",
         ]
         );
+        $autore = Autore::findOrFail($id);
 
         $autore->fill(['autore' => $request->autore]);
         if ($autore->save()) {
-            return redirect()->route('autori.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
+            return redirect()->route('authors.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
         }
 
-        return redirect()->route('autori.index')->withErrors("Errore durante l'operaizone di aggiornamento");
-
+        return redirect()->route('authors.index')->withErrors("Errore durante l'operaizone di aggiornamento");
     }
 
     public function destroy()
     {
-        return redirect()->route('autori.index')->withErrors("Impossibile eliminare l'autore");
+        return redirect()->route('authors.index')->withErrors("Impossibile eliminare l'autore");
     }
 }

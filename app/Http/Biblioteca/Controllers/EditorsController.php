@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 
 final class EditorsController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $editori = Editore::orderBy('Editore')->paginate(150);
+        $term = $request->string('term');
+        $query = Editore::query();
+        if (! $term->isEmpty()) {
+            $query->where('editore', 'like', "%$term%");
+        }
+        $editori = $query->orderBy('Editore')->paginate(150);
 
         return view('biblioteca.editors.index')->with('editori', $editori);
     }
@@ -37,15 +42,6 @@ final class EditorsController
         return back()->withSuccess("Editore $editore->editore  aggiunto correttamente.");
     }
 
-    public function search(Request $request)
-    {
-        if ($request->filled('idEditore')) {
-            $editore = Editore::findOrFail($request->input('idEditore'));
-
-            return redirect()->route('editori.show', ['editori' => $editore->id]);
-        }
-    }
-
     public function show($id)
     {
         $editore = Editore::findOrFail($id);
@@ -64,24 +60,20 @@ final class EditorsController
 
     public function update(Request $request, string $id)
     {
-        $editore = Editore::findOrFail($id);
-
         $request->validate([
             'editore' => 'required|unique:db_biblioteca.editore,editore,'.$id.',id',
-            // 'autore'=>'required|unique:db_biblioteca.autore,Autore,'.$id.",ID_AUTORE",
         ], [
             'editore.required' => "L'editore non può essere vuoto.",
             'editore.unique' => "L'editore $request->editore esistente già.",
-        ]
-        );
-
+        ]);
+        $editore = Editore::findOrFail($id);
         $editore->fill(['editore' => $request->editore])->save();
 
-        return redirect()->route('editori.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
+        return redirect()->route('editors.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
     }
 
     public function destroy()
     {
-        return redirect()->route('editori.index')->withError("Impossibile eliminare l'editore");
+        return redirect()->route('editors.index')->withError("Impossibile eliminare l'editore");
     }
 }

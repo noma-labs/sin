@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Admin\Controllers\LogsActivityController;
-use App\Admin\Controllers\RisorsaController;
+use App\Admin\Controllers\PermissionController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\Agraria\Controllers\AgrariaController;
@@ -95,28 +95,36 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('/home', 'home')->name('home');
+Route::view('home', 'home')->name('home');
 
-Route::group([], function () {
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
-    Route::post('login', [LoginController::class, 'login'])->middleware('guest');
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-});
+Route::get('login', [LoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
+Route::post('login', [LoginController::class, 'login'])->middleware('guest');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('admin')->middleware('role:super-admin')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('admin');
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('users-new', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('roles', RoleController::class);
-    Route::get('risorse', [RisorsaController::class, 'index']);
-    Route::get('logs', [LogsActivityController::class, 'index'])->name('admin.logs');
+
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('roles-new', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('roles/{id}', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{id}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('logs', [LogsActivityController::class, 'index'])->name('logs.index');
 });
 
 Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
 
-    Route::get('people', [PersonController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('person.create');
+    Route::get('people-new', [PersonController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('person.create');
     Route::post('people', [PersonController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('person.store');
     Route::get('people/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('person.show');
 
@@ -302,29 +310,26 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::post('labels/remove/{idLibro}', [LabelsController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete-book');
     Route::get('labels/print', [LabelsController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.print');
 
-    Route::group([
-        'middleware' => [
-            'can:biblioteca.autore.inserisci',
-            'can:biblioteca.autore.visualizza',
-        ],
-    ], function () {
-        Route::get('autori/search', [AuthorsController::class, 'search'])->name('autori.ricerca');
-        Route::resource('autori', AuthorsController::class);
-    });
+    Route::get('authors', [AuthorsController::class, 'index'])->middleware('can:biblioteca.autore.visualizza')->name('authors.index');
+    Route::get('authors/{id}', [AuthorsController::class, 'show'])->middleware('can:biblioteca.autore.visualizza')->name('authors.show');
+    Route::get('authors-new', [AuthorsController::class, 'create'])->middleware('can:biblioteca.autore.inserisci')->name('authors.create');
+    Route::post('authors', [AuthorsController::class, 'store'])->middleware('can:biblioteca.autore.inserisci')->name('authors.store');
+    Route::get('authors/{id}/edit', [AuthorsController::class, 'edit'])->middleware('can:biblioteca.autore.visualizza')->name('authors.edit');
+    Route::put('authors/{id}', [AuthorsController::class, 'update'])->middleware('can:biblioteca.autore.visualizza')->name('authors.update');
 
-    Route::group([
-        'middleware' => [
-            'can:biblioteca.autore.visualizza',
-            'can:biblioteca.autore.inserisci',
-        ],
-    ], function () {
-        Route::get('editori/search', [EditorsController::class, 'search'])->name('editori.ricerca');
-        Route::resource('editori', EditorsController::class);
-    });
+    Route::get('editors', [EditorsController::class, 'index'])->name('editors.index');
+    Route::get('editors/{id}', [EditorsController::class, 'show'])->middleware('can:biblioteca.editore.visualizza')->name('editors.show');
+    Route::get('editors-new', [EditorsController::class, 'create'])->middleware('can:biblioteca.editore.inserisci')->name('editors.create');
+    Route::post('editors', [EditorsController::class, 'store'])->middleware('can:biblioteca.editore.inserisci')->name('editors.store');
+    Route::get('editors/{id}/edit', [EditorsController::class, 'edit'])->middleware('can:biblioteca.editore.visualizza')->name('editors.edit');
+    Route::put('editors/{id}', [EditorsController::class, 'update'])->middleware('can:biblioteca.editore.visualizza')->name('editors.update');
 
-    Route::group(['middleware' => ['can:biblioteca.libro.visualizza']], function () {
-        Route::resource('classificazioni', ClassificazioniController::class);
-    });
+    Route::get('audiences', [ClassificazioniController::class, 'index'])->middleware('can:biblioteca.libro.visualizza')->name('audience.index');
+    Route::get('audiences-new', [ClassificazioniController::class, 'create'])->middleware('can:biblioteca.libro.visualizza')->name('audience.create');
+    Route::post('audiences', [ClassificazioniController::class, 'store'])->middleware('can:biblioteca.libro.visualizza')->name('audience.store');
+    Route::put('audiences/{id}', [ClassificazioniController::class, 'update'])->middleware('can:biblioteca.libro.visualizza')->name('audience.update');
+    Route::get('audiences/{id}', [ClassificazioniController::class, 'edit'])->middleware('can:biblioteca.libro.visualizza')->name('audience.edit');
+    Route::delete('audiences/{id}', [ClassificazioniController::class, 'destroy'])->middleware('can:biblioteca.libro.visualizza')->name('audience.destroy');
 
     Route::get('video', [VideoController::class, 'showSearchVideoForm'])->name('video');
     Route::get('video/search', [VideoController::class, 'searchConfirm'])->name('video.ricerca.submit');

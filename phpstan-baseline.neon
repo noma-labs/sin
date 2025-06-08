@@ -85,10 +85,10 @@ parameters:
 			path: app/Http/Admin/Controllers/LogsActivityController.php
 
 		-
-			message: '#^Method App\\Admin\\Controllers\\RisorsaController\:\:index\(\) has no return type specified\.$#'
+			message: '#^Method App\\Admin\\Controllers\\PermissionController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Admin/Controllers/RisorsaController.php
+			path: app/Http/Admin/Controllers/PermissionController.php
 
 		-
 			message: '#^Access to an undefined property Spatie\\Permission\\Contracts\\Role\:\:\$nome\.$#'
@@ -121,6 +121,18 @@ parameters:
 			path: app/Http/Admin/Controllers/RoleController.php
 
 		-
+			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:destroy\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Admin/Controllers/RoleController.php
+
+		-
+			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:destroy\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Admin/Controllers/RoleController.php
+
+		-
 			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:edit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -147,6 +159,18 @@ parameters:
 		-
 			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: app/Http/Admin/Controllers/RoleController.php
+
+		-
+			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:update\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Admin/Controllers/RoleController.php
+
+		-
+			message: '#^Method App\\Admin\\Controllers\\RoleController\:\:update\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Admin/Controllers/RoleController.php
 
@@ -255,12 +279,6 @@ parameters:
 		-
 			message: '#^Method App\\Admin\\Controllers\\UserController\:\:restore\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Admin/Controllers/UserController.php
-
-		-
-			message: '#^Method App\\Admin\\Controllers\\UserController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: app/Http/Admin/Controllers/UserController.php
 
@@ -861,7 +879,7 @@ parameters:
 		-
 			message: '#^Cannot call method hasRole\(\) on Illuminate\\Contracts\\Auth\\Authenticatable\|null\.$#'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: app/Http/Auth/Controllers/LoginController.php
 
 		-
@@ -2107,12 +2125,6 @@ parameters:
 			path: app/Http/Biblioteca/Models/Libro.php
 
 		-
-			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: app/Http/Biblioteca/Models/Libro.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2697,12 +2709,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:setAttribute\(\) should return \$this\(App\\Nomadelfia\\Azienda\\Models\\Azienda\) but returns mixed\.$#'
 			identifier: return.type
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
-
-		-
-			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
-			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
 
@@ -3591,12 +3597,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
-			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
@@ -5913,12 +5913,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:setAttribute\(\) should return \$this\(App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\) but returns mixed\.$#'
 			identifier: return.type
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
-
-		-
-			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
-			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
@@ -9867,12 +9861,6 @@ parameters:
 		-
 			message: '#^Method App\\Scuola\\Models\\Coordinatore\:\:setAttribute\(\) should return \$this\(App\\Scuola\\Models\\Coordinatore\) but returns mixed\.$#'
 			identifier: return.type
-			count: 1
-			path: app/Http/Scuola/Models/Coordinatore.php
-
-		-
-			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
-			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Scuola/Models/Coordinatore.php
 

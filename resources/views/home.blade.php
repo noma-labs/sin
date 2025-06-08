@@ -185,7 +185,7 @@
                         </div>
                         <div class="card-footer">
                             <a
-                                href="{{ route("admin") }}"
+                                href="{{ route("users.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi

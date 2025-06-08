@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-2">
-                <form action="{{ route("editori.store") }}" method="POST">
+                <form action="{{ route("editors.store") }}" method="POST">
                     @csrf
                     <div class="">
                         <label for="editore">Editore</label>

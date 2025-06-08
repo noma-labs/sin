@@ -11,14 +11,14 @@ final class ClassificazioniController
 {
     public function index()
     {
-        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20); // Get all classificazioni
+        $classificazioni = Classificazione::orderBy('descrizione')->paginate(20);
 
-        return view('biblioteca.books.classificazioni.index')->with('classificazioni', $classificazioni);
+        return view('biblioteca.books.audience.index')->with('classificazioni', $classificazioni);
     }
 
     public function create()
     {
-        return view('biblioteca.books.classificazioni.create');
+        return view('biblioteca.books.audience.create');
     }
 
     public function store(Request $request)
@@ -32,39 +32,14 @@ final class ClassificazioniController
         );
         $classificazione = Classificazione::create($request->only('descrizione'));
 
-        return redirect()->route('classificazioni.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
-
-    }
-
-    public function show()
-    {
-        return redirect('classificazioni');
+        return redirect()->route('audience.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
     }
 
     public function edit($id)
     {
         $classificazione = Classificazione::findOrFail($id);
 
-        return view('biblioteca.books.classificazioni.edit')->with('classificazione', $classificazione);
-    }
-
-    public function searchClassificazione(Request $request)
-    {
-        $term = $request->term;
-        if ($term) {
-            $classificazioni = Classificazione::where('descrizione', 'LIKE', '%'.$term.'%')->orderBy('descrizione')->get();
-        }
-        if (! empty($classificazioni)) {
-            $results = [];
-            foreach ($classificazioni as $classificazione) {
-                $results[] = ['value' => $classificazione->id, 'label' => $classificazione->descrizione, 'url' => route('classificazioni.edit', [$classificazione->id])];
-            }
-
-            return response()->json($results);
-        }
-
-        return response()->json(['value' => '', 'label' => 'classificazione inesistente']);
-
+        return view('biblioteca.books.audience.edit')->with('classificazione', $classificazione);
     }
 
     public function update(Request $request, string $id)
@@ -76,18 +51,18 @@ final class ClassificazioniController
             'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
         ]
         );
-        $classificazione = Classificazione::findOrFail($id); // Get role with the given id
+        $classificazione = Classificazione::findOrFail($id);
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
-            return redirect()->route('classificazioni.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
+            return redirect()->route('audience.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
         }
 
-        return redirect()->route('classificazioni.index')->withError("Errore durante l'operaizone di aggiornamento");
+        return redirect()->route('audience.index')->withError("Errore durante l'operaizone di aggiornamento");
     }
 
     public function destroy()
     {
-        return redirect()->route('classificazioni.index')->withError('Impossibile eliminare la classificazione');
+        return redirect()->route('audience.index')->withError('Impossibile eliminare la classificazione');
     }
 }
