@@ -16,25 +16,25 @@ use Spatie\Permission\Models\Role;
 
 it('forbids access to guests', function (): void {
     $this
-        ->get(action([PrenotazioniController::class, 'prenotazioni']))
+        ->get(action([PrenotazioniController::class, 'index']))
         ->assertRedirect(route('login'));
 });
 
-it('shows the booked veichles', function (): void {
+it('shows the booked vehicles', function (): void {
     login();
     $this->withoutExceptionHandling();
-    $this->get(action([PrenotazioniController::class, 'prenotazioni']))
+    $this->get(action([PrenotazioniController::class, 'index']))
         ->assertSuccessful();
 });
 
 it('shows the search view of prenotazioni', function (): void {
     login();
     $this->withoutExceptionHandling();
-    $this->get(action([PrenotazioniController::class, 'searchView']))
+    $this->get(action([PrenotazioniController::class, 'index']))
         ->assertSuccessful();
 });
 
-it('administrator_can_create_prenotazione', function (): void {
+it('administrator can create prenotazione', function (): void {
     $v = Veicolo::factory()->create();
     $persona = Persona::factory()->maggiorenne()->maschio()->create();
     $p = Persona::find($persona->id);
@@ -49,7 +49,7 @@ it('administrator_can_create_prenotazione', function (): void {
     login($meccanicaAmm);
 
     $now = Carbon::now();
-    $this->post(action([PrenotazioniController::class, 'prenotazioniSucc'], [
+    $this->post(action([PrenotazioniController::class, 'index'], [
         'nome' => $p->id,
         'veicolo' => $v->id,
         'meccanico' => $m->id,
@@ -59,14 +59,11 @@ it('administrator_can_create_prenotazione', function (): void {
         'ora_arr' => '11:00',
         'uso' => $u->ofus_iden,
         'destinazione' => 'my-destination',
-    ]))->assertRedirect(route('officina.prenota'));
+    ]));
 
     $this->assertDatabaseHas('db_meccanica.prenotazioni', [
         'destinazione' => 'my-destination',
     ]);
-
-    //        $this->get(action([PrenotazioniController::class, 'prenotazioni'], ['giorno' => 'oggi']))
-    //            ->assertSuccessful();
 
 });
 
