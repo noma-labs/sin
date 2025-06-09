@@ -6667,7 +6667,7 @@ parameters:
 			path: app/Http/Officina/Controllers/SearchableReservationsController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\ViewMeccanici\:\:findorFail\(\)\.$#'
+			message: '#^Call to an undefined static method App\\Officina\\Models\\ViewMeccanici\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Officina/Controllers/SearchableReservationsController.php

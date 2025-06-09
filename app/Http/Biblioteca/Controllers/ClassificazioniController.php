@@ -55,7 +55,7 @@ final class ClassificazioniController
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
-            return redirect()->route('audience.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in '. $classificazione->descrizione.' aggiornato in ");
+            return redirect()->route('audience.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in {$classificazione->descrizione}");
         }
 
         return redirect()->route('audience.index')->withError("Errore durante l'operaizone di aggiornamento");

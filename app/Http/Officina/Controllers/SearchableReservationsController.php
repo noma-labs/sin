@@ -37,7 +37,7 @@ final class SearchableReservationsController
                     $orderBy = 'titolo';
                 }
                 if ($request->filled('meccanico_id')) {
-                    $meccanico = ViewMeccanici::findorFail($request->input('meccanico_id'));
+                    $meccanico = ViewMeccanici::findOrFail($request->input('meccanico_id'));
                     $q->where('meccanico_id', $meccanico->persona_id);
                     $msgSearch = $msgSearch.' Meccanico='.$meccanico->nominativo;
                     $orderBy = 'titolo';
