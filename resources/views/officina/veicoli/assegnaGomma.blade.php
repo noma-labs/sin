@@ -8,7 +8,7 @@
             class="form"
             method="POST"
             id="add-gomma"
-            action="{{ route("veicoli.gomme.store", ["id" => $veicolo->id]) }}"
+            action="{{ route("veicoli.tires.store", ["id" => $veicolo->id]) }}"
         >
             @csrf
             <div class="row">

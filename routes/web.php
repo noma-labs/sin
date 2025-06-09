@@ -62,8 +62,10 @@ use App\Officina\Controllers\FiltriController;
 use App\Officina\Controllers\GommeController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
+use App\Officina\Controllers\SearchableReservationsController;
+use App\Officina\Controllers\VehicleDisposalController;
+use App\Officina\Controllers\VehicleTiresController;
 use App\Officina\Controllers\VeicoliController;
-use App\Officina\Controllers\VeicoliGommeController;
 use App\Patente\Controllers\PatenteCategorieController;
 use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
@@ -358,35 +360,36 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {
-    Route::get('/', [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
-    Route::post('/', [PrenotazioniController::class, 'prenotazioniSucc'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
-    Route::get('delete/{id}/', [PrenotazioniController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
-    Route::get('modifica/{id}/', [PrenotazioniController::class, 'modifica'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
-    Route::post('modifica/{id}/', [PrenotazioniController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
-    Route::get('all/', [PrenotazioniController::class, 'all'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.all');
-    Route::get('prenotazioni', [PrenotazioniController::class, 'searchView'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
-    Route::get('prenotazioni/search', [PrenotazioniController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca.submit');
+    Route::get('reservations', [PrenotazioniController::class, 'index'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
+    Route::post('reservations', [PrenotazioniController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
+    Route::delete('reservations/{id}', [PrenotazioniController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
+    Route::get('reservations/{id}', [PrenotazioniController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
+    Route::put('reservations/{id}', [PrenotazioniController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
 
-    Route::get('veicoli', [VeicoliController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
-    Route::get('veicoli/demoliti', [VeicoliController::class, 'veicoliDemoliti'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
-    Route::post('veicoli/riabilita', [VeicoliController::class, 'veicoloRiabilita'])->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');
-    Route::delete('veicoli/elimina-definitivamente', [VeicoliController::class, 'veicoloEliminaDefinitivamente'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.elimina.definitivamente');
-    Route::get('veicoli/nuovo', [VeicoliController::class, 'viewCreate'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.nuovo');
-    Route::post('veicoli/nuovo', [VeicoliController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
-    Route::get('veicoli/{id}', [VeicoliController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
-    Route::delete('veicoli/{id}/gomme/{idGomma}', [VeicoliGommeController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.delete');
-    Route::post('veicoli/{id}/gomme', [VeicoliGommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.store');
-    Route::get('veicoli/modifica/{id}', [VeicoliController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
-    Route::post('veicoli/modifica/{id}', [VeicoliController::class, 'editConfirm'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica.confirm');
-    Route::delete('demolisci/veicolo', [VeicoliController::class, 'demolisci'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
+    Route::get('reservations-search', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
 
-    Route::post('filtro/aggiungi', [VeicoliController::class, 'aggiungiFiltro'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::get('filtri', [FiltriController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
-    Route::post('filtri', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::delete('filtri/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
-    Route::post('olio/aggiungi', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
-    Route::post('gomma', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
-    Route::get('/patenti', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
+    Route::get('veichels', [VeicoliController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
+    Route::get('veichels-new', [VeicoliController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.nuovo');
+    Route::post('veichels', [VeicoliController::class, 'store'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
+    Route::get('veichels/{id}', [VeicoliController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
+    Route::delete('veichels/{id}', [VeicoliController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
+    Route::get('veichels/{id}/edit', [VeicoliController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
+    Route::put('veichels/{id}', [VeicoliController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica.confirm');
+
+    Route::get('disposed', [VehicleDisposalController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
+    Route::put('disposed/{id}', [VehicleDisposalController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');
+    Route::delete('disposed/{id}', [VehicleDisposalController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.elimina.definitivamente');
+
+    Route::delete('veichels/{id}/tires/{idGomma}', [VehicleTiresController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.delete');
+    Route::post('veichels/{id}/tires', [VehicleTiresController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.store');
+
+    Route::get('filters', [FiltriController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
+    Route::post('filters', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
+    Route::delete('filters/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
+
+    Route::post('oils', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
+    Route::post('tires', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
+    Route::get('patents', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 
 Route::prefix('patente')->middleware('auth')->group(function () {

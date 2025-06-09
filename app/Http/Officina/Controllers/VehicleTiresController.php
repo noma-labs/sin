@@ -8,7 +8,7 @@ use App\Officina\Models\TipoGomme;
 use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 
-final class VeicoliGommeController
+final class VehicleTiresController
 {
     public function delete($id, $idGomma)
     {

@@ -9,6 +9,7 @@
         action="{{ route("officina.prenota.update", $pren->id) }}"
     >
         @csrf
+        @method("PUT")
 
         <livewire:prenotazione-veicoli
             :dataPartenza="$pren->data_partenza"

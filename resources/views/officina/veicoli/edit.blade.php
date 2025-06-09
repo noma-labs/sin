@@ -11,6 +11,7 @@
                 action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
             >
                 @csrf
+                @method("PUT")
                 <div class="row mb-3 g-3">
                     <div class="col-6 col-md-3">
                         <label class="form-label">Targa</label>
@@ -277,7 +278,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <form
-                                            action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
+                                            action="{{ route("veicoli.tires.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
                                             id="form-delete-{{ $gv->id }}"
                                             method="POST"
                                         >
@@ -417,17 +418,12 @@
                             e non sarà più possibile recuperarlo.
                         </p>
                         <form
-                            action="{{ route("veicoli.elimina.definitivamente") }}"
+                            action="{{ route("veicoli.elimina.definitivamente", $veicolo->id) }}"
                             method="post"
                             id="form-elimina"
                         >
                             @csrf
                             @method("DELETE")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
                         </form>
                     </div>
                 </x-slot>
@@ -458,17 +454,12 @@
                             comunità.
                         </p>
                         <form
-                            action="{{ route("veicolo.riabilita") }}"
+                            action="{{ route("veicolo.riabilita", $veicolo->id) }}"
                             method="post"
                             id="form-riabilita"
                         >
                             @csrf
-                            @method("POST")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
+                            @method("PUT")
                         </form>
                     </div>
                 </x-slot>
@@ -501,17 +492,12 @@
                             .
                         </p>
                         <form
-                            action="{{ route("veicoli.demolisci") }}"
+                            action="{{ route("veicoli.demolisci", $veicolo->id) }}"
                             method="post"
                             id="form-demolisci"
                         >
                             @csrf
                             @method("DELETE")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
                         </form>
                     </div>
                 </x-slot>

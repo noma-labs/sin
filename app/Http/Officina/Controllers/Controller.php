@@ -14,7 +14,6 @@ use App\Officina\Models\Tipologia;
 use App\Officina\Models\TipoOlio;
 use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
-use Throwable;
 
 final class VeicoliController
 {
@@ -68,7 +67,7 @@ final class VeicoliController
         return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
-    public function editConfirm(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $input = $request->except(['_token', 'marca_id']);
         $veicolo = Veicolo::find($id);
@@ -81,7 +80,7 @@ final class VeicoliController
         return redirect()->route('veicoli.dettaglio', ['id' => $id]);
     }
 
-    public function viewCreate()
+    public function create()
     {
         $marche = Marca::orderBy('nome', 'asc')->get();
         $impieghi = Impiego::orderBy('nome', 'asc')->get();
@@ -95,7 +94,7 @@ final class VeicoliController
         return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nome' => 'required',
@@ -137,70 +136,5 @@ final class VeicoliController
         $veicolo->delete();
 
         return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato demolito");
-    }
-
-    public function aggiungiFiltro(Request $request)
-    {
-        $request->validate([
-            'codice' => 'required',
-            'tipo' => 'required',
-        ]);
-
-        $note = $request->input('note', '');
-
-        // salva il filtro
-        try {
-            $filtro = TipoFiltro::create([
-                'codice' => mb_strtoupper((string) $request->input('codice')),
-                'tipo' => $request->input('tipo'),
-                'note' => $note,
-            ]);
-        } catch (Throwable) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError('Errore durante il salvataggio del filtro: filtro già esistente');
-        }
-
-        if ($filtro) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Filtro $filtro->codice salvato correttamente");
-        }
-
-        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio del filtro $filtro->codice");
-
-    }
-
-    public function aggiungiOlio(Request $request)
-    {
-        $request->validate([
-            'codice' => 'required',
-        ]);
-
-        $note = $request->input('note', '');
-
-        try {
-            $olio = TipoOlio::create([
-                'codice' => mb_strtoupper((string) $request->input('codice')),
-                'note' => $note,
-            ]);
-        } catch (Throwable) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio: olio già esistente");
-        }
-
-        if ($olio) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withSuccess("Olio $olio->codice salvato correttamente");
-        }
-
-        return redirect(route('veicoli.modifica', ['id' => $request->input('veicolo')]))->withError("Errore durante il salvataggio dell'olio $olio->codice");
-
-    }
-
-    public function aggiungiGomma(Request $request)
-    {
-        $request->validate([
-            'codice' => 'required',
-        ]);
-        $gomma = TipoGomme::create([
-            'codice' => $request->input('codice'),
-        ]);
-
-        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
     }
 }
