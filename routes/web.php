@@ -60,6 +60,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneCon
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Officina\Controllers\FiltriController;
 use App\Officina\Controllers\GommeController;
+use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\SearchableReservationsController;
@@ -387,9 +388,9 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::post('filters', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
     Route::delete('filters/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
 
-    Route::post('oils', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
+    Route::post('oils', [OilsController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
     Route::post('tires', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
-    Route::get('patents', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
+    Route::get('patents', PatentiController::class)->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 
 Route::prefix('patente')->middleware('auth')->group(function () {
