@@ -117,7 +117,7 @@ final class PrenotazioniController
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
-        return view('officina.prenotazioni.modifica', compact('pren', 'clienti', 'usi', 'meccanici'));
+        return view('officina.prenotazioni.edit', compact('pren', 'clienti', 'usi', 'meccanici'));
     }
 
     public function update(Request $request, $id)

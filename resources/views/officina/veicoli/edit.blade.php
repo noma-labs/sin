@@ -8,7 +8,7 @@
             <form
                 method="POST"
                 id="veicolo-form-modifica"
-                action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
+                action="{{ route("veicoli.update", $veicolo->id) }}"
             >
                 @csrf
                 @method("PUT")

@@ -93,16 +93,8 @@
                 class="col-md-2 d-flex align-items-end justify-content-end gap-2"
             >
                 <button type="submit" id="prenota" class="btn btn-primary">
-                    Modifica
+                    Salva
                 </button>
-                @can("meccanica.prenotazione.elimina")
-                    <a
-                        class="btn btn-danger"
-                        href="{{ route("officina.prenota.delete", $pren->id) }}"
-                    >
-                        Elimina
-                    </a>
-                @endcan
             </div>
         </div>
         <br />

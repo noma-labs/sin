@@ -68,9 +68,9 @@ final class VeicoliController
         return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
-    public function editConfirm(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $input = $request->except(['_token', 'marca_id']);
+        $input = $request->except(['_token', 'marca_id', '_method']);
         $veicolo = Veicolo::find($id);
         $veicolo->update($input);
         if ($request->filled('marca_id')) {
@@ -81,7 +81,7 @@ final class VeicoliController
         return redirect()->route('veicoli.dettaglio', ['id' => $id]);
     }
 
-    public function viewCreate()
+    public function create()
     {
         $marche = Marca::orderBy('nome', 'asc')->get();
         $impieghi = Impiego::orderBy('nome', 'asc')->get();
@@ -95,7 +95,7 @@ final class VeicoliController
         return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nome' => 'required',

@@ -200,13 +200,6 @@
                                     >
                                         Mod.
                                     </a>
-                                    <a
-                                        role="button"
-                                        class="btn btn-danger"
-                                        href="{{ route("officina.prenota.delete", $pren->id) }}"
-                                    >
-                                        Eli.
-                                    </a>
                                 </div>
                             </td>
                         </tr>
