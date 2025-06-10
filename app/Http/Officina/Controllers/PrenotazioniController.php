@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Officina\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use App\Officina\Actions\CreatePrenotazioneAction;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
@@ -85,18 +84,19 @@ final class PrenotazioniController
         if ($validRequest->fails()) {
             return redirect(route('officina.index'))->withErrors($validRequest)->withInput();
         }
-        (new CreatePrenotazioneAction)(
-            Persona::findOrFail($request->get('nome')),
-            Veicolo::findOrFail($request->get('veicolo')),
-            Persona::findOrFail($request->get('meccanico')),
-            $request->get('data_par'),
-            $request->get('data_arr'),
-            $request->get('ora_par'),
-            $request->get('ora_arr'),
-            Uso::findOrFail($request->get('uso')),
-            $request->input('note', ''),
-            $request->input('destinazione', '')
-        );
+
+        Prenotazioni::create([
+            'cliente_id' => Persona::findOrFail($request->get('nome'))->id,
+            'veicolo_id' => Veicolo::findOrFail($request->get('veicolo'))->id,
+            'meccanico_id' => Persona::findOrFail($request->get('meccanico'))->id,
+            'data_partenza' => $request->get('data_par'),
+            'ora_partenza' => $request->get('ora_par'),
+            'data_arrivo' => $request->get('data_arr'),
+            'ora_arrivo' => $request->get('ora_arr'),
+            'uso_id' => Uso::findOrFail($request->get('uso'))->ofus_iden,
+            'note' => $request->input('note', ''),
+            'destinazione' => $request->input('destinazione', ''),
+        ]);
 
         return redirect()->back()->withSuccess('Prenotazione eseguita.');
 

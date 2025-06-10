@@ -6235,156 +6235,6 @@ parameters:
 			path: app/Http/Officina/Actions/CreatePrenotazioneAction.php
 
 		-
-			message: '#^Binary operation "\." between ''%%'' and mixed results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Binary operation "\." between mixed and ''%%'' results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Alimentazioni\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Impiego\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Marche\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 3
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Modelli\:\:firstOrCreate\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Modelli\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoFiltro\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 8
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoGomme\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Tipologia\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:create\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:find\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:orderBy\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:create\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:destroy\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:destroy\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:edit\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:edit\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:show\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:store\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:update\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:update\(\) has parameter \$id with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/Controller.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -6820,205 +6670,205 @@ parameters:
 			message: '#^Binary operation "\." between ''%%'' and mixed results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Binary operation "\." between mixed and ''%%'' results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withError\(\)\.$#'
 			identifier: method.notFound
 			count: 4
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 6
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Alimentazioni\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Impiego\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Marche\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Modelli\:\:firstOrCreate\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Modelli\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoFiltro\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoFiltro\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 8
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoGomme\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoGomme\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoOlio\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Tipologia\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Cannot access property \$codice on array\|float\|int\|string\|false\|null\.$#'
 			identifier: property.nonObject
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Cannot cast mixed to string\.$#'
 			identifier: cast.string
 			count: 2
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:aggiungiFiltro\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:aggiungiFiltro\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:aggiungiGomma\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:aggiungiGomma\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:aggiungiOlio\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:aggiungiOlio\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:create\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:create\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:destroy\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:destroy\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:destroy\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:destroy\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:edit\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:edit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:edit\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:edit\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:editConfirm\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:editConfirm\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:show\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Controllers/VehiclesController.php
+
+		-
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:show\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:index\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:show\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:update\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:show\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\VehiclesController\:\:update\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\VeicoliController\:\:viewCreate\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Controllers/VeicoliController.php
+			path: app/Http/Officina/Controllers/VehiclesController.php
 
 		-
 			message: '#^Method App\\Officina\\Models\\Impiego\:\:veicoli\(\) has no return type specified\.$#'

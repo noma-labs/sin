@@ -65,8 +65,8 @@ use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\PrenotazioniController;
 use App\Officina\Controllers\SearchableReservationsController;
 use App\Officina\Controllers\VehicleDisposalController;
+use App\Officina\Controllers\VehiclesController;
 use App\Officina\Controllers\VehicleTiresController;
-use App\Officina\Controllers\VeicoliController;
 use App\Patente\Controllers\PatenteCategorieController;
 use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
@@ -369,13 +369,13 @@ Route::prefix('officina')->middleware('auth')->group(function () {
 
     Route::get('reservations-search', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
 
-    Route::get('veichels', [VeicoliController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
-    Route::get('veichels-new', [VeicoliController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
-    Route::post('veichels', [VeicoliController::class, 'store'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.store');
-    Route::get('veichels/{id}', [VeicoliController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
-    Route::delete('veichels/{id}', [VeicoliController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
-    Route::get('veichels/{id}/edit', [VeicoliController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
-    Route::put('veichels/{id}', [VeicoliController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.update');
+    Route::get('veichels', [VehiclesController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
+    Route::get('veichels-new', [VehiclesController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
+    Route::post('veichels', [VehiclesController::class, 'store'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.store');
+    Route::get('veichels/{id}', [VehiclesController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
+    Route::delete('veichels/{id}', [VehiclesController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
+    Route::get('veichels/{id}/edit', [VehiclesController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
+    Route::put('veichels/{id}', [VehiclesController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.update');
 
     Route::get('disposed', [VehicleDisposalController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
     Route::put('disposed/{id}', [VehicleDisposalController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');

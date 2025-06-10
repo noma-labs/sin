@@ -16,7 +16,7 @@ use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 use Throwable;
 
-final class VeicoliController
+final class VehiclesController
 {
     public function index(Request $request)
     {
