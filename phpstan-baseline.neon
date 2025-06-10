@@ -6223,18 +6223,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Requests/EntrataPersonaRequest.php
 
 		-
-			message: '#^Access to an undefined property App\\Officina\\Models\\Uso\:\:\$ofus_iden\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Officina/Actions/CreatePrenotazioneAction.php
-
-		-
-			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:create\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Officina/Actions/CreatePrenotazioneAction.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -6337,6 +6325,12 @@ parameters:
 			path: app/Http/Officina/Controllers/PrenotazioniController.php
 
 		-
+			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Officina/Controllers/PrenotazioniController.php
+
+		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
@@ -6423,42 +6417,6 @@ parameters:
 		-
 			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:update\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#10 \$destianazione of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#4 \$data_partenza of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#5 \$data_arrivo of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#6 \$ora_partenza of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#7 \$ora_arrivo of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Parameter \#9 \$note of callable App\\Officina\\Actions\\CreatePrenotazioneAction expects string\|null, mixed given\.$#'
-			identifier: argument.type
 			count: 1
 			path: app/Http/Officina/Controllers/PrenotazioniController.php
 
