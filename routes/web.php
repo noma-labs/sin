@@ -361,13 +361,13 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {
-    Route::get('reservations', [PrenotazioniController::class, 'index'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
+    Route::get('reservations-new', [PrenotazioniController::class, 'create'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
     Route::post('reservations', [PrenotazioniController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
     Route::delete('reservations/{id}', [PrenotazioniController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
     Route::get('reservations/{id}', [PrenotazioniController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
     Route::put('reservations/{id}', [PrenotazioniController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
 
-    Route::get('reservations-search', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
+    Route::get('reservations', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
 
     Route::get('veichels', [VehiclesController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
     Route::get('veichels-new', [VehiclesController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');

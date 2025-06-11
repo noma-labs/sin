@@ -16,7 +16,7 @@ use Validator;
 
 final class PrenotazioniController
 {
-    public function index(Request $request)
+    public function create(Request $request)
     {
         $day = $request->get('day', 'oggi');
 
@@ -57,7 +57,7 @@ final class PrenotazioniController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        return view('officina.reservations.index', compact('clienti',
+        return view('officina.reservations.create', compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
