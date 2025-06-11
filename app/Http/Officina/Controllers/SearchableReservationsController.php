@@ -91,6 +91,6 @@ final class SearchableReservationsController
 
         }
 
-        return view('officina.prenotazioni.search', compact('clienti', 'veicoli', 'meccanici', 'usi', 'prenotazioni', 'msgSearch'));
+        return view('officina.reservations.search', compact('clienti', 'veicoli', 'meccanici', 'usi', 'prenotazioni', 'msgSearch'));
     }
 }

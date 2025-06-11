@@ -57,7 +57,7 @@ final class PrenotazioniController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        return view('officina.prenotazioni.index', compact('clienti',
+        return view('officina.reservations.index', compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
@@ -117,7 +117,7 @@ final class PrenotazioniController
         $usi = Uso::all();
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
-        return view('officina.prenotazioni.edit', compact('pren', 'clienti', 'usi', 'meccanici'));
+        return view('officina.reservations.edit', compact('pren', 'clienti', 'usi', 'meccanici'));
     }
 
     public function update(Request $request, $id)

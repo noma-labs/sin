@@ -39,7 +39,7 @@ final class VehiclesController
         }
         $veicoli = $veicoli->get();
 
-        return view('officina.veicoli.index', compact('veicoli', 'marche', 'modelli'));
+        return view('officina.vehicles.index', compact('veicoli', 'marche', 'modelli'));
     }
 
     public function show($id)
@@ -47,7 +47,7 @@ final class VehiclesController
         $veicolo = Veicolo::withTrashed()->findOrFail($id);
         $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.show', compact('veicolo', 'gomme'));
+        return view('officina.vehicles.show', compact('veicolo', 'gomme'));
     }
 
     public function edit($id)
@@ -65,7 +65,7 @@ final class VehiclesController
         $olio_motore = TipoOlio::all();
         $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
+        return view('officina.vehicles.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
     public function update(Request $request, $id)
@@ -92,7 +92,7 @@ final class VehiclesController
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
+        return view('officina.vehicles.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
     public function store(Request $request)

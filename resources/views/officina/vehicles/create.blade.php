@@ -3,7 +3,7 @@
 @section("content")
     @include("partials.header", ["title" => "Nuovo Veicolo"])
 
-    <form method="post" action="{{ route("veicoli.create") }}">
+    <form method="post" action="{{ route("veicoli.store") }}">
         @csrf
         <div class="row g-3">
             <div class="col-md-3">

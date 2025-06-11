@@ -32,7 +32,7 @@ final class VehicleDisposalController
         }
         $veicoli = $veicoli->get();
 
-        return view('officina.veicoli.show-demoliti', compact('veicoli', 'marche', 'modelli'));
+        return view('officina.disposed.index', compact('veicoli', 'marche', 'modelli'));
     }
 
     public function destroy($id)
