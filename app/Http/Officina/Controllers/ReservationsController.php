@@ -15,7 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Validator;
 
-final class PrenotazioniController
+final class ReservationsController
 {
     public function create(Request $request): View
     {

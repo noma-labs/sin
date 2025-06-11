@@ -58,11 +58,11 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
-use App\Officina\Controllers\FiltriController;
-use App\Officina\Controllers\GommeController;
+use App\Officina\Controllers\FiltersController;
+use App\Officina\Controllers\TiresController;
 use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
-use App\Officina\Controllers\PrenotazioniController;
+use App\Officina\Controllers\ReservationsController;
 use App\Officina\Controllers\SearchableReservationsController;
 use App\Officina\Controllers\VehicleDisposalController;
 use App\Officina\Controllers\VehiclesController;
@@ -361,11 +361,11 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {
-    Route::get('reservations-new', [PrenotazioniController::class, 'create'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
-    Route::post('reservations', [PrenotazioniController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
-    Route::delete('reservations/{id}', [PrenotazioniController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
-    Route::get('reservations/{id}', [PrenotazioniController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
-    Route::put('reservations/{id}', [PrenotazioniController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
+    Route::get('reservations-new', [ReservationsController::class, 'create'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
+    Route::post('reservations', [ReservationsController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
+    Route::delete('reservations/{id}', [ReservationsController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
+    Route::get('reservations/{id}', [ReservationsController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
+    Route::put('reservations/{id}', [ReservationsController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
 
     Route::get('reservations', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
 
@@ -384,12 +384,12 @@ Route::prefix('officina')->middleware('auth')->group(function () {
     Route::delete('veichels/{id}/tires/{idGomma}', [VehicleTiresController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.delete');
     Route::post('veichels/{id}/tires', [VehicleTiresController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.store');
 
-    Route::get('filters', [FiltriController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
-    Route::post('filters', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::delete('filters/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
+    Route::get('filters', [FiltersController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
+    Route::post('filters', [FiltersController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
+    Route::delete('filters/{id}', [FiltersController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
 
     Route::post('oils', [OilsController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
-    Route::post('tires', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
+    Route::post('tires', [TiresController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
     Route::get('patents', PatentiController::class)->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 

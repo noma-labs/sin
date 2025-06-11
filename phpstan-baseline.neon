@@ -6250,61 +6250,61 @@ parameters:
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoFiltro\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoFiltro\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\FiltriController\:\:delete\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\FiltersController\:\:delete\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\FiltriController\:\:delete\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\FiltersController\:\:delete\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\FiltriController\:\:index\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\FiltersController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\FiltriController\:\:store\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\FiltersController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/FiltriController.php
+			path: app/Http/Officina/Controllers/FiltersController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/GommeController.php
+			path: app/Http/Officina/Controllers/TiresController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\TipoGomme\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/GommeController.php
+			path: app/Http/Officina/Controllers/TiresController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\GommeController\:\:store\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\TiresController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/GommeController.php
+			path: app/Http/Officina/Controllers/TiresController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
@@ -6340,103 +6340,103 @@ parameters:
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 3
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Prenotazioni\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 3
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Uso\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\Veicolo\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\ViewClienti\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to an undefined static method App\\Officina\\Models\\ViewMeccanici\:\:orderBy\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Call to static method make\(\) on an unknown class Validator\.$#'
 			identifier: class.notFound
 			count: 2
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:delete\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:delete\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:delete\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:delete\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:edit\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:edit\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:edit\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:edit\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:store\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:store\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:update\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:update\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:update\(\) has parameter \$id with no type specified\.$#'
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:update\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
+			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
 			message: '#^Access to an undefined property App\\Officina\\Models\\Veicolo\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Officina\\Models\\Veicolo\>\:\:\$id\.$#'

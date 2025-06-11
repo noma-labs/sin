@@ -7,7 +7,7 @@ namespace Tests\Officina\Http;
 use App\Admin\Models\User;
 use App\Livewire\PrenotazioneVeicoli;
 use App\Nomadelfia\Persona\Models\Persona;
-use App\Officina\Controllers\PrenotazioniController;
+use App\Officina\Controllers\ReservationsController;
 use App\Officina\Models\Prenotazioni;
 use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
@@ -16,21 +16,22 @@ use Spatie\Permission\Models\Role;
 
 it('forbids access to guests', function (): void {
     $this
-        ->get(action([PrenotazioniController::class, 'index']))
+        ->get(action([ReservationsController::class, 'create']))
         ->assertRedirect(route('login'));
 });
 
-it('shows the booked vehicles', function (): void {
+it('logged users see the create reservation form', function (): void {
     login();
+
     $this->withoutExceptionHandling();
-    $this->get(action([PrenotazioniController::class, 'index']))
+    $this->get(action([ReservationsController::class, 'create']))
         ->assertSuccessful();
 });
 
-it('shows the search view of prenotazioni', function (): void {
+it('shows the view of prenotazioni', function (): void {
     login();
     $this->withoutExceptionHandling();
-    $this->get(action([PrenotazioniController::class, 'index']))
+    $this->get(action([ReservationsController::class, 'create']))
         ->assertSuccessful();
 });
 
@@ -49,7 +50,7 @@ it('administrator can create prenotazione', function (): void {
     login($meccanicaAmm);
 
     $now = Carbon::now();
-    $this->post(action([PrenotazioniController::class, 'index'], [
+    $this->post(action([ReservationsController::class, 'store'], [
         'nome' => $p->id,
         'veicolo' => $v->id,
         'meccanico' => $m->id,
@@ -67,7 +68,7 @@ it('administrator can create prenotazione', function (): void {
 
 });
 
-it('other_users_cannot_create_prenotazioni', function (): void {
+it('other users cannot create reservations', function (): void {
     $operator = User::create(['username' => 'biblio-operator', 'email' => 'archivio@nomadelfia.it', 'password' => 'nomadelfia', 'persona_id' => 0]);
     $biblioAmm = Role::findByName('biblioteca-amm');
     $operator->assignRole($biblioAmm);

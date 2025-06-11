@@ -7,7 +7,7 @@ namespace App\Officina\Controllers;
 use App\Officina\Models\TipoFiltro;
 use Illuminate\Http\Request;
 
-final class FiltriController
+final class FiltersController
 {
     public function index()
     {
