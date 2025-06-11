@@ -59,11 +59,11 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneCo
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Officina\Controllers\FiltersController;
-use App\Officina\Controllers\TiresController;
 use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
 use App\Officina\Controllers\ReservationsController;
 use App\Officina\Controllers\SearchableReservationsController;
+use App\Officina\Controllers\TiresController;
 use App\Officina\Controllers\VehicleDisposalController;
 use App\Officina\Controllers\VehiclesController;
 use App\Officina\Controllers\VehicleTiresController;
