@@ -11,12 +11,13 @@ use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Validator;
 
 final class PrenotazioniController
 {
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         $day = $request->get('day', 'oggi');
 

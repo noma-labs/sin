@@ -2077,6 +2077,12 @@ parameters:
 			path: app/Http/Biblioteca/Models/Libro.php
 
 		-
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Biblioteca/Models/Libro.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2661,6 +2667,12 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:setAttribute\(\) should return \$this\(App\\Nomadelfia\\Azienda\\Models\\Azienda\) but returns mixed\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
 
@@ -3549,6 +3561,12 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
@@ -5875,6 +5893,12 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -6393,12 +6417,6 @@ parameters:
 		-
 			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:edit\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Controllers/PrenotazioniController.php
-
-		-
-			message: '#^Method App\\Officina\\Controllers\\PrenotazioniController\:\:index\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: app/Http/Officina/Controllers/PrenotazioniController.php
 
@@ -9831,6 +9849,12 @@ parameters:
 		-
 			message: '#^Method App\\Scuola\\Models\\Coordinatore\:\:setAttribute\(\) should return \$this\(App\\Scuola\\Models\\Coordinatore\) but returns mixed\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Http/Scuola/Models/Coordinatore.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{0\?\: string, 1\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Scuola/Models/Coordinatore.php
 
