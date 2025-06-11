@@ -17,7 +17,7 @@
                 </div>
             </div>
             <a
-                href="{{ route("autori.edit", $autore->id) }}"
+                href="{{ route("authors.edit", $autore->id) }}"
                 class="btn btn-info my-2"
             >
                 Modifica

@@ -7,13 +7,13 @@ namespace App\Officina\Controllers;
 use App\Officina\Models\TipoFiltro;
 use Illuminate\Http\Request;
 
-final class FiltriController
+final class FiltersController
 {
     public function index()
     {
         $filtri = TipoFiltro::all()->sortBy('tipo');
 
-        return view('officina.gestione.filtri', compact('filtri'));
+        return view('officina.filters.index', compact('filtri'));
     }
 
     public function store(Request $request)
@@ -25,7 +25,7 @@ final class FiltriController
             'codice' => $request->input('codice'),
         ]);
 
-        return redirect()->back()->withSuccess("Filtro $gomma->codice salvata correttamente");
+        return redirect()->back()->withSuccess("Filtro $gomma->codice salvato correttamente");
     }
 
     public function delete($id)

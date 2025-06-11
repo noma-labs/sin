@@ -38,7 +38,7 @@ final class FilterAlunno extends Component
 
     public function selectAnnoScolastico(int $id): void
     {
-        $this->selectedAnnoScolastico = Anno::with('classi', 'classi.tipo')->findorFail($id);
+        $this->selectedAnnoScolastico = Anno::with('classi', 'classi.tipo')->findOrFail($id);
 
         $options = [];
         foreach ($this->selectedAnnoScolastico->classi as $classe) {

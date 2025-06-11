@@ -6,7 +6,7 @@ namespace App\Admin\Controllers;
 
 use Spatie\Permission\Models\Permission;
 
-final class RisorsaController
+final class PermissionController
 {
     public function index()
     {

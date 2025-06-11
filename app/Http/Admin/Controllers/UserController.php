@@ -40,11 +40,6 @@ final class UserController
         return redirect()->route('users.index')->withSuccess('Utente aggiunto correttamente');
     }
 
-    public function show()
-    {
-        return redirect('users.index');
-    }
-
     public function edit($id)
     {
         $user = User::findOrFail($id);

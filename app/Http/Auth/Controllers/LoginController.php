@@ -16,9 +16,6 @@ final class LoginController
      */
     public function redirectPath()
     {
-        if (Auth::user()->hasRole('admin')) {
-            return route('admin.backup');
-        }
         if (Auth::user()->hasRole(['biblioteca-amm', 'biblioteca-ope'])) {
             return route('biblioteca');
         }
@@ -27,12 +24,10 @@ final class LoginController
         }
 
         return route('home');
-
     }
 
     // By default, Laravel uses the email field for authentication.
     // If you would like to customize this, you may define a username method on your LoginController:
-    //
     public function username(): string
     {
         return 'username';

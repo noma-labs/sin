@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-6 offset-md-2">
             <form
-                action="{{ route("editori.update", $editore->id) }}"
+                action="{{ route("editors.update", $editore->id) }}"
                 method="POST"
             >
                 @csrf

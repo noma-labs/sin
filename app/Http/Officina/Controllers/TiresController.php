@@ -7,7 +7,7 @@ namespace App\Officina\Controllers;
 use App\Officina\Models\TipoGomme;
 use Illuminate\Http\Request;
 
-final class GommeController
+final class TiresController
 {
     public function store(Request $request)
     {

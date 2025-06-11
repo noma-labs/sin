@@ -52,7 +52,7 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ route("veicoli.nuovo") }}">
+                <a class="dropdown-item" href="{{ route("veicoli.create") }}">
                     Nuovo Veicolo
                 </a>
             </li>

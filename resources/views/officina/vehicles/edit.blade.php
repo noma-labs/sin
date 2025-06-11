@@ -8,9 +8,10 @@
             <form
                 method="POST"
                 id="veicolo-form-modifica"
-                action="{{ route("veicoli.modifica.confirm", $veicolo->id) }}"
+                action="{{ route("veicoli.update", $veicolo->id) }}"
             >
                 @csrf
+                @method("PUT")
                 <div class="row mb-3 g-3">
                     <div class="col-6 col-md-3">
                         <label class="form-label">Targa</label>
@@ -277,7 +278,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <form
-                                            action="{{ route("veicoli.gomme.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
+                                            action="{{ route("veicoli.tires.delete", ["id" => $veicolo->id, "idGomma" => $gv->id]) }}"
                                             id="form-delete-{{ $gv->id }}"
                                             method="POST"
                                         >
@@ -295,7 +296,49 @@
                             </li>
                         @endforeach
                     </ul>
-                    @include("officina.veicoli.assegnaGomma")
+                    <x-modal
+                        modal-title="Assegna gomma al veicolo"
+                        button-title="Aggiungi"
+                        button-style=" btn-warning"
+                    >
+                        <x-slot:body>
+                            <form
+                                class="form"
+                                method="POST"
+                                id="add-gomma"
+                                action="{{ route("veicoli.tires.store", ["id" => $veicolo->id]) }}"
+                            >
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="codice">Codice Gomma</label>
+                                        <select
+                                            class="form-select"
+                                            name="gomma_id"
+                                        >
+                                            <option value="" selected hidden>
+                                                --Seleziona--
+                                            </option>
+                                            @foreach ($gomme as $g)
+                                                <option value="{{ $g->id }}">
+                                                    {{ $g->codice }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </x-slot>
+                        <x-slot:footer>
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                                form="add-gomma"
+                            >
+                                Salva
+                            </button>
+                        </x-slot>
+                    </x-modal>
                 </div>
             </div>
 
@@ -309,7 +352,7 @@
     </div>
 
     <div class="d-grid gap-3 d-md-block">
-        @include("officina.veicoli.aggiungiFiltro")
+        @include("officina.vehicles.aggiungiFiltro")
         <x-modal
             modal-title="Aggiungi Tipo Olio"
             button-title="Aggiungi Olio"
@@ -417,17 +460,12 @@
                             e non sarà più possibile recuperarlo.
                         </p>
                         <form
-                            action="{{ route("veicoli.elimina.definitivamente") }}"
+                            action="{{ route("veicoli.elimina.definitivamente", $veicolo->id) }}"
                             method="post"
                             id="form-elimina"
                         >
                             @csrf
                             @method("DELETE")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
                         </form>
                     </div>
                 </x-slot>
@@ -458,17 +496,12 @@
                             comunità.
                         </p>
                         <form
-                            action="{{ route("veicolo.riabilita") }}"
+                            action="{{ route("veicolo.riabilita", $veicolo->id) }}"
                             method="post"
                             id="form-riabilita"
                         >
                             @csrf
-                            @method("POST")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
+                            @method("PUT")
                         </form>
                     </div>
                 </x-slot>
@@ -501,17 +534,12 @@
                             .
                         </p>
                         <form
-                            action="{{ route("veicoli.demolisci") }}"
+                            action="{{ route("veicoli.demolisci", $veicolo->id) }}"
                             method="post"
                             id="form-demolisci"
                         >
                             @csrf
                             @method("DELETE")
-                            <input
-                                name="v_id"
-                                type="hidden"
-                                value="{{ $veicolo->id }}"
-                            />
                         </form>
                     </div>
                 </x-slot>

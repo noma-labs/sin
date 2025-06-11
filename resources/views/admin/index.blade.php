@@ -15,20 +15,23 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ url("admin/users") }}">
+                <a class="dropdown-item" href="{{ route("users.index") }}">
                     Gestione utenti
                 </a>
-                <a class="dropdown-item" href="{{ url("admin/roles") }}">
+                <a class="dropdown-item" href="{{ route("roles.index") }}">
                     Gestione ruoli
                 </a>
-                <a class="dropdown-item" href="{{ url("admin/risorse") }}">
+                <a
+                    class="dropdown-item"
+                    href="{{ route("permissions.index") }}"
+                >
                     Gestione permessi
                 </a>
             </div>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route("admin.logs") }}">
+            <a class="nav-link" href="{{ route("logs.index") }}">
                 Gestione attività
             </a>
         </li>

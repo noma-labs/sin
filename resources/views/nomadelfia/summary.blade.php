@@ -285,42 +285,6 @@
         </div>
     </div>
 
-    <div class="row justify-content-md-center my-2">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Statistiche</h4>
-                    <ul class="list-group list-group-flush">
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center"
-                        >
-                            <p>Eta massima</p>
-                            <span class="badge bg-primary rounded-pill">
-                                {{ $stats->max }}
-                            </span>
-                        </li>
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center"
-                        >
-                            <p>Eta media</p>
-                            <span class="badge bg-primary rounded-pill">
-                                {{ $stats->avg }}
-                            </span>
-                        </li>
-                        <li
-                            class="list-group-item d-flex justify-content-between align-items-center"
-                        >
-                            <p>Eta minima</p>
-                            <span class="badge bg-primary rounded-pill">
-                                {{ $stats->min }}
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <x-modal
         modal-title="Esporta elenchi in word"
         button-title="Esporta (.docx)"

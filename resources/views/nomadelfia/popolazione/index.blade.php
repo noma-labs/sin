@@ -2,8 +2,76 @@
 
 @section("content")
     @include("partials.header", ["title" => "Popolazione", "subtitle" => $population->count()])
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+        <a
+            href="{{ route("nomadelfia.popolazione", array_merge(Request::input(), ["age" => "overage"])) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Maggiorenni
+        </a>
+        <a
+            href="{{ route("nomadelfia.popolazione", array_merge(Request::input(), ["age" => "underage"])) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Minorenni
+        </a>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+        <a
+            href="{{ route("nomadelfia.popolazione", ["position" => "effettivo"]) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Effettivi
+        </a>
+        <a
+            href="{{ route("nomadelfia.popolazione", ["position" => "postulante"]) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Postulanti
+        </a>
+        <a
+            href="{{ route("nomadelfia.popolazione", ["position" => "ospite"]) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Ospiti
+        </a>
+
+        <a
+            href="{{ route("nomadelfia.popolazione", ["position" => "figlio"]) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Figli
+        </a>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+        <a
+            href="{{ route("nomadelfia.popolazione", array_merge(Request::input(), ["sex" => "male"])) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Maschio
+        </a>
+        <a
+            href="{{ route("nomadelfia.popolazione", array_merge(Request::input(), ["sex" => "female"])) }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Femmina
+        </a>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+        <a
+            href="{{ route("nomadelfia.popolazione") }}"
+            class="btn btn-sm btn-outline-secondary"
+        >
+            Reset
+        </a>
+    </div>
+
     <a
-        href="{{ route("nomadelfia.popolazione.export.excel") }}"
+        href="{{ route("nomadelfia.popolazione.export.excel", Request::input()) }}"
         class="btn btn-secondary mb-3"
     >
         Esporta Excel

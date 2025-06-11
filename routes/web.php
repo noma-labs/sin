@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Admin\Controllers\LogsActivityController;
-use App\Admin\Controllers\RisorsaController;
+use App\Admin\Controllers\PermissionController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\Agraria\Controllers\AgrariaController;
@@ -58,12 +58,15 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PopolazioneSummaryControlle
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableExcelPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\PrintableWordPopolazioneController;
 use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
-use App\Officina\Controllers\FiltriController;
-use App\Officina\Controllers\GommeController;
+use App\Officina\Controllers\FiltersController;
+use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
-use App\Officina\Controllers\PrenotazioniController;
-use App\Officina\Controllers\VeicoliController;
-use App\Officina\Controllers\VeicoliGommeController;
+use App\Officina\Controllers\ReservationsController;
+use App\Officina\Controllers\SearchableReservationsController;
+use App\Officina\Controllers\TiresController;
+use App\Officina\Controllers\VehicleDisposalController;
+use App\Officina\Controllers\VehiclesController;
+use App\Officina\Controllers\VehicleTiresController;
 use App\Patente\Controllers\PatenteCategorieController;
 use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
@@ -95,172 +98,180 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('/home', 'home')->name('home');
+Route::view('home', 'home')->name('home');
 
-Route::group([], function () {
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
-    Route::post('login', [LoginController::class, 'login'])->middleware('guest');
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-});
+Route::get('login', [LoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
+Route::post('login', [LoginController::class, 'login'])->middleware('guest');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('admin')->middleware('role:super-admin')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('admin');
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('users-new', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('roles', RoleController::class);
-    Route::get('risorse', [RisorsaController::class, 'index']);
-    Route::get('logs', [LogsActivityController::class, 'index'])->name('admin.logs');
+
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('roles-new', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('roles/{id}', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{id}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('logs', [LogsActivityController::class, 'index'])->name('logs.index');
 });
 
-Route::prefix('nomadelfia')->middleware('auth')->name('nomadelfia.')->group(function () {
-    Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('index');
+Route::prefix('nomadelfia')->middleware('auth')->group(function () {
+    Route::get('/', [PopolazioneSummaryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.index');
 
-    Route::get('people', [PersonController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('person.create');
-    Route::post('people', [PersonController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('person.store');
-    Route::get('people/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('person.show');
+    Route::get('people-new', [PersonController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.person.create');
+    Route::post('people', [PersonController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.person.store');
+    Route::get('people/{id}', [PersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.person.show');
 
-    Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('person.identity.edit');
-    Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('person.identity.update');
+    Route::get('people/{id}/identity', [PersonIdentityController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.person.identity.edit');
+    Route::put('people/{id}/identity', [PersonIdentityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.person.identity.update');
 
-    Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('join.create');
-    Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('join.store');
-    Route::put('people/{id}/join/{entrata}', [JoinCommunityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('join.update');
-    Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('leave.store');
-    Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('leave.update');
-    Route::get('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('join-leave-history.index');
+    Route::get('people/{id}/join', [JoinCommunityController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.join.create');
+    Route::post('people/{id}/join', [JoinCommunityController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.join.store');
+    Route::put('people/{id}/join/{entrata}', [JoinCommunityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.join.update');
+    Route::post('people/{id}/leave', [LeaveCommunityController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.leave.store');
+    Route::post('people/{id}/leave/{uscita}', [LeaveCommunityController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.leave.update');
+    Route::get('people/{id}/join-leave-history', [JoinLeaveHistoryController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.join-leave-history.index');
 
-    Route::post('people/{id}/death', [DeathController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('death.store');
-    Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('folder-number.create');
-    Route::post('people/{id}/folder-number', [FolderNumberController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('folder-number.store');
+    Route::post('people/{id}/death', [DeathController::class, 'store'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.death.store');
+    Route::get('people/{id}/folder-number', [FolderNumberController::class, 'create'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.folder-number.create');
+    Route::post('people/{id}/folder-number', [FolderNumberController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.folder-number.store');
 
-    Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('internal-name.store');
-    Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('internal-name.edit');
-    Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('internal-name.update');
+    Route::post('people/{id}/internal-name', [InternalNameController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.internal-name.store');
+    Route::get('people/{id}/internal-name', [InternalNameController::class, 'edit'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.internal-name.edit');
+    Route::put('people/{id}/internal-name', [InternalNameController::class, 'update'])->middleware('can:popolazione.persona.modifica')->name('nomadelfia.internal-name.update');
 
-    Route::view('search', 'nomadelfia.persone.search')->middleware('can:popolazione.persona.visualizza')->name('people.search');
-    Route::get('search/submit', [SearchablePersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('people.search.show');
+    Route::view('search', 'nomadelfia.persone.search')->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.people.search');
+    Route::get('search/submit', [SearchablePersonController::class, 'show'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.people.search.show');
 
-    Route::get('people/{id}/stato', [PersonaStatoController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('persone.stato');
-    Route::post('people/{id}/stato', [PersonaStatoController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('persone.stato.assegna');
-    Route::put('people/{id}/stato/{idStato}', [PersonaStatoController::class, 'update'])->name('persone.stato.modifica');
+    Route::get('people/{id}/stato', [PersonaStatoController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.stato');
+    Route::post('people/{id}/stato', [PersonaStatoController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.stato.assegna');
+    Route::put('people/{id}/stato/{idStato}', [PersonaStatoController::class, 'update'])->name('nomadelfia.persone.stato.modifica');
 
-    Route::get('people/{id}/position', [PersonPositionController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('person.position.index');
-    Route::post('people/{id}/position', [PersonPositionController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('person.position.store');
-    Route::put('people/{id}/position/{idPos}', [PersonPositionController::class, 'update'])->name('person.position.update');
-    Route::delete('people/{id}/position/{idPos}', [PersonPositionController::class, 'delete'])->name('person.position.delete');
-    Route::post('people/{id}/position/{idPos}/end', [PersonaPosizioneConcludiController::class, 'store'])->name('person.position.end');
+    Route::get('people/{id}/position', [PersonPositionController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.person.position.index');
+    Route::post('people/{id}/position', [PersonPositionController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.person.position.store');
+    Route::put('people/{id}/position/{idPos}', [PersonPositionController::class, 'update'])->name('nomadelfia.person.position.update');
+    Route::delete('people/{id}/position/{idPos}', [PersonPositionController::class, 'delete'])->name('nomadelfia.person.position.delete');
+    Route::post('people/{id}/position/{idPos}/end', [PersonaPosizioneConcludiController::class, 'store'])->name('nomadelfia.person.position.end');
 
-    Route::get('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('person.gruppo');
-    Route::post('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('person.gruppo.store');
+    Route::get('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.person.gruppo');
+    Route::post('people/{id}/gruppofamiliare', [PersonGruppoFamiliareController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.person.gruppo.store');
     // FIXME: add an id for the "gruppi_persone" to uniquely update, delete, or move apersone. The <id, idGruppo> key does not uniquely identify
-    Route::put('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'update'])->name('person.gruppo.update');
-    Route::delete('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'delete'])->name('persone.gruppo.delete');
-    Route::post('people/{id}/gruppofamiliare/{idGruppo}/sposta', [MovePersonGruppoFamiliareController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('persone.gruppo.sposta');
+    Route::put('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'update'])->name('nomadelfia.person.gruppo.update');
+    Route::delete('people/{id}/gruppofamiliare/{idGruppo}', [PersonGruppoFamiliareController::class, 'delete'])->name('nomadelfia.persone.gruppo.delete');
+    Route::post('people/{id}/gruppofamiliare/{idGruppo}/sposta', [MovePersonGruppoFamiliareController::class, 'store'])->middleware('can:popolazione.persona.inserisci')->name('nomadelfia.persone.gruppo.sposta');
 
-    Route::get('people/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('persone.aziende');
-    Route::post('people/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('persone.aziende.assegna');
-    Route::post('people/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('persone.aziende.modifica');
-    Route::get('aziende', [AziendeController::class, 'view'])->middleware('can:popolazione.persona.visualizza')->name('aziende');
-    Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('aziende.edit');
-    Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('azienda.lavoratore.assegna');
-    Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('aziende.persona.sposta');
-    Route::put('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'update'])->name('aziende.persona.update');
+    Route::get('people/{idPersona}/aziende', [PersonaAziendeController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.persone.aziende');
+    Route::post('people/{idPersona}/aziende', [PersonaAziendeController::class, 'store'])->name('nomadelfia.persone.aziende.assegna');
+    Route::post('people/{idPersona}/aziende/{id}/modifica', [PersonaAziendeController::class, 'update'])->name('nomadelfia.persone.aziende.modifica');
+    Route::get('aziende', [AziendeController::class, 'view'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.aziende');
+    Route::get('aziende/edit/{id}', [AziendeController::class, 'edit'])->name('nomadelfia.aziende.edit');
+    Route::post('aziende/{id}/persona', [AziendeLavoratoreController::class, 'store'])->name('nomadelfia.azienda.lavoratore.assegna');
+    Route::put('aziende/{id}/persona/{idPersona}/sposta', [AziendeLavoratoreController::class, 'sposta'])->name('nomadelfia.aziende.persona.sposta');
+    Route::put('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'update'])->name('nomadelfia.aziende.persona.update');
     // FIXME: add an id for aziene_persone to uniquely identify them. This delete remove all the aziende peronse association
-    Route::delete('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'delete'])->name('aziende.persona.delete');
+    Route::delete('aziende/{id}/persona/{idPersona}', [AziendeLavoratoreController::class, 'delete'])->name('nomadelfia.aziende.persona.delete');
 
-    Route::get('incarichi', [IncarichiController::class, 'view'])->middleware('can:popolazione.persona.visualizza')->name('incarichi.index');
-    Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('incarichi.edit');
-    Route::post('incarichi', [IncarichiController::class, 'insert'])->name('incarichi.aggiungi');
-    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name('incarichi.delete');
-    Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('incarichi.assegna');
-    Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('incarichi.persone.elimina');
+    Route::get('incarichi', [IncarichiController::class, 'view'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.incarichi.index');
+    Route::get('incarichi/edit/{id}', [IncarichiController::class, 'edit'])->name('nomadelfia.incarichi.edit');
+    Route::post('incarichi', [IncarichiController::class, 'insert'])->name('nomadelfia.incarichi.aggiungi');
+    Route::delete('incarichi/{id}', [IncarichiController::class, 'delete'])->name('nomadelfia.incarichi.delete');
+    Route::post('incarichi/{id}/assegna', [IncarichiController::class, 'assegnaPersona'])->name('nomadelfia.incarichi.assegna');
+    Route::delete('incarichi/{id}/persone/{idPersona}', [IncarichiController::class, 'eliminaPersona'])->name('nomadelfia.incarichi.persone.elimina');
 
-    Route::get('gruppifamiliari', [GruppofamiliareController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('gruppifamiliari');
-    Route::get('gruppifamiliari/{id}', [GruppofamiliareController::class, 'show'])->name('gruppifamiliari.show');
-    Route::post('gruppifamiliari/{id}/capogruppo', [CapogruppoController::class, 'store'])->name('capogruppo.store');
+    Route::get('gruppifamiliari', [GruppofamiliareController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.gruppifamiliari');
+    Route::get('gruppifamiliari/{id}', [GruppofamiliareController::class, 'show'])->name('nomadelfia.gruppifamiliari.show');
+    Route::post('gruppifamiliari/{id}/capogruppo', [CapogruppoController::class, 'store'])->name('nomadelfia.capogruppo.store');
 
-    Route::get('families', [FamilyController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('families');
-    Route::get('families/{id}', [FamilyController::class, 'show'])->name('families.show');
-    Route::put('families/{id}', [FamilyController::class, 'update'])->name('families.update');
-    Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('person.families');
+    Route::get('families', [FamilyController::class, 'index'])->middleware('can:popolazione.persona.visualizza')->name('nomadelfia.families');
+    Route::get('families/{id}', [FamilyController::class, 'show'])->name('nomadelfia.families.show');
+    Route::put('families/{id}', [FamilyController::class, 'update'])->name('nomadelfia.families.update');
+    Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.person.families');
 
-    Route::get('marriage', [MarriageController::class, 'create'])->name('marriage.create');
-    Route::post('marriage', [MarriageController::class, 'store'])->name('marriage.store');
+    Route::get('marriage', [MarriageController::class, 'create'])->name('nomadelfia.marriage.create');
+    Route::post('marriage', [MarriageController::class, 'store'])->name('nomadelfia.marriage.store');
 
-    Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('family.leave');
-    Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('family.member.store');
-    Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('family.member.update');
-    Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('family.gruppo.move');
+    Route::post('families/{id}/leave', [FamilyLeaveController::class, 'store'])->name('nomadelfia.family.leave');
+    Route::post('families/{id}/member', [FamilyMemberController::class, 'store'])->name('nomadelfia.family.member.store');
+    Route::put('families/{id}/member', [FamilyMemberController::class, 'update'])->name('nomadelfia.family.member.update');
+    Route::post('families/{id}/gruppo/{currentGruppo}', [FamilyGruppofamiliareController::class, 'store'])->name('nomadelfia.family.gruppo.move');
 
-    Route::get('export/word', PrintableWordPopolazioneController::class)->name('popolazione.export.word');
-    Route::get('export/excel', PrintableExcelPopolazioneController::class)->name('popolazione.export.excel');
+    Route::get('export/word', PrintableWordPopolazioneController::class)->name('nomadelfia.popolazione.export.word');
+    Route::get('export/excel', PrintableExcelPopolazioneController::class)->name('nomadelfia.popolazione.export.excel');
 
-    Route::get('popolazione', [PopolazioneNomadelfiaController::class, 'index'])->middleware('can:popolazione.visualizza')->name('popolazione');
-    Route::get('popolazione/positions/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->middleware('can:popolazione.visualizza')->name('popolazione.maggiorenni');
-    Route::get('popolazione/positions/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->middleware('can:popolazione.visualizza')->name('popolazione.posizione.effettivi');
-    Route::get('popolazione/positions/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->middleware('can:popolazione.visualizza')->name('popolazione.posizione.postulanti');
-    Route::get('popolazione/positions/figlimaggiorenni', [PopolazioneNomadelfiaController::class, 'figliMaggiorenni'])->middleware('can:popolazione.visualizza')->name('popolazione.posizione.figli.maggiorenni');
-    Route::get('popolazione/positions/figliminorenni', [PopolazioneNomadelfiaController::class, 'figliMinorenni'])->middleware('can:popolazione.visualizza')->name('popolazione.posizione.figli.minorenni');
-    Route::get('popolazione/positions/ospiti', [PopolazioneNomadelfiaController::class, 'ospiti'])->middleware('can:popolazione.visualizza')->name('popolazione.posizione.ospiti');
-    Route::get('popolazione/stati/sacerdoti', [PopolazioneNomadelfiaController::class, 'sacerdoti'])->middleware('can:popolazione.visualizza')->name('popolazione.stati.sacerdoti');
-    Route::get('popolazione/stati/mamvocazione', [PopolazioneNomadelfiaController::class, 'mammeVocazione'])->middleware('can:popolazione.visualizza')->name('popolazione.stati.mammevocazione');
-    Route::get('popolazione/stati/nommamme', [PopolazioneNomadelfiaController::class, 'nomadelfaMamma'])->middleware('can:popolazione.visualizza')->name('popolazione.stati.nomadelfamamma');
+    Route::get('popolazione', [PopolazioneNomadelfiaController::class, 'index'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione');
+    Route::get('popolazione/positions/maggiorenni', [PopolazioneNomadelfiaController::class, 'maggiorenni'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.maggiorenni');
+    Route::get('popolazione/positions/effettivi', [PopolazioneNomadelfiaController::class, 'effettivi'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.posizione.effettivi');
+    Route::get('popolazione/positions/postulanti', [PopolazioneNomadelfiaController::class, 'postulanti'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.posizione.postulanti');
+    Route::get('popolazione/positions/figlimaggiorenni', [PopolazioneNomadelfiaController::class, 'figliMaggiorenni'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.posizione.figli.maggiorenni');
+    Route::get('popolazione/positions/figliminorenni', [PopolazioneNomadelfiaController::class, 'figliMinorenni'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.posizione.figli.minorenni');
+    Route::get('popolazione/positions/ospiti', [PopolazioneNomadelfiaController::class, 'ospiti'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.posizione.ospiti');
+    Route::get('popolazione/stati/sacerdoti', [PopolazioneNomadelfiaController::class, 'sacerdoti'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.stati.sacerdoti');
+    Route::get('popolazione/stati/mamvocazione', [PopolazioneNomadelfiaController::class, 'mammeVocazione'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.stati.mammevocazione');
+    Route::get('popolazione/stati/nommamme', [PopolazioneNomadelfiaController::class, 'nomadelfaMamma'])->middleware('can:popolazione.visualizza')->name('nomadelfia.popolazione.stati.nomadelfamamma');
 
-    Route::get('esercizi', [EsSpiritualiController::class, 'index'])->name('esercizi');
-    Route::get('esercizi/stampa', [EsSpiritualiController::class, 'stampa'])->name('esercizi.stampa');
-    Route::get('esercizi/{id}', [EsSpiritualiController::class, 'show'])->name('esercizi.dettaglio');
-    Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegn]aPersona'])->name('esercizi.assegna');
-    Route::delete('esercizi/{id}/persona/{idPersona}', [EsSpiritualiController::class, 'elimin]aPersona'])->name('esercizi.elimina');
+    Route::get('esercizi', [EsSpiritualiController::class, 'index'])->name('nomadelfia.esercizi');
+    Route::get('esercizi/stampa', [EsSpiritualiController::class, 'stampa'])->name('nomadelfia.esercizi.stampa');
+    Route::get('esercizi/{id}', [EsSpiritualiController::class, 'show'])->name('nomadelfia.esercizi.dettaglio');
+    Route::post('esercizi/{id}/assegna', [EsSpiritualiController::class, 'assegn]aPersona'])->name('nomadelfia.esercizi.assegna');
+    Route::delete('esercizi/{id}/persona/{idPersona}', [EsSpiritualiController::class, 'elimin]aPersona'])->name('nomadelfia.esercizi.elimina');
 
-    Route::get('cariche', [CaricheController::class, 'index'])->name('cariche.index');
-    Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('cariche.elezioni');
-    Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('cariche.esporta');
+    Route::get('cariche', [CaricheController::class, 'index'])->name('nomadelfia.cariche.index');
+    Route::get('elezioni', [CaricheController::class, 'elezioni'])->name('nomadelfia.cariche.elezioni');
+    Route::get('elezioni/esporta', [CaricheController::class, 'esporta'])->name('nomadelfia.cariche.esporta');
 
-    Route::get('recent-activites', [RecentActivitesController::class, 'index'])->middleware('can:popolazione.visualizza')->name('activity');
+    Route::get('recent-activites', [RecentActivitesController::class, 'index'])->middleware('can:popolazione.visualizza')->name('nomadelfia.activity');
 });
 
-Route::prefix('scuola')->middleware('auth')->name('scuola.')->group(function () {
-    Route::get('/', [ScuolaController::class, 'summary'])->name('summary');
-    Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('anno.storico');
-    Route::post('stampa', [ScuolaController::class, 'print'])->name('stampa');
+Route::prefix('scuola')->middleware('auth')->group(function () {
+    Route::get('/', [ScuolaController::class, 'summary'])->name('scuola.summary');
+    Route::get('/anni/storico', [ScuolaController::class, 'storico'])->name('scuola.anno.storico');
+    Route::post('stampa', [ScuolaController::class, 'print'])->name('scuola.stampa');
 
-    Route::get('/anno/{id}', [AnnoScolasticoController::class, 'show'])->name('anno.show');
-    Route::get('/anno/{id}/new', [AnnoScolasticoController::class, 'showNew'])->name('anno.show.new');
-    Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('anno.clone');
-    Route::put('/anno/{id}/note', AnnoScolasticoNoteController::class)->name('anno.note.update');
-    Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('anno.aggiungi');
-    Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('anno.classe.aggiungi');
+    Route::get('/anno/{id}', [AnnoScolasticoController::class, 'show'])->name('scuola.anno.show');
+    Route::get('/anno/{id}/new', [AnnoScolasticoController::class, 'showNew'])->name('scuola.anno.show.new');
+    Route::post('/anno/{id}/clone', [AnnoScolasticoController::class, 'clone'])->name('scuola.anno.clone');
+    Route::put('/anno/{id}/note', AnnoScolasticoNoteController::class)->name('scuola.anno.note.update');
+    Route::post('/anno', [AnnoScolasticoController::class, 'store'])->name('scuola.anno.aggiungi');
+    Route::post('anno/{id}/classe', [AnnoScolasticoClassiController::class, 'store'])->name('scuola.anno.classe.aggiungi');
 
-    Route::get('classi/{id}', [ClassiController::class, 'show'])->name('classi.show');
-    Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('classi.rimuovi');
-    Route::get('classi/{id}/elaborato', [ClassiElaboratiController::class, 'create'])->name('classi.elaborato.create');
-    Route::post('classi/{id}/assegna/coordinatore', [ClassiCoordinatoriController::class, 'store'])->name('classi.coordinatore.assegna');
-    Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('classi.alunno.assegna');
-    Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('classi.alunno.rimuovi');
-    Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiCoordinatoriController::class, 'delete'])->name('classi.coordinatore.rimuovi');
-    Route::put('classi/{id}/tipo', [ClassiTipoController::class, 'update'])->name('classi.tipo.update');
-    Route::put('classi/{id}/note', ClassiNoteController::class)->name('classi.note.update');
+    Route::get('classi/{id}', [ClassiController::class, 'show'])->name('scuola.classi.show');
+    Route::delete('classi/{id}', [ClassiController::class, 'delete'])->name('scuola.classi.rimuovi');
+    Route::get('classi/{id}/elaborato', [ClassiElaboratiController::class, 'create'])->name('scuola.classi.elaborato.create');
+    Route::post('classi/{id}/assegna/coordinatore', [ClassiCoordinatoriController::class, 'store'])->name('scuola.classi.coordinatore.assegna');
+    Route::post('classi/{id}/assegna/alunno', [ClassiController::class, 'aggiungiAlunno'])->name('scuola.classi.alunno.assegna');
+    Route::post('classi/{id}/rimuovi/{alunno_id}', [ClassiController::class, 'rimuoviAlunno'])->name('scuola.classi.alunno.rimuovi');
+    Route::post('classi/{id}/rimuovi/{coord_id}/coordinatore', [ClassiCoordinatoriController::class, 'delete'])->name('scuola.classi.coordinatore.rimuovi');
+    Route::put('classi/{id}/tipo', [ClassiTipoController::class, 'update'])->name('scuola.classi.tipo.update');
+    Route::put('classi/{id}/note', ClassiNoteController::class)->name('scuola.classi.note.update');
 
-    Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('elaborati.index');
-    Route::get('elaborati', [ElaboratiController::class, 'create'])->name('elaborati.create');
-    Route::post('elaborati', [ElaboratiController::class, 'store'])->name('elaborati.store');
-    Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('elaborati.media.store');
-    Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('elaborati.show');
-    Route::get('elaborati/{id}/edit', [ElaboratiController::class, 'edit'])->name('elaborati.edit');
-    Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('elaborati.update');
-    Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('elaborati.download');
-    Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('elaborati.preview');
-    Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('elaborati.students.create');
-    Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('elaborati.students.store');
+    Route::get('elaborati/summary', [ElaboratiController::class, 'index'])->name('scuola.elaborati.index');
+    Route::get('elaborati', [ElaboratiController::class, 'create'])->name('scuola.elaborati.create');
+    Route::post('elaborati', [ElaboratiController::class, 'store'])->name('scuola.elaborati.store');
+    Route::post('elaborati/{id}/upload', [ElaboratiMediaController::class, 'store'])->name('scuola.elaborati.media.store');
+    Route::get('elaborati/{id}', [ElaboratiController::class, 'show'])->name('scuola.elaborati.show');
+    Route::get('elaborati/{id}/edit', [ElaboratiController::class, 'edit'])->name('scuola.elaborati.edit');
+    Route::put('elaborati/{id}', [ElaboratiController::class, 'update'])->name('scuola.elaborati.update');
+    Route::get('elaborati/{id}/download', [ElaboratiController::class, 'download'])->name('scuola.elaborati.download');
+    Route::get('elaborati/{id}/preview', [ElaboratiController::class, 'preview'])->name('scuola.elaborati.preview');
+    Route::get('elaborati/{id}/students', [ElaboratiStudentsController::class, 'create'])->name('scuola.elaborati.students.create');
+    Route::post('elaborati/{id}/students', [ElaboratiStudentsController::class, 'store'])->name('scuola.elaborati.students.store');
 
-    Route::get('elaborati/{id}/cover', [CoverImageController::class, 'create'])->name('elaborati.cover.create');
-    Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('elaborati.cover.store');
-    Route::get('elaborati/{id}/cover-show', [CoverImageController::class, 'show'])->name('elaborati.cover.show');
+    Route::get('elaborati/{id}/cover', [CoverImageController::class, 'create'])->name('scuola.elaborati.cover.create');
+    Route::post('elaborati/{id}/cover', [CoverImageController::class, 'store'])->name('scuola.elaborati.cover.store');
+    Route::get('elaborati/{id}/cover-show', [CoverImageController::class, 'show'])->name('scuola.elaborati.cover.show');
 
-    Route::get('students/{id}', [StudentController::class, 'show'])->name('student.show');
-    Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('student.works.show');
-    Route::get('students/{id}/classes', [StudentClassesController::class, 'show'])->name('student.classes.show');
+    Route::get('students/{id}', [StudentController::class, 'show'])->name('scuola.student.show');
+    Route::get('students/{id}/works', [StudentWorksController::class, 'show'])->name('scuola.student.works.show');
+    Route::get('students/{id}/classes', [StudentClassesController::class, 'show'])->name('scuola.student.classes.show');
 });
 
 Route::prefix('biblioteca')->middleware('auth')->group(function () {
@@ -302,29 +313,26 @@ Route::prefix('biblioteca')->middleware('auth')->group(function () {
     Route::post('labels/remove/{idLibro}', [LabelsController::class, 'removeLibro'])->middleware('can:biblioteca.etichetta.elimina')->name('books.labels.delete-book');
     Route::get('labels/print', [LabelsController::class, 'printToPdf'])->middleware('can:biblioteca.etichetta.visualizza')->name('books.labels.print');
 
-    Route::group([
-        'middleware' => [
-            'can:biblioteca.autore.inserisci',
-            'can:biblioteca.autore.visualizza',
-        ],
-    ], function () {
-        Route::get('autori/search', [AuthorsController::class, 'search'])->name('autori.ricerca');
-        Route::resource('autori', AuthorsController::class);
-    });
+    Route::get('authors', [AuthorsController::class, 'index'])->middleware('can:biblioteca.autore.visualizza')->name('authors.index');
+    Route::get('authors/{id}', [AuthorsController::class, 'show'])->middleware('can:biblioteca.autore.visualizza')->name('authors.show');
+    Route::get('authors-new', [AuthorsController::class, 'create'])->middleware('can:biblioteca.autore.inserisci')->name('authors.create');
+    Route::post('authors', [AuthorsController::class, 'store'])->middleware('can:biblioteca.autore.inserisci')->name('authors.store');
+    Route::get('authors/{id}/edit', [AuthorsController::class, 'edit'])->middleware('can:biblioteca.autore.visualizza')->name('authors.edit');
+    Route::put('authors/{id}', [AuthorsController::class, 'update'])->middleware('can:biblioteca.autore.visualizza')->name('authors.update');
 
-    Route::group([
-        'middleware' => [
-            'can:biblioteca.autore.visualizza',
-            'can:biblioteca.autore.inserisci',
-        ],
-    ], function () {
-        Route::get('editori/search', [EditorsController::class, 'search'])->name('editori.ricerca');
-        Route::resource('editori', EditorsController::class);
-    });
+    Route::get('editors', [EditorsController::class, 'index'])->name('editors.index');
+    Route::get('editors/{id}', [EditorsController::class, 'show'])->middleware('can:biblioteca.editore.visualizza')->name('editors.show');
+    Route::get('editors-new', [EditorsController::class, 'create'])->middleware('can:biblioteca.editore.inserisci')->name('editors.create');
+    Route::post('editors', [EditorsController::class, 'store'])->middleware('can:biblioteca.editore.inserisci')->name('editors.store');
+    Route::get('editors/{id}/edit', [EditorsController::class, 'edit'])->middleware('can:biblioteca.editore.visualizza')->name('editors.edit');
+    Route::put('editors/{id}', [EditorsController::class, 'update'])->middleware('can:biblioteca.editore.visualizza')->name('editors.update');
 
-    Route::group(['middleware' => ['can:biblioteca.libro.visualizza']], function () {
-        Route::resource('classificazioni', ClassificazioniController::class);
-    });
+    Route::get('audiences', [ClassificazioniController::class, 'index'])->middleware('can:biblioteca.libro.visualizza')->name('audience.index');
+    Route::get('audiences-new', [ClassificazioniController::class, 'create'])->middleware('can:biblioteca.libro.visualizza')->name('audience.create');
+    Route::post('audiences', [ClassificazioniController::class, 'store'])->middleware('can:biblioteca.libro.visualizza')->name('audience.store');
+    Route::put('audiences/{id}', [ClassificazioniController::class, 'update'])->middleware('can:biblioteca.libro.visualizza')->name('audience.update');
+    Route::get('audiences/{id}', [ClassificazioniController::class, 'edit'])->middleware('can:biblioteca.libro.visualizza')->name('audience.edit');
+    Route::delete('audiences/{id}', [ClassificazioniController::class, 'destroy'])->middleware('can:biblioteca.libro.visualizza')->name('audience.destroy');
 
     Route::get('video', [VideoController::class, 'showSearchVideoForm'])->name('video');
     Route::get('video/search', [VideoController::class, 'searchConfirm'])->name('video.ricerca.submit');
@@ -353,35 +361,36 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
 });
 
 Route::prefix('officina')->middleware('auth')->group(function () {
-    Route::get('/', [PrenotazioniController::class, 'prenotazioni'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
-    Route::post('/', [PrenotazioniController::class, 'prenotazioniSucc'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
-    Route::get('delete/{id}/', [PrenotazioniController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
-    Route::get('modifica/{id}/', [PrenotazioniController::class, 'modifica'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
-    Route::post('modifica/{id}/', [PrenotazioniController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
-    Route::get('all/', [PrenotazioniController::class, 'all'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.all');
-    Route::get('prenotazioni', [PrenotazioniController::class, 'searchView'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
-    Route::get('prenotazioni/search', [PrenotazioniController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca.submit');
+    Route::get('reservations-new', [ReservationsController::class, 'create'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
+    Route::post('reservations', [ReservationsController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
+    Route::delete('reservations/{id}', [ReservationsController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
+    Route::get('reservations/{id}', [ReservationsController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');
+    Route::put('reservations/{id}', [ReservationsController::class, 'update'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.update');
 
-    Route::get('veicoli', [VeicoliController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
-    Route::get('veicoli/demoliti', [VeicoliController::class, 'veicoliDemoliti'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
-    Route::post('veicoli/riabilita', [VeicoliController::class, 'veicoloRiabilita'])->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');
-    Route::delete('veicoli/elimina-definitivamente', [VeicoliController::class, 'veicoloEliminaDefinitivamente'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.elimina.definitivamente');
-    Route::get('veicoli/nuovo', [VeicoliController::class, 'viewCreate'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.nuovo');
-    Route::post('veicoli/nuovo', [VeicoliController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
-    Route::get('veicoli/{id}', [VeicoliController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
-    Route::delete('veicoli/{id}/gomme/{idGomma}', [VeicoliGommeController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.delete');
-    Route::post('veicoli/{id}/gomme', [VeicoliGommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.gomme.store');
-    Route::get('veicoli/modifica/{id}', [VeicoliController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
-    Route::post('veicoli/modifica/{id}', [VeicoliController::class, 'editConfirm'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica.confirm');
-    Route::delete('demolisci/veicolo', [VeicoliController::class, 'demolisci'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
+    Route::get('reservations', [SearchableReservationsController::class, 'search'])->middleware('can:meccanica.prenotazione.visualizza')->name('officina.ricerca');
 
-    Route::post('filtro/aggiungi', [VeicoliController::class, 'aggiungiFiltro'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::get('filtri', [FiltriController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
-    Route::post('filtri', [FiltriController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
-    Route::delete('filtri/{id}', [FiltriController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
-    Route::post('olio/aggiungi', [VeicoliController::class, 'aggiungiOlio'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
-    Route::post('gomma', [GommeController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
-    Route::get('/patenti', [PatentiController::class, 'patenti'])->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
+    Route::get('veichels', [VehiclesController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.index');
+    Route::get('veichels-new', [VehiclesController::class, 'create'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.create');
+    Route::post('veichels', [VehiclesController::class, 'store'])->middleware('can:meccanica.veicolo.inserisci')->name('veicoli.store');
+    Route::get('veichels/{id}', [VehiclesController::class, 'show'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.dettaglio');
+    Route::delete('veichels/{id}', [VehiclesController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.demolisci');
+    Route::get('veichels/{id}/edit', [VehiclesController::class, 'edit'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.modifica');
+    Route::put('veichels/{id}', [VehiclesController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.update');
+
+    Route::get('disposed', [VehicleDisposalController::class, 'index'])->middleware('can:meccanica.veicolo.visualizza')->name('veicoli.demoliti');
+    Route::put('disposed/{id}', [VehicleDisposalController::class, 'update'])->middleware('can:meccanica.veicolo.modifica')->name('veicolo.riabilita');
+    Route::delete('disposed/{id}', [VehicleDisposalController::class, 'destroy'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.elimina.definitivamente');
+
+    Route::delete('veichels/{id}/tires/{idGomma}', [VehicleTiresController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.delete');
+    Route::post('veichels/{id}/tires', [VehicleTiresController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('veicoli.tires.store');
+
+    Route::get('filters', [FiltersController::class, 'index'])->middleware('can:meccanica.veicolo.modifica')->name('filtri');
+    Route::post('filters', [FiltersController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.aggiungi');
+    Route::delete('filters/{id}', [FiltersController::class, 'delete'])->middleware('can:meccanica.veicolo.modifica')->name('filtri.delete');
+
+    Route::post('oils', [OilsController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('olio.aggiungi');
+    Route::post('tires', [TiresController::class, 'store'])->middleware('can:meccanica.veicolo.modifica')->name('gomma.aggiungi');
+    Route::get('patents', PatentiController::class)->middleware('can:meccanica.veicolo.visualizza')->name('officina.patenti');
 });
 
 Route::prefix('patente')->middleware('auth')->group(function () {

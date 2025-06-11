@@ -6,12 +6,48 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
+use Illuminate\Http\Request;
 
 final class PopolazioneNomadelfiaController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $population = PopolazioneAttuale::sortable()->get();
+        $ageFilter = $request->string('age');
+        $positionFilter = $request->string('position');
+        $sexFilter = $request->string('sex');
+
+        $query = PopolazioneAttuale::query();
+
+        if (! $ageFilter->isEmpty()) {
+            $age = $ageFilter->toString();
+            if ($age === 'overage') {
+                $query = $query->overage();
+            } elseif ($age === 'underage') {
+                $query = $query->underage();
+            }
+        }
+        if (! $positionFilter->isEmpty()) {
+            $position = $positionFilter->toString();
+            if ($position === 'effettivo') {
+                $query = $query->effettivo();
+            } elseif ($position === 'postulante') {
+                $query = $query->postulante();
+            } elseif ($position === 'ospite') {
+                $query = $query->ospite();
+            } elseif ($position === 'figlio') {
+                $query = $query->figlio();
+            }
+        }
+        if (! $sexFilter->isEmpty()) {
+            $sex = $sexFilter->toString();
+            if ($sex === 'male') {
+                $query = $query->male();
+            } elseif ($sex === 'female') {
+                $query = $query->female();
+            }
+        }
+
+        $population = $query->sortable()->get();
 
         return view('nomadelfia.popolazione.index', compact('population'));
     }

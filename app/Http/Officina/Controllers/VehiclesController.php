@@ -16,7 +16,7 @@ use App\Officina\Models\Veicolo;
 use Illuminate\Http\Request;
 use Throwable;
 
-final class VeicoliController
+final class VehiclesController
 {
     public function index(Request $request)
     {
@@ -39,7 +39,7 @@ final class VeicoliController
         }
         $veicoli = $veicoli->get();
 
-        return view('officina.veicoli.index', compact('veicoli', 'marche', 'modelli'));
+        return view('officina.vehicles.index', compact('veicoli', 'marche', 'modelli'));
     }
 
     public function show($id)
@@ -47,7 +47,7 @@ final class VeicoliController
         $veicolo = Veicolo::withTrashed()->findOrFail($id);
         $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.show', compact('veicolo', 'gomme'));
+        return view('officina.vehicles.show', compact('veicolo', 'gomme'));
     }
 
     public function edit($id)
@@ -65,12 +65,12 @@ final class VeicoliController
         $olio_motore = TipoOlio::all();
         $gomme = TipoGomme::orderBy('codice')->get();
 
-        return view('officina.veicoli.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
+        return view('officina.vehicles.edit', compact('veicolo', 'marche', 'impieghi', 'modelli', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac', 'olio_motore', 'gomme'));
     }
 
-    public function editConfirm(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $input = $request->except(['_token', 'marca_id']);
+        $input = $request->except(['_token', 'marca_id', '_method']);
         $veicolo = Veicolo::find($id);
         $veicolo->update($input);
         if ($request->filled('marca_id')) {
@@ -81,7 +81,7 @@ final class VeicoliController
         return redirect()->route('veicoli.dettaglio', ['id' => $id]);
     }
 
-    public function viewCreate()
+    public function create()
     {
         $marche = Marca::orderBy('nome', 'asc')->get();
         $impieghi = Impiego::orderBy('nome', 'asc')->get();
@@ -92,10 +92,10 @@ final class VeicoliController
         $f_gasolio = TipoFiltro::where('tipo', '=', 'gasolio')->orderBy('codice', 'asc')->get();
         $f_ac = TipoFiltro::where('tipo', '=', 'ac')->orderBy('codice', 'asc')->get();
 
-        return view('officina.veicoli.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
+        return view('officina.vehicles.create', compact('marche', 'impieghi', 'tipologie', 'alimentazioni', 'f_aria', 'f_olio', 'f_gasolio', 'f_ac'));
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'nome' => 'required',
@@ -131,9 +131,14 @@ final class VeicoliController
 
     }
 
-    /**
-     * Aggiunge un nuovo tipo di filtro alla tabella tipo_filtro
-     */
+    public function destroy($id)
+    {
+        $veicolo = Veicolo::find($id);
+        $veicolo->delete();
+
+        return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato demolito");
+    }
+
     public function aggiungiFiltro(Request $request)
     {
         $request->validate([
@@ -162,9 +167,6 @@ final class VeicoliController
 
     }
 
-    /**
-     * Aggiunge un nuovo tipo di olio
-     */
     public function aggiungiOlio(Request $request)
     {
         $request->validate([
@@ -200,68 +202,5 @@ final class VeicoliController
         ]);
 
         return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
-    }
-
-    /**
-     * demolisce un veicolo, setta la colonna deleted_at
-     */
-    public function demolisci(Request $r)
-    {
-        $veicolo = Veicolo::find($r->input('v_id'));
-        try {
-            $veicolo->delete();
-        } catch (Throwable) {
-            return redirect(route('veicoli.modifica', ['id' => $r->input('v_id')]))->withError('Errore nella demolizione del veicolo');
-        }
-
-        return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato demolito");
-    }
-
-    public function veicoliDemoliti(Request $request)
-    {
-        $marche = Marca::orderBy('nome', 'asc')->get();
-        $modelli = Modello::orderBy('nome', 'asc')->get();
-
-        $veicoli = Veicolo::onlyTrashed()->orderBy('veicolo.nome', 'asc');
-        if ($request->filled('marca')) {
-            $veicoli->join('db_meccanica.modello', 'veicolo.modello_id', '=', 'modello.id')
-                ->where('modello.marca_id', '=', $request->input('marca'));
-        }
-        if ($request->filled('nome')) {
-            $veicoli->where('veicolo.nome', 'like', $request->input('nome').'%');
-        }
-        if ($request->filled('targa')) {
-            $veicoli->where('veicolo.targa', 'like', '%'.$request->input('targa').'%');
-        }
-        if ($request->filled('modello')) {
-            $veicoli->where('veicolo.modello_id', '=', $request->input('modello'));
-        }
-        $veicoli = $veicoli->get();
-
-        return view('officina.veicoli.show-demoliti', compact('veicoli', 'marche', 'modelli'));
-    }
-
-    public function veicoloEliminaDefinitivamente(Request $request)
-    {
-        $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
-        try {
-            $veicolo->forceDelete();
-        } catch (Throwable) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella eliminazione del veicolo');
-        }
-
-        return redirect(route('veicoli.demoliti'))->withSuccess("Il veicolo $veicolo->nome è stato eliminato definitivamente");
-    }
-
-    public function veicoloRiabilita(Request $request)
-    {
-        $veicolo = Veicolo::onlyTrashed()->find($request->input('v_id'));
-        try {
-            $veicolo->restore();
-        } catch (Throwable) {
-            return redirect(route('veicoli.modifica', ['id' => $request->input('v_id')]))->withError('Errore nella riabilitazione del veicolo');
-        }
-
-        return redirect(route('veicoli.index'))->withSuccess("Il veicolo $veicolo->nome è stato riabilitato");
     }
 }

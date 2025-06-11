@@ -6,7 +6,7 @@ namespace App\Officina\Controllers;
 
 final class PatentiController
 {
-    public function patenti()
+    public function __invoke()
     {
         return view('officina.patenti');
     }

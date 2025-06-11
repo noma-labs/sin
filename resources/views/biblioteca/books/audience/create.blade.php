@@ -1,17 +1,13 @@
 @extends("biblioteca.books.index")
-@section("title", "Classificazione")
+@section("title", "Aggiungi Classificazione")
 
 @section("content")
-    @include("partials.header", ["title" => "Modifica Classificazione"])
+    @include("partials.header", ["title" => "Aggiungi Classificazione"])
 
     <div class="row">
-        <div class="col-md-6 offset-md-4">
-            <form
-                action="{{ route("classificazioni.update", $classificazione->id) }}"
-                method="POST"
-            >
+        <div class="col-md-4 offset-md-4">
+            <form action="{{ route("audience.store") }}" method="POST">
                 @csrf
-                @method("PUT")
                 <div class="">
                     <label for="descrizione">Classificazione</label>
                     <input
@@ -19,11 +15,13 @@
                         name="descrizione"
                         id="descrizione"
                         class="form-control"
-                        value="{{ $classificazione->descrizione }}"
+                        placeholder="Nome classificazione"
                     />
                 </div>
                 <div class="">
-                    <button type="submit" class="btn btn-primary">Salva</button>
+                    <button type="submit" class="btn btn-primary">
+                        Aggiungi
+                    </button>
                 </div>
             </form>
         </div>

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Http\AdminSys;
 
 use App\Admin\Controllers\LogsActivityController;
-use App\Admin\Controllers\RisorsaController;
+use App\Admin\Controllers\PermissionController;
 use App\Admin\Controllers\RoleController;
 use App\Admin\Controllers\UserController;
 use App\Admin\Models\User;
@@ -21,7 +21,7 @@ it('forbids not super-admin user to see admin dashboards', function (): void {
     $this->get(action([UserController::class, 'index']))
         ->assertForbidden();
 
-    $this->get(action([RisorsaController::class, 'index']))
+    $this->get(action([PermissionController::class, 'index']))
         ->assertForbidden();
 
     $this->get(action([RoleController::class, 'index']))

@@ -57,7 +57,7 @@
                             <div class="col-md-4">
                                 <a
                                     class="btn btn-success"
-                                    href="{{ route("autori.create") }}"
+                                    href="{{ route("authors.create") }}"
                                     target="_blank"
                                     role="button"
                                 >
@@ -82,7 +82,7 @@
                             <div class="col-md-4">
                                 <a
                                     class="btn btn-success"
-                                    href="{{ route("editori.create") }}"
+                                    href="{{ route("editors.create") }}"
                                     target="_blank"
                                     role="button"
                                 >

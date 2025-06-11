@@ -65,7 +65,6 @@ return [
             'host' => '',
             'username' => '',
             'password' => '',
-
             // Optional FTP Settings...
             'port' => 21,
         ],
@@ -89,8 +88,5 @@ return [
         ],
     ],
 
-    'links' => [
-        public_path('storage') => storage_path('app/public'),
-    ],
-
+    'links' => [],
 ];

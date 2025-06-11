@@ -14,6 +14,7 @@ use stdClass;
  * @property int $persona_id
  * @property string $data_entrata
  * @property string $data_uscita
+ *                               Deprecated: use the PopolazioneAttuale model instead.
  */
 final class PopolazioneNomadelfia extends Model
 {
@@ -25,39 +26,8 @@ final class PopolazioneNomadelfia extends Model
 
     protected $guarded = [];
 
-    /*
-    *  Ritorna il totale della popolazione attuale
-    *  Una persona fa parte della popolazione se e solo se
-    *       - è una persona attiva (stato = '1)
-    *       - è una persona con categoria "Persona interna"
-    */
-    public static function totalePopolazione()
-    {
-        $expression = DB::raw('SELECT count(*) as popolazione
-                FROM popolazione
-                INNER JOIN persone p ON p.id = popolazione.persona_id
-                WHERE popolazione.data_uscita IS NULL');
-
-        $res = DB::connection('db_nomadelfia')->select(
-            $expression->getValue(DB::connection()->getQueryGrammar())
-        );
-
-        return $res[0]->popolazione;
-    }
-
-    /*
-     *  Ritorna tutte e persone maggiorenni della popolazione divisi per uomini e donne
-     */
     public static function maggiorenni(string $orderby = 'nominativo', string $order = 'ASC'): stdClass
     {
-        //        $magg = DB::connection('db_nomadelfia')
-        //            ->table('persone')
-        //            ->selectRaw("persone.*, popolazione.*")
-        //            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-        //            ->whereNull("popolazione.data_uscita")
-        //            ->where("persone.data_nascita", "<=", Carbon::now()->subYears(18))
-        //            ->orderByRaw("persone." . strval($orderby) . " " . $order)
-        //            ->get();
         $magg = self::daEta(18, $orderby, $order);
         $result = new stdClass;
         $maggioreni = collect($magg);

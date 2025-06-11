@@ -7,6 +7,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Incarico\Models\Incarico;
+use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
@@ -72,7 +73,7 @@ final class ExportPopolazioneData
 
     public function __construct()
     {
-        $this->totalePopolazione = PopolazioneNomadelfia::totalePopolazione();
+        $this->totalePopolazione = PopolazioneAttuale::query()->count();
         $this->maggiorenni = PopolazioneNomadelfia::maggiorenni();
         $this->figliMinorenni = PopolazioneNomadelfia::figliMinorenni();
         $this->effettivi = PopolazioneNomadelfia::effettivi();

@@ -172,12 +172,20 @@
                                     @endcan
 
                                     @can("meccanica.prenotazione.elimina")
-                                        <a
-                                            class="btn btn-danger btn-sm"
-                                            href="{{ route("officina.prenota.delete", $pren->id) }}"
+                                        <form
+                                            method="POST"
+                                            action="{{ route("officina.prenota.delete", $pren->id) }}"
+                                            style="display: inline"
                                         >
-                                            Elimina
-                                        </a>
+                                            @csrf
+                                            @method("DELETE")
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger btn-sm"
+                                            >
+                                                Elimina
+                                            </button>
+                                        </form>
                                     @endcan
                                 </div>
                             </td>

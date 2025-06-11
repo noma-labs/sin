@@ -2,7 +2,7 @@
 @section("title", "| Utenti")
 
 @section("content")
-    @include("partials.header", ["title" => "Gestione utenti"])
+    @include("partials.header", ["title" => "Utenti"])
     <a
         href="{{ route("users.create") }}"
         class="btn btn-success float-end my-2"
@@ -37,7 +37,6 @@
                                 </span>
                             @endforeach
                         </td>
-                        {{-- Retrieve array of roles associated to a user and convert to string --}}
                         <td>
                             <a
                                 href="{{ route("users.edit", $user->id) }}"
