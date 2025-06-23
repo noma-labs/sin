@@ -20,7 +20,7 @@ final class Kernel extends ConsoleKernel
     protected $commands = [
         CreateDatabaseCommand::class,
         ExifExtractCommand::class,
-        ExifJsonImportCommand::class
+        ExifJsonImportCommand::class,
     ];
 
     /**
