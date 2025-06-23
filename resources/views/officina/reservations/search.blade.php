@@ -207,5 +207,8 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {{ $prenotazioni->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
+        </div>
     </div>
 @endsection
