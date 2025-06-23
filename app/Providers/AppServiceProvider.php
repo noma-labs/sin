@@ -68,5 +68,4 @@ final class AppServiceProvider extends ServiceProvider
             'username' => "{$user->username}",
         ]);
     }
-
 }
