@@ -23,7 +23,7 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mariadb:10.4
+    image: mariadb:11.8
     container_name: db
     restart: unless-stopped
     tty: true
@@ -39,7 +39,7 @@ services:
     networks:
       - sail
   mysql-test:
-    image: mariadb:10.4
+    image: mariadb:11.8
     container_name: db-test
     restart: unless-stopped
     environment:
@@ -73,6 +73,17 @@ services:
       - PMA_PASSWORD=root
     networks:
       - sail
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    command: serve
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - sail
+    restart: unless-stopped
 
 networks:
   sail:
@@ -80,4 +91,6 @@ networks:
 
 volumes:
   sail-mysql:
+    driver: local
+  ollama-data:
     driver: local

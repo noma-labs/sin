@@ -16,6 +16,7 @@ tasks:
   up:
     cmds:
       - ./vendor/bin/sail up -d
+      -  docker exec -it ollama ollama pull all-minilm
 
   down:
     cmds:
@@ -33,6 +34,7 @@ tasks:
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/foto" --database=db_foto
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/rtn" --database=db_rtn
       - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/agraria" --database=db_agraria
+      - ./vendor/bin/sail artisan migrate:fresh --path="database/migrations/documents" --database=db_documents
       # - seed tables
       - ./vendor/bin/sail artisan db:seed
 

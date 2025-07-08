@@ -25,6 +25,7 @@ use App\Biblioteca\Controllers\LabelsController;
 use App\Biblioteca\Controllers\LoansController;
 use App\Biblioteca\Controllers\SearchableBooksController;
 use App\Biblioteca\Controllers\VideoController;
+use App\Http\EmbeddingController;
 use App\Nomadelfia\Azienda\Controllers\AziendeController;
 use App\Nomadelfia\Azienda\Controllers\AziendeLavoratoreController;
 use App\Nomadelfia\Azienda\Controllers\PersonaAziendeController;
@@ -451,6 +452,9 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/{id}/preview', [PhotoController::class, 'preview'])->middleware('can:photo.view')->name('photos.preview');
 
 });
+
+Route::get('embedding', [EmbeddingController::class, 'index']);
+Route::get('query', [EmbeddingController::class, 'query']);
 
 Route::get('/debug-sentry', function () {
     throw new Exception('A fake sentry error!');
