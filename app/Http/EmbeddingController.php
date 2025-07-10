@@ -54,12 +54,11 @@ final class EmbeddingController
 
        $similar =  DB::connection('db_documents')
             ->table('embeddings')
-            ->selectRaw('chunk_index, content')
-            ->orderByRaw('VEC_DISTANCE(embedding, Vec_FromText(?))', [$qEmb])
-            ->limit(5)
+            ->selectRaw("VEC_DISTANCE_EUCLIDEAN(embedding, Vec_FromText('".$qEmb."')) as distance, content")
+            ->orderBy('distance')
+            ->limit(10)
             ->get();
 
         return response()->json($similar);
-
     }
 }
