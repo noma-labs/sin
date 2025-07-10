@@ -3,7 +3,9 @@
 namespace App\Http;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Prism\Prism\Prism;
 use Prism\Prism\Enums\Provider;
 
@@ -11,22 +13,16 @@ final class EmbeddingController
 {
     public function index()
     {
-      // l'uomo è diverso
-      $documentId = "uomo_diverso";
-      $chunks = array(
-        "Quasi tutti i giorni mi è capitato questo: ho in­ contrato un uomo, o una donna, o una fanciullo, o una fanciulla desolati, abbandonati a se stessi ed immersi in un mare di dolore: soli tra due miliardi e mezzo di fratelli.",
-        "Che fare? Che cosa devo fare io?",
-        "Ma che c'entro io quando due miliardi e mezzo di fratelli non sanno fare nulla per questi caduti nella desolazione? Hanno gfa fatto per altri: \"ma sono troppi\", si dice. Ed intanto si sentono moto­ ciclette, macchine, aerei che passano; la radio, la stampa annunciano grandi avvenimenti.",
-        "Quel disgraziato mi guarda, mi racconta: rac­conta, piange, racconta, continua a guardarmi e pare che pretenda da me la sua soluzione; e forzatamente solo, tra due  miliardi e mezzo di fratelli.",
-        "Continua a guardarmi, racconta. Pare che dica: \"Se tu fossi con me non sarei piu solo, saremmo in due\". E la mia prima reazione e sempre stata quella di rispondere a me stesso: \"Gia, e cosl non saremmo piu uno, ma due disgraziati, soli tra due miliardi e mezzo di fratelli\"",
-        "E una pillola troppo amara da ingoiare. Poi ho deciso e mi sono fatto un disgraziato come loro: solo con essi, abbandonato con essi, desolato con essi, reietto con essi in mezzo a due miliardi e mezzo di fratelli."
-      );
+        $documentId = "uomo-è-diverso.txt";
+        $filePath = Storage::disk('media_originals')->path("documents/uomo-è-diverso.txt");
+        $content = File::get($filePath);
 
-       $response =  Prism::embeddings()
+        $sentences = preg_split('/\R+/', $content, 0, PREG_SPLIT_NO_EMPTY); // split on \n\n, \n, \r
+
+        $response = Prism::embeddings()
             ->using(Provider::Ollama, 'all-minilm')
-            ->fromArray($chunks)
+            ->fromArray($sentences)
             ->asEmbeddings();
-
 
         foreach ($response->embeddings as $index => $embedding) {
             $s = $this->arrayToVectorString($embedding->embedding);
@@ -34,10 +30,9 @@ final class EmbeddingController
                 'doc_id' => $documentId,
                 'chunk_index' => $index,
                 'embedding' => DB::raw("Vec_FromText('$s')"),
+                'content' => $sentences[$index]
             ]);
-
         }
-
     }
 
     public function arrayToVectorString(array $embedding): string
@@ -46,11 +41,10 @@ final class EmbeddingController
         return '[' . implode(',', $embedding) . ']';
     }
 
-    public function query()
+    public function query(Request $request)
     {
-        // Your query logic here
+        $q = $request->string('q');
 
-        $q = "disgraziati";
         $response = Prism::embeddings()
             ->using(Provider::Ollama, 'all-minilm')
             ->fromInput($q)
@@ -60,15 +54,12 @@ final class EmbeddingController
 
        $similar =  DB::connection('db_documents')
             ->table('embeddings')
-            ->selectRaw('chunk_index,  VEC_DISTANCE(embedding, Vec_FromText(?)) as distance', [$qEmb])
+            ->selectRaw('chunk_index, content')
             ->orderByRaw('VEC_DISTANCE(embedding, Vec_FromText(?))', [$qEmb])
-            ->limit(10)
+            ->limit(5)
             ->get();
 
-        dd($similar->pluck('chunk_index'));
-//             SELECT id FROM v
-//   ORDER BY VEC_DISTANCE(v, x'6ca1d43e9df91b3fe580da3e1c247d3f147cf33e');
-        return response()->json($response);
+        return response()->json($similar);
 
     }
 }
