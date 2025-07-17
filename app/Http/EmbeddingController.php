@@ -17,6 +17,12 @@ final class EmbeddingController
         $filePath = Storage::disk('media_originals')->path("documents/uomo-è-diverso.txt");
         $content = File::get($filePath);
 
+
+        $splitter = new RecursiveCharacterTextSplitter();
+        $lines  = $splitter->splitText($content);
+
+        dd($lines);
+
         $sentences = preg_split('/\R+/', $content, 0, PREG_SPLIT_NO_EMPTY); // split on \n\n, \n, \r
 
         $response = Prism::embeddings()
