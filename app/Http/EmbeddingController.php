@@ -13,10 +13,9 @@ final class EmbeddingController
 {
     public function index()
     {
-        $documentId = "uomo-è-diverso.txt";
+        $documentId = "uomo-diverso.txt";
         $filePath = Storage::disk('media_originals')->path("documents/uomo-è-diverso.txt");
         $content = File::get($filePath);
-
 
         $splitter = new RecursiveCharacterTextSplitter();
         $lines  = $splitter->splitText($content);

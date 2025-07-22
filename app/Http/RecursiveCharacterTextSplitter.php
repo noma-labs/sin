@@ -18,7 +18,7 @@ final class RecursiveCharacterTextSplitter
         return $this->split($text, $this->separators);
     }
 
-    private function split(string $text, array $separators = ["\n\n", "\n", " ", ""]) : array
+    private function split(string $text, array $separators = ["\n\n\n","\n\n", "\n", " ", ""]) : array
     {
         $chunks = [];
 
@@ -34,6 +34,7 @@ final class RecursiveCharacterTextSplitter
         // TODO -1 or 0 ??
         $splits = preg_split("/$separator/", $text, -1, PREG_SPLIT_NO_EMPTY);
 
+        dd($splits);
         $goodSplits = [];
 
         // dump($text);

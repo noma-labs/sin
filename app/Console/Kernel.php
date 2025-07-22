@@ -7,6 +7,7 @@ namespace App\Console;
 use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
+use App\Console\Commands\SplitDocCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -21,6 +22,7 @@ final class Kernel extends ConsoleKernel
         CreateDatabaseCommand::class,
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
+        SplitDocCommand::class,
     ];
 
     /**
