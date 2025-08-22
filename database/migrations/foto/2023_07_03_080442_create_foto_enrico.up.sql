@@ -1,10 +1,5 @@
 CREATE TABLE `foto_enrico` (
-  `id` int(11) NOT NULL PRIMARY KEY,
-  `data` date NOT NULL,
   `datnum` varchar(10) NOT NULL,
-  `localita` text NOT NULL,
-  `argomento` text NOT NULL,
-  `descrizione` text NOT NULL,
   `anum` varchar(8) NOT NULL,
   `cddvd` varchar(10) NOT NULL,
   `hdint` varchar(10) NOT NULL,
@@ -12,8 +7,13 @@ CREATE TABLE `foto_enrico` (
   `sc` varchar(2) NOT NULL,
   `fi` varchar(2) NOT NULL,
   `tp` varchar(2) NOT NULL,
-  `nfo` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `nfo` varchar(6) NOT NULL,
+  `data` VARCHAR(8) NOT NULL, -- to import the date format "09/30/43" exported from the DBF
+  `localita` text NOT NULL,
+  `argomento` text NOT NULL,
+  `descrizione` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 CREATE TABLE `tipo` (
