@@ -22,7 +22,6 @@ final class PatenteSearchController
 
     public function search(Request $request)
     {
-        // $persona = Persona::findorfail($request->input("persona_id"));
         if (! $request->except(['_token'])) {
             return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
         }

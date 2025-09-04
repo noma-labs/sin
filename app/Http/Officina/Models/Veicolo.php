@@ -49,7 +49,7 @@ final class Veicolo extends Model
     {
         $bookingsInTimeRange = Prenotazioni::inTimeRange($data_from, $data_to);
 
-        // FIXME: if multiple bookings for the same vechickles are present in the timerange the query returns multiple rows for the same vechicle.
+        // FIXME: if multiple bookings for the same vehicles are present in the timerange the query returns multiple rows for the same vehicle.
         // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle.
         return DB::connection('db_officina')
             ->table('veicolo')
@@ -96,39 +96,31 @@ final class Veicolo extends Model
         return $this->hasMany(Prenotazioni::class, 'veicolo_id');
     }
 
-    // codice del filtro dell'aria del veicolo
     public function filtroAria(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria');
     }
 
-    // codice del filtro del gasolio del veicolo
     public function filtroGasolio(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_gasolio');
     }
 
-    // codice del filtro dell'olio del veicolo
     public function filtroOlio(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_olio');
     }
 
-    // codice del filtro dell'aria condizionata del veicolo
     public function filtroAriaCondizionata(): HasOne
     {
         return $this->hasOne(TipoFiltro::class, 'id', 'filtro_aria_condizionata');
     }
 
-    // codice del tipo di olio motore del veicolo
     public function olioMotore(): HasOne
     {
         return $this->hasOne(TipoOlio::class, 'id', 'olio_id');
     }
 
-    /**
-     * ritorna tutti le gomme del veicolo
-     */
     public function gomme(): BelongsToMany
     {
         return $this->belongsToMany(TipoGomme::class, 'gomme_veicolo', 'veicolo_id', 'gomme_id');

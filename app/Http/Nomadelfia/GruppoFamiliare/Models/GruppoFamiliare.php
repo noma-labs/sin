@@ -35,9 +35,6 @@ final class GruppoFamiliare extends Model
 
     protected $guarded = [];
 
-    /*
-    * Ritorna il numero di componenti per ogni gruppi familiare
-   */
     public static function countComponenti()
     {
         $expression = DB::raw("SELECT gruppi_persone.gruppo_famigliare_id as id, max(gruppi_familiari.nome) as nome, count(*) as count
@@ -76,7 +73,7 @@ final class GruppoFamiliare extends Model
     }
 
     /**
-     *  Ritorna le persone che possono fare il capogruppo (maschi, nomadelfi effettivi??)
+     * Returns the people who can be group leader (males, effettivo??)
      */
     public function capogruppiPossibili()
     {
@@ -104,7 +101,7 @@ final class GruppoFamiliare extends Model
 
     public function assegnaCapogruppo(Persona|int $persona, Carbon $data_inizio): void
     {
-        // TODO: controllare che la persona sia un mascho e nomadelfo effettivo
+        // TODO: check that the person is male and an effective Nomadelfi
         if (is_int($persona)) {
             $persona = Persona::findOrFail($persona);
         }
@@ -148,9 +145,6 @@ final class GruppoFamiliare extends Model
         return $this->persone()->wherePivot('stato', '1');
     }
 
-    /*
-    * Ritorna il numero di componenti per un singolo gruppo familiare
-    */
     public function componenti()
     {
         $expression = DB::raw("Select *
@@ -168,32 +162,9 @@ final class GruppoFamiliare extends Model
         );
     }
 
-    /*
-    * Ricostruisce le famiglie del gruppo familiare partendo dalle persone presenti.
-    *
-    */
-    //    public function Famiglie()
-    //    {
-    //        $famiglie = DB::connection('db_nomadelfia')->select(
-    //            DB::raw("SELECT famiglie_persone.famiglia_id, famiglie.nome_famiglia, persone.id as persona_id, persone.nominativo, famiglie_persone.posizione_famiglia, persone.data_nascita
-    //      FROM gruppi_persone
-    //      LEFT JOIN famiglie_persone ON famiglie_persone.persona_id = gruppi_persone.persona_id
-    //      LEFT JOIN famiglie ON famiglie_persone.famiglia_id = famiglie.id
-    //      INNER JOIN persone ON gruppi_persone.persona_id = persone.id
-    //      WHERE gruppi_persone.gruppo_famigliare_id = :gruppo
-    //          AND gruppi_persone.stato = '1'
-    //          AND (famiglie_persone.stato = '1' OR famiglie_persone.stato IS NULL)
-    //          AND (famiglie_persone.posizione_famiglia != 'SINGLE' OR famiglie_persone.stato IS NULL)
-    //      ORDER BY  famiglie.nome_famiglia, persone.data_nascita ASC"), ['gruppo' => $this->id]);
-    //
-    //        $famiglie = collect($famiglie)->groupBy('famiglia_id');
-    //
-    //        return $famiglie;
-    //    }
-
     public function isCentroDiSpirito(): bool
     {
-        return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II'); // Giovanni Paolo II
+        return Str::lower($this->nome) === Str::lower('GIOVANNI PAOLO II');
     }
 
     protected static function newFactory()

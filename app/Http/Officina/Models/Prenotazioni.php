@@ -87,25 +87,16 @@ final class Prenotazioni extends Model
         return $this->hasOne(Veicolo::class, 'id', 'veicolo_id')->withTrashed();
     }
 
-    /**
-     * ritorna la data e l'ora di partenza
-     */
     public function dataOraPartenza(): ?Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
 
-    /**
-     * ritorna la data e l'ora di arrivo
-     */
     public function dataOraArrivo(): ?Carbon
     {
         return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
 
-    /**
-     * ritorna true se la macchina è partita e non ancora arrivata
-     */
     public function isPartita(): bool
     {
         $adesso = Carbon::now();
@@ -116,9 +107,6 @@ final class Prenotazioni extends Model
         return false;
     }
 
-    /**
-     * ritorna true se la macchina è arrivata
-     */
     public function isArrivata(): bool
     {
         if ($this->dataOraArrivo() < Carbon::now()) {
@@ -128,9 +116,6 @@ final class Prenotazioni extends Model
         return false;
     }
 
-    /**
-     * ritorna true se la macchina deve ancora partire
-     */
     public function deveAncoraPartire(): bool
     {
         if ($this->dataOraPartenza() > Carbon::now()) {

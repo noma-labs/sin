@@ -22,9 +22,6 @@ final class TipoGomme extends Model
 
     protected $fillable = ['codice', 'note'];
 
-    /**
-     * ritorna tutti i veicoli con un tipo di gomme
-     */
     public function veicoli()
     {
         return $this->belongsToMany(Veicolo::class, 'gomme_veicolo', 'gomme_id', 'veicolo_id');

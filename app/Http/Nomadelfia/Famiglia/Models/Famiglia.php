@@ -40,8 +40,8 @@ final class Famiglia extends Model
     protected $guarded = [];
 
     protected $enumPosizione = [
-        // TODO: sostiture  CAPO FAMIGLIA con 'marito' e aggiungere una nuova colonna `capo_famiglia` per identificare chi è il capo famiglia
-        // il nome della famiglia è uguale al nome del capo famiglia.
+        // TODO: replace CAPO FAMIGLIA with 'marito' and add a new column `capo_famiglia` to identify who is the head of the family
+        // the family name is the same as the head of the family.
         'CAPO FAMIGLIA',
         'MOGLIE',
         'FIGLIO NATO',
@@ -73,9 +73,6 @@ final class Famiglia extends Model
         return collect(self::getEnum('Posizione'))->filter(fn ($value, $key) => Str::startsWith($value, 'FIGLIO'));
     }
 
-    /**
-     * Returns the families with a CAPO FAMIGLIA (men or women)
-     */
     public static function conCapofamiglia()
     {
         $expression = DB::raw("SELECT famiglie.*
@@ -89,11 +86,6 @@ final class Famiglia extends Model
         );
     }
 
-    /**
-     * Ritorna tutti capi famiglia delle famiglie
-     *
-     * @author Davide Neri
-     **/
     public static function OnlyCapofamiglia()
     {
         /** @phpstan-ignore-next-line */
@@ -123,10 +115,10 @@ final class Famiglia extends Model
     }
 
     /*
-    *  Ritorna le famiglie che hanno un errore nei loro componenti
-    *   2) ci sono più CAPO FAMIGLIA attivi nella famiglia
-    *   3) ci sono più di una MOGLIE nella famiglia
-    * Ritonra le famiglie senza componenti
+    *  Returns families with errors in their members
+    *   2) there are multiple active HEAD OF FAMILY in the family
+    *   3) there is more than one WIFE in the family
+    * Returns families without members
     */
     public static function famigliaConErrore()
     {
@@ -145,7 +137,7 @@ final class Famiglia extends Model
         $famiglie = DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-        $result->push((object) ['descrizione' => 'Famiglie non valide', 'results' => $famiglie]);
+        $result->push((object) ['descrizione' => 'Invalid families', 'results' => $famiglie]);
 
         $expression = DB::raw(
             "SELECT *
@@ -162,7 +154,7 @@ final class Famiglia extends Model
         );
 
         $result->push((object) [
-            'descrizione' => 'Famiglie senza componenti o con nessun componente attivo',
+            'descrizione' => 'Families without members or with no active member',
             'results' => $famiglieSenzaComponenti,
         ]);
         $expression = DB::raw("
@@ -178,7 +170,7 @@ final class Famiglia extends Model
         $famiglieSenzaCapo = DB::connection('db_nomadelfia')->select(
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
-        $result->push((object) ['descrizione' => 'Famiglie senza un CAPO FAMIGLIA', 'results' => $famiglieSenzaCapo]);
+        $result->push((object) ['descrizione' => 'Families without a HEAD OF FAMILY', 'results' => $famiglieSenzaCapo]);
 
         $expression = DB::raw("SELECT *
               from famiglie
@@ -195,17 +187,13 @@ final class Famiglia extends Model
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
         $result->push((object) [
-            'descrizione' => 'Famiglie assegnate in più di un grupo familiare',
+            'descrizione' => 'Families assigned to more than one family group',
             'results' => $famiglieConPiuGruppi,
         ]);
 
         return $result;
     }
 
-    /*
-    *  Ritorna le persone Interne che non hanno una famiglia attiva.
-    *
-    */
     public static function personeSenzaFamiglia()
     {
         $expression = DB::raw('
@@ -245,32 +233,16 @@ final class Famiglia extends Model
             ->orderBy('famiglie.nome_famiglia');
     }
 
-    /**
-     * Ritorna le famiglie che hanno come capo famiglia un maschio
-     *
-     * @author Davide Neri
-     **/
     public function scopeMaschio($query)
     {
         return $query->where('sesso', 'M');
     }
 
-    /**
-     * Ritorna le famiglie che hanno come capo famiglia una femmina
-     *
-     * @author Davide Neri
-     **/
     public function scopeFemmina($query)
     {
         return $query->where('sesso', 'F');
     }
 
-    /**
-     * Uscita di una famiglia da Nomadelfia.
-     * Esegure la funzione di uscita su tutti componenti ATTIVI della famiglia.
-     *
-     * @author Davide Neri
-     **/
     public function uscita(Carbon $data_uscita): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
@@ -287,10 +259,9 @@ final class Famiglia extends Model
     }
 
     /**
-     * Ritorna il gruppo familiare attuale in cui vive il CAPO FAMIGLIA
-     * Si assume che tutta la famiglia vive nello stesso gruppo del CAPO FAMIGLIA
+     * Returns the current family group in which the HEAD OF FAMILY lives
+     * It is assumed that the whole family lives in the same group as the HEAD OF FAMILY
      *
-     * @author Davide Neri
      **/
     public function gruppoFamiliareAttuale()
     {
@@ -324,9 +295,7 @@ final class Famiglia extends Model
     }
 
     /**
-     * Ritorna i gruppi familiari storici in cui ha vissuto il CAPO FAMIGLIA della famiglia
-     *
-     * @author Davide Neri
+     * Returns the historical family groups in which the HEAD OF FAMILY of the family has lived
      **/
     public function gruppiFamiliariStorico()
     {
@@ -358,11 +327,6 @@ final class Famiglia extends Model
         );
     }
 
-    /**
-     * Aggiunge il capo famiglia alla famiglia
-     *
-     * @author Davide Neri
-     **/
     public function assegnaCapoFamiglia($persona, $note = null)
     {
 
@@ -383,11 +347,6 @@ final class Famiglia extends Model
         throw new InvalidArgumentException("Identiticativo `{$persona}` della persona non valido.");
     }
 
-    /**
-     * Aggiunge la moglie alla famiglia
-     *
-     * @author Davide Neri
-     **/
     public function assegnaMoglie($persona)
     {
         if (is_string($persona)) {
@@ -423,11 +382,6 @@ final class Famiglia extends Model
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    /**
-     * Aggiunge un figlio nato nella famiglia
-     *
-     * @author Davide Neri
-     **/
     public function assegnaFiglioNato($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
@@ -440,11 +394,6 @@ final class Famiglia extends Model
         throw new InvalidArgumentException('Bad person as argument. It must be the id or the model of a person.');
     }
 
-    /**
-     * Aggiunge un figlio accolto nella famiglia
-     *
-     * @author Davide Neri
-     **/
     public function assegnaFiglioAccolto($persona, $note = null)
     {
         // TODO: check the la persona non ha già una famiglia associata
@@ -486,11 +435,10 @@ final class Famiglia extends Model
     }
 
     /**
-     * @Depreacted
-     * Use the mycomponenti()
-     * Ritorna i componenti che hanno fatto parte della famiglia (padre, madre, e figli)
+     * Returns the members who have been part of the family (father, mother, and children)
      *
-     * @author Davide Neri
+     * @Deprecated
+     * Use the mycomponenti()
      **/
     public function componenti()
     {
@@ -499,21 +447,11 @@ final class Famiglia extends Model
             ->orderby('nominativo');
     }
 
-    /**
-     * Ritorna i componenti attuali della famiglia (padre, madre, e figli)
-     *
-     * @author Davide Neri
-     **/
     public function componentiAttuali()
     {
         return $this->componenti()->where('famiglie_persone.stato', '1');
     }
 
-    /**
-     * Ritorna il capofamiglia della famiglia.
-     *
-     * @author Davide Neri
-     **/
     public function capofamiglia()
     {
         return $this->componenti()
@@ -522,11 +460,6 @@ final class Famiglia extends Model
             ->first();
     }
 
-    /**
-     * Ritorna la moglie della famiglia.
-     *
-     * @author Davide Neri
-     **/
     public function moglie()
     {
         return $this->componenti()
@@ -534,11 +467,6 @@ final class Famiglia extends Model
             ->first();
     }
 
-    /**
-     * Ritorna i figli  (sia nati che accolti) della famiglia.
-     *
-     * @author Davide Neri
-     **/
     public function figli()
     {
         return $this->belongsToMany(Persona::class, 'famiglie_persone', 'famiglia_id', 'persona_id')
@@ -547,20 +475,14 @@ final class Famiglia extends Model
             ->orderBy('data_nascita');
     }
 
-    /**
-     * Ritorna i figli attuali (sia nati che accolti) della famiglia.
-     *
-     * @author Davide Neri
-     **/
     public function figliAttuali()
     {
         return $this->figli()->wherePivot('stato', '=', '1');
     }
 
     /**
-     * Rimuove tutti i componenti della famiglia da un gruppo familiare
+     * Removes all family members from a family group
      *
-     * @author Davide Neri
      **/
     public function rimuoviDaGruppoFamiliare($idGruppo): void
     {
@@ -584,9 +506,8 @@ final class Famiglia extends Model
     }
 
     /**
-     * Assegna un nuovo gruppo familiare alla famiglia.
+     * Assigns a new family group to the family.
      *
-     * @author Davide Neri
      **/
     public function assegnaFamigliaANuovoGruppoFamiliare(
         $gruppo_attuale_id,
@@ -653,9 +574,6 @@ final class Famiglia extends Model
         return FamigliaFactory::new();
     }
 
-    /**
-     * Set the nome in uppercase when a new famiglia is insereted.
-     */
     protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn ($value): array => ['nome_famiglia' => ucwords(mb_strtolower((string) $value))]);

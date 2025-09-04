@@ -8,7 +8,7 @@ use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Patente\Models\Patente;
-use Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -43,8 +43,6 @@ final class PatenteElenchiController
             ->setCellValue('G1', 'RILASCIATA DA')
             ->setCellValue('H1', 'DATA SCADENZA')
             ->setCellValue('I1', 'CATEGORIE');
-        // ->setCellValue('J1', 'STATO')
-        // ->setCellValue('K1', 'NOTE');
         $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
@@ -54,8 +52,6 @@ final class PatenteElenchiController
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
-        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
-        // $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
 
         $spreadsheet->getActiveSheet()->getStyle('A1:I1')->applyFromArray(['font' => ['bold' => true]]);
 
@@ -71,8 +67,7 @@ final class PatenteElenchiController
                 $patente->rilasciata_dal,
                 $patente->data_scadenza_patente,
                 $patente->categorieAsString(),
-            ];    // $patente->stato,
-            // str_replace(array("\r\n", "\r", "\n"), " ", $patente->note)); // reaplece \n\r with blank
+            ];
         });
 
         $spreadsheet->getActiveSheet()->fromArray(
