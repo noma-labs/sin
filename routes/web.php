@@ -355,6 +355,7 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
     Route::post('/maintenance', [MaintenanceController::class, 'store'])->middleware('can:agraria.*')->name('agraria.maintenanace.store');
     Route::get('/maintenance/{id}/edit', [MaintenanceController::class, 'edit'])->middleware('can:agraria.*')->name('agraria.maintenanace.edit');
     Route::put('/maintenance/{id}', [MaintenanceController::class, 'update'])->middleware('can:agraria.*')->name('agraria.maintenanace.update');
+    Route::delete('/maintenance/{id}', [MaintenanceController::class, 'destroy'])->middleware('can:agraria.*')->name('agraria.maintenanace.destroy');
 
     Route::get('/planned-maintenance', [PlannedMaintenanceController::class, 'index'])->middleware('can:agraria.*')->name('agraria.maintenanace.planned.index');
     Route::post('/planned-maintenance', [PlannedMaintenanceController::class, 'store'])->middleware('can:agraria.*')->name('agraria.maintenanace.planned.store');

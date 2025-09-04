@@ -6,6 +6,7 @@ namespace App\Agraria\Controllers;
 
 use App\Agraria\Models\Manutenzione;
 use App\Agraria\Models\ManutenzioneProgrammata;
+use App\Agraria\Models\ManutenzioneTipo;
 use App\Agraria\Models\MezzoAgricolo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -100,5 +101,14 @@ final class MaintenanceController
 
         return redirect()->route('agraria.maintenanace.show', $manutenzione->id)
             ->with('success', 'Manutenzione aggiornata correttamente');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $manutenzione = Manutenzione::with('programmate')->findOrFail($id);
+        ManutenzioneTipo::where('manutenzione', $manutenzione->id)->delete();
+        $manutenzione->delete();
+
+        return redirect()->route('agraria.index')->with('success', 'Manutenzione eliminata correttamente');
     }
 }
