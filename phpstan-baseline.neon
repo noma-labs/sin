@@ -349,6 +349,12 @@ parameters:
 			path: app/Http/Agraria/Controllers/MaintenanceController.php
 
 		-
+			message: '#^Call to an undefined static method App\\Agraria\\Models\\ManutenzioneTipo\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Agraria/Controllers/MaintenanceController.php
+
+		-
 			message: '#^Call to an undefined static method App\\Agraria\\Models\\MezzoAgricolo\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -2709,12 +2715,6 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
-
-		-
-			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'
-			identifier: class.notFound
 			count: 2
 			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
 
@@ -5749,12 +5749,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
-			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'
-			identifier: class.notFound
-			count: 2
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
-
-		-
 			message: '#^Cannot access offset mixed on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -6111,12 +6105,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Posizione\:\:personeAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Posizione.php
-
-		-
-			message: '#^PHPDoc tag @return has invalid value \(\\App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Posizione;\)\: Unexpected token ";", expected TOKEN_HORIZONTAL_WS at offset 157 on line 5$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Posizione.php
 
@@ -7441,12 +7429,6 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteElenchiController.php
 
 		-
-			message: '#^Call to static method now\(\) on an unknown class Carbon\.$#'
-			identifier: class.notFound
-			count: 4
-			path: app/Http/Patente/Controllers/PatenteElenchiController.php
-
-		-
 			message: '#^Method App\\Patente\\Controllers\\PatenteElenchiController\:\:index\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -7861,8 +7843,20 @@ parameters:
 			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeConPatente\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeConPatente\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeSenzaPatente\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
 
@@ -8093,6 +8087,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Http/Rtn/Video/Video.php
+
+		-
+			message: '#^Call to an undefined static method App\\Rtn\\Video\\Video\:\:byYear\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Rtn/Video/VideoController.php
 
 		-
 			message: '#^Method App\\Rtn\\Video\\VideoController\:\:index\(\) has no return type specified\.$#'
@@ -9581,12 +9581,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Scuola/Models/Classe.php
-
-		-
-			message: '#^Class App\\Scuola\\Models\\ClasseBuilder extends generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Scuola/Models/ClasseBuilder.php
 
 		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
