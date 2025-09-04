@@ -51,10 +51,6 @@ final class PopolazioneNomadelfia extends Model
             ->get();
     }
 
-    /*
-    *  Ritorna i nomadelfi effettivi  della popolazione divisi per uomini e donne
-    *
-    */
     public static function effettivi(): stdClass
     {
         $result = new stdClass;
@@ -67,9 +63,6 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-    *  Ritorna i postulanti  della popolazione
-    */
     public static function postulanti(): stdClass
     {
         $result = new stdClass;
@@ -82,9 +75,6 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-  *  Ritorna gli ospiti  della popolazione
-  */
     public static function ospiti(): stdClass
     {
         $result = new stdClass;
@@ -97,17 +87,11 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-    *  Ritorna i figli  della popolazione
-    */
     public static function figli()
     {
         return self::byPosizione('FIGL');
     }
 
-    /*
-  *  Ritorna i figli maggiorenni
-  */
     public static function figliMaggiorenni(string $orderby = 'nominativo'): stdClass
     {
         $magg = self::figliDaEta(18, null, $orderby);
@@ -122,9 +106,6 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-    *  Ritorna i minorenni
-    */
     public static function figliMinorenni(): stdClass
     {
         $magg = self::figliDaEta(0, 18, 'nominativo');
@@ -138,9 +119,6 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-    *  Ritorna i minorenni divisi per anno di eta.
-    */
     public static function figliMinorenniPerAnno(): stdClass
     {
         $minorenni = collect(self::figliDaEta(0, 18, 'nominativo'));
@@ -156,9 +134,6 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-     *  Ritorna i figlio fra 18 e 21 anni
-     */
     public static function figliFra18e21(): stdClass
     {
         $magg = self::figliDaEta(18, 21, 'nominativo');
@@ -185,25 +160,16 @@ final class PopolazioneNomadelfia extends Model
         return $result;
     }
 
-    /*
-    *  Ritorna i sacerdoti della popolazione
-    */
     public static function sacerdoti()
     {
         return self::byStati('SAC');
     }
 
-    /*
-    *  Ritorna le mamme di vocazione  della popolazione
-    */
     public static function mammeVocazione()
     {
         return self::byStati('MAV');
     }
 
-    /*
-  *  Ritorna le nomadelfa mamma  della popolazione
-  */
     public static function nomadelfaMamma()
     {
         return self::byStati('MAM');
@@ -232,9 +198,9 @@ final class PopolazioneNomadelfia extends Model
     }
 
     /*
-  *  Ritorna le persone con una certo stato.
-  *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
-  */
+    *  Ritorna le persone con una certo stato.
+    *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
+    */
     public static function byStati(string $stato, $orderby = 'nominativo')
     {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
@@ -272,24 +238,6 @@ final class PopolazioneNomadelfia extends Model
             $expression->getValue(DB::connection()->getQueryGrammar())
         );
     }
-
-    /*
-    *  Ritorna il numero di persone per ogni gruppo familiare
-
-    public static function gruppiComponenti()
-    {
-      $gruppi = DB::connection('db_nomadelfia')->select(
-        DB::raw("SELECT gruppi_familiari.id,  count(*) as componenti
-        FROM gruppi_persone
-        INNER JOIN persone ON gruppi_persone.persona_id = persone.id
-        INNER JOIN gruppi_familiari ON gruppi_familiari.id = gruppi_persone.gruppo_famigliare_id
-        WHERE persone.stato = '1' and gruppi_persone.stato = '1'
-        GROUP by gruppi_familiari.id
-        ORDER BY gruppi_familiari.nome"
-       ));
-      return $gruppi;
-    }
-     */
 
     /*
     *  Ritorna i figli con hanno gli anni maggiori di $frometa (e minori di $toEta se non nullo)

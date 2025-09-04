@@ -29,14 +29,7 @@ final class Posizione extends Model
         'uscito' => 'DADE',
     ];
 
-    /**
-     * Find a Posizione by its name
-     *
-     * @param  string  $name  abbreviato
-     * @return \App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
-     *
-     * @throws PosizioneDoesNotExists
-     */
+
     public static function find(string $name): self
     {
         $posizione = self::where('abbreviato', $name)->first();
@@ -47,11 +40,6 @@ final class Posizione extends Model
         return $posizione;
     }
 
-    /**
-     * Ritorna la posizione dal nome
-     *
-     * @author: Davide Neri
-     */
     public static function perNome($nome)
     {
         return self::where('abbreviato', self::$mapNamesToDB[$nome])->first();
@@ -79,11 +67,6 @@ final class Posizione extends Model
         return $this->abbreviato === self::$mapNamesToDB['effettivo'];
     }
 
-    /**
-     * Ordina (di default) le posizioni secondo la colonna ordinamento
-     *
-     * @author: Davide Neri
-     */
     protected static function boot(): void
     {
         parent::boot();

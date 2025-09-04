@@ -370,10 +370,6 @@ class Persona extends Model
         return false;
     }
 
-    /*
-    * Assegna un nuovo stato alla persona.
-    * Se la persona ha uno stato attuale viene concluso con la data di inizio del nuovo stato.
-    */
     public function assegnaStato($stato, $data_inizio, $attuale_data_fine = null): void
     {
         if (is_string($stato) | is_int($stato)) {

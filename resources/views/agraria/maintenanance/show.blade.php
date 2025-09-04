@@ -59,10 +59,18 @@
                 >
                     Modifica
                 </a>
-                <form method="POST" action="{{ route('agraria.maintenanace.destroy', $manutenzione->id) }}" class="d-inline ms-2">
+                <form
+                    method="POST"
+                    action="{{ route("agraria.maintenanace.destroy", $manutenzione->id) }}"
+                    class="d-inline ms-2"
+                >
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger mt-3" onclick="return confirm('Sei sicuro di voler eliminare questa manutenzione?')">
+                    @method("DELETE")
+                    <button
+                        type="submit"
+                        class="btn btn-danger mt-3"
+                        onclick="return confirm('Sei sicuro di voler eliminare questa manutenzione?')"
+                    >
                         Elimina
                     </button>
                 </form>

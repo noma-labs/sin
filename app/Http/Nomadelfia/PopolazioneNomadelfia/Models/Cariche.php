@@ -7,7 +7,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 use App\Nomadelfia\Exceptions\CouldNotAssignCarica;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\Enums;
-use Carbon;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -96,13 +96,13 @@ final class Cariche extends Model
         $sacerdote = Stato::perNome('sacerdote');
 
         $expression = DB::raw(
-            'SELECT * 
+            'SELECT *
                 FROM persone
                 INNER JOIN popolazione ON popolazione.persona_id = persone.id
                 INNER JOIN persone_posizioni ON persone_posizioni.persona_id = persone.id
                 LEFT JOIN persone_stati ON persone_stati.persona_id = persone.id
                 WHERE popolazione.data_uscita IS NULL
-                AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma 
+                AND persone.data_nascita <= :date AND persone_posizioni.data_inizio <= :datanoma
                 AND persone_posizioni.posizione_id = :effe AND persone_stati.stato_id != :sac
                 ORDER BY persone.nominativo ASC'
         );
@@ -135,12 +135,7 @@ final class Cariche extends Model
         return $query->where('nome', '=', 'presidente');
     }
 
-    /**
-     * Aggiunge il presidente dell'associazione
-     *
-     * @author Davide Neri
-     **/
-    public function assegnaPresidenteAssociazione($persona, Carbon\Carbon $data_inizio)
+    public function assegnaPresidenteAssociazione($persona, Carbon $data_inizio)
     {
         if (is_string($persona)) {
             $persona = Persona::findOrFail($persona);
@@ -156,7 +151,6 @@ final class Cariche extends Model
         throw new InvalidArgumentException("Identificativo `{$persona}` della persona non valido.");
     }
 
-    // ritorna le persone che ricoprono le cariche di una organizazione
     public function membri()
     {
         return $this->belongsToMany(Persona::class, 'persone_cariche', 'cariche_id',

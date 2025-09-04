@@ -25,7 +25,6 @@ final class Modelli extends Model
 
     public function marca()
     {
-        // return $this->hasOne(Marche::class, 'id', 'marca_id');
         return $this->belongsTo(Marche::class, 'marca_id');
     }
 

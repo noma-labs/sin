@@ -28,10 +28,6 @@ final class Classe extends Model
 
     protected $guarded = [];
 
-    public function newEloquentBuilder($query)
-    {
-        return new ClasseBuilder($query);
-    }
 
     public function alunni($orderby = 'sesso  DESC, nominativo ASC')
     {

@@ -96,7 +96,6 @@ final class MaintenanceController
         $manutenzione->mezzo_agricolo = $request->input('mezzo');
         $manutenzione->save();
 
-        // Sync manutenzioni programmate
         $manutenzione->programmate()->sync($request->get('programmate', []));
 
         return redirect()->route('agraria.maintenanace.show', $manutenzione->id)

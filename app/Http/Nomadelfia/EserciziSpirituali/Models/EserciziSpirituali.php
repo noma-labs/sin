@@ -59,9 +59,6 @@ final class EserciziSpirituali extends Model
         return $result;
     }
 
-    /**
-     * Returns gli esercizi spirituali attivi
-     */
     public function scopeAttivi($query)
     {
         return $query->where('stato', '=', '1');

@@ -42,11 +42,6 @@ final class Stato extends Model
         return $stato;
     }
 
-    /**
-     * Ritorna lo stato dal suo nome
-     *
-     * @author: Davide Neri
-     */
     public static function perNome($nome)
     {
 
