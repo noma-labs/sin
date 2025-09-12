@@ -38,7 +38,7 @@ abstract class Autocomplete extends Component
 
     public $selected = [];
 
-    public string $noResultsMessage = 'Nessun risultato trovato';
+    public string $noResultsMessage = '-- Nessun risultato --';
 
     public string $nameInput = 'persone_id[]';
 
@@ -99,8 +99,16 @@ abstract class Autocomplete extends Component
 
     final public function search(string $term): void
     {
+
         $this->reset('options');
 
+        if (mb_strlen($term) < 3) {
+            $this->noResultsMessage = '--Inserisci almeno 3 caratteri --';
+
+            return;
+        }
+
+        $this->reset('noResultsMessage');
         $this->options = $this->searchBy($term);
     }
 

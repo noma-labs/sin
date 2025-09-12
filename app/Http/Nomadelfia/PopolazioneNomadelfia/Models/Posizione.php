@@ -29,7 +29,6 @@ final class Posizione extends Model
         'uscito' => 'DADE',
     ];
 
-
     public static function find(string $name): self
     {
         $posizione = self::where('abbreviato', $name)->first();

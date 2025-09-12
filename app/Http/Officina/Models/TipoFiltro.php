@@ -25,7 +25,6 @@ final class TipoFiltro extends Model
 
     protected $fillable = ['codice', 'tipo', 'note'];
 
-
     public static function tipo(): array
     {
         return Enums::getPossibleEnumValues('tipo', 'db_meccanica.tipo_filtro');

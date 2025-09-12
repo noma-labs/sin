@@ -19,6 +19,7 @@ final class NomadelfiaTableSeeder extends Seeder
 {
     public function run()
     {
+        Persona::factory()->count(2000)->create();
         $this->insertFamigliaInPopolazione();
         $this->insertPersoneSinglePopolazione();
     }

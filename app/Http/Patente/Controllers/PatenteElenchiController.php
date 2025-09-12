@@ -57,18 +57,16 @@ final class PatenteElenchiController
 
         $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(fn ($product) => $product->persona->cognome);
 
-        $patenti = $patenti->map(function ($patente, $key): array {
-            return [$patente->persona->cognome,
-                $patente->persona->nome,
-                $patente->persona->data_nascita,
-                $patente->persona->provincia_nascita,
-                $patente->numero_patente,
-                $patente->data_rilascio_patente,
-                $patente->rilasciata_dal,
-                $patente->data_scadenza_patente,
-                $patente->categorieAsString(),
-            ];
-        });
+        $patenti = $patenti->map(fn($patente, $key): array => [$patente->persona->cognome,
+            $patente->persona->nome,
+            $patente->persona->data_nascita,
+            $patente->persona->provincia_nascita,
+            $patente->numero_patente,
+            $patente->data_rilascio_patente,
+            $patente->rilasciata_dal,
+            $patente->data_scadenza_patente,
+            $patente->categorieAsString(),
+        ]);
 
         $spreadsheet->getActiveSheet()->fromArray(
             $patenti->toArray(), // ->toArray(),  // The data to set
