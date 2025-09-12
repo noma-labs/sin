@@ -133,7 +133,7 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-12">
                         <label for="alunni" class="form-label">Alunni/o</label>
-                        <livewire:search-alunno
+                        <livewire:search-persona
                             :persone_id="$elaborato->studenti->pluck('id')->toArray()"
                             name_input="studenti_ids[]"
                             :multiple="true"

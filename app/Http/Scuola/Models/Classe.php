@@ -28,7 +28,6 @@ final class Classe extends Model
 
     protected $guarded = [];
 
-
     public function alunni($orderby = 'sesso  DESC, nominativo ASC')
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
