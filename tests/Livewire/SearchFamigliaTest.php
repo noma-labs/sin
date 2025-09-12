@@ -14,9 +14,9 @@ it('can render succesfully the component', function (): void {
 });
 
 it('can search famiglia', function (): void {
-    Famiglia::factory()->create(['nome_famiglia' => 'a-family']);
+    Famiglia::factory()->create(['nome_famiglia' => 'john family']);
 
     Livewire::test(SearchFamiglia::class)
-        ->call('search', 'a-fam')
-        ->assertSee('a-family');
-})->only();
+        ->call('search', 'joh')
+        ->assertSee('John Family'); // NOTE: the name is capitalized in the component
+});
