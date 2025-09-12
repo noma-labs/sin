@@ -57,7 +57,7 @@ final class PatenteElenchiController
 
         $patenti = Patente::with('persona')->has('categorie')->get()->sortBy(fn ($product) => $product->persona->cognome);
 
-        $patenti = $patenti->map(fn($patente, $key): array => [$patente->persona->cognome,
+        $patenti = $patenti->map(fn ($patente, $key): array => [$patente->persona->cognome,
             $patente->persona->nome,
             $patente->persona->data_nascita,
             $patente->persona->provincia_nascita,

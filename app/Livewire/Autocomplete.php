@@ -100,15 +100,15 @@ abstract class Autocomplete extends Component
     final public function search(string $term): void
     {
 
-        // $this->reset('options');
+        $this->reset('options');
 
-        // if (mb_strlen($term) < 3) {
-        //     $this->noResultsMessage = '--Inserisci almeno 3 caratteri --';
+        if (mb_strlen($term) < 3) {
+            $this->noResultsMessage = '--Inserisci almeno 3 caratteri --';
 
-        //     return;
-        // }
+            return;
+        }
 
-        // $this->reset('noResultsMessage');
+        $this->reset('noResultsMessage');
         $this->options = $this->searchBy($term);
     }
 

@@ -18,5 +18,5 @@ it('can search famiglia', function (): void {
 
     Livewire::test(SearchFamiglia::class)
         ->call('search', 'joh')
-        ->assertSee('John Family'); // NOTE: the name is capitalized in the component
+        ->assertSee('John Family'); // NOTE: the name is capitalized before inserted ino the db
 });
