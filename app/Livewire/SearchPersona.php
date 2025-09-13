@@ -19,7 +19,7 @@ final class SearchPersona extends Autocomplete
             ->orWhere('nome', 'LIKE', "$term%")
             ->groupBy('persone.id')
             ->orderBy('nominativo', 'asc')
-            ->limit(20)
+            ->limit(50)
             ->get();
 
         $options = [];
