@@ -8,11 +8,17 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\ClasseTipo;
 use Carbon\Carbon;
+use App\Scuola\Models\Elaborato;
 use Illuminate\Database\Seeder;
 
 final class ScuolaTableSeeder extends Seeder
 {
     public function run()
+    {
+        $this->createAnniScolastico();
+        $this->createElaborati();
+    }
+    protected function createAnniScolastico(): void
     {
         $anno = Anno::createAnno(2021);
         $t = ClasseTipo::all();
@@ -48,5 +54,10 @@ final class ScuolaTableSeeder extends Seeder
                 }
             }
         }
+    }
+
+    protected function createElaborati(): void
+    {
+        Elaborato::factory()->count(20)->create();
     }
 }
