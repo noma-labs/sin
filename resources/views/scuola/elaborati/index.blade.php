@@ -5,7 +5,7 @@
     <div class="d-flex flex-wrap gap-2 mb-3">
         @foreach ($years as $year)
             <a
-                href="{{ route("scuola.elaborati.index", ["year" => $year->year]) }}"
+                href="{{ route("scuola.elaborati.index", ["year" => $year->year, "order" => request("order")]) }}"
                 class="btn btn-sm {{ request("year") == $year->year ? "btn-primary" : "btn-outline-primary" }}"
             >
                 {{ $year->year }}
@@ -16,7 +16,7 @@
         @endforeach
 
         <a
-            href="{{ route("scuola.elaborati.index", ["year" => null]) }}"
+            href="{{ route("scuola.elaborati.index", ["year" => null,  "order" => request("order")]) }}"
             class="btn btn-sm btn-outline-primary"
         >
             Mostra tutti
@@ -41,7 +41,7 @@
                 <li>
                     <a
                         class="dropdown-item"
-                        href="{{ route("scuola.elaborati.index", ["order" => "collocazione", "by" => "ASC", "view" => $view]) }}"
+                        href="{{ route("scuola.elaborati.index", ["order" => "collocazione", "by" => "ASC", "view" => $view, "year" => request("year")]) }}"
                     >
                         Collocazione
                     </a>
@@ -49,7 +49,7 @@
                 <li>
                     <a
                         class="dropdown-item"
-                        href="{{ route("scuola.elaborati.index", ["order" => "anno_scolastico", "by" => "ASC", "view" => $view]) }}"
+                        href="{{ route("scuola.elaborati.index", ["order" => "anno_scolastico", "by" => "ASC", "view" => $view, "year" => request("year")]) }}"
                     >
                         Anno
                     </a>
@@ -68,7 +68,7 @@
                 <li>
                     <a
                         class="dropdown-item"
-                        href="{{ route("scuola.elaborati.index", ["view" => "table"]) }}"
+                        href="{{ route("scuola.elaborati.index", ["view" => "table", "year" => request("year")]) }}"
                     >
                         Tabella
                     </a>
@@ -76,7 +76,7 @@
                 <li>
                     <a
                         class="dropdown-item"
-                        href="{{ route("scuola.elaborati.index", ["view" => "cards"]) }}"
+                        href="{{ route("scuola.elaborati.index", ["view" => "cards", "year" => request("year")]) }}"
                     >
                         Griglia
                     </a>
