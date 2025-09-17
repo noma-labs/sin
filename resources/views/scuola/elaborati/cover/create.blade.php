@@ -1,7 +1,7 @@
 @extends("scuola.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Aggiungi copertina per thumbnail"])
+    @include("partials.header", ["title" => "Aggiungi copertina"])
 
     <form
         action="{{ route("scuola.elaborati.cover.store", $elaborato->id) }}"

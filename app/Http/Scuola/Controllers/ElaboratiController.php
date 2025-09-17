@@ -22,17 +22,28 @@ final class ElaboratiController
     public function index(Request $request)
     {
         $order = $request->query('order', 'anno_scolastico');
+        $filterYear = $request->string('year');
         $by = $request->query('by', 'DESC');
         $view = $request->get('view', 'cards');
 
-        $elaborati = Elaborato::query()
+        $years = Elaborato::query()
+            ->selectRaw('anno_scolastico as year, count(*) as `count` ')
+            ->groupByRaw('anno_scolastico')
+            ->orderByRaw('anno_scolastico')
+            ->get();
+
+        $query = Elaborato::query()
             ->leftjoin('archivio_biblioteca.libro', 'elaborati.libro_id', '=', 'libro.id')
             ->select('elaborati.*', 'libro.autore')
             ->orderBy($order, $by)
-            ->orderBy('elaborati.collocazione', 'DESC')
-            ->get();
+            ->orderBy('elaborati.collocazione', 'DESC');
+        if (! $filterYear->isEmpty()) {
+            $query->where('anno_scolastico', $filterYear);
+        }
+        $elaborati = $query->get();
+        $total = Elaborato::query()->count();
 
-        return view('scuola.elaborati.index', compact('elaborati', 'view'));
+        return view('scuola.elaborati.index', compact('elaborati', 'view', 'years', 'total'));
     }
 
     public function create()
