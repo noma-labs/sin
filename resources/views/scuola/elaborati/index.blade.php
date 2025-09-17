@@ -16,7 +16,7 @@
         @endforeach
 
         <a
-            href="{{ route("scuola.elaborati.index", ["year" => null,  "order" => request("order")]) }}"
+            href="{{ route("scuola.elaborati.index", ["year" => null, "order" => request("order")]) }}"
             class="btn btn-sm btn-outline-primary"
         >
             Mostra tutti
