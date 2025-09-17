@@ -1,7 +1,31 @@
 @extends("scuola.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Elaborati ", "subtitle" => $elaborati->count()])
+    @include("partials.header", ["title" => "Elaborati ", "subtitle" => $total])
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach ($years as $year)
+            <a
+                href="{{ route("scuola.elaborati.index", ["year" => $year->year]) }}"
+                class="btn btn-sm {{ request("year") == $year->year ? "btn-primary" : "btn-outline-primary" }}"
+            >
+                {{ $year->year }}
+                <span class="badge text-bg-secondary">
+                    {{ $year->count }}
+                </span>
+            </a>
+        @endforeach
+
+        <a
+            href="{{ route("scuola.elaborati.index", ["year" => null]) }}"
+            class="btn btn-sm btn-outline-primary"
+        >
+            Mostra tutti
+            <span class="badge text-bg-secondary">
+                {{ $total }}
+            </span>
+        </a>
+    </div>
+
     <div class="mb-3 d-flex justify-content-between">
         <div>
             <a
