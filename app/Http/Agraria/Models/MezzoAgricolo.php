@@ -53,11 +53,18 @@ final class MezzoAgricolo extends Model
                 ->where('mezzo_agricolo', $this->id)
                 ->orderBy('data', 'desc')
                 ->first();
+
             if ($man === null) {
                 $scadenze[$p->nome] = $p->ore - $this->tot_ore;
             } else {
-                $scadenze[$p->nome] = $p->ore - ($this->tot_ore - $man->ore);
+                // it happens when there is a mistake and there is a maintanence with hour that are greater than the total hours of the vehicle.
+                if ($man->ore > $this->tot_ore) {
+                    $scadenze[$p->nome] = $p->ore - $this->tot_ore;
+                } else {
+                    $scadenze[$p->nome] = $p->ore - ($this->tot_ore - $man->ore);
+                }
             }
+
         }
 
         return collect($scadenze);
