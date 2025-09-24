@@ -1,34 +1,11 @@
 @extends("scuola.index")
 
 @section("content")
-    @include("partials.header", ["title" => "Elaborati ", "subtitle" => $total])
-    <div class="d-flex flex-wrap gap-2 mb-3">
-        @foreach ($years as $year)
-            <a
-                href="{{ route("scuola.elaborati.index", ["year" => $year->year, "order" => request("order")]) }}"
-                class="btn btn-sm {{ request("year") == $year->year ? "btn-primary" : "btn-outline-primary" }}"
-            >
-                {{ $year->year }}
-                <span class="badge text-bg-secondary">
-                    {{ $year->count }}
-                </span>
-            </a>
-        @endforeach
-
-        <a
-            href="{{ route("scuola.elaborati.index", ["year" => null, "order" => request("order")]) }}"
-            class="btn btn-sm btn-outline-primary"
-        >
-            Mostra tutti
-            <span class="badge text-bg-secondary">
-                {{ $total }}
-            </span>
-        </a>
-    </div>
-
-    <div class="mb-3 d-flex justify-content-between">
-        <div>
-            <a
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Elaborati</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+           <a
                 class="btn btn-secondary dropdown-toggle"
                 href="#"
                 role="button"
@@ -81,17 +58,43 @@
                         Griglia
                     </a>
                 </li>
-            </ul>
+            </ul>   
+          </div>
+          <a
+                class="btn btn-primary"
+                href="{{ route("scuola.elaborati.create") }}"
+                role="button"
+            >
+                Inserisci
+            </a>
         </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach ($years as $year)
+            <a
+                href="{{ route("scuola.elaborati.index", ["year" => $year->year, "order" => request("order")]) }}"
+                class="btn btn-sm {{ request("year") == $year->year ? "btn-primary" : "btn-outline-primary" }}"
+            >
+                {{ $year->year }}
+                <span class="badge text-bg-secondary">
+                    {{ $year->count }}
+                </span>
+            </a>
+        @endforeach
 
         <a
-            class="btn btn-primary"
-            href="{{ route("scuola.elaborati.create") }}"
-            role="button"
+            href="{{ route("scuola.elaborati.index", ["year" => null, "order" => request("order")]) }}"
+            class="btn btn-sm btn-outline-primary"
         >
-            Inserisci
+            Mostra tutti
+            <span class="badge text-bg-secondary">
+                {{ $total }}
+            </span>
         </a>
     </div>
+
+
     @if ($view === "table")
         <div class="table-responsive">
             <table class="table table-hover table-sm">
