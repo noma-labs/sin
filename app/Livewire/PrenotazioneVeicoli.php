@@ -83,7 +83,7 @@ final class PrenotazioneVeicoli extends Component
 
     public function refreshVeicoli(): void
     {
-        if (!empty($this->dataArrivo) && !empty($this->dataPartenza) && !empty($this->oraArrivo) && !empty($this->oraPartenza)) {
+        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
             $ordinamento = [
                 ['tipologia' => '1', 'impiego' => '1'], // autovetture grosseto
                 ['tipologia' => '6', 'impiego' => '1'], // furgoncini grosseto
@@ -106,7 +106,7 @@ final class PrenotazioneVeicoli extends Component
                 ['tipologia' => '3', 'impiego' => '5'], // autocarri roma
             ];
 
-            $veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza . ' ' . $this->oraPartenza), Carbon::parse($this->dataArrivo . ' ' . $this->oraArrivo))
+            $veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
                 ->get();
 
             $veicoliOrdinati = collect([]);
@@ -119,9 +119,7 @@ final class PrenotazioneVeicoli extends Component
                 $veicoliOrdinati = $veicoliOrdinati->merge($veicoliDaAggiungere);
 
                 // Rimuovi i veicoli aggiunti dalla collection originale
-                $veicoli = $veicoli->reject(function ($veicolo) use ($veicoliDaAggiungere) {
-                    return $veicoliDaAggiungere->contains('id', $veicolo->id);
-                });
+                $veicoli = $veicoli->reject(fn ($veicolo) => $veicoliDaAggiungere->contains('id', $veicolo->id));
             }
 
             // Aggiungi eventuali veicoli rimanenti che non sono stati ordinati

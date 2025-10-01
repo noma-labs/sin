@@ -31,7 +31,7 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
                 'tipologiaAutovettura',
                 'tipologiaFurgoncino',
                 'tipologiaFurgone',
-                'tipologiaMotociclo'
+                'tipologiaMotociclo',
             ],
             'impiegoPersonale' => [
                 'tipologiaAutovettura',
@@ -41,20 +41,20 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             'impiegoInterno' => [
                 'tipologiaAutovettura',
                 'tipologiaFurgoncino',
-                'tipologiaFurgone'
+                'tipologiaFurgone',
             ],
             'impiegoViaggiLunghi' => [
                 'tipologiaAutovettura',
                 'tipologiaFurgoncino',
                 'tipologiaFurgone',
                 'tipologiaAutobus',
-                'tipologiaAutocarro'
+                'tipologiaAutocarro',
             ],
             'impiegoRoma' => [
                 'tipologiaAutovettura',
                 'tipologiaFurgoncino',
                 'tipologiaFurgone',
-                'tipologiaAutocarro'
+                'tipologiaAutocarro',
             ],
         ];
 
