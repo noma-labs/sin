@@ -53,7 +53,7 @@ final class Veicolo extends Model
         // solution: use JSON_OBJECTAGG function to aggregate the bookings for a vehicle.
         return DB::connection('db_officina')
             ->table('veicolo')
-            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome , tipologia.nome as tipologia_nome, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')
+            ->selectRaw('veicolo.id, veicolo.nome, db_nomadelfia.persone.nominativo, impiego.nome as impiego_nome, impiego.id as impiego_id, tipologia.nome as tipologia_nome, tipologia.id as tipologia_id, prenotazioni_in.id as prenotazione_id, concat(prenotazioni_in.data_partenza, ":",  prenotazioni_in.ora_partenza) as partenza, concat(prenotazioni_in.data_arrivo, ":", prenotazioni_in.ora_arrivo) as arrivo')
             ->leftJoinSub($bookingsInTimeRange, 'prenotazioni_in', function (JoinClause $join): void {
                 $join->on('veicolo.id', '=', 'prenotazioni_in.veicolo_id');
             })
@@ -63,6 +63,7 @@ final class Veicolo extends Model
             ->where('veicolo.prenotabile', 1)
             ->whereNull('veicolo.deleted_at')
             ->orderBy('impiego.ord')
+            ->orderBy('tipologia.ord')
             ->orderBy('veicolo.nome');
     }
 

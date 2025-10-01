@@ -83,10 +83,51 @@ final class PrenotazioneVeicoli extends Component
 
     public function refreshVeicoli(): void
     {
-        if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
-            $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
-                ->get()
-                ->groupBy(['impiego_nome', 'tipologia_nome']);
+        if (!empty($this->dataArrivo) && !empty($this->dataPartenza) && !empty($this->oraArrivo) && !empty($this->oraPartenza)) {
+            $ordinamento = [
+                ['tipologia' => '1', 'impiego' => '1'], // autovetture grosseto
+                ['tipologia' => '6', 'impiego' => '1'], // furgoncini grosseto
+                ['tipologia' => '7', 'impiego' => '1'], // furgoni grosseto
+                ['tipologia' => '1', 'impiego' => '3'], // autovetture viaggi lunghi
+                ['tipologia' => '6', 'impiego' => '3'], // furgoncini viaggi lunghi
+                ['tipologia' => '7', 'impiego' => '3'], // furgoni viaggi lunghi
+                ['tipologia' => '10', 'impiego' => '1'], // motocicli grosseto
+                ['tipologia' => '5', 'impiego' => '1'], // ciclomotori grosseto
+                ['tipologia' => '10', 'impiego' => '3'], // motocicli viaggi lunghi
+                ['tipologia' => '5', 'impiego' => '3'], // ciclomotori viaggi lunghi
+                ['tipologia' => '3', 'impiego' => '3'], // autocarri viaggi lunghi
+                ['tipologia' => '2', 'impiego' => '3'], // autobus viaggi lunghi
+                ['tipologia' => '1', 'impiego' => '4'], // autovetture personale
+                ['tipologia' => '6', 'impiego' => '4'], // furgoncini personale
+                ['tipologia' => '7', 'impiego' => '4'], // furgoni personale
+                ['tipologia' => '1', 'impiego' => '5'], // autovetture roma
+                ['tipologia' => '6', 'impiego' => '5'], // furgoncini roma
+                ['tipologia' => '7', 'impiego' => '5'], // furgoni roma
+                ['tipologia' => '3', 'impiego' => '5'], // autocarri roma
+            ];
+
+            $veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza . ' ' . $this->oraPartenza), Carbon::parse($this->dataArrivo . ' ' . $this->oraArrivo))
+                ->get();
+
+            $veicoliOrdinati = collect([]);
+
+            foreach ($ordinamento as $ord) {
+                $veicoliDaAggiungere = $veicoli->where('tipologia_id', $ord['tipologia'])
+                    ->where('impiego_id', $ord['impiego']);
+
+                // Aggiungi i veicoli trovati alla collection ordinata
+                $veicoliOrdinati = $veicoliOrdinati->merge($veicoliDaAggiungere);
+
+                // Rimuovi i veicoli aggiunti dalla collection originale
+                $veicoli = $veicoli->reject(function ($veicolo) use ($veicoliDaAggiungere) {
+                    return $veicoliDaAggiungere->contains('id', $veicolo->id);
+                });
+            }
+
+            // Aggiungi eventuali veicoli rimanenti che non sono stati ordinati
+            $veicoliOrdinati = $veicoliOrdinati->merge($veicoli);
+
+            $this->veicoli = $veicoliOrdinati->groupBy(['impiego_nome', 'tipologia_nome']);
             $this->reset('message');
         } else {
             $this->message = '--orari di partenza e arrivo non validi--';

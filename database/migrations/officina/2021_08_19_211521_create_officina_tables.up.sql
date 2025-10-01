@@ -232,24 +232,25 @@ CREATE TABLE IF NOT EXISTS `prenotazioni` (
 
 CREATE TABLE IF NOT EXISTS `tipologia` (
   `id` int(10) NOT NULL,
-  `nome` varchar(30) NOT NULL
+  `nome` varchar(30) NOT NULL,
+  `ord` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `tipologia` (`id`, `nome`) VALUES
-    (1, 'Autovettura'),
-    (2, 'Autocarro'),
-    (3, 'Autobus'),
-    (4, 'Camper'),
-    (5, 'Ciclomotore'),
-    (6, 'Furgoncino'),
-    (7, 'Furgone'),
-    (8, 'Mezzo agricolo'),
-    (9, 'Motocarro'),
-    (10, 'Motociclo'),
-    (11, 'Rimorchio'),
-    (12, 'Trattore'),
-    (13, 'Veicolo edile');
+INSERT INTO `tipologia` (`id`, `nome`, `ord`) VALUES
+    (1, 'Autovettura', 1),
+    (2, 'Autocarro', 6),
+    (3, 'Autobus', 5),
+    (4, 'Camper', 4),
+    (5, 'Ciclomotore', 7),
+    (6, 'Furgoncino', 2),
+    (7, 'Furgone', 3),
+    (8, 'Mezzo agricolo', 9),
+    (9, 'Motocarro', 10),
+    (10, 'Motociclo', 8),
+    (11, 'Rimorchio', 11),
+    (12, 'Trattore', 12),
+    (13, 'Veicolo edile', 13);
 
 CREATE TABLE IF NOT EXISTS `tipo_filtro` (
   `id` int(10) UNSIGNED NOT NULL,

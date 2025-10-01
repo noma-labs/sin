@@ -25,37 +25,43 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             'mansione' => Azienda::MANSIONE_RESPONSABILE,
         ]);
 
-        // Array dei metodi di tipologia
-        $tipologie = [
-            'tipologiaAutovettura',
-            'tipologiaAutocarro',
-            'tipologiaAutobus',
-            'tipologiaCamper',
-            'tipologiaCiclomotore',
-            'tipologiaFurgoncino',
-            'tipologiaFurgone',
-            'tipologiaMezzoAgricolo',
-            'tipologiaMotocarro',
-            'tipologiaMotociclo',
-            'tipologiaRimorchio',
-            'tipologiaTrattore',
-            'tipologiaVeicoloEdile',
+        // Dizionario impiego => tipologie disponibili
+        $impieghiTipologie = [
+            'impiegoGrosseto' => [
+                'tipologiaAutovettura',
+                'tipologiaFurgoncino',
+                'tipologiaFurgone',
+                'tipologiaMotociclo'
+            ],
+            'impiegoPersonale' => [
+                'tipologiaAutovettura',
+                'tipologiaFurgoncino',
+                'tipologiaFurgone',
+            ],
+            'impiegoInterno' => [
+                'tipologiaAutovettura',
+                'tipologiaFurgoncino',
+                'tipologiaFurgone'
+            ],
+            'impiegoViaggiLunghi' => [
+                'tipologiaAutovettura',
+                'tipologiaFurgoncino',
+                'tipologiaFurgone',
+                'tipologiaAutobus',
+                'tipologiaAutocarro'
+            ],
+            'impiegoRoma' => [
+                'tipologiaAutovettura',
+                'tipologiaFurgoncino',
+                'tipologiaFurgone',
+                'tipologiaAutocarro'
+            ],
         ];
 
-        // Array dei metodi di impiego
-        $impieghi = [
-            'impiegoGrosseto',
-            'impiegoPersonale',
-            'impiegoInterno',
-            'impiegoViaggiLunghi',
-            'impiegoRoma',
-            'impiegoAutobus',
-        ];
-
-        // Crea un veicolo per ogni combinazione tipologia/impiego
-        foreach ($tipologie as $tipologia) {
-            foreach ($impieghi as $impiego) {
-                $randomCount = rand(1, 5); // Numero casuale di veicoli da creare per ogni combinazione
+        // Crea un veicolo solo per le combinazioni specificate
+        foreach ($impieghiTipologie as $impiego => $tipologie) {
+            foreach ($tipologie as $tipologia) {
+                $randomCount = rand(1, 5);
                 Veicolo::factory($randomCount)
                     ->{$impiego}()
                     ->{$tipologia}()
@@ -68,12 +74,12 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
         $veicoloGrosseto2 = Veicolo::where('impiego_id', $impiegoGrossetoId)->skip(1)->first();
 
         Prenotazioni::factory()
-            ->prenotata(Carbon::now(), Carbon::now()->addHour(2))
+            ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
             ->veicolo($veicoloGrosseto)
             ->create();
 
         Prenotazioni::factory()
-            ->prenotata(Carbon::now(), Carbon::now()->addHour(2))
+            ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
             ->veicolo($veicoloGrosseto2)
             ->create();
     }
