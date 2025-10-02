@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `prenotazioni` (
 CREATE TABLE IF NOT EXISTS `tipologia` (
   `id` int(10) NOT NULL,
   `nome` varchar(30) NOT NULL,
-  `ord` int(10) NOT NULL
+  `ord` tinyint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

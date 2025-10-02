@@ -23,7 +23,7 @@ it('refresh veicoli', function (): void {
 
     Prenotazioni::factory()
         ->prenotata(Carbon::parse('2024-04-09 08:00'), Carbon::parse('2024-04-09 15:00'))
-        ->veicolo(Veicolo::factory()->impiegoPersonale()->tipologiaMacchina()->create())
+        ->veicolo(Veicolo::factory()->impiegoPersonale()->tipologiaAutovettura()->create())
         ->cliente(Persona::factory()->create())
         ->create();
 

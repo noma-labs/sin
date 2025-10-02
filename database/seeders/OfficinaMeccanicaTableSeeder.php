@@ -25,7 +25,6 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             'mansione' => Azienda::MANSIONE_RESPONSABILE,
         ]);
 
-        // Dizionario impiego => tipologie disponibili
         $impieghiTipologie = [
             'impiegoGrosseto' => [
                 'tipologiaAutovettura',
@@ -58,7 +57,6 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             ],
         ];
 
-        // Crea un veicolo solo per le combinazioni specificate
         foreach ($impieghiTipologie as $impiego => $tipologie) {
             foreach ($tipologie as $tipologia) {
                 $randomCount = rand(1, 5);
