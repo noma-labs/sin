@@ -29,12 +29,6 @@
             >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            {{-- <input
-                class="form-control form-control w-100"
-                type="text"
-                placeholder="Search"
-                aria-label="Search"
-            /> --}}
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="#">Sign out</a>
@@ -46,8 +40,14 @@
             <div class="row">
                 <nav
                     id="sidebarMenu"
-                    class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse"
+                    class="col-md-2 col-lg-2 d-md-block bg-light"
                 >
+                     <a
+                        class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
+                        href="{{ url("/home") }}"
+                    >
+                        <img src="/images/logo-noma.png" alt="" height="40" />
+                    </a>
                     <div class="position-sticky pt-3">
                          @yield("navbar-link")
                     </div>
