@@ -84,9 +84,10 @@ final class PrenotazioneVeicoli extends Component
     public function refreshVeicoli(): void
     {
         if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
+
             $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
-                ->get()
-                ->groupBy(['impiego_nome', 'tipologia_nome']);
+                ->get()->groupBy(['impiego_nome', 'tipologia_nome']);
+
             $this->reset('message');
         } else {
             $this->message = '--orari di partenza e arrivo non validi--';
