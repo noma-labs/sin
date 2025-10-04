@@ -9,56 +9,28 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
     </head>
-
-    <body>
-        <header class="navbar sticky-top flex-md-nowrap p-0">
-            <a
-                class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
-                href="{{ url("/home") }}"
-            >
-                <img src="/images/logo-noma.png" alt="" height="40" />
-            </a>
-            <button
-                class="navbar-toggler position-absolute d-md-none collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#sidebarMenu"
-                aria-controls="sidebarMenu"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-nav">
-                <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="#">Sign out</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="container-fluid">
+    <body class="overflow-x-hidden">
+        <div class="container-fluid overflow-y-hidden">
             <div class="row">
                 <nav
-                    id="sidebarMenu"
-                    class="col-md-2 col-lg-2 d-md-block bg-light"
+                    class="navbar col-md-2 col-lg-2 bg-light ">
                 >
                      <a
-                        class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
+                        class="navbar-brand"
                         href="{{ url("/home") }}"
                     >
-                        <img src="/images/logo-noma.png" alt="" height="40" />
+                        <img src="/images/logo-noma.png" alt="The logo of the application" class="img-fluid" />
                     </a>
                     <div class="position-sticky pt-3">
                          @yield("navbar-link")
                     </div>
                 </nav>
-
-                <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+                <main class="col-md-10 col-lg-10">
                      @yield("content")
                 </main>
             </div>
         </div>
-
-        <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
     </body>
+
+    <script type="text/javascript" src="{{ asset("js/app.js") }}"></script>
 </html>
