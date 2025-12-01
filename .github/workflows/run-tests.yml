@@ -11,7 +11,7 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.2
     env:
-      EXIFTOOL_VERSION: 13.38  # Change also the EXIFTOOL_VERSION in the dockerfile
+      EXIFTOOL_VERSION: 13.42 # Change also the EXIFTOOL_VERSION in the dockerfile
 
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
@@ -63,7 +63,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install npm deps
         run: npm install
