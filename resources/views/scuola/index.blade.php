@@ -2,7 +2,7 @@
 
 @section("title", "Gestione Scuola")
 
-
+{{-- 
 @section("navbar-link")
 <ul class="nav flex-column">
     <li class="nav-item">
@@ -23,5 +23,5 @@
         </a>
     </li>
 </ul>
-@endsection
+@endsection --}}
 
