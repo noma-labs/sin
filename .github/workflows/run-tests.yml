@@ -20,8 +20,8 @@ jobs:
         image: mariadb:12.1
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: root
+          MYSQL_ROOT_PASSWORD: ci-root
+          MYSQL_DATABASE: ci-root
         options: --health-cmd="mariadb-admin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -68,10 +68,10 @@ jobs:
       - name: Install npm deps
         run: npm install
 
-      # - name: Prepare Laravel Application
-      #   run: |
-      #     cp .env.ci .env
-      #     php artisan key:generate
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
 
       - name: Start Laravel Server
         run: php artisan serve --host=0.0.0.0 --port=80 &
