@@ -16,7 +16,7 @@ jobs:
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
       # have the same .env.testing file working fot both laravel Sail and github actions.
-      mysql-test:
+      ci-mysql-test:
         image: mariadb:12.1
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
@@ -83,3 +83,5 @@ jobs:
 
       - name: Run tests
         run: task test:ci
+        env:
+          APP_ENV: ci
