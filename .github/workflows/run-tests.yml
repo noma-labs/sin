@@ -11,18 +11,18 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.2
     env:
-      EXIFTOOL_VERSION: 13.42 # Change also the EXIFTOOL_VERSION in the dockerfile
+      EXIFTOOL_VERSION: 13.43 # Change also the EXIFTOOL_VERSION in the dockerfile
 
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
       # have the same .env.testing file working fot both laravel Sail and github actions.
       mysql-test:
-        image: mariadb:10.4
+        image: mariadb:12.1
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: root
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mariadb-admin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Fix APT repository label change issue
