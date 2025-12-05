@@ -51,11 +51,11 @@ tasks:
   test:
     deps: [up]
     cmds:
-      - ./vendor/bin/sail pest --bail
+      - APP_ENV=ci ./vendor/bin/sail pest --bail
 
   test:ci:
     cmds:
-      - ./vendor/bin/pest
+      - APP_ENV=ci ./vendor/bin/pest
 
   lint:check:ci:
     cmds:
