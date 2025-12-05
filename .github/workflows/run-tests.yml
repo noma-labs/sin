@@ -80,5 +80,3 @@ jobs:
 
       - name: Run tests
         run: task test:ci
-        env:
-          APP_ENV: ci

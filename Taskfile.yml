@@ -56,6 +56,8 @@ tasks:
   test:ci:
     cmds:
       - ./vendor/bin/pest
+    env:
+      APP_ENV: ci
 
   lint:check:ci:
     cmds:
