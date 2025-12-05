@@ -68,7 +68,8 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          php artisan key:generate --env=ci
+          cp .env.ci .env
+          php artisan key:generate
 
       - name: Start Laravel Server
         run: php artisan serve --host=0.0.0.0 --port=80 &
