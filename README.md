@@ -4,7 +4,11 @@ The SIN is an Web-based system that permits to manage a series of subsystem (e..
 [![Actions Status](https://github.com/noma-labs/sin/workflows/tests/badge.svg)](https://github.com/noma-labs/sin/actions)
 
 ## Installation
+
 ### Using XAMMP on Windows
+> [!DEPRECATED]
+> The default is using https://laragon.org/
+
 **WARNING**: Installing XAMPP will delete all databases and sites in the C:/xampp/htdocs folder. As a precaution, copy the folder before proceeding with the installation of XAMPP.
 
 1. Download and install [`xampp`](https://www.apachefriends.org/it/index.html)  with PHP 8.2.x, MariaDB 10.4.x, PhpMyAdmin: 5.2.0.
