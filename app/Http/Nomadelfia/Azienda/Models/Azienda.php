@@ -45,12 +45,12 @@ final class Azienda extends Model
         return self::where('nome_azienda', $nome)->first();
     }
 
-    public function scopeAziende($query)
+    protected function scopeAziende($query)
     {
         return $query->where('tipo', '=', 'azienda');
     }
 
-    public function scopeIncarichi($query)
+    protected function scopeIncarichi($query)
     {
         return $query->where('tipo', '=', 'incarico');
     }

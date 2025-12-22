@@ -29,7 +29,7 @@ final class EditorsController
     public function store(Request $request)
     {
         $request->validate([
-            'editore' => 'required|unique:db_biblioteca.editore,Editore',
+            'editore' => ['required', 'unique:db_biblioteca.editore,Editore'],
         ], [
             'editore.required' => "L'editore non può essere vuoto.",
             'editore.unique' => "L'editore $request->editore esistente già.",
@@ -69,11 +69,11 @@ final class EditorsController
         $editore = Editore::findOrFail($id);
         $editore->fill(['editore' => $request->editore])->save();
 
-        return redirect()->route('editors.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
+        return to_route('editors.index')->withSuccess('Editore '.$editore->editore.' aggiornato!');
     }
 
     public function destroy()
     {
-        return redirect()->route('editors.index')->withError("Impossibile eliminare l'editore");
+        return to_route('editors.index')->withError("Impossibile eliminare l'editore");
     }
 }

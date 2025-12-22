@@ -12,8 +12,8 @@ final class PersonaPosizioneConcludiController
     public function store(Request $request, $id, $idPos)
     {
         $request->validate([
-            'data_inizio' => 'required|date',
-            'data_fine' => 'required|date|after_or_equal:data_inizio',
+            'data_inizio' => ['required', 'date'],
+            'data_fine' => ['required', 'date', 'after_or_equal:data_inizio'],
         ], [
             'data_inizio.date' => 'La data di entrata non è  una data valida',
             'data_inizio.required' => 'La data di entrata è obbligatoria',
@@ -29,7 +29,7 @@ final class PersonaPosizioneConcludiController
                 ->withSuccess("Posizione di $persona->nominativo aggiornata con successo");
         }
 
-        return redirect()->back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
+        return back()->withError("Errore. Impossibile aggiornare la posizione di  $persona->nominativo");
 
     }
 }

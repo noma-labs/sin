@@ -69,32 +69,32 @@ final class Patente extends Model
         return $this->categorie()->get()->implode('categoria', ',');
     }
 
-    public function scopeInScadenza($query, int $days)
+    protected function scopeInScadenza($query, int $days)
     {
-        $data = Carbon::now()->addDays($days)->toDateString();
+        $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
 
         return $query->where('data_scadenza_patente', '<=', $data)
-            ->where('data_scadenza_patente', '>=', Carbon::now()->toDateString());
+            ->where('data_scadenza_patente', '>=', \Illuminate\Support\Facades\Date::now()->toDateString());
 
     }
 
-    public function scopeNonScadute($query)
+    protected function scopeNonScadute($query)
     {
-        $data = Carbon::now()->toDateString();
+        $data = \Illuminate\Support\Facades\Date::now()->toDateString();
 
         return $query->where('data_scadenza_patente', '>', $data);
     }
 
-    public function scopeScadute($query, ?int $days = null)
+    protected function scopeScadute($query, ?int $days = null)
     {
         if ($days !== null) {
-            $data = Carbon::now()->subDays($days)->toDateString();
+            $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
 
             return $query->where('data_scadenza_patente', '>=', $data)
-                ->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
+                ->where('data_scadenza_patente', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
         }
 
-        return $query->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
+        return $query->where('data_scadenza_patente', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
 
     }
 
@@ -103,12 +103,12 @@ final class Patente extends Model
         return $this->stato === 'commissione';
     }
 
-    public function scopeConCommisione($query)
+    protected function scopeConCommisione($query)
     {
         return $query->where('stato', '=', 'commissione');
     }
 
-    public function scopeSenzaCommisione($query)
+    protected function scopeSenzaCommisione($query)
     {
         return $query->whereNull('stato')
             ->orWhere('stato', '!=', 'commissione');

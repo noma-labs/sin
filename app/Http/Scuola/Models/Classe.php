@@ -62,7 +62,7 @@ final class Classe extends Model
             $data_inizio = $a->data_inizio;
         }
         if (is_string($data_inizio)) {
-            $data_inizio = Carbon::parse($data_inizio);
+            $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);
@@ -93,7 +93,7 @@ final class Classe extends Model
             $data_inizio = $this->anno()->first()->data_inizio;
         }
         if (is_string($data_inizio)) {
-            $data_inizio = Carbon::parse($data_inizio);
+            $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }
         if (is_int($persona)) {
             $persona = Persona::findOrFail($persona);
@@ -114,11 +114,11 @@ final class Classe extends Model
         $anno = $this->anno()->first();
         $as = $anno->annoSolareInizio();
 
-        $q = PopolazioneNomadelfia::PresentAt(Carbon::parse($anno->data_inizio))
+        $q = PopolazioneNomadelfia::PresentAt(\Illuminate\Support\Facades\Date::parse($anno->data_inizio))
             ->select('persone.id', 'persone.data_nascita', 'persone.nome', 'persone.cognome', 'persone.nominativo', 'popolazione.data_entrata', 'popolazione.data_uscita')
             ->leftJoin('persone', 'persone.id', '=', 'popolazione.persona_id');
 
-        $date = Carbon::now()->setYear($as);
+        $date = \Illuminate\Support\Facades\Date::now()->setYear($as);
 
         $end = $date->copy()->subYears(18)->endOfYear();
         $start = $date->copy()->subYears(100)->startOfYear();
@@ -165,7 +165,7 @@ final class Classe extends Model
         $as = $anno->annoSolareInizio();
         $tipo = $this->tipo()->first();
 
-        $date = Carbon::now()->setYear($as);
+        $date = \Illuminate\Support\Facades\Date::now()->setYear($as);
 
         if ($tipo->isPrescuola()) {
             $end = $date->copy()->subYears(2)->endOfYear();

@@ -88,17 +88,17 @@ final class Libro extends Model
         return count($prestiti) > 0;
     }
 
-    public function scopeTobePrinted($query)
+    protected function scopeTobePrinted($query)
     {
         return $query->where('tobe_printed', 1)->orderBy('collocazione');
     }
 
-    public function scopeEditori($query)
+    protected function scopeEditori($query)
     {
         return $query->select('editore')->groupBy('editori'); // ->orderBY("EDITORE");
     }
 
-    public function scopeAutori($query)
+    protected function scopeAutori($query)
     {
         return $query->select('autore')->groupBy('autore'); // ->orderBY("AUTORE");
     }

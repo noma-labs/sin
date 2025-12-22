@@ -215,12 +215,12 @@ final class Famiglia extends Model
         return new FamigliaQueryBuilder($query);
     }
 
-    public function scopeOrdered($query)
+    protected function scopeOrdered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
     }
 
-    public function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
+    protected function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
     {
         return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
@@ -233,12 +233,12 @@ final class Famiglia extends Model
             ->orderBy('famiglie.nome_famiglia');
     }
 
-    public function scopeMaschio($query)
+    protected function scopeMaschio($query)
     {
         return $query->where('sesso', 'M');
     }
 
-    public function scopeFemmina($query)
+    protected function scopeFemmina($query)
     {
         return $query->where('sesso', 'F');
     }
@@ -248,7 +248,7 @@ final class Famiglia extends Model
         DB::connection('db_nomadelfia')->beginTransaction();
         try {
             $this->componentiAttuali()->get()->each(function ($componente) use ($data_uscita): void {
-                $act = app(UscitaPersonaAction::class);
+                $act = resolve(UscitaPersonaAction::class);
                 $act->execute($componente, $data_uscita);
             });
             DB::connection('db_nomadelfia')->commit();
@@ -374,7 +374,7 @@ final class Famiglia extends Model
             $persona = Persona::findOrFail($persona);
         }
         if ($persona instanceof Persona) {
-            $data = $data ?: Carbon::parse($persona->data_nascita)->addYears(18)->toDateString();
+            $data = $data ?: \Illuminate\Support\Facades\Date::parse($persona->data_nascita)->addYears(18)->toDateString();
 
             /** @phpstan-ignore-next-line */
             return $this->assegnaComponente($persona, $this->getSingleEnum());

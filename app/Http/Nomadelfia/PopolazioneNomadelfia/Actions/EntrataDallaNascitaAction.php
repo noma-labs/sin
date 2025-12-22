@@ -22,7 +22,7 @@ final readonly class EntrataDallaNascitaAction
         $dto = new EntrataPersonaData;
         $dto->famiglia = $famiglia;
         $dto->persona = $persona;
-        $dto->data_entrata = Carbon::parse($dto->persona->data_nascita);
+        $dto->data_entrata = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
         $dto->origine = Origine::Interno;
 
         $this->calcGruppoFamiliare($dto);
@@ -42,13 +42,13 @@ final readonly class EntrataDallaNascitaAction
     {
         $gruppo = $dto->famiglia->gruppoFamiliareAttualeOrFail();
         $dto->gruppoFamiliare = GruppoFamiliare::findOrFail($gruppo->id);
-        $dto->gruppo_data = Carbon::parse($dto->persona->data_nascita);
+        $dto->gruppo_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
     }
 
     public function calcPosizione(EntrataPersonaData $dto): void
     {
         $dto->posizione = Posizione::find('FIGL');
-        $dto->posizione_data = Carbon::parse($dto->persona->data_nascita);
+        $dto->posizione_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
     }
 
     public function calcStato(EntrataPersonaData $dto): void
@@ -58,6 +58,6 @@ final readonly class EntrataDallaNascitaAction
         } else {
             $dto->stato = Stato::find('NUB');
         }
-        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
+        $dto->stato_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
     }
 }

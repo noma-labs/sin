@@ -36,7 +36,7 @@ final class AnnoScolasticoController
     public function clone(Request $request, $id)
     {
         $request->validate([
-            'anno_inizio' => 'required',
+            'anno_inizio' => ['required'],
         ], [
             'anno_inizio.date' => 'La data di inizio non è una data valida.',
             'anno_inizio.required' => 'La data di inizio anno è obbligatoria',
@@ -44,19 +44,19 @@ final class AnnoScolasticoController
         $anno = Anno::FindOrFail($id);
         $aNew = Anno::cloneAnnoScolastico($anno, $request->get('anno_inizio'));
 
-        return redirect()->route('scuola.anno.show', ['id' => $aNew->id])->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
+        return to_route('scuola.anno.show', ['id' => $aNew->id])->withSuccess("Anno scolastico $aNew->scolastico aggiunto con successo.");
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'data_inizio' => 'required',
+            'data_inizio' => ['required'],
         ], [
             'data_inizio.required' => 'La data di inizio anno è obbligatoria',
         ]);
-        $year = Carbon::parse($request->get('data_inizio'))->year;
+        $year = \Illuminate\Support\Facades\Date::parse($request->get('data_inizio'))->year;
         $anno = Anno::createAnno($year, $request->get('data_inizio'), true);
 
-        return redirect()->back()->withSuccess("Anno scolastico $anno->scolastico aggiunto con successo.");
+        return back()->withSuccess("Anno scolastico $anno->scolastico aggiunto con successo.");
     }
 }

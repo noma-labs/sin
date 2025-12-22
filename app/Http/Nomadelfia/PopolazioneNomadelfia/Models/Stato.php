@@ -60,7 +60,7 @@ final class Stato extends Model
         return $this->persone()->where('persone_stati.stato', '1');
     }
 
-    public function scopeAttivo($query)
+    protected function scopeAttivo($query)
     {
         return $query->where('persone_stati.stato', 1);
     }

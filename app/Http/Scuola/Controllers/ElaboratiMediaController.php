@@ -18,10 +18,10 @@ final class ElaboratiMediaController
         $elaborato = Elaborato::findOrFail($id);
 
         if (! $elaborato->collocazione) {
-            return redirect()->back()->withError('Elaborato deve avere una collocazione');
+            return back()->withError('Elaborato deve avere una collocazione');
         }
         if (! $elaborato->anno_scolastico) {
-            return redirect()->back()->withError('Elaborato deve avere anno scolastico.');
+            return back()->withError('Elaborato deve avere anno scolastico.');
         }
 
         $as = AnnoScolastico::fromString($elaborato->anno_scolastico);
@@ -41,7 +41,7 @@ final class ElaboratiMediaController
             'file_hash' => hash_file('sha256', $file->getPathname()),
         ]);
 
-        return redirect()->back()->withSuccess('Caricato correttameente');
+        return back()->withSuccess('Caricato correttameente');
 
     }
 }

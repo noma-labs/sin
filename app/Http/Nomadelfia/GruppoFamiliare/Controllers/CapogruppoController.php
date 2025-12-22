@@ -12,8 +12,8 @@ final class CapogruppoController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'nuovo' => 'required',
-            'inizio' => 'required',
+            'nuovo' => ['required'],
+            'inizio' => ['required'],
         ], [
             'nuovo.required' => 'Il nuovo capogruppo è abbligatoripo',
             'inizio.required' => 'La data di inizio è obbligatoria',
@@ -21,6 +21,6 @@ final class CapogruppoController
         $gruppo = GruppoFamiliare::findOrFail($id);
         $gruppo->assegnaCapogruppo($request->nuovo, $request->inizio);
 
-        return redirect()->back()->withSuccess('NUovo capogruppo inserito con successo');
+        return back()->withSuccess('NUovo capogruppo inserito con successo');
     }
 }

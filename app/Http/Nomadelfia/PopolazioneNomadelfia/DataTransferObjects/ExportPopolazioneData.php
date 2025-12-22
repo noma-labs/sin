@@ -96,7 +96,7 @@ final class ExportPopolazioneData
 
     public function getFileName(): string
     {
-        $data = Carbon::now()->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->toDatestring();
 
         return "popolazione-$data.docx";
     }

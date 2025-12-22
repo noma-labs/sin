@@ -24,7 +24,7 @@ final class SearchPersona extends Autocomplete
 
         $options = [];
         foreach ($persone as $persona) {
-            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)?->year;
+            $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $persona->data_nascita)?->year;
             $details = ($year ? "($year) " : '')."$persona->nome  $persona->cognome ($persona->nominativo)";
             if (! empty($persona->data_entrata) && ! empty($persona->data_uscita)) {
                 $details .= ' '.$persona->data_entrata.' - '.$persona->data_uscita;

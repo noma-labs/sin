@@ -19,11 +19,11 @@ final class PersonIdentityController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nome' => 'required',
-            'cognome' => 'required',
-            'datanascita' => 'required',
+            'nome' => ['required'],
+            'cognome' => ['required'],
+            'datanascita' => ['required'],
             //            "luogonascita" => "required",
-            'sesso' => 'required',
+            'sesso' => ['required'],
         ], [
             'nome.required' => 'Il nome è obbligatorie',
             'cognome.required' => 'Il cognome è obbligatorio',
@@ -41,10 +41,10 @@ final class PersonIdentityController
         $persona->biografia = $request->get('biografia', $persona->biografia);
         $persona->data_decesso = $request->get('data_decesso', $persona->data_decesso);
         if ($persona->save()) {
-            return redirect()->route('nomadelfia.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
+            return to_route('nomadelfia.person.show', $id)->withSuccess("Dati anagrafici di $persona->nominativo aggiornati correttamente. ");
         }
 
-        return redirect()->route('nomadelfia.person.show', $id)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
+        return to_route('nomadelfia.person.show', $id)->withError("Errore dureante l'aggiornamente dei dati anagrafici di $persona->nominativo.");
 
     }
 }

@@ -67,142 +67,142 @@ final class ClasseTipo extends Model
     /**
      * @return Builder<ClasseTipo>
      */
-    public function scopeClasseSuccessiva($query)
+    protected function scopeClasseSuccessiva($query)
     {
         return $query->where('id', '=', $this->next);
     }
 
-    public function scopePrescuola($query): self
+    protected function scopePrescuola($query): self
     {
         return $query->where('ciclo', '=', 'prescuola')->first();
     }
 
-    public function scopeElementari($query)
+    protected function scopeElementari($query)
     {
         return $query->where('ciclo', '=', 'elementari');
     }
 
-    public function scopeAnni3Prescuola($query)
+    protected function scopeAnni3Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_3ANNI)->first();
     }
 
-    public function scopeAnni4Prescuola($query)
+    protected function scopeAnni4Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_4ANNI)->first();
     }
 
-    public function scopeAnni5Prescuola($query)
+    protected function scopeAnni5Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_5ANNI)->first();
     }
 
-    public function scopePrimaElem($query)
+    protected function scopePrimaElem($query)
     {
         return $query->where('nome', '=', self::PRIMA_ELEMENTARE)->first();
     }
 
-    public function scopeSecondaElem($query)
+    protected function scopeSecondaElem($query)
     {
         return $query->where('nome', '=', self::SECONDA_ELEMENTARE)->first();
     }
 
-    public function scopeTerzaElem($query)
+    protected function scopeTerzaElem($query)
     {
         return $query->where('nome', '=', self::TERZA_ELEMENTARE)->first();
     }
 
-    public function scopeQuartaElem($query)
+    protected function scopeQuartaElem($query)
     {
         return $query->where('nome', '=', self::QUARTA_ELEMENTARE)->first();
     }
 
-    public function scopeQuintaElem($query)
+    protected function scopeQuintaElem($query)
     {
         return $query->where('nome', '=', self::QUINTA_ELEMENTARE)->first();
     }
 
-    public function scopeMedie($query)
+    protected function scopeMedie($query)
     {
         return $query->where('ciclo', '=', 'medie');
     }
 
-    public function scopePrimaMed($query)
+    protected function scopePrimaMed($query)
     {
         return $query->where('nome', '=', self::PRIMA_MEDIA)->first();
     }
 
-    public function scopeSecondaMed($query)
+    protected function scopeSecondaMed($query)
     {
         return $query->where('nome', '=', self::SECONDA_MEDIA)->first();
     }
 
-    public function scopeTerzaMed($query)
+    protected function scopeTerzaMed($query)
     {
         return $query->where('nome', '=', self::TERZA_MEDIA)->first();
     }
 
-    public function scopeSuperiori($query)
+    protected function scopeSuperiori($query)
     {
         return $query->where('ciclo', '=', 'superiori');
     }
 
-    public function scopeIsPrescuola(): bool
+    protected function scopeIsPrescuola(): bool
     {
         return $this->ciclo === 'prescuola';
     }
 
-    public function scopeIsElementari(): bool
+    protected function scopeIsElementari(): bool
     {
         return $this->ciclo === 'elementari';
     }
 
-    public function scopeIsMedie(): bool
+    protected function scopeIsMedie(): bool
     {
         return $this->ciclo === 'medie';
     }
 
-    public function scopeIsSuperiori(): bool
+    protected function scopeIsSuperiori(): bool
     {
         return $this->ciclo === 'superiori';
     }
 
-    public function scopeIs3AnniPrescuola($query): bool
+    protected function scopeIs3AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_3ANNI;
     }
 
-    public function scopeIs4AnniPrescuola($query): bool
+    protected function scopeIs4AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_4ANNI;
     }
 
-    public function scopeIs5AnniPrescuola($query): bool
+    protected function scopeIs5AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_5ANNI;
     }
 
-    public function scopeIsPrimaEl(): bool
+    protected function scopeIsPrimaEl(): bool
     {
         return $this->nome === self::PRIMA_ELEMENTARE;
     }
 
-    public function scopeIsSecondaEl(): bool
+    protected function scopeIsSecondaEl(): bool
     {
         return $this->nome === self::SECONDA_ELEMENTARE;
     }
 
-    public function scopeIsTerzaEl(): bool
+    protected function scopeIsTerzaEl(): bool
     {
         return $this->nome === self::TERZA_ELEMENTARE;
     }
 
-    public function scopeIsQuartaEl(): bool
+    protected function scopeIsQuartaEl(): bool
     {
         return $this->nome === self::QUARTA_ELEMENTARE;
     }
 
-    public function scopeIsQuintaEl(): bool
+    protected function scopeIsQuintaEl(): bool
     {
         return $this->nome === self::QUINTA_ELEMENTARE;
     }
@@ -212,17 +212,17 @@ final class ClasseTipo extends Model
         return $this->nome === self::PRIMA_MEDIA;
     }
 
-    public function scopeIsSecondaMed(): bool
+    protected function scopeIsSecondaMed(): bool
     {
         return $this->nome === self::SECONDA_MEDIA;
     }
 
-    public function scopeIsTerzaMed(): bool
+    protected function scopeIsTerzaMed(): bool
     {
         return $this->nome === self::TERZA_MEDIA;
     }
 
-    public function scopeIsUniversita(): bool
+    protected function scopeIsUniversita(): bool
     {
         return $this->ciclo === 'universita';
     }

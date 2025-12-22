@@ -23,7 +23,7 @@ final class PatenteSearchController
     public function search(Request $request)
     {
         if (! $request->except(['_token'])) {
-            return redirect()->back()->withError('Nessun criterio di ricerca inserito.');
+            return back()->withError('Nessun criterio di ricerca inserito.');
         }
 
         $msgSearch = ' ';

@@ -43,7 +43,7 @@ final class PlannedMaintenanceController
             $man->save();
         }
 
-        return redirect()->route('agraria.maintenanance.planned.index')->withSuccess('Manutenzione aggiunta correttamente');
+        return to_route('agraria.maintenanance.planned.index')->withSuccess('Manutenzione aggiunta correttamente');
     }
 
     public function ricerca(Request $request)

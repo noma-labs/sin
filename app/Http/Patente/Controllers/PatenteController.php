@@ -49,11 +49,11 @@ final class PatenteController
     public function store(Request $request)
     {
         $request->validate([
-            'persona_id' => 'required',
-            'numero_patente' => 'required',
-            'data_rilascio_patente' => 'required|date',
-            'data_scadenza_patente' => 'required|date|after:data_rilascio_patente',
-            'rilasciata_dal' => 'required',
+            'persona_id' => ['required'],
+            'numero_patente' => ['required'],
+            'data_rilascio_patente' => ['required', 'date'],
+            'data_scadenza_patente' => ['required', 'date', 'after:data_rilascio_patente'],
+            'rilasciata_dal' => ['required'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'numero_patente.required' => 'Il numero patente è obbligatorio.',
@@ -106,10 +106,10 @@ final class PatenteController
     public function update(Request $request, string $numero)
     {
         $request->validate([
-            'numero_patente' => 'required',
-            'data_rilascio_patente' => 'required|date',
-            'data_scadenza_patente' => 'required|date|after:data_rilascio_patente',
-            'rilasciata_dal' => 'required',
+            'numero_patente' => ['required'],
+            'data_rilascio_patente' => ['required', 'date'],
+            'data_scadenza_patente' => ['required', 'date', 'after:data_rilascio_patente'],
+            'rilasciata_dal' => ['required'],
         ], [
             'numero_patente.required' => 'Il numero patente è obbligatorio.',
             'data_rilascio_patente.required' => 'La data di rilascio è obbligatoria.',
@@ -133,6 +133,6 @@ final class PatenteController
     {
         Patente::destroy($numero);
 
-        return redirect()->route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
+        return to_route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
     }
 }

@@ -26,7 +26,7 @@ final class ClassiController
     public function aggiungiAlunno(Request $request, $id, AddStudentAction $addStudentAction)
     {
         $request->validate([
-            'alunno_id' => 'required',
+            'alunno_id' => ['required'],
         ], [
             'alunno_id.required' => 'Alunno è obbligatorio.',
         ]);
@@ -39,7 +39,7 @@ final class ClassiController
             $addStudentAction->execute($classe, $alunno, $dataInizio);
         }
 
-        return redirect()->back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
+        return back()->withSuccess("Alunno/i aggiunto a {$classe->tipo->nome} con successo.");
     }
 
     public function delete($id)
@@ -47,7 +47,7 @@ final class ClassiController
         $classe = Classe::findOrFail($id);
         $classe->delete();
 
-        return redirect()->back()->withSuccess('Calsse eliminata con successo.');
+        return back()->withSuccess('Calsse eliminata con successo.');
     }
 
     public function rimuoviAlunno(Request $request, $id, $alunno_id)
@@ -56,6 +56,6 @@ final class ClassiController
         $alunno = Persona::findOrFail($alunno_id);
         $classe->rimuoviAlunno($alunno);
 
-        return redirect()->back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
+        return back()->withSuccess("Alunno $alunno->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 }

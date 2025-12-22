@@ -26,7 +26,7 @@ trait SortableTrait
         return new HtmlString("<a href=\"$url\">$title $indicator</a>");
     }
 
-    public function scopeSortable($query, $column = null, $order = null): Builder
+    protected function scopeSortable($query, $column = null, $order = null): Builder
     {
         if (Request::has('s') && Request::has('o')) {
             return $query->orderBy(Request::input('s'), Request::input('o'));

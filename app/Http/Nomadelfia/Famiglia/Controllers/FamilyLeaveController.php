@@ -14,14 +14,14 @@ final class FamilyLeaveController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'data_uscita' => 'required|date',
+            'data_uscita' => ['required', 'date'],
         ], [
             'data_uscita.required' => 'La data di uscita è obbligatoria.',
             'data_uscita.date' => 'La data di uscita non è una data corretta.',
         ]);
         $famiglia = Famiglia::findorfail($id);
-        $action = app(UscitaFamigliaAction::class);
-        $action->execute($famiglia, Carbon::parse($request->data_uscita));
+        $action = resolve(UscitaFamigliaAction::class);
+        $action->execute($famiglia, \Illuminate\Support\Facades\Date::parse($request->data_uscita));
 
         return redirect(route('nomadelfia.families.show', $id))->withSuccess('Famiglia uscita con successo.');
     }

@@ -111,8 +111,8 @@ final class Cariche extends Model
             [
                 'effe' => $effetivo->id,
                 'sac' => $sacerdote->id,
-                'date' => Carbon::now()->subYears(40)->toDatestring(),
-                'datanoma' => Carbon::now()->subYears(10)->toDatestring(),
+                'date' => \Illuminate\Support\Facades\Date::now()->subYears(40)->toDatestring(),
+                'datanoma' => \Illuminate\Support\Facades\Date::now()->subYears(10)->toDatestring(),
             ]
         );
         $result = new stdClass;
@@ -125,12 +125,12 @@ final class Cariche extends Model
         return $result;
     }
 
-    public function scopeAssociazione($query)
+    protected function scopeAssociazione($query)
     {
         return $query->where('org', '=', 'associazione');
     }
 
-    public function scopePresidente($query)
+    protected function scopePresidente($query)
     {
         return $query->where('nome', '=', 'presidente');
     }

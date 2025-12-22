@@ -16,13 +16,13 @@ final class VehicleTiresController
         $gomma = TipoGomme::findOrFail($idGomma);
         $veicolo->gomme()->detach($gomma->id);
 
-        return redirect()->back()->withSuccess("Gomma $gomma->codice eliminata con successo.");
+        return back()->withSuccess("Gomma $gomma->codice eliminata con successo.");
     }
 
     public function store(Request $request, $id)
     {
         $request->validate([
-            'gomma_id' => 'required',
+            'gomma_id' => ['required'],
         ], [
             'gomma_id.required' => 'La gomma è obbligatoria.',
         ]);
@@ -31,6 +31,6 @@ final class VehicleTiresController
         $gomma = TipoGomme::findOrFail($request->input('gomma_id'));
         $veicolo->gomme()->attach($gomma->id);
 
-        return redirect()->back()->withSuccess("Gomma $gomma->codice aggiunta con successo.");
+        return back()->withSuccess("Gomma $gomma->codice aggiunta con successo.");
     }
 }

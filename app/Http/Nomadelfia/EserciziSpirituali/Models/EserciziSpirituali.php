@@ -59,7 +59,7 @@ final class EserciziSpirituali extends Model
         return $result;
     }
 
-    public function scopeAttivi($query)
+    protected function scopeAttivi($query)
     {
         return $query->where('stato', '=', '1');
     }

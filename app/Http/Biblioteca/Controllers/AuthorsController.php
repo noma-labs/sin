@@ -29,7 +29,7 @@ final class AuthorsController
     public function store(Request $request)
     {
         $request->validate([
-            'autore' => 'required|unique:db_biblioteca.autore,autore',
+            'autore' => ['required', 'unique:db_biblioteca.autore,autore'],
         ], [
             'autore.required' => "L'autore non può essere vuoto.",
             'autore.unique' => "L'autore $request->autore esistente già.",
@@ -70,14 +70,14 @@ final class AuthorsController
 
         $autore->fill(['autore' => $request->autore]);
         if ($autore->save()) {
-            return redirect()->route('authors.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
+            return to_route('authors.index')->withSuccess('Autore '.$autore->autore.' aggiornato!');
         }
 
-        return redirect()->route('authors.index')->withErrors("Errore durante l'operaizone di aggiornamento");
+        return to_route('authors.index')->withErrors("Errore durante l'operaizone di aggiornamento");
     }
 
     public function destroy()
     {
-        return redirect()->route('authors.index')->withErrors("Impossibile eliminare l'autore");
+        return to_route('authors.index')->withErrors("Impossibile eliminare l'autore");
     }
 }

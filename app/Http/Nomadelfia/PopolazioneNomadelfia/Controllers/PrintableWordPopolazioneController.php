@@ -18,7 +18,7 @@ final class PrintableWordPopolazioneController
         $word = $action->execute($elenchi);
 
         $objWriter = IOFactory::createWriter($word, 'Word2007');
-        $data = Carbon::now()->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->toDatestring();
         $file_name = "popolazione-$data.docx";
 
         $objWriter->save(storage_path($file_name));

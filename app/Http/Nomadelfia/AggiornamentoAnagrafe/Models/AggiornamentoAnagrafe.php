@@ -17,17 +17,17 @@ final class AggiornamentoAnagrafe extends Activity
 
     public const EVENT_POPOLAZIONE_DEATH = 'popolazione.decesso';
 
-    public function scopeEnter(Builder $query): void
+    protected function scopeEnter(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_ENTER);
     }
 
-    public function scopeExit(Builder $query): void
+    protected function scopeExit(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_EXIT);
     }
 
-    public function scopeDeath(Builder $query): void
+    protected function scopeDeath(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_DEATH);
 

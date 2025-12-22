@@ -24,7 +24,7 @@ final class ClassificazioniController
     public function store(Request $request)
     {
         $request->validate([
-            'descrizione' => 'required|unique:db_biblioteca.classificazione,descrizione',
+            'descrizione' => ['required', 'unique:db_biblioteca.classificazione,descrizione'],
         ], [
             'descrizione.required' => 'La classificazione non può essere vuoto.',
             'descrizione.unique' => "La classificazione $request->descrizione esistente già.",
@@ -32,7 +32,7 @@ final class ClassificazioniController
         );
         $classificazione = Classificazione::create($request->only('descrizione'));
 
-        return redirect()->route('audience.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
+        return to_route('audience.index')->withSuccess('Classificazione '.$classificazione->descrizione.' aggiunto!');
     }
 
     public function edit($id)
@@ -55,14 +55,14 @@ final class ClassificazioniController
         $vecchiaDescrizionee = $classificazione->descrizione;
         $classificazione->fill($request->only('descrizione'));
         if ($classificazione->save()) {
-            return redirect()->route('audience.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in {$classificazione->descrizione}");
+            return to_route('audience.index')->withSuccess("Classificazione  $vecchiaDescrizionee aggiornato in {$classificazione->descrizione}");
         }
 
-        return redirect()->route('audience.index')->withError("Errore durante l'operaizone di aggiornamento");
+        return to_route('audience.index')->withError("Errore durante l'operaizone di aggiornamento");
     }
 
     public function destroy()
     {
-        return redirect()->route('audience.index')->withError('Impossibile eliminare la classificazione');
+        return to_route('audience.index')->withError('Impossibile eliminare la classificazione');
     }
 }

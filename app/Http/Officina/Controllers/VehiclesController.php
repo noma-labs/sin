@@ -78,7 +78,7 @@ final class VehiclesController
             $veicolo->push();
         }
 
-        return redirect()->route('veicoli.dettaglio', ['id' => $id]);
+        return to_route('veicoli.dettaglio', ['id' => $id]);
     }
 
     public function create()
@@ -98,14 +98,14 @@ final class VehiclesController
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required',
-            'targa' => 'required',
-            'modello' => 'required',
-            'marca' => 'required',
-            'impiego' => 'required',
-            'tipologia' => 'required',
-            'alimentazione' => 'required',
-            'posti' => 'required',
+            'nome' => ['required'],
+            'targa' => ['required'],
+            'modello' => ['required'],
+            'marca' => ['required'],
+            'impiego' => ['required'],
+            'tipologia' => ['required'],
+            'alimentazione' => ['required'],
+            'posti' => ['required'],
         ]);
 
         // Retrieve Modello by name, or create it with the name and marca_id attributes...
@@ -142,8 +142,8 @@ final class VehiclesController
     public function aggiungiFiltro(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
-            'tipo' => 'required',
+            'codice' => ['required'],
+            'tipo' => ['required'],
         ]);
 
         $note = $request->input('note', '');
@@ -170,7 +170,7 @@ final class VehiclesController
     public function aggiungiOlio(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
+            'codice' => ['required'],
         ]);
 
         $note = $request->input('note', '');
@@ -195,12 +195,12 @@ final class VehiclesController
     public function aggiungiGomma(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
+            'codice' => ['required'],
         ]);
         $gomma = TipoGomme::create([
             'codice' => $request->input('codice'),
         ]);
 
-        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
+        return back()->withSuccess("Gomma $gomma->codice salvata correttamente");
     }
 }

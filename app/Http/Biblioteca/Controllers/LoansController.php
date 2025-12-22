@@ -120,7 +120,7 @@ final class LoansController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'xDataRestituzione' => 'sometimes|nullable|date|after_or_equal:xDataPrenotazione',
+            'xDataRestituzione' => ['sometimes', 'nullable', 'date', 'after_or_equal:xDataPrenotazione'],
         ], [
             'xDataRestituzione.after_or_equal' => 'La data di restituzione prestito deve essere maggiore o uguale alla data di inizio prestito',
         ]);
@@ -143,10 +143,10 @@ final class LoansController
             'cliente_id' => $persona->id,
         ]);
         if ($prestito) {
-            return redirect()->route('books.loans')->withSuccess('Prestito modificato correttamente');
+            return to_route('books.loans')->withSuccess('Prestito modificato correttamente');
         }
 
-        return redirect()->route('books.loans')->withWarning('Nessuna modifica effettuata');
+        return to_route('books.loans')->withWarning('Nessuna modifica effettuata');
 
     }
 
@@ -158,15 +158,15 @@ final class LoansController
         // $bibliotecario = Auth::user()->id; //$request->xIdBibliotecario;
         $bibliotecario = Auth::user()->persona->id;
         if ($_concludi) {
-            $data = Carbon::now()->toDateString();
+            $data = \Illuminate\Support\Facades\Date::now()->toDateString();
             $res = $prestito->update(['in_prestito' => 0, 'data_fine_prestito' => $data, 'bibliotecario_id' => $bibliotecario]);
             if ($res) {
                 return ($url = Session::get('clientePrestitiUrl'))
                     ? redirect()->to($url)->withSuccess("Prestito terminato correttamente in data $data")
-                    : redirect()->route('books.loans')->withSuccess("Prestito terminato correttamente in data $data");
+                    : to_route('books.loans')->withSuccess("Prestito terminato correttamente in data $data");
             }
 
-            return redirect()->route('books.loans')->withError('Errore nella richiesta. Nessuna modifica effettuata');
+            return to_route('books.loans')->withError('Errore nella richiesta. Nessuna modifica effettuata');
 
         }
 

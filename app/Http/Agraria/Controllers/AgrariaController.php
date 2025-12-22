@@ -26,13 +26,13 @@ final class AgrariaController
         $prossime = $this->getProssimeManutenzioni($mezzi);
 
         // Calcola il costo totale delle manutenzioni dell'anno corrente (da gennaio)
-        $startOfYear = Carbon::now()->startOfYear()->toDateString();
-        $today = Carbon::now()->toDateString();
+        $startOfYear = \Illuminate\Support\Facades\Date::now()->startOfYear()->toDateString();
+        $today = \Illuminate\Support\Facades\Date::now()->toDateString();
         $costCurrentYear = Manutenzione::whereBetween('data', [$startOfYear, $today])->sum('spesa');
 
         // Calcola il costo totale delle manutenzioni dell'anno precedente (da gennaio a dicembre)
-        $startOfLastYear = Carbon::now()->subYear()->startOfYear()->toDateString();
-        $todayLastYear = Carbon::now()->subYear()->toDateString();
+        $startOfLastYear = \Illuminate\Support\Facades\Date::now()->subYear()->startOfYear()->toDateString();
+        $todayLastYear = \Illuminate\Support\Facades\Date::now()->subYear()->toDateString();
         $costLastYear = Manutenzione::whereBetween('data', [$startOfLastYear, $todayLastYear])->sum('spesa');
 
         // Calcola la variazione percentuale YoY
@@ -58,7 +58,7 @@ final class AgrariaController
                 return true;
             }
             $data = new Carbon($ultimo_aggiornamento->data);
-            if ($data->diffInDays(Carbon::now(), true) > 30) {
+            if ($data->diffInDays(\Illuminate\Support\Facades\Date::now(), true) > 30) {
                 return true;
             }
         }

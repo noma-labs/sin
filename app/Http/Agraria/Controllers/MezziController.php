@@ -90,7 +90,7 @@ final class MezziController
         }
         $mezzo->save();
 
-        return redirect()->route('agraria.vehicle.show', ['id' => $mezzo->id])->withSuccess('Mezzo aggiunto con successo');
+        return to_route('agraria.vehicle.show', ['id' => $mezzo->id])->withSuccess('Mezzo aggiunto con successo');
     }
 
     public function show($id)
@@ -179,6 +179,6 @@ final class MezziController
         }
         $mezzo_old->save();
 
-        return redirect()->route('agraria.vehicle.show', ['id' => $mezzo_old->id])->withSuccess('Mezzo modificato con successo');
+        return to_route('agraria.vehicle.show', ['id' => $mezzo_old->id])->withSuccess('Mezzo modificato con successo');
     }
 }

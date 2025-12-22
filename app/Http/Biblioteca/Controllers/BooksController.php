@@ -21,11 +21,11 @@ final class BooksController
     public function store(Request $request)
     {
         $request->validate([
-            'xTitolo' => 'required',
-            'xIdAutori' => 'required',
-            'xIdEditori' => 'required',
-            'xCollocazione' => 'required|unique:db_biblioteca.libro,collocazione',
-            'xClassificazione' => 'required|exists:db_biblioteca.classificazione,id',
+            'xTitolo' => ['required'],
+            'xIdAutori' => ['required'],
+            'xIdEditori' => ['required'],
+            'xCollocazione' => ['required', 'unique:db_biblioteca.libro,collocazione'],
+            'xClassificazione' => ['required', 'exists:db_biblioteca.classificazione,id'],
         ], [
             'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
             'xIdAutori.required' => "L'Autore del libro è obbligatorio.",
@@ -69,10 +69,10 @@ final class BooksController
             $libro->editori()->sync($request->xIdEditori);
         });
         if ($_addanother) {
-            return redirect()->route('books.create')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+            return to_route('books.create')->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
         }
 
-        return redirect()->route('books.show', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
+        return to_route('books.show', [$libro->id])->withSuccess('Libro inserito correttamente.'.$msg_etichetta);
     }
 
     public function show($idLibro)
@@ -83,7 +83,7 @@ final class BooksController
             return view('biblioteca.books.show', ['libro' => $libro, 'prestitiAttivi' => $prestitiAttivi]);
         }
 
-        return redirect()->route('books.index')->withError('Il libro selezionato non esiste');
+        return to_route('books.index')->withError('Il libro selezionato non esiste');
 
     }
 
@@ -99,8 +99,8 @@ final class BooksController
     public function update(Request $request, $idLibro)
     {
         $request->validate([
-            'xTitolo' => 'required',
-            'xClassificazione' => 'required|exists:db_biblioteca.classificazione,id',
+            'xTitolo' => ['required'],
+            'xClassificazione' => ['required', 'exists:db_biblioteca.classificazione,id'],
         ], [
             'xTitolo.required' => 'Il titolo del libro è obbligatorio.',
             'xClassificazione.exists' => 'La classificazione inserita non è valida.',
@@ -120,6 +120,6 @@ final class BooksController
             $libro->editori()->sync($request->xIdEditori);
         });
 
-        return redirect()->route('books.show', ['id' => $idLibro])->withSuccess('Libro modificato correttamente');
+        return to_route('books.show', ['id' => $idLibro])->withSuccess('Libro modificato correttamente');
     }
 }

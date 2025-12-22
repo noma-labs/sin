@@ -13,7 +13,7 @@ final class ClassiTipoController
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'tipo_id' => 'required',
+            'tipo_id' => ['required'],
         ], [
             'tipo_id.required' => 'Il tipo di classe è obbligatorio.',
         ]);
@@ -23,6 +23,6 @@ final class ClassiTipoController
         $classe->tipo()->associate($tipo);
         $classe->save();
 
-        return redirect()->back()->withSuccess('Classe aggiornata con successo.');
+        return back()->withSuccess('Classe aggiornata con successo.');
     }
 }

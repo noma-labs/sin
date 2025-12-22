@@ -20,7 +20,7 @@ final class VideoController
         $orderBy = 'cassetta';
 
         if (! $request->except(['_token'])) {
-            return redirect()->route('video')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return to_route('video')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         $queryVideo = Video::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {

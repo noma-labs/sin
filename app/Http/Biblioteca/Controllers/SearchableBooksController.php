@@ -26,9 +26,9 @@ final class SearchableBooksController
     public function search(Request $request)
     {
         $request->validate([
-            'xIdEditore' => 'exists:db_biblioteca.editore,id',
-            'xIdAutore' => 'exists:db_biblioteca.autore,id',
-            'xClassificazione' => 'exists:db_biblioteca.classificazione,id',
+            'xIdEditore' => ['exists:db_biblioteca.editore,id'],
+            'xIdAutore' => ['exists:db_biblioteca.autore,id'],
+            'xClassificazione' => ['exists:db_biblioteca.classificazione,id'],
         ], [
             'xIdEditore.exists' => 'Editore inserito non esiste.',
             'xIdAutore.exists' => 'Autore inserito non esiste.',
@@ -39,7 +39,7 @@ final class SearchableBooksController
         $orderBy = 'titolo';
 
         if (! $request->except(['_token'])) {
-            return redirect()->route('books.index')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return to_route('books.index')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         if ($request->filled('xIdEditore')) {

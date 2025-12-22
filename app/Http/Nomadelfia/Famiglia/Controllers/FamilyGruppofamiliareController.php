@@ -12,8 +12,8 @@ final class FamilyGruppofamiliareController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'nuovo_gruppo_id' => 'required',
-            'data_cambiogruppo' => 'required|date',
+            'nuovo_gruppo_id' => ['required'],
+            'data_cambiogruppo' => ['required', 'date'],
         ], [
             'nuovo_gruppo_id.required' => 'Il nuovo gruppo dove spostare la famiglia è obbligatorio',
             'data_cambiogruppo.required' => 'La data del cambio di gruppo è obbligatoria.',

@@ -26,7 +26,7 @@ final class ReservationsController
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
-        $now = Carbon::now();
+        $now = \Illuminate\Support\Facades\Date::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day === 'oggi') {
             // $query = Prenotazioni::today();
@@ -99,7 +99,7 @@ final class ReservationsController
             'destinazione' => $request->input('destinazione', ''),
         ]);
 
-        return redirect()->back()->withSuccess('Prenotazione eseguita.');
+        return back()->withSuccess('Prenotazione eseguita.');
 
     }
 
@@ -154,6 +154,6 @@ final class ReservationsController
             'note' => request('note'),
         ]);
 
-        return redirect()->back()->withSuccess('Modifica eseguita.');
+        return back()->withSuccess('Modifica eseguita.');
     }
 }

@@ -21,8 +21,8 @@ final class BooksBorrowController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'xDatainizio' => 'date',
-            'persona_id' => 'required',
+            'xDatainizio' => ['date'],
+            'persona_id' => ['required'],
             // 'xIdBibliotecario'=> 'exists:db_ayth.cliente,id'
         ], [
             'xDatainizio.date' => 'La data di inizio prestito deve essere una data valida YYYY-MM-GG',
@@ -41,13 +41,13 @@ final class BooksBorrowController
         $idBibliotecario = Auth::user()->persona->id;
 
         if ($libro->inPrestito()) {
-            return redirect()->back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
+            return back()->withError('Impossibile prenotare il libro, il  Libro è già in prestito');
         }
         $prestito = Prestito::create(['bibliotecario_id' => $idBibliotecario, 'libro_id' => $id, 'cliente_id' => $idUtente, 'data_inizio_prestito' => $datainizio, 'data_fine_prestito' => $datafine, 'in_prestito' => 1, 'note' => $note]);
         if ($prestito) {
-            return redirect()->route('books.loans')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
+            return to_route('books.loans')->withSuccess('Prestitio andato a buon fine Libro: '.$prestito->libro->titolo.', Cliente:'.$prestito->cliente->nominativo.', Bibliotecario:'.$prestito->bibliotecario->nominativo);
         }
-        redirect()->route('books.loans')->withWarning('Errore nel prestito');
+        to_route('books.loans')->withWarning('Errore nel prestito');
 
     }
 }

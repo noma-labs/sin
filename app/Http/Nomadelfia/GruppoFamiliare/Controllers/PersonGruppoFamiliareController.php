@@ -24,8 +24,8 @@ final class PersonGruppoFamiliareController
     public function update(Request $request, $id, $idGruppo)
     {
         $request->validate([
-            'current_data_entrata' => 'required|date',
-            'new_data_entrata' => 'required|date',
+            'current_data_entrata' => ['required', 'date'],
+            'new_data_entrata' => ['required', 'date'],
         ], [
             'current_data_entrata.date' => 'La data corrente di entrata non è una data valida',
             'current_data_entrata.required' => 'La data corrente di entrata dal gruppo è obbligatoria.',
@@ -49,21 +49,21 @@ final class PersonGruppoFamiliareController
                 ->withSuccess("Gruppo familiare $persona->nominativo modificato con successo.");
         }
 
-        return redirect()->back()->withError('Impossibile aggiornare la data di inizio del gruppo familiare.');
+        return back()->withError('Impossibile aggiornare la data di inizio del gruppo familiare.');
     }
 
     public function store(Request $request, $idPersona)
     {
         $request->validate([
-            'gruppo_id' => 'required',
-            'data_entrata' => 'required|date',
+            'gruppo_id' => ['required'],
+            'data_entrata' => ['required', 'date'],
         ], [
             'gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
             'data_entrata.required' => 'La data di entrata nel gruppo familiare è obbligatoria.',
         ]);
         $persona = Persona::findOrFail($idPersona);
         $action = new AssegnaGruppoFamiliareAction;
-        $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), Carbon::parse($request->data_entrata));
+        $action->execute($persona, GruppoFamiliare::findOrFail($request->gruppo_id), \Illuminate\Support\Facades\Date::parse($request->data_entrata));
 
         return redirect()
             ->action([self::class, 'index'], $persona->id)
@@ -80,6 +80,6 @@ final class PersonGruppoFamiliareController
                 ->withSuccess("$persona->nominativo rimosso/a dal gruppo familiare con successo");
         }
 
-        return redirect()->back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
+        return back()->withErro("Errore. Impossibile rimuovere $persona->nominativo dal gruppo familiare.");
     }
 }

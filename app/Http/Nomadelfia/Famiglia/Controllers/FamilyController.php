@@ -36,8 +36,8 @@ final class FamilyController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nome_famiglia' => 'required',
-            'data_creazione' => 'required|date',
+            'nome_famiglia' => ['required'],
+            'data_creazione' => ['required', 'date'],
         ], [
             'nome_famiglia.required' => 'Il nome della fmaiglia è obbligatorio.',
             'data_creazione.required' => 'La data di creazione della famiglia è obbligatoria.',

@@ -51,7 +51,7 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeMale(Builder $query): Builder
+    protected function scopeMale(Builder $query): Builder
     {
         return $query->where('sesso', 'M');
     }
@@ -60,7 +60,7 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeFemale(Builder $query): Builder
+    protected function scopeFemale(Builder $query): Builder
     {
         return $query->where('sesso', 'F');
     }
@@ -69,25 +69,25 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeOverage(Builder $query): Builder
+    protected function scopeOverage(Builder $query): Builder
     {
-        return $query->where('data_nascita', '<=', Carbon::now()->subYears(18));
+        return $query->where('data_nascita', '<=', \Illuminate\Support\Facades\Date::now()->subYears(18));
     }
 
     /**
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeUnderage(Builder $query): Builder
+    protected function scopeUnderage(Builder $query): Builder
     {
-        return $query->where('data_nascita', '>', Carbon::now()->subYears(18));
+        return $query->where('data_nascita', '>', \Illuminate\Support\Facades\Date::now()->subYears(18));
     }
 
     /**
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeEffettivo(Builder $query): Builder
+    protected function scopeEffettivo(Builder $query): Builder
     {
         return $query->where('posizione', 'Effettivo');
     }
@@ -96,7 +96,7 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopePostulante(Builder $query): Builder
+    protected function scopePostulante(Builder $query): Builder
     {
         return $query->where('posizione', 'Postulante');
     }
@@ -105,7 +105,7 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeOspite(Builder $query): Builder
+    protected function scopeOspite(Builder $query): Builder
     {
         return $query->where('posizione', 'Ospite');
     }
@@ -114,7 +114,7 @@ final class PopolazioneAttuale extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeFiglio(Builder $query): Builder
+    protected function scopeFiglio(Builder $query): Builder
     {
         return $query->where('posizione', 'Figlio');
     }

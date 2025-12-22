@@ -37,7 +37,7 @@ trait Enums
         preg_match('/^enum\((.*)\)$/', (string) $type, $matches);
         $enum = [];
         foreach (explode(',', $matches[1]) as $value) {
-            $v = trim($value, "'");
+            $v = mb_trim($value, "'");
             $enum[] = $v;
         }
 

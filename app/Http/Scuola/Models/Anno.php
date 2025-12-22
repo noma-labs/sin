@@ -40,9 +40,9 @@ final class Anno extends Model
     {
         $as = self::buildAsString($year);
 
-        $d = Carbon::now();
+        $d = \Illuminate\Support\Facades\Date::now();
         if ($datainizo !== null) {
-            $d = Carbon::parse($datainizo);
+            $d = \Illuminate\Support\Facades\Date::parse($datainizo);
         }
 
         return DB::transaction(function () use ($as, $d, $with_classi) {

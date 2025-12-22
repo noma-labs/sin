@@ -48,7 +48,7 @@ final class ElaboratiController
 
     public function create()
     {
-        $now = Carbon::now();
+        $now = \Illuminate\Support\Facades\Date::now();
         $annoScolastico = $now->year.'/'.($now->year + 1);
 
         return view('scuola.elaborati.create', [
@@ -70,10 +70,10 @@ final class ElaboratiController
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required',
-            'titolo' => 'required',
-            'anno_scolastico' => 'required',
-            'studenti_ids' => 'required',
+            'file' => ['required'],
+            'titolo' => ['required'],
+            'anno_scolastico' => ['required'],
+            'studenti_ids' => ['required'],
             'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
@@ -123,7 +123,7 @@ final class ElaboratiController
             $elaborato->coordinatori()->sync($coords);
         });
 
-        return redirect()->route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
+        return to_route('scuola.elaborati.index')->withSuccess('Elaborato caricato con successo.');
     }
 
     public function show($id)
@@ -160,8 +160,8 @@ final class ElaboratiController
     public function update(Request $request, int $id)
     {
         $request->validate([
-            'titolo' => 'required',
-            'anno_scolastico' => 'required',
+            'titolo' => ['required'],
+            'anno_scolastico' => ['required'],
             'dimensione' => function (string $attribute, mixed $value, Closure $fail): void {
                 try {
                     if (! $value) {
@@ -198,7 +198,7 @@ final class ElaboratiController
             $elaborato->coordinatori()->sync($coordinatori);
         });
 
-        return redirect()->route('scuola.elaborati.show', $elaborato->id)
+        return to_route('scuola.elaborati.show', $elaborato->id)
             ->with('success', 'Elaborato aggiornato con successo.');
     }
 

@@ -22,9 +22,9 @@ final class PersonaAziendeController
     public function store(Request $request, $idPersona)
     {
         $request->validate([
-            'azienda_id' => 'required',
-            'mansione' => 'required',
-            'data_inizio' => 'required|date',
+            'azienda_id' => ['required'],
+            'mansione' => ['required'],
+            'data_inizio' => ['required', 'date'],
         ], [
             'azienda_id.required' => "L'azienda è obbligatoria",
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
@@ -35,29 +35,29 @@ final class PersonaAziendeController
         $azienda = Azienda::findOrFail($request->azienda_id);
         $action = new AssegnaAziendaAction;
         if (strcasecmp($request->mansione, 'lavoratore') === 0) {
-            $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
+            $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
 
             return redirect()
                 ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
         if (strcasecmp($request->mansione, 'responsabile azienda') === 0) {
-            $action->execute($persona, $azienda, Carbon::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
+            $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
 
             return redirect()
                 ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
 
-        return redirect()->back()->withError("La mansione $request->mansione non riconosciuta.");
+        return back()->withError("La mansione $request->mansione non riconosciuta.");
     }
 
     public function update(Request $request, $idPersona, $id)
     {
         $request->validate([
-            'mansione' => 'required',
-            'data_entrata' => 'required|date',
-            'stato' => 'required',
+            'mansione' => ['required'],
+            'data_entrata' => ['required', 'date'],
+            'stato' => ['required'],
         ], [
             'data_entrata.required' => "La data di inizio dell'azienda è obbligatoria.",
             'mansione.required' => "La mansione del lavoratore nell'azienda è obbligatoria.",

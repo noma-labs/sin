@@ -34,10 +34,10 @@ final class LabelsController
     {
         $res = Libro::find($idLibro)->update(['tobe_printed' => 1]);
         if ($res) {
-            return redirect()->route('books.show', ['id' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
+            return to_route('books.show', ['id' => $idLibro])->withSuccess('Libro aggiunto alla stampa delle etichette');
         }
 
-        return redirect()->route('books.show', ['id' => $idLibro])->withError("Errore nell'operazione");
+        return to_route('books.show', ['id' => $idLibro])->withError("Errore nell'operazione");
 
     }
 
@@ -46,10 +46,10 @@ final class LabelsController
         $libro = Libro::find($idLibro);
         $res = $libro->update(['tobe_printed' => 0]);
         if ($res) {
-            return redirect()->route('books.labels')->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
+            return to_route('books.labels')->withSuccess("Libro $libro->collocazione, $libro->titolo eliminato dalla stampa delle etichette");
         }
 
-        return redirect()->route('books.labels')->withError("Errore nell'operazione");
+        return to_route('books.labels')->withError("Errore nell'operazione");
 
     }
 
@@ -60,11 +60,11 @@ final class LabelsController
         if ($request->input('action') === 'add') {
             $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 1]);
 
-            return redirect()->route('books.labels')->withSuccess("$count etichette aggiunte alla stampa");
+            return to_route('books.labels')->withSuccess("$count etichette aggiunte alla stampa");
         }
         $count = Libro::whereBetween('collocazione', [$from, $to])->update(['tobe_printed' => 0]);
 
-        return redirect()->route('books.labels')->withSuccess("$count etichette rimosse dalla stampa");
+        return to_route('books.labels')->withSuccess("$count etichette rimosse dalla stampa");
 
     }
 
@@ -72,15 +72,15 @@ final class LabelsController
     {
         $res = Libro::toBePrinted()->update(['tobe_printed' => 0]);
         if ($res) {
-            return redirect()->route('books.labels')->withSuccess("Tutte le $res etichette sono state eliminate.");
+            return to_route('books.labels')->withSuccess("Tutte le $res etichette sono state eliminate.");
         }
 
-        return redirect()->route('books.labels')->withError("Errore nell'operazione");
+        return to_route('books.labels')->withError("Errore nell'operazione");
     }
 
     public function printToPdf(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $date = Carbon::now()->format('Y-m-d_H-i-s');
+        $date = \Illuminate\Support\Facades\Date::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("etichette-$date.pdf");
 
         // Get the APP_URL from the configuration

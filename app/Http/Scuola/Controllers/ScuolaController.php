@@ -66,7 +66,7 @@ final class ScuolaController
         $firstPage = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
         $firstPage->addText('Scuola Familiare di Nomadelfia', ['bold' => true, 'italic' => false, 'size' => 14]);
 
-        $firstPage->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 10],
+        $firstPage->addText(\Illuminate\Support\Facades\Date::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 10],
             ['align' => TextAlignment::CENTER]);
         $firstPage->addTextBreak(2);
         $r = is_null($anno->responsabile) ? 'non asseganto' : $anno->responsabile->nominativo;
@@ -175,7 +175,7 @@ final class ScuolaController
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $data = Carbon::now()->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->toDatestring();
         $file_name = "scuola-familiare-$data.docx";
         $objWriter->save(storage_path($file_name));
 

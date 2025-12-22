@@ -20,12 +20,12 @@ final class ViewClientiConSenzaPatente extends Model
 
     protected $primaryKey = 'persona_id';
 
-    public function scopeConPatente($query)
+    protected function scopeConPatente($query)
     {
         return $query->where('cliente_con_patente', 'CP');
     }
 
-    public function scopeSenzaPatente($query)
+    protected function scopeSenzaPatente($query)
     {
         return $query->where('cliente_con_patente', '!=', 'CP')->orWhereNull('cliente_con_patente');
     }

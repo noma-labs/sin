@@ -12,12 +12,12 @@ final class TiresController
     public function store(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
+            'codice' => ['required'],
         ]);
         $gomma = TipoGomme::create([
             'codice' => $request->input('codice'),
         ]);
 
-        return redirect()->back()->withSuccess("Gomma $gomma->codice salvata correttamente");
+        return back()->withSuccess("Gomma $gomma->codice salvata correttamente");
     }
 }

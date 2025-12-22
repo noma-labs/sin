@@ -15,7 +15,7 @@ final class AddStudentAction
             $data_inizio = $classe->anno->data_inizio;
         }
         if (is_string($data_inizio)) {
-            $data_inizio = Carbon::parse($data_inizio);
+            $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);

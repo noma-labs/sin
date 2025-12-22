@@ -58,10 +58,10 @@ final class AnnoScolasticoData
                             new DateTimeImmutable($item->data_nascita),
                             $item->ciclo,
                             $item->classe_nome,
-                        ))->values()->toArray();
+                        ))->values()->all();
 
                         return new Classe($classeNome, $alunni);
-                    })->values()->toArray();
+                    })->values()->all();
 
                 return new CicloScolastico($ciclo, $classi);
             });

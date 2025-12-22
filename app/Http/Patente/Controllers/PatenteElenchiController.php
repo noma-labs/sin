@@ -29,7 +29,7 @@ final class PatenteElenchiController
 
     public function esportaPatentiExcel(): void
     {
-        $data = Carbon::now();
+        $data = \Illuminate\Support\Facades\Date::now();
         $name = "Patenti-$data.xlsx";
 
         $spreadsheet = new Spreadsheet;
@@ -69,7 +69,7 @@ final class PatenteElenchiController
         ]);
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), // ->toArray(),  // The data to set
+            $patenti->all(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
             // true
@@ -96,7 +96,7 @@ final class PatenteElenchiController
 
     public function esportaCQCExcel(): void
     {
-        $data = Carbon::now();
+        $data = \Illuminate\Support\Facades\Date::now();
         $name = "cqc-$data.xlsx";
         $spreadsheet = new Spreadsheet;
         $spreadsheet->setActiveSheetIndex(0)
@@ -137,7 +137,7 @@ final class PatenteElenchiController
         ]);
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $cqcPersone->toArray(), // ->toArray(),  // The data to set
+            $cqcPersone->all(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
             // true
@@ -176,7 +176,7 @@ final class PatenteElenchiController
 
     public function stampaAutorizzati(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $date = Carbon::now()->format('Y-m-d_H-i-s');
+        $date = \Illuminate\Support\Facades\Date::now()->format('Y-m-d_H-i-s');
         $file_name = storage_path("autorizzati-$date.pdf");
 
         // Get the APP_URL from the configuration
@@ -199,7 +199,7 @@ final class PatenteElenchiController
 
     public function autorizzatiEsportaExcel(): void
     {
-        $data = Carbon::now();
+        $data = \Illuminate\Support\Facades\Date::now();
         $name = "Conducenti autorizzati $data.xlsx";
 
         $spreadsheet = new Spreadsheet;
@@ -218,7 +218,7 @@ final class PatenteElenchiController
         $patenti = $patenti->map(fn ($patente, $key): array => [$patente->persona->nome, $patente->persona->cognome, $patente->persona->data_nascita, $patente->categorieAsString()]);
 
         $spreadsheet->getActiveSheet()->fromArray(
-            $patenti->toArray(), // ->toArray(),  // The data to set
+            $patenti->all(), // ->toArray(),  // The data to set
             null, // Array values with this value will not be set
             'A2' // Top left coordinate of the worksheet range where  //    we want to set these values (default is A1)
         );

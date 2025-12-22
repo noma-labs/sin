@@ -32,9 +32,9 @@ final class FavouritesController
             $enrico = $enrico->get();
         }
 
-        $q = Photo::query()->orderBy('taken_at')
+        $q = Photo::query()->oldest('taken_at')
             ->where('favorite', 1)
-            ->orderBy('taken_at');
+            ->oldest('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -59,7 +59,7 @@ final class FavouritesController
         $photo->favorite = false;
         $photo->save();
 
-        return redirect()->back()->with('success', 'Foto rimossa dai favoriti con successo.');
+        return back()->with('success', 'Foto rimossa dai favoriti con successo.');
     }
 
     public function store(int $id): RedirectResponse
@@ -68,7 +68,7 @@ final class FavouritesController
         $photo->favorite = true;
         $photo->save();
 
-        return redirect()->back()->with('success', 'Foto aggiunta ai favoriti.');
+        return back()->with('success', 'Foto aggiunta ai favoriti.');
     }
 
     public function download(): BinaryFileResponse
