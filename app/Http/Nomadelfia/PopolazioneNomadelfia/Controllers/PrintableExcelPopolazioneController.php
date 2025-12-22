@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

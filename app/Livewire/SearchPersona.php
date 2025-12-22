@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 
 final class SearchPersona extends Autocomplete
 {

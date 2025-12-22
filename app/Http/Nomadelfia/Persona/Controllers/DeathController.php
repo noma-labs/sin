@@ -6,7 +6,6 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class DeathController

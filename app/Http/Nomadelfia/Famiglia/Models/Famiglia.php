@@ -215,34 +215,6 @@ final class Famiglia extends Model
         return new FamigliaQueryBuilder($query);
     }
 
-    protected function scopeOrdered($query)
-    {
-        return $query->orderBy('nome_famiglia', 'asc')->get();
-    }
-
-    protected function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
-    {
-        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
-            'famiglie_persone.stato')
-            ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
-            ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
-            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
-            ->whereNull('popolazione.data_uscita')
-            ->where('posizione_famiglia', $posizione)
-            ->where('famiglie_persone.stato', $stato)
-            ->orderBy('famiglie.nome_famiglia');
-    }
-
-    protected function scopeMaschio($query)
-    {
-        return $query->where('sesso', 'M');
-    }
-
-    protected function scopeFemmina($query)
-    {
-        return $query->where('sesso', 'F');
-    }
-
     public function uscita(Carbon $data_uscita): void
     {
         DB::connection('db_nomadelfia')->beginTransaction();
@@ -572,6 +544,34 @@ final class Famiglia extends Model
     protected static function newFactory()
     {
         return FamigliaFactory::new();
+    }
+
+    protected function scopeOrdered($query)
+    {
+        return $query->orderBy('nome_famiglia', 'asc')->get();
+    }
+
+    protected function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
+    {
+        return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
+            'famiglie_persone.stato')
+            ->join('famiglie_persone', 'famiglie_persone.famiglia_id', '=', 'famiglie.id')
+            ->join('persone', 'famiglie_persone.persona_id', '=', 'persone.id')
+            ->join('popolazione', 'popolazione.persona_id', '=', 'persone.id')
+            ->whereNull('popolazione.data_uscita')
+            ->where('posizione_famiglia', $posizione)
+            ->where('famiglie_persone.stato', $stato)
+            ->orderBy('famiglie.nome_famiglia');
+    }
+
+    protected function scopeMaschio($query)
+    {
+        return $query->where('sesso', 'M');
+    }
+
+    protected function scopeFemmina($query)
+    {
+        return $query->where('sesso', 'F');
     }
 
     protected function nomeFamiglia(): \Illuminate\Database\Eloquent\Casts\Attribute

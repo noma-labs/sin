@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Officina\Models\Veicolo;
-use Carbon\Carbon;
 use Livewire\Component;
 
 final class PrenotazioneVeicoli extends Component

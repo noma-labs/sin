@@ -6,7 +6,6 @@ namespace App\Scuola\Controllers;
 
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\IOFactory;

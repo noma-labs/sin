@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Models;
 
 use App\Traits\SortableTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

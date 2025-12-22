@@ -127,6 +127,11 @@ final class Veicolo extends Model
         return $this->belongsToMany(TipoGomme::class, 'gomme_veicolo', 'veicolo_id', 'gomme_id');
     }
 
+    protected static function newFactory()
+    {
+        return VeicoloFactory::new();
+    }
+
     protected function scopePrenotabili($query)
     {
         return $query->where('prenotabile', true);
@@ -187,10 +192,5 @@ final class Veicolo extends Model
     protected function scopeMotocicli($query)
     {
         return $query->where('tipologia_id', 10);
-    }
-
-    protected static function newFactory()
-    {
-        return VeicoloFactory::new();
     }
 }

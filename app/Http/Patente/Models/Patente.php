@@ -6,7 +6,6 @@ namespace App\Patente\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\SortableTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,6 +68,22 @@ final class Patente extends Model
         return $this->categorie()->get()->implode('categoria', ',');
     }
 
+    public function hasCommissione(): bool
+    {
+        return $this->stato === 'commissione';
+    }
+
+    protected static function booted(): void
+    {
+        self::addGlobalScope('InNomadelfia', function (Builder $builder): void {
+            $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
+                ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
+                ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
+                ->whereNull('db_nomadelfia.popolazione.data_uscita')
+                ->orderBy('db_nomadelfia.persone.nominativo');
+        });
+    }
+
     protected function scopeInScadenza($query, int $days)
     {
         $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
@@ -98,11 +113,6 @@ final class Patente extends Model
 
     }
 
-    public function hasCommissione(): bool
-    {
-        return $this->stato === 'commissione';
-    }
-
     protected function scopeConCommisione($query)
     {
         return $query->where('stato', '=', 'commissione');
@@ -112,16 +122,5 @@ final class Patente extends Model
     {
         return $query->whereNull('stato')
             ->orWhere('stato', '!=', 'commissione');
-    }
-
-    protected static function booted(): void
-    {
-        self::addGlobalScope('InNomadelfia', function (Builder $builder): void {
-            $builder->select('db_nomadelfia.persone.*', 'persone_patenti.*')
-                ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
-                ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
-                ->whereNull('db_nomadelfia.popolazione.data_uscita')
-                ->orderBy('db_nomadelfia.persone.nominativo');
-        });
     }
 }

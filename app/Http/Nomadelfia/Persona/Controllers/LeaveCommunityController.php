@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class LeaveCommunityController

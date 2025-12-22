@@ -125,16 +125,6 @@ final class Cariche extends Model
         return $result;
     }
 
-    protected function scopeAssociazione($query)
-    {
-        return $query->where('org', '=', 'associazione');
-    }
-
-    protected function scopePresidente($query)
-    {
-        return $query->where('nome', '=', 'presidente');
-    }
-
     public function assegnaPresidenteAssociazione($persona, Carbon $data_inizio)
     {
         if (is_string($persona)) {
@@ -176,5 +166,15 @@ final class Cariche extends Model
         self::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('org');
         });
+    }
+
+    protected function scopeAssociazione($query)
+    {
+        return $query->where('org', '=', 'associazione');
+    }
+
+    protected function scopePresidente($query)
+    {
+        return $query->where('nome', '=', 'presidente');
     }
 }

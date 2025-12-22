@@ -64,6 +64,23 @@ final class ClasseTipo extends Model
         return $this->alunni()->where('data_fine', '=', null);
     }
 
+    public function IsPrimaMed(): bool
+    {
+        return $this->nome === self::PRIMA_MEDIA;
+    }
+
+    public function assegnaAlunno($persona, Carbon $data_inizio): void
+    {
+        if (is_string($persona)) {
+            $persona = Persona::findOrFail($persona);
+        }
+        if ($persona instanceof Persona) {
+            $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
+        } else {
+            throw new GeneralException('Bad Argument. Persona must be an id or a model.');
+        }
+    }
+
     /**
      * @return Builder<ClasseTipo>
      */
@@ -207,11 +224,6 @@ final class ClasseTipo extends Model
         return $this->nome === self::QUINTA_ELEMENTARE;
     }
 
-    public function IsPrimaMed(): bool
-    {
-        return $this->nome === self::PRIMA_MEDIA;
-    }
-
     protected function scopeIsSecondaMed(): bool
     {
         return $this->nome === self::SECONDA_MEDIA;
@@ -225,17 +237,5 @@ final class ClasseTipo extends Model
     protected function scopeIsUniversita(): bool
     {
         return $this->ciclo === 'universita';
-    }
-
-    public function assegnaAlunno($persona, Carbon $data_inizio): void
-    {
-        if (is_string($persona)) {
-            $persona = Persona::findOrFail($persona);
-        }
-        if ($persona instanceof Persona) {
-            $this->alunni()->attach($persona->id, ['data_inizio' => $data_inizio]);
-        } else {
-            throw new GeneralException('Bad Argument. Persona must be an id or a model.');
-        }
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class PersonPositionController

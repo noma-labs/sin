@@ -6,7 +6,6 @@ namespace App\Agraria\Controllers;
 
 use App\Agraria\Models\MezzoAgricolo;
 use App\Agraria\Models\StoricoOre;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Throwable;

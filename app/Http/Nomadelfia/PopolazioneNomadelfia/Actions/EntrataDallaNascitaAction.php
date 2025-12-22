@@ -11,7 +11,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Carbon\Carbon;
 
 final readonly class EntrataDallaNascitaAction
 {

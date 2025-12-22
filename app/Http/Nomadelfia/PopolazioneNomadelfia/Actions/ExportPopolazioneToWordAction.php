@@ -6,7 +6,6 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\PhpWord;

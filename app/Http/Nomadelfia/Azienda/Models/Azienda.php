@@ -45,16 +45,6 @@ final class Azienda extends Model
         return self::where('nome_azienda', $nome)->first();
     }
 
-    protected function scopeAziende($query)
-    {
-        return $query->where('tipo', '=', 'azienda');
-    }
-
-    protected function scopeIncarichi($query)
-    {
-        return $query->where('tipo', '=', 'incarico');
-    }
-
     public function lavoratori(): BelongsToMany
     {
         return $this->belongsToMany(Persona::class, 'aziende_persone', 'azienda_id', 'persona_id')->withPivot('stato',
@@ -96,5 +86,15 @@ final class Azienda extends Model
     protected static function newFactory()
     {
         return AziendaFactory::new();
+    }
+
+    protected function scopeAziende($query)
+    {
+        return $query->where('tipo', '=', 'azienda');
+    }
+
+    protected function scopeIncarichi($query)
+    {
+        return $query->where('tipo', '=', 'incarico');
     }
 }

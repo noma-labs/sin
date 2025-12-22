@@ -6,7 +6,6 @@ namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
 use App\Photo\Models\PhotoEnrico;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

@@ -88,6 +88,11 @@ final class Libro extends Model
         return count($prestiti) > 0;
     }
 
+    protected static function newFactory()
+    {
+        return LibroFactory::new();
+    }
+
     protected function scopeTobePrinted($query)
     {
         return $query->where('tobe_printed', 1)->orderBy('collocazione');
@@ -101,11 +106,6 @@ final class Libro extends Model
     protected function scopeAutori($query)
     {
         return $query->select('autore')->groupBy('autore'); // ->orderBY("AUTORE");
-    }
-
-    protected static function newFactory()
-    {
-        return LibroFactory::new();
     }
 
     protected function titolo(): Attribute

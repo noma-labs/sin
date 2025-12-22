@@ -6,7 +6,6 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class FamilyLeaveController

@@ -9,7 +9,6 @@ use App\Scuola\DataTransferObjects\Dimensione;
 use App\Scuola\Exceptions\BadDimensionException;
 use App\Scuola\Models\Elaborato;
 use App\Scuola\Traits\StoresElaboratoFile;
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

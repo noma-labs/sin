@@ -14,7 +14,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneAccoltoAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class JoinCommunityController

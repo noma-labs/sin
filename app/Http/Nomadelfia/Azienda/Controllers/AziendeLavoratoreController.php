@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Azienda\Controllers;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class AziendeLavoratoreController

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Patente\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -35,6 +34,31 @@ final class CQC extends Model
         return $this->persona()->using(Patente::class);
     }
 
+    public function scadute($days = null): BelongsToMany
+    {
+        if ($days !== null) {
+            $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
+
+            return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
+                ->withPivot('data_rilascio', 'data_scadenza')
+                ->wherePivot('data_scadenza', '>=', $data)
+                ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
+        }
+
+        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
+            ->withPivot('data_rilascio', 'data_scadenza')
+            ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
+
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        self::addGlobalScope('id', function (Builder $builder): void {
+            $builder->where('id', 16)->orWhere('id', 17);
+        });
+    }
+
     protected function scopeCQCPersone($query): self
     {
         return $query->where('id', 16)->first();
@@ -63,30 +87,5 @@ final class CQC extends Model
             ->withPivot('data_rilascio', 'data_scadenza')
             ->wherePivot('data_scadenza', '>', $data);
 
-    }
-
-    public function scadute($days = null): BelongsToMany
-    {
-        if ($days !== null) {
-            $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
-
-            return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
-                ->withPivot('data_rilascio', 'data_scadenza')
-                ->wherePivot('data_scadenza', '>=', $data)
-                ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
-        }
-
-        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
-            ->withPivot('data_rilascio', 'data_scadenza')
-            ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
-
-    }
-
-    protected static function boot(): void
-    {
-        parent::boot();
-        self::addGlobalScope('id', function (Builder $builder): void {
-            $builder->where('id', 16)->orWhere('id', 17);
-        });
     }
 }

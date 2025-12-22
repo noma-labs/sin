@@ -6,7 +6,6 @@ namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;

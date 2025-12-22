@@ -7,7 +7,6 @@ namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class MovePersonGruppoFamiliareController

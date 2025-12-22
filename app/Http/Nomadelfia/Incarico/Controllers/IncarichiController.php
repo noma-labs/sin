@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Incarico\Controllers;
 use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class IncarichiController

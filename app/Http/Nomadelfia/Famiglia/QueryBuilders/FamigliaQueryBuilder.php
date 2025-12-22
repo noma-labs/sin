@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Famiglia\QueryBuilders;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 final class FamigliaQueryBuilder extends Builder

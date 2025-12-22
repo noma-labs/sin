@@ -7,7 +7,6 @@ namespace App\Scuola\Controllers;
 use App\Scuola\DataTransferObjects\AnnoScolasticoData;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class AnnoScolasticoController

@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class MarriageController

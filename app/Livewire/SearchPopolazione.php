@@ -6,7 +6,6 @@ namespace App\Livewire;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon\Carbon;
 
 final class SearchPopolazione extends Autocomplete
 {

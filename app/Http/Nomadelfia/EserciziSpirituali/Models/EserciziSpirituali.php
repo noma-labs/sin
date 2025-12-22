@@ -59,11 +59,6 @@ final class EserciziSpirituali extends Model
         return $result;
     }
 
-    protected function scopeAttivi($query)
-    {
-        return $query->where('stato', '=', '1');
-    }
-
     public function isAttivo(): bool
     {
         return $this->stato === '1';
@@ -143,5 +138,10 @@ final class EserciziSpirituali extends Model
     protected static function newFactory()
     {
         return EsSpiritualiFactory::new();
+    }
+
+    protected function scopeAttivi($query)
+    {
+        return $query->where('stato', '=', '1');
     }
 }
