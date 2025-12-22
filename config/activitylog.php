@@ -52,5 +52,5 @@ return [
      * the Activity model shipped with this package. In case it's not set
      * Laravel database.default will be used instead.
      */
-    'database_connection' => env('ACTIVITY_LOGGER_DB_CONNECTION'),
+    'database_connection' => env('ACTIVITY_LOGGER_DB_CONNECTION', 'db_auth'),
 ];

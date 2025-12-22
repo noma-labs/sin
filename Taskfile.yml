@@ -10,7 +10,7 @@ tasks:
       - ./vendor/bin/sail npm install
       - ./vendor/bin/sail npm run production
       - cp .env.local .env
-      - ./vendor/bin/sail artisan key:generate
+      - ./vendor/bin/sail artisan key:generate --env=local
       - ./vendor/bin/sail artisan make:database
 
   up:
