@@ -19,8 +19,8 @@ final class PersonaStatoController
     public function store(Request $request, $idPersona)
     {
         $request->validate([
-            'stato_id' => 'required',
-            'data_inizio' => 'required|date',
+            'stato_id' => ['required'],
+            'data_inizio' => ['required', 'date'],
         ], [
             'stato_id.required' => 'Lo stato è obbligatorio',
             'data_inizio.required' => 'La data iniziale dello stato è obbligatoria.',
@@ -36,9 +36,9 @@ final class PersonaStatoController
     public function update(Request $request, $id, $idStato)
     {
         $request->validate([
-            'data_fine' => 'date',
-            'data_inizio' => 'required|date',
-            'stato' => 'required',
+            'data_fine' => ['date'],
+            'data_inizio' => ['required', 'date'],
+            'stato' => ['required'],
         ], [
             'data_fine.date' => 'La data fine posizione deve essere una data valida',
             'data_inizio.required' => 'La data di inizio dello stato è obbligatoria.',

@@ -18,8 +18,8 @@ final class SlideshowController
         $every = $request->input('every', 10000);
 
         $q = Photo::query()
-            ->orderBy('taken_at')
-            ->orderBy('taken_at');
+            ->oldest('taken_at')
+            ->oldest('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);

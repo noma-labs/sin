@@ -131,7 +131,7 @@ final class ExifData
         if (isset($info['XMP-xmp:CreateDate'])) {
             $dateString = $info['XMP-xmp:CreateDate'];
             try {
-                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s', $dateString);
+                $exif->takenAt = \Illuminate\Support\Facades\Date::createFromFormat('Y:m:d H:i:s', $dateString);
             } catch (Exception) {
                 $exif->takenAt = null;
             }
@@ -139,10 +139,10 @@ final class ExifData
             $dateString = $info['CreateDate'];
             try {
                 // Try with timezone
-                $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:sP', $dateString);
+                $exif->takenAt = \Illuminate\Support\Facades\Date::createFromFormat('Y:m:d H:i:sP', $dateString);
             } catch (Exception) {
                 try {
-                    $exif->takenAt = Carbon::createFromFormat('Y:m:d H:i:s', $dateString);
+                    $exif->takenAt = \Illuminate\Support\Facades\Date::createFromFormat('Y:m:d H:i:s', $dateString);
                 } catch (Exception) {
                     $exif->takenAt = null;
                 }

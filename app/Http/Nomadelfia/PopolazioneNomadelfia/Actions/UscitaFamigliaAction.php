@@ -34,7 +34,7 @@ final readonly class UscitaFamigliaAction
         try {
             $uscita = $dto->data_uscita;
             $dto->componenti->each(function ($persona) use ($uscita): void {
-                $act = app(UscitaPersonaDBAction::class);
+                $act = resolve(UscitaPersonaDBAction::class);
                 $act->execute($persona, $uscita);
             });
             DB::connection('db_nomadelfia')->commit();

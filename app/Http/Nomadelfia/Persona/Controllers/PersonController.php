@@ -18,12 +18,12 @@ final class PersonController
     public function store(Request $request)
     {
         $request->validate([
-            'nominativo' => 'required',
-            'nome' => 'required',
-            'cognome' => 'required',
-            'data_nascita' => 'required|date',
-            'luogo_nascita' => 'required',
-            'sesso' => 'required',
+            'nominativo' => ['required'],
+            'nome' => ['required'],
+            'cognome' => ['required'],
+            'data_nascita' => ['required', 'date'],
+            'luogo_nascita' => ['required'],
+            'sesso' => ['required'],
         ], [
             'nominativo.required' => 'Il nominativo è obbligatorio',
             'nominativo.unique' => 'IL nominativo inserito esiste già.',

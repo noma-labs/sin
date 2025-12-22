@@ -15,6 +15,6 @@ final class ClassiNoteController
         $anno->note = $request->get('note');
         $anno->save();
 
-        return redirect()->back()->withSuccess('Note aggiornate con successo.');
+        return back()->withSuccess('Note aggiornate con successo.');
     }
 }

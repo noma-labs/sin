@@ -17,22 +17,6 @@ final class AggiornamentoAnagrafe extends Activity
 
     public const EVENT_POPOLAZIONE_DEATH = 'popolazione.decesso';
 
-    public function scopeEnter(Builder $query): void
-    {
-        $query->where('event', self::EVENT_POPOLAZIONE_ENTER);
-    }
-
-    public function scopeExit(Builder $query): void
-    {
-        $query->where('event', self::EVENT_POPOLAZIONE_EXIT);
-    }
-
-    public function scopeDeath(Builder $query): void
-    {
-        $query->where('event', self::EVENT_POPOLAZIONE_DEATH);
-
-    }
-
     public function isEnterEvent(): bool
     {
         return $this->event === self::EVENT_POPOLAZIONE_ENTER;
@@ -54,5 +38,21 @@ final class AggiornamentoAnagrafe extends Activity
         self::addGlobalScope('nomadelfia', function (Builder $builder): void {
             $builder->where('log_name', self::LOG_NAME);
         });
+    }
+
+    protected function scopeEnter(Builder $query): void
+    {
+        $query->where('event', self::EVENT_POPOLAZIONE_ENTER);
+    }
+
+    protected function scopeExit(Builder $query): void
+    {
+        $query->where('event', self::EVENT_POPOLAZIONE_EXIT);
+    }
+
+    protected function scopeDeath(Builder $query): void
+    {
+        $query->where('event', self::EVENT_POPOLAZIONE_DEATH);
+
     }
 }

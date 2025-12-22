@@ -14,9 +14,9 @@ final class FamilyMemberController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'persona_id' => 'required',
-            'posizione' => 'required',
-            'stato' => 'required',
+            'persona_id' => ['required'],
+            'posizione' => ['required'],
+            'stato' => ['required'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',
@@ -50,9 +50,9 @@ final class FamilyMemberController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'persona_id' => 'required',
-            'posizione' => 'required',
-            'stato' => 'required',
+            'persona_id' => ['required'],
+            'posizione' => ['required'],
+            'stato' => ['required'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'stato.required' => 'Lo stato della persona è obbligatoria.',

@@ -89,17 +89,17 @@ final class Prenotazioni extends Model
 
     public function dataOraPartenza(): ?Carbon
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
+        return \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d H:i', $this->data_partenza.' '.$this->ora_partenza);
     }
 
     public function dataOraArrivo(): ?Carbon
     {
-        return Carbon::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
+        return \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d H:i', $this->data_arrivo.' '.$this->ora_arrivo);
     }
 
     public function isPartita(): bool
     {
-        $adesso = Carbon::now();
+        $adesso = \Illuminate\Support\Facades\Date::now();
         if ($this->dataOraArrivo() >= $adesso && $this->dataOraPartenza() <= $adesso) {
             return true;
         }
@@ -109,7 +109,7 @@ final class Prenotazioni extends Model
 
     public function isArrivata(): bool
     {
-        if ($this->dataOraArrivo() < Carbon::now()) {
+        if ($this->dataOraArrivo() < \Illuminate\Support\Facades\Date::now()) {
             return true;
         }
 
@@ -118,7 +118,7 @@ final class Prenotazioni extends Model
 
     public function deveAncoraPartire(): bool
     {
-        if ($this->dataOraPartenza() > Carbon::now()) {
+        if ($this->dataOraPartenza() > \Illuminate\Support\Facades\Date::now()) {
             return true;
         }
 

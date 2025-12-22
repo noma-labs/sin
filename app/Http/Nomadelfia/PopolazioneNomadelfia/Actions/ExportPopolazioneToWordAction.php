@@ -6,7 +6,6 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Actions;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\ExportPopolazioneData;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\PhpWord;
@@ -39,7 +38,7 @@ final class ExportPopolazioneToWordAction
 
         // main page
         $section = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
-        $section->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
+        $section->addText(\Illuminate\Support\Facades\Date::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
             ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
         $section->addText('POPOLAZIONE DI NOMADELFIA', ['bold' => true, 'italic' => false, 'size' => 14],
@@ -184,7 +183,7 @@ final class ExportPopolazioneToWordAction
                     if (! Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
                         $famiglieSect->addTitle($componente->nominativo, 3);
                     } else {
-                        $year = Carbon::parse($componente->data_nascita)->year;
+                        $year = \Illuminate\Support\Facades\Date::parse($componente->data_nascita)->year;
                         $famiglieSect->addText('    '.$year.' '.$componente->nominativo);
                     }
                 }
@@ -208,7 +207,7 @@ final class ExportPopolazioneToWordAction
                         if (! Str::startsWith($componente->posizione_famiglia, 'FIGLIO')) {
                             $gruppiSect->addText($componente->nominativo, ['bold' => true]);
                         } else {
-                            $year = Carbon::parse($componente->data_nascita)->year;
+                            $year = \Illuminate\Support\Facades\Date::parse($componente->data_nascita)->year;
                             $gruppiSect->addText('    '.$year.' '.$componente->nominativo);
                         }
                     }
@@ -255,7 +254,7 @@ final class ExportPopolazioneToWordAction
                     $classeSect->addTextBreak(1);
                     $classeSect->addTitle($classe->tipo->nome.' '.$alunni->count(), 2);
                     foreach ($classe->alunni()->get() as $alunno) {
-                        $year = Carbon::parse($alunno->data_nascita)->year;
+                        $year = \Illuminate\Support\Facades\Date::parse($alunno->data_nascita)->year;
                         $classeSect->addText('    '.$year.' '.$alunno->nominativo);
                     }
                 }

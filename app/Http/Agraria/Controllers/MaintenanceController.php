@@ -25,10 +25,10 @@ final class MaintenanceController
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'mezzo' => 'required',
-            'data' => 'required',
-            'ore' => 'required',
-            'persona' => 'required',
+            'mezzo' => ['required'],
+            'data' => ['required'],
+            'ore' => ['required'],
+            'persona' => ['required'],
         ], [
             'mezzo.required' => 'Il mezzo è richiesto',
             'data.required' => 'La data è richiesta',
@@ -37,7 +37,7 @@ final class MaintenanceController
         ]);
 
         if (! $request->filled('programmate') && ! $request->filled('straordinarie')) {
-            return redirect()->back()->withErrors('Almeno una manutenzione programmata o straordinaria deve essere fornita');
+            return back()->withErrors('Almeno una manutenzione programmata o straordinaria deve essere fornita');
         }
 
         $mezzo = MezzoAgricolo::find($request->input('mezzo'));
@@ -55,7 +55,7 @@ final class MaintenanceController
             $nuova_manutenzione->programmate()->attach($request->get('programmate'));
         }
 
-        return redirect()->route('agraria.index')->with('success', "Manutenzione $mezzo->nome salvata correttamente");
+        return to_route('agraria.index')->with('success', "Manutenzione $mezzo->nome salvata correttamente");
     }
 
     public function show(int $id): View
@@ -76,10 +76,10 @@ final class MaintenanceController
     public function update(Request $request, int $id): RedirectResponse
     {
         $request->validate([
-            'mezzo' => 'required',
-            'data' => 'required',
-            'ore' => 'required',
-            'persona' => 'required',
+            'mezzo' => ['required'],
+            'data' => ['required'],
+            'ore' => ['required'],
+            'persona' => ['required'],
         ], [
             'mezzo.required' => 'Il mezzo è richiesto',
             'data.required' => 'La data è richiesta',
@@ -98,7 +98,7 @@ final class MaintenanceController
 
         $manutenzione->programmate()->sync($request->get('programmate', []));
 
-        return redirect()->route('agraria.maintenanace.show', $manutenzione->id)
+        return to_route('agraria.maintenanace.show', $manutenzione->id)
             ->with('success', 'Manutenzione aggiornata correttamente');
     }
 
@@ -108,6 +108,6 @@ final class MaintenanceController
         ManutenzioneTipo::where('manutenzione', $manutenzione->id)->delete();
         $manutenzione->delete();
 
-        return redirect()->route('agraria.index')->with('success', 'Manutenzione eliminata correttamente');
+        return to_route('agraria.index')->with('success', 'Manutenzione eliminata correttamente');
     }
 }

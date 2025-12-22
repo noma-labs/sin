@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Incarico\Controllers;
 use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class IncarichiController
@@ -25,7 +24,7 @@ final class IncarichiController
     {
         Incarico::destroy($id);
 
-        return redirect()->back()->withSuccess('Incarico cancellato con successo.');
+        return back()->withSuccess('Incarico cancellato con successo.');
     }
 
     public function edit($id)
@@ -41,17 +40,17 @@ final class IncarichiController
     public function assegnaPersona(Request $request, $id)
     {
         $request->validate([
-            'persona_id' => 'required',
+            'persona_id' => ['required'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
         ]);
         $incarico = Incarico::findOrFail($id);
         $persona = Persona::findOrFail($request->persona_id);
-        $d = $request->input('data_inizio', Carbon::now()->toDateString());
+        $d = $request->input('data_inizio', \Illuminate\Support\Facades\Date::now()->toDateString());
         $action = new AssegnaIncaricoAction;
-        $action->execute($persona, $incarico, Carbon::parse($d));
+        $action->execute($persona, $incarico, \Illuminate\Support\Facades\Date::parse($d));
 
-        return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
+        return back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
 
     public function eliminaPersona(Request $request, $id, $idPersona)
@@ -59,13 +58,13 @@ final class IncarichiController
         $incarico = Incarico::findOrFail($id);
         $incarico->lavoratori()->detach($idPersona);
 
-        return redirect()->back()->withSuccess("Persona rimossa dall'incarico {$incarico->nome} con successo.");
+        return back()->withSuccess("Persona rimossa dall'incarico {$incarico->nome} con successo.");
     }
 
     public function insert(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:db_nomadelfia.incarichi,nome',
+            'name' => ['required', 'unique:db_nomadelfia.incarichi,nome'],
         ], [
             'name.required' => "Il nome dell'incarico  è obbligatorio.",
             'name.unique' => "L'incarico $request->name esiste già.",
@@ -73,7 +72,7 @@ final class IncarichiController
 
         Incarico::create(['nome' => $request->name]);
 
-        return redirect()->back()->withSuccess("Incarico $request->name aggiunto correttamente.");
+        return back()->withSuccess("Incarico $request->name aggiunto correttamente.");
     }
 
     public function searchPersona(Request $request)

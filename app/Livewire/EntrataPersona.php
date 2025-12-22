@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Livewire\Component;
 
 final class EntrataPersona extends Component
@@ -23,7 +22,7 @@ final class EntrataPersona extends Component
     final public function mount(Persona $persona): void
     {
         $this->persona = $persona;
-        $this->dataEntrata = Carbon::now()->toDateString();
+        $this->dataEntrata = \Illuminate\Support\Facades\Date::now()->toDateString();
     }
 
     final public function updatedTipologia(string $value): void
@@ -32,9 +31,9 @@ final class EntrataPersona extends Component
         $this->showGruppoFamiliareSelect = $value === 'maggiorenne_single' || $value === 'maggiorenne_famiglia';
 
         if ($value === 'dalla_nascita' && $this->persona->data_nascita) {
-            $this->dataEntrata = Carbon::parse($this->persona->data_nascita)->toDateString();
+            $this->dataEntrata = \Illuminate\Support\Facades\Date::parse($this->persona->data_nascita)->toDateString();
         } else {
-            $this->dataEntrata = Carbon::now()->toDateString();
+            $this->dataEntrata = \Illuminate\Support\Facades\Date::now()->toDateString();
         }
     }
 

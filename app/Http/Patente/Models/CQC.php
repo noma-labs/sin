@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Patente\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -35,50 +34,20 @@ final class CQC extends Model
         return $this->persona()->using(Patente::class);
     }
 
-    public function scopeCQCPersone($query): self
-    {
-        return $query->where('id', 16)->first();
-    }
-
-    public function scopeCQCMerci($query): self
-    {
-        return $query->where('id', 17)->first();
-    }
-
-    public function scopeinScadenza($query, $days): BelongsToMany
-    {
-        $data = Carbon::now()->addDays($days)->toDateString();
-
-        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
-            ->withPivot('data_rilascio', 'data_scadenza')
-            ->wherePivot('data_scadenza', '<=', $data)
-            ->wherePivot('data_scadenza', '>=', Carbon::now()->toDateString());
-    }
-
-    public function scopeNonInScadenza($query, int $days): BelongsToMany
-    {
-        $data = Carbon::now()->addDays($days)->toDateString();
-
-        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
-            ->withPivot('data_rilascio', 'data_scadenza')
-            ->wherePivot('data_scadenza', '>', $data);
-
-    }
-
     public function scadute($days = null): BelongsToMany
     {
         if ($days !== null) {
-            $data = Carbon::now()->subDays($days)->toDateString();
+            $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
 
             return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
                 ->withPivot('data_rilascio', 'data_scadenza')
                 ->wherePivot('data_scadenza', '>=', $data)
-                ->wherePivot('data_scadenza', '<=', Carbon::now()->toDateString());
+                ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
         }
 
         return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
             ->withPivot('data_rilascio', 'data_scadenza')
-            ->wherePivot('data_scadenza', '<=', Carbon::now()->toDateString());
+            ->wherePivot('data_scadenza', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
 
     }
 
@@ -88,5 +57,35 @@ final class CQC extends Model
         self::addGlobalScope('id', function (Builder $builder): void {
             $builder->where('id', 16)->orWhere('id', 17);
         });
+    }
+
+    protected function scopeCQCPersone($query): self
+    {
+        return $query->where('id', 16)->first();
+    }
+
+    protected function scopeCQCMerci($query): self
+    {
+        return $query->where('id', 17)->first();
+    }
+
+    protected function scopeinScadenza($query, $days): BelongsToMany
+    {
+        $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
+
+        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
+            ->withPivot('data_rilascio', 'data_scadenza')
+            ->wherePivot('data_scadenza', '<=', $data)
+            ->wherePivot('data_scadenza', '>=', \Illuminate\Support\Facades\Date::now()->toDateString());
+    }
+
+    protected function scopeNonInScadenza($query, int $days): BelongsToMany
+    {
+        $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
+
+        return $this->belongsToMany(Patente::class, 'patenti_categorie', 'categoria_patente_id', 'numero_patente')
+            ->withPivot('data_rilascio', 'data_scadenza')
+            ->wherePivot('data_scadenza', '>', $data);
+
     }
 }

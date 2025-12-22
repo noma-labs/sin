@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Nomadelfia\Famiglia\QueryBuilders;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 final class FamigliaQueryBuilder extends Builder
@@ -53,7 +52,7 @@ final class FamigliaQueryBuilder extends Builder
 
     public function maggiorenni(): self
     {
-        $data = Carbon::now()->subYears(18)->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->subYears(18)->toDatestring();
 
         return $this->where('persone.data_nascita', '<', $data);
     }

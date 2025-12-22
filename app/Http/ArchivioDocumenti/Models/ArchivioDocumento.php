@@ -25,7 +25,7 @@ final class ArchivioDocumento extends Model
 
     protected $guarded = ['id'];
 
-    public function scopeTobePrinted($query)
+    protected function scopeTobePrinted($query)
     {
         return $query->where('stato', 1)->orderBy('foglio');
     }

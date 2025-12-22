@@ -27,17 +27,17 @@ final class UserController
     public function store(Request $request)
     {
         $request->validate([
-            'persona_id' => 'required',
-            'username' => 'required|max:20|unique:utenti',
-            'password' => 'required|min:6|confirmed',
-            'roles' => 'required',
+            'persona_id' => ['required'],
+            'username' => ['required', 'max:20', 'unique:utenti'],
+            'password' => ['required', 'min:6', 'confirmed'],
+            'roles' => ['required'],
         ]);
 
         $user = User::create($request->only('email', 'username', 'persona_id', 'password'));
         $roles = $request['roles'];
         $user->assignRole($roles);
 
-        return redirect()->route('users.index')->withSuccess('Utente aggiunto correttamente');
+        return to_route('users.index')->withSuccess('Utente aggiunto correttamente');
     }
 
     public function edit($id)
@@ -54,8 +54,8 @@ final class UserController
         $user = User::findOrFail($id);
 
         $request->validate([
-            'persona_id' => 'required',
-            'password' => 'required|min:6|confirmed',
+            'persona_id' => ['required'],
+            'password' => ['required', 'min:6', 'confirmed'],
         ]);
         $input = $request->only(['persona_id', 'username', 'password']);
 
@@ -69,18 +69,18 @@ final class UserController
             $user->syncRoles([]);
         }
 
-        return redirect()->route('users.index')->withSuccess('Utente modificato correttamente');
+        return to_route('users.index')->withSuccess('Utente modificato correttamente');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         if ($user->username === 'Admin') {
-            return redirect()->route('users.index')->withError("Non puoi elimiare l'utente $user->username");
+            return to_route('users.index')->withError("Non puoi elimiare l'utente $user->username");
         }
         $user->delete();
 
-        return redirect()->route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
+        return to_route('users.index')->withWarning("Utente $user->username disabilitato correttamente");
 
     }
 
@@ -89,6 +89,6 @@ final class UserController
         $user = User::withTrashed()->where('id', $id);
         $user->restore();
 
-        return redirect()->route('users.index')->withSuccess('Utente ripristinato correttamente');
+        return to_route('users.index')->withSuccess('Utente ripristinato correttamente');
     }
 }

@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Azienda\Controllers;
 use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class AziendeLavoratoreController
@@ -15,8 +14,8 @@ final class AziendeLavoratoreController
     public function store(Request $request, $id)
     {
         $request->validate([
-            'persona_id' => 'required',
-            'data_inizio' => 'required|date',
+            'persona_id' => ['required'],
+            'data_inizio' => ['required', 'date'],
         ], [
             'persona_id.required' => 'La persona è obbligatoria.',
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
@@ -25,15 +24,15 @@ final class AziendeLavoratoreController
         $persona = Persona::findOrFail($request->input('persona_id'));
         $azienda = Azienda::findOrFail($id);
         $action = new AssegnaAziendaAction;
-        $action->execute($persona, $azienda, Carbon::parse($request->input('data_inizio')), Azienda::MANSIONE_LAVORATORE);
+        $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->input('data_inizio')), Azienda::MANSIONE_LAVORATORE);
 
-        return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$azienda->nome_azienda} con successo.");
+        return back()->withSuccess("Persona $persona->nominativo  aggiunto a {$azienda->nome_azienda} con successo.");
     }
 
     public function sposta(Request $request, $id, $idPersona)
     {
         $request->validate([
-            'nuova_azienda_id' => 'required',
+            'nuova_azienda_id' => ['required'],
         ], [
             'nuova_azienda_id.required' => 'La nuova azienda è obbligatoria.',
         ]);
@@ -44,15 +43,15 @@ final class AziendeLavoratoreController
         $azienda->lavoratori()->updateExistingPivot($persona->id, ['stato' => 'Non Attivo', 'data_fine_azienda' => $request->input('data_fine')]);
         $nuova_azienda->lavoratori()->attach($persona->id, ['data_inizio_azienda' => $request->input('data_fine')]);
 
-        return redirect()->back()->withSuccess("Persona $persona->nominativo  aggiunto a {$nuova_azienda->nome_azienda} con successo.");
+        return back()->withSuccess("Persona $persona->nominativo  aggiunto a {$nuova_azienda->nome_azienda} con successo.");
     }
 
     public function update(Request $request, $id, $idPersona)
     {
         $request->validate([
-            'mansione' => 'required',
-            'data_inizio' => 'required|date',
-            'nuova_data_inizio' => 'required|date',
+            'mansione' => ['required'],
+            'data_inizio' => ['required', 'date'],
+            'nuova_data_inizio' => ['required', 'date'],
         ], [
             'nuova_data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
             'data_inizio.required' => "La data di inizio dell'azienda è obbligatoria.",
@@ -68,15 +67,15 @@ final class AziendeLavoratoreController
                 'data_inizio_azienda' => $request->get('nuova_data_inizio'),
             ]);
 
-        return redirect()->back()->withSuccess("Azienda $azienda->nome_azienda modificata con successo.");
+        return back()->withSuccess("Azienda $azienda->nome_azienda modificata con successo.");
     }
 
     public function delete($id, $idPersona)
     {
         $azienda = Azienda::findOrFail($id);
         $persona = Persona::findOrFail($idPersona);
-        $azienda->lavoratori()->updateExistingPivot($persona->id, ['stato' => 'Non Attivo', 'data_fine_azienda' => Carbon::now()]);
+        $azienda->lavoratori()->updateExistingPivot($persona->id, ['stato' => 'Non Attivo', 'data_fine_azienda' => \Illuminate\Support\Facades\Date::now()]);
 
-        return redirect()->back()->withSuccess("Persona rimossa dall'azienda {$azienda->nome_azienda} con successo.");
+        return back()->withSuccess("Persona rimossa dall'azienda {$azienda->nome_azienda} con successo.");
     }
 }

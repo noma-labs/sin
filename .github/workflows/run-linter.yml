@@ -2,8 +2,6 @@ name: run_linter
 
 on:
   push:
-    paths:
-      - '**.php'
 
 jobs:
   phplint:

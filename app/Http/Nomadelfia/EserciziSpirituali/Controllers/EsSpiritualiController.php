@@ -6,7 +6,6 @@ namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -35,7 +34,7 @@ final class EsSpiritualiController
     public function assegnaPersona(Request $request, $id)
     {
         $request->validate([
-            'persona_id' => 'required',
+            'persona_id' => ['required'],
         ], [
             'persona_id.required' => 'Persona è obbligatoria',
         ]);
@@ -43,7 +42,7 @@ final class EsSpiritualiController
         $esercizi = EserciziSpirituali::findOrFail($id);
         $esercizi->aggiungiPersona($persona);
 
-        return redirect()->back()->withSuccess("Persona $persona->nominativo aggiunta con successo.");
+        return back()->withSuccess("Persona $persona->nominativo aggiunta con successo.");
     }
 
     public function eliminaPersona(Request $request, $id, $idPersona)
@@ -52,7 +51,7 @@ final class EsSpiritualiController
         $persona = Persona::findOrFail($idPersona);
         $esercizio->eliminaPersona($persona);
 
-        return redirect()->back()->withSuccess("Persona $persona->nominativo eliminata con successo.");
+        return back()->withSuccess("Persona $persona->nominativo eliminata con successo.");
     }
 
     public function stampa()
@@ -74,7 +73,7 @@ final class EsSpiritualiController
 
         // main page
         $section = $phpWord->addSection(['vAlign' => VerticalJc::CENTER]);
-        $section->addText(Carbon::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
+        $section->addText(\Illuminate\Support\Facades\Date::now()->toDatestring(), ['bold' => true, 'italic' => false, 'size' => 16],
             ['align' => TextAlignment::CENTER]);
         $section->addTextBreak(2);
         $section->addText('Esercizi Spirituali ', ['bold' => true, 'italic' => false, 'size' => 14],
@@ -113,7 +112,7 @@ final class EsSpiritualiController
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $data = Carbon::now()->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->toDatestring();
         $file_name = "es-spirituali-$data.docx";
         $objWriter->save(storage_path($file_name));
 

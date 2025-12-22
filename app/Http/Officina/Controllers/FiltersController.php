@@ -19,13 +19,13 @@ final class FiltersController
     public function store(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
+            'codice' => ['required'],
         ]);
         $gomma = TipoFiltro::create([
             'codice' => $request->input('codice'),
         ]);
 
-        return redirect()->back()->withSuccess("Filtro $gomma->codice salvato correttamente");
+        return back()->withSuccess("Filtro $gomma->codice salvato correttamente");
     }
 
     public function delete($id)
@@ -33,6 +33,6 @@ final class FiltersController
         $filtro = TipoFiltro::findOrFail($id);
         $filtro->delete();
 
-        return redirect()->back()->withSuccess("Filtro $filtro->codice eliminato con successo.");
+        return back()->withSuccess("Filtro $filtro->codice eliminato con successo.");
     }
 }

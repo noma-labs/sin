@@ -20,10 +20,10 @@ final class ArchivioDocumentiController
     {
         $res = ArchivioDocumento::toBePrinted()->update(['stato' => 0]);
         if ($res) {
-            return redirect()->route('archiviodocumenti.etichette')->withSuccess("Tutte le $res etichette sono state eliminate.");
+            return to_route('archiviodocumenti.etichette')->withSuccess("Tutte le $res etichette sono state eliminate.");
         }
 
-        return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
+        return to_route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
 
     }
 
@@ -32,10 +32,10 @@ final class ArchivioDocumentiController
         $libro = ArchivioDocumento::find($id);
         $res = $libro->update(['stato' => 0]);
         if ($res) {
-            return redirect()->route('archiviodocumenti.etichette')->withSuccess("Libro $libro->foglio, $libro->titolo eliminato dalla stampa delle etichette");
+            return to_route('archiviodocumenti.etichette')->withSuccess("Libro $libro->foglio, $libro->titolo eliminato dalla stampa delle etichette");
         }
 
-        return redirect()->route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
+        return to_route('archiviodocumenti.etichette')->withError("Errore nell'operazione");
 
     }
 
@@ -58,11 +58,11 @@ final class ArchivioDocumentiController
         if ($request->input('action') === 'add') {
             $count = ArchivioDocumento::whereBetween('foglio', [$from, $to])->update(['stato' => 1]);
 
-            return redirect()->route('archiviodocumenti.etichette')->withSuccess("$count etichette aggiunte alla stampa");
+            return to_route('archiviodocumenti.etichette')->withSuccess("$count etichette aggiunte alla stampa");
         }
         $count = ArchivioDocumento::whereBetween('foglio', [$from, $to])->update(['stato' => 0]);
 
-        return redirect()->route('archiviodocumenti.etichette')->withSuccess("$count etichette rimosse dalla stampa");
+        return to_route('archiviodocumenti.etichette')->withSuccess("$count etichette rimosse dalla stampa");
 
     }
 
@@ -84,7 +84,7 @@ final class ArchivioDocumentiController
         $orderBy = 'titolo';
 
         if (! $request->except(['_token'])) {
-            return redirect()->route('archiviodocumenti')->withError('Nessun criterio di ricerca selezionato oppure invalido');
+            return to_route('archiviodocumenti')->withError('Nessun criterio di ricerca selezionato oppure invalido');
         }
 
         $queryLibri = ArchivioDocumento::sortable()->where(function ($q) use ($request, &$msgSearch, &$orderBy): void {

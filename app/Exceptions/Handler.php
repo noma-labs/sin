@@ -31,7 +31,7 @@ final class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e): void {
             if (app()->bound('sentry')) {
-                app('sentry')->captureException($e);
+                resolve('sentry')->captureException($e);
             }
         });
     }
@@ -53,8 +53,7 @@ final class Handler extends ExceptionHandler
         $this->registerErrorViewPaths();
 
         if ($e instanceof TokenMismatchException) {
-            return redirect()
-                ->back()
+            return back()
                 ->withInput($request->except('password'))
                 ->with([
                     'status' => 'Oops! Your Validation Token has expired. Please try again',

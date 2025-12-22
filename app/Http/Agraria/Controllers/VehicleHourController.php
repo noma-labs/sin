@@ -6,7 +6,6 @@ namespace App\Agraria\Controllers;
 
 use App\Agraria\Models\MezzoAgricolo;
 use App\Agraria\Models\StoricoOre;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
@@ -38,7 +37,7 @@ final class VehicleHourController
 
         foreach ($mezzi as $m) {
             $so = new StoricoOre;
-            $so->data = Carbon::today()->toDateString();
+            $so->data = \Illuminate\Support\Facades\Date::today()->toDateString();
             $so->ore = $request->input('id'.$m->id) - $m->tot_ore;
             $so->mezzo_agricolo = $m->id;
 
@@ -49,10 +48,10 @@ final class VehicleHourController
             } catch (Throwable) {
                 $errors = collect(['Errore salvataggio ore per il mezzo '.$m->nome]);
 
-                return redirect()->route('agraria.vehicle.hour.create')->withErrors($errors)->withInput();
+                return to_route('agraria.vehicle.hour.create')->withErrors($errors)->withInput();
             }
         }
 
-        return redirect()->route('agraria.index')->withSuccess('Ore aggiornate correttamente');
+        return to_route('agraria.index')->withSuccess('Ore aggiornate correttamente');
     }
 }

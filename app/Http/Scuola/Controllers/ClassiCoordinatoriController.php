@@ -19,7 +19,7 @@ final class ClassiCoordinatoriController
 
         $classe->aggiungiCoordinatore($coord, $request->data_inizio, $request->coord_tipo);
 
-        return redirect()->back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
+        return back()->withSuccess("Coordiantore $coord->nominativo  aggiunto a {$classe->tipo->nome} con successo.");
     }
 
     public function delete(Request $request, $id, $coord_id)
@@ -28,6 +28,6 @@ final class ClassiCoordinatoriController
         $coord = Persona::findOrFail($coord_id);
         $classe->rimuoviCoordinatore($coord);
 
-        return redirect()->back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
+        return back()->withSuccess("Coordinatore $coord->nominativo  eliminato da {$classe->tipo->nome} con successo.");
     }
 }

@@ -6,7 +6,6 @@ namespace App\Patente\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\SortableTrait;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,49 +68,9 @@ final class Patente extends Model
         return $this->categorie()->get()->implode('categoria', ',');
     }
 
-    public function scopeInScadenza($query, int $days)
-    {
-        $data = Carbon::now()->addDays($days)->toDateString();
-
-        return $query->where('data_scadenza_patente', '<=', $data)
-            ->where('data_scadenza_patente', '>=', Carbon::now()->toDateString());
-
-    }
-
-    public function scopeNonScadute($query)
-    {
-        $data = Carbon::now()->toDateString();
-
-        return $query->where('data_scadenza_patente', '>', $data);
-    }
-
-    public function scopeScadute($query, ?int $days = null)
-    {
-        if ($days !== null) {
-            $data = Carbon::now()->subDays($days)->toDateString();
-
-            return $query->where('data_scadenza_patente', '>=', $data)
-                ->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
-        }
-
-        return $query->where('data_scadenza_patente', '<=', Carbon::now()->toDateString());
-
-    }
-
     public function hasCommissione(): bool
     {
         return $this->stato === 'commissione';
-    }
-
-    public function scopeConCommisione($query)
-    {
-        return $query->where('stato', '=', 'commissione');
-    }
-
-    public function scopeSenzaCommisione($query)
-    {
-        return $query->whereNull('stato')
-            ->orWhere('stato', '!=', 'commissione');
     }
 
     protected static function booted(): void
@@ -123,5 +82,45 @@ final class Patente extends Model
                 ->whereNull('db_nomadelfia.popolazione.data_uscita')
                 ->orderBy('db_nomadelfia.persone.nominativo');
         });
+    }
+
+    protected function scopeInScadenza($query, int $days)
+    {
+        $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
+
+        return $query->where('data_scadenza_patente', '<=', $data)
+            ->where('data_scadenza_patente', '>=', \Illuminate\Support\Facades\Date::now()->toDateString());
+
+    }
+
+    protected function scopeNonScadute($query)
+    {
+        $data = \Illuminate\Support\Facades\Date::now()->toDateString();
+
+        return $query->where('data_scadenza_patente', '>', $data);
+    }
+
+    protected function scopeScadute($query, ?int $days = null)
+    {
+        if ($days !== null) {
+            $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
+
+            return $query->where('data_scadenza_patente', '>=', $data)
+                ->where('data_scadenza_patente', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
+        }
+
+        return $query->where('data_scadenza_patente', '<=', \Illuminate\Support\Facades\Date::now()->toDateString());
+
+    }
+
+    protected function scopeConCommisione($query)
+    {
+        return $query->where('stato', '=', 'commissione');
+    }
+
+    protected function scopeSenzaCommisione($query)
+    {
+        return $query->whereNull('stato')
+            ->orWhere('stato', '!=', 'commissione');
     }
 }

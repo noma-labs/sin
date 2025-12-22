@@ -23,6 +23,6 @@ final class ElaboratiStudentsController
         $elaborato = Elaborato::findOrFail($id);
         $elaborato->studenti()->sync($request->students);
 
-        return redirect()->route('scuola.elaborati.show', [$id => $id])->withSuccess('Studenti aggiunti correttamente');
+        return to_route('scuola.elaborati.show', [$id => $id])->withSuccess('Studenti aggiunti correttamente');
     }
 }

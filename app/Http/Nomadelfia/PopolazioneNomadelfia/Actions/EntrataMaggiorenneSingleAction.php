@@ -11,7 +11,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\DataTransferObjects\EntrataPersonaData;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Origine;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Posizione;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Stato;
-use Carbon\Carbon;
 
 final readonly class EntrataMaggiorenneSingleAction
 {
@@ -49,7 +48,7 @@ final readonly class EntrataMaggiorenneSingleAction
 
     public function calcStato(EntrataPersonaData $dto): void
     {
-        $dto->stato_data = Carbon::parse($dto->persona->data_nascita);
+        $dto->stato_data = \Illuminate\Support\Facades\Date::parse($dto->persona->data_nascita);
         if ($dto->persona->isMaschio()) {
             $dto->stato = Stato::find('CEL');
         } else {

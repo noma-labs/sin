@@ -6,7 +6,6 @@ namespace App\Scuola\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Scuola\Exceptions\BadYearException;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,9 +39,9 @@ final class Anno extends Model
     {
         $as = self::buildAsString($year);
 
-        $d = Carbon::now();
+        $d = \Illuminate\Support\Facades\Date::now();
         if ($datainizo !== null) {
-            $d = Carbon::parse($datainizo);
+            $d = \Illuminate\Support\Facades\Date::parse($datainizo);
         }
 
         return DB::transaction(function () use ($as, $d, $with_classi) {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Scuola\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 
 final class AddStudentAction
 {
@@ -15,7 +14,7 @@ final class AddStudentAction
             $data_inizio = $classe->anno->data_inizio;
         }
         if (is_string($data_inizio)) {
-            $data_inizio = Carbon::parse($data_inizio);
+            $data_inizio = \Illuminate\Support\Facades\Date::parse($data_inizio);
         }
         if (is_int($alunno)) {
             $alunno = Persona::findOrFail($alunno);

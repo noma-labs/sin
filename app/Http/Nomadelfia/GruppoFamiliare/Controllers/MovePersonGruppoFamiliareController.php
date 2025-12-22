@@ -7,7 +7,6 @@ namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class MovePersonGruppoFamiliareController
@@ -15,9 +14,9 @@ final class MovePersonGruppoFamiliareController
     public function store(Request $request, $id, $idGruppo)
     {
         $request->validate([
-            'new_gruppo_id' => 'required',
-            'new_data_entrata' => 'required|date', // data entrata delnuovo gruppo familiare
-            'current_data_entrata' => 'required|date', // data entrata del vecchio gruppo familiare
+            'new_gruppo_id' => ['required'],
+            'new_data_entrata' => ['required', 'date'], // data entrata delnuovo gruppo familiare
+            'current_data_entrata' => ['required', 'date'], // data entrata del vecchio gruppo familiare
         ], [
             'new_gruppo_id.required' => 'Il nuovo gruppo è obbligatorio',
             'new_data_entrata.required' => 'La data di entrata nel nuovo gruppo familiare è obbligatoria.',
@@ -31,10 +30,10 @@ final class MovePersonGruppoFamiliareController
         $action = new ChangeGruppoFamiliareAction;
         $action->execute($persona,
             GruppoFamiliare::findOrFail($idGruppo),
-            Carbon::parse($request->current_data_entrata),
-            Carbon::parse($current_data_uscita),
+            \Illuminate\Support\Facades\Date::parse($request->current_data_entrata),
+            \Illuminate\Support\Facades\Date::parse($current_data_uscita),
             GruppoFamiliare::findOrFail($request->new_gruppo_id),
-            Carbon::parse($new_datain),
+            \Illuminate\Support\Facades\Date::parse($new_datain),
         );
 
         return redirect()

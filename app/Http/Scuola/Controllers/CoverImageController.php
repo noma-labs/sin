@@ -37,11 +37,11 @@ final class CoverImageController
         $elaborato = Elaborato::query()->findOrFail($id);
 
         $request->validate([
-            'file' => 'required|image|mimes:png|max:1048576', // 10MB max size
+            'file' => ['required', 'image', 'mimes:png', 'max:1048576'], // 10MB max size
         ]);
 
         if ($elaborato->collocazione === null) {
-            return redirect()->back()->with('error', 'Elaborato deve avere una collocazione.');
+            return back()->with('error', 'Elaborato deve avere una collocazione.');
         }
 
         $file = $request->file('file');
@@ -62,7 +62,7 @@ final class CoverImageController
 
         imagedestroy($newImage);
 
-        return redirect()->route('scuola.elaborati.show', $id);
+        return to_route('scuola.elaborati.show', $id);
     }
 
     private function scaleImage($pathToImages, int $thumbWidth): GdImage|false

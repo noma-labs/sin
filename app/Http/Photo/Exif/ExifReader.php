@@ -261,7 +261,7 @@ final class ExifReader
         $process->run();
 
         if ($process->isSuccessful()) {
-            return rtrim($process->getOutput());
+            return mb_rtrim($process->getOutput());
         }
         $process->clearOutput();
         $process->getExitCode();

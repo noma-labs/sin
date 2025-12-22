@@ -7,7 +7,6 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class MarriageController
@@ -23,9 +22,9 @@ final class MarriageController
     public function store(Request $request)
     {
         $request->validate([
-            'husband' => 'required',
-            'wife' => 'required',
-            'data_matrimonio' => 'required|date',
+            'husband' => ['required'],
+            'wife' => ['required'],
+            'data_matrimonio' => ['required', 'date'],
         ], [
             'husband.required' => 'Il nome dello sposo è obbligatorio',
             'wife.unique' => 'Il nome della sposa è obbligatorio',
@@ -33,8 +32,8 @@ final class MarriageController
         ]);
         $husband = Persona::findOrFail($request->husband);
         $wife = Persona::findOrFail($request->wife);
-        $act = app(CreateMarriageAction::class);
-        $fam = $act->execute($husband, $wife, Carbon::parse($request->data_matrimonio));
+        $act = resolve(CreateMarriageAction::class);
+        $fam = $act->execute($husband, $wife, \Illuminate\Support\Facades\Date::parse($request->data_matrimonio));
 
         return redirect(route('nomadelfia.families.show',
             ['id' => $fam->id]))->withSuccess('Matrionio creato con successo');

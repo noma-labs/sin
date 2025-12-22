@@ -127,70 +127,70 @@ final class Veicolo extends Model
         return $this->belongsToMany(TipoGomme::class, 'gomme_veicolo', 'veicolo_id', 'gomme_id');
     }
 
-    public function scopePrenotabili($query)
+    protected static function newFactory()
+    {
+        return VeicoloFactory::new();
+    }
+
+    protected function scopePrenotabili($query)
     {
         return $query->where('prenotabile', true);
     }
 
     // IMPIEGO
-    public function scopeInterni($query)
+    protected function scopeInterni($query)
     {
         return $query->where('impiego_id', 1);
     }
 
-    public function scopeGrosseto($query)
+    protected function scopeGrosseto($query)
     {
         return $query->where('impiego_id', 2);
     }
 
-    public function scopeViaggiLunghi($query)
+    protected function scopeViaggiLunghi($query)
     {
         return $query->where('impiego_id', 3);
     }
 
-    public function scopePersonali($query)
+    protected function scopePersonali($query)
     {
         return $query->where('impiego_id', 4);
     }
 
-    public function scopeRoma($query)
+    protected function scopeRoma($query)
     {
         return $query->where('impiego_id', 5);
     }
 
     // TIPOLOGIA
-    public function scopeAutovettura($query)
+    protected function scopeAutovettura($query)
     {
         return $query->where('tipologia_id', 1);
     }
 
-    public function scopeAutocarri($query)
+    protected function scopeAutocarri($query)
     {
         return $query->where('tipologia_id', 2);
     }
 
-    public function scopeFurgoni($query)
+    protected function scopeFurgoni($query)
     {
         return $query->where('tipologia_id', 7);
     }
 
-    public function scopePulmino($query)
+    protected function scopePulmino($query)
     {
         return $query->where('tipologia_id', 6);
     }
 
-    public function scopeAutobus($query)
+    protected function scopeAutobus($query)
     {
         return $query->where('tipologia_id', 3);
     }
 
-    public function scopeMotocicli($query)
+    protected function scopeMotocicli($query)
     {
         return $query->where('tipologia_id', 10);
-    }
-
-    protected static function newFactory()
-    {
-        return VeicoloFactory::new();
     }
 }

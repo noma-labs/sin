@@ -6,7 +6,6 @@ namespace App\Livewire;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Carbon\Carbon;
 
 final class SearchPopolazione extends Autocomplete
 {
@@ -17,7 +16,7 @@ final class SearchPopolazione extends Autocomplete
 
         $options = [];
         foreach ($persone as $persona) {
-            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $options[] = new Option($persona->id, "($year) $persona->nominativo ($persona->nome  $persona->cognome)");
         }
 
@@ -33,7 +32,7 @@ final class SearchPopolazione extends Autocomplete
 
         $selected = [];
         foreach ($persone as $persona) {
-            $year = Carbon::createFromFormat('Y-m-d', $persona->data_nascita)->year;
+            $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $persona->data_nascita)->year;
             $selected[] = new Option($persona->id, "($year) $persona->nominativo ($persona->nome  $persona->cognome)");
         }
 

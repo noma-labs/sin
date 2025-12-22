@@ -60,11 +60,6 @@ final class Stato extends Model
         return $this->persone()->where('persone_stati.stato', '1');
     }
 
-    public function scopeAttivo($query)
-    {
-        return $query->where('persone_stati.stato', 1);
-    }
-
     public function isCelibe(): bool
     {
         return $this->stato === $this->mapNamesToDB['celibe'];
@@ -73,5 +68,10 @@ final class Stato extends Model
     public function isNubile(): bool
     {
         return $this->stato === $this->mapNamesToDB['nubile'];
+    }
+
+    protected function scopeAttivo($query)
+    {
+        return $query->where('persone_stati.stato', 1);
     }
 }

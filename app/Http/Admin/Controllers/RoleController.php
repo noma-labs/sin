@@ -27,7 +27,7 @@ final class RoleController
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|unique:roles,name|max:20',
+            'nome' => ['required', 'unique:roles,name', 'max:20'],
         ]
         );
 
@@ -38,7 +38,7 @@ final class RoleController
             $role->givePermissionTo((int) $permission);
         }
 
-        return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiunto!');
+        return to_route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiunto!');
 
     }
 
@@ -62,17 +62,17 @@ final class RoleController
         $only_with_ones = collect($risorse_with_permissions)->filter(fn ($value, $key) => collect($value)->contains(1));
         $role->risorse()->sync($only_with_ones);
 
-        return redirect()->route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiornato!');
+        return to_route('roles.index')->withSuccess('Ruolo '.$role->nome.' aggiornato!');
     }
 
     public function destroy($id)
     {
         $role = Role::findOrFail($id);
         if ($role->name === 'super-admin') {
-            return redirect()->route('roles.index')->withError("Non puoi elimiare il ruolo $role->name");
+            return to_route('roles.index')->withError("Non puoi elimiare il ruolo $role->name");
         }
         $role->delete();
 
-        return redirect()->route('roles.index')->withSuccess("Ruolo $role->name eliminato");
+        return to_route('roles.index')->withSuccess("Ruolo $role->name eliminato");
     }
 }

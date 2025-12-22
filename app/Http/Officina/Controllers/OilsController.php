@@ -12,13 +12,13 @@ final class OilsController
     public function store(Request $request)
     {
         $request->validate([
-            'codice' => 'required',
+            'codice' => ['required'],
         ]);
         $olio = TipoOlio::create([
             'codice' => mb_strtoupper((string) $request->input('codice')),
             'note' => $request->input('note', ''),
         ]);
 
-        return redirect()->back()->withSuccess("Olio $olio->codice salvato correttamente");
+        return back()->withSuccess("Olio $olio->codice salvato correttamente");
     }
 }

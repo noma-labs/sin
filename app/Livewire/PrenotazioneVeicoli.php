@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Officina\Models\Veicolo;
-use Carbon\Carbon;
 use Livewire\Component;
 
 final class PrenotazioneVeicoli extends Component
@@ -26,8 +25,8 @@ final class PrenotazioneVeicoli extends Component
 
     public function mount($dataPartenza = null, $oraPartenza = null, $dataArrivo = null, $oraArrivo = null, $selectedVeicolo = null): void
     {
-        $this->dataPartenza = Carbon::now()->toDateString();
-        $this->dataArrivo = Carbon::now()->toDateString();
+        $this->dataPartenza = \Illuminate\Support\Facades\Date::now()->toDateString();
+        $this->dataArrivo = \Illuminate\Support\Facades\Date::now()->toDateString();
 
         if ($dataPartenza) {
             $this->dataPartenza = $dataPartenza;
@@ -85,7 +84,7 @@ final class PrenotazioneVeicoli extends Component
     {
         if (! empty($this->dataArrivo) && ! empty($this->dataPartenza) && ! empty($this->oraArrivo) && ! empty($this->oraPartenza)) {
 
-            $this->veicoli = Veicolo::withBookingsIn(Carbon::parse($this->dataPartenza.' '.$this->oraPartenza), Carbon::parse($this->dataArrivo.' '.$this->oraArrivo))
+            $this->veicoli = Veicolo::withBookingsIn(\Illuminate\Support\Facades\Date::parse($this->dataPartenza.' '.$this->oraPartenza), \Illuminate\Support\Facades\Date::parse($this->dataArrivo.' '.$this->oraArrivo))
                 ->get()->groupBy(['impiego_nome', 'tipologia_nome']);
 
             $this->reset('message');

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -48,11 +47,11 @@ final class PrintableExcelPopolazioneController
                 'famiglia' => Str::title($item['famiglia']),
                 'azienda' => Str::title($item['azienda']),
             ])
-            ->toArray();
+            ->all();
         $sheet->fromArray($population, null, 'A2');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $file_name = 'popolazione_nomadelfia_'.Carbon::now()->format('Y-m-d').'.xlsx';
+        $file_name = 'popolazione_nomadelfia_'.\Illuminate\Support\Facades\Date::now()->format('Y-m-d').'.xlsx';
 
         return new StreamedResponse(function () use ($writer): void {
             $writer->save('php://output');

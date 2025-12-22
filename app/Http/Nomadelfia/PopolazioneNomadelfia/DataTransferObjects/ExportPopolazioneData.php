@@ -11,7 +11,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Scuola\Models\Anno;
 use App\Scuola\Models\Studente;
-use Carbon\Carbon;
 use stdClass;
 
 final class ExportPopolazioneData
@@ -96,7 +95,7 @@ final class ExportPopolazioneData
 
     public function getFileName(): string
     {
-        $data = Carbon::now()->toDatestring();
+        $data = \Illuminate\Support\Facades\Date::now()->toDatestring();
 
         return "popolazione-$data.docx";
     }

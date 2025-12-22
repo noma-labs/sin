@@ -15,7 +15,7 @@ final class LegendController
     {
         $photos = Photo::query()
             ->where('favorite', 1)
-            ->orderBy('taken_at')
+            ->oldest('taken_at')
             ->get();
 
         $phpWord = new PhpWord();

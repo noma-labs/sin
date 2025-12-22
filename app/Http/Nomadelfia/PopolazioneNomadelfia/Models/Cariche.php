@@ -111,8 +111,8 @@ final class Cariche extends Model
             [
                 'effe' => $effetivo->id,
                 'sac' => $sacerdote->id,
-                'date' => Carbon::now()->subYears(40)->toDatestring(),
-                'datanoma' => Carbon::now()->subYears(10)->toDatestring(),
+                'date' => \Illuminate\Support\Facades\Date::now()->subYears(40)->toDatestring(),
+                'datanoma' => \Illuminate\Support\Facades\Date::now()->subYears(10)->toDatestring(),
             ]
         );
         $result = new stdClass;
@@ -123,16 +123,6 @@ final class Cariche extends Model
         $result->donne = $sesso->get('F', []);
 
         return $result;
-    }
-
-    public function scopeAssociazione($query)
-    {
-        return $query->where('org', '=', 'associazione');
-    }
-
-    public function scopePresidente($query)
-    {
-        return $query->where('nome', '=', 'presidente');
     }
 
     public function assegnaPresidenteAssociazione($persona, Carbon $data_inizio)
@@ -176,5 +166,15 @@ final class Cariche extends Model
         self::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderby('org');
         });
+    }
+
+    protected function scopeAssociazione($query)
+    {
+        return $query->where('org', '=', 'associazione');
+    }
+
+    protected function scopePresidente($query)
+    {
+        return $query->where('nome', '=', 'presidente');
     }
 }

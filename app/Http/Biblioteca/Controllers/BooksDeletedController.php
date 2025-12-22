@@ -28,25 +28,25 @@ final class BooksDeletedController
         $libro = Libro::withTrashed()->findOrFail($idLibro);
         $libro->restore();
 
-        return redirect()->route('books.show', ['id' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
+        return to_route('books.show', ['id' => $libro])->withSuccess('Il libro è stato ripristinato con successo');
     }
 
     public function destory(Request $request, $idLibro)
     {
         $request->validate([
-            'xCancellazioneNote' => 'required', // per update solito nome
+            'xCancellazioneNote' => ['required'], // per update solito nome
         ], [
             'xCancellazioneNote.required' => 'La motivazione della cancellazione del libro è obbligatoria.',
         ]);
         $libro = Libro::findOrFail($idLibro);
         if ($libro->inPrestito()) {
-            return redirect()->route('books.index')
+            return to_route('books.index')
                 ->withError('Impossibilie eliminare il libro. Il libro è in prestito.');
         }
 
         $libro->deleted_note = $request->xCancellazioneNote;
         $libro->delete();
 
-        return redirect()->route('books.index')->withSuccess('Il libro è stato eliminato con successo.');
+        return to_route('books.index')->withSuccess('Il libro è stato eliminato con successo.');
     }
 }

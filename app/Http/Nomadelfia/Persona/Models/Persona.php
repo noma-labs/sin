@@ -81,7 +81,7 @@ class Persona extends Model
 
     public function buildCompleteName(): string
     {
-        $year = Carbon::createFromFormat('Y-m-d', $this->data_nascita)->year;
+        $year = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d', $this->data_nascita)->year;
 
         return "($year) $this->nome  $this->cognome";
     }
@@ -103,7 +103,7 @@ class Persona extends Model
 
     public function isMaggiorenne(): bool
     {
-        return Carbon::now()->diffInYears(Carbon::parse($this->data_nascita), true) > 18;
+        return \Illuminate\Support\Facades\Date::now()->diffInYears(\Illuminate\Support\Facades\Date::parse($this->data_nascita), true) > 18;
     }
 
     // *************
@@ -343,7 +343,7 @@ class Persona extends Model
     {
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_entrata', 'DESC')->get();
         if (count($pop) > 0) {
-            return Carbon::parse($pop->first()->data_entrata);
+            return \Illuminate\Support\Facades\Date::parse($pop->first()->data_entrata);
         }
 
         throw new Exception("La persona $this->nominativo non risulta essere mai entrata");
@@ -354,7 +354,7 @@ class Persona extends Model
 
         $pop = PopolazioneNomadelfia::where('persona_id', $this->id)->orderBy('data_uscita', 'DESC')->whereNotNull('data_uscita');
         if ($pop->count() > 0) {
-            return Carbon::parse($pop->first()->data_uscita);
+            return \Illuminate\Support\Facades\Date::parse($pop->first()->data_uscita);
         }
 
         return null;

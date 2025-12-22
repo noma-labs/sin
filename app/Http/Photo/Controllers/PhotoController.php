@@ -6,7 +6,6 @@ namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
 use App\Photo\Models\PhotoEnrico;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,8 +35,8 @@ final class PhotoController
         }
 
         $q = Photo::query()
-            ->orderBy('taken_at')
-            ->orderBy('taken_at');
+            ->oldest('taken_at')
+            ->oldest('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -64,15 +63,15 @@ final class PhotoController
     public function update(Request $request, int $id): RedirectResponse
     {
         $request->validate([
-            'taken_at' => 'nullable|date',
-            'description' => 'nullable|string',
-            'location' => 'nullable|string',
+            'taken_at' => ['nullable', 'date'],
+            'description' => ['nullable', 'string'],
+            'location' => ['nullable', 'string'],
         ]);
 
         $photo = Photo::query()->findOrFail($id);
 
         if ($request->filled('taken_at')) {
-            $photo->taken_at = Carbon::parse($request->string('taken_at')->toString());
+            $photo->taken_at = \Illuminate\Support\Facades\Date::parse($request->string('taken_at')->toString());
         }
 
         if ($request->filled('description')) {
@@ -85,7 +84,7 @@ final class PhotoController
 
         $photo->save();
 
-        return redirect()->back()->with('success', 'Foto aggiornata correttamente');
+        return back()->with('success', 'Foto aggiornata correttamente');
     }
 
     public function show(int $id): View

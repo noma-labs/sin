@@ -16,8 +16,8 @@ final class AddCoordinatoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'coord_id' => 'required',
-            'coord_tipo' => 'required',
+            'coord_id' => ['required'],
+            'coord_tipo' => ['required'],
         ];
     }
 

@@ -2455,7 +2455,7 @@ parameters:
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeLavoratoreController.php
 
 		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeLavoratoreController.php
@@ -3769,7 +3769,7 @@ parameters:
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
 
 		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/GruppoFamiliare/Controllers/MovePersonGruppoFamiliareController.php
@@ -4105,7 +4105,7 @@ parameters:
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
 
 		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/Incarico/Controllers/IncarichiController.php
@@ -4393,7 +4393,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
 
 		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Controllers/JoinCommunityController.php
@@ -4903,7 +4903,7 @@ parameters:
 			path: app/Http/Nomadelfia/Persona/Models/Persona.php
 
 		-
-			message: '#^Cannot access property \$year on Carbon\\Carbon\|null\.$#'
+			message: '#^Cannot access property \$year on Illuminate\\Support\\Carbon\|null\.$#'
 			identifier: property.nonObject
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Models/Persona.php
@@ -5247,6 +5247,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
 			identifier: argument.type
+			count: 1
+			path: app/Http/Nomadelfia/Persona/Models/Persona.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: app/Http/Nomadelfia/Persona/Models/Persona.php
 
@@ -7453,6 +7459,12 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteElenchiController.php
 
 		-
+			message: '#^Return type of call to method Illuminate\\Support\\Collection\<int,array\<int, mixed\>\>\:\:all\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteElenchiController.php
+
+		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$categoria_patente\.$#'
 			identifier: property.notFound
 			count: 1
@@ -8227,7 +8239,7 @@ parameters:
 			path: app/Http/Scuola/Controllers/AnnoScolasticoController.php
 
 		-
-			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			message: '#^Parameter \#1 \$time of static method Illuminate\\Support\\Facades\\Date\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Controllers/AnnoScolasticoController.php
@@ -8563,6 +8575,12 @@ parameters:
 			path: app/Http/Scuola/Controllers/CoverImageController.php
 
 		-
+			message: '#^Strict comparison using \=\=\= between string and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Http/Scuola/Controllers/CoverImageController.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:download\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -8731,7 +8749,7 @@ parameters:
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
 
 		-
-			message: '#^Parameter \#2 \$array of function implode expects array\|null, mixed given\.$#'
+			message: '#^Parameter \#2 \$array of function implode expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 2
 			path: app/Http/Scuola/Controllers/ElaboratiController.php
@@ -9055,19 +9073,7 @@ parameters:
 			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
 
 		-
-			message: '#^Parameter \#2 \$alunni of class App\\Scuola\\DataTransferObjects\\Classe constructor expects array\<App\\Scuola\\DataTransferObjects\\StudenteData\>, array\<int, mixed\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
-
-		-
 			message: '#^Parameter \#2 \$array of function array_map expects array, array\<App\\Scuola\\DataTransferObjects\\Classe\>\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
-
-		-
-			message: '#^Parameter \#2 \$classi of class App\\Scuola\\DataTransferObjects\\CicloScolastico constructor expects array\<App\\Scuola\\DataTransferObjects\\Classe\>\|null, array\<int, mixed\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/DataTransferObjects/AnnoScolasticoData.php
@@ -10249,7 +10255,7 @@ parameters:
 			path: app/Livewire/SearchPopolazione.php
 
 		-
-			message: '#^Cannot access property \$year on Carbon\\Carbon\|null\.$#'
+			message: '#^Cannot access property \$year on Illuminate\\Support\\Carbon\|null\.$#'
 			identifier: property.nonObject
 			count: 2
 			path: app/Livewire/SearchPopolazione.php
