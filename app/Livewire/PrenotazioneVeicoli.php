@@ -6,22 +6,30 @@ namespace App\Livewire;
 
 use App\Officina\Models\Veicolo;
 use Livewire\Component;
+use App\Officina\Models\ViewClienti;
+use App\Officina\Models\ViewMeccanici;
+use App\Officina\Models\Uso;
+use Illuminate\Validation\Rule;
+use App\Officina\Models\Prenotazioni;
+use App\Nomadelfia\Persona\Models\Persona;
 
 final class PrenotazioneVeicoli extends Component
 {
-    public string $dataPartenza;
-
-    public string $dataArrivo;
-
-    public string $oraPartenza;
-
-    public string $oraArrivo;
-
+    public ?string $dataPartenza = null;
+    public ?string $dataArrivo = null;
+    public ?string $oraPartenza = null;
+    public ?string $oraArrivo = null;
+    public ?int $selectedVeicolo = null;
+    public ?int $selectedCliente = null;
+    public ?int $selectedMeccanico = null;
+    public ?int $selectedUso = null;
+    public ?string $destinazione = null;
+    public ?string $note = null;
+    public string $veicoloSelectPlaceholder = '--Seleziona--';
     public $veicoli = [];
-
-    public int $selectedVeicolo;
-
-    public string $message = '--seleziona veicolo--';
+    public $clienti = [];
+    public $meccanici = [];
+    public $usi = [];
 
     public function mount($dataPartenza = null, $oraPartenza = null, $dataArrivo = null, $oraArrivo = null, $selectedVeicolo = null): void
     {
@@ -44,20 +52,30 @@ final class PrenotazioneVeicoli extends Component
             $this->selectedVeicolo = $selectedVeicolo;
         }
 
-        if (old('data_par')) {
-            $this->dataPartenza = old('data_par');
-        }
-        if (old('data_arr')) {
-            $this->dataArrivo = old('data_arr');
-        }
-        if (old('ora_par')) {
-            $this->oraPartenza = old('ora_par');
-        }
-        if (old('ora_arr')) {
-            $this->oraArrivo = old('ora_arr');
-        }
-
         $this->refreshVeicoli();
+
+        $this->clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
+        $this->meccanici = ViewMeccanici::orderBy('nominativo')->get();
+        $this->usi = Uso::all();
+    }
+
+    protected function rules() 
+    {
+        return [
+            'dataPartenza' => 'required|date',
+            'dataArrivo' => 'required|date|after_or_equal:dataPartenza',
+            'oraPartenza' => 'required',
+            'oraArrivo' => [
+                'required',
+                Rule::when($this->dataPartenza === $this->dataArrivo, ['after:oraPartenza']),
+            ],
+            'selectedVeicolo' => 'required',
+            'selectedCliente' => 'required',
+            'selectedMeccanico' => 'required',
+            'selectedUso' => 'required',
+            'destinazione' => 'required',
+            'note' => 'nullable|string',
+        ];
     }
 
     public function updatedDataPartenza(): void
@@ -87,10 +105,32 @@ final class PrenotazioneVeicoli extends Component
             $this->veicoli = Veicolo::withBookingsIn(\Illuminate\Support\Facades\Date::parse($this->dataPartenza.' '.$this->oraPartenza), \Illuminate\Support\Facades\Date::parse($this->dataArrivo.' '.$this->oraArrivo))
                 ->get()->groupBy(['impiego_nome', 'tipologia_nome']);
 
-            $this->reset('message');
+            $this->reset('veicoloSelectPlaceholder');
         } else {
-            $this->message = '--orari di partenza e arrivo non validi--';
+            $this->veicoloSelectPlaceholder = '--orari di partenza e arrivo non validi--';
         }
 
+    }
+
+    public function saveReservation()
+    {
+        $this->validate();
+ 
+        Prenotazioni::create([
+            'cliente_id' => $this->selectedCliente,
+            'veicolo_id' => $this->selectedVeicolo,
+            'meccanico_id' => $this->selectedMeccanico,
+            'data_partenza' => $this->dataPartenza,
+            'ora_partenza' => $this->oraPartenza,
+            'data_arrivo' => $this->dataArrivo,
+            'ora_arrivo' => $this->oraArrivo,
+            'uso_id' => $this->selectedUso,
+            'note' => $this->note,
+            'destinazione' => $this->destinazione,
+        ]);
+ 
+        session()->flash('success', 'Prenotazione eseguita con successo.');
+ 
+        return redirect()->to(request()->header('Referer'));
     }
 }

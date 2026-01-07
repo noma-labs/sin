@@ -20,10 +20,6 @@ final class ReservationsController
     {
         $day = $request->get('day', 'oggi');
 
-        $clienti = ViewClienti::orderBy('nominativo', 'asc')->get();
-        $usi = Uso::all();
-        $meccanici = ViewMeccanici::orderBy('nominativo')->get();
-
         $query = null;
         $now = \Illuminate\Support\Facades\Date::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
@@ -57,9 +53,7 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        return view('officina.reservations.create', compact('clienti',
-            'usi',
-            'meccanici',
+        return view('officina.reservations.create', compact(
             'prenotazioni',
             'day'));
     }
