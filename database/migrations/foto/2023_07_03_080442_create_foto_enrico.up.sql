@@ -1,4 +1,4 @@
-CREATE TABLE `foto_enrico` (
+CREATE TABLE `dbf_foto_enrico` (
   `datnum` varchar(10) NOT NULL,
   `anum` varchar(8) NOT NULL,
   `cddvd` varchar(10) NOT NULL,

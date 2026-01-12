@@ -11,7 +11,7 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.4
     env:
-      EXIFTOOL_VERSION: 13.44 # Change also the EXIFTOOL_VERSION in the dockerfile
+      EXIFTOOL_VERSION: 13.45 # Change also the EXIFTOOL_VERSION in the dockerfile
 
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
