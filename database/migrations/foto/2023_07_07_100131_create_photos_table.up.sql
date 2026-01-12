@@ -48,14 +48,14 @@ ALTER TABLE `photos_people`
 
 -- with num As(
 --     SELECT data, datnum, argomento
---     FROM `foto_enrico`
+--     FROM `dbf_foto_enrico`
 --     WHERE `data` > '2022-01-01' and data <= '2022-12-31'
 --     ORDER BY `data` , datnum DESC
 -- ) select * from num order by data;
 
 
 -- SELECT data, datnum, argomento, nfo
--- FROM `foto_enrico`
+-- FROM `dbf_foto_enrico`
 -- WHERE datnum like '%ZZZAY%'
 -- ORDER BY `data` , datnum DESC;
 
@@ -67,7 +67,7 @@ ALTER TABLE `photos_people`
 -- # from v_folders;
 -- #
 -- # WITH albums AS (SELECT id, data, datnum, argomento, nfo
--- #                 FROM `foto_enrico`
+-- #                 FROM `dbf_foto_enrico`
 -- #                 WHERE datnum = 'ZZZAR'
 -- #                 ORDER BY `data`, datnum DESC),
 -- #      folders AS (SELECT SUBSTRING_INDEX(folders, ' ', 1)                           as data,

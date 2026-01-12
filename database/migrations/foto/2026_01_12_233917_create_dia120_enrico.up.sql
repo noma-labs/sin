@@ -1,4 +1,4 @@
-CREATE TABLE `dbf_slide_enrico` (
+CREATE TABLE `dbf_dia120_enrico` (
   `datnum` varchar(10) NOT NULL,
   `anum` varchar(8) NOT NULL,
   `cddvd` varchar(10) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE `dbf_slide_enrico` (
   `fi` varchar(2) NOT NULL,
   `tp` varchar(2) NOT NULL,
   `nfo` varchar(6) NOT NULL,
-  `data` date NOT NULL,
+  `data` varchar(10) NULL, -- using varcahr instead of date because some entries have missing date format
   `localita` text NOT NULL,
   `argomento` text NOT NULL,
   `descrizione` text NOT NULL
