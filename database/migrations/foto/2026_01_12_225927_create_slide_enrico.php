@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use SqlMigrations\SqlMigration;
 
-class CreateSlideEnrico extends SqlMigration
+final class CreateSlideEnrico extends SqlMigration
 {
     public $connection = 'db_foto';
 }
