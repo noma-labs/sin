@@ -86,6 +86,11 @@ return [
             'root' => storage_path('app/media/originals'),
             'visibility' => 'private',
         ],
+        'photos' = [
+            'driver' => 'local',
+            'root' => env('PHOTOS_PATH',  storage_path('app/media/originals')),
+            'visibility' => 'private',
+        ]
     ],
 
     'links' => [],
