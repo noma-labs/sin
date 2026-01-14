@@ -91,7 +91,7 @@ final class PhotoController
     {
         $photo = Photo::query()->findOrFail($id);
 
-        if (! Storage::disk('media_originals')->exists($photo->source_file)) {
+        if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
@@ -116,8 +116,8 @@ final class PhotoController
 
         $photo = Photo::query()->findOrFail($id);
 
-        $fileContent = Storage::disk('media_originals')->get($photo->source_file);
-        $filePath = Storage::disk('media_originals')->path($photo->source_file);
+        $fileContent = Storage::disk('photos')->get($photo->source_file);
+        $filePath = Storage::disk('photos')->path($photo->source_file);
         $mimeType = mime_content_type($filePath);
 
         if (! $drawFaces) {
@@ -182,11 +182,11 @@ final class PhotoController
     {
         $photo = Photo::query()->findOrFail($id);
 
-        if (! Storage::disk('media_originals')->exists($photo->source_file)) {
+        if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
         }
 
-        $filePath = Storage::disk('media_originals')->path($photo->source_file);
+        $filePath = Storage::disk('photos')->path($photo->source_file);
 
         return response()->download($filePath, $photo->file_name);
 
