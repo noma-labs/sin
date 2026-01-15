@@ -44,7 +44,7 @@ final class PhotoController
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
 
-        $q->orderBy($orderBy);
+        $q->orderBy($orderBy->toString());
 
         $photos = $q->paginate(50);
         $photos_count = $q->count();
