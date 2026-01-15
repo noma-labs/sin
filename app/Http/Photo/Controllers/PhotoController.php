@@ -21,6 +21,7 @@ final class PhotoController
         $filterYear = $request->string('year');
         $withEnricoMetadata = $request->input('with_metadata', false);
         $filterPersonName = $request->string('name');
+        $orderBy = $request->string('order', 'source_file');
 
         $enrico = null;
         if ($withEnricoMetadata) {
@@ -34,9 +35,7 @@ final class PhotoController
             $enrico = $enrico->get();
         }
 
-        $q = Photo::query()
-            ->oldest('taken_at')
-            ->oldest('taken_at');
+        $q = Photo::query()->oldest('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -44,6 +43,8 @@ final class PhotoController
         if (! $filterPersonName->isEmpty()) {
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
+
+        $q->orderBy($orderBy);
 
         $photos = $q->paginate(50);
         $photos_count = $q->count();
