@@ -38,24 +38,11 @@ final class PhotoFactory extends Factory
         if (! is_dir($absoluteDir)) {
             @mkdir($absoluteDir, 0777, true);
         }
-        $mime = 'image/jpeg';
-
-        // Prefer GD to generate a real JPEG; fall back to writing a tiny PNG
-        if (! function_exists('imagecreatetruecolor') || ! function_exists('imagejpeg')) {
-            throw new RuntimeException('GD extension not available: functions imagecreatetruecolor and imagejpeg are required to generate test images. Please enable/install ext-gd.');
-        }
-        $image = imagecreatetruecolor($width, $height);
-        $bg = imagecolorallocate($image, 240, 240, 240);
-        imagefilledrectangle($image, 0, 0, $width, $height, $bg);
-
-        // Draw a simple unique label so tests can visually confirm and SHA differs per image
-        if (function_exists('imagestring')) {
-            $textColor = imagecolorallocate($image, 80, 80, 80);
-            imagestring($image, 5, 10, 10, 'FAKE '.mb_substr($uuid, 0, 8), $textColor);
-        }
-
-        imagejpeg($image, $absolutePath, 80);
-        imagedestroy($image);
+        // Create placeholder image and get metadata
+        $meta = $this->createPlaceholderImage($absolutePath, $width, $height, 'FAKE '.mb_substr($uuid, 0, 8));
+        $mime = $meta['mime'];
+        $width = $meta['width'];
+        $height = $meta['height'];
 
         $size = is_file($absolutePath) ? filesize($absolutePath) : $this->faker->numberBetween(200, 4000);
         // Ensure SHA uniqueness across factory instances to avoid DB unique constraint collisions
@@ -79,6 +66,44 @@ final class PhotoFactory extends Factory
             'image_width' => $width,
             'directory' => $relativeDir,
             'taken_at' => Carbon::now(),
+        ];
+    }
+
+    /**
+     * Create a simple placeholder image on disk and return its metadata.
+     *
+     * @return array{mime:string,width:int,height:int}
+     */
+    private function createPlaceholderImage(string $absolutePath, int $width, int $height, string $label, int $quality = 80): array
+    {
+        if (! function_exists('imagecreatetruecolor') || ! function_exists('imagejpeg')) {
+            throw new RuntimeException('GD extension not available: functions imagecreatetruecolor and imagejpeg are required to generate test images. Please enable/install ext-gd.');
+        }
+
+        $image = imagecreatetruecolor($width, $height);
+        if ($image === false) {
+            throw new RuntimeException('Failed to create image resource via GD.');
+        }
+
+        $bg = imagecolorallocate($image, 240, 240, 240);
+        imagefilledrectangle($image, 0, 0, $width, $height, $bg);
+
+        if (function_exists('imagestring')) {
+            $textColor = imagecolorallocate($image, 80, 80, 80);
+            imagestring($image, 5, 10, 10, $label, $textColor);
+        }
+
+        $written = imagejpeg($image, $absolutePath, $quality);
+        imagedestroy($image);
+
+        if ($written !== true || ! is_file($absolutePath)) {
+            throw new RuntimeException('Failed to write image to path: '.$absolutePath);
+        }
+
+        return [
+            'mime' => 'image/jpeg',
+            'width' => $width,
+            'height' => $height,
         ];
     }
 
