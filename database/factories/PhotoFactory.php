@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Photo\Models\Photo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use RuntimeException;
 
 final class PhotoFactory extends Factory
 {
@@ -20,10 +21,10 @@ final class PhotoFactory extends Factory
 
         // Read photos root from env; default to storage testing path
         $photosRootRaw = env('PHOTOS_PATH', storage_path('app/testing/photos'));
-        $photosRoot = rtrim(trim((string) $photosRootRaw), DIRECTORY_SEPARATOR);
+        $photosRoot = mb_rtrim(mb_trim((string) $photosRootRaw), DIRECTORY_SEPARATOR);
         if (! is_dir($photosRoot) && ! @mkdir($photosRoot, 0777, true)) {
             // Fallback if directory creation fails (permissions, etc.)
-            $photosRoot = rtrim(storage_path('app/testing/photos'), DIRECTORY_SEPARATOR);
+            $photosRoot = mb_rtrim(storage_path('app/testing/photos'), DIRECTORY_SEPARATOR);
             if (! is_dir($photosRoot)) {
                 @mkdir($photosRoot, 0777, true);
             }
@@ -31,7 +32,7 @@ final class PhotoFactory extends Factory
         // Use a UUID to ensure unique file name and unique image content label
         $uuid = $this->faker->uuid();
         $fileName = sprintf('%s.jpg', $uuid);
-        $absolutePath = $photosRoot . DIRECTORY_SEPARATOR . $fileName;
+        $absolutePath = $photosRoot.DIRECTORY_SEPARATOR.$fileName;
         // Ensure parent directory exists (in case of nested paths in the future)
         $absoluteDir = dirname($absolutePath);
         if (! is_dir($absoluteDir)) {
@@ -40,28 +41,28 @@ final class PhotoFactory extends Factory
         $mime = 'image/jpeg';
 
         // Prefer GD to generate a real JPEG; fall back to writing a tiny PNG
-        if (!function_exists('imagecreatetruecolor') || !function_exists('imagejpeg')) {
-               throw new \RuntimeException('GD extension not available: functions imagecreatetruecolor and imagejpeg are required to generate test images. Please enable/install ext-gd.');
+        if (! function_exists('imagecreatetruecolor') || ! function_exists('imagejpeg')) {
+            throw new RuntimeException('GD extension not available: functions imagecreatetruecolor and imagejpeg are required to generate test images. Please enable/install ext-gd.');
         }
-            $image = imagecreatetruecolor($width, $height);
-            $bg = imagecolorallocate($image, 240, 240, 240);
-            imagefilledrectangle($image, 0, 0, $width, $height, $bg);
+        $image = imagecreatetruecolor($width, $height);
+        $bg = imagecolorallocate($image, 240, 240, 240);
+        imagefilledrectangle($image, 0, 0, $width, $height, $bg);
 
-            // Draw a simple unique label so tests can visually confirm and SHA differs per image
-            if (function_exists('imagestring')) {
-                $textColor = imagecolorallocate($image, 80, 80, 80);
-                imagestring($image, 5, 10, 10, 'FAKE ' . substr($uuid, 0, 8), $textColor);
-            }
+        // Draw a simple unique label so tests can visually confirm and SHA differs per image
+        if (function_exists('imagestring')) {
+            $textColor = imagecolorallocate($image, 80, 80, 80);
+            imagestring($image, 5, 10, 10, 'FAKE '.mb_substr($uuid, 0, 8), $textColor);
+        }
 
-            imagejpeg($image, $absolutePath, 80);
-            imagedestroy($image);
+        imagejpeg($image, $absolutePath, 80);
+        imagedestroy($image);
 
         $size = is_file($absolutePath) ? filesize($absolutePath) : $this->faker->numberBetween(200, 4000);
         // Ensure SHA uniqueness across factory instances to avoid DB unique constraint collisions
         $sha = $this->faker->unique()->sha1();
 
         // Compute relative path (after PHOTOS_PATH) and directory without root or filename
-        $relativePath = ltrim(str_replace($photosRoot, '', $absolutePath), DIRECTORY_SEPARATOR);
+        $relativePath = mb_ltrim(str_replace($photosRoot, '', $absolutePath), DIRECTORY_SEPARATOR);
         $relativeDir = dirname($relativePath);
         if ($relativeDir === '.' || $relativeDir === DIRECTORY_SEPARATOR) {
             $relativeDir = '';
