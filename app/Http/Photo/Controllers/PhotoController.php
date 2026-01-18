@@ -22,6 +22,7 @@ final class PhotoController
         $withEnricoMetadata = $request->input('with_metadata', false);
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
+        $view = $request->get('view', 'cards');
 
         $enrico = null;
         if ($withEnricoMetadata) {
