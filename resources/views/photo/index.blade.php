@@ -1,7 +1,7 @@
 @extends("photo.main")
 
 @section("content")
-    <div class="d-flex flex-wrap gap-2">
+    <div class="d-flex flex-wrap gap-2 my-3">
         @foreach ($years as $year)
             <a
                 href="{{ route("photos.index", ["year" => $year->year, "name" => request("name"), "view" => request("view", "grid")]) }}"
@@ -33,7 +33,7 @@
 
     <a
         href="{{ route("photos.slideshow", request()->all()) }}"
-        class="btn btn-primary m-3"
+        class="btn btn-primary mb-3"
         target="_blank"
     >
         Slideshow

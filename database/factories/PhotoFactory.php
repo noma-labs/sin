@@ -69,6 +69,25 @@ final class PhotoFactory extends Factory
         ];
     }
 
+    public function inFolder(string $name)
+    {
+        return $this->state(function (array $attributes) use ($name) {
+            // build a folder title like: 2022-05-23 XXXMQ Argomento foto
+            return [
+                'directory' => $name,
+            ];
+        });
+    }
+
+    public function takenAt(Carbon $date)
+    {
+        return $this->state(function (array $attributes) use ($date) {
+            return [
+                'taken_at' => $date->toDateString(),
+            ];
+        });
+    }
+
     /**
      * Create a simple placeholder image on disk and return its metadata.
      *
@@ -105,24 +124,5 @@ final class PhotoFactory extends Factory
             'width' => $width,
             'height' => $height,
         ];
-    }
-
-    public function inFolder(string $name)
-    {
-        return $this->state(function (array $attributes) use ($name) {
-            // build a folder title like: 2022-05-23 XXXMQ Argomento foto
-            return [
-                'directory' => $name,
-            ];
-        });
-    }
-
-    public function takenAt(Carbon $date)
-    {
-        return $this->state(function (array $attributes) use ($date) {
-            return [
-                'taken_at' => $date->toDateString(),
-            ];
-        });
     }
 }
