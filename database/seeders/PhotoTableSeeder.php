@@ -12,7 +12,7 @@ final class PhotoTableSeeder extends Seeder
 {
     public function run()
     {
-        Photo::factory()
+        Photo::factory(10)
             ->has(Persona::factory()->count(3), 'persone')
             ->create();
     }
