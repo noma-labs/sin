@@ -11,8 +11,8 @@ MODIFY COLUMN nfo INT;
 ALTER TABLE dbf_slide_enrico
 MODIFY COLUMN nfo INT;
 
--- create a unified view
-CREATE VIEW dbf_all AS
+-- create a unified table
+CREATE TABLE dbf_all AS
 SELECT
   'dia120' AS source,
   datnum,
@@ -67,3 +67,10 @@ SELECT
   argomento,
   descrizione
 FROM dbf_foto_enrico;
+
+ALTER TABLE dbf_all
+ADD COLUMN id VARCHAR(255);
+
+
+UPDATE dbf_all
+SET id = CONCAT_WS('|',source,datnum, anum, data);
