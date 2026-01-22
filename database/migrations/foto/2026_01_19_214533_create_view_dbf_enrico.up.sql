@@ -69,8 +69,43 @@ SELECT
 FROM dbf_foto_enrico;
 
 ALTER TABLE dbf_all
-ADD COLUMN id VARCHAR(255);
+ADD COLUMN id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 
 UPDATE dbf_all
-SET id = CONCAT_WS('|',source,datnum, anum, data);
+SET id = CONCAT_WS('|', source, datnum, anum, data);
+
+ALTER TABLE photos
+ADD COLUMN dbf_id VARCHAR(255) DEFAULT NULL AFTER id;
+
+-- 9256 righe modificate. (La query ha impiegato 3,6046 secondi.)
+UPDATE photos p
+JOIN (
+    SELECT id, datnum
+    FROM dbf_all
+    WHERE source = 'dia120' or source = 'slide'
+    GROUP BY id, datnum
+    HAVING COUNT(*) = 1
+) d ON d.datnum = IF(LOCATE('-', p.file_name) > 0, LEFT(p.file_name, 5), LEFT(p.file_name, 6))
+SET p.dbf_id = d.id
+WHERE p.directory LIKE '%DIA%';
+
+-- 223766 righe modificate. (La query ha impiegato 46,7334 secondi.)
+UPDATE photos p
+JOIN (
+    SELECT id, datnum
+    FROM dbf_all
+    WHERE source = 'foto'
+    GROUP BY id, datnum
+    HAVING COUNT(*) = 1
+) d ON d.datnum = IF(LOCATE('-', p.file_name) > 0, LEFT(p.file_name, 5), LEFT(p.file_name, 6))
+SET p.dbf_id = d.id
+WHERE p.directory NOT LIKE '%DIA%';
+
+
+--TODO it takes too much time.
+ALTER TABLE photos
+ADD INDEX idx_dbf_id (dbf_id);
+
+ALTER TABLE dbf_all
+ADD INDEX idx_id (id);
