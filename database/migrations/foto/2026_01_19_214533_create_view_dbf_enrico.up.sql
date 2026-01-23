@@ -108,3 +108,8 @@ WHERE p.directory NOT LIKE '%DIA%';
 -- add indexes to speed up future queries
 ALTER TABLE photos
 ADD INDEX idx_dbf_id (dbf_id);
+
+-- add referential integrity constraint linking photos.dbf_id to dbf_all.id
+ALTER TABLE photos
+ADD CONSTRAINT fk_photos_dbf_id FOREIGN KEY (dbf_id)
+REFERENCES dbf_all(id);
