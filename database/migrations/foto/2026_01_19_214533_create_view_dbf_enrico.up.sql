@@ -69,43 +69,42 @@ SELECT
 FROM dbf_foto_enrico;
 
 ALTER TABLE dbf_all
-ADD COLUMN id VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
+ALTER TABLE dbf_all
+ADD COLUMN fingerprint BINARY(32) DEFAULT NULL AFTER id;
 
 UPDATE dbf_all
-SET id = CONCAT_WS('|', source, datnum, anum, data);
+SET fingerprint = UNHEX(SHA2(CONCAT_WS('|', source, datnum, anum, data), 256));
 
 ALTER TABLE photos
-ADD COLUMN dbf_id VARCHAR(255) DEFAULT NULL AFTER id;
+ADD COLUMN dbf_id INT;
 
--- 9256 righe modificate. (La query ha impiegato 3,6046 secondi.)
+-- 42617 righe modificate. (La query ha impiegato 6,5896 secondi.)
 UPDATE photos p
 JOIN (
-    SELECT id, datnum
+    -- slect only unique datnum entries to avoid ambiguous matches
+    SELECT fingerprint, id, datnum
     FROM dbf_all
     WHERE source = 'dia120' or source = 'slide'
-    GROUP BY id, datnum
+    GROUP BY fingerprint, id,  datnum
     HAVING COUNT(*) = 1
 ) d ON d.datnum = IF(LOCATE('-', p.file_name) > 0, LEFT(p.file_name, 5), LEFT(p.file_name, 6))
 SET p.dbf_id = d.id
 WHERE p.directory LIKE '%DIA%';
 
--- 223766 righe modificate. (La query ha impiegato 46,7334 secondi.)
+-- 224277 righe modificate. (La query ha impiegato 28,9701 secondi.)
 UPDATE photos p
 JOIN (
-    SELECT id, datnum
+    SELECT fingerprint, id, datnum
     FROM dbf_all
     WHERE source = 'foto'
-    GROUP BY id, datnum
+    GROUP BY fingerprint, id,  datnum
     HAVING COUNT(*) = 1
 ) d ON d.datnum = IF(LOCATE('-', p.file_name) > 0, LEFT(p.file_name, 5), LEFT(p.file_name, 6))
 SET p.dbf_id = d.id
 WHERE p.directory NOT LIKE '%DIA%';
 
-
---TODO it takes too much time.
+-- add indexes to speed up future queries
 ALTER TABLE photos
 ADD INDEX idx_dbf_id (dbf_id);
-
-ALTER TABLE dbf_all
-ADD INDEX idx_id (id);
