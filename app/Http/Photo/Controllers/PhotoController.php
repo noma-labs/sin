@@ -19,22 +19,9 @@ final class PhotoController
     public function index(Request $request): View
     {
         $filterYear = $request->string('year');
-        $withEnricoMetadata = $request->input('with_metadata', false);
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
-        $view = $request->get('view', 'cards');
-
-        $enrico = null;
-        if ($withEnricoMetadata) {
-            $enrico = PhotoEnrico::query();
-
-            if (! $filterYear->isEmpty()) {
-                $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
-                $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
-            }
-            $enrico->orderBy('data');
-            $enrico = $enrico->get();
-        }
+        $view = $request->get('view', 'grid');
 
         $q = Photo::query()->oldest('taken_at');
 
@@ -50,6 +37,44 @@ final class PhotoController
         $photos = $q->paginate(50);
         $photos_count = $q->count();
 
+        // Strisce view: group photos by dbf_all.datnum (rullino)
+        $rolls = null;
+        $groups = collect();
+        if ($view === 'rolls') {
+            $baseNameExpr = "SUBSTRING_INDEX(photos.file_name, '.', 1)";
+            $shotExpr = "IF(LOCATE('-', $baseNameExpr) > 0, CAST(SUBSTRING($baseNameExpr, LOCATE('-', $baseNameExpr) + 1) AS UNSIGNED), CAST(RIGHT($baseNameExpr, 1) AS UNSIGNED))";
+
+            // Paginate distinct strisce by datnum
+            $rolls = Photo::query()
+                ->join('dbf_all as d', 'd.id', '=', 'photos.dbf_id')
+                ->when(! $filterYear->isEmpty(), function ($qb) use ($filterYear) {
+                    $qb->whereRaw('YEAR(photos.taken_at)= ?', [$filterYear]);
+                })
+                ->when(! $filterPersonName->isEmpty(), function ($qb) use ($filterPersonName) {
+                    $qb->where('photos.subjects', 'like', '%'.$filterPersonName->toString().'%');
+                })
+                ->whereNotNull('photos.file_name')
+                ->selectRaw('d.datnum as roll_key, MIN(d.data) as data, MIN(d.descrizione) as descrizione, MIN(d.localita) as localita, MIN(d.argomento) as argomento, COUNT(*) as cnt')
+                ->groupBy('roll_key')
+                ->orderBy('roll_key')
+                ->paginate(20);
+
+            $rollKeys = collect($rolls->items())->pluck('roll_key')->all();
+
+            if (! empty($rollKeys)) {
+                $photosForRolls = Photo::query()
+                    ->join('dbf_all as d', 'd.id', '=', 'photos.dbf_id')
+                    ->whereNotNull('photos.file_name')
+                    ->whereIn('d.datnum', $rollKeys)
+                    ->select('photos.*', 'd.datnum as roll_key')
+                    ->orderBy('d.datnum')
+                    ->orderByRaw($shotExpr.' ASC')
+                    ->get();
+
+                $groups = $photosForRolls->groupBy('roll_key');
+            }
+        }
+
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
@@ -59,7 +84,13 @@ final class PhotoController
         }
         $years = $qYears->get();
 
-        return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
+        return view('photo.index', [
+            'photos' => $photos,
+            'photos_count' => $photos_count,
+            'years' => $years,
+            'rolls' => $rolls,
+            'groups' => $groups,
+        ]);
     }
 
     public function update(Request $request, int $id): RedirectResponse
