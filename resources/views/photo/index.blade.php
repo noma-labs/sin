@@ -29,12 +29,6 @@
         >
             Lista
         </a>
-        <a
-            class="btn btn-outline-secondary {{ $currentView === "rolls" ? "active" : "" }}"
-            href="{{ route("photos.index", array_merge(request()->except("view"), ["view" => "rolls"])) }}"
-        >
-            Stricie
-        </a>
     </div>
 
     <a
@@ -49,7 +43,7 @@
         <div class="d-flex flex-wrap">
             @foreach ($photos as $photo)
                 <a href="{{ route("photos.show", $photo->id) }}">
-                    <figure class="figure m-1" style="width: 30rem">
+                    <figure class="figure m-1" style="width: 25rem">
                         <div class="position-relative">
                             <img
                                 src="{{ route("photos.preview", $photo->id) }}"
@@ -57,10 +51,15 @@
                                 alt="{{ $photo->description }}"
                             />
                             <div class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white">
-                                <div class="small">{{ $photo->file_name ?? "" }}</div>
-                                <div class="small">
+                                <span class="small">{{ $photo->file_name ?? "" }}</span>
+                                <span class="small">
                                     {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                </div>
+                                </span>
+                                  @if ($photo->strip)
+                                   <span class="badge text-bg-success">{{ $photo->strip->datnum }}</span>
+                                   @else
+                                    <span class="badge text-bg-danger">Senza Striscia</span>
+                                  @endif
                             </div>
                         </div>
                     </figure>
@@ -84,6 +83,11 @@
                         <div class="text-muted small">
                             {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
                         </div>
+                        @if ($photo->strip)
+                            <div class="mt-1">
+                                <span class="badge text-bg-success">{{ $photo->strip->datnum }}</span>
+                            </div>
+                        @endif
                         @if ($photo->subjects)
                             <div class="small">{{ $photo->subjects }}</div>
                         @endif
@@ -97,71 +101,9 @@
                 </li>
             @endforeach
         </ul>
-    @elseif ($currentView === "rolls")
-        @if ($rolls && $rolls->count())
-            <div class="accordion" id="rollsAccordion">
-                @foreach ($rolls as $index => $roll)
-                    @php($rollKey = $roll->roll_key)
-                    @php($collapseId = 'roll-collapse-'.$index)
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-{{ $index }}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="false" aria-controls="{{ $collapseId }}">
-                                <div class="d-flex align-items-center w-100 gap-3">
-                                    <span class="fw-semibold">Striscia: {{ $rollKey }}</span>
-                                    <span class="badge text-bg-secondary">{{ ($groups[$rollKey] ?? collect())->count() }} foto</span>
-                                    <span class="ms-auto text-muted small">
-                                        {{ $roll->data ?? '' }}
-                                        @if (!empty($roll->descrizione))
-                                            — {{ $roll->descrizione }}
-                                        @endif
-                                        @if (!empty($roll->localita))
-                                            — {{ $roll->localita }}
-                                        @endif
-                                        @if (!empty($roll->argomento))
-                                            — {{ $roll->argomento }}
-                                        @endif
-                                    </span>
-                                </div>
-                            </button>
-                        </h2>
-                        <div id="{{ $collapseId }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ $index }}" data-bs-parent="#rollsAccordion">
-                            <div class="accordion-body">
-                                <div class="d-flex flex-wrap">
-                                    @foreach (($groups[$rollKey] ?? collect()) as $photo)
-                                        <a href="{{ route("photos.show", $photo->id) }}" class="text-decoration-none">
-                                            <figure class="figure m-1" style="width: 18rem">
-                                                <div class="position-relative">
-                                                    <img
-                                                        src="{{ route("photos.preview", $photo->id) }}"
-                                                        class="figure-img img-fluid rounded"
-                                                        alt="{{ $photo->description }}"
-                                                    />
-                                                    <div class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white">
-                                                        <div class="small">{{ $photo->file_name ?? "" }}</div>
-                                                        <div class="small">
-                                                            {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </figure>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <div class="alert alert-info">Nessuna striscia trovata.</div>
-        @endif
     @endif
 
     <div class="d-flex justify-content-center">
-        @if ($currentView === "rolls" && $rolls)
-            {{ $rolls->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
-        @else
-            {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
-        @endif
+        {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
 @endsection

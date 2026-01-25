@@ -9,6 +9,7 @@ use Database\Factories\PhotoFactory;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -60,6 +61,11 @@ final class Photo extends Model
         return $this->belongsToMany(Persona::class, 'db_foto.photos_people', 'photo_id', 'persona_id');
     }
 
+    public function strip(): BelongsTo
+    {
+        return $this->belongsTo(DbfAll::class, 'dbf_id', 'id');
+    }
+
     protected static function newFactory(): PhotoFactory
     {
         return PhotoFactory::new();
@@ -67,7 +73,6 @@ final class Photo extends Model
 
     protected function casts(): array
     {
-
         return [
             'taken_at' => 'datetime',
             'region_info' => RegionInfoCast::class,

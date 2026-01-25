@@ -5,15 +5,52 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Nomadelfia\Persona\Models\Persona;
+use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
+use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 
 final class PhotoTableSeeder extends Seeder
 {
     public function run()
     {
-        Photo::factory(10)
+        $faker = FakerFactory::create('it_IT');
+
+        $photos = Photo::factory(10)
             ->has(Persona::factory()->count(3), 'persone')
             ->create();
+
+        foreach ($photos as $photo) {
+            $baseName = $photo->file_name;
+            $datnum = null;
+            if (str_contains($baseName, '-')) {
+                $parts = explode('-', $baseName);
+                $datnum = $parts[0] ?? null;
+            } else {
+                $datnum = mb_substr($digits, 0, 6);
+            }
+
+            $dbf = DbfAll::create([
+                'fingerprint' => null,
+                'source' => Arr::random(['dia120', 'slide', 'foto']),
+                'datnum' => $datnum,
+                'anum' => $datnum,
+                'cddvd' => 'CD000001',
+                'hdint' => 'HDINT001',
+                'hdext' => 'HDEXT001',
+                'sc' => 'SC',
+                'fi' => 'FI',
+                'tp' => 'TP',
+                'nfo' => 1,
+                'data' => $photo->taken_at ? $photo->taken_at->format('Y-m-d') : null,
+                'localita' => $faker->city(),
+                'argomento' => $faker->sentence(6),
+                'descrizione' => $faker->paragraph(),
+            ]);
+
+            $photo->dbf_id = $dbf->id;
+            $photo->save();
+        }
     }
 }

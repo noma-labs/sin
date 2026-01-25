@@ -1,16 +1,3 @@
--- change nfo to int
-ALTER TABLE dbf_dia120_enrico
-MODIFY COLUMN nfo INT;
--- treat empty strings as 0
-UPDATE dbf_foto_enrico
-SET nfo = 0
-WHERE nfo = '';
-ALTER TABLE dbf_foto_enrico
-MODIFY COLUMN nfo INT;
-
-ALTER TABLE dbf_slide_enrico
-MODIFY COLUMN nfo INT;
-
 -- create a unified table
 CREATE TABLE dbf_all AS
 SELECT
