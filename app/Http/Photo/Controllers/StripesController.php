@@ -19,17 +19,17 @@ final class StripesController
 
         $stripes = DbfAll::query()
             ->with('photos')
-            ->unless($filterYear->isEmpty(), fn($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
-            ->when(! empty($filterSource), fn($qb) => $qb->where('source', '=', $filterSource))
-            ->when($filterNoPhotos, fn($qb) => $qb->doesntHave('photos'))
+            ->unless($filterYear->isEmpty(), fn ($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
+            ->when(! empty($filterSource), fn ($qb) => $qb->where('source', '=', $filterSource))
+            ->when($filterNoPhotos, fn ($qb) => $qb->doesntHave('photos'))
             ->orderBy($orderBy)
             ->paginate(20);
 
         $years = DbfAll::query()
             ->selectRaw('YEAR(data) as year, count(*) as `count` ')
-            ->unless($filterYear->isEmpty(), fn($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
-            ->unless(empty($filterSource), fn($qb) => $qb->where('source', '=', $filterSource))
-            ->when($filterNoPhotos, fn($qb) => $qb->doesntHave('photos'))
+            ->unless($filterYear->isEmpty(), fn ($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
+            ->unless(empty($filterSource), fn ($qb) => $qb->where('source', '=', $filterSource))
+            ->when($filterNoPhotos, fn ($qb) => $qb->doesntHave('photos'))
             ->groupByRaw('YEAR(data)')
             ->get();
 
