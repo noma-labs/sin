@@ -31,17 +31,24 @@
         </div>
         <div class="btn-group me-3" role="group" aria-label="Filtro foto">
             @php($noPhotos = request("no_photos"))
+            @php($mismatch = request("mismatch"))
             <a
-                href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["no_photos" => null])) }}"
-                class="btn btn-sm btn-outline-secondary {{ empty($noPhotos) ? "active" : "" }}"
+                href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["no_photos" => null, "mismatch" => null])) }}"
+                class="btn btn-sm btn-outline-secondary {{ empty($noPhotos) && empty($mismatch) ? "active" : "" }}"
             >
                 Tutte le strisce
             </a>
             <a
-                href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["no_photos" => 1])) }}"
+                href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["no_photos" => 1, "mismatch" => null])) }}"
                 class="btn btn-sm btn-outline-secondary {{ ! empty($noPhotos) ? "active" : "" }}"
             >
-                Solo senza foto
+                0 foto
+            </a>
+            <a
+                href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["mismatch" => 1, "no_photos" => null])) }}"
+                class="btn btn-sm btn-outline-secondary {{ ! empty($mismatch) ? "active" : "" }}"
+            >
+                NFO ≠ Foto
             </a>
         </div>
         <div class="btn-group me-3" role="group" aria-label="Ordina per">
@@ -70,7 +77,7 @@
         </div>
         @foreach ($years as $year)
             <a
-                href="{{ route("photos.stripes.index", ["year" => $year->year, "name" => request("name"), "source" => request("source"), "order" => request("order", "datnum"), "no_photos" => request("no_photos")]) }}"
+                href="{{ route("photos.stripes.index", ["year" => $year->year, "name" => request("name"), "source" => request("source"), "order" => request("order", "datnum"), "no_photos" => request("no_photos"), "mismatch" => request("mismatch")]) }}"
                 class="btn btn-sm btn-outline-secondary {{ $currentYear == $year->year ? "active" : "" }}"
             >
                 {{ $year->year }}
@@ -114,6 +121,13 @@
                                         <span class="badge text-bg-warning">
                                             {{ $stripe->nfo - $photoCount }}
                                             foto mancanti
+                                        </span>
+                                    @endif
+
+                                    @if ($stripe->nfo < $photoCount)
+                                        <span class="badge text-bg-danger">
+                                            {{ $photoCount - $stripe->nfo }}
+                                            foto in più
                                         </span>
                                     @endif
                                 @endif

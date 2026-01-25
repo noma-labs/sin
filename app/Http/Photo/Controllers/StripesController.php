@@ -16,12 +16,14 @@ final class StripesController
         $filterSource = $request->string('source', '')->toString();
         $orderBy = $request->string('order', 'datnum')->toString();
         $filterNoPhotos = $request->boolean('no_photos', false);
+        $filterMismatch = $request->boolean('mismatch', false);
 
         $stripes = DbfAll::query()
             ->with('photos')
             ->unless($filterYear->isEmpty(), fn ($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
             ->when(! empty($filterSource), fn ($qb) => $qb->where('source', '=', $filterSource))
             ->when($filterNoPhotos, fn ($qb) => $qb->doesntHave('photos'))
+            ->when($filterMismatch, fn ($qb) => $qb->whereRaw('nfo IS NOT NULL AND nfo <> (SELECT COUNT(*) FROM photos p WHERE p.dbf_id = dbf_all.id)'))
             ->orderBy($orderBy)
             ->paginate(20);
 
@@ -30,6 +32,7 @@ final class StripesController
             ->unless($filterYear->isEmpty(), fn ($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
             ->unless(empty($filterSource), fn ($qb) => $qb->where('source', '=', $filterSource))
             ->when($filterNoPhotos, fn ($qb) => $qb->doesntHave('photos'))
+            ->when($filterMismatch, fn ($qb) => $qb->whereRaw('nfo IS NOT NULL AND nfo <> (SELECT COUNT(*) FROM photos p WHERE p.dbf_id = dbf_all.id)'))
             ->groupByRaw('YEAR(data)')
             ->get();
 
@@ -37,6 +40,7 @@ final class StripesController
             'years' => $years,
             'stripes' => $stripes,
             'no_photos' => $filterNoPhotos,
+            'mismatch' => $filterMismatch,
         ]);
     }
 }
