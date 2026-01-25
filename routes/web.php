@@ -77,6 +77,7 @@ use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\SlideshowController;
+use App\Photo\Controllers\StripesController;
 use App\Rtn\Video\VideoController as RtnVideoController;
 use App\Scuola\Controllers\AnnoScolasticoClassiController;
 use App\Scuola\Controllers\AnnoScolasticoController;
@@ -435,6 +436,7 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 
 Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
+    Route::get('/stripes', [StripesController::class, 'index'])->middleware('can:photo.view')->name('photos.stripes.index');
     Route::get('/slideshow', [SlideshowController::class, 'index'])->middleware('can:photo.view')->name('photos.slideshow');
 
     Route::get('/favourite', [FavouritesController::class, 'index'])->middleware('can:photo.view')->name('photos.favorite.index');

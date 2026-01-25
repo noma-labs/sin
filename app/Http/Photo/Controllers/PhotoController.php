@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Photo\Controllers;
 
 use App\Photo\Models\Photo;
-use App\Photo\Models\PhotoEnrico;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,24 +18,11 @@ final class PhotoController
     public function index(Request $request): View
     {
         $filterYear = $request->string('year');
-        $withEnricoMetadata = $request->input('with_metadata', false);
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
-        $view = $request->get('view', 'cards');
+        $view = $request->get('view', 'grid');
 
-        $enrico = null;
-        if ($withEnricoMetadata) {
-            $enrico = PhotoEnrico::query();
-
-            if (! $filterYear->isEmpty()) {
-                $enrico = $enrico->orWhere('descrizione', 'like', "%$filterYear%");
-                $enrico = $enrico->orWhereRaw('YEAR(data)= ?', [$filterYear]);
-            }
-            $enrico->orderBy('data');
-            $enrico = $enrico->get();
-        }
-
-        $q = Photo::query()->oldest('taken_at');
+        $q = Photo::query()->with('strip')->oldest('taken_at');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -59,7 +45,11 @@ final class PhotoController
         }
         $years = $qYears->get();
 
-        return view('photo.index', compact('photos', 'photos_count', 'years', 'enrico'));
+        return view('photo.index', [
+            'photos' => $photos,
+            'photos_count' => $photos_count,
+            'years' => $years,
+        ]);
     }
 
     public function update(Request $request, int $id): RedirectResponse

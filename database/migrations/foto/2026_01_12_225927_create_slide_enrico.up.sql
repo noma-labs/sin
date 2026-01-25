@@ -7,7 +7,7 @@ CREATE TABLE `dbf_slide_enrico` (
   `sc` varchar(2) NOT NULL,
   `fi` varchar(2) NOT NULL,
   `tp` varchar(2) NOT NULL,
-  `nfo` varchar(6) NOT NULL,
+  `nfo` int(11) DEFAULT NULL,
   `data` date NOT NULL,
   `localita` text NOT NULL,
   `argomento` text NOT NULL,

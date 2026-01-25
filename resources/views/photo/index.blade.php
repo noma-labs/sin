@@ -43,18 +43,34 @@
         <div class="d-flex flex-wrap">
             @foreach ($photos as $photo)
                 <a href="{{ route("photos.show", $photo->id) }}">
-                    <figure class="figure m-1" style="width: 30rem">
-                        <figcaption class="figure-caption">
-                            <div>{{ $photo->file_name ?? "" }}</div>
-                            <div>
-                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                    <figure class="figure m-1" style="width: 25rem">
+                        <div class="position-relative">
+                            <img
+                                src="{{ route("photos.preview", $photo->id) }}"
+                                class="figure-img img-fluid rounded"
+                                alt="{{ $photo->description }}"
+                            />
+                            <div
+                                class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                            >
+                                <span class="small">
+                                    {{ $photo->file_name ?? "" }}
+                                </span>
+                                <span class="small">
+                                    {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                </span>
+
+                                @if ($photo->strip)
+                                    <span class="badge text-bg-success">
+                                        {{ $photo->strip->datnum }}
+                                    </span>
+                                @else
+                                    <span class="badge text-bg-danger">
+                                        Senza Striscia
+                                    </span>
+                                @endif
                             </div>
-                        </figcaption>
-                        <img
-                            src="{{ route("photos.preview", $photo->id) }}"
-                            class="figure-img img-fluid rounded"
-                            alt="{{ $photo->description }}"
-                        />
+                        </div>
                     </figure>
                 </a>
             @endforeach
@@ -76,6 +92,14 @@
                         <div class="text-muted small">
                             {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
                         </div>
+                        @if ($photo->strip)
+                            <div class="mt-1">
+                                <span class="badge text-bg-success">
+                                    {{ $photo->strip->datnum }}
+                                </span>
+                            </div>
+                        @endif
+
                         @if ($photo->subjects)
                             <div class="small">{{ $photo->subjects }}</div>
                         @endif
@@ -94,24 +118,4 @@
     <div class="d-flex justify-content-center">
         {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
-
-    @if ($enrico)
-        <div class="row">
-            <h2>Metadata from enrico DBF</h2>
-            <ul>
-                @foreach ($enrico as $photo)
-                    <li>
-                        <span class="badge text-bg-secondary">
-                            {{ $photo->data }}
-                        </span>
-                        {{ $photo->datnum }}
-                        {{ $photo->anum }}
-                        {{ $photo->localita }}
-                        {{ $photo->argomento }}
-                        {{ $photo->descrizione }}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 @endsection

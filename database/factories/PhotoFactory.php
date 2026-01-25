@@ -29,17 +29,20 @@ final class PhotoFactory extends Factory
                 @mkdir($photosRoot, 0777, true);
             }
         }
-        // Use a UUID to ensure unique file name and unique image content label
-        $uuid = $this->faker->uuid();
-        $fileName = sprintf('%s.jpg', $uuid);
+        // Build a roll-style id like 00000-0 for file name
+        $rollNumber = $this->faker->numberBetween(0, 10);
+        $shotNumber = $this->faker->numberBetween(0, 9);
+        $rollNumberPadded = mb_str_pad((string) $rollNumber, 5, '0', STR_PAD_LEFT);
+        $rollId = $rollNumberPadded.'-'.$shotNumber;
+        $fileName = $rollId.'.jpg';
         $absolutePath = $photosRoot.DIRECTORY_SEPARATOR.$fileName;
         // Ensure parent directory exists (in case of nested paths in the future)
         $absoluteDir = dirname($absolutePath);
         if (! is_dir($absoluteDir)) {
             @mkdir($absoluteDir, 0777, true);
         }
-        // Create placeholder image and get metadata
-        $meta = $this->createPlaceholderImage($absolutePath, $width, $height, 'FAKE '.mb_substr($uuid, 0, 8));
+        // Create placeholder image and get metadata (embed roll id for visibility)
+        $meta = $this->createPlaceholderImage($absolutePath, $width, $height, 'ROLL '.$rollId);
         $mime = $meta['mime'];
         $width = $meta['width'];
         $height = $meta['height'];

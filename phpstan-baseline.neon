@@ -7933,6 +7933,30 @@ parameters:
 			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Photo\\Models\\DbfAll\>\|Illuminate\\Database\\Query\\Builder\:\:doesntHave\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Photo/Controllers/StripesController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:doesntHave\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Photo/Controllers/StripesController.php
+
+		-
+			message: '#^Cannot call method groupByRaw\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Photo/Controllers/StripesController.php
+
+		-
+			message: '#^Unable to resolve the template type TWhenReturnType in call to method Illuminate\\Database\\Query\\Builder\:\:when\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Http/Photo/Controllers/StripesController.php
+
+		-
 			message: '#^Method App\\Photo\\Exif\\ExifReader\:\:callExifTool\(\) has parameter \$command with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

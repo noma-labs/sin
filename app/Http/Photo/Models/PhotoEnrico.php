@@ -10,5 +10,5 @@ final class PhotoEnrico extends Model
 {
     protected $connection = 'db_foto';
 
-    protected $table = 'dbf_foto_enrico';
+    protected $table = 'dbf_all';
 }

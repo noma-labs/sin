@@ -7,8 +7,8 @@ CREATE TABLE `dbf_foto_enrico` (
   `sc` varchar(2) NOT NULL,
   `fi` varchar(2) NOT NULL,
   `tp` varchar(2) NOT NULL,
-  `nfo` varchar(6) NOT NULL,
-  `data` VARCHAR(8) NOT NULL, -- to import the date format "09/30/43" exported from the DBF
+  `nfo` int(11) DEFAULT NULL,
+  `data` date DEFAULT NULL,
   `localita` text NOT NULL,
   `argomento` text NOT NULL,
   `descrizione` text NOT NULL
