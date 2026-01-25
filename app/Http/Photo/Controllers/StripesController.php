@@ -27,7 +27,7 @@ final class StripesController
 
         $stripes = DbfAll::query()
             ->with('photos')
-            ->when(! $filterYear->isEmpty(), function ($qb) use ($filterYear) {
+            ->unless($filterYear->isEmpty(), function ($qb) use ($filterYear) {
                 $qb->whereRaw('YEAR(data)= ?', [$filterYear]);
             })
             ->when(! empty($filterSource), function ($qb) use ($filterSource) {
@@ -38,7 +38,7 @@ final class StripesController
 
         $years = DbfAll::query()
             ->selectRaw('YEAR(data) as year, count(*) as `count` ')
-            ->when(! $filterYear->isEmpty(), function ($qb) use ($filterYear) {
+            ->unless($filterYear->isEmpty(), function ($qb) use ($filterYear) {
                 $qb->whereRaw('YEAR(data)= ?', [$filterYear]);
             })
             ->when(! empty($filterSource), function ($qb) use ($filterSource) {
