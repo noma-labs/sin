@@ -118,14 +118,12 @@
                                     @endif
                                 @endif
 
-                                @php(
-                                    ($sourceBadge = match (strtolower($stripe->source)) {
-                                        "foto" => "text-bg-primary",
-                                        "slide" => "text-bg-info",
-                                        "dia120" => "text-bg-secondary",
-                                        default => "text-bg-secondary",
-                                    })
-                                )
+                                @php($sourceBadge = match (strtolower($stripe->source)) {
+                                    "foto" => "text-bg-primary",
+                                    "slide" => "text-bg-info",
+                                    "dia120" => "text-bg-secondary",
+                                    default => "text-bg-secondary",
+                                })
                                 <span class="badge {{ $sourceBadge }}">
                                     {{ strtoupper($stripe->source) }}
                                 </span>
