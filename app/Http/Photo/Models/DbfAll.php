@@ -40,7 +40,7 @@ final class DbfAll extends Model
     protected $guarded = [];
 
     /**
-     * @return HasMany<Photo, DbfAll>
+     * @return HasMany<Photo, covariant $this>
      */
     public function photos(): HasMany
     {

@@ -62,7 +62,7 @@ final class Photo extends Model
     }
 
     /**
-     * @return BelongsTo<DbfAll, Photo>
+     * @return BelongsTo<DbfAll, covariant $this>
      */
     public function strip(): BelongsTo
     {
