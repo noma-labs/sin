@@ -50,16 +50,25 @@
                                 class="figure-img img-fluid rounded"
                                 alt="{{ $photo->description }}"
                             />
-                            <div class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white">
-                                <span class="small">{{ $photo->file_name ?? "" }}</span>
+                            <div
+                                class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                            >
+                                <span class="small">
+                                    {{ $photo->file_name ?? "" }}
+                                </span>
                                 <span class="small">
                                     {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
                                 </span>
-                                  @if ($photo->strip)
-                                   <span class="badge text-bg-success">{{ $photo->strip->datnum }}</span>
-                                   @else
-                                    <span class="badge text-bg-danger">Senza Striscia</span>
-                                  @endif
+
+                                @if ($photo->strip)
+                                    <span class="badge text-bg-success">
+                                        {{ $photo->strip->datnum }}
+                                    </span>
+                                @else
+                                    <span class="badge text-bg-danger">
+                                        Senza Striscia
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </figure>
@@ -85,9 +94,12 @@
                         </div>
                         @if ($photo->strip)
                             <div class="mt-1">
-                                <span class="badge text-bg-success">{{ $photo->strip->datnum }}</span>
+                                <span class="badge text-bg-success">
+                                    {{ $photo->strip->datnum }}
+                                </span>
                             </div>
                         @endif
+
                         @if ($photo->subjects)
                             <div class="small">{{ $photo->subjects }}</div>
                         @endif

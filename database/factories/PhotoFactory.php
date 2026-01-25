@@ -32,7 +32,7 @@ final class PhotoFactory extends Factory
         // Build a roll-style id like 00000-0 for file name
         $rollNumber = $this->faker->numberBetween(0, 10);
         $shotNumber = $this->faker->numberBetween(0, 9);
-        $rollNumberPadded = str_pad((string) $rollNumber, 5, '0', STR_PAD_LEFT);
+        $rollNumberPadded = mb_str_pad((string) $rollNumber, 5, '0', STR_PAD_LEFT);
         $rollId = $rollNumberPadded.'-'.$shotNumber;
         $fileName = $rollId.'.jpg';
         $absolutePath = $photosRoot.DIRECTORY_SEPARATOR.$fileName;
