@@ -116,6 +116,12 @@
                                             foto mancanti
                                         </span>
                                     @endif
+                                    @if ($stripe->nfo < $photoCount)
+                                        <span class="badge text-bg-danger">
+                                            {{ $photoCount - $stripe->nfo}}
+                                            foto in più
+                                        </span>
+                                    @endif
                                 @endif
 
                                 <span class="badge text-bg-secondary">
