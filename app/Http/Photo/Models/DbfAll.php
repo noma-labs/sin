@@ -40,9 +40,7 @@ final class DbfAll extends Model
     protected $guarded = [];
 
     /**
-     * Photos associated via foreign key `photos.dbf_id`.
-     *
-     * @return HasMany<Photo>
+     * @return HasMany<Photo, DbfAll>
      */
     public function photos(): HasMany
     {

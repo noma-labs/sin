@@ -44,10 +44,14 @@
                 Ordina per Data
             </a>
         </div>
+         <div class="btn-group me-3" role="group" aria-label="Filtro data">
+            @php($currentYear = request('year'))
+            <a href="{{ route('photos.stripes.index', request()->except(['page','year'])) }}" class="btn btn-sm btn-outline-secondary {{ empty($currentYear) ? 'active' : '' }}">Tutte le date</a>
+        </div>
         @foreach ($years as $year)
             <a
                 href="{{ route("photos.stripes.index", ["year" => $year->year, "name" => request("name"), "source" => request("source"), "order" => request("order", "datnum")]) }}"
-                class="btn btn-sm btn-outline-secondary"
+                class="btn btn-sm btn-outline-secondary {{ $currentYear == $year->year ? 'active' : '' }}"
             >
                 {{ $year->year }}
                 <span class="badge text-bg-secondary">
@@ -72,40 +76,41 @@
                             aria-controls="{{ $collapseId }}"
                         >
                             <div class="d-flex align-items-center w-100 gap-3">
-                                @php(
-                                    ($sourceBadge = match (strtolower($stripe->source)) {
-                                        "foto" => "text-bg-primary",
-                                        "slide" => "text-bg-info",
-                                        "dia120" => "text-bg-warning",
-                                        default => "text-bg-secondary",
-                                    })
-                                )
-                                <span class="badge {{ $sourceBadge }}">
-                                    {{ strtoupper($stripe->source) }}
-                                </span>
                                 <span class="fw-semibold">
-                                    {{ $stripe->datnum }}
+                                  {{ $stripe->datnum }}
                                     @if (! empty($stripe->anum) && $stripe->anum !== $stripe->datnum)
                                             — {{ $stripe->anum }}
                                     @endif
-
-                                    ({{ $stripe->data }})
-
-                                    @if ($photoCount == 0)
-                                        <span class="badge text-bg-danger">
-                                            senza foto
-                                        </span>
-                                    @elseif (! is_null($stripe->nfo) && $stripe->nfo > $photoCount)
-                                        <span class="badge text-bg-warning">
-                                            {{ $stripe->nfo - $photoCount }}
-                                            foto mancanti
-                                        </span>
-                                    @else
-                                        <span class="badge text-bg-success">
-                                            {{ $photoCount }} foto
-                                        </span>
-                                    @endif
                                 </span>
+                                <span>
+                                    ({{ $stripe->data }})
+                                </span>
+
+                                @if ($photoCount == 0)
+                                    <span class="badge text-bg-danger">
+                                        senza foto
+                                    </span>
+                                @elseif (! is_null($stripe->nfo) && $stripe->nfo > $photoCount)
+                                    <span class="badge text-bg-warning">
+                                        {{ $stripe->nfo - $photoCount }}
+                                        foto mancanti
+                                    </span>
+                                @else
+                                    <span class="badge text-bg-success">
+                                        {{ $photoCount }} foto
+                                    </span>
+                                @endif
+
+                                 @php($sourceBadge = match (strtolower($stripe->source)) {
+                                    "foto" => "text-bg-primary",
+                                    "slide" => "text-bg-info",
+                                    "dia120" => "text-bg-warning",
+                                    default => "text-bg-secondary",
+                                })
+                                <span class="badge {{ $sourceBadge }}">
+                                    {{ strtoupper($stripe->source) }}
+                                </span>
+
                             </div>
                         </button>
                     </h2>

@@ -61,6 +61,9 @@ final class Photo extends Model
         return $this->belongsToMany(Persona::class, 'db_foto.photos_people', 'photo_id', 'persona_id');
     }
 
+    /**
+     * @return BelongsTo<DbfAll, Photo>
+     */
     public function strip(): BelongsTo
     {
         return $this->belongsTo(DbfAll::class, 'dbf_id', 'id');
