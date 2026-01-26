@@ -100,3 +100,56 @@ ADD INDEX idx_dbf_id (dbf_id);
 ALTER TABLE photos
 ADD CONSTRAINT fk_photos_dbf_id FOREIGN KEY (dbf_id)
 REFERENCES dbf_all(id);
+
+
+-- procedure to connect the dbf_all entries to photos table based on a range of datnum values
+DELIMITER $$
+
+CREATE PROCEDURE update_photos_by_range (
+    IN p_from_datnum INT,
+    IN p_to_datnum   INT
+)
+BEGIN
+
+    UPDATE photos p
+    JOIN (
+        WITH RECURSIVE seq AS (
+            SELECT
+                d.id,
+                CAST(d.datnum AS UNSIGNED) + 1 AS val,
+                CAST(d.anum AS UNSIGNED) AS max_val
+            FROM dbf_all d
+            WHERE d.source = 'foto'
+              AND d.datnum REGEXP '^[0-9]+$'
+              AND d.anum   REGEXP '^[0-9]+$'
+              AND CAST(d.datnum AS UNSIGNED) < CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED)
+                    BETWEEN p_from_datnum AND p_to_datnum
+
+            UNION ALL
+
+            SELECT
+                id,
+                val + 1,
+                max_val
+            FROM seq
+            WHERE val < max_val
+        )
+        SELECT
+            id,
+            LPAD(val, 5, '0') AS expanded_datnum
+        FROM seq
+    ) x
+      ON x.expanded_datnum =
+         IF(LOCATE('-', p.file_name) > 0,
+            LEFT(p.file_name, 5),
+            LEFT(p.file_name, 6))
+    SET
+        p.dbf_id = x.id,
+        p.updated_at = NOW()
+    WHERE p.dbf_id IS NULL
+      AND p.directory NOT LIKE '%DIA%';
+
+END$$
+
+DELIMITER ;
