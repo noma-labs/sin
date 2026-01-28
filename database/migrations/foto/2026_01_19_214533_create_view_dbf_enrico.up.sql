@@ -174,7 +174,6 @@ DELIMITER ;
 -- CALL update_photos_by_range(40000,50000); 31182
 
 
-
 DELIMITER $$
 
 CREATE PROCEDURE update_slides_by_range (
@@ -188,13 +187,13 @@ BEGIN
         WITH RECURSIVE seq AS (
             SELECT
                 d.id,
-                CAST(d.datnum AS UNSIGNED) + 1 AS val,
+                CAST(d.datnum AS UNSIGNED) AS val,
                 CAST(d.anum AS UNSIGNED) AS max_val
             FROM dbf_all d
             WHERE d.source = 'slide'
               AND d.datnum REGEXP '^[0-9]+$'
               AND d.anum   REGEXP '^[0-9]+$'
-              AND CAST(d.datnum AS UNSIGNED) < CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED) <= CAST(d.anum AS UNSIGNED)
               AND CAST(d.datnum AS UNSIGNED)
                     BETWEEN p_from_datnum AND p_to_datnum
 
@@ -216,7 +215,7 @@ BEGIN
         p.dbf_id = x.id,
         p.updated_at = NOW()
     WHERE p.dbf_id IS NULL
-      AND p.directory LIKE '%DIA%';
+      AND p.directory LIKE '%Dia 24x36%';
 
 END$$
 
@@ -249,7 +248,7 @@ BEGIN
             WHERE d.source = 'dia120'
               AND d.datnum REGEXP '^[0-9]+$'
               AND d.anum   REGEXP '^[0-9]+$'
-              AND CAST(d.datnum AS UNSIGNED) < CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED) <= CAST(d.anum AS UNSIGNED)
               AND CAST(d.datnum AS UNSIGNED)
                     BETWEEN p_from_datnum AND p_to_datnum
 
@@ -281,9 +280,14 @@ DELIMITER ;
 -- CALL update_dia120_by_range(10000, 10550);  136
 
 
-TODO: there is an overlapping of slides and dia120 in the range 10000-10200
-- CALl update_slides_by_range(5000, 10200)
-- CALL update_dia120_by_range(10000, 10550)
-need to
-- remove the dbd_id form the photos that are in the overlapping range
-- re-run the two procedures for the overlapping range separately
+-- TODO: there is an overlapping of slides and dia120 in the range 10000-10200
+-- - CALl update_slides_by_range(5000, 10200)
+-- - CALL update_dia120_by_range(10000, 10550)
+-- need to
+-- - remove the dbd_id form the photos that are in the overlapping range
+-- - re-run the two procedures for the overlapping range separately
+
+-- UPDATE`photos`
+-- SET dbf_id = NULL
+-- WHERE `dbf_id` IS NOT NULL AND directory LIKE '%DIA%' and parsed_strip > '10000' and  parsed_strip < '10300'
+-- ORDER BY `photos`.`file_name` DESC;
