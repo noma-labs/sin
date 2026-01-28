@@ -211,7 +211,7 @@
                                                 style="width: 18rem"
                                             >
                                                 <div class="position-relative">
-                                                    @unless (request('no-photos'))
+                                                    @unless (request("no-photos"))
                                                         <img
                                                             src="{{ route("photos.preview", $photo->id) }}"
                                                             class="figure-img img-fluid rounded"
@@ -229,8 +229,10 @@
                                                         </div>
                                                     @endunless
                                                 </div>
-                                                @if (request('no-photos'))
-                                                    <figcaption class="figure-caption">
+                                                @if (request("no-photos"))
+                                                    <figcaption
+                                                        class="figure-caption"
+                                                    >
                                                         <div class="small">
                                                             {{ $photo->file_name ?? "" }}
                                                         </div>
