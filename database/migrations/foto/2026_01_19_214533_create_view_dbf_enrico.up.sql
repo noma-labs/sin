@@ -100,3 +100,179 @@ ADD INDEX idx_dbf_id (dbf_id);
 ALTER TABLE photos
 ADD CONSTRAINT fk_photos_dbf_id FOREIGN KEY (dbf_id)
 REFERENCES dbf_all(id);
+
+
+-- procedure to connect the dbf_all entries to photos table based on a range of datnum values
+
+-- add precopumted column to photos to speed up matching
+ALTER TABLE photos
+ADD COLUMN parsed_strip CHAR(6) AS (
+    IF(LOCATE('-', file_name) > 0,
+       LEFT(file_name, 5),
+       LEFT(file_name, 6))
+) STORED;
+
+CREATE INDEX idx_parsed_strip ON photos(parsed_strip);
+
+CREATE PROCEDURE update_photos_by_range (
+    IN p_from_datnum INT,
+    IN p_to_datnum   INT
+)
+BEGIN
+
+    UPDATE photos p
+    JOIN (
+        WITH RECURSIVE seq AS (
+            SELECT
+                d.id,
+                CAST(d.datnum AS UNSIGNED) + 1 AS val,
+                CAST(d.anum AS UNSIGNED) AS max_val
+            FROM dbf_all d
+            WHERE d.source = 'foto'
+              AND d.datnum REGEXP '^[0-9]+$'
+              AND d.anum   REGEXP '^[0-9]+$'
+              AND CAST(d.datnum AS UNSIGNED) < CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED)
+                    BETWEEN p_from_datnum AND p_to_datnum
+
+            UNION ALL
+
+            SELECT
+                id,
+                val + 1,
+                max_val
+            FROM seq
+            WHERE val < max_val
+        )
+        SELECT
+            id,
+            LPAD(val, 5, '0') AS expanded_datnum
+        FROM seq
+    ) x on x.expanded_datnum = p.parsed_strip
+    SET
+        p.dbf_id = x.id,
+        p.updated_at = NOW()
+    WHERE p.dbf_id IS NULL
+      AND p.directory NOT LIKE '%DIA%';
+
+END;
+
+-- updating photos
+-- foto analogica:from 0-46106
+
+-- CALL update_photos_by_range(600,615);
+-- CALL update_photos_by_range(1000,2000); 151872
+-- CALL update_photos_by_range(2000,3000); 149379
+-- CALL update_photos_by_range(3000,5000); 144712
+-- CALL update_photos_by_range(5000,10000); 131353
+-- CALL update_photos_by_range(10000,20000); 99626
+-- CALL update_photos_by_range(20000,40000); 43586
+-- CALL update_photos_by_range(40000,50000); 31182
+
+
+CREATE PROCEDURE update_slides_by_range (
+    IN p_from_datnum INT,
+    IN p_to_datnum   INT
+)
+BEGIN
+
+    UPDATE photos p
+    JOIN (
+        WITH RECURSIVE seq AS (
+            SELECT
+                d.id,
+                CAST(d.datnum AS UNSIGNED) AS val,
+                CAST(d.anum AS UNSIGNED) AS max_val
+            FROM dbf_all d
+            WHERE d.source = 'slide'
+              AND d.datnum REGEXP '^[0-9]+$'
+              AND d.anum   REGEXP '^[0-9]+$'
+              AND CAST(d.datnum AS UNSIGNED) <= CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED)
+                    BETWEEN p_from_datnum AND p_to_datnum
+
+            UNION ALL
+
+            SELECT
+                id,
+                val + 1,
+                max_val
+            FROM seq
+            WHERE val < max_val
+        )
+        SELECT
+            id,
+            LPAD(val, 5, '0') AS expanded_datnum
+        FROM seq
+    ) x on x.expanded_datnum = p.parsed_strip
+    SET
+        p.dbf_id = x.id,
+        p.updated_at = NOW()
+    WHERE p.dbf_id IS NULL
+      AND p.directory LIKE '%Dia 24x36%';
+
+END;
+
+-- count missing:
+-- SELECT count(*) FROM `photos` WHERE `dbf_id` IS NULL AND `directory` LIKE '%DIA%' ORDER BY `dbf_id` DESC;
+-- CALL update_slides_by_range(0,150);  3585
+-- CALL update_slides_by_range(150,5000);  621
+-- CALL update_slides_by_range(5000, 10200); 621
+
+CREATE PROCEDURE update_dia120_by_range (
+    IN p_from_datnum INT,
+    IN p_to_datnum   INT
+)
+BEGIN
+
+    UPDATE photos p
+    JOIN (
+        WITH RECURSIVE seq AS (
+            SELECT
+                d.id,
+                CAST(d.datnum AS UNSIGNED)  AS val,
+                CAST(d.anum AS UNSIGNED) AS max_val
+            FROM dbf_all d
+            WHERE d.source = 'dia120'
+              AND d.datnum REGEXP '^[0-9]+$'
+              AND d.anum   REGEXP '^[0-9]+$'
+              AND CAST(d.datnum AS UNSIGNED) <= CAST(d.anum AS UNSIGNED)
+              AND CAST(d.datnum AS UNSIGNED)
+                    BETWEEN p_from_datnum AND p_to_datnum
+
+            UNION ALL
+
+            SELECT
+                id,
+                val + 1,
+                max_val
+            FROM seq
+            WHERE val < max_val
+        )
+        SELECT
+            id,
+            LPAD(val, 5, '0') AS expanded_datnum
+        FROM seq
+    ) x on x.expanded_datnum = p.parsed_strip
+    SET
+        p.dbf_id = x.id,
+        p.updated_at = NOW()
+    WHERE p.dbf_id IS NULL
+      AND p.directory LIKE '%DIA120%';
+
+END;
+-- SELECT count(*) FROM `photos` WHERE `dbf_id` IS NULL AND `directory` LIKE '%DIA120%' ORDER BY `dbf_id` DESC;
+-- 428 missing entries before
+-- CALL update_dia120_by_range(10000, 10550);  136
+
+-- TODO: there is an overlapping of slides and dia120 in the range 10000-10200
+-- - CALl update_slides_by_range(5000, 10200)
+-- - CALL update_dia120_by_range(10000, 10550)
+-- need to
+-- - remove the dbd_id form the photos that are in the overlapping range
+-- - re-run the two procedures for the overlapping range separately
+
+-- UPDATE`photos`
+-- SET dbf_id = NULL
+-- WHERE `dbf_id` IS NOT NULL AND directory LIKE '%DIA%' and parsed_strip > '10000' and  parsed_strip < '10300'
+-- ORDER BY `photos`.`file_name` DESC;

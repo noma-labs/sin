@@ -211,13 +211,27 @@
                                                 style="width: 18rem"
                                             >
                                                 <div class="position-relative">
-                                                    <img
-                                                        src="{{ route("photos.preview", $photo->id) }}"
-                                                        class="figure-img img-fluid rounded"
-                                                        alt="{{ $photo->description }}"
-                                                    />
-                                                    <div
-                                                        class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                                                    @unless (request("no-photos"))
+                                                        <img
+                                                            src="{{ route("photos.preview", $photo->id) }}"
+                                                            class="figure-img img-fluid rounded"
+                                                            alt="{{ $photo->description }}"
+                                                        />
+                                                        <div
+                                                            class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                                                        >
+                                                            <div class="small">
+                                                                {{ $photo->file_name ?? "" }}
+                                                            </div>
+                                                            <div class="small">
+                                                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                                            </div>
+                                                        </div>
+                                                    @endunless
+                                                </div>
+                                                @if (request("no-photos"))
+                                                    <figcaption
+                                                        class="figure-caption"
                                                     >
                                                         <div class="small">
                                                             {{ $photo->file_name ?? "" }}
@@ -225,8 +239,8 @@
                                                         <div class="small">
                                                             {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
                                                         </div>
-                                                    </div>
-                                                </div>
+                                                    </figcaption>
+                                                @endif
                                             </figure>
                                         </a>
                                     @endforeach

@@ -19,7 +19,7 @@ final class StripesController
         $filterMismatch = $request->boolean('mismatch', false);
 
         $stripes = DbfAll::query()
-            ->with('photos')
+            ->with(['photos' => fn ($q) => $q->orderBy('file_name')])
             ->unless($filterYear->isEmpty(), fn ($qb) => $qb->whereRaw('YEAR(data)= ?', [$filterYear]))
             ->when(! empty($filterSource), fn ($qb) => $qb->where('source', '=', $filterSource))
             ->when($filterNoPhotos, fn ($qb) => $qb->doesntHave('photos'))
