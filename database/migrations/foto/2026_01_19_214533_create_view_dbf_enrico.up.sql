@@ -114,8 +114,6 @@ ADD COLUMN parsed_strip CHAR(6) AS (
 
 CREATE INDEX idx_parsed_strip ON photos(parsed_strip);
 
-DELIMITER $$
-
 CREATE PROCEDURE update_photos_by_range (
     IN p_from_datnum INT,
     IN p_to_datnum   INT
@@ -157,9 +155,7 @@ BEGIN
     WHERE p.dbf_id IS NULL
       AND p.directory NOT LIKE '%DIA%';
 
-END$$
-
-DELIMITER ;
+END;
 
 -- updating photos
 -- foto analogica:from 0-46106
@@ -173,8 +169,6 @@ DELIMITER ;
 -- CALL update_photos_by_range(20000,40000); 43586
 -- CALL update_photos_by_range(40000,50000); 31182
 
-
-DELIMITER $$
 
 CREATE PROCEDURE update_slides_by_range (
     IN p_from_datnum INT,
@@ -217,19 +211,13 @@ BEGIN
     WHERE p.dbf_id IS NULL
       AND p.directory LIKE '%Dia 24x36%';
 
-END$$
-
-DELIMITER ;
+END;
 
 -- count missing:
 -- SELECT count(*) FROM `photos` WHERE `dbf_id` IS NULL AND `directory` LIKE '%DIA%' ORDER BY `dbf_id` DESC;
 -- CALL update_slides_by_range(0,150);  3585
 -- CALL update_slides_by_range(150,5000);  621
 -- CALL update_slides_by_range(5000, 10200); 621
-
-
-
-DELIMITER $$
 
 CREATE PROCEDURE update_dia120_by_range (
     IN p_from_datnum INT,
@@ -272,13 +260,10 @@ BEGIN
     WHERE p.dbf_id IS NULL
       AND p.directory LIKE '%DIA120%';
 
-END$$
-
-DELIMITER ;
+END;
 -- SELECT count(*) FROM `photos` WHERE `dbf_id` IS NULL AND `directory` LIKE '%DIA120%' ORDER BY `dbf_id` DESC;
 -- 428 missing entries before
 -- CALL update_dia120_by_range(10000, 10550);  136
-
 
 -- TODO: there is an overlapping of slides and dia120 in the range 10000-10200
 -- - CALl update_slides_by_range(5000, 10200)
