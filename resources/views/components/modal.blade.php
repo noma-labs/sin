@@ -1,5 +1,5 @@
 @php
-    $modalId = isset($modalId) && $modalId ? $modalId : ("modal-" . \Illuminate\Support\Str::uuid());
+    $modalId = isset($modalId) && $modalId ? $modalId : "modal-" . \Illuminate\Support\Str::uuid();
 @endphp
 
 @if (! empty($buttonTitle))

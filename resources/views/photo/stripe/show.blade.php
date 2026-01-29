@@ -114,10 +114,16 @@
                                 class="img-fluid rounded w-100"
                                 alt="{{ $photo->description }}"
                             />
-                            <div class="small mt-2">{{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</div>
+                            <div class="small mt-2">
+                                {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
+                            </div>
                             @if (! empty($photo->description))
-                                <div class="small">{{ $photo->description }}</div>
+                                <div class="small">
+                                    {{ $photo->description }}
+                                </div>
                             @endif
+
+                            <div class="small">{{ $photo->subjects }}</div>
                         </x-slot>
                     </x-modal>
                     <a
@@ -140,7 +146,7 @@
                                         {{ $photo->file_name ?? "" }}
                                     </div>
                                     <div class="small">
-                                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                        {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
                                     </div>
                                 </div>
                             </div>
@@ -154,5 +160,4 @@
             </div>
         @endif
     </div>
-
 @endsection
