@@ -186,6 +186,8 @@
                                     </span>
                                 @endif
                             </div>
+                       <a href="{{ route('photos.stripes.show', $stripe->id) }}" class="btn btn-sm btn-outline-secondary ms-auto">Dettagli</a>
+
                             @if ($photoCount)
                                 <div class="d-flex flex-wrap">
                                     @foreach ($stripe->photos as $photo)
