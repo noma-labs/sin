@@ -43,4 +43,14 @@ final class StripesController
             'mismatch' => $filterMismatch,
         ]);
     }
+
+    public function show(DbfAll $stripe): View
+    {
+        $stripe->load(['photos' => fn ($q) => $q->orderBy('file_name')]);
+
+        return view('photo.stripe.show', [
+            'stripe' => $stripe,
+            'photoCount' => $stripe->photos->count(),
+        ]);
+    }
 }

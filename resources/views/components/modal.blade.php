@@ -1,15 +1,17 @@
 @php
-    $modalId = "modal-" . \Illuminate\Support\Str::uuid();
+    $modalId = isset($modalId) && $modalId ? $modalId : "modal-" . \Illuminate\Support\Str::uuid();
 @endphp
 
-<button
-    type="button"
-    class="btn {{ $buttonStyle }}"
-    data-bs-toggle="modal"
-    data-bs-target="#{{ $modalId }}"
->
-    {{ $buttonTitle }}
-</button>
+@if (! empty($buttonTitle))
+    <button
+        type="button"
+        class="btn {{ $buttonStyle }}"
+        data-bs-toggle="modal"
+        data-bs-target="#{{ $modalId }}"
+    >
+        {{ $buttonTitle }}
+    </button>
+@endif
 
 <div
     class="modal fade"

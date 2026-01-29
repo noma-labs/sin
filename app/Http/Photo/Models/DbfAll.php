@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $localita
  * @property string $argomento
  * @property string $descrizione
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Photo> $photos
  */
 final class DbfAll extends Model
 {

@@ -109,7 +109,12 @@
                                             — {{ $stripe->anum }}
                                     @endif
                                 </span>
-                                <span>({{ $stripe->data }})</span>
+                                <span>
+                                    <span class="text-muted">Data:</span>
+                                    <span class="fw-semibold">
+                                        {{ $stripe->data }}
+                                    </span>
+                                </span>
                                 @if (! is_null($stripe->nfo))
                                     <span>
                                         <span class="text-muted">NFO:</span>
@@ -117,14 +122,16 @@
                                             {{ $stripe->nfo }}
                                         </span>
                                     </span>
-                                    @if ($stripe->nfo > $photoCount)
+                                    @if ($photoCount == 0)
+                                        <span class="badge text-bg-danger">
+                                            Nessuna foto collegata
+                                        </span>
+                                    @elseif ($photoCount < $stripe->nfo)
                                         <span class="badge text-bg-warning">
                                             {{ $stripe->nfo - $photoCount }}
                                             foto mancanti
                                         </span>
-                                    @endif
-
-                                    @if ($stripe->nfo < $photoCount)
+                                    @elseif ($photoCount > $stripe->nfo)
                                         <span class="badge text-bg-danger">
                                             {{ $photoCount - $stripe->nfo }}
                                             foto in più
@@ -148,24 +155,6 @@
                             <div
                                 class="mb-3 d-flex flex-wrap gap-3 align-items-center"
                             >
-                                @if (! empty($stripe->data))
-                                    <span>
-                                        <span class="text-muted">Data:</span>
-                                        <span class="fw-semibold">
-                                            {{ $stripe->data }}
-                                        </span>
-                                    </span>
-                                @endif
-
-                                @if (! is_null($stripe->nfo))
-                                    <span>
-                                        <span class="text-muted">NFO:</span>
-                                        <span class="fw-semibold">
-                                            {{ $stripe->nfo }}
-                                        </span>
-                                    </span>
-                                @endif
-
                                 @if (! empty($stripe->localita))
                                     <span>
                                         <span class="text-muted">
@@ -199,6 +188,13 @@
                                     </span>
                                 @endif
                             </div>
+                            <a
+                                href="{{ route("photos.stripes.show", $stripe->id) }}"
+                                class="btn btn-sm btn-outline-secondary ms-auto"
+                            >
+                                Dettagli
+                            </a>
+
                             @if ($photoCount)
                                 <div class="d-flex flex-wrap">
                                     @foreach ($stripe->photos as $photo)
@@ -211,36 +207,23 @@
                                                 style="width: 18rem"
                                             >
                                                 <div class="position-relative">
-                                                    @unless (request("no-photos"))
-                                                        <img
-                                                            src="{{ route("photos.preview", $photo->id) }}"
-                                                            class="figure-img img-fluid rounded"
-                                                            alt="{{ $photo->description }}"
-                                                        />
-                                                        <div
-                                                            class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
-                                                        >
-                                                            <div class="small">
-                                                                {{ $photo->file_name ?? "" }}
-                                                            </div>
-                                                            <div class="small">
-                                                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                                            </div>
-                                                        </div>
-                                                    @endunless
-                                                </div>
-                                                @if (request("no-photos"))
-                                                    <figcaption
-                                                        class="figure-caption"
+                                                    <img
+                                                        data-src="{{ route("photos.preview", $photo->id) }}"
+                                                        class="figure-img img-fluid rounded"
+                                                        alt="{{ $photo->description }}"
+                                                    />
+                                                    <div
+                                                        class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
                                                     >
                                                         <div class="small">
-                                                            {{ $photo->file_name ?? "" }}
+                                                            {{ $photo->file_name }}
+                                                            {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
                                                         </div>
                                                         <div class="small">
-                                                            {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                                            {{ $photo->subjects }}
                                                         </div>
-                                                    </figcaption>
-                                                @endif
+                                                    </div>
+                                                </div>
                                             </figure>
                                         </a>
                                     @endforeach
@@ -262,4 +245,16 @@
     <div class="d-flex justify-content-center">
         {{ $stripes->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
     </div>
+    <script>
+        document.addEventListener('show.bs.collapse', function (event) {
+            var container = event.target;
+            var imgs = container.querySelectorAll('img[data-src]');
+            imgs.forEach(function (img) {
+                if (!img.dataset.loaded) {
+                    img.src = img.dataset.src;
+                    img.dataset.loaded = '1';
+                }
+            });
+        });
+    </script>
 @endsection
