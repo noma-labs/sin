@@ -120,14 +120,16 @@
                                             {{ $stripe->nfo }}
                                         </span>
                                     </span>
-                                    @if ($stripe->nfo > $photoCount)
+                                     @if ($photoCount == 0)
+                                        <span class="badge text-bg-danger">
+                                            Nessuna foto collegata
+                                        </span>
+                                    @elseif ($photoCount < $stripe->nfo)
                                         <span class="badge text-bg-warning">
                                             {{ $stripe->nfo - $photoCount }}
                                             foto mancanti
                                         </span>
-                                    @endif
-
-                                    @if ($stripe->nfo < $photoCount)
+                                    @elseif($photoCount > $stripe->nfo)
                                         <span class="badge text-bg-danger">
                                             {{ $photoCount - $stripe->nfo }}
                                             foto in più
