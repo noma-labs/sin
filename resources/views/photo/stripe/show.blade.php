@@ -102,9 +102,29 @@
         @if ($photoCount)
             <div class="d-flex flex-wrap">
                 @foreach ($stripe->photos as $photo)
+                    <x-modal
+                        modal-id="photo-modal-{{ $photo->id }}"
+                        modal-title="{{ $photo->file_name ?? 'Foto' }}"
+                        button-style="btn-success my-2"
+                        button-title=""
+                    >
+                        <x-slot:body>
+                            <img
+                                src="{{ route("photos.preview", $photo->id) }}"
+                                class="img-fluid rounded w-100"
+                                alt="{{ $photo->description }}"
+                            />
+                            <div class="small mt-2">{{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}</div>
+                            @if (! empty($photo->description))
+                                <div class="small">{{ $photo->description }}</div>
+                            @endif
+                        </x-slot>
+                    </x-modal>
                     <a
-                        href="{{ route("photos.show", $photo->id) }}"
+                        href="#"
                         class="text-decoration-none"
+                        data-bs-toggle="modal"
+                        data-bs-target="#photo-modal-{{ $photo->id }}"
                     >
                         <figure class="figure m-1" style="width: 18rem">
                             <div class="position-relative">
@@ -120,10 +140,7 @@
                                         {{ $photo->file_name ?? "" }}
                                     </div>
                                     <div class="small">
-                                        {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
-                                    </div>
-                                    <div class="small">
-                                        {{ $photo->subjects }}
+                                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
                                     </div>
                                 </div>
                             </div>
@@ -137,4 +154,5 @@
             </div>
         @endif
     </div>
+
 @endsection
