@@ -111,7 +111,9 @@
                                 </span>
                                 <span>
                                     <span class="text-muted">Data:</span>
-                                    <span class="fw-semibold">{{ $stripe->data }}  </span>
+                                    <span class="fw-semibold">
+                                        {{ $stripe->data }}
+                                    </span>
                                 </span>
                                 @if (! is_null($stripe->nfo))
                                     <span>
@@ -120,7 +122,7 @@
                                             {{ $stripe->nfo }}
                                         </span>
                                     </span>
-                                     @if ($photoCount == 0)
+                                    @if ($photoCount == 0)
                                         <span class="badge text-bg-danger">
                                             Nessuna foto collegata
                                         </span>
@@ -129,7 +131,7 @@
                                             {{ $stripe->nfo - $photoCount }}
                                             foto mancanti
                                         </span>
-                                    @elseif($photoCount > $stripe->nfo)
+                                    @elseif ($photoCount > $stripe->nfo)
                                         <span class="badge text-bg-danger">
                                             {{ $photoCount - $stripe->nfo }}
                                             foto in più
@@ -186,7 +188,12 @@
                                     </span>
                                 @endif
                             </div>
-                       <a href="{{ route('photos.stripes.show', $stripe->id) }}" class="btn btn-sm btn-outline-secondary ms-auto">Dettagli</a>
+                            <a
+                                href="{{ route("photos.stripes.show", $stripe->id) }}"
+                                class="btn btn-sm btn-outline-secondary ms-auto"
+                            >
+                                Dettagli
+                            </a>
 
                             @if ($photoCount)
                                 <div class="d-flex flex-wrap">
@@ -200,22 +207,22 @@
                                                 style="width: 18rem"
                                             >
                                                 <div class="position-relative">
-                                                        <img
-                                                            data-src="{{ route("photos.preview", $photo->id) }}"
-                                                            class="figure-img img-fluid rounded"
-                                                            alt="{{ $photo->description }}"
-                                                        />
-                                                        <div
-                                                            class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
-                                                        >
-                                                            <div class="small">
-                                                                {{ $photo->file_name }}
-                                                                {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
-                                                            </div>
-                                                            <div class="small">
-                                                                {{ $photo->subjects  }}
-                                                            </div>
+                                                    <img
+                                                        data-src="{{ route("photos.preview", $photo->id) }}"
+                                                        class="figure-img img-fluid rounded"
+                                                        alt="{{ $photo->description }}"
+                                                    />
+                                                    <div
+                                                        class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                                                    >
+                                                        <div class="small">
+                                                            {{ $photo->file_name }}
+                                                            {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
                                                         </div>
+                                                        <div class="small">
+                                                            {{ $photo->subjects }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </figure>
                                         </a>
