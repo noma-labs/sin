@@ -437,6 +437,7 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
     Route::get('/stripes', [StripesController::class, 'index'])->middleware('can:photo.view')->name('photos.stripes.index');
+    Route::get('/stripes/{stripe}', [StripesController::class, 'show'])->middleware('can:photo.view')->name('photos.stripes.show');
     Route::get('/slideshow', [SlideshowController::class, 'index'])->middleware('can:photo.view')->name('photos.slideshow');
 
     Route::get('/favourite', [FavouritesController::class, 'index'])->middleware('can:photo.view')->name('photos.favorite.index');
