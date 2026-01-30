@@ -277,139 +277,137 @@ END;
 -- WHERE `dbf_id` IS NOT NULL AND directory LIKE '%DIA%' and parsed_strip > '10000' and  parsed_strip < '10300'
 -- ORDER BY `photos`.`file_name` DESC;
 
-ALTER TABLE photos
-ADD COLUMN parsed_strip_part2 CHAR(6);
+-- ALTER TABLE photos
+-- ADD COLUMN parsed_strip_part2 CHAR(6);
 
-UPDATE photos
-SET parsed_strip_part2 =
-    CASE
-        -- if filename contains '-', take string after dash
-        WHEN LOCATE('-', file_name) > 0 THEN
-            CASE
-                WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(LOWER(file_name), '.jpg', 1), '-', -1) REGEXP '^[0-9]+$'
-                THEN SUBSTRING_INDEX(SUBSTRING_INDEX(LOWER(file_name), '.jpg', 1), '-', -1)
-                ELSE NULL
-            END
-        -- else, take string from 7th character to dot, only if numeric
-        ELSE
-            CASE
-                WHEN SUBSTRING_INDEX(SUBSTRING(LOWER(file_name), 7), '.jpg', 1) REGEXP '^[0-9]+$'
-                THEN SUBSTRING_INDEX(SUBSTRING(LOWER(file_name), 7), '.jpg', 1)
-                ELSE NULL
-            END
-    END;
+-- UPDATE photos
+-- SET parsed_strip_part2 =
+--     CASE
+--         -- if filename contains '-', take string after dash
+--         WHEN LOCATE('-', file_name) > 0 THEN
+--             CASE
+--                 WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(LOWER(file_name), '.jpg', 1), '-', -1) REGEXP '^[0-9]+$'
+--                 THEN SUBSTRING_INDEX(SUBSTRING_INDEX(LOWER(file_name), '.jpg', 1), '-', -1)
+--                 ELSE NULL
+--             END
+--         -- else, take string from 7th character to dot, only if numeric
+--         ELSE
+--             CASE
+--                 WHEN SUBSTRING_INDEX(SUBSTRING(LOWER(file_name), 7), '.jpg', 1) REGEXP '^[0-9]+$'
+--                 THEN SUBSTRING_INDEX(SUBSTRING(LOWER(file_name), 7), '.jpg', 1)
+--                 ELSE NULL
+--             END
+--     END;
 
-CREATE INDEX idx_parsed_strip_part2 ON photos (parsed_strip_part2);
+-- CREATE INDEX idx_parsed_strip_part2 ON photos (parsed_strip_part2);
 
--- removed wrong mampping for anum like "10-20"
-UPDATE photos p
-JOIN dbf_all d ON p.dbf_id = d.id
-SET p.dbf_id = NULL
-WHERE d.anum LIKE '%-%'
-  AND p.dbf_id IS NOT NULL;
+-- -- removed wrong mampping for anum like "10-20"
+-- UPDATE photos p
+-- JOIN dbf_all d ON p.dbf_id = d.id
+-- SET p.dbf_id = NULL
+-- WHERE d.anum LIKE '%-%'
+--   AND p.dbf_id IS NOT NULL;
 
--- update dia120 photos with ranges in anum like "10-20"
-UPDATE photos p
-JOIN (
-    WITH RECURSIVE ranges AS (
-        SELECT
-            d.id,
-            d.datnum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
-        FROM dbf_all d
-        WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
-          AND d.source = 'dia120'
+-- -- update dia120 photos with ranges in anum like "10-20"
+-- UPDATE photos p
+-- JOIN (
+--     WITH RECURSIVE ranges AS (
+--         SELECT
+--             d.id,
+--             d.datnum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
+--         FROM dbf_all d
+--         WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
+--           AND d.source = 'dia120'
 
-        UNION ALL
+--         UNION ALL
 
-        SELECT
-            id,
-            datnum,
-            anum + 1,
-            max_anum
-        FROM ranges
-        WHERE anum < max_anum
-    )
-    SELECT id, datnum, anum
-    FROM ranges
-) r
-  ON p.parsed_strip = r.datnum
- AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
-SET
-    p.dbf_id = r.id,
-    p.updated_at = NOW()
-WHERE p.dbf_id IS NULL
-  AND p.directory LIKE '%DIA120%';
--- 11 righe
+--         SELECT
+--             id,
+--             datnum,
+--             anum + 1,
+--             max_anum
+--         FROM ranges
+--         WHERE anum < max_anum
+--     )
+--     SELECT id, datnum, anum
+--     FROM ranges
+-- ) r
+--   ON p.parsed_strip = r.datnum
+--  AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
+-- SET
+--     p.dbf_id = r.id,
+--     p.updated_at = NOW()
+-- WHERE p.dbf_id IS NULL
+--   AND p.directory LIKE '%DIA120%';
+-- -- 11 righe
 
-UPDATE photos p
-JOIN (
-    WITH RECURSIVE ranges AS (
-        SELECT
-            d.id,
-            d.datnum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
-        FROM dbf_all d
-        WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
-          AND d.source = 'slide'
+-- UPDATE photos p
+-- JOIN (
+--     WITH RECURSIVE ranges AS (
+--         SELECT
+--             d.id,
+--             d.datnum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
+--         FROM dbf_all d
+--         WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
+--           AND d.source = 'slide'
 
-        UNION ALL
+--         UNION ALL
 
-        SELECT
-            id,
-            datnum,
-            anum + 1,
-            max_anum
-        FROM ranges
-        WHERE anum < max_anum
-    )
-    SELECT id, datnum, anum
-    FROM ranges
-) r
-  ON p.parsed_strip = r.datnum
- AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
-SET
-    p.dbf_id = r.id,
-    p.updated_at = NOW()
-WHERE p.dbf_id IS NULL
-  AND p.directory LIKE '%Dia 24x36%';
---  501 righe modificate. (La query ha impiegato 0,5075 secondi.)
+--         SELECT
+--             id,
+--             datnum,
+--             anum + 1,
+--             max_anum
+--         FROM ranges
+--         WHERE anum < max_anum
+--     )
+--     SELECT id, datnum, anum
+--     FROM ranges
+-- ) r
+--   ON p.parsed_strip = r.datnum
+--  AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
+-- SET
+--     p.dbf_id = r.id,
+--     p.updated_at = NOW()
+-- WHERE p.dbf_id IS NULL
+--   AND p.directory LIKE '%Dia 24x36%';
+-- --  501 righe modificate. (La query ha impiegato 0,5075 secondi.)
 
+-- UPDATE photos p
+-- JOIN (
+--     WITH RECURSIVE ranges AS (
+--         SELECT
+--             d.id,
+--             d.datnum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
+--             CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
+--         FROM dbf_all d
+--         WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
+--           AND d.source = 'foto'
 
+--         UNION ALL
 
-UPDATE photos p
-JOIN (
-    WITH RECURSIVE ranges AS (
-        SELECT
-            d.id,
-            d.datnum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', 1) AS UNSIGNED) AS anum,
-            CAST(SUBSTRING_INDEX(d.anum, '-', -1) AS UNSIGNED) AS max_anum
-        FROM dbf_all d
-        WHERE d.anum REGEXP '^[0-9]+-[0-9]+$'
-          AND d.source = 'foto'
-
-        UNION ALL
-
-        SELECT
-            id,
-            datnum,
-            anum + 1,
-            max_anum
-        FROM ranges
-        WHERE anum < max_anum
-    )
-    SELECT id, datnum, anum
-    FROM ranges
-) r
-  ON p.parsed_strip = r.datnum
- AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
-SET
-    p.dbf_id = r.id,
-    p.updated_at = NOW()
-WHERE p.dbf_id IS NULL
-  AND p.directory NOT LIKE '%DIA%';
--- 3453 righe modificate. (La query ha impiegato 2,3726 secondi.)
+--         SELECT
+--             id,
+--             datnum,
+--             anum + 1,
+--             max_anum
+--         FROM ranges
+--         WHERE anum < max_anum
+--     )
+--     SELECT id, datnum, anum
+--     FROM ranges
+-- ) r
+--   ON p.parsed_strip = r.datnum
+--  AND CAST(REGEXP_REPLACE(p.parsed_strip_part2, '[^0-9]', '') AS UNSIGNED) = r.anum
+-- SET
+--     p.dbf_id = r.id,
+--     p.updated_at = NOW()
+-- WHERE p.dbf_id IS NULL
+--   AND p.directory NOT LIKE '%DIA%';
+-- -- 3453 righe modificate. (La query ha impiegato 2,3726 secondi.)
 
