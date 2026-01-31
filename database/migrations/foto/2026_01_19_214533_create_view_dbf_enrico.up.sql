@@ -420,184 +420,184 @@ END;
 -- 00369-A1.JPG         00369A         1
 -- 00369-A12.JPG        00369A         12
 
-UPDATE photos
-SET
-    parsed_strip = CONCAT(
-        LEFT(file_name, 5),
-        UPPER(SUBSTRING(file_name, 7, 1))
-    ),
-    parsed_strip_part2 = CAST(
-        SUBSTRING(file_name, 8, LOCATE('.', file_name) - 8) AS UNSIGNED
-    )
-    ,updated_at =NOW()
-WHERE file_name REGEXP '^[0-9]{5}-[A-Za-z][0-9]+\\.';
+-- UPDATE photos
+-- SET
+--     parsed_strip = CONCAT(
+--         LEFT(file_name, 5),
+--         UPPER(SUBSTRING(file_name, 7, 1))
+--     ),
+--     parsed_strip_part2 = CAST(
+--         SUBSTRING(file_name, 8, LOCATE('.', file_name) - 8) AS UNSIGNED
+--     )
+--     ,updated_at =NOW()
+-- WHERE file_name REGEXP '^[0-9]{5}-[A-Za-z][0-9]+\\.';
 
-UPDATE photos
-SET
-    dbf_id = NULL,
-    updated_at = NOW()
-WHERE file_name REGEXP '^[0-9]{5}-[A-Za-z][0-9]+\\.';
-
-
--- update datnum like "1234a" to "1234b" etc.
-DELIMITER $$
-DELIMITER $$
-
-CREATE PROCEDURE update_photos_with_letter(
-    IN min_num INT,
-    IN max_num INT
-)
-BEGIN
-    UPDATE photos P
-    JOIN (
-        WITH RECURSIVE seq AS (
-            SELECT
-                d.id AS dbf_id,
-                CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
-                ASCII(RIGHT(d.datnum, 1)) AS cur_char,
-                ASCII(RIGHT(d.anum, 1)) AS max_char
-            FROM dbf_all d
-            WHERE d.source = 'foto'
-              AND d.datnum REGEXP '^[0-9]+[a-z]$'
-              AND d.anum   REGEXP '^[0-9]+[a-z]$'
-              AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
-                  = LEFT(d.anum, LENGTH(d.anum) - 1)
-              AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
-                  BETWEEN min_num AND max_num
-
-            UNION ALL
-
-            SELECT
-                dbf_id,
-                num_part,
-                cur_char + 1,
-                max_char
-            FROM seq
-            WHERE cur_char < max_char
-        )
-        SELECT
-            dbf_id,
-            CONCAT(
-                LPAD(num_part, 5, '0'),
-                CHAR(cur_char)
-            ) AS expanded_strip
-        FROM seq
-    ) x ON P.parsed_strip = x.expanded_strip
-    SET
-        P.dbf_id = x.dbf_id,
-        P.updated_at = NOW()
-    WHERE P.dbf_id IS NULL
-      AND P.directory NOT LIKE '%DIA%';
-END $$
-
-DELIMITER ;
+-- UPDATE photos
+-- SET
+--     dbf_id = NULL,
+--     updated_at = NOW()
+-- WHERE file_name REGEXP '^[0-9]{5}-[A-Za-z][0-9]+\\.';
 
 
+-- -- update datnum like "1234a" to "1234b" etc.
+-- DELIMITER $$
+-- DELIMITER $$
 
-CALL update_photos_with_letter(0, 400);
-CALL update_photos_with_letter(350, 400);
-CALL update_photos_with_letter(400, 500);
-CALL update_photos_with_letter(500, 1000);
+-- CREATE PROCEDURE update_photos_with_letter(
+--     IN min_num INT,
+--     IN max_num INT
+-- )
+-- BEGIN
+--     UPDATE photos P
+--     JOIN (
+--         WITH RECURSIVE seq AS (
+--             SELECT
+--                 d.id AS dbf_id,
+--                 CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
+--                 ASCII(RIGHT(d.datnum, 1)) AS cur_char,
+--                 ASCII(RIGHT(d.anum, 1)) AS max_char
+--             FROM dbf_all d
+--             WHERE d.source = 'foto'
+--               AND d.datnum REGEXP '^[0-9]+[a-z]$'
+--               AND d.anum   REGEXP '^[0-9]+[a-z]$'
+--               AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
+--                   = LEFT(d.anum, LENGTH(d.anum) - 1)
+--               AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
+--                   BETWEEN min_num AND max_num
 
-DELIMITER $$
+--             UNION ALL
 
-CREATE PROCEDURE update_dia120_with_letter(
-    IN min_num INT,
-    IN max_num INT
-)
-BEGIN
-    UPDATE photos P
-    JOIN (
-        WITH RECURSIVE seq AS (
-            SELECT
-                d.id AS dbf_id,
-                CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
-                ASCII(RIGHT(d.datnum, 1)) AS cur_char,
-                ASCII(RIGHT(d.anum, 1)) AS max_char
-            FROM dbf_all d
-            WHERE d.source = 'dia120'
-              AND d.datnum REGEXP '^[0-9]+[a-z]$'
-              AND d.anum   REGEXP '^[0-9]+[a-z]$'
-              AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
-                  = LEFT(d.anum, LENGTH(d.anum) - 1)
-              AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
-                  BETWEEN min_num AND max_num
+--             SELECT
+--                 dbf_id,
+--                 num_part,
+--                 cur_char + 1,
+--                 max_char
+--             FROM seq
+--             WHERE cur_char < max_char
+--         )
+--         SELECT
+--             dbf_id,
+--             CONCAT(
+--                 LPAD(num_part, 5, '0'),
+--                 CHAR(cur_char)
+--             ) AS expanded_strip
+--         FROM seq
+--     ) x ON P.parsed_strip = x.expanded_strip
+--     SET
+--         P.dbf_id = x.dbf_id,
+--         P.updated_at = NOW()
+--     WHERE P.dbf_id IS NULL
+--       AND P.directory NOT LIKE '%DIA%';
+-- END $$
 
-            UNION ALL
+-- DELIMITER ;
 
-            SELECT
-                dbf_id,
-                num_part,
-                cur_char + 1,
-                max_char
-            FROM seq
-            WHERE cur_char < max_char
-        )
-        SELECT
-            dbf_id,
-            CONCAT(
-                LPAD(num_part, 5, '0'),
-                CHAR(cur_char)
-            ) AS expanded_strip
-        FROM seq
-    ) x ON P.parsed_strip = x.expanded_strip
-    SET
-        P.dbf_id = x.dbf_id,
-        P.updated_at = NOW()
-    WHERE P.dbf_id IS NULL
-      AND P.directory LIKE '%DIA120%';
-END $$
 
-DELIMITER ;
-call update_dia120_with_letter(1001, 10600);
 
-DELIMITER $$
+-- CALL update_photos_with_letter(0, 400);
+-- CALL update_photos_with_letter(350, 400);
+-- CALL update_photos_with_letter(400, 500);
+-- CALL update_photos_with_letter(500, 1000);
 
-CREATE PROCEDURE update_slide_with_letter(
-    IN min_num INT,
-    IN max_num INT
-)
-BEGIN
-    UPDATE photos P
-    JOIN (
-        WITH RECURSIVE seq AS (
-            SELECT
-                d.id AS dbf_id,
-                CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
-                ASCII(RIGHT(d.datnum, 1)) AS cur_char,
-                ASCII(RIGHT(d.anum, 1)) AS max_char
-            FROM dbf_all d
-            WHERE d.source = 'slide'
-              AND d.datnum REGEXP '^[0-9]+[a-z]$'
-              AND d.anum   REGEXP '^[0-9]+[a-z]$'
-              AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
-                  = LEFT(d.anum, LENGTH(d.anum) - 1)
-              AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
-                  BETWEEN min_num AND max_num
+-- DELIMITER $$
 
-            UNION ALL
+-- CREATE PROCEDURE update_dia120_with_letter(
+--     IN min_num INT,
+--     IN max_num INT
+-- )
+-- BEGIN
+--     UPDATE photos P
+--     JOIN (
+--         WITH RECURSIVE seq AS (
+--             SELECT
+--                 d.id AS dbf_id,
+--                 CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
+--                 ASCII(RIGHT(d.datnum, 1)) AS cur_char,
+--                 ASCII(RIGHT(d.anum, 1)) AS max_char
+--             FROM dbf_all d
+--             WHERE d.source = 'dia120'
+--               AND d.datnum REGEXP '^[0-9]+[a-z]$'
+--               AND d.anum   REGEXP '^[0-9]+[a-z]$'
+--               AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
+--                   = LEFT(d.anum, LENGTH(d.anum) - 1)
+--               AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
+--                   BETWEEN min_num AND max_num
 
-            SELECT
-                dbf_id,
-                num_part,
-                cur_char + 1,
-                max_char
-            FROM seq
-            WHERE cur_char < max_char
-        )
-        SELECT
-            dbf_id,
-            CONCAT(
-                LPAD(num_part, 5, '0'),
-                CHAR(cur_char)
-            ) AS expanded_strip
-        FROM seq
-    ) x ON P.parsed_strip = x.expanded_strip
-    SET
-        P.dbf_id = x.dbf_id,
-        P.updated_at = NOW()
-    WHERE P.dbf_id IS NULL
-      AND P.directory LIKE '%Dia 24x36%';
-END $$
+--             UNION ALL
 
-DELIMITER ;
+--             SELECT
+--                 dbf_id,
+--                 num_part,
+--                 cur_char + 1,
+--                 max_char
+--             FROM seq
+--             WHERE cur_char < max_char
+--         )
+--         SELECT
+--             dbf_id,
+--             CONCAT(
+--                 LPAD(num_part, 5, '0'),
+--                 CHAR(cur_char)
+--             ) AS expanded_strip
+--         FROM seq
+--     ) x ON P.parsed_strip = x.expanded_strip
+--     SET
+--         P.dbf_id = x.dbf_id,
+--         P.updated_at = NOW()
+--     WHERE P.dbf_id IS NULL
+--       AND P.directory LIKE '%DIA120%';
+-- END $$
+
+-- DELIMITER ;
+-- call update_dia120_with_letter(1001, 10600);
+
+-- DELIMITER $$
+
+-- CREATE PROCEDURE update_slide_with_letter(
+--     IN min_num INT,
+--     IN max_num INT
+-- )
+-- BEGIN
+--     UPDATE photos P
+--     JOIN (
+--         WITH RECURSIVE seq AS (
+--             SELECT
+--                 d.id AS dbf_id,
+--                 CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED) AS num_part,
+--                 ASCII(RIGHT(d.datnum, 1)) AS cur_char,
+--                 ASCII(RIGHT(d.anum, 1)) AS max_char
+--             FROM dbf_all d
+--             WHERE d.source = 'slide'
+--               AND d.datnum REGEXP '^[0-9]+[a-z]$'
+--               AND d.anum   REGEXP '^[0-9]+[a-z]$'
+--               AND LEFT(d.datnum, LENGTH(d.datnum) - 1)
+--                   = LEFT(d.anum, LENGTH(d.anum) - 1)
+--               AND CAST(LEFT(d.datnum, LENGTH(d.datnum) - 1) AS UNSIGNED)
+--                   BETWEEN min_num AND max_num
+
+--             UNION ALL
+
+--             SELECT
+--                 dbf_id,
+--                 num_part,
+--                 cur_char + 1,
+--                 max_char
+--             FROM seq
+--             WHERE cur_char < max_char
+--         )
+--         SELECT
+--             dbf_id,
+--             CONCAT(
+--                 LPAD(num_part, 5, '0'),
+--                 CHAR(cur_char)
+--             ) AS expanded_strip
+--         FROM seq
+--     ) x ON P.parsed_strip = x.expanded_strip
+--     SET
+--         P.dbf_id = x.dbf_id,
+--         P.updated_at = NOW()
+--     WHERE P.dbf_id IS NULL
+--       AND P.directory LIKE '%Dia 24x36%';
+-- END $$
+
+-- DELIMITER ;
