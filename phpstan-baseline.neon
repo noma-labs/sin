@@ -7945,6 +7945,12 @@ parameters:
 			path: app/Http/Photo/Controllers/StripesController.php
 
 		-
+			message: '#^Cannot call method orderBy\(\) on Illuminate\\Database\\Eloquent\\Builder\<App\\Photo\\Models\\DbfAll\>\|Illuminate\\Database\\Query\\Builder\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Photo/Controllers/StripesController.php
+
+		-
 			message: '#^Cannot call method when\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
