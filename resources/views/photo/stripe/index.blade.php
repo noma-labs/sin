@@ -122,7 +122,7 @@
                 Tutte le date
             </a>
         </div>
-        @foreach ($years as $year)
+        @forelse ($years as $year)
             <a
                 href="{{ route("photos.stripes.index", ["year" => $year->year, "name" => request("name"), "source" => request("source"), "order" => request("order", "datnum"), "no_photos" => request("no_photos"), "mismatch" => request("mismatch")]) }}"
                 class="btn btn-sm btn-outline-secondary {{ $currentYear == $year->year ? "active" : "" }}"
@@ -132,7 +132,9 @@
                     {{ $year->count }}
                 </span>
             </a>
-        @endforeach
+        @empty
+            <p>Nessun anno</p>
+        @endforelse
     </div>
     @if ($stripes && $stripes->count())
         <div class="accordion" id="stripesAccordion">
@@ -301,7 +303,7 @@
                     img.src = img.dataset.src;
                     img.dataset.loaded = '1';
                 }
-            <a
-                href="{{ route("photos.stripes.index", ["year" => $year->year, "q" => request("q"), "source" => request("source"), "order" => request("order", "datnum"), "no_photos" => request("no_photos"), "mismatch" => request("mismatch")]) }}"
+            });
+         });
     </script>
 @endsection
