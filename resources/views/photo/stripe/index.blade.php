@@ -1,6 +1,34 @@
 @extends("photo.main")
 
 @section("content")
+    <div class="mb-3">
+        <form method="GET" action="{{ route('photos.stripes.index') }}" class="d-flex">
+            @foreach(request()->except(['page','q']) as $key => $value)
+                @if(is_array($value))
+                    @foreach($value as $v)
+                        <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+                    @endforeach
+                @else
+                    @if(!is_null($value) && $value !== '')
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
+                @endif
+            @endforeach
+            <div class="input-group input-group-sm">
+                <input
+                    type="text"
+                    name="q"
+                    class="form-control"
+                    placeholder="Cerca per datnum, anum, località, argomento, descrizione"
+                    value="{{ request('q') }}"
+                />
+                @if(request('q'))
+                    <a href="{{ route('photos.stripes.index', request()->except(['q','page'])) }}" class="btn btn-outline-secondary">Reset</a>
+                @endif
+                <button class="btn btn-primary" type="submit">Cerca</button>
+            </div>
+        </form>
+    </div>
     <div class="d-flex flex-wrap gap-2 my-3">
         <div class="btn-group me-3" role="group" aria-label="Filtro sorgente">
             @php($currentSource = strtolower(request("source", "")))
@@ -254,7 +282,7 @@
                     img.src = img.dataset.src;
                     img.dataset.loaded = '1';
                 }
-            });
-        });
+            <a
+                href="{{ route("photos.stripes.index", ["year" => $year->year, "q" => request("q"), "source" => request("source"), "order" => request("order", "datnum"), "no_photos" => request("no_photos"), "mismatch" => request("mismatch")]) }}"
     </script>
 @endsection
