@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Photo\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -49,11 +48,10 @@ final class DbfAll extends Model
         return $this->hasMany(Photo::class, 'dbf_id', 'id');
     }
 
-
     protected static function booted(): void
     {
         // removd when the digital photos are inserted. currently only analog photos are present.
-        static::addGlobalScope('foto_digitale', function (Builder $builder) {
+        self::addGlobalScope('foto_digitale', function (Builder $builder) {
             $builder->where('fi', '=', 'DG');
         });
     }
