@@ -304,6 +304,6 @@
                     img.dataset.loaded = '1';
                 }
             });
-         });
+        });
     </script>
 @endsection
