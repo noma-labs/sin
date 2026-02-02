@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Photo\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -46,5 +47,13 @@ final class DbfAll extends Model
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class, 'dbf_id', 'id');
+    }
+
+    protected static function booted(): void
+    {
+        // FIXME: currently only analog photos are present.
+        self::addGlobalScope('only_analog', function (Builder $builder) {
+            $builder->where('fi', '!=', 'DG');
+        });
     }
 }
