@@ -28,10 +28,10 @@ final class StripesController
             ->when(! empty($search), function ($qb) use ($search) {
                 $qb->where(function ($q) use ($search) {
                     $q->where('datnum', 'like', "%{$search}%")
-                      ->orWhere('anum', 'like', "%{$search}%")
-                      ->orWhere('localita', 'like', "%{$search}%")
-                      ->orWhere('argomento', 'like', "%{$search}%")
-                      ->orWhere('descrizione', 'like', "%{$search}%");
+                        ->orWhere('anum', 'like', "%{$search}%")
+                        ->orWhere('localita', 'like', "%{$search}%")
+                        ->orWhere('argomento', 'like', "%{$search}%")
+                        ->orWhere('descrizione', 'like', "%{$search}%");
                 });
             })
             ->orderBy($orderBy)
@@ -46,10 +46,10 @@ final class StripesController
             ->when(! empty($search), function ($qb) use ($search) {
                 $qb->where(function ($q) use ($search) {
                     $q->where('datnum', 'like', "%{$search}%")
-                      ->orWhere('anum', 'like', "%{$search}%")
-                      ->orWhere('localita', 'like', "%{$search}%")
-                      ->orWhere('argomento', 'like', "%{$search}%")
-                      ->orWhere('descrizione', 'like', "%{$search}%");
+                        ->orWhere('anum', 'like', "%{$search}%")
+                        ->orWhere('localita', 'like', "%{$search}%")
+                        ->orWhere('argomento', 'like', "%{$search}%")
+                        ->orWhere('descrizione', 'like', "%{$search}%");
                 });
             })
             ->groupByRaw('YEAR(data)')

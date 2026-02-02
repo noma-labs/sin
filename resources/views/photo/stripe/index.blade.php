@@ -2,29 +2,48 @@
 
 @section("content")
     <div class="mb-3">
-        <form method="GET" action="{{ route('photos.stripes.index') }}" class="d-flex">
-            @foreach(request()->except(['page','q']) as $key => $value)
-                @if(is_array($value))
-                    @foreach($value as $v)
-                        <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+        <form
+            method="GET"
+            action="{{ route("photos.stripes.index") }}"
+            class="d-flex"
+        >
+            @foreach (request()->except(["page", "q"]) as $key => $value)
+                @if (is_array($value))
+                    @foreach ($value as $v)
+                        <input
+                            type="hidden"
+                            name="{{ $key }}[]"
+                            value="{{ $v }}"
+                        />
                     @endforeach
                 @else
-                    @if(!is_null($value) && $value !== '')
-                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @if (! is_null($value) && $value !== "")
+                        <input
+                            type="hidden"
+                            name="{{ $key }}"
+                            value="{{ $value }}"
+                        />
                     @endif
                 @endif
             @endforeach
+
             <div class="input-group input-group-sm">
                 <input
                     type="text"
                     name="q"
                     class="form-control"
                     placeholder="Cerca per datnum, anum, località, argomento, descrizione"
-                    value="{{ request('q') }}"
+                    value="{{ request("q") }}"
                 />
-                @if(request('q'))
-                    <a href="{{ route('photos.stripes.index', request()->except(['q','page'])) }}" class="btn btn-outline-secondary">Reset</a>
+                @if (request("q"))
+                    <a
+                        href="{{ route("photos.stripes.index", request()->except(["q", "page"])) }}"
+                        class="btn btn-outline-secondary"
+                    >
+                        Reset
+                    </a>
                 @endif
+
                 <button class="btn btn-primary" type="submit">Cerca</button>
             </div>
         </form>
