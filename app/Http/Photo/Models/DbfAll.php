@@ -51,7 +51,7 @@ final class DbfAll extends Model
 
     protected static function booted(): void
     {
-        // removd when the digital photos are inserted. currently only analog photos are present.
+        // FIXME: remove when the digital photos are inserted. currently only analog photos are present.
         self::addGlobalScope('foto_digitale', function (Builder $builder) {
             $builder->where('fi', '=', 'DG');
         });
