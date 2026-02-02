@@ -600,3 +600,182 @@ REFERENCES dbf_all(id);
 -- END $$
 
 -- DELIMITER ;
+
+
+
+-- manager
+-- datnum = 00501
+-- anum = 00505A
+
+UPDATE photos p
+JOIN (
+    -- 1?? Generate all numbers from datnum to numeric part of anum
+    SELECT
+        d.id AS dbf_id,
+        CONCAT(LPAD(d.start_num + seq.i, 5, '0'), '') AS expanded_strip
+    FROM (
+        SELECT
+            id,
+            CAST(datnum AS SIGNED) AS start_num,
+            CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED) AS end_num
+        FROM dbf_all
+        WHERE source = 'foto'
+          AND datnum REGEXP '^[0-9]+$'
+          AND anum REGEXP '^[0-9]+A?$'
+          AND CAST(datnum AS SIGNED) <= CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED)
+    ) d
+    JOIN (
+        -- sequence of integers (adjust length if needed)
+        SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+        UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+        UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14
+        UNION ALL SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19
+    ) seq
+    ON seq.i <= (d.end_num - d.start_num)
+
+    UNION ALL
+
+    -- 2?? Add the last number with 'A' if present
+    SELECT
+        id AS dbf_id,
+        CONCAT(LPAD(CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED),5,'0'),'A') AS expanded_strip
+    FROM dbf_all
+    WHERE source = 'foto'
+      AND anum REGEXP '^[0-9]+A$'
+
+) x
+ON p.parsed_strip = x.expanded_strip
+SET p.dbf_id = x.dbf_id,
+    p.updated_at = NOW()
+WHERE p.dbf_id IS NULL
+  AND p.directory NOT LIKE '%DIA%';
+
+-- B
+  UPDATE photos p
+JOIN (
+    -- 1️⃣ Generate all numbers from datnum to numeric part of anum
+    SELECT
+        d.id AS dbf_id,
+        CONCAT(LPAD(d.start_num + seq.i, 5, '0'), '') AS expanded_strip
+    FROM (
+        SELECT
+            id,
+            CAST(datnum AS SIGNED) AS start_num,
+            CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED) AS end_num
+        FROM dbf_all
+        WHERE source = 'foto'
+          AND datnum REGEXP '^[0-9]+$'
+          AND anum REGEXP '^[0-9]+B?$'   -- <-- check for optional B
+          AND CAST(datnum AS SIGNED) <= CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED)
+    ) d
+    JOIN (
+        -- sequence of integers (adjust length if needed)
+        SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+        UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+        UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14
+        UNION ALL SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19
+    ) seq
+    ON seq.i <= (d.end_num - d.start_num)
+
+    UNION ALL
+
+    -- 2️⃣ Add the last number with 'B' if present
+    SELECT
+        id AS dbf_id,
+        CONCAT(LPAD(CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED),5,'0'),'B') AS expanded_strip
+    FROM dbf_all
+    WHERE source = 'foto'
+      AND anum REGEXP '^[0-9]+B$'   -- <-- check for B
+) x
+ON p.parsed_strip = x.expanded_strip
+SET p.dbf_id = x.dbf_id,
+    p.updated_at = NOW()
+WHERE p.dbf_id IS NULL
+  AND p.directory NOT LIKE '%DIA%';
+
+
+-- C
+UPDATE photos p
+JOIN (
+    -- 1️⃣ Generate all numbers from datnum to numeric part of anum
+    SELECT
+        d.id AS dbf_id,
+        CONCAT(LPAD(d.start_num + seq.i, 5, '0'), '') AS expanded_strip
+    FROM (
+        SELECT
+            id,
+            CAST(datnum AS SIGNED) AS start_num,
+            CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED) AS end_num
+        FROM dbf_all
+        WHERE source = 'foto'
+          AND datnum REGEXP '^[0-9]+$'
+          AND anum REGEXP '^[0-9]+C?$'   -- <-- check for optional C
+          AND CAST(datnum AS SIGNED) <= CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED)
+    ) d
+    JOIN (
+        -- sequence of integers (adjust length if needed)
+        SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+        UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+        UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14
+        UNION ALL SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19
+    ) seq
+    ON seq.i <= (d.end_num - d.start_num)
+
+    UNION ALL
+
+    -- 2️⃣ Add the last number with 'C' if present
+    SELECT
+        id AS dbf_id,
+        CONCAT(LPAD(CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED),5,'0'),'C') AS expanded_strip
+    FROM dbf_all
+    WHERE source = 'foto'
+      AND anum REGEXP '^[0-9]+C$'   -- <-- check for C
+) x
+ON p.parsed_strip = x.expanded_strip
+SET p.dbf_id = x.dbf_id,
+    p.updated_at = NOW()
+WHERE p.dbf_id IS NULL
+  AND p.directory NOT LIKE '%DIA%';
+
+-- D
+  UPDATE photos p
+JOIN (
+    -- 1️⃣ Generate all numbers from datnum to numeric part of anum
+    SELECT
+        d.id AS dbf_id,
+        CONCAT(LPAD(d.start_num + seq.i, 5, '0'), '') AS expanded_strip
+    FROM (
+        SELECT
+            id,
+            CAST(datnum AS SIGNED) AS start_num,
+            CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED) AS end_num
+        FROM dbf_all
+        WHERE source = 'foto'
+          AND datnum REGEXP '^[0-9]+$'
+          AND anum REGEXP '^[0-9]+D?$'   -- <-- check for optional D
+          AND CAST(datnum AS SIGNED) <= CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED)
+    ) d
+    JOIN (
+        -- sequence of integers (adjust length if needed)
+        SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+        UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+        UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14
+        UNION ALL SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19
+    ) seq
+    ON seq.i <= (d.end_num - d.start_num)
+
+    UNION ALL
+
+    -- 2️⃣ Add the last number with 'D' if present
+    SELECT
+        id AS dbf_id,
+        CONCAT(LPAD(CAST(REGEXP_SUBSTR(anum, '^[0-9]+') AS SIGNED),5,'0'),'D') AS expanded_strip
+    FROM dbf_all
+    WHERE source = 'foto'
+      AND anum REGEXP '^[0-9]+D$'   -- <-- check for D
+) x
+ON p.parsed_strip = x.expanded_strip
+SET p.dbf_id = x.dbf_id,
+    p.updated_at = NOW()
+WHERE p.dbf_id IS NULL
+  AND p.directory NOT LIKE '%DIA%';
