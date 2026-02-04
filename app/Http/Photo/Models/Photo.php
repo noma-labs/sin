@@ -7,6 +7,7 @@ namespace App\Photo\Models;
 use App\Nomadelfia\Persona\Models\Persona;
 use Database\Factories\PhotoFactory;
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * Represents a photo entity with metadata extracted from the database schema.
  *
+ * @method static \Illuminate\Database\Eloquent\Builder<self> withoutStrip()
+ * @method \Illuminate\Database\Eloquent\Builder<self> withoutStrip()
  * @property int $id Unique identifier for the photo.
  * @property string $sha Unique SHA hash of the photo file.
  * @property string $source_file Path to the source file of the photo.
@@ -72,6 +75,16 @@ final class Photo extends Model
     protected static function newFactory(): PhotoFactory
     {
         return PhotoFactory::new();
+    }
+
+    /**
+     * Scope: only photos without associated strip (dbf_id is NULL).
+     *
+     * @param Builder<self> $query
+     */
+    protected function scopeWithoutStrip(Builder $query): void
+    {
+        $query->whereNull('dbf_id');
     }
 
     protected function casts(): array

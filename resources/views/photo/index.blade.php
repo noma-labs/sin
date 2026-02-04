@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap gap-2 my-3">
         @foreach ($years as $year)
             <a
-                href="{{ route("photos.index", ["year" => $year->year, "name" => request("name"), "view" => request("view", "grid")]) }}"
+                href="{{ route("photos.index", ["year" => $year->year, "name" => request("name"), "view" => request("view", "grid"), "no_strip" => request("no_strip")]) }}"
                 class="btn btn-sm btn-outline-secondary"
             >
                 {{ $year->year }}
@@ -16,19 +16,37 @@
     </div>
 
     @php($currentView = request("view", "grid"))
-    <div class="btn-group mb-3" role="group" aria-label="Selettore vista">
-        <a
-            class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
-            href="{{ route("photos.index", array_merge(request()->except("view"), ["view" => "grid"])) }}"
-        >
-            Griglia
-        </a>
-        <a
-            class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
-            href="{{ route("photos.index", array_merge(request()->except("view"), ["view" => "list"])) }}"
-        >
-            Lista
-        </a>
+    @php($noStrip = request()->boolean("no_strip", false))
+    <div class="d-flex gap-2 mb-3">
+        <div class="btn-group" role="group" aria-label="Selettore vista">
+            <a
+                class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
+                href="{{ route("photos.index", array_merge(request()->except("view"), ["view" => "grid"])) }}"
+            >
+                Griglia
+            </a>
+            <a
+                class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
+                href="{{ route("photos.index", array_merge(request()->except("view"), ["view" => "list"])) }}"
+            >
+                Lista
+            </a>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Filtro striscia">
+            <a
+                class="btn btn-outline-secondary {{ $noStrip ? "" : "active" }}"
+                href="{{ route("photos.index", request()->except("no_strip")) }}"
+            >
+                Tutte
+            </a>
+            <a
+                class="btn btn-outline-secondary {{ $noStrip ? "active" : "" }}"
+                href="{{ route("photos.index", array_merge(request()->except("no_strip"), ["no_strip" => 1])) }}"
+            >
+                Senza Striscia
+            </a>
+        </div>
     </div>
 
     <a

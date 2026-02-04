@@ -21,8 +21,14 @@ final class PhotoController
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
         $view = $request->get('view', 'grid');
+        $filterNoStrip = $request->boolean('no_strip', false);
 
-        $q = Photo::query()->with('strip')->oldest('taken_at');
+        $q = Photo::query()
+            ->with('strip')
+            ->oldest('taken_at');
+        if ($filterNoStrip) {
+            $q->whereNull('dbf_id');
+        }
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -40,6 +46,9 @@ final class PhotoController
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
             ->orderByRaw('YEAR(taken_at)');
+        if ($filterNoStrip) {
+            $qYears->whereNull('dbf_id');
+        }
         if (! $filterPersonName->isEmpty()) {
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }

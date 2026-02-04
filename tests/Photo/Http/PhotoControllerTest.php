@@ -6,15 +6,18 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Admin\Models\User;
 use App\Photo\Controllers\PhotoController;
+use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
 use Spatie\Permission\Models\Role;
+
+use function Pest\Laravel\get;
 
 it('index photos', function (): void {
     $photo = Photo::factory()->create();
 
     login();
 
-    $this->get(action([PhotoController::class, 'index']))
+    get(action([PhotoController::class, 'index']))
         ->assertSuccessful()
         ->assertSee($photo->taken_at->format('d/m/Y'));
 });
@@ -25,8 +28,7 @@ it('a photo-ope roel can see only the photo card in the home page', function ():
 
     login($photoOpe);
 
-    $this
-        ->get('/home')
+    get('/home')
         ->assertSuccessful()
         ->assertSee('Foto')
         ->assertDontSee('Biblioteca')
@@ -44,6 +46,39 @@ it('show photo system to logged user', function (): void {
 
     login($notSuperAdmin);
 
-    $this->get(action([PhotoController::class, 'index']))
+    get(action([PhotoController::class, 'index']))
         ->assertForbidden();
+});
+
+it('filters photos without strip', function (): void {
+    // Create a stripe (dbf_all) entry and link a photo to it
+    $dbf = DbfAll::create([
+        'fingerprint' => null,
+        'source' => 'foto',
+        'datnum' => '00001',
+        'anum' => '00001',
+        'cddvd' => 'CD000001',
+        'hdint' => 'HDINT001',
+        'hdext' => 'HDEXT001',
+        'sc' => 'SC',
+        'fi' => 'FI',
+        'tp' => 'TP',
+        'nfo' => 1,
+        'data' => now()->format('Y-m-d'),
+        'localita' => 'Test City',
+        'argomento' => 'Argomento di test',
+        'descrizione' => 'Descrizione di test',
+    ]);
+
+    // One photo linked to a strip (dbf_id set)
+    $withStrip = Photo::factory()->create(['dbf_id' => $dbf->id]);
+    // One photo without a strip (dbf_id NULL)
+    $withoutStrip = Photo::factory()->create(['dbf_id' => null]);
+
+    login();
+
+    get(action([PhotoController::class, 'index'], ['no_strip' => 1]))
+        ->assertSuccessful()
+        ->assertSee($withoutStrip->file_name)
+        ->assertDontSee($withStrip->file_name);
 });
