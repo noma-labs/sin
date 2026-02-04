@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @method static \Illuminate\Database\Eloquent\Builder<self> withoutStrip()
  * @method \Illuminate\Database\Eloquent\Builder<self> withoutStrip()
+ *
  * @property int $id Unique identifier for the photo.
  * @property string $sha Unique SHA hash of the photo file.
  * @property string $source_file Path to the source file of the photo.
@@ -80,7 +81,7 @@ final class Photo extends Model
     /**
      * Scope: only photos without associated strip (dbf_id is NULL).
      *
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      */
     protected function scopeWithoutStrip(Builder $query): void
     {
