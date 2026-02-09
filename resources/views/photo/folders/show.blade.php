@@ -31,27 +31,31 @@
             @endforeach
         </ol>
     </nav>
-    <div class="d-flex gap-2 mb-3">
-        <div class="btn-group" role="group" aria-label="Selettore vista">
-            <a
-                class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
-                href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "grid", "path" => $path])) }}"
-            >
-                Griglia
-            </a>
-            <a
-                class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
-                href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "list", "path" => $path])) }}"
-            >
-                Lista
-            </a>
+    @php($children = isset($dirTree["children"]) ? $dirTree["children"] : [])
+    @php($hasChildren = count($children) > 0)
+    @if (! $hasChildren && $photos->total() > 0)
+        <div class="d-flex gap-2 mb-3">
+            <div class="btn-group" role="group" aria-label="Selettore vista">
+                <a
+                    class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
+                    href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "grid", "path" => $path])) }}"
+                >
+                    Griglia
+                </a>
+                <a
+                    class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
+                    href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "list", "path" => $path])) }}"
+                >
+                    Lista
+                </a>
+            </div>
         </div>
-    </div>
+    @endif
 
     @php($children = isset($dirTree["children"]) ? $dirTree["children"] : [])
     @php($hasChildren = count($children) > 0)
     @if ($hasChildren)
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-2 row-cols-md-5 g-3">
             @php($sorted = collect($children)->sortBy(function ($child) {return is_string($child["label"] ?? null) ? $child["label"] : "";})->all())
             @php($seen = [])
             @foreach ($sorted as $label => $child)
@@ -78,7 +82,7 @@
                             @else
                                 <div
                                     class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                                    style="height: 180px"
+                                    style="height: 140px"
                                 >
                                     <span class="text-muted">
                                         Nessuna anteprima

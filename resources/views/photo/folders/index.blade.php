@@ -34,7 +34,7 @@
     </div>
 
     @php($children = isset($dirTree["children"]) ? $dirTree["children"] : [])
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="row row-cols-2 row-cols-md-5 g-3">
         @php($sorted = collect($children)->sortBy(function ($child) {return is_string($child["label"] ?? null) ? $child["label"] : "";})->all())
         @php($seen = [])
         @foreach ($sorted as $label => $child)
@@ -61,7 +61,7 @@
                         @else
                             <div
                                 class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                                style="height: 180px"
+                                style="height: 140px"
                             >
                                 <span class="text-muted">
                                     Nessuna anteprima
