@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $id Unique identifier for the photo.
  * @property string $sha Unique SHA hash of the photo file.
  * @property string $source_file Path to the source file of the photo.
+ * @property int|null $dbf_id Foreign key to stripe (DbfAll) if present.
  * @property string|null $directory Directory where the photo is stored.
  * @property int|null $file_size Size of the photo file in bytes.
  * @property string|null $file_name Name of the photo file.
@@ -39,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property DateTime|null $taken_at Date and time when the photo was taken (set by the camera).
  * @property DateTime|string $created_at Timestamp when the photo record was created.
  * @property DateTime|string $updated_at Timestamp when the photo record was last updated.
+ * @property-read DbfAll|null $strip Loaded stripe relationship when eager loaded.
  */
 final class Photo extends Model
 {
@@ -72,6 +74,7 @@ final class Photo extends Model
     {
         return $this->belongsTo(DbfAll::class, 'dbf_id', 'id');
     }
+
 
     protected static function newFactory(): PhotoFactory
     {

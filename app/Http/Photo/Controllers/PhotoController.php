@@ -43,12 +43,16 @@ final class PhotoController
         $photos_count = $q->count();
 
         // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
+        /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,\App\Photo\Models\Photo>}> $groups */
         $groups = [];
         if (! $groupBy->isEmpty()) {
             if ($groupBy->toString() === 'stripe') {
                 // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
+                /** @var \App\Photo\Models\Photo $photo */
                 foreach ($photos as $photo) {
-                    $key = $photo->dbf_id ?? 'no_stripe';
+                    $dbfIdRaw = $photo->getAttribute('dbf_id');
+                    $dbfId = is_int($dbfIdRaw) ? $dbfIdRaw : null;
+                    $key = is_null($dbfId) ? 'no_stripe' : (string) $dbfId;
                     if (! isset($groups[$key])) {
                         $groups[$key] = [
                             'label' => $photo->strip ? ($photo->strip->datnum) : 'Senza Striscia',
@@ -60,11 +64,14 @@ final class PhotoController
                 }
             } elseif ($groupBy->toString() === 'directory') {
                 // Group by directory column; null/empty grouped under 'Senza Cartella'
+                /** @var \App\Photo\Models\Photo $photo */
                 foreach ($photos as $photo) {
-                    $key = $photo->directory ?: 'no_directory';
+                    $dirRaw = $photo->getAttribute('directory');
+                    $dir = is_string($dirRaw) ? $dirRaw : '';
+                    $key = $dir !== '' ? $dir : 'no_directory';
                     if (! isset($groups[$key])) {
                         $groups[$key] = [
-                            'label' => $photo->directory ?: 'Senza Cartella',
+                            'label' => $dir !== '' ? $dir : 'Senza Cartella',
                             'meta' => null,
                             'photos' => [],
                         ];

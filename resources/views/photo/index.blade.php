@@ -34,8 +34,6 @@
             </a>
         </div>
 
-        
-
         <div class="btn-group" role="group" aria-label="Raggruppa per">
             <a
                 class="btn btn-outline-secondary {{ empty($currentGroup) ? "active" : "" }}"
