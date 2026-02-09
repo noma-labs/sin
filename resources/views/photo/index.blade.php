@@ -42,12 +42,6 @@
                 Nessun Gruppo
             </a>
             <a
-                class="btn btn-outline-secondary {{ $currentGroup === "directory" ? "active" : "" }}"
-                href="{{ route("photos.index", array_merge(request()->except("group"), ["group" => "directory"])) }}"
-            >
-                Per Cartella
-            </a>
-            <a
                 class="btn btn-outline-secondary {{ $currentGroup === "stripe" ? "active" : "" }}"
                 href="{{ route("photos.index", array_merge(request()->except("group"), ["group" => "stripe"])) }}"
             >
@@ -67,16 +61,7 @@
     @php($isGrouped = ! empty($currentGroup))
     @if ($isGrouped)
         <div class="accordion" id="photosGroupedAccordion">
-            @if ($currentGroup === "directory")
-                @include(
-                    "photo.partials.directory_node",
-                    [
-                        "node" => $dirTree,
-                        "prefix" => "",
-                        "currentView" => $currentView,
-                    ]
-                )
-            @else
+            @if ($currentGroup !== "directory")
                 @foreach ($groups as $key => $group)
                     @php($collapseId = "group-" . $key)
                     <div class="accordion-item">
