@@ -1,5 +1,5 @@
 @php($hasChildren = isset($node["children"]) && count($node["children"]) > 0)
-@php($count = isset($node["photos"]) ? count($node["photos"]) : 0)
+@php($count = isset($node["total"]) ? (int) $node["total"] : (isset($node["photos"]) ? count($node["photos"]) : 0))
 @php($parentAccordionId = $parentAccordionId ?? "photosGroupedAccordion")
 @if ($prefix === "")
     @foreach ($node["children"] as $childLabel => $child)

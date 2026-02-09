@@ -104,6 +104,26 @@ final class PhotoController
                     $node['photos'][] = $photo;
                     unset($node);
                 }
+                /**
+                 * Compute aggregated photo counts for each directory node.
+                 * Adds a 'total' key with the sum of this node's photos and all descendants.
+                 *
+                 * @param  array{label?:string, children: array<string, array>, photos?: array<int, Photo>, total?: int}  $node
+                 * @return int
+                 */
+                $computeTotals = function (array &$node) use (&$computeTotals): int {
+                    $own = isset($node['photos']) ? count($node['photos']) : 0;
+                    $sum = $own;
+                    if (isset($node['children'])) {
+                        foreach ($node['children'] as &$child) {
+                            $sum += $computeTotals($child);
+                        }
+                    }
+                    $node['total'] = $sum;
+
+                    return $sum;
+                };
+                $computeTotals($dirTree);
             }
         }
 
