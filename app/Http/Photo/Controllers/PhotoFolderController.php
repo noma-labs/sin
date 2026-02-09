@@ -17,103 +17,71 @@ final class PhotoFolderController
         $orderBy = $request->string('order', 'source_file');
         $currentView = $request->get('view', 'grid');
 
-        $q = Photo::query()
-            ->with('strip')
-            ->oldest('taken_at');
-
-        if (! $filterYear->isEmpty()) {
-            $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
-        }
-        if (! $filterPersonName->isEmpty()) {
-            $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
-        }
-
-        $q->orderBy($orderBy->toString());
-
         // Paginated list preserved for UI controls/pagination if needed (applies filters)
-        $photos = $q->paginate(50);
-
-        // Build folder tree across the entire dataset (ignoring filters)
-        $allPhotos = Photo::query()
+        $photos = Photo::query()
             ->with('strip')
-            ->orderBy('source_file')
+            ->oldest('taken_at')
+            ->orderBy($orderBy->toString())
+            ->unless($filterYear->isEmpty(), static function ($query) use ($filterYear) {
+                $query->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
+            })
+            ->when(! $filterPersonName->isEmpty(), static function ($query) use ($filterPersonName) {
+                $query->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
+            })
+            ->paginate(50);
+
+        // Build top-level folders using directory field across the entire dataset (ignore filters)
+        /** @var array{children: array<string, array{label: string, children: array<string, mixed>, total?: int, preview?: Photo}>} $dirTree */
+        $dirTree = ['children' => []];
+
+        $topFolders = Photo::query()
+            ->selectRaw("TRIM(BOTH '/' FROM SUBSTRING_INDEX(directory, '/', 1)) AS top")
+            ->selectRaw('COUNT(*) AS cnt')
+            ->whereNotNull('directory')
+            ->whereRaw("directory <> ''")
+            ->groupBy('top')
+            ->orderBy('top')
             ->get();
 
-        /**
-         * Build hierarchical directory tree based on current page photos.
-         * Structure: children keyed by segment name; each child is an associative node array.
-         *
-         * @var array{children: array<string, array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int}>}
-         */
-        $dirTree = ['children' => []];
-        foreach ($allPhotos as $photo) {
-            /** @var Photo $photo */
-            $dirRaw = $photo->getAttribute('directory');
-            $dir = is_string($dirRaw) ? mb_trim($dirRaw) : '';
-            if ($dir === '') {
-                if (! isset($dirTree['children']['__no_directory__'])) {
-                    $dirTree['children']['__no_directory__'] = [
-                        'label' => 'Senza Cartella',
-                        'children' => [],
-                        'photos' => [],
-                    ];
-                }
-                $dirTree['children']['__no_directory__']['photos'][] = $photo;
-
-                continue;
+        foreach ($topFolders as $row) {
+            $top = (string) $row->top;
+            $dirTree['children'][$top] = [
+                'label' => $top,
+                'children' => [],
+                'total' => (int) $row->cnt,
+            ];
+            // Preview: earliest photo under this top folder
+            $preview = Photo::query()
+                ->where('directory', 'like', $top.'%')
+                ->oldest('taken_at')
+                ->orderBy('source_file')
+                ->first();
+            if ($preview !== null) {
+                $dirTree['children'][$top]['preview'] = $preview;
             }
-            $segments = array_values(array_filter(explode('/', $dir), static fn ($s) => $s !== ''));
-            /** @var array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int} $node */
-            $node = &$dirTree;
-            foreach ($segments as $seg) {
-                if (! isset($node['children'][$seg])) {
-                    $node['children'][$seg] = [
-                        'label' => $seg,
-                        'children' => [],
-                        'photos' => [],
-                    ];
-                }
-                /** @var array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int} $node */
-                $node = &$node['children'][$seg];
-            }
-            $node['photos'][] = $photo;
-            unset($node);
         }
 
-        /**
-         * Compute totals recursively and set preview image for each node.
-         *
-         * @param  array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int, preview?: Photo}  $node
-         * @return int
-         */
-        $computeTotals = function (array &$node) use (&$computeTotals): int {
-            $own = isset($node['photos']) ? count($node['photos']) : 0;
-            $sum = $own;
-            if (isset($node['children'])) {
-                foreach ($node['children'] as &$child) {
-                    $sum += $computeTotals($child);
-                }
+        // Special bucket for photos without directory
+        $noDirCount = Photo::query()
+            ->whereNull('directory')
+            ->orWhere('directory', '=', '')
+            ->count();
+        if ($noDirCount > 0) {
+            $dirTree['children']['__no_directory__'] = [
+                'label' => 'Senza Cartella',
+                'children' => [],
+                'total' => (int) $noDirCount,
+            ];
+            $noDirPreview = Photo::query()
+                ->whereNull('directory')
+                ->orWhere('directory', '=', '')
+                ->oldest('taken_at')
+                ->orderBy('source_file')
+                ->first();
+            if ($noDirPreview !== null) {
+                $dirTree['children']['__no_directory__']['preview'] = $noDirPreview;
             }
-            $node['total'] = $sum;
-
-            if (! isset($node['preview'])) {
-                if ($own > 0) {
-                    /** @var Photo $first */
-                    $first = $node['photos'][0];
-                    $node['preview'] = $first;
-                } elseif (isset($node['children'])) {
-                    foreach ($node['children'] as $child) {
-                        if (isset($child['preview'])) {
-                            $node['preview'] = $child['preview'];
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return $sum;
-        };
-        $computeTotals($dirTree);
+        }
 
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
@@ -140,82 +108,45 @@ final class PhotoFolderController
         $normalized = mb_trim($path, '/');
         $segments = array_values(array_filter(explode('/', $normalized), static fn ($s) => $s !== ''));
 
-        $q = Photo::query()->with('strip')->where('directory', 'like', $normalized.'%')->oldest('taken_at');
-        $q->orderBy('source_file');
-        $photos = $q->paginate(50);
-        // Fetch all matching photos for accurate subfolder listing (beyond current page)
-        $allPhotos = (clone $q)->get();
-
-        // Build a tree starting at this path only for sub-folders and leaf detection
-        /**
-         * @var array{children: array<string, array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int}>}
-         */
+        // Build immediate subfolders using directory field, ignore pagination
+        /** @var array{children: array<string, array{label: string, children: array<string, mixed>, total?: int, preview?: Photo}>} $dirTree */
         $dirTree = ['children' => []];
-        foreach ($allPhotos as $photo) {
-            /** @var Photo $photo */
-            $dirRaw = $photo->getAttribute('directory');
-            $dir = is_string($dirRaw) ? mb_trim($dirRaw) : '';
-            if ($dir === '' || mb_strpos($dir, $normalized) !== 0) {
-                // Skip photos not under the requested path
+
+        $childrenRows = Photo::query()
+            ->selectRaw("SUBSTRING_INDEX(REPLACE(directory, CONCAT(?, '/'), ''), '/', 1) AS child", [$normalized])
+            ->selectRaw('COUNT(*) AS cnt')
+            ->where('directory', 'like', $normalized.'/%')
+            ->groupBy('child')
+            ->orderBy('child')
+            ->get();
+
+        foreach ($childrenRows as $row) {
+            $child = (string) $row->child;
+            if ($child === '') {
                 continue;
             }
-
-            $sub = mb_substr($dir, mb_strlen($normalized));
-            $sub = mb_ltrim($sub, '/');
-            $subSegments = $sub === '' ? [] : array_values(array_filter(explode('/', $sub), static fn ($s) => $s !== ''));
-
-            /** @var array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int} $node */
-            $node = &$dirTree;
-            foreach ($subSegments as $seg) {
-                if (! isset($node['children'][$seg])) {
-                    $node['children'][$seg] = [
-                        'label' => $seg,
-                        'children' => [],
-                        'photos' => [],
-                    ];
-                }
-                /** @var array{label?: string, children: array<string, mixed>, photos?: array<int, Photo>, total?: int} $node */
-                $node = &$node['children'][$seg];
+            $dirTree['children'][$child] = [
+                'label' => $child,
+                'children' => [],
+                'total' => (int) $row->cnt,
+            ];
+            $preview = Photo::query()
+                ->where('directory', 'like', $normalized.'/'.$child.'%')
+                ->oldest('taken_at')
+                ->orderBy('source_file')
+                ->first();
+            if ($preview !== null) {
+                $dirTree['children'][$child]['preview'] = $preview;
             }
-            if ($sub === '') {
-                // leaf-level photos (in the requested folder itself)
-                if (! isset($node['photos'])) {
-                    $node['photos'] = [];
-                }
-                $node['photos'][] = $photo;
-            }
-            unset($node);
         }
 
-        // Compute totals for display counters and previews
-        $computeTotals = function (array &$node) use (&$computeTotals): int {
-            $own = isset($node['photos']) ? count($node['photos']) : 0;
-            $sum = $own;
-            if (isset($node['children'])) {
-                foreach ($node['children'] as &$child) {
-                    $sum += $computeTotals($child);
-                }
-            }
-            $node['total'] = $sum;
-
-            if (! isset($node['preview'])) {
-                if ($own > 0) {
-                    /** @var Photo $first */
-                    $first = $node['photos'][0];
-                    $node['preview'] = $first;
-                } elseif (isset($node['children'])) {
-                    foreach ($node['children'] as $child) {
-                        if (isset($child['preview'])) {
-                            $node['preview'] = $child['preview'];
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return $sum;
-        };
-        $computeTotals($dirTree);
+        // Leaf photos: only photos directly in this folder (exact match)
+        $photos = Photo::query()
+            ->with('strip')
+            ->where('directory', '=', $normalized)
+            ->oldest('taken_at')
+            ->orderBy('source_file')
+            ->paginate(50);
 
         return view('photo.folders.show', [
             'photos' => $photos,
