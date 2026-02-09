@@ -75,7 +75,6 @@ final class Photo extends Model
         return $this->belongsTo(DbfAll::class, 'dbf_id', 'id');
     }
 
-
     protected static function newFactory(): PhotoFactory
     {
         return PhotoFactory::new();
