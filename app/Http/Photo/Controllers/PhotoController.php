@@ -22,6 +22,7 @@ final class PhotoController
         $orderBy = $request->string('order', 'source_file');
         $view = $request->get('view', 'grid');
         $filterNoStrip = $request->boolean('no_strip', false);
+        $groupBy = $request->string('group'); // 'stripe' | 'directory' | ''
 
         $q = Photo::query()
             ->with('strip')
@@ -42,6 +43,38 @@ final class PhotoController
         $photos = $q->paginate(50);
         $photos_count = $q->count();
 
+        // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
+        $groups = [];
+        if (! $groupBy->isEmpty()) {
+            if ($groupBy->toString() === 'stripe') {
+                // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
+                foreach ($photos as $photo) {
+                    $key = $photo->dbf_id ?? 'no_stripe';
+                    if (! isset($groups[$key])) {
+                        $groups[$key] = [
+                            'label' => $photo->strip ? ($photo->strip->datnum) : 'Senza Striscia',
+                            'meta' => $photo->strip ?? null,
+                            'photos' => [],
+                        ];
+                    }
+                    $groups[$key]['photos'][] = $photo;
+                }
+            } elseif ($groupBy->toString() === 'directory') {
+                // Group by directory column; null/empty grouped under 'Senza Cartella'
+                foreach ($photos as $photo) {
+                    $key = $photo->directory ?: 'no_directory';
+                    if (! isset($groups[$key])) {
+                        $groups[$key] = [
+                            'label' => $photo->directory ?: 'Senza Cartella',
+                            'meta' => null,
+                            'photos' => [],
+                        ];
+                    }
+                    $groups[$key]['photos'][] = $photo;
+                }
+            }
+        }
+
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
@@ -58,6 +91,8 @@ final class PhotoController
             'photos' => $photos,
             'photos_count' => $photos_count,
             'years' => $years,
+            'group' => $groupBy->toString(),
+            'groups' => $groups,
         ]);
     }
 

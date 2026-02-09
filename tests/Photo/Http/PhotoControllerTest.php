@@ -82,3 +82,54 @@ it('filters photos without strip', function (): void {
         ->assertSee($withoutStrip->file_name)
         ->assertDontSee($withStrip->file_name);
 });
+
+it('groups photos by stripe', function (): void {
+    // Create a stripe and associate two photos; create another photo without stripe
+    $dbf = DbfAll::create([
+        'fingerprint' => null,
+        'source' => 'foto',
+        'datnum' => '12345',
+        'anum' => '12345',
+        'cddvd' => 'CD000123',
+        'hdint' => 'HDINT123',
+        'hdext' => 'HDEXT123',
+        'sc' => 'SC',
+        'fi' => 'FI',
+        'tp' => 'TP',
+        'nfo' => 2,
+        'data' => now()->format('Y-m-d'),
+        'localita' => 'Test City',
+        'argomento' => 'Argomento di test',
+        'descrizione' => 'Descrizione di test',
+    ]);
+
+    $withStripA = Photo::factory()->create(['dbf_id' => $dbf->id]);
+    $withStripB = Photo::factory()->create(['dbf_id' => $dbf->id]);
+    $withoutStrip = Photo::factory()->create(['dbf_id' => null]);
+
+    login();
+
+    get(action([PhotoController::class, 'index'], ['group' => 'stripe']))
+        ->assertSuccessful()
+        // Group headers present
+        ->assertSee('Senza Striscia')
+        ->assertSee($dbf->datnum)
+        // Photos present in page
+        ->assertSee($withStripA->file_name)
+        ->assertSee($withStripB->file_name)
+        ->assertSee($withoutStrip->file_name);
+});
+
+it('groups photos by directory', function (): void {
+    $inDir = Photo::factory()->inFolder('MyFolder')->create();
+    $noDir = Photo::factory()->create(['directory' => null]);
+
+    login();
+
+    get(action([PhotoController::class, 'index'], ['group' => 'directory']))
+        ->assertSuccessful()
+        ->assertSee('MyFolder')
+        ->assertSee('Senza Cartella')
+        ->assertSee($inDir->file_name)
+        ->assertSee($noDir->file_name);
+});
