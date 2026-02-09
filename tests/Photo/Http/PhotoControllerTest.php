@@ -50,38 +50,7 @@ it('show photo system to logged user', function (): void {
         ->assertForbidden();
 });
 
-it('filters photos without strip', function (): void {
-    // Create a stripe (dbf_all) entry and link a photo to it
-    $dbf = DbfAll::create([
-        'fingerprint' => null,
-        'source' => 'foto',
-        'datnum' => '00001',
-        'anum' => '00001',
-        'cddvd' => 'CD000001',
-        'hdint' => 'HDINT001',
-        'hdext' => 'HDEXT001',
-        'sc' => 'SC',
-        'fi' => 'FI',
-        'tp' => 'TP',
-        'nfo' => 1,
-        'data' => now()->format('Y-m-d'),
-        'localita' => 'Test City',
-        'argomento' => 'Argomento di test',
-        'descrizione' => 'Descrizione di test',
-    ]);
-
-    // One photo linked to a strip (dbf_id set)
-    $withStrip = Photo::factory()->create(['dbf_id' => $dbf->id]);
-    // One photo without a strip (dbf_id NULL)
-    $withoutStrip = Photo::factory()->create(['dbf_id' => null]);
-
-    login();
-
-    get(action([PhotoController::class, 'index'], ['no_strip' => 1]))
-        ->assertSuccessful()
-        ->assertSee($withoutStrip->file_name)
-        ->assertDontSee($withStrip->file_name);
-});
+// The explicit "no_strip" filter is removed in favor of grouped view that includes "Senza Striscia".
 
 it('groups photos by stripe', function (): void {
     // Create a stripe and associate two photos; create another photo without stripe

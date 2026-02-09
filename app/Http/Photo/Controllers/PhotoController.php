@@ -21,15 +21,14 @@ final class PhotoController
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
         $view = $request->get('view', 'grid');
-        $filterNoStrip = $request->boolean('no_strip', false);
+        // Deprecated: "no_strip" filter was replaced by grouped view that includes a "Senza Striscia" section.
+        $filterNoStrip = false;
         $groupBy = $request->string('group'); // 'stripe' | 'directory' | ''
 
         $q = Photo::query()
             ->with('strip')
             ->oldest('taken_at');
-        if ($filterNoStrip) {
-            $q->whereNull('dbf_id');
-        }
+        // no_strip removed: keep showing all; grouping handles visualization of "Senza Striscia"
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -79,9 +78,7 @@ final class PhotoController
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
             ->orderByRaw('YEAR(taken_at)');
-        if ($filterNoStrip) {
-            $qYears->whereNull('dbf_id');
-        }
+        // no_strip removed for years aggregation
         if (! $filterPersonName->isEmpty()) {
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }

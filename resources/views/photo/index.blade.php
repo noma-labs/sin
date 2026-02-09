@@ -34,20 +34,7 @@
             </a>
         </div>
 
-        <div class="btn-group" role="group" aria-label="Filtro striscia">
-            <a
-                class="btn btn-outline-secondary {{ $noStrip ? "" : "active" }}"
-                href="{{ route("photos.index", request()->except("no_strip")) }}"
-            >
-                Tutte
-            </a>
-            <a
-                class="btn btn-outline-secondary {{ $noStrip ? "active" : "" }}"
-                href="{{ route("photos.index", array_merge(request()->except("no_strip"), ["no_strip" => 1])) }}"
-            >
-                Senza Striscia
-            </a>
-        </div>
+        
 
         <div class="btn-group" role="group" aria-label="Raggruppa per">
             <a
