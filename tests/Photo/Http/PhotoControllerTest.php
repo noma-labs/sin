@@ -89,13 +89,13 @@ it('groups photos by stripe', function (): void {
         ->assertSee($withoutStrip->file_name);
 });
 
-it('groups photos by directory', function (): void {
+it('shows folders page with directory nodes', function (): void {
     $inDir = Photo::factory()->inFolder('MyFolder')->create();
     $noDir = Photo::factory()->create(['directory' => null]);
 
     login();
 
-    get(action([PhotoController::class, 'index'], ['group' => 'directory']))
+    get(route('photos.folders.index'))
         ->assertSuccessful()
         ->assertSee('MyFolder')
         ->assertSee('Senza Cartella')

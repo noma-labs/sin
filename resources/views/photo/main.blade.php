@@ -11,6 +11,10 @@
 </li>
 
 <li class="nav-item">
+    <a class="nav-link" href="{{ route("photos.folders.index") }}">Cartelle</a>
+</li>
+
+<li class="nav-item">
     <a class="nav-link" href="{{ route("photos.favorite.index") }}">
         MostraFotografica
     </a>

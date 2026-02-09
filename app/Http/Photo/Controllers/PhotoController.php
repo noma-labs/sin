@@ -23,7 +23,7 @@ final class PhotoController
         $view = $request->get('view', 'grid');
         // Deprecated: "no_strip" filter was replaced by grouped view that includes a "Senza Striscia" section.
         $filterNoStrip = false;
-        $groupBy = $request->string('group'); // 'stripe' | 'directory' | ''
+        $groupBy = $request->string('group'); // 'stripe' | ''
 
         $q = Photo::query()
             ->with('strip')
@@ -45,12 +45,6 @@ final class PhotoController
         // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
         /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,Photo>}> $groups */
         $groups = [];
-        /**
-         * Hierarchical directory tree structure when grouping by directory.
-         *
-         * @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>}
-         */
-        $dirTree = ['children' => []];
         if (! $groupBy->isEmpty()) {
             if ($groupBy->toString() === 'stripe') {
                 // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
@@ -68,63 +62,6 @@ final class PhotoController
                     }
                     $groups[$key]['photos'][] = $photo;
                 }
-            } elseif ($groupBy->toString() === 'directory') {
-                // Hierarchical grouping by directory path segments
-                /** @var Photo $photo */
-                foreach ($photos as $photo) {
-                    $dirRaw = $photo->getAttribute('directory');
-                    $dir = is_string($dirRaw) ? mb_trim($dirRaw) : '';
-                    if ($dir === '') {
-                        // Put photos without directory under a dedicated node
-                        if (! isset($dirTree['children']['__no_directory__'])) {
-                            $dirTree['children']['__no_directory__'] = [
-                                'label' => 'Senza Cartella',
-                                'children' => [],
-                                'photos' => [],
-                            ];
-                        }
-                        $dirTree['children']['__no_directory__']['photos'][] = $photo;
-
-                        continue;
-                    }
-                    $segments = array_values(array_filter(explode('/', $dir), fn ($s) => $s !== ''));
-                    /** @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>} $node */
-                    $node = &$dirTree;
-                    foreach ($segments as $seg) {
-                        if (! isset($node['children'][$seg])) {
-                            $node['children'][$seg] = [
-                                'label' => $seg,
-                                'children' => [],
-                                'photos' => [],
-                            ];
-                        }
-                        /** @var array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>} $node */
-                        $node = &$node['children'][$seg];
-                    }
-                    $node['photos'][] = $photo;
-                    unset($node);
-                }
-                // Sorting of children is handled in the Blade partial for simplicity
-                /**
-                 * Compute aggregated photo counts for each directory node.
-                 * Adds a 'total' key with the sum of this node's photos and all descendants.
-                 *
-                 * @param  array{label?:string, children: array<string, array>, photos?: array<int, Photo>, total?: int}  $node
-                 * @return int
-                 */
-                $computeTotals = function (array &$node) use (&$computeTotals): int {
-                    $own = isset($node['photos']) ? count($node['photos']) : 0;
-                    $sum = $own;
-                    if (isset($node['children'])) {
-                        foreach ($node['children'] as &$child) {
-                            $sum += $computeTotals($child);
-                        }
-                    }
-                    $node['total'] = $sum;
-
-                    return $sum;
-                };
-                $computeTotals($dirTree);
             }
         }
 
@@ -144,7 +81,6 @@ final class PhotoController
             'years' => $years,
             'group' => $groupBy->toString(),
             'groups' => $groups,
-            'dirTree' => $dirTree,
         ]);
     }
 
