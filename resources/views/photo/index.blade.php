@@ -157,40 +157,51 @@
                                     <ul class="list-group">
                                         @foreach ($group["photos"] as $photo)
                                             <li
-                                                class="list-group-item d-flex align-items-center"
+                                                class="list-group-item d-flex align-items-center gap-2 py-2"
                                             >
                                                 <img
                                                     src="{{ route("photos.preview", $photo->id) }}"
                                                     alt="{{ $photo->description }}"
-                                                    class="me-3 rounded"
+                                                    class="rounded"
                                                     style="
-                                                        width: 80px;
+                                                        width: 64px;
                                                         height: auto;
                                                     "
                                                 />
-                                                <div class="flex-grow-1">
-                                                    <div class="fw-semibold">
+                                                <div
+                                                    class="d-flex align-items-center flex-wrap gap-2 flex-grow-1"
+                                                >
+                                                    <span class="fw-semibold">
                                                         {{ $photo->file_name ?? "—" }}
-                                                    </div>
-                                                    <div
+                                                    </span>
+                                                    <span
                                                         class="text-muted small"
                                                     >
                                                         {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                                    </div>
-                                                    @if ($photo->strip)
-                                                        <div class="mt-1">
-                                                            <span
-                                                                class="badge text-bg-success"
-                                                            >
-                                                                {{ $photo->strip->datnum }}
-                                                            </span>
-                                                        </div>
-                                                    @endif
+                                                    </span>
 
+                                                    @if ($photo->strip)
+                                                        <span
+                                                            class="badge text-bg-success"
+                                                        >
+                                                            {{ $photo->strip->datnum }}
+                                                        </span>
+                                                    @else
+                                                        <span
+                                                            class="badge text-bg-danger"
+                                                        >
+                                                            Senza Striscia
+                                                        </span>
+                                                    @endif
                                                     @if ($photo->subjects)
-                                                        <div class="small">
+                                                        <span
+                                                            class="small text-truncate"
+                                                            style="
+                                                                max-width: 30ch;
+                                                            "
+                                                        >
                                                             {{ $photo->subjects }}
-                                                        </div>
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 <a
@@ -249,30 +260,41 @@
         @elseif ($currentView === "list")
             <ul class="list-group">
                 @foreach ($photos as $photo)
-                    <li class="list-group-item d-flex align-items-center">
+                    <li
+                        class="list-group-item d-flex align-items-center gap-2 py-2"
+                    >
                         <img
                             src="{{ route("photos.preview", $photo->id) }}"
                             alt="{{ $photo->description }}"
-                            class="me-3 rounded"
-                            style="width: 80px; height: auto"
+                            class="rounded"
+                            style="width: 64px; height: auto"
                         />
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold">
+                        <div
+                            class="d-flex align-items-center flex-wrap gap-2 flex-grow-1"
+                        >
+                            <span class="fw-semibold">
                                 {{ $photo->file_name ?? "—" }}
-                            </div>
-                            <div class="text-muted small">
+                            </span>
+                            <span class="text-muted small">
                                 {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                            </div>
-                            @if ($photo->strip)
-                                <div class="mt-1">
-                                    <span class="badge text-bg-success">
-                                        {{ $photo->strip->datnum }}
-                                    </span>
-                                </div>
-                            @endif
+                            </span>
 
+                            @if ($photo->strip)
+                                <span class="badge text-bg-success">
+                                    {{ $photo->strip->datnum }}
+                                </span>
+                            @else
+                                <span class="badge text-bg-danger">
+                                    Senza Striscia
+                                </span>
+                            @endif
                             @if ($photo->subjects)
-                                <div class="small">{{ $photo->subjects }}</div>
+                                <span
+                                    class="small text-truncate"
+                                    style="max-width: 30ch"
+                                >
+                                    {{ $photo->subjects }}
+                                </span>
                             @endif
                         </div>
                         <a
