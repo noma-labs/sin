@@ -43,12 +43,18 @@ final class PhotoController
         $photos_count = $q->count();
 
         // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
-        /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,\App\Photo\Models\Photo>}> $groups */
+        /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,Photo>}> $groups */
         $groups = [];
+        /**
+         * Hierarchical directory tree structure when grouping by directory.
+         *
+         * @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>}
+         */
+        $dirTree = ['children' => []];
         if (! $groupBy->isEmpty()) {
             if ($groupBy->toString() === 'stripe') {
                 // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
-                /** @var \App\Photo\Models\Photo $photo */
+                /** @var Photo $photo */
                 foreach ($photos as $photo) {
                     $dbfIdRaw = $photo->getAttribute('dbf_id');
                     $dbfId = is_int($dbfIdRaw) ? $dbfIdRaw : null;
@@ -63,20 +69,40 @@ final class PhotoController
                     $groups[$key]['photos'][] = $photo;
                 }
             } elseif ($groupBy->toString() === 'directory') {
-                // Group by directory column; null/empty grouped under 'Senza Cartella'
-                /** @var \App\Photo\Models\Photo $photo */
+                // Hierarchical grouping by directory path segments
+                /** @var Photo $photo */
                 foreach ($photos as $photo) {
                     $dirRaw = $photo->getAttribute('directory');
-                    $dir = is_string($dirRaw) ? $dirRaw : '';
-                    $key = $dir !== '' ? $dir : 'no_directory';
-                    if (! isset($groups[$key])) {
-                        $groups[$key] = [
-                            'label' => $dir !== '' ? $dir : 'Senza Cartella',
-                            'meta' => null,
-                            'photos' => [],
-                        ];
+                    $dir = is_string($dirRaw) ? mb_trim($dirRaw) : '';
+                    if ($dir === '') {
+                        // Put photos without directory under a dedicated node
+                        if (! isset($dirTree['children']['__no_directory__'])) {
+                            $dirTree['children']['__no_directory__'] = [
+                                'label' => 'Senza Cartella',
+                                'children' => [],
+                                'photos' => [],
+                            ];
+                        }
+                        $dirTree['children']['__no_directory__']['photos'][] = $photo;
+
+                        continue;
                     }
-                    $groups[$key]['photos'][] = $photo;
+                    $segments = array_values(array_filter(explode('/', $dir), fn ($s) => $s !== ''));
+                    /** @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>} $node */
+                    $node = &$dirTree;
+                    foreach ($segments as $seg) {
+                        if (! isset($node['children'][$seg])) {
+                            $node['children'][$seg] = [
+                                'label' => $seg,
+                                'children' => [],
+                                'photos' => [],
+                            ];
+                        }
+                        /** @var array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>} $node */
+                        $node = &$node['children'][$seg];
+                    }
+                    $node['photos'][] = $photo;
+                    unset($node);
                 }
             }
         }
@@ -97,6 +123,7 @@ final class PhotoController
             'years' => $years,
             'group' => $groupBy->toString(),
             'groups' => $groups,
+            'dirTree' => $dirTree,
         ]);
     }
 
