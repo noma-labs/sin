@@ -11,7 +11,7 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.4
     env:
-      EXIFTOOL_VERSION: 13.50 # Change also the EXIFTOOL_VERSION in the dockerfile
+      EXIFTOOL_VERSION: "13.50" # Change also the EXIFTOOL_VERSION in the dockerfile
 
     services:
       # NOTE: the container name is the same of the docker-compose.yml in order to
@@ -34,7 +34,7 @@ jobs:
           apt-get update && \
           apt-get install -y wget make && \
           wget https://exiftool.org/Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz && tar -xzvf Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz &&  rm -rf Image-ExifTool-${{ env.EXIFTOOL_VERSION }}.tar.gz && \
-          cd Image-ExifTool-${{ env.EXIFTOOL_VERSION }}  && \
+          cd Image-ExifTool-*  && \
           perl Makefile.PL && \
           make install && \
           exiftool -ver
