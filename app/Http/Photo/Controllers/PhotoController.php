@@ -104,6 +104,7 @@ final class PhotoController
                     $node['photos'][] = $photo;
                     unset($node);
                 }
+                // Sorting of children is handled in the Blade partial for simplicity
                 /**
                  * Compute aggregated photo counts for each directory node.
                  * Adds a 'total' key with the sum of this node's photos and all descendants.
