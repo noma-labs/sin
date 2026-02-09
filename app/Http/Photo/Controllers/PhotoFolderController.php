@@ -15,7 +15,6 @@ final class PhotoFolderController
         $filterYear = $request->string('year');
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
-        $currentView = $request->get('view', 'grid');
 
         // Paginated list preserved for UI controls/pagination if needed (applies filters)
         $photos = Photo::query()
@@ -96,7 +95,6 @@ final class PhotoFolderController
             'photos' => $photos,
             'years' => $years,
             'dirTree' => $dirTree,
-            'currentView' => $currentView,
         ]);
     }
 
@@ -146,7 +144,8 @@ final class PhotoFolderController
             ->where('directory', '=', $normalized)
             ->oldest('taken_at')
             ->orderBy('source_file')
-            ->paginate(50);
+            ->paginate(50)
+            ->withQueryString();
 
         return view('photo.folders.show', [
             'photos' => $photos,

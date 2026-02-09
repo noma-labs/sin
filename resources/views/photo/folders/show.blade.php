@@ -38,13 +38,13 @@
             <div class="btn-group" role="group" aria-label="Selettore vista">
                 <a
                     class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
-                    href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "grid", "path" => $path])) }}"
+                    href="{{ route("photos.folders.show", ["view" => "grid", "path" => $path]) }}"
                 >
                     Griglia
                 </a>
                 <a
                     class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
-                    href="{{ route("photos.folders.show", array_merge(request()->except("view"), ["view" => "list", "path" => $path])) }}"
+                    href="{{ route("photos.folders.show", ["view" => "list", "path" => $path]) }}"
                 >
                     Lista
                 </a>
@@ -213,6 +213,6 @@
     @endif
 
     <div class="d-flex justify-content-center">
-        {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
+        {{ $photos->links("vendor.pagination.bootstrap-5") }}
     </div>
 @endsection

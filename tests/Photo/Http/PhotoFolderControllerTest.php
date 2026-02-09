@@ -55,7 +55,7 @@ it('shows top-level folders across entire dataset (ignoring filters on index)', 
 
     login();
 
-    // Apply a filter that would exclude c if filters were used to build cards
+    // Index ignores filters for folder cards
     get(route('photos.folders.index', ['name' => 'nonexistent-filter']))
         ->assertSuccessful()
         ->assertSee('a')

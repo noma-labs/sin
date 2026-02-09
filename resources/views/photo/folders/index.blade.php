@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap gap-2 my-3">
         @foreach ($years as $year)
             <a
-                href="{{ route("photos.folders.index", ["year" => $year->year, "name" => request("name"), "view" => request("view", "grid")]) }}"
+                href="{{ route("photos.folders.index", ["year" => $year->year, "name" => request("name")]) }}"
                 class="btn btn-sm btn-outline-secondary"
             >
                 {{ $year->year }}
@@ -15,7 +15,7 @@
         @endforeach
     </div>
 
-    @php($currentView = $currentView ?? request("view", "grid"))
+    @php($currentView = "grid")
 
     @php($children = isset($dirTree["children"]) ? $dirTree["children"] : [])
     <div class="row row-cols-2 row-cols-md-5 g-3">
@@ -32,7 +32,7 @@
             @php($firstPhoto = $child["preview"] ?? (isset($child["photos"]) && count($child["photos"]) ? $child["photos"][0] : null))
             <div class="col">
                 <a
-                    href="{{ route("photos.folders.show", ["path" => $folderLabel, "view" => $currentView]) }}"
+                    href="{{ route("photos.folders.show", ["path" => $folderLabel]) }}"
                     class="text-decoration-none"
                 >
                     <div class="card h-100 shadow-sm">
