@@ -154,65 +154,83 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <ul class="list-group">
-                                        @foreach ($group["photos"] as $photo)
-                                            <li
-                                                class="list-group-item d-flex align-items-center gap-2 py-2"
-                                            >
-                                                <img
-                                                    src="{{ route("photos.preview", $photo->id) }}"
-                                                    alt="{{ $photo->description }}"
-                                                    class="rounded"
-                                                    style="
-                                                        width: 64px;
-                                                        height: auto;
-                                                    "
-                                                />
-                                                <div
-                                                    class="d-flex align-items-center flex-wrap gap-2 flex-grow-1"
-                                                >
-                                                    <span class="fw-semibold">
-                                                        {{ $photo->file_name ?? "—" }}
-                                                    </span>
-                                                    <span
-                                                        class="text-muted small"
-                                                    >
-                                                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                                    </span>
-
-                                                    @if ($photo->strip)
-                                                        <span
-                                                            class="badge text-bg-success"
+                                    <div class="table-responsive">
+                                        <table
+                                            class="table table-sm table-hover align-middle mb-0"
+                                        >
+                                            <thead>
+                                                <tr>
+                                                    <th>Anteprima</th>
+                                                    <th>Nome File</th>
+                                                    <th>Data</th>
+                                                    <th>Striscia</th>
+                                                    <th>Persone</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($group["photos"] as $photo)
+                                                    <tr>
+                                                        <td style="width: 72px">
+                                                            <img
+                                                                src="{{ route("photos.preview", $photo->id) }}"
+                                                                alt="{{ $photo->description }}"
+                                                                class="rounded"
+                                                                style="
+                                                                    width: 64px;
+                                                                    height: auto;
+                                                                "
+                                                            />
+                                                        </td>
+                                                        <td class="fw-semibold">
+                                                            {{ $photo->file_name ?? "—" }}
+                                                        </td>
+                                                        <td
+                                                            class="text-muted small"
                                                         >
-                                                            {{ $photo->strip->datnum }}
-                                                        </span>
-                                                    @else
-                                                        <span
-                                                            class="badge text-bg-danger"
-                                                        >
-                                                            Senza Striscia
-                                                        </span>
-                                                    @endif
-                                                    @if ($photo->subjects)
-                                                        <span
-                                                            class="small text-truncate"
-                                                            style="
-                                                                max-width: 30ch;
-                                                            "
-                                                        >
-                                                            {{ $photo->subjects }}
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                                <a
-                                                    href="{{ route("photos.show", $photo->id) }}"
-                                                    class="btn btn-sm btn-outline-primary"
-                                                >
-                                                    Apri
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                                            {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                                        </td>
+                                                        <td>
+                                                            @if ($photo->strip)
+                                                                <span
+                                                                    class="badge text-bg-success"
+                                                                >
+                                                                    {{ $photo->strip->datnum }}
+                                                                </span>
+                                                            @else
+                                                                <span
+                                                                    class="badge text-bg-danger"
+                                                                >
+                                                                    Senza
+                                                                    Striscia
+                                                                </span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($photo->subjects)
+                                                                <span
+                                                                    class="small text-truncate d-inline-block"
+                                                                    style="
+                                                                        max-width: 40ch;
+                                                                    "
+                                                                >
+                                                                    {{ $photo->subjects }}
+                                                                </span>
+                                                            @endif
+                                                        </td>
+                                                        <td class="text-end">
+                                                            <a
+                                                                href="{{ route("photos.show", $photo->id) }}"
+                                                                class="btn btn-sm btn-outline-primary"
+                                                            >
+                                                                Apri
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -258,54 +276,69 @@
                 @endforeach
             </div>
         @elseif ($currentView === "list")
-            <ul class="list-group">
-                @foreach ($photos as $photo)
-                    <li
-                        class="list-group-item d-flex align-items-center gap-2 py-2"
-                    >
-                        <img
-                            src="{{ route("photos.preview", $photo->id) }}"
-                            alt="{{ $photo->description }}"
-                            class="rounded"
-                            style="width: 64px; height: auto"
-                        />
-                        <div
-                            class="d-flex align-items-center flex-wrap gap-2 flex-grow-1"
-                        >
-                            <span class="fw-semibold">
-                                {{ $photo->file_name ?? "—" }}
-                            </span>
-                            <span class="text-muted small">
-                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                            </span>
-
-                            @if ($photo->strip)
-                                <span class="badge text-bg-success">
-                                    {{ $photo->strip->datnum }}
-                                </span>
-                            @else
-                                <span class="badge text-bg-danger">
-                                    Senza Striscia
-                                </span>
-                            @endif
-                            @if ($photo->subjects)
-                                <span
-                                    class="small text-truncate"
-                                    style="max-width: 30ch"
-                                >
-                                    {{ $photo->subjects }}
-                                </span>
-                            @endif
-                        </div>
-                        <a
-                            href="{{ route("photos.show", $photo->id) }}"
-                            class="btn btn-sm btn-outline-primary"
-                        >
-                            Apri
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Anteprima</th>
+                            <th>Nome File</th>
+                            <th>Data</th>
+                            <th>Striscia</th>
+                            <th>Persone</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($photos as $photo)
+                            <tr>
+                                <td style="width: 72px">
+                                    <img
+                                        src="{{ route("photos.preview", $photo->id) }}"
+                                        alt="{{ $photo->description }}"
+                                        class="rounded"
+                                        style="width: 64px; height: auto"
+                                    />
+                                </td>
+                                <td class="fw-semibold">
+                                    {{ $photo->file_name ?? "—" }}
+                                </td>
+                                <td class="text-muted small">
+                                    {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                </td>
+                                <td>
+                                    @if ($photo->strip)
+                                        <span class="badge text-bg-success">
+                                            {{ $photo->strip->datnum }}
+                                        </span>
+                                    @else
+                                        <span class="badge text-bg-danger">
+                                            Senza Striscia
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($photo->subjects)
+                                        <span
+                                            class="small text-truncate d-inline-block"
+                                            style="max-width: 40ch"
+                                        >
+                                            {{ $photo->subjects }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <a
+                                        href="{{ route("photos.show", $photo->id) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Apri
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         @endif
     @endif
 
