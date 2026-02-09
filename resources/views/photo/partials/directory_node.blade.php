@@ -1,5 +1,6 @@
 @php($hasChildren = isset($node["children"]) && count($node["children"]) > 0)
 @php($count = isset($node["photos"]) ? count($node["photos"]) : 0)
+@php($parentAccordionId = $parentAccordionId ?? "photosGroupedAccordion")
 @if ($prefix === "")
     @foreach ($node["children"] as $childLabel => $child)
         @include(
@@ -31,7 +32,7 @@
             id="{{ $id }}"
             class="accordion-collapse collapse"
             aria-labelledby="heading-{{ $id }}"
-            data-bs-parent="#photosGroupedAccordion"
+            data-bs-parent="#{{ $parentAccordionId }}"
         >
             <div class="accordion-body">
                 @if ($hasChildren)
@@ -43,6 +44,7 @@
                                     "node" => $child,
                                     "prefix" => $prefix . "/" . (string) $childLabel,
                                     "currentView" => $currentView,
+                                    "parentAccordionId" => "accordion-" . $id,
                                 ]
                             )
                         @endforeach
