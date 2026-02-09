@@ -16,22 +16,6 @@
     </div>
 
     @php($currentView = $currentView ?? request("view", "grid"))
-    <div class="d-flex gap-2 mb-3">
-        <div class="btn-group" role="group" aria-label="Selettore vista">
-            <a
-                class="btn btn-outline-secondary {{ $currentView === "grid" ? "active" : "" }}"
-                href="{{ route("photos.folders.index", array_merge(request()->except("view"), ["view" => "grid"])) }}"
-            >
-                Griglia
-            </a>
-            <a
-                class="btn btn-outline-secondary {{ $currentView === "list" ? "active" : "" }}"
-                href="{{ route("photos.folders.index", array_merge(request()->except("view"), ["view" => "list"])) }}"
-            >
-                Lista
-            </a>
-        </div>
-    </div>
 
     @php($children = isset($dirTree["children"]) ? $dirTree["children"] : [])
     <div class="row row-cols-2 row-cols-md-5 g-3">
