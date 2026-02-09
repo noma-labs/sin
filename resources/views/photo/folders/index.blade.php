@@ -24,6 +24,10 @@
         @foreach ($sorted as $label => $child)
             @php($folderLabel = is_string($child["label"] ?? null) ? $child["label"] : (is_string($label) ? $label : ""))
             @php($dedupeKey = $folderLabel)
+            @if ($folderLabel === "")
+                @continue
+            @endif
+
             @if (isset($seen[$dedupeKey]))
                 @continue
             @endif
@@ -65,12 +69,79 @@
                                     </span>
                                 @endif
                             </div>
+                            @if ($firstPhoto)
+                                <div class="small text-muted mt-2">
+                                    {{ $firstPhoto->file_name }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </a>
             </div>
         @endforeach
     </div>
+
+    @if ($photos->count() > 0)
+        @if ($currentView === "grid")
+            <div class="d-flex flex-wrap mt-4">
+                @foreach ($photos as $photo)
+                    <a href="{{ route("photos.show", $photo->id) }}">
+                        <figure class="figure m-1" style="width: 25rem">
+                            <div class="position-relative">
+                                <img
+                                    src="{{ route("photos.preview", $photo->id) }}"
+                                    class="figure-img img-fluid rounded"
+                                    alt="{{ $photo->description }}"
+                                />
+                                <div
+                                    class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                                >
+                                    <span class="small">
+                                        {{ $photo->file_name ?? "" }}
+                                    </span>
+                                    <span class="small">
+                                        {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </figure>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="table-responsive mt-4">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Anteprima</th>
+                            <th>Nome File</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($photos as $photo)
+                            <tr>
+                                <td style="width: 72px">
+                                    <img
+                                        src="{{ route("photos.preview", $photo->id) }}"
+                                        alt="{{ $photo->description }}"
+                                        class="rounded"
+                                        style="width: 64px; height: auto"
+                                    />
+                                </td>
+                                <td class="fw-semibold">
+                                    {{ $photo->file_name ?? "—" }}
+                                </td>
+                                <td class="text-muted small">
+                                    {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    @endif
 
     <div class="d-flex justify-content-center">
         {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}

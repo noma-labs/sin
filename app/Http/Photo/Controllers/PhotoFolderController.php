@@ -17,17 +17,19 @@ final class PhotoFolderController
         $orderBy = $request->string('order', 'source_file');
 
         // Paginated list preserved for UI controls/pagination if needed (applies filters)
-        $photos = Photo::query()
+        $query = Photo::query()
             ->with('strip')
             ->oldest('taken_at')
-            ->orderBy($orderBy->toString())
-            ->unless($filterYear->isEmpty(), static function ($query) use ($filterYear) {
-                $query->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
-            })
-            ->when(! $filterPersonName->isEmpty(), static function ($query) use ($filterPersonName) {
-                $query->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
-            })
-            ->paginate(50);
+            ->orderBy($orderBy->toString());
+
+        if (! $filterYear->isEmpty()) {
+            $query->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
+        }
+        if (! $filterPersonName->isEmpty()) {
+            $query->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
+        }
+
+        $photos = $query->paginate(50);
 
         // Build top-level folders using directory field across the entire dataset (ignore filters)
         /** @var array{children: array<string, array{label: string, children: array<string, mixed>, total?: int, preview?: Photo}>} $dirTree */
