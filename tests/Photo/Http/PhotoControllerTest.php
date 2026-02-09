@@ -50,35 +50,55 @@ it('show photo system to logged user', function (): void {
         ->assertForbidden();
 });
 
-it('filters photos without strip', function (): void {
-    // Create a stripe (dbf_all) entry and link a photo to it
+// The explicit "no_strip" filter is removed in favor of grouped view that includes "Senza Striscia".
+
+it('groups photos by stripe', function (): void {
+    // Create a stripe and associate two photos; create another photo without stripe
     $dbf = DbfAll::create([
         'fingerprint' => null,
         'source' => 'foto',
-        'datnum' => '00001',
-        'anum' => '00001',
-        'cddvd' => 'CD000001',
-        'hdint' => 'HDINT001',
-        'hdext' => 'HDEXT001',
+        'datnum' => '12345',
+        'anum' => '12345',
+        'cddvd' => 'CD000123',
+        'hdint' => 'HDINT123',
+        'hdext' => 'HDEXT123',
         'sc' => 'SC',
         'fi' => 'FI',
         'tp' => 'TP',
-        'nfo' => 1,
+        'nfo' => 2,
         'data' => now()->format('Y-m-d'),
         'localita' => 'Test City',
         'argomento' => 'Argomento di test',
         'descrizione' => 'Descrizione di test',
     ]);
 
-    // One photo linked to a strip (dbf_id set)
-    $withStrip = Photo::factory()->create(['dbf_id' => $dbf->id]);
-    // One photo without a strip (dbf_id NULL)
+    $withStripA = Photo::factory()->create(['dbf_id' => $dbf->id]);
+    $withStripB = Photo::factory()->create(['dbf_id' => $dbf->id]);
     $withoutStrip = Photo::factory()->create(['dbf_id' => null]);
 
     login();
 
-    get(action([PhotoController::class, 'index'], ['no_strip' => 1]))
+    get(action([PhotoController::class, 'index'], ['group' => 'stripe']))
         ->assertSuccessful()
-        ->assertSee($withoutStrip->file_name)
-        ->assertDontSee($withStrip->file_name);
+        // Group headers present
+        ->assertSee('Senza Striscia')
+        ->assertSee($dbf->datnum)
+        // Photos present in page
+        ->assertSee($withStripA->file_name)
+        ->assertSee($withStripB->file_name)
+        ->assertSee($withoutStrip->file_name);
+});
+
+it('groups photos by directory', function (): void {
+    $inDir = Photo::factory()->inFolder('MyFolder')->create();
+    $noDir = Photo::factory()->create(['directory' => null]);
+
+    login();
+
+    get(action([PhotoController::class, 'index'], ['group' => 'directory']))
+        ->assertSuccessful()
+        ->assertSee('MyFolder')
+        ->assertSee('Senza Cartella')
+        ->assertSee($inDir->file_name)
+        ->assertSee($noDir->file_name);
 });

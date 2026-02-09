@@ -21,14 +21,14 @@ final class PhotoController
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
         $view = $request->get('view', 'grid');
-        $filterNoStrip = $request->boolean('no_strip', false);
+        // Deprecated: "no_strip" filter was replaced by grouped view that includes a "Senza Striscia" section.
+        $filterNoStrip = false;
+        $groupBy = $request->string('group'); // 'stripe' | 'directory' | ''
 
         $q = Photo::query()
             ->with('strip')
             ->oldest('taken_at');
-        if ($filterNoStrip) {
-            $q->whereNull('dbf_id');
-        }
+        // no_strip removed: keep showing all; grouping handles visualization of "Senza Striscia"
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -42,13 +42,97 @@ final class PhotoController
         $photos = $q->paginate(50);
         $photos_count = $q->count();
 
+        // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
+        /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,Photo>}> $groups */
+        $groups = [];
+        /**
+         * Hierarchical directory tree structure when grouping by directory.
+         *
+         * @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>}
+         */
+        $dirTree = ['children' => []];
+        if (! $groupBy->isEmpty()) {
+            if ($groupBy->toString() === 'stripe') {
+                // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
+                /** @var Photo $photo */
+                foreach ($photos as $photo) {
+                    $dbfIdRaw = $photo->getAttribute('dbf_id');
+                    $dbfId = is_int($dbfIdRaw) ? $dbfIdRaw : null;
+                    $key = is_null($dbfId) ? 'no_stripe' : (string) $dbfId;
+                    if (! isset($groups[$key])) {
+                        $groups[$key] = [
+                            'label' => $photo->strip ? ($photo->strip->datnum) : 'Senza Striscia',
+                            'meta' => $photo->strip ?? null,
+                            'photos' => [],
+                        ];
+                    }
+                    $groups[$key]['photos'][] = $photo;
+                }
+            } elseif ($groupBy->toString() === 'directory') {
+                // Hierarchical grouping by directory path segments
+                /** @var Photo $photo */
+                foreach ($photos as $photo) {
+                    $dirRaw = $photo->getAttribute('directory');
+                    $dir = is_string($dirRaw) ? mb_trim($dirRaw) : '';
+                    if ($dir === '') {
+                        // Put photos without directory under a dedicated node
+                        if (! isset($dirTree['children']['__no_directory__'])) {
+                            $dirTree['children']['__no_directory__'] = [
+                                'label' => 'Senza Cartella',
+                                'children' => [],
+                                'photos' => [],
+                            ];
+                        }
+                        $dirTree['children']['__no_directory__']['photos'][] = $photo;
+
+                        continue;
+                    }
+                    $segments = array_values(array_filter(explode('/', $dir), fn ($s) => $s !== ''));
+                    /** @var array{children: array<string, array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>}>} $node */
+                    $node = &$dirTree;
+                    foreach ($segments as $seg) {
+                        if (! isset($node['children'][$seg])) {
+                            $node['children'][$seg] = [
+                                'label' => $seg,
+                                'children' => [],
+                                'photos' => [],
+                            ];
+                        }
+                        /** @var array{label:string, children: array<string, array{label:string, children: array<string, mixed>, photos: array<int, Photo> }>, photos: array<int, Photo>} $node */
+                        $node = &$node['children'][$seg];
+                    }
+                    $node['photos'][] = $photo;
+                    unset($node);
+                }
+                // Sorting of children is handled in the Blade partial for simplicity
+                /**
+                 * Compute aggregated photo counts for each directory node.
+                 * Adds a 'total' key with the sum of this node's photos and all descendants.
+                 *
+                 * @param  array{label?:string, children: array<string, array>, photos?: array<int, Photo>, total?: int}  $node
+                 * @return int
+                 */
+                $computeTotals = function (array &$node) use (&$computeTotals): int {
+                    $own = isset($node['photos']) ? count($node['photos']) : 0;
+                    $sum = $own;
+                    if (isset($node['children'])) {
+                        foreach ($node['children'] as &$child) {
+                            $sum += $computeTotals($child);
+                        }
+                    }
+                    $node['total'] = $sum;
+
+                    return $sum;
+                };
+                $computeTotals($dirTree);
+            }
+        }
+
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
             ->orderByRaw('YEAR(taken_at)');
-        if ($filterNoStrip) {
-            $qYears->whereNull('dbf_id');
-        }
+        // no_strip removed for years aggregation
         if (! $filterPersonName->isEmpty()) {
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
@@ -58,6 +142,9 @@ final class PhotoController
             'photos' => $photos,
             'photos_count' => $photos_count,
             'years' => $years,
+            'group' => $groupBy->toString(),
+            'groups' => $groups,
+            'dirTree' => $dirTree,
         ]);
     }
 
