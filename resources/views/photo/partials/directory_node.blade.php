@@ -2,12 +2,13 @@
 @php($count = isset($node["total"]) ? (int) $node["total"] : (isset($node["photos"]) ? count($node["photos"]) : 0))
 @php($parentAccordionId = $parentAccordionId ?? "photosGroupedAccordion")
 @if ($prefix === "")
-    @foreach ($node["children"] as $childLabel => $child)
+    @php($sortedChildren = collect($node["children"])->sortBy(function ($child) {return is_string($child["label"] ?? null) ? $child["label"] : "";})->all())
+    @foreach ($sortedChildren as $childLabel => $child)
         @include(
             "photo.partials.directory_node",
             [
                 "node" => $child,
-                "prefix" => (string) $childLabel,
+                "prefix" => (string) ($child["label"] ?? (string) $childLabel),
                 "currentView" => $currentView,
             ]
         )
@@ -24,7 +25,9 @@
                 aria-expanded="false"
                 aria-controls="{{ $id }}"
             >
-                {{ $node["label"] ?? $prefix }}
+                @php($segments = array_values(array_filter(explode("/", (string) $prefix), function ($s) {return $s !== "";}),))
+                @php($breadcrumb = count($segments) ? implode(" / ", $segments) : $node["label"] ?? "")
+                {{ $breadcrumb }}
                 <span class="badge text-bg-secondary ms-2">{{ $count }}</span>
             </button>
         </h2>
@@ -37,12 +40,14 @@
             <div class="accordion-body">
                 @if ($hasChildren)
                     <div class="accordion" id="accordion-{{ $id }}">
-                        @foreach ($node["children"] as $childLabel => $child)
+                        @php($sortedChildren = collect($node["children"])->sortBy(function ($child) {return is_string($child["label"] ?? null) ? $child["label"] : "";})->all())
+                        @foreach ($sortedChildren as $childLabel => $child)
                             @include(
                                 "photo.partials.directory_node",
                                 [
                                     "node" => $child,
-                                    "prefix" => $prefix . "/" . (string) $childLabel,
+                                    "prefix" =>
+                                        $prefix . "/" . (string) ($child["label"] ?? (string) $childLabel),
                                     "currentView" => $currentView,
                                     "parentAccordionId" => "accordion-" . $id,
                                 ]
