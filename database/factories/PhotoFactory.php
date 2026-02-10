@@ -75,9 +75,14 @@ final class PhotoFactory extends Factory
     public function inFolder(string $name)
     {
         return $this->state(function (array $attributes) use ($name) {
-            // build a folder title like: 2022-05-23 XXXMQ Argomento foto
+            // Mimic production: ensure leading slash for directories
+            $dir = $name;
+            if ($dir !== '' && $dir[0] !== '/') {
+                $dir = '/'.$dir;
+            }
+
             return [
-                'directory' => $name,
+                'directory' => $dir,
             ];
         });
     }
