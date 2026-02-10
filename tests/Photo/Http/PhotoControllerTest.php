@@ -6,7 +6,6 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Admin\Models\User;
 use App\Photo\Controllers\PhotoController;
-use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
 use Spatie\Permission\Models\Role;
 
@@ -49,7 +48,6 @@ it('show photo system to logged user', function (): void {
     get(action([PhotoController::class, 'index']))
         ->assertForbidden();
 });
-
 
 it('shows folders page with directory nodes', function (): void {
     $inDir = Photo::factory()->inFolder('MyFolder')->create();
