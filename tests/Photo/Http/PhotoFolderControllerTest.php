@@ -62,3 +62,42 @@ it('shows top-level folders across entire dataset (ignoring filters on index)', 
         ->assertSee('b')
         ->assertSee('c');
 });
+
+it('handles folder names with spaces and parentheses', function (): void {
+    // Seed a photo in a folder path that contains spaces and parentheses
+    Photo::factory()->inFolder('ARCH GEN 41-50  (idem c. s)/Arch 44b')->create();
+
+    login();
+
+    // Index should show the top-level folder card
+    get(route('photos.folders.index'))
+        ->assertSuccessful()
+        ->assertSee('ARCH GEN 41-50  (idem c. s)');
+
+    // Show page for the nested folder should render and display breadcrumb segments
+    $response = get(route('photos.folders.show', ['path' => 'ARCH GEN 41-50  (idem c. s)/Arch 44b']));
+    $response->assertSuccessful();
+    $response->assertSee('ARCH GEN 41-50  (idem c. s)');
+    $response->assertSee('Arch 44b');
+
+    // The breadcrumb link to the parent segment should exist
+    $response->assertSee(route('photos.folders.show', ['path' => 'ARCH GEN 41-50  (idem c. s)']));
+});
+
+it('paginates photos within a folder (grid and list views)', function (): void {
+    // Create more than one page of photos in the same folder
+    Photo::factory()->count(55)->inFolder('Paginated')->create();
+
+    login();
+
+    // Grid view
+    $grid = get(route('photos.folders.show', ['path' => 'Paginated', 'view' => 'grid']));
+    $grid->assertSuccessful();
+    // Pagination controls should render (Bootstrap 5 pagination markup)
+    $grid->assertSee('pagination');
+
+    // List view
+    $list = get(route('photos.folders.show', ['path' => 'Paginated', 'view' => 'list']));
+    $list->assertSuccessful();
+    $list->assertSee('pagination');
+});
