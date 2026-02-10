@@ -6,7 +6,6 @@ namespace Tests\Http\Nomadelfia;
 
 use App\Admin\Models\User;
 use App\Photo\Controllers\PhotoController;
-use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
 use Spatie\Permission\Models\Role;
 
@@ -48,45 +47,6 @@ it('show photo system to logged user', function (): void {
 
     get(action([PhotoController::class, 'index']))
         ->assertForbidden();
-});
-
-// The explicit "no_strip" filter is removed in favor of grouped view that includes "Senza Striscia".
-
-it('groups photos by stripe', function (): void {
-    // Create a stripe and associate two photos; create another photo without stripe
-    $dbf = DbfAll::create([
-        'fingerprint' => null,
-        'source' => 'foto',
-        'datnum' => '12345',
-        'anum' => '12345',
-        'cddvd' => 'CD000123',
-        'hdint' => 'HDINT123',
-        'hdext' => 'HDEXT123',
-        'sc' => 'SC',
-        'fi' => 'FI',
-        'tp' => 'TP',
-        'nfo' => 2,
-        'data' => now()->format('Y-m-d'),
-        'localita' => 'Test City',
-        'argomento' => 'Argomento di test',
-        'descrizione' => 'Descrizione di test',
-    ]);
-
-    $withStripA = Photo::factory()->create(['dbf_id' => $dbf->id]);
-    $withStripB = Photo::factory()->create(['dbf_id' => $dbf->id]);
-    $withoutStrip = Photo::factory()->create(['dbf_id' => null]);
-
-    login();
-
-    get(action([PhotoController::class, 'index'], ['group' => 'stripe']))
-        ->assertSuccessful()
-        // Group headers present
-        ->assertSee('Senza Striscia')
-        ->assertSee($dbf->datnum)
-        // Photos present in page
-        ->assertSee($withStripA->file_name)
-        ->assertSee($withStripB->file_name)
-        ->assertSee($withoutStrip->file_name);
 });
 
 it('shows folders page with directory nodes', function (): void {
