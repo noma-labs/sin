@@ -36,10 +36,11 @@ final class PhotoFolderController
         $dirTree = ['children' => []];
 
         $topFolders = Photo::query()
-            ->selectRaw("TRIM(BOTH '/' FROM SUBSTRING_INDEX(directory, '/', 1)) AS top")
+            ->selectRaw("SUBSTRING_INDEX(TRIM(LEADING '/' FROM directory), '/', 1) AS top")
             ->selectRaw('COUNT(*) AS cnt')
             ->whereNotNull('directory')
             ->whereRaw("directory <> ''")
+            ->whereRaw("TRIM(LEADING '/' FROM directory) <> ''")
             ->groupBy('top')
             ->orderBy('top')
             ->get();
@@ -53,7 +54,7 @@ final class PhotoFolderController
             ];
             // Preview: earliest photo under this top folder
             $preview = Photo::query()
-                ->where('directory', 'like', $top.'%')
+                ->whereRaw("TRIM(LEADING '/' FROM directory) LIKE ?", [$top.'%'])
                 ->oldest('taken_at')
                 ->orderBy('source_file')
                 ->first();
@@ -104,8 +105,9 @@ final class PhotoFolderController
     {
         $currentView = $request->get('view', 'grid');
 
-        // Normalize path
-        $normalized = mb_trim($path, '/');
+        // Decode and normalize path to handle special characters (spaces, parentheses, etc.)
+        $decoded = rawurldecode($path);
+        $normalized = mb_trim($decoded, '/');
         $segments = array_values(array_filter(explode('/', $normalized), static fn ($s) => $s !== ''));
 
         // Build immediate subfolders using directory field, ignore pagination
@@ -113,9 +115,19 @@ final class PhotoFolderController
         $dirTree = ['children' => []];
 
         $childrenRows = Photo::query()
-            ->selectRaw("SUBSTRING_INDEX(REPLACE(directory, CONCAT(?, '/'), ''), '/', 1) AS child", [$normalized])
+            ->selectRaw("SUBSTRING_INDEX(REPLACE(TRIM(LEADING '/' FROM directory), CONCAT(?, '/'), ''), '/', 1) AS child", [$normalized])
             ->selectRaw('COUNT(*) AS cnt')
-            ->where('directory', 'like', $normalized.'/%')
+            ->where(function ($q) use ($normalized) {
+                $q->whereRaw("TRIM(LEADING '/' FROM directory) LIKE ?", [$normalized.'/%'])
+                    ->orWhere(function ($qq) use ($normalized) {
+                        // Special folder bucket for no-directory
+                        if ($normalized === '__no_directory__') {
+                            $qq->where(function ($x) {
+                                $x->whereNull('directory')->orWhere('directory', '=', '');
+                            });
+                        }
+                    });
+            })
             ->groupBy('child')
             ->orderBy('child')
             ->get();
@@ -131,7 +143,7 @@ final class PhotoFolderController
                 'total' => (int) $row->cnt,
             ];
             $preview = Photo::query()
-                ->where('directory', 'like', $normalized.'/'.$child.'%')
+                ->whereRaw("TRIM(LEADING '/' FROM directory) LIKE ?", [$normalized.'/'.$child.'%'])
                 ->oldest('taken_at')
                 ->orderBy('source_file')
                 ->first();
@@ -143,7 +155,13 @@ final class PhotoFolderController
         // Leaf photos: only photos directly in this folder (exact match)
         $photos = Photo::query()
             ->with('strip')
-            ->where('directory', '=', $normalized)
+            ->where(function ($q) use ($normalized) {
+                if ($normalized === '__no_directory__') {
+                    $q->whereNull('directory')->orWhere('directory', '=', '');
+                } else {
+                    $q->whereRaw("TRIM(LEADING '/' FROM directory) = ?", [$normalized]);
+                }
+            })
             ->oldest('taken_at')
             ->orderBy('source_file')
             ->paginate(50)
