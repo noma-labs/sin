@@ -25,25 +25,25 @@ parameters:
 			path: app/Console/Commands/CreateDatabaseCommand.php
 
 		-
-			message: '#^Parameter \#1 \$path of method App\\Photo\\Actions\\ExtractExifAction\:\:execute\(\) expects string, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#1 \$path of method App\\Photo\\Actions\\ExtractExifAction\:\:execute\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifExtractCommand.php
 
 		-
-			message: '#^Parameter \#1 \$jsonFile of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#1 \$jsonFile of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
-			message: '#^Parameter \#2 \$prefixPathToRemove of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string\|null, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#2 \$prefixPathToRemove of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string\|null, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
-			message: '#^Part \$file \(array\|bool\|string\|null\) of encapsed string cannot be cast to string\.$#'
+			message: '#^Part \$file \(array\|bool\|float\|int\|string\|null\) of encapsed string cannot be cast to string\.$#'
 			identifier: encapsedStringPart.nonString
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
@@ -6199,12 +6199,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:messages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Requests/EntrataPersonaRequest.php
-
-		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9989,12 +9983,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/QueryBuilders/StudenteQueryBuilder.php
-
-		-
-			message: '#^Method App\\Scuola\\Requests\\AddCoordinatoreRequest\:\:messages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/Http/Scuola/Requests/AddCoordinatoreRequest.php
 
 		-
 			message: '#^Method App\\Scuola\\Requests\\AddCoordinatoreRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'

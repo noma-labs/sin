@@ -89,7 +89,7 @@ final class PhotoFolderController
         $photos = Photo::query()
             ->with('strip')
             ->where(function ($q) use ($normalized) {
-               $q->whereRaw("TRIM(LEADING '/' FROM directory) = ?", [$normalized]);
+                $q->whereRaw("TRIM(LEADING '/' FROM directory) = ?", [$normalized]);
             })
             ->oldest('taken_at')
             ->orderBy('source_file')
