@@ -21,14 +21,8 @@ final class PhotoController
         $filterPersonName = $request->string('name');
         $orderBy = $request->string('order', 'source_file');
         $view = $request->get('view', 'grid');
-        // Deprecated: "no_strip" filter was replaced by grouped view that includes a "Senza Striscia" section.
-        $filterNoStrip = false;
-        $groupBy = $request->string('group'); // 'stripe' | ''
 
-        $q = Photo::query()
-            ->with('strip')
-            ->oldest('taken_at');
-        // no_strip removed: keep showing all; grouping handles visualization of "Senza Striscia"
+        $q = Photo::query()->oldest('taken_at')->orderBy($orderBy->toString());
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
@@ -37,39 +31,13 @@ final class PhotoController
             $q->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
 
-        $q->orderBy($orderBy->toString());
-
         $photos = $q->paginate(50);
         $photos_count = $q->count();
-
-        // Build grouped structure for the requested grouping mode (computed on current page for simplicity)
-        /** @var array<string|int, array{label:string,meta:mixed,photos:array<int,Photo>}> $groups */
-        $groups = [];
-        if (! $groupBy->isEmpty()) {
-            if ($groupBy->toString() === 'stripe') {
-                // Group by associated stripe; include special "Senza Striscia" group for null dbf_id
-                /** @var Photo $photo */
-                foreach ($photos as $photo) {
-                    $dbfIdRaw = $photo->getAttribute('dbf_id');
-                    $dbfId = is_int($dbfIdRaw) ? $dbfIdRaw : null;
-                    $key = is_null($dbfId) ? 'no_stripe' : (string) $dbfId;
-                    if (! isset($groups[$key])) {
-                        $groups[$key] = [
-                            'label' => $photo->strip ? ($photo->strip->datnum) : 'Senza Striscia',
-                            'meta' => $photo->strip ?? null,
-                            'photos' => [],
-                        ];
-                    }
-                    $groups[$key]['photos'][] = $photo;
-                }
-            }
-        }
 
         $qYears = Photo::query()
             ->selectRaw('YEAR(taken_at) as year, count(*) as `count` ')
             ->groupByRaw('YEAR(taken_at)')
             ->orderByRaw('YEAR(taken_at)');
-        // no_strip removed for years aggregation
         if (! $filterPersonName->isEmpty()) {
             $qYears->where('subjects', 'like', '%'.$filterPersonName->toString().'%');
         }
@@ -79,8 +47,6 @@ final class PhotoController
             'photos' => $photos,
             'photos_count' => $photos_count,
             'years' => $years,
-            'group' => $groupBy->toString(),
-            'groups' => $groups,
         ]);
     }
 

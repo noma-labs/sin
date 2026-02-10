@@ -55,13 +55,13 @@
                 href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["source" => null])) }}"
                 class="btn btn-sm btn-outline-secondary {{ $currentSource === "" ? "active" : "" }}"
             >
-                Tutte
+                Tutti i formati
             </a>
             <a
                 href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["source" => "foto"])) }}"
                 class="btn btn-sm btn-outline-secondary {{ $currentSource === "foto" ? "active" : "" }}"
             >
-                Foto
+                Foto analogiche
             </a>
             <a
                 href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["source" => "dia120"])) }}"
@@ -83,19 +83,19 @@
                 href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["no_photos" => null, "mismatch" => null])) }}"
                 class="btn btn-sm btn-outline-secondary {{ empty($noPhotos) && empty($mismatch) ? "active" : "" }}"
             >
-                Tutte le strisce
+                Tutti
             </a>
             <a
                 href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["no_photos" => 1, "mismatch" => null])) }}"
                 class="btn btn-sm btn-outline-secondary {{ ! empty($noPhotos) ? "active" : "" }}"
             >
-                0 foto
+                Eventi senza foto
             </a>
             <a
                 href="{{ route("photos.stripes.index", array_merge(request()->except(["page"]), ["mismatch" => 1, "no_photos" => null])) }}"
                 class="btn btn-sm btn-outline-secondary {{ ! empty($mismatch) ? "active" : "" }}"
             >
-                NFO ≠ Foto
+                Eventi con foto mancanti o in eccesso
             </a>
         </div>
         <div class="btn-group me-3" role="group" aria-label="Ordina per">
@@ -104,7 +104,7 @@
                 href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["order" => "datnum"])) }}"
                 class="btn btn-sm btn-outline-secondary {{ $currentOrder === "datnum" ? "active" : "" }}"
             >
-                Ordina per Datnum
+                Ordina per Striscia
             </a>
             <a
                 href="{{ route("photos.stripes.index", array_merge(request()->except("page"), ["order" => "data"])) }}"
@@ -152,12 +152,6 @@
                             aria-controls="{{ $collapseId }}"
                         >
                             <div class="d-flex align-items-center w-100 gap-3">
-                                <span class="fw-semibold">
-                                    {{ $stripe->datnum }}
-                                    @if (! empty($stripe->anum) && $stripe->anum !== $stripe->datnum)
-                                            — {{ $stripe->anum }}
-                                    @endif
-                                </span>
                                 <span>
                                     <span class="text-muted">Data:</span>
                                     <span class="fw-semibold">
@@ -187,6 +181,16 @@
                                         </span>
                                     @endif
                                 @endif
+
+                                <span>
+                                    <span class="text-muted">Strisce:</span>
+                                    <span class="fw-semibold">
+                                        {{ $stripe->datnum }}
+                                        @if (! empty($stripe->anum) && $stripe->anum !== $stripe->datnum)
+                                                — {{ $stripe->anum }}
+                                        @endif
+                                    </span>
+                                </span>
 
                                 <span class="badge text-bg-secondary">
                                     {{ $stripe->source }}
