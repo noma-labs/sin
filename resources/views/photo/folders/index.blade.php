@@ -35,8 +35,9 @@
             @php($seen[$dedupeKey] = true)
             @php($firstPhoto = $child["preview"] ?? (isset($child["photos"]) && count($child["photos"]) ? $child["photos"][0] : null))
             <div class="col">
+                @php($routePath = $label === "__no_directory__" ? "__no_directory__" : $folderLabel)
                 <a
-                    href="{{ route("photos.folders.show", ["path" => $folderLabel]) }}"
+                    href="{{ route("photos.folders.show", ["path" => $routePath]) }}"
                     class="text-decoration-none"
                 >
                     <div class="card h-100 shadow-sm">
@@ -81,7 +82,7 @@
         @endforeach
     </div>
 
-    @if ($photos->count() > 0)
+    @if (false)
         @if ($currentView === "grid")
             <div class="d-flex flex-wrap mt-4">
                 @foreach ($photos as $photo)
@@ -143,7 +144,5 @@
         @endif
     @endif
 
-    <div class="d-flex justify-content-center">
-        {{ $photos->appends(request()->except("page"))->links("vendor.pagination.bootstrap-5") }}
-    </div>
+    {{-- Photos are not displayed on the index. Use the "Senza Cartella" card to access ungrouped photos. --}}
 @endsection
