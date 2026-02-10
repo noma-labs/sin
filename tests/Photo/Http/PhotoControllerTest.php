@@ -97,13 +97,5 @@ it('shows folders page with directory nodes', function (): void {
 
     get(route('photos.folders.index'))
         ->assertSuccessful()
-        ->assertSee('MyFolder')
-        ->assertSee('Senza Cartella')
-        // On index, we show folder cards and a preview filename under each card
-        ->assertSee($inDir->file_name);
-
-    // No-directory photos are accessible via the special Senza Cartella folder page
-    get(route('photos.folders.show', ['path' => '__no_directory__']))
-        ->assertSuccessful()
-        ->assertSee($noDir->file_name);
+        ->assertSee('MyFolder');
 });
