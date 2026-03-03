@@ -23,7 +23,7 @@
                         >
                             {{ $cliente->nominativo }}
                             @if (trim($cliente->cliente_con_patente) === "")
-                                    - senza patente
+                                - no patente
                             @endif
                         </option>
                     @endforeach
