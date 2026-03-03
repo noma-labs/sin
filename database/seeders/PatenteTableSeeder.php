@@ -8,6 +8,7 @@ use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Patente\Models\Patente;
+use App\Patente\Models\CategoriaPatente;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,9 @@ final class PatenteTableSeeder extends Seeder
     {
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
-        Patente::factory()->persona($persona)->create();
+        $patente = Patente::factory()->persona($persona)->create();
+
+        $categoria = CategoriaPatente::inRandomOrder()->first();
+        $patente->categorie()->attach($categoria->id);
     }
 }

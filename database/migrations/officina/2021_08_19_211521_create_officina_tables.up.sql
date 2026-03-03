@@ -540,7 +540,7 @@ CREATE TABLE IF NOT EXISTS `veicolo` (
 -- Crea vista `v_clienti_meccanica`
 
 CREATE VIEW IF NOT EXISTS `v_clienti_meccanica`
-AS select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,(select distinct case `db_patente`.`persone_patenti`.`numero_patente` when '' then '' else 'CP ' end from `db_patente`.`persone_patenti` where `db_patente`.`persone_patenti`.`numero_patente` is not null and `db_patente`.`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`) AS `cliente_con_patente`
+AS select `db_nomadelfia`.`persone`.`id` AS `id`,`db_nomadelfia`.`persone`.`nominativo` AS `nominativo`,`db_nomadelfia`.`persone`.`data_nascita` AS `data_nascita`,(select distinct case `db_patente`.`persone_patenti`.`numero_patente` when '' then '' else 'CP ' end from `db_patente`.`persone_patenti` where `db_patente`.`persone_patenti`.`numero_patente` is not null and `db_patente`.`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id` and `db_patente`.`persone_patenti`.`deleted_at` IS NULL) AS `cliente_con_patente`
    from `db_nomadelfia`.`persone`
             join `db_nomadelfia`.`popolazione` on popolazione.persona_id = persone.id
    where `db_nomadelfia`.`persone`.`data_decesso` is null and `db_nomadelfia`.`persone`.`data_nascita` <= sysdate() - interval 200 year_month and popolazione.data_uscita IS NULL
