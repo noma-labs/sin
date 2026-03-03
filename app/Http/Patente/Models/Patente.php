@@ -6,6 +6,8 @@ namespace App\Patente\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\SortableTrait;
+use Database\Factories\PatenteFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 final class Patente extends Model
 {
+    use HasFactory;
     use SortableTrait;
 
     public $increment = false;
@@ -122,5 +125,10 @@ final class Patente extends Model
     {
         return $query->whereNull('stato')
             ->orWhere('stato', '!=', 'commissione');
+    }
+
+    protected static function newFactory()
+    {
+        return PatenteFactory::new();
     }
 }
