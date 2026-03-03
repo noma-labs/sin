@@ -198,10 +198,30 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <button type="submit" form="edit-patente" class="btn btn-primary">
+        <div class="col-md-3 d-flex align-items-center">
+            <button
+                type="submit"
+                form="edit-patente"
+                class="btn btn-primary me-auto"
+            >
                 Salva
             </button>
+            <form
+                action="{{ route("patente.elimina", ["numero" => $patente->numero_patente]) }}"
+                method="POST"
+                class="ms-auto"
+                style="margin-bottom: 0"
+            >
+                @csrf
+                @method("DELETE")
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Sei sicuro di voler eliminare questa patente?')"
+                >
+                    Elimina
+                </button>
+            </form>
         </div>
     </div>
 @endsection

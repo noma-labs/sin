@@ -20,6 +20,7 @@ final class DatabaseSeeder extends Seeder
             $this->call(ScuolaTableSeeder::class);
             $this->call(PhotoTableSeeder::class);
             $this->call(MezzoAgricoloTableSeeder::class);
+            $this->call(PatenteTableSeeder::class);
         }
     }
 

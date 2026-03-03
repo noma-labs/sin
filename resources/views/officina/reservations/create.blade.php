@@ -18,9 +18,13 @@
                     @foreach ($clienti as $cliente)
                         <option
                             value="{{ $cliente->id }}"
-                            @if (old('nome') !== null && old('nome') == $cliente->id)  selected @endif
+                            @if (old('nome') !== null && old('nome') == $cliente->id) selected @endif
+                            @if (trim($cliente->cliente_con_patente) === '') disabled @endif
                         >
                             {{ $cliente->nominativo }}
+                            @if (trim($cliente->cliente_con_patente) === "")
+                                - no patente
+                            @endif
                         </option>
                     @endforeach
                 </select>

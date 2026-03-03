@@ -54,7 +54,8 @@ CREATE TABLE `persone_patenti` (
     `data_rilascio_patente` date NOT NULL,
     `data_scadenza_patente` date NOT NULL,
     `stato` enum('commissione') DEFAULT NULL,
-    `note` varchar(200) DEFAULT NULL
+    `note` varchar(200) DEFAULT NULL,
+     `deleted_at` timestamp NULL DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE VIEW IF NOT EXISTS `v_clienti_patente`

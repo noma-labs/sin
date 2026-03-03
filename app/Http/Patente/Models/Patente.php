@@ -6,10 +6,13 @@ namespace App\Patente\Models;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Traits\SortableTrait;
+use Database\Factories\PatenteFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string $stato
@@ -18,9 +21,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $rilasciata_dal
  * @property string $data_scadenza_patente
  * @property string $note
+ * @property string|null $deleted_at
  */
 final class Patente extends Model
 {
+    /** @use HasFactory<PatenteFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
     use SortableTrait;
 
     public $increment = false;
@@ -80,8 +88,14 @@ final class Patente extends Model
                 ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
                 ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
                 ->whereNull('db_nomadelfia.popolazione.data_uscita')
+                ->whereNull('persone_patenti.deleted_at')
                 ->orderBy('db_nomadelfia.persone.nominativo');
         });
+    }
+
+    protected static function newFactory(): PatenteFactory
+    {
+        return PatenteFactory::new();
     }
 
     protected function scopeInScadenza($query, int $days)
