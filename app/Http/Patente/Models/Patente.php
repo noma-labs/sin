@@ -10,9 +10,9 @@ use Database\Factories\PatenteFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string $stato
@@ -27,8 +27,9 @@ final class Patente extends Model
 {
     /** @use HasFactory<PatenteFactory> */
     use HasFactory;
-    use SortableTrait;
+
     use SoftDeletes;
+    use SortableTrait;
 
     public $increment = false;
 
@@ -92,9 +93,6 @@ final class Patente extends Model
         });
     }
 
-    /**
-     * @return PatenteFactory
-     */
     protected static function newFactory(): PatenteFactory
     {
         return PatenteFactory::new();

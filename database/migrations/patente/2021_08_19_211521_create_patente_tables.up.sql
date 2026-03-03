@@ -68,7 +68,9 @@ AS select `db_nomadelfia`.`persone`.`id` AS `persona_id`,
        `db_nomadelfia`.`persone`.`provincia_nascita` AS `provincia_nascita`,
        (
            select distinct (case `persone_patenti`.`numero_patente` when '' then '' else 'CP ' end) from `persone_patenti`
-           where ((`persone_patenti`.`numero_patente` is not null) and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`))
+           where ((`persone_patenti`.`numero_patente` is not null)
+             and (`persone_patenti`.`persona_id` = `db_nomadelfia`.`persone`.`id`)dd
+             and (`persone_patenti`.`deleted_at` IS NULL))
        ) AS `cliente_con_patente`
 from `db_nomadelfia`.`persone`
 join `db_nomadelfia`.`popolazione` on `db_nomadelfia`.`popolazione`.`persona_id` = `db_nomadelfia`.`persone`.`id`
