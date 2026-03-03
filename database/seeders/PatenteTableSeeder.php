@@ -18,7 +18,9 @@ final class PatenteTableSeeder extends Seeder
     {
         $persona = Persona::factory()->maggiorenne()->maschio()->create();
         app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
+
         $patente = Patente::factory()->persona($persona)->create();
+        $patente->refresh();
 
         $categoria = CategoriaPatente::inRandomOrder()->first();
         $patente->categorie()->attach($categoria->id);
