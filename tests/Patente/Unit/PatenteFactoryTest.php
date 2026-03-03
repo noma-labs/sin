@@ -13,4 +13,4 @@ it('creates a patente with valid attributes', function (): void {
     expect($patente->rilasciata_dal)->not->toBeEmpty();
     expect($patente->data_scadenza_patente)->not->toBeEmpty();
     expect($patente->stato)->not->toBeEmpty();
-})->only();
+});
