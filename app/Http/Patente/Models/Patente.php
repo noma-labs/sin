@@ -83,6 +83,7 @@ final class Patente extends Model
                 ->join('db_nomadelfia.popolazione', 'db_nomadelfia.popolazione.persona_id', '=', 'persone_patenti.persona_id')
                 ->join('db_nomadelfia.persone', 'db_nomadelfia.persone.id', '=', 'persone_patenti.persona_id')
                 ->whereNull('db_nomadelfia.popolazione.data_uscita')
+                ->whereNull('persone_patenti.deleted_at')
                 ->orderBy('db_nomadelfia.persone.nominativo');
         });
     }

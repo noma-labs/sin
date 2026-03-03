@@ -131,7 +131,9 @@ final class PatenteController
 
     public function delete($numero)
     {
-        Patente::destroy($numero);
+        $patente = Patente::findOrFail($numero);
+        $patente->deleted_at = now();
+        $patente->save();
 
         return to_route('patente.scadenze')->withSuccess('Patente eliminata con successo.');
     }
