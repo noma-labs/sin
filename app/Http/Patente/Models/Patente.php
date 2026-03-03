@@ -10,6 +10,7 @@ use Database\Factories\PatenteFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -20,11 +21,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $rilasciata_dal
  * @property string $data_scadenza_patente
  * @property string $note
+ * @property string|null $deleted_at
  */
 final class Patente extends Model
 {
+    /** @use HasFactory<PatenteFactory> */
     use HasFactory;
     use SortableTrait;
+    use SoftDeletes;
 
     public $increment = false;
 
@@ -88,7 +92,10 @@ final class Patente extends Model
         });
     }
 
-    protected static function newFactory()
+    /**
+     * @return PatenteFactory
+     */
+    protected static function newFactory(): PatenteFactory
     {
         return PatenteFactory::new();
     }
