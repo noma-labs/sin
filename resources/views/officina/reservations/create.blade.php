@@ -19,11 +19,11 @@
                         <option
                             value="{{ $cliente->id }}"
                             @if (old('nome') !== null && old('nome') == $cliente->id) selected @endif
-                            @if (trim($cliente->cliente_con_patente) === '') disabled @endif
+                            @if (trim($cliente->cliente_con_patente) === '') class="text-warning" @endif
                         >
                             {{ $cliente->nominativo }}
                             @if (trim($cliente->cliente_con_patente) === "")
-                                - no patente
+                                (senza patente)
                             @endif
                         </option>
                     @endforeach
