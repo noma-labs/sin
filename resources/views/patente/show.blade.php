@@ -202,10 +202,18 @@
             <button type="submit" form="edit-patente" class="btn btn-primary">
                 Salva
             </button>
-            <form action="{{ route('patente.elimina', ['numero' => $patente->numero_patente]) }}" method="POST" style="margin-top: 1rem;">
+            <form
+                action="{{ route("patente.elimina", ["numero" => $patente->numero_patente]) }}"
+                method="POST"
+                style="margin-top: 1rem"
+            >
                 @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa patente?')">
+                @method("DELETE")
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Sei sicuro di voler eliminare questa patente?')"
+                >
                     Elimina
                 </button>
             </form>

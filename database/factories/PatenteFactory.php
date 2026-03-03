@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
-use App\Patente\Models\Patente;
 use App\Nomadelfia\Persona\Models\Persona;
+use App\Patente\Models\Patente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<Patente>
  */
-class PatenteFactory extends Factory
+final class PatenteFactory extends Factory
 {
     protected $model = Patente::class;
 
@@ -34,5 +36,4 @@ class PatenteFactory extends Factory
             ];
         });
     }
-
 }

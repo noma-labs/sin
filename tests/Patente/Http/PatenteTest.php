@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Http\Patente;
 
-use App\Patente\Models\Patente;
-
 use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteElenchiController;
+use App\Patente\Models\Patente;
 
 it('forbids access to guests', function (): void {
     $this->get(action([PatenteController::class, 'index']))
@@ -27,7 +26,6 @@ it('export into pdf', function (): void {
         ->assertSuccessful()
         ->assertDownload();
 });
-
 
 it('soft deletes patente and sets deleted_at', function () {
     login();
