@@ -25,7 +25,7 @@ final class AddForeignKey extends Migration
         });
 
         Schema::table('manutenzione_tipo', function (Blueprint $table) {
-            $table->foreign('manutenzione')->references('id')->on('manutenzione');
+            $table->foreign('manutenzione')->references('id')->on('manutenzione')->onDelete('cascade');
             $table->foreign('tipo')->references('id')->on('manutenzione_programmata');
         });
 
