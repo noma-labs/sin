@@ -33,13 +33,7 @@
                 </label>
                 <div class="col-8">
                     <select class="form-select" name="posizione">
-                        <option
-                            value="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
-                            ="BGck2kSmYNHpJjjXB2GO9DS9Hz2QPoJ0bH1QZB"
-                            selected
-                        >
-                            ---scegli posizione---
-                        </option>
+                        <option selected>---scegli posizione---</option>
                         @foreach (App\Nomadelfia\Famiglia\Models\Famiglia::getEnum("Posizione") as $posizione)
                             @if ($posizione == $componente->posizione_famiglia)
                                 <option value="{{ $posizione }}" selected>

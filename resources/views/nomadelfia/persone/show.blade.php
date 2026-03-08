@@ -495,30 +495,27 @@
                                         </div>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <a
+                                                class="btn btn-warning"
+                                                href="{{ route("nomadelfia.person.families", $persona->id) }}"
+                                            >
+                                                Storico
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
                             @else
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label class="col-sm-4 fw-bold">
-                                            Tipo:
-                                        </label>
                                         <div class="col-sm-8">
-                                            <span>Single</span>
+                                            @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
                                         </div>
                                     </div>
                                 </li>
                             @endif
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <a
-                                            class="btn btn-warning"
-                                            href="{{ route("nomadelfia.person.families", $persona->id) }}"
-                                        >
-                                            Modifica
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>
