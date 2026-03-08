@@ -34,10 +34,10 @@ final class PersonaFamigliaController
         ]);
 
         $persona = Persona::query()->findOrFail($id);
-        $famiglia = Famiglia::query()->findOrFail($request->family_id);
+        $famiglia = Famiglia::query()->findOrFail($request->integer('family_id'));
 
         // Use type to assign the correct role in the family
-        switch ($request->type) {
+        switch ($request->string('type')) {
             case 'CAPO FAMIGLIA':
                 $famiglia->assegnaCapoFamiglia($persona);
                 break;
@@ -51,7 +51,7 @@ final class PersonaFamigliaController
                 $famiglia->assegnaFiglioAccolto($persona);
                 break;
             default:
-                return back()->withErrors(["Posizione `{$request->type}` non riconosciuta"]);
+                return back()->withErrors(["Posizione `{$request->string('type')}` non riconosciuta"]);
         }
 
         return to_route('nomadelfia.person.show', $persona->id)
