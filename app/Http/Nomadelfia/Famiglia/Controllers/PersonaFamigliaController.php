@@ -36,7 +36,7 @@ final class PersonaFamigliaController
         $persona = Persona::query()->findOrFail($id);
         $famiglia = Famiglia::query()->findOrFail($request->integer('family_id'));
 
-        // Use type to assign the correct role in the family
+        // Use type to assign the correct role in the familytask
         switch ($request->string('type')) {
             case 'CAPO FAMIGLIA':
                 $famiglia->assegnaCapoFamiglia($persona);
