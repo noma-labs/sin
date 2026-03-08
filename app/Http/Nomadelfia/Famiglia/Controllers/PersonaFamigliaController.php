@@ -19,7 +19,10 @@ final class PersonaFamigliaController
         return view('nomadelfia.persone.famiglia.show', compact('persona', 'attuale', 'storico'));
     }
 
-    public function store(Request $request, $id)
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request, string $id)
     {
         $request->validate([
             'family_id' => ['required', 'exists:db_nomadelfia.famiglie,id'],
@@ -30,8 +33,8 @@ final class PersonaFamigliaController
             'type.required' => 'La posizione nella famiglia è obbligatoria.',
         ]);
 
-        $persona = Persona::findOrFail($id);
-        $famiglia = Famiglia::findOrFail($request->family_id);
+        $persona = Persona::query()->findOrFail($id);
+        $famiglia = Famiglia::query()->findOrFail($request->family_id);
 
         // Use type to assign the correct role in the family
         switch ($request->type) {

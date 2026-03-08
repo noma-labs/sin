@@ -502,7 +502,7 @@
                                                 class="btn btn-warning"
                                                 href="{{ route("nomadelfia.person.families", $persona->id) }}"
                                             >
-                                                Modifica
+                                                Storico
                                             </a>
                                         </div>
                                     </div>
@@ -510,19 +510,13 @@
                             @else
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label class="col-sm-4">
-                                            Nessuna famiglia attuale
-                                        </label>
                                         <div class="col-sm-8">
-                                            Nessuna famiglia attuale
+                                            @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
                                         </div>
                                     </div>
                                 </li>
                             @endif
-                            {{-- Add form to add person to family in the middle of the ul --}}
-                            <li class="list-group-item">
-                                @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
-                            </li>
+
                         </ul>
                     </div>
                 </div>
