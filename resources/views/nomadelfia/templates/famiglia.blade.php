@@ -29,5 +29,7 @@
         <p class="text-danger">Nessun componente</p>
     @endforelse
 
-    @include("nomadelfia.templates.aggiungiComponente", ["famiglia" => $famiglia])
+    <div class="text-center">
+        @include("nomadelfia.templates.aggiungiComponente", ["famiglia" => $famiglia])
+    </div>
 </ul>

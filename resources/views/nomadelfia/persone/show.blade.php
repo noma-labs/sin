@@ -495,29 +495,33 @@
                                         </div>
                                     </div>
                                 </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <a
+                                                class="btn btn-warning"
+                                                href="{{ route("nomadelfia.person.families", $persona->id) }}"
+                                            >
+                                                Modifica
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
                             @else
                                 <li class="list-group-item">
                                     <div class="row">
-                                        <label class="col-sm-4 fw-bold">
-                                            Tipo:
+                                        <label class="col-sm-4">
+                                            Nessuna famiglia attuale
                                         </label>
                                         <div class="col-sm-8">
-                                            <span>Single</span>
+                                            Nessuna famiglia attuale
                                         </div>
                                     </div>
                                 </li>
                             @endif
+                            {{-- Add form to add person to family in the middle of the ul --}}
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <a
-                                            class="btn btn-warning"
-                                            href="{{ route("nomadelfia.person.families", $persona->id) }}"
-                                        >
-                                            Modifica
-                                        </a>
-                                    </div>
-                                </div>
+                                @include("nomadelfia.templates.addPersonToFamiliy", ["persona" => $persona])
                             </li>
                         </ul>
                     </div>

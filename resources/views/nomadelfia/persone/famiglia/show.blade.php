@@ -45,7 +45,11 @@
                     @forelse ($storico as $famigliaStorico)
                         <div class="row">
                             <p class="col-md-3">
-                                {{ $famigliaStorico->nome_famiglia }}
+                                <a
+                                    href="{{ route("nomadelfia.families.show", $famigliaStorico->id) }}"
+                                >
+                                    {{ $famigliaStorico->nome_famiglia }}
+                                </a>
                             </p>
                             <p class="col-md-3">
                                 {{ $famigliaStorico->pivot->posizione_famiglia }}

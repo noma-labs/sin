@@ -11,18 +11,14 @@
             action="{{ route("nomadelfia.family.member.store", ["id" => $famiglia->id]) }}"
         >
             @csrf
-            <div class="row">
-                <label for="example-text-input" class="col-4 form-label">
-                    Persona
-                </label>
+            <div class="row mb-3">
+                <label class="col-4 form-label">Persona</label>
                 <div class="col-8">
-                    <livewire:search-popolazione name_input="persona_id" />
+                    <livewire:search-persona name_input="persona_id" />
                 </div>
             </div>
-            <div class="row">
-                <label for="example-text-input" class="col-4 form-label">
-                    Posizione Famiglia
-                </label>
+            <div class="row mb-3">
+                <label class="col-4 form-label">Posizione Famiglia</label>
                 <div class="col-8">
                     <select class="form-select" name="posizione">
                         <option value="" selected>
@@ -36,10 +32,8 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
-                <label for="example-text-input" class="col-4 form-label">
-                    Stato:
-                </label>
+            <div class="row mb-3">
+                <label class="col-4 form-label">Stato:</label>
                 <div class="col-8">
                     <div class="form-check">
                         <input
@@ -69,9 +63,7 @@
                 </div>
             </div>
             <div class="row">
-                <label for="example-text-input" class="col-4 form-label">
-                    Note:
-                </label>
+                <label class="col-4 form-label">Note:</label>
                 <div class="col-8">
                     <!-- <input type="date" class="form-control" name="note" placeholder="Data entrata nella famiglia" > -->
                     <textarea

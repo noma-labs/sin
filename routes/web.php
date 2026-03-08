@@ -197,6 +197,7 @@ Route::prefix('nomadelfia')->middleware('auth')->group(function () {
     Route::get('families/{id}', [FamilyController::class, 'show'])->name('nomadelfia.families.show');
     Route::put('families/{id}', [FamilyController::class, 'update'])->name('nomadelfia.families.update');
     Route::get('people/{id}/families', [PersonaFamigliaController::class, 'index'])->name('nomadelfia.person.families');
+    Route::post('people/{id}/add-family', [PersonaFamigliaController::class, 'store'])->name('nomadelfia.person.add-family');
 
     Route::get('marriage', [MarriageController::class, 'create'])->name('nomadelfia.marriage.create');
     Route::post('marriage', [MarriageController::class, 'store'])->name('nomadelfia.marriage.store');
