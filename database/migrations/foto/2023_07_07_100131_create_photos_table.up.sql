@@ -22,7 +22,7 @@ ALTER TABLE `photos` ADD UNIQUE KEY `unique_sha` (`sha`);
 
 CREATE TABLE `photos_people` (
     `photo_id` varchar(255) NOT NULL,
-    `persona_id` bigint(10) DEFAULT NULL,
+    `persona_id` int(10) DEFAULT NULL,
     `persona_nome` varchar(255)  DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP(),
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP()
@@ -31,7 +31,8 @@ CREATE TABLE `photos_people` (
 ALTER TABLE `photos_people`
     ADD UNIQUE KEY (`photo_id`,`persona_id`);
 
-
+ALTER TABLE `photos_people`
+    ADD FOREIGN KEY (`persona_id`) REFERENCES `db_nomadelfia`.`persone` (`id`)  ON DELETE SET NULL;
 
 -- find duplicate foto by sha
 

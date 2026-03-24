@@ -17,8 +17,7 @@ final class FaceController
         $query = DB::connection('db_foto')
             ->table('photos_people')
             ->selectRaw('p.id, p.nome, p.cognome, photos_people.persona_nome as name, count(*) as count')
-            ->leftJoin('db_nomadelfia.alfa_enrico_15_feb_23 as e', 'e.FOTO', '=', 'photos_people.persona_nome')
-            ->leftJoin('db_nomadelfia.persone as p', 'p.id_alfa_enrico', '=', 'e.id')
+            ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
             ->groupBy('p.id', 'p.nome', 'p.cognome', 'photos_people.persona_nome')
             ->orderByDesc('count');
 
