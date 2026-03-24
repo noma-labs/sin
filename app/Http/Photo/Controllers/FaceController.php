@@ -26,8 +26,7 @@ final class FaceController
                 $s = $search->toString();
                 $q->where('photos_people.persona_nome', 'like', "$s%")
                     ->orWhere('p.nome', 'like', "$s%")
-                    ->orWhere('p.cognome', 'like', "$s%")
-                    ->orWhere('e.ALIAS', 'like', "$s%");
+                    ->orWhere('p.cognome', 'like', "$s%");
             });
         }
         $faces = $query->paginate(200);
