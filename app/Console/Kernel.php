@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
@@ -21,6 +22,7 @@ final class Kernel extends ConsoleKernel
         CreateDatabaseCommand::class,
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
+        SynchPeopleOnPhotosCommand::class,
     ];
 
     /**
@@ -28,10 +30,6 @@ final class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        // $schedule->command('backup:clean')->daily()->at('01:00');
-        // $schedule->command('backup:run')->daily()->at('14:30');
     }
 
     /**
