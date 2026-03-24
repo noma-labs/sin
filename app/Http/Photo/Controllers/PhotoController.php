@@ -21,7 +21,7 @@ final class PhotoController
         $filterPersonName = $request->string('name');
         $view = $request->get('view', 'grid');
 
-        $q = Photo::query()->oldest('taken_at')->orderByRaw('YEAR(taken_at)');
+        $q = Photo::query()->orderByRaw('ISNULL(taken_at), YEAR(taken_at), taken_at ASC');
 
         if (! $filterYear->isEmpty()) {
             $q->whereRaw('YEAR(taken_at)= ?', [$filterYear]);
