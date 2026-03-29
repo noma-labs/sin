@@ -59,12 +59,14 @@ final class CQC extends Model
         });
     }
 
-    protected function scopeCQCPersone($query): self
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function cQCPersone($query): self
     {
         return $query->where('id', 16)->first();
     }
 
-    protected function scopeCQCMerci($query): self
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function cQCMerci($query): self
     {
         return $query->where('id', 17)->first();
     }
@@ -79,7 +81,8 @@ final class CQC extends Model
             ->wherePivot('data_scadenza', '>=', \Illuminate\Support\Facades\Date::now()->toDateString());
     }
 
-    protected function scopeNonInScadenza($query, int $days): BelongsToMany
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function nonInScadenza($query, int $days): BelongsToMany
     {
         $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
 

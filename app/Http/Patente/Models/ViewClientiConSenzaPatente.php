@@ -25,12 +25,14 @@ final class ViewClientiConSenzaPatente extends Model
         return $this->hasMany(Patente::class, 'persona_id', 'persona_id');
     }
 
-    protected function scopeConPatente($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function conPatente($query)
     {
         return $query->where('cliente_con_patente', 'CP');
     }
 
-    protected function scopeSenzaPatente($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function senzaPatente($query)
     {
         return $query->where('cliente_con_patente', '!=', 'CP')->orWhereNull('cliente_con_patente');
     }

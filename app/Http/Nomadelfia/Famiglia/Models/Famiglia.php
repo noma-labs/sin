@@ -546,12 +546,14 @@ final class Famiglia extends Model
         return FamigliaFactory::new();
     }
 
-    protected function scopeOrdered($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function ordered($query)
     {
         return $query->orderBy('nome_famiglia', 'asc')->get();
     }
 
-    protected function scopeFamigliePerPosizioni($query, $posizione, $stato = '1')
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function famigliePerPosizioni($query, $posizione, $stato = '1')
     {
         return $query->select('famiglie.*', 'persone.sesso', 'famiglie_persone.posizione_famiglia',
             'famiglie_persone.stato')
@@ -564,12 +566,14 @@ final class Famiglia extends Model
             ->orderBy('famiglie.nome_famiglia');
     }
 
-    protected function scopeMaschio($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function maschio($query)
     {
         return $query->where('sesso', 'M');
     }
 
-    protected function scopeFemmina($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function femmina($query)
     {
         return $query->where('sesso', 'F');
     }

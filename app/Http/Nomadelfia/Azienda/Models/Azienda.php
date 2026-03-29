@@ -88,12 +88,14 @@ final class Azienda extends Model
         return AziendaFactory::new();
     }
 
-    protected function scopeAziende($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function aziende($query)
     {
         return $query->where('tipo', '=', 'azienda');
     }
 
-    protected function scopeIncarichi($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function incarichi($query)
     {
         return $query->where('tipo', '=', 'incarico');
     }

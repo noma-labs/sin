@@ -19,29 +19,34 @@ final class ViewCollocazione extends Model
 
     protected $table = 'v_colloc_split';
 
-    protected function scopeLettere($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function lettere($query)
     {
         return $query->select('lettere')->whereRaw('LENGTH(lettere) = 3')
             ->orWhereRaw('lettere = 000')->groupBy('lettere');
     }
 
-    protected function scopeTotal($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function total($query)
     {
         return $query->lettere()->get()->count();
     }
 
-    protected function scopeNumeri($query, string $lettere)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function numeri($query, string $lettere)
     {
         return $query->select('numeri')->where('lettere', $lettere)->orderBy('numeri');
     }
 
-    protected function scopeMaxForLettere($query, string $lettere): float
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function maxForLettere($query, string $lettere): float
     {
         // return the max number for the lettere (e.g. App\ViewCollocazione::MaxForLettere("AAA"))
         return $query->numeri($lettere)->get()->max()->numeri;
     }
 
-    protected function scopeNumeriMancanti($query, string $lettere): array
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function numeriMancanti($query, string $lettere): array
     {
         $numeri = $query->numeri($lettere)->get()->toArray();
         $max = $query->numeri($lettere)->get()->max()->numeri;
