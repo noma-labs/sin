@@ -179,7 +179,7 @@ final class PopolazioneNomadelfia extends Model
     *  Ritorna le persone con una certa posizione.
     *  LA posizione è una tra "DADE", "EFFE", "FIGL", "OSPP" "POST"
     */
-    public static function byPosizione(string $posizione, $ordeby = 'nominativo')
+    public static function byPosizione(string $posizione, string $ordeby = 'nominativo')
     {  // "persone_posizioni.data_inizio ASC, persone.nominativo"
 
         $posizioni = DB::connection('db_nomadelfia')
@@ -201,7 +201,7 @@ final class PopolazioneNomadelfia extends Model
     *  Ritorna le persone con una certo stato.
     *  Lo stato è una tra "CDE", "CEL", "MAM", "NUB" "MAN", "SAC", "SPO", "VEDE
     */
-    public static function byStati(string $stato, $orderby = 'nominativo')
+    public static function byStati(string $stato, string $orderby = 'nominativo')
     {  // persone_stati.data_inizio ASC, persone.nominativo"
         $stati = DB::connection('db_nomadelfia')
             ->table('persone')
@@ -271,7 +271,7 @@ final class PopolazioneNomadelfia extends Model
             ->where('persone_posizioni.stato', '=', '1')
             ->where('persone.data_nascita', '<=', $end)
             ->where('posizioni.abbreviato', '=', $posizione->abbreviato)
-            ->orderByRaw($orderBy);
+              ->orderByRaw((string)     $orderBy);
         if ($toEta !== null) {
             $q->where('persone.data_nascita', '>=', $start);
         }

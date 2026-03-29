@@ -37,14 +37,14 @@ final class PersonaAziendeController
             $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_LAVORATORE);
 
             return redirect()
-                ->action(self::index(...), ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
         if (strcasecmp($request->mansione, 'responsabile azienda') === 0) {
             $action->execute($persona, $azienda, \Illuminate\Support\Facades\Date::parse($request->data_inizio), Azienda::MANSIONE_RESPONSABILE);
 
             return redirect()
-                ->action(self::index(...), ['idPersona' => $persona->id])
+                ->action([self::class, 'index'], ['idPersona' => $persona->id])
                 ->withSuccess("$persona->nominativo assegnato all'azienda $azienda->nome_azienda come $request->mansione con successo");
         }
 
@@ -72,7 +72,7 @@ final class PersonaAziendeController
         ]);
 
         return redirect()
-            ->action(self::index(...), ['idPersona' => $persona->id])
+            ->action([self::class, 'index'], ['idPersona' => $persona->id])
             ->withSuccess("Azienda $azienda->nome_azienda di $persona->nominativo  modificata con successo.");
     }
 }
