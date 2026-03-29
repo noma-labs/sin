@@ -21,8 +21,6 @@
     <a class="nav-link" href="{{ route("photos.face.index") }}">Persone</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route("photos.issues.index") }}">
-        Problemi
-    </a>
+    <a class="nav-link" href="{{ route("photos.issues.index") }}">Problemi</a>
 </li>
 @append

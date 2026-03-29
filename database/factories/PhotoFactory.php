@@ -113,7 +113,7 @@ final class PhotoFactory extends Factory
     /**
      * Create a photo with detected faces containing the given person names.
      *
-     * @param  string  ...$personNames The names to use for the detected faces
+     * @param  string  ...$personNames  The names to use for the detected faces
      */
     public function withDetectedFaces(string ...$personNames)
     {
