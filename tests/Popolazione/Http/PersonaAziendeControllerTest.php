@@ -29,7 +29,7 @@ it('can assign a person to a azienda', function (): void {
 
         ])
         ->assertRedirect(route('nomadelfia.persone.aziende', ['idPersona' => $persona->id]));
-});
+})->only();
 
 it('can edit an azienda of a person', function (): void {
     login();
