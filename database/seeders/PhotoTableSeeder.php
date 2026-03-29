@@ -187,5 +187,4 @@ final class PhotoTableSeeder extends Seeder
         $photoAlreadyDeceased->dbf_id = $dbfAlreadyDeceased->id;
         $photoAlreadyDeceased->save();
     }
-    }
-
+}
