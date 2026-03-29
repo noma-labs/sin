@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Photo\Models\DbfAll;
 use App\Photo\Models\Photo;
+use Carbon\Carbon;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
@@ -108,5 +109,83 @@ final class PhotoTableSeeder extends Seeder
             $photo->dbf_id = $dbf->id;
             $photo->save();
         }
+
+        // Create photos with issues
+        $this->createPhotoWithIssue();
     }
-}
+
+    private function createPhotoWithIssue(): void
+    {
+        $faker = FakerFactory::create('it_IT');
+
+        // Issue 1: Person not yet born
+        $photoNotYetBorn = Photo::factory()
+            ->withDetectedFaces('Mario Rossi')
+            ->create(['taken_at' => '2010-05-15 10:30:00']);
+
+        $personaNotYetBorn = Persona::factory()
+            ->cognome('Rossi')
+            ->nato(Carbon::parse('2015-06-20'))
+            ->create(['nome' => 'Mario']);
+
+        $photoNotYetBorn->persone()->attach($personaNotYetBorn);
+
+        $dbfNotYetBorn = DbfAll::create([
+            'fingerprint' => null,
+            'source' => 'foto',
+            'datnum' => '150510',
+            'anum' => '150510',
+            'cddvd' => 'CD000001',
+            'hdint' => 'HDINT001',
+            'hdext' => 'HDEXT001',
+            'sc' => 'SC',
+            'fi' => 'FI',
+            'tp' => 'TP',
+            'nfo' => 1,
+            'data' => '2010-05-15',
+            'localita' => $faker->city(),
+            'argomento' => 'Test - Persona non ancora nata',
+            'descrizione' => 'Test photo for person not yet born',
+        ]);
+
+        $photoNotYetBorn->dbf_id = $dbfNotYetBorn->id;
+        $photoNotYetBorn->save();
+
+        // Issue 2: Person already deceased
+        $photoAlreadyDeceased = Photo::factory()
+            ->withDetectedFaces('Anna Bianchi')
+            ->create(['taken_at' => '2010-05-15 10:30:00']);
+
+        $personaAlreadyDeceased = Persona::factory()
+            ->cognome('Bianchi')
+            ->nato(Carbon::parse('1920-03-10'))
+            ->create([
+                'nome' => 'Anna',
+                'data_decesso' => '2005-12-25',
+            ]);
+
+        $photoAlreadyDeceased->persone()->attach($personaAlreadyDeceased);
+
+        $dbfAlreadyDeceased = DbfAll::create([
+            'fingerprint' => null,
+            'source' => 'foto',
+            'datnum' => '150510',
+            'anum' => '150510',
+            'cddvd' => 'CD000001',
+            'hdint' => 'HDINT001',
+            'hdext' => 'HDEXT001',
+            'sc' => 'SC',
+            'fi' => 'FI',
+            'tp' => 'TP',
+            'nfo' => 1,
+            'data' => '2010-05-15',
+            'localita' => $faker->city(),
+            'argomento' => 'Test - Persona già deceduta',
+            'descrizione' => 'Test photo for already deceased person',
+        ]);
+
+        $photoAlreadyDeceased->dbf_id = $dbfAlreadyDeceased->id;
+        $photoAlreadyDeceased->save();
+    }
+    }
+
