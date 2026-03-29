@@ -3,72 +3,109 @@
 @section("title", "Problemi Foto")
 
 @section("content")
-    <div class="container-fluid m-3">
-        <h2 class="mb-4">Problemi Foto</h2>
-        <p class="text-muted">Foto dove la persona non era ancora nata o già deceduta</p>
+    @if ($issues->total() > 0)
+        <div class="alert alert-warning mb-4">
+            <strong>Totale problemi:</strong> {{ $issues->total() }} foto con problemi rilevati
+        </div>
 
-        @if ($issues->count() > 0)
-            <div class="d-flex flex-column gap-3">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        Problema {{ $issues->currentPage() }} di {{ $issues->lastPage() }}
+                    </div>
+                    <div>
+                        @foreach ($issues as $issue)
+                            <span class="badge text-bg-light fs-6">{{ $issue->issue_type }}</span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
                 @foreach ($issues as $issue)
-                    <div class="card border-danger">
-                        <div class="card-body d-flex gap-3 align-items-start">
-                            <a href="{{ route('photos.show', $issue->photo_id) }}" class="flex-shrink-0">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{ route('photos.show', $issue->photo_id) }}" class="d-block">
                                 <img
                                     src="{{ route('photos.preview', [$issue->photo_id, 'draw_faces' => true]) }}"
                                     alt="{{ $issue->file_name }}"
-                                    style="max-height: 200px; max-width: 260px; object-fit: contain;"
+                                    class="img-fluid"
+                                    style="max-height: 500px; object-fit: contain;"
                                 />
                             </a>
-                            <div class="flex-grow-1">
-                                <div class="mb-2">
+                        </div>
+
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">File</dt>
+                                <dd class="col-sm-7">
+                                    <a href="{{ route('photos.show', $issue->photo_id) }}" class="text-decoration-none">
+                                        {{ $issue->file_name }}
+                                    </a>
+                                </dd>
+
+                                <dt class="col-sm-5">Tipo Problema</dt>
+                                <dd class="col-sm-7">
                                     <span class="badge text-bg-warning fs-6">{{ $issue->issue_type }}</span>
-                                </div>
-                                <dl class="row mb-0">
-                                    <dt class="col-sm-4">File</dt>
-                                    <dd class="col-sm-8">
-                                        <a href="{{ route('photos.show', $issue->photo_id) }}" class="text-decoration-none">
-                                            {{ $issue->file_name }}
+                                </dd>
+
+                                <dt class="col-sm-5">Persona</dt>
+                                <dd class="col-sm-7">
+                                    @if ($issue->persona_id)
+                                        <a href="{{ route('photos.index', ['name' => $issue->cognome]) }}" class="text-decoration-none">
+                                            {{ Illuminate\Support\Str::title($issue->nome) }}
+                                            {{ Illuminate\Support\Str::title($issue->cognome) }}
                                         </a>
-                                    </dd>
-
-                                    <dt class="col-sm-4">Data Foto</dt>
-                                    <dd class="col-sm-8">{{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format('d/m/Y') : 'N/A' }}</dd>
-
-                                    <dt class="col-sm-4">Persona</dt>
-                                    <dd class="col-sm-8">
-                                        @if ($issue->persona_id)
-                                            <a href="{{ route('photos.index', ['name' => $issue->cognome]) }}" class="text-decoration-none">
-                                                {{ Illuminate\Support\Str::title($issue->nome) }}
-                                                {{ Illuminate\Support\Str::title($issue->cognome) }}
-                                            </a>
-                                        @else
-                                            <span class="text-muted">Non assegnato</span>
-                                        @endif
-                                    </dd>
-
-                                    <dt class="col-sm-4">Data Nascita</dt>
-                                    <dd class="col-sm-8">{{ $issue->data_nascita ? \Illuminate\Support\Carbon::parse($issue->data_nascita)->format('d/m/Y') : 'N/A' }}</dd>
-
-                                    @if ($issue->days_diff !== null)
-                                        <dt class="col-sm-4">Giorni Differenza</dt>
-                                        <dd class="col-sm-8">
-                                            <span class="badge text-bg-danger">{{ $issue->days_diff }} giorni</span>
-                                        </dd>
+                                    @else
+                                        <span class="text-muted">Non assegnato</span>
                                     @endif
-                                </dl>
-                            </div>
+                                </dd>
+
+                                <dt class="col-sm-5">Data Foto</dt>
+                                <dd class="col-sm-7">{{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format('d/m/Y') : 'N/A' }}</dd>
+
+                                <dt class="col-sm-5">Data Nascita</dt>
+                                <dd class="col-sm-7">{{ $issue->data_nascita ? \Illuminate\Support\Carbon::parse($issue->data_nascita)->format('d/m/Y') : 'N/A' }}</dd>
+
+                                @if ($issue->data_decesso)
+                                    <dt class="col-sm-5">Data Decesso</dt>
+                                    <dd class="col-sm-7">{{ \Illuminate\Support\Carbon::parse($issue->data_decesso)->format('d/m/Y') }}</dd>
+                                @endif
+
+                                @if ($issue->days_diff !== null)
+                                    <dt class="col-sm-5">Giorni Differenza</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="badge text-bg-danger">{{ abs($issue->days_diff) }} giorni</span>
+                                    </dd>
+                                @endif
+                            </dl>
                         </div>
                     </div>
                 @endforeach
             </div>
 
-            <div class="d-flex justify-content-center mt-3">
-                {{ $issues->links("vendor.pagination.bootstrap-5") }}
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                @if ($issues->onFirstPage())
+                    <button class="btn btn-secondary" disabled>← Indietro</button>
+                @else
+                    <a href="{{ $issues->previousPageUrl() }}" class="btn btn-primary">← Indietro</a>
+                @endif
+
+                <span class="text-muted">
+                    Pagina {{ $issues->currentPage() }} di {{ $issues->lastPage() }}
+                </span>
+
+                @if ($issues->hasMorePages())
+                    <a href="{{ $issues->nextPageUrl() }}" class="btn btn-primary">Avanti →</a>
+                @else
+                    <button class="btn btn-secondary" disabled>Avanti →</button>
+                @endif
             </div>
-        @else
-            <div class="alert alert-success">
-                <strong>Nessun problema rilevato!</strong> Tutte le persone hanno data di nascita precedente alla foto e non risultano decedute prima della foto.
-            </div>
-        @endif
-    </div>
+        </div>
+    @else
+        <div class="alert alert-success">
+            <strong>Nessun problema rilevato!</strong> Tutte le persone hanno data di nascita precedente alla foto e non risultano decedute prima della foto.
+        </div>
+    @endif
 @endsection

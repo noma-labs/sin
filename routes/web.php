@@ -457,7 +457,7 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/faces', [FaceController::class, 'index'])->middleware('can:photo.view')->name('photos.face.index');
     Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
 
-    Route::get('/problemi', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
+    Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
 
     Route::put('/{id}', [PhotoController::class, 'update'])->middleware('can:photo.update')->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');

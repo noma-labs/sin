@@ -24,7 +24,7 @@ final class PhotosIssuesController
                 p.data_nascita,
                 p.data_decesso,
                 DATEDIFF(photos.taken_at, p.data_nascita) as days_diff,
-                "Non ancora nata" as issue_type
+                "Persona non ancora nata" as issue_type
             ')
             ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
@@ -44,7 +44,7 @@ final class PhotosIssuesController
                 p.data_nascita,
                 p.data_decesso,
                 DATEDIFF(p.data_decesso, photos.taken_at) as days_diff,
-                "Persona deceduta" as issue_type
+                "Persona già deceduta" as issue_type
             ')
             ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
@@ -52,7 +52,7 @@ final class PhotosIssuesController
             ->whereRaw('photos.taken_at > p.data_decesso');
 
         $issues = $notYetBorn->union($alreadyDeceased)
-            ->paginate(50);
+            ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));
     }
