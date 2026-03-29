@@ -140,7 +140,8 @@ final class EserciziSpirituali extends Model
         return EsSpiritualiFactory::new();
     }
 
-    protected function scopeAttivi($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function attivi($query)
     {
         return $query->where('stato', '=', '1');
     }

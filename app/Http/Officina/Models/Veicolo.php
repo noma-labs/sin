@@ -132,64 +132,76 @@ final class Veicolo extends Model
         return VeicoloFactory::new();
     }
 
-    protected function scopePrenotabili($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function prenotabili($query)
     {
         return $query->where('prenotabile', true);
     }
 
     // IMPIEGO
-    protected function scopeInterni($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function interni($query)
     {
         return $query->where('impiego_id', 1);
     }
 
-    protected function scopeGrosseto($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function grosseto($query)
     {
         return $query->where('impiego_id', 2);
     }
 
-    protected function scopeViaggiLunghi($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function viaggiLunghi($query)
     {
         return $query->where('impiego_id', 3);
     }
 
-    protected function scopePersonali($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function personali($query)
     {
         return $query->where('impiego_id', 4);
     }
 
-    protected function scopeRoma($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function roma($query)
     {
         return $query->where('impiego_id', 5);
     }
 
     // TIPOLOGIA
-    protected function scopeAutovettura($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function autovettura($query)
     {
         return $query->where('tipologia_id', 1);
     }
 
-    protected function scopeAutocarri($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function autocarri($query)
     {
         return $query->where('tipologia_id', 2);
     }
 
-    protected function scopeFurgoni($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function furgoni($query)
     {
         return $query->where('tipologia_id', 7);
     }
 
-    protected function scopePulmino($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function pulmino($query)
     {
         return $query->where('tipologia_id', 6);
     }
 
-    protected function scopeAutobus($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function autobus($query)
     {
         return $query->where('tipologia_id', 3);
     }
 
-    protected function scopeMotocicli($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function motocicli($query)
     {
         return $query->where('tipologia_id', 10);
     }

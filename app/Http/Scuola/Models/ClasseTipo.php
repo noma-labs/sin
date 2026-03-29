@@ -89,152 +89,182 @@ final class ClasseTipo extends Model
         return $query->where('id', '=', $this->next);
     }
 
-    protected function scopePrescuola($query): self
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function prescuola($query): self
     {
         return $query->where('ciclo', '=', 'prescuola')->first();
     }
 
-    protected function scopeElementari($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function elementari($query)
     {
         return $query->where('ciclo', '=', 'elementari');
     }
 
-    protected function scopeAnni3Prescuola($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function anni3Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_3ANNI)->first();
     }
 
-    protected function scopeAnni4Prescuola($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function anni4Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_4ANNI)->first();
     }
 
-    protected function scopeAnni5Prescuola($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function anni5Prescuola($query)
     {
         return $query->where('nome', '=', self::PRESCUOLA_5ANNI)->first();
     }
 
-    protected function scopePrimaElem($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function primaElem($query)
     {
         return $query->where('nome', '=', self::PRIMA_ELEMENTARE)->first();
     }
 
-    protected function scopeSecondaElem($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function secondaElem($query)
     {
         return $query->where('nome', '=', self::SECONDA_ELEMENTARE)->first();
     }
 
-    protected function scopeTerzaElem($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function terzaElem($query)
     {
         return $query->where('nome', '=', self::TERZA_ELEMENTARE)->first();
     }
 
-    protected function scopeQuartaElem($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function quartaElem($query)
     {
         return $query->where('nome', '=', self::QUARTA_ELEMENTARE)->first();
     }
 
-    protected function scopeQuintaElem($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function quintaElem($query)
     {
         return $query->where('nome', '=', self::QUINTA_ELEMENTARE)->first();
     }
 
-    protected function scopeMedie($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function medie($query)
     {
         return $query->where('ciclo', '=', 'medie');
     }
 
-    protected function scopePrimaMed($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function primaMed($query)
     {
         return $query->where('nome', '=', self::PRIMA_MEDIA)->first();
     }
 
-    protected function scopeSecondaMed($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function secondaMed($query)
     {
         return $query->where('nome', '=', self::SECONDA_MEDIA)->first();
     }
 
-    protected function scopeTerzaMed($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function terzaMed($query)
     {
         return $query->where('nome', '=', self::TERZA_MEDIA)->first();
     }
 
-    protected function scopeSuperiori($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function superiori($query)
     {
         return $query->where('ciclo', '=', 'superiori');
     }
 
-    protected function scopeIsPrescuola(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isPrescuola(): bool
     {
         return $this->ciclo === 'prescuola';
     }
 
-    protected function scopeIsElementari(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isElementari(): bool
     {
         return $this->ciclo === 'elementari';
     }
 
-    protected function scopeIsMedie(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isMedie(): bool
     {
         return $this->ciclo === 'medie';
     }
 
-    protected function scopeIsSuperiori(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isSuperiori(): bool
     {
         return $this->ciclo === 'superiori';
     }
 
-    protected function scopeIs3AnniPrescuola($query): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function is3AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_3ANNI;
     }
 
-    protected function scopeIs4AnniPrescuola($query): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function is4AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_4ANNI;
     }
 
-    protected function scopeIs5AnniPrescuola($query): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function is5AnniPrescuola($query): bool
     {
         return $this->nome === self::PRESCUOLA_5ANNI;
     }
 
-    protected function scopeIsPrimaEl(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isPrimaEl(): bool
     {
         return $this->nome === self::PRIMA_ELEMENTARE;
     }
 
-    protected function scopeIsSecondaEl(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isSecondaEl(): bool
     {
         return $this->nome === self::SECONDA_ELEMENTARE;
     }
 
-    protected function scopeIsTerzaEl(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isTerzaEl(): bool
     {
         return $this->nome === self::TERZA_ELEMENTARE;
     }
 
-    protected function scopeIsQuartaEl(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isQuartaEl(): bool
     {
         return $this->nome === self::QUARTA_ELEMENTARE;
     }
 
-    protected function scopeIsQuintaEl(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isQuintaEl(): bool
     {
         return $this->nome === self::QUINTA_ELEMENTARE;
     }
 
-    protected function scopeIsSecondaMed(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isSecondaMed(): bool
     {
         return $this->nome === self::SECONDA_MEDIA;
     }
 
-    protected function scopeIsTerzaMed(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isTerzaMed(): bool
     {
         return $this->nome === self::TERZA_MEDIA;
     }
 
-    protected function scopeIsUniversita(): bool
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isUniversita(): bool
     {
         return $this->ciclo === 'universita';
     }

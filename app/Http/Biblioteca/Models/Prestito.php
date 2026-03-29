@@ -34,12 +34,14 @@ final class Prestito extends Model
         return $this->belongsTo(Libro::class, 'libro_id')->withTrashed();
     }
 
-    protected function scopeInPrestito($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inPrestito($query)
     {
         return $query->where('in_prestito', 1);
     }
 
-    protected function scopeRestituiti($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function restituiti($query)
     {
         return $query->where('in_prestito', 0);
     }

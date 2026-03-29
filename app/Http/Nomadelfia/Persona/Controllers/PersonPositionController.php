@@ -33,7 +33,7 @@ final class PersonPositionController
         $persona->assegnaPosizione($request->posizione_id, \Illuminate\Support\Facades\Date::parse($request->data_inizio), \Illuminate\Support\Facades\Date::parse($request->data_fine));
 
         return redirect()
-            ->action([self::class, 'index'], $persona->id)
+            ->action(self::index(...), $persona->id)
             ->withSuccess("Nuova posizione assegnata a $persona->nominativo  con successo.");
     }
 
@@ -50,7 +50,7 @@ final class PersonPositionController
         $persona = Persona::findOrFail($idPersona);
         if ($persona->modificaDataInizioPosizione($id, \Illuminate\Support\Facades\Date::parse($request->current_data_inizio), \Illuminate\Support\Facades\Date::parse($request->new_data_inizio))) {
             return redirect()
-                ->action([self::class, 'index'], $persona->id)
+                ->action(self::index(...), $persona->id)
                 ->withSuccess("Posizione modificata di $persona->nominativo con successo");
         }
 
@@ -63,7 +63,7 @@ final class PersonPositionController
         $res = $persona->posizioni()->detach($idPos);
         if ($res) {
             return redirect()
-                ->action([self::class, 'index'], $persona->id)
+                ->action(self::index(...), $persona->id)
                 ->withSuccess("Posizione rimossa consuccesso per $persona->nominativo ");
         }
 

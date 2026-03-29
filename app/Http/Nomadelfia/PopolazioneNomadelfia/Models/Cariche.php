@@ -168,12 +168,14 @@ final class Cariche extends Model
         });
     }
 
-    protected function scopeAssociazione($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function associazione($query)
     {
         return $query->where('org', '=', 'associazione');
     }
 
-    protected function scopePresidente($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function presidente($query)
     {
         return $query->where('nome', '=', 'presidente');
     }

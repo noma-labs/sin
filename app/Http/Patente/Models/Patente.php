@@ -98,7 +98,8 @@ final class Patente extends Model
         return PatenteFactory::new();
     }
 
-    protected function scopeInScadenza($query, int $days)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inScadenza($query, int $days)
     {
         $data = \Illuminate\Support\Facades\Date::now()->addDays($days)->toDateString();
 
@@ -107,14 +108,16 @@ final class Patente extends Model
 
     }
 
-    protected function scopeNonScadute($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function nonScadute($query)
     {
         $data = \Illuminate\Support\Facades\Date::now()->toDateString();
 
         return $query->where('data_scadenza_patente', '>', $data);
     }
 
-    protected function scopeScadute($query, ?int $days = null)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function scadute($query, ?int $days = null)
     {
         if ($days !== null) {
             $data = \Illuminate\Support\Facades\Date::now()->subDays($days)->toDateString();
@@ -127,12 +130,14 @@ final class Patente extends Model
 
     }
 
-    protected function scopeConCommisione($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function conCommisione($query)
     {
         return $query->where('stato', '=', 'commissione');
     }
 
-    protected function scopeSenzaCommisione($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function senzaCommisione($query)
     {
         return $query->whereNull('stato')
             ->orWhere('stato', '!=', 'commissione');

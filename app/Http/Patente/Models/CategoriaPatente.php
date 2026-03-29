@@ -54,12 +54,14 @@ final class CategoriaPatente extends Model
         });
     }
 
-    protected function scopeCQCPersone($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function cQCPersone($query)
     {
         return $query->where('id', 16)->first();
     }
 
-    protected function scopeCQCMerci($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function cQCMerci($query)
     {
         return $query->where('id', 17)->first();
     }
