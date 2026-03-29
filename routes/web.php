@@ -77,6 +77,7 @@ use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\PhotoFolderController;
+use App\Photo\Controllers\PhotosIssuesController;
 use App\Photo\Controllers\SlideshowController;
 use App\Photo\Controllers\StripesController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -455,6 +456,8 @@ Route::prefix('photos')->middleware('auth')->group(function () {
 
     Route::get('/faces', [FaceController::class, 'index'])->middleware('can:photo.view')->name('photos.face.index');
     Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
+
+    Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
 
     Route::put('/{id}', [PhotoController::class, 'update'])->middleware('can:photo.update')->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');

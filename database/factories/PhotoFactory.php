@@ -41,8 +41,8 @@ final class PhotoFactory extends Factory
         if (! is_dir($absoluteDir)) {
             @mkdir($absoluteDir, 0777, true);
         }
-        // Create placeholder image and get metadata (embed roll id for visibility)
-        $meta = $this->createPlaceholderImage($absolutePath, $width, $height, 'ROLL '.$rollId);
+        // Create placeholder image and get metadata (embed filename for visibility)
+        $meta = $this->createPlaceholderImage($absolutePath, $width, $height, $fileName);
         $mime = $meta['mime'];
         $width = $meta['width'];
         $height = $meta['height'];
@@ -97,6 +97,55 @@ final class PhotoFactory extends Factory
     }
 
     /**
+     * Set custom region_info JSON data.
+     *
+     * @param  array<string, mixed>  $regionInfo
+     */
+    public function withRegionInfo(array $regionInfo)
+    {
+        return $this->state(function (array $attributes) use ($regionInfo) {
+            return [
+                'region_info' => $regionInfo,
+            ];
+        });
+    }
+
+    /**
+     * Create a photo with detected faces containing the given person names.
+     *
+     * @param  string  ...$personNames  The names to use for the detected faces
+     */
+    public function withDetectedFaces(string ...$personNames)
+    {
+        $regionList = [];
+
+        foreach ($personNames as $index => $personName) {
+            $regionList[] = [
+                'Area' => [
+                    'H' => 0.2,
+                    'W' => 0.1,
+                    'X' => 0.1 + ($index * 0.2),
+                    'Y' => 0.2,
+                ],
+                'Name' => $personName,
+                'Rotation' => 0,
+                'Type' => 'Face',
+            ];
+        }
+
+        $regionInfo = [
+            'AppliedToDimensions' => [
+                'H' => 1088,
+                'Unit' => 'pixel',
+                'W' => 1780,
+            ],
+            'RegionList' => $regionList,
+        ];
+
+        return $this->withRegionInfo($regionInfo);
+    }
+
+    /**
      * Create a simple placeholder image on disk and return its metadata.
      *
      * @return array{mime:string,width:int,height:int}
@@ -112,11 +161,11 @@ final class PhotoFactory extends Factory
             throw new RuntimeException('Failed to create image resource via GD.');
         }
 
-        $bg = imagecolorallocate($image, 240, 240, 240);
+        $bg = imagecolorallocate($image, 30, 30, 50);
         imagefilledrectangle($image, 0, 0, $width, $height, $bg);
 
         if (function_exists('imagestring')) {
-            $textColor = imagecolorallocate($image, 80, 80, 80);
+            $textColor = imagecolorallocate($image, 220, 180, 80);
             imagestring($image, 5, 10, 10, $label, $textColor);
         }
 
