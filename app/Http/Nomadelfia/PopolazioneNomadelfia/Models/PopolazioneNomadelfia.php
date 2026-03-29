@@ -271,7 +271,7 @@ final class PopolazioneNomadelfia extends Model
             ->where('persone_posizioni.stato', '=', '1')
             ->where('persone.data_nascita', '<=', $end)
             ->where('posizioni.abbreviato', '=', $posizione->abbreviato)
-              ->orderByRaw((string)     $orderBy);
+            ->orderByRaw((string) $orderBy);
         if ($toEta !== null) {
             $q->where('persone.data_nascita', '>=', $start);
         }
