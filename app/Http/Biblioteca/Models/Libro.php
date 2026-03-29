@@ -93,7 +93,8 @@ final class Libro extends Model
         return LibroFactory::new();
     }
 
-    protected function scopeTobePrinted($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function tobePrinted($query)
     {
         return $query->where('tobe_printed', 1)->orderBy('collocazione');
     }

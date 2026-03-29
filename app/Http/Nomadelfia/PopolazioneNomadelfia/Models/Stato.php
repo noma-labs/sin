@@ -70,7 +70,8 @@ final class Stato extends Model
         return $this->stato === $this->mapNamesToDB['nubile'];
     }
 
-    protected function scopeAttivo($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function attivo($query)
     {
         return $query->where('persone_stati.stato', 1);
     }

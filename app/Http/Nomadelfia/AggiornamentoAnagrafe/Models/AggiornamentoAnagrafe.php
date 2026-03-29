@@ -40,17 +40,20 @@ final class AggiornamentoAnagrafe extends Activity
         });
     }
 
-    protected function scopeEnter(Builder $query): void
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function enter(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_ENTER);
     }
 
-    protected function scopeExit(Builder $query): void
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function exit(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_EXIT);
     }
 
-    protected function scopeDeath(Builder $query): void
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function death(Builder $query): void
     {
         $query->where('event', self::EVENT_POPOLAZIONE_DEATH);
 
