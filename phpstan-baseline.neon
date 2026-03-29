@@ -745,12 +745,6 @@ parameters:
 			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
 
 		-
-			message: '#^Call to an undefined static method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:TobePrinted\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
-
-		-
 			message: '#^Call to an undefined static method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -764,12 +758,6 @@ parameters:
 
 		-
 			message: '#^Call to an undefined static method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:sortable\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
-
-		-
-			message: '#^Call to an undefined static method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:toBePrinted\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
@@ -823,6 +811,18 @@ parameters:
 			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
 
 		-
+			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:tobePrinted\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
+			message: '#^Static call to instance method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:tobePrinted\(\)\.$#'
+			identifier: method.staticCall
+			count: 2
+			path: app/Http/ArchivioDocumenti/Controllers/ArchivioDocumentiController.php
+
+		-
 			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -859,13 +859,13 @@ parameters:
 			path: app/Http/ArchivioDocumenti/Models/ArchivioDocumento.php
 
 		-
-			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:scopeTobePrinted\(\) has no return type specified\.$#'
+			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:tobePrinted\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/ArchivioDocumenti/Models/ArchivioDocumento.php
 
 		-
-			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:scopeTobePrinted\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\ArchivioDocumenti\\Models\\ArchivioDocumento\:\:tobePrinted\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/ArchivioDocumenti/Models/ArchivioDocumento.php
@@ -1501,21 +1501,9 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/LabelsController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Libro\:\:TobePrinted\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Biblioteca/Controllers/LabelsController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Libro\:\:find\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
-			path: app/Http/Biblioteca/Controllers/LabelsController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Libro\:\:toBePrinted\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
 			path: app/Http/Biblioteca/Controllers/LabelsController.php
 
 		-
@@ -1576,6 +1564,18 @@ parameters:
 			message: '#^Method App\\Biblioteca\\Controllers\\LabelsController\:\:storeBook\(\) has parameter \$idLibro with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
+			path: app/Http/Biblioteca/Controllers/LabelsController.php
+
+		-
+			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:tobePrinted\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 3
+			path: app/Http/Biblioteca/Controllers/LabelsController.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\Libro\:\:tobePrinted\(\)\.$#'
+			identifier: method.staticCall
+			count: 3
 			path: app/Http/Biblioteca/Controllers/LabelsController.php
 
 		-
@@ -1675,12 +1675,6 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/LoansController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Prestito\:\:inPrestito\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Biblioteca/Controllers/LoansController.php
-
-		-
 			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\Prestito\:\:where\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -1759,8 +1753,20 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/LoansController.php
 
 		-
+			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:inPrestito\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Biblioteca/Controllers/LoansController.php
+
+		-
 			message: '#^Parameter \#1 \$path of method Illuminate\\Routing\\Redirector\:\:to\(\) expects string, mixed given\.$#'
 			identifier: argument.type
+			count: 1
+			path: app/Http/Biblioteca/Controllers/LoansController.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\Prestito\:\:inPrestito\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Http/Biblioteca/Controllers/LoansController.php
 
@@ -1855,12 +1861,6 @@ parameters:
 			path: app/Http/Biblioteca/Controllers/SearchableBooksController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Biblioteca/Controllers/SearchableBooksController.php
-
-		-
 			message: '#^Cannot call method hasRole\(\) on Illuminate\\Contracts\\Auth\\Authenticatable\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -1875,6 +1875,18 @@ parameters:
 		-
 			message: '#^Method App\\Biblioteca\\Controllers\\SearchableBooksController\:\:search\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: app/Http/Biblioteca/Controllers/SearchableBooksController.php
+
+		-
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Biblioteca/Controllers/SearchableBooksController.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Http/Biblioteca/Controllers/SearchableBooksController.php
 
@@ -2065,20 +2077,20 @@ parameters:
 			path: app/Http/Biblioteca/Models/Libro.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:scopeTobePrinted\(\) has no return type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:setAttribute\(\) should return \$this\(App\\Biblioteca\\Models\\Libro\) but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Biblioteca/Models/Libro.php
+
+		-
+			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:tobePrinted\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Models/Libro.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:scopeTobePrinted\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:tobePrinted\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Biblioteca/Models/Libro.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Models\\Libro\:\:setAttribute\(\) should return \$this\(App\\Biblioteca\\Models\\Libro\) but returns mixed\.$#'
-			identifier: return.type
 			count: 1
 			path: app/Http/Biblioteca/Models/Libro.php
 
@@ -2155,31 +2167,31 @@ parameters:
 			path: app/Http/Biblioteca/Models/Prestito.php
 
 		-
+			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:inPrestito\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Biblioteca/Models/Prestito.php
+
+		-
+			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:inPrestito\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Biblioteca/Models/Prestito.php
+
+		-
 			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:libro\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Biblioteca/Models/Prestito.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:scopeInPrestito\(\) has no return type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:restituiti\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Models/Prestito.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:scopeInPrestito\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Biblioteca/Models/Prestito.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:scopeRestituiti\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Biblioteca/Models/Prestito.php
-
-		-
-			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:scopeRestituiti\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\Prestito\:\:restituiti\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/Prestito.php
@@ -2233,55 +2245,55 @@ parameters:
 			path: app/Http/Biblioteca/Models/Video.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeLettere\(\) has no return type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeLettere\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeMaxForLettere\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:maxForLettere\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeri\(\) has no return type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeri\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeri\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeri\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeriMancanti\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeriMancanti\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeNumeriMancanti\(\) return type has no value type specified in iterable type array\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeriMancanti\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeTotal\(\) has no return type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:total\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
 
 		-
-			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:scopeTotal\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:total\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Biblioteca/Models/ViewCollocazione.php
@@ -2305,19 +2317,19 @@ parameters:
 			path: app/Http/Middleware/SentryContext.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:scopeDeath\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:death\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Nomadelfia/AggiornamentoAnagrafe/Models/AggiornamentoAnagrafe.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:scopeEnter\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:enter\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Nomadelfia/AggiornamentoAnagrafe/Models/AggiornamentoAnagrafe.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:scopeExit\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			message: '#^Method App\\Nomadelfia\\AggiornamentoAnagrafe\\Models\\AggiornamentoAnagrafe\:\:exit\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Nomadelfia/AggiornamentoAnagrafe/Models/AggiornamentoAnagrafe.php
@@ -2325,12 +2337,6 @@ parameters:
 		-
 			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$term\.$#'
 			identifier: property.notFound
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\)\.$#'
-			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
 
@@ -2367,6 +2373,18 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Controllers\\AziendeController\:\:view\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
+
+		-
+			message: '#^Static call to instance method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Controllers/AziendeController.php
 
@@ -2593,8 +2611,32 @@ parameters:
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:getPossibleEnumValues\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:incarichi\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:incarichi\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
 
@@ -2636,30 +2678,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:perNome\(\) has parameter \$nome with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:scopeAziende\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:scopeAziende\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:scopeIncarichi\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:scopeIncarichi\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
@@ -2715,12 +2733,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
-			count: 2
-			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\)\.$#'
-			identifier: staticMethod.notFound
 			count: 2
 			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
 
@@ -2791,6 +2803,18 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
+			message: '#^Static call to instance method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\)\.$#'
+			identifier: method.staticCall
+			count: 2
+			path: app/Http/Nomadelfia/EserciziSpirituali/Controllers/EsSpiritualiController.php
+
+		-
 			message: '#^Access to an undefined property App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 1
@@ -2833,6 +2857,18 @@ parameters:
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:attivi\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:eliminaPersona\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2865,18 +2901,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:responsabile\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:scopeAttivi\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\EserciziSpirituali\\Models\\EserciziSpirituali\:\:scopeAttivi\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/EserciziSpirituali/Models/EserciziSpirituali.php
 
@@ -3385,6 +3409,42 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$posizione with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:famigliePerPosizioni\(\) has parameter \$stato with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:femmina\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:figli\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3451,6 +3511,18 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:maschio\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:moglie\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3469,6 +3541,18 @@ parameters:
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:ordered\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:personeSenzaFamiglia\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3476,66 +3560,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:rimuoviDaGruppoFamiliare\(\) has parameter \$idGruppo with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFamigliePerPosizioni\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFamigliePerPosizioni\(\) has parameter \$posizione with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFamigliePerPosizioni\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFamigliePerPosizioni\(\) has parameter \$stato with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFemmina\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeFemmina\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeMaschio\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeMaschio\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeOrdered\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:scopeOrdered\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
@@ -5695,12 +5719,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Controllers/RecentActivitesController.php
 
 		-
-			message: '#^Call to an undefined static method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
-
-		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\GruppoFamiliare\\Models\\GruppoFamiliare\:\:orderby\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -5709,6 +5727,12 @@ parameters:
 		-
 			message: '#^Call to an undefined static method App\\Scuola\\Models\\Studente\:\:InAnnoScolastico\(\)\.$#'
 			identifier: staticMethod.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
 
@@ -5763,6 +5787,12 @@ parameters:
 		-
 			message: '#^Property App\\Nomadelfia\\PopolazioneNomadelfia\\DataTransferObjects\\ExportPopolazioneData\:\:\$scuola has no type specified\.$#'
 			identifier: missingType.property
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
+
+		-
+			message: '#^Static call to instance method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:aziende\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/DataTransferObjects/ExportPopolazioneData.php
 
@@ -5845,6 +5875,18 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:associazione\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:associazione\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:byOrg\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -5863,25 +5905,13 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:scopeAssociazione\(\) has no return type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:presidente\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:scopeAssociazione\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:scopePresidente\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:scopePresidente\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Cariche\:\:presidente\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
@@ -6019,20 +6049,8 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:byPosizione\(\) has parameter \$ordeby with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
-
-		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:byStati\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\PopolazioneNomadelfia\:\:byStati\(\) has parameter \$orderby with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
@@ -6103,12 +6121,6 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
-			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, mixed given\.$#'
-			identifier: argument.type
-			count: 2
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
-
-		-
 			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, non\-falsy\-string given\.$#'
 			identifier: argument.type
 			count: 1
@@ -6117,7 +6129,7 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, string given\.$#'
 			identifier: argument.type
-			count: 1
+			count: 3
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
@@ -6175,6 +6187,18 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
 
 		-
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:attivo\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
+
+		-
+			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:attivo\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
+
+		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:perNome\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -6195,18 +6219,6 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:personeAttuale\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:scopeAttivo\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Models\\Stato\:\:scopeAttivo\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Stato.php
 
@@ -6997,6 +7009,42 @@ parameters:
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autobus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autobus\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autocarri\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autocarri\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autovettura\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:autovettura\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
 			message: '#^Method App\\Officina\\Models\\Veicolo\:\:filtroAria\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
@@ -7021,8 +7069,32 @@ parameters:
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:furgoni\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:furgoni\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
 			message: '#^Method App\\Officina\\Models\\Veicolo\:\:gomme\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:grosseto\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:grosseto\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
@@ -7039,8 +7111,32 @@ parameters:
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:interni\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:interni\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
 			message: '#^Method App\\Officina\\Models\\Veicolo\:\:modello\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:motocicli\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:motocicli\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
@@ -7057,151 +7153,55 @@ parameters:
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:personali\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:personali\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:prenotabili\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:prenotabili\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
 			message: '#^Method App\\Officina\\Models\\Veicolo\:\:prenotazioni\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutobus\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:pulmino\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutobus\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:pulmino\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutocarri\(\) has no return type specified\.$#'
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:roma\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
 		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutocarri\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutovettura\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeAutovettura\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeFurgoni\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeFurgoni\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeGrosseto\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeGrosseto\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeInterni\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeInterni\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeMotocicli\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeMotocicli\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePersonali\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePersonali\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePrenotabili\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePrenotabili\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePulmino\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopePulmino\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeRoma\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeRoma\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeViaggiLunghi\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Officina/Models/Veicolo.php
-
-		-
-			message: '#^Method App\\Officina\\Models\\Veicolo\:\:scopeViaggiLunghi\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:roma\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
@@ -7209,6 +7209,18 @@ parameters:
 		-
 			message: '#^Method App\\Officina\\Models\\Veicolo\:\:tipologia\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:viaggiLunghi\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Models/Veicolo.php
+
+		-
+			message: '#^Method App\\Officina\\Models\\Veicolo\:\:viaggiLunghi\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Officina/Models/Veicolo.php
 
@@ -7315,6 +7327,12 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
+			message: '#^Call to an undefined method App\\Patente\\Models\\CQC\:\:inScadenza\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\Patente\>\:\:ConCommisione\(\)\.$#'
 			identifier: method.notFound
 			count: 2
@@ -7330,18 +7348,6 @@ parameters:
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 3
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Patente\\Models\\CQC\:\:CQCMerci\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Patente\\Models\\CQC\:\:CQCPersone\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 2
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
@@ -7411,6 +7417,18 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCMerci\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCPersone\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
 			message: '#^Property App\\Patente\\Models\\Patente\:\:\$data_rilascio_patente \(string\) does not accept mixed\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -7444,6 +7462,18 @@ parameters:
 			message: '#^Property App\\Patente\\Models\\Patente\:\:\$stato \(string\) does not accept string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
+			message: '#^Static call to instance method App\\Patente\\Models\\CQC\:\:cQCMerci\(\)\.$#'
+			identifier: method.staticCall
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
+			message: '#^Static call to instance method App\\Patente\\Models\\CQC\:\:cQCPersone\(\)\.$#'
+			identifier: method.staticCall
+			count: 2
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
@@ -7591,6 +7621,30 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteSearchController.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCMerci\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/CQC.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCPersone\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/CQC.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:nonInScadenza\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/CQC.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CQC\:\:nonInScadenza\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Patente/Models/CQC.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\CQC\:\:patenti\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
@@ -7610,30 +7664,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Patente\\Models\\CQC\:\:scadute\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Http/Patente/Models/CQC.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:scopeCQCMerci\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/CQC.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:scopeCQCPersone\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/CQC.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:scopeNonInScadenza\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/CQC.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:scopeNonInScadenza\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Patente/Models/CQC.php
@@ -7669,6 +7699,30 @@ parameters:
 			path: app/Http/Patente/Models/CQC.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:cQCMerci\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/CategoriaPatente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:cQCMerci\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/CategoriaPatente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:cQCPersone\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/CategoriaPatente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:cQCPersone\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/CategoriaPatente.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:inScadenza\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -7699,30 +7753,6 @@ parameters:
 			path: app/Http/Patente/Models/CategoriaPatente.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:scopeCQCMerci\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/CategoriaPatente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:scopeCQCMerci\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/CategoriaPatente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:scopeCQCPersone\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/CategoriaPatente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CategoriaPatente\:\:scopeCQCPersone\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/CategoriaPatente.php
-
-		-
 			message: '#^Method App\\Patente\\Models\\Patente\:\:categorie\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
 			identifier: missingType.generics
 			count: 1
@@ -7731,6 +7761,18 @@ parameters:
 		-
 			message: '#^Method App\\Patente\\Models\\Patente\:\:categorieAsString\(\) has no return type specified\.$#'
 			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:conCommisione\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:conCommisione\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/Patente.php
 
@@ -7753,6 +7795,18 @@ parameters:
 			path: app/Http/Patente/Models/Patente.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:inScadenza\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:inScadenza\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\Patente\:\:link_to_sorting_action\(\) has parameter \$col with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -7765,67 +7819,31 @@ parameters:
 			path: app/Http/Patente/Models/Patente.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:nonScadute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:nonScadute\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\Patente\:\:persona\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
 			count: 1
 			path: app/Http/Patente/Models/Patente.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeConCommisione\(\) has no return type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\Patente\:\:scadute\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Patente/Models/Patente.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeConCommisione\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeInScadenza\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeInScadenza\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeNonScadute\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeNonScadute\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeScadute\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeScadute\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeSenzaCommisione\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/Patente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeSenzaCommisione\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\Patente\:\:scadute\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/Patente.php
@@ -7851,6 +7869,18 @@ parameters:
 		-
 			message: '#^Method App\\Patente\\Models\\Patente\:\:scopeSortable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
 			identifier: missingType.generics
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:senzaCommisione\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/Patente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\Patente\:\:senzaCommisione\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/Patente.php
 
@@ -7891,31 +7921,31 @@ parameters:
 			path: app/Http/Patente/Models/Restrizione.php
 
 		-
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:conPatente\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
+
+		-
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:conPatente\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
+
+		-
 			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:patenti\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeConPatente\(\) has no return type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:senzaPatente\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeConPatente\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeSenzaPatente\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:scopeSenzaPatente\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\ViewClientiConSenzaPatente\:\:senzaPatente\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/ViewClientiConSenzaPatente.php
@@ -9223,12 +9253,6 @@ parameters:
 			path: app/Http/Scuola/Models/Anno.php
 
 		-
-			message: '#^Call to an undefined method App\\Scuola\\Models\\ClasseTipo\:\:isSuperiori\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
 			message: '#^Call to an undefined static method App\\Scuola\\Models\\Anno\:\:create\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 2
@@ -9241,86 +9265,8 @@ parameters:
 			path: app/Http/Scuola/Models/Anno.php
 
 		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Anni3Prescuola\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Anni4Prescuola\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Anni5Prescuola\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Elementari\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Medie\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:PrimaElem\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:PrimaMed\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:QuartaElem\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:QuintaElem\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:SecondaElem\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:SecondaMed\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:Superiori\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:TerzaElem\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: app/Http/Scuola/Models/Anno.php
-
-		-
-			message: '#^Call to an undefined static method App\\Scuola\\Models\\ClasseTipo\:\:TerzaMed\(\)\.$#'
-			identifier: staticMethod.notFound
+			message: '#^Call to protected method isSuperiori\(\) of class App\\Scuola\\Models\\ClasseTipo\.$#'
+			identifier: method.protected
 			count: 1
 			path: app/Http/Scuola/Models/Anno.php
 
@@ -9499,6 +9445,90 @@ parameters:
 			path: app/Http/Scuola/Models/Anno.php
 
 		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni3Prescuola\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni4Prescuola\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni5Prescuola\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:elementari\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:medie\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaElem\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaMed\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quartaElem\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quintaElem\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaElem\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaMed\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:superiori\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaElem\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaMed\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
 			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:select\(\) expects string, float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 2
@@ -9506,6 +9536,90 @@ parameters:
 
 		-
 			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:Prescuola\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:anni3Prescuola\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:anni4Prescuola\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:anni5Prescuola\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:elementari\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:medie\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:primaElem\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:primaMed\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:quartaElem\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:quintaElem\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:secondaElem\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:secondaMed\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:superiori\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:terzaElem\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Http/Scuola/Models/Anno.php
+
+		-
+			message: '#^Static call to instance method App\\Scuola\\Models\\ClasseTipo\:\:terzaMed\(\)\.$#'
 			identifier: method.staticCall
 			count: 1
 			path: app/Http/Scuola/Models/Anno.php
@@ -9685,43 +9799,139 @@ parameters:
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni3Prescuola\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni3Prescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni4Prescuola\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni4Prescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni5Prescuola\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:anni5Prescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
 			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:assegnaAlunno\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni3Prescuola\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:elementari\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni3Prescuola\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:elementari\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni4Prescuola\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni4Prescuola\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:is3AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni5Prescuola\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:is4AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:is5AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:medie\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeAnni5Prescuola\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:medie\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:prescuola\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaElem\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaElem\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaMed\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:primaMed\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quartaElem\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quartaElem\(\) has parameter \$query with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quintaElem\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Scuola/Models/ClasseTipo.php
+
+		-
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:quintaElem\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
@@ -9733,157 +9943,61 @@ parameters:
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeElementari\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaElem\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeElementari\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaElem\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeIs3AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeIs4AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeIs5AnniPrescuola\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeMedie\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaMed\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeMedie\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:secondaMed\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopePrescuola\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopePrimaElem\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:superiori\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopePrimaElem\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:superiori\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopePrimaMed\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaElem\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopePrimaMed\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaElem\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeQuartaElem\(\) has no return type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaMed\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeQuartaElem\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeQuintaElem\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeQuintaElem\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSecondaElem\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSecondaElem\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSecondaMed\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSecondaMed\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSuperiori\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeSuperiori\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeTerzaElem\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeTerzaElem\(\) has parameter \$query with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeTerzaMed\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/Http/Scuola/Models/ClasseTipo.php
-
-		-
-			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:scopeTerzaMed\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Scuola\\Models\\ClasseTipo\:\:terzaMed\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/Models/ClasseTipo.php
@@ -10261,8 +10375,14 @@ parameters:
 			path: app/Livewire/PrenotazioneVeicoli.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
-			identifier: staticMethod.notFound
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Livewire/SearchCollocazioneLettere.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Livewire/SearchCollocazioneLettere.php
 
@@ -10273,14 +10393,14 @@ parameters:
 			path: app/Livewire/SearchCollocazioneNumeri.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
-			identifier: staticMethod.notFound
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
 			count: 1
 			path: app/Livewire/SearchCollocazioneNumeri.php
 
 		-
-			message: '#^Call to an undefined static method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeri\(\)\.$#'
-			identifier: staticMethod.notFound
+			message: '#^Method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeri\(\) invoked with 1 parameter, 2 required\.$#'
+			identifier: arguments.count
 			count: 1
 			path: app/Livewire/SearchCollocazioneNumeri.php
 
@@ -10317,6 +10437,18 @@ parameters:
 		-
 			message: '#^Property App\\Livewire\\SearchCollocazioneNumeri\:\:\$next has no type specified\.$#'
 			identifier: missingType.property
+			count: 1
+			path: app/Livewire/SearchCollocazioneNumeri.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\ViewCollocazione\:\:lettere\(\)\.$#'
+			identifier: method.staticCall
+			count: 1
+			path: app/Livewire/SearchCollocazioneNumeri.php
+
+		-
+			message: '#^Static call to instance method App\\Biblioteca\\Models\\ViewCollocazione\:\:numeri\(\)\.$#'
+			identifier: method.staticCall
 			count: 1
 			path: app/Livewire/SearchCollocazioneNumeri.php
 
