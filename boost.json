@@ -1,10 +1,14 @@
 {
     "agents": [
-        "opencode"
+        "copilot"
     ],
-    "editors": [
-        "opencode",
-    ],
-    "guidelines": [],
-    "sail": true
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": true,
+    "skills": [
+        "laravel-best-practices",
+        "livewire-development",
+        "pest-testing"
+    ]
 }
