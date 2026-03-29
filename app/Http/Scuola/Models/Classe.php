@@ -27,7 +27,7 @@ final class Classe extends Model
 
     protected $guarded = [];
 
-    public function alunni($orderby = 'sesso  DESC, nominativo ASC')
+    public function alunni(string $orderby = 'sesso  DESC, nominativo ASC')
     {
         return $this->belongsToMany(Persona::class, 'db_scuola.alunni_classi', 'classe_id',
             'persona_id')->withPivot('data_inizio')->orderByRaw($orderby);

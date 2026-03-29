@@ -1,6 +1,12 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Parameter \#1 \$query of method Illuminate\\Database\\Connection\:\:unprepared\(\) expects literal\-string, non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Console/Commands/CreateDatabaseCommand.php
+
+		-
 			message: '#^Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<\(int\|string\), mixed\>\|iterable\<\(int\|string\), mixed\>\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -25,25 +31,25 @@ parameters:
 			path: app/Console/Commands/CreateDatabaseCommand.php
 
 		-
-			message: '#^Parameter \#1 \$path of method App\\Photo\\Actions\\ExtractExifAction\:\:execute\(\) expects string, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#1 \$path of method App\\Photo\\Actions\\ExtractExifAction\:\:execute\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifExtractCommand.php
 
 		-
-			message: '#^Parameter \#1 \$jsonFile of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#1 \$jsonFile of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
-			message: '#^Parameter \#2 \$prefixPathToRemove of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string\|null, array\|bool\|string\|null given\.$#'
+			message: '#^Parameter \#2 \$prefixPathToRemove of method App\\Photo\\Actions\\StoreExifIntoDBAction\:\:execute\(\) expects string\|null, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
 
 		-
-			message: '#^Part \$file \(array\|bool\|string\|null\) of encapsed string cannot be cast to string\.$#'
+			message: '#^Part \$file \(array\|bool\|float\|int\|string\|null\) of encapsed string cannot be cast to string\.$#'
 			identifier: encapsedStringPart.nonString
 			count: 1
 			path: app/Console/Commands/ExifJsonImportCommand.php
@@ -2077,6 +2083,12 @@ parameters:
 			path: app/Http/Biblioteca/Models/Libro.php
 
 		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Biblioteca/Models/Libro.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -2661,6 +2673,12 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Azienda\\Models\\Azienda\:\:setAttribute\(\) should return \$this\(App\\Nomadelfia\\Azienda\\Models\\Azienda\) but returns mixed\.$#'
 			identifier: return.type
+			count: 1
+			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Azienda/Models/Azienda.php
 
@@ -3543,6 +3561,12 @@ parameters:
 		-
 			message: '#^Method App\\Nomadelfia\\Famiglia\\Models\\Famiglia\:\:uscitaDalNucleoFamiliare\(\) has parameter \$persona with no type specified\.$#'
 			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: app/Http/Nomadelfia/Famiglia/Models/Famiglia.php
 
@@ -5869,6 +5893,12 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
 
 		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/Cariche.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -6073,6 +6103,24 @@ parameters:
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
 
 		-
+			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
+
+		-
+			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
+
+		-
+			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Models/PopolazioneNomadelfia.php
+
+		-
 			message: '#^Unable to resolve the template type TKey in call to function collect$#'
 			identifier: argument.templateType
 			count: 9
@@ -6197,12 +6245,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/Http/Nomadelfia/PopolazioneNomadelfia/QueryBuilders/PopolazioneQueryBuilder.php
-
-		-
-			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:messages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/Http/Nomadelfia/PopolazioneNomadelfia/Requests/EntrataPersonaRequest.php
 
 		-
 			message: '#^Method App\\Nomadelfia\\PopolazioneNomadelfia\\Requests\\EntrataPersonaRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
@@ -9559,12 +9601,6 @@ parameters:
 			path: app/Http/Scuola/Models/Classe.php
 
 		-
-			message: '#^Method App\\Scuola\\Models\\Classe\:\:alunni\(\) has parameter \$orderby with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/Http/Scuola/Models/Classe.php
-
-		-
 			message: '#^Method App\\Scuola\\Models\\Classe\:\:alunniAttuali\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -9615,6 +9651,12 @@ parameters:
 		-
 			message: '#^Method App\\Scuola\\Models\\Classe\:\:tipo\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
 			identifier: missingType.generics
+			count: 1
+			path: app/Http/Scuola/Models/Classe.php
+
+		-
+			message: '#^Parameter \#1 \$sql of method Illuminate\\Database\\Query\\Builder\:\:orderByRaw\(\) expects literal\-string, string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Http/Scuola/Models/Classe.php
 
@@ -9865,6 +9907,12 @@ parameters:
 			path: app/Http/Scuola/Models/Coordinatore.php
 
 		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Scuola/Models/Coordinatore.php
+
+		-
 			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -9989,12 +10037,6 @@ parameters:
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Scuola/QueryBuilders/StudenteQueryBuilder.php
-
-		-
-			message: '#^Method App\\Scuola\\Requests\\AddCoordinatoreRequest\:\:messages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/Http/Scuola/Requests/AddCoordinatoreRequest.php
 
 		-
 			message: '#^Method App\\Scuola\\Requests\\AddCoordinatoreRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
