@@ -17,12 +17,16 @@ final class PhotoTableSeeder extends Seeder
     {
         $faker = FakerFactory::create('it_IT');
 
-        // Seed a base set of photos
-        $photos = Photo::factory(10)
-            ->has(Persona::factory()->count(3), 'persone')
-            ->create();
+        for ($i = 0; $i < 10; $i++) {
+            $personas = Persona::factory()->count(3)->create();
+            $personaNames = $personas->pluck('nome')->toArray();
 
-        foreach ($photos as $photo) {
+            $photo = Photo::factory()
+                ->withDetectedFaces(...$personaNames)
+                ->create();
+
+            $photo->persone()->attach($personas);
+
             $baseName = $photo->file_name;
             $datnum = null;
             if (str_contains($baseName, '-')) {
@@ -64,10 +68,15 @@ final class PhotoTableSeeder extends Seeder
             'b/x',
             'ARCH GEN 41-50  (idem c. s)/Arch 44b',
         ] as $dirPath) {
+            $personas = Persona::factory()->count(2)->create();
+            $personaNames = $personas->pluck('nome')->toArray();
+
             $photo = Photo::factory()
-                ->has(Persona::factory()->count(2), 'persone')
+                ->withDetectedFaces(...$personaNames)
                 ->inFolder($dirPath)
                 ->create();
+
+            $photo->persone()->attach($personas);
 
             $baseName = $photo->file_name;
             if (str_contains($baseName, '-')) {
