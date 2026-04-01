@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $photo_id
  * @property int|null $persona_id
  * @property string $issue_type
+ * @property string|null $photo_persona_name
  * @property Carbon|null $resolved_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -27,6 +28,7 @@ final class PhotoIssue extends Model
         'photo_id',
         'persona_id',
         'issue_type',
+        'photo_persona_name',
     ];
 
     /** @return BelongsTo<Photo, $this> */

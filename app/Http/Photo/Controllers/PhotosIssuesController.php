@@ -17,6 +17,7 @@ final class PhotosIssuesController
             ->selectRaw('
                 photos_issues.id,
                 photos_issues.issue_type,
+                photos_issues.photo_persona_name,
                 photos.id as photo_id,
                 photos.file_name,
                 photos.taken_at,
@@ -35,7 +36,7 @@ final class PhotosIssuesController
             ->join('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
             ->whereNull('photos_issues.resolved_at')
-            ->orderBy('photos.taken_at', 'desc')
+            ->latest('photos.taken_at')
             ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));

@@ -22,6 +22,8 @@ final class DetectPhotoIssuesCommand extends Command
             ->selectRaw('
                 photos.id as photo_id,
                 photos_people.persona_id,
+                photos_people.persona_nome as photo_persona_nome,
+                p.nome as actual_persona_nome,
                 "not_yet_born" as issue_type
             ')
             ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
@@ -35,6 +37,8 @@ final class DetectPhotoIssuesCommand extends Command
             ->selectRaw('
                 photos.id as photo_id,
                 photos_people.persona_id,
+                photos_people.persona_nome as photo_persona_nome,
+                p.nome as actual_persona_nome,
                 "already_deceased" as issue_type
             ')
             ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
@@ -51,6 +55,7 @@ final class DetectPhotoIssuesCommand extends Command
             'photo_id' => $issue->photo_id,
             'persona_id' => $issue->persona_id,
             'issue_type' => $issue->issue_type,
+            'photo_persona_name' => $issue->photo_persona_nome ?: $issue->actual_persona_nome,
             'created_at' => $now,
             'updated_at' => $now,
         ])->all();

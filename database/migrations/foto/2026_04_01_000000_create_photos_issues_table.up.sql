@@ -2,6 +2,7 @@ CREATE TABLE `photos_issues` (
     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `photo_id` bigint(20) UNSIGNED NOT NULL,
     `persona_id` int(10) UNSIGNED DEFAULT NULL,
+    `photo_persona_name` varchar(255) DEFAULT NULL COMMENT 'Original persona name from photos_people if different from persone.nome',
     `issue_type` varchar(50) NOT NULL COMMENT 'not_yet_born | already_deceased',
     `resolved_at` datetime DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,

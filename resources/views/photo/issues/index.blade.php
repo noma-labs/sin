@@ -42,7 +42,7 @@
                                 class="d-block"
                             >
                                 <img
-                                    src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true]) }}"
+                                    src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true, "highlight_face" => $issue->photo_persona_name]) }}"
                                     alt="{{ $issue->file_name }}"
                                     class="img-fluid"
                                     style="
@@ -88,6 +88,15 @@
                                         </span>
                                     @endif
                                 </dd>
+
+                                @if ($issue->photo_persona_name)
+                                    <dt class="col-sm-5">Nome Foto</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="text-muted font-italic">
+                                            {{ $issue->photo_persona_name }}
+                                        </span>
+                                    </dd>
+                                @endif
 
                                 <dt class="col-sm-5">Data Foto</dt>
                                 <dd class="col-sm-7">
