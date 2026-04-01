@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console;
 
 use App\Console\Commands\CreateDatabaseCommand;
+use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
 use App\Console\Commands\SynchPeopleOnPhotosCommand;
@@ -23,6 +24,7 @@ final class Kernel extends ConsoleKernel
         ExifExtractCommand::class,
         ExifJsonImportCommand::class,
         SynchPeopleOnPhotosCommand::class,
+        DetectPhotoIssuesCommand::class,
     ];
 
     /**

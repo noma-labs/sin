@@ -101,6 +101,7 @@ final class PhotoController
     public function preview(Request $request, int $id): Response
     {
         $drawFaces = $request->boolean('draw_faces', false);
+        $highlightFace = $request->string('highlight_face')->trim();
 
         $photo = Photo::query()->findOrFail($id);
 
@@ -123,6 +124,7 @@ final class PhotoController
             $imageHeight = imagesy($image);
 
             $white = imagecolorallocate($image, 255, 255, 255);
+            $red = imagecolorallocate($image, 255, 0, 0);
 
             foreach ($regionInfo->RegionList as $region) {
                 $area = $region->Area;
@@ -137,9 +139,14 @@ final class PhotoController
                 $x2 = (int) ($centerX + $width / 2);
                 $y2 = (int) ($centerY + $height / 2);
 
+                // Determine color: red for highlighted person, white for others
+                $isHighlighted = ! $highlightFace->isEmpty() && isset($region->Name) &&
+                    mb_strtolower($region->Name) === mb_strtolower($highlightFace->toString());
+                $color = $isHighlighted ? $red : $white;
+
                 // Draw 3 rectangles to simulate a 3px thick border
                 for ($i = 0; $i < 5; $i++) {
-                    imagerectangle($image, $x1 - $i, $y1 - $i, $x2 + $i, $y2 + $i, $white);
+                    imagerectangle($image, $x1 - $i, $y1 - $i, $x2 + $i, $y2 + $i, $color);
                 }
 
                 if (isset($region->Name)) {
@@ -149,7 +156,7 @@ final class PhotoController
                     $textHeight = imagefontheight($font);
                     $textX = (int) max(0, $x1 + ($width - $textWidth) / 2);
                     $textY = (int) max(0, $y1 - $textHeight - 4); // 4px padding
-                    imagestring($image, $font, $textX, $textY, $name, $white);
+                    imagestring($image, $font, $textX, $textY, $name, $color);
                 }
             }
 

@@ -1,5 +1,12 @@
 @extends("photo.main")
 
+@php
+    $issueLabels = [
+        "not_yet_born" => "Persona non ancora nata",
+        "already_deceased" => "Persona già deceduta",
+    ];
+@endphp
+
 @section("title", "Problemi Foto")
 
 @section("content")
@@ -19,7 +26,7 @@
                     <div>
                         @foreach ($issues as $issue)
                             <span class="badge text-bg-light fs-6">
-                                {{ $issue->issue_type }}
+                                {{ $issueLabels[$issue->issue_type] ?? $issue->issue_type }}
                             </span>
                         @endforeach
                     </div>
@@ -35,7 +42,7 @@
                                 class="d-block"
                             >
                                 <img
-                                    src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true]) }}"
+                                    src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true, "highlight_face" => $issue->photo_persona_name]) }}"
                                     alt="{{ $issue->file_name }}"
                                     class="img-fluid"
                                     style="
@@ -61,7 +68,7 @@
                                 <dt class="col-sm-5">Tipo Problema</dt>
                                 <dd class="col-sm-7">
                                     <span class="badge text-bg-warning fs-6">
-                                        {{ $issue->issue_type }}
+                                        {{ $issueLabels[$issue->issue_type] ?? $issue->issue_type }}
                                     </span>
                                 </dd>
 
@@ -69,7 +76,7 @@
                                 <dd class="col-sm-7">
                                     @if ($issue->persona_id)
                                         <a
-                                            href="{{ route("photos.index", ["name" => $issue->cognome]) }}"
+                                            href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
                                             class="text-decoration-none"
                                         >
                                             {{ Illuminate\Support\Str::title($issue->nome) }}
@@ -81,6 +88,15 @@
                                         </span>
                                     @endif
                                 </dd>
+
+                                @if ($issue->photo_persona_name)
+                                    <dt class="col-sm-5">Nome Foto</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="text-muted font-italic">
+                                            {{ $issue->photo_persona_name }}
+                                        </span>
+                                    </dd>
+                                @endif
 
                                 <dt class="col-sm-5">Data Foto</dt>
                                 <dd class="col-sm-7">

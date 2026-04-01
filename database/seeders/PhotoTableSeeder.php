@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 
 final class PhotoTableSeeder extends Seeder
 {
@@ -26,7 +27,12 @@ final class PhotoTableSeeder extends Seeder
                 ->withDetectedFaces(...$personaNames)
                 ->create();
 
-            $photo->persone()->attach($personas);
+            // Attach personas with detected face names as persona_nome
+            foreach ($personas as $index => $persona) {
+                $photo->persone()->attach($persona->id, [
+                    'persona_nome' => $personaNames[$index] ?? $persona->nome,
+                ]);
+            }
 
             $baseName = $photo->file_name;
             $datnum = null;
@@ -77,7 +83,12 @@ final class PhotoTableSeeder extends Seeder
                 ->inFolder($dirPath)
                 ->create();
 
-            $photo->persone()->attach($personas);
+            // Attach personas with detected face names as persona_nome
+            foreach ($personas as $index => $persona) {
+                $photo->persone()->attach($persona->id, [
+                    'persona_nome' => $personaNames[$index] ?? $persona->nome,
+                ]);
+            }
 
             $baseName = $photo->file_name;
             if (str_contains($baseName, '-')) {
@@ -112,6 +123,8 @@ final class PhotoTableSeeder extends Seeder
 
         // Create photos with issues
         $this->createPhotoWithIssue();
+
+        Artisan::call('photos:detect-issues');
     }
 
     private function createPhotoWithIssue(): void
@@ -128,7 +141,9 @@ final class PhotoTableSeeder extends Seeder
             ->nato(Carbon::parse('2015-06-20'))
             ->create(['nome' => 'Mario']);
 
-        $photoNotYetBorn->persone()->attach($personaNotYetBorn);
+        $photoNotYetBorn->persone()->attach($personaNotYetBorn->id, [
+            'persona_nome' => 'Mario Rossi',
+        ]);
 
         $dbfNotYetBorn = DbfAll::create([
             'fingerprint' => null,
@@ -164,7 +179,9 @@ final class PhotoTableSeeder extends Seeder
                 'data_decesso' => '2005-12-25',
             ]);
 
-        $photoAlreadyDeceased->persone()->attach($personaAlreadyDeceased);
+        $photoAlreadyDeceased->persone()->attach($personaAlreadyDeceased->id, [
+            'persona_nome' => 'Anna Bianchi',
+        ]);
 
         $dbfAlreadyDeceased = DbfAll::create([
             'fingerprint' => null,
@@ -186,5 +203,7 @@ final class PhotoTableSeeder extends Seeder
 
         $photoAlreadyDeceased->dbf_id = $dbfAlreadyDeceased->id;
         $photoAlreadyDeceased->save();
+
+        Artisan::call('photos:detect-issues');
     }
 }

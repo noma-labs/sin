@@ -20,8 +20,7 @@ All tests must be written using Pest. Use `vendor/bin/sail artisan make:test --p
 
 ### Test Organization
 
-- Unit/Feature tests: `tests/Feature` and `tests/Unit` directories.
-- Browser tests: `tests/Browser/` directory.
+- Unit/Feature tests: `tests/<project>/Feature` and `tests/<project>/Unit` directories. The `<project>` subdirectory is based on the Laravel app structure (e.g. `Photo`, `Biblioteca`, `Officina`).
 - Do NOT remove tests without approval - these are core application code.
 
 ### Basic Test Structure
