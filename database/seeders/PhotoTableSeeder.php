@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 
 final class PhotoTableSeeder extends Seeder
 {
@@ -112,6 +113,8 @@ final class PhotoTableSeeder extends Seeder
 
         // Create photos with issues
         $this->createPhotoWithIssue();
+
+        Artisan::call('photos:detect-issues');
     }
 
     private function createPhotoWithIssue(): void
@@ -186,5 +189,7 @@ final class PhotoTableSeeder extends Seeder
 
         $photoAlreadyDeceased->dbf_id = $dbfAlreadyDeceased->id;
         $photoAlreadyDeceased->save();
+
+        Artisan::call('photos:detect-issues');
     }
 }

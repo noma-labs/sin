@@ -12,9 +12,11 @@ final class PhotosIssuesController
 {
     public function index(Request $request): View
     {
-        $notYetBorn = DB::connection('db_foto')
-            ->table('photos_people')
+        $issues = DB::connection('db_foto')
+            ->table('photos_issues')
             ->selectRaw('
+                photos_issues.id,
+                photos_issues.issue_type,
                 photos.id as photo_id,
                 photos.file_name,
                 photos.taken_at,
@@ -23,35 +25,17 @@ final class PhotosIssuesController
                 p.cognome,
                 p.data_nascita,
                 p.data_decesso,
-                DATEDIFF(photos.taken_at, p.data_nascita) as days_diff,
-                "Persona non ancora nata" as issue_type
+                CASE
+                    WHEN photos_issues.issue_type = "not_yet_born"
+                        THEN DATEDIFF(photos.taken_at, p.data_nascita)
+                    WHEN photos_issues.issue_type = "already_deceased"
+                        THEN DATEDIFF(p.data_decesso, photos.taken_at)
+                END as days_diff
             ')
-            ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
-            ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
-            ->whereRaw('p.data_nascita IS NOT NULL')
-            ->whereRaw('p.data_nascita > photos.taken_at');
-
-        // Photos taken after person died
-        $alreadyDeceased = DB::connection('db_foto')
-            ->table('photos_people')
-            ->selectRaw('
-                photos.id as photo_id,
-                photos.file_name,
-                photos.taken_at,
-                p.id as persona_id,
-                p.nome,
-                p.cognome,
-                p.data_nascita,
-                p.data_decesso,
-                DATEDIFF(p.data_decesso, photos.taken_at) as days_diff,
-                "Persona già deceduta" as issue_type
-            ')
-            ->join('photos', 'photos.id', '=', 'photos_people.photo_id')
-            ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
-            ->whereRaw('p.data_decesso IS NOT NULL')
-            ->whereRaw('photos.taken_at > p.data_decesso');
-
-        $issues = $notYetBorn->union($alreadyDeceased)
+            ->join('photos', 'photos.id', '=', 'photos_issues.photo_id')
+            ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
+            ->whereNull('photos_issues.resolved_at')
+            ->orderBy('photos.taken_at', 'desc')
             ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));
