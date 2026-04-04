@@ -30,12 +30,15 @@ final class PhotosIssuesController
                 p.nome,
                 p.cognome,
                 p.data_nascita,
-                p.data_decesso
+                p.data_decesso,
+                dbf_all.datnum,
+                dbf_all.anum
             ')
             ->join('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
+            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'p.id')
             ->whereNull('photos_issues.resolved_at')
-            ->oldest('photos.taken_at')
+            ->orderBy('dbf_all.datnum', 'asc')
             ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));
