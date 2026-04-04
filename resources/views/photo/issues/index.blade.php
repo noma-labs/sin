@@ -76,8 +76,9 @@
                                             href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
                                             class="text-decoration-none"
                                         >
-                                            {{ Illuminate\Support\Str::title($issue->nome) }}
-                                            {{ Illuminate\Support\Str::title($issue->cognome) }}
+                                            {{ $issue->photo_persona_name }}
+                                            ({{ Illuminate\Support\Str::title($issue->nome) }}
+                                            {{ Illuminate\Support\Str::title($issue->cognome) }})
                                         </a>
                                     @else
                                         <span class="text-muted">
