@@ -10,13 +10,15 @@
     <a class="nav-link" href="{{ route("photos.folders.index") }}">Cartelle</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route("photos.stripes.index") }}">Eventi</a>
+    <a class="nav-link" href="{{ route("photos.stripes.index") }}">Strisce</a>
 </li>
-<li class="nav-item">
+{{--
+    <li class="nav-item">
     <a class="nav-link" href="{{ route("photos.favorite.index") }}">
-        MostraFotografica
+    MostraFotografica
     </a>
-</li>
+    </li>
+--}}
 <li class="nav-item">
     <a class="nav-link" href="{{ route("photos.face.index") }}">Persone</a>
 </li>

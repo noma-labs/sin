@@ -23,13 +23,6 @@
                         Problema {{ $issues->currentPage() }} di
                         {{ $issues->lastPage() }}
                     </div>
-                    <div>
-                        @foreach ($issues as $issue)
-                            <span class="badge text-bg-light fs-6">
-                                {{ $issueLabels[$issue->issue_type] ?? $issue->issue_type }}
-                            </span>
-                        @endforeach
-                    </div>
                 </div>
             </div>
 
@@ -55,6 +48,12 @@
 
                         <div class="col-md-6">
                             <dl class="row mb-0">
+                                <dt class="col-sm-5">Tipo Problema</dt>
+                                <dd class="col-sm-7">
+                                    <span class="badge text-bg-warning fs-6">
+                                        {{ $issueLabels[$issue->issue_type] ?? $issue->issue_type }}
+                                    </span>
+                                </dd>
                                 <dt class="col-sm-5">File</dt>
                                 <dd class="col-sm-7">
                                     <a
@@ -64,14 +63,12 @@
                                         {{ $issue->file_name }}
                                     </a>
                                 </dd>
-
-                                <dt class="col-sm-5">Tipo Problema</dt>
+                                <dt class="col-sm-5">Percorso</dt>
                                 <dd class="col-sm-7">
-                                    <span class="badge text-bg-warning fs-6">
-                                        {{ $issueLabels[$issue->issue_type] ?? $issue->issue_type }}
-                                    </span>
+                                    <small class="text-muted">
+                                        {{ $issue->source_file }}
+                                    </small>
                                 </dd>
-
                                 <dt class="col-sm-5">Persona</dt>
                                 <dd class="col-sm-7">
                                     @if ($issue->persona_id)
@@ -89,19 +86,24 @@
                                     @endif
                                 </dd>
 
-                                @if ($issue->photo_persona_name)
-                                    <dt class="col-sm-5">Nome Foto</dt>
-                                    <dd class="col-sm-7">
-                                        <span class="text-muted font-italic">
-                                            {{ $issue->photo_persona_name }}
-                                        </span>
-                                    </dd>
-                                @endif
-
                                 <dt class="col-sm-5">Data Foto</dt>
                                 <dd class="col-sm-7">
                                     {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("d/m/Y") : "N/A" }}
                                 </dd>
+
+                                @if ($issue->location)
+                                    <dt class="col-sm-5">Luogo</dt>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->location }}
+                                    </dd>
+                                @endif
+
+                                @if ($issue->description)
+                                    <dt class="col-sm-5">Descrizione</dt>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->description }}
+                                    </dd>
+                                @endif
 
                                 <dt class="col-sm-5">Data Nascita</dt>
                                 <dd class="col-sm-7">
@@ -114,16 +116,64 @@
                                         {{ \Illuminate\Support\Carbon::parse($issue->data_decesso)->format("d/m/Y") }}
                                     </dd>
                                 @endif
-
-                                @if ($issue->days_diff !== null)
-                                    <dt class="col-sm-5">Giorni Differenza</dt>
-                                    <dd class="col-sm-7">
-                                        <span class="badge text-bg-danger">
-                                            {{ abs($issue->days_diff) }} giorni
-                                        </span>
-                                    </dd>
-                                @endif
                             </dl>
+
+                            <hr class="my-4" />
+
+                            <h5 class="mb-3">Modifica Data Foto</h5>
+                            <form
+                                method="POST"
+                                action="{{ route("photos.issues.update", $issue->id) }}"
+                                class="mb-3"
+                            >
+                                @csrf
+                                @method("PUT")
+
+                                <div class="mb-3">
+                                    <label
+                                        for="taken_at_{{ $issue->id }}"
+                                        class="form-label"
+                                    >
+                                        Data Foto
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control @error("taken_at") is-invalid @enderror"
+                                        id="taken_at_{{ $issue->id }}"
+                                        name="taken_at"
+                                        value="{{ old("taken_at", $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "") }}"
+                                        placeholder="yyyy-mm-dd"
+                                        pattern="\d{4}-\d{2}-\d{2}"
+                                    />
+                                    @error("taken_at")
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-primary"
+                                >
+                                    Aggiorna Data
+                                </button>
+                            </form>
+
+                            <form
+                                method="POST"
+                                action="{{ route("photos.issues.resolve", $issue->id) }}"
+                                class="mt-3"
+                            >
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-success"
+                                    onclick="return confirm('Sei sicuro di voler marcare questo problema come risolto?')"
+                                >
+                                    Segna Come Risolto
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @endforeach
