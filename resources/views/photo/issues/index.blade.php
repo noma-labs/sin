@@ -69,6 +69,12 @@
                                         {{ $issue->datnum }}
                                     </dd>
                                 @endif
+                                @if ($issue->anum)
+                                    <dt class="col-sm-5">ANUM</dt>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->anum }}
+                                    </dd>
+                                @endif
 
                                 <dt class="col-sm-5">Percorso</dt>
                                 <dd class="col-sm-7">
@@ -84,8 +90,8 @@
                                             class="text-decoration-none"
                                         >
                                             {{ $issue->photo_persona_name }}
-                                            ({{ Illuminate\Support\Str::title($issue->nome) }}
-                                            {{ Illuminate\Support\Str::title($issue->cognome) }})
+                                            ({{ $issue->nome }}
+                                            {{ $issue->cognome }})
                                         </a>
                                     @else
                                         <span class="text-muted">
