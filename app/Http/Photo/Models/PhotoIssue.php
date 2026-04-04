@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon|null $resolved_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read Photo $photo
  */
 final class PhotoIssue extends Model
 {

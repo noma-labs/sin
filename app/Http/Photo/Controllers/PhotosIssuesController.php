@@ -47,7 +47,7 @@ final class PhotosIssuesController
             'taken_at' => ['nullable', 'date'],
         ]);
 
-        $issue = PhotoIssue::findOrFail($id);
+        $issue = PhotoIssue::query()->findOrFail($id);
 
         if ($validated['taken_at'] ?? null) {
             $issue->photo->update(['taken_at' => $validated['taken_at']]);
@@ -58,7 +58,7 @@ final class PhotosIssuesController
 
     public function resolve(int $id): RedirectResponse
     {
-        $issue = PhotoIssue::findOrFail($id);
+        $issue = PhotoIssue::query()->findOrFail($id);
         $issue->update(['resolved_at' => now()]);
 
         return back()->with('success', 'Problema risolto con successo.');
