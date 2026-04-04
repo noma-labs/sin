@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Photo\Controllers;
 
+use App\Photo\Models\PhotoIssue;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,18 +22,15 @@ final class PhotosIssuesController
                 photos_issues.photo_persona_name,
                 photos.id as photo_id,
                 photos.file_name,
+                photos.source_file,
                 photos.taken_at,
+                photos.description,
+                photos.location,
                 p.id as persona_id,
                 p.nome,
                 p.cognome,
                 p.data_nascita,
-                p.data_decesso,
-                CASE
-                    WHEN photos_issues.issue_type = "not_yet_born"
-                        THEN DATEDIFF(photos.taken_at, p.data_nascita)
-                    WHEN photos_issues.issue_type = "already_deceased"
-                        THEN DATEDIFF(p.data_decesso, photos.taken_at)
-                END as days_diff
+                p.data_decesso
             ')
             ->join('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
@@ -40,5 +39,28 @@ final class PhotosIssuesController
             ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));
+    }
+
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'taken_at' => ['nullable', 'date'],
+        ]);
+
+        $issue = PhotoIssue::findOrFail($id);
+
+        if ($validated['taken_at'] ?? null) {
+            $issue->photo->update(['taken_at' => $validated['taken_at']]);
+        }
+
+        return back()->with('success', 'Data foto aggiornata con successo.');
+    }
+
+    public function resolve(int $id): RedirectResponse
+    {
+        $issue = PhotoIssue::findOrFail($id);
+        $issue->update(['resolved_at' => now()]);
+
+        return back()->with('success', 'Problema risolto con successo.');
     }
 }
