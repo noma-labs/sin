@@ -30,6 +30,7 @@ final class PhotoIssue extends Model
         'persona_id',
         'issue_type',
         'photo_persona_name',
+        'resolved_at',
     ];
 
     /** @return BelongsTo<Photo, $this> */
