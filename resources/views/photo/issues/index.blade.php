@@ -69,6 +69,7 @@
                                         {{ $issue->datnum }}
                                     </dd>
                                 @endif
+
                                 @if ($issue->anum)
                                     <dt class="col-sm-5">ANUM</dt>
                                     <dd class="col-sm-7">
