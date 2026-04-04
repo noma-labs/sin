@@ -63,6 +63,13 @@
                                         {{ $issue->file_name }}
                                     </a>
                                 </dd>
+                                @if ($issue->datnum)
+                                    <dt class="col-sm-5">DATNUM</dt>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->datnum }}
+                                    </dd>
+                                @endif
+
                                 <dt class="col-sm-5">Percorso</dt>
                                 <dd class="col-sm-7">
                                     <small class="text-muted">
