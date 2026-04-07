@@ -161,20 +161,45 @@
                                 </button>
                             </form>
 
-                            <form
-                                method="POST"
-                                action="{{ route("photos.issues.resolve", $issue->id) }}"
-                                class="mt-3"
+                            <x-modal
+                                modal-title="Segna Come Risolto"
+                                button-title="Segna Come Risolto"
+                                button-style=" btn-sm btn-success"
                             >
-                                @csrf
-                                <button
-                                    type="submit"
-                                    class="btn btn-sm btn-success"
-                                    onclick="return confirm('Sei sicuro di voler marcare questo problema come risolto?')"
-                                >
-                                    Segna Come Risolto
-                                </button>
-                            </form>
+                                <x-slot:body>
+                                    <form
+                                        method="POST"
+                                        action="{{ route("photos.issues.resolve", $issue->id) }}"
+                                        id="form-resolve-{{ $issue->id }}"
+                                    >
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label
+                                                for="note_{{ $issue->id }}"
+                                                class="form-label"
+                                            >
+                                                Nota (opzionale)
+                                            </label>
+                                            <textarea
+                                                class="form-control"
+                                                id="note_{{ $issue->id }}"
+                                                name="note"
+                                                rows="3"
+                                                placeholder="Aggiungi una nota opzionale..."
+                                            ></textarea>
+                                        </div>
+                                    </form>
+                                </x-slot>
+                                <x-slot:footer>
+                                    <button
+                                        class="btn btn-success"
+                                        type="submit"
+                                        form="form-resolve-{{ $issue->id }}"
+                                    >
+                                        Conferma
+                                    </button>
+                                </x-slot>
+                            </x-modal>
                         </div>
                     </div>
                 @endforeach

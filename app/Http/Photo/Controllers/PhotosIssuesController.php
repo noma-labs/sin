@@ -56,10 +56,17 @@ final class PhotosIssuesController
         return back()->with('success', 'Data foto aggiornata con successo.');
     }
 
-    public function resolve(int $id): RedirectResponse
+    public function resolve(Request $request, int $id): RedirectResponse
     {
+        $validated = $request->validate([
+            'note' => ['nullable', 'string', 'max:1000'],
+        ]);
+
         $issue = PhotoIssue::query()->findOrFail($id);
-        $issue->update(['resolved_at' => now()]);
+        $issue->update([
+            'resolved_at' => now(),
+            'note' => $validated['note'] ?? null,
+        ]);
 
         return back()->with('success', 'Problema risolto con successo.');
     }
