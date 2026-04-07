@@ -32,13 +32,14 @@ final class PhotosIssuesController
                 p.data_nascita,
                 p.data_decesso,
                 dbf_all.datnum,
-                dbf_all.anum
+                dbf_all.anum,
+                dbf_all.descrizione, as description
             ')
-            ->join('photos', 'photos.id', '=', 'photos_issues.photo_id')
+            ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
             ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
             ->whereNull('photos_issues.resolved_at')
-            ->orderBy('dbf_all.datnum', 'asc')
+            ->oldest('photos.taken_at')
             ->paginate(1);
 
         return view('photo.issues.index', compact('issues'));
@@ -59,26 +60,10 @@ final class PhotosIssuesController
         return back()->with('success', 'Data foto aggiornata con successo.');
     }
 
-    public function resolve(Request $request, int $id): RedirectResponse
+    public function resolve(int $id): RedirectResponse
     {
-        $validated = $request->validate([
-            'note' => ['nullable', 'string', 'max:1000'],
-        ]);
-
-        $issue = PhotoIssue::query()->with('photo')->findOrFail($id);
-
-        $oldDate = $issue->photo->taken_at
-            ? $issue->photo->taken_at->format('Y-m-d')
-            : 'null';
-
-        $meta = "old_taken_at={$oldDate}";
-        $userNote = $validated['note'] ?? null;
-        $note = $userNote ? "{$meta}|note={$userNote}" : $meta;
-
-        $issue->update([
-            'resolved_at' => now(),
-            'note' => $note,
-        ]);
+        $issue = PhotoIssue::query()->findOrFail($id);
+        $issue->update(['resolved_at' => now()]);
 
         return back()->with('success', 'Problema risolto con successo.');
     }
