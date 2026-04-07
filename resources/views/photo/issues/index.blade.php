@@ -30,20 +30,12 @@
                 @foreach ($issues as $issue)
                     <div class="row">
                         <div class="col-md-6">
-                            <a
-                                href="{{ route("photos.show", $issue->photo_id) }}"
-                                class="d-block"
-                            >
-                                <img
-                                    src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true, "highlight_face" => $issue->photo_persona_name]) }}"
-                                    alt="{{ $issue->file_name }}"
-                                    class="img-fluid"
-                                    style="
-                                        max-height: 500px;
-                                        object-fit: contain;
-                                    "
-                                />
-                            </a>
+                            <img
+                                src="{{ route("photos.preview", [$issue->photo_id, "draw_faces" => true, "highlight_face" => $issue->photo_persona_name]) }}"
+                                alt="{{ $issue->file_name }}"
+                                class="img-fluid"
+                                style="max-height: 500px; object-fit: contain"
+                            />
                         </div>
 
                         <div class="col-md-6">
@@ -146,7 +138,7 @@
                                 @endif
 
                                 @if ($issue->datnum)
-                                    <dt class="col-sm-5">DATNUM</dt>
+                                    <dt class="col-sm-5">DANUM</dt>
                                     <dd class="col-sm-7">
                                         {{ $issue->datnum }}
                                     </dd>
