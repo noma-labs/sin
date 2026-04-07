@@ -51,10 +51,21 @@ final class PhotosIssuesController
             'taken_at' => ['nullable', 'date'],
         ]);
 
-        $issue = PhotoIssue::query()->findOrFail($id);
+        $issue = PhotoIssue::query()->with('photo')->findOrFail($id);
 
         if ($validated['taken_at'] ?? null) {
-            $issue->photo->update(['taken_at' => $validated['taken_at']]);
+            $oldDate = $issue->photo->taken_at
+                ? $issue->photo->taken_at->format('Y-m-d')
+                : 'null';
+            $newDate = $validated['taken_at'];
+
+            $issue->photo->update(['taken_at' => $newDate]);
+
+            $dateMeta = "old_taken_at={$oldDate}|new_taken_at={$newDate}";
+            $existing = $issue->note;
+            $issue->update([
+                'note' => $existing ? "{$existing}|{$dateMeta}" : $dateMeta,
+            ]);
         }
 
         return back()->with('success', 'Data foto aggiornata con successo.');
@@ -66,19 +77,15 @@ final class PhotosIssuesController
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        $issue = PhotoIssue::query()->with('photo')->findOrFail($id);
+        $issue = PhotoIssue::query()->findOrFail($id);
 
-        $oldDate = $issue->photo->taken_at
-            ? $issue->photo->taken_at->format('Y-m-d')
-            : 'null';
-
-        $meta = "old_taken_at={$oldDate}";
-        $userNote = $validated['note'] ?? null;
-        $note = $userNote ? "{$meta}|note={$userNote}" : $meta;
+        $existing = $issue->note;
+        $userNote = $validated['note'] ?: null;
+        $note = collect([$existing, $userNote])->filter()->implode('|');
 
         $issue->update([
             'resolved_at' => now(),
-            'note' => $note,
+            'note' => $note ?: null,
         ]);
 
         return back()->with('success', 'Problema risolto con successo.');
