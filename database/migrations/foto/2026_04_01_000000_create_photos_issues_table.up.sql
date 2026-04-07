@@ -4,6 +4,7 @@ CREATE TABLE `photos_issues` (
     `persona_id` int(10) UNSIGNED DEFAULT NULL,
     `photo_persona_name` varchar(255) DEFAULT NULL COMMENT 'Original persona name from photos_people if different from persone.nome',
     `issue_type` varchar(50) NOT NULL COMMENT 'not_yet_born | already_deceased',
+    `note` text DEFAULT NULL,
     `resolved_at` datetime DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
