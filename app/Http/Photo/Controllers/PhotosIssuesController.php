@@ -60,7 +60,8 @@ final class PhotosIssuesController
         return back()->with('success', 'Data foto aggiornata con successo.');
     }
 
-    public function resolve(Request $request, int $id): RedirectResponse{
+    public function resolve(Request $request, int $id): RedirectResponse
+    {
         $validated = $request->validate([
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
