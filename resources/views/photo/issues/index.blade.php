@@ -47,7 +47,11 @@
                         </div>
 
                         <div class="col-md-6">
-                            <p class="fw-semibold text-secondary mb-1 small text-uppercase">Foto</p>
+                            <p
+                                class="fw-semibold text-secondary mb-1 small text-uppercase"
+                            >
+                                Foto
+                            </p>
                             <dl class="row mb-3">
                                 <dt class="col-sm-5">Tipo Problema</dt>
                                 <dd class="col-sm-7">
@@ -71,7 +75,9 @@
                                     </small>
                                 </dd>
                                 <dt class="col-sm-5">Data Foto</dt>
-                                <dd class="col-sm-7 d-flex align-items-center gap-2">
+                                <dd
+                                    class="col-sm-7 d-flex align-items-center gap-2"
+                                >
                                     {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "N/A" }}
                                     <x-modal
                                         modal-title="Modifica Data Foto"
@@ -104,7 +110,9 @@
                                                         pattern="\d{4}-\d{2}-\d{2}"
                                                     />
                                                     @error("taken_at")
-                                                        <div class="invalid-feedback">
+                                                        <div
+                                                            class="invalid-feedback"
+                                                        >
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
@@ -139,29 +147,37 @@
 
                                 @if ($issue->datnum)
                                     <dt class="col-sm-5">DATNUM</dt>
-                                    <dd class="col-sm-7">{{ $issue->datnum }}</dd>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->datnum }}
+                                    </dd>
                                 @endif
 
                                 @if ($issue->anum)
                                     <dt class="col-sm-5">ANUM</dt>
-                                    <dd class="col-sm-7">{{ $issue->anum }}</dd>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->anum }}
+                                    </dd>
                                 @endif
                             </dl>
 
                             <hr class="my-2" />
 
-                            <p class="fw-semibold text-secondary mb-1 small text-uppercase">Persona</p>
+                            <p
+                                class="fw-semibold text-secondary mb-1 small text-uppercase"
+                            >
+                                Persona
+                            </p>
                             <dl class="row mb-3">
                                 <dt class="col-sm-5">Nome</dt>
                                 <dd class="col-sm-7">
-                                        <a
-                                            href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
-                                            class="text-decoration-none"
-                                        >
-                                            {{ $issue->photo_persona_name }}
-                                            ({{ $issue->nome }}
-                                            {{ $issue->cognome }})
-                                        </a>
+                                    <a
+                                        href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
+                                        class="text-decoration-none"
+                                    >
+                                        {{ $issue->photo_persona_name }}
+                                        ({{ $issue->nome }}
+                                        {{ $issue->cognome }})
+                                    </a>
                                 </dd>
 
                                 <dt class="col-sm-5">Data Nascita</dt>
@@ -216,7 +232,6 @@
                                     </button>
                                 </x-slot>
                             </x-modal>
-
                         </div>
                     </div>
                 @endforeach
