@@ -33,7 +33,7 @@ final class PhotosIssuesController
                 p.data_decesso,
                 dbf_all.datnum,
                 dbf_all.anum,
-                dbf_all.descrizione, as description
+                dbf_all.descrizione as description
             ')
             ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
