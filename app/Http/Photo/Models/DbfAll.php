@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Photo\Models;
 
+use Database\Factories\DbfAllFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -31,6 +33,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class DbfAll extends Model
 {
+    /** @use HasFactory<DbfAllFactory> */
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $connection = 'db_foto';
@@ -41,12 +46,37 @@ final class DbfAll extends Model
 
     protected $guarded = [];
 
+    protected function casts(): array
+    {
+        return [
+            'data' => 'datetime:Y-m-d',
+        ];
+    }
+
     /**
      * @return HasMany<Photo, covariant $this>
      */
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class, 'dbf_id', 'id');
+    }
+
+    protected static function newFactory(): DbfAllFactory
+    {
+        return DbfAllFactory::new();
+    }
+
+    /**
+     * Scope to find DbfAll records where the parsed_strip falls within the datnum-anum range.
+     * For example: datnum="03455", anum="03457" will match parsed_strip="03456"
+     *
+     * @param  Builder<DbfAll>  $query
+     */
+    public function scopeInRangeOf(Builder $query, string $numericPrefix): Builder
+    {
+        return $query
+            ->whereRaw('CAST(datnum AS UNSIGNED) <= ?', [(int) $numericPrefix])
+            ->whereRaw('CAST(anum AS UNSIGNED) >= ?', [(int) $numericPrefix]);
     }
 
     protected static function booted(): void

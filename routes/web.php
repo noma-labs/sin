@@ -72,6 +72,8 @@ use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
+use App\Livewire\Photo\Reconciliation;
+use App\Photo\Controllers\ReconciliationController;
 use App\Photo\Controllers\FaceController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
@@ -438,6 +440,7 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 });
 
 Route::prefix('photos')->middleware('auth')->group(function () {
+
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
     Route::get('/folders', [PhotoFolderController::class, 'index'])->middleware('can:photo.view')->name('photos.folders.index');
     Route::get('/folders/{path}', [PhotoFolderController::class, 'show'])
@@ -447,6 +450,9 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/stripes', [StripesController::class, 'index'])->middleware('can:photo.view')->name('photos.stripes.index');
     Route::get('/stripes/{stripe}', [StripesController::class, 'show'])->middleware('can:photo.view')->name('photos.stripes.show');
     Route::get('/slideshow', [SlideshowController::class, 'index'])->middleware('can:photo.view')->name('photos.slideshow');
+
+    Route::get('/reconciliation', [ReconciliationController::class, 'index'])->middleware('can:photo.view')->name('photos.reconciliation');
+    Route::post('/reconciliation/link', [ReconciliationController::class, 'link'])->middleware('can:photo.update')->name('photos.reconciliation.link');
 
     Route::get('/favourite', [FavouritesController::class, 'index'])->middleware('can:photo.view')->name('photos.favorite.index');
     Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->middleware('can:photo.store')->name('photos.favorite');
@@ -460,6 +466,8 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
     Route::put('/issues/{id}', [PhotosIssuesController::class, 'update'])->middleware('can:photo.update')->name('photos.issues.update');
     Route::post('/issues/{id}/resolve', [PhotosIssuesController::class, 'resolve'])->middleware('can:photo.update')->name('photos.issues.resolve');
+
+
 
     Route::put('/{id}', [PhotoController::class, 'update'])->middleware('can:photo.update')->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');
