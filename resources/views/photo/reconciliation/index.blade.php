@@ -148,38 +148,6 @@
                                         </button>
                                     </div>
                                 </label>
-
-                                <x-modal
-                                    modal-title="Dettaglio foto"
-                                    :modal-id="$modalId"
-                                    fullscreen="true"
-                                >
-                                    <x-slot:body>
-                                        <div
-                                            class="d-flex flex-column align-items-center"
-                                        >
-                                            <img
-                                                src="{{ route("photos.preview", $photo->id) }}"
-                                                class="img-fluid mb-2"
-                                                alt="{{ $photo->file_name }}"
-                                            />
-                                            <div>
-                                                <strong>
-                                                    {{ $photo->file_name ?? "" }}
-                                                </strong>
-                                            </div>
-                                            <div>
-                                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                            </div>
-                                            <div>
-                                                {{ $photo->subjects ?? "" }}
-                                            </div>
-                                            <div class="mt-2">
-                                                {{ $photo->description }}
-                                            </div>
-                                        </div>
-                                    </x-slot>
-                                </x-modal>
                             @empty
                                 <div
                                     class="list-group-item text-center text-muted py-5"
@@ -325,6 +293,30 @@
             </div>
         </div>
     </form>
+
+    {{-- Modals must live outside the form --}}
+    @foreach ($unlinkedPhotos as $photo)
+        @php $modalId = 'photo-modal-' . $photo->id; @endphp
+        <x-modal
+            modal-title="Dettaglio foto"
+            :modal-id="$modalId"
+            fullscreen="true"
+        >
+            <x-slot:body>
+                <div class="d-flex flex-column align-items-center">
+                    <img
+                        src="{{ route('photos.preview', $photo->id) }}"
+                        class="img-fluid mb-2"
+                        alt="{{ $photo->file_name }}"
+                    />
+                    <div><strong>{{ $photo->file_name ?? '' }}</strong></div>
+                    <div>{{ $photo->taken_at ? $photo->taken_at->format('d/m/Y') : 'N/A' }}</div>
+                    <div>{{ $photo->subject ?? '' }}</div>
+                    <div class="mt-2">{{ $photo->description }}</div>
+                </div>
+            </x-slot>
+        </x-modal>
+    @endforeach
 
     <script>
         function updateCounts() {
