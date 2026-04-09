@@ -1,6 +1,6 @@
 @extends("photo.main")
 
-@section("title", "Photo-DbfAll Reconciliation")
+@section("title", "Reconciliation")
 
 @section("content")
     @include("partials.header", ["title" => "Risoluzione Foto senza Strisce", "subtitle" => "Collega le foto non collegate alle corrispondenti strisce"])
