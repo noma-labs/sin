@@ -72,14 +72,13 @@ use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
-use App\Livewire\Photo\Reconciliation;
-use App\Photo\Controllers\ReconciliationController;
 use App\Photo\Controllers\FaceController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\PhotoFolderController;
 use App\Photo\Controllers\PhotosIssuesController;
+use App\Photo\Controllers\ReconciliationController;
 use App\Photo\Controllers\SlideshowController;
 use App\Photo\Controllers\StripesController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -466,8 +465,6 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
     Route::put('/issues/{id}', [PhotosIssuesController::class, 'update'])->middleware('can:photo.update')->name('photos.issues.update');
     Route::post('/issues/{id}/resolve', [PhotosIssuesController::class, 'resolve'])->middleware('can:photo.update')->name('photos.issues.resolve');
-
-
 
     Route::put('/{id}', [PhotoController::class, 'update'])->middleware('can:photo.update')->name('photos.update');
     Route::get('/{id}', [PhotoController::class, 'show'])->middleware('can:photo.view')->name('photos.show');

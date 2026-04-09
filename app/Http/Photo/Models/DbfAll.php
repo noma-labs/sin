@@ -46,24 +46,12 @@ final class DbfAll extends Model
 
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return [
-            'data' => 'datetime:Y-m-d',
-        ];
-    }
-
     /**
      * @return HasMany<Photo, covariant $this>
      */
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class, 'dbf_id', 'id');
-    }
-
-    protected static function newFactory(): DbfAllFactory
-    {
-        return DbfAllFactory::new();
     }
 
     /**
@@ -79,11 +67,23 @@ final class DbfAll extends Model
             ->whereRaw('CAST(anum AS UNSIGNED) >= ?', [(int) $numericPrefix]);
     }
 
+    protected static function newFactory(): DbfAllFactory
+    {
+        return DbfAllFactory::new();
+    }
+
     protected static function booted(): void
     {
         // FIXME: currently only analog photos are present.
         self::addGlobalScope('only_analog', function (Builder $builder) {
             $builder->where('fi', '!=', 'DG');
         });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'data' => 'datetime:Y-m-d',
+        ];
     }
 }

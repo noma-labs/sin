@@ -21,20 +21,20 @@ final class ReconciliationController
             ->whereNull('dbf_id')
             ->orderBy('file_name');
 
-        if (!empty($photoSearch)) {
+        if (! empty($photoSearch)) {
             $photoQuery->where('file_name', 'LIKE', "%{$photoSearch}%");
         }
 
         $dbfQuery = DbfAll::query()->orderBy('datnum');
 
-        if (!empty($dbfSearch)) {
+        if (! empty($dbfSearch)) {
             $dbfQuery->where('datnum', 'LIKE', "%{$dbfSearch}%")
                 ->orWhere('anum', 'LIKE', "%{$dbfSearch}%")
                 ->orWhere('descrizione', 'LIKE', "%{$dbfSearch}%");
         }
 
         $unlinkedPhotos = $photoQuery->paginate(15);
-        $dbfAllRecords = $dbfQuery->with('photos')->get();
+        $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->get();
 
         return view('photo.reconciliation.index', [
             'unlinkedPhotos' => $unlinkedPhotos,

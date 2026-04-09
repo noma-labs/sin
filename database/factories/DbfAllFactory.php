@@ -13,8 +13,8 @@ final class DbfAllFactory extends Factory
 
     public function definition(): array
     {
-        $datnum = str_pad((string) $this->faker->numberBetween(1000, 99999), 5, '0', STR_PAD_LEFT);
-        $anum = str_pad((string) ($this->faker->numberBetween((int) $datnum, (int) $datnum + 10)), 5, '0', STR_PAD_LEFT);
+        $datnum = mb_str_pad((string) $this->faker->numberBetween(1000, 99999), 5, '0', STR_PAD_LEFT);
+        $anum = mb_str_pad((string) ($this->faker->numberBetween((int) $datnum, (int) $datnum + 10)), 5, '0', STR_PAD_LEFT);
 
         return [
             'source' => $this->faker->randomElement(['foto', 'slide', 'dia120']),
