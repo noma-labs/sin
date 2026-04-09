@@ -229,6 +229,36 @@
                                                 <strong>
                                                     {{ $dbf->photos->count() }}
                                                 </strong>
+                                                | NFO:
+                                                <strong>
+                                                    {{ $dbf->nfo }}
+                                                </strong>
+                                                @php
+                                                    $difference = $dbf->nfo - $dbf->photos->count();
+                                                @endphp
+
+                                                @if ($difference > 0)
+                                                    | Mancanti:
+                                                    <span
+                                                        class="badge bg-warning"
+                                                    >
+                                                        {{ $difference }}
+                                                    </span>
+                                                @elseif ($difference === 0)
+                                                    |
+                                                    <span
+                                                        class="badge bg-success"
+                                                    >
+                                                        Complete
+                                                    </span>
+                                                @else
+                                                    | In più:
+                                                    <span
+                                                        class="badge bg-danger"
+                                                    >
+                                                        {{ abs($difference) }}
+                                                    </span>
+                                                @endif
                                             </p>
                                             <p class="small text-muted mb-1">
                                                 Source:
