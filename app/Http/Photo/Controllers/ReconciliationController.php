@@ -30,7 +30,7 @@ final class ReconciliationController
                 ->orWhere('descrizione', 'LIKE', "%{$dbfSearch}%"));
 
         $unlinkedPhotos = $photoQuery->paginate(15);
-        $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->get();
+        $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->paginate(20);
 
         return view('photo.reconciliation.index', [
             'unlinkedPhotos' => $unlinkedPhotos,
