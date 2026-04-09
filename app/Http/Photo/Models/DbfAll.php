@@ -60,7 +60,8 @@ final class DbfAll extends Model
      *
      * @param  Builder<DbfAll>  $query
      */
-    public function scopeInRangeOf(Builder $query, string $numericPrefix): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inRangeOf(Builder $query, string $numericPrefix): Builder
     {
         return $query
             ->whereRaw('CAST(datnum AS UNSIGNED) <= ?', [(int) $numericPrefix])

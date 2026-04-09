@@ -14,24 +14,20 @@ final class ReconciliationController
 {
     public function index(Request $request): View
     {
-        $photoSearch = $request->query('photoSearch', '');
-        $dbfSearch = $request->query('dbfSearch', '');
+        $photoSearch = $request->string('photoSearch', '')->toString();
+        $dbfSearch = $request->string('dbfSearch', '')->toString();
 
         $photoQuery = Photo::query()
             ->whereNull('dbf_id')
-            ->orderBy('file_name');
+            ->orderBy('file_name')
+            ->when($photoSearch !== '', fn ($q) => $q->where('file_name', 'LIKE', "%{$photoSearch}%"));
 
-        if (! empty($photoSearch)) {
-            $photoQuery->where('file_name', 'LIKE', "%{$photoSearch}%");
-        }
-
-        $dbfQuery = DbfAll::query()->orderBy('datnum');
-
-        if (! empty($dbfSearch)) {
-            $dbfQuery->where('datnum', 'LIKE', "%{$dbfSearch}%")
+        $dbfQuery = DbfAll::query()
+            ->orderBy('datnum')
+            ->when($dbfSearch !== '', fn ($q) => $q
+                ->where('datnum', 'LIKE', "%{$dbfSearch}%")
                 ->orWhere('anum', 'LIKE', "%{$dbfSearch}%")
-                ->orWhere('descrizione', 'LIKE', "%{$dbfSearch}%");
-        }
+                ->orWhere('descrizione', 'LIKE', "%{$dbfSearch}%"));
 
         $unlinkedPhotos = $photoQuery->paginate(15);
         $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->get();
@@ -44,26 +40,34 @@ final class ReconciliationController
         ]);
     }
 
+
     public function link(Request $request): RedirectResponse
     {
         $selectedPhotos = $request->input('selectedPhotos', []);
-        $dbfAllId = (int) $request->input('selectedDbfAll', 0);
+        $dbfAllId = $request->integer('selectedDbfAll', 0);
+        $photoSearch = $request->string('photoSearch', '')->toString();
+        $dbfSearch = $request->string('dbfSearch', '')->toString();
+
+        $filters = array_filter([
+            'photoSearch' => $photoSearch,
+            'dbfSearch' => $dbfSearch,
+        ]);
 
         if (empty($selectedPhotos) || $dbfAllId <= 0) {
-            return redirect()->back()->with('warning', 'Please select at least one photo and one dbf record');
+            return back()->with('warning', 'Please select at least one photo and one dbf record');
         }
 
-        $dbfAll = DbfAll::find($dbfAllId);
+        $dbfAll = DbfAll::query()->find($dbfAllId);
 
         if ($dbfAll === null) {
-            return redirect()->back()->with('error', 'Selected DbfAll record not found');
+            return back()->with('error', 'Selected DbfAll record not found');
         }
 
         $updated = Photo::query()
             ->whereIn('id', $selectedPhotos)
             ->update(['dbf_id' => $dbfAllId]);
 
-        return redirect()->route('photos.reconciliation')
+        return to_route('photos.reconciliation', $filters)
             ->with('success', "Successfully linked {$updated} photo(s) to DbfAll record #{$dbfAllId}");
     }
 }
