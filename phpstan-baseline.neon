@@ -8005,6 +8005,12 @@ parameters:
 			path: app/Http/Photo/Controllers/PhotoController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:with\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Photo/Controllers/ReconciliationController.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Photo\\Models\\DbfAll\>\|Illuminate\\Database\\Query\\Builder\:\:doesntHave\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -8087,6 +8093,18 @@ parameters:
 			identifier: argument.templateType
 			count: 1
 			path: app/Http/Photo/Exif/ExifReader.php
+
+		-
+			message: '#^Method App\\Photo\\Models\\DbfAll\:\:inRangeOf\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Photo/Models/DbfAll.php
+
+		-
+			message: '#^Method App\\Photo\\Models\\DbfAll\:\:inRangeOf\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Query\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Photo/Models/DbfAll.php
 
 		-
 			message: '#^Offset ''XMP\-mwg\-rs…'' on array\{SourceFile\: string, FileName\?\: string, Directory\?\: string, FileSize\?\: int, FileType\?\: string, FileTypeExtension\?\: string, MIMEType\?\: string, CreateDate\?\: string, \.\.\.\} in isset\(\) does not exist\.$#'

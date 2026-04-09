@@ -78,6 +78,7 @@ use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\PhotoFolderController;
 use App\Photo\Controllers\PhotosIssuesController;
+use App\Photo\Controllers\ReconciliationController;
 use App\Photo\Controllers\SlideshowController;
 use App\Photo\Controllers\StripesController;
 use App\Rtn\Video\VideoController as RtnVideoController;
@@ -438,6 +439,7 @@ Route::prefix('rtn')->middleware('auth')->group(function () {
 });
 
 Route::prefix('photos')->middleware('auth')->group(function () {
+
     Route::get('/', [PhotoController::class, 'index'])->middleware('can:photo.view')->name('photos.index');
     Route::get('/folders', [PhotoFolderController::class, 'index'])->middleware('can:photo.view')->name('photos.folders.index');
     Route::get('/folders/{path}', [PhotoFolderController::class, 'show'])
@@ -447,6 +449,9 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/stripes', [StripesController::class, 'index'])->middleware('can:photo.view')->name('photos.stripes.index');
     Route::get('/stripes/{stripe}', [StripesController::class, 'show'])->middleware('can:photo.view')->name('photos.stripes.show');
     Route::get('/slideshow', [SlideshowController::class, 'index'])->middleware('can:photo.view')->name('photos.slideshow');
+
+    Route::get('/reconciliation', [ReconciliationController::class, 'index'])->middleware('can:photo.view')->name('photos.reconciliation');
+    Route::post('/reconciliation/link', [ReconciliationController::class, 'link'])->middleware('can:photo.update')->name('photos.reconciliation.link');
 
     Route::get('/favourite', [FavouritesController::class, 'index'])->middleware('can:photo.view')->name('photos.favorite.index');
     Route::post('/{id}/favourite', [FavouritesController::class, 'store'])->middleware('can:photo.store')->name('photos.favorite');

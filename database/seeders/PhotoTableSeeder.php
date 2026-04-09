@@ -204,6 +204,9 @@ final class PhotoTableSeeder extends Seeder
         $photoAlreadyDeceased->dbf_id = $dbfAlreadyDeceased->id;
         $photoAlreadyDeceased->save();
 
+        // Photos without dbf_id (for reconciliation testing)
+        Photo::factory()->count(8)->create(['dbf_id' => null]);
+
         Artisan::call('photos:detect-issues');
     }
 }
