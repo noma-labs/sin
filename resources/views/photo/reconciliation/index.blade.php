@@ -301,6 +301,12 @@
                             @endforelse
                         </div>
                     </div>
+
+                    @if ($dbfAllRecords->hasPages())
+                        <div class="card-footer bg-light">
+                            {{ $dbfAllRecords->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
