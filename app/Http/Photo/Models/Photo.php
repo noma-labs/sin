@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int|null $image_width Width of the photo in pixels.
  * @property string|null $keywords Keywords associated with the photo.
  * @property RegionInfo|null $region_info region information (e.g., face detection data).
- * @property string|null $subject Subject or theme of the photo.
+ * @property string|null $subjects Subjects of the photo.
  * @property bool|null $favorite Indicates if the photo is marked as a favorite.
  * @property string|null $description Description of the photo.
  * @property string|null $location Location where the photo was taken.
