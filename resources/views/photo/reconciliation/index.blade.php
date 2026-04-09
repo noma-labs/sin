@@ -133,6 +133,14 @@
                                             >
                                                 {{ $photo->file_name }}
                                             </p>
+                                            @if ($photo->source_file)
+                                                <p
+                                                    class="small text-muted mb-1"
+                                                >
+                                                    {{ $photo->source_file }}
+                                                </p>
+                                            @endif
+
                                             <p class="small text-muted mb-0">
                                                 ID: {{ $photo->id }}
                                             </p>
@@ -210,6 +218,10 @@
                                                     {{ $dbf->datnum }} -
                                                     {{ $dbf->anum }}
                                                 </code>
+                                                | Foto:
+                                                <strong>
+                                                    {{ $dbf->photos->count() }}
+                                                </strong>
                                             </p>
                                             <p class="small text-muted mb-1">
                                                 Source:
