@@ -40,7 +40,6 @@ final class ReconciliationController
         ]);
     }
 
-
     public function link(Request $request): RedirectResponse
     {
         $selectedPhotos = $request->input('selectedPhotos', []);

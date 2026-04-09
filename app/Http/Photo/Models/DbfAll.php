@@ -54,6 +54,19 @@ final class DbfAll extends Model
         return $this->hasMany(Photo::class, 'dbf_id', 'id');
     }
 
+    protected static function newFactory(): DbfAllFactory
+    {
+        return DbfAllFactory::new();
+    }
+
+    protected static function booted(): void
+    {
+        // FIXME: currently only analog photos are present.
+        self::addGlobalScope('only_analog', function (Builder $builder) {
+            $builder->where('fi', '!=', 'DG');
+        });
+    }
+
     /**
      * Scope to find DbfAll records where the parsed_strip falls within the datnum-anum range.
      * For example: datnum="03455", anum="03457" will match parsed_strip="03456"
@@ -66,19 +79,6 @@ final class DbfAll extends Model
         return $query
             ->whereRaw('CAST(datnum AS UNSIGNED) <= ?', [(int) $numericPrefix])
             ->whereRaw('CAST(anum AS UNSIGNED) >= ?', [(int) $numericPrefix]);
-    }
-
-    protected static function newFactory(): DbfAllFactory
-    {
-        return DbfAllFactory::new();
-    }
-
-    protected static function booted(): void
-    {
-        // FIXME: currently only analog photos are present.
-        self::addGlobalScope('only_analog', function (Builder $builder) {
-            $builder->where('fi', '!=', 'DG');
-        });
     }
 
     protected function casts(): array

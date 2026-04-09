@@ -8,23 +8,33 @@
     <div class="mb-3 row g-2">
         <div class="col-md-4">
             <div class="card bg-light border-0">
-                <div class="card-body py-2 d-flex justify-content-between align-items-center">
+                <div
+                    class="card-body py-2 d-flex justify-content-between align-items-center"
+                >
                     <p class="small text-muted mb-0">Unlinked Photos</p>
-                    <p class="h5 mb-0 text-primary">{{ $unlinkedPhotos->total() }}</p>
+                    <p class="h5 mb-0 text-primary">
+                        {{ $unlinkedPhotos->total() }}
+                    </p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card bg-light border-0">
-                <div class="card-body py-2 d-flex justify-content-between align-items-center">
+                <div
+                    class="card-body py-2 d-flex justify-content-between align-items-center"
+                >
                     <p class="small text-muted mb-0">Selected Photos</p>
-                    <p class="h5 mb-0 text-success" id="selectedPhotosCount">0</p>
+                    <p class="h5 mb-0 text-success" id="selectedPhotosCount">
+                        0
+                    </p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card bg-light border-0">
-                <div class="card-body py-2 d-flex justify-content-between align-items-center">
+                <div
+                    class="card-body py-2 d-flex justify-content-between align-items-center"
+                >
                     <p class="small text-muted mb-0">Selected DbfAll</p>
                     <p class="h5 mb-0 text-info" id="selectedDbfCount">0</p>
                 </div>
@@ -46,12 +56,26 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div
+                            class="d-flex justify-content-between align-items-center mb-3"
+                        >
                             <h5 class="card-title mb-0">Unlinked Photos</h5>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('photos.reconciliation') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
-                                <button type="submit" id="linkButton" class="btn btn-sm btn-primary" disabled>
-                                    Link Selected (<span id="linkCount">0</span>)
+                                <a
+                                    href="{{ route("photos.reconciliation") }}"
+                                    class="btn btn-sm btn-outline-secondary"
+                                >
+                                    Reset
+                                </a>
+                                <button
+                                    type="submit"
+                                    id="linkButton"
+                                    class="btn btn-sm btn-primary"
+                                    disabled
+                                >
+                                    Link Selected (
+                                    <span id="linkCount">0</span>
+                                    )
                                 </button>
                             </div>
                         </div>
@@ -76,7 +100,10 @@
                     <div style="max-height: 400px; overflow-y: auto">
                         <div class="list-group list-group-flush">
                             @forelse ($unlinkedPhotos as $photo)
-                                @php $modalId = 'photo-modal-' . $photo->id; @endphp
+                                @php
+                                    $modalId = "photo-modal-" . $photo->id;
+                                @endphp
+
                                 <label
                                     class="list-group-item list-group-item-action"
                                 >
@@ -91,12 +118,19 @@
                                         <img
                                             src="{{ route("photos.preview", $photo->id) }}"
                                             alt="{{ $photo->file_name }}"
-                                            style="width: 80px; height: 60px; object-fit: cover; flex-shrink: 0;"
+                                            style="
+                                                width: 80px;
+                                                height: 60px;
+                                                object-fit: cover;
+                                                flex-shrink: 0;
+                                            "
                                             class="rounded border"
                                             loading="lazy"
                                         />
                                         <div class="flex-grow-1">
-                                            <p class="mb-1 fw-medium text-truncate">
+                                            <p
+                                                class="mb-1 fw-medium text-truncate"
+                                            >
                                                 {{ $photo->file_name }}
                                             </p>
                                             <p class="small text-muted mb-0">
@@ -110,7 +144,7 @@
                                             data-bs-target="#{{ $modalId }}"
                                             onclick="event.preventDefault(); event.stopPropagation();"
                                         >
-                                            <i> Open</i>
+                                            <i>Open</i>
                                         </button>
                                     </div>
                                 </label>
@@ -121,14 +155,18 @@
                                     fullscreen="true"
                                 >
                                     <x-slot:body>
-                                        <div class="d-flex flex-column align-items-center">
+                                        <div
+                                            class="d-flex flex-column align-items-center"
+                                        >
                                             <img
                                                 src="{{ route("photos.preview", $photo->id) }}"
                                                 class="img-fluid mb-2"
                                                 alt="{{ $photo->file_name }}"
                                             />
                                             <div>
-                                                <strong>{{ $photo->file_name ?? "" }}</strong>
+                                                <strong>
+                                                    {{ $photo->file_name ?? "" }}
+                                                </strong>
                                             </div>
                                             <div>
                                                 {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
@@ -136,7 +174,9 @@
                                             <div>
                                                 {{ $photo->subjects ?? "" }}
                                             </div>
-                                            <div class="mt-2">{{ $photo->description }}</div>
+                                            <div class="mt-2">
+                                                {{ $photo->description }}
+                                            </div>
                                         </div>
                                     </x-slot>
                                 </x-modal>
@@ -284,7 +324,6 @@
                 </div>
             </div>
         </div>
-
     </form>
 
     <script>
