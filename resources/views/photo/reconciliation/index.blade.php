@@ -3,9 +3,7 @@
 @section("title", "Reconciliation")
 
 @section("content")
-    @include("partials.header", ["title" => "Risoluzione Foto senza Strisce", "subtitle" => "Collega le foto non collegate alle corrispondenti strisce"])
-
-    <div class="mb-3 row g-2">
+    <div class="mt-1 mb-2 row g-2">
         <div class="col-md-4">
             <div class="card bg-light border-0">
                 <div
@@ -42,7 +40,6 @@
         </div>
     </div>
 
-    <!-- Main Form -->
     <form
         method="POST"
         action="{{ route("photos.reconciliation.link") }}"
@@ -105,9 +102,9 @@
                                 @endphp
 
                                 <label
-                                    class="list-group-item list-group-item-action"
+                                    class="list-group-item list-group-item-action py-1 px-2"
                                 >
-                                    <div class="d-flex gap-3 align-items-start">
+                                    <div class="d-flex gap-2 align-items-start">
                                         <input
                                             type="checkbox"
                                             name="selectedPhotos[]"
@@ -119,31 +116,41 @@
                                             src="{{ route("photos.preview", $photo->id) }}"
                                             alt="{{ $photo->file_name }}"
                                             style="
-                                                width: 80px;
-                                                height: 60px;
+                                                width: 56px;
+                                                height: 44px;
                                                 object-fit: cover;
                                                 flex-shrink: 0;
                                             "
                                             class="rounded border"
                                             loading="lazy"
                                         />
-                                        <div class="flex-grow-1">
+                                        <div
+                                            class="flex-grow-1"
+                                            style="min-width: 0"
+                                        >
                                             <p
-                                                class="mb-1 fw-medium text-truncate"
+                                                class="mb-0 fw-medium text-truncate"
+                                                style="font-size: 0.8rem"
                                             >
                                                 {{ $photo->file_name }}
                                             </p>
                                             @if ($photo->source_file)
                                                 <p
-                                                    class="small text-muted mb-1"
+                                                    class="mb-0 text-muted text-truncate"
+                                                    style="font-size: 0.7rem"
                                                 >
                                                     {{ $photo->source_file }}
                                                 </p>
                                             @endif
 
-                                            <p class="small text-muted mb-0">
-                                                ID: {{ $photo->id }}
-                                            </p>
+                                            @if ($photo->subjects)
+                                                <p
+                                                    class="mb-0 text-muted text-truncate"
+                                                    style="font-size: 0.7rem"
+                                                >
+                                                    {{ $photo->subjects }}
+                                                </p>
+                                            @endif
                                         </div>
                                         <button
                                             type="button"
@@ -178,7 +185,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h5 class="card-title mb-3">DbfAll Records</h5>
+                        <h5 class="card-title mb-3">Strisce</h5>
                         <div class="d-flex gap-2">
                             <input
                                 type="text"
@@ -201,9 +208,9 @@
                         <div class="list-group list-group-flush">
                             @forelse ($dbfAllRecords as $dbf)
                                 <label
-                                    class="list-group-item list-group-item-action"
+                                    class="list-group-item list-group-item-action py-1 px-2"
                                 >
-                                    <div class="d-flex gap-3 align-items-start">
+                                    <div class="d-flex gap-2 align-items-start">
                                         <input
                                             type="radio"
                                             name="selectedDbfAll"
