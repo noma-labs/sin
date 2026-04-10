@@ -94,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div style="max-height: 400px; overflow-y: auto">
+                    <div style="max-height: 70vh; overflow-y: auto">
                         <div class="list-group list-group-flush">
                             @forelse ($unlinkedPhotos as $photo)
                                 @php
@@ -181,7 +181,6 @@
                 </div>
             </div>
 
-            <!-- DbfAll Column -->
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header border-bottom">
@@ -204,7 +203,7 @@
                         </div>
                     </div>
 
-                    <div style="max-height: 400px; overflow-y: auto">
+                    <div style="max-height: 80vh; overflow-y: auto">
                         <div class="list-group list-group-flush">
                             @forelse ($dbfAllRecords as $dbf)
                                 <label
@@ -327,6 +326,14 @@
                                                 </div>
                                             @endif
                                         </div>
+                                        <a
+                                            href="{{ route("photos.stripes.show", $dbf->id) }}"
+                                            target="_blank"
+                                            class="btn btn-sm btn-outline-secondary flex-shrink-0"
+                                            onclick="event.stopPropagation();"
+                                        >
+                                            ↗
+                                        </a>
                                     </div>
                                 </label>
                             @empty

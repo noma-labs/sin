@@ -20,16 +20,14 @@ final class ReconciliationController
         $photoQuery = Photo::query()
             ->whereNull('dbf_id')
             ->orderBy('file_name')
-            ->when($photoSearch !== '', fn ($q) => $q->where('file_name', 'LIKE', "%{$photoSearch}%"));
+            ->when($photoSearch !== '', fn ($q) => $q->where('file_name', 'LIKE', "{$photoSearch}%"));
 
         $dbfQuery = DbfAll::query()
             ->orderBy('datnum')
             ->when($dbfSearch !== '', fn ($q) => $q
-                ->where('datnum', 'LIKE', "%{$dbfSearch}%")
-                ->orWhere('anum', 'LIKE', "%{$dbfSearch}%")
-                ->orWhere('descrizione', 'LIKE', "%{$dbfSearch}%"));
+                ->where('datnum', 'LIKE', "{$dbfSearch}%"));
 
-        $unlinkedPhotos = $photoQuery->paginate(15);
+        $unlinkedPhotos = $photoQuery->paginate(25);
         $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->paginate(20);
 
         return view('photo.reconciliation.index', [
