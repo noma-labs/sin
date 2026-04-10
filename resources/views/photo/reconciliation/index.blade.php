@@ -167,15 +167,27 @@
                                                 </p>
                                             @endif
                                         </div>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary ms-auto flex-shrink-0"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#{{ $modalId }}"
-                                            onclick="event.preventDefault(); event.stopPropagation();"
+                                        <div
+                                            class="d-flex gap-2 ms-auto flex-shrink-0"
                                         >
-                                            <i>Open</i>
-                                        </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-info"
+                                                onclick="searchByPrefix('{{ substr($photo->file_name, 0, 5) }}'); event.preventDefault(); event.stopPropagation();"
+                                                title="Search by ID"
+                                            >
+                                                {{ substr($photo->file_name, 0, 5) }}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-secondary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#{{ $modalId }}"
+                                                onclick="event.preventDefault(); event.stopPropagation();"
+                                            >
+                                                <i>Open</i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </label>
                             @empty
@@ -336,40 +348,6 @@
                                             <p class="small text-muted mb-0">
                                                 ID: {{ $dbf->id }}
                                             </p>
-                                            @if ($dbf->photos->isNotEmpty())
-                                                <div
-                                                    class="d-flex gap-2 flex-wrap mt-2"
-                                                >
-                                                    @foreach ($dbf->photos as $linkedPhoto)
-                                                        <div
-                                                            class="text-center"
-                                                            style="width: 60px"
-                                                        >
-                                                            <img
-                                                                src="{{ route("photos.preview", $linkedPhoto->id) }}"
-                                                                alt="{{ $linkedPhoto->file_name }}"
-                                                                style="
-                                                                    width: 60px;
-                                                                    height: 48px;
-                                                                    object-fit: cover;
-                                                                "
-                                                                class="rounded border"
-                                                                loading="lazy"
-                                                            />
-                                                            <p
-                                                                class="mb-0 text-muted"
-                                                                style="
-                                                                    font-size: 0.6rem;
-                                                                    word-break: break-all;
-                                                                    line-height: 1.2;
-                                                                "
-                                                            >
-                                                                {{ $linkedPhoto->file_name }}
-                                                            </p>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
                                         </div>
                                         <a
                                             href="{{ route("photos.stripes.show", $dbf->id) }}"
@@ -478,6 +456,13 @@
             currentUrl.searchParams.set('sourceFilter', source);
             currentUrl.searchParams.set('photoSearch', '{{ $photoSearch }}');
             currentUrl.searchParams.set('dbfSearch', '{{ $dbfSearch }}');
+            window.location.href = currentUrl.toString();
+        }
+
+        function searchByPrefix(prefix) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('photoSearch', prefix);
+            currentUrl.searchParams.set('dbfSearch', prefix);
             window.location.href = currentUrl.toString();
         }
 
