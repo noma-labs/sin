@@ -93,6 +93,20 @@
                                 Search
                             </button>
                         </div>
+                        <div class="form-check mt-2">
+                            <input
+                                type="checkbox"
+                                id="selectAllPhotos"
+                                class="form-check-input"
+                                onchange="toggleSelectAllPhotos(this)"
+                            />
+                            <label
+                                class="form-check-label small"
+                                for="selectAllPhotos"
+                            >
+                                Select all
+                            </label>
+                        </div>
                     </div>
 
                     <div style="max-height: 70vh; overflow-y: auto">
@@ -434,6 +448,13 @@
             // Enable button only if both have selections
             document.getElementById('linkButton').disabled =
                 photoCheckboxes === 0 || !dbfSelected;
+        }
+
+        function toggleSelectAllPhotos(checkbox) {
+            document
+                .querySelectorAll('.photo-checkbox')
+                .forEach((cb) => (cb.checked = checkbox.checked));
+            updateCounts();
         }
 
         function searchPhotos() {
