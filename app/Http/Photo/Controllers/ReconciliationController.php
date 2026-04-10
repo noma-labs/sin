@@ -16,6 +16,7 @@ final class ReconciliationController
     {
         $photoSearch = $request->string('photoSearch', '')->toString();
         $dbfSearch = $request->string('dbfSearch', '')->toString();
+        $sourceFilter = $request->string('sourceFilter', '')->toString();
 
         $photoQuery = Photo::query()
             ->whereNull('dbf_id')
@@ -25,7 +26,8 @@ final class ReconciliationController
         $dbfQuery = DbfAll::query()
             ->orderBy('datnum')
             ->when($dbfSearch !== '', fn ($q) => $q
-                ->where('datnum', 'LIKE', "{$dbfSearch}%"));
+                ->where('datnum', 'LIKE', "{$dbfSearch}%"))
+            ->when($sourceFilter !== '', fn ($q) => $q->where('source', $sourceFilter));
 
         $unlinkedPhotos = $photoQuery->paginate(25);
         $dbfAllRecords = $dbfQuery->with(['photos' => fn ($q) => $q->orderBy('file_name')])->paginate(20);
@@ -35,6 +37,7 @@ final class ReconciliationController
             'dbfAllRecords' => $dbfAllRecords,
             'photoSearch' => $photoSearch,
             'dbfSearch' => $dbfSearch,
+            'sourceFilter' => $sourceFilter,
         ]);
     }
 
@@ -44,10 +47,12 @@ final class ReconciliationController
         $dbfAllId = $request->integer('selectedDbfAll', 0);
         $photoSearch = $request->string('photoSearch', '')->toString();
         $dbfSearch = $request->string('dbfSearch', '')->toString();
+        $sourceFilter = $request->string('sourceFilter', '')->toString();
 
         $filters = array_filter([
             'photoSearch' => $photoSearch,
             'dbfSearch' => $dbfSearch,
+            'sourceFilter' => $sourceFilter,
         ]);
 
         if (empty($selectedPhotos) || $dbfAllId <= 0) {
