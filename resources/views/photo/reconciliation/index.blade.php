@@ -48,6 +48,7 @@
         @csrf
         <input type="hidden" name="photoSearch" value="{{ $photoSearch }}" />
         <input type="hidden" name="dbfSearch" value="{{ $dbfSearch }}" />
+        <input type="hidden" name="sourceFilter" value="{{ $sourceFilter }}" />
         <div class="row g-3">
             <!-- Photos Column -->
             <div class="col-lg-4">
@@ -185,6 +186,12 @@
                 <div class="card">
                     <div class="card-header border-bottom">
                         <h5 class="card-title mb-3">Strisce</h5>
+                        <div class="d-flex gap-2 mb-3">
+                            <button type="button" class="btn btn-sm {{ $sourceFilter === '' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('')">All</button>
+                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'dia120' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('dia120')">Dia120</button>
+                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'slide' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('slide')">Slide</button>
+                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'foto' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('foto')">Foto</button>
+                        </div>
                         <div class="d-flex gap-2">
                             <input
                                 type="text"
@@ -418,6 +425,14 @@
             const currentUrl = new URL(window.location.href);
             currentUrl.searchParams.set('dbfSearch', searchValue);
             currentUrl.searchParams.set('photoSearch', '{{ $photoSearch }}');
+            window.location.href = currentUrl.toString();
+        }
+
+        function filterBySource(source) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('sourceFilter', source);
+            currentUrl.searchParams.set('photoSearch', '{{ $photoSearch }}');
+            currentUrl.searchParams.set('dbfSearch', '{{ $dbfSearch }}');
             window.location.href = currentUrl.toString();
         }
 
