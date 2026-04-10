@@ -187,10 +187,34 @@
                     <div class="card-header border-bottom">
                         <h5 class="card-title mb-3">Strisce</h5>
                         <div class="d-flex gap-2 mb-3">
-                            <button type="button" class="btn btn-sm {{ $sourceFilter === '' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('')">All</button>
-                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'dia120' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('dia120')">Dia120</button>
-                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'slide' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('slide')">Slide</button>
-                            <button type="button" class="btn btn-sm {{ $sourceFilter === 'foto' ? 'btn-primary' : 'btn-outline-secondary' }}" onclick="filterBySource('foto')">Foto</button>
+                            <button
+                                type="button"
+                                class="btn btn-sm {{ $sourceFilter === "" ? "btn-primary" : "btn-outline-secondary" }}"
+                                onclick="filterBySource('')"
+                            >
+                                All
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm {{ $sourceFilter === "dia120" ? "btn-primary" : "btn-outline-secondary" }}"
+                                onclick="filterBySource('dia120')"
+                            >
+                                Dia120
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm {{ $sourceFilter === "slide" ? "btn-primary" : "btn-outline-secondary" }}"
+                                onclick="filterBySource('slide')"
+                            >
+                                Slide
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm {{ $sourceFilter === "foto" ? "btn-primary" : "btn-outline-secondary" }}"
+                                onclick="filterBySource('foto')"
+                            >
+                                Foto
+                            </button>
                         </div>
                         <div class="d-flex gap-2">
                             <input
