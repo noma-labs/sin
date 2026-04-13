@@ -22,31 +22,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route("photos.face.index") }}">Persone</a>
 </li>
-<li class="nav-item dropdown">
-    <a
-        class="nav-link dropdown-toggle"
-        href="#"
-        id="navbarProblemi"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-    >
-        Problemi
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarProblemi">
-        <a
-            class="dropdown-item"
-            href="{{ route("photos.issues.index") }}"
-        >
-            Problemi aperti
-        </a>
-        <a
-            class="dropdown-item"
-            href="{{ route("photos.issues.resolved") }}"
-        >
-            Problemi risolti
-        </a>
-    </div>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route("photos.issues.index") }}">Problemi</a>
 </li>
 @append

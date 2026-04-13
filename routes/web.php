@@ -463,7 +463,6 @@ Route::prefix('photos')->middleware('auth')->group(function () {
     Route::get('/faces/{name}', [FaceController::class, 'show'])->middleware('can:photo.view')->name('photos.face.show');
 
     Route::get('/issues', [PhotosIssuesController::class, 'index'])->middleware('can:photo.view')->name('photos.issues.index');
-    Route::get('/issues/resolved', [PhotosIssuesController::class, 'resolved'])->middleware('can:photo.view')->name('photos.issues.resolved');
     Route::put('/issues/{id}', [PhotosIssuesController::class, 'update'])->middleware('can:photo.update')->name('photos.issues.update');
     Route::post('/issues/{id}/resolve', [PhotosIssuesController::class, 'resolve'])->middleware('can:photo.update')->name('photos.issues.resolve');
     Route::post('/issues/{id}/unresolve', [PhotosIssuesController::class, 'unresolve'])->middleware('can:photo.update')->name('photos.issues.unresolve');

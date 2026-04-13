@@ -10,14 +10,35 @@
 @section("title", "Problemi Foto")
 
 @section("content")
-    @if ($issues->total() > 0)
-        <div class="alert alert-warning mb-4">
-            <strong>Totale problemi:</strong>
-            {{ $issues->total() }} foto con problemi rilevati
-        </div>
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link {{ $status === 'open' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "open"]) }}">
+                Problemi Aperti
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ $status === 'resolved' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "resolved"]) }}">
+                Problemi Risolti
+            </a>
+        </li>
+    </ul>
 
-        <div class="card border-danger">
-            <div class="card-header bg-danger text-white">
+    @if ($issues->total() > 0)
+        @if ($status === 'open')
+            <div class="alert alert-warning mb-4">
+                <strong>Totale problemi aperti:</strong>
+                {{ $issues->total() }} foto con problemi rilevati
+            </div>
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+        @else
+            <div class="alert alert-secondary mb-4">
+                <strong>Totale problemi risolti:</strong>
+                {{ $issues->total() }} problema/i risolti
+            </div>
+            <div class="card border-secondary">
+                <div class="card-header bg-secondary text-white">
+        @endif
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         Problema {{ $issues->currentPage() }} di
@@ -233,12 +254,21 @@
                 class="card-footer d-flex justify-content-between align-items-center"
             >
                 @if ($issues->onFirstPage())
-                    <button class="btn btn-secondary" disabled>
-                        ← Indietro
-                    </button>
+                    @if ($status === 'open')
+                        <button class="btn btn-secondary" disabled>
+                            ← Indietro
+                        </button>
+                    @else
+                        <a
+                            href="{{ route("photos.issues.index", ["status" => "open"]) }}"
+                            class="btn btn-primary"
+                        >
+                            ← Indietro (Problemi Aperti)
+                        </a>
+                    @endif
                 @else
                     <a
-                        href="{{ $issues->previousPageUrl() }}"
+                        href="{{ $issues->previousPageUrl() . "&status=" . $status }}"
                         class="btn btn-primary"
                     >
                         ← Indietro
@@ -247,21 +277,37 @@
 
                 @if ($issues->hasMorePages())
                     <a
-                        href="{{ $issues->nextPageUrl() }}"
+                        href="{{ $issues->nextPageUrl() . "&status=" . $status }}"
                         class="btn btn-primary"
                     >
                         Avanti →
                     </a>
                 @else
-                    <button class="btn btn-secondary" disabled>Avanti →</button>
+                    @if ($status === 'resolved')
+                        <a
+                            href="{{ route("photos.issues.index", ["status" => "open"]) }}"
+                            class="btn btn-primary"
+                        >
+                            Avanti → (Problemi Aperti)
+                        </a>
+                    @else
+                        <button class="btn btn-secondary" disabled>Avanti →</button>
+                    @endif
                 @endif
             </div>
         </div>
     @else
-        <div class="alert alert-success">
-            <strong>Nessun problema rilevato!</strong>
-            Tutte le persone hanno data di nascita precedente alla foto e non
-            risultano decedute prima della foto.
-        </div>
+        @if ($status === 'open')
+            <div class="alert alert-success">
+                <strong>Nessun problema rilevato!</strong>
+                Tutte le persone hanno data di nascita precedente alla foto e non
+                risultano decedute prima della foto.
+            </div>
+        @else
+            <div class="alert alert-info">
+                <strong>Nessun problema risolto!</strong>
+                Non ci sono ancora problemi contrassegnati come risolti.
+            </div>
+        @endif
     @endif
 @endsection

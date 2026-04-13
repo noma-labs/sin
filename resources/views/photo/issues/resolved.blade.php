@@ -137,8 +137,8 @@
                             <a class="page-link" href="{{ $issues->nextPageUrl() }}">Avanti →</a>
                         </li>
                     @else
-                        <li class="page-item disabled">
-                            <span class="page-link">Avanti →</span>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ route("photos.issues.index") }}">Avanti → (Problemi Aperti)</a>
                         </li>
                     @endif
                 </ul>

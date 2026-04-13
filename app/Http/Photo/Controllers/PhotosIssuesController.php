@@ -14,47 +14,16 @@ final class PhotosIssuesController
 {
     public function index(Request $request): View
     {
-        $issues = DB::connection('db_foto')
+        $status = $request->query('status', 'open');
+
+        $query = DB::connection('db_foto')
             ->table('photos_issues')
             ->selectRaw('
                 photos_issues.id,
                 photos_issues.issue_type,
                 photos_issues.photo_persona_name,
-                photos.id as photo_id,
-                photos.file_name,
-                photos.source_file,
-                photos.taken_at,
-                photos.description,
-                photos.location,
-                p.id as persona_id,
-                p.nome,
-                p.cognome,
-                p.data_nascita,
-                p.data_decesso,
-                dbf_all.datnum,
-                dbf_all.anum,
-                dbf_all.descrizione as description
-            ')
-            ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
-            ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
-            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
-            ->whereNull('photos_issues.resolved_at')
-            ->orderBy('dbf_all.datnum', 'asc')
-            ->paginate(1);
-
-        return view('photo.issues.index', compact('issues'));
-    }
-
-    public function resolved(): View
-    {
-        $issues = DB::connection('db_foto')
-            ->table('photos_issues')
-            ->selectRaw('
-                photos_issues.id,
-                photos_issues.issue_type,
-                photos_issues.photo_persona_name,
-                photos_issues.resolved_at,
                 photos_issues.note,
+                photos_issues.resolved_at,
                 photos.id as photo_id,
                 photos.file_name,
                 photos.source_file,
@@ -72,14 +41,21 @@ final class PhotosIssuesController
             ')
             ->leftJoin('photos', 'photos.id', '=', 'photos_issues.photo_id')
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_issues.persona_id')
-            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
-            ->whereNotNull('photos_issues.resolved_at')
-            ->orderBy('photos_issues.resolved_at', 'desc')
-            ->paginate(25);
+            ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id');
+
+        if ($status === 'resolved') {
+            $issues = $query->whereNotNull('photos_issues.resolved_at')
+                ->orderBy('photos_issues.resolved_at', 'desc')
+                ->paginate(1);
+        } else {
+            $issues = $query->whereNull('photos_issues.resolved_at')
+                ->orderBy('dbf_all.datnum', 'asc')
+                ->paginate(1);
+        }
 
         $issues->through(fn (object $issue): object => $this->withParsedNote($issue));
 
-        return view('photo.issues.resolved', compact('issues'));
+        return view('photo.issues.index', compact('issues', 'status'));
     }
 
     public function update(Request $request, int $id): RedirectResponse
