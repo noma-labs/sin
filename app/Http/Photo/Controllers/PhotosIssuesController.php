@@ -54,7 +54,7 @@ final class PhotosIssuesController
                 ->paginate(1);
         }
 
-        $issues->through(fn (object $issue): object => $this->withParsedNote($issue));
+        $issues->through(fn (mixed $issue): object => $this->withParsedNote($issue));
 
         return view('photo.issues.index', compact('issues', 'status'));
     }
@@ -116,8 +116,10 @@ final class PhotosIssuesController
         return to_route('photos.issues.index')->with('success', 'Problema riaperto con successo.');
     }
 
-    private function withParsedNote(object $issue): object
+    private function withParsedNote(mixed $issue): \stdClass
     {
+        /** @var \stdClass $issue */
+        $issue = (object) $issue;
         $note = $issue->note ?? null;
         $parts = $note ? explode('|', (string) $note) : [];
         $dateChanges = [];

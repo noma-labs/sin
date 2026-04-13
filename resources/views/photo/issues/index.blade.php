@@ -77,7 +77,7 @@
                             >
                                 Foto
                             </p>
-                            <dl class="row mb-3">
+                            <dl class="row mb-2">
                                 <dt class="col-sm-5">Tipo Problema</dt>
                                 <dd class="col-sm-7">
                                     <span class="badge text-bg-warning fs-6">
@@ -175,16 +175,21 @@
                             </dl>
 
                             @if ($issue->datnum || $issue->anum)
-                                <hr class="my-2" />
-
-                                <p class="fw-semibold text-secondary mb-1 small text-uppercase">
+                                <p
+                                    class="fw-semibold text-secondary mb-1 small text-uppercase"
+                                >
                                     Striscia
                                 </p>
-                                <dl class="row mb-3">
+                                <dl class="row mb-2">
                                     @if ($issue->datnum)
                                         <dt class="col-sm-5">DANUM</dt>
                                         <dd class="col-sm-7">
-                                            <a href="{{ route('photos.stripes.show', $issue->dbf_id) }}" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
+                                            <a
+                                                href="{{ route("photos.stripes.show", $issue->dbf_id) }}"
+                                                class="text-decoration-none"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
                                                 {{ $issue->datnum }} ↗
                                             </a>
                                         </dd>
@@ -200,8 +205,6 @@
                             @endif
 
                             @if ($status === "resolved")
-                                <hr class="my-2" />
-
                                 <p
                                     class="fw-semibold text-secondary mb-1 small text-uppercase"
                                 >
@@ -259,7 +262,7 @@
                                 </dl>
                             @endif
 
-                            <hr class="my-2" />
+                            <hr />
 
                             <p
                                 class="fw-semibold text-secondary mb-1 small text-uppercase"
