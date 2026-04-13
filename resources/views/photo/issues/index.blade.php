@@ -14,28 +14,26 @@
         <li class="nav-item">
             <a class="nav-link {{ $status === 'open' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "open"]) }}">
                 Problemi Aperti
+                @if ($status === 'open')
+                    <span class="badge text-bg-danger ms-1">{{ $issues->total() }}</span>
+                @endif
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ $status === 'resolved' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "resolved"]) }}">
                 Problemi Risolti
+                @if ($status === 'resolved')
+                    <span class="badge text-bg-secondary ms-1">{{ $issues->total() }}</span>
+                @endif
             </a>
         </li>
     </ul>
 
     @if ($issues->total() > 0)
         @if ($status === 'open')
-            <div class="alert alert-warning mb-4">
-                <strong>Totale problemi aperti:</strong>
-                {{ $issues->total() }} foto con problemi rilevati
-            </div>
             <div class="card border-danger">
                 <div class="card-header bg-danger text-white">
         @else
-            <div class="alert alert-secondary mb-4">
-                <strong>Totale problemi risolti:</strong>
-                {{ $issues->total() }} problema/i risolti
-            </div>
             <div class="card border-secondary">
                 <div class="card-header bg-secondary text-white">
         @endif
@@ -87,39 +85,6 @@
                                         {{ $issue->source_file }}
                                     </small>
                                 </dd>
-
-                                @if ($status === 'resolved')
-                                    @if (count($issue->date_changes) > 0)
-                                        <dt class="col-sm-5">Data Originale</dt>
-                                        <dd class="col-sm-7">
-                                            <span class="text-decoration-line-through text-muted">
-                                                {{ $issue->date_changes[0]['from'] }}
-                                            </span>
-                                        </dd>
-                                        <dt class="col-sm-5">Data Corretta</dt>
-                                        <dd class="col-sm-7">
-                                            <strong class="text-success">
-                                                {{ $issue->date_changes[0]['to'] }}
-                                            </strong>
-                                        </dd>
-                                    @endif
-
-                                    @if (count($issue->plain_notes) > 0)
-                                        <dt class="col-sm-5">Note</dt>
-                                        <dd class="col-sm-7">
-                                            @foreach ($issue->plain_notes as $noteLine)
-                                                <small class="d-block">{{ $noteLine }}</small>
-                                            @endforeach
-                                        </dd>
-                                    @endif
-
-                                    <dt class="col-sm-5">Risolto il</dt>
-                                    <dd class="col-sm-7">
-                                        <span class="badge text-bg-success">
-                                            {{ \Illuminate\Support\Carbon::parse($issue->resolved_at)->format("d/m/Y H:i") }}
-                                        </span>
-                                    </dd>
-                                @endif
 
                                 <dt class="col-sm-5">Data Foto</dt>
                                 <dd
@@ -209,6 +174,56 @@
                                 @endif
                             </dl>
 
+                            @if ($status === 'resolved')
+                                <hr class="my-2" />
+
+                                <p class="fw-semibold text-secondary mb-1 small text-uppercase">
+                                    Correzione
+                                </p>
+                                <dl class="row mb-3">
+                                    @foreach ($issue->date_changes as $i => $change)
+                                        <dt class="col-sm-5">
+                                            Data Originale
+                                            @if (count($issue->date_changes) > 1)
+                                                <small class="text-muted">#{{ $i + 1 }}</small>
+                                            @endif
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            <span class="text-decoration-line-through text-muted">
+                                                {{ $change['from'] }}
+                                            </span>
+                                        </dd>
+                                        <dt class="col-sm-5">
+                                            Data Corretta
+                                            @if (count($issue->date_changes) > 1)
+                                                <small class="text-muted">#{{ $i + 1 }}</small>
+                                            @endif
+                                        </dt>
+                                        <dd class="col-sm-7">
+                                            <strong class="text-success">
+                                                {{ $change['to'] }}
+                                            </strong>
+                                        </dd>
+                                    @endforeach
+
+                                    @if (count($issue->plain_notes) > 0)
+                                        <dt class="col-sm-5">Note</dt>
+                                        <dd class="col-sm-7">
+                                            @foreach ($issue->plain_notes as $noteLine)
+                                                <small class="d-block">{{ $noteLine }}</small>
+                                            @endforeach
+                                        </dd>
+                                    @endif
+
+                                    <dt class="col-sm-5">Risolto il</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="badge text-bg-success">
+                                            {{ \Illuminate\Support\Carbon::parse($issue->resolved_at)->format("d/m/Y H:i") }}
+                                        </span>
+                                    </dd>
+                                </dl>
+                            @endif
+
                             <hr class="my-2" />
 
                             <p
@@ -242,45 +257,57 @@
                                 @endif
                             </dl>
 
-                            <x-modal
-                                modal-title="Segna Come Risolto"
-                                button-title="Segna Come Risolto"
-                                button-style="btn-sm btn-success"
-                            >
-                                <x-slot:body>
-                                    <form
-                                        method="POST"
-                                        action="{{ route("photos.issues.resolve", $issue->id) }}"
-                                        id="form-resolve-{{ $issue->id }}"
-                                    >
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label
-                                                for="note_{{ $issue->id }}"
-                                                class="form-label"
-                                            >
-                                                Nota (opzionale)
-                                            </label>
-                                            <textarea
-                                                class="form-control"
-                                                id="note_{{ $issue->id }}"
-                                                name="note"
-                                                rows="3"
-                                                placeholder="Aggiungi una nota opzionale..."
-                                            ></textarea>
-                                        </div>
-                                    </form>
-                                </x-slot>
-                                <x-slot:footer>
-                                    <button
-                                        class="btn btn-success"
-                                        type="submit"
-                                        form="form-resolve-{{ $issue->id }}"
-                                    >
-                                        Conferma
+                            @if ($status === 'open')
+                                <x-modal
+                                    modal-title="Segna Come Risolto"
+                                    button-title="Segna Come Risolto"
+                                    button-style="btn-sm btn-success"
+                                >
+                                    <x-slot:body>
+                                        <form
+                                            method="POST"
+                                            action="{{ route("photos.issues.resolve", $issue->id) }}"
+                                            id="form-resolve-{{ $issue->id }}"
+                                        >
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label
+                                                    for="note_{{ $issue->id }}"
+                                                    class="form-label"
+                                                >
+                                                    Nota (opzionale)
+                                                </label>
+                                                <textarea
+                                                    class="form-control"
+                                                    id="note_{{ $issue->id }}"
+                                                    name="note"
+                                                    rows="3"
+                                                    placeholder="Aggiungi una nota opzionale..."
+                                                ></textarea>
+                                            </div>
+                                        </form>
+                                    </x-slot>
+                                    <x-slot:footer>
+                                        <button
+                                            class="btn btn-success"
+                                            type="submit"
+                                            form="form-resolve-{{ $issue->id }}"
+                                        >
+                                            Conferma
+                                        </button>
+                                    </x-slot>
+                                </x-modal>
+                            @else
+                                <form
+                                    method="POST"
+                                    action="{{ route("photos.issues.unresolve", $issue->id) }}"
+                                >
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                        ↺ Togli dai risolti
                                     </button>
-                                </x-slot>
-                            </x-modal>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 @endforeach
