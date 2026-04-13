@@ -87,17 +87,52 @@
                                         {{ $issue->source_file }}
                                     </small>
                                 </dd>
+
+                                @if ($status === 'resolved')
+                                    @if (count($issue->date_changes) > 0)
+                                        <dt class="col-sm-5">Data Originale</dt>
+                                        <dd class="col-sm-7">
+                                            <span class="text-decoration-line-through text-muted">
+                                                {{ $issue->date_changes[0]['from'] }}
+                                            </span>
+                                        </dd>
+                                        <dt class="col-sm-5">Data Corretta</dt>
+                                        <dd class="col-sm-7">
+                                            <strong class="text-success">
+                                                {{ $issue->date_changes[0]['to'] }}
+                                            </strong>
+                                        </dd>
+                                    @endif
+
+                                    @if (count($issue->plain_notes) > 0)
+                                        <dt class="col-sm-5">Note</dt>
+                                        <dd class="col-sm-7">
+                                            @foreach ($issue->plain_notes as $noteLine)
+                                                <small class="d-block">{{ $noteLine }}</small>
+                                            @endforeach
+                                        </dd>
+                                    @endif
+
+                                    <dt class="col-sm-5">Risolto il</dt>
+                                    <dd class="col-sm-7">
+                                        <span class="badge text-bg-success">
+                                            {{ \Illuminate\Support\Carbon::parse($issue->resolved_at)->format("d/m/Y H:i") }}
+                                        </span>
+                                    </dd>
+                                @endif
+
                                 <dt class="col-sm-5">Data Foto</dt>
                                 <dd
                                     class="col-sm-7 d-flex align-items-center gap-2"
                                 >
                                     {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "N/A" }}
-                                    <x-modal
-                                        modal-title="Modifica Data Foto"
-                                        button-title="✏️ Modifica"
-                                        button-style="btn-sm btn-outline-primary py-0"
-                                    >
-                                        <x-slot:body>
+                                    @if ($status === 'open')
+                                        <x-modal
+                                            modal-title="Modifica Data Foto"
+                                            button-title="✏️ Modifica"
+                                            button-style="btn-sm btn-outline-primary py-0"
+                                        >
+                                            <x-slot:body>
                                             <form
                                                 method="POST"
                                                 action="{{ route("photos.issues.update", $issue->id) }}"
@@ -142,6 +177,7 @@
                                             </button>
                                         </x-slot>
                                     </x-modal>
+                                    @endif
                                 </dd>
 
                                 @if ($issue->location)
