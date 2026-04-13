@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 final class PhotosIssuesController
 {
@@ -116,9 +117,9 @@ final class PhotosIssuesController
         return to_route('photos.issues.index')->with('success', 'Problema riaperto con successo.');
     }
 
-    private function withParsedNote(mixed $issue): \stdClass
+    private function withParsedNote(mixed $issue): stdClass
     {
-        /** @var \stdClass $issue */
+        /** @var stdClass $issue */
         $issue = (object) $issue;
         $note = $issue->note ?? null;
         $parts = $note ? explode('|', (string) $note) : [];

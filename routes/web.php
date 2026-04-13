@@ -74,6 +74,7 @@ use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
 use App\Photo\Controllers\FaceController;
 use App\Photo\Controllers\FavouritesController;
+use App\Photo\Controllers\LegendController;
 use App\Photo\Controllers\PhotoController;
 use App\Photo\Controllers\PhotoFolderController;
 use App\Photo\Controllers\PhotosIssuesController;
