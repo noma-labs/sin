@@ -75,7 +75,7 @@ final class PhotosIssuesController
             ->leftJoin('dbf_all', 'dbf_all.id', '=', 'photos.dbf_id')
             ->whereNotNull('photos_issues.resolved_at')
             ->orderBy('photos_issues.resolved_at', 'desc')
-            ->paginate(20);
+            ->paginate(25);
 
         $issues->through(fn (object $issue): object => $this->withParsedNote($issue));
 

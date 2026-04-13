@@ -25,6 +25,9 @@
                         <th>Persona</th>
                         <th>Data Attuale</th>
                         <th>Data Originale</th>
+                        <th>Datnum</th>
+                        <th>Anum</th>
+                        <th>Descrizione</th>
                         <th>Note</th>
                         <th class="text-center">Azioni</th>
                     </tr>
@@ -63,6 +66,15 @@
                                 @else
                                     <span class="text-muted">—</span>
                                 @endif
+                            </td>
+                            <td>
+                                <small>{{ $issue->datnum ?? '—' }}</small>
+                            </td>
+                            <td>
+                                <small>{{ $issue->anum ?? '—' }}</small>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ $issue->description ?? '—' }}</small>
                             </td>
                             <td>
                                 @if (count($issue->plain_notes) > 0)
