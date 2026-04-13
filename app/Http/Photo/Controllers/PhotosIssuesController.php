@@ -30,6 +30,7 @@ final class PhotosIssuesController
                 photos.taken_at,
                 photos.description,
                 photos.location,
+                photos.dbf_id,
                 p.id as persona_id,
                 p.nome,
                 p.cognome,
@@ -45,7 +46,7 @@ final class PhotosIssuesController
 
         if ($status === 'resolved') {
             $issues = $query->whereNotNull('photos_issues.resolved_at')
-                ->orderBy('photos_issues.resolved_at', 'desc')
+                ->latest('photos_issues.resolved_at')
                 ->paginate(1);
         } else {
             $issues = $query->whereNull('photos_issues.resolved_at')
@@ -112,24 +113,24 @@ final class PhotosIssuesController
             'resolved_at' => null,
         ]);
 
-        return redirect()->route('photos.issues.index')->with('success', 'Problema riaperto con successo.');
+        return to_route('photos.issues.index')->with('success', 'Problema riaperto con successo.');
     }
 
     private function withParsedNote(object $issue): object
     {
         $note = $issue->note ?? null;
-        $parts = $note ? explode('|', $note) : [];
+        $parts = $note ? explode('|', (string) $note) : [];
         $dateChanges = [];
         $plainNotes = [];
         $pendingOld = null;
 
         foreach ($parts as $part) {
             if (str_starts_with($part, 'old_taken_at=')) {
-                $pendingOld = substr($part, strlen('old_taken_at='));
+                $pendingOld = mb_substr($part, mb_strlen('old_taken_at='));
             } elseif (str_starts_with($part, 'new_taken_at=') && $pendingOld !== null) {
-                $dateChanges[] = ['from' => $pendingOld, 'to' => substr($part, strlen('new_taken_at='))];
+                $dateChanges[] = ['from' => $pendingOld, 'to' => mb_substr($part, mb_strlen('new_taken_at='))];
                 $pendingOld = null;
-            } elseif (trim($part) !== '') {
+            } elseif (mb_trim($part) !== '') {
                 $plainNotes[] = $part;
             }
         }

@@ -12,31 +12,45 @@
 @section("content")
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link {{ $status === 'open' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "open"]) }}">
+            <a
+                class="nav-link {{ $status === "open" ? "active" : "" }}"
+                href="{{ route("photos.issues.index", ["status" => "open"]) }}"
+            >
                 Problemi Aperti
-                @if ($status === 'open')
-                    <span class="badge text-bg-danger ms-1">{{ $issues->total() }}</span>
+                @if ($status === "open")
+                    <span class="badge text-bg-danger ms-1">
+                        {{ $issues->total() }}
+                    </span>
                 @endif
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ $status === 'resolved' ? 'active' : '' }}" href="{{ route("photos.issues.index", ["status" => "resolved"]) }}">
+            <a
+                class="nav-link {{ $status === "resolved" ? "active" : "" }}"
+                href="{{ route("photos.issues.index", ["status" => "resolved"]) }}"
+            >
                 Problemi Risolti
-                @if ($status === 'resolved')
-                    <span class="badge text-bg-secondary ms-1">{{ $issues->total() }}</span>
+                @if ($status === "resolved")
+                    <span class="badge text-bg-secondary ms-1">
+                        {{ $issues->total() }}
+                    </span>
                 @endif
             </a>
         </li>
     </ul>
 
     @if ($issues->total() > 0)
-        @if ($status === 'open')
-            <div class="card border-danger">
-                <div class="card-header bg-danger text-white">
-        @else
-            <div class="card border-secondary">
-                <div class="card-header bg-secondary text-white">
-        @endif
+        @php
+            $cardClass =
+                $status === "open" ? "card border-danger" : "card border-secondary";
+            $headerClass =
+                $status === "open"
+                    ? "card-header bg-danger text-white"
+                    : "card-header bg-secondary text-white";
+        @endphp
+
+        <div class="{{ $cardClass }}">
+            <div class="{{ $headerClass }}">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         Problema {{ $issues->currentPage() }} di
@@ -91,57 +105,57 @@
                                     class="col-sm-7 d-flex align-items-center gap-2"
                                 >
                                     {{ $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "N/A" }}
-                                    @if ($status === 'open')
+                                    @if ($status === "open")
                                         <x-modal
                                             modal-title="Modifica Data Foto"
                                             button-title="✏️ Modifica"
                                             button-style="btn-sm btn-outline-primary py-0"
                                         >
                                             <x-slot:body>
-                                            <form
-                                                method="POST"
-                                                action="{{ route("photos.issues.update", $issue->id) }}"
-                                                id="formAggiornaData-{{ $issue->id }}"
-                                            >
-                                                @csrf
-                                                @method("PUT")
+                                                <form
+                                                    method="POST"
+                                                    action="{{ route("photos.issues.update", $issue->id) }}"
+                                                    id="formAggiornaData-{{ $issue->id }}"
+                                                >
+                                                    @csrf
+                                                    @method("PUT")
 
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="taken_at_{{ $issue->id }}"
-                                                        class="form-label"
-                                                    >
-                                                        Data Foto
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control @error("taken_at") is-invalid @enderror"
-                                                        id="taken_at_{{ $issue->id }}"
-                                                        name="taken_at"
-                                                        value="{{ old("taken_at", $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "") }}"
-                                                        placeholder="yyyy-mm-dd"
-                                                        pattern="\d{4}-\d{2}-\d{2}"
-                                                    />
-                                                    @error("taken_at")
-                                                        <div
-                                                            class="invalid-feedback"
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="taken_at_{{ $issue->id }}"
+                                                            class="form-label"
                                                         >
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </form>
-                                        </x-slot>
-                                        <x-slot:footer>
-                                            <button
-                                                class="btn btn-primary"
-                                                type="submit"
-                                                form="formAggiornaData-{{ $issue->id }}"
-                                            >
-                                                Salva
-                                            </button>
-                                        </x-slot>
-                                    </x-modal>
+                                                            Data Foto
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control @error("taken_at") is-invalid @enderror"
+                                                            id="taken_at_{{ $issue->id }}"
+                                                            name="taken_at"
+                                                            value="{{ old("taken_at", $issue->taken_at ? \Illuminate\Support\Carbon::parse($issue->taken_at)->format("Y-m-d") : "") }}"
+                                                            placeholder="yyyy-mm-dd"
+                                                            pattern="\d{4}-\d{2}-\d{2}"
+                                                        />
+                                                        @error("taken_at")
+                                                            <div
+                                                                class="invalid-feedback"
+                                                            >
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </form>
+                                            </x-slot>
+                                            <x-slot:footer>
+                                                <button
+                                                    class="btn btn-primary"
+                                                    type="submit"
+                                                    form="formAggiornaData-{{ $issue->id }}"
+                                                >
+                                                    Salva
+                                                </button>
+                                            </x-slot>
+                                        </x-modal>
                                     @endif
                                 </dd>
 
@@ -158,26 +172,39 @@
                                         {{ $issue->description }}
                                     </dd>
                                 @endif
-
-                                @if ($issue->datnum)
-                                    <dt class="col-sm-5">DANUM</dt>
-                                    <dd class="col-sm-7">
-                                        {{ $issue->datnum }}
-                                    </dd>
-                                @endif
-
-                                @if ($issue->anum)
-                                    <dt class="col-sm-5">ANUM</dt>
-                                    <dd class="col-sm-7">
-                                        {{ $issue->anum }}
-                                    </dd>
-                                @endif
                             </dl>
 
-                            @if ($status === 'resolved')
+                            @if ($issue->datnum || $issue->anum)
                                 <hr class="my-2" />
 
                                 <p class="fw-semibold text-secondary mb-1 small text-uppercase">
+                                    Striscia
+                                </p>
+                                <dl class="row mb-3">
+                                    @if ($issue->datnum)
+                                        <dt class="col-sm-5">DANUM</dt>
+                                        <dd class="col-sm-7">
+                                            <a href="{{ route('photos.stripes.show', $issue->dbf_id) }}" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
+                                                {{ $issue->datnum }} ↗
+                                            </a>
+                                        </dd>
+                                    @endif
+
+                                    @if ($issue->anum)
+                                        <dt class="col-sm-5">ANUM</dt>
+                                        <dd class="col-sm-7">
+                                            {{ $issue->anum }}
+                                        </dd>
+                                    @endif
+                                </dl>
+                            @endif
+
+                            @if ($status === "resolved")
+                                <hr class="my-2" />
+
+                                <p
+                                    class="fw-semibold text-secondary mb-1 small text-uppercase"
+                                >
                                     Correzione
                                 </p>
                                 <dl class="row mb-3">
@@ -185,23 +212,29 @@
                                         <dt class="col-sm-5">
                                             Data Originale
                                             @if (count($issue->date_changes) > 1)
-                                                <small class="text-muted">#{{ $i + 1 }}</small>
+                                                <small class="text-muted">
+                                                    #{{ $i + 1 }}
+                                                </small>
                                             @endif
                                         </dt>
                                         <dd class="col-sm-7">
-                                            <span class="text-decoration-line-through text-muted">
-                                                {{ $change['from'] }}
+                                            <span
+                                                class="text-decoration-line-through text-muted"
+                                            >
+                                                {{ $change["from"] }}
                                             </span>
                                         </dd>
                                         <dt class="col-sm-5">
                                             Data Corretta
                                             @if (count($issue->date_changes) > 1)
-                                                <small class="text-muted">#{{ $i + 1 }}</small>
+                                                <small class="text-muted">
+                                                    #{{ $i + 1 }}
+                                                </small>
                                             @endif
                                         </dt>
                                         <dd class="col-sm-7">
                                             <strong class="text-success">
-                                                {{ $change['to'] }}
+                                                {{ $change["to"] }}
                                             </strong>
                                         </dd>
                                     @endforeach
@@ -210,7 +243,9 @@
                                         <dt class="col-sm-5">Note</dt>
                                         <dd class="col-sm-7">
                                             @foreach ($issue->plain_notes as $noteLine)
-                                                <small class="d-block">{{ $noteLine }}</small>
+                                                <small class="d-block">
+                                                    {{ $noteLine }}
+                                                </small>
                                             @endforeach
                                         </dd>
                                     @endif
@@ -257,7 +292,7 @@
                                 @endif
                             </dl>
 
-                            @if ($status === 'open')
+                            @if ($status === "open")
                                 <x-modal
                                     modal-title="Segna Come Risolto"
                                     button-title="Segna Come Risolto"
@@ -303,8 +338,11 @@
                                     action="{{ route("photos.issues.unresolve", $issue->id) }}"
                                 >
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
-                                        ↺ Togli dai risolti
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-outline-secondary"
+                                    >
+                                        ↺ Apri Nuovamente
                                     </button>
                                 </form>
                             @endif
@@ -317,18 +355,9 @@
                 class="card-footer d-flex justify-content-between align-items-center"
             >
                 @if ($issues->onFirstPage())
-                    @if ($status === 'open')
-                        <button class="btn btn-secondary" disabled>
-                            ← Indietro
-                        </button>
-                    @else
-                        <a
-                            href="{{ route("photos.issues.index", ["status" => "open"]) }}"
-                            class="btn btn-primary"
-                        >
-                            ← Indietro (Problemi Aperti)
-                        </a>
-                    @endif
+                    <button class="btn btn-secondary" disabled>
+                        ← Indietro
+                    </button>
                 @else
                     <a
                         href="{{ $issues->previousPageUrl() . "&status=" . $status }}"
@@ -346,25 +375,16 @@
                         Avanti →
                     </a>
                 @else
-                    @if ($status === 'resolved')
-                        <a
-                            href="{{ route("photos.issues.index", ["status" => "open"]) }}"
-                            class="btn btn-primary"
-                        >
-                            Avanti → (Problemi Aperti)
-                        </a>
-                    @else
-                        <button class="btn btn-secondary" disabled>Avanti →</button>
-                    @endif
+                    <button class="btn btn-secondary" disabled>Avanti →</button>
                 @endif
             </div>
         </div>
     @else
-        @if ($status === 'open')
+        @if ($status === "open")
             <div class="alert alert-success">
                 <strong>Nessun problema rilevato!</strong>
-                Tutte le persone hanno data di nascita precedente alla foto e non
-                risultano decedute prima della foto.
+                Tutte le persone hanno data di nascita precedente alla foto e
+                non risultano decedute prima della foto.
             </div>
         @else
             <div class="alert alert-info">
