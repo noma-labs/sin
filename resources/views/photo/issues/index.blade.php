@@ -265,36 +265,38 @@
 
                             <hr />
 
-                            <p
-                                class="fw-semibold text-secondary mb-1 small text-uppercase"
-                            >
-                                Persona
-                            </p>
-                            <dl class="row mb-3">
-                                <dt class="col-sm-5">Nome</dt>
-                                <dd class="col-sm-7">
-                                    <a
-                                        href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
-                                        class="text-decoration-none"
-                                    >
-                                        {{ $issue->photo_persona_name }}
-                                        ({{ $issue->nome }}
-                                        {{ $issue->cognome }})
-                                    </a>
-                                </dd>
-
-                                <dt class="col-sm-5">Data Nascita</dt>
-                                <dd class="col-sm-7">
-                                    {{ $issue->data_nascita ? \Illuminate\Support\Carbon::parse($issue->data_nascita)->format("Y-m-d") : "N/A" }}
-                                </dd>
-
-                                @if ($issue->data_decesso)
-                                    <dt class="col-sm-5">Data Decesso</dt>
+                            @if ($issue->persona_id !== null)
+                                <p
+                                    class="fw-semibold text-secondary mb-1 small text-uppercase"
+                                >
+                                    Persona
+                                </p>
+                                <dl class="row mb-3">
+                                    <dt class="col-sm-5">Nome</dt>
                                     <dd class="col-sm-7">
-                                        {{ \Illuminate\Support\Carbon::parse($issue->data_decesso)->format("Y-m-d") }}
+                                        <a
+                                            href="{{ route("nomadelfia.person.show", $issue->persona_id) }}"
+                                            class="text-decoration-none"
+                                        >
+                                            {{ $issue->photo_persona_name }}
+                                            ({{ $issue->nome }}
+                                            {{ $issue->cognome }})
+                                        </a>
                                     </dd>
-                                @endif
-                            </dl>
+
+                                    <dt class="col-sm-5">Data Nascita</dt>
+                                    <dd class="col-sm-7">
+                                        {{ $issue->data_nascita ? \Illuminate\Support\Carbon::parse($issue->data_nascita)->format("Y-m-d") : "N/A" }}
+                                    </dd>
+
+                                    @if ($issue->data_decesso)
+                                        <dt class="col-sm-5">Data Decesso</dt>
+                                        <dd class="col-sm-7">
+                                            {{ \Illuminate\Support\Carbon::parse($issue->data_decesso)->format("Y-m-d") }}
+                                        </dd>
+                                    @endif
+                                </dl>
+                            @endif
 
                             @if ($status === "open")
                                 <x-modal
