@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 final class DetectPhotoIssuesCommand extends Command
 {
-    protected $signature = 'photos:detect-issues';
+    protected $signature = 'photos:detect-issues {--dry-run : Run without persisting to database}';
 
     protected $description = 'Detect photos with chronological issues and persist them to the photos_issues table';
 
@@ -60,9 +60,14 @@ final class DetectPhotoIssuesCommand extends Command
             'updated_at' => $now,
         ])->all();
 
-        $insertedChronological = DB::connection('db_foto')
-            ->table('photos_issues')
-            ->insertOrIgnore($rows);
+        $insertedChronological = 0;
+        if ($this->option('dry-run')) {
+            $this->warn('DRY RUN: Not persisting to database');
+        } else {
+            $insertedChronological = DB::connection('db_foto')
+                ->table('photos_issues')
+                ->insertOrIgnore($rows);
+        }
 
         $this->info(sprintf('%d chronological issues detected: %d inserted, %d skipped.', count($rows), $insertedChronological, count($rows) - $insertedChronological));
 
@@ -87,11 +92,18 @@ final class DetectPhotoIssuesCommand extends Command
             'updated_at' => $now,
         ], $wrongYear);
 
-        $insertedWrongYear = DB::connection('db_foto')
-            ->table('photos_issues')
-            ->insertOrIgnore($wrongYearRows);
+        $insertedWrongYear = 0;
+        if (! $this->option('dry-run')) {
+            $insertedWrongYear = DB::connection('db_foto')
+                ->table('photos_issues')
+                ->insertOrIgnore($wrongYearRows);
+        }
 
         $this->info(sprintf('%d year_mismatch_description issues detected: %d inserted, %d skipped.', count($wrongYearRows), $insertedWrongYear, count($wrongYearRows) - $insertedWrongYear));
+
+        $totalInserted = $insertedChronological + $insertedWrongYear;
+        $totalSkipped = (count($rows) + count($wrongYearRows)) - $totalInserted;
+        $this->info(sprintf('Done. %d total detected, %d inserted, %d skipped.', count($rows) + count($wrongYearRows), $totalInserted, $totalSkipped));
 
         return self::SUCCESS;
     }
