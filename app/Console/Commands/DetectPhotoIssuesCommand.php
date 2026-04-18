@@ -60,11 +60,38 @@ final class DetectPhotoIssuesCommand extends Command
             'updated_at' => $now,
         ])->all();
 
-        DB::connection('db_foto')
+        $insertedChronological = DB::connection('db_foto')
             ->table('photos_issues')
             ->insertOrIgnore($rows);
 
-        $this->info(sprintf('Done. %d issues detected.', count($rows)));
+        $this->info(sprintf('%d chronological issues detected: %d inserted, %d skipped.', count($rows), $insertedChronological, count($rows) - $insertedChronological));
+
+        $wrongYear = DB::connection('db_foto')
+            ->select('
+                SELECT p.id AS photo_id
+                FROM photos p
+                JOIN dbf_all d ON p.dbf_id = d.id
+                WHERE
+                    p.taken_at IS NOT NULL
+                    AND d.descrizione REGEXP \'19[2-7][0-9]|1990\'
+                    AND YEAR(p.taken_at) != CAST(REGEXP_SUBSTR(d.descrizione, \'19[2-7][0-9]|1990\') AS UNSIGNED)
+                    AND d.tp IN (\'RA\', \'RB\', \'RD\', \'RS\')
+                    AND p.id NOT IN (SELECT photo_id FROM photos_issues)
+            ');
+
+        $wrongYearRows = array_map(fn ($row) => [
+            'photo_id' => $row->photo_id,
+            'persona_id' => null,
+            'issue_type' => 'year_mismatch_description',
+            'created_at' => $now,
+            'updated_at' => $now,
+        ], $wrongYear);
+
+        $insertedWrongYear = DB::connection('db_foto')
+            ->table('photos_issues')
+            ->insertOrIgnore($wrongYearRows);
+
+        $this->info(sprintf('%d year_mismatch_description issues detected: %d inserted, %d skipped.', count($wrongYearRows), $insertedWrongYear, count($wrongYearRows) - $insertedWrongYear));
 
         return self::SUCCESS;
     }
