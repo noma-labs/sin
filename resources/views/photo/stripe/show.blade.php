@@ -100,58 +100,36 @@
         </div>
 
         @if ($photoCount)
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap gap-3">
                 @foreach ($stripe->photos as $photo)
-                    <x-modal
-                        modal-id="photo-modal-{{ $photo->id }}"
-                        modal-title="{{ $photo->file_name ?? 'Foto' }}"
-                        button-style="btn-success my-2"
-                        button-title=""
-                    >
-                        <x-slot:body>
-                            <img
-                                src="{{ route("photos.preview", $photo->id) }}"
-                                class="img-fluid rounded w-100"
-                                alt="{{ $photo->description }}"
-                            />
-                            <div class="small mt-2">
-                                {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
-                            </div>
-                            @if (! empty($photo->description))
-                                <div class="small">
-                                    {{ $photo->description }}
-                                </div>
-                            @endif
-
-                            <div class="small">{{ $photo->subjects }}</div>
-                        </x-slot>
-                    </x-modal>
-                    <a
-                        href="#"
-                        class="text-decoration-none"
-                        data-bs-toggle="modal"
-                        data-bs-target="#photo-modal-{{ $photo->id }}"
-                    >
-                        <figure class="figure m-1" style="width: 18rem">
+                    <div class="card" style="width: 18rem">
+                        <a href="{{ route("photos.show", $photo->id) }}" class="text-decoration-none text-reset">
                             <div class="position-relative">
                                 <img
                                     src="{{ route("photos.preview", $photo->id) }}"
-                                    class="figure-img img-fluid rounded"
+                                    class="card-img-top rounded-top"
                                     alt="{{ $photo->description }}"
+                                    style="height: 200px; object-fit: cover"
                                 />
-                                <div
-                                    class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
-                                >
-                                    <div class="small">
-                                        {{ $photo->file_name ?? "" }}
-                                    </div>
-                                    <div class="small">
-                                        {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
-                                    </div>
+                            </div>
+                        </a>
+                        <div class="card-body py-2 px-2">
+                            <div class="small fw-semibold text-truncate">{{ $photo->file_name }}</div>
+                            <div class="small text-muted">{{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}</div>
+                        </div>
+                        @if ($photo->persone->isNotEmpty())
+                            <div class="card-body p-0 border-top">
+                                <div class="p-2 small">
+                                    @foreach ($photo->persone as $person)
+                                        <div>
+                                            {{ Illuminate\Support\Str::title($person->nome) }}
+                                            {{ Illuminate\Support\Str::title($person->cognome) }}
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
-                        </figure>
-                    </a>
+                        @endif
+                    </div>
                 @endforeach
             </div>
         @else

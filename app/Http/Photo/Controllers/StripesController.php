@@ -65,7 +65,7 @@ final class StripesController
 
     public function show(DbfAll $stripe): View
     {
-        $stripe->load(['photos' => fn ($q) => $q->orderBy('file_name')]);
+        $stripe->load(['photos' => fn ($q) => $q->with('persone')->orderBy('file_name')]);
 
         return view('photo.stripe.show', [
             'stripe' => $stripe,

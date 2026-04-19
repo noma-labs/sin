@@ -3,7 +3,7 @@
 @section("title", "Foto – " . $photo->file_name)
 
 @section("content")
-    <div class="row g-4">
+    <div class="row mt-1 g-4">
         <div class="col-md-8">
             <img
                 src="{{ route("photos.preview", ["id" => $photo->id, "draw_faces" => true]) }}"
@@ -48,7 +48,7 @@
                     </div>
                     <div class="card-body p-0">
                         <dl class="row g-0 mb-0 px-3 py-2">
-                            <dt class="col-5 text-muted small py-1">Fonte</dt>
+                            <dt class="col-5 text-muted small py-1">Sorgente</dt>
                             <dd class="col-7 py-1 mb-0">{{ $stripe->source }}</dd>
                             @if ($stripe->data)
                                 <dt class="col-5 text-muted small py-1">Data</dt>
