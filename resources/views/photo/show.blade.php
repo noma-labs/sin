@@ -21,6 +21,28 @@
                 <strong>File:</strong>
                 {{ $photo->source_file }}
             </p>
+
+            @if ($stripe)
+                <p class="mb-1">
+                    <strong>Striscia:</strong>
+                    <a href="{{ route("photos.stripes.show", $stripe->id) }}" target="_blank" class="text-decoration-none">
+                        {{ $stripe->datnum }} ({{ $stripe->source }})
+                    </a>
+                </p>
+                @if ($stripe->descrizione)
+                    <p class="mb-1">
+                        <strong>Descrizione:</strong>
+                        {{ $stripe->descrizione }}
+                    </p>
+                @endif
+                @if ($stripe->localita)
+                    <p class="mb-1">
+                        <strong>Luogo:</strong>
+                        {{ $stripe->localita }}
+                    </p>
+                @endif
+            @endif
+
             <div class="mb-3">
                 <p class="fw-bold">Persone:</p>
                 @foreach ($people as $person)
@@ -38,49 +60,6 @@
             </div>
 
             <div class="mb-3">
-                <form
-                    action="{{ route("photos.update", $photo->id) }}"
-                    method="POST"
-                    class="mt-2"
-                >
-                    @csrf
-                    @method("PUT")
-                    <label for="taken_at" class="form-label">
-                        Data di scatto
-                    </label>
-                    <input
-                        type="datetime"
-                        name="taken_at"
-                        value="{{ $photo->taken_at }}"
-                        class="form-control"
-                    />
-
-                    <label for="description" class="form-label">
-                        Descrizione
-                    </label>
-                    <textarea
-                        type="text"
-                        name="description"
-                        class="form-control"
-                    >
-{{ $photo->description }}</textarea
-                    >
-
-                    <label for="location" class="form-label">Luogo</label>
-
-                    @can("photo.update")
-                        <input
-                            type="text"
-                            name="location"
-                            class="form-control mb-3"
-                            value="{{ $photo->location }}"
-                        />
-                        <button type="submit" class="btn btn-secondary">
-                            Salva
-                        </button>
-                    @endcan
-                </form>
-
                 @can("photo.download")
                     <a
                         href="{{ route("photos.download", $photo->id) }}"

@@ -78,7 +78,7 @@ final class PhotoController
 
     public function show(int $id): View
     {
-        $photo = Photo::query()->findOrFail($id);
+        $photo = Photo::query()->with('strip')->findOrFail($id);
 
         if (! Storage::disk('photos')->exists($photo->source_file)) {
             abort(404, 'File not found.');
@@ -94,6 +94,7 @@ final class PhotoController
 
         return view('photo.show', [
             'photo' => $photo,
+            'stripe' => $photo->strip,
             'people' => $people,
         ]);
     }
