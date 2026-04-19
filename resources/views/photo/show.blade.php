@@ -4,7 +4,6 @@
 
 @section("content")
     <div class="row g-4">
-        {{-- Photo --}}
         <div class="col-md-8">
             <img
                 src="{{ route("photos.preview", ["id" => $photo->id, "draw_faces" => true]) }}"
@@ -13,10 +12,7 @@
             />
         </div>
 
-        {{-- Sidebar --}}
         <div class="col-md-4 d-flex flex-column gap-3">
-
-            {{-- Photo info --}}
             <div class="card">
                 <div class="card-header fw-semibold">Foto</div>
                 <div class="card-body p-0">
@@ -56,7 +52,7 @@
                             <dd class="col-7 py-1 mb-0">{{ $stripe->source }}</dd>
                             @if ($stripe->data)
                                 <dt class="col-5 text-muted small py-1">Data</dt>
-                                <dd class="col-7 py-1 mb-0">{{ $stripe->data }}</dd>
+                                <dd class="col-7 py-1 mb-0">{{ \Illuminate\Support\Carbon::parse($stripe->data)->format("Y-m-d") }}</dd>
                             @endif
                             @if ($stripe->localita)
                                 <dt class="col-5 text-muted small py-1">Luogo</dt>
@@ -79,7 +75,7 @@
             @if ($people->isNotEmpty())
                 <div class="card">
                     <div class="card-header fw-semibold">Persone</div>
-                    <div class="card-body d-flex flex-wrap gap-1">
+                    <div class="card-body d-flex flex-wrap gap-1" style="max-height: 200px; overflow-y: auto">
                         @foreach ($people as $person)
                             <a
                                 href="{{ route("photos.index", ["name" => $person->persona_nome]) }}"
