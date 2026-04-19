@@ -103,7 +103,10 @@
             <div class="d-flex flex-wrap gap-3">
                 @foreach ($stripe->photos as $photo)
                     <div class="card" style="width: 18rem">
-                        <a href="{{ route("photos.show", $photo->id) }}" class="text-decoration-none text-reset">
+                        <a
+                            href="{{ route("photos.show", $photo->id) }}"
+                            class="text-decoration-none text-reset"
+                        >
                             <div class="position-relative">
                                 <img
                                     src="{{ route("photos.preview", $photo->id) }}"
@@ -114,14 +117,20 @@
                             </div>
                         </a>
                         <div class="card-body py-2 px-2">
-                            <div class="small fw-semibold text-truncate">{{ $photo->file_name }}</div>
-                            <div class="small text-muted">{{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}</div>
+                            <div class="small fw-semibold text-truncate">
+                                {{ $photo->file_name }}
+                            </div>
+                            <div class="small text-muted">
+                                {{ $photo->taken_at ? $photo->taken_at->format("Y-m-d") : "N/A" }}
+                            </div>
                         </div>
                         @if ($photo->persone->isNotEmpty())
                             <div class="card-body p-0 border-top">
                                 <div class="p-2 small">
                                     @foreach ($photo->persone as $person)
-                                        <span>{{ $person->pivot->persona_nome }},</span>
+                                        <span>
+                                            {{ $person->pivot->persona_nome }},
+                                        </span>
                                     @endforeach
                                 </div>
                             </div>

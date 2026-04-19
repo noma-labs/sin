@@ -46,7 +46,10 @@
         <div class="d-flex flex-wrap">
             @foreach ($photos as $photo)
                 <figure class="figure m-1" style="width: 20rem">
-                    <a href="{{ route("photos.show", $photo->id) }}" class="text-decoration-none text-reset">
+                    <a
+                        href="{{ route("photos.show", $photo->id) }}"
+                        class="text-decoration-none text-reset"
+                    >
                         <div class="position-relative">
                             <img
                                 src="{{ route("photos.preview", $photo->id) }}"
@@ -88,7 +91,9 @@
                     @foreach ($photos as $photo)
                         <tr>
                             <td style="width: 72px">
-                                <a href="{{ route("photos.show", $photo->id) }}">
+                                <a
+                                    href="{{ route("photos.show", $photo->id) }}"
+                                >
                                     <img
                                         src="{{ route("photos.preview", $photo->id) }}"
                                         alt="{{ $photo->description }}"

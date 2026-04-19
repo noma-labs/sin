@@ -23,11 +23,15 @@
                         </dd>
                         <dt class="col-5 text-muted small py-1">File</dt>
                         <dd class="col-7 py-1 mb-0">
-                            <span class="text-break small">{{ $photo->file_name }}</span>
+                            <span class="text-break small">
+                                {{ $photo->file_name }}
+                            </span>
                         </dd>
                         <dt class="col-5 text-muted small py-1">Percorso</dt>
                         <dd class="col-7 py-1 mb-0">
-                            <span class="text-break small text-muted">{{ $photo->source_file }}</span>
+                            <span class="text-break small text-muted">
+                                {{ $photo->source_file }}
+                            </span>
                         </dd>
                     </dl>
                 </div>
@@ -36,7 +40,9 @@
             {{-- Stripe info --}}
             @if ($stripe)
                 <div class="card">
-                    <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+                    <div
+                        class="card-header fw-semibold d-flex justify-content-between align-items-center"
+                    >
                         Striscia
                         <a
                             href="{{ route("photos.stripes.show", $stripe->id) }}"
@@ -48,23 +54,46 @@
                     </div>
                     <div class="card-body p-0">
                         <dl class="row g-0 mb-0 px-3 py-2">
-                            <dt class="col-5 text-muted small py-1">Sorgente</dt>
-                            <dd class="col-7 py-1 mb-0">{{ $stripe->source }}</dd>
+                            <dt class="col-5 text-muted small py-1">
+                                Sorgente
+                            </dt>
+                            <dd class="col-7 py-1 mb-0">
+                                {{ $stripe->source }}
+                            </dd>
                             @if ($stripe->data)
-                                <dt class="col-5 text-muted small py-1">Data</dt>
-                                <dd class="col-7 py-1 mb-0">{{ \Illuminate\Support\Carbon::parse($stripe->data)->format("Y-m-d") }}</dd>
+                                <dt class="col-5 text-muted small py-1">
+                                    Data
+                                </dt>
+                                <dd class="col-7 py-1 mb-0">
+                                    {{ \Illuminate\Support\Carbon::parse($stripe->data)->format("Y-m-d") }}
+                                </dd>
                             @endif
+
                             @if ($stripe->localita)
-                                <dt class="col-5 text-muted small py-1">Luogo</dt>
-                                <dd class="col-7 py-1 mb-0">{{ $stripe->localita }}</dd>
+                                <dt class="col-5 text-muted small py-1">
+                                    Luogo
+                                </dt>
+                                <dd class="col-7 py-1 mb-0">
+                                    {{ $stripe->localita }}
+                                </dd>
                             @endif
+
                             @if ($stripe->argomento)
-                                <dt class="col-5 text-muted small py-1">Argomento</dt>
-                                <dd class="col-7 py-1 mb-0">{{ $stripe->argomento }}</dd>
+                                <dt class="col-5 text-muted small py-1">
+                                    Argomento
+                                </dt>
+                                <dd class="col-7 py-1 mb-0">
+                                    {{ $stripe->argomento }}
+                                </dd>
                             @endif
+
                             @if ($stripe->descrizione)
-                                <dt class="col-5 text-muted small py-1">Descrizione</dt>
-                                <dd class="col-7 py-1 mb-0">{{ $stripe->descrizione }}</dd>
+                                <dt class="col-5 text-muted small py-1">
+                                    Descrizione
+                                </dt>
+                                <dd class="col-7 py-1 mb-0">
+                                    {{ $stripe->descrizione }}
+                                </dd>
                             @endif
                         </dl>
                     </div>
@@ -75,7 +104,10 @@
             @if ($people->isNotEmpty())
                 <div class="card">
                     <div class="card-header fw-semibold">Persone</div>
-                    <div class="card-body d-flex flex-wrap gap-1" style="max-height: 200px; overflow-y: auto">
+                    <div
+                        class="card-body d-flex flex-wrap gap-1"
+                        style="max-height: 200px; overflow-y: auto"
+                    >
                         @foreach ($people as $person)
                             <a
                                 href="{{ route("photos.index", ["name" => $person->persona_nome]) }}"
@@ -83,8 +115,8 @@
                             >
                                 {{ $person->persona_nome }}
                                 @if ($person->id !== null)
-                                    ({{ Illuminate\Support\Str::title($person->nome) }}
-                                    {{ Illuminate\Support\Str::title($person->cognome) }})
+                                        ({{ Illuminate\Support\Str::title($person->nome) }}
+                                        {{ Illuminate\Support\Str::title($person->cognome) }})
                                 @endif
                             </a>
                         @endforeach
@@ -101,7 +133,6 @@
                     Download
                 </a>
             @endcan
-
         </div>
     </div>
 @endsection
