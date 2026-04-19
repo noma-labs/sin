@@ -121,10 +121,7 @@
                             <div class="card-body p-0 border-top">
                                 <div class="p-2 small">
                                     @foreach ($photo->persone as $person)
-                                        <div>
-                                            {{ Illuminate\Support\Str::title($person->nome) }}
-                                            {{ Illuminate\Support\Str::title($person->cognome) }}
-                                        </div>
+                                        <span>{{ $person->pivot->persona_nome }},</span>
                                     @endforeach
                                 </div>
                             </div>
