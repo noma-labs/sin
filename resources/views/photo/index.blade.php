@@ -45,57 +45,34 @@
     @if ($currentView === "grid")
         <div class="d-flex flex-wrap">
             @foreach ($photos as $photo)
-                @php($modalId = "photo-modal-" . $photo->id)
                 <figure class="figure m-1" style="width: 20rem">
-                    <div class="position-relative">
-                        <img
-                            src="{{ route("photos.preview", $photo->id) }}"
-                            class="figure-img img-fluid rounded"
-                            alt="{{ $photo->description }}"
-                            style="cursor: pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#{{ $modalId }}"
-                        />
-                        <div
-                            class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
-                        >
-                            <span class="small">
-                                {{ $photo->file_name ?? "" }}
-                            </span>
-                            <div class="small">
-                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                            </div>
-                            <div class="small">
-                                {{ $photo->subjects ? $photo->subjects : "" }}
-                            </div>
-                        </div>
-                    </div>
-                </figure>
-                <x-modal
-                    modal-title="Dettaglio foto"
-                    :modal-id="$modalId"
-                    fullscreen="true"
-                >
-                    <x-slot:body>
-                        <div class="d-flex flex-column align-items-center">
+                    <a
+                        href="{{ route("photos.show", $photo->id) }}"
+                        class="text-decoration-none text-reset"
+                    >
+                        <div class="position-relative">
                             <img
                                 src="{{ route("photos.preview", $photo->id) }}"
-                                class="img-fluid mb-2"
+                                class="figure-img img-fluid rounded"
                                 alt="{{ $photo->description }}"
+                                style="cursor: pointer"
                             />
-                            <div>
-                                <strong>{{ $photo->file_name ?? "" }}</strong>
+                            <div
+                                class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white"
+                            >
+                                <span class="small">
+                                    {{ $photo->file_name ?? "" }}
+                                </span>
+                                <div class="small">
+                                    {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
+                                </div>
+                                <div class="small">
+                                    {{ $photo->subjects ? $photo->subjects : "" }}
+                                </div>
                             </div>
-                            <div>
-                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                            </div>
-                            <div>
-                                {{ $photo->subjects ? $photo->subjects : "" }}
-                            </div>
-                            <div class="mt-2">{{ $photo->description }}</div>
                         </div>
-                    </x-slot>
-                </x-modal>
+                    </a>
+                </figure>
             @endforeach
         </div>
     @elseif ($currentView === "list")
@@ -114,50 +91,16 @@
                     @foreach ($photos as $photo)
                         <tr>
                             <td style="width: 72px">
-                                @php($modalId = "photo-modal-list-" . $photo->id)
-                                <img
-                                    src="{{ route("photos.preview", $photo->id) }}"
-                                    alt="{{ $photo->description }}"
-                                    class="rounded"
-                                    style="
-                                        width: 64px;
-                                        height: auto;
-                                        cursor: pointer;
-                                    "
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#{{ $modalId }}"
-                                />
-                                <x-modal
-                                    modal-title="Dettaglio foto"
-                                    :modal-id="$modalId"
-                                    fullscreen="true"
+                                <a
+                                    href="{{ route("photos.show", $photo->id) }}"
                                 >
-                                    <x-slot:body>
-                                        <div
-                                            class="d-flex flex-column align-items-center"
-                                        >
-                                            <img
-                                                src="{{ route("photos.preview", $photo->id) }}"
-                                                class="img-fluid mb-2"
-                                                alt="{{ $photo->description }}"
-                                            />
-                                            <div>
-                                                <strong>
-                                                    {{ $photo->file_name ?? "" }}
-                                                </strong>
-                                            </div>
-                                            <div>
-                                                {{ $photo->taken_at ? $photo->taken_at->format("d/m/Y") : "N/A" }}
-                                            </div>
-                                            <div>
-                                                {{ $photo->subjects ? $photo->subjects : "" }}
-                                            </div>
-                                            <div class="mt-2">
-                                                {{ $photo->description }}
-                                            </div>
-                                        </div>
-                                    </x-slot>
-                                </x-modal>
+                                    <img
+                                        src="{{ route("photos.preview", $photo->id) }}"
+                                        alt="{{ $photo->description }}"
+                                        class="rounded"
+                                        style="width: 64px; height: auto"
+                                    />
+                                </a>
                             </td>
                             <td class="fw-semibold">
                                 {{ $photo->file_name ?? "—" }}

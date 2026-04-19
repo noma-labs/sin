@@ -64,7 +64,7 @@ final class Photo extends Model
      */
     public function persone(): BelongsToMany
     {
-        return $this->belongsToMany(Persona::class, 'db_foto.photos_people', 'photo_id', 'persona_id');
+        return $this->belongsToMany(Persona::class, 'db_foto.photos_people', 'photo_id', 'persona_id')->withPivot('persona_nome');
     }
 
     /**
