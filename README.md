@@ -103,5 +103,5 @@ Other commands
 - `task refresh` to seed the databases with dummy data
 - `task lint` to run linters (both on php and html/blade)
 - `task analyse` to run the static analysis
-- create migration `sail php artisan make:migration create_flights_table --path="database/migrations/db_nomadelfia" --sql`
+- create migration `sail php artisan make:migration create_flights_table --path="database/migrations/nomadelfia" --sql`
     - index name convention:  `<prefix>_<table_name>_<column_name>` where prefix: `idx_ : regular index`,`unq_ : UNIQUE`
