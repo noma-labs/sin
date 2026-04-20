@@ -8,7 +8,6 @@
     "php": ">=8.2",
     "cerbero/json-parser": "^1.1",
     "laravel/framework": "^13.0",
-    "laravel/nightwatch": "^1.7",
     "laravel/tinker": "^3.0",
     "laravel/ui": "^4.6",
     "livewire/livewire": "^4.0",

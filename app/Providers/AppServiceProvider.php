@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Biblioteca\Models\Libro;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nightwatch\Facades\Nightwatch;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +19,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureLaravel8upgrade();
         $this->configureModels();
         $this->configureBookDeleted();
-        $this->configureNightWatch();
     }
 
     /**
@@ -60,12 +57,5 @@ final class AppServiceProvider extends ServiceProvider
             $libro->tobe_printed = 0; // remove from the list of the libri to be printed
             $libro->save();
         });
-    }
-
-    private function configureNightWatch(): void
-    {
-        Nightwatch::user(fn (Authenticatable $user) => [
-            'username' => "{$user->username}",
-        ]);
     }
 }
