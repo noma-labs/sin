@@ -213,7 +213,7 @@ task qa
 #### Migration Structure
 
 - Separate migrations by database/module in dedicated directories
-- Each database has its own migration folder (e.g., `database/migrations/db_nomadelfia/`)
+- Each database has its own migration folder (e.g., `database/migrations/nomadelfia/`)
 - Use SQL migrations for complex schemas when needed
 
 #### Creating Migrations
@@ -223,7 +223,7 @@ task qa
 sail php artisan make:migration create_table_name
 
 # Database-specific migration
-sail php artisan make:migration create_table_name --path="database/migrations/db_nomadelfia" --sql
+sail php artisan make:migration create_table_name --path="database/migrations/nomadelfia" --sql
 ```
 
 ## Important Notes
