@@ -10483,12 +10483,6 @@ parameters:
 			path: app/Livewire/SearchPopolazione.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$username\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Providers/AppServiceProvider.php
-
-		-
 			message: '#^Call to an undefined static method App\\Nomadelfia\\Persona\\Models\\Persona\:\:findOrFail\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
