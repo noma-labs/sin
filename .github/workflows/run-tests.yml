@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:8.4
+      image: kirschbaumdevelopment/laravel-test-runner:8.5
     env:
       EXIFTOOL_VERSION: "13.57" # Change also the EXIFTOOL_VERSION in the dockerfile
 
