@@ -19,5 +19,4 @@ final class PatenteTrashedController
 
         return view('patente.trash', compact('patentiDeleted'));
     }
-
 }
