@@ -14,6 +14,7 @@ use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Validator;
 
 final class ReservationsController
@@ -27,7 +28,7 @@ final class ReservationsController
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
-        $now = \Illuminate\Support\Facades\Date::now();
+        $now = Date::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day === 'oggi') {
             // $query = Prenotazioni::today();
@@ -175,14 +176,14 @@ final class ReservationsController
     private function buildCertificatesList($patenti, $cqcPersone, $cqcMerci)
     {
         $certificates = collect();
-        $now = \Illuminate\Support\Facades\Date::now()->startOfDay();
+        $now = Date::now()->startOfDay();
 
         foreach ($patenti as $patente) {
             $certificates->push([
                 'type' => 'Patente',
                 'name' => $patente->persona->nominativo,
                 'date' => $patente->data_scadenza_patente,
-                'days' => $now->diffInDays(\Illuminate\Support\Facades\Date::parse($patente->data_scadenza_patente), true),
+                'days' => $now->diffInDays(Date::parse($patente->data_scadenza_patente), true),
                 'url' => route('patente.visualizza', $patente->numero_patente),
             ]);
         }
@@ -193,7 +194,7 @@ final class ReservationsController
                     'type' => 'C.Q.C Persone',
                     'name' => $patente->persona->nominativo,
                     'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(\Illuminate\Support\Facades\Date::parse($cqc->pivot->data_scadenza), true),
+                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
                     'url' => route('patente.visualizza', $patente->numero_patente),
                 ]);
             }
@@ -205,7 +206,7 @@ final class ReservationsController
                     'type' => 'C.Q.C Merci',
                     'name' => $patente->persona->nominativo,
                     'date' => $cqc->pivot->data_scadenza,
-                    'days' => $now->diffInDays(\Illuminate\Support\Facades\Date::parse($cqc->pivot->data_scadenza), true),
+                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
                     'url' => route('patente.visualizza', $patente->numero_patente),
                 ]);
             }
