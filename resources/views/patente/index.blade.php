@@ -28,6 +28,12 @@
         <a class="dropdown-item" href="{{ route("patente.ricerca") }}">
             Ricerca patente
         </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item" href="{{ route("patente.trash") }}">
+            Patenti eliminate
+        </a>
     </div>
 </li>
 <li class="nav-item">

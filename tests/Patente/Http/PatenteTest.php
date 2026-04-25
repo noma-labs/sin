@@ -10,6 +10,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMaggiorenneSingleAction;
 use App\Officina\Models\ViewClienti;
 use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteElenchiController;
+use App\Patente\Controllers\PatenteTrashedController;
 use App\Patente\Models\Patente;
 use Carbon\Carbon;
 
@@ -49,4 +50,19 @@ it('soft deletes patente and sets deleted_at', function () {
 
     $r = ViewClienti::query()->select('cliente_con_patente')->where('id', $persona->id)->first();
     expect($r->cliente_con_patente)->toBeNull();
+});
+
+it('shows trash list with trashed patente', function () {
+    $persona = Persona::factory()->maggiorenne()->maschio()->create();
+    app(EntrataMaggiorenneSingleAction::class)->execute($persona, Carbon::now(), GruppoFamiliare::all()->random());
+    $patente = Patente::factory()->persona($persona)->create();
+    $patente->refresh();
+
+    login();
+
+    $this->delete(action([PatenteController::class, 'delete'], ['numero' => $patente->numero_patente]));
+
+    $response = $this->get(action([PatenteTrashedController::class, 'index']));
+    $response->assertOk();
+    $response->assertSee($patente->numero_patente);
 });

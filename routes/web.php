@@ -72,6 +72,7 @@ use App\Patente\Controllers\PatenteController;
 use App\Patente\Controllers\PatenteCQCController;
 use App\Patente\Controllers\PatenteElenchiController;
 use App\Patente\Controllers\PatenteSearchController;
+use App\Patente\Controllers\PatenteTrashedController;
 use App\Photo\Controllers\FaceController;
 use App\Photo\Controllers\FavouritesController;
 use App\Photo\Controllers\LegendController;
@@ -413,6 +414,7 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 
     Route::get('/', [PatenteController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.scadenze');
     Route::get('/create', [PatenteController::class, 'create'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.create');
+    Route::get('/trash', [PatenteTrashedController::class, 'index'])->middleware('can:scuolaguida.patente.visualizza')->name('patente.trash');
     Route::post('/', [PatenteController::class, 'store'])->middleware('can:scuolaguida.patente.inserisci')->name('patente.store');
     Route::get('/{numero}', [PatenteController::class, 'show'])->middleware('can:scuolaguida.patente.modifica')->name('patente.visualizza');
     Route::delete('/{numero}', [PatenteController::class, 'delete'])->middleware('can:scuolaguida.patente.elimina')->name('patente.elimina');
