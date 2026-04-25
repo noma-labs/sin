@@ -10,8 +10,11 @@ use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
+use App\Patente\Models\CQC;
+use App\Patente\Models\Patente;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Validator;
 
 final class ReservationsController
@@ -25,7 +28,7 @@ final class ReservationsController
         $meccanici = ViewMeccanici::orderBy('nominativo')->get();
 
         $query = null;
-        $now = \Illuminate\Support\Facades\Date::now();
+        $now = Date::now();
         // TODO: usare le PrenotazioneQueryBulders per prendere prenotazioni attive
         if ($day === 'oggi') {
             // $query = Prenotazioni::today();
@@ -57,11 +60,25 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
+        $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
+        $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
+
+        $cqcPersoneScadute = CQC::query()->CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcPersoneInScadenza = CQC::query()->CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciScadute = CQC::query()->CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciInScadenza = CQC::query()->CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+
+        $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
+        $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
+
         return view('officina.reservations.create', compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
-            'day'));
+            'day',
+            'allScadute',
+            'allInScadenza',
+        ));
     }
 
     public function store(Request $request)
@@ -154,5 +171,47 @@ final class ReservationsController
         ]);
 
         return back()->withSuccess('Modifica eseguita.');
+    }
+
+    private function buildCertificatesList($patenti, $cqcPersone, $cqcMerci)
+    {
+        $certificates = collect();
+        $now = Date::now()->startOfDay();
+
+        foreach ($patenti as $patente) {
+            $certificates->push([
+                'type' => 'Patente',
+                'name' => $patente->persona->nominativo,
+                'date' => $patente->data_scadenza_patente,
+                'days' => $now->diffInDays(Date::parse($patente->data_scadenza_patente), true),
+                'url' => route('patente.visualizza', $patente->numero_patente),
+            ]);
+        }
+
+        foreach ($cqcPersone as $cqc) {
+            foreach ($cqc->patenti as $patente) {
+                $certificates->push([
+                    'type' => 'C.Q.C Persone',
+                    'name' => $patente->persona->nominativo,
+                    'date' => $cqc->pivot->data_scadenza,
+                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
+                    'url' => route('patente.visualizza', $patente->numero_patente),
+                ]);
+            }
+        }
+
+        foreach ($cqcMerci as $cqc) {
+            foreach ($cqc->patenti as $patente) {
+                $certificates->push([
+                    'type' => 'C.Q.C Merci',
+                    'name' => $patente->persona->nominativo,
+                    'date' => $cqc->pivot->data_scadenza,
+                    'days' => $now->diffInDays(Date::parse($cqc->pivot->data_scadenza), true),
+                    'url' => route('patente.visualizza', $patente->numero_patente),
+                ]);
+            }
+        }
+
+        return $certificates;
     }
 }

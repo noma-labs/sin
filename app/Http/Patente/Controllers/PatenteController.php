@@ -16,10 +16,10 @@ final class PatenteController
         $patenti = Patente::with('persona')->SenzaCommisione()->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente')->get(); // 45 giorni
         $patentiScadute = Patente::with('persona')->SenzaCommisione()->Scadute(config('patente.scadenze.patenti.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();
 
-        $patentiCQCPersone = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCPersoneScadute = CQC::CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCMerci = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $patentiCQCMerciScadute = CQC::CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCPersone = CQC::query()->CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCPersoneScadute = CQC::query()->CQCPersone()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCMerci = CQC::query()->CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $patentiCQCMerciScadute = CQC::query()->CQCMerci()->scadute(config('patente.scadenze.cqc.scadute'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
 
         $patentiCommissione = Patente::with('persona')->ConCommisione()->InScadenza(config('patente.scadenze.commissione.inscadenza'))->orderBy('data_scadenza_patente')->get();
         $patentiCommisioneScadute = Patente::with('persona')->ConCommisione()->Scadute(config('patente.scadenze.commissione.scadute'))->orderBy('data_scadenza_patente', 'asc')->get();

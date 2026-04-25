@@ -60,13 +60,13 @@ final class CQC extends Model
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
-    protected function cQCPersone($query): self
+    protected function CQCPersone($query): self
     {
         return $query->where('id', 16)->first();
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
-    protected function cQCMerci($query): self
+    protected function CQCMerci($query): self
     {
         return $query->where('id', 17)->first();
     }

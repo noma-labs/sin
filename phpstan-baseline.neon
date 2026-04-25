@@ -6337,6 +6337,30 @@ parameters:
 			path: app/Http/Officina/Controllers/PatentiController.php
 
 		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\CQC\>\:\:CQCMerci\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\CQC\>\:\:CQCPersone\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\Patente\>\:\:InScadenza\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\Patente\>\:\:Scadute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
 			message: '#^Call to an undefined method Illuminate\\Http\\RedirectResponse\:\:withSuccess\(\)\.$#'
 			identifier: method.notFound
 			count: 3
@@ -6394,6 +6418,30 @@ parameters:
 			message: '#^Call to static method make\(\) on an unknown class Validator\.$#'
 			identifier: class.notFound
 			count: 2
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:buildCertificatesList\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:buildCertificatesList\(\) has parameter \$cqcMerci with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:buildCertificatesList\(\) has parameter \$cqcPersone with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Officina/Controllers/ReservationsController.php
+
+		-
+			message: '#^Method App\\Officina\\Controllers\\ReservationsController\:\:buildCertificatesList\(\) has parameter \$patenti with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
 			path: app/Http/Officina/Controllers/ReservationsController.php
 
 		-
@@ -7327,7 +7375,13 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
-			message: '#^Call to an undefined method App\\Patente\\Models\\CQC\:\:inScadenza\(\)\.$#'
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\CQC\>\:\:CQCMerci\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Patente/Controllers/PatenteController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Patente\\Models\\CQC\>\:\:CQCPersone\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: app/Http/Patente/Controllers/PatenteController.php
@@ -7417,18 +7471,6 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCMerci\(\) invoked with 0 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 2
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCPersone\(\) invoked with 0 parameters, 1 required\.$#'
-			identifier: arguments.count
-			count: 2
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
 			message: '#^Property App\\Patente\\Models\\Patente\:\:\$data_rilascio_patente \(string\) does not accept mixed\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -7462,18 +7504,6 @@ parameters:
 			message: '#^Property App\\Patente\\Models\\Patente\:\:\$stato \(string\) does not accept string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
-			message: '#^Static call to instance method App\\Patente\\Models\\CQC\:\:cQCMerci\(\)\.$#'
-			identifier: method.staticCall
-			count: 2
-			path: app/Http/Patente/Controllers/PatenteController.php
-
-		-
-			message: '#^Static call to instance method App\\Patente\\Models\\CQC\:\:cQCPersone\(\)\.$#'
-			identifier: method.staticCall
-			count: 2
 			path: app/Http/Patente/Controllers/PatenteController.php
 
 		-
@@ -7627,13 +7657,13 @@ parameters:
 			path: app/Http/Patente/Controllers/PatenteTrashedController.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCMerci\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\CQC\:\:CQCMerci\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/CQC.php
 
 		-
-			message: '#^Method App\\Patente\\Models\\CQC\:\:cQCPersone\(\) has parameter \$query with no type specified\.$#'
+			message: '#^Method App\\Patente\\Models\\CQC\:\:CQCPersone\(\) has parameter \$query with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: app/Http/Patente/Models/CQC.php
