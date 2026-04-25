@@ -11,9 +11,9 @@ final class PatenteTrashedController
 {
     public function index(): View
     {
-        $patentiDeleted = Patente::sortable()
+        $patentiDeleted = Patente::onlyTrashed()
             ->withoutGlobalScope('InNomadelfia')
-            ->onlyTrashed()
+            ->sortable()
             ->with('persona')
             ->paginate(50);
 
