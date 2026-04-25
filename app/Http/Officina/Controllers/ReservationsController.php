@@ -10,6 +10,8 @@ use App\Officina\Models\Uso;
 use App\Officina\Models\Veicolo;
 use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
+use App\Patente\Models\CQC;
+use App\Patente\Models\Patente;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Validator;
@@ -57,11 +59,26 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
+        $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
+        $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
+
+        $cqcPersoneScadute = CQC::CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcPersoneInScadenza = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciScadute = CQC::CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciInScadenza = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+
         return view('officina.reservations.create', compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
-            'day'));
+            'day',
+            'patentiScadute',
+            'patentiInScadenza',
+            'cqcPersoneScadute',
+            'cqcPersoneInScadenza',
+            'cqcMerciScadute',
+            'cqcMerciInScadenza',
+        ));
     }
 
     public function store(Request $request)
