@@ -5,41 +5,9 @@
 @section("content")
     @include("partials.header", ["title" => "Aggiungi Prenotazioni"])
 
-    @php
-        $allScadute = collect();
-        foreach ($patentiScadute as $patente) {
-            $allScadute->push([
-                'type' => 'Patente',
-                'name' => $patente->persona->nominativo,
-                'date' => $patente->data_scadenza_patente,
-                'url' => route("patente.visualizza", $patente->numero_patente)
-            ]);
-        }
-        foreach ($cqcPersoneScadute as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $allScadute->push([
-                    'type' => 'C.Q.C Persone',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'url' => route("patente.visualizza", $patente->numero_patente)
-                ]);
-            }
-        }
-        foreach ($cqcMerciScadute as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $allScadute->push([
-                    'type' => 'C.Q.C Merci',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'url' => route("patente.visualizza", $patente->numero_patente)
-                ]);
-            }
-        }
-    @endphp
-
     @if ($allScadute->isNotEmpty())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Scaduti ({{ $allScadute->count() }}):</strong>
+            <strong>Scadute ({{ $allScadute->count() }}):</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <ul class="mb-0 mt-1">
                 @foreach ($allScadute->sortBy('date') as $item)
@@ -48,48 +16,16 @@
                         <a href="{{ $item['url'] }}" class="alert-link">
                             {{ $item['name'] }}
                         </a>
-                        — scaduto il {{ $item['date'] }}
+                        — scaduta   il {{ $item['date'] }}
                     </li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    @php
-        $allInScadenza = collect();
-        foreach ($patentiInScadenza as $patente) {
-            $allInScadenza->push([
-                'type' => 'Patente',
-                'name' => $patente->persona->nominativo,
-                'date' => $patente->data_scadenza_patente,
-                'url' => route("patente.visualizza", $patente->numero_patente)
-            ]);
-        }
-        foreach ($cqcPersoneInScadenza as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $allInScadenza->push([
-                    'type' => 'C.Q.C Persone',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'url' => route("patente.visualizza", $patente->numero_patente)
-                ]);
-            }
-        }
-        foreach ($cqcMerciInScadenza as $cqc) {
-            foreach ($cqc->patenti as $patente) {
-                $allInScadenza->push([
-                    'type' => 'C.Q.C Merci',
-                    'name' => $patente->persona->nominativo,
-                    'date' => $cqc->pivot->data_scadenza,
-                    'url' => route("patente.visualizza", $patente->numero_patente)
-                ]);
-            }
-        }
-    @endphp
-
     @if ($allInScadenza->isNotEmpty())
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>In scadenza entro giorni ({{ $allInScadenza->count() }}):</strong>
+            <strong>In scadenza ({{ $allInScadenza->count() }}):</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <ul class="mb-0 mt-1">
                 @foreach ($allInScadenza->sortBy('date') as $item)

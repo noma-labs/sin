@@ -67,17 +67,16 @@ final class ReservationsController
         $cqcMerciScadute = CQC::CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
         $cqcMerciInScadenza = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
 
+        $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
+        $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
+
         return view('officina.reservations.create', compact('clienti',
             'usi',
             'meccanici',
             'prenotazioni',
             'day',
-            'patentiScadute',
-            'patentiInScadenza',
-            'cqcPersoneScadute',
-            'cqcPersoneInScadenza',
-            'cqcMerciScadute',
-            'cqcMerciInScadenza',
+            'allScadute',
+            'allInScadenza',
         ));
     }
 
@@ -171,5 +170,43 @@ final class ReservationsController
         ]);
 
         return back()->withSuccess('Modifica eseguita.');
+    }
+
+    private function buildCertificatesList($patenti, $cqcPersone, $cqcMerci)
+    {
+        $certificates = collect();
+
+        foreach ($patenti as $patente) {
+            $certificates->push([
+                'type' => 'Patente',
+                'name' => $patente->persona->nominativo,
+                'date' => $patente->data_scadenza_patente,
+                'url' => route('patente.visualizza', $patente->numero_patente),
+            ]);
+        }
+
+        foreach ($cqcPersone as $cqc) {
+            foreach ($cqc->patenti as $patente) {
+                $certificates->push([
+                    'type' => 'C.Q.C Persone',
+                    'name' => $patente->persona->nominativo,
+                    'date' => $cqc->pivot->data_scadenza,
+                    'url' => route('patente.visualizza', $patente->numero_patente),
+                ]);
+            }
+        }
+
+        foreach ($cqcMerci as $cqc) {
+            foreach ($cqc->patenti as $patente) {
+                $certificates->push([
+                    'type' => 'C.Q.C Merci',
+                    'name' => $patente->persona->nominativo,
+                    'date' => $cqc->pivot->data_scadenza,
+                    'url' => route('patente.visualizza', $patente->numero_patente),
+                ]);
+            }
+        }
+
+        return $certificates;
     }
 }
