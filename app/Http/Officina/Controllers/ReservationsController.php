@@ -63,10 +63,10 @@ final class ReservationsController
         $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
         $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
 
-        $cqcPersoneScadute = CQC::CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcPersoneInScadenza = CQC::CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcMerciScadute = CQC::CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcMerciInScadenza = CQC::CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcPersoneScadute = CQC::query()->CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcPersoneInScadenza = CQC::query()->CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciScadute = CQC::query()->CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+        $cqcMerciInScadenza = CQC::query()->CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
 
         $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
         $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
