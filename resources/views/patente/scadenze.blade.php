@@ -23,7 +23,7 @@
                                 </a>
                                 <span class="badge bg-warning">
                                     {{ $patente->data_scadenza_patente }}
-                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}gg)
+                                    ({{ Carbon::now()->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}gg)
                                 </span>
                             </li>
                         @endforeach
@@ -41,7 +41,7 @@
                                 </a>
                                 <span class="badge bg-danger">
                                     {{ $patente->data_scadenza_patente }}
-                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    ({{ Carbon::now()->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
                                     gg)
                                 </span>
                             </li>
@@ -69,7 +69,7 @@
                                 </a>
                                 <span class="badge bg-warning">
                                     {{ $patente->data_scadenza_patente }}
-                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    ({{ Carbon::now()->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
                                     gg)
                                 </span>
                             </li>
@@ -88,7 +88,7 @@
                                 </a>
                                 <span class="badge bg-danger">
                                     {{ $patente->data_scadenza_patente }}
-                                    ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
+                                    ({{ Carbon::now()->diffInDays(Carbon::parse($patente->data_scadenza_patente)) }}
                                     gg)
                                 </span>
                             </li>
@@ -119,7 +119,7 @@
                                         </a>
                                         <span class="badge bg-warning">
                                             {{ $patente->pivot->data_scadenza }}
-                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                            ({{ Carbon::now()->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
                                         </span>
                                     </li>
                                 @endforeach
@@ -139,7 +139,7 @@
                                         </a>
                                         <span class="badge bg-danger">
                                             {{ $patente->pivot->data_scadenza }}
-                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                            ({{ Carbon::now()->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
                                         </span>
                                     </li>
                                 @endforeach
@@ -162,7 +162,7 @@
                                         </a>
                                         <span class="badge bg-warning">
                                             {{ $patente->pivot->data_scadenza }}
-                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                            ({{ Carbon::now()->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
                                         </span>
                                     </li>
                                 @endforeach
@@ -182,7 +182,7 @@
                                         </a>
                                         <span class="badge bg-danger">
                                             {{ $patente->pivot->data_scadenza }}
-                                            ({{ Carbon::now("America/Vancouver")->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
+                                            ({{ Carbon::now()->diffInDays(Carbon::parse($patente->pivot->data_scadenza)) }}gg)
                                         </span>
                                     </li>
                                 @endforeach

@@ -6,17 +6,26 @@
     @include("partials.header", ["title" => "Aggiungi Prenotazioni"])
 
     @if ($allScadute->isNotEmpty())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+        >
             <strong>Scadute ({{ $allScadute->count() }}):</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
             <ul class="mb-0 mt-1">
-                @foreach ($allScadute->sortBy('date') as $item)
+                @foreach ($allScadute->sortBy("date") as $item)
                     <li>
-                        <span class="badge bg-dark">{{ $item['type'] }}</span>
-                        <a href="{{ $item['url'] }}" class="alert-link">
-                            {{ $item['name'] }}
+                        <span class="badge bg-dark">{{ $item["type"] }}</span>
+                        <a href="{{ $item["url"] }}" class="alert-link">
+                            {{ $item["name"] }}
                         </a>
-                        — scaduta   il {{ $item['date'] }}
+                        — scaduta il {{ $item["date"] }}
+                        ({{ abs($item["days"]) }} gg fa)
                     </li>
                 @endforeach
             </ul>
@@ -24,17 +33,26 @@
     @endif
 
     @if ($allInScadenza->isNotEmpty())
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+        >
             <strong>In scadenza ({{ $allInScadenza->count() }}):</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
             <ul class="mb-0 mt-1">
-                @foreach ($allInScadenza->sortBy('date') as $item)
+                @foreach ($allInScadenza->sortBy("date") as $item)
                     <li>
-                        <span class="badge bg-dark">{{ $item['type'] }}</span>
-                        <a href="{{ $item['url'] }}" class="alert-link">
-                            {{ $item['name'] }}
+                        <span class="badge bg-dark">{{ $item["type"] }}</span>
+                        <a href="{{ $item["url"] }}" class="alert-link">
+                            {{ $item["name"] }}
                         </a>
-                        — scade il {{ $item['date'] }}
+                        — scade il {{ $item["date"] }} (tra
+                        {{ $item["days"] }} gg)
                     </li>
                 @endforeach
             </ul>

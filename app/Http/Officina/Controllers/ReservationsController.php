@@ -12,6 +12,7 @@ use App\Officina\Models\ViewClienti;
 use App\Officina\Models\ViewMeccanici;
 use App\Patente\Models\CQC;
 use App\Patente\Models\Patente;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Validator;
@@ -175,12 +176,14 @@ final class ReservationsController
     private function buildCertificatesList($patenti, $cqcPersone, $cqcMerci)
     {
         $certificates = collect();
+        $now = Carbon::now()->startOfDay();
 
         foreach ($patenti as $patente) {
             $certificates->push([
                 'type' => 'Patente',
                 'name' => $patente->persona->nominativo,
                 'date' => $patente->data_scadenza_patente,
+                'days' => $now->diffInDays(Carbon::parse($patente->data_scadenza_patente), true),
                 'url' => route('patente.visualizza', $patente->numero_patente),
             ]);
         }
@@ -191,6 +194,7 @@ final class ReservationsController
                     'type' => 'C.Q.C Persone',
                     'name' => $patente->persona->nominativo,
                     'date' => $cqc->pivot->data_scadenza,
+                    'days' => $now->diffInDays(Carbon::parse($cqc->pivot->data_scadenza), true),
                     'url' => route('patente.visualizza', $patente->numero_patente),
                 ]);
             }
@@ -202,6 +206,7 @@ final class ReservationsController
                     'type' => 'C.Q.C Merci',
                     'name' => $patente->persona->nominativo,
                     'date' => $cqc->pivot->data_scadenza,
+                    'days' => $now->diffInDays(Carbon::parse($cqc->pivot->data_scadenza), true),
                     'url' => route('patente.visualizza', $patente->numero_patente),
                 ]);
             }
