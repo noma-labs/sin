@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $data_scadenza_patente
  * @property string $note
  * @property string|null $deleted_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static> sortable(?string $column = null, ?string $order = null)
  */
 final class Patente extends Model
 {

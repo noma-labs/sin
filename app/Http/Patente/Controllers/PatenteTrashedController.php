@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace App\Patente\Controllers;
 
 use App\Patente\Models\Patente;
+use Illuminate\Contracts\View\View;
 
 final class PatenteTrashedController
 {
-    public function index()
+    public function index(): View
     {
-        $patentiDeleted = Patente::withoutGlobalScope('InNomadelfia')
+        $patentiDeleted = Patente::sortable()
+            ->withoutGlobalScope('InNomadelfia')
             ->onlyTrashed()
             ->with('persona')
-            ->sortable()
             ->paginate(50);
 
         return view('patente.trash', compact('patentiDeleted'));
     }
+
 }
