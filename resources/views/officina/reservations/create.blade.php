@@ -141,11 +141,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col d-flex align-items-end">
+            <div class="col d-flex align-items-end gap-2 justify-content-end">
+                <a href="{{ route('officina.calendario') }}" class="btn btn-outline-primary">
+                    📅 Calendario
+                </a>
                 <button
                     type="submit"
                     id="prenota"
-                    class="btn btn-primary ms-auto"
+                    class="btn btn-primary"
                 >
                     Prenota
                 </button>

@@ -61,6 +61,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Controllers\RecentActivitesController;
 use App\Officina\Controllers\FiltersController;
 use App\Officina\Controllers\OilsController;
 use App\Officina\Controllers\PatentiController;
+use App\Officina\Controllers\ReservationCalendarController;
 use App\Officina\Controllers\ReservationsController;
 use App\Officina\Controllers\SearchableReservationsController;
 use App\Officina\Controllers\TiresController;
@@ -369,6 +370,7 @@ Route::prefix('agraria')->middleware('auth')->group(function () {
 
 Route::prefix('officina')->middleware('auth')->group(function () {
     Route::get('reservations-new', [ReservationsController::class, 'create'])->middleware('can:meccanica.veicolo.prenota')->name('officina.index');
+    Route::get('reservations-calendar', ReservationCalendarController::class)->middleware('can:meccanica.prenotazione.visualizza')->name('officina.calendario');
     Route::post('reservations', [ReservationsController::class, 'store'])->middleware('can:meccanica.prenotazione.inserisci')->name('officina.prenota');
     Route::delete('reservations/{id}', [ReservationsController::class, 'delete'])->middleware('can:meccanica.prenotazione.elimina')->name('officina.prenota.delete');
     Route::get('reservations/{id}', [ReservationsController::class, 'edit'])->middleware('can:meccanica.prenotazione.modifica')->name('officina.prenota.modifica');

@@ -70,6 +70,7 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
         $impiegoGrossetoId = Impiego::where('nome', 'Grosseto')->first()->id;
         $veicoloGrosseto = Veicolo::where('impiego_id', $impiegoGrossetoId)->first();
         $veicoloGrosseto2 = Veicolo::where('impiego_id', $impiegoGrossetoId)->skip(1)->first();
+        $veicoloGrosseto3 = Veicolo::where('impiego_id', $impiegoGrossetoId)->skip(3)->first();
 
         Prenotazioni::factory()
             ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
@@ -80,5 +81,22 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             ->prenotata(Carbon::now(), Carbon::now()->addHours(2))
             ->veicolo($veicoloGrosseto2)
             ->create();
+
+       Prenotazioni::factory()
+            ->prenotata(Carbon::now()->addHours(2),Carbon::now()->addHours(4))
+            ->veicolo($veicoloGrosseto2)
+            ->create();
+
+        Prenotazioni::factory()
+            ->prenotata(Carbon::now()->addHours(3), Carbon::now()->addHours(5))
+            ->veicolo($veicoloGrosseto3)
+            ->create();
+
+        // Multi-day reservation spanning yesterday to tomorrow
+        Prenotazioni::factory()
+            ->prenotata(Carbon::now()->subDay()->setHour(14), Carbon::now()->addDay()->setHour(10))
+            ->veicolo($veicoloGrosseto)
+            ->create();
+
     }
 }
