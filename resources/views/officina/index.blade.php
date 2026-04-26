@@ -31,6 +31,14 @@
             <a class="dropdown-item" href="{{ route("officina.ricerca") }}">
                 Ricerca prenotazioni
             </a>
+            <div class="dropdown-divider"></div>
+            <a
+                class="dropdown-item"
+                href="{{ route("officina.calendario") }}"
+                target="_blank"
+            >
+                Visualizza calendario
+            </a>
         </div>
     </li>
     <li class="nav-item dropdown">

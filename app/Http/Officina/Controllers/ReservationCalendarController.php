@@ -14,9 +14,13 @@ final class ReservationCalendarController
     public function __invoke(Request $request): View
     {
         $now = Date::now();
+        $date = $request->filled('date')
+            ? Date::parse($request->string('date')->toString())->startOfDay()
+            : $now;
+
         $reservations = Prenotazioni::query()
-            ->where('data_partenza', '=', $now->toDateString())
-            ->orWhere('data_arrivo', '=', $now->toDateString())
+            ->where('data_partenza', '=', $date->toDateString())
+            ->orWhere('data_arrivo', '=', $date->toDateString())
             ->with('veicolo', 'cliente')
             ->orderBy('data_partenza', 'asc')
             ->get();
@@ -54,6 +58,6 @@ final class ReservationCalendarController
             $reservationColors[$pren->id] = $hexColors[$index % count($hexColors)];
         }
 
-        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors', 'now'));
+        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors', 'now', 'date'));
     }
 }

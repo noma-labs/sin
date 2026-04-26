@@ -4,8 +4,28 @@
 
 @section("content")
     <div class="d-flex align-items-center justify-content-between my-3">
-        <h5 class="mb-0">{{ $now->isoFormat("dddd D MMMM YYYY") }}</h5>
-        <span class="text-muted">{{ $now->format("H:i") }}</span>
+        <h5 class="mb-0">{{ $date->isoFormat("dddd D MMMM YYYY") }}</h5>
+        <form
+            method="GET"
+            action="{{ route("officina.calendario") }}"
+            class="d-flex align-items-center gap-2"
+        >
+            <input
+                type="date"
+                name="date"
+                class="form-control form-control-sm"
+                value="{{ $date->toDateString() }}"
+            />
+            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                Vai
+            </button>
+            <a
+                href="{{ route("officina.calendario") }}"
+                class="btn btn-sm btn-outline-primary"
+            >
+                Oggi
+            </a>
+        </form>
     </div>
     <div class="card">
         <div class="card-body p-0">
