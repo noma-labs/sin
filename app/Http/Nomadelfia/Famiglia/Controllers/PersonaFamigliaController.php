@@ -7,9 +7,12 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class PersonaFamigliaController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index($id)
     {
         $persona = Persona::findOrFail($id);
@@ -22,6 +25,7 @@ final class PersonaFamigliaController
     /**
      * @return \Illuminate\Http\RedirectResponse
      */
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, string $id)
     {
         $request->validate([

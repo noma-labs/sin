@@ -8,9 +8,12 @@ use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class AziendeLavoratoreController
 {
+    #[Middleware('can:popolazione.persona.modifica')]
     public function store(Request $request, $id)
     {
         $request->validate([

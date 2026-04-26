@@ -6,9 +6,12 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class InternalNameController
 {
+    #[Middleware('can:popolazione.persona.modifica')]
     public function edit($id)
     {
         $persona = Persona::findOrFail($id);
@@ -16,6 +19,7 @@ final class InternalNameController
         return view('nomadelfia.persone.edit_nominativo', compact('persona'));
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -34,6 +38,7 @@ final class InternalNameController
 
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $id)
     {
         $request->validate([

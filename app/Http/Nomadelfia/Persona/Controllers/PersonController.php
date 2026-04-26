@@ -6,15 +6,19 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 use Illuminate\Support\Facades\DB;
 
+#[Middleware('auth')]
 final class PersonController
 {
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function create()
     {
         return view('nomadelfia.persone.anagrafica.create');
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request)
     {
         $request->validate([
@@ -51,6 +55,7 @@ final class PersonController
         return redirect(route('nomadelfia.join.create', $persona->id))->withSuccess("Dati anagrafici di $persona->nominativo inseriti correttamente.");
     }
 
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function show($id)
     {
         $persona = Persona::findOrFail($id);

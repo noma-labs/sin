@@ -6,9 +6,12 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class FamilyGruppofamiliareController
 {
+    #[Middleware('can:popolazione.persona.modifica')]
     public function store(Request $request, $id)
     {
         $request->validate([

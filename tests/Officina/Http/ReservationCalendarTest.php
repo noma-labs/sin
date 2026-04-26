@@ -1,6 +1,7 @@
 <?php
 
-use App\Officina\Models\Prenotazioni;
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Date;
 
 it('displays calendar page successfully', function () {
@@ -36,7 +37,6 @@ it('returns array structure for reservations by vehicle', function () {
     $reservationsByVehicle = $response->viewData('reservationsByVehicle');
     expect($reservationsByVehicle)->toBeArray();
 });
-
 
 it('passes current time to view', function () {
     $response = $this->get(route('officina.calendario'));

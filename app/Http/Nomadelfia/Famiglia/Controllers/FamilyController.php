@@ -6,9 +6,12 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class FamilyController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index()
     {
         $capifamiglieMaschio = Famiglia::onlyCapoFamiglia()->maschio();
@@ -23,6 +26,7 @@ final class FamilyController
             compact('capifamiglieMaschio', 'capifamiglieFemmina', 'singleMaschio', 'singleFemmine', 'famigliaError'));
     }
 
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function show(Request $request, $id)
     {
         $famiglia = Famiglia::findorfail($id);
@@ -33,6 +37,7 @@ final class FamilyController
         return view('nomadelfia.famiglie.show', compact('famiglia', 'componenti', 'gruppoAttuale', 'gruppiStorici'));
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $id)
     {
         $request->validate([

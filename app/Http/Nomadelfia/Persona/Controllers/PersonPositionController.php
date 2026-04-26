@@ -6,9 +6,12 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class PersonPositionController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index($id)
     {
         $persona = Persona::findOrFail($id);
@@ -18,6 +21,7 @@ final class PersonPositionController
         return view('nomadelfia.persone.posizione.show', compact('persona', 'posattuale', 'storico'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $id)
     {
         $request->validate([

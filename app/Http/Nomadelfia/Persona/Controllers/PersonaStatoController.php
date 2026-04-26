@@ -6,9 +6,12 @@ namespace App\Nomadelfia\Persona\Controllers;
 
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware;
 
+#[Middleware('auth')]
 final class PersonaStatoController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
@@ -16,6 +19,7 @@ final class PersonaStatoController
         return view('nomadelfia.persone.stato.show', compact('persona'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $idPersona)
     {
         $request->validate([
@@ -33,6 +37,7 @@ final class PersonaStatoController
             ->withSuccess("Stato assegnato a $persona->nominativo con successo");
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $id, $idStato)
     {
         $request->validate([
