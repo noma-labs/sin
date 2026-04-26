@@ -8,8 +8,9 @@ use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class IncarichiController
 {
     #[Middleware('can:popolazione.persona.visualizza')]

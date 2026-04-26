@@ -6,8 +6,10 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\ExportPopolazioneToWordAction;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\IOFactory;
 
+#[Middleware('auth')]
 final class PrintableWordPopolazioneController
 {
     public function __invoke(Request $request)

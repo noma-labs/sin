@@ -7,8 +7,9 @@ namespace App\Nomadelfia\Famiglia\Controllers;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class PersonaFamigliaController
 {
     #[Middleware('can:popolazione.persona.visualizza')]

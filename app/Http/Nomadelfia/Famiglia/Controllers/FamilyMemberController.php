@@ -8,8 +8,9 @@ use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class FamilyMemberController
 {
     #[Middleware('can:popolazione.persona.modifica')]

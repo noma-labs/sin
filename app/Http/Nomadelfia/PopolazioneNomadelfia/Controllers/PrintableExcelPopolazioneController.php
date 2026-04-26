@@ -8,8 +8,10 @@ use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
+#[Middleware('auth')]
 final class PrintableExcelPopolazioneController
 {
     public function __invoke(): StreamedResponse

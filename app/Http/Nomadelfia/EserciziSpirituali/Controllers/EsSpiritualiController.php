@@ -11,8 +11,10 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
+#[Middleware('auth')]
 final class EsSpiritualiController
 {
     public function index()

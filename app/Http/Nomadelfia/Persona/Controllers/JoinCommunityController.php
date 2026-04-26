@@ -15,7 +15,7 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaActi
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
 #[Middleware('auth')]
 final class JoinCommunityController

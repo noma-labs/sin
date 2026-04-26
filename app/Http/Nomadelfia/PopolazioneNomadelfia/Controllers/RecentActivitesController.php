@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 
 use App\Nomadelfia\AggiornamentoAnagrafe\Models\AggiornamentoAnagrafe;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class RecentActivitesController
 {
     #[Middleware('can:popolazione.visualizza')]

@@ -130,7 +130,7 @@ Route::prefix('admin')->group(function () {
     Route::get('logs', [LogsActivityController::class, 'index'])->name('logs.index');
 });
 
-Route::prefix('nomadelfia')->middleware('auth')->group(function () {
+Route::prefix('nomadelfia')->group(function () {
     Route::get('/', [PopolazioneSummaryController::class, 'index'])->name('nomadelfia.index');
 
     Route::get('people-new', [PersonController::class, 'create'])->name('nomadelfia.person.create');

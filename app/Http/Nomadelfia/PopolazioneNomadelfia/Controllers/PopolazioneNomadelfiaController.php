@@ -7,7 +7,7 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
 #[Middleware('auth')]
 #[Middleware('can:popolazione.visualizza')]

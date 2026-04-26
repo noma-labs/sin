@@ -9,12 +9,12 @@ use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneAttuale;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
-use Illuminate\Routing\Middleware;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
 #[Middleware('auth')]
 final class PopolazioneSummaryController
 {
-    #[Middleware('permission:popolazione.persona.visualizza')]
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index()
     {
         $totale = PopolazioneAttuale::query()->count();

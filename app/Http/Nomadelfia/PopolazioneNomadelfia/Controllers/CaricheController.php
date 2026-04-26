@@ -7,8 +7,10 @@ namespace App\Nomadelfia\PopolazioneNomadelfia\Controllers;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\Cariche;
 use Carbon;
 use PhpOffice\PhpWord\IOFactory;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\PhpWord;
 
+#[Middleware('auth')]
 final class CaricheController
 {
     /**
