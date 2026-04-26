@@ -22,6 +22,7 @@
                             $currentHour = $now->hour;
                             $currentMinute = $now->minute;
                         @endphp
+
                         @for ($hour = 6; $hour < 22; $hour++)
                             <tr
                                 class="border-bottom"
@@ -33,10 +34,27 @@
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
                                 </td>
                                 @foreach ($vehicles as $vehicle)
-                                    <td class="align-top" style="background-color: {{ $loop->even ? '#f8f9fa' : '#ffffff' }}; position: relative;">
+                                    <td
+                                        class="align-top"
+                                        style="
+                                            background-color: {{ $loop->even ? "#f8f9fa" : "#ffffff" }};
+                                            position: relative;
+                                        "
+                                    >
                                         @if ($hour === $currentHour)
-                                            <div style="position: absolute; left: 0; right: 0; height: 2px; background: #dc3545; z-index: 10; top: {{ round(($currentMinute / 60) * 100) }}%;"></div>
+                                            <div
+                                                style="
+                                                    position: absolute;
+                                                    left: 0;
+                                                    right: 0;
+                                                    height: 2px;
+                                                    background: #dc3545;
+                                                    z-index: 10;
+                                                    top: {{ round(($currentMinute / 60) * 100) }}%;
+                                                "
+                                            ></div>
                                         @endif
+
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             <div
                                                 class="text-white rounded mb-0 p-1"
