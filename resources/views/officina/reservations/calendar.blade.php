@@ -3,6 +3,10 @@
 @section("title", "Prenotazioni Calendario")
 
 @section("content")
+    <div class="d-flex align-items-center justify-content-between my-3">
+        <h5 class="mb-0">{{ $now->isoFormat('dddd D MMMM YYYY') }}</h5>
+        <span class="text-muted">{{ $now->format('H:i') }}</span>
+    </div>
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
