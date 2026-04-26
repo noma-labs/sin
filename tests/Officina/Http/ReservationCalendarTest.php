@@ -13,6 +13,8 @@ it('displays calendar page successfully', function () {
 });
 
 it('uses today date when no date parameter provided', function () {
+    login();
+
     $response = $this->get(route('officina.calendario'));
 
     $today = Date::now()->toDateString();
@@ -24,6 +26,8 @@ it('uses today date when no date parameter provided', function () {
 it('filters calendar by date query parameter', function () {
     $filterDate = '2026-04-15';
 
+    login();
+
     $response = $this->get(route('officina.calendario', ['date' => $filterDate]));
 
     $response->assertSuccessful();
@@ -33,6 +37,8 @@ it('filters calendar by date query parameter', function () {
 });
 
 it('returns array structure for reservations by vehicle', function () {
+    login();
+
     $response = $this->get(route('officina.calendario'));
 
     $reservationsByVehicle = $response->viewData('reservationsByVehicle');
@@ -40,6 +46,8 @@ it('returns array structure for reservations by vehicle', function () {
 });
 
 it('passes current time to view', function () {
+    login();
+
     $response = $this->get(route('officina.calendario'));
 
     $now = $response->viewData('now');
