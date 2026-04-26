@@ -29,9 +29,19 @@
     </div>
     <div class="card">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <div
+                class="table-responsive"
+                style="max-height: 600px; overflow-y: auto"
+            >
                 <table class="table table-sm table-bordered mb-0">
-                    <thead>
+                    <thead
+                        style="
+                            position: sticky;
+                            top: 0;
+                            z-index: 20;
+                            background: white;
+                        "
+                    >
                         <tr class="table-warning">
                             <th scope="col" class="text-nowrap">Ora</th>
                             @foreach ($vehicles as $vehicle)
