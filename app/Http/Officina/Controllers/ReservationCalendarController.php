@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Officina\Controllers;
+namespace App\Officina\Controllers;
+
 
 use App\Officina\Models\Prenotazioni;
 use Carbon\Carbon;
@@ -25,9 +26,9 @@ final class ReservationCalendarController
         $vehicles = $prenotazioni->pluck('veicolo')->unique('id');
 
         // Organize reservations by vehicle ID and hour
-        $reservations = [];
+        $reservationsByVehicle = [];
         foreach ($vehicles as $vehicle) {
-            $reservations[$vehicle->id] = array_fill(6, 16, []); // Hours 6-22
+            $reservationsByVehicle[$vehicle->id] = array_fill(6, 16, []); // Hours 6-22
         }
 
         foreach ($prenotazioni as $pren) {
@@ -36,7 +37,7 @@ final class ReservationCalendarController
 
             // For reservations that span multiple hours, place in the hour it starts
             for ($hour = $startHour; $hour < $endHour && $hour < 22; $hour++) {
-                $reservations[$pren->veicolo_id][$hour][] = $pren;
+                $reservationsByVehicle[$pren->veicolo_id][$hour][] = $pren;
             }
         }
 
@@ -49,6 +50,6 @@ final class ReservationCalendarController
             }
         }
 
-        return view('officina.reservations.calendar', compact('vehicles', 'reservations', 'clientColors'));
+        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'clientColors'));
     }
 }
