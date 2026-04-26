@@ -6,13 +6,13 @@
     <div class="card">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-sm mb-0">
+                <table class="table table-sm table-bordered mb-0">
                     <thead>
                         <tr class="table-warning">
                             <th scope="col" class="text-nowrap">Ora</th>
                             @foreach ($vehicles as $vehicle)
                                 <th scope="col" class="text-center text-nowrap">
-                                    <small>{{ $vehicle->nome }}</small>
+                                    {{ $vehicle->nome }}
                                 </th>
                             @endforeach
                         </tr>
@@ -34,7 +34,7 @@
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
                                 </td>
                                 @foreach ($vehicles as $vehicle)
-                                    <td class="align-top">
+                                    <td class="align-top" style="background-color: {{ $loop->even ? '#f8f9fa' : '#ffffff' }};">
                                         @if ($hour === $currentHour)
                                             {{-- Current time marker line, positioned by JS --}}
                                             <div
