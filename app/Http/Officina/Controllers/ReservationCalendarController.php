@@ -54,6 +54,6 @@ final class ReservationCalendarController
             $reservationColors[$pren->id] = $hexColors[$index % count($hexColors)];
         }
 
-        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors'));
+        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors', 'now'));
     }
 }

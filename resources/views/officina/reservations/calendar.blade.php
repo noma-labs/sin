@@ -19,14 +19,13 @@
                     </thead>
                     <tbody>
                         @php
-                            $currentHour = now()->hour;
-                            $currentMinute = now()->minute;
+                            $currentHour = $now->hour;
+                            $currentMinute = $now->minute;
                         @endphp
-
                         @for ($hour = 6; $hour < 22; $hour++)
                             <tr
                                 class="border-bottom"
-                                @if($hour === $currentHour) id="current-hour-row" @endif
+                                @if ($hour === $currentHour) id="current-hour-row" @endif
                             >
                                 <td
                                     class="text-muted fw-semibold align-top text-nowrap small"
@@ -34,23 +33,10 @@
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
                                 </td>
                                 @foreach ($vehicles as $vehicle)
-                                    <td class="align-top" style="background-color: {{ $loop->even ? '#f8f9fa' : '#ffffff' }};">
+                                    <td class="align-top" style="background-color: {{ $loop->even ? '#f8f9fa' : '#ffffff' }}; position: relative;">
                                         @if ($hour === $currentHour)
-                                            {{-- Current time marker line, positioned by JS --}}
-                                            <div
-                                                class="current-time-line"
-                                                style="
-                                                    position: absolute;
-                                                    left: 0;
-                                                    right: 0;
-                                                    height: 2px;
-                                                    background: #dc3545;
-                                                    z-index: 10;
-                                                    top: {{ round(($currentMinute / 60) * 100) }}%;
-                                                "
-                                            ></div>
+                                            <div style="position: absolute; left: 0; right: 0; height: 2px; background: #dc3545; z-index: 10; top: {{ round(($currentMinute / 60) * 100) }}%;"></div>
                                         @endif
-
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             <div
                                                 class="text-white rounded mb-0 p-1"
@@ -77,7 +63,6 @@
     </div>
 
     <script>
-        // Scroll the page so the current hour row is near the top on load
         const row = document.getElementById('current-hour-row');
         if (row) {
             row.scrollIntoView({ behavior: 'smooth', block: 'center' });
