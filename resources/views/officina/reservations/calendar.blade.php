@@ -35,17 +35,7 @@
                                 </td>
                                 @foreach ($vehicles as $vehicle)
                                     <td
-                                        class="align-top p-1 p-sm-2"
-                                        style="
-                                            min-height: 50px;
-                                            vertical-align: top;
-                                            position: relative;
-                                            font-size: clamp(
-                                                0.65rem,
-                                                1vw,
-                                                0.85rem
-                                            );
-                                        "
+                                        class="align-top"
                                     >
                                         @if ($hour === $currentHour)
                                             {{-- Current time marker line, positioned by JS --}}
@@ -65,25 +55,11 @@
 
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             <div
-                                                class="text-white p-1 p-sm-2 rounded mb-1"
-                                                style="
-                                                    background-color: {{ $reservationColors[$pren->id] }};
-                                                "
+                                                class="text-white rounded mb-0 p-1"
+                                                style="background-color: {{ $reservationColors[$pren->id] }};"
                                             >
-                                                <div class="fw-semibold mb-1">
-                                                    {{ $pren->cliente->nominativo }}
-                                                </div>
-                                                <div
-                                                    class="mb-1 d-none d-sm-block"
-                                                >
-                                                    {{ $pren->ora_partenza }} -
-                                                    {{ $pren->ora_arrivo }}
-                                                </div>
-                                                <div class="d-sm-none">
-                                                    <small>
-                                                        {{ substr($pren->ora_partenza, 0, 5) }}
-                                                    </small>
-                                                </div>
+                                                <div class="fw-semibold">{{ $pren->cliente->nominativo }}</div>
+                                                <div class="opacity-75">{{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}</div>
                                             </div>
                                         @endforeach
                                     </td>

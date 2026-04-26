@@ -38,16 +38,15 @@ final class ReservationCalendarController
             }
         }
 
-        // Create color mapping for each reservation
         $hexColors = [
-            '#0d6efd', // blue
-            '#198754', // green
-            '#dc3545', // red
-            '#ffc107', // yellow
-            '#0dcaf0', // cyan
-            '#6c757d', // gray
-            '#fd7e14', // orange
-            '#e83e8c', // pink
+            '#5b8dee', // muted blue
+            '#3da37a', // muted green
+            '#e06b74', // muted red
+            '#c9972b', // muted amber
+            '#3aabbd', // muted teal
+            '#8b7fb8', // muted purple
+            '#c97b3a', // muted orange
+            '#b55e8e', // muted pink
         ];
 
         $reservationColors = [];

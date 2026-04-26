@@ -145,6 +145,7 @@
                 <a
                     href="{{ route("officina.calendario") }}"
                     class="btn btn-outline-primary"
+                    target="_blank"
                 >
                     📅 Calendario
                 </a>
