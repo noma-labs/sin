@@ -5,8 +5,9 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Date;
 
 it('displays calendar page successfully', function () {
-    $response = $this->get(route('officina.calendario'));
+    login();
 
+    $response = $this->get(route('officina.calendario'));
     $response->assertSuccessful();
     $response->assertViewIs('officina.reservations.calendar');
 });
