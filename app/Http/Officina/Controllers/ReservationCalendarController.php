@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Officina\Controllers;
 
-
 use App\Officina\Models\Prenotazioni;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -16,24 +14,23 @@ final class ReservationCalendarController
     public function __invoke(Request $request): View
     {
         $now = Date::now();
-        $prenotazioni = Prenotazioni::query()
+        $reservations = Prenotazioni::query()
             ->where('data_partenza', '=', $now->toDateString())
             ->orWhere('data_arrivo', '=', $now->toDateString())
             ->with('veicolo', 'cliente')
             ->orderBy('data_partenza', 'asc')
             ->get();
 
-        $vehicles = $prenotazioni->pluck('veicolo')->unique('id');
+        $vehicles = $reservations->pluck('veicolo')->unique('id');
 
-        // Organize reservations by vehicle ID and hour
         $reservationsByVehicle = [];
         foreach ($vehicles as $vehicle) {
             $reservationsByVehicle[$vehicle->id] = array_fill(6, 16, []); // Hours 6-22
         }
 
-        foreach ($prenotazioni as $pren) {
-            $startHour = (int) substr($pren->ora_partenza, 0, 2);
-            $endHour = (int) substr($pren->ora_arrivo, 0, 2);
+        foreach ($reservations as $pren) {
+            $startHour = Date::parse($pren->ora_partenza)->hour;
+            $endHour = Date::parse($pren->ora_arrivo)->hour;
 
             // For reservations that span multiple hours, place in the hour it starts
             for ($hour = $startHour; $hour < $endHour && $hour < 22; $hour++) {
@@ -41,15 +38,23 @@ final class ReservationCalendarController
             }
         }
 
-        // Create color mapping for clients
-        $colors = ['primary', 'success', 'danger', 'warning', 'info', 'secondary'];
-        $clientColors = [];
-        foreach ($prenotazioni as $pren) {
-            if (! isset($clientColors[$pren->cliente_id])) {
-                $clientColors[$pren->cliente_id] = $colors[count($clientColors) % count($colors)];
-            }
+        // Create color mapping for each reservation
+        $hexColors = [
+            '#0d6efd', // blue
+            '#198754', // green
+            '#dc3545', // red
+            '#ffc107', // yellow
+            '#0dcaf0', // cyan
+            '#6c757d', // gray
+            '#fd7e14', // orange
+            '#e83e8c', // pink
+        ];
+
+        $reservationColors = [];
+        foreach ($reservations as $index => $pren) {
+            $reservationColors[$pren->id] = $hexColors[$index % count($hexColors)];
         }
 
-        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'clientColors'));
+        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors'));
     }
 }

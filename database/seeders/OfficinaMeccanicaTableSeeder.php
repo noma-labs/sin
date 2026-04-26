@@ -82,8 +82,8 @@ final class OfficinaMeccanicaTableSeeder extends Seeder
             ->veicolo($veicoloGrosseto2)
             ->create();
 
-       Prenotazioni::factory()
-            ->prenotata(Carbon::now()->addHours(2),Carbon::now()->addHours(4))
+        Prenotazioni::factory()
+            ->prenotata(Carbon::now()->addHours(2), Carbon::now()->addHours(4))
             ->veicolo($veicoloGrosseto2)
             ->create();
 
