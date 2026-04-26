@@ -7,11 +7,11 @@ namespace App\Nomadelfia\EserciziSpirituali\Controllers;
 use App\Nomadelfia\EserciziSpirituali\Models\EserciziSpirituali;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\SimpleType\TextAlignment;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use PhpOffice\PhpWord\SimpleType\VerticalJc;
 
 #[Middleware('auth')]
