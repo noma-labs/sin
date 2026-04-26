@@ -10,7 +10,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\ChangeGruppoFamiliareAction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class MovePersonGruppoFamiliareController
 {
     #[Middleware('can:popolazione.persona.inserisci')]

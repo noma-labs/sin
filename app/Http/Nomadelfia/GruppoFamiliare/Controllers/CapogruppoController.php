@@ -6,9 +6,7 @@ namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class CapogruppoController
 {
     public function store(Request $request, $id)

@@ -7,7 +7,6 @@ namespace App\Nomadelfia\GruppoFamiliare\Controllers;
 use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class GruppofamiliareController
 {
     #[Middleware('can:popolazione.persona.visualizza')]

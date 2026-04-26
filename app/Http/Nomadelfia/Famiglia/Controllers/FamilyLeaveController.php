@@ -9,7 +9,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaFamigliaAction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class FamilyLeaveController
 {
     #[Middleware('can:popolazione.persona.modifica')]

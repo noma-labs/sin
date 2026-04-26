@@ -14,7 +14,7 @@ use Illuminate\Routing\Middleware;
 #[Middleware('auth')]
 final class PopolazioneSummaryController
 {
-    #[Middleware('can:popolazione.persona.visualizza')]
+    #[Middleware('permission:popolazione.persona.visualizza')]
     public function index()
     {
         $totale = PopolazioneAttuale::query()->count();

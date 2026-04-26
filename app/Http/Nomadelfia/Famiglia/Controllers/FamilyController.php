@@ -8,7 +8,6 @@ use App\Nomadelfia\Famiglia\Models\Famiglia;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class FamilyController
 {
     #[Middleware('can:popolazione.persona.visualizza')]

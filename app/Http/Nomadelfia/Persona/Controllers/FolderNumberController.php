@@ -9,7 +9,6 @@ use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class FolderNumberController
 {
     #[Middleware('can:popolazione.persona.inserisci')]

@@ -10,7 +10,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class FamilyMemberController
 {
     #[Middleware('can:popolazione.persona.modifica')]

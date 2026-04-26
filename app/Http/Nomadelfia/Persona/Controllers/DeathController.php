@@ -9,7 +9,6 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\DecessoPersonaAction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class DeathController
 {
     #[Middleware('can:popolazione.persona.modifica')]

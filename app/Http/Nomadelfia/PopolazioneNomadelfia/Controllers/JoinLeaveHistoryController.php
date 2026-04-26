@@ -8,7 +8,6 @@ use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class JoinLeaveHistoryController
 {
     #[Middleware('can:popolazione.persona.visualizza')]

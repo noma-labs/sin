@@ -8,7 +8,6 @@ use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware;
 
-#[Middleware('auth')]
 final class InternalNameController
 {
     #[Middleware('can:popolazione.persona.modifica')]
