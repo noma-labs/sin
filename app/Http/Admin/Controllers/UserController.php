@@ -6,10 +6,8 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Spatie\Permission\Models\Role;
 
-#[Middleware('role:super-admin')]
 final class UserController
 {
     public function index()

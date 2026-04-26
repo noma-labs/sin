@@ -110,7 +110,7 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->middleware('gues
 Route::post('login', [LoginController::class, 'login'])->middleware('guest');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:super-admin')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::get('users-new', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
