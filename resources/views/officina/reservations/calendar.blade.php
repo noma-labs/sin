@@ -34,9 +34,7 @@
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
                                 </td>
                                 @foreach ($vehicles as $vehicle)
-                                    <td
-                                        class="align-top"
-                                    >
+                                    <td class="align-top">
                                         @if ($hour === $currentHour)
                                             {{-- Current time marker line, positioned by JS --}}
                                             <div
@@ -56,10 +54,16 @@
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             <div
                                                 class="text-white rounded mb-0 p-1"
-                                                style="background-color: {{ $reservationColors[$pren->id] }};"
+                                                style="
+                                                    background-color: {{ $reservationColors[$pren->id] }};
+                                                "
                                             >
-                                                <div class="fw-semibold">{{ $pren->cliente->nominativo }}</div>
-                                                <div class="opacity-75">{{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}</div>
+                                                <div class="fw-semibold">
+                                                    {{ $pren->cliente->nominativo }}
+                                                </div>
+                                                <div class="opacity-75">
+                                                    {{ substr($pren->ora_partenza, 0, 5) }}-{{ substr($pren->ora_arrivo, 0, 5) }}
+                                                </div>
                                             </div>
                                         @endforeach
                                     </td>
