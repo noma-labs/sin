@@ -15,7 +15,7 @@ final class ReservationCalendarController
     {
         $now = Date::now();
         $date = $request->filled('date')
-            ? Date::parse($request->input('date'))->startOfDay()
+            ? Date::parse($request->string('date')->toString())->startOfDay()
             : $now;
 
         $reservations = Prenotazioni::query()
