@@ -60,10 +60,10 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        if (session('alerts_shown_today') === now()->toDateString()) {
-            $allScadute = collect();
-            $allInScadenza = collect();
-        } else {
+        $allScadute = collect();
+        $allInScadenza = collect();
+
+        if (session('alerts_shown_today') !== now()->toDateString()) {
             $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
             $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
 
