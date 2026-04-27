@@ -60,7 +60,6 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        // Check if alerts were already shown today
         if (session('alerts_shown_today') === now()->toDateString()) {
             $allScadute = collect();
             $allInScadenza = collect();
@@ -76,7 +75,6 @@ final class ReservationsController
             $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
             $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
 
-            // Mark alerts as shown today
             session(['alerts_shown_today' => now()->toDateString()]);
         }
 
