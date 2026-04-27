@@ -8,9 +8,12 @@ use App\Nomadelfia\Azienda\Models\Azienda;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaAziendaAction;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class PersonaAziendeController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index($idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
@@ -18,6 +21,7 @@ final class PersonaAziendeController
         return view('nomadelfia.persone.aziende.show', compact('persona'));
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function store(Request $request, $idPersona)
     {
         $request->validate([
@@ -51,6 +55,7 @@ final class PersonaAziendeController
         return back()->withError("La mansione $request->mansione non riconosciuta.");
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $idPersona, $id)
     {
         $request->validate([

@@ -15,9 +15,12 @@ use App\Nomadelfia\PopolazioneNomadelfia\Actions\EntrataMinorenneConFamigliaActi
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use App\Nomadelfia\PopolazioneNomadelfia\Requests\EntrataPersonaRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class JoinCommunityController
 {
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function create($id)
     {
         $persona = Persona::findOrFail($id);
@@ -25,6 +28,7 @@ final class JoinCommunityController
         return view('nomadelfia.persone.popolazione.create', compact('persona'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(EntrataPersonaRequest $request, $id)
     {
         $request->validated();
@@ -66,6 +70,7 @@ final class JoinCommunityController
         return to_route('nomadelfia.person.show', $persona->id)->withSuccess('Persona '.$persona->nominativo.'inserita correttamente.');
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $id, $entrata)
     {
         $request->validate([

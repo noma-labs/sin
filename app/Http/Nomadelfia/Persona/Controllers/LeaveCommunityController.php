@@ -8,9 +8,12 @@ use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\UscitaPersonaAction;
 use App\Nomadelfia\PopolazioneNomadelfia\Models\PopolazioneNomadelfia;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class LeaveCommunityController
 {
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -29,6 +32,7 @@ final class LeaveCommunityController
 
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $idPersona, $uscita)
     {
         $request->validate([

@@ -8,9 +8,12 @@ use App\Nomadelfia\Famiglia\Actions\CreateMarriageAction;
 use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class MarriageController
 {
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function create()
     {
         $singleMale = Famiglia::notAlreadyMarried()->male()->maggiorenni()->get();
@@ -19,6 +22,7 @@ final class MarriageController
         return view('nomadelfia.famiglie.create', compact('singleMale', 'singleFemale'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request)
     {
         $request->validate([

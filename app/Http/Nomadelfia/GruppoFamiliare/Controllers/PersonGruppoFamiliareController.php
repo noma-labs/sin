@@ -8,10 +8,13 @@ use App\Nomadelfia\GruppoFamiliare\Models\GruppoFamiliare;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaGruppoFamiliareAction;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
+#[Middleware('auth')]
 final class PersonGruppoFamiliareController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function index(Request $request, $idPersona)
     {
         $persona = Persona::findOrFail($idPersona);
@@ -51,6 +54,7 @@ final class PersonGruppoFamiliareController
         return back()->withError('Impossibile aggiornare la data di inizio del gruppo familiare.');
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $idPersona)
     {
         $request->validate([

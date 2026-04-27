@@ -8,9 +8,12 @@ use App\Nomadelfia\Famiglia\Models\Famiglia;
 use App\Nomadelfia\Persona\Models\Persona;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class FamilyMemberController
 {
+    #[Middleware('can:popolazione.persona.modifica')]
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -47,6 +50,7 @@ final class FamilyMemberController
             ['id' => $id]))->withSuccess("$persona->nominativo aggiunto alla famiglia $famiglia->nome_famiglia con successo");
     }
 
+    #[Middleware('can:popolazione.persona.modifica')]
     public function update(Request $request, $id)
     {
         $request->validate([

@@ -7,9 +7,12 @@ namespace App\Nomadelfia\Persona\Controllers;
 use App\Nomadelfia\Persona\Actions\ProposeNumeroElencoAction;
 use App\Nomadelfia\Persona\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class FolderNumberController
 {
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function create($id)
     {
         $persona = Persona::findOrFail($id);
@@ -22,6 +25,7 @@ final class FolderNumberController
         return view('nomadelfia.persone.edit_numero_elenco', compact('persona', 'first', 'assegnati', 'propose'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function store(Request $request, $id)
     {
         $request->validate([

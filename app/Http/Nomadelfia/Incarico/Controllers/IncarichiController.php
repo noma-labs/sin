@@ -8,9 +8,12 @@ use App\Nomadelfia\Incarico\Models\Incarico;
 use App\Nomadelfia\Persona\Models\Persona;
 use App\Nomadelfia\PopolazioneNomadelfia\Actions\AssegnaIncaricoAction;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
+#[Middleware('auth')]
 final class IncarichiController
 {
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function view()
     {
         $incarichi = Incarico::all();
@@ -20,6 +23,7 @@ final class IncarichiController
         return view('nomadelfia.incarichi.index', compact('incarichi', 'busy', 'min'));
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function delete($id)
     {
         Incarico::destroy($id);
@@ -27,6 +31,7 @@ final class IncarichiController
         return back()->withSuccess('Incarico cancellato con successo.');
     }
 
+    #[Middleware('can:popolazione.persona.visualizza')]
     public function edit($id)
     {
         $incarico = Incarico::findOrFail($id);
@@ -37,6 +42,7 @@ final class IncarichiController
 
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function assegnaPersona(Request $request, $id)
     {
         $request->validate([
@@ -53,6 +59,7 @@ final class IncarichiController
         return back()->withSuccess("Persona $persona->nominativo  aggiunto a {$incarico->nome} con successo.");
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function eliminaPersona(Request $request, $id, $idPersona)
     {
         $incarico = Incarico::findOrFail($id);
@@ -61,6 +68,7 @@ final class IncarichiController
         return back()->withSuccess("Persona rimossa dall'incarico {$incarico->nome} con successo.");
     }
 
+    #[Middleware('can:popolazione.persona.inserisci')]
     public function insert(Request $request)
     {
         $request->validate([
