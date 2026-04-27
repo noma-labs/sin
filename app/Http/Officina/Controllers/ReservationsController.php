@@ -60,16 +60,25 @@ final class ReservationsController
             ->orderBy('ora_arrivo', 'asc')
             ->get();
 
-        $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
-        $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
+        // Check if alerts were already shown today
+        if (session('alerts_shown_today') === now()->toDateString()) {
+            $allScadute = collect();
+            $allInScadenza = collect();
+        } else {
+            $patentiScadute = Patente::with('persona')->Scadute()->orderBy('data_scadenza_patente', 'asc')->get();
+            $patentiInScadenza = Patente::with('persona')->InScadenza(config('patente.scadenze.patenti.inscadenza'))->orderBy('data_scadenza_patente', 'asc')->get();
 
-        $cqcPersoneScadute = CQC::query()->CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcPersoneInScadenza = CQC::query()->CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcMerciScadute = CQC::query()->CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
-        $cqcMerciInScadenza = CQC::query()->CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+            $cqcPersoneScadute = CQC::query()->CQCPersone()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+            $cqcPersoneInScadenza = CQC::query()->CQCPersone()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
+            $cqcMerciScadute = CQC::query()->CQCMerci()->scadute()->with('persona')->orderBy('data_scadenza', 'asc')->get();
+            $cqcMerciInScadenza = CQC::query()->CQCMerci()->inScadenza(config('patente.scadenze.cqc.inscadenza'))->with('persona')->orderBy('data_scadenza', 'asc')->get();
 
-        $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
-        $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
+            $allScadute = $this->buildCertificatesList($patentiScadute, $cqcPersoneScadute, $cqcMerciScadute);
+            $allInScadenza = $this->buildCertificatesList($patentiInScadenza, $cqcPersoneInScadenza, $cqcMerciInScadenza);
+
+            // Mark alerts as shown today
+            session(['alerts_shown_today' => now()->toDateString()]);
+        }
 
         return view('officina.reservations.create', compact('clienti',
             'usi',
