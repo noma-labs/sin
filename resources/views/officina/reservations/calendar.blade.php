@@ -3,7 +3,7 @@
 @section("title", "Prenotazioni Calendario")
 
 @section("content")
-    <div class="d-flex align-items-center justify-content-between my-3">
+    <div class="d-flex align-items-center justify-content-between my-1">
         <h5 class="mb-0">{{ $date->isoFormat("dddd D MMMM YYYY") }}</h5>
         <form
             method="GET"
@@ -31,7 +31,7 @@
         <div class="card-body p-0">
             <div
                 class="table-responsive"
-                style="max-height: 600px; overflow-y: auto"
+                style="height: calc(100vh - 130px); overflow-y: auto"
             >
                 <table class="table table-sm table-bordered mb-0">
                     <thead
@@ -57,7 +57,7 @@
                             $currentMinute = $now->minute;
                         @endphp
 
-                        @for ($hour = 6; $hour < 22; $hour++)
+                        @for ($hour = 0; $hour < 24; $hour++)
                             <tr
                                 class="border-bottom"
                                 @if ($hour === $currentHour) id="current-hour-row" @endif
@@ -119,5 +119,7 @@
         if (row) {
             row.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+
+        setTimeout(() => location.reload(), 1000 * 60);
     </script>
 @endsection
