@@ -60,12 +60,41 @@
                         @for ($hour = 0; $hour < 24; $hour++)
                             <tr
                                 class="border-bottom"
+                                style="height: 60px"
                                 @if ($hour === $currentHour) id="current-hour-row" @endif
                             >
                                 <td
                                     class="text-muted fw-semibold align-top text-nowrap small"
+                                    style="position: relative"
                                 >
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
+                                    @if ($hour === $currentHour)
+                                        <div
+                                            style="
+                                                position: absolute;
+                                                left: 0;
+                                                right: 0;
+                                                height: 2px;
+                                                background: #dc3545;
+                                                z-index: 10;
+                                                top: {{ round(($currentMinute / 60) * 100) }}%;
+                                            "
+                                        >
+                                            <span
+                                                style="
+                                                    position: absolute;
+                                                    right: 0;
+                                                    top: 2px;
+                                                    font-size: 0.65rem;
+                                                    color: #dc3545;
+                                                    line-height: 1;
+                                                    font-weight: 600;
+                                                "
+                                            >
+                                                {{ $now->format("H:i") }}
+                                            </span>
+                                        </div>
+                                    @endif
                                 </td>
                                 @foreach ($vehicles as $vehicle)
                                     <td
@@ -90,10 +119,29 @@
                                         @endif
 
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
+                                            @php
+                                                $sParts = explode(":", $pren->ora_partenza);
+                                                $eParts = explode(":", $pren->ora_arrivo);
+                                                $sMin = (int) ($sParts[1] ?? 0);
+                                                $eH = (int) $eParts[0];
+                                                $sH = (int) $sParts[0];
+                                                $eMin = (int) ($eParts[1] ?? 0);
+                                                $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
+                                                $boxHeight = max(20, ($durationMin / 60) * 60);
+                                                $boxTop = ($sMin / 60) * 60;
+                                            @endphp
+
                                             <div
-                                                class="text-white rounded mb-0 p-1"
+                                                class="text-white rounded p-1"
                                                 style="
                                                     background-color: {{ $reservationColors[$pren->id] }};
+                                                    position: absolute;
+                                                    top: {{ $boxTop }}px;
+                                                    height: {{ $boxHeight }}px;
+                                                    left: 2px;
+                                                    right: 2px;
+                                                    z-index: 5;
+                                                    overflow: hidden;
                                                 "
                                             >
                                                 <div class="fw-semibold">

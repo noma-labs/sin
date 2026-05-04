@@ -29,17 +29,12 @@ final class ReservationCalendarController
 
         $reservationsByVehicle = [];
         foreach ($vehicles as $vehicle) {
-            $reservationsByVehicle[$vehicle->id] = array_fill(6, 16, []); // Hours 6-22
+            $reservationsByVehicle[$vehicle->id] = array_fill(0, 24, []); // Hours 0-23
         }
 
         foreach ($reservations as $pren) {
             $startHour = Date::parse($pren->ora_partenza)->hour;
-            $endHour = Date::parse($pren->ora_arrivo)->hour;
-
-            // For reservations that span multiple hours, place in the hour it starts
-            for ($hour = $startHour; $hour < $endHour && $hour < 22; $hour++) {
-                $reservationsByVehicle[$pren->veicolo_id][$hour][] = $pren;
-            }
+            $reservationsByVehicle[$pren->veicolo_id][$startHour][] = $pren;
         }
 
         $hexColors = [
@@ -51,6 +46,18 @@ final class ReservationCalendarController
             '#8b7fb8', // muted purple
             '#c97b3a', // muted orange
             '#b55e8e', // muted pink
+            '#4e9a6f', // forest green
+            '#d46a3a', // burnt sienna
+            '#5c7fc4', // slate blue
+            '#a05c9e', // mauve
+            '#2e8f8f', // dark cyan
+            '#c45c5c', // dusty rose
+            '#7d9c3a', // olive green
+            '#e08c3a', // warm orange
+            '#5a7abf', // periwinkle
+            '#3d8c7a', // sea green
+            '#b07a30', // golden brown
+            '#9c5c7a', // plum
         ];
 
         $reservationColors = [];
