@@ -65,7 +65,7 @@
                             >
                                 <td
                                     class="text-muted fw-semibold align-top text-nowrap small"
-                                    style="position: relative;"
+                                    style="position: relative"
                                 >
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
                                     @if ($hour === $currentHour)
@@ -120,16 +120,17 @@
 
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             @php
-                                                $sParts = explode(':', $pren->ora_partenza);
-                                                $eParts = explode(':', $pren->ora_arrivo);
-                                                $sMin = (int)($sParts[1] ?? 0);
-                                                $eH = (int)$eParts[0];
-                                                $sH = (int)$sParts[0];
-                                                $eMin = (int)($eParts[1] ?? 0);
+                                                $sParts = explode(":", $pren->ora_partenza);
+                                                $eParts = explode(":", $pren->ora_arrivo);
+                                                $sMin = (int) ($sParts[1] ?? 0);
+                                                $eH = (int) $eParts[0];
+                                                $sH = (int) $sParts[0];
+                                                $eMin = (int) ($eParts[1] ?? 0);
                                                 $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
                                                 $boxHeight = max(20, ($durationMin / 60) * 60);
                                                 $boxTop = ($sMin / 60) * 60;
                                             @endphp
+
                                             <div
                                                 class="text-white rounded p-1"
                                                 style="
