@@ -29,15 +29,15 @@ final class ReservationCalendarController
 
         $reservationsByVehicle = [];
         foreach ($vehicles as $vehicle) {
-            $reservationsByVehicle[$vehicle->id] = array_fill(6, 16, []); // Hours 6-22
+            $reservationsByVehicle[$vehicle->id] = array_fill(0, 24, []); // Hours 0-23
         }
 
         foreach ($reservations as $pren) {
             $startHour = Date::parse($pren->ora_partenza)->hour;
             $endHour = Date::parse($pren->ora_arrivo)->hour;
 
-            // For reservations that span multiple hours, place in the hour it starts
-            for ($hour = $startHour; $hour < $endHour && $hour < 22; $hour++) {
+            // For reservations that span multiple hours, place in each hour it covers
+            for ($hour = $startHour; $hour <= $endHour && $hour < 24; $hour++) {
                 $reservationsByVehicle[$pren->veicolo_id][$hour][] = $pren;
             }
         }

@@ -64,8 +64,36 @@
                             >
                                 <td
                                     class="text-muted fw-semibold align-top text-nowrap small"
+                                    style="position: relative;"
                                 >
                                     {{ str_pad($hour, 2, "0", STR_PAD_LEFT) }}:00
+                                    @if ($hour === $currentHour)
+                                        <div
+                                            style="
+                                                position: absolute;
+                                                left: 0;
+                                                right: 0;
+                                                height: 2px;
+                                                background: #dc3545;
+                                                z-index: 10;
+                                                top: {{ round(($currentMinute / 60) * 100) }}%;
+                                            "
+                                        >
+                                            <span
+                                                style="
+                                                    position: absolute;
+                                                    right: 0;
+                                                    top: 2px;
+                                                    font-size: 0.65rem;
+                                                    color: #dc3545;
+                                                    line-height: 1;
+                                                    font-weight: 600;
+                                                "
+                                            >
+                                                {{ $now->format("H:i") }}
+                                            </span>
+                                        </div>
+                                    @endif
                                 </td>
                                 @foreach ($vehicles as $vehicle)
                                     <td
