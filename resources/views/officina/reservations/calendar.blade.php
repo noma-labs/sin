@@ -120,12 +120,37 @@
 
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
                                             @php
+                                                $info = $multiDayInfo[$pren->id];
+                                                // Only show if it starts today or ends today
+                                                if (! ($info["startsToday"] || $info["endsToday"])) {
+                                                    continue;
+                                                }
+                                            @endphp
+
+                                            @php
                                                 $sParts = explode(":", $pren->ora_partenza);
                                                 $eParts = explode(":", $pren->ora_arrivo);
                                                 $sMin = (int) ($sParts[1] ?? 0);
-                                                $eH = (int) $eParts[0];
                                                 $sH = (int) $sParts[0];
                                                 $eMin = (int) ($eParts[1] ?? 0);
+                                                $eH = (int) $eParts[0];
+
+                                                // If multi-day and starts today, extend to 24:00
+                                                if ($info["isMultiDay"] && $info["startsToday"] && ! $info["endsToday"]) {
+                                                    $eH = 24;
+                                                    $eMin = 0;
+                                                }
+                                                // If multi-day and doesn't start today, show from 00:00
+                                                elseif ($info["isMultiDay"] && ! $info["startsToday"]) {
+                                                    $sH = 0;
+                                                    $sMin = 0;
+                                                    // If ends today, use arrival time; otherwise 24:00
+                                                    if (! $info["endsToday"]) {
+                                                        $eH = 24;
+                                                        $eMin = 0;
+                                                    }
+                                                }
+
                                                 $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
                                                 $boxHeight = max(20, ($durationMin / 60) * 60);
                                                 $boxTop = ($sMin / 60) * 60;
