@@ -34,12 +34,7 @@ final class ReservationCalendarController
 
         foreach ($reservations as $pren) {
             $startHour = Date::parse($pren->ora_partenza)->hour;
-            $endHour = Date::parse($pren->ora_arrivo)->hour;
-
-            // For reservations that span multiple hours, place in each hour it covers
-            for ($hour = $startHour; $hour <= $endHour && $hour < 24; $hour++) {
-                $reservationsByVehicle[$pren->veicolo_id][$hour][] = $pren;
-            }
+            $reservationsByVehicle[$pren->veicolo_id][$startHour][] = $pren;
         }
 
         $hexColors = [

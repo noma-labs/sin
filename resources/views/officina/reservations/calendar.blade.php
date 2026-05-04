@@ -60,6 +60,7 @@
                         @for ($hour = 0; $hour < 24; $hour++)
                             <tr
                                 class="border-bottom"
+                                style="height: 60px"
                                 @if ($hour === $currentHour) id="current-hour-row" @endif
                             >
                                 <td
@@ -118,10 +119,28 @@
                                         @endif
 
                                         @foreach ($reservationsByVehicle[$vehicle->id][$hour] ?? [] as $pren)
+                                            @php
+                                                $sParts = explode(':', $pren->ora_partenza);
+                                                $eParts = explode(':', $pren->ora_arrivo);
+                                                $sMin = (int)($sParts[1] ?? 0);
+                                                $eH = (int)$eParts[0];
+                                                $sH = (int)$sParts[0];
+                                                $eMin = (int)($eParts[1] ?? 0);
+                                                $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
+                                                $boxHeight = max(20, ($durationMin / 60) * 60);
+                                                $boxTop = ($sMin / 60) * 60;
+                                            @endphp
                                             <div
-                                                class="text-white rounded mb-0 p-1"
+                                                class="text-white rounded p-1"
                                                 style="
                                                     background-color: {{ $reservationColors[$pren->id] }};
+                                                    position: absolute;
+                                                    top: {{ $boxTop }}px;
+                                                    height: {{ $boxHeight }}px;
+                                                    left: 2px;
+                                                    right: 2px;
+                                                    z-index: 5;
+                                                    overflow: hidden;
                                                 "
                                             >
                                                 <div class="fw-semibold">
