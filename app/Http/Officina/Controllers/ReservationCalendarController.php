@@ -18,9 +18,14 @@ final class ReservationCalendarController
             ? Date::parse($request->string('date')->toString())->startOfDay()
             : $now;
 
+        $dateStr = $date->toDateString();
         $reservations = Prenotazioni::query()
-            ->where('data_partenza', '=', $date->toDateString())
-            ->orWhere('data_arrivo', '=', $date->toDateString())
+            ->where('data_partenza', '=', $dateStr)
+            ->orWhere('data_arrivo', '=', $dateStr)
+            ->orWhere(function ($q) use ($dateStr) {
+                $q->where('data_partenza', '<', $dateStr)
+                    ->where('data_arrivo', '>', $dateStr);
+            })
             ->with('veicolo', 'cliente')
             ->orderBy('data_partenza', 'asc')
             ->get();
@@ -34,7 +39,13 @@ final class ReservationCalendarController
 
         foreach ($reservations as $pren) {
             $startHour = Date::parse($pren->ora_partenza)->hour;
-            $reservationsByVehicle[$pren->veicolo_id][$startHour][] = $pren;
+            $isMultiDay = $pren->data_partenza !== $pren->data_arrivo;
+            // If multi-day and doesn't start today, place at hour 0
+            if ($isMultiDay && $pren->data_partenza !== $dateStr) {
+                $reservationsByVehicle[$pren->veicolo_id][0][] = $pren;
+            } else {
+                $reservationsByVehicle[$pren->veicolo_id][$startHour][] = $pren;
+            }
         }
 
         $hexColors = [
@@ -61,10 +72,20 @@ final class ReservationCalendarController
         ];
 
         $reservationColors = [];
+        $multiDayInfo = [];
         foreach ($reservations as $index => $pren) {
             $reservationColors[$pren->id] = $hexColors[$index % count($hexColors)];
+            // Check if reservation spans multiple days
+            $isMultiDay = $pren->data_partenza !== $pren->data_arrivo;
+            $startsToday = $pren->data_partenza === $dateStr;
+            $endsToday = $pren->data_arrivo === $dateStr;
+            $multiDayInfo[$pren->id] = [
+                'isMultiDay' => $isMultiDay,
+                'startsToday' => $startsToday,
+                'endsToday' => $endsToday,
+            ];
         }
 
-        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors', 'now', 'date'));
+        return view('officina.reservations.calendar', compact('vehicles', 'reservationsByVehicle', 'reservationColors', 'multiDayInfo', 'now', 'date'));
     }
 }
