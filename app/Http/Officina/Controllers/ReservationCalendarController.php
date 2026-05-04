@@ -51,6 +51,18 @@ final class ReservationCalendarController
             '#8b7fb8', // muted purple
             '#c97b3a', // muted orange
             '#b55e8e', // muted pink
+            '#4e9a6f', // forest green
+            '#d46a3a', // burnt sienna
+            '#5c7fc4', // slate blue
+            '#a05c9e', // mauve
+            '#2e8f8f', // dark cyan
+            '#c45c5c', // dusty rose
+            '#7d9c3a', // olive green
+            '#e08c3a', // warm orange
+            '#5a7abf', // periwinkle
+            '#3d8c7a', // sea green
+            '#b07a30', // golden brown
+            '#9c5c7a', // plum
         ];
 
         $reservationColors = [];
