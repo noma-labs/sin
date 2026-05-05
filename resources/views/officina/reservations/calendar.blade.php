@@ -152,8 +152,13 @@
                                                 }
 
                                                 $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
-                                                $boxHeight = max(20, ($durationMin / 60) * 60);
-                                                $boxTop = ($sMin / 60) * 60;
+                                                $rowHeight = 45;
+                                                $boxHeight = max(20, ($durationMin / 60) * $rowHeight);
+                                                // Add overflow for bookings continuing past midnight
+                                                if ($info["isMultiDay"] && $info["startsToday"] && ! $info["endsToday"]) {
+                                                    $boxHeight += 6;
+                                                }
+                                                $boxTop = ($sMin / 60) * $rowHeight;
                                             @endphp
 
                                             <div
