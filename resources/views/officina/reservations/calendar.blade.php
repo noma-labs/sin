@@ -1,4 +1,4 @@
-@extends("officina.index")
+@extends("layouts.blank")
 
 @section("title", "Prenotazioni Calendario")
 
@@ -31,7 +31,7 @@
         <div class="card-body p-0">
             <div
                 class="table-responsive"
-                style="height: calc(100vh - 130px); overflow-y: auto"
+                style="height: calc(100vh - 100px); overflow-y: auto"
             >
                 <table class="table table-sm table-bordered mb-0">
                     <thead
@@ -60,7 +60,7 @@
                         @for ($hour = 0; $hour < 24; $hour++)
                             <tr
                                 class="border-bottom"
-                                style="height: 60px"
+                                style="height: 45px"
                                 @if ($hour === $currentHour) id="current-hour-row" @endif
                             >
                                 <td
@@ -85,7 +85,7 @@
                                                     position: absolute;
                                                     right: 0;
                                                     top: 2px;
-                                                    font-size: 0.65rem;
+                                                    font-size: 0.7rem;
                                                     color: #dc3545;
                                                     line-height: 1;
                                                     font-weight: 600;
@@ -152,8 +152,13 @@
                                                 }
 
                                                 $durationMin = ($eH - $sH) * 60 + ($eMin - $sMin);
-                                                $boxHeight = max(20, ($durationMin / 60) * 60);
-                                                $boxTop = ($sMin / 60) * 60;
+                                                $rowHeight = 45;
+                                                $boxHeight = max(20, ($durationMin / 60) * $rowHeight);
+                                                // Add overflow for bookings continuing past midnight
+                                                if ($info["isMultiDay"] && $info["startsToday"] && ! $info["endsToday"]) {
+                                                    $boxHeight += 6;
+                                                }
+                                                $boxTop = ($sMin / 60) * $rowHeight;
                                             @endphp
 
                                             <div
