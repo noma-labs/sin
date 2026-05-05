@@ -60,7 +60,7 @@
                         @for ($hour = 0; $hour < 24; $hour++)
                             <tr
                                 class="border-bottom"
-                                style="height: 60px"
+                                style="height: 45px"
                                 @if ($hour === $currentHour) id="current-hour-row" @endif
                             >
                                 <td
@@ -85,7 +85,7 @@
                                                     position: absolute;
                                                     right: 0;
                                                     top: 2px;
-                                                    font-size: 0.65rem;
+                                                    font-size: 0.70rem;
                                                     color: #dc3545;
                                                     line-height: 1;
                                                     font-weight: 600;
