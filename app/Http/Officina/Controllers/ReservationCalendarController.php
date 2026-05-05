@@ -22,10 +22,6 @@ final class ReservationCalendarController
         $reservations = Prenotazioni::query()
             ->where('data_partenza', '=', $dateStr)
             ->orWhere('data_arrivo', '=', $dateStr)
-            ->orWhere(function ($q) use ($dateStr) {
-                $q->where('data_partenza', '<', $dateStr)
-                    ->where('data_arrivo', '>', $dateStr);
-            })
             ->with('veicolo', 'cliente')
             ->orderBy('data_partenza', 'asc')
             ->get();
