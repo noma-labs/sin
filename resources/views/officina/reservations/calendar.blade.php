@@ -1,4 +1,4 @@
-@extends("officina.index")
+@extends("layouts.blank")
 
 @section("title", "Prenotazioni Calendario")
 
@@ -31,7 +31,7 @@
         <div class="card-body p-0">
             <div
                 class="table-responsive"
-                style="height: calc(100vh - 130px); overflow-y: auto"
+                style="height: calc(100vh - 100px); overflow-y: auto"
             >
                 <table class="table table-sm table-bordered mb-0">
                     <thead
