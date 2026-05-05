@@ -85,7 +85,7 @@
                                                     position: absolute;
                                                     right: 0;
                                                     top: 2px;
-                                                    font-size: 0.70rem;
+                                                    font-size: 0.7rem;
                                                     color: #dc3545;
                                                     line-height: 1;
                                                     font-weight: 600;
