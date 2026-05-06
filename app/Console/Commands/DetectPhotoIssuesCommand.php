@@ -78,8 +78,8 @@ final class DetectPhotoIssuesCommand extends Command
                 JOIN dbf_all d ON p.dbf_id = d.id
                 WHERE
                     p.taken_at IS NOT NULL
-                    AND d.descrizione REGEXP \'19[2-7][0-9]|1990\'
-                    AND YEAR(p.taken_at) != CAST(REGEXP_SUBSTR(d.descrizione, \'19[2-7][0-9]|1990\') AS UNSIGNED)
+                    AND d.descrizione REGEXP \'19[0-9][0-9]|200[0-9]|201[0-9]|202[0-5]\'
+                    AND YEAR(p.taken_at) != CAST(REGEXP_SUBSTR(d.descrizione, \'19[0-9][0-9]|200[0-9]|201[0-9]|202[0-5]\') AS UNSIGNED)
                     AND d.tp IN (\'RA\', \'RB\', \'RD\', \'RS\')
                     AND p.id NOT IN (SELECT photo_id FROM photos_issues)
             ');
