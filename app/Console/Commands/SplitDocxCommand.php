@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\DocumentChunk;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\Paragraph;
@@ -128,6 +129,8 @@ final class SplitDocxCommand extends Command
             file_put_contents($mdFilename, $markdown);
 
             $relativePath = $outputSubdir.DIRECTORY_SEPARATOR.$chunk->id.'.md';
+            $recordedAt = $this->extractRecordedAt($chunk->id);
+
             AudioTranscript::updateOrCreate(
                 ['code' => $chunk->id],
                 [
@@ -135,6 +138,7 @@ final class SplitDocxCommand extends Command
                     'description' => $chunk->description,
                     'content' => implode("\n", $chunk->content),
                     'file_path' => $relativePath,
+                    'recorded_at' => $recordedAt,
                 ],
             );
 
@@ -178,4 +182,34 @@ final class SplitDocxCommand extends Command
         return "# {$id} {$title}\n\n {$description}\n\n \n\n{$body}\n";
     }
 
+    /**
+     * Extract recorded_at date from code format: YYMMDD or YYMMDD[A-Z]
+     * Example: 50060211 or 50060211A → 1950-06-02
+     */
+    private function extractRecordedAt(string $code): ?string
+    {
+        // Extract first 6 digits from code
+        if (!preg_match('/^(\d{2})(\d{2})(\d{2})/', $code, $matches)) {
+            return null;
+        }
+
+        $year = (int) $matches[1];
+        $month = (int) $matches[2];
+        $day = (int) $matches[3];
+
+        // Validate month and day
+        if ($month < 1 || $month > 12 || $day < 1 || $day > 31) {
+            return null;
+        }
+
+        // Convert 2-digit year to 4-digit (assume 1900-1999 for historical records)
+        $fullYear = 1900 + $year;
+
+        try {
+            $date = \Carbon\Carbon::create($fullYear, $month, $day);
+            return $date->toDateTimeString();
+        } catch (\Exception) {
+            return null;
+        }
+    }
 }

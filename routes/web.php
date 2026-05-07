@@ -501,6 +501,7 @@ Route::get('/docs/search', function () {
 
 Route::get('/docs/{id}', function (string $id) {
     $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
+
     $markdown = file_get_contents(Storage::disk('transcripts_previews')->path($transcript->file_path));
 
     return view('docs.preview', ['markdown' => $markdown]);

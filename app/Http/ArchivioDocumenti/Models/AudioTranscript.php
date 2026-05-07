@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property string $title
  * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $recorded_at
  * @property string|null $content
  * @property string $file_path
  */
@@ -23,4 +24,9 @@ final class AudioTranscript extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return ['recorded_at' => 'date'];
+    }
 }

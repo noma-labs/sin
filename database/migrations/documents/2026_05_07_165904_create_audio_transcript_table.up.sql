@@ -3,6 +3,7 @@ CREATE TABLE `audio_transcripts` (
     `code` varchar(255) NOT NULL UNIQUE,
     `title` varchar(255) NOT NULL,
     `description` text DEFAULT NULL,
+    `recorded_at` date DEFAULT NULL,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,
     `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
