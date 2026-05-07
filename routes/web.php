@@ -490,7 +490,7 @@ Route::get('/docs/search', function () {
 
     if (!empty($term)) {
         $results = \App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
-            'id, code, title, description, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
+            '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
             [$term]
         )->whereRaw(
             'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
