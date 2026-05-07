@@ -1,111 +1,38 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Document Preview</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-        />
-        <style>
-            body {
-                background-color: #f8f9fa;
-                padding: 2rem 0;
-            }
+@extends('layouts.app')
 
-            .markdown-container {
-                background: white;
-                border-radius: 0.5rem;
-                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-                padding: 2rem;
-            }
+@section('title', $transcript->title)
 
-            blockquote {
-                border-left: 4px solid #0d6efd;
-                padding-left: 1rem;
-                color: #6c757d;
-                font-style: italic;
-                margin-left: 0;
-                margin-bottom: 1rem;
-            }
+@section('content')
+    <div class="container-lg my-4">
+        <div class="bg-white rounded shadow-sm p-5">
+            <div class="mb-5">
+                <h1 class="text-primary mb-4 pb-3 border-bottom border-2">{{ $transcript->title }}</h1>
 
-            hr {
-                margin: 2rem 0;
-                border-top: 2px solid #dee2e6;
-            }
-
-            h1 {
-                color: #0d6efd;
-                margin-bottom: 1.5rem;
-                border-bottom: 2px solid #e9ecef;
-                padding-bottom: 0.5rem;
-            }
-
-            code {
-                background-color: #f8f9fa;
-                padding: 0.2rem 0.4rem;
-                border-radius: 0.25rem;
-                color: #d63384;
-            }
-
-            pre {
-                background-color: #f8f9fa;
-                padding: 1rem;
-                border-radius: 0.5rem;
-                overflow-x: auto;
-            }
-
-            a {
-                color: #0d6efd;
-            }
-
-            a:hover {
-                text-decoration: underline;
-            }
-
-            .content-body {
-                line-height: 1.8;
-                color: #333;
-            }
-
-            .content-body p {
-                margin-bottom: 1rem;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container-lg">
-            <div class="markdown-container">
-                <div class="mb-4">
-                    <h1>{{ $transcript->title }}</h1>
-
-                     <div class="text-muted mb-3">
-                            <small>Codice: <strong>{{ $transcript->code }}</strong></small>
-                        </div>
+                <div class="mb-4 d-flex gap-2 flex-wrap">
+                    <span class="badge bg-primary fs-6">{{ $transcript->code }}</span>
                     @if($transcript->recorded_at)
-                        <div class="text-muted mb-3">
-                            <small>Recorded: <strong>{{ $transcript->recorded_at->format('d M Y') }}</strong></small>
-                        </div>
-                    @endif
-
-                    @if($transcript->description)
-                        <blockquote>
-                            {{ $transcript->description }}
-                        </blockquote>
-                    @endif
-
-                    <hr />
-
-                    @if($transcript->content)
-                        <div class="content-body">
-                            {!! nl2br(e($transcript->content)) !!}
-                        </div>
-                    @else
-                        <p class="text-muted">No content available.</p>
+                        <span class="badge bg-secondary fs-6">{{ $transcript->recorded_at->format('d M Y') }}</span>
                     @endif
                 </div>
+
+                @if($transcript->description)
+                    <div class="bg-light border-start border-5 border-primary ps-4 py-3 mb-5">
+                        <p class="mb-0 text-dark fw-500 lh-lg">
+                            <em>{{ $transcript->description }}</em>
+                        </p>
+                    </div>
+                @endif
+
+                <hr class="my-5">
+
+                @if($transcript->content)
+                    <div class="text-dark lh-lg" style="font-size: 1.05rem;">
+                        {!! nl2br(e($transcript->content)) !!}
+                    </div>
+                @else
+                    <p class="text-muted">No content available.</p>
+                @endif
             </div>
         </div>
-    </body>
-</html>
+    </div>
+@endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ricerca Transcripts')
+@section('title', 'Ricerca trascrizioni')
 
 @section('content')
     <div class="container-fluid my-2">
@@ -13,17 +13,17 @@
                             type="text"
                             name="q"
                             class="form-control"
-                            placeholder="Enter search term..."
+                            placeholder="Inserisci termine di ricerca..."
                             value="{{ $term }}"
                             autocomplete="off"
                         >
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary" type="submit">Cerca</button>
                     </div>
                 </form>
 
                 @if (!empty($term))
                     <div class="alert alert-info">
-                        Found <strong>{{ count($results) }}</strong> result(s) for "<strong>{{ $term }}</strong>"
+                        Trovati <strong>{{ count($results) }}</strong> risultato(i) per "<strong>{{ $term }}</strong>"
                     </div>
 
                     @if (count($results) > 0)
@@ -49,12 +49,12 @@
                         </div>
                     @else
                         <div class="alert alert-warning">
-                            No transcripts found matching your search.
+                            Nessuna trascrizione trovata corrispondente alla tua ricerca.
                         </div>
                     @endif
                 @else
                     <div class="alert alert-secondary">
-                        Enter a search term to find transcripts by content.
+                        Inserisci un termine di ricerca per trovare trascrizioni per contenuto.
                     </div>
                 @endif
             </div>
