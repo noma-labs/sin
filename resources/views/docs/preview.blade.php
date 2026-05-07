@@ -63,12 +63,48 @@
             a:hover {
                 text-decoration: underline;
             }
+
+            .content-body {
+                line-height: 1.8;
+                color: #333;
+            }
+
+            .content-body p {
+                margin-bottom: 1rem;
+            }
         </style>
     </head>
     <body>
         <div class="container-lg">
             <div class="markdown-container">
-                <x-markdown>{{ $markdown }}</x-markdown>
+                <div class="mb-4">
+                    <h1>{{ $transcript->title }}</h1>
+
+                     <div class="text-muted mb-3">
+                            <small>Codice: <strong>{{ $transcript->code }}</strong></small>
+                        </div>
+                    @if($transcript->recorded_at)
+                        <div class="text-muted mb-3">
+                            <small>Recorded: <strong>{{ $transcript->recorded_at->format('d M Y') }}</strong></small>
+                        </div>
+                    @endif
+
+                    @if($transcript->description)
+                        <blockquote>
+                            {{ $transcript->description }}
+                        </blockquote>
+                    @endif
+
+                    <hr />
+
+                    @if($transcript->content)
+                        <div class="content-body">
+                            {!! nl2br(e($transcript->content)) !!}
+                        </div>
+                    @else
+                        <p class="text-muted">No content available.</p>
+                    @endif
+                </div>
             </div>
         </div>
     </body>

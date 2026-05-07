@@ -7,14 +7,14 @@
         <div class="row mb-4">
             <div class="col-md-8 mx-auto">
                 <h1>Search Transcripts</h1>
-                
+
                 <form method="GET" action="{{ route('docs.search') }}" class="mb-4">
                     <div class="input-group input-group-lg">
-                        <input 
-                            type="text" 
-                            name="q" 
-                            class="form-control" 
-                            placeholder="Enter search term..." 
+                        <input
+                            type="text"
+                            name="q"
+                            class="form-control"
+                            placeholder="Enter search term..."
                             value="{{ $term }}"
                             autocomplete="off"
                         >
@@ -30,11 +30,12 @@
                     @if (count($results) > 0)
                         <div class="list-group">
                             @foreach ($results as $transcript)
-                                <a 
-                                    href="{{ route('docs.preview', ['id' => $transcript->id]) }}" 
+                                <a
+                                    href="{{ route('docs.preview', ['id' => $transcript->id]) }}"
                                     class="list-group-item list-group-item-action"
                                 >
-                                    <h5 class="mb-1">{{ $transcript->code }} - {{ $transcript->title }}</h5>
+                                    <h5 class="mb-1"> {{ $transcript->title }}</h5>
+                                     <span class="badge bg-secondary">{{ $transcript->code }}</span>
                                     <p class="mb-1 text-muted">
                                         {{ Str::limit($transcript->description, 100) }}
                                     </p>

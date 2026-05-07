@@ -42,8 +42,6 @@ final class SplitDocxCommand extends Command
         }
 
         $outputSubdir = $year ?? $baseFilename;
-        Storage::disk('transcripts_previews')->makeDirectory($outputSubdir);
-        $outputPath = Storage::disk('transcripts_previews')->path($outputSubdir);
 
         $phpWord = IOFactory::load($filePath);
 
@@ -118,35 +116,19 @@ final class SplitDocxCommand extends Command
             return self::FAILURE;
         }
 
-        $this->info(sprintf('Found %d sections. Writing Markdown files to: %s', count($docs), $outputPath));
-
-        $bar = $this->output->createProgressBar(count($docs));
-        $bar->start();
-
         foreach ($docs as $chunk) {
-            $markdown = $this->buildMarkdown($chunk->id, $chunk->title, $chunk->description, $chunk->content);
-            $mdFilename = $outputPath.DIRECTORY_SEPARATOR.$chunk->id.'.md';
-            file_put_contents($mdFilename, $markdown);
-
-            $relativePath = $outputSubdir.DIRECTORY_SEPARATOR.$chunk->id.'.md';
-            $recordedAt = $this->extractRecordedAt($chunk->id);
-
             AudioTranscript::updateOrCreate(
                 ['code' => $chunk->id],
                 [
                     'title' => $chunk->title,
                     'description' => $chunk->description,
                     'content' => implode("\n", $chunk->content),
-                    'file_path' => $relativePath,
-                    'recorded_at' => $recordedAt,
+                    'file_path' => (string) $file,
+                    'recorded_at' => $this->extractRecordedAt($chunk->id),
                 ],
             );
-
-            $bar->advance();
         }
 
-        $bar->finish();
-        $this->newLine();
         $this->info('Done.');
 
         return self::SUCCESS;

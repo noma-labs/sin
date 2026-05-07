@@ -101,7 +101,6 @@ use App\Scuola\Controllers\StudentClassesController;
 use App\Scuola\Controllers\StudentController;
 use App\Scuola\Controllers\StudentWorksController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 Route::view('/', 'welcome');
 
@@ -502,7 +501,5 @@ Route::get('/docs/search', function () {
 Route::get('/docs/{id}', function (string $id) {
     $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
 
-    $markdown = file_get_contents(Storage::disk('transcripts_previews')->path($transcript->file_path));
-
-    return view('docs.preview', ['markdown' => $markdown]);
+    return view('docs.preview', ['transcript' => $transcript]);
 })->name('docs.preview');
