@@ -3,12 +3,10 @@
 @section('title', 'Search Transcripts')
 
 @section('content')
-    <div class="container-fluid my-4">
-        <h1 class="mb-4">Search Transcripts</h1>
-
+    <div class="container-fluid my-2">
         <div class="row" style="height: calc(100vh - 200px);">
             <!-- Master Panel (Left) -->
-            <div class="col-md-5 border-end">
+            <div class="col-md-4 border-end">
                 <form method="GET" action="{{ route('docs.search') }}" class="mb-4">
                     <div class="input-group">
                         <input
@@ -62,7 +60,7 @@
             </div>
 
             <!-- Detail Panel (Right) -->
-            <div class="col-md-7 ps-4">
+            <div class="col-md-8 ps-4">
                 @if (!empty($term) && request('selected'))
                     @php
                         $selected = $results->firstWhere('id', request('selected'));
@@ -70,22 +68,20 @@
 
                     @if ($selected)
                         <div style="max-height: calc(100vh - 200px); overflow-y: auto;">
-                            <div class="mb-3">
-                                <span class="badge bg-primary mb-2">{{ $selected->code }}</span>
-                            </div>
 
-                            <h2 class="mb-3">{{ $selected->title }}</h2>
+                            <h2 class="mb-3"> {{ $selected->title }}</h2>
+                            <span class="badge bg-primary mb-2"> {{ $selected->code }}</span>
 
                             @if($selected->recorded_at)
-                                <div class="text-muted mb-3">
-                                    <small>Recorded: <strong>{{ $selected->recorded_at->format('d M Y') }}</strong></small>
-                                </div>
+                                <span class="badge bg-secondary mb-2"> {{ $selected->recorded_at->format('d M Y') }}</span>
                             @endif
 
                             @if($selected->description)
-                                <blockquote class="blockquote mb-4 ps-3 border-start border-4">
-                                    <p class="mb-0">{{ $selected->description }}</p>
-                                </blockquote>
+                                <div class="bg-light border-start border-5 border-primary ps-3 py-3 mb-4">
+                                    <p class="mb-0 text-dark">
+                                        <em>{{ $selected->description }}</em>
+                                    </p>
+                                </div>
                             @endif
 
                             @if($selected->description)
@@ -95,7 +91,13 @@
                             @if($selected->content)
                                 <div class="content-body" style="line-height: 1.8; color: #333;">
                                     @foreach(explode("\n", $selected->content) as $line)
-                                        <p class="mb-2">{{ $line }}</p>
+                                        <p class="mb-2">
+                                            {!! preg_replace(
+                                                '/(' . preg_quote($term, '/') . ')/i',
+                                                '<mark class="bg-warning text-dark fw-bold">$1</mark>',
+                                                e($line)
+                                            ) !!}
+                                        </p>
                                     @endforeach
                                 </div>
                             @else
@@ -115,13 +117,6 @@
     <style>
         a.card:hover {
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-
-        blockquote {
-            border-left: 4px solid #0d6efd;
-            padding-left: 1rem;
-            color: #6c757d;
-            font-style: italic;
         }
     </style>
 @endsection
