@@ -17,26 +17,23 @@ use PhpOffice\PhpWord\IOFactory;
 final class SplitDocxCommand extends Command
 {
     protected $signature = 'docs:split
-                                {file : Path to the DOCX file inside storage/app}
-                                {--output= : Output directory inside storage/app (default: split/{filename-without-ext})}';
+                                {file : DOCX filename from transcripts_originals disk}';
 
     protected $description = 'Split a DOCX file into one Markdown file per Heading 2 section';
 
     public function handle(): int
     {
         $file = $this->argument('file');
-        $filePath = Storage::disk('local')->path((string) $file);
+        $filePath = Storage::disk('transcripts_originals')->path((string) $file);
 
         if (! file_exists($filePath)) {
-            $this->error("File not found: {$filePath}");
+            $this->error("File not found in transcripts_originals: {$filePath}");
             return self::FAILURE;
         }
 
-        $outputDir = $this->option('output')
-            ?? 'split/'.pathinfo((string) $file, PATHINFO_FILENAME);
-
-        Storage::disk('local')->makeDirectory($outputDir);
-        $outputPath = Storage::disk('local')->path($outputDir);
+        $filename = pathinfo((string) $file, PATHINFO_FILENAME);
+        Storage::disk('transcripts_previews')->makeDirectory($filename);
+        $outputPath = Storage::disk('transcripts_previews')->path($filename);
 
         $phpWord = IOFactory::load($filePath);
 
