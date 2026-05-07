@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Search Transcripts')
+@section('title', 'Ricerca Transcripts')
 
 @section('content')
     <div class="container-fluid my-2">
@@ -77,15 +77,11 @@
                             @endif
 
                             @if($selected->description)
-                                <div class="bg-light border-start border-5 border-primary ps-3 py-3 mb-4">
+                                <div class="bg-light border-start border-5 border-primary ps-2 py-2 mb-3">
                                     <p class="mb-0 text-dark">
                                         <em>{{ $selected->description }}</em>
                                     </p>
                                 </div>
-                            @endif
-
-                            @if($selected->description)
-                                <hr class="my-4">
                             @endif
 
                             @if($selected->content)
@@ -107,7 +103,7 @@
                     @endif
                 @else
                     <div class="text-center text-muted mt-5">
-                        <p>Select a transcript to view details</p>
+                        <p>Seleziona una trascrizione per visualizzare i dettagli</p>
                     </div>
                 @endif
             </div>
