@@ -73,12 +73,34 @@ final class SplitDocxCommand extends Command
                             }
                             $i++;
                         }
+
+                        // Collect all remaining content lines until next Titolo2 or end
+                        $contentLines = [];
+                        $i++;
+                        while ($i < count($elements)) {
+                            $nextElement = $elements[$i];
+                            // Stop if we hit another Titolo2 heading
+                            if ($nextElement instanceof TextRun) {
+                                $nextPar = $nextElement->getParagraphStyle();
+                                if ($nextPar->getStyleName() === 'Titolo2') {
+                                    $i--; // Back up so the outer loop processes this Titolo2
+                                    break;
+                                }
+                                $text = $nextElement->getText();
+                                if ($text !== '') {
+                                    $contentLines[] = $text;
+                                }
+                            }
+                            $i++;
+                        }
+
                         $chunks[] = [
                             'id' => $id,
                             'title' => $title,
                             'description' => $descriptionLines,
+                            'lines' => $contentLines,
                         ];
-                        $this->info('DocID='.$id.', Title='.$title.', Description='.implode(', ', $descriptionLines));
+                        $this->info('DocID='.$id.', Title='.$title.', Description='.implode(', ', $descriptionLines).', Content lines='.count($contentLines));
                        if ($this->confirm('Do you wish to continue?')) {  }
                     }
                 }
@@ -97,7 +119,9 @@ final class SplitDocxCommand extends Command
         $bar->start();
 
         foreach ($chunks as $chunk) {
-            $markdown = $this->buildMarkdown($chunk['title'], $chunk['description']);
+            // Combine description and content lines
+            $allLines = array_merge($chunk['description'], $chunk['lines']);
+            $markdown = $this->buildMarkdown($chunk['title'], $allLines);
             $filename = $outputPath.DIRECTORY_SEPARATOR.$chunk['id'].'.md';
             file_put_contents($filename, $markdown);
             $bar->advance();
