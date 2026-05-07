@@ -489,10 +489,16 @@ Route::get('/docs/search', function () {
     $results = [];
 
     if (!empty($term)) {
-        $results = \App\ArchivioDocumenti\Models\AudioTranscript::whereRaw(
+        $results = \App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
+            'id, code, title, description, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
+            [$term]
+        )->whereRaw(
             'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
             [$term]
-        )->get(['id', 'code', 'title', 'description']);
+        )->orderByRaw(
+            'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
+            [$term]
+        )->get();
     }
 
     return view('docs.search', ['results' => $results, 'term' => $term]);

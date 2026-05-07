@@ -34,9 +34,12 @@
                                     href="{{ route('docs.preview', ['id' => $transcript->id]) }}"
                                     class="list-group-item list-group-item-action"
                                 >
-                                    <h5 class="mb-1"> {{ $transcript->title }}</h5>
-                                     <span class="badge bg-secondary">{{ $transcript->code }}</span>
-                                    <p class="mb-1 text-muted">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="mb-0">{{ $transcript->title }}</h5>
+                                        <span class="badge bg-success">{{ number_format($transcript->relevance, 2) }}</span>
+                                    </div>
+                                    <span class="badge bg-secondary me-2">{{ $transcript->code }}</span>
+                                    <p class="mb-1 text-muted mt-2">
                                         {{ Str::limit($transcript->description, 100) }}
                                     </p>
                                 </a>
