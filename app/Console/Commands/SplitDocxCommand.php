@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\DocumentChunk;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\Element\Paragraph;
@@ -39,8 +40,8 @@ final class SplitDocxCommand extends Command
 
         $phpWord = IOFactory::load($filePath);
 
-        $chunks = [];
-        $currentChunk = null;
+        /** @var DocumentChunk[] $docs */
+        $docs = [];
 
         foreach ($phpWord->getSections() as $section) {
             $this->info('Processing '.$filePath.' found '.count($section->getElements()).' elements...');
@@ -53,7 +54,7 @@ final class SplitDocxCommand extends Command
                     $styleName = $par->getStyleName();
                     if ($styleName === 'Titolo2') {
                         // $this->info('>> Found Titolo2: '.$element->getText());
-                        $headingText = $element->getText();
+                        $headingText = $this->decode($element->getText());
                         [$id, $title] = $this->parseHeading($headingText);
 
                         // Collect text until TextBreak to get the dscription of the section
@@ -65,7 +66,7 @@ final class SplitDocxCommand extends Command
                                 break;
                             }
                             if ($nextElement instanceof TextRun) {
-                                $text = $nextElement->getText();
+                                $text = $this->decode($nextElement->getText());
                                 if ($text !== '') {
                                     $descriptionLines[] = $text;
                                     // $this->info('   Collected: '.$text);
@@ -86,7 +87,7 @@ final class SplitDocxCommand extends Command
                                     $i--; // Back up so the outer loop processes this Titolo2
                                     break;
                                 }
-                                $text = $nextElement->getText();
+                                $text = $this->decode($nextElement->getText());
                                 if ($text !== '') {
                                     $contentLines[] = $text;
                                 }
@@ -94,35 +95,34 @@ final class SplitDocxCommand extends Command
                             $i++;
                         }
 
-                        $chunks[] = [
-                            'id' => $id,
-                            'title' => $title,
-                            'description' => $descriptionLines,
-                            'lines' => $contentLines,
-                        ];
-                        $this->info('DocID='.$id.', Title='.$title.', Description='.implode(', ', $descriptionLines).', Content lines='.count($contentLines));
-                       if ($this->confirm('Do you wish to continue?')) {  }
+                        $description = implode(' ', $descriptionLines);
+                        $docs[] = new DocumentChunk(
+                            id: $id,
+                            title: $title,
+                            description: $description,
+                            content: $contentLines,
+                        );
+                        $this->info('DocID='.$id.', Title='.$title.', Description='.$description.', Content lines='.count($contentLines));
+                    //    if ($this->confirm('Do you wish to continue?')) {  }
                     }
                 }
                 $i++;
             }
         }
 
-        if (empty($chunks)) {
+        if (empty($docs)) {
             $this->warn('No Heading 2 sections found.');
             return self::FAILURE;
         }
 
-        $this->info(sprintf('Found %d sections. Writing Markdown files to: %s', count($chunks), $outputPath));
+        $this->info(sprintf('Found %d sections. Writing Markdown files to: %s', count($docs), $outputPath));
 
-        $bar = $this->output->createProgressBar(count($chunks));
+        $bar = $this->output->createProgressBar(count($docs));
         $bar->start();
 
-        foreach ($chunks as $chunk) {
-            // Combine description and content lines
-            $allLines = array_merge($chunk['description'], $chunk['lines']);
-            $markdown = $this->buildMarkdown($chunk['title'], $allLines);
-            $filename = $outputPath.DIRECTORY_SEPARATOR.$chunk['id'].'.md';
+        foreach ($docs as $chunk) {
+            $markdown = $this->buildMarkdown($chunk->id, $chunk->title, $chunk->description, $chunk->content);
+            $filename = $outputPath.DIRECTORY_SEPARATOR.$chunk->id.'.md';
             file_put_contents($filename, $markdown);
             $bar->advance();
         }
@@ -139,6 +139,11 @@ final class SplitDocxCommand extends Command
      *
      * @return array{0: string, 1: string}
      */
+    private function decode(string $text): string
+    {
+        return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
     private function parseHeading(string $heading): array
     {
         $heading = trim($heading);
@@ -150,13 +155,13 @@ final class SplitDocxCommand extends Command
     }
 
     /**
-     * @param  string[]  $description
+     * @param  string[]  $content
      */
-    private function buildMarkdown(string $title, array $description): string
+    private function buildMarkdown(string $id, string $title, string $description, array $content): string
     {
-        $body = implode("\n\n", array_map('trim', array_filter($description)));
+        $body = implode("\n\n", array_map('trim', array_filter($content)));
 
-        return "# {$title}\n\n{$body}\n";
+        return "# {$id} {$title}\n\n {$description}\n\n \n\n{$body}\n";
     }
 
 }

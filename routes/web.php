@@ -481,3 +481,9 @@ Route::prefix('photos')->middleware('auth')->group(function () {
 Route::get('/debug-sentry', function () {
     throw new Exception('A fake sentry error!');
 });
+
+Route::get('/docs/preview', function () {
+    $markdown = file_get_contents(storage_path('app/split/1949registrazioni/4911080A.md'));
+
+    return view('docs.preview', ['markdown' => $markdown]);
+})->name('docs.preview');

@@ -17,6 +17,7 @@
     "sentry/sentry-laravel": "^4.11.0",
     "spatie/browsershot": "^5.0",
     "spatie/laravel-activitylog": "^4.0",
+    "spatie/laravel-markdown": "^2.8",
     "spatie/laravel-permission": "^6.0"
   },
   "require-dev": {
@@ -52,7 +53,8 @@
       "App\\Patente\\": "app/Http/Patente",
       "App\\Photo\\": "app/Http/Photo",
       "App\\Rtn\\": "app/Http/Rtn",
-      "App\\Scuola\\": "app/Http/Scuola"
+      "App\\Scuola\\": "app/Http/Scuola",
+      "App\\Document\\": "app/Http/Document"
     }
   },
   "autoload-dev": {
