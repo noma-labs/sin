@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\DocumentChunk;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +17,7 @@ use PhpOffice\PhpWord\IOFactory;
 
 final class SplitDocxCommand extends Command
 {
-    protected $signature = 'docs:split
+    protected $signature = 'docs:docx-to-markdown
                                 {file : DOCX filename from transcripts_originals disk}';
 
     protected $description = 'Split a DOCX file into one Markdown file per Heading 2 section';
@@ -31,9 +32,17 @@ final class SplitDocxCommand extends Command
             return self::FAILURE;
         }
 
-        $filename = pathinfo((string) $file, PATHINFO_FILENAME);
-        Storage::disk('transcripts_previews')->makeDirectory($filename);
-        $outputPath = Storage::disk('transcripts_previews')->path($filename);
+        $baseFilename = pathinfo((string) $file, PATHINFO_FILENAME);
+
+        // Extract year from filename (first 4 characters if numeric)
+        $year = null;
+        if (preg_match('/^(\d{4})/', $baseFilename, $matches)) {
+            $year = $matches[1];
+        }
+
+        $outputSubdir = $year ?? $baseFilename;
+        Storage::disk('transcripts_previews')->makeDirectory($outputSubdir);
+        $outputPath = Storage::disk('transcripts_previews')->path($outputSubdir);
 
         $phpWord = IOFactory::load($filePath);
 
@@ -50,11 +59,9 @@ final class SplitDocxCommand extends Command
                     $par = $element->getParagraphStyle();
                     $styleName = $par->getStyleName();
                     if ($styleName === 'Titolo2') {
-                        // $this->info('>> Found Titolo2: '.$element->getText());
                         $headingText = $this->decode($element->getText());
                         [$id, $title] = $this->parseHeading($headingText);
 
-                        // Collect text until TextBreak to get the dscription of the section
                         $descriptionLines = [];
                         $i++;
                         while ($i < count($elements)) {
@@ -66,7 +73,6 @@ final class SplitDocxCommand extends Command
                                 $text = $this->decode($nextElement->getText());
                                 if ($text !== '') {
                                     $descriptionLines[] = $text;
-                                    // $this->info('   Collected: '.$text);
                                 }
                             }
                             $i++;
@@ -99,8 +105,7 @@ final class SplitDocxCommand extends Command
                             description: $description,
                             content: $contentLines,
                         );
-                        $this->info('DocID='.$id.', Title='.$title.', Description='.$description.', Content lines='.count($contentLines));
-                    //    if ($this->confirm('Do you wish to continue?')) {  }
+                        $this->info('DocID='.$id.', Title='.$title.', Lines='.count($contentLines));
                     }
                 }
                 $i++;
@@ -119,8 +124,20 @@ final class SplitDocxCommand extends Command
 
         foreach ($docs as $chunk) {
             $markdown = $this->buildMarkdown($chunk->id, $chunk->title, $chunk->description, $chunk->content);
-            $filename = $outputPath.DIRECTORY_SEPARATOR.$chunk->id.'.md';
-            file_put_contents($filename, $markdown);
+            $mdFilename = $outputPath.DIRECTORY_SEPARATOR.$chunk->id.'.md';
+            file_put_contents($mdFilename, $markdown);
+
+            $relativePath = $outputSubdir.DIRECTORY_SEPARATOR.$chunk->id.'.md';
+            AudioTranscript::updateOrCreate(
+                ['code' => $chunk->id],
+                [
+                    'title' => $chunk->title,
+                    'description' => $chunk->description,
+                    'content' => implode("\n", $chunk->content),
+                    'file_path' => $relativePath,
+                ],
+            );
+
             $bar->advance();
         }
 

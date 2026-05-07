@@ -101,6 +101,7 @@ use App\Scuola\Controllers\StudentClassesController;
 use App\Scuola\Controllers\StudentController;
 use App\Scuola\Controllers\StudentWorksController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::view('/', 'welcome');
 
@@ -482,8 +483,25 @@ Route::get('/debug-sentry', function () {
     throw new Exception('A fake sentry error!');
 });
 
-Route::get('/docs/preview', function () {
-    $markdown = file_get_contents(storage_path('app/split/1949registrazioni/4911080A.md'));
+
+
+Route::get('/docs/search', function () {
+    $term = request()->query('q', '');
+    $results = [];
+
+    if (!empty($term)) {
+        $results = \App\ArchivioDocumenti\Models\AudioTranscript::whereRaw(
+            'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
+            [$term]
+        )->get(['id', 'code', 'title', 'description']);
+    }
+
+    return view('docs.search', ['results' => $results, 'term' => $term]);
+})->name('docs.search');
+
+Route::get('/docs/{id}', function (string $id) {
+    $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
+    $markdown = file_get_contents(Storage::disk('transcripts_previews')->path($transcript->file_path));
 
     return view('docs.preview', ['markdown' => $markdown]);
 })->name('docs.preview');
