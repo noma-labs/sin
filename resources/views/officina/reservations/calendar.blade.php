@@ -4,7 +4,10 @@
 
 @section("content")
     <div class="d-flex align-items-center justify-content-between my-3">
-        <h3 class="fw-bold mb-0">{{ $date->isoFormat("dddd D MMMM YYYY") }}</h3>
+        <h3 class="fw-bold mb-0">
+            {{ $date->isoFormat("dddd D MMMM YYYY") }}
+            <span>{{ $now->format("H:i") }}</span>
+        </h3>
         <form
             method="GET"
             action="{{ route("officina.calendario") }}"
@@ -31,12 +34,20 @@
         class="table-responsive"
         style="height: calc(100vh - 100px); overflow-y: auto"
     >
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped-columns">
             <thead class="sticky-top">
                 <tr class="table-primary">
-                    <th scope="col" class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3">Ora</th>
+                    <th
+                        scope="col"
+                        class="text-nowrap text-white text-uppercase fw-bold fs-5 py-3"
+                    >
+                        Ora
+                    </th>
                     @foreach ($vehicles as $vehicle)
-                        <th scope="col" class="text-center text-nowrap text-uppercase fw-bold fs-5 py-3">
+                        <th
+                            scope="col"
+                            class="text-center text-nowrap text-uppercase fw-bold fs-5 py-3"
+                        >
                             {{ $vehicle->nome }}
                         </th>
                     @endforeach
@@ -88,13 +99,7 @@
                             @endif
                         </td>
                         @foreach ($vehicles as $vehicle)
-                            <td
-                                class="align-top"
-                                style="
-                                    background-color: {{ $loop->even ? "#f8f9fa" : "#ffffff" }};
-                                    position: relative;
-                                "
-                            >
+                            <td class="align-top" style="position: relative">
                                 @if ($hour === $currentHour)
                                     <div
                                         style="
@@ -180,7 +185,6 @@
             </tbody>
         </table>
     </div>
-
     <script>
         const row = document.getElementById('current-hour-row');
         if (row) {
