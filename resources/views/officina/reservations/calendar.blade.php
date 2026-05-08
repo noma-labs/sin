@@ -46,7 +46,7 @@
                     @foreach ($vehicles as $vehicle)
                         <th
                             scope="col"
-                            class="text-center text-nowrap text-uppercase fw-bold fs-5 py-3"
+                            class="text-center text-white text-nowrap text-uppercase fw-bold fs-5 py-3"
                         >
                             {{ $vehicle->nome }}
                         </th>
