@@ -16,24 +16,49 @@ use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
 use PhpOffice\PhpWord\IOFactory;
 
-final class SplitDocxCommand extends Command
+final class ImportAudioTranscriptsCommand extends Command
 {
-    protected $signature = 'docs:docx-to-markdown
-                                {file : DOCX filename from transcripts_originals disk}';
+    protected $signature = 'docs:import-transcripts
+                                {file? : DOCX filename from transcripts_originals disk (omit to process all)}';
 
-    protected $description = 'Split a DOCX file into one Markdown file per Heading 2 section';
+    protected $description = 'Import audio transcripts from DOCX files in transcripts_originals disk into the database';
 
     public function handle(): int
     {
         $file = $this->argument('file');
-        $filePath = Storage::disk('transcripts_originals')->path((string) $file);
+
+        if ($file === null) {
+            $files = Storage::disk('transcripts_originals')->files();
+            $docxFiles = array_filter($files, fn (string $f) => strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'docx');
+
+            if (empty($docxFiles)) {
+                $this->warn('No DOCX files found in transcripts_originals.');
+                return self::FAILURE;
+            }
+
+            $exitCode = self::SUCCESS;
+            foreach ($docxFiles as $docxFile) {
+                if ($this->processFile($docxFile) === self::FAILURE) {
+                    $exitCode = self::FAILURE;
+                }
+            }
+
+            return $exitCode;
+        }
+
+        return $this->processFile((string) $file);
+    }
+
+    private function processFile(string $file): int
+    {
+        $filePath = Storage::disk('transcripts_originals')->path($file);
 
         if (! file_exists($filePath)) {
             $this->error("File not found in transcripts_originals: {$filePath}");
             return self::FAILURE;
         }
 
-        $baseFilename = pathinfo((string) $file, PATHINFO_FILENAME);
+        $baseFilename = pathinfo($file, PATHINFO_FILENAME);
 
         // Extract year from filename (first 4 characters if numeric)
         $year = null;
@@ -49,7 +74,6 @@ final class SplitDocxCommand extends Command
         $docs = [];
 
         foreach ($phpWord->getSections() as $section) {
-            $this->info('Processing '.$filePath.' found '.count($section->getElements()).' elements...');
             $elements = $section->getElements();
             $i = 0;
             while ($i < count($elements)) {
@@ -98,13 +122,13 @@ final class SplitDocxCommand extends Command
                         }
 
                         $description = implode(' ', $descriptionLines);
+
                         $docs[] = new DocumentChunk(
                             id: $id,
                             title: $title,
                             description: $description,
                             content: $contentLines,
                         );
-                        $this->info('DocID='.$id.', Title='.$title.', Lines='.count($contentLines));
                     }
                 }
                 $i++;
@@ -112,25 +136,40 @@ final class SplitDocxCommand extends Command
         }
 
         if (empty($docs)) {
-            $this->warn('No Heading 2 sections found.');
+            $this->warn($file.': no transcripts found.');
             return self::FAILURE;
         }
 
+        $successCount = 0;
+        $failureCount = 0;
+
         foreach ($docs as $chunk) {
-            AudioTranscript::updateOrCreate(
-                ['code' => $chunk->id],
-                [
-                    'title' => $chunk->title,
-                    'description' => $chunk->description,
-                    'content' => implode("\n", $chunk->content),
-                    'file_path' => (string) $file,
-                    'recorded_at' => $this->extractRecordedAt($chunk->id),
-                ],
-            );
+            try {
+                AudioTranscript::updateOrCreate(
+                    ['code' => $chunk->id],
+                    [
+                        'title' => $chunk->title,
+                        'description' => $chunk->description,
+                        'content' => implode("\n", $chunk->content),
+                        'file_path' => (string) $file,
+                        'recorded_date' => $this->extractRecordedAt($chunk->id),
+                    ],
+                );
+                $successCount++;
+            } catch (\Exception $e) {
+                $failureCount++;
+                $errorMsg = $e instanceof \Illuminate\Database\QueryException
+                    ? $e->errorInfo[2] ?? 'Database error'
+                    : $e->getMessage();
+                $this->error("Error processing code {$chunk->id} ({$chunk->title}): {$errorMsg}");
+            }
         }
 
-        $this->info('Done.');
 
+        if ($failureCount > 0) {
+            $this->warn($file.': '.$failureCount.' transcripts failed.');
+        }
+        $this->info($file.': '.$successCount.' transcripts imported successfully.');
         return self::SUCCESS;
     }
 
@@ -155,17 +194,7 @@ final class SplitDocxCommand extends Command
     }
 
     /**
-     * @param  string[]  $content
-     */
-    private function buildMarkdown(string $id, string $title, string $description, array $content): string
-    {
-        $body = implode("\n\n", array_map('trim', array_filter($content)));
-
-        return "# {$id} {$title}\n\n {$description}\n\n \n\n{$body}\n";
-    }
-
-    /**
-     * Extract recorded_at date from code format: YYMMDD or YYMMDD[A-Z]
+     * Extract recorded_date date from code format: YYMMDD or YYMMDD[A-Z]
      * Example: 50060211 or 50060211A → 1950-06-02
      */
     private function extractRecordedAt(string $code): ?string

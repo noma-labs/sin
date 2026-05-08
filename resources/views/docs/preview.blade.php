@@ -10,8 +10,8 @@
 
                 <div class="mb-4 d-flex gap-2 flex-wrap">
                     <span class="badge bg-primary fs-6">{{ $transcript->code }}</span>
-                    @if($transcript->recorded_at)
-                        <span class="badge bg-secondary fs-6">{{ $transcript->recorded_at->format('d M Y') }}</span>
+                    @if($transcript->recorded_date)
+                        <span class="badge bg-secondary fs-6">{{ $transcript->recorded_date->format('d M Y') }}</span>
                     @endif
                 </div>
 

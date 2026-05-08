@@ -6,7 +6,7 @@
     <div class="container-fluid my-2">
         <div class="row" style="height: calc(100vh - 200px);">
             <!-- Master Panel (Left) -->
-            <div class="col-md-4 border-end">
+            <div class="col-md-2 border-end">
                 <form method="GET" action="{{ route('docs.search') }}" class="mb-4">
                     <div class="input-group">
                         <input
@@ -60,7 +60,7 @@
             </div>
 
             <!-- Detail Panel (Right) -->
-            <div class="col-md-8 ps-4">
+            <div class="col-md-10 ps-4">
                 @if (!empty($term) && request('selected'))
                     @php
                         $selected = $results->firstWhere('id', request('selected'));
@@ -72,8 +72,8 @@
                             <h2 class="mb-3"> {{ $selected->title }}</h2>
                             <span class="badge bg-primary mb-2"> {{ $selected->code }}</span>
 
-                            @if($selected->recorded_at)
-                                <span class="badge bg-secondary mb-2"> {{ $selected->recorded_at->format('d M Y') }}</span>
+                            @if($selected->recorded_date)
+                                <span class="badge bg-secondary mb-2"> {{ $selected->recorded_date->format('d M Y') }}</span>
                             @endif
 
                             @if($selected->description)

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property string $title
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $recorded_at
+ * @property \Illuminate\Support\Carbon|null $recorded_date
  * @property string|null $content
  * @property string $file_path
  */
@@ -27,6 +27,6 @@ final class AudioTranscript extends Model
 
     protected function casts(): array
     {
-        return ['recorded_at' => 'date'];
+        return ['recorded_date' => 'date'];
     }
 }
