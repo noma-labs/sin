@@ -30,6 +30,7 @@ final class DetectPhotoIssuesCommand extends Command
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
             ->whereRaw('p.data_nascita IS NOT NULL')
             ->whereRaw('p.data_nascita > photos.taken_at')
+            ->whereRaw('photos.id NOT IN (SELECT photo_id FROM photos_issues)')
             ->get();
 
         $alreadyDeceased = DB::connection('db_foto')
@@ -45,6 +46,7 @@ final class DetectPhotoIssuesCommand extends Command
             ->leftJoin('db_nomadelfia.persone as p', 'p.id', '=', 'photos_people.persona_id')
             ->whereRaw('p.data_decesso IS NOT NULL')
             ->whereRaw('photos.taken_at > p.data_decesso')
+            ->whereRaw('photos.id NOT IN (SELECT photo_id FROM photos_issues)')
             ->get();
 
         $issues = $notYetBorn->merge($alreadyDeceased);
