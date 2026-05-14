@@ -225,7 +225,7 @@
                             <div class="text-muted small" style="line-height: 1.3; margin-bottom: 0.5rem;">
                                 {{ $selectedDoc->description }}
                             </div>
-                            <div>
+                            <div style="white-space: pre-line;">
                                 {{ $selectedDoc->content ?? "Nessun contenuto." }}
                             </div>
                         </div>
@@ -244,3 +244,4 @@
         </div>
     @endif
 @endsection
+
