@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ArchivioDocumenti\Controllers;
 
-use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
+use App\ArchivioDocumenti\Models\AudioTranscript;
 use Illuminate\Http\Request;
 
 final class ArchivioDocumentiController
@@ -20,19 +20,26 @@ final class ArchivioDocumentiController
 
         $selectedYear = request('year');
         $selectedDocId = request('doc');
+        $selectedDocWords = collect();
         $transcripts = collect();
         if ($selectedYear) {
-            $query = AudioTranscript::whereYear('recorded_date', $selectedYear)
-                ->orderBy('recorded_date');
-            if ($selectedDocId) {
-                // Ensure content is loaded for the selected doc
-                $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date', 'content']);
-            } else {
-                $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date']);
-            }
+            $query = AudioTranscript::whereYear('recorded_date', $selectedYear)->orderBy('recorded_date');
+            $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date', 'content']);
+            // Collect all words from all titles in the selected year
+            $stopwords = [
+                'del', 'della', 'delle', 'dello', 'dell', 'dei', 'degli', 'dai', 'dagli', 'dal', 'dalla', 'dalle',
+                'con', 'per', 'tra', 'fra', 'sul', 'sulla', 'sulle', 'sugli', 'sui', 'sul', 'su',
+                'che', 'non', 'una', 'uno', 'un', 'le', 'la', 'il', 'lo', 'gli', 'i', 'in', 'di', 'a', 'e', 'o', 'ed', 'al', 'ai', 'agli', 'nel', 'all', 'alla', 'alle', 'ma', 'se', 'da', 'ha', 'ho', 'hanno', 'sono', 'era', 'erano', 'come', 'più', 'meno', 'anche', 'questo', 'questa', 'questi', 'queste', 'quello', 'quella', 'quelli', 'quelle', 'ci', 'vi', 'ne', 'mi', 'ti', 'si', 'vi', 'loro', 'noi', 'voi', 'tu', 'io', 'lui', 'lei', 'mio', 'tuo', 'suo', 'nostro', 'vostro', 'loro', 'il', 'la', 'i', 'gli', 'le', 'un', 'una', 'uno', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'al', 'allo', 'ai', 'agli', 'alla', 'alle', 'del', 'dello', 'dei', 'degli', 'della', 'delle', 'sul', 'sullo', 'sui', 'sugli', 'sulla', 'sulle', 'e', 'o', 'ma', 'anche', 'come', 'dove', 'quando', 'che', 'chi', 'cui', 'quale', 'quali', 'quanto', 'quanta', 'quanti', 'quante', 'il', 'lo', 'la', 'i', 'gli', 'le', 'un', 'uno', 'una', 'di', 'a', 'da', 'in', 'con', 'su', 'per', 'tra', 'fra', 'al', 'allo', 'ai', 'agli', 'alla', 'alle', 'del', 'dello', 'dei', 'degli', 'della', 'delle', 'sul', 'sullo', 'sui', 'sugli', 'sulla', 'sulle', 'e', 'o', 'ma', 'anche', 'come', 'dove', 'quando', 'che', 'chi', 'cui', 'quale', 'quali', 'quanto', 'quanta', 'quanti', 'quante',
+            ];
+            $allWords = $transcripts->flatMap(fn($doc) => preg_split('/\W+/', mb_strtolower($doc->title ?? '')));
+            $selectedDocWords = collect($allWords)
+                ->filter(fn ($w) => mb_strlen((string) $w) > 2 && ! in_array($w, $stopwords))
+                ->countBy()
+                ->sortDesc()
+                ->take(20);
         }
 
-        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts'));
+        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts', 'selectedDocWords'));
     }
 
     public function elimina()

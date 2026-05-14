@@ -437,13 +437,12 @@ Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
     Route::delete('/etichette/delete/{id}', [ArchivioDocumentiController::class, 'eliminaSingolo'])->name('archiviodocumenti.etichette.rimuovi.singolo');
 });
 
-
 Route::get('/docs', function () {
     $term = request()->query('q', '');
     $results = [];
 
-    if (!empty($term)) {
-        $results = \App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
+    if (! empty($term)) {
+        $results = App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
             '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
             [$term]
         )->whereRaw(
@@ -459,7 +458,8 @@ Route::get('/docs', function () {
 })->name('docs.search');
 
 Route::get('/docs/{id}', function (string $id) {
-    $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
+    $transcript = App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
+
     return view('docs.preview', ['transcript' => $transcript]);
 })->name('docs.preview');
 

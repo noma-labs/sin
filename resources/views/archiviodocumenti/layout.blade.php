@@ -4,6 +4,8 @@
 
 @section("navbar-link")
     <li class="nav-item">
-        <a class="nav-link" href="{{ route("docs.index")}}">Archivio Documenti</a>
+        <a class="nav-link" href="{{ route("docs.index") }}">
+            Archivio Documenti
+        </a>
     </li>
 @endsection

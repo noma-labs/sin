@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App;
 
-final class DocumentChunk
+final readonly class DocumentChunk
 {
     /**
      * @param  string[]  $content
      */
     public function __construct(
-        public readonly string $id,
-        public readonly string $title,
-        public readonly string $description,
-        public readonly array $content,
+        public string $id,
+        public string $title,
+        public string $description,
+        public array $content,
     ) {}
 
     /**

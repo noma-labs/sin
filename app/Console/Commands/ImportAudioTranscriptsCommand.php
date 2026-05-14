@@ -7,10 +7,9 @@ namespace App\Console\Commands;
 use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\DocumentChunk;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpWord\Element\Paragraph;
-use PhpOffice\PhpWord\Element\Text;
 use PhpOffice\PhpWord\Element\TextBreak;
 use PhpOffice\PhpWord\Element\TextRun;
 use PhpOffice\PhpWord\Element\Title;
@@ -29,10 +28,11 @@ final class ImportAudioTranscriptsCommand extends Command
 
         if ($file === null) {
             $files = Storage::disk('transcripts_originals')->files();
-            $docxFiles = array_filter($files, fn (string $f) => strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'docx');
+            $docxFiles = array_filter($files, fn (string $f) => mb_strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'docx');
 
             if (empty($docxFiles)) {
                 $this->warn('No DOCX files found in transcripts_originals.');
+
                 return self::FAILURE;
             }
 
@@ -55,6 +55,7 @@ final class ImportAudioTranscriptsCommand extends Command
 
         if (! file_exists($filePath)) {
             $this->error("File not found in transcripts_originals: {$filePath}");
+
             return self::FAILURE;
         }
 
@@ -143,6 +144,7 @@ final class ImportAudioTranscriptsCommand extends Command
 
         if (empty($docs)) {
             $this->warn($file.': no transcripts found.');
+
             return self::FAILURE;
         }
 
@@ -162,7 +164,7 @@ final class ImportAudioTranscriptsCommand extends Command
                     ],
                 );
                 $successCount++;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $failureCount++;
                 $errorMsg = $e instanceof \Illuminate\Database\QueryException
                     ? $e->errorInfo[2] ?? 'Database error'
@@ -171,11 +173,11 @@ final class ImportAudioTranscriptsCommand extends Command
             }
         }
 
-
         if ($failureCount > 0) {
             $this->warn($file.': '.$failureCount.' transcripts failed.');
         }
         $this->info($file.': '.$successCount.' transcripts imported successfully.');
+
         return self::SUCCESS;
     }
 
@@ -191,9 +193,9 @@ final class ImportAudioTranscriptsCommand extends Command
 
     private function parseHeading(string $heading): array
     {
-        $heading = trim($heading);
+        $heading = mb_trim($heading);
         if (preg_match('/^(\S+)\s+(.+)$/u', $heading, $matches)) {
-            return [$matches[1], trim($matches[2])];
+            return [$matches[1], mb_trim($matches[2])];
         }
 
         return [$heading, $heading];
@@ -206,7 +208,7 @@ final class ImportAudioTranscriptsCommand extends Command
     private function extractRecordedAt(string $code): ?string
     {
         // Extract first 6 digits from code
-        if (!preg_match('/^(\d{2})(\d{2})(\d{2})/', $code, $matches)) {
+        if (! preg_match('/^(\d{2})(\d{2})(\d{2})/', $code, $matches)) {
             return null;
         }
 
@@ -223,9 +225,10 @@ final class ImportAudioTranscriptsCommand extends Command
         $fullYear = 1900 + $year;
 
         try {
-            $date = \Carbon\Carbon::create($fullYear, $month, $day);
+            $date = \Illuminate\Support\Facades\Date::create($fullYear, $month, $day);
+
             return $date->toDateTimeString();
-        } catch (\Exception) {
+        } catch (Exception) {
             return null;
         }
     }

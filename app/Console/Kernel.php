@@ -8,8 +8,8 @@ use App\Console\Commands\CreateDatabaseCommand;
 use App\Console\Commands\DetectPhotoIssuesCommand;
 use App\Console\Commands\ExifExtractCommand;
 use App\Console\Commands\ExifJsonImportCommand;
-use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use App\Console\Commands\ImportAudioTranscriptsCommand;
+use App\Console\Commands\SynchPeopleOnPhotosCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
