@@ -1,30 +1,27 @@
-@extends("layouts.app")
+@extends("archiviodocumenti.layout")
 
-@section("title", "Archivio Documenti")
+@section("content")
+    @include("partials.header", ["title" => "Documenti"])
 
-@section("navbar-link")
-    <li class="nav-item dropdown">
-        <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-        >
-            Archivio Libri
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route("archiviodocumenti") }}">
-                Ricerca libri
-            </a>
-            <a
-                class="dropdown-item"
-                href="{{ route("archiviodocumenti.etichette") }}"
-            >
-                Gestione stampa etichette
-            </a>
+    @php
+        $maxCount = $countByDecade->max('count') ?: 1;
+    @endphp
+
+    <div class="card border-0 bg-light mb-4">
+        <div class="card-body">
+            <p class="small text-muted mb-2">Documenti per anno</p>
+            <div class="d-flex align-items-flex-end gap-2" style="height: 120px; align-items: flex-end;">
+                @foreach ($countByDecade as $item)
+                    @php
+                        $barHeight = (int) round(($item->count / $maxCount) * 100);
+                    @endphp
+                    <div class="d-flex flex-column align-items-center" style="flex: 1;">
+                        <span class="small text-muted mb-1" style="font-size: 0.7rem;">{{ $item->count }}</span>
+                        <div class="bg-primary rounded-top" style="width: 100%; height: {{ $barHeight }}px;"></div>
+                        <span class="small text-muted mt-1" style="font-size: 0.7rem;">{{ $item->decade }}</span>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </li>
+    </div>
 @endsection

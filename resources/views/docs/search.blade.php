@@ -36,10 +36,17 @@
                                 >
                                     <div class="card-body py-2">
                                         <div class="d-flex justify-content-between align-items-start mb-1">
-                                            <h6 class="card-title mb-0 text-dark">{{ $transcript->title }}</h6>
+                                            <div>
+                                                <h6 class="card-title mb-1 text-dark">{{ $transcript->title }}
+                                                     @if($transcript->recorded_date)
+                                                    <span class="badge bg-secondary">{{ $transcript->recorded_date->format('d M Y') }}</span>
+                                                @endif
+                                                </h6>
+
+                                            </div>
                                             <span class="badge bg-success">{{ number_format($transcript->relevance, 2) }}</span>
                                         </div>
-                                        <span class="badge bg-secondary">{{ $transcript->code }}</span>
+                                        {{-- <span class="badge bg-secondary">{{ $transcript->code }}</span> --}}
                                         <p class="card-text small text-muted mt-2 mb-0">
                                             {{ Str::limit($transcript->description, 80) }}
                                         </p>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ArchivioDocumenti\Controllers;
 
+use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\ArchivioDocumenti\Models\ArchivioDocumento;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,16 @@ final class ArchivioDocumentiController
 {
     public function index()
     {
-        $libri = ArchivioDocumento::orderby('foglio')->paginate(100);
+        $countByDecade = AudioTranscript::selectRaw('YEAR(recorded_date) as decade, COUNT(*) as count')
+            ->whereNotNull('recorded_date')
+            ->groupBy('decade')
+            ->orderBy('decade')
+            ->get();
 
-        return view('archiviodocumenti.libri.search', compact('libri'));
+        return view('archiviodocumenti.index', compact('countByDecade'));
     }
+
+
 
     public function elimina()
     {

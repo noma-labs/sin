@@ -87,12 +87,18 @@ final class ImportAudioTranscriptsCommand extends Command
 
                         $descriptionLines = [];
                         $i++;
-                        while ($i < count($elements)) {
+                        while ($i < count($elements) && count($descriptionLines) < 4) {
                             $nextElement = $elements[$i];
                             if ($nextElement instanceof TextBreak) {
+                                $i++;
                                 break;
                             }
                             if ($nextElement instanceof TextRun) {
+                                $nextPar = $nextElement->getParagraphStyle();
+                                if ($nextPar->getStyleName() === 'Titolo2') {
+                                    $i--;
+                                    break;
+                                }
                                 $text = $this->decode($nextElement->getText());
                                 if ($text !== '') {
                                     $descriptionLines[] = $text;
@@ -102,7 +108,7 @@ final class ImportAudioTranscriptsCommand extends Command
                         }
 
                         // Collect all remaining content lines until next Titolo2 or end
-                        $contentLines = [];
+                        $contentLines = array_merge($descriptionLines, []);
                         $i++;
                         while ($i < count($elements)) {
                             $nextElement = $elements[$i];

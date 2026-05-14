@@ -426,7 +426,8 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 });
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
-    Route::get('/', [ArchivioDocumentiController::class, 'index'])->name('archiviodocumenti');
+    Route::get('/', [ArchivioDocumentiController::class, 'index'])->name('docs.index');
+    Route::get('/docs', [ArchivioDocumentiController::class, 'index'])->name('docs.index');
     Route::get('/libri/ricerca', [ArchivioDocumentiController::class, 'ricerca'])->name('archiviodocumenti.libri.ricerca');
 
     Route::get('/etichette', [ArchivioDocumentiController::class, 'etichette'])->name('archiviodocumenti.etichette');
@@ -435,6 +436,32 @@ Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
     Route::post('/etichette/aggiungi', [ArchivioDocumentiController::class, 'aggiungi'])->name('archiviodocumenti.etichette.aggiungi');
     Route::delete('/etichette/delete/{id}', [ArchivioDocumentiController::class, 'eliminaSingolo'])->name('archiviodocumenti.etichette.rimuovi.singolo');
 });
+
+
+Route::get('/docs', function () {
+    $term = request()->query('q', '');
+    $results = [];
+
+    if (!empty($term)) {
+        $results = \App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
+            '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
+            [$term]
+        )->whereRaw(
+            'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
+            [$term]
+        )->orderByRaw(
+            'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
+            [$term]
+        )->get();
+    }
+
+    return view('docs.search', ['results' => $results, 'term' => $term]);
+})->name('docs.search');
+
+Route::get('/docs/{id}', function (string $id) {
+    $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
+    return view('docs.preview', ['transcript' => $transcript]);
+})->name('docs.preview');
 
 Route::prefix('rtn')->middleware('auth')->group(function () {
     Route::get('/', [RtnVideoController::class, 'index'])->name('rtn.video.index');
@@ -481,31 +508,3 @@ Route::prefix('photos')->middleware('auth')->group(function () {
 Route::get('/debug-sentry', function () {
     throw new Exception('A fake sentry error!');
 });
-
-
-
-Route::get('/docs/search', function () {
-    $term = request()->query('q', '');
-    $results = [];
-
-    if (!empty($term)) {
-        $results = \App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
-            '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
-            [$term]
-        )->whereRaw(
-            'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
-            [$term]
-        )->orderByRaw(
-            'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
-            [$term]
-        )->get();
-    }
-
-    return view('docs.search', ['results' => $results, 'term' => $term]);
-})->name('docs.search');
-
-Route::get('/docs/{id}', function (string $id) {
-    $transcript = \App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);
-
-    return view('docs.preview', ['transcript' => $transcript]);
-})->name('docs.preview');
