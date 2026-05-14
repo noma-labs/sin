@@ -18,10 +18,22 @@ final class ArchivioDocumentiController
             ->orderBy('decade')
             ->get();
 
-        return view('archiviodocumenti.index', compact('countByDecade'));
+        $selectedYear = request('year');
+        $selectedDocId = request('doc');
+        $transcripts = collect();
+        if ($selectedYear) {
+            $query = AudioTranscript::whereYear('recorded_date', $selectedYear)
+                ->orderBy('recorded_date');
+            if ($selectedDocId) {
+                // Ensure content is loaded for the selected doc
+                $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date', 'content']);
+            } else {
+                $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date']);
+            }
+        }
+
+        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts'));
     }
-
-
 
     public function elimina()
     {
