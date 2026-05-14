@@ -1,8 +1,6 @@
 @extends("archiviodocumenti.layout")
 
 @section("content")
-    @include("partials.header", ["title" => "Documenti"])
-
     @php
         $maxCount = $countByDecade->max("count") ?: 1;
         $selectedYear = request("year");
@@ -72,11 +70,7 @@
     </div>
 
     @if ($selectedYear)
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="mb-0">Documenti del {{ $selectedYear }}</h6>
-            <span class="badge bg-secondary">
-                {{ $transcripts->count() }} documenti
-            </span>
+        <div class="mb-2">
             <a
                 href="{{ route("docs.index") }}"
                 class="btn btn-sm btn-outline-secondary"
@@ -225,14 +219,10 @@
                             </div>
                         </div>
                         <div
-                            class="card-body"
-                            style="
-                                white-space: pre-line;
-                                max-height: 480px;
-                                overflow-y: auto;
-                            "
+                            class="card-body overflow-y-auto"
+                            style="max-height: 1024px;"
                         >
-                            <div class="mb-2 text-muted small">
+                            <div class="text-muted small" style="line-height: 1.3; margin-bottom: 0.5rem;">
                                 {{ $selectedDoc->description }}
                             </div>
                             <div>
