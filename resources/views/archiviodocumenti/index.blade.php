@@ -188,6 +188,11 @@
                                             >
                                                 {{ $doc->code }}
                                             </p>
+                                            <p class="mb-1">
+                                                <span class="badge bg-secondary">
+                                                    {{ $doc->recorded_date ? \Carbon\Carbon::parse($doc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
+                                                </span>
+                                            </p>
                                             <p
                                                 class="small text-muted mb-0"
                                                 style="
