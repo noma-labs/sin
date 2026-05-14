@@ -88,34 +88,27 @@
             <div class="col-md-3">
                 <div class="card h-100 border-0 shadow-sm mb-2">
                     <div class="card-body">
-                        <form method="GET" action="{{ route("docs.index") }}">
-                            <input
-                                type="hidden"
-                                name="year"
-                                value="{{ $selectedYear }}"
-                            />
-                            <div class="mb-3">
-                                <label for="month" class="form-label">
-                                    Mese
-                                </label>
-                                <select
-                                    name="month"
-                                    id="month"
-                                    class="form-select form-select-sm"
-                                    onchange="this.form.submit()"
+                        <div class="mb-3">
+                            <label class="form-label">Mese</label>
+                            <div class="d-flex flex-wrap gap-1">
+                                <a
+                                    href="?year={{ $selectedYear }}"
+                                    class="badge {{ !$selectedMonth ? 'bg-primary' : 'bg-secondary' }}"
+                                    style="cursor: pointer; text-decoration: none;"
                                 >
-                                    <option value="">Tutti</option>
-                                    @foreach ($months as $num => $name)
-                                        <option
-                                            value="{{ $num }}"
-                                            @if($selectedMonth == $num) selected @endif
-                                        >
-                                            {{ $name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                    Tutti ({{ $transcripts->count() }})
+                                </a>
+                                @foreach ($months as $num => $name)
+                                    <a
+                                        href="?year={{ $selectedYear }}&month={{ $num }}@if(request('q'))&q={{ urlencode(request('q')) }}@endif"
+                                        class="badge {{ $selectedMonth == $num ? 'bg-primary' : 'bg-secondary' }}"
+                                        style="cursor: pointer; text-decoration: none;"
+                                    >
+                                        {{ $name }} ({{ $countByMonth->get($num, 0) }})
+                                    </a>
+                                @endforeach
                             </div>
-                        </form>
+                        </div>
                         @if ($selectedDocWords->isNotEmpty())
                             <div class="mb-3">
                                 <label class="form-label">

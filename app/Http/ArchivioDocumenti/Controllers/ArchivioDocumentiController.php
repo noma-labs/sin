@@ -21,10 +21,18 @@ final class ArchivioDocumentiController
         $selectedYear = request('year');
         $selectedDocId = request('doc');
         $selectedDocWords = collect();
+        $countByMonth = collect();
         $transcripts = collect();
         if ($selectedYear) {
             $query = AudioTranscript::whereYear('recorded_date', $selectedYear)->orderBy('recorded_date');
             $transcripts = $query->get(['id', 'code', 'title', 'description', 'recorded_date', 'content']);
+            // Get count by month
+            $countByMonth = AudioTranscript::selectRaw('MONTH(recorded_date) as month, COUNT(*) as count')
+                ->whereYear('recorded_date', $selectedYear)
+                ->whereNotNull('recorded_date')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->pluck('count', 'month');
             // Collect all words from all titles in the selected year
             $stopwords = [
                 'del', 'della', 'delle', 'dello', 'dell', 'dei', 'degli', 'dai', 'dagli', 'dal', 'dalla', 'dalle', 'nella',
@@ -39,7 +47,7 @@ final class ArchivioDocumentiController
                 ->take(20);
         }
 
-        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts', 'selectedDocWords'));
+        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth'));
     }
 
     public function elimina()
