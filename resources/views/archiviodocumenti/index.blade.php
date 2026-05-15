@@ -58,6 +58,30 @@
             <div class="col-md-3">
                 <div class="card h-100 border-0 shadow-sm mb-2">
                     <div class="card-body">
+                        @if ($selectedDocWords->isNotEmpty())
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Parole frequenti nel titolo
+                                </label>
+                                <div>
+                                    @foreach ($selectedDocWords as $word => $count)
+                                        <a
+                                            href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif&q={{ urlencode($word) }}&doc={{ $selectedDocId }}"
+                                            class="badge bg-info text-dark me-1 mb-1"
+                                            style="
+                                                cursor: pointer;
+                                                text-decoration: none;
+                                            "
+                                        >
+                                            {{ $word }}
+                                            <span class="fw-normal">
+                                                ({{ $count }})
+                                            </span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label class="form-label">Mese</label>
                             <div class="d-flex flex-wrap gap-1">
@@ -86,30 +110,6 @@
                                 @endforeach
                             </div>
                         </div>
-                        @if ($selectedDocWords->isNotEmpty())
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    Parole frequenti nel titolo
-                                </label>
-                                <div>
-                                    @foreach ($selectedDocWords as $word => $count)
-                                        <a
-                                            href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif&q={{ urlencode($word) }}&doc={{ $selectedDocId }}"
-                                            class="badge bg-info text-dark me-1 mb-1"
-                                            style="
-                                                cursor: pointer;
-                                                text-decoration: none;
-                                            "
-                                        >
-                                            {{ $word }}
-                                            <span class="fw-normal">
-                                                ({{ $count }})
-                                            </span>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
 
                         <form method="GET" action="{{ route("docs.index") }}">
                             <input
@@ -135,6 +135,7 @@
                 </div>
             </div>
             <div class="col-md-4">
+                <h2 class="text-bold mb-2">{{ $selectedYear }}</h2>
                 <div class="row g-2">
                     @foreach ($transcripts as $doc)
                         @if ((! $selectedMonth || ($doc->recorded_date && \Carbon\Carbon::parse($doc->recorded_date)->month == $selectedMonth)) && (! request("q") || str_contains(strtolower($doc->title . " " . $doc->code), strtolower(request("q")))))
@@ -150,6 +151,11 @@
                                             <p
                                                 class="small fw-semibold mb-1 text-truncate"
                                             >
+                                            <span
+                                                    class="badge text-bg-secondary"
+                                                >
+                                                    {{ $doc->recorded_date ? \Carbon\Carbon::parse($doc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
+                                                </span>
                                                 {{ $doc->title }}
                                             </p>
                                             <p
@@ -159,11 +165,7 @@
                                                 {{ $doc->code }}
                                             </p>
                                             <p class="mb-1">
-                                                <span
-                                                    class="badge bg-secondary"
-                                                >
-                                                    {{ $doc->recorded_date ? \Carbon\Carbon::parse($doc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
-                                                </span>
+
                                             </p>
                                             <p
                                                 class="small text-muted mb-0"
