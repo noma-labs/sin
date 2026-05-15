@@ -14,7 +14,7 @@
 
             <div
                 class="d-flex gap-1"
-                style="height: 100px; align-items: flex-end"
+                style="height: 140px; align-items: flex-end; padding-top: 20px"
             >
                 @foreach ($countByDecade as $item)
                     @php
@@ -28,6 +28,12 @@
                         class="border-0 bg-transparent p-0 d-flex flex-column align-items-center"
                         style="flex: 1; cursor: pointer; outline: none"
                     >
+                        <span
+                            class="text-light mb-1"
+                            style="font-size: 0.65rem; font-weight: 500"
+                        >
+                            {{ $item->count }}
+                        </span>
                         <div
                             class="rounded-top {{ $selectedYear == $item->decade ? "bg-warning" : "bg-secondary" }}"
                             style="
@@ -44,47 +50,6 @@
                         </span>
                     </button>
                 @endforeach
-            </div>
-        </form>
-    </div>
-
-    {{-- Search bar --}}
-    <div class="mb-3">
-        <form method="GET" action="{{ route("docs.index") }}">
-            @if ($selectedYear)
-                <input type="hidden" name="year" value="{{ $selectedYear }}" />
-            @endif
-
-            @if ($selectedMonth)
-                <input
-                    type="hidden"
-                    name="month"
-                    value="{{ $selectedMonth }}"
-                />
-            @endif
-
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        fill="currentColor"
-                        class="text-muted"
-                        viewBox="0 0 16 16"
-                    >
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
-                        />
-                    </svg>
-                </span>
-                <input
-                    type="text"
-                    name="q"
-                    class="form-control border-start-0"
-                    placeholder="Cerca titolo o codice..."
-                    value="{{ request("q") }}"
-                />
             </div>
         </form>
     </div>
@@ -159,15 +124,38 @@
 
         {{-- Zone B: Document list (45%) --}}
         <div
-            class="col-md-6"
+            class="col-md-4"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
         >
             @if ($selectedYear)
                 <div
-                    class="py-2 mb-2 border-bottom bg-white"
+                    class="pb-2 mb-2 border-bottom bg-white"
                     style="position: sticky; top: 0; z-index: 10"
                 >
-                    <h5 class="fw-bold mb-0">{{ $selectedYear }}</h5>
+                    <form method="GET" action="{{ route("docs.index") }}">
+                        <input type="hidden" name="year" value="{{ $selectedYear }}" />
+                        @if ($selectedMonth)
+                            <input type="hidden" name="month" value="{{ $selectedMonth }}" />
+                        @endif
+                        <div class="d-flex align-items-center gap-2">
+                            <h5 class="fw-bold mb-0 me-auto">{{ $selectedYear }}</h5>
+                            <div class="input-group input-group-sm" style="max-width: 220px">
+                                <input
+                                    type="text"
+                                    name="q"
+                                    class="form-control form-control-sm"
+                                    placeholder="Cerca titolo o codice..."
+                                    value="{{ request("q") }}"
+                                />
+                                @if (request("q"))
+                                    <a
+                                        href="?year={{ $selectedYear }}@if($selectedMonth)&month={{ $selectedMonth }}@endif"
+                                        class="btn btn-sm btn-outline-secondary"
+                                    >&times;</a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 @foreach ($transcripts as $doc)
                     @if (
@@ -234,7 +222,7 @@
         </div>
 
         {{-- Zone C: Reader pane (35%) --}}
-        <div class="col-md-4">
+        <div class="col-md-6">
             @if ($selectedDoc)
                 <div
                     class="card border-0 shadow"
