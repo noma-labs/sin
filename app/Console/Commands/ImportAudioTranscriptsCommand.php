@@ -6,7 +6,6 @@ namespace App\Console\Commands;
 
 use App\ArchivioDocumenti\Models\AudioTranscript;
 use App\DocumentChunk;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;

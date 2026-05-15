@@ -1,30 +1,6 @@
 @extends("archiviodocumenti.layout")
 
 @section("content")
-    @php
-        $maxCount = $countByDecade->max("count") ?: 1;
-        $selectedYear = request("year");
-        $selectedDocId = request("doc");
-        $selectedMonth = request("month");
-        $selectedDoc = null;
-        if ($selectedDocId && isset($transcripts)) {
-            $selectedDoc = $transcripts->firstWhere("id", $selectedDocId);
-        }
-        $months = [
-            1 => "Gennaio",
-            2 => "Febbraio",
-            3 => "Marzo",
-            4 => "Aprile",
-            5 => "Maggio",
-            6 => "Giugno",
-            7 => "Luglio",
-            8 => "Agosto",
-            9 => "Settembre",
-            10 => "Ottobre",
-            11 => "Novembre",
-            12 => "Dicembre",
-        ];
-    @endphp
 
     <div class="card border-0 bg-light mb-4">
         <div class="card-body">
@@ -87,18 +63,25 @@
                             <div class="d-flex flex-wrap gap-1">
                                 <a
                                     href="?year={{ $selectedYear }}"
-                                    class="badge {{ !$selectedMonth ? 'bg-primary' : 'bg-secondary' }}"
-                                    style="cursor: pointer; text-decoration: none;"
+                                    class="badge {{ ! $selectedMonth ? "bg-primary" : "bg-secondary" }}"
+                                    style="
+                                        cursor: pointer;
+                                        text-decoration: none;
+                                    "
                                 >
                                     Tutti ({{ $transcripts->count() }})
                                 </a>
                                 @foreach ($months as $num => $name)
                                     <a
                                         href="?year={{ $selectedYear }}&month={{ $num }}@if(request('q'))&q={{ urlencode(request('q')) }}@endif"
-                                        class="badge {{ $selectedMonth == $num ? 'bg-primary' : 'bg-secondary' }}"
-                                        style="cursor: pointer; text-decoration: none;"
+                                        class="badge {{ $selectedMonth == $num ? "bg-primary" : "bg-secondary" }}"
+                                        style="
+                                            cursor: pointer;
+                                            text-decoration: none;
+                                        "
                                     >
-                                        {{ $name }} ({{ $countByMonth->get($num, 0) }})
+                                        {{ $name }}
+                                        ({{ $countByMonth->get($num, 0) }})
                                     </a>
                                 @endforeach
                             </div>
@@ -176,7 +159,9 @@
                                                 {{ $doc->code }}
                                             </p>
                                             <p class="mb-1">
-                                                <span class="badge bg-secondary">
+                                                <span
+                                                    class="badge bg-secondary"
+                                                >
                                                     {{ $doc->recorded_date ? \Carbon\Carbon::parse($doc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
                                                 </span>
                                             </p>
@@ -220,12 +205,15 @@
                         </div>
                         <div
                             class="card-body overflow-y-auto"
-                            style="max-height: 1024px;"
+                            style="max-height: 1024px"
                         >
-                            <div class="text-muted small" style="line-height: 1.3; margin-bottom: 0.5rem;">
+                            <div
+                                class="text-muted small"
+                                style="line-height: 1.3; margin-bottom: 0.5rem"
+                            >
                                 {{ $selectedDoc->description }}
                             </div>
-                            <div style="white-space: pre-line;">
+                            <div style="white-space: pre-line">
                                 {{ $selectedDoc->content ?? "Nessun contenuto." }}
                             </div>
                         </div>
@@ -244,4 +232,3 @@
         </div>
     @endif
 @endsection
-
