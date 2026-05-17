@@ -5,6 +5,7 @@
         "not_yet_born" => "Persona non ancora nata",
         "already_deceased" => "Persona già deceduta",
         "year_mismatch_description" => "Anno non corrispondente alla descrizione",
+        "year_like_number_in_description" => "Numero simile all'anno nella descrizione",
     ];
 @endphp
 
