@@ -120,9 +120,37 @@ final class DetectPhotoIssuesCommand extends Command
 
         $this->info(sprintf('%d year_mismatch_description issues detected: %d inserted, %d skipped.', count($wrongYearRows), $insertedWrongYear, count($wrongYearRows) - $insertedWrongYear));
 
-        $totalInserted = $insertedChronological + $insertedWrongYear;
-        $totalSkipped = (count($rows) + count($wrongYearRows)) - $totalInserted;
-        $this->info(sprintf('Done. %d total detected, %d inserted, %d skipped.', count($rows) + count($wrongYearRows), $totalInserted, $totalSkipped));
+        $yearLikeNumbers = DB::connection('db_foto')
+            ->select('
+                SELECT p.id AS photo_id
+                FROM photos p
+                JOIN dbf_all d ON p.dbf_id = d.id
+                WHERE
+                    d.descrizione REGEXP \'[0-9]{2}|19[0-9][0-9]|200[0-9]|201[0-9]|202[0-5]\'
+                    AND d.tp IN (\'RA\', \'RB\', \'RD\', \'RS\')
+                    AND p.id NOT IN (SELECT photo_id FROM photos_issues)
+            ');
+
+        $yearLikeNumbersRows = array_map(fn ($row) => [
+            'photo_id' => $row->photo_id,
+            'persona_id' => null,
+            'issue_type' => 'year_like_number_in_description',
+            'created_at' => $now,
+            'updated_at' => $now,
+        ], $yearLikeNumbers);
+
+        $insertedYearLikeNumbers = 0;
+        if (! $this->option('dry-run')) {
+            $insertedYearLikeNumbers = DB::connection('db_foto')
+                ->table('photos_issues')
+                ->insertOrIgnore($yearLikeNumbersRows);
+        }
+
+        $this->info(sprintf('%d year_like_number_in_description issues detected: %d inserted, %d skipped.', count($yearLikeNumbersRows), $insertedYearLikeNumbers, count($yearLikeNumbersRows) - $insertedYearLikeNumbers));
+
+        $totalInserted = $insertedChronological + $insertedWrongYear + $insertedYearLikeNumbers;
+        $totalSkipped = (count($rows) + count($wrongYearRows) + count($yearLikeNumbersRows)) - $totalInserted;
+        $this->info(sprintf('Done. %d total detected, %d inserted, %d skipped.', count($rows) + count($wrongYearRows) + count($yearLikeNumbersRows), $totalInserted, $totalSkipped));
 
         return self::SUCCESS;
     }
