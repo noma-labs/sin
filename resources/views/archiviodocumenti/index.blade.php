@@ -2,6 +2,14 @@
 
 @section("content")
     {{-- Global Header: Temporal Histogram --}}
+    <div class="d-flex align-items-center justify-content-end mb-2">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
+                <span class="text-muted small">Trascrizioni totali</span>
+                <span class="fw-bold fs-5">{{ number_format($totalCount) }}</span>
+            </div>
+        </div>
+    </div>
     <div class="rounded-2 mb-3 px-3 pt-3 pb-1" style="background: #2c3e50">
         <form method="GET" action="{{ route("docs.index") }}">
             @if ($selectedMonth)

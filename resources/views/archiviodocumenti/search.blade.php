@@ -1,6 +1,6 @@
-@extends("layouts.app")
+@extends("archiviodocumenti.layout")
 
-@section("title", "Ricerca trascrizioni")
+@section("title", "Ricerca")
 
 @section("content")
     <div class="container-fluid my-2">

@@ -427,9 +427,10 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 
 Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
     Route::get('/', [ArchivioDocumentiController::class, 'index'])->name('docs.index');
-    Route::get('/docs', [ArchivioDocumentiController::class, 'index'])->name('docs.index');
-    Route::get('/libri/ricerca', [ArchivioDocumentiController::class, 'ricerca'])->name('archiviodocumenti.libri.ricerca');
+    // Route::get('/search', [ArchivioDocumentiController::class, 'search'])->name('docs.search');
 
+    # OLD
+    Route::get('/libri/ricerca', [ArchivioDocumentiController::class, 'ricerca'])->name('archiviodocumenti.libri.ricerca');
     Route::get('/etichette', [ArchivioDocumentiController::class, 'etichette'])->name('archiviodocumenti.etichette');
     Route::get('/etichette/export', [ArchivioDocumentiController::class, 'esporta'])->name('libri.etichette.esporta');
     Route::delete('/etichette/delete', [ArchivioDocumentiController::class, 'elimina'])->name('archiviodocumenti.etichette.delete');
@@ -437,25 +438,6 @@ Route::prefix('archiviodocumenti')->middleware('auth')->group(function () {
     Route::delete('/etichette/delete/{id}', [ArchivioDocumentiController::class, 'eliminaSingolo'])->name('archiviodocumenti.etichette.rimuovi.singolo');
 });
 
-Route::get('/docs', function () {
-    $term = request()->query('q', '');
-    $results = [];
-
-    if (! empty($term)) {
-        $results = App\ArchivioDocumenti\Models\AudioTranscript::selectRaw(
-            '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
-            [$term]
-        )->whereRaw(
-            'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
-            [$term]
-        )->orderByRaw(
-            'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
-            [$term]
-        )->get();
-    }
-
-    return view('docs.search', ['results' => $results, 'term' => $term]);
-})->name('docs.search');
 
 Route::get('/docs/{id}', function (string $id) {
     $transcript = App\ArchivioDocumenti\Models\AudioTranscript::findOrFail($id);

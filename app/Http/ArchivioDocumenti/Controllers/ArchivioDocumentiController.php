@@ -48,6 +48,7 @@ final class ArchivioDocumentiController
         }
 
         $maxCount = $countByDecade->max('count') ?: 1;
+        $totalCount = $countByDecade->sum('count');
         $selectedMonth = request('month');
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
         $months = [
@@ -65,7 +66,28 @@ final class ArchivioDocumentiController
             12 => 'Dicembre',
         ];
 
-        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth', 'maxCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedDoc', 'months'));
+        return view('archiviodocumenti.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedDoc', 'months'));
+    }
+
+    public function search()
+    {
+        $term = request()->query('q', '');
+        $results = [];
+
+        if (! empty($term)) {
+            $results = AudioTranscript::selectRaw(
+                '*, MATCH(content) AGAINST(? IN BOOLEAN MODE) as relevance',
+                [$term]
+            )->whereRaw(
+                'MATCH(content) AGAINST(? IN BOOLEAN MODE)',
+                [$term]
+            )->orderByRaw(
+                'MATCH(content) AGAINST(? IN BOOLEAN MODE) DESC',
+                [$term]
+            )->get();
+        }
+
+        return view('archiviodocumenti.search', ['results' => $results, 'term' => $term]);
     }
 
     public function elimina()
