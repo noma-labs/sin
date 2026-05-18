@@ -9,7 +9,7 @@
             <div class="col-md-2 border-end">
                 <form
                     method="GET"
-                    action="{{ route("docs.search") }}"
+                    action="{{ route("archive.search") }}"
                     class="mb-4"
                 >
                     <div class="input-group">
@@ -45,7 +45,7 @@
                         >
                             @foreach ($results as $transcript)
                                 <a
-                                    href="{{ route("docs.search", ["q" => $term, "selected" => $transcript->id]) }}"
+                                    href="{{ route("archive.search", ["q" => $term, "selected" => $transcript->id]) }}"
                                     class="card mb-2 border text-decoration-none {{ request("selected") == $transcript->id ? "border-primary bg-light" : "" }}"
                                     style="
                                         cursor: pointer;

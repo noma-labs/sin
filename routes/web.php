@@ -13,7 +13,7 @@ use App\Agraria\Controllers\PlannedMaintenanceController;
 use App\Agraria\Controllers\SearchableMaintenanceController;
 use App\Agraria\Controllers\VehicleHourController;
 use App\Archive\Controllers\ArchiveController;
-use App\Archive\Controllers\SearchableDocumentsController;
+use App\Archive\Controllers\SearchableArchiveController;
 use App\Archive\Models\AudioTranscript;
 use App\Auth\Controllers\LoginController;
 use App\Biblioteca\Controllers\AuthorsController;
@@ -428,9 +428,9 @@ Route::prefix('patente')->middleware('auth')->group(function () {
 });
 
 Route::prefix('archive')->middleware('auth')->group(function () {
-    Route::get('/', [ArchiveController::class, 'index'])->name('docs.index');
-    Route::get('/search', [SearchableDocumentsController::class, 'search'])->name('docs.search');
-    Route::get('/{id}/', [ArchiveController::class, 'searchConfirm'])->name('docs.search.confirm');
+    Route::get('/', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::get('/search', [SearchableArchiveController::class, 'search'])->name('archive.search');
+    Route::get('/{id}/', [ArchiveController::class, 'show'])->name('archive.show');
 });
 
 Route::prefix('rtn')->middleware('auth')->group(function () {

@@ -8,7 +8,7 @@ use App\Archive\Models\ArchivioDocumento;
 use App\Archive\Models\AudioTranscript;
 use Illuminate\Http\Request;
 
-final class SearchableDocumentsController
+final class SearchableArchiveController
 {
 
     public function search()

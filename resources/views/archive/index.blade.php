@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="rounded-2 mb-3 px-3 pt-3 pb-1" style="background: #2c3e50">
-        <form method="GET" action="{{ route("docs.index") }}">
+        <form method="GET" action="{{ route("archive.index") }}">
             @if ($selectedMonth)
                 <input
                     type="hidden"
@@ -141,7 +141,7 @@
                     class="pb-2 mb-2 border-bottom bg-white"
                     style="position: sticky; top: 0; z-index: 10"
                 >
-                    <form method="GET" action="{{ route("docs.index") }}">
+                    <form method="GET" action="{{ route("archive.index") }}">
                         <input type="hidden" name="year" value="{{ $selectedYear }}" />
                         @if ($selectedMonth)
                             <input type="hidden" name="month" value="{{ $selectedMonth }}" />

@@ -228,7 +228,7 @@
                         </div>
                         <div class="card-footer">
                             <a
-                                href="{{ route("docs.index") }}"
+                                href="{{ route("archive.index") }}"
                                 class="btn btn-primary"
                             >
                                 Accedi
