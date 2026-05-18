@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ArchivioDocumenti\Models;
+namespace App\Archive\Models;
 
 use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Model;

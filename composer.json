@@ -44,7 +44,7 @@
       "Database\\Factories\\": "database/factories/",
       "App\\Admin\\": "app/Http/Admin",
       "App\\Agraria\\": "app/Http/Agraria",
-      "App\\ArchivioDocumenti\\": "app/Http/ArchivioDocumenti",
+      "App\\Archive\\": "app/Http/Archive",
       "App\\Auth\\": "app/Http/Auth",
       "App\\Biblioteca\\": "app/Http/Biblioteca",
       "App\\Nomadelfia\\": "app/Http/Nomadelfia",
@@ -52,8 +52,7 @@
       "App\\Patente\\": "app/Http/Patente",
       "App\\Photo\\": "app/Http/Photo",
       "App\\Rtn\\": "app/Http/Rtn",
-      "App\\Scuola\\": "app/Http/Scuola",
-      "App\\Document\\": "app/Http/Document"
+      "App\\Scuola\\": "app/Http/Scuola"
     }
   },
   "autoload-dev": {

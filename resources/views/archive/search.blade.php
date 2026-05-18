@@ -1,4 +1,4 @@
-@extends("archiviodocumenti.layout")
+@extends("archive.layout")
 
 @section("title", "Ricerca")
 

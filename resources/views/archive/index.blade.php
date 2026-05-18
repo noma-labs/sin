@@ -1,11 +1,16 @@
-@extends("archiviodocumenti.layout")
+@extends("archive.layout")
 
 @section("content")
-    {{-- Global Header: Temporal Histogram --}}
     <div class="d-flex align-items-center justify-content-end mb-2">
+         <div class="card border-0 shadow-sm">
+            <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
+                <span class="text-muted small">Foto Analogiche</span>
+                <span class="fw-bold fs-5">{{ number_format($photosCount) }}</span>
+            </div>
+        </div>
         <div class="card border-0 shadow-sm">
             <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
-                <span class="text-muted small">Trascrizioni totali</span>
+                <span class="text-muted small">Registrazioni</span>
                 <span class="fw-bold fs-5">{{ number_format($totalCount) }}</span>
             </div>
         </div>
@@ -62,12 +67,9 @@
         </form>
     </div>
 
-    {{-- Three-pane layout --}}
     <div class="row g-2" style="min-height: 70vh">
-        {{-- Zone A: Filter Facets (20%) --}}
         <div class="col-md-2">
             @if ($selectedYear)
-                {{-- Months --}}
                 <p
                     class="small fw-bold text-uppercase text-muted mb-1"
                     style="font-size: 0.7rem; letter-spacing: 0.05em"
@@ -130,7 +132,6 @@
             @endif
         </div>
 
-        {{-- Zone B: Document list (45%) --}}
         <div
             class="col-md-4"
             style="max-height: calc(100vh - 260px); overflow-y: auto"
@@ -229,7 +230,6 @@
             @endif
         </div>
 
-        {{-- Zone C: Reader pane (35%) --}}
         <div class="col-md-6">
             @if ($selectedDoc)
                 <div

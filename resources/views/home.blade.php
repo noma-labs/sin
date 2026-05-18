@@ -220,10 +220,10 @@
             @can("archivio.visualizza")
                 <div class="col">
                     <div class="card text-center h-100">
-                        <div class="card-header">Archivio Documenti</div>
+                        <div class="card-header">Archivio Nomadelfia</div>
                         <div class="card-body">
                             <p class="card-text">
-                                Gestione archivio documenti di Nomadelfia
+                                Gestione archivio di Nomadelfia: registrazioni, documenti.
                             </p>
                         </div>
                         <div class="card-footer">

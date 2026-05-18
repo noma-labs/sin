@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\ArchivioDocumenti\Models\AudioTranscript;
+use App\Archive\Models\AudioTranscript;
 use App\DocumentChunk;
 use Exception;
 use Illuminate\Console\Command;
