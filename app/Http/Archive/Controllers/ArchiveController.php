@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Archive\Controllers;
 
 use App\Archive\Models\Recording;
-use App\Photo\Models\Photo;
 
 final class ArchiveController
 {
@@ -17,9 +16,9 @@ final class ArchiveController
             ->orderBy('decade')
             ->get();
         $totalCount = Recording::count();
-        $photosCount = Photo::count();
 
         $selectedYear = request('year');
+        $selectedMonth = request('month');
         $selectedDocId = request('doc');
         $selectedGenere = request('genere');
         $selectedDocWords = collect();
@@ -29,16 +28,26 @@ final class ArchiveController
         if ($selectedYear) {
             $query = Recording::with('transcript')->whereYear('data', $selectedYear)->orderBy('data');
 
+            if ($selectedMonth) {
+                $query->whereMonth('data', $selectedMonth);
+            }
+
             if ($selectedGenere) {
                 $query->where('GENERE', $selectedGenere);
             }
 
-            $genreOptions = Recording::whereYear('data', $selectedYear)
+            $genreQuery = Recording::whereYear('data', $selectedYear)
                 ->whereNotNull('GENERE')
-                ->where('GENERE', '!=', '')
+                ->where('GENERE', '!=', '');
+
+            if ($selectedMonth) {
+                $genreQuery->whereMonth('data', $selectedMonth);
+            }
+
+            $genreOptions = $genreQuery
                 ->selectRaw('`GENERE`, COUNT(*) as count')
                 ->groupBy('GENERE')
-                ->orderBy('GENERE')
+                ->orderByDesc('count')
                 ->pluck('count', 'GENERE');
 
             // Get count by month
@@ -65,7 +74,6 @@ final class ArchiveController
 
         $maxCount = $countByDecade->max('count') ?: 1;
 
-        $selectedMonth = request('month');
         $selectedDoc = $selectedDocId ? $transcripts->firstWhere('id', $selectedDocId) : null;
         $months = [
             1 => 'Gennaio',
@@ -82,7 +90,7 @@ final class ArchiveController
             12 => 'Dicembre',
         ];
 
-        return view('archive.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth', 'genreOptions', 'maxCount', 'totalCount', 'photosCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc', 'months'));
+        return view('archive.index', compact('countByDecade', 'transcripts', 'selectedDocWords', 'countByMonth', 'genreOptions', 'maxCount', 'totalCount', 'selectedYear', 'selectedDocId', 'selectedMonth', 'selectedGenere', 'selectedDoc', 'months'));
     }
 
     public function show($id)

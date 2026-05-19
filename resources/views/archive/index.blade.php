@@ -4,14 +4,6 @@
     <div class="d-flex align-items-center justify-content-end mb-2">
         <div class="card border-0 shadow-sm">
             <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
-                <span class="text-muted small">Foto Analogiche</span>
-                <span class="fw-bold fs-5">
-                    {{ number_format($photosCount) }}
-                </span>
-            </div>
-        </div>
-        <div class="card border-0 shadow-sm">
-            <div class="card-body py-2 px-3 d-flex align-items-center gap-2">
                 <span class="text-muted small">Registrazioni</span>
                 <span class="fw-bold fs-5">
                     {{ number_format($totalCount) }}
@@ -252,6 +244,9 @@
                                         {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
                                         @if ($doc->code)
                                                 &middot; {{ $doc->code }}
+                                        @endif
+                                        @if ($doc->AUTORE)
+                                            &middot; {{ $doc->AUTORE }}
                                         @endif
                                     </p>
                                 </div>
