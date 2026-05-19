@@ -20,7 +20,7 @@ final class TranscriptSynchCommand extends Command
             SET code = CONCAT(
                 DATE_FORMAT(`DATA`, '%Y%m%d'),
                 CASE
-                    WHEN `ORE` IS NULL OR TRIM(`ORE`) = '' THEN '000'
+                    WHEN `ORE` IS NULL OR TRIM(`ORE`) = '' THEN '00'
                     ELSE SUBSTRING(TRIM(`ORE`), 1, 3)
                 END
             )
@@ -28,7 +28,6 @@ final class TranscriptSynchCommand extends Command
         SQL);
 
         $this->info('Synced recordings code. Rows affected: '.$updated);
-
         return self::SUCCESS;
     }
 }

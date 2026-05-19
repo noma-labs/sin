@@ -39,7 +39,7 @@ CREATE TABLE `recordings` (
 
 CREATE TABLE `recording_transcripts` (
     `recording_id` int(10) DEFAULT NULL,
-    `code` varchar(11) DEFAULT NULL UNIQUE,
+    `code` varchar(11) DEFAULT NULL,
     `heading` text NOT NULL,
     `file_path` varchar(500) NOT NULL,
     `content` longtext DEFAULT NULL,

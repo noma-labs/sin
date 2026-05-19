@@ -58,6 +58,8 @@ final class TranscriptsImportCommand extends Command
             return self::FAILURE;
         }
 
+        $yearFromFile = $this->extractYearFromFilename($file);
+
         $phpWord = IOFactory::load($filePath);
 
         /** @var array[] $docs */
@@ -97,6 +99,7 @@ final class TranscriptsImportCommand extends Command
                         $docs[] = [
                             'heading' => $headingText,
                             'content' => $contentLines,
+                            'code' => $this->buildCode($headingText, $yearFromFile),
                         ];
                     }
                 }
@@ -117,6 +120,7 @@ final class TranscriptsImportCommand extends Command
             try {
                 RecordingTranscript::insert(
                     [
+                        'code' => $chunk['code'],
                         'heading' => $chunk['heading'] ?? null,
                         'content' => implode("\n", $chunk['content']),
                         'file_path' => (string) $file,
@@ -143,6 +147,45 @@ final class TranscriptsImportCommand extends Command
     private function decode(string $text): string
     {
         return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    /**
+     * Extract year from filename (e.g., '1949registrazioni.docx' → '1949')
+     */
+    private function extractYearFromFilename(string $filename): string
+    {
+        if (preg_match('/(\d{4})/', $filename, $matches)) {
+            return $matches[1];
+        }
+
+        return '0000';
+    }
+
+    /**
+     * Build code from heading and year: YYYYMMDDHH[A|B|C]
+     * Case 1: heading starts with YYMMDD[HH][LETTER] → YYYYMMDDHH[LETTER]
+     * Case 2: heading has no code → YYYY010100
+     * Case 3: heading has YYMMDD but no HH → YYYYMMDD00[LETTER]
+     */
+    private function buildCode(string $heading, string $year): string
+    {
+        // Split heading and get first word
+        $words = explode(' ', trim($heading));
+        $firstWord = $words[0] ?? '';
+
+        // Try to extract 6+ digit code from first word with optional HH and optional letter
+        if (preg_match('/^(\d{6})(\d{0,2})([A-Z])?/', $firstWord, $matches)) {
+            $yymmdd = $matches[1];
+            $hh = str_pad($matches[2] ?? '', 2, '0', STR_PAD_RIGHT);
+            $letter = $matches[3] ?? '';
+
+            $code = $year . substr($yymmdd, 2) . $hh . $letter;
+
+            return substr($code, 0, 11);
+        }
+
+        // No code in heading, use default
+        return $year . '010100';
     }
 
 }
