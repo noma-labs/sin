@@ -170,12 +170,12 @@
                     @if (
 
                         (! $selectedMonth ||
-                            ($doc->recorded_date &&
-                                \Carbon\Carbon::parse($doc->recorded_date)->month ==
+                            ($doc->data &&
+                                \Carbon\Carbon::parse($doc->data)->month ==
                                     $selectedMonth)) &&
                         (! request("q") ||
                             str_contains(
-                                strtolower($doc->title . " " . $doc->code),
+                                strtolower($doc->argomento . " " . $doc->code),
                                 strtolower(request("q"))
                             ))                    )
                         <a
@@ -190,31 +190,18 @@
                                         class="fw-semibold mb-1 text-truncate"
                                         style="font-size: 0.85rem"
                                     >
-                                        {{ $doc->title }}
+                                        {{ $doc->argomento }}
                                     </p>
                                     <p
                                         class="text-muted mb-1"
                                         style="font-size: 0.75rem"
                                     >
-                                        {{ $doc->recorded_date ? \Carbon\Carbon::parse($doc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
+                                        {{ $doc->data ? \Carbon\Carbon::parse($doc->data)->format("d/m/Y") : "Data sconosciuta" }}
                                         @if ($doc->code)
                                                 &middot; {{ $doc->code }}
                                         @endif
                                     </p>
-                                    @if ($doc->description)
-                                        <p
-                                            class="text-muted mb-0"
-                                            style="
-                                                font-size: 0.75rem;
-                                                display: -webkit-box;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;
-                                                overflow: hidden;
-                                            "
-                                        >
-                                            {{ $doc->description }}
-                                        </p>
-                                    @endif
+
                                 </div>
                             </div>
                         </a>
@@ -238,26 +225,16 @@
                 >
                     <div class="card-header bg-white border-bottom py-2">
                         <p class="fw-bold mb-0" style="font-size: 0.9rem">
-                            {{ $selectedDoc->title }}
+                            {{ $selectedDoc->argomento }}
                         </p>
                         <p class="text-muted mb-0" style="font-size: 0.75rem">
-                            {{ $selectedDoc->recorded_date ? \Carbon\Carbon::parse($selectedDoc->recorded_date)->format("d/m/Y") : "Data sconosciuta" }}
+                            {{ $selectedDoc->data ? \Carbon\Carbon::parse($selectedDoc->data)->format("d/m/Y") : "Data sconosciuta" }}
                             @if ($selectedDoc->code)
                                     &middot; {{ $selectedDoc->code }}
                             @endif
                         </p>
                     </div>
                     <div class="card-body">
-                        @if ($selectedDoc->description)
-                            <p
-                                class="text-muted small mb-3"
-                                style="line-height: 1.4"
-                            >
-                                {{ $selectedDoc->description }}
-                            </p>
-                            <hr class="my-2" />
-                        @endif
-
                         <div
                             style="
                                 white-space: pre-line;

@@ -51,6 +51,8 @@ final class Recording extends Model
 
     protected $guarded = [];
 
+    protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected function casts(): array
